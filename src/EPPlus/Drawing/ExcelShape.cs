@@ -90,5 +90,6 @@ namespace OfficeOpenXml.Drawing
             }
             base.DeleteMe();
         }
+
     }
 }

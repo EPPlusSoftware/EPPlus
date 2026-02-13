@@ -8,16 +8,20 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  27/11/2025         EPPlus Software AB           EPPlus 9
+  01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
-using System.Text;
+using System.Collections.Generic;
 
-namespace EPPlusImageRenderer.RenderItems.Shared
+namespace EPPlus.Fonts.OpenType.Integration
 {
-    internal interface IRenderItem
+    internal class WrapStateText : WrapStateBase
     {
-        void Render(StringBuilder sb);
-        RectBase GetBounds();
+        public WrapStateText(double lineWidth, double spaceWidth)
+        {
+            CurrentLineWidth = lineWidth;
+            SpaceWidth = spaceWidth;
+        }
+
+        public double SpaceWidth { get; set; }
     }
 }

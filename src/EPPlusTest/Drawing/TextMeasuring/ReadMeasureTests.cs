@@ -30,7 +30,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
                 var width = theShape.Size.Width / 9525d;
                 var height = theShape.Size.Height / 9525d;
-                //var height = theShape.TextBody.Paragraphs.GetSizeInPixels(theShape.GetPixelWidth(), theShape.GetPixelHeight(), theShape.Text, theShape.Font);
+                //var height = theShape.TextBodyItem.Paragraphs.GetSizeInPixels(theShape.GetPixelWidth(), theShape.GetPixelHeight(), theShape.Text, theShape.Font);
             }
         }
         [TestMethod]

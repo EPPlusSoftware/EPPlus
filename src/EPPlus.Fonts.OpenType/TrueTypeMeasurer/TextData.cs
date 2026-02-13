@@ -10,9 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -302,7 +304,10 @@ namespace EPPlus.Fonts.OpenType
 
         internal static double MeasureDescent(OpenTypeFont font, double fontSize)
         {
-            return font.Os2Table.usWinDescent * (fontSize / font.HeadTable.UnitsPerEm);
+            //TypoDescender is Short WinDescent ushort so we use long so both can be assigned same variable
+            long descentBase = font.Os2Table.UseTypoMetrics ? -(long)font.Os2Table.sTypoDescender : (long)font.Os2Table.usWinDescent;
+
+            return descentBase * (fontSize / font.HeadTable.UnitsPerEm);
         }
 
         /// <summary>
@@ -339,6 +344,7 @@ namespace EPPlus.Fonts.OpenType
             return advanceWidth;
         }
 
+
         private static void MeasureAndWrapLines(string text, ref int totalAdvanceWidth, ref int totalWordWidth, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
         {
             //Handle line-endings
@@ -359,6 +365,26 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        private static void MeasureAndWrapTextLines(string text, ref int totalAdvanceWidth, ref int totalWordWidth, OpenTypeFont fontData, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<TextLineSimple> wrappedStrings, bool applyKerning = true)
+        {
+            //Handle line-endings
+            var splitStrings = text.Split([Environment.NewLine], StringSplitOptions.None);
+
+            if (splitStrings.Length != 0)
+            {
+                //Avoid using kerning for first char/line
+                MeasureAndWrapTextLine(splitStrings[0], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings, false);
+
+                if (splitStrings.Length > 1)
+                {
+                    for (int i = 1; i < splitStrings.Count(); i++)
+                    {
+                        MeasureAndWrapTextLine(splitStrings[i], fontData, ref totalAdvanceWidth, ref totalWordWidth, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+                    }
+                }
+            }
+        }
+
         private static int CalculateAdvanceWidth(char c, GlyphMappings mappings, OpenTypeFont font, ref ushort? lastGlyphIndex, ref int lineWidth, ref int wordWidth, ref bool applyKerning)
         {
             int advanceWidth = CalcGlyphWidth(mappings, c, font, ref lastGlyphIndex, ref applyKerning);
@@ -369,30 +395,67 @@ namespace EPPlus.Fonts.OpenType
             return advanceWidth;
         }
 
-        private static void WrapAtCharPos(string line, int charPos, ref int nextLineStartIndex, ref int lineWidth, ref int wordWidth, int advanceWidth, List<string> wrappedStrings)
+        private static void WrapAtCharPos(string line, int charPos, ref int nextLineStartIndex, ref int lineWidth, ref int wordWidth, int advanceWidth, List<string> wrappedStrings, int spaceWidth, out int previousLineWidthPostWrap)
         {
-            var wrappedString = ExtractWrappedSubstring(line, charPos, ref nextLineStartIndex, out TotalAdvanceMode advanceMode);
-            wrappedStrings.Add(wrappedString);
+            var prevLineWidth = lineWidth;
 
+            var wrappedString = ExtractWrappedSubstring(line, charPos, ref nextLineStartIndex, out TotalAdvanceMode advanceMode, out bool trimmedSpace);
+            wrappedStrings.Add(wrappedString);
             //Using enum to make it one Input parameter in WrapString instead of all 3
             //this as they're not actually used in there
             lineWidth = GetAdvanceWidthFromMode(advanceWidth, wordWidth, advanceMode);
+
+            //var trimmedSpaceWidth = trimmedSpace ? spaceWidth : 0; 
+
+            previousLineWidthPostWrap = prevLineWidth - lineWidth /*- trimmedSpaceWidth*/;
             //New line means both totals are equal
             wordWidth = lineWidth;
         }
 
-        private static void MeasureAndWrapLine(string line, OpenTypeFont font, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
+        private static void MeasureAndWrapTextLine(string line, OpenTypeFont font, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<TextLineSimple> wrappedStrings, bool applyKerning = true)
         {
             int nextLineStartIndex = 0;
-
+            var spaceWidth = CalcGlyphWidth(glyphMappings, ' ', font, ref lastGlyphIndex, ref applyKerning);
+            var actualLine = new TextLineSimple();
             for (int i = 0; i < line.Length; i++)
             {
                 char c = line[i];
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMappings, font, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
-                if (lineWidth > maxWidth)
+                if (lineWidth >= maxWidth)
                 {
-                    WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+                    List<string> tmpLst = new List<string>();
+                    WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, tmpLst, spaceWidth, out int prevLineWidth);
+
+                    actualLine.Text = line;
+                    actualLine.Width = prevLineWidth;
+                }
+            }
+
+            var leftover = new TextLineSimple();
+            var remainingLine = line.Substring(nextLineStartIndex);
+            leftover.Text = remainingLine;
+            leftover.Width = lineWidth;
+
+            wrappedStrings.Add(leftover);
+
+            //Has to be done After instead of before for loop.
+            //For the case that we enter with an existing line width
+            lineWidth = 0;
+        }
+
+        private static void MeasureAndWrapLine(string line, OpenTypeFont font, ref int lineWidth, ref int wordWidth, GlyphMappings glyphMappings, ushort? lastGlyphIndex, double maxWidth, List<string> wrappedStrings, bool applyKerning = true)
+        {
+            int nextLineStartIndex = 0;
+            var spaceWidth = CalcGlyphWidth(glyphMappings, ' ', font, ref lastGlyphIndex, ref applyKerning);
+            for (int i = 0; i < line.Length; i++)
+            {
+                char c = line[i];
+                var advanceWidth = CalculateAdvanceWidth(c, glyphMappings, font, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
+
+                if (lineWidth >= maxWidth)
+                {
+                    WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings, spaceWidth, out int prevLineWidth);
                 }
             }
 
@@ -417,7 +480,6 @@ namespace EPPlus.Fonts.OpenType
         internal static List<string> MeasureAndWrapText(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0, double preExistingWordWidth = 0)
         {
             //  Initialize:
-
             int totalAdvanceWidth = 0;
             ushort? lastGlyphIndex = 0;
 
@@ -426,7 +488,7 @@ namespace EPPlus.Fonts.OpenType
 
             var inputMaxWidth = maxWidth;
             //Convert maxWidth from points to font design units
-            maxWidth = (maxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize;
+            var maxWidthInDesignUnits = Math.Round(((inputMaxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize), 0, MidpointRounding.AwayFromZero);
 
             var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
 
@@ -445,8 +507,70 @@ namespace EPPlus.Fonts.OpenType
             }
 
             // Execute:
+            MeasureAndWrapLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidthInDesignUnits, wrappedStrings);
 
-            MeasureAndWrapLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidth, wrappedStrings);
+            return wrappedStrings;
+        }
+
+
+        /// <summary>
+        /// Measures the text and breaks it into smaller strings so that none exceed the MaxWidth
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="fontData"></param>
+        /// <param name="maxWidth"></param>
+        /// <param name="preExistingLineWidth">point size previously calculated width of starting line</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        internal static List<TextLineSimple> MeasureAndWrapTextLines(string text, double fontSize, OpenTypeFont fontData, double maxWidth, double preExistingLineWidth = 0, double preExistingWordWidth = 0)
+        {
+            //  Initialize:
+            int totalAdvanceWidth = 0;
+            ushort? lastGlyphIndex = 0;
+
+            //Initalise collection to return
+            List<TextLineSimple> wrappedStrings = new List<TextLineSimple>();
+
+            var inputMaxWidth = maxWidth;
+            //Convert maxWidth from points to font design units
+            var maxWidthInDesignUnits = Math.Round(((inputMaxWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize), 0, MidpointRounding.AwayFromZero);
+
+            var glyphMappings = fontData.CmapTable.GetPreferredSubtable().GetGlyphMappings();
+
+            int wordWidth = 0;
+
+            //If the starting line width is not zero.
+            //Happens e.g. if other chars on the starting line have been measured with a different font.
+            if (preExistingLineWidth != 0)
+            {
+                //Convert from points to current fonts font design units
+                totalAdvanceWidth = Convert.ToInt16((preExistingLineWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
+            }
+            if (preExistingWordWidth != 0)
+            {
+                wordWidth = Convert.ToInt16((preExistingWordWidth * (double)fontData.HeadTable.UnitsPerEm) / fontSize);
+            }
+
+            // Execute:
+            MeasureAndWrapTextLines(text, ref totalAdvanceWidth, ref wordWidth, fontData, glyphMappings, lastGlyphIndex, maxWidthInDesignUnits, wrappedStrings);
+
+            var designUnitsToPoints = fontSize / (double)fontData.HeadTable.UnitsPerEm;
+
+            //Translate widths back to points
+            for (int i = 0; i< wrappedStrings.Count; i++)
+            {
+                wrappedStrings[i].Width *= designUnitsToPoints;
+                wrappedStrings[i].LargestFontSize = fontSize;
+                wrappedStrings[i].LargestAscent = GetBaseLine(fontData, fontSize);
+                wrappedStrings[i].LargestDescent = MeasureDescent(fontData, fontSize);
+
+                //Add "dummy" richtext item
+                var rtItem = new RichTextFragmentSimple();
+                rtItem.Width = wrappedStrings[i].Width;
+
+                wrappedStrings[i].RtFragments.Add(rtItem);
+            }
 
             return wrappedStrings;
         }
@@ -617,10 +741,11 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="startLineIdx">The starting char index of old and then the new line in orgLine</param>
         /// <param name="mode">Informs calling method what the advance of the next line should be set to</param>
         /// <returns></returns>
-        private static string ExtractWrappedSubstring(string orgLine, int cIdx, ref int startLineIdx, out TotalAdvanceMode mode)
+        private static string ExtractWrappedSubstring(string orgLine, int cIdx, ref int startLineIdx, out TotalAdvanceMode mode, out bool trimmedSpace)
         {
             //Result string
             string wrappedString = string.Empty;
+            trimmedSpace = false;
 
             var prevStartIdx = startLineIdx;
             char c = orgLine[cIdx];
@@ -638,10 +763,16 @@ namespace EPPlus.Fonts.OpenType
             {
                 var stringOverMax = splitLines.Last();
                 var startIndex = txt.Length - stringOverMax.Length;
-                //Remove the overflowing characters
-                var spacedString = txt.Remove(startIndex, stringOverMax.Length).TrimEnd(' ');
+                var spacedString = txt.Remove(startIndex, stringOverMax.Length);
 
-                wrappedString = spacedString;
+                if(spacedString.EndsWith(" "))
+                {
+                    trimmedSpace = true;
+                }
+                //Remove the overflowing characters
+                var trimmedString = spacedString.TrimEnd(' ');
+
+                wrappedString = trimmedString;
 
                 //The start index of the first character in the overflow (After space)
                 startLineIdx += startIndex;
@@ -654,6 +785,7 @@ namespace EPPlus.Fonts.OpenType
                 //Therefore we do not add its width and the index of the next line starts at the next character.
                 if (c == ' ')
                 {
+                    trimmedSpace = true;
                     //The current char has crossed the max
                     //Therefore remove it from the text to be added.
                     wrappedString = txt.Substring(0, txt.Length);
@@ -691,6 +823,20 @@ namespace EPPlus.Fonts.OpenType
                 $"And does not exist within the enum: '{typeof(TotalAdvanceMode)}' ");
         }
 
+        internal static int ConvertDesignUnits(OpenTypeFont origFont, double origSize, OpenTypeFont targetFont, double targetSize, int width)
+        {
+            //Potential future optimization: Check if units perEm are equal if they are (most fonts are)
+            //Should be able to only apply a factor of origSize/targetSize
+            var factorOrig = origSize / ((double)origFont.HeadTable.UnitsPerEm);
+
+            var widthInPoints = width * factorOrig;
+
+            var factorTarget = ((double)targetFont.HeadTable.UnitsPerEm) / targetSize;
+
+            width = Convert.ToInt16(widthInPoints * factorTarget);
+            return width;
+        }
+
         /// <summary>
         /// Converts the design units of one font to the design units of another font
         /// </summary>
@@ -718,6 +864,46 @@ namespace EPPlus.Fonts.OpenType
             wordWidth = Convert.ToInt16(wordWidthInPoints * factorTarget);
         }
 
+        private static void LogFragmentWidth(TextFragmentCollection collection, int UPM, double fontSize, int lineWidth, int prevFragmentWidths, int fragmentIdx)
+        {
+            var currentFragmentLineWidth = lineWidth - prevFragmentWidths;
+            var factorOrig = fontSize / ((double)UPM);
+            var lineWidthInPoints = currentFragmentLineWidth * factorOrig;
+
+            collection.AddFragmentWidth(fragmentIdx, lineWidthInPoints);
+        }
+
+        private static void AddWidthToFragment(RichTextFragmentSimple simpleFragment, int UPM, double fontSize, int lineWidth, int prevFragmentWidths, int fragmentIdx)
+        {
+            var currentFragmentLineWidth = lineWidth - prevFragmentWidths;
+            var factorOrig = fontSize / ((double)UPM);
+            var lineWidthInPoints = currentFragmentLineWidth * factorOrig;
+
+            simpleFragment.Width = lineWidthInPoints;
+        }
+
+        private static void LogLineData(TextParagraph paragraph, OpenTypeFont currentFont, OpenTypeFont largestFont, double CurrentLineLargestSize, int lineWidth, int fragmentIdx)
+        {
+            //Log line width
+            paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+
+            //Log line height
+            paragraph.Fragments.AddLargestFontSizePerLine(CurrentLineLargestSize);
+            var lineAscent = GetBaseLine(largestFont, CurrentLineLargestSize);
+            paragraph.Fragments.AddAscentPerLine(lineAscent);
+            var lineDescent = MeasureDescent(largestFont, CurrentLineLargestSize);
+            paragraph.Fragments.AddDescentPerLine(lineDescent);
+        }
+
+        private static void AddDataToSimpleLine(TextLineSimple line, TextParagraph paragraph, OpenTypeFont currentFont, OpenTypeFont largestFont, double CurrentLineLargestSize, int lineWidth, int fragmentIdx)
+        {
+            var factorOrig = paragraph.FontSizes[fragmentIdx] / (double)currentFont.HeadTable.UnitsPerEm;
+            line.Width = (double)lineWidth * factorOrig;
+            line.LargestFontSize = CurrentLineLargestSize;
+            line.LargestAscent = GetBaseLine(largestFont, CurrentLineLargestSize);
+            line.LargestDescent = MeasureDescent(largestFont, CurrentLineLargestSize);
+        }
+
         internal static List<string> WrapMultipleTextFragments(TextParagraph paragraph, double maxWidthPoints)
         {
             //Initialize variables
@@ -739,19 +925,38 @@ namespace EPPlus.Fonts.OpenType
             //Does not take new text-strings into account
             int currentLineIndex = 0;
 
-            var fragments = paragraph.Fragments;
-            var allText = fragments.AllText;
-            var newLineIndicies = fragments.AllTextNewLineIndicies;
+            //---Logger variables---
+            var fragmentCollection = paragraph.Fragments;
+            var allText = fragmentCollection.AllText;
+            var newLineIndicies = fragmentCollection.AllTextNewLineIndicies;
+            double CurrentLineLargestFontSize = 0;
+            OpenTypeFont largestFontCurrentLine = paragraph.FontIndexDict[0];
 
-            var len = allText.Length-7;
+            var prevFragmentIdx = 0;
+            var prevFragWidths = 0;
+            //---Logger Variables end---
+
+            int spaceWidth = 0;
 
             //Iterate through All fragments as one concatenated text string
             for (int i = 0; i < allText.Length; i++)
             {
                 //Get char info stored previously in the textParagraph class
-                var charInfo = fragments.CharLookup[i];
+                var charInfo = fragmentCollection.CharLookup[i];
                 var lineIdx = charInfo.Line;
                 var fragmentIdx = charInfo.Fragment;
+
+                //Happens at the end of a fragment/start of a new fragment
+                if(fragmentIdx != prevFragmentIdx)
+                {
+                    LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
+
+                    //Since there is no gurantee any wrapping has occured
+                    //But we are moving on to the next fragment we need to know how much of the
+                    //linewidth is not part of the current fragment
+                    //Since there could be multiple fragments before line break add to current prevfragwidth
+                    prevFragWidths += (lineWidth - prevFragWidths);
+                }
 
                 //If we hit a pre-existing line break. Reset line and wordwidths
                 var indexExists = newLineIndicies.Count() > currentLineIndex;
@@ -759,7 +964,17 @@ namespace EPPlus.Fonts.OpenType
                 {
                     if (i >= newLineIndicies[currentLineIndex])
                     {
-                        paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+                        //Log current line data
+                        LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, fragmentIdx);
+                        //Log current fragment width
+                        LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, fragmentIdx);
+                        //We are on the same fragment but there's been a line break
+                        //Therefore the previous fragment width is 0 as it is within this fragment
+                        prevFragWidths = 0;
+
+                        //Since we are on a new line the current largest font-size for this line is the current size
+                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        largestFontCurrentLine = currentFont;
 
                         var addedLine = leftOverLine.Trim(['\r', '\n']);
                         wrappedStrings.Add(addedLine);
@@ -780,28 +995,50 @@ namespace EPPlus.Fonts.OpenType
                             ref maxWidth, ref lineWidth, ref wordWidth);
                         //Font/fragment change
                         currentFont = paragraph.FontIndexDict[fragmentIdx];
+                        if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                        {
+                            largestFontCurrentLine = currentFont;
+                            CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        }
+                        spaceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
                     }
                 }
                 else
                 {
                     currentFont = paragraph.FontIndexDict[fragmentIdx];
                     maxWidth = (maxWidthPoints * (double)currentFont.HeadTable.UnitsPerEm) / paragraph.FontSizes[fragmentIdx];
+                    if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                    {
+                        largestFontCurrentLine = currentFont;
+                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                    }
+                    spaceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
                 }
 
                 fontSize = paragraph.FontSizes[fragmentIdx];
                 var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
 
                 char c = allText[i];
+                if (c == '\r' || c == '\n')
+                {
+                    continue;
+                }
                 var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
 
                 //Perform the actual wrapping
                 if (lineWidth > maxWidth)
                 {
-                    WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings);
+                    WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, wrappedStrings, spaceWidth, out int previousLineWidth);
 
                     //Log where wrapping occured in order to keep track of fragment/run/richtext
+
+                    //Can't be part of Log function as there could be pre-existing line-breaks
                     paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
-                    paragraph.Fragments.AddLineWidth(lineWidth / currentFont.HeadTable.UnitsPerEm * paragraph.FontSizes[fragmentIdx]);
+                    //Log line data
+                    LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, fragmentIdx);
+                    //Log Fragment widths
+                    LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, fragmentIdx);
+                    prevFragWidths = 0;
 
                     //Since we're using the AllText, need to handle leftover line differently
                     if (i < prevLineEndIndex)
@@ -823,17 +1060,385 @@ namespace EPPlus.Fonts.OpenType
                         leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
                         leftOverLine += allText.Substring(i, 1);
                     }
+                    //Since we are on a new line the current largest font-size for this line is the current size
+                    CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                    largestFontCurrentLine = currentFont;
                 }
                 else
                 {
                     //Add the current char to current unwrapped line
                     leftOverLine += allText.Substring(i, 1);
                 }
+
+                prevFragmentIdx = fragmentIdx;
             }
 
-            wrappedStrings.Add(leftOverLine);
+            if(lineWidth > 0)
+            {
+                LogLineData(paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count() - 1);
+                LogFragmentWidth(paragraph.Fragments, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, paragraph.Fragments.TextFragments.Count() - 1);
+            }
+
+            if(string.IsNullOrEmpty(leftOverLine) == false)
+            {
+                wrappedStrings.Add(leftOverLine);
+            }
 
             return wrappedStrings;
+        }
+
+        internal static List<TextLineSimple> WrapMultipleTextFragmentsToTextLines(TextParagraph paragraph, double maxWidthPoints)
+        {
+            if(string.IsNullOrEmpty(paragraph.Fragments.AllText))
+            {
+                return new List<TextLineSimple>(); 
+            }
+
+            //Initialize variables
+            List<TextLineSimple> outputTextLines = new List<TextLineSimple>();
+            List<RichTextFragmentSimple> currentLineRtFragments = new List<RichTextFragmentSimple>();
+
+            var currentRtFragment = new RichTextFragmentSimple();
+            currentRtFragment.Fragidx = 0;
+
+            TextLineSimple currentTextLine = new();
+
+            ushort? lastGlyphIndex = null;
+            bool applyKerning = false;
+            OpenTypeFont currentFont = null;
+
+            int lineWidth = 0;
+            int wordWidth = 0;
+            int prevLineEndIndex = 0;
+
+            string leftOverLine = "";
+
+            double maxWidth = maxWidthPoints;
+            double fontSize = 0;
+
+            //In the AllText string.
+            //Does not take new text-strings into account
+            int currentLineIndex = 0;
+
+            int prevLineBreakIndex = 0;
+
+            //---RichTextFragment variables---
+            var fragmentCollection = paragraph.Fragments;
+            var allText = fragmentCollection.AllText;
+            var newLineIndicies = fragmentCollection.AllTextNewLineIndicies;
+            double CurrentLineLargestFontSize = 0;
+            OpenTypeFont largestFontCurrentLine = paragraph.FontIndexDict[0];
+
+            var prevFragmentIdx = 0;
+            var prevFragWidths = 0;
+            //---RichTextFragment Variables end---
+
+            int spaceWidth = 0;
+
+            //Iterate through All fragments as one concatenated text string
+            for (int i = 0; i < allText.Length; i++)
+            {
+                //Get char info stored previously in the textParagraph class
+                var charInfo = fragmentCollection.CharLookup[i];
+                var lineIdx = charInfo.Line;
+                var fragmentIdx = charInfo.Fragment;
+
+                //If we hit a pre-existing line break. Reset line and wordwidths
+                var indexExists = newLineIndicies.Count() > currentLineIndex;
+                if (indexExists)
+                {
+                    if (i >= newLineIndicies[currentLineIndex])
+                    {
+                        AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, prevFragmentIdx);
+                        //Log current fragment width
+                        AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
+                        currentLineRtFragments.Add(currentRtFragment);
+
+                        //We are on the same fragment but there's been a line break
+                        //Therefore the previous fragment width is 0 as it is within this fragment
+                        prevFragWidths = 0;
+
+                        //Since we are on a new line the current largest font-size for this line is the current size
+                        CurrentLineLargestFontSize = paragraph.FontSizes[prevFragmentIdx];
+                        largestFontCurrentLine = currentFont;
+
+                        for (int j = 0; j < currentLineRtFragments.Count(); j++)
+                        {
+                            currentLineRtFragments[j].charStarIdxWithinCurrentLine = prevLineBreakIndex - currentLineRtFragments[j].OverallParagraphStartCharIdx;
+                            currentTextLine.RtFragments.Add(currentLineRtFragments[j]);
+                        }
+
+                        //no fragments but the current one should be applicable to next line in this case
+                        currentLineRtFragments.Clear();
+
+                        //prevLineBreakIndex = i;
+                        var addedLine = leftOverLine.Trim(['\r', '\n']);
+                        ////In this case it goes all the way to the end
+                        //currentRtFragment.charStarIdxWithinCurrentLine = addedLine.Length-1;
+                        //currentTextLine.RtFragments.Add(currentRtFragment);
+                        currentTextLine.Text = addedLine;
+                        outputTextLines.Add(currentTextLine);
+                        prevFragWidths = 0;
+
+
+                        var overallStartIdx = currentRtFragment.OverallParagraphStartCharIdx;
+                        currentTextLine = new TextLineSimple();
+                        currentRtFragment = new RichTextFragmentSimple();
+                        currentRtFragment.Fragidx = fragmentIdx;
+                        currentRtFragment.charStarIdxWithinCurrentLine = 0;
+                        currentRtFragment.OverallParagraphStartCharIdx = overallStartIdx;
+                        //currentLineRtFragments.Clear();
+                        //currentLineRtFragments.Add(currentRtFragment);
+
+                        lineWidth = 0;
+                        wordWidth = 0;
+                        leftOverLine = "";
+                        prevLineEndIndex = i;
+                        currentLineIndex++;
+                    }
+                }
+
+                //Happens at the end of a fragment/start of a new fragment
+                if (fragmentIdx != prevFragmentIdx)
+                {
+                    if(lineWidth != 0)
+                    {
+                        AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, prevFragmentIdx);
+                        currentLineRtFragments.Add(currentRtFragment);
+                    }
+                    else
+                    {
+                        string test = "should only happen after \r\n";
+                    }
+
+                    currentRtFragment = new RichTextFragmentSimple();
+                    currentRtFragment.Fragidx = fragmentIdx;
+                    currentRtFragment.OverallParagraphStartCharIdx = i;
+
+                    prevFragWidths = ConvertDesignUnits(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx], lineWidth);
+                }
+
+                //If this char has a different font, do the neccesary conversions
+                if (currentFont != null)
+                {
+                    if (currentFont != paragraph.FontIndexDict[fragmentIdx] | fontSize != paragraph.FontSizes[fragmentIdx])
+                    {
+                        ConvertDesignUnits(currentFont, fontSize, paragraph.FontIndexDict[fragmentIdx], paragraph.FontSizes[fragmentIdx],
+                            ref maxWidth, ref lineWidth, ref wordWidth);
+                        //Font/fragment change
+                        currentFont = paragraph.FontIndexDict[fragmentIdx];
+                        if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                        {
+                            largestFontCurrentLine = currentFont;
+                            CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        }
+                        spaceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
+                    }
+                }
+                else
+                {
+                    currentFont = paragraph.FontIndexDict[fragmentIdx];
+                    maxWidth = (maxWidthPoints * (double)currentFont.HeadTable.UnitsPerEm) / paragraph.FontSizes[fragmentIdx];
+                    if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                    {
+                        largestFontCurrentLine = currentFont;
+                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                    }
+                    spaceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
+                }
+
+                fontSize = paragraph.FontSizes[fragmentIdx];
+                var glyphMapping = paragraph.GlyphMappings[fragmentIdx];
+
+                char c = allText[i];
+                if (c == '\r' || c == '\n')
+                {
+                    continue;
+                }
+
+                var advanceWidth = CalculateAdvanceWidth(c, glyphMapping, currentFont, ref lastGlyphIndex, ref lineWidth, ref wordWidth, ref applyKerning);
+
+                //Perform the actual wrapping
+                if (lineWidth > maxWidth)
+                {
+                    List<string> tempSingleReturnHolder = new();
+
+                    //Add currentfragment to the list
+                    AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, fragmentIdx);
+                    currentLineRtFragments.Add(currentRtFragment);
+
+                    WrapAtCharPos(allText, i, ref prevLineEndIndex, ref lineWidth, ref wordWidth, advanceWidth, tempSingleReturnHolder, spaceWidth, out int prevLineWidth);
+                    //lineWidth does not include the width of any skipped spaces at this point causing inaccuracies
+                    //Log where wrapping occured in order to keep track of fragment/run/richtext
+
+                    //Can't be part of Log function as there could be pre-existing line-breaks
+                    paragraph.Fragments.AddWrappingIndex(prevLineEndIndex);
+
+                    var charInfoAtBreak = fragmentCollection.CharLookup[prevLineEndIndex];
+                    var fragIdxAtBreak = charInfoAtBreak.Fragment;
+
+                    //Largest font might be wrong here as we may linebreak at a different font than current font if we break at the start of a word
+                    //and not current i
+                    largestFontCurrentLine = null;
+                    CurrentLineLargestFontSize = 0;
+
+                    for (int j = currentLineRtFragments[0].Fragidx; j < fragIdxAtBreak + 1; j++)
+                    {
+                        if (paragraph.FontSizes[j] > CurrentLineLargestFontSize)
+                        {
+                            largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            CurrentLineLargestFontSize = paragraph.FontSizes[j];
+                        }
+                    }
+
+                    AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, prevLineWidth, fragmentIdx);
+
+                    //Largest font is not neccesarily current font as word wrap might have wrapped another font between
+                    largestFontCurrentLine = null;
+                    CurrentLineLargestFontSize = 0;
+
+                    for (int j = fragIdxAtBreak; j < fragmentIdx + 1; j++)
+                    {
+                        if (paragraph.FontSizes[j] > CurrentLineLargestFontSize)
+                        {
+                            largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            CurrentLineLargestFontSize = paragraph.FontSizes[j];
+                        }
+                    }
+
+                    //Because of word wrap we now need to verify if the fragments we have actually exist in the
+                    //line we are currently wrapping and what their widths are
+                    double prevFragWidthsAtBreakInPoints = 0;
+                    int newStartIdxRt = 0;
+                    double originalWidthOfFragment = 0;
+
+                    for (int j = 0; j < currentLineRtFragments.Count(); j++)
+                    {
+                        //Recalculate startIdx.
+                        //Word wrap might have made it inaccurate
+                        currentLineRtFragments[j].charStarIdxWithinCurrentLine = Math.Max(0, currentLineRtFragments[j].OverallParagraphStartCharIdx - prevLineBreakIndex);
+                        
+                        if (currentLineRtFragments[j].Fragidx < fragIdxAtBreak)
+                        {
+                            //Store variables for final fragment
+                            prevFragWidthsAtBreakInPoints += currentLineRtFragments[j].Width;
+
+                            //Add the rtFragments that actually exist within the wrapped line
+                            currentTextLine.RtFragments.Add(currentLineRtFragments[j].Clone());
+                        }
+                        else if(currentLineRtFragments[j].Fragidx == fragIdxAtBreak)
+                        {
+                            //Handle 'splitting' the rtFragment
+                            newStartIdxRt = j;
+                            originalWidthOfFragment = currentLineRtFragments[j].Width;
+
+                            var widthOfFragmentAtBreak = currentTextLine.Width - prevFragWidthsAtBreakInPoints;
+
+                            currentLineRtFragments[j].Width = widthOfFragmentAtBreak;
+                            currentTextLine.RtFragments.Add(currentLineRtFragments[j].Clone());
+
+                            //Calculate the new width of the fragment in the resulting line
+                            currentLineRtFragments[j].Width = originalWidthOfFragment - widthOfFragmentAtBreak;
+
+                            currentLineRtFragments[j].charStarIdxWithinCurrentLine = 0;
+
+                            //Ensure charStartIdxWithinCurrentLine is accurate for the next line
+                            prevLineBreakIndex = prevLineEndIndex;
+                        }
+                        else
+                        {
+                            //We are past the atBreak part.
+                            //All rtFragments that make it here is part of the next/new currentLine
+                            if(currentLineRtFragments[j].OverallParagraphStartCharIdx < prevLineEndIndex)
+                            {
+                                var doSome = "Thing?";
+                            }
+
+                            break;
+                        }
+                    }
+
+                    if(currentLineRtFragments[newStartIdxRt].Fragidx == fragmentIdx)
+                    {
+                        prevFragWidths = 0;
+                    }
+                    else
+                    {
+                        //Remove the part of current fragment that has already been added in font-design units
+                        var factorTarget = ((double)paragraph.FontIndexDict[fragmentIdx].HeadTable.UnitsPerEm) / paragraph.FontSizes[fragmentIdx];
+                        prevFragWidths = Convert.ToInt16((currentLineRtFragments[newStartIdxRt].Width * factorTarget));
+                    }
+
+                    //Remove those that are now irrelevant
+                    for (int j = 0; j < newStartIdxRt; j++)
+                    {
+                        currentLineRtFragments.RemoveAt(0);
+                    }
+                    //Remove the current fragment as we have not found its end yet
+                    currentLineRtFragments.Remove(currentRtFragment);
+
+                    currentTextLine.Text = tempSingleReturnHolder[0];
+                    outputTextLines.Add(currentTextLine);
+
+                    currentTextLine = new TextLineSimple();
+
+
+                    currentRtFragment = currentRtFragment.Clone();
+                    //currentRtFragment.charStarIdxWithinCurrentLine = 0;
+
+                    prevLineBreakIndex = prevLineEndIndex;
+
+                    //Since we're using the AllText, need to handle leftover line differently
+                    if (i < prevLineEndIndex)
+                    {
+                        if (lineWidth != 0)
+                        {
+                            leftOverLine = allText.Substring(prevLineEndIndex, prevLineEndIndex - i);
+                            //Since we've moved one beyond the last
+                            i = prevLineEndIndex;
+                        }
+                        else
+                        {
+                            leftOverLine = "";
+                        }
+                    }
+                    else
+                    {
+                        //Since we are on a new line the current largest font-size for this line is the current size
+                        CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
+                        largestFontCurrentLine = currentFont;
+
+                        //Special case for only 1 or 0 chars in leftover line
+                        leftOverLine = allText.Substring(prevLineEndIndex, i - prevLineEndIndex);
+                        leftOverLine += allText.Substring(i, 1);
+                    }
+                }
+                else
+                {
+                    //Add the current char to current unwrapped line
+                    leftOverLine += allText.Substring(i, 1);
+                }
+
+                prevFragmentIdx = fragmentIdx;
+            }
+
+            AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count() - 1);
+
+
+            AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, currentRtFragment.Fragidx);
+
+            currentRtFragment.charStarIdxWithinCurrentLine = Math.Max(0, currentRtFragment.OverallParagraphStartCharIdx - prevLineBreakIndex);
+            currentLineRtFragments.Add(currentRtFragment);
+
+            for (int j = 0; j < currentLineRtFragments.Count(); j++)
+            {
+                currentLineRtFragments[j].charStarIdxWithinCurrentLine = Math.Max(0, currentLineRtFragments[j].OverallParagraphStartCharIdx - prevLineBreakIndex);
+                currentTextLine.RtFragments.Add(currentLineRtFragments[j]);
+            }
+            currentTextLine.Text = leftOverLine;
+            outputTextLines.Add(currentTextLine);
+
+            return outputTextLines;
         }
     }
 }

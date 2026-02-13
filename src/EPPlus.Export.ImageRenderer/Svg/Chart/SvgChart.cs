@@ -26,7 +26,6 @@ namespace EPPlusImageRenderer.Svg
     {
         public SvgChart(ExcelChart chart) : base(chart)
         {
-            Chart = chart;
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)
@@ -133,9 +132,9 @@ namespace EPPlusImageRenderer.Svg
 
         private void SetChartArea()
         {
-            var item = new SvgRenderRectItem(Chart);
-            item.Width = Size.Width;
-            item.Height = Size.Height;
+            var item = new SvgRenderRectItem(this, Bounds);
+            item.Width = Bounds.Width;
+            item.Height = Bounds.Height;
             item.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
             item.SetDrawingPropertiesBorder(Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             RenderItems.Add(item);
@@ -162,28 +161,14 @@ namespace EPPlusImageRenderer.Svg
             Legend?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
 
-            sb.Append($"<svg width=\"{Size.Width}\" height=\"{Size.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
+            sb.Append($"<svg width=\"{Bounds.Width}\" height=\"{Bounds.Height}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
             writer.WriteSvgDefs(sb, RenderItems);
 
-            SvgGroupItem gItemTest = null;
             foreach (var item in RenderItems)
             {
                 item.Render(sb);
-                if (item.Type == RenderItemType.Group && gItemTest == null)
-                {
-                    gItemTest = (SvgGroupItem)item;
-                }
-                if(item.IsEndOfGroup && gItemTest != null)
-                {
-                    gItemTest.RenderEndGroup(sb);
-                    gItemTest = null;
-                }
-            }
-            if(gItemTest != null)
-            {
-                gItemTest.RenderEndGroup(sb);
             }
 
             sb.Append("</svg>");

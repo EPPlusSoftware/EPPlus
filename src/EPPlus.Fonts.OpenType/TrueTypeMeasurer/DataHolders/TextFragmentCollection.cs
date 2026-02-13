@@ -17,6 +17,10 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         List<TextFragment> _fragmentItems = new List<TextFragment>();
         List<TextLine> _lines = new List<TextLine>();
         List<string> outputFragments = new List<string>();
+        //List<string> outputStrings = new List<string>();
+        internal List<double> LargestFontSizePerLine { get; private set; } = new();
+        internal List<double> AscentPerLine { get; private set; } = new();
+        internal List<double> DescentPerLine { get; private set; } = new();
 
         /// <summary>
         /// Added linewidths in points
@@ -24,6 +28,9 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         internal List<double> lineWidths { get; private set; } = new List<double>();
 
         public List<int> IndiciesToWrapAt {get; internal set; }
+
+        List<TextLineSimple> TextLines = new();
+
         public TextFragmentCollection(List<string> textFragments)
         {
             TextFragments = textFragments;
@@ -136,6 +143,21 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             return positions;
         }
 
+        internal void AddLargestFontSizePerLine(double fontSize)
+        {
+            LargestFontSizePerLine.Add(fontSize);
+        }
+
+        internal void AddAscentPerLine(double Ascent)
+        {
+            AscentPerLine.Add(Ascent);
+        }
+
+        internal void AddDescentPerLine(double Descent)
+        {
+            DescentPerLine.Add(Descent);
+        }
+
         internal void AddWrappingIndex(int index)
         {
             IndiciesToWrapAt.Add(index);
@@ -156,6 +178,138 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 
             return outputFragments;
         }
+
+        public List<TextLine> GetOutputLines()
+        {
+            var fragments = GetFragmentsWithFinalLineBreaks();
+
+            string outputAllText = "";
+
+            //Create final all text
+            for (int i = 0; i < fragments.Count(); i++)
+            {
+                outputAllText += fragments[i];
+            }
+
+            var newLineIndiciesOutput = GetFirstCharPositionOfNewLines(outputAllText);
+            List<TextLine> outputTextLines = new List<TextLine>();
+
+            //Save minor information about each char so each char knows its line/fragment
+            int charCount = 0;
+            int lineIndex = 0;
+
+            List<int> currFragments = new();
+            int lineStartCharIndex = 0;
+            int RtInternalStartIndex = 0;
+
+            //For each fragment
+            for (int i = 0; i < fragments.Count; i++)
+            {
+                var textFragment = fragments[i];
+
+                //For each char in current fragment
+                for (int j = 0; j < textFragment.Length; j++)
+                {
+                    if (lineIndex <= newLineIndiciesOutput.Count - 1 &&
+                        charCount >= newLineIndiciesOutput[lineIndex])
+                    {
+                        //We have reached a new line
+                        var text = outputAllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex);
+                        var trimmedText = text.Trim(['\r', '\n']);
+
+                        var line = new TextLine()
+                        {
+                            richTextIndicies = currFragments,
+                            content = trimmedText,
+                            startIndex = lineStartCharIndex,
+                            rtContentStartIndexPerRt = new List<int>(j),
+                            lastRtInternalIndex = j,
+                            startRtInternalIndex = RtInternalStartIndex
+                        };
+
+                        lineStartCharIndex = newLineIndiciesOutput[lineIndex];
+                        outputTextLines.Add(line);
+                        currFragments.Clear();
+                        RtInternalStartIndex = j;
+                        lineIndex++;
+                    }
+
+                    //var info = new CharInfo(charCount, i, lineIndex);
+                    //CharLookup.Add(charCount, info);
+                    charCount++;
+                }
+                currFragments.Add(i);
+            }
+
+            //Add the last line
+            var lastText = outputAllText.Substring(lineStartCharIndex, charCount - lineStartCharIndex);
+            var lastTrimmedText = lastText.Trim(['\r', '\n']);
+
+            var lastLine = new TextLine()
+            {
+                richTextIndicies = currFragments,
+                content = lastTrimmedText,
+                startIndex = lineStartCharIndex,
+                lastRtInternalIndex = fragments.Last().Length,
+                startRtInternalIndex = RtInternalStartIndex
+            };
+
+            outputTextLines.Add(lastLine);
+            currFragments.Clear();
+
+            return outputTextLines;
+        }
+
+        //public void GetTextFragmentOutputStartIndiciesOnFinalLines(List<string> finalOutputLines)
+        //{
+        //    var lineBreakStrings = GetFragmentsWithFinalLineBreaks();
+        //    //var fragmentsWithoutLineBreaks = GetFragmentsWithoutLineBreaks();
+        //    string outputAllText = "";
+            
+        //    //List<List<int>> eachFragmentForEachLine = new List<List<int>>();
+
+        //    for(int i = 0; i< finalOutputLines.Count(); i++)
+        //    {
+        //        var line = new TextLine();
+        //        line.content = finalOutputLines[i];
+
+        //    }
+
+        //    //Create final all text
+        //    for(int i = 0; i< lineBreakStrings.Count(); i++)
+        //    {
+
+        //        ////var length = lineBreakStrings[i].Length;
+        //        //outputAllText += lineBreakStrings[i];
+        //    }
+
+
+        //}
+
+        //public List<TextLineSimple> GetSimpleTextLines(List<string> wrappedLines)
+        //{
+        //    //The wrapped lines
+        //    var lines = wrappedLines;
+        //    //The richText data in a form that is one to one in chars
+        //    var frags = GetFragmentsWithoutLineBreaks();
+
+        //    int fragIdx = 0;
+        //    int charIdx = 0;
+        //    int lastFragLength = 0;
+
+        //    var currentFragment = frags[fragIdx];
+
+        //    for (int i = 0; i< wrappedLines.Count(); i++)
+        //    {
+        //        var textLineSimple = new TextLineSimple();
+
+        //        for (int j = 0; j < wrappedLines[i].Length; j++)
+        //        {
+        //            textLineSimple
+        //            charIdx++;
+        //        }
+        //    }
+        //}
 
         public List<string> GetFragmentsWithoutLineBreaks()
         {
@@ -183,25 +337,46 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<float> GetLargestFontSizesOfEachLine()
+        public List<double> GetLargestFontSizesOfEachLine()
         {
-            List<float> largestFontSizes = new List<float>();
-            foreach(var line in _lines)
-            {
-                float largest = float.MinValue;
-                foreach(var idx in line.richTextIndicies)
-                {
-                    if (float.IsNaN(_fragmentItems[idx].FontSize) == false && _fragmentItems[idx].FontSize > largest)
-                    {
-                        largest = _fragmentItems[idx].FontSize;
-                    }
-                }
-                if (largest != float.MinValue)
-                {
-                    largestFontSizes.Add(largest);
-                }
-            }
-            return largestFontSizes;
+            //List<float> largestFontSizes = new List<float>();
+            //foreach(var line in _lines)
+            //{
+            //    float largest = float.MinValue;
+            //    foreach(var idx in line.richTextIndicies)
+            //    {
+            //        if (float.IsNaN(_fragmentItems[idx].FontSize) == false && _fragmentItems[idx].FontSize > largest)
+            //        {
+            //            largest = _fragmentItems[idx].FontSize;
+            //        }
+            //    }
+            //    if (largest != float.MinValue)
+            //    {
+            //        largestFontSizes.Add(largest);
+            //    }
+            //}
+            //return largestFontSizes;
+            return LargestFontSizePerLine;
+        }
+
+        public double GetAscent(int lineIdx)
+        {
+            return AscentPerLine[lineIdx];
+        }
+
+        public double GetDescent(int lineIdx)
+        {
+            return DescentPerLine[lineIdx];
+        }
+
+        internal void AddFragmentWidth(int fragmentIdx,  double width)
+        {
+            _fragmentItems[fragmentIdx].PointWidthPerOutputLineInFragment.Add(width);
+        }
+
+        public List<double> GetFragmentWidths(int fragmentIdx)
+        {
+            return _fragmentItems[fragmentIdx].PointWidthPerOutputLineInFragment;
         }
 
         public List<int> GetLinesFragmentIsPartOf(int fragmentIndex)

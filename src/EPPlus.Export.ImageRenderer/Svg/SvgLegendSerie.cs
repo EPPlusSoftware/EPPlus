@@ -10,15 +10,16 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlusImageRenderer.RenderItems;
 
-namespace EPPlusImageRenderer.RenderItems.Shared
+namespace EPPlusImageRenderer.Svg
 {
-    internal interface ITextRunItem
+    internal class SvgLegendSerie
     {
-
+        internal RenderItem SeriesIcon { get; set; }
+        internal RenderItem MarkerIcon { get; set; }
+        internal RenderItem MarkerBackground { get; set; }
+        internal TextBodyItem Textbox { get; set;}
     }
 }
