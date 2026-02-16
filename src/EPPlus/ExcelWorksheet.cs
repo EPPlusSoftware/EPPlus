@@ -1675,10 +1675,11 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
-                    var vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
 
                     if (currentVm > 0)
                     {
+                        var vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+
                         var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
                         rd?.SetStructure(_package.Workbook.RichData.Db);
 
