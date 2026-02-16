@@ -173,7 +173,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var charWidths = CalculateCharacterWidths(text, fontSize, options);
 
-            var state = new WrapState(startingWidthPoints, GetCachedSpaceWidth(fontSize, options));
+            var state = new WrapStateText(startingWidthPoints, GetCachedSpaceWidth(fontSize, options));
 
            PrepareLineBuilder(text.Length);
 

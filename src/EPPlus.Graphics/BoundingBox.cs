@@ -142,7 +142,7 @@ namespace EPPlus.Graphics
         //internal override double Y { get { return Top; } set { Top = value; } }
 
         //Gets global position x and y
-        internal double GlobalX { get { return transform.Position.X; } }
-        internal double GlobalY { get { return transform.Position.Y; } }
+        internal double GlobalX { get { return Position.X; } }
+        internal double GlobalY { get { return Position.Y; } }
     }
 }
