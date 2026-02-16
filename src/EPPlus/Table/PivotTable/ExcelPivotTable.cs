@@ -406,15 +406,23 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="refreshCache">If the pivot cache should be refreshed from the source data, before calculating the pivot table.</param>
         public void Calculate(bool refreshCache = false)
         {
-            if(CacheDefinition.Connection!=null)
+            if (CacheDefinition.Connection != null)
             {
                 return;
             }
-            if (refreshCache || CacheDefinition._cacheReference.Records == null  || CacheDefinition._cacheReference.Records.RecordCount == 0)
+
+            if (!IsCalculated)
+            {
+                refreshCache = true;
+            }
+
+            if (refreshCache || CacheDefinition._cacheReference.Records == null || CacheDefinition._cacheReference.Records.RecordCount == 0)
             {
                 CacheDefinition.Refresh();
             }
+
             PivotTableCalculation.Calculate(this, out CalculatedItems, out Keys);
+
             IsCalculated = true;
         }
         /// <summary>
@@ -452,17 +460,36 @@ namespace OfficeOpenXml.Table.PivotTable
                 return ErrorValues.RefError;
             }
 
+            var dfIx = DataFields.IndexOf(dataField);
+            if (dfIx == -1)
+            {
+                for (int i = 0; i < DataFields.Count; i++)
+                {
+                    if (DataFields[i].Name == dataFieldName)
+                    {
+                        dfIx = i;
+                        break;
+                    }
+                }
+                if (dfIx == -1)
+                {
+                    return ErrorValues.RefError;
+                }
+            }
+
             if (IsCalculated == false)
             {
                 Calculate();
             }
 
             var items = CacheDefinition._cacheReference.Records.CacheItems;
-
             var keyFieldIndex = RowColumnFieldIndicies;
+
             var key = new int[keyFieldIndex.Count];
+
             var functionFieldIx = -1;
             var function = eSubTotalFunctions.None;
+
             for (int i = 0; i < keyFieldIndex.Count; i++)
             {
                 key[i] = PivotCalculationStore.SumLevelValue;
@@ -470,7 +497,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     var field = Fields[fieldItemSelection[j].FieldName];
 
-                    if (field == null || (field.IsColumnField==false && field.IsRowField==false))
+                    if (field == null || (field.IsColumnField == false && field.IsRowField == false))
                     {
                         return ErrorValues.RefError;
                     }
@@ -487,7 +514,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     if (field.Index == keyFieldIndex[i])
                     {
                         var cache = field.GetLookup();
-
                         var isGrouping = field.Grouping != null;
 
                         if (isGrouping)
@@ -507,9 +533,9 @@ namespace OfficeOpenXml.Table.PivotTable
                             }
                             else
                             {
-                                if(v != null && bool.TryParse(v.ToString(), out bool b))
+                                if (v != null && bool.TryParse(v.ToString(), out bool b))
                                 {
-                                    if(cache.ContainsKey(b))
+                                    if (cache.ContainsKey(b))
                                     {
                                         key[i] = cache[b];
                                     }
@@ -529,7 +555,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
 
-            var dfIx = DataFields.IndexOf(dataField);
             if (PivotTableCalculation.IsReferencingUngroupableKey(key, dataField.Field.PivotTable.RowFields.Count))
             {
                 if (Keys[dfIx].TryGetValue(key, out HashSet<int[]> uniqueItems))
@@ -564,10 +589,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
 
-            //Check if the cell is collapsed or if a subtotal function is set to none and the subtotal is not the lowest collapsed row/column.
             if (IsCollapsedOrNoSubTotalFunction(key, keyFieldIndex, dataField))
             {
                 return ErrorValues.RefError;
+            }
+
+            if (CalculatedItems[dfIx] != null)
+            {
+                foreach (var k in CalculatedItems[dfIx].Index)
+                {
+                    var val = CalculatedItems[dfIx][k.Key];
+                }
             }
 
             if (function == eSubTotalFunctions.None)
@@ -579,16 +611,18 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else
             {
-                var subTotalKey = $"{functionFieldIx},{dfIx},{function}";
+                var subTotalKey = functionFieldIx + "," + dfIx + "," + function;
                 if (CalculatedFieldRowColumnSubTotals[subTotalKey].TryGetValue(key, out var value))
                 {
                     return value;
                 }
             }
+
             if (ExistsValueInTable(key, dfIx))
             {
                 return 0D;
             }
+
             return ErrorValues.RefError;
         }
 
