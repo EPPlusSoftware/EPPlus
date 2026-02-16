@@ -121,6 +121,34 @@ namespace EPPlusTest.InCellImages
         }
 
         [TestMethod]
+        public void ReCalculateWebImagesShouldWork()
+        {
+            using (var p = OpenPackage("ReacalculateWebImage.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet");
+                ws.Cells["A1"].Formula = "IMAGE(\"https://epplussoftware.com/img/EPPlus-logo-full.png\")";
+                ws.Calculate();
+                Assert.IsTrue(ws.Cells["A1"].Picture.Exists);
+                Assert.AreEqual(ExcelCellPictureTypes.WebImage, ws.Cells["A1"].Picture.Get().PictureType);
+
+                var pic = ws.Cells[1, 1].Value as ExcelCellPicture;
+
+                //Verify that the picture has added to refs correctly
+                PictureCacheKey key = new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
+                var numRefs = ws.Workbook.CellPictureReferenceCache.GetNumberOfReferences(key);
+                Assert.AreEqual(1, numRefs);
+
+                ws.Calculate();
+
+                PictureCacheKey key2 = new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
+                var numRefs2 = ws.Workbook.CellPictureReferenceCache.GetNumberOfReferences(key);
+                Assert.AreEqual(1, numRefs2);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
         public void ShouldNotRemoveRichDataWhenMoreReferencesExistsWhenReadingWithCalculate()
         {
             var ms = new MemoryStream();
@@ -172,7 +200,7 @@ namespace EPPlusTest.InCellImages
                 var numberOfRefs = ws.Workbook.CellPictureReferenceCache.GetNumberOfReferences(key);
                 Assert.AreEqual(1, numberOfRefs);
 
-                SaveWorkbook("InCellPicturesReuseCache3_OnRead.xlsx", package);
+                SaveWorkbook("InCellPicturesReuseCache3_WebImageOnRead.xlsx", package);
             }
         }
     }

@@ -164,15 +164,28 @@ namespace OfficeOpenXml.CellPictures
             {
                 if(existingPic != null && existingPic.ImageUri.OriginalString != imageUri.OriginalString)
                 {
-                    var cKey = GetCacheKey(existingPic);
-                    _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
-                    if(numberOfRefsLeft <= 0)
+                    if(existingPic.ImageUri.OriginalString != imageUri.OriginalString)
                     {
-                        _richDataStore.DeleteRichData(row, col);
+                        var cKey = GetCacheKey(existingPic);
+                        _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                        if (numberOfRefsLeft <= 0)
+                        {
+                            _richDataStore.DeleteRichData(row, col);
+                        }
+                        _pictureStore.RemoveReference(existingPic.ImageUri);
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
                     }
-                    _pictureStore.RemoveReference(existingPic.ImageUri);
+                    else
+                    {
+                        //There is no need to do anything.
+                        //This method is attempting to set the picture to the exact same as what is already in the cell
+                        return;
+                    }
                 }
-                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                else
+                {
+                    AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                }
                 return;
             }
 
@@ -216,9 +229,38 @@ namespace OfficeOpenXml.CellPictures
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
 
+            var existingPic = GetCellPicture(row, col, StructureTypes.WebImage);
+            if (existingPic == null)
+            {
+                existingPic = GetCellPicture(row, col);
+            }
+
             if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
-                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                if (existingPic != null)
+                {
+                    if(existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                    {
+                        var cKey = GetCacheKey(existingPic);
+                        _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                        if (numberOfRefsLeft <= 0)
+                        {
+                            _richDataStore.DeleteRichData(row, col);
+                        }
+                        _pictureStore.RemoveReference(existingPic.ImageUri);
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                    }
+                    else
+                    {
+                        //There is no need to do anything.
+                        //This method is attempting to set the picture to the exact same as what is already in the cell
+                        return;
+                    }
+                }
+                else
+                {
+                    AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                }
                 return;
             }
 
@@ -230,7 +272,6 @@ namespace OfficeOpenXml.CellPictures
             }
             else
             {
-                var existingPic = GetCellPicture(row, col);
                 if (existingPic != null)
                 {
                     if (existingPic.ImageUri.OriginalString == imageUri.OriginalString)

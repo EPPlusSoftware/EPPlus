@@ -133,5 +133,36 @@ namespace EPPlusTest.InCellImages
             Assert.AreEqual(0, package.Workbook.RichData.Db.Values.Count, "RichDataValue still exists");
             SaveWorkbook("InCellPicturesReuseCache4.xlsx", package);
         }
+
+        [TestMethod]
+        public void ReCalculateInCellImageShouldWork()
+        {
+            using (var p = OpenPackage("ReacalculateInCellImage.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet");
+
+                ws.Cells["A1"].Picture.Set(Resources.Png2ByteArray);
+                var pic = ws.Cells[1, 1].Value as ExcelCellPicture;
+
+                var vm1 = ws._metadataStore.GetValue(1, 1);
+
+                ws.Cells["B1"].Formula = "A1";
+
+                ws.Calculate();
+
+                //Verify that the picture has added to refs correctly
+                PictureCacheKey key = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                var numRefs = ws.Workbook.CellPictureReferenceCache.GetNumberOfReferences(key);
+                Assert.AreEqual(1, numRefs);
+
+                ws.Calculate();
+
+                PictureCacheKey key2 = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                var numRefs2 = ws.Workbook.CellPictureReferenceCache.GetNumberOfReferences(key);
+                Assert.AreEqual(1, numRefs2);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

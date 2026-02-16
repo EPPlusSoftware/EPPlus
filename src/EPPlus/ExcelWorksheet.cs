@@ -1675,6 +1675,8 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
+                    var vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+
                     if (currentVm > 0)
                     {
                         var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
@@ -1693,10 +1695,10 @@ namespace OfficeOpenXml
                             SetValueInner(row, col, pic);
 
                             //Add picture to the workbook cache
+                            //picManager.SetCellPicture(row, col, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
                             var picManager = new CellPicturesManager(this);
-                            picManager.SetCellPicture(row, col, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
-                            //var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
-                            //picManager.ReadAndAddReference(cacheKey, vmId);
+                            var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                            picManager.ReadAndAddReference(cacheKey, vmId);
 
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
@@ -1716,16 +1718,19 @@ namespace OfficeOpenXml
                             Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
                             SetValueInner(row, col, pic);
 
-                            //Add picture to the workbook cache
                             var picManager = new CellPicturesManager(this);
-                            if (pic.Sizing.HasValue)
-                            {
-                                picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin, pic.Sizing.Value);
-                            }
-                            else
-                            {
-                                picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
-                            }
+                            var cacheKey = new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
+                            picManager.ReadAndAddReference(cacheKey, vmId);
+                            //Add picture to the workbook cache
+                            //var picManager = new CellPicturesManager(this);
+                            //if (pic.Sizing.HasValue)
+                            //{
+                            //    picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin, pic.Sizing.Value);
+                            //}
+                            //else
+                            //{
+                            //    picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
+                            //}
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
                                 xr.Read();
