@@ -144,8 +144,6 @@ namespace EPPlusTest.InCellImages
                 ws.Cells["A1"].Picture.Set(Resources.Png2ByteArray);
                 var pic = ws.Cells[1, 1].Value as ExcelCellPicture;
 
-                var vm1 = ws._metadataStore.GetValue(1, 1);
-
                 ws.Cells["B1"].Formula = "A1";
 
                 ws.Calculate();

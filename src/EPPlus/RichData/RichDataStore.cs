@@ -74,6 +74,12 @@ namespace OfficeOpenXml.RichData
             return rv;
         }
 
+        internal bool HasValueBeenDeleted(uint vmId)
+        {
+            var valueMetaData = _metadata.Db.ValueMetadata.Get(vmId);
+            return valueMetaData.Deleted;
+        }
+
         /// <summary>
         /// Gets a rich value by its value metadata index
         /// </summary>

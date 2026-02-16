@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData;
 using System;
 using System.Collections.Generic;
 
@@ -34,6 +35,7 @@ namespace OfficeOpenXml.CellPictures
             {
                 vmId = _referenceCache[key].VmId; 
             }
+
             return result;
         }
 

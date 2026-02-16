@@ -160,13 +160,23 @@ namespace OfficeOpenXml.CellPictures
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
 
+
+
             if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
-                if(existingPic != null && existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                if(existingPic != null)
                 {
-                    if(existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                    var cKey = GetCacheKey(existingPic);
+
+                    //Happens if calculate has deleted the ref
+                    if (_richDataStore.HasValueBeenDeleted(cachedVmId))
                     {
-                        var cKey = GetCacheKey(existingPic);
+                        _referenceCache.RemoveReference(cKey, out int numRefs);
+                        return;
+                    }
+
+                    if (existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                    {
                         _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
                         if (numberOfRefsLeft <= 0)
                         {
@@ -184,7 +194,16 @@ namespace OfficeOpenXml.CellPictures
                 }
                 else
                 {
-                    AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                    //Happens if calculate has deleted the ref
+                    if (_richDataStore.HasValueBeenDeleted(cachedVmId))
+                    {
+                        _referenceCache.RemoveReference(cacheKey, out int numRefs);
+                        return;
+                    }
+                    else
+                    {
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                    }
                 }
                 return;
             }
