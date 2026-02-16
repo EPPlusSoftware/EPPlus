@@ -10,7 +10,6 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.Pdf.PdfResources

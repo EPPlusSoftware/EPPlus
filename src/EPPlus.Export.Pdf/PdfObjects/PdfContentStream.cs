@@ -15,23 +15,15 @@ using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Tables.Glyph;
-using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {

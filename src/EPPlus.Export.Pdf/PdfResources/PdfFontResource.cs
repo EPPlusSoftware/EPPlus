@@ -10,16 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects.PdfFonts;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Os2;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using EPPlus.Graphics;
 using EPPlus.Fonts.OpenType.TextShaping;
+using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfResources
 {
@@ -53,6 +54,28 @@ namespace EPPlus.Export.Pdf.PdfResources
         {
             this.fontName = fontName;
             fontData = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+        }
+
+        internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
+        {
+            return OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+        }
+
+        //Get font data from fontResources. If font does not exsist, add it to fontResources.
+        internal static OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfCellTextItem FontData)
+        {
+            if (!fontResources.ContainsKey(FontData.FullFontName))
+            {
+                int label = 1;
+                if (fontResources.Count > 0)
+                {
+                    label = fontResources.Last().Value.labelNumber + 1;
+                }
+                PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
+                fontResources.Add(FontData.FullFontName, fr);
+                fontResources.Last().Value.fontData = GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
+            }
+            return fontResources[FontData.FullFontName].fontData;
         }
 
         internal void CreateSubset()

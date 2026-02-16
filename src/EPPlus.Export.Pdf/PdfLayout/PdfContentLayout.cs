@@ -16,6 +16,9 @@ using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    /// <summary>
+    /// Represents the content area for a page in the pdf document.
+    /// </summary>
     internal class PdfContentLayout : Transform
     {
         public PdfContentLayout(double x, double y, PdfContentBounds bounds)

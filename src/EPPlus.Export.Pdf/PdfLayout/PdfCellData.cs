@@ -17,6 +17,9 @@ using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Drawing;
 
+/*
+ * This file could probably be trimmed a lot and remove unnessacry stuff. 
+ */
 namespace EPPlus.Export.Pdf.PdfLayout
 {
     public enum PdfWritingMode

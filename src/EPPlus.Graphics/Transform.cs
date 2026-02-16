@@ -15,14 +15,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
 using EPPlus.Graphics.Math;
-using OfficeOpenXml;
 
 namespace EPPlus.Graphics
 {
     internal class Transform
     {
         public string Name;
-        public ExcelRangeBase cell;
 
         public Vector2 LocalPosition { get; set; } = Vector2.Zero;
 

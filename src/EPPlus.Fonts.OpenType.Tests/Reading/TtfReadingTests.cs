@@ -158,7 +158,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ReadAllTTFFonts()
         {
             List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Ttf);

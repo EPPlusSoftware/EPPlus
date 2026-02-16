@@ -13,8 +13,14 @@
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    /// <summary>
+    /// Interface for border objects
+    /// </summary>
     internal interface IBorderLayout
     {
+        /// <summary>
+        /// Update Border positions.
+        /// </summary>
         abstract void UpdateLocalBorderPosition();
     }
 }

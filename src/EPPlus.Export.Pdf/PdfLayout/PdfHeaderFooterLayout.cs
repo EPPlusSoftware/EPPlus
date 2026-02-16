@@ -10,7 +10,6 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
@@ -20,14 +19,12 @@ using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfHeaderFooterLayout : Transform
     {
-        public PdfCellWord textLine = new PdfCellWord();
+        public PdfCellWord textLine = new PdfCellWord(); //This needs to be updated to use the embedding font stuff.
 
         public PdfHeaderFooterLayout(ExcelHeaderFooterTextCollection textCollection, ExcelWorksheet ws, PdfPageSettings settings, PdfDictionaries dictionaries, int pageNumber, int totalPages)
         {
@@ -72,7 +69,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         textItem.Text += text.Text;
                         break;
                 }
-                GetFontResourceData(dictionaries.Fonts, settings, textItem);
+                PdfFontResource.GetFontResourceData(dictionaries.Fonts, settings, textItem);
                 MeasurementFont font = new MeasurementFont();
                 font.FontFamily = textItem.FontName;
                 font.Size = (float)textItem.FontSize;
@@ -92,23 +89,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 textItem.LineHeight = result.Height;
                 textLine.Characters.Add(textItem);
             }
-        }
-
-        //Get font data from fontResources. If font does not exsist, add it to fontResources.
-        private OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfCellTextItem FontData)
-        {
-            if (!fontResources.ContainsKey(FontData.FullFontName))
-            {
-                int label = 1;
-                if (fontResources.Count > 0)
-                {
-                    label = fontResources.Last().Value.labelNumber + 1;
-                }
-                PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
-                fontResources.Add(FontData.FullFontName, fr);
-                fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
-            }
-            return fontResources[FontData.FullFontName].fontData;
         }
 
         public void AdjustPositionByTextLength(char rc, char hf)

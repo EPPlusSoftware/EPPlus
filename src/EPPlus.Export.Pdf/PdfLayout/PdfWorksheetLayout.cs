@@ -19,7 +19,6 @@ using EPPlus.Graphics.Units;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System.Collections.Generic;
@@ -46,7 +45,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if(worksheet.Column(col).Hidden) continue;
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     var cell = worksheet.Cells[row, col];
-                    var cellStyle = new PdfCellStyleOverride();
+                    var cellStyle = new PdfCellStyle();
                     GetFillStyles(cell, cellStyle);
                     GetBorderStyles(cell, cellStyle);
                     GetFontStyles(cell, cellStyle);
@@ -69,7 +68,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Size = new Vector2(totalWidth, y);
         }
 
-        private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
+        //Get Border styles from cell, tables and conditional formatting. TODO: Add support for Conditional formatting.
+        private void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
 
             /* Kika på varje del av border top bottom left right
@@ -108,7 +108,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        public void GetFillStyles( ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
+        //Get Fill style from cell, tables and conditional formatting. TODO: Add support for Conditional formatting.
+        public void GetFillStyles( ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
             if (cell.Style.Fill.IsEmpty())
             {
@@ -168,7 +169,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             cellStyle.xfFill = cell.Style.Fill;
         }
-        public void GetFontStyles(ExcelRangeBase cell, PdfCellStyleOverride cellStyle)
+
+        //Get Font style from cell, tables and conditional formatting. TODO: Add support for Conditional formatting.
+        public void GetFontStyles(ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
             var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
             if (tables.Count > 0)
@@ -251,7 +254,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create cell.
-        private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, PdfCellStyleOverride CellStyle)
+        private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, PdfCellStyle CellStyle)
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
@@ -267,7 +270,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create merged cell.
-        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, List<string> checkedMergedCells, double x, double y)
+        private void HandleMergedCell(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, List<string> checkedMergedCells, double x, double y)
         {
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
             if (!checkedMergedCells.Contains(mergeAddress))
@@ -297,7 +300,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create content.
-        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, double x, double y, double width, double height, int zOrder)
+        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, int zOrder)
         {
             if (!string.IsNullOrEmpty(cell.Text))
             {
@@ -308,7 +311,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create Edge borders.
-        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfCellStyleOverride tableStyle, double x, double y, double width, double height)
+        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfCellStyle tableStyle, double x, double y, double width, double height)
         {
             bool edges = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style }.All(s => s == ExcelBorderStyle.None);
             bool edges2 = new[] { tableStyle.dxfTop, tableStyle.dxfBottom, tableStyle.dxfLeft, tableStyle.dxfRight }.Any(s => s != null && s.HasValue);
@@ -323,7 +326,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create Diagonal borders.
-        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, PdfCellStyleOverride TableStyle, double x, double y, double width, double height)
+        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, PdfCellStyle TableStyle, double x, double y, double width, double height)
         {
             bool diagonals = new[] { cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
             if (!diagonals)
@@ -347,6 +350,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        //Get the width of the character 0 from the current themes default font style. It's used to calculate width of cells.
         private double GetThemeFont0Width(ExcelWorksheet ws)
         {
             FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();

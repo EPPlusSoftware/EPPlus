@@ -25,10 +25,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfCellLayout : Transform, IShadingLayout
     {
+        public ExcelRangeBase cell;
         public PdfCellFillData CellFillData;
-        public PdfCellStyleOverride CellStyle;
+        public PdfCellStyle CellStyle;
 
-        public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             if (cell != null)

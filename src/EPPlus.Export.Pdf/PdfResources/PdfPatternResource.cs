@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects.PdfPatterns;
-using EPPlus.Export.Pdf.PdfObjects.PdfShadings;
 using OfficeOpenXml.Style;
 
 namespace EPPlus.Export.Pdf.PdfResources

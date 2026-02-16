@@ -15,6 +15,9 @@ using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    /// <summary>
+    /// Represents the pages object in the pdf document.
+    /// </summary>
     internal class PdfPagesLayout : Transform
     {
         internal ExcelRangeBase Range;

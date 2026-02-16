@@ -13,13 +13,10 @@
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {

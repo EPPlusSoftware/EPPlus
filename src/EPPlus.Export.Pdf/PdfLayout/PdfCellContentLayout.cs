@@ -10,16 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfFontData;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
@@ -33,8 +30,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
-        public PdfCellStyleOverride CellStyle;
+        public PdfCellStyle CellStyle;
         public ShapedText ShapedText;
+        public ExcelRangeBase cell;
 
         internal PdfCellTextItem fontdata;
 
@@ -44,11 +42,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
         internal static MeasurementFont font = new MeasurementFont();
 
-        public PdfCellContentLayout(ExcelRangeBase cell, PdfCellStyleOverride CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
+        public PdfCellContentLayout(ExcelRangeBase cell, PdfCellStyle CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
             this.CellStyle = CellStyle;
+
             if (cell.IsRichText)
             {
                 //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
@@ -75,7 +74,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CheckClipping(cell, width);
         }
 
-        private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyleOverride CellStyle)
+        private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
         {
             bool bold = false, italic = false, underline = false, strike = false;
             ExcelUnderLineType underLineType = ExcelUnderLineType.None;
@@ -138,7 +137,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyleOverride CellStyle)
+        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
         {
             List<PdfCellTextItem> characters = new List<PdfCellTextItem>();
             List<PdfCellWord> Words = new List<PdfCellWord>();
@@ -198,7 +197,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     character.TextLength = result.Width;
                     character.LineHeight = result.Height;
                     character.FontHeight = result.FontHeight;
-                    var fontData = GetFontResourceData(dictionaries.Fonts, pageSettings, character);
+                    var fontData = PdfFontResource.GetFontResourceData(dictionaries.Fonts, pageSettings, character);
                     double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
                     character.GlyphBox = new Rect();
                     character.GlyphBox.Width = gbox;
@@ -351,23 +350,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 }
             }
             Lines.Lines.RemoveAll(l => l.Words.Count <= 0);
-        }
-
-        //Get font data from fontResources. If font does not exsist, add it to fontResources.
-        private OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfCellTextItem FontData)
-        {
-            if (!fontResources.ContainsKey(FontData.FullFontName))
-            {
-                int label = 1;
-                if (fontResources.Count > 0)
-                {
-                    label = fontResources.Last().Value.labelNumber + 1;
-                }
-                PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
-                fontResources.Add(FontData.FullFontName, fr);
-                fontResources.Last().Value.fontData = PdfTextData.GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
-            }
-            return fontResources[FontData.FullFontName].fontData;
         }
 
         //Calculate text position from alignment and offsets for each line of text.
