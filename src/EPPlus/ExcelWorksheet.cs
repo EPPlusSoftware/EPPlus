@@ -15,9 +15,12 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.Data.Connection.IOHandlers;
+using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -34,6 +37,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -42,6 +46,10 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,16 +57,9 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.FileUtils;
-using OfficeOpenXml.Utils.String;
-using OfficeOpenXml.Core.RangeQuadTree;
-using OfficeOpenXml.Data.QueryTable;
-using OfficeOpenXml.Data.Connection.IOHandlers;
-using System.Security.Permissions;
 
 namespace OfficeOpenXml
 {
@@ -1708,14 +1709,15 @@ namespace OfficeOpenXml
                             {
                                 CellAddress = new ExcelAddress(this.Name, row, col, row, col),
                                 AltText = rdWi.Text,
-                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
+                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None,
+                                ExternalAddress = rdWi.ExternalAddressUri
                             };
                             Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
                             SetValueInner(row, col, pic);
 
                             //Add picture to the workbook cache
                             var picManager = new CellPicturesManager(this);
-                            var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                            var cacheKey = new WebPictureCacheKey(rdWi.ExternalAddressUri, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
                             picManager.ReadAndAddReference(cacheKey, currentVm);
 
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
