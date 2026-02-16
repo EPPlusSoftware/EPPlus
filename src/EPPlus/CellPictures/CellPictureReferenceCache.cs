@@ -43,6 +43,17 @@ namespace OfficeOpenXml.CellPictures
             return _referenceCache.ContainsKey(key);
         }
 
+        public int GetNumberOfReferences(PictureCacheKey pictureCacheKey)
+        {
+            int refNum = 0;
+            var key = pictureCacheKey.Key;
+            if (_referenceCache.ContainsKey(key))
+            {
+                refNum = _referenceCache[key].NumberOfReferences;
+            }
+            return refNum;
+        }
+
         public void Add(PictureCacheKey pictureCacheKey, uint vmId)
         {
             var key = pictureCacheKey.Key;

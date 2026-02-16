@@ -1678,6 +1678,7 @@ namespace OfficeOpenXml
                     {
                         var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
                         rd?.SetStructure(_package.Workbook.RichData.Db);
+
                         if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
                         {
                             var rdLi = rd.As.LocalImage;
@@ -1689,6 +1690,12 @@ namespace OfficeOpenXml
                             };
                             Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdLi.ImageUri, null);
                             SetValueInner(row, col, pic);
+
+                            //Add picture to the workbook cache
+                            var picManager = new CellPicturesManager(this);
+                            var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                            picManager.ReadAndAddReference(cacheKey, currentVm);
+
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
                                 xr.Read();
@@ -1705,6 +1712,12 @@ namespace OfficeOpenXml
                             };
                             Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
                             SetValueInner(row, col, pic);
+
+                            //Add picture to the workbook cache
+                            var picManager = new CellPicturesManager(this);
+                            var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                            picManager.ReadAndAddReference(cacheKey, currentVm);
+
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
                                 xr.Read();

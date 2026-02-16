@@ -361,6 +361,11 @@ namespace OfficeOpenXml.CellPictures
             return imageInfo;
         }
 
+        internal void ReadAndAddReference(PictureCacheKey key, uint vmId)
+        {
+            _referenceCache.Add(key, vmId);
+        }
+
         public void RemoveCellPicture(int row, int col)
         {
             if (!_richDataStore.HasRichData(row, col, out uint vmId)) return;
