@@ -1694,8 +1694,9 @@ namespace OfficeOpenXml
 
                             //Add picture to the workbook cache
                             var picManager = new CellPicturesManager(this);
-                            var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
-                            picManager.ReadAndAddReference(cacheKey, currentVm);
+                            picManager.SetCellPicture(row, col, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
+                            //var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                            //picManager.ReadAndAddReference(cacheKey, vmId);
 
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
@@ -1717,9 +1718,14 @@ namespace OfficeOpenXml
 
                             //Add picture to the workbook cache
                             var picManager = new CellPicturesManager(this);
-                            var cacheKey = new WebPictureCacheKey(rdWi.ExternalAddressUri, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
-                            picManager.ReadAndAddReference(cacheKey, currentVm);
-
+                            if (pic.Sizing.HasValue)
+                            {
+                                picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin, pic.Sizing.Value);
+                            }
+                            else
+                            {
+                                picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
+                            }
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
                                 xr.Read();
