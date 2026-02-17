@@ -1634,7 +1634,7 @@ namespace OfficeOpenXml
                         style = 0;
                         SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
                     }
-                    //Meta data. Meta data is only preserved by EPPlus at this point
+                    //Cell metadata/Value metadata
                     var cm = xr.GetAttribute("cm");
                     var vm = xr.GetAttribute("vm");
                     if (cm != null || vm != null)
@@ -1678,60 +1678,12 @@ namespace OfficeOpenXml
 
                     if (currentVm > 0)
                     {
-                        var vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
-
-                        var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
-                        rd?.SetStructure(_package.Workbook.RichData.Db);
-
-                        if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                        var richValue = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        if (richValue != null && richValue.IsCellImage)
                         {
-                            var rdLi = rd.As.LocalImage;
-                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
-                            {
-                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                AltText = rdLi.Text,
-                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
-                            };
-                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdLi.ImageUri, null);
-                            SetValueInner(row, col, pic);
-
-                            //Add picture to the workbook cache
-                            //picManager.SetCellPicture(row, col, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
                             var picManager = new CellPicturesManager(this);
-                            var cacheKey = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
-                            picManager.ReadAndAddReference(cacheKey, vmId);
-
-                            while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
-                            {
-                                xr.Read();
-                            }
-                        }
-                        else if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
-                        {
-                            var rdWi = rd.As.WebImage;
-                            var pic = new ExcelCellPicture(currentVm, rdWi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.WebImage)
-                            {
-                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                AltText = rdWi.Text,
-                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None,
-                                ExternalAddress = rdWi.ExternalAddressUri
-                            };
-                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
+                            var pic = picManager.InitializeCellPicture(row, col, currentVm, richValue);
                             SetValueInner(row, col, pic);
-
-                            var picManager = new CellPicturesManager(this);
-                            var cacheKey = new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
-                            picManager.ReadAndAddReference(cacheKey, vmId);
-                            //Add picture to the workbook cache
-                            //var picManager = new CellPicturesManager(this);
-                            //if (pic.Sizing.HasValue)
-                            //{
-                            //    picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin, pic.Sizing.Value);
-                            //}
-                            //else
-                            //{
-                            //    picManager.SetWebPicture(row, col, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, pic.CalcOrigin);
-                            //}
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
                                 xr.Read();

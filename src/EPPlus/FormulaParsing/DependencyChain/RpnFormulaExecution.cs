@@ -665,20 +665,6 @@ namespace OfficeOpenXml.FormulaParsing
                     var rv = f._ws._richDataStore.GetRichValue(md.vm);
                     if (rv != null && rv.Structure.Type != "_webimage")
                     {
-                        //handled in "CellPicturesManager.SetCellPicture by _richDataStore.HasValueBeenDeleted(cachedVmId)" for now
-                        //if (rv.Structure.Type == "_localImage")
-                        //{
-                        //    var rvLocalImg = rv.As.LocalImage;
-                        //    if (rvLocalImg.CalcOrigin == CalcOrigins.Reference)
-                        //    {
-                        //        for(int i = 0; i< ws.Workbook.CellPictureReferenceCache.r; i++)
-                        //        {
-
-                        //        }
-                        //        //ws.Workbook.CellPictureReferenceCache
-                        //        //ws.Workbook.CellPictureReferenceCache.RemoveReference(,out int numRefs)
-                        //    }
-                        //}
                         mdb.DeleteMe();
                     }
                     else

@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
@@ -421,11 +422,6 @@ namespace OfficeOpenXml.CellPictures
             return imageInfo;
         }
 
-        internal void ReadAndAddReference(PictureCacheKey key, uint vmId)
-        {
-            _referenceCache.Add(key, vmId);
-        }
-
         public void RemoveCellPicture(int row, int col)
         {
             if (!_richDataStore.HasRichData(row, col, out uint vmId)) return;
@@ -451,6 +447,31 @@ namespace OfficeOpenXml.CellPictures
                 _sheet._metadataStore.SetValue(row, col, mdr);
                 _sheet.Cells[row, col].Value = null;
             }
+        }
+
+        /// <summary>
+        /// Used to initialize cell pictures when loading from file. 
+        /// It reads the rich value for the cell, creates the ExcelCellPicture and adds it to the reference cache.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="currentVm"></param>
+        /// <param name="rv"></param>
+        /// <returns></returns>
+        public ExcelCellPicture InitializeCellPicture(int row, int col, uint currentVm, ExcelRichValue rv)
+        {
+            rv?.SetStructure(_sheet.Workbook.RichData.Db);
+            var vmId = _sheet.Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+            var pic = GetExcelCellPictureByRichValue(rv, row, col, vmId);
+            if (pic == null) return null;
+
+            PictureCacheKey cacheKey = (pic.PictureType == ExcelCellPictureTypes.LocalImage) ? 
+                new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText):
+                new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
+
+            _referenceCache.Add(cacheKey, vmId);
+
+            return pic;
         }
     }
 }
