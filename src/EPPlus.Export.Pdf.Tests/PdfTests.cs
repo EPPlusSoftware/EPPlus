@@ -52,6 +52,7 @@ namespace EPPlusTest.PDF
          * Text: Shrink To Fit
          * Text: Broken text hide when overlapping other cells with text
          * Text: Center vertical text
+         * Text: Render text to image from fonts that are not allowed to be embedded?
          * 
          * Layout: Center on page Horizontal and vertical
          * Layout: Scaling
@@ -65,6 +66,7 @@ namespace EPPlusTest.PDF
          * Layout: Remove empty last page
          * Layout: Calculate width and height of cells more correctly
          * Layout: Fix Mask away stuff outside margins being broken
+         * Layout: clipping rekt should exapnd with text longer than its own cell untiln reaching margin area text outside should create a new page. It also should affect gridlines
          * 
          * Borders: Adjust and make border look better
          * 
@@ -83,8 +85,8 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            //using var p = OpenTemplatePackage("PDFTest.xlsx");
-            using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
             //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
 
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");
@@ -104,7 +106,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest41.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest42.pdf");
         }
 
         static byte[] HexStringToBytes(string hex)

@@ -99,7 +99,7 @@ namespace EPPlus.Export.Pdf
             return null;
         }
 
-        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new?
+        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
         {
             if (PageSettings.EmbeddFonts)

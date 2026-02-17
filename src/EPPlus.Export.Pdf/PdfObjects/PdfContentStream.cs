@@ -18,6 +18,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -122,41 +123,48 @@ namespace EPPlus.Export.Pdf.PdfObjects
         public void AddText(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
             var position = cell.LocalPosition;
-            var text = cell.ShapedText;
             var alignment = cell.CellAlignmentData;
-            var fontData = cell.fontdata;
-            var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
-            //double rot = alignment.TextRotation * System.Math.PI / 180.0;
-            //bool isVertical = alignment.IsVertical;
-            //Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), position.X, position.Y);
-
-            commands.Add("BT");
-            commands.Add($"/{font.Label} {fontData.FontSize.ToPdfString()} Tf");
-            commands.Add($"{position.X.ToPdfString()} {position.Y.ToPdfString()} Td");
-            var sb = new StringBuilder();
-            sb.Append("[");
-            for (int i = 0; i < text.Glyphs.Length; i++)
+            double advanceX = 0;
+            for (int i = 0; i < cell.fontData.Count; i++)
             {
-                var glyph = text.Glyphs[i];
-                sb.Append($"<{glyph.GlyphId:X4}>");
+                var fontData = cell.fontData[i];
+                var text = cell.ShapedText[i];
+                var textLength = text.GetWidthInPoints((float)fontData.FontSize, 2048);
+                var color = fontData.FontColor;
+                var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
+                //double rot = alignment.TextRotation * System.Math.PI / 180.0;
+                //bool isVertical = alignment.IsVertical;
+                //Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), position.X, position.Y);
 
-                int kerning = glyph.XAdvance - glyph.BaseAdvance;
-
-                if (kerning != 0)
+                commands.Add("BT");
+                commands.Add($"/{font.Label} {fontData.FontSize.ToPdfString()} Tf");
+                commands.Add(color.ToFillCommand());
+                commands.Add($"{(position.X + (advanceX)).ToPdfString()} {position.Y.ToPdfString()} Td");
+                var sb = new StringBuilder();
+                sb.Append("[");
+                for (int j = 0; j < text.Glyphs.Length; j++)
                 {
-                    // Convert to PDF units (1000-based) and negate
-                    // PDF uses negative values to ADD space, positive to REMOVE space
-                    double adjustment = -(kerning * 1000.0 /  1000);
-                    sb.Append($" {adjustment.ToString("F0", CultureInfo.InvariantCulture)}");
-                }
+                    var glyph = text.Glyphs[j];
+                    sb.Append($"<{glyph.GlyphId:X4}>");
+                    int kerning = glyph.XAdvance - glyph.BaseAdvance;
+                    
+                    if (kerning != 0)
+                    {
+                        // Convert to PDF units (1000-based) and negate
+                        // PDF uses negative values to ADD space, positive to REMOVE space
+                        double adjustment = -(kerning * 1000.0 / 1000);
+                        sb.Append($" {adjustment.ToPdfStringF0()}");
+                    }
 
-                if (i < text.Glyphs.Length - 1)
-                {
-                    sb.Append(" ");
+                    if (j < text.Glyphs.Length - 1)
+                    {
+                        sb.Append(" ");
+                    }
                 }
+                advanceX += textLength;
+                commands.Add(sb.ToString() + "] TJ");
+                commands.Add("ET");
             }
-            commands.Add(sb.ToString() + "] TJ");
-            commands.Add("ET");
         }
 
         public void AddText(Vector2 position, PdfCellLines lines, PdfCellAlignmentData alignment, PdfDictionaries dictionaries, PdfPageSettings pageSettings)

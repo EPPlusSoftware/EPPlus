@@ -31,10 +31,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool Clip;
         public Rect Clipping;
         public PdfCellStyle CellStyle;
-        public ShapedText ShapedText;
+        public List<ShapedText> ShapedText = new List<ShapedText>();
         public ExcelRangeBase cell;
 
-        internal PdfCellTextItem fontdata;
+        //internal PdfCellTextItem fontData; //This object needs to be remade. Maybe store an ExcelRichTextCollection
+        internal List<PdfCellTextItem> fontData = new List<PdfCellTextItem>();
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
@@ -51,11 +52,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (cell.IsRichText)
             {
                 //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
-                HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
+                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
+                HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
             }
             else
             {
                 cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
+
                 //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
                 HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
                 //HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
@@ -69,7 +72,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
+            //LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); //Need to implement new alignment system for embedding fonts
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y); 
             CheckClipping(cell, width);
         }
@@ -118,7 +121,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     fontdata.SubFamily = FontSubFamily.Italic;
                 }
                 //OpenTypeFont ot = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontdata.FontName, fontdata.SubFamily, true, false);
-                this.fontdata = fontdata;
+                //this.fontdata = fontdata;
+                this.fontData.Add(fontdata);
                 if (!dictionaries.Fonts.ContainsKey(fontdata.FullFontName))
                 {
                     int label = 1;
@@ -525,12 +529,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         internal void CreateTextShape(PdfDictionaries dictionaries)
         {
-            var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
-            var options = ShapingOptions.Default;
-            options.ApplyPositioning = true;
-            options.ApplySubstitutions = true;
-            ShapedText = shaper.Shape(fontdata.Text, options);
-            dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText);
+            foreach (var fontdata in this.fontData)
+            {
+                var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
+                var options = ShapingOptions.Default;
+                options.ApplyPositioning = true;
+                options.ApplySubstitutions = true;
+                ShapedText.Add(shaper.Shape(fontdata.Text, options));
+                dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText.Last());
+            }
         }
     }
 }
