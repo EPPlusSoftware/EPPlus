@@ -1678,11 +1678,11 @@ namespace OfficeOpenXml
 
                     if (currentVm > 0)
                     {
-                        var richValue = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        var richValue = _richDataStore.GetRichValueByOneBasedIndex(currentVm);
                         if (richValue != null && richValue.IsCellImage)
                         {
                             var picManager = new CellPicturesManager(this);
-                            var pic = picManager.InitializeCellPicture(row, col, currentVm, richValue);
+                            var pic = picManager.BuildCellPicture(row, col, currentVm, richValue);
                             SetValueInner(row, col, pic);
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {

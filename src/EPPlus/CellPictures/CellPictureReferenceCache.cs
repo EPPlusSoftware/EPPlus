@@ -26,6 +26,22 @@ namespace OfficeOpenXml.CellPictures
             LastReferenceRemoved?.Invoke(this, new LastReferenceRemovedEventArgs(vmId));
         }
 
+        public static PictureCacheKey CreateKey(ExcelCellPicture picture)
+        {
+            if (picture.PictureType == ExcelCellPictureTypes.LocalImage)
+            {
+                return new LocalImageCacheKey(picture);
+            }
+            else if (picture.PictureType == ExcelCellPictureTypes.WebImage)
+            {
+                return new WebPictureCacheKey(picture);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid pictureType: " + picture.PictureType.ToString());
+            }
+        }
+
         public bool Contains(PictureCacheKey pictureCacheKey, out uint vmId)
         {
             vmId = uint.MaxValue;

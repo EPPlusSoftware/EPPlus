@@ -74,6 +74,11 @@ namespace OfficeOpenXml.RichData
             return rv;
         }
 
+        internal ExcelRichValue GetRichValueByOneBasedIndex(uint index)
+        {
+            return GetRichValueByOneBasedIndex((int)index);
+        }
+
         internal bool HasValueBeenDeleted(uint vmId)
         {
             var valueMetaData = _metadata.Db.ValueMetadata.Get(vmId);

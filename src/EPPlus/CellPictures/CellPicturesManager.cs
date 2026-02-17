@@ -449,26 +449,32 @@ namespace OfficeOpenXml.CellPictures
             }
         }
 
+
         /// <summary>
-        /// Used to initialize cell pictures when loading from file. 
-        /// It reads the rich value for the cell, creates the ExcelCellPicture and adds it to the reference cache.
+        /// Builds an <see cref="ExcelCellPicture"/> for the specified cell during worksheet XML loading.
+        /// This method uses the value metadata index to resolve the corresponding rich value, constructs
+        /// a cell picture when the rich value represents image data, and registers the picture reference
+        /// for internal tracking.
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="currentVm"></param>
-        /// <param name="rv"></param>
-        /// <returns></returns>
-        public ExcelCellPicture InitializeCellPicture(int row, int col, uint currentVm, ExcelRichValue rv)
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <param name="valueMetadataIndex">
+        /// The one-based metadata index read from the worksheet XML that identifies the rich value.
+        /// </param>
+        /// <param name="fromRichValue">The rich value associated with the cell.</param>
+        /// <returns>
+        /// A constructed <see cref="ExcelCellPicture"/> if the rich value contains image data;
+        /// otherwise, <c>null</c>.
+        /// </returns>
+
+        public ExcelCellPicture BuildCellPicture(int row, int col, uint valueMetadataIndex, ExcelRichValue fromRichValue)
         {
-            rv?.SetStructure(_sheet.Workbook.RichData.Db);
-            var vmId = _sheet.Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
-            var pic = GetExcelCellPictureByRichValue(rv, row, col, vmId);
+            fromRichValue?.SetStructure(_sheet.Workbook.RichData.Db);
+            var vmId = _sheet.Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)valueMetadataIndex - 1);
+            var pic = GetExcelCellPictureByRichValue(fromRichValue, row, col, vmId);
             if (pic == null) return null;
 
-            PictureCacheKey cacheKey = (pic.PictureType == ExcelCellPictureTypes.LocalImage) ? 
-                new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText):
-                new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
-
+            var cacheKey = CellPictureReferenceCache.CreateKey(pic);
             _referenceCache.Add(cacheKey, vmId);
 
             return pic;
