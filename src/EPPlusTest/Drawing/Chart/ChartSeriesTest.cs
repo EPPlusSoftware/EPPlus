@@ -1,14 +1,22 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart
 {
