@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Table.PivotTable.Calculation;
-using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Core.Tests.Table.PivotTable
@@ -68,7 +65,7 @@ namespace EPPlus.Core.Tests.Table.PivotTable
             pt.Fields.AddCalculatedField("Total Comp", "'Basic Pay'+'Overtime'+'Bonus'");
             var df = pt.DataFields.Add(pt.Fields["Total Comp"]);
             df.Function = DataFieldFunctions.Sum;
-            df.Name = "Sum of Total Comp";  // <-- Lägg till detta!
+            df.Name = "Sum of Total Comp"; 
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -101,7 +98,7 @@ namespace EPPlus.Core.Tests.Table.PivotTable
             pt.Fields.AddCalculatedField("All Pay", "'Basic Pay'+'Overtime'+'Bonus'");
             var df = pt.DataFields.Add(pt.Fields["All Pay"]);
             df.Function = DataFieldFunctions.Sum;
-            df.Name = "Sum of All Pay";  // <-- Lägg till detta
+            df.Name = "Sum of All Pay";
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -130,11 +127,11 @@ namespace EPPlus.Core.Tests.Table.PivotTable
 
             var df1 = pt.DataFields.Add(pt.Fields["Base Plus OT"]);
             df1.Function = DataFieldFunctions.Sum;
-            df1.Name = "Sum of Base Plus OT";  // <-- Lägg till detta
+            df1.Name = "Sum of Base Plus OT";
 
             var df2 = pt.DataFields.Add(pt.Fields["Total Comp"]);
             df2.Function = DataFieldFunctions.Sum;
-            df2.Name = "Sum of Total Comp";  // <-- Lägg till detta
+            df2.Name = "Sum of Total Comp";
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -169,7 +166,7 @@ namespace EPPlus.Core.Tests.Table.PivotTable
             pt.Fields.AddCalculatedField("Sum Total", "'Basic Pay'+'Overtime'");
             var df = pt.DataFields.Add(pt.Fields["Sum Total"]);
             df.Function = DataFieldFunctions.Sum;
-            df.Name = "Sum of Sum Total";  // <-- Lägg till detta
+            df.Name = "Sum of Sum Total";
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -201,13 +198,13 @@ namespace EPPlus.Core.Tests.Table.PivotTable
             // Add regular data field first
             var dfBasic = pt.DataFields.Add(pt.Fields["Basic Pay"]);
             dfBasic.Function = DataFieldFunctions.Sum;
-            dfBasic.Name = "Sum of Basic Pay";  // <-- Lägg till detta
+            dfBasic.Name = "Sum of Basic Pay";
 
             // Add calculated field
             pt.Fields.AddCalculatedField("Total", "'Basic Pay'+'Overtime'+'Bonus'");
             var dfCalc = pt.DataFields.Add(pt.Fields["Total"]);
             dfCalc.Function = DataFieldFunctions.Sum;
-            dfCalc.Name = "Sum of Total";  // <-- Lägg till detta
+            dfCalc.Name = "Sum of Total";
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -242,7 +239,7 @@ namespace EPPlus.Core.Tests.Table.PivotTable
                 "'Basic Pay' * 2 + 'Overtime' - 'Bonus'");
             var df = pt.DataFields.Add(pt.Fields["Complex Calc"]);
             df.Function = DataFieldFunctions.Sum;
-            df.Name = "Sum of Complex Calc";  // <-- Lägg till detta!
+            df.Name = "Sum of Complex Calc";
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -276,7 +273,7 @@ namespace EPPlus.Core.Tests.Table.PivotTable
             pt.Fields.AddCalculatedField("Only Calc", "'Basic Pay'+'Overtime'");
             var df = pt.DataFields.Add(pt.Fields["Only Calc"]);
             df.Function = DataFieldFunctions.Sum;
-            df.Name = "Sum of Only Calc";  // <-- Lägg till detta
+            df.Name = "Sum of Only Calc";
 
             // Act
             pt.Calculate(refreshCache: true);
@@ -308,7 +305,7 @@ namespace EPPlus.Core.Tests.Table.PivotTable
             pt.Fields.AddCalculatedField("Total Pay", "'Basic Pay'+'Overtime'+'Bonus'");
             var df = pt.DataFields.Add(pt.Fields["Total Pay"]);
             df.Function = DataFieldFunctions.Sum;
-            df.Name = "Sum of Total Pay";  // <-- Lägg till detta
+            df.Name = "Sum of Total Pay";
 
             // Act
             pt.Calculate(refreshCache: true);

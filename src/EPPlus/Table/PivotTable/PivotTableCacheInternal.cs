@@ -477,15 +477,15 @@ namespace OfficeOpenXml.Table.PivotTable
                 //Update data field index
                 foreach (var df in pt.DataFields)
                 {
-                    // BUGGFIX: Kontrollera om det underliggande fältet finns i den nya fields-listan
-                    // istället för att kolla om df.Index finns i movedFields
+                    // Check if the underlying field still exists in the updated fields list
+                    // by matching field names (case-insensitive)
                     if (df.Field == null || !fields.Any(x => x.Name.Equals(df.Field.Name, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         rmDfFields.Add(df);
                     }
                     else
                     {
-                        // Uppdatera index om fältet har flyttats
+                        // Update the data field's index if the underlying field was moved
                         var newField = fields.FirstOrDefault(x => x.Name.Equals(df.Field.Name, StringComparison.InvariantCultureIgnoreCase));
                         if (newField != null && df.Index != newField.Index)
                         {
