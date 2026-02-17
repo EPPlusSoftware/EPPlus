@@ -165,6 +165,25 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(1, p.Workbook.Worksheets[0].Drawings.Count);
             SaveAndCleanup(p);
         }
+
+        [TestMethod]
+        public void i2278()
+        {
+            using (var package = OpenTemplatePackage("i2278.xlsx"))
+            {
+                using var target = new ExcelPackage();
+                var targetSheet = target.Workbook.Worksheets.Add("Sheet1");
+
+                var worksheet = package.Workbook.Worksheets[0];
+
+                foreach (var drawing in worksheet.Drawings)
+                {
+                    drawing.Copy(targetSheet, drawing.From.Row, drawing.From.Column, drawing.From.RowOff, drawing.From.ColumnOff);
+                }
+
+                SaveAndCleanup(package); 
+            }
+        }
     }
 }
 
