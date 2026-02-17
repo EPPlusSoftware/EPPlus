@@ -19,6 +19,7 @@ using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.IO;
+using OfficeOpenXml.FormulaParsing.Utilities;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -27,7 +28,6 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartStandardSerie : ExcelChartSerie
     {
         private readonly bool _isPivot;
-
 
         double[] _NumberLiteralsY = null;
         double[] _NumberLiteralsX = null;
@@ -598,8 +598,9 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 CreateCache(XSeries, node);
             }
+
         }
-        private void CreateCache(string address, XmlNode node)
+        internal void CreateCache(string address, XmlNode node)
         {
             //var ws = _chart.WorkSheet;
             var wb = _chart.WorkSheet.Workbook;
@@ -647,11 +648,21 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = cse.Value._value;
                 if (v != null)
                 {
-                    var d = Utils.TypeConversion.ConvertUtil.GetValueDouble(v);
+                    string xmlValue = "";
+                    if(v.IsNumeric())
+                    {
+                        var d = Utils.TypeConversion.ConvertUtil.GetValueDouble(v);
+                        xmlValue = Utils.TypeConversion.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904);
+                    }
+                    else
+                    {
+                        xmlValue = string.Format(CultureInfo.InvariantCulture, v.ToString());
+                    }
+
                     var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
                     node.AppendChild(ptNode);
                     ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
-                    ptNode.InnerXml = $"<c:v>{Utils.TypeConversion.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
+                    ptNode.InnerXml = $"<c:v>{xmlValue}</c:v>";
                     items++;
                 }
             }

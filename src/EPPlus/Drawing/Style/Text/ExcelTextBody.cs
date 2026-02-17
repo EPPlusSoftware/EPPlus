@@ -412,5 +412,10 @@ namespace OfficeOpenXml.Drawing
                 element.SetAttribute(a.Name, a.NamespaceURI, a.Value);
             }
         }
+
+        //internal ExcelParagraph GetFirstParagraph()
+        //{
+        //    //$"{_path}/a:spAutoFit"
+        //}
     }
 }

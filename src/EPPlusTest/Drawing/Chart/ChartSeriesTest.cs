@@ -328,41 +328,32 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void ReadFile()
         {
-            using (var package = OpenTemplatePackage("S1008.xlsx"))
+            using (var package = OpenTemplatePackage("S1008_NoComment.xlsx"))
             {
                 var ws = package.Workbook.Worksheets[0];
 
-                //var myChart = ws.Drawings[0].As.Chart.ChartExtended;
                 var chart = ws.Drawings[0].As.Chart.LineChart;
 
-                //var myRect = ws.Drawings.AddShape("MyShape", eShapeStyle.Rect);
+                //var label = chart.Series[0].DataLabel.DataLabels[20];
 
-                //ws.Calculate();
+                //var paraStr = label.GetExistingParagraphStrings();
+                //label.OverWriteText("Mislabeled resistors - wrong part defects");
 
-                //ws.Workbook.Calculate();
-                ////chart.Series.lab
-                ////var chart = ws.Drawings[0].As.Chart.Type<typeof(cType)>;
+                //var paraStr2 = label.GetExistingParagraphStrings();
 
-                //var theCustomLabels = chart.Series[0].DataLabel.DataLabels;
+                chart.Series[0].DataLabel.SelectRange(ws.Cells["E2:E53"]);
 
-                //var addedLabel = theCustomLabels.Add(21);
+                //chart.Series[0]
 
-                //var label21 = theCustomLabels[21];
-                //var label26 = theCustomLabels[26];
+                //chart.Series[0].XSeries = $"{{'Test{1}','Test{2}'}}";
 
-                //var aNode = (XmlElement)label21.TopNode;
+                //string myComment = "Mislabeled resistors - wrong part defects";
 
-                //var idxNodeUnderDataLabel = myChart.SelectSingleNode($@"//c:dLbl/c:idx[@val='{20}']", nsm);
-                //var paragraphNodeForTheText = idxNodeUnderDataLabel.ParentNode.SelectSingleNode("c:tx/c:rich/a:p", nsm);
+                //CommentOnDataLabel(myChart, 0,20, myComment);
 
 
+                //Save workbook
 
-                var myChart = chart.ChartXml;
-
-                string myComment = "Mislabeled resistors - wrong part defects";
-
-                //CommentOnDataLabel(myChart, 0, 21, myComment);
-                CommentOnDataLabel(myChart, 0,20, myComment);
                 //ready namespace manager
                 //var nsm = new XmlNamespaceManager(myChart.NameTable);
                 //nsm.AddNamespace(@"c", @"http://schemas.openxmlformats.org/drawingml/2006/chart");

@@ -13,7 +13,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Emit;
+using System.ComponentModel;
+using System.Data;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -31,14 +32,25 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             SchemaNodeOrder = schemaNodeOrder;
             _list = new List<ExcelChartDataLabelItem>();
-            foreach (XmlNode dataLabelNode in TopNode.SelectNodes("c:dLbl", ns))
+            var existingDataLabelNodes = TopNode.SelectNodes("c:dLbl", ns);
+            foreach (XmlNode dataLabelNode in existingDataLabelNodes)
             {
                 _list.Add(new ExcelChartDataLabelItem(chart, ns, dataLabelNode, "", schemaNodeOrder));
             }
 
             parentDatalabel = parent;
             _chart = chart;
+
         }
+
+        internal void InitializeDataLabelsXml()
+        {
+            if(_list.Count == 0)
+            {
+                var seriesNode = TopNode.ParentNode;
+            }
+        }
+
         /// <summary>
         /// Adds a new chart label to the collection
         /// </summary>

@@ -144,7 +144,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(showSerPath, value ? "1" : "0");
             }
         }
-        const string showPerentPath = "c:showPercent/@val";
+        const string showPercentPath = "c:showPercent/@val";
         /// <summary>
         /// Show percent values
         /// </summary>
@@ -152,11 +152,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool(showPerentPath);
+                return GetXmlNodeBool(showPercentPath);
             }
             set
             {
-                SetXmlNodeString(showPerentPath, value ? "1" : "0");
+                SetXmlNodeString(showPercentPath, value ? "1" : "0");
             }
         }
         const string showLeaderLinesPath = "c:showLeaderLines/@val";
@@ -252,6 +252,29 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     SetXmlNodeString(separatorPath, value);
                 }
+            }
+        }
+
+        internal void AddExtFieldTableEmpty()
+        {
+            CreateNode($"{extPath}/c15:dlblFieldTable");
+        }
+
+        
+        internal bool ShowDatalabelsRange
+        {
+            get
+            {
+                return GetXmlNodeBool($"{extPath}/c15:showDataLabelsRange");
+            }
+            set
+            {
+                var rangePath = $"{extPath}/c15:showDataLabelsRange";
+                if(ExistsNode(rangePath) == false)
+                {
+                    CreateNode(rangePath);
+                }
+                SetBoolNode(rangePath, value);
             }
         }
     }

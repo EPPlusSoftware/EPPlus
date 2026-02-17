@@ -297,6 +297,11 @@ namespace OfficeOpenXml.CellPictures
             }
         }
 
+        internal void ReadAndAddReference(PictureCacheKey key, uint vmId)
+        {
+            _referenceCache.Add(key, vmId);
+        }
+
         private void AddReferenceToPicture(int row, int col, PictureCacheKey key, uint vmId)
         {
             var rv = _richDataStore.GetRichValue(vmId);
