@@ -70,6 +70,23 @@ namespace OfficeOpenXml
                 return _imageSettings;
             }
         }
+
+        private ExcelCalculationCacheSettings _calculationCacheSettings = null;
+
+        /// <summary>
+        /// Cache settings for formula calculation optimization.
+        /// </summary>
+        public ExcelCalculationCacheSettings CalculationCacheSettings
+        {
+            get
+            {
+                if (_calculationCacheSettings == null)
+                {
+                    _calculationCacheSettings = new ExcelCalculationCacheSettings();
+                }
+                return _calculationCacheSettings;
+            }
+        }
         /// <summary>
         /// Any auto- or table- filters created will be applied on save.
         /// In the case you want to handle this manually, set this property to false.

@@ -415,6 +415,17 @@ namespace EPPlusTest
             Assert.AreEqual(288, p.Workbook.Worksheets[0].Cells["E31"].StyleID);
             SaveWorkbook("i1839-saved.xlsx", p);
         }
+        [TestMethod]
+        public void s1007()
+        {
+            using var p = OpenPackage("s1007.xlsx");
+            var worksheet = p.Workbook.Worksheets.Add("Sheet1");
+            worksheet.Cells["A1"].Style.Numberformat.Format = "#.##0;-#.##0;X";
+            worksheet.Cells["A1"].Value = 0;
+            Assert.AreEqual("X", worksheet.Cells["A1"].Text);
+            //SaveAndCleanup(p);
+        }
+
 
         [TestMethod]
         public void s1005()

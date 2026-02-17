@@ -697,6 +697,51 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return FromRow == ToRow && FromCol == ToCol;
             }
         }
+
+
+        private bool? _hasFormulas; // Nullable for lazy evaluation
+
+        /// <summary>
+        /// Returns true of the address contains formulas. 
+        /// This is used to determine if we can use cached flattened ranges or if we need to evaluate 
+        /// the formulas in the range to get the correct values. The result is cached for performance.
+        /// </summary>
+        /// <param name="package">The <see cref="ExcelPackage"/> that contains the address</param>
+        /// <returns></returns>
+        public bool HasFormulas(ExcelPackage package)
+        {
+            if (_hasFormulas.HasValue) return _hasFormulas.Value;
+
+            if (package == null || WorksheetIx < 0)
+            {
+                _hasFormulas = false;
+                return false;
+            }
+
+            var ws = package.Workbook.GetWorksheetByIndexInList(WorksheetIx);
+            if (ws == null)
+            {
+                _hasFormulas = false;
+                return false;
+            }
+
+            // Check if range contains formulas
+            for (var row = FromRow; row <= ToRow; row++)
+            {
+                for (var col = FromCol; col <= ToCol; col++)
+                {
+                    if (ws._formulas.GetValue(row, col) != null)
+                    {
+                        _hasFormulas = true;
+                        return true;
+                    }
+                }
+            }
+
+            _hasFormulas = false;
+            return false;
+        }
+
         /// <summary>
         /// Empty
         /// </summary>

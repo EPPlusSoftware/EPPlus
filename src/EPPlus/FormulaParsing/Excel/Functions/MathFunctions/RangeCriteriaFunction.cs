@@ -10,10 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -21,6 +18,10 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 
@@ -45,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    if(arg.Address!=null && arg.Address.FromRow!=arg.Address.ToRow && arg.Address.FromCol != arg.Address.ToCol)
+                    if (arg.Address != null && arg.Address.FromRow != arg.Address.ToRow && arg.Address.FromCol != arg.Address.ToCol)
                     {
                         var wsIx = arg.Address.WorksheetIx < 0 ? context.CurrentCell.WorksheetIx : arg.Address.WorksheetIx;
                         var rangeInfo = context.ExcelDataProvider.GetRange(wsIx, arg.Address.FromRow, arg.Address.FromCol);
@@ -107,31 +108,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         protected bool Evaluate(object obj, object expression, ParsingContext ctx, bool convertNumericString = true)
         {
-            if(expression is ExcelErrorValue e)
+            if (expression is ExcelErrorValue e)
             {
                 if (obj == null) return false;
                 return obj.Equals(e);
             }
 
-            if(obj is bool b1)
+            if (obj is bool b1)
             {
-                if(expression is bool b2)
+                if (expression is bool b2)
                 {
                     return b1 == b2;
                 }
-                else if(expression != null && bool.TryParse(expression.ToString(), out bool b3))
+                else if (expression != null && bool.TryParse(expression.ToString(), out bool b3))
                 {
                     return b1 == b3;
                 }
                 return false;
             }
 
-            var expressionEvaluator = new ExpressionEvaluator(ctx);
+            var expressionEvaluator = ctx.ExpressionEvaluator;
             double? candidate = default(double?);
             if (IsNumeric(obj))
             {
                 candidate = ConvertUtil.GetValueDouble(obj);
-                if(IsNumeric(expression))
+                if (IsNumeric(expression))
                 {
                     var dblE = ConvertUtil.GetValueDouble(expression);
                     var compResult = candidate.Value.CompareTo(dblE);
@@ -139,22 +140,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
             }
 
-            var expressionString = expression==null ? string.Empty : expression.ToString();
+            var expressionString = expression == null ? string.Empty : expression.ToString();
             if (candidate.HasValue)
             {
                 return expressionEvaluator.Evaluate(candidate.Value, expressionString, convertNumericString);
             }
-            return expressionEvaluator.Evaluate(obj, expressionString, convertNumericString);        
+            return expressionEvaluator.Evaluate(obj, expressionString, convertNumericString);
         }
+
         protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, object searched, ParsingContext ctx, bool convertNumericString = true)
         {
-            var expressionEvaluator = new ExpressionEvaluator(ctx);
+            // Try to get from cache if we have a range with address
+            if (rangeOrValue.Range != null && rangeOrValue.Range.Address != null && searched != null)
+            {
+                var cached = ctx.RangeCriteriaCache?.GetMatchIndexes(rangeOrValue.Range.Address, searched);
+                if (cached != null)
+                {
+                    return cached;
+                }
+            }
+
             var result = new List<int>();
             var internalIndex = 0;
+
             if (rangeOrValue.Range != null)
             {
                 var rangeInfo = rangeOrValue.Range;
                 var address = rangeInfo.GetAddressDimensionAdjusted(0).Address;
+
                 for (var row = address.FromRow; row <= address.ToRow; row++)
                 {
                     for (var col = address.FromCol; col <= address.ToCol; col++)
@@ -165,6 +178,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         {
                             if (searched is RangeOrValue critRange)
                             {
+                                // Handle range criteria (less common case) - use original Evaluate
                                 if (critRange.Range != null)
                                 {
                                     foreach (var cell in critRange.Range)
@@ -175,7 +189,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                                         }
                                     }
                                 }
-                                else if(critRange.Value != null && Evaluate(candidate, critRange.Value, ctx, convertNumericString))
+                                else if (critRange.Value != null && Evaluate(candidate, critRange.Value, ctx, convertNumericString))
                                 {
                                     result.Add(internalIndex);
                                 }
@@ -190,23 +204,32 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            else if (Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
+            else if (searched != null && Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
             {
                 result.Add(internalIndex);
             }
+
+            // Cache the result if we have a range with address
+            // Pass rangeHasFormulas flag so cache knows whether to store it
+            if (rangeOrValue.Range != null && rangeOrValue.Range.Address != null && searched != null)
+            {
+                ctx.RangeCriteriaCache?.SetMatchIndexes(rangeOrValue.Range.Address, searched, result);
+            }
+
             return result;
         }
+
         protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(IRangeInfo valueRange, IEnumerable<int> matchIndexes, ref Queue<FormulaRangeAddress> addresses)
         {
-            if(addresses==null)
+            if (addresses == null)
             {
-                addresses=new Queue<FormulaRangeAddress>();
+                addresses = new Queue<FormulaRangeAddress>();
             }
             var pIx = int.MinValue;
             var valueAddress = valueRange.GetAddressDimensionAdjusted(0);
             var extRef = valueAddress.ExternalReferenceIx;
             var wsIx = valueAddress.WorksheetIx;
-            FormulaRangeAddress currentAddress=null;
+            FormulaRangeAddress currentAddress = null;
             if (valueAddress.FromCol == valueAddress.ToCol)
             {
                 var c = valueAddress.FromCol;
@@ -246,7 +269,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             return addresses;
         }
-        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, int maxIndex=31)
+        protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, ParsingContext ctx, int maxIndex = 31, bool convertNumericStrings = true)
         {
             //Return the addresses matching the criteria in the queue
             var argRanges = new List<RangeOrValue>();
@@ -273,16 +296,58 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     criteria.Add(new RangeOrValue { Value = args[ix + 1].ResultValue });
                 }
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], null);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], ctx, convertNumericStrings);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], null);
+                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], ctx, convertNumericStrings);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 
             return matchIndexes;
         }
 
+        protected void GetFilteredValueRange(
+            ParsingContext context, 
+            IRangeInfo valueRange, 
+            List<RangeOrValue> argRanges,
+            List<RangeOrValue> criterias,
+            int row,
+            int col,
+            out List<int> matchIndexes,
+            out List<object> flattenedRange,
+            bool convertNumericString = true)
+        {
+            matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criterias[0], row, col), context, convertNumericString);
+
+            if (argRanges.Count > 1)
+            {
+                var hashSet = new HashSet<int>(matchIndexes);
+                for (var ix = 1; ix < argRanges.Count && hashSet.Count > 0; ix++)
+                {
+                    var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criterias[ix], row, col), context, convertNumericString);
+                    hashSet.IntersectWith(indexes);
+                }
+                matchIndexes = hashSet.ToList();
+            }
+
+            // Try to get flattened range from cache only if it doesn't have formulas
+            var valueAddress = valueRange.Address;
+            if (valueAddress != null && !valueAddress.HasFormulas(context.Package))
+            {
+                flattenedRange = context.RangeCriteriaCache?.GetFlattenedRange(valueAddress);
+                if (flattenedRange == null)
+                {
+                    // Not in cache, flatten and cache it
+                    flattenedRange = RangeFlattener.FlattenRangeObject(valueRange);
+                    context.RangeCriteriaCache?.SetFlattenedRange(valueAddress, flattenedRange);
+                }
+            }
+            else
+            {
+                // Has formulas or no address - don't cache, always flatten fresh
+                flattenedRange = RangeFlattener.FlattenRangeObject(valueRange);
+            }
+        }
     }
 }

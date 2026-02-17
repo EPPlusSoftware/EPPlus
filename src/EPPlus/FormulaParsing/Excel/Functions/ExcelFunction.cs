@@ -122,8 +122,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="args">The function arguments that will be supplied to the execute method.</param>
         /// <param name="index">The index of the argument that should be adjusted.</param>
+        /// <param name="ctx">The parsing context</param>
         /// <param name="addresses">A queue of addresses that will be calculated before calling the Execute function.</param>
-        public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             
         }
