@@ -8,6 +8,7 @@ using OfficeOpenXml;
 using System.IO;
 using System.Globalization;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest
 {
@@ -414,6 +415,96 @@ namespace EPPlusTest
             Assert.AreEqual(288, p.Workbook.Worksheets[0].Cells["E31"].StyleID);
             SaveWorkbook("i1839-saved.xlsx", p);
         }
+        [TestMethod]
+        public void s1007()
+        {
+            using var p = OpenPackage("s1007.xlsx");
+            var worksheet = p.Workbook.Worksheets.Add("Sheet1");
+            worksheet.Cells["A1"].Style.Numberformat.Format = "#.##0;-#.##0;X";
+            worksheet.Cells["A1"].Value = 0;
+            Assert.AreEqual("X", worksheet.Cells["A1"].Text);
+            //SaveAndCleanup(p);
+        }
+
+
+        [TestMethod]
+        public void s1005()
+        {
+            SwitchToCulture("de-DE");
+
+            //Set specific built-in formats
+            if (!ExcelPackageSettings.CultureSpecificBuildInNumberFormats.ContainsKey("de-DE"))
+            {
+                ExcelPackageSettings.CultureSpecificBuildInNumberFormats.Add("de-DE",
+                new Dictionary<int, string>
+                {
+                    {14,"dd.MM.yyyy"},
+                    {15,"dd. MMM yy"},
+                    {16,"dd. MMM"},
+                    {17,"MMM yy"},
+                    {18,"hh:mm AM/PM" },
+                    {22,"dd.MM.yyyy hh:mm"},
+                    {37,"#,##0;-#,##0"},
+                    {38,"#,##0;[Rot]-#,##0"},
+                    {39,"#,##0.00;-#,##0.00"},
+                    {40,"#,##0.00;[Rot]-#,##0.00"},
+                    {47,"mm:ss,f"}
+                });
+            }
+
+            using (var p = OpenTemplatePackage("s1005.xlsx"))
+            {
+                //AND use a Custom Number Format
+                //This caused issues in the Text.cs file when we ran Calculate
+                p.Workbook.NumberFormatToTextHandler = CustomNumberFormatToTextExample;
+
+                var ws1 = p.Workbook.Worksheets[1];
+
+                var origText = ws1.Cells["D8"].Text;
+
+                //Verify cell contents match when test was written
+                Assert.IsTrue(origText.Contains(".8000"));
+                Assert.IsTrue(origText.Contains("(26895559.000)"));
+                Assert.IsTrue(origText.Contains("69928453.64000"));
+
+                ws1.Cells["D8"].Calculate();
+                var cellRich = ws1.Cells["D8"].RichText.Text;
+
+                //Verify formatting has changed appropriately for calculated string
+                Assert.IsTrue(cellRich.Contains("0,80"));
+                Assert.IsTrue(cellRich.Contains("(26.895.559,00)"));
+                Assert.IsTrue(cellRich.Contains("69.928.453,64"));
+
+                SaveAndCleanup(p);
+            }
+
+            SwitchBackToCurrentCulture();
+        }
+
+        private static string CustomNumberFormatToTextExample(NumberFormatToTextArgs options)
+        {
+            var result = options.Text;
+
+            switch (options.Value)
+            {
+                case DateTime dt:
+                    {
+                        switch (options.NumberFormat.Format)
+                        {
+                            case "dd. mmm yy":
+                                result = dt.ToString("dd. mmm yy"); //Return your own formatted text. Example
+                                break;
+                            default:
+                                result = dt.ToString(options.NumberFormat.Format);
+                                break;
+                        }
+                        break;
+                    }
+            }
+
+            return result;
+        }
+
         public class TestData
         {
             public int Id { get; set; }

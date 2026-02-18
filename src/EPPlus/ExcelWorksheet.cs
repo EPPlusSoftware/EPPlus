@@ -15,9 +15,12 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.Data.Connection.IOHandlers;
+using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -34,6 +37,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -42,6 +46,10 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,16 +57,9 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.FileUtils;
-using OfficeOpenXml.Utils.String;
-using OfficeOpenXml.Core.RangeQuadTree;
-using OfficeOpenXml.Data.QueryTable;
-using OfficeOpenXml.Data.Connection.IOHandlers;
-using System.Security.Permissions;
 
 namespace OfficeOpenXml
 {
@@ -1633,7 +1634,7 @@ namespace OfficeOpenXml
                         style = 0;
                         SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
                     }
-                    //Meta data. Meta data is only preserved by EPPlus at this point
+                    //Cell metadata/Value metadata
                     var cm = xr.GetAttribute("cm");
                     var vm = xr.GetAttribute("vm");
                     if (cm != null || vm != null)
@@ -1674,36 +1675,14 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
+
                     if (currentVm > 0)
                     {
-                        var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
-                        rd?.SetStructure(_package.Workbook.RichData.Db);
-                        if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                        var richValue = _richDataStore.GetRichValueByOneBasedIndex(currentVm);
+                        if (richValue != null && richValue.IsCellImage)
                         {
-                            var rdLi = rd.As.LocalImage;
-                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
-                            {
-                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                AltText = rdLi.Text,
-                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
-                            };
-                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdLi.ImageUri, null);
-                            SetValueInner(row, col, pic);
-                            while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
-                            {
-                                xr.Read();
-                            }
-                        }
-                        else if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
-                        {
-                            var rdWi = rd.As.WebImage;
-                            var pic = new ExcelCellPicture(currentVm, rdWi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.WebImage)
-                            {
-                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                AltText = rdWi.Text,
-                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
-                            };
-                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
+                            var picManager = new CellPicturesManager(this);
+                            var pic = picManager.BuildCellPicture(row, col, currentVm, richValue);
                             SetValueInner(row, col, pic);
                             while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {

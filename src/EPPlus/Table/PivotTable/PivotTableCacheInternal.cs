@@ -477,19 +477,25 @@ namespace OfficeOpenXml.Table.PivotTable
                 //Update data field index
                 foreach (var df in pt.DataFields)
                 {
-                    var ix = movedFields.IndexOf(df.Index);
-                    if(ix<0)
+                    // Check if the underlying field still exists in the updated fields list
+                    // by matching field names (case-insensitive)
+                    if (df.Field == null || !fields.Any(x => x.Name.Equals(df.Field.Name, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         rmDfFields.Add(df);
                     }
-                    else if (df.Index != df.Field.Index)
+                    else
                     {
-                        df.Index = df.Field.Index;
+                        // Update the data field's index if the underlying field was moved
+                        var newField = fields.FirstOrDefault(x => x.Name.Equals(df.Field.Name, StringComparison.InvariantCultureIgnoreCase));
+                        if (newField != null && df.Index != newField.Index)
+                        {
+                            df.Index = newField.Index;
+                        }
                     }
                 }
 
                 rmDfFields.ForEach(df => { df.Field.IsDataField = false; pt.DataFields.Remove(df); });
-                if(pt.DataFields.Count==0)
+                if (pt.DataFields.Count == 0)
                 {
                     pt.DeleteNode("d:dataFields");
                 }

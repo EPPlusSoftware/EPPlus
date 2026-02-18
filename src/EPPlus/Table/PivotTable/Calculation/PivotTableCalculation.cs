@@ -57,47 +57,50 @@ namespace OfficeOpenXml.Table.PivotTable
 		};
         internal static bool Calculate(ExcelPivotTable pivotTable, out List<PivotCalculationStore> calculatedItems, out List<Dictionary<int[], HashSet<int[]>>> keys)
         {
-			calculatedItems = new List<PivotCalculationStore>();
-			keys = new List<Dictionary<int[], HashSet<int[]>>>();
+            calculatedItems = new List<PivotCalculationStore>();
+            keys = new List<Dictionary<int[], HashSet<int[]>>>();
             var fieldIndex = pivotTable.RowColumnFieldIndicies;
-			pivotTable.InitCalculation();
-			int dfIx = 0;
-			bool hasCalculatedField = false;
-			foreach(var df in pivotTable.GetFieldsToCalculate())
+            pivotTable.InitCalculation();
+            int dfIx = 0;
+            bool hasCalculatedField = false;
+
+
+            foreach (var df in pivotTable.GetFieldsToCalculate())
             {
-				var dataFieldItems = new PivotCalculationStore();
-				calculatedItems.Add(dataFieldItems);
-				var keyDict = PivotTableCalculation.GetNewKeys();
-				keys.Add(keyDict);
-				if (string.IsNullOrEmpty(df.Field.Cache.Formula))
-				{
-					CalculateField(pivotTable, calculatedItems[calculatedItems.Count - 1], keys, df.Field.Cache, df.Function);
+                var dataFieldItems = new PivotCalculationStore();
+                calculatedItems.Add(dataFieldItems);
+                var keyDict = PivotTableCalculation.GetNewKeys();
+                keys.Add(keyDict);
+
+                if (string.IsNullOrEmpty(df.Field.Cache.Formula))
+                {
+                    CalculateField(pivotTable, calculatedItems[calculatedItems.Count - 1], keys, df.Field.Cache, df.Function);
+
                     SetRowColumnsItemsToHashSets(pivotTable);
 
                     if (df.ShowDataAs.Value != eShowDataAs.Normal)
-					{
-						_calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, keys[dfIx], ref dataFieldItems);
-						calculatedItems[dfIx] = dataFieldItems;
-					}
-				}
-				else
-				{
-					hasCalculatedField=true;
-				}
-				dfIx++;
-			}
+                    {
+                        _calculateShowAs[df.ShowDataAs.Value].Calculate(df, fieldIndex, keys[dfIx], ref dataFieldItems);
+                        calculatedItems[dfIx] = dataFieldItems;
+                    }
+                }
+                else
+                {
+                    hasCalculatedField = true;
+                }
+                dfIx++;
+            }
 
-			CalculateRowColumnSubtotals(pivotTable, keys);
+            CalculateRowColumnSubtotals(pivotTable, keys);
 
             //Handle Calculated fields after the pivot table fields has been calculated.
-			if (hasCalculatedField)
-			{
-				CalculateSourceFields(pivotTable);
-				var ptCalc = new PivotTableColumnCalculation(pivotTable);
-				ptCalc.CalculateFormulaFields(fieldIndex);
-			}
-
-			return true;
+            if (hasCalculatedField)
+            {
+                CalculateSourceFields(pivotTable);
+                var ptCalc = new PivotTableColumnCalculation(pivotTable);
+                ptCalc.CalculateFormulaFields(fieldIndex);
+            }
+            return true;
         }
 
         private static void CalculateRowColumnSubtotals(ExcelPivotTable pivotTable, List<Dictionary<int[], HashSet<int[]>>> keys)
@@ -188,44 +191,98 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         private static void CalculateSourceFields(ExcelPivotTable pivotTable)
-		{
-			var keys = new List<Dictionary<int[], HashSet<int[]>>>();
-			var calcFields = new Dictionary<string, PivotCalculationStore>(StringComparer.InvariantCultureIgnoreCase);
-			foreach(var field in pivotTable.Fields.Where(x=>string.IsNullOrEmpty(x.Cache.Formula)==false).Select(x=>x.Cache))
-			{ 
-				foreach(var token in field.FormulaTokens)
-				{
-					if(token.TokenType==TokenType.PivotField && calcFields.ContainsKey(token.Value)==false)
-					{
-						if(!GetSumCalcItems(pivotTable, token.Value, out PivotCalculationStore store))
-						{
-                            var keyDict = PivotTableCalculation.GetNewKeys();
-							keys.Add(keyDict);
-							store = new PivotCalculationStore();
-							CalculateField(pivotTable, store, keys, pivotTable.Fields[token.Value].Cache, DataFieldFunctions.Sum);
-						}
-						calcFields.Add(token.Value, store);
-					}
-				}
-			}
-			pivotTable.CalculatedFieldReferencedItems = calcFields;
-		}
+        {
+            var keys = new List<Dictionary<int[], HashSet<int[]>>>();
+            var calcFields = new Dictionary<string, PivotCalculationStore>(
+                StringComparer.InvariantCultureIgnoreCase);
 
-		private static bool GetSumCalcItems(ExcelPivotTable pivotTable, string fieldName, out PivotCalculationStore store)
-		{
-			foreach(var ds in pivotTable.DataFields)
-			{
-				if(ds.Field!=null && ds.Field.Name.Equals(fieldName, StringComparison.InvariantCultureIgnoreCase) && ds.Function==DataFieldFunctions.Sum && ds.ShowDataAsInternal == eShowDataAs.Normal)
-				{
-					store = pivotTable.CalculatedItems[ds.Index];
-					return true;
-				}
-			}
-			store = null;
-			return false;
-		}
+            // Find calculated cache fields via DataFields (not pivotTable.Fields)
+            var calcCacheFields = new List<ExcelPivotTableCacheField>();
+            foreach (var df in pivotTable.DataFields)
+            {
+                if (!string.IsNullOrEmpty(df.Field.Cache.Formula))
+                {
+                    if (!calcCacheFields.Contains(df.Field.Cache))
+                    {
+                        calcCacheFields.Add(df.Field.Cache);
+                    }
+                }
+            }
 
-		private static void CalculateField(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, List<Dictionary<int[], HashSet<int[]>>> keys,  ExcelPivotTableCacheField cacheField, DataFieldFunctions function)
+            // Also check transitive dependencies: calculated fields referencing
+            // other calculated fields
+            var cacheFieldsList = pivotTable.CacheDefinition._cacheReference.Fields;
+            for (int i = 0; i < calcCacheFields.Count; i++) // Count may grow during iteration
+            {
+                var cf = calcCacheFields[i];
+                foreach (var token in cf.FormulaTokens)
+                {
+                    if (token.TokenType == TokenType.PivotField)
+                    {
+                        var refCf = cacheFieldsList.FirstOrDefault(
+                            x => x.Name.Equals(token.Value, StringComparison.InvariantCultureIgnoreCase));
+                        if (refCf != null && !string.IsNullOrEmpty(refCf.Formula)
+                            && !calcCacheFields.Contains(refCf))
+                        {
+                            calcCacheFields.Add(refCf);
+                        }
+                    }
+                }
+            }
+
+            // Now resolve each referenced source field for all calculated fields
+            foreach (var cf in calcCacheFields)
+            {
+                foreach (var token in cf.FormulaTokens)
+                {
+                    if (token.TokenType == TokenType.PivotField
+                        && !calcFields.ContainsKey(token.Value))
+                    {
+                        if (!GetSumCalcItems(pivotTable, token.Value, out PivotCalculationStore store))
+                        {
+                            // Look up via cache fields, not pivotTable.Fields
+                            var refCf = cacheFieldsList.FirstOrDefault(
+                                x => x.Name.Equals(
+                                    token.Value, StringComparison.InvariantCultureIgnoreCase));
+                            if (refCf != null && string.IsNullOrEmpty(refCf.Formula))
+                            {
+                                var keyDict = PivotTableCalculation.GetNewKeys();
+                                keys.Add(keyDict);
+                                store = new PivotCalculationStore();
+                                CalculateField(pivotTable, store, keys, refCf, DataFieldFunctions.Sum);
+                            }
+                            else
+                            {
+                                // Referenced field is itself calculated or doesn't exist —
+                                // it will be resolved during CalculateFormulaFields
+                                store = new PivotCalculationStore();
+                            }
+                        }
+                        calcFields.Add(token.Value, store);
+                    }
+                }
+            }
+            pivotTable.CalculatedFieldReferencedItems = calcFields;
+        }
+
+        private static bool GetSumCalcItems(ExcelPivotTable pivotTable, string fieldName, out PivotCalculationStore store)
+        {
+            foreach (var ds in pivotTable.DataFields)
+            {
+                if (ds.Field != null &&
+                   ds.Field.Name.Equals(fieldName, StringComparison.InvariantCultureIgnoreCase) &&
+                   ds.Function == DataFieldFunctions.Sum &&
+                   ds.ShowDataAsInternal == eShowDataAs.Normal)
+                {
+                    store = pivotTable.CalculatedItems[pivotTable.DataFields.IndexOf(ds)];
+                    return true;
+                }
+            }
+            store = null;
+            return false;
+        }
+
+        private static void CalculateField(ExcelPivotTable pivotTable, PivotCalculationStore dataFieldItems, List<Dictionary<int[], HashSet<int[]>>> keys,  ExcelPivotTableCacheField cacheField, DataFieldFunctions function)
 		{
 			var ci = pivotTable.CacheDefinition._cacheReference;
 			var recs = ci.Records;

@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData;
 using System;
 using System.Collections.Generic;
 
@@ -25,6 +26,22 @@ namespace OfficeOpenXml.CellPictures
             LastReferenceRemoved?.Invoke(this, new LastReferenceRemovedEventArgs(vmId));
         }
 
+        public static PictureCacheKey CreateKey(ExcelCellPicture picture)
+        {
+            if (picture.PictureType == ExcelCellPictureTypes.LocalImage)
+            {
+                return new LocalImageCacheKey(picture);
+            }
+            else if (picture.PictureType == ExcelCellPictureTypes.WebImage)
+            {
+                return new WebPictureCacheKey(picture);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid pictureType: " + picture.PictureType.ToString());
+            }
+        }
+
         public bool Contains(PictureCacheKey pictureCacheKey, out uint vmId)
         {
             vmId = uint.MaxValue;
@@ -34,6 +51,7 @@ namespace OfficeOpenXml.CellPictures
             {
                 vmId = _referenceCache[key].VmId; 
             }
+
             return result;
         }
 
@@ -41,6 +59,17 @@ namespace OfficeOpenXml.CellPictures
         {
             var key = pictureCacheKey.Key;
             return _referenceCache.ContainsKey(key);
+        }
+
+        public int GetNumberOfReferences(PictureCacheKey pictureCacheKey)
+        {
+            int refNum = 0;
+            var key = pictureCacheKey.Key;
+            if (_referenceCache.ContainsKey(key))
+            {
+                refNum = _referenceCache[key].NumberOfReferences;
+            }
+            return refNum;
         }
 
         public void Add(PictureCacheKey pictureCacheKey, uint vmId)
