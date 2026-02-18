@@ -88,11 +88,13 @@ namespace OfficeOpenXml.Drawing.Chart
 
             XmlElement ext15Node;
 
-            if (currentSeries.ExistsNode(extPath) == false)
+            var c15Uri = "{02D57815-91ED-43cb-92C2-25804820EDAC}";
+
+            if (currentSeries.ExistsNode(extPath+ $"[@uri='{c15Uri}']") == false)
             {
                 XmlElement el = (XmlElement)currentSeries.CreateNode($"{extPath}");
                 el.SetAttribute("xmlns:c15", ExcelPackage.schemaChart2012);
-                currentSeries.SetXmlNodeString($"{extPath}/@uri", "{02D57815-91ED-43cb-92C2-25804820EDAC}");
+                currentSeries.SetXmlNodeString($"{extPath}/@uri", $"{c15Uri}");
                 ext15Node = el;
             }
             else
@@ -119,7 +121,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
             if(DataLabels.Count == 0)
             {
-                for (int i = 0; i < currentSeries.Series.Count(); i++)
+                for (int i = 0; i < currentSeries.NumberOfItems; i++)
                 {
                     var individualLabel = DataLabels.Add(i);
                     individualLabel.AddExtFieldTableEmpty();

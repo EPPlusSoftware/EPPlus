@@ -274,7 +274,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     CreateNode(rangePath);
                 }
-                SetBoolNode(rangePath, value);
+                SetXmlNodeBool(rangePath+"/@val", value);
             }
         }
     }
