@@ -17,6 +17,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
             var position = cell.LocalPosition;
             var alignment = cell.CellAlignmentData;
             double advanceX = 0;
+
+            double rotation = alignment.TextRotation * System.Math.PI / 180.0;
+            //bool isVertical = alignment.IsVertical;
+
             for (int i = 0; i < cell.fontData.Count; i++)
             {
                 var fontData = cell.fontData[i];
@@ -132,14 +137,52 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 var textLength = text.GetWidthInPoints((float)fontData.FontSize, 2048);
                 var color = fontData.FontColor;
                 var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
-                //double rot = alignment.TextRotation * System.Math.PI / 180.0;
-                //bool isVertical = alignment.IsVertical;
-                //Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), position.X, position.Y);
-
+                double size = fontData.FontSize;
+                double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
+                Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X, position.Y);
                 commands.Add("BT");
-                commands.Add($"/{font.Label} {fontData.FontSize.ToPdfString()} Tf");
+                textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
+                if (fontData.SuperScript)
+                {
+                    var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
+                    var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
+                    var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
+                    textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
+                    size = supSizeY;
+                }
+                else if (fontData.SubScript)
+                {
+                    var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
+                    var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
+                    var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
+                    textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
+                    size = supSizeY;
+                }
+                if (fontData.Underline)
+                {
+                    var underlinePos = font.fontData.PostTable.underlinePosition * scale;
+                    var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
+                    var start = textMatrix.Transform(new Vector2(0, underlinePos));
+                    var end = textMatrix.Transform(new Vector2(textLength, underlinePos));
+                    commands.Add($"{underlineWidth.ToPdfString()} w");
+                    commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                    commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                    commands.Add($"S");
+                }
+                if (fontData.Strike)
+                {
+                    var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
+                    var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
+                    var start = textMatrix.Transform(new Vector2(0, strikePos));
+                    var end = textMatrix.Transform(new Vector2(textLength, strikePos));
+                    commands.Add($"{strikeWidth.ToPdfString()} w");
+                    commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                    commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                    commands.Add($"S");
+                }
+                commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
                 commands.Add(color.ToFillCommand());
-                commands.Add($"{(position.X + (advanceX)).ToPdfString()} {position.Y.ToPdfString()} Td");
+                commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
                 var sb = new StringBuilder();
                 sb.Append("[");
                 for (int j = 0; j < text.Glyphs.Length; j++)
@@ -328,10 +371,15 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             commands.Add($"% Content Start: {cell.Name}");
             commands.Add("q");
+            if (cell.Clip) AddClipping(cell);
             AddText(cell, dictionaries, pageSettings);
-            //AddText(cell.LocalPosition, cell.Lines, cell.CellAlignmentData, dictionaries, pageSettings);
             commands.Add("Q");
             commands.Add($"% Content End: {cell.Name}");
+        }
+
+        private void AddClipping(PdfCellContentLayout cell)
+        {
+            commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
         }
 
         public void AddCellContentLayout(PdfHeaderFooterLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
@@ -405,6 +453,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             var heightAdjust = y - bounds.Bottom;
             commands.Add($"{bounds.X.ToPdfString()} {y.ToPdfString()} {(width - bounds.Left).ToPdfString()} {(bounds.Height - heightAdjust).ToPdfString()} re W n");
+            //commands.Add($"{bounds.X.ToPdfString()} {bounds.Y.ToPdfString()} {bounds.Width.ToPdfString()} {bounds.Height.ToPdfString()} re W n");
         }
 
         internal override string RenderDictionary()
