@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Interfaces;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
 
@@ -24,32 +23,6 @@ namespace OfficeOpenXml
     public class NumberFormatToTextArgs
     {
         internal int _styleId;
-
-        ExcelNumberFormatWithoutId fallbackNumberFormat = null;
-
-        /// <summary>
-        /// If these args are provided from a formula
-        /// </summary>
-        public bool FromFormula = false;
-
-        /// <summary>
-        /// Constructor when numberformat is not built in
-        /// </summary>
-        /// <param name="ws"></param>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
-        /// <param name="value"></param>
-        /// <param name="numberFormat"></param>
-        internal NumberFormatToTextArgs(ExcelWorksheet ws, int row, int column, object value, string numberFormat)
-        {
-            Worksheet = ws;
-            Row = row;
-            Column = column;
-            Value = value;
-            _styleId = -1;
-            fallbackNumberFormat = new ExcelNumberFormatWithoutId(numberFormat);
-        }
-
         internal NumberFormatToTextArgs(ExcelWorksheet ws, int row, int column, object value, int styleId)
         {
             Worksheet = ws;
@@ -74,18 +47,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// The number format settings for the cell
         /// </summary>
-        public IExcelNumberFormat NumberFormat 
-        { 
-            get 
+        public ExcelNumberFormatXml NumberFormat
+        {
+            get
             {
-                if(fallbackNumberFormat != null)
-                {
-                    return fallbackNumberFormat;
-                }
-                else
-                {
-                    return ValueToTextHandler.GetNumberFormat(_styleId, Worksheet.Workbook.Styles);
-                }
+                return ValueToTextHandler.GetNumberFormat(_styleId, Worksheet.Workbook.Styles);
             } 
         } 
         /// <summary>
@@ -98,14 +64,7 @@ namespace OfficeOpenXml
         public string Text
         {
             get
-            { 
-                if(fallbackNumberFormat != null)
-                {
-                    var ft = new ExcelFormatTranslator(NumberFormat.Format, -1);
-                    bool isValidFormat = false;
-                    var frmt = ValueToTextHandler.FormatValue(Value, false, ft, null, out isValidFormat);
-                    return frmt;
-                }
+            {
                 return ValueToTextHandler.GetFormattedText(Value, Worksheet.Workbook, _styleId, false);
             }
         }
