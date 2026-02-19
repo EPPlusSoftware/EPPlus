@@ -74,13 +74,13 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             }
         }
 
-        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment lf, double widthAtSplit)
+        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit)
         {
             //If we are splitting a fragment its position in the new line should be 0
-            var newLineFragment = new LineFragment(lf.RtFragIdx, 0);
-            newLineFragment.Width = lf.Width - widthAtSplit;
+            var newLineFragment = new LineFragment(origLf.RtFragIdx, 0);
+            newLineFragment.Width = origLf.Width - widthAtSplit;
 
-            lf.Width = widthAtSplit;
+            origLf.Width = widthAtSplit;
 
             return newLineFragment;
         }

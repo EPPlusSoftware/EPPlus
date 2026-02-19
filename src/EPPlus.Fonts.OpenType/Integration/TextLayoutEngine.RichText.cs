@@ -270,7 +270,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             state.EndCurrentTextLineAndIntializeNext(state.CurrentFragmentIdx, lineBuilder.Length);
             state.LineFrag.Width = state.CurrentLineWidth;
-
             state.CurrentWordWidth = state.CurrentLineWidth;
 
             state.WordStart = -1;
