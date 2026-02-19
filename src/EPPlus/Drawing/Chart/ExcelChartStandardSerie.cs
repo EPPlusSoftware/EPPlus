@@ -10,16 +10,17 @@
  *************************************************************************************************
   05/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
-using System.Linq;
-using OfficeOpenXml.Core.CellStore;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.IO;
-using OfficeOpenXml.FormulaParsing.Utilities;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -33,6 +34,8 @@ namespace OfficeOpenXml.Drawing.Chart
         double[] _NumberLiteralsX = null;
         string[] _StringLiteralsX = null;
         string[] _StringLiteralsY = null;
+
+        string extPath = "c:extLst/c:ext";
 
         /// <summary>
         /// Literals for the Y serie, if the literal values are numeric
@@ -162,6 +165,55 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             SetXmlNodeString("c:idx/@val", id);
             SetXmlNodeString("c:order/@val", id);
+        }
+        internal void AddExtLstXml()
+        {
+            NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
+            NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
+
+            XmlElement ext15Node;
+
+            var c15Uri = "{02D57815-91ED-43cb-92C2-25804820EDAC}";
+
+            //Only add node if it doesn't already exist
+            if (ExistsNode(extPath + $"[@uri='{c15Uri}']") == false)
+            {
+                XmlElement el = (XmlElement)CreateNode($"{extPath}");
+                el.SetAttribute("xmlns:c15", ExcelPackage.schemaChart2012);
+                SetXmlNodeString($"{extPath}/@uri", $"{c15Uri}");
+                ext15Node = el;
+            }
+            else
+            {
+                ext15Node = (XmlElement)GetNode($"{extPath}");
+            }
+
+            //Only add node if it doesn't already exist
+            if (ExistsNode($"{extPath}[2]") == false)
+            {
+                XmlElement element = (XmlElement)CreateNode($"{extPath}", false, true);
+                element.SetAttribute("xmlns:c16", ExcelPackage.schemaChart2014);
+                SetXmlNodeString($"{extPath}[2]/@uri", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
+                var _guidId = Guid.NewGuid();
+
+                var extNode2 = GetNode($"{extPath}[2]");
+                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueID");
+                uniqueIdNode.SetAttribute("val", $"{{{_guidId}}}");
+            }
+        }
+
+
+        internal void SetDataLabelRange(ExcelRangeBase address)
+        {
+            AddExtLstXml();
+
+            var dlblRangePath = $"{extPath}/c15:datalabelsRange";
+            var datalabelsRange = CreateNode(dlblRangePath);
+            var formulaNode = CreateNode($"{dlblRangePath}/c15:f");
+            formulaNode.InnerText = address.AddressAbsolute;
+
+            var rangeNode = CreateNode($"{dlblRangePath}/c15:dlblRangeCache");
+            CreateCache(address.FullAddressAbsolute, rangeNode);
         }
 
         const string headerPath = "c:tx/c:v";

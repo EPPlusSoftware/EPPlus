@@ -255,7 +255,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal void AddExtFieldTableEmpty()
+        internal void AddEmptyExtFieldTableNode()
         {
             CreateNode($"{extPath}/c15:dlblFieldTable");
         }

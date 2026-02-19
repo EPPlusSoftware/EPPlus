@@ -80,13 +80,8 @@ namespace OfficeOpenXml.Style
                 return _list.Count;
             }
         }
-        /// <summary>
-        /// Add a rich text string
-        /// </summary>
-        /// <param name="Text">The text to add</param>
-        /// <param name="NewParagraph">This will be a new line. Is ignored for first item added to the collection</param>
-        /// <returns></returns>
-        public ExcelParagraph Add(string Text, bool NewParagraph=false)
+
+        private XmlDocument PrepareParagraph(bool newParagraph, out XmlNode parentNode)
         {
             XmlDocument doc;
             if (TopNode is XmlDocument)
@@ -97,29 +92,30 @@ namespace OfficeOpenXml.Style
             {
                 doc = TopNode.OwnerDocument;
             }
-            XmlNode parentNode;
-            if(NewParagraph && _list.Count!=0)
+
+
+            if (newParagraph && _list.Count != 0)
             {
                 parentNode = CreateNode(_path, false, true);
                 _paragraphs.Add((XmlElement)parentNode);
                 var p = _list[0].TopNode.ParentNode.ParentNode.SelectSingleNode("a:pPr", NameSpaceManager);
-                if(p!=null)
+                if (p != null)
                 {
                     parentNode.InnerXml = p.OuterXml;
-                }                
+                }
             }
-            else if(_paragraphs.Count > 1)
+            else if (_paragraphs.Count > 1)
             {
                 parentNode = _paragraphs[_paragraphs.Count - 1];
             }
-            else 
-            {                
+            else
+            {
                 parentNode = CreateNode(_path);
                 _paragraphs.Add((XmlElement)parentNode);
                 var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
                 if (defNode.InnerXml == "")
                 {
-                    ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
+                    ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize * 100).ToString(CultureInfo.InvariantCulture));
                     var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
                     if (normalStyle == null)
                         defNode.InnerXml = "<a:latin typeface=\"Calibri\" /><a:cs typeface=\"Calibri\" />";
@@ -127,6 +123,18 @@ namespace OfficeOpenXml.Style
                         defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
                 }
             }
+            return doc;
+        }
+
+        /// <summary>
+        /// Add a rich text string
+        /// </summary>
+        /// <param name="Text">The text to add</param>
+        /// <param name="NewParagraph">This will be a new line. Is ignored for first item added to the collection</param>
+        /// <returns></returns>
+        public ExcelParagraph Add(string Text, bool NewParagraph=false)
+        {
+            XmlDocument doc = PrepareParagraph(NewParagraph, out XmlNode parentNode);
 
             var node = doc.CreateElement("a", "r", ExcelPackage.schemaDrawings);
             parentNode.AppendChild(node);
@@ -137,6 +145,26 @@ namespace OfficeOpenXml.Style
             _list.Add(rt);
             return rt;
         }
+
+        internal ExcelParagraph AddFieldNode(string fieldType, bool NewParagraph = false)
+        {
+            XmlDocument doc = PrepareParagraph(NewParagraph, out XmlNode parentNode);
+
+            var fldNode = doc.CreateElement("a", "fld", ExcelPackage.schemaDrawings);
+            fldNode.SetAttribute("type", fieldType);
+            var fieldGuid = Guid.NewGuid();
+            fldNode.SetAttribute("id", $"{{{fieldGuid.ToString().ToUpperInvariant()}}}");
+
+            parentNode.AppendChild(fldNode);
+
+            var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
+            fldNode.AppendChild(childNode);
+            var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, fldNode, "", SchemaNodeOrder);
+            rt.Text = $"[{fieldType}]";
+            _list.Add(rt);
+            return rt;
+        }
+
         /// <summary>
         /// Removes all items in the collection
         /// </summary>

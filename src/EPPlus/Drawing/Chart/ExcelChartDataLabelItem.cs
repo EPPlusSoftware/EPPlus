@@ -60,10 +60,18 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Replace datalabel text
         /// </summary>
         /// <param name="replacementText"></param>
-        public void OverWriteText(string replacementText)
+        public void SetText(string replacementText)
         {
             ParagraphCollection.Clear();
             ParagraphCollection.Add(replacementText, true);
+        }
+
+        internal void AddField(string fldType)
+        {
+            //Only add if none exist
+            var addParagraph = ParagraphCollection.Count == 0;
+
+            ParagraphCollection.AddFieldNode(fldType, addParagraph);
         }
 
         internal List<List<string>> GetExistingParagraphStrings()

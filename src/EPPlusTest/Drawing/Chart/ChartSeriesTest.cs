@@ -268,25 +268,81 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
-        public void ReadFile()
+        public void CreateFileWithDataLabelsManualAndGeneral()
+        {
+            using (var p = OpenPackage("dlblMissMatchTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("DataLabelSheet");
+
+                ws.Cells["A1"].Value = "Week";
+                ws.Cells["B1"].Value = "Income";
+
+                ws.Cells["A2:A10"].Formula = $"\"Week \"&(ROW()-1)";
+                ws.Cells["B2:B10"].Formula = $"(ROW()-1)*7";
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddBarChart("columnChart", eBarChartType.ColumnClustered);
+                chart.DataLabel.ShowValue = true;
+                chart.DataLabel.ShowCategory = true;
+
+                var lChart = ws.Drawings.AddLineChart("lChart", eLineChartType.Line);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void TestAddCommentRangeToExistingFile()
         {
             using (var package = OpenTemplatePackage("S1008_NoComment.xlsx"))
             {
                 var ws = package.Workbook.Worksheets[0];
 
-                var chart = ws.Drawings[0].As.Chart.LineChart;
+                ws.Cells["E30"].Value = "Added Comment";
 
+                var chart = ws.Drawings[0].As.Chart.LineChart;
                 chart.Series[0].DataLabel.Separator = " ";
 
                 //Select comment range
-                chart.Series[0].DataLabel.SelectRange(ws.Cells["E1:E53"]);
+                chart.Series[0].DataLabel.SelectRange(ws.Cells["E2:E53"]);
 
-                //Set the relevant labels to not show value
-                chart.Series[0].DataLabel.DataLabels[21].ShowValue = false;
-                chart.Series[0].DataLabel.DataLabels[26].ShowValue = false;
+                //Note that since we start on E2 the datalabel idx becomes 20 for row 22 etc.
+                var label1 = chart.Series[0].DataLabel.DataLabels[20];
+                var label2 = chart.Series[0].DataLabel.DataLabels[25];
+                var label3 = chart.Series[0].DataLabel.DataLabels[28];
+
+                //Set the relevant labels to not show value as we only want them to show comments
+                label1.ShowValue = false;
+                label2.ShowValue = false;
+                label3.ShowValue = false;
+
+                //Get text of all paragraphs on label
+                var textOn1 = label1.GetExistingParagraphStrings();
+                var textOn2 = label2.GetExistingParagraphStrings();
+                var textOn3 = label3.GetExistingParagraphStrings();
+
+                //XforSave is set soley on labels that are not truly neccesary
+
+                //Assert.AreEqual(1, textOn21.Count);
+                //Assert.AreEqual(1, textOn21[0].Count);
+                //Assert.AreEqual("First Comment", textOn21[0][0]);
+
+                //Assert.AreEqual(1, textOn26.Count);
+                //Assert.AreEqual(1, textOn26[0].Count);
+                //Assert.AreEqual("Second Comment", textOn26[0][0]);
+
+                //Assert.AreEqual(1, textOn29.Count);
+                //Assert.AreEqual(1, textOn29[0].Count);
+                //Assert.AreEqual("Added Comment", textOn29[0][0]);
 
                 SaveAndCleanup(package);
             }
+        }
+
+        [TestMethod]
+        public void TestAddCommentRangeToExistingFileThatAlreadyHasOne()
+        {
+
         }
     }
 }
