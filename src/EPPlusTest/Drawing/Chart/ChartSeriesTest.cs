@@ -372,7 +372,7 @@ namespace EPPlusTest.Drawing.Chart
                 chart.Series[0].DataLabel.DataLabels[26].ShowValue = false;
 
                 Assert.AreEqual("E22", chart.Series[0].DataLabel.DataLabels[21].SingleCellAddressFromSeries.Address);
-                Assert.AreEqual("First Comment", ws.Cells["E22"].Text);
+                Assert.AreEqual("First comment", ws.Cells["E22"].Text);
 
                 SaveAndCleanup(package);
             }
