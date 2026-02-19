@@ -39,6 +39,8 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             new NameSubsetProcessor(),
             new HheaSubsetProcessor(),
             new HmtxSubsetProcessor(),
+            new VheaSubsetProcessor(),
+            new VmtxSubsetProcessor(),
             new Os2SubsetProcessor(),
             new PostSubsetProcessor(),
             new KernSubsetProcessor()
@@ -69,7 +71,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
             context.SubsetFont.UsedCodePointsForSubset = new List<uint>(context.UsedCodePoints);
 
-            //context.SubsetFont.SubsetGlyphMapping = new Dictionary<ushort, ushort>(context.OldToNewGlyphId);
+            context.SubsetFont.SubsetGlyphMapping = new Dictionary<ushort, ushort>(context.OldToNewGlyphId);
 
             return context.SubsetFont;
         }
@@ -80,13 +82,11 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var sortedGlyphs = new List<ushort>(context.IncludedGlyphs);
             sortedGlyphs.Sort();
 
-
             for (ushort newId = 0; newId < sortedGlyphs.Count; newId++)
             {
                 ushort oldId = sortedGlyphs[newId];
                 context.OldToNewGlyphId[oldId] = newId;
                 context.NewToOldGlyphId.Add(oldId);
-
             }
         }
     }

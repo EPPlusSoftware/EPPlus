@@ -75,22 +75,22 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// <summary>
         /// Gets single line spacing (baseline-to-baseline) in points.
         /// </summary>
-        double GetLineHeightInPoints(double fontSize);
+        float GetLineHeightInPoints(float fontSize);
 
         /// <summary>
         /// Gets total font height (ascent + descent) in points.
         /// </summary>
-        double GetFontHeightInPoints(double fontSize);
+        float GetFontHeightInPoints(float fontSize);
 
         /// <summary>
         /// Gets baseline distance from top of container in points.
         /// </summary>
-        double GetBaseLineInPoints(double fontSize);
+        float GetBaseLineInPoints(float fontSize);
 
         /// <summary>
         /// Gets descent distance (below baseline) in points.
         /// </summary>
-        double GetDescentInPoints(double fontSize);
+        float GetDescentInPoints(float fontSize);
 
         /// <summary>
         /// Gets the font's units per em (for manual conversions).

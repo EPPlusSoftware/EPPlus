@@ -14,7 +14,6 @@ using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
 {
@@ -24,11 +23,13 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
     /// </summary>
     internal class SingleSubstitutionProcessor
     {
+        private readonly OpenTypeFont _font;
         private readonly GsubTable _gsubTable;
         private readonly Dictionary<string, List<SingleSubstSubTable>> _featureSubtables;
 
         public SingleSubstitutionProcessor(OpenTypeFont font)
         {
+            _font = font;
             _gsubTable = font?.GsubTable;
             _featureSubtables = new Dictionary<string, List<SingleSubstSubTable>>();
 
@@ -74,9 +75,15 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
                 // Try to find a substitution for this glyph in the active subtables
                 if (TryGetSubstitution(originalGlyphId, subtablesToApply, out ushort newGlyphId))
                 {
-                    // Replace the glyph ID while keeping all other properties
+                    // ✅ FIX: Update both GlyphId AND BaseAdvance for the new glyph
                     var glyph = glyphs[i];
                     glyph.GlyphId = newGlyphId;
+
+                    // Get the new glyph's advance width from hmtx
+                    var newAdvance = (short)_font.HmtxTable.GetAdvanceWidth(newGlyphId);
+                    glyph.BaseAdvance = newAdvance;  // ✅ Update base advance
+                    glyph.XAdvance = newAdvance;     // ✅ Reset to base (kerning will be reapplied)
+
                     glyphs[i] = glyph;
                 }
             }
@@ -120,41 +127,35 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
         /// </summary>
         private void BuildFeatureSubtableMap()
         {
-            if (_gsubTable?.FeatureList == null || _gsubTable.LookupList == null)
+            if (_gsubTable?.FeatureList?.FeatureRecords == null)
                 return;
 
             foreach (var featureRecord in _gsubTable.FeatureList.FeatureRecords)
             {
                 string featureTag = featureRecord.FeatureTag.Value;
-                var feature = featureRecord.FeatureTable;
 
-                if (feature?.LookupListIndices == null)
-                    continue;
-
-                // Get or create the list for this feature
                 if (!_featureSubtables.ContainsKey(featureTag))
                 {
                     _featureSubtables[featureTag] = new List<SingleSubstSubTable>();
                 }
 
-                var subtables = _featureSubtables[featureTag];
+                var feature = featureRecord.FeatureTable;
 
-                // Get all Single Substitution subtables for this feature
                 foreach (var lookupIndex in feature.LookupListIndices)
                 {
-                    if (lookupIndex >= _gsubTable.LookupList.Lookups.Count)
-                        continue;
-
-                    var lookup = _gsubTable.LookupList.Lookups[lookupIndex];
-
-                    // We want Single Substitution (Type 1)
-                    if (lookup.LookupType == 1 && lookup.SubTables != null)
+                    if (lookupIndex < _gsubTable.LookupList.Lookups.Count)
                     {
-                        foreach (var subtable in lookup.SubTables)
+                        var lookup = _gsubTable.LookupList.Lookups[lookupIndex];
+
+                        // Only process Type 1 (Single Substitution) lookups
+                        if (lookup.LookupType == 1)
                         {
-                            if (subtable is SingleSubstSubTable singleSubst)
+                            foreach (var subtable in lookup.SubTables)
                             {
-                                subtables.Add(singleSubst);
+                                if (subtable is SingleSubstSubTable singleSubst)
+                                {
+                                    _featureSubtables[featureTag].Add(singleSubst);
+                                }
                             }
                         }
                     }
