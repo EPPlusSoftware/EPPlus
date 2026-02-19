@@ -42,6 +42,30 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// </summary>
         ShapedText[] ShapeLines(string text, ShapingOptions options = null);
 
+        /// <summary>
+        /// Shapes text for vertical layout (top-to-bottom glyph stacking).
+        /// Used for Excel vertical text mode (text rotation value 255), where glyphs
+        /// are rendered upright and stacked vertically rather than laid out horizontally.
+        /// Advance heights are sourced from the 'vmtx' table when available,
+        /// with fallback to 'hmtx' advance widths for fonts without vertical metrics.
+        /// </summary>
+        /// <param name="text">Text to shape</param>
+        /// <param name="options">Shaping options</param>
+        /// <returns>Shaped vertical text with positioned glyphs in font design units</returns>
+        ShapedVerticalText ShapeVertical(string text, ShapingOptions options = null);
+
+        /// <summary>
+        /// Shapes text for vertical layout into lightweight <see cref="VerticalGlyphHeight"/> 
+        /// structs optimized for vertical text measurement.
+        /// Analogous to <see cref="ShapeLight"/> for horizontal text.
+        /// Advance heights are sourced from the 'vmtx' table when available,
+        /// with fallback to 'hmtx' advance widths for fonts without vertical metrics.
+        /// </summary>
+        /// <param name="text">Text to shape</param>
+        /// <param name="options">Shaping options</param>
+        /// <returns>Array of lightweight vertical glyph height structs (8 bytes each)</returns>
+        VerticalGlyphHeight[] ShapeLightVertical(string text, ShapingOptions options = null);
+
         double[] ExtractCharWidths(string text, float fontSize, ShapingOptions options);
 
         void ExtractCharWidths(string text, float fontSize, ShapingOptions options, double[] targetArray);

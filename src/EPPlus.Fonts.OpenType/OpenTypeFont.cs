@@ -27,6 +27,8 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Tables.Vhea;
+using EPPlus.Fonts.OpenType.Tables.Vmtx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,14 +111,22 @@ namespace EPPlus.Fonts.OpenType
             _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern)
                 ? TableLoaders.GetKernTableLoader(_tblSettings)
                 : null;
+            _vheaTableLoader = TableRecords.ContainsKey(TableNames.Vhea)
+                ? TableLoaders.GetVheaTableLoader(_tblSettings)
+                : null;
+            _vmtxTableLoader = TableRecords.ContainsKey(TableNames.Vmtx)
+               ? TableLoaders.GetVmtxTableLoader(_tblSettings)
+               : null;
         }
 
         Os2TableLoader _os2TableLoader;
         NameTableLoader _nameTableLoader;
         HheaTableLoader _hheaTableLoader;
+        VheaTableLoader _vheaTableLoader;
         HeadTableLoader _headTableLoader;
         CmapTableLoader _cmapTableLoader;
         HmtxTableLoader _hmtxTableLoader;
+        VmtxTableLoader _vmtxTableLoader;
         MaxpTableLoader _maxpTableLoader;
         PostTableLoader _postTableLoader;
         LocaTableLoader _locaTableLoader;
@@ -190,6 +200,23 @@ namespace EPPlus.Fonts.OpenType
                 return null;
             }
         }
+
+        public VheaTable VheaTable
+        {
+            get
+            {
+                if (_vheaTableLoader != null)
+                {
+                    return _vheaTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Vhea))
+                {
+                    return (VheaTable)_localTableCache.Get(TableNames.Vhea);
+                }
+                return null;
+            }
+        }
+
         public HmtxTable HmtxTable
         {
             get
@@ -206,6 +233,23 @@ namespace EPPlus.Fonts.OpenType
             }
 
         }
+
+        public VmtxTable VmtxTable
+        {
+            get
+            {
+                if (_vmtxTableLoader != null)
+                {
+                    return _vmtxTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Vmtx))
+                {
+                    return (VmtxTable)_localTableCache.Get(TableNames.Vmtx);
+                }
+                return null;
+            }
+        }
+
         public MaxpTable MaxpTable
         {
             get

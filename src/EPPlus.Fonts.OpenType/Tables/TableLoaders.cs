@@ -24,6 +24,7 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Tables.Vmtx;
 
 namespace EPPlus.Fonts.OpenType.Tables
 {
@@ -107,6 +108,19 @@ namespace EPPlus.Fonts.OpenType.Tables
             }
         }
 
+        public static VheaTableLoader GetVheaTableLoader(TableLoaderSettings settings)
+        {
+            var cache = settings._loaderCacheRef;
+            lock (cache.SyncLock)
+            {
+                if (cache.VheaLoader == null)
+                { 
+                    cache.VheaLoader = new VheaTableLoader(settings);
+                }
+                return cache.VheaLoader;
+            }
+        }
+
         public static MaxpTableLoader GetMaxpTableLoader(TableLoaderSettings settings)
         {
             var cache = settings._loaderCacheRef;
@@ -130,6 +144,19 @@ namespace EPPlus.Fonts.OpenType.Tables
                     cache.HmtxLoader = new HmtxTableLoader(settings);
                 }
                 return cache.HmtxLoader;
+            }
+        }
+
+        public static VmtxTableLoader GetVmtxTableLoader(TableLoaderSettings settings)
+        {
+            var cache = settings._loaderCacheRef;
+            lock (cache.SyncLock)
+            {
+                if (cache.VmtxLoader == null)
+                {
+                    cache.VmtxLoader = new VmtxTableLoader(settings);
+                }
+                return cache.VmtxLoader;
             }
         }
 
