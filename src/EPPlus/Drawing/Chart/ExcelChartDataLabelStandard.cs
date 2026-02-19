@@ -77,7 +77,10 @@ namespace OfficeOpenXml.Drawing.Chart
         const string positionPath = "c:dLblPos/@val";
         /// <summary>
         /// Position of the labels
-        /// Note: Only Center, InEnd and InBase are allowed for dataLabels on stacked columns 
+        /// <br/> BE AWARE! For SERIES labels and all underlying labels: <br/> 
+        /// Setting a position not available for this label in the Excel UI May cause a corrupt file.<br/> 
+        /// Note: Only Center, InEnd and InBase are allowed for dataLabels on stacked columns <br/> 
+        /// (Same applies to most BarCharts but they allow OutEnd)
         /// </summary>
         public override eLabelPosition Position
         {
@@ -87,14 +90,19 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if (ForbiddDataLabelPosition(_chart))
+                if (IsDataLabelPositionForbidden(_chart))
                 {
                     throw new InvalidOperationException("Can't set data label position on a 3D-chart");
+                }
+                if(_chart.ChartType == eChartType.ColumnClustered && value == eLabelPosition.Top)
+                {
+                    throw new InvalidOperationException($"DataLabelPosition: '{value}' is not allowed on chart of type: '{_chart.ChartType}' \n " +
+                        $"because it would cause a corrupt file");
                 }
                 SetXmlNodeString(positionPath, GetPosText(value));
             }
         }
-        internal static bool ForbiddDataLabelPosition(ExcelChart _chart)
+        internal static bool IsDataLabelPositionForbidden(ExcelChart _chart)
         {
             return _chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D
                                || _chart.IsTypeDoughnut();

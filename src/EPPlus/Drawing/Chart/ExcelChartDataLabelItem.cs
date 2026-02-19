@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Replace datalabel text
         /// </summary>
         /// <param name="replacementText"></param>
-        public void OverWriteText(string replacementText)
+        public void SetText(string replacementText)
         {
             ParagraphCollection.Clear();
             ParagraphCollection.Add(replacementText, true);
@@ -84,5 +84,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString("c:idx/@val", value.ToString(CultureInfo.InvariantCulture));
             }
         }
+
+        internal ExcelAddressBase SingleCellAddressFromSeries;
     }
 }

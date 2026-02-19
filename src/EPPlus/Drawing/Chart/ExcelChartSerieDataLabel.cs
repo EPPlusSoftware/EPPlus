@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Xml;
 
@@ -31,6 +33,13 @@ namespace OfficeOpenXml.Drawing.Chart
            : base(chart, ns, node, "dLbls", schemaNodeOrder)
         {
             Position = eLabelPosition.Center;
+            var parentSeries = GetParentSeries();
+
+            var address = parentSeries.GetDataLabelRange();
+            if (string.IsNullOrEmpty(address) == false)
+            {
+                DataLabelRange = chart.WorkSheet.Cells[address];
+            }
         }
         ExcelChartDataLabelCollection _dataLabels = null;
         /// <summary>
@@ -43,6 +52,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_dataLabels == null)
                 {
                     _dataLabels = new ExcelChartDataLabelCollection(_chart, NameSpaceManager, TopNode, SchemaNodeOrder, this as ExcelChartDataLabelStandard);
+                    
+                    //Fill datalabel addresses
+                    if(DataLabelRange != null)
+                    {
+                        var address = DataLabelRange;
+                        for(int i = 0; i< _dataLabels.Count(); i++)
+                        {
+                            if (address.Rows > address.Columns)
+                            {
+                                _dataLabels[i].SingleCellAddressFromSeries = address.TakeSingleCell(i, 0);
+                            }
+                            else
+                            {
+                                _dataLabels[i].SingleCellAddressFromSeries = address.TakeSingleCell(0, i);
+                            }
+                        }
+                    }
                 }
                 return _dataLabels;
             }
@@ -54,7 +80,23 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         public bool ValueFromCells { get { return DataLabelRange != null; } }
 
-        ExcelRangeBase DataLabelRange = null;
+        internal ExcelRangeBase DataLabelRange { get; private set; } = null;
+
+
+        ExcelChartStandardSerie GetParentSeries()
+        {
+            //TODO: The way we aquire the Series instance here is clumsy.
+            //Fix as part of datalabel refactor?
+            //Perhaps the series of a series label should be part of its constructor.
+            //Or use an eventhandler
+            //For a single case however that feels overkill.
+
+            //Has to get the series index:
+            var idxNode = (XmlElement)TopNode.ParentNode.SelectSingleNode($"{NsPrefix}:idx", NameSpaceManager);
+            var idxNodeValue = int.Parse(idxNode.GetAttribute("val"));
+            //Get the series this datalabel is on
+            return (ExcelChartStandardSerie)_chart.Series[idxNodeValue];
+        }
 
         /// <summary>
         /// Select datalabel range for
@@ -64,6 +106,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <exception cref="InvalidExpressionException">Thrown when input is not a cell, a row or a column</exception>
         public void SelectRange(ExcelRangeBase address)
         {
+            //TODO: Arguably this is just another series with a series cache.
+            //Same as Cat or Val except that it is added in Ext on the Serie node
+            //ShowValue property essentially changes the datalabels in the same way.
+            //This could be unified somehow so that all serie ranges; Cat, Val and DataLabelRange are handled the same way.
+
             bool moreThanOneRow = address.Rows > 1;
             bool moreThanOneColumn = address.Columns > 1;
 
@@ -75,62 +122,41 @@ namespace OfficeOpenXml.Drawing.Chart
 
             DataLabelRange = address;
 
-            //Has to get the series index:
-            var idxNode = (XmlElement)TopNode.ParentNode.SelectSingleNode($"{NsPrefix}:idx", NameSpaceManager);
-            var idxNodeValue = int.Parse(idxNode.GetAttribute("val"));
+            var currentSeries = GetParentSeries();
+            //Set the ext data needed in the Series node
+            currentSeries.SetDataLabelRange(address);
 
-            var currentSeries = (ExcelChartStandardSerie)_chart.Series[idxNodeValue];
-
-            currentSeries.NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
-            currentSeries.NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
-
-            string extPath = "c:extLst/c:ext";
-
-            XmlElement ext15Node;
-
-            var c15Uri = "{02D57815-91ED-43cb-92C2-25804820EDAC}";
-
-            if (currentSeries.ExistsNode(extPath+ $"[@uri='{c15Uri}']") == false)
-            {
-                XmlElement el = (XmlElement)currentSeries.CreateNode($"{extPath}");
-                el.SetAttribute("xmlns:c15", ExcelPackage.schemaChart2012);
-                currentSeries.SetXmlNodeString($"{extPath}/@uri", $"{c15Uri}");
-                ext15Node = el;
-            }
-            else
-            {
-                ext15Node = (XmlElement)currentSeries.GetNode($"{extPath}");
-            }
-
-            if (currentSeries.ExistsNode($"{extPath}[2]") == false)
-            {
-                XmlElement element = (XmlElement)currentSeries.CreateNode($"{extPath}", false, true);
-                element.SetAttribute("xmlns:c16", ExcelPackage.schemaChart2014);
-                currentSeries.SetXmlNodeString($"{extPath}[2]/@uri", "{C3380CC4-5D6E-409C-BE32-E72D297353CC}");
-                var _guidId = Guid.NewGuid();
-
-                var extNode2 = currentSeries.GetNode($"{extPath}[2]");
-                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueID");
-                uniqueIdNode.SetAttribute("val", $"{{{_guidId}}}");
-            }
-
-            var dlblRangePath = $"{extPath}/c15:datalabelsRange";
-            var datalabelsRange = currentSeries.CreateNode(dlblRangePath);
-            var formulaNode = currentSeries.CreateNode($"{dlblRangePath}/c15:f");
-            formulaNode.InnerText = address.AddressAbsolute;
-
-            if(DataLabels.Count == 0)
+            //Create the Datalabels if they do not exist
+            if (DataLabels.Count < currentSeries.NumberOfItems)
             {
                 for (int i = 0; i < currentSeries.NumberOfItems; i++)
                 {
-                    var individualLabel = DataLabels.Add(i);
-                    individualLabel.AddExtFieldTableEmpty();
-                    individualLabel.ShowDatalabelsRange = true;
+                    ExcelChartDataLabelItem currentLabel;
+                    if (DataLabels.Count - 1 < i)
+                    {
+                        currentLabel = DataLabels.Add(i);
+                    }
+                    else
+                    {
+                        currentLabel = DataLabels[i];
+                    }
+                    currentLabel.AddExtFieldTableEmpty();
+                    currentLabel.ShowDatalabelsRange = true;
+
+                    if (address.Rows > address.Columns)
+                    {
+                        currentLabel.SingleCellAddressFromSeries = address.TakeSingleCell(i, 0);
+                    }
+                    else
+                    {
+                        currentLabel.SingleCellAddressFromSeries = address.TakeSingleCell(0, i);
+                    }
+
+                    ////Adds field CellRange to the paragraph of the label
+                    ///For backwards compatability if opened in excel versions prior to Excel 2013
+                    //currentLabel.AddField("CELLRANGE");
                 }
             }
-
-            var rangeNode = currentSeries.CreateNode($"{dlblRangePath}/c15:dlblRangeCache");
-            currentSeries.CreateCache(address.FullAddressAbsolute, rangeNode);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabel == null)
                 {
-                    if (ExcelChartDataLabelStandard.ForbiddDataLabelPosition(_chart) == false)
+                    if (ExcelChartDataLabelStandard.IsDataLabelPositionForbidden(_chart) == false)
                     {
                         _dataLabel = new ExcelChartSerieDataLabel(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
                     }

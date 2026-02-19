@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Drawing.Chart
             dl.ShowLegendKey = parentDatalabel.ShowLegendKey;
             dl.ShowLeaderLines = true;
             dl.ShowValue = true;
-            dl.Position = eLabelPosition.Center;
+            dl.Position = parentDatalabel.Position;
 
             if (idx < _list.Count)
             {
