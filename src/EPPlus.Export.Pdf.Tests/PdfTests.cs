@@ -54,6 +54,7 @@ namespace EPPlusTest.PDF
          * Text: Center vertical text
          * Text: Render text to image from fonts that are not allowed to be embedded?
          * 
+         * Layout: Respect Page Breaks
          * Layout: Center on page Horizontal and vertical
          * Layout: Scaling
          * Layout: Fit to number of pages
@@ -85,8 +86,8 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void TestWritePdf()
         {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
-            //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
             //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
 
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");

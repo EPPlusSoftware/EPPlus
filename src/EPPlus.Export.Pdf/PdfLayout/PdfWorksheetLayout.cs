@@ -35,12 +35,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
             double x = 0d, y = 0d, totalWidth = 0d;
             ZeroCharWidth = GetThemeFont0Width(worksheet);
             List<string> checkedMergedCells = new List<string>();
+            int addedColumns = AddColumnsForNonWrappedText(worksheet);
             for(int row = 1; row<= worksheet.Dimension._toRow; row++)
             {
                 if(worksheet.Row(row).Hidden) continue;
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(row).Height);
                 x = 0d;
-                for (int col = 1; col <= worksheet.Dimension._toCol; col++)
+                for (int col = 1; col <= worksheet.Dimension._toCol + addedColumns; col++)
                 {
                     if(worksheet.Column(col).Hidden) continue;
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
@@ -66,6 +67,70 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             HandleDrawings(worksheet);
             Size = new Vector2(totalWidth, y);
+        }
+
+        /// <summary>
+        /// Check if we need to add additional columns to accomodate text that is not wrapped and overlaps other cell.s
+        /// </summary>
+        /// <param name="ws">The worksheet to check.</param>
+        /// <returns>The number of columns to add.</returns>
+        private int AddColumnsForNonWrappedText(ExcelWorksheet ws)
+        {
+            double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, ZeroCharWidth);
+            int columnsToAdd = 0;
+            FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
+            MeasurementFont font = new MeasurementFont();
+            double textLength = 0;
+            for (int row = 1; row <= ws.Dimension._toRow; row++)
+            {
+                var cell = ws.Cells[row, ws.Dimension._toCol];
+                if ((!string.IsNullOrEmpty(cell.Text) || cell.RichText.Count > 0) && !cell.Style.WrapText && !cell.Merge)
+                {
+                    if (cell.IsRichText)
+                    {
+                        foreach (var rt in cell.RichText)
+                        {
+                            font.FontFamily = rt.FontName;
+                            font.Size = (float)rt.Size;
+                            font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                                          (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                                          (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                                          (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                                          switch
+                            {
+                                0 => MeasurementFontStyles.Regular,
+                                var s => s
+                            };
+                            var result = fontMeasurerTrueType.MeasureText(rt.Text, font);
+                            textLength += result.Width;
+                        }
+                    }
+                    else
+                    {
+                        font.FontFamily = cell.Style.Font.Name;
+                        font.Size = (float)cell.Style.Font.Size;
+                        font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                                      (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                                      (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                                      (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                                      switch
+                        {
+                            0 => MeasurementFontStyles.Regular,
+                            var s => s
+                        };
+                        var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
+                        textLength += result.Width;
+                    }
+                    //loop next col width until text is included
+                    //increase columns to add
+                    while (textLength > columnWidth)
+                    {
+                        columnsToAdd++;
+                        columnWidth += UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol + columnsToAdd).Width, ZeroCharWidth);
+                    }
+                }
+            }
+            return columnsToAdd;
         }
 
         //Get Border styles from cell, tables and conditional formatting. TODO: Add support for Conditional formatting.
