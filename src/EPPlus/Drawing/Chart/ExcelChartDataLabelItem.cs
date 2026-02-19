@@ -48,8 +48,6 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_paragraphs == null)
                 {
-                    //var firstParaPath = _textBodyPropertiesParentPath + $"/{NsPrefix}:p";
-                    //par.SelectNodes("a:r", NameSpaceManager);
                     _paragraphs = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, _fontPropertiesPath + "/a:p", SchemaNodeOrder);
                 }
                 return _paragraphs;
