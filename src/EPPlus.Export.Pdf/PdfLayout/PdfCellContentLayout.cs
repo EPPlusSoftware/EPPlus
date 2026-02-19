@@ -37,8 +37,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         //internal PdfCellTextItem fontData; //This object needs to be remade. Maybe store an ExcelRichTextCollection
         internal List<PdfCellTextItem> fontData = new List<PdfCellTextItem>();
-        private double textLength = 0;
-        private double textHeight = 0;
+        public double textLength = 0;
+        public double textHeight = 0;
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..

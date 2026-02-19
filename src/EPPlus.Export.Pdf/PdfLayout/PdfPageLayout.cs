@@ -10,9 +10,10 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics;
+using OfficeOpenXml;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Graphics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -33,8 +34,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             foreach (var c in cells)
             {
                 if (c is PdfMergedCellLayout) continue;
-                yCoords.Add(c.LocalPosition.Y + c.Size.Y);             // Top
-                yCoords.Add(c.LocalPosition.Y);  // Bottom
+                yCoords.Add(c.LocalPosition.Y + c.Size.Y);  // Top
+                yCoords.Add(c.LocalPosition.Y);             // Bottom
                 xCoords.Add(c.LocalPosition.X);             // Left
                 xCoords.Add(c.LocalPosition.X + c.Size.X);  // Right
             }
@@ -57,6 +58,60 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     BorderLines.Add(line);
                 else
                     GridLines.Add(line);
+            }
+        }
+
+
+        internal void GenerateVerticalGridLines(ExcelWorksheet ws)
+        {
+            int addedColumns = PdfWorksheetLayout.AddColumnsForNonWrappedText(ws);
+            Dictionary<string, List<double>> vertGridLines = new Dictionary<string, List<double>>();
+            for (int col = 1; col <= ws.Dimension._toCol + addedColumns; col++)
+            {
+                List<double> lengths = new List<double>();
+                double length = 0;
+                string name = "";
+                for (int row = 1; row <= ws.Dimension._toRow; row++)
+                {
+                    var cell = ws.Cells[row, col];
+                    name = cell.Address;
+                    var layouts = ChildObjects.Where(x => x.Name == cell.Address || x.Name == cell.Address +"_c" || x.Name == cell.Address + "_m" || x.Name == cell.Address + "*").ToList();
+                    PdfMergedCellLayout m = null;
+                    PdfCellContentLayout c = null;
+                    PdfCellLayout l = null;
+                    foreach (var layout in layouts)
+                    {
+                        if (layout is PdfMergedCellLayout) m = (PdfMergedCellLayout)layout;
+                        else if (layout is PdfCellContentLayout) c = (PdfCellContentLayout)layout;
+                        else if (layout is PdfCellLayout) l = (PdfCellLayout)layout;
+                    }
+                    if (l != null)
+                    {
+                        length += l.Size.Y;
+                    }
+                    else if (m != null)
+                    {
+                        //ExcelAddressBase address = new ExcelAddressBase(ws.MergedCells[cell.Start.Row, cell.Start.Column]);
+                        //if (address._fromCol == col)
+                        //{
+                            length += m.Size.Y;
+                        //}
+                        //else
+                        //{
+                            //length = 0;
+                        //}
+                    }
+                    else if (l == null && m == null)
+                    {
+                        if (length > 0)
+                        {
+                            lengths.Add(length);
+                            length = 0;
+                        }
+                    }
+                }
+                lengths.Add(length);
+                vertGridLines.Add(name, lengths); //error in B column where merged cell starts
             }
         }
     }

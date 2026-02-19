@@ -49,7 +49,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             string cellsInPages = ToHierarchyString();
             HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             string mergedCellsInPages = ToHierarchyString();
-            ConvertToPDFCoordiantes(pageSettings, PagesLayout);
+            ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
             string ConvertedCoordinates = ToHierarchyString();
             AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
@@ -83,7 +83,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             for (int j = 1; j <= worksheet.Dimension._toCol; j++)
             {
                 if (worksheet.Column(j).Hidden) { continue; }
-                var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(j).Width, worksheetLayout.ZeroCharWidth);
+                var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(j).Width, PdfWorksheetLayout.ZeroCharWidth);
                 if (currentWidth + width >= boundsWidth)
                 {
                     xBreaks.Add(currentWidth);
@@ -204,7 +204,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Restore the positions of the content, move content children to page and remove content object.
-        private void ConvertToPDFCoordiantes(PdfPageSettings pageSettings, PdfPagesLayout pages)
+        private void ConvertToPDFCoordiantes(PdfPageSettings pageSettings, PdfPagesLayout pages, ExcelWorksheet ws)
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
@@ -219,6 +219,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         iBl.UpdateLocalBorderPosition();
                 }
                 page.RemoveChild(page.ChildObjects[0]);
+                page.GenerateVerticalGridLines(ws);
                 page.GenerateGridLines();
                 page.ChildObjects.RemoveAll(x => x.Name.Contains("*")); //Remove all content with * in its name. Better approach would be to not add them at all, But they are needed for grid lines.
             }

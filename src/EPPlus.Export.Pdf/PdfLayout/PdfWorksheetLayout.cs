@@ -28,7 +28,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 {
     internal class PdfWorksheetLayout : Transform
     {
-        public readonly double ZeroCharWidth;
+        public static double ZeroCharWidth;
 
         public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
         {
@@ -74,7 +74,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         /// </summary>
         /// <param name="ws">The worksheet to check.</param>
         /// <returns>The number of columns to add.</returns>
-        private int AddColumnsForNonWrappedText(ExcelWorksheet ws)
+        public static int AddColumnsForNonWrappedText(ExcelWorksheet ws)
         {
             double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, ZeroCharWidth);
             int columnsToAdd = 0;
