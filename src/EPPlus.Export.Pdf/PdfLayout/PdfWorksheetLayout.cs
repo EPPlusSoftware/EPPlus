@@ -17,6 +17,7 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
@@ -326,6 +327,23 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var cl0 = new PdfCellLayout(dictionaries, cell, CellStyle, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address + deleteMark;
             cl0.Z = 1;
+            if (cell._fromCol > 1)
+            {
+                var leftCell = cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1];
+                var leftCellLayouts = ChildObjects.Where(x => x.Name == leftCell.Address || x.Name == leftCell.Address + "_c" || x.Name == leftCell.Address + "*").ToList();
+                foreach (var lc in leftCellLayouts)
+                {
+                    if (lc is PdfCellContentLayout c)
+                    {
+                        cl0.textSpillLength = c.textSpillLength - width;
+                        break;
+                    }
+                    else if (lc is PdfCellLayout l)
+                    {
+                        if(leftCellLayouts.Count == 1) cl0.textSpillLength = l.textSpillLength - width;
+                    }
+                }
+            }
             AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y-height, width, height, 2);
             var border = HandleDiagonalBorders(cell, CellStyle, x, y, width, height);
             if (border != null)

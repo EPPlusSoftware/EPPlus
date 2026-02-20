@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,11 +67,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             int addedColumns = PdfWorksheetLayout.AddColumnsForNonWrappedText(ws);
             Dictionary<string, List<double>> vertGridLines = new Dictionary<string, List<double>>();
+            bool resetStart = true;
+            var startX = 0d;
+            var startY = 0d;
+            var endX = 0d;
+            var endY = 0d;
             for (int col = 1; col <= ws.Dimension._toCol + addedColumns; col++)
             {
                 List<double> lengths = new List<double>();
                 double length = 0;
                 string name = "";
+                var f = ws.Cells[1, col];
+                var start = ChildObjects.Where(x => x.Name == f.Address || x.Name == f.Address + "_m" || x.Name == f.Address + "*").ToList();
                 for (int row = 1; row <= ws.Dimension._toRow; row++)
                 {
                     var cell = ws.Cells[row, col];
@@ -87,7 +95,27 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     if (l != null)
                     {
-                        length += l.Size.Y;
+                        if (l.textSpillLength > 0)
+                        {
+                            lengths.Add(length);
+                            length = 0;
+
+                            var line = new GridLine(startX, startY, endX, endY);
+                            GridLines.Add(line);
+                            resetStart = true;
+                        }
+                        else
+                        {
+                            length += l.Size.Y;
+                            endX = l.LocalPosition.X;
+                            endY = l.LocalPosition.Y;
+                            if (resetStart)
+                            {
+                                startX = l.LocalPosition.X;
+                                startY = l.LocalPosition.Y;
+                                resetStart = false;
+                            }
+                        }
                     }
                     else if (m != null)
                     {
@@ -95,6 +123,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         //if (address._fromCol == col)
                         //{
                             length += m.Size.Y;
+                        endX = m.LocalPosition.X;
+                        endY = m.LocalPosition.Y;
+                        if (resetStart)
+                        {
+                            startX = m.LocalPosition.X;
+                            startY = m.LocalPosition.Y;
+                            resetStart = false;
+                        }
                         //}
                         //else
                         //{
@@ -107,11 +143,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         {
                             lengths.Add(length);
                             length = 0;
+
+                            var line = new GridLine(startX, startY, endX, endY);
+                            GridLines.Add(line);
+                            resetStart = true;
                         }
                     }
                 }
                 lengths.Add(length);
                 vertGridLines.Add(name, lengths); //error in B column where merged cell starts
+                
             }
         }
     }

@@ -39,6 +39,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal List<PdfCellTextItem> fontData = new List<PdfCellTextItem>();
         public double textLength = 0;
         public double textHeight = 0;
+        public double textSpillLength = 0d;
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
@@ -150,6 +151,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (!hash.Contains(c))
                         hash.Add(c);
                 }
+            }
+            if (maxWidth < textLength)
+            {
+                textSpillLength = textLength;
             }
         }
 

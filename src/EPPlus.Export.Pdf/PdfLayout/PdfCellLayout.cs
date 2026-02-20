@@ -28,6 +28,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public ExcelRangeBase cell;
         public PdfCellFillData CellFillData;
         public PdfCellStyle CellStyle;
+        public double textSpillLength = 0d;
 
         public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
