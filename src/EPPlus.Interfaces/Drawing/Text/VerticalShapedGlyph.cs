@@ -44,6 +44,14 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         public short TopSideBearing;
 
         /// <summary>
+        /// Horizontal advance width in font design units.
+        /// Sourced from the 'hmtx' table.
+        /// Used by the renderer to center the glyph horizontally in a vertical text column:
+        /// xOffset = (columnWidth - AdvanceWidth) / 2
+        /// </summary>
+        public ushort AdvanceWidth;
+
+        /// <summary>
         /// Index of the original character that produced this glyph.
         /// Used to map shaped glyphs back to character positions.
         /// Range: 0-65,535 characters per string.
@@ -75,12 +83,13 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// <summary>
         /// Creates a new vertical shaped glyph with all fields specified.
         /// </summary>
-        public VerticalShapedGlyph(ushort glyphId, ushort yAdvance, short topSideBearing,
+        public VerticalShapedGlyph(ushort glyphId, ushort yAdvance, short topSideBearing, ushort advanceWidth,
                                    ushort clusterIndex, byte charCount, byte fontId = 0)
         {
             GlyphId = glyphId;
             YAdvance = yAdvance;
             TopSideBearing = topSideBearing;
+            AdvanceWidth = advanceWidth;
             ClusterIndex = clusterIndex;
             CharCount = charCount;
             FontId = fontId;

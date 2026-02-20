@@ -110,11 +110,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ushort advanceHeight;
                 short topSideBearing;
                 GetVerticalMetrics(font, glyphId, out advanceHeight, out topSideBearing);
+                // Fetch horizontal advance width for centering
+                ushort advanceWidth = font.HmtxTable.GetAdvanceWidth(glyphId);
 
                 glyphs.Add(new VerticalShapedGlyph(
                     glyphId,
                     advanceHeight,
                     topSideBearing,
+                    advanceWidth,
                     (ushort)i,
                     (byte)charCount,
                     fontId

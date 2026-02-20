@@ -296,5 +296,73 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         #endregion
+
+        #region Centering tests
+
+        [TestMethod]
+        public void ShapeVertical_CjkText_GlyphsHavePositiveAdvanceWidth()
+        {
+            // Arrange
+            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var shaper = new TextShaper(font);
+
+            // Act
+            var result = shaper.ShapeVertical("日本語");
+
+            // Assert - AdvanceWidth is required for horizontal centering in vertical text columns
+            foreach (var glyph in result.Glyphs)
+            {
+                Assert.IsTrue(glyph.AdvanceWidth > 0,
+                    $"Glyph {glyph.GlyphId} has AdvanceWidth {glyph.AdvanceWidth}, expected > 0");
+            }
+        }
+
+        [TestMethod]
+        public void ShapeVertical_AdvanceWidthMatchesHmtxAdvanceWidth()
+        {
+            // Arrange - AdvanceWidth on VerticalShapedGlyph must equal hmtx advanceWidth
+            // since centering calculations depend on this value being accurate
+            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var shaper = new TextShaper(font);
+
+            // Act
+            var result = shaper.ShapeVertical("日本");
+
+            // Assert
+            foreach (var glyph in result.Glyphs)
+            {
+                var expectedAdvanceWidth = font.HmtxTable.GetAdvanceWidth(glyph.GlyphId);
+                Assert.AreEqual(expectedAdvanceWidth, glyph.AdvanceWidth,
+                    $"Glyph {glyph.GlyphId}: AdvanceWidth {glyph.AdvanceWidth} " +
+                    $"does not match hmtx advanceWidth {expectedAdvanceWidth}");
+            }
+        }
+
+        [TestMethod]
+        public void ShapeVertical_FontWithoutVmtx_AdvanceWidthMatchesHmtxAdvanceWidth()
+        {
+            // Arrange - Roboto has no vmtx table, both YAdvance and AdvanceWidth
+            // should fall back to hmtx and be equal to each other
+            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Regular, true);
+            var shaper = new TextShaper(font);
+            Assert.IsNull(font.VmtxTable, "Roboto should not have a vmtx table");
+
+            // Act
+            var result = shaper.ShapeVertical("ABC");
+
+            // Assert
+            foreach (var glyph in result.Glyphs)
+            {
+                var expectedAdvanceWidth = font.HmtxTable.GetAdvanceWidth(glyph.GlyphId);
+                Assert.AreEqual(expectedAdvanceWidth, glyph.AdvanceWidth,
+                    $"Glyph {glyph.GlyphId}: AdvanceWidth {glyph.AdvanceWidth} " +
+                    $"does not match hmtx advanceWidth {expectedAdvanceWidth}");
+                Assert.AreEqual(glyph.YAdvance, glyph.AdvanceWidth,
+                    $"Glyph {glyph.GlyphId}: YAdvance and AdvanceWidth should be equal " +
+                    $"when falling back to hmtx (YAdvance={glyph.YAdvance}, AdvanceWidth={glyph.AdvanceWidth})");
+            }
+        }
+
+        #endregion
     }
 }
