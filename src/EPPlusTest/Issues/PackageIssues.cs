@@ -3,8 +3,10 @@ using OfficeOpenXml;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace EPPlusTest.Issues
 {
@@ -164,27 +166,6 @@ namespace EPPlusTest.Issues
             package.Workbook.CalculateAllPivotTables();
 
             SaveAndCleanup(package);
-        }
-
-        [TestMethod]
-        public void sc1012()
-        {
-            string path = @"C:\\epplusTest\\Workbooks\\import_template_simple.xlsx";
-
-            Stream excelFile = new MemoryStream(System.IO.File.ReadAllBytes(path));
-
-            using (ExcelPackage pck = new ExcelPackage(excelFile))
-            {
-                ExcelWorksheet sheetSap = pck.Workbook.Worksheets.Where(pr => string.Equals(pr.Name, "SAP data", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
-                sheetSap.Cells[1, 1].Value = "Test";
-
-                pck.Save();
-                pck.Stream.Seek(0, SeekOrigin.Begin);
-                byte[] buffer = new byte[pck.Stream.Length];
-                pck.Stream.Read(buffer, 0, (int)pck.Stream.Length);
-                File.WriteAllBytes(@"c:\temp\error_report.xlsx", buffer);
-
-            }
         }
     }
 }

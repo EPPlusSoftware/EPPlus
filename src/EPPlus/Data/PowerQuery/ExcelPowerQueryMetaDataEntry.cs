@@ -153,11 +153,11 @@ namespace OfficeOpenXml.Data.Connection
             }
             if (Value is int i)
             {
-                return "l" + i.ToString();
+                return "l" + i.ToString(CultureInfo.InvariantCulture);
             }
             if (Value is DateTime dt)
             {
-                return "d" + dt.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ");
+                return "d" + dt.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ", CultureInfo.InvariantCulture);
             }
             if (Value is bool b)
             {
@@ -165,11 +165,11 @@ namespace OfficeOpenXml.Data.Connection
             }
             if (Value is double d)
             {
-                return "f" + d.ToString();
+                return "f" + d.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
-                return "s" + Value.ToString(); //You shoul never end up here.
+                return "s" + Value.ToString(); //You should never end up here.
             }
         }
         /// <summary>
