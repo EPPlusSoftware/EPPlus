@@ -483,6 +483,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
 
 
+            Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
+
         }
 
         [TestMethod]

@@ -17,7 +17,10 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         internal void EndCurrentTextLine()
         {
-            CurrentTextLine.LineFragments.Add(LineFrag);
+            if (CurrentTextLine.LineFragments.Contains(LineFrag) == false)
+            {
+                CurrentTextLine.LineFragments.Add(LineFrag);
+            }
             Lines.Add(CurrentTextLine);
         }
 
@@ -58,14 +61,20 @@ namespace EPPlus.Fonts.OpenType.Integration
             _rtIdxAtWordStart = CurrentFragmentIdx;
             _lineFragWidthAtWordStart = LineFrag.Width;
 
+            if(CurrentTextLine.LineFragments.Count == 0)
+            {
+                _listIdxWithinLine = 0;
+                return;
+            }
+
             _listIdxWithinLine = CurrentTextLine.LineFragments.Count - 1;
 
-            //if (CurrentTextLine.LineFragments[_listIdxWithinLine].RtFragIdx < _rtIdxAtWordStart)
-            //{
-            //    //When the word begins we are on a fragment that has not yet been added to the list.
-            //    //It will be the next index when added
-            //    _listIdxWithinLine += 1;
-            //}
+            if (CurrentTextLine.LineFragments[_listIdxWithinLine].RtFragIdx < _rtIdxAtWordStart)
+            {
+                //When the word begins we are on a fragment that has not yet been added to the list.
+                //It will be the next index when added
+                _listIdxWithinLine += 1;
+            }
         }
 
         internal int GetFragIdxAtWordStart()
@@ -105,8 +114,15 @@ namespace EPPlus.Fonts.OpenType.Integration
                 CurrentTextLine.LineFragments.RemoveAt(i);
             }
 
-            //We also insert the fragment we've split out
-            _fragmentsForNextLine.Insert(0, resultingFragment);
+            if(_rtIdxAtWordStart != CurrentFragmentIdx)
+            {
+                //We also insert the fragment we've split out
+                _fragmentsForNextLine.Insert(0, resultingFragment);
+            }
+            else
+            {
+                LineFrag = resultingFragment;
+            }
 
             _rtIdxAtWordStart = -1;
             _listIdxWithinLine = -1;
