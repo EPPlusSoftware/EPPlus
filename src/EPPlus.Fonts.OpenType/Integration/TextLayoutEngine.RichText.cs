@@ -161,19 +161,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             if(state.LineFrag.Width > 0)
             {
-                var preExistingFragment = state.CurrentTextLine.LineFragments.FirstOrDefault(x => x.RtFragIdx == state.LineFrag.RtFragIdx);
-                if (preExistingFragment != null)
-                {
-                    if(preExistingFragment.Width < state.LineFrag.Width)
-                    {
-                        state.CurrentTextLine.LineFragments.Remove(preExistingFragment);
-                        state.CurrentTextLine.LineFragments.Add(state.LineFrag);
-                    }
-                }
-                else
-                {
-                    state.CurrentTextLine.LineFragments.Add(state.LineFrag);
-                }
+                state.CurrentTextLine.LineFragments.Add(state.LineFrag);
             }
 
             state.CurrentFragmentIdx++;
