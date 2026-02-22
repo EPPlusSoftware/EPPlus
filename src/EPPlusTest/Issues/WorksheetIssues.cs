@@ -4,6 +4,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.RichData;
@@ -1110,6 +1111,23 @@ namespace EPPlusTest.Issues
             
             var d3 = ws.Cells["D3"].Text;
             Assert.AreEqual("Negative 4000,000", d3);
+        }
+
+        [TestMethod]
+        public void InsertAndShift_ShouldNotThrow_WhenArrayIsFull()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            // Fill 7 columns with formatting to trigger the boundary condition
+            for (int col = 1; col <= 7; col++)
+            {
+                sheet.Column(col).Width = 15;
+            }
+
+            // These two inserts should not throw ArgumentException
+            sheet.InsertColumn(3, 1);
+            sheet.InsertColumn(5, 1);
         }
 
     }
