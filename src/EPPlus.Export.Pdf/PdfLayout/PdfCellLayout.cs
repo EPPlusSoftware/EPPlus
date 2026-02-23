@@ -35,6 +35,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             if (cell != null)
             {
+                this.cell = cell;
                 this.CellStyle = CellStyle;
                 var xfFill = CellStyle.xfFill;
                 var dxfFill = CellStyle.dxfFill;

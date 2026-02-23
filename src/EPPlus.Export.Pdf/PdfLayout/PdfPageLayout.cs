@@ -26,8 +26,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal List<GridLine> GridLines = new List<GridLine>();
         internal List<GridLine> BorderLines = new List<GridLine>();
 
+        public int FromRow = int.MaxValue;
+        public int ToRow = 0;
+        public int FromCol = int.MaxValue;
+        public int ToCol = 0;
+
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height) { }
+
+        public void AddCell(Transform cell)
+        {
+            if (cell is PdfCellLayout cl)
+            {
+                FromRow = Math.Min(FromRow, cl.cell._fromRow);
+                ToRow = Math.Max(ToRow, cl.cell._toRow);
+                FromCol = Math.Min(FromCol, cl.cell._fromCol);
+                ToCol = Math.Max(ToCol, cl.cell._toCol);
+            }
+            ChildObjects[0].AddChild(cell);
+        }
 
         internal void GenerateGridLines()
         {
@@ -73,16 +90,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var startY = 0d;
             var endX = 0d;
             var endY = 0d;
-            for (int col = 2; col <= ws.Dimension._toCol + addedColumns; col++)
+            for (int col = FromCol+1; col <= ToCol; col++)
             {
                 double length = 0;
-                string name = "";
-                var f = ws.Cells[1, col];
-                var start = ChildObjects.Where(x => x.Name == f.Address || x.Name == f.Address + "_m" || x.Name == f.Address + "*").ToList();
-                for (int row = 1; row <= ws.Dimension._toRow; row++)
+                //string name = "";
+                //var f = ws.Cells[FromRow, col];
+                //var start = ChildObjects.Where(x => x.Name == f.Address || x.Name == f.Address + "_m" || x.Name == f.Address + "*").ToList();
+                for (int row = FromRow; row <= ToRow; row++)
                 {
                     var cell = ws.Cells[row, col];
-                    name = cell.Address;
+                    var name = cell.Address;
                     var layouts = ChildObjects.Where(x => x.Name == cell.Address || x.Name == cell.Address + "_m" || x.Name == cell.Address + "*").ToList();
                     PdfMergedCellLayout m = null;
                     PdfCellLayout l = null;
@@ -159,16 +176,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var startY = 0d;
             var endX = 0d;
             var endY = 0d;
-            for (int row = 2; row <= ws.Dimension._toRow; row++)
+            for (int row = FromRow+1; row <= ToRow; row++)
             {
                 double length = 0;
-                string name = "";
-                var f = ws.Cells[row, 1];
-                var start = ChildObjects.Where(x => x.Name == f.Address || x.Name == f.Address + "_m" || x.Name == f.Address + "*").ToList();
-                for (int col = 1; col <= ws.Dimension._toCol + addedColumns; col++)
+                //string name = "";
+                //var f = ws.Cells[row, FromCol];
+                //var start = ChildObjects.Where(x => x.Name == f.Address || x.Name == f.Address + "_m" || x.Name == f.Address + "*").ToList();
+                for (int col = FromCol; col <= ToCol; col++)
                 {
                     var cell = ws.Cells[row, col];
-                    name = cell.Address;
+                    var name = cell.Address;
                     var layouts = ChildObjects.Where(x => x.Name == cell.Address || x.Name == cell.Address + "_m" || x.Name == cell.Address + "*").ToList();
                     PdfMergedCellLayout m = null;
                     PdfCellLayout l = null;

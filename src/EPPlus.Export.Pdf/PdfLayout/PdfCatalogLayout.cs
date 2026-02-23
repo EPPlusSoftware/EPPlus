@@ -142,12 +142,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
             foreach (var cell in cells)
             {
                 var cellBounds = cell.GetGlobalBoundingbox();
-                foreach (var page in pages.ChildObjects)
+                foreach (PdfPageLayout page in pages.ChildObjects)
                 {
                     var contentbounds = page.ChildObjects[0].GetGlobalBoundingbox();
                     if (IntersectsFully(contentbounds, cellBounds))
                     {
-                        page.ChildObjects[0].AddChild(cell);
+                        page.AddCell(cell);
                         break;
                     }
                 }
