@@ -361,68 +361,46 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         [TestMethod]
         public void WrapRichTextDifficultCase()
         {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            var lap = sw.ElapsedMilliseconds;
+
             List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
-
-            var font1 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Regular
-            }; ;
-
-            var font2 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Bold
-            };
-
-            var font3 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Underline
-            };
-
-            var font4 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Strikeout
-            };
-
-            var font5 = new MeasurementFont()
-            {
-                FontFamily = "Goudy Stout",
-                Size = 16,
-                Style = MeasurementFontStyles.Regular
-            };
-
-
-            var font6 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 24,
-                Style = MeasurementFontStyles.Regular
-            };
-
+            var font1 = new MeasurementFont() { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+            var font2 = new MeasurementFont() { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Bold };
+            var font3 = new MeasurementFont() { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Underline };
+            var font4 = new MeasurementFont() { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Strikeout };
+            var font5 = new MeasurementFont() { FontFamily = "Goudy Stout", Size = 16, Style = MeasurementFontStyles.Regular };
+            var font6 = new MeasurementFont() { FontFamily = "Aptos Narrow", Size = 24, Style = MeasurementFontStyles.Regular };
             List<MeasurementFont> fonts = new() { font1, font2, font3, font4, font5, font6 };
-            var fragments = new List<TextFragment>();
 
+            var fragments = new List<TextFragment>();
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() {Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
+                fragments.Add(new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] });
             }
+
+            lap = sw.ElapsedMilliseconds;
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
+            lap = sw.ElapsedMilliseconds;
+
             var startFont = TextData.GetFontData(font1.FontFamily, GetFontSubType(font1.Style));
 
+            lap = sw.ElapsedMilliseconds;
+
             var shaper = new TextShaper(startFont);
+
+            lap = sw.ElapsedMilliseconds;
+
             var layout = new TextLayoutEngine(shaper);
 
+            lap = sw.ElapsedMilliseconds;
+
             var wrappedLines = layout.WrapRichText(fragments, maxSizePoints);
+
+            lap = sw.ElapsedMilliseconds;
+
 
             Assert.AreEqual("TextBox", wrappedLines[0]);
             Assert.AreEqual("a", wrappedLines[1]);

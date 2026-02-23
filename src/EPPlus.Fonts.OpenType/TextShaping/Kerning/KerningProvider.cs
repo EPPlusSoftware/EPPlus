@@ -10,6 +10,9 @@
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
+using System;
+using System.Runtime.CompilerServices;
+
 namespace EPPlus.Fonts.OpenType.TextShaping.Kerning
 {
     /// <summary>
@@ -22,12 +25,15 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Kerning
         private readonly LegacyKerningProvider _legacyProvider;
         private readonly KerningCache _cache;
 
+
         public KerningProvider(OpenTypeFont font)
         {
             _cache = new KerningCache();
 
             if (font.GposTable != null)
+            {
                 _gposProvider = new GposKerningProvider(font.GposTable);
+            }
 
             if (font.KernTable != null)
                 _legacyProvider = new LegacyKerningProvider(font.KernTable);

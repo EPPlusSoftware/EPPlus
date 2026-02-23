@@ -11,6 +11,7 @@
   01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
   01/22/2025         EPPlus Software AB           Optimized with shaping cache
   01/23/2025         EPPlus Software AB           Fixed lastSpaceIndex bug in multi-fragment wrapping
+  02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -75,11 +76,14 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var charWidths = GetCharWidthBuffer(len);
 
-            var shaped = shaper.Shape(fragment.Text, options);
+            // ShapeLight applies only kerning (sufficient for line-breaking).
+            // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
+            // is ~250x slower and irrelevant for wrapping decisions.
+            var glyphWidths = shaper.ShapeLight(fragment.Text, options);
             double scale = fragment.Font.Size / shaper.UnitsPerEm;
 
             Array.Clear(charWidths, 0, len);
-            FillCharWidths(shaped.Glyphs, scale, len, charWidths);
+            FillCharWidths(glyphWidths, scale, len, charWidths);
 
             int i = 0;
             while (i < len)
@@ -92,7 +96,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     SkipLineBreakChars(fragment.Text, ref i);
                     state.CurrentLineWidth = 0;
                     state.CurrentWordWidth = 0;
-                    state.WordStart = -1;  // Reset after line break
+                    state.WordStart = -1;
                     state.LineStart = -1;
                     continue;
                 }
@@ -116,15 +120,10 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     state.WordStart = -1;
                     state.LineStart = -1;
-                    //We do not append ending spaces to the new line
                     if (c != ' ')
                     {
-                        //lineBuilder.Append(c);
-                        if(state.CurrentWordWidth == 0)
+                        if (state.CurrentWordWidth == 0)
                         {
-                            //The char that made us move past maxWidth
-                            //must be added to the new line
-                            //A whole word being moved down is handled in wrapCurrentLine.
                             state.CurrentWordWidth = charWidths[i];
                             state.CurrentLineWidth = charWidths[i];
                         }
@@ -134,14 +133,18 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
         }
 
-        private void FillCharWidths(ShapedGlyph[] glyphs, double scale, int textLength, double[] charWidths)
+        /// <summary>
+        /// Fills character widths from lightweight GlyphWidth structs (8 bytes each).
+        /// Used by the wrapping pipeline for optimal performance.
+        /// </summary>
+        private void FillCharWidths(GlyphWidth[] glyphs, double scale, int textLength, double[] charWidths)
         {
-            foreach (var glyph in glyphs)
+            for (int i = 0; i < glyphs.Length; i++)
             {
-                int idx = glyph.ClusterIndex;
+                int idx = glyphs[i].ClusterIndex;
                 if (idx >= 0 && idx < textLength)
                 {
-                    charWidths[idx] += glyph.XAdvance * scale;
+                    charWidths[idx] += glyphs[i].XAdvance * scale;
                 }
             }
         }
@@ -180,26 +183,22 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints)
         {
-            // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
                 string line = lineBuilder.ToString(0, state.WordStart).TrimEnd();
                 _lineListBuffer.Add(line);
                 lineBuilder.Remove(0, state.WordStart + 1);
 
-                //A word was moved down. The new line must have the width and pos of the word.
                 state.CurrentLineWidth = state.CurrentWordWidth;
                 state.LineStart = state.WordStart;
             }
             else
             {
-                var lastChar = lineBuilder[lineBuilder.Length-1];
-                // No valid space found - wrap entire line
-                _lineListBuffer.Add(lineBuilder.ToString(0, lineBuilder.Length -1));
+                var lastChar = lineBuilder[lineBuilder.Length - 1];
+                _lineListBuffer.Add(lineBuilder.ToString(0, lineBuilder.Length - 1));
                 state.CurrentLineWidth = 0;
                 lineBuilder.Length = 0;
                 lineBuilder.Append(lastChar);
-
             }
         }
 

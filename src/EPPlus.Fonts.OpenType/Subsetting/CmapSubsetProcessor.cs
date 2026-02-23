@@ -32,16 +32,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 ushort oldGid;
                 if (context.OriginalFont.CmapTable.TryGetGlyphId(codePoint, out oldGid))
                 {
-                    // DEBUGGA: Skriv ut mappningen
-                    Console.WriteLine($"Code point 0x{codePoint:X} → Glyph ID {oldGid}");
-                }
-                else
-                {
-                    // VIKTIGT: Om detta körs för emoji betyder det att fonten inte har den!
-                    Console.WriteLine($"Code point 0x{codePoint:X} NOT FOUND in font!");
-                }
-                if (context.OriginalFont.CmapTable.TryGetGlyphId(codePoint, out oldGid))
-                {
                     if (!context.IncludedGlyphs.Contains(oldGid))
                     {
                         context.IncludedGlyphs.Add(oldGid);
