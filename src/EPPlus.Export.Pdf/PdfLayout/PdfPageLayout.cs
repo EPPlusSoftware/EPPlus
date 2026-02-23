@@ -12,7 +12,10 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Table.PivotTable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +27,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal List<GridLine> BorderLines = new List<GridLine>();
 
         public PdfPageLayout(double x, double y, double width, double height)
-            :base(x, y, width, height) { }
+            : base(x, y, width, height) { }
 
         internal void GenerateGridLines()
         {
@@ -62,19 +65,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-
         internal void GenerateVerticalGridLines(ExcelWorksheet ws)
         {
             int addedColumns = PdfWorksheetLayout.AddColumnsForNonWrappedText(ws);
-            Dictionary<string, List<double>> vertGridLines = new Dictionary<string, List<double>>();
             bool resetStart = true;
             var startX = 0d;
             var startY = 0d;
             var endX = 0d;
             var endY = 0d;
-            for (int col = 1; col <= ws.Dimension._toCol + addedColumns; col++)
+            for (int col = 2; col <= ws.Dimension._toCol + addedColumns; col++)
             {
-                List<double> lengths = new List<double>();
                 double length = 0;
                 string name = "";
                 var f = ws.Cells[1, col];
@@ -83,26 +83,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     var cell = ws.Cells[row, col];
                     name = cell.Address;
-                    var layouts = ChildObjects.Where(x => x.Name == cell.Address || x.Name == cell.Address +"_c" || x.Name == cell.Address + "_m" || x.Name == cell.Address + "*").ToList();
+                    var layouts = ChildObjects.Where(x => x.Name == cell.Address || x.Name == cell.Address + "_m" || x.Name == cell.Address + "*").ToList();
                     PdfMergedCellLayout m = null;
-                    PdfCellContentLayout c = null;
                     PdfCellLayout l = null;
                     foreach (var layout in layouts)
                     {
                         if (layout is PdfMergedCellLayout) m = (PdfMergedCellLayout)layout;
-                        else if (layout is PdfCellContentLayout) c = (PdfCellContentLayout)layout;
                         else if (layout is PdfCellLayout) l = (PdfCellLayout)layout;
                     }
                     if (l != null)
                     {
                         if (l.textSpillLength > 0)
                         {
-                            lengths.Add(length);
                             length = 0;
-
-                            var line = new GridLine(startX, startY, endX, endY);
-                            GridLines.Add(line);
-                            resetStart = true;
+                            if (startX != 0d)
+                            {
+                                var line = new GridLine(startX, startY, endX, endY);
+                                GridLines.Add(line);
+                                resetStart = true;
+                            }
                         }
                         else
                         {
@@ -112,47 +111,148 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             if (resetStart)
                             {
                                 startX = l.LocalPosition.X;
-                                startY = l.LocalPosition.Y;
+                                startY = l.LocalPosition.Y + l.Size.Y;
                                 resetStart = false;
                             }
                         }
                     }
                     else if (m != null)
                     {
-                        //ExcelAddressBase address = new ExcelAddressBase(ws.MergedCells[cell.Start.Row, cell.Start.Column]);
-                        //if (address._fromCol == col)
-                        //{
-                            length += m.Size.Y;
+                        length += m.Size.Y;
                         endX = m.LocalPosition.X;
                         endY = m.LocalPosition.Y;
                         if (resetStart)
                         {
                             startX = m.LocalPosition.X;
-                            startY = m.LocalPosition.Y;
+                            startY = m.LocalPosition.Y + m.Size.Y;
                             resetStart = false;
                         }
-                        //}
-                        //else
-                        //{
-                            //length = 0;
-                        //}
                     }
                     else if (l == null && m == null)
                     {
                         if (length > 0)
                         {
-                            lengths.Add(length);
                             length = 0;
-
-                            var line = new GridLine(startX, startY, endX, endY);
-                            GridLines.Add(line);
-                            resetStart = true;
+                            if (startX != 0d)
+                            {
+                                var line = new GridLine(startX, startY, endX, endY);
+                                GridLines.Add(line);
+                                resetStart = true;
+                            }
                         }
                     }
                 }
-                lengths.Add(length);
-                vertGridLines.Add(name, lengths); //error in B column where merged cell starts
-                
+                if (startX != 0d)
+                {
+                    var line2 = new GridLine(startX, startY, endX, endY);
+                    GridLines.Add(line2);
+                }
+                resetStart = true;
+            }
+        }
+
+        internal void GenerateHorizontalGridLines(ExcelWorksheet ws)
+        {
+            int addedColumns = PdfWorksheetLayout.AddColumnsForNonWrappedText(ws);
+            bool resetStart = true;
+            var startX = 0d;
+            var startY = 0d;
+            var endX = 0d;
+            var endY = 0d;
+            for (int row = 2; row <= ws.Dimension._toRow; row++)
+            {
+                double length = 0;
+                string name = "";
+                var f = ws.Cells[row, 1];
+                var start = ChildObjects.Where(x => x.Name == f.Address || x.Name == f.Address + "_m" || x.Name == f.Address + "*").ToList();
+                for (int col = 1; col <= ws.Dimension._toCol + addedColumns; col++)
+                {
+                    var cell = ws.Cells[row, col];
+                    name = cell.Address;
+                    var layouts = ChildObjects.Where(x => x.Name == cell.Address || x.Name == cell.Address + "_m" || x.Name == cell.Address + "*").ToList();
+                    PdfMergedCellLayout m = null;
+                    PdfCellLayout l = null;
+                    foreach (var layout in layouts)
+                    {
+                        if (layout is PdfMergedCellLayout) m = (PdfMergedCellLayout)layout;
+                        else if (layout is PdfCellLayout) l = (PdfCellLayout)layout;
+                    }
+                    if (l != null)
+                    {
+                        length += l.Size.X;
+                        endX = l.LocalPosition.X + l.Size.X;
+                        endY = l.LocalPosition.Y + l.Size.Y;
+                        if (resetStart)
+                        {
+                            startX = l.LocalPosition.X;
+                            startY = l.LocalPosition.Y + l.Size.Y;
+                            resetStart = false;
+                        }
+                    }
+                    else if (m != null)
+                    {
+                        length += m.Size.X;
+                        endX = m.LocalPosition.X + m.Size.X;
+                        endY = m.LocalPosition.Y + m.Size.Y;
+                        if (resetStart)
+                        {
+                            startX = m.LocalPosition.X;
+                            startY = m.LocalPosition.Y + m.Size.Y;
+                            resetStart = false;
+                        }
+                    }
+                    else if (l == null && m == null)
+                    {
+                        if (length > 0)
+                        {
+                            length = 0;
+                            if (startX != 0d)
+                            {
+                                var line = new GridLine(startX, startY, endX, endY);
+                                GridLines.Add(line);
+                                resetStart = true;
+                            }
+                        }
+                    }
+                }
+                if (startX != 0d)
+                {
+                    var line2 = new GridLine(startX, startY, endX, endY);
+                    GridLines.Add(line2);
+                }
+                resetStart = true;
+            }
+        }
+
+        internal void GenerateBorderLines(ExcelWorksheet ws)
+        {
+            HashSet<double> xCoords = new HashSet<double>();
+            HashSet<double> yCoords = new HashSet<double>();
+            // Collect all unique X and Y coordinates.
+            var cells = ChildObjects.Where(x => x is PdfCellLayout).ToList();
+            foreach (var c in cells)
+            {
+                if (c is PdfMergedCellLayout) continue;
+                yCoords.Add(c.LocalPosition.Y + c.Size.Y);  // Top
+                yCoords.Add(c.LocalPosition.Y);             // Bottom
+                xCoords.Add(c.LocalPosition.X);             // Left
+                xCoords.Add(c.LocalPosition.X + c.Size.X);  // Right
+            }
+            double minX = cells.Where(c => c is not PdfMergedCellLayout).Min(c => c.LocalPosition.X);
+            double maxX = cells.Where(c => c is not PdfMergedCellLayout).Max(c => c.LocalPosition.X + c.Size.X);
+            double minY = cells.Where(c => c is not PdfMergedCellLayout).Min(c => c.LocalPosition.Y);
+            double maxY = cells.Where(c => c is not PdfMergedCellLayout).Max(c => c.LocalPosition.Y + c.Size.Y);
+            foreach (var x in xCoords.OrderBy(v => v))
+            {
+                var line = new GridLine(x, minY, x, maxY);
+                if (x == minX || x == maxX)
+                    BorderLines.Add(line);
+            }
+            foreach (var y in yCoords.OrderBy(v => v))
+            {
+                var line = new GridLine(minX, y, maxX, y);
+                if (y == minY || y == maxY)
+                    BorderLines.Add(line);
             }
         }
     }

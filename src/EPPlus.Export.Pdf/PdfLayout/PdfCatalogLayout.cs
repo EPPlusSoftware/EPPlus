@@ -220,6 +220,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateVerticalGridLines(ws);
+                page.GenerateHorizontalGridLines(ws);
+                page.GenerateBorderLines(ws);
                 //page.GenerateGridLines();
                 page.ChildObjects.RemoveAll(x => x.Name.Contains("*")); //Remove all content with * in its name. Better approach would be to not add them at all, But they are needed for grid lines.
             }

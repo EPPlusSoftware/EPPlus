@@ -10,18 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vector2 = EPPlus.Graphics.Math.Vector2;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -52,20 +51,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             this.cell = cell;
             this.CellStyle = CellStyle;
-
-            if (cell.IsRichText)
-            {
-                //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
-                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
-                HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
-            }
-            else
-            {
-                cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
-                HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
-                //HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
-            }
             CellAlignmentData = new PdfCellAlignmentData();
             CellAlignmentData.HorizontalAlignment = cell.Style.HorizontalAlignment;
             CellAlignmentData.VerticalAlignment = cell.Style.VerticalAlignment;
@@ -75,6 +60,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
+
+            if (cell.IsRichText)
+            {
+                //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
+                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
+                HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
+            }
+            else
+            {
+                cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
+                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
+                HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
+                //HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
+            }
             LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); //Need to implement new alignment system for embedding fonts
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y); 
             CheckClipping(cell, width);
@@ -154,6 +153,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             if (maxWidth < textLength)
             {
+                if (rotation != 0)
+                {
+                    var baseVec = new Vector2(textLength, 0);
+                    var rad = rotation * Math.PI / 180.0d;
+                    var rotVec = new Vector2(textLength * Math.Cos(rad), textLength * Math.Sin(rad));
+                    var length = Vector2.Project(rotVec, baseVec).Length;
+                    if (length > maxWidth)
+                    {
+                        textSpillLength = length;
+                    }
+
+                }
                 textSpillLength = textLength;
             }
         }

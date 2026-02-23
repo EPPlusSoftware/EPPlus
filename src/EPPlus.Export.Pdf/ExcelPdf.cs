@@ -180,13 +180,14 @@ namespace EPPlus.Export.Pdf
         {
             var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             var contentStream = new PdfContentStream(Document.Count + 1);
+            contentStream.AddCommand($"% {pageLayout.Name} start");
+            //Add clipping rectangle around page content.
+            contentStream.AddCommand("q");
+            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
-            //Add clipping rectangle around page content.
-            contentStream.AddCommand("q");
-            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -216,6 +217,7 @@ namespace EPPlus.Export.Pdf
             AddHeaderFooter(contentStream, pageLayout, page);
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
+            contentStream.AddCommand($"% {pageLayout.Name} end");
         }
 
         //Add Header Footer

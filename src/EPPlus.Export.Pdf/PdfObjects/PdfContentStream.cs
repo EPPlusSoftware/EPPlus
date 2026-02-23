@@ -404,15 +404,17 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 string w, h;
                 if (line.X1 == line.X2)
                 {
-                    w = GridLine.Width.ToPdfString();
-                    h = System.Math.Abs(line.Y2 - line.Y1).ToPdfString();
+                    w = GridLine.Width.ToPdfStringF4();
+                    h = System.Math.Abs(line.Y2 - line.Y1).ToPdfStringF4();
                 }
                 else
                 {
-                    w = System.Math.Abs(line.X2 - line.X1).ToPdfString();
-                    h = GridLine.Width.ToPdfString();
+                    w = System.Math.Abs(line.X2 - line.X1).ToPdfStringF4();
+                    h = GridLine.Width.ToPdfStringF4();
                 }
-                commands.Add($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} {w} {h} re");
+                var x = Math.Min(line.X1, line.X2);
+                var y = Math.Min(line.Y1, line.Y2);
+                commands.Add($"{x.ToPdfStringF4()} {y.ToPdfStringF4()} {w} {h} re");
             }
             commands.Add("f");
             commands.Add("Q");
@@ -431,8 +433,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add(Color.Black.ToStrokeCommand());
             foreach (var line in pl.BorderLines)
             {
-                commands.Add($"{line.X1.ToPdfString()} {line.Y1.ToPdfString()} m");
-                commands.Add($"{line.X2.ToPdfString()} {line.Y2.ToPdfString()} l");
+                commands.Add($"{line.X1.ToPdfStringF4()} {line.Y1.ToPdfStringF4()} m");
+                commands.Add($"{line.X2.ToPdfStringF4()} {line.Y2.ToPdfStringF4()} l");
             }
             commands.Add("S");
             commands.Add("Q");

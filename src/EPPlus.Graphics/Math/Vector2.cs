@@ -25,6 +25,16 @@ namespace EPPlus.Graphics.Math
 
         public const double Z = 1; //Z is always 1 in pdf.
 
+        public double Length
+        {
+            get { return System.Math.Sqrt(X * X + Y * Y); }
+        }
+
+        public double LengthSquared
+        {
+            get { return X * X + Y * Y; }
+        }
+
         public Vector2() { }
 
         public Vector2(double x, double y)
@@ -43,5 +53,16 @@ namespace EPPlus.Graphics.Math
         public static Vector2 operator *(Vector2 v1, Vector2 v2) => new Vector2(v1.X * v2.X, v1.Y * v2.Y);
         public static Vector2 operator /(Vector2 v1, Vector2 v2) => new Vector2(v1.X / v2.X, v1.Y / v2.Y);
         public static Vector2 operator /(Vector2 v, double s)    => new Vector2(v.X / s, v.Y / s);
+        public static double Dot(Vector2 v1, Vector2 v2)
+        {
+            return v1.X * v2.X + v1.Y * v2.Y;
+        }
+        public static Vector2 Project(Vector2 vector, Vector2 onto)
+        {
+            double length = onto.LengthSquared;
+            if (length == 0) return new Vector2(0, 0);
+            double scale = Dot(vector, onto) / length;
+            return new Vector2(onto.X * scale, onto.Y * scale);
+        }
     }
 }
