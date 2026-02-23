@@ -219,7 +219,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints, double advanceWidth)
         {
             int fragIdxAtBreak = state.CurrentFragmentIdx;
-            LineFragment lineAfterBreak = null;
 
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)

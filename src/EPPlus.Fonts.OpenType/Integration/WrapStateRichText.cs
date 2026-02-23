@@ -46,18 +46,13 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         int _rtIdxAtWordStart = -1;
         int _listIdxWithinLine = -1;
-        double _prevWordWidthAtWordStart = -1;
-        double _lineWidthAtWordStart = -1;
         double _lineFragWidthAtWordStart = -1;
 
         internal void SetAndLogWordStartState(int wordStart)
         {
             WordStart = wordStart;
-
-            _prevWordWidthAtWordStart = CurrentWordWidth;
             CurrentWordWidth = 0;
 
-            _lineWidthAtWordStart = CurrentLineWidth;
             _rtIdxAtWordStart = CurrentFragmentIdx;
             _lineFragWidthAtWordStart = LineFrag.Width;
 
@@ -126,8 +121,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             _rtIdxAtWordStart = -1;
             _listIdxWithinLine = -1;
-            _prevWordWidthAtWordStart = -1;
-            _lineWidthAtWordStart = -1;
             _lineFragWidthAtWordStart = -1;
         }
     }
