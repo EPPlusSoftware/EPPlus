@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Style.Dxf
                 Font.SetValuesFromXml(_helper);
                 Alignment.SetValuesFromXml(_helper);
                 Protection.SetValuesFromXml(_helper);
+                Checkbox = _helper.ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.FeaturePropertyBagDxf}']/xfpb:DXFComplement");
             }
          }
         /// <summary>
@@ -122,7 +123,7 @@ namespace OfficeOpenXml.Style.Dxf
                 var cmplNode = (XmlElement)helper.CreateNode("d:extLst/d:ext/xfpb:DXFComplement");
                 var extNode = (XmlElement)cmplNode.ParentNode;
                 extNode.SetAttribute("xmlns:xfpb", Schemas.schemaFeaturePropertyBag);
-                extNode.SetAttribute("uri", ExtLstUris.FeaturePropertyBag);
+                extNode.SetAttribute("uri", ExtLstUris.FeaturePropertyBagDxf);
                 cmplNode.SetAttribute("i", "0");
                 _styles._hasDxfCheckbox = true;
             }
