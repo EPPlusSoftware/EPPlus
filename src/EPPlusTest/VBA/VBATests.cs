@@ -306,66 +306,6 @@ namespace EPPlusTest.VBA
         }
 
         [TestMethod]
-        public void ReadFile()
-        {
-            var fileName = "MyVBACheckboxes";
-            var fileEnding = ".xlsm";
-
-            using (var package = OpenPackage(fileName + fileEnding))
-            {
-                var ws = package.Workbook.Worksheets[0];
-
-                var tbl = ws.Tables[0];
-                var cols = tbl.Columns;
-
-                //Verify style bools
-                Assert.IsTrue(tbl.DataStyle.Checkbox);
-                Assert.IsTrue(cols[0].DataStyle.Checkbox);
-                Assert.IsTrue(cols[1].DataStyle.Checkbox);
-
-                var topNode = cols[0].DataStyle._helper.TopNode;
-                cols[0].DataStyle._helper.GetDefaultNode("extLst/ext");
-                //cols[0].DataStyle._helper.NameSpaceManager.em
-                //var myNode = cols[0].DataStyle._helper.GetNode("d:extLst/d:ext");
-
-                //var nsm = cols[0].DataStyle._helper.NameSpaceManager;
-
-                //var dn = nsm.DefaultNamespace;
-
-                //cols[0].DataStyle._helper.NameSpaceManager.RemoveNamespace(nsm.LookupPrefix(dn), dn);
-
-                //var myNode2 = cols[0].DataStyle._helper.GetNode("extLst/ext");
-
-                //cols[0].DataStyle._helper.NameSpaceManager.RemoveNamespace("", cols[0].DataStyle._helper.NameSpaceManager.DefaultNamespace);
-
-                //var myNode3 = cols[0].DataStyle._helper.CreateNode("extLst/ext");
-
-
-                //List<string> childXml = new();
-
-                //foreach(XmlNode child in tNode.ChildNodes)
-                //{
-                //    childXml.Add(child.OuterXml);
-                //}
-
-                //cols[0].DataStyle._helper.NameSpaceManager.AddNamespace("xlmns:xfpb", "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag");
-
-                //var str2 = cols[0].DataStyle._helper.TopNode.SelectSingleNode("extLst");
-
-                //ws.Workbook.Styles
-                var extNode = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext[@uri='{ExtLstUris.FeaturePropertyBagDxf}']");
-                var extNodeCol2 = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext[@uri='{ExtLstUris.FeaturePropertyBagDxf}']");
-
-                //Verify dxf property bag
-                Assert.IsTrue(extNode.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
-                Assert.IsTrue(extNodeCol2.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
-
-                var outFile = GetOutputFile("", fileName + "_Resaved" + fileEnding);
-                package.SaveAs(outFile);
-            }
-        }
-
-        [TestMethod]
         public void EnsureEpplusReadsXlsmDxfIdsForTablesCorrectly()
         {
             var fileName = "MyVBACheckboxes";
@@ -399,59 +339,19 @@ namespace EPPlusTest.VBA
                 Assert.IsTrue(cols[0].DataStyle.Checkbox);
                 Assert.IsTrue(cols[1].DataStyle.Checkbox);
 
+                var topNode = cols[0].DataStyle._helper.TopNode;
+                cols[0].DataStyle._helper.GetDefaultNode("extLst/ext");
+
+                //ws.Workbook.Styles
+                var extNode = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+                var extNodeCol2 = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+
                 //Verify dxf property bag
-                Assert.IsTrue(cols[0].DataStyle._helper.GetXmlNodeString("extLst/ext[@uri]") == ExtLstUris.FeaturePropertyBagDxf);
-                Assert.IsTrue(cols[1].DataStyle._helper.GetXmlNodeString("extLst/ext[@uri]") == ExtLstUris.FeaturePropertyBagDxf);
+                Assert.IsTrue(extNode.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+                Assert.IsTrue(extNodeCol2.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
 
                 var outFile = GetOutputFile("", fileName + "_Resaved" + fileEnding);
                 package.SaveAs(outFile);
-            }
-        }
-
-        [TestMethod]
-        public void testRead()
-        {
-            using (var package = OpenTemplatePackage("Checkboxes2.xlsm"))
-            {
-                //ws.Drawings.AddShape("VBASampleRect", eShapeStyle.RoundRect);
-
-                //var sb = new StringBuilder();
-                //sb.AppendLine("Private Sub Workbook_Open()");
-                //sb.AppendLine("    [Tabelle1].Shapes(\"VBASampleRect\").TextEffect.Text = \"This text is set from VBA!\"");
-                //sb.AppendLine("End Sub");
-                //package.Workbook.CodeModule.Code = sb.ToString();
-                //package.Workbook.CreateVBAProject();
-
-                //var table = ws.Tables.Add(ws.Cells["B3:C4"], "Table1");
-                //table.ShowHeader = true;
-                //ws.Cells["B4:C4"].Value = false;
-                //ws.Cells["B4:C4"].Style.Checkbox = true;
-
-                //var ws = package.Workbook.Worksheets[0];
-                //var table = ws.Tables[0];
-                //table.AddRow(1);
-                //table.AddRow(1);
-                //Adjust this if you wish/don't have a temp folder
-
-                //Get the worksheet and the module and some data just to ensure any potential getters are called
-                //var ws = package.Workbook.Worksheets[0];
-                //var cell1 = ws.Cells["A1"];
-                //var yourTable = ws.Tables[0];
-                //var col1OfTable = ws.Tables[0].Columns[0];
-                //var vbaCodeModule = package.Workbook.CodeModule;
-
-
-                //string myPath = "C:\\temp\\";
-
-
-                //var ws = package.Workbook.Worksheets[0];
-                //var table = ws.Tables[0];
-                //var dataDxfId = table.Columns[0].DataDxfId;
-
-
-                //DirectoryInfo outputDir = new DirectoryInfo(myPath);
-                //package.SaveAs(new FileInfo(outputDir.FullName + @"CheckBoxExample.xlsm"));
-                SaveAndCleanup(package);
             }
         }
     }
