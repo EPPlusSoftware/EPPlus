@@ -62,6 +62,10 @@ namespace OfficeOpenXml
         /// <param name="options">Calculation options</param>
         public static void Calculate(this ExcelWorkbook workbook, ExcelCalculationOption options)
         {
+            #if !NET35
+            workbook.ThrowIfCalculationCancelled(); // Guard: prevent recalc on poisoned workbook
+            #endif
+
             Init(workbook);
 
             var filterInfo = new FilterInfo(workbook);
@@ -74,13 +78,25 @@ namespace OfficeOpenXml
             }
 
             //CalcChain(workbook, workbook.FormulaParser, dc, options);
-            var dc=RpnFormulaExecution.Execute(workbook, options);
-            dc._parsingContext.RangeCriteriaCache?.Clear();
-            if (workbook.FormulaParser.Logger != null)
+#if !NET35
+            try
             {
-                var msg = string.Format("Calculation done...number of cells parsed: {0}", dc.processedCells.Count);
-                workbook.FormulaParser.Logger.Log(msg);
+#endif
+                var dc =RpnFormulaExecution.Execute(workbook, options);
+                dc._parsingContext.RangeCriteriaCache?.Clear();
+                if (workbook.FormulaParser.Logger != null)
+                {
+                    var msg = string.Format("Calculation done...number of cells parsed: {0}", dc.processedCells.Count);
+                    workbook.FormulaParser.Logger.Log(msg);
+                }
+#if !NET35
             }
+            catch (OperationCanceledException)
+            {
+                workbook.MarkCalculationCancelled();
+                throw;
+            }
+#endif
         }
         internal static RpnOptimizedDependencyChain CalculateWithDC(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
         {
@@ -158,8 +174,21 @@ namespace OfficeOpenXml
         public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
         {
             Init(worksheet.Workbook);
-            var dc = RpnFormulaExecution.Execute(worksheet, options);
-            dc._parsingContext.RangeCriteriaCache?.Clear();
+#if !NET35
+            worksheet.Workbook.ThrowIfCalculationCancelled();
+            try
+            {
+#endif
+                var dc = RpnFormulaExecution.Execute(worksheet, options);
+                dc._parsingContext.RangeCriteriaCache?.Clear();
+#if !NET35
+            }
+            catch (OperationCanceledException)
+            {
+                worksheet.Workbook.MarkCalculationCancelled();
+                throw;
+            }
+#endif
         }
 
         /// <summary>
@@ -195,15 +224,23 @@ namespace OfficeOpenXml
         /// <param name="options">Calculation options</param>
         public static void Calculate(this ExcelRangeBase range, ExcelCalculationOption options)
         {
-            Init(range._workbook);
-            //var parser = range._workbook.FormulaParser;
-            //var filterInfo = new FilterInfo(range._workbook);
-            //parser.InitNewCalc(filterInfo);
-            //var dc = DependencyChainFactory.Create(range, options);
-            //CalcChain(range._workbook, parser, dc, options);
-            var dc = RpnFormulaExecution.Execute(range, options);
-            // Clear RangeCriteriaCache after calculation completes
-            dc._parsingContext.RangeCriteriaCache?.Clear();
+#if !NET35
+            range._workbook.ThrowIfCalculationCancelled();
+            try
+            {
+#endif
+                Init(range._workbook);
+                var dc = RpnFormulaExecution.Execute(range, options);
+                // Clear RangeCriteriaCache after calculation completes
+                dc._parsingContext.RangeCriteriaCache?.Clear();
+#if !NET35
+            }
+            catch (OperationCanceledException)
+            {
+                range._workbook.MarkCalculationCancelled();
+                throw;
+            }
+#endif
         }
 
         /// <summary>

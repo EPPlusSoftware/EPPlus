@@ -15,6 +15,12 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+#elif (!NET35)
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 #else
 using System.Configuration;
 using System.Collections.Generic;
@@ -115,5 +121,22 @@ namespace OfficeOpenXml.FormulaParsing
         {
             get; set;
         } = false;
+
+#if !NET35
+        /// <summary>
+        /// A cancellation token that can be used to cancel a running calculation.
+        /// When cancelled, an <see cref="OperationCanceledException"/> will be thrown
+        /// and the workbook will be left in an inconsistent, partially calculated state.
+        /// The workbook must be discarded after cancellation — saving or recalculating
+        /// a cancelled workbook is not permitted.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+        /// workbook.Calculate(opt => opt.CancellationToken = cts.Token);
+        /// </code>
+        /// </example>
+        public CancellationToken CancellationToken { get; set; } = CancellationToken.None;
+#endif
     }
 }
