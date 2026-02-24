@@ -122,7 +122,61 @@ namespace EPPlusTest.FormulaParsing
             Assert.IsTrue(package.Workbook.IsCalculationInconsistent);
         }
 
+        [TestMethod]
+        public void Calculate_WithToken_CompletesNormally_IsConsistent()
+        {
+            using var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Formula = "1+1";
 
+            using var cts = new CancellationTokenSource();
+            package.Workbook.Calculate(opt => opt.CancellationToken = cts.Token);
+
+            Assert.AreEqual(2d, ws.Cells["A1"].Value);
+            Assert.IsFalse(package.Workbook.IsCalculationInconsistent);
+        }
+
+        [TestMethod]
+        public void CancelCalculation_WithHeavyNamedRanges()
+        {
+            using var package = new ExcelPackage();
+            var wb = package.Workbook;
+            var ws = wb.Worksheets.Add("Sheet1");
+
+            // Fill source data
+            for (int row = 1; row <= 1000; row++)
+            {
+                ws.Cells[row, 1].Value = row;
+            }
+
+            // Create named ranges with heavy formulas referencing each other
+            for (int i = 0; i < 800; i++)
+            {
+                wb.Names.Add($"HeavyName{i}", ws.Cells["A1:A500"]);
+                ws.Cells[1, i + 2].Formula = $"SUMPRODUCT(HeavyName{i},HeavyName{i})";
+            }
+
+            using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(WaitTimeMs));
+
+            Assert.ThrowsExactly<OperationCanceledException>(() =>
+            {
+                wb.Calculate(opt => opt.CancellationToken = cts.Token);
+            });
+            Assert.IsTrue(wb.IsCalculationInconsistent);
+        }
+
+        [TestMethod]
+        public void CancelCalculation_WorksheetLevel()
+        {
+            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 1);
+            using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(WaitTimeMs));
+
+            Assert.ThrowsExactly<OperationCanceledException>(() =>
+            {
+                package.Workbook.Worksheets[0].Calculate(opt => opt.CancellationToken = cts.Token);
+            });
+            Assert.IsTrue(package.Workbook.IsCalculationInconsistent);
+        }
 
         public static ExcelPackage CreateHeavyChain(int chainLength = 1_000, int sheetCount = 3)
         {
