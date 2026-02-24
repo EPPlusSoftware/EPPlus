@@ -49,6 +49,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             string cellsInPages = ToHierarchyString();
             HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             string mergedCellsInPages = ToHierarchyString();
+            MoveCellToPageFromContent(pageSettings, PagesLayout);
+            ProocessPageAndCells(pageSettings, PagesLayout);
             ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
             string ConvertedCoordinates = ToHierarchyString();
             AdjustAndSort(PagesLayout, dictionaries);
@@ -203,6 +205,100 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        private void MoveCellToPageFromContent(PdfPageSettings pageSettings, PdfPagesLayout pages)
+        {
+            foreach (PdfPageLayout page in pages.ChildObjects)
+            {
+                var rowCount = page.ToRow - page.FromRow + 1;
+                var colCount = page.ToCol - page.FromCol + 1;
+                int col = 0;
+                int row = 0;
+                page.CreateMap();
+                page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.Margins.TopPu);
+                var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
+                for (int i = 0; i < contentObjects.Count; i++)
+                {
+                    var child = contentObjects[i];
+                    page.AddChild(child);
+                    if (child is IShadingLayout iSl)
+                        iSl.UpdateShadingPositionMatrix(pageSettings);
+                    if (child is PdfMergedCellLayout m)
+                    {
+                        var mRowCount = m.address._toRow - m.address._fromRow + 1;
+                        var mColCount = m.address._toCol - m.address._fromCol + 1;
+                        var innerCol = col;
+                        var innerRow = row;
+                        for (int r = 0; r < mRowCount; r++)
+                        {
+                            for (int c = 0; c < mColCount; c++)
+                            {
+                                page.Map[innerRow, innerCol].Name = ExcelRange.GetColumnLetter(innerCol+1) + (innerRow+1);
+                                page.Map[innerRow, innerCol].cell = m;
+                                page.Map[innerRow, innerCol].row = row + 1;
+                                page.Map[innerRow, innerCol].col = col + 1;
+                                innerCol++;
+                                if (innerCol > mColCount)
+                                {
+                                    innerCol = col;
+                                    innerRow++;
+                                }
+                            }
+                        }
+                        col = col+mColCount;
+                        if (col >= colCount)
+                        {
+                            col = 0;
+                            row++;
+                        }
+                    }
+                    else if (child is PdfCellLayout l)
+                    {
+                        while (!string.IsNullOrEmpty(page.Map[row, col].Name))
+                        {
+                            col++;
+                            if (col >= colCount)
+                            {
+                                col = 0;
+                                row++;
+                            }
+                            if (row > rowCount)
+                            {
+                                break;
+                            }
+                        }
+                        if (row < rowCount && col < colCount)
+                        {
+                            page.Map[row, col].Name = l.Name;
+                            page.Map[row, col].cell = l;
+                            page.Map[row, col].row = row + 1;
+                            page.Map[row, col].col = col + 1;
+                        }
+                        col++;
+                        if (col >= colCount)
+                        {
+                            col = 0;
+                            row++;
+                        }
+                    }
+                }
+                page.RemoveChild(page.ChildObjects[0]);
+            }
+        }
+
+        private void ProocessPageAndCells(PdfPageSettings pageSettings, PdfPagesLayout pages)
+        {
+            foreach (PdfPageLayout page in pages.ChildObjects)
+            {
+                //check content for overlapping text content
+                //create clipping
+                //make adjustments
+                //create gridlines
+                //remove unused cells
+                //sort
+                //AddHeaderFooter
+            }
+        }
+
         //Restore the positions of the content, move content children to page and remove content object.
         private void ConvertToPDFCoordiantes(PdfPageSettings pageSettings, PdfPagesLayout pages, ExcelWorksheet ws)
         {
@@ -221,7 +317,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 page.RemoveChild(page.ChildObjects[0]);
                 page.GenerateVerticalGridLines(ws);
                 page.GenerateHorizontalGridLines(ws);
-                page.GenerateBorderLines(ws);
+                page.GenerateBorderLines();
                 //page.GenerateGridLines();
                 page.ChildObjects.RemoveAll(x => x.Name.Contains("*")); //Remove all content with * in its name. Better approach would be to not add them at all, But they are needed for grid lines.
             }

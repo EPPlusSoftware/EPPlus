@@ -17,9 +17,11 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
+using System.Diagnostics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Border: {Name}")]
     internal class PdfCellBorderLayout : Transform , IBorderLayout
     {
         public PdfCellBordersData BorderData;

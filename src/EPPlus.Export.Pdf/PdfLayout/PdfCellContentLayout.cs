@@ -19,11 +19,13 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Vector2 = EPPlus.Graphics.Math.Vector2;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Content: {Name}")]
     internal class PdfCellContentLayout : Transform
     {
         public PdfCellLines Lines = new PdfCellLines();
@@ -38,7 +40,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal List<PdfCellTextItem> fontData = new List<PdfCellTextItem>();
         public double textLength = 0;
         public double textHeight = 0;
-        public double textSpillLength = 0d;
+        public double LeftTextSpillLength = 0d;
+        public double RightTextSpillLength = 0d;
 
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
@@ -161,11 +164,58 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var length = Vector2.Project(rotVec, baseVec).Length;
                     if (length > maxWidth)
                     {
-                        textSpillLength = length;
-                    }
+                        if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.General)
+                        {
+                            if (double.TryParse(cell.Value.ToString(), out double value))
+                            {
+                                LeftTextSpillLength = textLength;
+                            }
+                            else
+                            {
+                                RightTextSpillLength = textLength;
+                            }
+                        }
+                        else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left)
+                        {
+                            RightTextSpillLength = length;
+                        }
+                        else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right)
+                        {
+                            LeftTextSpillLength = length;
+                        }
+                        else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Center)
+                        {
+                            LeftTextSpillLength = length / 2d;
+                            RightTextSpillLength = length / 2d;
+                        }
 
+                    }
+                    return;
                 }
-                textSpillLength = textLength;
+                if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.General)
+                {
+                    if (double.TryParse(cell.Value.ToString(), out double value))
+                    {
+                        LeftTextSpillLength = textLength;
+                    }
+                    else
+                    {
+                        RightTextSpillLength = textLength;
+                    }
+                }
+                else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left)
+                {
+                    RightTextSpillLength = textLength;
+                }
+                else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right)
+                {
+                    LeftTextSpillLength = textLength;
+                }
+                else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Center)
+                {
+                    LeftTextSpillLength = textLength / 2d;
+                    RightTextSpillLength = textLength / 2d;
+                }
             }
         }
 

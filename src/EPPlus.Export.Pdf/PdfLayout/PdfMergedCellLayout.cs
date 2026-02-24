@@ -10,17 +10,21 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using System.Drawing;
-using EPPlus.Export.Pdf.PdfResources;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Merged: {Name}")]
     internal class PdfMergedCellLayout : PdfCellLayout
     {
+        public ExcelAddressBase address;
+
         public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(dictionaries, cell, CellStyle, x, y, width, height, scaleX, scaleY, rotation, parent)
         {

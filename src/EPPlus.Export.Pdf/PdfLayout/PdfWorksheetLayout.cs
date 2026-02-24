@@ -22,6 +22,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -323,28 +324,30 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, PdfCellStyle CellStyle)
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
-            string deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol) ? "" : "*";
+            bool deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol);
             var cl0 = new PdfCellLayout(dictionaries, cell, CellStyle, x, y, width, height, 1, 1, 0, this);
-            cl0.Name = cell.Address + deleteMark;
+            cl0.Name = cell.Address;
             cl0.Z = 1;
-            if (cell._fromCol > 1)
-            {
-                var leftCell = cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1];
-                var leftCellLayouts = ChildObjects.Where(x => x.Name == leftCell.Address || x.Name == leftCell.Address + "_c" || x.Name == leftCell.Address + "*").ToList();
-                foreach (var lc in leftCellLayouts)
-                {
-                    if (lc is PdfCellContentLayout c)
-                    {
-                        cl0.textSpillLength = c.textSpillLength - width;
-                        break;
-                    }
-                    else if (lc is PdfCellLayout l)
-                    {
-                        if(leftCellLayouts.Count == 1) cl0.textSpillLength = l.textSpillLength - width;
-                    }
-                }
-            }
-            AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y-height, width, height, 2);
+            cl0.delete = deleteMark;
+            ////check left cell for textspill
+            //if (cell._fromCol > 1)
+            //{
+            //    var leftCell = cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1];
+            //    var leftCellLayouts = ChildObjects.Where(x => x.Name == leftCell.Address || x.Name == leftCell.Address + "_c" || x.Name == leftCell.Address + "*").ToList();
+            //    foreach (var lc in leftCellLayouts)
+            //    {
+            //        if (lc is PdfCellContentLayout c)
+            //        {
+            //            cl0.LeftTextSpillLength = Math.Max( c.RightTextSpillLength - width, 0d);
+            //            break;
+            //        }
+            //        else if (lc is PdfCellLayout l)
+            //        {
+            //            if (leftCellLayouts.Count == 1) cl0.LeftTextSpillLength = Math.Max(l.LeftTextSpillLength - width, 0d);
+            //        }
+            //    }
+            //}
+            AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y - height, width, height, 2);
             var border = HandleDiagonalBorders(cell, CellStyle, x, y, width, height);
             if (border != null)
             {
@@ -368,9 +371,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
-                var mergedCell = AddChild(new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], CellStyle, x, y, width, height));
-                mergedCell.Name = cell.Address + "_m";
+                var mergedCell = new PdfMergedCellLayout(dictionaries, worksheet.Cells[address._fromRow, address._fromCol], CellStyle, x, y, width, height);
+                mergedCell.Name = address.Address;//cell.Address + "_m";
                 mergedCell.Z = 5;
+                mergedCell.address = address;
+                AddChild(mergedCell);
                 AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
                 var border = HandleDiagonalBorders(cell, null, x, y, width, height);
@@ -388,7 +393,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (!string.IsNullOrEmpty(cell.Text))
             {
                 var cellContent = new PdfCellContentLayout(cell, CellStyle, pageSettings, x, y, width, height, 1, 1, 0, this, dictionaries);
-                cellContent.Name = cell.Address + "_c";
+                cellContent.Name = cell.Address;// + "_c";
                 cellContent.Z = zOrder;
             }
         }
@@ -401,7 +406,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (!edges || edges2)
             {
                 var clb0 = new PdfCellBorderLayout(cell, tableStyle, x, y, width, height, 1, 1, 0, this);
-                clb0.Name = cell.Address + "_b";
+                clb0.Name = cell.Address;// + "_b";
                 clb0.Z = 7;
                 return clb0;
             }
@@ -415,7 +420,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (!diagonals)
             {
                 var clb0 = new PdfCellBorderLayout(cell, TableStyle, x, y, width, height, 1, 1, 0, this);
-                clb0.Name = cell.Address + "_b";
+                clb0.Name = cell.Address;// + "_b";
                 clb0.Z = 7;
                 return clb0;
             }

@@ -17,10 +17,20 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Cell: {Name}")]
+    internal struct PageMap
+    {
+        public string Name;
+        public int row;
+        public int col;
+        public PdfCellLayout cell;
+    }
+
     internal class PdfPageLayout : Transform
     {
         internal List<GridLine> GridLines = new List<GridLine>();
@@ -30,6 +40,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public int ToRow = 0;
         public int FromCol = int.MaxValue;
         public int ToCol = 0;
+
+        public PageMap[,] Map;
 
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height) { }
@@ -44,6 +56,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 ToCol = Math.Max(ToCol, cl.cell._toCol);
             }
             ChildObjects[0].AddChild(cell);
+        }
+
+        public void CreateMap()
+        {
+            Map = new PageMap[ToRow, ToCol];
         }
 
         internal void GenerateGridLines()
@@ -110,7 +127,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     if (l != null)
                     {
-                        if (l.textSpillLength > 0)
+                        if (l.LeftTextSpillLength > 0)
                         {
                             length = 0;
                             if (startX != 0d)
@@ -241,7 +258,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        internal void GenerateBorderLines(ExcelWorksheet ws)
+        internal void GenerateBorderLines()
         {
             HashSet<double> xCoords = new HashSet<double>();
             HashSet<double> yCoords = new HashSet<double>();
