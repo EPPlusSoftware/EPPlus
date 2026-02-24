@@ -305,6 +305,42 @@ namespace EPPlusTest.VBA
             module.Code = sb.ToString();
         }
 
+
+        [TestMethod]
+        public void ReadAndSaveTemplateDxfIdsCheckbox()
+        {
+            using (var package = OpenTemplatePackage("i2273.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("i2273.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var tbl = ws.Tables[0];
+                var cols = tbl.Columns;
+
+                //Verify style bools
+                Assert.IsTrue(cols[0].DataStyle.Checkbox);
+                Assert.IsTrue(cols[1].DataStyle.Checkbox);
+
+                var topNode = cols[0].DataStyle._helper.TopNode;
+                cols[0].DataStyle._helper.GetDefaultNode("extLst/ext");
+
+                //ws.Workbook.Styles
+                var extNode = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+                var extNodeCol2 = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+
+                //Verify dxf property bag
+                Assert.IsTrue(extNode.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+                Assert.IsTrue(extNodeCol2.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void EnsureEpplusReadsXlsmDxfIdsForTablesCorrectly()
         {

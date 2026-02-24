@@ -26,9 +26,6 @@ namespace OfficeOpenXml.Table
             _tableColumn = tableColumn;
             HeaderRowStyle = styles.GetDxf(HeaderRowDxfId, SetHeaderStyle);
             DataStyle = styles.GetDxf(DataDxfId, SetDataStyle);
-
-            DataStyle.DxfId = DataDxfId.HasValue ? DataDxfId.Value : int.MinValue;
-
             TotalsRowStyle = styles.GetDxf(TotalsRowDxfId, SetTotalsStyle);            
         }
         internal int? HeaderRowDxfId
