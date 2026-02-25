@@ -11,8 +11,10 @@
   01/12/2026         EPPlus Software AB           GPOS subset processor
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
+using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Handlers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Subsetting
@@ -30,8 +32,9 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var handlers = new IGposLookupHandler[]
             {
                 new SinglePosHandler(),      // Type 1
-                new PairPosHandler(),         // Type 2
-                new MarkToBaseHandler()       // Type 4
+                new PairPosHandler(),        // Type 2
+                new MarkToBaseHandler(),     // Type 4
+                new ExtensionPosHandler()    // Type 9 
             };
             _handlers = handlers.ToDictionary(h => h.LookupType);
         }
@@ -74,11 +77,26 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var oldGpos = context.OriginalFont.GposTable;
             if (oldGpos == null) return;
 
-            // Let GposTable handle the rewriting
+            Debug.WriteLine($"[GPOS Subset] Original GPOS has {oldGpos.LookupList.Lookups.Count} lookups");
+
+            // Count Type 4 (MarkToBase) lookups
+            int markToBaseCount = 0;
+            foreach (var lookup in oldGpos.LookupList.Lookups)
+            {
+                if (lookup.LookupType == 4 ||
+                    (lookup.LookupType == 9 && lookup.SubTables.Count > 0 &&
+                     lookup.SubTables[0] is MarkToBaseSubTableFormat1))
+                {
+                    markToBaseCount++;
+                }
+            }
+            Debug.WriteLine($"[GPOS Subset] Original has {markToBaseCount} MarkToBase lookups");
+
             var newGpos = oldGpos.Rewrite(context);
 
             if (newGpos != null)
             {
+                Debug.WriteLine($"[GPOS Subset] New GPOS has {newGpos.LookupList.Lookups.Count} lookups");
                 context.SubsetFont.AddOrReplaceTable(newGpos);
             }
         }

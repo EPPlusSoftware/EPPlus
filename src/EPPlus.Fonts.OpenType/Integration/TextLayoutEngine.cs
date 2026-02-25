@@ -63,17 +63,17 @@ namespace EPPlus.Fonts.OpenType.Integration
             _spaceWidthCache = new Dictionary<float, double>();
         }
 
-        public double GetLineHeightInPoints(double fontSize)
+        public double GetLineHeightInPoints(float fontSize)
         {
             return _shaper.GetLineHeightInPoints(fontSize);
         }
 
-        public double GetBaseLineInPoints(double fontSize)
+        public double GetBaseLineInPoints(float fontSize)
         {
             return _shaper.GetAscentInPoints(fontSize);
         }
 
-        public double GetDescentInPoints(double fontSize)
+        public double GetDescentInPoints(float fontSize)
         {
             return _shaper.GetDescentInPoints(fontSize);
         }

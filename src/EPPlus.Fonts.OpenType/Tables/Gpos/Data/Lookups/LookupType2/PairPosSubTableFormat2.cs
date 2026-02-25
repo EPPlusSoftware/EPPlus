@@ -64,29 +64,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 
             // First glyph must be in coverage
             int coverageIndex = Coverage.GetGlyphIndex(firstGlyph);
-            System.Diagnostics.Debug.WriteLine($"  Coverage index for {firstGlyph}: {coverageIndex}");
 
             if (coverageIndex < 0)
             {
-                System.Diagnostics.Debug.WriteLine($"  ✗ First glyph {firstGlyph} not in coverage");
                 return false;
             }
 
             int class1 = ClassDef1.GetClass(firstGlyph);
             int class2 = ClassDef2.GetClass(secondGlyph);
 
-            System.Diagnostics.Debug.WriteLine($"  Classes: class1={class1}, class2={class2}");
-            System.Diagnostics.Debug.WriteLine($"  Matrix bounds: Class1Count={Class1Count}, Class2Count={Class2Count}");
 
             if (class1 < 0 || class2 < 0)
             {
-                System.Diagnostics.Debug.WriteLine($"  ✗ Negative class!");
                 return false;
             }
 
             if (class1 >= Class1Count || class2 >= Class2Count)
             {
-                System.Diagnostics.Debug.WriteLine($"  ✗ Class out of bounds!");
                 return false;
             }
 
@@ -94,24 +88,17 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
 
             if (record == null)
             {
-                System.Diagnostics.Debug.WriteLine($"  ✗ Matrix[{class1},{class2}] is null");
                 return false;
             }
 
-            System.Diagnostics.Debug.WriteLine($"  Matrix[{class1},{class2}] exists:");
-            System.Diagnostics.Debug.WriteLine($"    Value1: {(record.Value1 != null ? $"XAdv={record.Value1.XAdvance}" : "null")}");
-            System.Diagnostics.Debug.WriteLine($"    Value2: {(record.Value2 != null ? $"XAdv={record.Value2.XAdvance}" : "null")}");
-
             if (record.Value1 == null && record.Value2 == null)
             {
-                System.Diagnostics.Debug.WriteLine($"  ✗ Both values are null");
                 return false;
             }
 
             value1 = record.Value1;
             value2 = record.Value2;
 
-            System.Diagnostics.Debug.WriteLine($"  ✓ SUCCESS! Returning XAdvance={value1?.XAdvance ?? 0}");
             return true;
         }
 

@@ -18,6 +18,7 @@ using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gpos
 {
@@ -114,7 +115,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
         private LookupTable ReadLookup(FontsBinaryReader reader, long lookupStart)
         {
             var lookup = new LookupTable();
-
             lookup.LookupType = reader.ReadUInt16BigEndian();
             lookup.LookupFlag = reader.ReadUInt16BigEndian();
             ushort subTableCount = reader.ReadUInt16BigEndian();
@@ -132,14 +132,15 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             }
 
             lookup.SubTables = new List<FontTableElement>();
-
             for (int i = 0; i < subTableCount; i++)
             {
                 if (subTableOffsets[i] == 0)
+                {
                     continue;
+                }
 
                 reader.BaseStream.Position = lookupStart + subTableOffsets[i];
-                var subTable = ReadSubTable(reader, lookup.LookupType, lookupStart + subTableOffsets[i]);
+                var subTable = ReadSubTable(reader, lookup.LookupType, lookupStart + subTableOffsets[i]);  
 
                 if (subTable != null)
                 {
@@ -194,7 +195,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
                 case 9:
                     // Extension positioning
                     // TODO: Implement when needed
-                    return null;
+                    return ReadExtensionPosSubTable(reader, subtableStart);
 
                 default:
                     // Unknown lookup type - skip
@@ -204,14 +205,19 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
         private FontTableElement ReadPairPosSubTable(FontsBinaryReader reader, long subtableStart)
         {
+            // ✅ FIX: Sätt position först!
+            reader.BaseStream.Position = subtableStart;
+
             ushort posFormat = reader.ReadUInt16BigEndian();
 
             if (posFormat == 1)
             {
+                reader.BaseStream.Position = subtableStart; // Reset för deserializer
                 return ReadPairPosFormat1(reader, subtableStart);
             }
             else if (posFormat == 2)
             {
+                reader.BaseStream.Position = subtableStart; // Reset för deserializer
                 return ReadPairPosFormat2(reader, subtableStart);
             }
             else
@@ -236,10 +242,14 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
         private FontTableElement ReadSinglePosSubTable(FontsBinaryReader reader, long subtableStart)
         {
+            // ✅ FIX: Sätt position FÖRST
+            reader.BaseStream.Position = subtableStart;
+
             // Read format to determine which deserializer to use
-            long savedPos = reader.BaseStream.Position;
             ushort posFormat = reader.ReadUInt16BigEndian();
-            reader.BaseStream.Position = savedPos; // Reset for deserializer
+
+            // Reset for deserializer
+            reader.BaseStream.Position = subtableStart;
 
             if (posFormat == 1)
             {
@@ -259,21 +269,52 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
 
         private FontTableElement ReadMarkToBaseSubTable(FontsBinaryReader reader, long subtableStart)
         {
-            // Read format to verify it's Format 1 (only format for MarkToBase)
-            long savedPos = reader.BaseStream.Position;
+            // ✅ FIX: Sätt position INNAN du läser format
+            reader.BaseStream.Position = subtableStart;
+
             ushort posFormat = reader.ReadUInt16BigEndian();
-            reader.BaseStream.Position = savedPos; // Reset for deserializer
+
+            // Reset to start for deserializer
+            reader.BaseStream.Position = subtableStart;
 
             if (posFormat == 1)
             {
                 var deserializer = new MarkToBaseSubTableFormat1Deserializer(reader);
-                return deserializer.Deserialize(subtableStart);
+                var result = deserializer.Deserialize(subtableStart);
+                return result;
             }
             else
             {
-                // Unknown format - skip silently
                 return null;
             }
+        }
+
+        private FontTableElement ReadExtensionPosSubTable(FontsBinaryReader reader, long subtableStart)
+        {
+            reader.BaseStream.Position = subtableStart;
+
+            ushort posFormat = reader.ReadUInt16BigEndian();
+
+            if (posFormat != 1)
+            {
+                return null;
+            }
+
+            ushort extensionLookupType = reader.ReadUInt16BigEndian();
+            uint extensionOffset = reader.ReadUInt32BigEndian();
+
+
+            // ✅ CRITICAL: Prevent infinite recursion!
+            if (extensionLookupType == 9)
+            {
+                return null;
+            }
+
+            long wrappedSubtableStart = subtableStart + extensionOffset;
+
+            var result = ReadSubTable(reader, extensionLookupType, wrappedSubtableStart);
+
+            return result;
         }
     }
 }

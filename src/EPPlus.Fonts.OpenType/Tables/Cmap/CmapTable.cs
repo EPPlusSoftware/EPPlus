@@ -204,9 +204,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             glyphId = 0;
 
             var preferred = GetPreferredSubtable();
-            if (preferred != null)
+            if (preferred != null && preferred.TryGetGlyphId(codePoint, out glyphId) && glyphId != 0)
             {
-                return preferred.TryGetGlyphId(codePoint, out glyphId) && glyphId != 0;
+                return true;
             }
 
             // Fallback: loopa alla
