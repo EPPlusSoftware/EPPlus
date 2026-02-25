@@ -31,6 +31,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellLayout cell;
         public PdfCellContentLayout content;
         public PdfCellBorderLayout border;
+
+        //Scoops up text spill from adjecent cells
+        public double LeftTextBucketSpill;
+        public double RightTextBucketSpill;
     }
 
     internal class PdfPageLayout : Transform
@@ -42,6 +46,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public int ToRow = 0;
         public int FromCol = int.MaxValue;
         public int ToCol = 0;
+        public int RowCount = 0;
+        public int ColCount = 0;
 
         public PageMap[,] Map;
 
@@ -62,7 +68,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public void CreateMap()
         {
-            Map = new PageMap[ToRow, ToCol];
+            RowCount = ToRow - FromRow + 1;
+            ColCount = ToCol - FromCol + 1;
+            Map = new PageMap[RowCount, ColCount];
         }
 
         internal void GenerateGridLines()

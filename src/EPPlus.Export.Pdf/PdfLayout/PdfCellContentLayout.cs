@@ -79,7 +79,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
             LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); //Need to implement new alignment system for embedding fonts
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y); 
-            CheckClipping(cell, width);
+            CheckClipping(cell, x, y, width, height);
         }
 
         private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
@@ -196,25 +196,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     if (double.TryParse(cell.Value.ToString(), out double value))
                     {
-                        LeftTextSpillLength = textLength;
+                        LeftTextSpillLength = textLength - Size.X;
                     }
                     else
                     {
-                        RightTextSpillLength = textLength;
+                        RightTextSpillLength = textLength - Size.X;
                     }
                 }
                 else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left)
                 {
-                    RightTextSpillLength = textLength;
+                    RightTextSpillLength = textLength - Size.X;
                 }
                 else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right)
                 {
-                    LeftTextSpillLength = textLength;
+                    LeftTextSpillLength = textLength - Size.X;
                 }
                 else if (CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Center)
                 {
-                    LeftTextSpillLength = textLength / 2d;
-                    RightTextSpillLength = textLength / 2d;
+                    LeftTextSpillLength = (textLength - Size.X) / 2d;
+                    RightTextSpillLength = (textLength - Size.X) / 2d;
                 }
             }
         }
@@ -571,16 +571,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Check if clipping is needed.
-        private void CheckClipping(ExcelRangeBase cell, double width)
+        private void CheckClipping(ExcelRangeBase cell, double x, double y, double width, double height)
         {
             if (textLength >= width || cell.Merge)
             {
                 if (cell.Merge ||
-                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill ||
-                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
-                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
+                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill )
+                   //CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
+                   //CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
                 {
-                    Clip = true;
+                    Clipping = new Rect()
+                    {
+                        X = x + rightMargin,
+                        Y = y,
+                        Width = width - rightMargin * 2,
+                        Height = height
+                    };
                 }
             }
         }
@@ -603,6 +609,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     };
                 }
             }
+        }
+
+        //Create clipping rectangle.
+        internal void CreateClippingRect(PdfCellLayout cell, double targetX)
+        {
+            //need a way to detect starting X position if text is spilled from left or right
+            var width = targetX - cell.LocalPosition.X;
+            Clipping = new Rect()
+            {
+                X = cell.LocalPosition.X + rightMargin,
+                Y = cell.LocalPosition.Y,
+                Width =  width - rightMargin * 2,
+                Height = cell.Size.Y
+            };
         }
 
         internal void CreateTextShape(PdfDictionaries dictionaries)

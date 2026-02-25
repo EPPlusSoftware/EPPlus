@@ -10,16 +10,16 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using OfficeOpenXml;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
+using OfficeOpenXml;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -234,6 +234,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             {
                                 page.Map[innerRow, innerCol].Name = ExcelRange.GetColumnLetter(innerCol+1) + (innerRow+1);
                                 page.Map[innerRow, innerCol].cell = m;
+                                page.Map[innerRow, innerCol].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
+                                page.Map[innerRow, innerCol].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
                                 page.Map[innerRow, innerCol].row = row + 1;
                                 page.Map[innerRow, innerCol].col = col + 1;
                                 innerCol++;
@@ -270,6 +272,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         {
                             page.Map[row, col].Name = l.Name;
                             page.Map[row, col].cell = l;
+                            page.Map[row, col].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == l.Name);
+                            page.Map[row, col].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == l.Name);
                             page.Map[row, col].row = row + 1;
                             page.Map[row, col].col = col + 1;
                         }
@@ -285,7 +289,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void ProocessPageAndCells(PdfPageSettings pageSettings, PdfPagesLayout pages)
+        private void ProocessPageAndCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPagesLayout pages)
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
@@ -296,16 +300,61 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     for (int col = 0; col < colCount; col++)
                     {
                         var cell = page.Map[row, col];
+                        PageMap leftCell = new PageMap();
+                        PageMap rightCell = new PageMap();
+                        if (col != 0) leftCell = page.Map[row, col-1];
+                        if(col != colCount-1) rightCell = page.Map[row, col+1];
 
+                        //Check for text that spills into other cells. Used for gridlines
+
+                        //Check text spill from left cell
+                        if (leftCell.cell != null)
+                        {
+                            if (leftCell.content != null)
+                            {
+                                if (leftCell.content.RightTextSpillLength > 0d)
+                                {
+                                    cell.RightTextBucketSpill = leftCell.content.RightTextSpillLength - cell.cell.Size.X;
+                                }
+                            }
+                            else if (leftCell.RightTextBucketSpill > 0d)
+                            {
+                                cell.RightTextBucketSpill = leftCell.RightTextBucketSpill - cell.cell.Size.X;
+                            }
+                        }
+                        //check text spill to right //gör denna också för  left cell...
+                        if (cell.content != null)
+                        {
+                            if (cell.content.LeftTextSpillLength > 0d)
+                            {
+                                double spill = cell.content.LeftTextSpillLength;
+                                for (int i = col; i > 0; i--)
+                                {
+                                    var prevCell = page.Map[row, i-1];
+                                    if (prevCell.content != null)
+                                    {
+                                        cell.content.CreateClippingRect(cell.cell, prevCell.cell.LocalPosition.X + prevCell.cell.Size.X);
+                                        break;
+                                    }
+                                    prevCell.LeftTextBucketSpill = spill - prevCell.cell.Size.X;
+                                    spill = spill - prevCell.cell.Size.X;
+                                    page.Map[row, i - 1] = prevCell;
+                                    if (spill <= 0d) break;
+                                }
+                            }
+                        }
+
+
+
+                        page.Map[row, col].content.CreateTextShape(dictionaries);
+                        page.Map[row, col] = cell;
                     }
                 }
-                //check content for overlapping text content
-                //create clipping
-                //make adjustments
                 //create gridlines
+                //make adjustments
+                //AddHeaderFooter
                 //remove unused cells
                 //sort
-                //AddHeaderFooter
             }
         }
 
@@ -325,6 +374,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         iBl.UpdateLocalBorderPosition();
                 }
                 page.RemoveChild(page.ChildObjects[0]);
+
                 page.GenerateVerticalGridLines(ws);
                 page.GenerateHorizontalGridLines(ws);
                 page.GenerateBorderLines();
