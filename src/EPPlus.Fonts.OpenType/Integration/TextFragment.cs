@@ -22,5 +22,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         public string Text { get; set; }
         public MeasurementFont Font { get; set; }
         public ShapingOptions Options { get; set; }
+
+        public double AscentPoints { get; set; }
+        public double DescentPoints { get; set; }
     }
 }

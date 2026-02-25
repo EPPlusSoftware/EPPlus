@@ -37,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ExcelChartAxisStandard.CalculateStacked100(yValues);
             }
 
-            for(var i= 0;i < xValues.Count;i++)
+            for(var i= 0; i < xValues.Count; i++)
             {
                 var xSerie = xValues[i];
                 var ySerie = yValues[i];

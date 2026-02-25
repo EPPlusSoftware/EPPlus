@@ -49,7 +49,7 @@ namespace OfficeOpenXml
         public ExcelNumberFormatXml NumberFormat 
         { 
             get 
-            {
+            {               
                 return ValueToTextHandler.GetNumberFormat(_styleId, Worksheet.Workbook.Styles);
             } 
         } 

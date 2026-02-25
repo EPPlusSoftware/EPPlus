@@ -25,6 +25,14 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
             charStarIdxWithinCurrentLine = 0;
         }
 
+        //public RichTextFragmentSimple(int fragIdx, )
+        //{
+        //    Width = 0;
+        //    Fragidx = 0;
+        //    OverallParagraphStartCharIdx = 0;
+        //    charStarIdxWithinCurrentLine = 0;
+        //}
+
         internal RichTextFragmentSimple Clone()
         {
             var fragment = new RichTextFragmentSimple();

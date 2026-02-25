@@ -735,7 +735,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Calculates the distance from the top of the font's bounding box to the baseline.
         /// </summary>
-        public float GetBaseLineInPoints(float fontSize)
+        /// <param name="fontSize">The font size, in points, for which to calculate the baseline position. Must be a positive value.</param>
+        /// <returns>The distance, in points, from the top of the font's bounding box to the baseline for the given font size.</returns>
+        public float GetAscentInPoints(float fontSize)
         {
             var ascent = _primaryFont.Os2Table.UseTypoMetrics
                 ? (float)_primaryFont.Os2Table.sTypoAscender

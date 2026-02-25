@@ -10,9 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -20,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -38,6 +41,33 @@ namespace EPPlus.Fonts.OpenType
         internal static OpenTypeFont GetFontData(string fontName, FontSubFamily subFamily)
         {
             return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
+        }
+
+        internal static TextLayoutEngine GetTextLayoutEngine(MeasurementFont mFont)
+        {
+            var startFont = TextData.GetFontData(mFont.FontFamily, GetFontSubType(mFont.Style));
+            var shaper = new TextShaper(startFont);
+            var layout = new TextLayoutEngine(shaper);
+            return layout;
+        }
+
+
+        private static FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+        {
+            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
         }
 
         /// <summary>
@@ -427,8 +457,10 @@ namespace EPPlus.Fonts.OpenType
                     List<string> tmpLst = new List<string>();
                     WrapAtCharPos(line, i, ref nextLineStartIndex, ref lineWidth, ref wordWidth, advanceWidth, tmpLst, spaceWidth, out int prevLineWidth);
 
-                    actualLine.Text = line;
+                    actualLine.Text = tmpLst.Last();
                     actualLine.Width = prevLineWidth;
+                    wrappedStrings.Add(actualLine);
+                    actualLine = new TextLineSimple();
                 }
             }
 
@@ -1227,9 +1259,12 @@ namespace EPPlus.Fonts.OpenType
                             ref maxWidth, ref lineWidth, ref wordWidth);
                         //Font/fragment change
                         currentFont = paragraph.FontIndexDict[fragmentIdx];
-                        if (paragraph.FontSizes[fragmentIdx] > CurrentLineLargestFontSize)
+                        if (paragraph.FontSizes[fragmentIdx] >= CurrentLineLargestFontSize)
                         {
-                            largestFontCurrentLine = currentFont;
+                            if(GetSingleLineSpacing(currentFont, paragraph.FontSizes[fragmentIdx]) > GetSingleLineSpacing(largestFontCurrentLine, CurrentLineLargestFontSize))
+                            {
+                                largestFontCurrentLine = currentFont;
+                            }
                             CurrentLineLargestFontSize = paragraph.FontSizes[fragmentIdx];
                         }
                         spaceWidth = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
@@ -1277,16 +1312,21 @@ namespace EPPlus.Fonts.OpenType
                     var charInfoAtBreak = fragmentCollection.CharLookup[prevLineEndIndex];
                     var fragIdxAtBreak = charInfoAtBreak.Fragment;
 
+                    var spaceWidthAtBreak = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
+
                     //Largest font might be wrong here as we may linebreak at a different font than current font if we break at the start of a word
                     //and not current i
-                    largestFontCurrentLine = null;
-                    CurrentLineLargestFontSize = 0;
+                    largestFontCurrentLine = paragraph.FontIndexDict[currentLineRtFragments[0].Fragidx];
+                    CurrentLineLargestFontSize =  paragraph.FontSizes[currentLineRtFragments[0].Fragidx];
 
                     for (int j = currentLineRtFragments[0].Fragidx; j < fragIdxAtBreak + 1; j++)
                     {
                         if (paragraph.FontSizes[j] > CurrentLineLargestFontSize)
                         {
-                            largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            if (GetSingleLineSpacing(paragraph.FontIndexDict[j], paragraph.FontSizes[j]) > GetSingleLineSpacing(largestFontCurrentLine, CurrentLineLargestFontSize))
+                            {
+                                largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            }
                             CurrentLineLargestFontSize = paragraph.FontSizes[j];
                         }
                     }
@@ -1294,14 +1334,17 @@ namespace EPPlus.Fonts.OpenType
                     AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, prevLineWidth, fragmentIdx);
 
                     //Largest font is not neccesarily current font as word wrap might have wrapped another font between
-                    largestFontCurrentLine = null;
-                    CurrentLineLargestFontSize = 0;
+                    largestFontCurrentLine = paragraph.FontIndexDict[fragIdxAtBreak];
+                    CurrentLineLargestFontSize = paragraph.FontSizes[fragIdxAtBreak];
 
                     for (int j = fragIdxAtBreak; j < fragmentIdx + 1; j++)
                     {
                         if (paragraph.FontSizes[j] > CurrentLineLargestFontSize)
                         {
-                            largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            if (GetSingleLineSpacing(paragraph.FontIndexDict[j], paragraph.FontSizes[j]) > GetSingleLineSpacing(largestFontCurrentLine, CurrentLineLargestFontSize))
+                            {
+                                largestFontCurrentLine = paragraph.FontIndexDict[j];
+                            }
                             CurrentLineLargestFontSize = paragraph.FontSizes[j];
                         }
                     }
@@ -1423,14 +1466,12 @@ namespace EPPlus.Fonts.OpenType
             }
 
             AddDataToSimpleLine(currentTextLine, paragraph, currentFont, largestFontCurrentLine, CurrentLineLargestFontSize, lineWidth, paragraph.Fragments.TextFragments.Count() - 1);
-
-
             AddWidthToFragment(currentRtFragment, currentFont.HeadTable.UnitsPerEm, fontSize, lineWidth, prevFragWidths, currentRtFragment.Fragidx);
 
             currentRtFragment.charStarIdxWithinCurrentLine = Math.Max(0, currentRtFragment.OverallParagraphStartCharIdx - prevLineBreakIndex);
             currentLineRtFragments.Add(currentRtFragment);
 
-            for (int j = 0; j < currentLineRtFragments.Count(); j++)
+            for (int j = 0; j < currentLineRtFragments.Count; j++)
             {
                 currentLineRtFragments[j].charStarIdxWithinCurrentLine = Math.Max(0, currentLineRtFragments[j].OverallParagraphStartCharIdx - prevLineBreakIndex);
                 currentTextLine.RtFragments.Add(currentLineRtFragments[j]);

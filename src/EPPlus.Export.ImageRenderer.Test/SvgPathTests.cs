@@ -1,13 +1,14 @@
-﻿using OfficeOpenXml;
+﻿using EPPlus.Fonts.OpenType;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using TypeConv = OfficeOpenXml.Utils.TypeConversion;
-using EPPlus.Fonts.OpenType;
 
 namespace TestProject1
 {
@@ -346,7 +347,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
-                //d.Textbox = "Rectangle Rectangle Rectangle Rectangle";
+                //d.Textbox = "GetRectangle GetRectangle GetRectangle GetRectangle";
                 //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -511,20 +512,87 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 0;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
+
+                var ix = 2;
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                //}
             }
         }
+
         [TestMethod]
-            public void GenerateSvgForLineCharts()
+        public void GenerateShapeCenteredParagraph()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenPackage("ShapeTestCentered.xlsx",true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("ShapeSheet");
+
+                var _currentShape = sheet.Drawings.AddShape("CubeTest", eShapeStyle.Cube);
+
+                _currentShape.SetPixelWidth(300d);
+                _currentShape.SetPixelHeight(300d);
+
+                _currentShape.Fill.Style = eFillStyle.SolidFill;
+                _currentShape.Fill.Color = System.Drawing.Color.BlueViolet;
+                _currentShape.Font.Color = System.Drawing.Color.Goldenrod;
+
+                _currentShape.TextBody.TopInsert = 0;
+                _currentShape.TextBody.BottomInsert = 0;
+                _currentShape.TextBody.RightInsert = 0;
+                _currentShape.TextBody.LeftInsert = 0;
+
+                var para1 = _currentShape.TextBody.Paragraphs.Add("TextBox\r\na");
+                //var test = _currentShape.TextBody.AnchorCenter;
+
+                para1.LeftMargin = 5;
+                _currentShape.TextBody.TopInsert = 10;
+
+                var para2 = _currentShape.TextBody.Paragraphs.Add("TextBox2");
+                para2.TextRuns[0].FontItalic = true;
+                para2.TextRuns[0].FontBold = true;
+                para2.TextRuns.Add("ra underline").FontUnderLine = eUnderLineType.Dash;
+                para2.TextRuns.Add("La Strike").FontStrike = eStrikeType.Single;
+                var tRun1 = para2.TextRuns.Add("Goudy size 16");
+                tRun1.SetFromFont("Goudy Stout", 16);
+
+                _currentShape.TextBody.Paragraphs[0].HorizontalAlignment = eTextAlignment.Center;
+
+                _currentShape.TextAnchoring = eTextAnchoringType.Top;
+
+                //var smiley = "\ud83d\ude03";
+
+                tRun1.Fill.Color = System.Drawing.Color.IndianRed;
+                var tRun2 = para2.TextRuns.Add("SvgSize 24");
+                tRun2.FontSize = 24;
+
+                //_currentShape.TextAnchoring = eTextAnchoringType.Center;
+
+                _currentShape.TextBody.HorizontalTextOverflow = eTextHorizontalOverflow.Clip;
+                _currentShape.TextBody.VerticalTextOverflow = eTextVerticalOverflow.Clip;
+
+                
+                //SetFillColor(_currentShape.Fill, txtFillColor.Text);
+                //SetFillColor(_currentShape.Border.Fill, txtBorderColor.Text);
+
+                var aFont = _currentShape.Font;
+                var paragraph0 = _currentShape.TextBody.Paragraphs[0];
+
+                _currentShape.GetSizeInPixels(out int testWidth, out int testHeight);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void GenerateSvgForLineCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("LineChartRenderTest.xlsx"))

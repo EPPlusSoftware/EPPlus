@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
@@ -34,11 +35,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            sb.AppendFormat("<ellipse cx=\"{0}\" cy=\"{1}\" rx=\"{2}\" ry=\"{3}\" ", 
-                Cx.ToString(CultureInfo.InvariantCulture), 
-                Cy.ToString(CultureInfo.InvariantCulture), 
-                Rx.ToString(CultureInfo.InvariantCulture), 
-                Ry.ToString(CultureInfo.InvariantCulture));
+            sb.AppendFormat("<ellipse cx=\"{0}\" cy=\"{1}\" rx=\"{2}\" ry=\"{3}\" ",
+                Cx.PointToPixelString(),
+                Cy.PointToPixelString(),
+                Rx.PointToPixelString(),
+                Ry.PointToPixelString());
             
             base.Render(sb);
 
