@@ -485,6 +485,25 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
 
+            List<string> smallestTextFragments = new List<string>();
+
+            //Ensure each linefragment can get correct text
+            foreach(var line in wrappedLines)
+            {
+                foreach(var lf in line.LineFragments)
+                {
+                    var text = line.GetLineFragmentText(lf);
+                    smallestTextFragments.Add(text);
+                }
+            }
+
+            Assert.AreEqual(6, smallestTextFragments.Count);
+            Assert.AreEqual("TextBox2", smallestTextFragments[0]);
+            Assert.AreEqual("ra underline", smallestTextFragments[1]);
+            Assert.AreEqual("La", smallestTextFragments[2]);
+            Assert.AreEqual("Strike", smallestTextFragments[3]);
+            Assert.AreEqual("Goudy size", smallestTextFragments[4]);
+            Assert.AreEqual("16", smallestTextFragments[5]);
         }
 
         [TestMethod]

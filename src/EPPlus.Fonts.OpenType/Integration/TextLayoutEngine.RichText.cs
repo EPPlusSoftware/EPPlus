@@ -57,6 +57,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
             state.EndCurrentTextLine();
 
+
             if (_lineListBuffer.Count == 0)
             {
                 _lineListBuffer.Add(string.Empty);
@@ -93,6 +94,23 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.CurrentTextLine.Text = lineBuilder.ToString();
             state.EndCurrentTextLine();
 
+            //Calculate ascent and descent so later application can handle line-spacing
+            //This could be optimized by doing it during ProcessFragment but that is way bulkier/unclear
+            foreach (var line in state.Lines)
+            {
+                double largestAscent = 0;
+                double largestDescent = 0;
+                foreach(var lineFragment in line.LineFragments)
+                {
+                    var frag = fragments[lineFragment.RtFragIdx];
+                    if (frag == null) continue;
+                    largestAscent = Math.Max(frag.AscentPoints, largestAscent);
+                    largestDescent = Math.Max(frag.DescentPoints, largestDescent);
+                }
+                line.LargestAscent = largestAscent;
+                line.LargestDescent = largestDescent;
+            }
+
             if (_lineListBuffer.Count == 0)
             {
                 _lineListBuffer.Add(string.Empty);
@@ -119,6 +137,10 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             Array.Clear(charWidths, 0, len);
             FillCharWidths(shaped.Glyphs, scale, len, charWidths);
+
+            //Store for after everything is done
+            fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
+            fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length);
             state.LineFrag.StartIdx = lineBuilder.Length;
@@ -202,7 +224,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             state.CurrentTextLine.Width = state.CurrentLineWidth;
-            state.EndCurrentTextLineAndIntializeNext(state.CurrentFragmentIdx, 0);
+            state.EndCurrentTextLineAndIntializeNext(0);
 
             lineBuilder.Length = 0;
         }
@@ -267,7 +289,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
             }
 
-            state.EndCurrentTextLineAndIntializeNext(state.CurrentFragmentIdx, lineBuilder.Length);
+            state.EndCurrentTextLineAndIntializeNext(lineBuilder.Length);
             state.CurrentWordWidth = state.CurrentLineWidth;
 
             state.WordStart = -1;

@@ -14,10 +14,15 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double Width { get; set; }
         public int RtFragIdx { get; set; }
 
-        internal LineFragment(int rtFragmentIdx, int idxWithinLine)
+        //public double AscentInPoints { get; private set; }
+        //public double DescentInPoints { get; private set; }
+
+        internal LineFragment(int rtFragmentIdx, int idxWithinLine/*, double ascentInPoints, double descentInPoints*/)
         {
             RtFragIdx = rtFragmentIdx;
             StartIdx = idxWithinLine;
+            //AscentInPoints = ascentInPoints;
+            //DescentInPoints = descentInPoints;
         }
     }
 }

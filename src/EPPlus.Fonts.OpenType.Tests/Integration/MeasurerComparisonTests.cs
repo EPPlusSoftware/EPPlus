@@ -185,7 +185,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             // Act
             var oldBaseline = oldMeasurer.GetBaseLine();
-            var newBaseline = shaper.GetBaseLineInPoints(11.0);
+            var newBaseline = shaper.GetAscentInPoints(11.0);
 
             // Assert
             Debug.WriteLine($"Old Baseline: {oldBaseline}, New Baseline: {newBaseline}");

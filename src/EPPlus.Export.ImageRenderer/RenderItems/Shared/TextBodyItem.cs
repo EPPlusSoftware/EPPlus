@@ -71,18 +71,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
             paragraph.Bounds.Top = startingY;
             _text = text;
-            if(Paragraphs.Count == 0)
-            {
-                Bounds.Height = paragraph.Bounds.Height;
-            }
-            else
-            {
-                Bounds.Height += paragraph.Bounds.Height;
-            }
 
-            if(Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count==0))
+            if(AutoSize)
             {
-                Bounds.Width = paragraph.Bounds.Width;
+                if (Paragraphs.Count == 0)
+                {
+                    Bounds.Height = paragraph.Bounds.Height;
+                }
+                else
+                {
+                    Bounds.Height += paragraph.Bounds.Height;
+                }
+
+                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
+                {
+                    Bounds.Width = paragraph.Bounds.Width;
+                }
             }
             Paragraphs.Add(paragraph);
             SetHorizontalAlignmentPosition();

@@ -10,9 +10,11 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.Tables.Kern;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -20,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -38,6 +41,33 @@ namespace EPPlus.Fonts.OpenType
         internal static OpenTypeFont GetFontData(string fontName, FontSubFamily subFamily)
         {
             return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
+        }
+
+        internal static TextLayoutEngine GetTextLayoutEngine(MeasurementFont mFont)
+        {
+            var startFont = TextData.GetFontData(mFont.FontFamily, GetFontSubType(mFont.Style));
+            var shaper = new TextShaper(startFont);
+            var layout = new TextLayoutEngine(shaper);
+            return layout;
+        }
+
+
+        private static FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+        {
+            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
         }
 
         /// <summary>
@@ -1281,6 +1311,8 @@ namespace EPPlus.Fonts.OpenType
 
                     var charInfoAtBreak = fragmentCollection.CharLookup[prevLineEndIndex];
                     var fragIdxAtBreak = charInfoAtBreak.Fragment;
+
+                    var spaceWidthAtBreak = CalcGlyphWidth(paragraph.GlyphMappings[fragmentIdx], ' ', currentFont, ref lastGlyphIndex, ref applyKerning);
 
                     //Largest font might be wrong here as we may linebreak at a different font than current font if we break at the start of a word
                     //and not current i

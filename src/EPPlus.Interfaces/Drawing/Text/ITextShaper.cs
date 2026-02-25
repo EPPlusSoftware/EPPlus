@@ -59,9 +59,9 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         double GetFontHeightInPoints(double fontSize);
 
         /// <summary>
-        /// Gets baseline distance from top of container in points.
+        /// Gets Ascent (top of container to the baseline) in points
         /// </summary>
-        double GetBaseLineInPoints(double fontSize);
+        double GetAscentInPoints(double fontSize);
 
         /// <summary>
         /// Gets descent distance (below baseline) in points.

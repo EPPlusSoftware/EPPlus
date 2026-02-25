@@ -24,20 +24,21 @@ namespace EPPlus.Fonts.OpenType.Integration
             Lines.Add(CurrentTextLine);
         }
 
-        internal void EndCurrentTextLineAndIntializeNext(int fragIdx, int startIdxOfNewFragment)
+        internal void EndCurrentTextLineAndIntializeNext(int startIdxOfNewFragment)
         {
             var nextLine = new TextLineSimple();
 
             if (_fragmentsForNextLine == null)
             {
                 EndCurrentTextLine();
-                LineFrag = new LineFragment(fragIdx, startIdxOfNewFragment);
+                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment);
             }
             else
             {
                 //_fragmentsForNextLine.Add(LineFrag);
                 nextLine.LineFragments = _fragmentsForNextLine;
 
+                //LineFrag.StartIdx = ;
                 Lines.Add(CurrentTextLine);
                 _fragmentsForNextLine = null;
             }
@@ -109,10 +110,15 @@ namespace EPPlus.Fonts.OpenType.Integration
                 CurrentTextLine.LineFragments.RemoveAt(i);
             }
 
-            if(_rtIdxAtWordStart != CurrentFragmentIdx)
+            if (_rtIdxAtWordStart != CurrentFragmentIdx)
             {
                 //We also insert the fragment we've split out
                 _fragmentsForNextLine.Insert(0, resultingFragment);
+                //The current fragment's startidx is affected by the split if it is not the first in new line
+                if (LineFrag.StartIdx != 0)
+                {
+                    LineFrag.StartIdx -= WordStart + 1;
+                }
             }
             else
             {

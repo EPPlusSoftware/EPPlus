@@ -334,7 +334,7 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorWidth = Rectangle.Width / AxisValues.Count;
-                    return Rectangle.Left + majorWidth * i + (majorWidth / 2) - m.Width.PointToPixel() / 2;
+                    return Rectangle.Left + majorWidth * i;
                 }
                 else
                 {
