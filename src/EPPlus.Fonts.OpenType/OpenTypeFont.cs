@@ -32,6 +32,7 @@ using EPPlus.Fonts.OpenType.Tables.Vmtx;
 using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType
@@ -39,6 +40,7 @@ namespace EPPlus.Fonts.OpenType
     /// <summary>
     /// Base class for open-type fonts
     /// </summary>
+    [DebuggerDisplay("{FullName}, IsSubset: {IsSubset}")]
     public class OpenTypeFont
     {
         internal TableCache _localTableCache;
@@ -606,21 +608,25 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
+            // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
-            var charArray = usedChars.ToArray();
-            if (charArray.Length == 0)
+
+            if (!usedChars.Any())
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
-            var codePoints = CharacterUtil.ExtractCodePointsFromChars(charArray);
 
-            // Använd "this" direkt — IsReadOnly-skyddet på AddOrReplaceTable 
-            // garanterar att denna instans aldrig modifieras av subsetting.
+            // Extract Unicode code points, correctly handling surrogate pairs.
+            // A string like "Hello 😀" contains 7 chars but 6 code points,
+            // because 😀 (U+1F600) is encoded as two UTF-16 surrogates.
+            var codePoints = CodePointUtil.ExtractCodePoints(usedChars);
+
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
             var postProcessor = new SubsetPostProcessor();
             postProcessor.PostProcessSubset(newFont);
+
             return newFont;
         }
 

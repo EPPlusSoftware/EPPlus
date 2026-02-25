@@ -24,8 +24,6 @@ namespace EPPlus.Fonts.OpenType.Scanner
                     uint tag = reader.ReadUInt32BigEndian();
                     if (tag != 0x74746366) // "ttcf"
                     {
-                        System.Diagnostics.Debug.WriteLine(
-                            $"[FontScannerV2] Expected TTC header but got 0x{tag:X8} in file: {filePath}");
                         return faces; // Not a TTC file – return empty list
                     }
 
@@ -35,8 +33,6 @@ namespace EPPlus.Fonts.OpenType.Scanner
                     // Sanity check – prevent huge or corrupt TTC from causing issues
                     if (numFonts == 0 || numFonts > 1024)
                     {
-                        System.Diagnostics.Debug.WriteLine(
-                            $"[FontScannerV2] Invalid number of fonts in TTC ({numFonts}) in file: {filePath}");
                         return faces;
                     }
 
@@ -51,8 +47,6 @@ namespace EPPlus.Fonts.OpenType.Scanner
                         // Skip obviously invalid offsets
                         if (offset >= fs.Length)
                         {
-                            System.Diagnostics.Debug.WriteLine(
-                                $"[FontScannerV2] Skipping invalid TTC offset 0x{offset:X8} (beyond file end) in: {filePath}");
                             continue;
                         }
 

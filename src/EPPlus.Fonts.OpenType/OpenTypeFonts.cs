@@ -152,7 +152,6 @@ namespace EPPlus.Fonts.OpenType
                     if (cached != null && cached.Font != null && cached.IsLoaded)
                     {
                         cached.Font.EnsureFullyLoaded();
-                        Debug.WriteLine($"[CACHE HIT] {fontName}_{subFamily} → Font={cached.Font.GetHashCode()}, CmapSubTables={cached.Font.CmapTable?.SubTables?.Count}");
                         return cached.Font;
                     }
                 }

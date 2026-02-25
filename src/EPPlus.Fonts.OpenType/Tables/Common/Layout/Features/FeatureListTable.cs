@@ -68,27 +68,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Features
             {
                 var feature = this.FeatureRecords[oldIndex];
 
-                if (oldIndex >= 5 && oldIndex <= 7) // Debug 'liga' features
-                {
-                    Debug.WriteLine($"\n=== Processing feature[{oldIndex}]: '{feature.FeatureTag.Value}' ===");
-                    if (feature.FeatureTable != null)
-                    {
-                        Debug.WriteLine($"  Original lookups: [{string.Join(", ", feature.FeatureTable.LookupListIndices.Select(i => i.ToString()).ToArray())}]");
-                    }
-                }
-
                 var rewrittenFeature = feature.Rewrite(context, lookupMap);
-                if (oldIndex >= 5 && oldIndex <= 7)
-                {
-                    if (rewrittenFeature != null && rewrittenFeature.FeatureTable != null)
-                    {
-                        Debug.WriteLine($"  Rewritten lookups: [{string.Join(", ", rewrittenFeature.FeatureTable.LookupListIndices.Select(i => i.ToString()).ToArray())}]");
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"  ❌ REMOVED (no valid lookups remain)");
-                    }
-                }
                 if (rewrittenFeature != null)
                 {
                     int newIndex = newFeatures.Count;
