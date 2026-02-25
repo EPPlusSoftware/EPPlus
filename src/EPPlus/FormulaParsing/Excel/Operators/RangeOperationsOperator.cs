@@ -55,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 for (int r = 0; r < ri.Size.NumberOfRows; r++)
                 {
-                    var d = ConvertUtil.GetValueDouble(ri.GetOffset(r, c), true, true);
+                    var d = ConvertUtil.GetValueDouble(ri.GetOffset(r, c), false, true);
 
                     if (double.IsNaN(d))
                     {
