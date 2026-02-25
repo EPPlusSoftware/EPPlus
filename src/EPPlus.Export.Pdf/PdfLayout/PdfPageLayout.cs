@@ -29,6 +29,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public int row;
         public int col;
         public PdfCellLayout cell;
+        public PdfCellContentLayout content;
+        public PdfCellBorderLayout border;
     }
 
     internal class PdfPageLayout : Transform

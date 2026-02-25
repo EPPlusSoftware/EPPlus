@@ -289,6 +289,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                var rowCount = page.ToRow - page.FromRow + 1;
+                var colCount = page.ToCol - page.FromCol + 1;
+                for (int row = 0; row < rowCount; row++)
+                {
+                    for (int col = 0; col < colCount; col++)
+                    {
+                        var cell = page.Map[row, col];
+
+                    }
+                }
                 //check content for overlapping text content
                 //create clipping
                 //make adjustments
