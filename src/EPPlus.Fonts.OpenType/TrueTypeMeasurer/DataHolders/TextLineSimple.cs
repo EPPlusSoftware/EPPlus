@@ -32,6 +32,8 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 
         public double lastFontSpaceWidth { get; internal set; }
 
+        internal bool WasWrappedOnSpace = false;
+
         /// <summary>
         /// In renderers like Excel the width of trailing spaces
         /// MUST be resepected in some cases.
@@ -50,6 +52,11 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                     break;
                 }
 
+                trailingSpaceCount++;
+            }
+
+            if(WasWrappedOnSpace)
+            {
                 trailingSpaceCount++;
             }
 

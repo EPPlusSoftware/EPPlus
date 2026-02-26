@@ -148,7 +148,9 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
-            var spaceWidth = GetCachedSpaceWidth(fragment.Font.Size, options);
+            var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size,shaper.UnitsPerEm);
+
+            //GetCachedSpaceWidth(fragment.Font.Size, options);
 
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length);
             state.LineFrag.SpaceWidth = spaceWidth;
@@ -258,7 +260,12 @@ namespace EPPlus.Fonts.OpenType.Integration
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
-                string line = lineBuilder.ToString(0, state.WordStart).TrimEnd();
+                var lineStringWithTrail = lineBuilder.ToString(0, state.WordStart+1);
+                if (lineStringWithTrail[lineStringWithTrail.Length-1] == ' ')
+                {
+                    state.CurrentTextLine.WasWrappedOnSpace = true;
+                }
+                string line = lineStringWithTrail.TrimEnd();
                 _lineListBuffer.Add(line);
                 lineBuilder.Remove(0, state.WordStart + 1);
 
@@ -297,6 +304,10 @@ namespace EPPlus.Fonts.OpenType.Integration
                     //must be added to the new line
                     state.CurrentWordWidth = advanceWidth;
                     state.CurrentLineWidth = advanceWidth;
+                }
+                else
+                {
+                    state.CurrentTextLine.WasWrappedOnSpace = true;
                 }
             }
 

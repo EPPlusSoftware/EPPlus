@@ -413,7 +413,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         [TestMethod]
         public void MeasureBigGoudy()
         {
-            List<string> lstOfRichText = new() { "strike", "Goudy Size"};
+            List<string> lstOfRichText = new() { "TextBox2ra underlineLa Strike", "Goudysize16SvgSize24" };
 
             var regFont = new MeasurementFont()
             {
@@ -448,6 +448,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
+            //var test = "TextBox2ra underlineLa StrikeGoudysize16SvgSize24";
+            ////var secondTest = "TextBox2ra underlineLa StrikeGoudy".ToArray();
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizeInPoints);
 
@@ -533,7 +535,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var layout = new TextLayoutEngine(shaper);
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
-
 
             Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
             Assert.AreEqual(201.99, wrappedLines[1].Width);

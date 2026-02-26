@@ -258,15 +258,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                 if (HorizontalAlignment == eTextAlignment.Center)
                 {
-                    //var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                    ////Should only be applied if it was wrapped
+                    var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                    //Should only be applied if it was wrapped
                     //ctrLineWidth -= line.lastFontSpaceWidth;
                     //if(line.Text == "StrikeGoudy size")
                     //{
                     //    ctrLineWidth = 202.5d;
                     //}
                     //Center the line within context we must use maxWidth since left depends on greatest width
-                    prevWidth = - line.Width / 2;
+                    prevWidth = - ctrLineWidth / 2;
                 }
 
                 if (lineSpacingIsExact == false)
