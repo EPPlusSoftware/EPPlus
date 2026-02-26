@@ -31,11 +31,32 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellLayout cell;
         public PdfCellContentLayout content;
         public PdfCellBorderLayout border;
+        public enum CellType
+        {
+            Normal,
+            Merged,
+        }
+        public CellType Type;
 
         //Scoops up text spill from adjecent cells
         public double LeftTextBucketSpill;
         public double RightTextBucketSpill;
     }
+
+    internal class VerticalLineRun
+    {
+        public int Col;
+        public int RowStart;
+        public int RowEnd;
+    }
+
+    internal class HorizontalLineRun
+    {
+        public int Row;
+        public int ColStart;
+        public int ColEnd;
+    }
+
 
     internal class PdfPageLayout : Transform
     {

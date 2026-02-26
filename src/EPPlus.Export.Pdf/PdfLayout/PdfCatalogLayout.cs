@@ -16,6 +16,8 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
@@ -228,6 +230,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             {
                                 page.Map[innerRow, innerCol].Name = ExcelRange.GetColumnLetter(innerCol+1) + (innerRow+1);
                                 page.Map[innerRow, innerCol].cell = m;
+                                page.Map[innerRow, innerCol].Type = PageMap.CellType.Merged;
                                 page.Map[innerRow, innerCol].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
                                 page.Map[innerRow, innerCol].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
                                 page.Map[innerRow, innerCol].row = row + 1;
@@ -266,6 +269,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         {
                             page.Map[row, col].Name = l.Name;
                             page.Map[row, col].cell = l;
+                            page.Map[row, col].Type = PageMap.CellType.Normal;
                             page.Map[row, col].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == l.Name);
                             page.Map[row, col].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == l.Name);
                             page.Map[row, col].row = row + 1;
@@ -289,15 +293,58 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 var rowCount = page.ToRow - page.FromRow + 1;
                 var colCount = page.ToCol - page.FromCol + 1;
+
+                var activeVertical = new Dictionary<int, VerticalLineRun>();
+
+                var activeHorizontal = new Dictionary<int, HorizontalLineRun>();
+                Action<int> flushHorizontal = delegate (int row)
+                {
+                    HorizontalLineRun run;
+                    if (activeHorizontal.TryGetValue(row, out run))
+                    {
+                        double y = page.Map[row, run.ColStart].cell.LocalPosition.Y;
+                        double x1 = page.Map[row, run.ColStart].cell.LocalPosition.X;
+                        double x2 = page.Map[row, run.ColEnd].cell.LocalPosition.X + page.Map[row, run.ColEnd].cell.Size.X;
+
+                        page.GridLines.Add(new GridLine ( x1, y, x2, y ));
+                        activeHorizontal.Remove(row);
+                    }
+                };
+                Action<int, int> AddHorizontalSegment = delegate (int r, int c)
+                {
+                    HorizontalLineRun run;
+                    if (activeHorizontal.TryGetValue(r, out run))
+                    {
+                        if (run.ColEnd == c - 1)
+                        {
+                            run.ColEnd = c;
+                        }
+                        else
+                        {
+                            flushHorizontal(r);
+                            activeHorizontal[r] = new HorizontalLineRun { Row = r, ColStart = c, ColEnd = c };
+                        }
+                    }
+                    else
+                    {
+                        activeHorizontal[r] = new HorizontalLineRun { Row = r, ColStart = c, ColEnd = c };
+                    }
+                };
+
                 for (int row = 0; row < rowCount; row++)
                 {
+                    // flush horizontal runs not continued into this row
+                    var hKeys = new List<int>(activeHorizontal.Keys);
+                    foreach (int key in hKeys)
+                        flushHorizontal(key);
+
                     for (int col = 0; col < colCount; col++)
                     {
                         var cell = page.Map[row, col];
                         PageMap leftCell = new PageMap();
                         PageMap rightCell = new PageMap();
-                        if (col != 0) leftCell = page.Map[row, col-1];
-                        if(col != colCount-1) rightCell = page.Map[row, col+1];
+                        if (col != 0) leftCell = page.Map[row, col - 1];
+                        if (col != colCount - 1) rightCell = page.Map[row, col + 1];
 
                         //Check for text that spills into other cells. Used for gridlines
 
@@ -324,7 +371,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                 double spill = cell.content.LeftTextSpillLength;
                                 for (int i = col; i > 0; i--)
                                 {
-                                    var prevCell = page.Map[row, i-1];
+                                    var prevCell = page.Map[row, i - 1];
                                     if (prevCell.content != null)
                                     {
                                         cell.content.CreateClippingRect(cell.cell, prevCell.cell.LocalPosition.X + prevCell.cell.Size.X);
@@ -338,9 +385,32 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             }
                         }
 
+                        //Collect gridlines
+
+                        //Check Top edge
+                        bool hasTop = row > 0;
+                        var top = hasTop ? page.Map[row - 1, col] : default;
+
+                        bool differentTop = !hasTop || top.cell != cell.cell;
+
+                        bool borderTop = hasTop && (top.border != null &&
+                            (top.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None || cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None));
+
+                        if (differentTop && !borderTop)
+                            AddHorizontalSegment(row, col);
+
+                        //Check Bottom edge
+                        if (row == page.RowCount - 1)
+                        {
+                            if (cell.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None)
+                            {
+                                AddHorizontalSegment(row + 1, col);
+                            }
+                        }
 
 
-                        page.Map[row, col].content.CreateTextShape(dictionaries);
+
+                        if(page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);
                         page.Map[row, col] = cell;
                     }
                 }
