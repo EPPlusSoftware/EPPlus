@@ -41,22 +41,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Name = worksheet.Name + " Catalog";
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
             CreateFontSubsets(pageSettings, dictionaries.Fonts);
-            string wsLayout = ToHierarchyString();
             var PagesLayout = CreatePagesLayoutObject();
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
-            string pagesLayout = ToHierarchyString();
             AddCellsToPageLayout(WorksheetLayout, PagesLayout);
-            string cellsInPages = ToHierarchyString();
             HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
-            string mergedCellsInPages = ToHierarchyString();
             MoveCellToPageFromContent(pageSettings, PagesLayout);
-            ProocessPageAndCells(pageSettings, PagesLayout);
-            ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
-            string ConvertedCoordinates = ToHierarchyString();
-            AdjustAndSort(PagesLayout, dictionaries);
+            ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
+            //ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
+            //AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
-            string FinalPagesLayout = ToHierarchyString();
         }
 
         private void CreateFontSubsets(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fonts)
@@ -397,7 +391,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     if (child is PdfCellContentLayout contentLayout)
                     {
-                        contentLayout.CreateClippingRect(page.ChildObjects);
+                        contentLayout.CreateClippingRect(page.ChildObjects);//doe
                         contentLayout.CreateTextShape(dictionaries);
                     }
                     if (child is PdfMergedCellLayout mergedLayout)
