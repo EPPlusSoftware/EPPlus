@@ -30,6 +30,33 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
 
         public double Width { get; internal set; }
 
+        public double lastFontSpaceWidth { get; internal set; }
+
+        /// <summary>
+        /// In renderers like Excel the width of trailing spaces
+        /// MUST be resepected in some cases.
+        /// In others (e.g. Centering) the spaces width must be ignored
+        /// </summary>
+        public double GetWidthWithoutTrailingSpaces()
+        {
+            lastFontSpaceWidth = LineFragments.Last().SpaceWidth;
+
+            var trailingSpaceCount = 0;
+
+            for(int i = Text.Count()-1; i > 0; i--)
+            {
+                if(Text[i] != ' ')
+                {
+                    break;
+                }
+
+                trailingSpaceCount++;
+            }
+
+            var widthWithoutTrail = Width - lastFontSpaceWidth * (trailingSpaceCount);
+            return widthWithoutTrail;
+        }
+
         public TextLineSimple()
         {
         }

@@ -431,7 +431,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        //Excel default values for Top/Bottom and Right/Left in EMU
+        //Excel default values for Top/Bottom and Right/Left translated to points
         //They are equivalent to 0.25cm and 0.13cm
         internal const double DefaultTopBot = 45720d / ExcelDrawing.EMU_PER_POINT;
         internal const double DefaultRightLeft = 91440d / ExcelDrawing.EMU_PER_POINT;

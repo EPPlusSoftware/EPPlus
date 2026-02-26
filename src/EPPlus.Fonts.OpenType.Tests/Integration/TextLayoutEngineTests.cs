@@ -411,6 +411,80 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        public void MeasureBigGoudy()
+        {
+            List<string> lstOfRichText = new() { "strike", "Goudy Size"};
+
+            var regFont = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            };
+
+
+            var goudyFont = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+
+            List<MeasurementFont> fonts = new() { regFont, goudyFont };
+
+            var startFont = TextData.GetFontData(regFont.FontFamily, GetFontSubType(regFont.Style));
+
+            var shaper = new TextShaper(startFont);
+            var layout = new TextLayoutEngine(shaper);
+
+            var maxSizeInPoints = 225d;
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+
+            var wrappedLines = layout.WrapRichTextLines(fragments, maxSizeInPoints);
+
+
+            var txtWidthsingle = shaper.MeasureTextInPixels("E", 16, 96, ShapingOptions.Full);
+            var txtWidth = shaper.MeasureTextInPixels("EEEEEEEEEE", 16, 96, ShapingOptions.Full);
+            var txtWidthAlt = shaper.MeasureTextInPixels("EEEEEEEEEE", 16, 96, ShapingOptions.Fast);
+
+            var txtWidthLowSize = shaper.MeasureTextInPixels("E", 11, 96, ShapingOptions.Fast);
+            var txtWidthHighSize= shaper.MeasureTextInPixels("E", 72, 96, ShapingOptions.Fast);
+            var txtWidthHighSize10 = shaper.MeasureTextInPixels("EEEEEEEEEE", 72, 96, ShapingOptions.Fast);
+
+            var pts16 = shaper.MeasureTextInPoints("E", 16);
+            var pts = shaper.MeasureTextInPoints("E", 72);
+            var pts2 = shaper.MeasureTextInPoints("E", 96);
+
+            var txtWidthMaxSizeSingle = shaper.MeasureTextInPixels("E", 96, 72, ShapingOptions.Full);
+            var txtWidthMaxSizeSingleFast = shaper.MeasureTextInPixels("E", 96, 72, ShapingOptions.Fast);
+
+            var txtWidthMaxSizeSingle96 = shaper.MeasureTextInPixels("E", 96, 96, ShapingOptions.Full);
+            var txtWidthMaxSizeSingleFast96 = shaper.MeasureTextInPixels("E", 96, 96, ShapingOptions.Fast);
+
+            //Assert.AreEqual(16, txtWidthLowSize);
+            //Assert.AreEqual(97, txtWidthHighSize);
+
+            //Assert.AreEqual(97, txtWidthHighSize);
+            //Assert.AreEqual(23, txtWidthsingle);
+            //Assert.AreEqual(249,txtWidth);
+
+            //var wrappedLines = layout.WrapRichTextLines(fragments, maxSizeInPoints);
+
+            ////E in goudy stout 16 should be equal to 22 px or 16.5 points
+            //Assert.AreEqual(16.5d, wrappedLines[0].LineFragments[0].Width);
+            //Assert.AreEqual(16.5d, wrappedLines[0].LineFragments[1].Width);
+        }
+
+        [TestMethod]
         public void EnsureLineFragmentsAreMeasuredCorrectlyWhenWrapping()
         {
             List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16"};
@@ -462,6 +536,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
 
             Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
+            Assert.AreEqual(201.99, wrappedLines[1].Width);
+
 
             List<string> smallestTextFragments = new List<string>();
 

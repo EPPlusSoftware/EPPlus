@@ -133,6 +133,8 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var charWidths = GetCharWidthBuffer(len);
 
+            //options.ApplySubstitutions = false;
+            //options.ApplyPositioning = false;
             // ShapeLight applies only kerning (sufficient for line-breaking).
             // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
             // is ~250x slower and irrelevant for wrapping decisions.
@@ -146,7 +148,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
+            var spaceWidth = GetCachedSpaceWidth(fragment.Font.Size, options);
+
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length);
+            state.LineFrag.SpaceWidth = spaceWidth;
             state.LineFrag.StartIdx = lineBuilder.Length;
             state.LineFrag.RtFragIdx = state.CurrentFragmentIdx;
 

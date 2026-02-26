@@ -41,6 +41,9 @@ namespace EPPlusImageRenderer.Svg
         /// Calculated shape textbox
         /// </summary>
         SvgRenderRectItem InsetTextBox;
+
+        SvgRenderRectItem MarginTextBox;
+
         /// <summary>
         /// Textbox from memory
         /// </summary>
@@ -222,7 +225,6 @@ namespace EPPlusImageRenderer.Svg
             writer.WriteSvgDefs(sb, RenderItems);
 
             //SvgGroupItem gItemTest = null;
-            //RenderDebugTextBox(sb);
             foreach(var item in RenderItems)
             {
                 item.Render(sb);
@@ -244,6 +246,7 @@ namespace EPPlusImageRenderer.Svg
             //{
             //    gItemTest.RenderEndGroup(sb);
             //}
+            RenderDebugTextBox(sb);
             sb.AppendLine("</svg>");
         }
 
@@ -263,12 +266,14 @@ namespace EPPlusImageRenderer.Svg
             double l, r, t, b;
             bodyOrig.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            BoundingBox MarginsBB = new BoundingBox(InsetTextBox.Width - r, InsetTextBox.Height - b);
-            MarginsBB.Parent = InsetTextBox.Bounds;
-            MarginsBB.Left = l;
-            MarginsBB.Top = t;
+            MarginTextBox = new SvgRenderRectItem(this, this.Bounds);
 
-            var txtBodyItem = new SvgTextBodyItem(this, MarginsBB, 0, 0, MarginsBB.Width, MarginsBB.Height);
+            MarginTextBox.Width = InsetTextBox.Width - r;
+            MarginTextBox.Height = InsetTextBox.Height - b;
+            MarginTextBox.Top = t + InsetTextBox.Top;
+            MarginTextBox.Left = l + InsetTextBox.Left;
+
+            var txtBodyItem = new SvgTextBodyItem(this, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
 
             txtBodyItem.ImportTextBody(bodyOrig);
 
@@ -285,9 +290,13 @@ namespace EPPlusImageRenderer.Svg
 
         private void RenderDebugTextBox(StringBuilder sb)
         {
+            InsetTextBox.FillOpacity = 0.3d;
             InsetTextBox.FillColor = "green";
             InsetTextBox.Render(sb);
 
+            MarginTextBox.FillColor = "red";
+            MarginTextBox.FillOpacity = 0.3;
+            MarginTextBox.Render(sb);
             //InsetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
             //var area = textBody.Bounds;
