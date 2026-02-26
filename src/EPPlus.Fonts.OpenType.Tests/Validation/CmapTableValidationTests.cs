@@ -22,7 +22,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void CmapTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new CmapTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.CmapTable, context);

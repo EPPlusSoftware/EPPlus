@@ -219,10 +219,10 @@ namespace EPPlus.Fonts.OpenType.Integration
                 return cachedShaper;
             }
 
-            var openTypeFont = OpenTypeFonts.GetFontData(
-                fontDirectories: _fontDirectories,
+            var openTypeFont = OpenTypeFonts.LoadFont(
                 fontName: font.FontFamily,
                 subFamily: GetFontSubFamily(font.Style),
+                fontDirectories: _fontDirectories,
                 searchSystemDirectories: _searchSystemDirectories
             );
 

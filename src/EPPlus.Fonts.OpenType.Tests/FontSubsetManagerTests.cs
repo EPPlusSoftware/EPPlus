@@ -14,7 +14,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         private OpenTypeFont LoadTestFont()
         {
             // Adjust path to a font available in your test environment
-            return OpenTypeFonts.GetFontData(FontFolders, "Roboto", ignoreCache: true);
+            return OpenTypeFonts.LoadFont("Roboto");
         }
 
         [TestMethod]

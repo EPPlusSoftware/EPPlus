@@ -23,7 +23,7 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
     {
         internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+            return OpenTypeFonts.LoadFont(fontName, subFamily);
         }
 
         internal static double MeasureFontHeight(OpenTypeFont font, double fontSize)

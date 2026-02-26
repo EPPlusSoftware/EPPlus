@@ -18,7 +18,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("cmap");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var cmapBytes = font.CmapTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);
@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeCmapTable_Format12()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Noto Emoji", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Noto Emoji");
 
             // Ta unique chars from the originalfonts cmap (format 4 + 12)
             var allCodePoints = new HashSet<uint>();
@@ -41,8 +41,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             }
 
             // re-serialize
-            var bytes = font.CmapTable.Serialize(font);
-            var tempFont = new OpenTypeFont(bytes, font.Format);
+            var bytes = font.Serialize();
+            var tempFont = new OpenTypeFont(bytes);
 
             // Check that ALL original chars are still there
             foreach (uint cp in allCodePoints)

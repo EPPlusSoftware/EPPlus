@@ -2,6 +2,7 @@
 using System.IO;
 using System;
 using System.Linq;
+using EPPlus.Fonts.OpenType.FontResolver;
 
 namespace EPPlus.Fonts.OpenType.Scanner
 {
@@ -23,7 +24,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
             FontSubFamily desiredStyle,
             bool searchSystemDirectories = true)
         {
-            var directories = OpenTypeFonts.GetLocationsCollection(additionalDirectories, searchSystemDirectories);
+            var directories = DefaultFontLocations.GetLocationsCollection(additionalDirectories, searchSystemDirectories);
             var candidates = EnumerateAllFaces(directories);
 
             FontFaceInfo bestMatch = null;
@@ -42,7 +43,9 @@ namespace EPPlus.Fonts.OpenType.Scanner
                     bestMatch = face;
                 }
             }
-
+            if (bestMatch == null)
+                return null;
+            bestMatch.IsExactMatch = bestScore >= 9_000;
             return bestMatch;
         }
 

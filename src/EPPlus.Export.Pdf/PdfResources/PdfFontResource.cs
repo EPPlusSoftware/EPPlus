@@ -34,7 +34,7 @@ namespace EPPlus.Export.Pdf.PdfResources
             : base("F", labelNumber)
         {
             this.fontName = fontName;
-            fontData = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+            fontData = OpenTypeFonts.LoadFont(fontName, subFamily);
         }
 
         //Get the Font Descriptor object to write in PDF.

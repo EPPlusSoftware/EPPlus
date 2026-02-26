@@ -40,35 +40,35 @@ namespace EPPlus.Fonts.Benchmarks
         public OpenTypeFont Load_Roboto_Regular_ColdCache()
         {
             OpenTypeFonts.ClearFontCache(); // Clear INNE i benchmark
-            return OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
         }
 
         [Benchmark]
         public OpenTypeFont Load_Roboto_Regular_WarmCache()
         {
             // Load UTAN att cleara - använder cache från GlobalSetup eller warmup
-            return OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
         }
 
         [Benchmark]
         public OpenTypeFont Load_Roboto_Bold_ColdCache()
         {
             OpenTypeFonts.ClearFontCache();
-            return OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Bold);
+            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Bold);
         }
 
         [Benchmark]
         public OpenTypeFont Load_Roboto_Italic_ColdCache()
         {
             OpenTypeFonts.ClearFontCache();
-            return OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Italic);
+            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Italic);
         }
 
         [Benchmark]
         public OpenTypeFont Load_Roboto_BoldItalic_ColdCache()
         {
             OpenTypeFonts.ClearFontCache();
-            return OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.BoldItalic);
+            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.BoldItalic);
         }
     }
 }

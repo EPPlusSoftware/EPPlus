@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("loca");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var locaBytes = font.LocaTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, locaBytes?.Length);
@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("hmtx");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var hmtxBytes = font?.HmtxTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, hmtxBytes?.Length);
@@ -46,10 +46,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [DataRow("Mulish", FontSubFamily.Regular)]
         public void SerializeGlyfTable(string fontName, FontSubFamily subFamily)
         {
+            OpenTypeFonts.ClearFontCache();
             var ffi = FontScannerV2.FindBestMatch(FontFolders, fontName, subFamily);
             var originalBytes = ffi.GetTableBytes("glyf");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, fontName, subFamily, false, true);
+            var font = OpenTypeFonts.LoadFont(fontName, subFamily);
             var glyfBytes = font.GlyfTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, glyfBytes?.Length,

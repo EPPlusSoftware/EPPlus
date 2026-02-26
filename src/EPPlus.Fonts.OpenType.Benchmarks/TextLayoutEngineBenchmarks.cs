@@ -59,7 +59,7 @@ namespace EPPlus.Fonts.Benchmarks
             var fontFolders = new List<string> { fontsPath };
 
             // Setup new layout engine
-            var font = OpenTypeFonts.GetFontData(fontFolders, FontFamily, FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont(FontFamily, FontSubFamily.Regular);
             var shaper = new TextShaper(font);
             _layoutEngine = new TextLayoutEngine(shaper);
 
@@ -155,7 +155,7 @@ namespace EPPlus.Fonts.Benchmarks
         [Benchmark]
         public double[] OnlyExtractWidths()
         {
-            var font = OpenTypeFonts.GetFontData(null, FontFamily, FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont(FontFamily, FontSubFamily.Regular);
             var shaper = new TextShaper(font);
             return shaper.ExtractCharWidths(LoremIpsum20Para, FontSize, ShapingOptions.Default);
         }

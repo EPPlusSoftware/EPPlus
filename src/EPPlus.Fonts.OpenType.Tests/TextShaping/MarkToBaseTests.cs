@@ -1,4 +1,5 @@
-﻿using EPPlus.Fonts.OpenType.TextShaping;
+﻿using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,21 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 {
     [TestClass]
-    public class MarkToBaseTests : FontTestBase
+    public class MarkToBaseTests
     {
-        public override TestContext? TestContext { get; set; }
+        [TestInitialize]
+        public void TestSetup()
+        {
+            OpenTypeFonts.ClearFontCache();
+            
+        }
 
         [TestMethod]
         public void MarkToBaseTest()
         {
-            var font = OpenTypeFonts.GetFontData(null, "Roboto", FontSubFamily.Regular, true, true);
+            var resolver = new DefaultFontResolver(null, true); // system-Roboto, ingen testmapp
+            OpenTypeFonts.Configure(resolver);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
             Debug.WriteLine("=== MarkToBaseTest ===");
             Debug.WriteLine($"Font instance: {font.GetHashCode()}");
             Debug.WriteLine($"CmapTable instance: {font.CmapTable.GetHashCode()}");

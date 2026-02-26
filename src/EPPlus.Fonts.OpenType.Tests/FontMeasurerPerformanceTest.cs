@@ -105,7 +105,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void QuickPeakMemoryTest()
         {
             var fontFolders = new List<string> { /* your paths */ };
-            var font = OpenTypeFonts.GetFontData(fontFolders, "Calibri", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Calibri", FontSubFamily.Regular, FontFolders);
             var shaper = new TextShaper(font);
             var layoutEngine = new TextLayoutEngine(shaper);
 
@@ -145,7 +145,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         public void QuickPeakMemoryTest2()
         {
             var fontFolders = new List<string> { /* your paths */ };
-            var font = OpenTypeFonts.GetFontData(fontFolders, "Calibri", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Calibri", FontSubFamily.Regular, FontFolders);
             var shaper = new TextShaper(font);
             var layoutEngine = new TextLayoutEngine(shaper);
 

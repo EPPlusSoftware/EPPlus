@@ -18,7 +18,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void LocaTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var validator = new LocaTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.LocaTable, context);
@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void HmtxTableValidation_Test()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var validator = new HmtxTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HmtxTable, context);
@@ -42,7 +42,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [DataRow("Mulish", FontSubFamily.Regular)]
         public void GlyfTableValidation_Test(string fontName, FontSubFamily subFamily)
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, fontName, subFamily, false, true);
+            var font = OpenTypeFonts.LoadFont(fontName, subFamily);
             var validator = new GlyfTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.GlyfTable, context);

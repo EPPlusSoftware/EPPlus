@@ -61,12 +61,7 @@ namespace EPPlus.Fonts.Benchmarks
             }
 
             Console.WriteLine("\nLoading Roboto Regular...");
-            var font = OpenTypeFonts.GetFontData(
-                _fontFolders,
-                FontFamily,
-                FontSubFamily.Regular,
-                searchSystemDirectories: false
-            );
+            var font = OpenTypeFonts.LoadFont(FontFamily, FontSubFamily.Regular);
 
             Console.WriteLine(string.Format("Loaded: {0} {1} ({2} glyphs)",
                 font.FullName, font.SubFamily, font.GlyfTable.Glyphs.Count));

@@ -37,9 +37,9 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
         [TestInitialize]
         public void TestSetup()
         {
-            _robotoFont = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
-            _notoEmojiFont = OpenTypeFonts.GetFontData(FontFolders, "Noto Emoji", FontSubFamily.Regular);
-            _notoMathFont = OpenTypeFonts.GetFontData(FontFolders, "Noto Sans Math", FontSubFamily.Regular);
+            _robotoFont = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            _notoEmojiFont = OpenTypeFonts.LoadFont("Noto Emoji", FontSubFamily.Regular);
+            _notoMathFont = OpenTypeFonts.LoadFont("Noto Sans Math", FontSubFamily.Regular);
         }
 
         #region Constructor Tests

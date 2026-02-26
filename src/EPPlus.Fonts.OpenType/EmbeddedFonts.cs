@@ -50,7 +50,7 @@ namespace EPPlus.Fonts.OpenType
                             "This is a bug in EPPlus.Fonts.OpenType - please report it.");
                     }
 
-                    font = OpenTypeFonts.GetFromBytes(bytes: ReadStreamFully(stream), FontFormat.Ttf);
+                    font = OpenTypeFonts.GetFromBytes(bytes: ReadStreamFully(stream));
                     _cache[resourceName] = font;
                     return font;
                 }

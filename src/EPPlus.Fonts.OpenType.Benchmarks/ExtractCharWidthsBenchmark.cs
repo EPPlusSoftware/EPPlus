@@ -17,7 +17,7 @@ public class ExtractCharWidthsBenchmark
     public void Setup()
     {
         var fontFolders = new List<string> { /* your font paths */ };
-        var font = OpenTypeFonts.GetFontData(fontFolders, "Calibri", FontSubFamily.Regular);
+        var font = OpenTypeFonts.LoadFont("Calibri");
         _shaper = new TextShaper(font);
         _options = ShapingOptions.Default;
 

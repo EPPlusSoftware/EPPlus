@@ -18,7 +18,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
         [TestInitialize]
         public void TestSetup()
         {
-            _robotoFont = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            _robotoFont = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
         }
 
         [TestMethod]

@@ -32,13 +32,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_SubsetContainsVheaTable()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             Assert.IsNotNull(font.VheaTable, "BIZ UDGothic should have a vhea table");
 
             // Act
             var subset = font.CreateSubset("日本語");
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsed);
 
@@ -50,13 +50,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_SubsetContainsVmtxTable()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             Assert.IsNotNull(font.VmtxTable, "BIZ UDGothic should have a vmtx table");
 
             // Act
             var subset = font.CreateSubset("日本語");
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsed);
 
@@ -68,13 +68,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_FontWithoutVmtx_SubsetDoesNotContainVmtxTable()
         {
             // Arrange - Roboto has no vmtx/vhea
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             Assert.IsNull(font.VmtxTable, "Roboto should not have a vmtx table");
 
             // Act
             var subset = font.CreateSubset("ABC");
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             // Assert - vmtx should not be introduced by subsetting
             Assert.IsNull(parsed.VmtxTable, "Subset of font without vmtx should not contain vmtx table");
@@ -88,12 +88,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_VheaNumberOfVMetricsMatchesGlyphCount()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
 
             // Act
             var subset = font.CreateSubset("日本語");
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsed);
 
@@ -112,7 +112,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_VmtxAdvanceHeightPreservedForSubsettedGlyphs()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var text = "日";
 
             // Get original glyph ID and advance height before subsetting
@@ -123,7 +123,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // Act
             var subset = font.CreateSubset(text);
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsed);
 
@@ -141,12 +141,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_VmtxEntryCountMatchesGlyphCount()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
 
             // Act
             var subset = font.CreateSubset("東京");
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsed);
 
@@ -161,12 +161,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_PassesValidationAfterSubsetting()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
 
             // Act
             var subset = font.CreateSubset("日本語テスト");
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsed);
 

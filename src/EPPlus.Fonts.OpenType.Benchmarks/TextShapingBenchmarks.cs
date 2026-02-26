@@ -22,7 +22,7 @@ namespace EPPlus.Fonts.OpenType.Benchmarks
             }
 
             var fontFolders = new List<string> { fontsPath };
-            _roboto = OpenTypeFonts.GetFontData(fontFolders, "Roboto", FontSubFamily.Regular);
+            _roboto = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             _shaper = new TextShaper(_roboto);
         }
 

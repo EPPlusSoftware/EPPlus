@@ -56,6 +56,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
         public ushort FsSelection { get; internal set; }
 
+        public bool IsExactMatch {  get; internal set; }
+
         /// <summary>
         /// Table directory for this face.
         /// </summary>

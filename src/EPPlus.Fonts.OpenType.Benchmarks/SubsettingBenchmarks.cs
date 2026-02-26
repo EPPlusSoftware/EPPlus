@@ -35,7 +35,7 @@ namespace EPPlus.Fonts.Benchmarks
             }
 
             _fontFolders = new List<string> { fontsPath };
-            _roboto = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+            _roboto = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
         }
 
         [Benchmark]

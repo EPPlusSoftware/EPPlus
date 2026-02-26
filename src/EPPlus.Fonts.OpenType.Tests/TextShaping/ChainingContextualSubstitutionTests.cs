@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_Office()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
 
             // Act
@@ -43,7 +43,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_AtStart()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
 
             // Act - ffi at the beginning of text (no backtrack context)
@@ -58,7 +58,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_AtEnd()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
 
             // Act - ffi at the end of text (no lookahead context)
@@ -73,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_MultipleFfiLigatures()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
 
             // Act - Multiple ffi sequences in same text
@@ -93,7 +93,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_Type6BeforeType4_CorrectOrder()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subset = font.CreateSubset("office fit");
             var shaper = new TextShaper(subset);
 
@@ -114,7 +114,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_HasCorrectMetrics()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
 
             // Act

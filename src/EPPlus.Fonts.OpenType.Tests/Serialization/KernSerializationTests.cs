@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(@"c:\windows\fonts", "Arial", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("kern");
 
-            var font = OpenTypeFonts.GetFontData(new List<string> { @"c:\windows\fonts" }, "Arial", FontSubFamily.Regular, false);
+            var font = OpenTypeFonts.LoadFont("Arial");
             var kernBytes = font?.KernTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, kernBytes?.Length);

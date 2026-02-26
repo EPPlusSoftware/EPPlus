@@ -1,4 +1,5 @@
-﻿using EPPlus.Fonts.OpenType.Scanner;
+﻿using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Gpos;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType1;
@@ -16,19 +17,21 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
     {
         public override TestContext? TestContext { get; set; }
 
+        protected override void ConfigureResolver()
+        {
+            OpenTypeFonts.Configure(new DefaultFontResolver(FontFolders, true));
+        }
+
 
         [TestMethod]
         public void ReadGposTable_Roboto()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
-            // Assert GPOS exists
             Assert.IsNotNull(font.GposTable, "Roboto should have GPOS table");
 
             var gpos = font.GposTable;
 
-            // Verify basic structure
             Assert.AreEqual((ushort)1, gpos.MajorVersion, "GPOS major version should be 1");
             Assert.IsNotNull(gpos.ScriptList, "GPOS should have ScriptList");
             Assert.IsNotNull(gpos.FeatureList, "GPOS should have FeatureList");
@@ -38,17 +41,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasKernFeature()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
 
-            // Act - Find 'kern' feature
             var kernFeature = gpos.FeatureList.FeatureRecords
                 .FirstOrDefault(f => f.FeatureTag.Value == "kern");
 
-            // Assert
             Assert.IsNotNull(kernFeature, "GPOS should have 'kern' feature");
             Assert.IsNotNull(kernFeature.FeatureTable, "kern feature should have FeatureTable");
             Assert.IsTrue(kernFeature.FeatureTable.LookupListIndices.Length > 0,
@@ -58,17 +58,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasPairPosLookup()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
 
-            // Act - Find Type 2 (PairPos) lookup
             var pairPosLookup = gpos.LookupList.Lookups
                 .FirstOrDefault(l => l.LookupType == 2);
 
-            // Assert
             Assert.IsNotNull(pairPosLookup, "GPOS should have Type 2 (PairPos) lookup");
             Assert.IsTrue(pairPosLookup.SubTables.Count > 0,
                 "PairPos lookup should have subtables");
@@ -77,18 +74,15 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_PairPosFormat1()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var pairPosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 2);
 
             Assert.IsNotNull(pairPosLookup, "Need PairPos lookup for test");
 
-            // Act - Get first PairPos subtable
             var subtable = pairPosLookup.SubTables[0] as PairPosSubTableFormat1;
 
-            // Assert
             Assert.IsNotNull(subtable, "First subtable should be PairPosSubTableFormat1");
             Assert.AreEqual((ushort)1, subtable.SubtableFormat, "Format should be 1");
             Assert.IsNotNull(subtable.Coverage, "Should have Coverage table");
@@ -96,14 +90,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             Assert.IsTrue(subtable.PairSets.Count > 0, "Should have at least one PairSet");
         }
 
-
-
-
         [TestMethod]
         public void ReadGposTable_FindKerningPair_ActualPairs()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             if (!font.CmapTable.TryGetGlyphId('A', out ushort aGlyph))
             {
@@ -118,11 +108,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             var subtable = pairPosLookup.SubTables[0] as PairPosSubTableFormat1;
             Assert.IsNotNull(subtable, "Need PairPosSubTableFormat1");
 
-            // Act - Test with pairs we KNOW exist from debug output
-            // A(37) + glyph 35 = kerning -61
             bool found = subtable.TryGetPairAdjustment(aGlyph, 35, out var value1, out var value2);
 
-            // Assert
             Assert.IsTrue(found, $"Should find kerning pair for A({aGlyph}) + glyph 35");
             Assert.IsNotNull(value1, "Value1 should exist");
             Assert.AreEqual(-61, value1.XAdvance, "Should have XAdvance = -61");
@@ -137,9 +124,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("cmap");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
-            // Check IdDelta[3]
             var subtable = font.CmapTable.SubTables[0] as CmapSubtable4;
             Debug.WriteLine($"IdDelta[3] = {subtable.IdDelta[3]}");
 
@@ -155,8 +141,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MultipleKerningPairs()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var pairPosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 2);
@@ -164,9 +149,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
 
             Assert.IsNotNull(subtable, "Need PairPosSubTableFormat1");
 
-            // Test known pairs from debug output
-            // NOTE: All glyph IDs adjusted for current Roboto-Regular.ttf version
-            // 'A' = glyph 37, 'V' = glyph 58
             var testPairs = new[]
             {
                 (37, 35, -61),   // A + glyph 35
@@ -178,7 +160,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
 
             int foundCount = 0;
 
-            // Act - Check each pair
             foreach (var (first, second, expectedKern) in testPairs)
             {
                 if (subtable.TryGetPairAdjustment((ushort)first, (ushort)second, out var val1, out var val2))
@@ -194,24 +175,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 }
             }
 
-            // Assert
             Assert.AreEqual(5, foundCount, "Should find all 5 test pairs");
         }
 
         [TestMethod]
         public void ReadGposTable_HasSinglePosLookup()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
 
-            // Act - Find Type 1 (SinglePos) lookup
             var singlePosLookup = gpos.LookupList.Lookups
                 .FirstOrDefault(l => l.LookupType == 1);
 
-            // Assert
             if (singlePosLookup != null)
             {
                 Assert.IsTrue(singlePosLookup.SubTables.Count > 0,
@@ -227,8 +204,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_SinglePosFormat1()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var singlePosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 1);
@@ -239,7 +215,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Act - Get first SinglePos subtable
             var subtable = singlePosLookup.SubTables.FirstOrDefault() as SinglePosSubTableFormat1;
 
             if (subtable == null)
@@ -248,7 +223,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Assert
             Assert.AreEqual((ushort)1, subtable.SubtableFormat, "Format should be 1");
             Assert.IsNotNull(subtable.Coverage, "Should have Coverage table");
             Assert.IsNotNull(subtable.Value, "Should have ValueRecord");
@@ -264,8 +238,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_SinglePosFormat2()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var singlePosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 1);
@@ -276,7 +249,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Act - Find Format 2 subtable
             var subtable = singlePosLookup.SubTables
                 .OfType<SinglePosSubTableFormat2>()
                 .FirstOrDefault();
@@ -287,7 +259,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Assert
             Assert.AreEqual((ushort)2, subtable.SubtableFormat, "Format should be 2");
             Assert.IsNotNull(subtable.Coverage, "Should have Coverage table");
             Assert.IsNotNull(subtable.Values, "Should have ValueRecords array");
@@ -303,8 +274,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_SinglePosTryGetAdjustment()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var singlePosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 1);
@@ -315,7 +285,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Act - Test TryGetAdjustment on first subtable
             var subtableFormat1 = singlePosLookup.SubTables.OfType<SinglePosSubTableFormat1>().FirstOrDefault();
             var subtableFormat2 = singlePosLookup.SubTables.OfType<SinglePosSubTableFormat2>().FirstOrDefault();
 
@@ -323,7 +292,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
 
             if (subtableFormat1 != null)
             {
-                // Try a few common glyph IDs
                 for (ushort glyphId = 1; glyphId < 100; glyphId++)
                 {
                     if (subtableFormat1.TryGetAdjustment(glyphId, out var value))
@@ -337,7 +305,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
 
             if (subtableFormat2 != null && !foundAdjustment)
             {
-                // Try a few common glyph IDs
                 for (ushort glyphId = 1; glyphId < 100; glyphId++)
                 {
                     if (subtableFormat2.TryGetAdjustment(glyphId, out var value))
@@ -358,17 +325,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasMarkToBaseLookup()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
 
-            // Act - Find Type 4 (MarkToBase) lookup
             var markToBaseLookup = gpos.LookupList.Lookups
                 .FirstOrDefault(l => l.LookupType == 4);
 
-            // Assert
             if (markToBaseLookup != null)
             {
                 Assert.IsTrue(markToBaseLookup.SubTables.Count > 0,
@@ -384,8 +348,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MarkToBaseFormat1()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var markToBaseLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 4);
@@ -396,7 +359,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Act - Get first MarkToBase subtable
             var subtable = markToBaseLookup.SubTables.FirstOrDefault() as MarkToBaseSubTableFormat1;
 
             if (subtable == null)
@@ -405,7 +367,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Assert
             Assert.AreEqual((ushort)1, subtable.SubtableFormat, "Format should be 1");
             Assert.IsNotNull(subtable.MarkCoverage, "Should have MarkCoverage table");
             Assert.IsNotNull(subtable.BaseCoverage, "Should have BaseCoverage table");
@@ -422,8 +383,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MarkToBaseTryGetAttachment()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var markToBaseLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 4);
@@ -442,13 +402,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Act - Try to find an attachment
-            // We need to know which glyphs are marks and bases
-            // Let's try some common combinations
-
             bool foundAttachment = false;
 
-            // Try first few marks with first few bases
             for (ushort markGlyph = 1; markGlyph < 100 && !foundAttachment; markGlyph++)
             {
                 if (subtable.MarkCoverage.IsCovered(markGlyph))
@@ -481,8 +436,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MarkToBaseWithAccentedCharacters()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var markToBaseLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 4);
@@ -501,15 +455,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 return;
             }
 
-            // Act - Try common accented character combinations
-            // e + combining acute (́) = é
-            // Get glyph IDs for these characters
-
             if (font.CmapTable.TryGetGlyphId('e', out ushort eGlyph))
             {
                 Debug.WriteLine($"'e' = glyph {eGlyph}");
 
-                // Combining acute accent Unicode: U+0301
                 if (font.CmapTable.TryGetGlyphId('\u0301', out ushort acuteGlyph))
                 {
                     Debug.WriteLine($"Combining acute = glyph {acuteGlyph}");
