@@ -55,7 +55,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
-            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
             state.EndCurrentTextLine();
 
 
@@ -90,7 +90,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
-            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
             state.CurrentTextLine.Width = state.CurrentLineWidth;
             state.CurrentTextLine.Text = lineBuilder.ToString();
             state.EndCurrentTextLine();
@@ -260,7 +260,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
-                var lineStringWithTrail = lineBuilder.ToString(0, state.WordStart+1);
+                var lineStringWithTrail = lineBuilder.ToString(0, state.WordStart+1);//+1 was just added and should be here but everything else is sorta based on it being gone...
                 if (lineStringWithTrail[lineStringWithTrail.Length-1] == ' ')
                 {
                     state.CurrentTextLine.WasWrappedOnSpace = true;
@@ -318,12 +318,13 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.LineStart = -1;
         }
 
-        private void FinalizeCurrentLine(StringBuilder lineBuilder, double lineWidth, int lastSpaceIndex)
+        private void FinalizeCurrentLine(StringBuilder lineBuilder, double lineWidth, int lastSpaceIndex, TextLineSimple currentLine)
         {
             if (lineBuilder.Length > 0)
             {
                 if (lineBuilder[lineBuilder.Length - 1] == ' ')
                 {
+                    currentLine.WasWrappedOnSpace = true;
                     lineBuilder.Length--;
                 }
                 if (lineBuilder.Length > 0)
