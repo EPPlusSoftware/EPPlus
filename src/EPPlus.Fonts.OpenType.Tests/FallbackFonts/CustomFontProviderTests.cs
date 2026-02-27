@@ -11,6 +11,7 @@
   02/24/2026         EPPlus Software AB           CustomFontProvider unit tests
  *************************************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Linq;
 

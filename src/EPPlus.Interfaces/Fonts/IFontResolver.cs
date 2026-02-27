@@ -11,7 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
   02/26/2026         EPPlus Software AB           Simplified to return raw font bytes
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType.FontResolver
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Resolves a font by name and subfamily to raw font bytes.

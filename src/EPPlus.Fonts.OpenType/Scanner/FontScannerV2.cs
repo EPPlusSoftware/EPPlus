@@ -3,6 +3,7 @@ using System.IO;
 using System;
 using System.Linq;
 using EPPlus.Fonts.OpenType.FontResolver;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Scanner
 {

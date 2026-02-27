@@ -11,6 +11,7 @@
   01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {

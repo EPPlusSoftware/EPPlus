@@ -4,6 +4,7 @@ using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Interfaces.Fonts;
 
 /// <summary>
 /// Benchmarks for repeated cache clearing scenarios

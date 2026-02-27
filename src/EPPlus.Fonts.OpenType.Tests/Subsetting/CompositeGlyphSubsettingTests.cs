@@ -11,6 +11,7 @@
   12/21/2025         EPPlus Software AB           Composite glyph subsetting tests
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tests.Helpers;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tests.Subsetting

@@ -14,6 +14,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Kern;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Linq;
 
@@ -23,7 +24,7 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
     {
         internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.LoadFont(fontName, subFamily);
+            return OpenTypeFonts.LoadFont(fontName, subFamily, pageSettings.FontDirectories, pageSettings.SearchSystemDirectories);
         }
 
         internal static double MeasureFontHeight(OpenTypeFont font, double fontSize)

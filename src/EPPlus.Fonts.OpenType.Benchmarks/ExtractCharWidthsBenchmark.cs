@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.TextShaping;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 [MemoryDiagnoser]
 [SimpleJob(warmupCount: 1, iterationCount: 3)]

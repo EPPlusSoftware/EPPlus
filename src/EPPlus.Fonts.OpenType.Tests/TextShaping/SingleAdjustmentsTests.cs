@@ -1,7 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.TextShaping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.Tests.TextShaping

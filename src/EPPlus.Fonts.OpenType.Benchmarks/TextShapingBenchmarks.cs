@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType.TextShaping;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Benchmarks
 {

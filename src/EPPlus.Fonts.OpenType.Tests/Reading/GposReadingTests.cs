@@ -7,6 +7,7 @@ using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Diagnostics;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
 
         protected override void ConfigureResolver()
         {
-            OpenTypeFonts.Configure(new DefaultFontResolver(FontFolders, true));
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, true)));
         }
 
 

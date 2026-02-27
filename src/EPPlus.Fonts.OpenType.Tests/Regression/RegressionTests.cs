@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;

@@ -24,6 +24,7 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml.Style;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Export.Pdf
 {

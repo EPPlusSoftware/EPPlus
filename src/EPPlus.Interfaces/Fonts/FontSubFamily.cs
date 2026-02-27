@@ -10,7 +10,7 @@
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
-namespace EPPlus.Fonts.OpenType
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     public enum FontSubFamily
     {

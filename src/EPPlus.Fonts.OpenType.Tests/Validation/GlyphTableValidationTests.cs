@@ -3,6 +3,7 @@ using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tables.Hmtx;
 using EPPlus.Fonts.OpenType.Tables.Loca;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

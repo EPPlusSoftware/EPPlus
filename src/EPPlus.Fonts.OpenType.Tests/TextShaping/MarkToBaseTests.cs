@@ -1,6 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.TextShaping;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,7 +24,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MarkToBaseTest()
         {
             var resolver = new DefaultFontResolver(null, true); // system-Roboto, ingen testmapp
-            OpenTypeFonts.Configure(resolver);
+            OpenTypeFonts.Configure(x => x.SetFontResolver(resolver));
             var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
             Debug.WriteLine("=== MarkToBaseTest ===");
             Debug.WriteLine($"Font instance: {font.GetHashCode()}");

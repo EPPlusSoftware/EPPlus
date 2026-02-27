@@ -10,8 +10,10 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
   02/26/2026         EPPlus Software AB           Removed caching (moved to OpenTypeFonts)
+  02/27/2026         EPPlus Software AB           Replaced FontResolutionConfig with EpplusFontConfiguration, added Archivo Narrow fallback
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Scanner;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,18 +23,18 @@ namespace EPPlus.Fonts.OpenType.FontResolver
     /// <summary>
     /// Default IFontResolver implementation that resolves fonts from the file system.
     /// Searches additional font directories and optionally system font directories.
-    /// Supports fallback font chains via FontResolutionConfig.
+    /// Supports fallback font chains via EpplusFontConfiguration.
     /// </summary>
     internal class DefaultFontResolver : IFontResolver
     {
         private readonly IEnumerable<string> _fontDirectories;
         private readonly bool _searchSystemDirectories;
-        private readonly FontResolutionConfig _config;
+        private readonly EpplusFontConfiguration _config;
 
         public DefaultFontResolver(
             IEnumerable<string> fontDirectories = null,
             bool searchSystemDirectories = true,
-            FontResolutionConfig config = null)
+            EpplusFontConfiguration config = null)
         {
             _fontDirectories = fontDirectories ?? Enumerable.Empty<string>();
             _searchSystemDirectories = searchSystemDirectories;
@@ -48,7 +50,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             if (face != null && face.IsExactMatch)
                 return ReadFontBytes(face.FilePath);
 
-            // No exact match — try fallback chain
+            // No exact match — try user-configured fallback chain
             if (_config != null)
             {
                 var fallbacks = _config.GetFallbacks(fontName);
@@ -65,7 +67,9 @@ namespace EPPlus.Fonts.OpenType.FontResolver
                 }
             }
 
-            return null;
+            // No match found — fall back to built-in Archivo Narrow.
+            // Only applies when using DefaultFontResolver (i.e. no custom resolver installed).
+            return EmbeddedFonts.LoadArchivoNarrow(subFamily).RawData;
         }
 
         private static byte[] ReadFontBytes(string filePath)

@@ -4,6 +4,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts

@@ -61,10 +61,18 @@
 	  <Compile Remove="TtfFont.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Resources\ArchivoNarrow-Bold.ttf" />
+	  <None Remove="Resources\ArchivoNarrow-BoldItalic.ttf" />
+	  <None Remove="Resources\ArchivoNarrow-Italic.ttf" />
+	  <None Remove="Resources\ArchivoNarrow-Regular.ttf" />
 	  <None Remove="Resources\NotoEmoji-Regular.ttf" />
 	  <None Remove="Resources\NotoSansMath-Regular.ttf" />
 	</ItemGroup>
 	<ItemGroup>
+	  <EmbeddedResource Include="Resources\ArchivoNarrow-Bold.ttf" />
+	  <EmbeddedResource Include="Resources\ArchivoNarrow-BoldItalic.ttf" />
+	  <EmbeddedResource Include="Resources\ArchivoNarrow-Italic.ttf" />
+	  <EmbeddedResource Include="Resources\ArchivoNarrow-Regular.ttf" />
 	  <EmbeddedResource Include="Resources\NotoEmoji-Regular.ttf">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>

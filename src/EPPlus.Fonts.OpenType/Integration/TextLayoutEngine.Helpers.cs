@@ -1,9 +1,9 @@
-﻿using OfficeOpenXml.Interfaces.Drawing.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EPPlus.Fonts.OpenType.Utilities;
+using OfficeOpenXml.Interfaces.Fonts;
 
 
 namespace EPPlus.Fonts.OpenType.Integration

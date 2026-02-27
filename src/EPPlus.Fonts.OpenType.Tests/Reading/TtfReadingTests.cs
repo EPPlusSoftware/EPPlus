@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType.Tests.Reading
@@ -24,7 +25,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
 
         protected override void ConfigureResolver()
         {
-            OpenTypeFonts.Configure(new DefaultFontResolver(FontFolders, true));
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, true)));
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +30,23 @@ namespace EPPlus.Fonts.OpenType
         internal static OpenTypeFont LoadNotoMath()
         {
             return LoadCached("NotoSansMath-Regular.ttf");
+        }
+
+        internal static OpenTypeFont LoadArchivoNarrow(FontSubFamily subFamily)
+        {
+            if (subFamily == FontSubFamily.Italic)
+            {
+                return LoadCached("ArchivoNarrow-Italic.ttf");
+            }
+            else if (subFamily == FontSubFamily.Bold)
+            {
+                return LoadCached("ArchivoNarrow-Bold.ttf");
+            }
+            else if(subFamily == FontSubFamily.BoldItalic)
+            {
+                return LoadCached("ArchivoNarrow-BoldItalic.ttf");
+            }
+            return LoadCached("ArchivoNarrow-Regular.ttf");
         }
 
         private static OpenTypeFont LoadCached(string resourceName)

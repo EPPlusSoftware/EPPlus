@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.IO;
 

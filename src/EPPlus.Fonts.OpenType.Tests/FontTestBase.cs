@@ -119,7 +119,7 @@ namespace EPPlus.Fonts.OpenType.Tests
 
         protected virtual void ConfigureResolver()
         {
-            OpenTypeFonts.Configure(new DefaultFontResolver(FontFolders, false));
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, false)));
         }
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
@@ -134,12 +134,12 @@ namespace EPPlus.Fonts.OpenType.Tests
         /// </summary>
         protected static void UseSystemFonts()
         {
-            OpenTypeFonts.Configure(new DefaultFontResolver(null, true));
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(null, true)));
         }
 
         protected static void UseFontFolders(IEnumerable<string> directories, bool searchSystemDirectories = false)
         {
-            OpenTypeFonts.Configure(new DefaultFontResolver(directories, searchSystemDirectories));
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(directories, searchSystemDirectories)));
         }
     }
 }
