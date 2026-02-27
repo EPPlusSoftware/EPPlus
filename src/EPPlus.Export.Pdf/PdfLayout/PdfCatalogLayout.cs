@@ -16,6 +16,7 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
@@ -295,6 +296,38 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var colCount = page.ToCol - page.FromCol + 1;
 
                 var activeVertical = new Dictionary<int, VerticalLineRun>();
+                Action<int> flushVertical = delegate (int col)
+                {
+                    VerticalLineRun run;
+                    if (activeVertical.TryGetValue(col, out run))
+                    {
+                        double x = page.Map[run.RowStart, col].cell.LocalPosition.X;
+                        double y1 = page.Map[run.RowStart, col].cell.LocalPosition.Y - page.Map[run.RowStart, col].cell.Size.Y;
+                        double y2 = page.Map[run.RowEnd+1, col].cell.LocalPosition.Y;
+                        page.GridLines.Add(new GridLine(x, y1, x, y2));
+                        activeVertical.Remove(col);
+                    }
+                };
+                Action<int, int> addVertical = delegate (int r, int c)
+                {
+                    VerticalLineRun run;
+                    if (activeVertical.TryGetValue(c, out run))
+                    {
+                        if (run.RowEnd == r - 1)
+                        {
+                            run.RowEnd = r;
+                        }
+                        else
+                        {
+                            flushVertical(c);
+                            activeVertical[c] = new VerticalLineRun { Col = c, RowStart = r, RowEnd = r };
+                        }
+                    }
+                    else
+                    {
+                        activeVertical[c] = new VerticalLineRun { Col = c, RowStart = r, RowEnd = r };
+                    }
+                };
 
                 var activeHorizontal = new Dictionary<int, HorizontalLineRun>();
                 Action<int> flushHorizontal = delegate (int row)
@@ -305,7 +338,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         double y = page.Map[row, run.ColStart].cell.LocalPosition.Y;
                         double x1 = page.Map[row, run.ColStart].cell.LocalPosition.X;
                         double x2 = page.Map[row, run.ColEnd].cell.LocalPosition.X + page.Map[row, run.ColEnd].cell.Size.X;
-
                         page.GridLines.Add(new GridLine ( x1, y, x2, y ));
                         activeHorizontal.Remove(row);
                     }
@@ -402,15 +434,38 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         //Check Bottom edge
                         if (row == page.RowCount - 1)
                         {
-                            if (cell.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None)
+                            if (cell.border != null && cell.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None)
                             {
                                 AddHorizontalSegment(row + 1, col);
                             }
                         }
 
+                        //Check Left edge
+                        bool hasLeft = col > 0;
+                        var left = hasLeft ? page.Map[row, col - 1] : default;
+
+                        bool differentLeft = !hasLeft || left.cell != cell.cell;
+
+                        bool spillLeft = hasLeft &&
+                            (left.RightTextBucketSpill > 0 || cell.LeftTextBucketSpill > 0);
+
+                        bool borderLeft = hasLeft && ((left.border != null && left.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None) || (cell.border != null && cell.border.BorderData.Left.BorderStyle != ExcelBorderStyle.None));
+
+                        if (differentLeft && !spillLeft && !borderLeft)
+                            addVertical(row, col);
+
+                        //Check Right edge
+                        if (col == page.ColCount - 1)
+                        {
+                            if (cell.border != null && cell.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None &&
+                                cell.RightTextBucketSpill <= 0)
+                            {
+                                addVertical(row, col + 1);
+                            }
+                        }
 
 
-                        if(page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);
+                        if (page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);
                         page.Map[row, col] = cell;
                     }
                 }

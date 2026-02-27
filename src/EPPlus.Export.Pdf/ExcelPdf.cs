@@ -183,7 +183,7 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
+            //contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
@@ -211,10 +211,10 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% Margin Clip End");
             if (PageSettings.ShowGridLines)
             {
-                contentStream.AddOuterGridBorder(pageLayout);
+                //contentStream.AddOuterGridBorder(pageLayout);
             }
             //Add header and footer.
-            AddHeaderFooter(contentStream, pageLayout, page);
+            //AddHeaderFooter(contentStream, pageLayout, page);
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
             contentStream.AddCommand($"% {pageLayout.Name} end");
