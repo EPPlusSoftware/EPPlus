@@ -184,7 +184,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
 
-        public void AddText(string text, ExcelTextFont font)
+        public void AddText(string text, ExcelTextFont font, double prevWidth)
         {
             var measurer = new FontMeasurerTrueType();
             //var displayText = measurer.MeasureAndWrapTextLines(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
@@ -195,6 +195,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Runs.Add(container);
             //Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
             container.Bounds.Name = $"Container{Runs.Count}";
+            container.Bounds.Left = prevWidth;
         }
 
         /// <summary>
@@ -249,6 +250,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var measurer = new FontMeasurerTrueType();
                 var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
                 lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
+                Bounds.Width = maxWidth;
+                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
             }
             else
             {
@@ -286,7 +289,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                         if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
                         {
-                            AddText(displayText, p.DefaultRunProperties);
+                            AddText(displayText, p.DefaultRunProperties, prevWidth);
                         }
                         else
                         {

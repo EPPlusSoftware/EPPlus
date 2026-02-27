@@ -51,7 +51,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var fontSize = _paragraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
-            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalLeft.PointToPixelString()},{Bounds.GlobalTop.PointToPixelString()})\" >");
+            sb.AppendLine($"<g transform=\"translate({Bounds.Left.PointToPixelString()},{Bounds.Top.PointToPixelString()})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
 

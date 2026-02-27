@@ -249,7 +249,7 @@ namespace EPPlus.Fonts.OpenType
         public List<TextLineSimple> MeasureAndWrapTextLines_New(string text, MeasurementFont font, double maxWidthPoints, double preExistingWidthPixels = 0)
         {
             List<TextLineSimple> lines = null;
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text) == false)
             {
                 var layout = TextData.GetTextLayoutEngine(font);
                 var txtFragment = new Integration.TextFragment()

@@ -89,7 +89,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
             Paragraphs.Add(paragraph);
-            SetHorizontalAlignmentPosition();
+            //SetHorizontalAlignmentPosition();
         }
 
         private void SetHorizontalAlignmentPosition()
@@ -123,7 +123,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal virtual void ImportTextBody(ExcelTextBody body)
         {
             _text = null;
-            VerticalAlignment = body.Anchor;
+            //VerticalAlignment = body.Anchor;
+            VerticalAlignment = eTextAnchoringType.Top;
             //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
 

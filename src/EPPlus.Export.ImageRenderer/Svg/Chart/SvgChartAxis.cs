@@ -309,6 +309,14 @@ namespace EPPlusImageRenderer.Svg
                 var tb = new SvgTextBox(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
+
+                if (p.HorizontalAlignment != eTextAlignment.Center)
+                {
+                    //Axises are always seemingly center aligned
+                    //Should be broken out as input to ImportParagraph instead of changing the base item
+                    p.HorizontalAlignment = eTextAlignment.Center;
+                }
+
                 tb.TextBody.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
@@ -334,7 +342,9 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorWidth = Rectangle.Width / AxisValues.Count;
-                    return Rectangle.Left + majorWidth * i;
+                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                    var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
+                    return majorTickStartingPosition;
                 }
                 else
                 {
