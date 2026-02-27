@@ -528,6 +528,20 @@ namespace TestProject1
         }
 
         [TestMethod]
+        public void GenerateSimplestChart()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("SimplestChart.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\SimplestChartTitle.svg", svg);
+            }
+        }
+
+        [TestMethod]
         public void GenerateShapeCenteredParagraph()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

@@ -246,6 +246,28 @@ namespace EPPlus.Fonts.OpenType
             return wrappedStrings;
         }
 
+        public List<TextLineSimple> MeasureAndWrapTextLines_New(string text, MeasurementFont font, double maxWidthPoints, double preExistingWidthPixels = 0)
+        {
+            List<TextLineSimple> lines = null;
+            if (string.IsNullOrEmpty(text))
+            {
+                var layout = TextData.GetTextLayoutEngine(font);
+                var txtFragment = new Integration.TextFragment()
+                {
+                    Font = font,
+                    Text = text
+                };
+
+                var list = new List<Integration.TextFragment>() { txtFragment };
+                lines = layout.WrapRichTextLines(list, maxWidthPoints);
+            }
+
+            return lines;
+            //SetFont(font.Size, font.FontFamily);
+            //var wrappedStrings = TextData.MeasureAndWrapTextLines(text, FontSize, CurrentFont, maxWidthPoints, preExistingWidthPixels.PixelToPoint());
+            //return wrappedStrings;
+        }
+
         public List<string> MeasureAndWrapTextPoints(string text, MeasurementFont font, double MaxWidthInPoints)
         {
             SetFont(font.Size, font.FontFamily);

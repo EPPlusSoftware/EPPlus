@@ -28,6 +28,7 @@ namespace EPPlusImageRenderer.RenderItems
         {
 
         }
+
         public double Left { get { return Bounds.Left; } set { Bounds.Left = value; } }
         public double Top { get { return Bounds.Top; } set { Bounds.Top = value; } }
         public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }

@@ -96,7 +96,7 @@ namespace EPPlusImageRenderer.Svg
                 VerticalAxis.AddTickmarksAndValues();
             }
 
-            if (HorizontalAxis!=null)
+            if (HorizontalAxis!=null && HorizontalAxis.Rectangle != null)
             {
                 HorizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
                 HorizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;

@@ -39,6 +39,8 @@ namespace EPPlusImageRenderer.RenderItems
 
         public string GroupTransform = "";
 
+        //internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds)
+
         internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds) : base(renderer)
         {
             Bounds = bounds;

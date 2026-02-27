@@ -54,6 +54,14 @@ namespace EPPlusImageRenderer
         }
 
 
+
+        //public string RenderTextBox(ExcelDrawing someDrawing, BoundingBox parent, double maxHeight, double maxWidth)
+        //{
+        //    var sb = new StringBuilder();
+        //    var svgTextBox = new SvgTextBox(someDrawing, parent, maxWidth, maxHeight);
+        //}
+
+
         //public string RenderRangeToSvg(ExcelRange range)
         //{
         //    var ws = range.Worksheet;

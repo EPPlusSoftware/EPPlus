@@ -50,7 +50,7 @@ namespace EPPlusImageRenderer.Svg
                     rect.Left = sc.VerticalAxis.Rectangle?.GlobalRight ?? sc.VerticalAxis.Title.Rectangle.GlobalRight;
                 }
 
-                rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? 
+                rect.Width = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ? 
                         sc.Legend.Bounds.GlobalLeft - RightMargin : 
                         sc.ChartArea.Rectangle.Width - RightMargin) 
                   - rect.GlobalLeft;

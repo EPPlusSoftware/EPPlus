@@ -224,8 +224,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             for (int i = 0; i < runContents.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = runContents[i], Font = fonts[i] };
-                _newTextFragments.Add(currentFrag);
+                if (string.IsNullOrEmpty(runContents[i]) == false)
+                {
+                    var currentFrag = new TextFragment() { Text = runContents[i], Font = fonts[i] };
+                    _newTextFragments.Add(currentFrag);
+                }
             }
         }
 
@@ -245,45 +248,38 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 var measurer = new FontMeasurerTrueType();
                 var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
-                lines = measurer.MeasureAndWrapTextLines(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
+                lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
             }
             else
             {
-                lines = WrapToSimpleTextLines(p, _textFragments);
+                lines = WrapToSimpleTextLines(p);
             }
 
-            foreach (var line in lines)
+            if (lines != null)
             {
-                double prevWidth = 0;
+                foreach (var line in lines)
+                {
+                    double prevWidth = 0;
 
-                if (HorizontalAlignment == eTextAlignment.Center)
-                {
-                    var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                    //Should only be applied if it was wrapped
-                    //ctrLineWidth -= line.lastFontSpaceWidth;
-                    //if(line.Text == "StrikeGoudy size")
-                    //{
-                    //    ctrLineWidth = 202.5d;
-                    //}
-                    //Center the line within context we must use maxWidth since left depends on greatest width
-                    prevWidth = - ctrLineWidth / 2;
-                }
+                    if (HorizontalAlignment == eTextAlignment.Center)
+                    {
+                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                        prevWidth = -ctrLineWidth / 2;
+                    }
 
-                if (lineSpacingIsExact == false)
-                {
-                    runLineSpacing += line.LargestAscent + lastDescent;
-                }
-                else
-                {
-                    runLineSpacing += ParagraphLineSpacing;
-                }
-                if (line.Width > greatestWidth)
-                {
-                    greatestWidth = line.Width;
-                }
+                    if (lineSpacingIsExact == false)
+                    {
+                        runLineSpacing += line.LargestAscent + lastDescent;
+                    }
+                    else
+                    {
+                        runLineSpacing += ParagraphLineSpacing;
+                    }
+                    if (line.Width > greatestWidth)
+                    {
+                        greatestWidth = line.Width;
+                    }
 
-                if(line.RtFragments.Count == 0 && line.LineFragments.Count > 0)
-                {
                     foreach (var lineFragment in line.LineFragments)
                     {
                         var displayText = line.GetLineFragmentText(lineFragment);
@@ -303,31 +299,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         runItem.Bounds.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
                     }
+
+                    lastDescent = line.LargestDescent;
                 }
-                else
-                {
-                    foreach (var rtFragment in line.RtFragments)
-                    {
-                        var displayText = line.GetFragmentText(rtFragment);
-
-                        if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
-                        {
-                            AddText(displayText, p.DefaultRunProperties);
-                        }
-                        else
-                        {
-                            AddRenderItemTextRun(p.TextRuns[rtFragment.Fragidx], displayText, prevWidth);
-                        }
-
-                        TextRunItem runItem = Runs.Last();
-                        runItem.YPosition = runLineSpacing;
-
-                        runItem.Bounds.Width = rtFragment.Width;
-                        prevWidth += rtFragment.Width;
-                    }
-                }
-
-                lastDescent = line.LargestDescent;
             }
             Bounds.Height = runLineSpacing + lastDescent;
             Bounds.Width = greatestWidth;
@@ -337,27 +311,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //}
         }
 
-        List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p, TextFragmentCollection fragments)
+        List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p)
         {
             var ttMeasurer = (FontMeasurerTrueType)_measurer;
 
-            ttMeasurer.SetFont(_newTextFragments[0].Font);
-            var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
-            return ttMeasurer.WrapMultipleTextFragmentsToTextLines_New(_newTextFragments, maxWidthPoints);
-            //List<MeasurementFont> fonts = new List<MeasurementFont>();
-
-            //for (int i = 0; i < p.TextRuns.Count(); i++)
-            //{
-            //    var txtRun = p.TextRuns[i];
-            //    var runFont = txtRun.GetMeasurementFont();
-            //    fonts.Add(runFont);
-            //}
-            //var layout = TextData.GetTextLayoutEngine(fonts[0]);
-            //var shaper = new TextShaper( fonts[0]);
-            //var layout = new TextLayoutEngine(shaper);
-
-            //var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
-            //return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxWidthPoints);
+            if (_newTextFragments.Count > 0)
+            {
+                ttMeasurer.SetFont(_newTextFragments[0].Font);
+                var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
+                return ttMeasurer.WrapMultipleTextFragmentsToTextLines_New(_newTextFragments, maxWidthPoints);
+            }
+            return new List<TextLineSimple>();
         }
 
         internal double GetAlignmentHorizontal(eTextAlignment txAlignment)

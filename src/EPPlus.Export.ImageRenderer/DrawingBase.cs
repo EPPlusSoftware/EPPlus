@@ -34,6 +34,17 @@ namespace EPPlusImageRenderer
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
         }
+
+
+        internal DrawingBase()
+        {
+            //Drawing = drawing;
+            //Bounds = drawing.GetBoundingBox();
+
+            //var wb = drawing._drawings.Worksheet.Workbook;
+            //Theme = wb.ThemeManager.GetOrCreateTheme();
+        }
+
         public ExcelDrawing Drawing { get; }
         public ExcelTheme Theme { get;}
         public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;
