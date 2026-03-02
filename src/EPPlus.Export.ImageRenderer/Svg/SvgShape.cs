@@ -113,8 +113,10 @@ namespace EPPlusImageRenderer.Svg
                     }
 
                     InsetTextBox.FillOpacity = 0.3d;
+
+                    RenderItems.Add(new SvgGroupItem(this, InsetTextBox.Bounds));
                     TextBox = CreateTextBodyItem(_shape.TextBody);
-                    TextBox.AppendRenderItems(RenderItems);
+                    RenderItems.Add(new SvgEndGroupItem(this, Bounds));
                 }
             }
         }
@@ -266,17 +268,21 @@ namespace EPPlusImageRenderer.Svg
             double l, r, t, b;
             bodyOrig.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            MarginTextBox = new SvgRenderRectItem(this, this.Bounds);
+            MarginTextBox = new SvgRenderRectItem(this, InsetTextBox.Bounds);
 
             MarginTextBox.Width = InsetTextBox.Width - r;
             MarginTextBox.Height = InsetTextBox.Height - b;
             MarginTextBox.Top = t + InsetTextBox.Top;
             MarginTextBox.Left = l + InsetTextBox.Left;
 
-            var txtBodyItem = new SvgTextBodyItem(this, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            RenderItems.Add(new SvgGroupItem(this, MarginTextBox.Bounds));
 
+            var txtBodyItem = new SvgTextBodyItem(this, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBody(bodyOrig);
 
+            txtBodyItem.AppendRenderItems(RenderItems);
+
+            RenderItems.Add(new SvgEndGroupItem(this, Bounds));
             //txtBodyItem.Width = InsetTextBox.Width;
 
             return txtBodyItem;
