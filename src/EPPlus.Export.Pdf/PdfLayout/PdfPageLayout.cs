@@ -57,7 +57,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public int ColEnd;
     }
 
-
+    [DebuggerDisplay("{Name}")]
     internal class PdfPageLayout : Transform
     {
         internal List<GridLine> GridLines = new List<GridLine>();

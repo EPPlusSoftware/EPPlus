@@ -250,6 +250,23 @@ namespace EPPlus.Graphics
             child._parent = this;
             return child;
         }
+        public Transform InsertChildAt(Transform child, int at)
+        {
+            Vector2 worldPos;
+            if (child.Parent != null)
+            {
+                worldPos = child.Position;
+                child.Parent.RemoveChild(child);
+                var parentInverse = GetWorldMatrix().Inverse();
+                child.LocalPosition = worldPos * parentInverse;
+            }
+            if (!ChildObjects.Contains(child))
+            {
+                ChildObjects.Insert(at, child);
+            }
+            child._parent = this;
+            return child;
+        }
 
         public void RemoveChild(Transform child)
         {

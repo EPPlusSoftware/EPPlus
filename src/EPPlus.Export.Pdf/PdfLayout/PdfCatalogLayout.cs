@@ -16,8 +16,6 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
@@ -46,8 +44,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CreateFontSubsets(pageSettings, dictionaries.Fonts);
             var PagesLayout = CreatePagesLayoutObject();
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
-            AddCellsToPageLayout(WorksheetLayout, PagesLayout);
-            HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
+            PopulatePages(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
+            //AddCellsToPageLayout(WorksheetLayout, PagesLayout);
+            //HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             MoveCellToPageFromContent(pageSettings, PagesLayout);
             ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
             //ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
@@ -134,6 +133,90 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        private void PopulatePages(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
+        {
+            var transforms = WorksheetLayout.ChildObjects.ToList();
+            foreach (var t in transforms)
+            {
+                var cellBounds = t.GetGlobalBoundingbox();
+                foreach (PdfPageLayout page in pages.ChildObjects)
+                {
+                    var contentbounds = page.ChildObjects[0].GetGlobalBoundingbox();
+                    bool fullIntersect = IntersectsFully(contentbounds, cellBounds);
+                    bool partialIntersect = Intersects(cellBounds, contentbounds);
+                    if (t is PdfMergedCellLayout merged)
+                    {
+                        if (fullIntersect)
+                        {
+                            page.ChildObjects[0].AddChild(merged);
+                            break;
+                        }
+                        else if (partialIntersect)
+                        {
+                            var copy = new PdfMergedCellLayout(dictionaries, merged.cell, merged.CellStyle, merged.LocalPosition.X, merged.LocalPosition.Y + merged.Size.Y, merged.Size.X, merged.Size.Y, merged.LocalScale.X, merged.LocalScale.Y, merged.LocalRotation, WorksheetLayout);
+                            copy.Name = merged.Name;
+                            copy.Z = merged.Z;
+                            copy.address = merged.address;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                    }
+                    else if (t is PdfCellLayout cell)
+                    {
+                        if (fullIntersect)
+                        {
+                            page.AddCell(cell);
+                            break;
+                        }
+                    }
+                    else if (t is PdfCellContentLayout content)
+                    {
+                        if (fullIntersect)
+                        {
+                            page.AddCell(content);
+                            break;
+                        }
+                        else if (partialIntersect)
+                        {
+                            var copy = new PdfCellContentLayout(content.cell, content.CellStyle, pageSettings, content.LocalPosition.X, content.LocalPosition.Y, content.Size.X, content.Size.Y, content.LocalScale.X, content.LocalScale.Y, content.LocalRotation, WorksheetLayout, dictionaries);
+                            copy.Name = content.Name;
+                            copy.Z = content.Z;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                    }
+                    else if (t is PdfCellBorderLayout border)
+                    {
+                        if (fullIntersect)
+                        {
+                            page.AddCell(border);
+                            break;
+                        }
+                        else if (partialIntersect)
+                        {
+                            var copy = new PdfCellBorderLayout(border.cell, null, border.LocalPosition.X, border.LocalPosition.Y + border.Size.Y, border.Size.X, border.Size.Y, border.LocalScale.X, border.LocalScale.Y, border.LocalRotation, WorksheetLayout);
+                            copy.Name = border.Name;
+                            copy.Z = border.Z;
+                            copy.BorderData = border.BorderData;
+                            copy.range = border.range;
+                            copy.IsMerged = border.IsMerged;
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                    }
+                    else if (t is PdfDrawingLayout drawing)
+                    {
+                        if (fullIntersect)
+                        {
+                            //
+                        }
+                        else if (partialIntersect)
+                        {
+                            var copy = new PdfDrawingLayout(null, drawing.LocalPosition.X, drawing.LocalPosition.Y, drawing.Size.X, drawing.Size.Y);
+                            page.ChildObjects[0].AddChild(copy);
+                        }
+                    }
+                }
+            }
+        }
+
         //Go though all the cells in WorksheetLayout and add them to the overlapping page.
         private void AddCellsToPageLayout(Transform WorksheetLayout, PdfPagesLayout pages)
         {
@@ -164,6 +247,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var b = mergedCell as PdfCellBorderLayout;
                 var d = mergedCell as PdfDrawingLayout;
                 var bounds = mergedCell.GetGlobalBoundingbox();
+                int index = 0;
                 foreach (var page in pages.ChildObjects)
                 {
                     if (Intersects(bounds, page.ChildObjects[0].GetGlobalBoundingbox()))
@@ -173,14 +257,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             var copy = new PdfMergedCellLayout(dictionaries, m.cell, m.CellStyle, m.LocalPosition.X, m.LocalPosition.Y + m.Size.Y, m.Size.X, m.Size.Y, m.LocalScale.X, m.LocalScale.Y, m.LocalRotation, WorksheetLayout);
                             copy.Name = m.Name;
                             copy.Z = m.Z;
-                            page.ChildObjects[0].AddChild(copy);
+                            copy.address = m.address;
+                            page.ChildObjects[0].InsertChildAt(copy, index);
                         }
                         else if (c is PdfCellContentLayout)
                         {
                             var copy = new PdfCellContentLayout(c.cell, c.CellStyle, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
                             copy.Name = c.Name;
                             copy.Z = c.Z;
-                            page.ChildObjects[0].AddChild(copy);
+                            page.ChildObjects[0].InsertChildAt(copy, index);
                         }
                         else if (b is PdfCellBorderLayout)
                         {
@@ -190,14 +275,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             copy.BorderData = b.BorderData;
                             copy.range = b.range;
                             copy.IsMerged = b.IsMerged;
-                            page.ChildObjects[0].AddChild(copy);
+                            page.ChildObjects[0].InsertChildAt(copy, index);
                         }
                         else if (d is PdfDrawingLayout) //NOT IMPLEMENTED
                         {
                             var copy = new PdfDrawingLayout(null, d.LocalPosition.X, d.LocalPosition.Y, d.Size.X, d.Size.Y);
-                            page.ChildObjects[0].AddChild(copy);
+                            page.ChildObjects[0].InsertChildAt(copy, index);
                         }
                     }
+                    index++;
                 }
             }
         }
@@ -221,34 +307,39 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         iSl.UpdateShadingPositionMatrix(pageSettings);
                     if (child is PdfMergedCellLayout m)
                     {
-                        var mRowCount = m.address._toRow - m.address._fromRow + 1;
-                        var mColCount = m.address._toCol - m.address._fromCol + 1;
-                        var innerCol = col;
-                        var innerRow = row;
-                        for (int r = 0; r < mRowCount; r++)
+                        if (m.address._fromCol <= page.ToCol)
                         {
-                            for (int c = 0; c < mColCount; c++)
+                            /*Loop should be over the cells in a merged cell covered in the page
+                             * need to reset r and c to 0 on each page
+                             * so we need indexes for row and col for transforms and another for the map.
+                             */
+                            var mRowCount = 0;
+                            var mColCount = 0;
+                            var innerCol = col;
+                            var innerRow = row;
+                            for (int r = m.address._fromRow-1; r < m.address._toRow-1; r++)
                             {
-                                page.Map[innerRow, innerCol].Name = ExcelRange.GetColumnLetter(innerCol+1) + (innerRow+1);
-                                page.Map[innerRow, innerCol].cell = m;
-                                page.Map[innerRow, innerCol].Type = PageMap.CellType.Merged;
-                                page.Map[innerRow, innerCol].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
-                                page.Map[innerRow, innerCol].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
-                                page.Map[innerRow, innerCol].row = row + 1;
-                                page.Map[innerRow, innerCol].col = col + 1;
-                                innerCol++;
-                                if (innerCol > mColCount)
+                                if (r > page.ToRow) break;
+                                mColCount = 0;
+                                for (int c = m.address._fromCol-1; c < m.address._toCol-1; c++)
                                 {
-                                    innerCol = col;
-                                    innerRow++;
+                                    if (c > page.ToCol-1) break;
+                                    page.Map[r, c].Name = ExcelRange.GetColumnLetter(c + 1) + (r + 1);
+                                    page.Map[r, c].cell = m;
+                                    page.Map[r, c].Type = PageMap.CellType.Merged;
+                                    page.Map[r, c].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
+                                    page.Map[r, c].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
+                                    page.Map[r, c].row = row + 1;
+                                    page.Map[r, c].col = col + 1;
+                                    mColCount++;
                                 }
                             }
-                        }
-                        col = col+mColCount;
-                        if (col >= colCount)
-                        {
-                            col = 0;
-                            row++;
+                            col = col + mColCount;
+                            if (col >= colCount)
+                            {
+                                col = 0;
+                                row++;
+                            }
                         }
                     }
                     else if (child is PdfCellLayout l)
