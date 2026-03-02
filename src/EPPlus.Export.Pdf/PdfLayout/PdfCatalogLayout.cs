@@ -275,6 +275,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             page.Map[row, col].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == l.Name);
                             page.Map[row, col].row = row + 1;
                             page.Map[row, col].col = col + 1;
+                            page.Map[row, col].RightTextBucketSpill = page.Map[row, col].content != null ? page.Map[row, col].content.RightTextSpillLength : 0d;
+                            page.Map[row, col].LeftTextBucketSpill = page.Map[row, col].content != null ? page.Map[row, col].content.LeftTextSpillLength : 0d;
                         }
                         col++;
                         if (col >= colCount)
@@ -302,8 +304,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (activeVertical.TryGetValue(col, out run))
                     {
                         double x = page.Map[run.RowStart, col].cell.LocalPosition.X;
-                        double y1 = page.Map[run.RowStart, col].cell.LocalPosition.Y - page.Map[run.RowStart, col].cell.Size.Y;
-                        double y2 = page.Map[run.RowEnd+1, col].cell.LocalPosition.Y;
+                        double y1 = page.Map[run.RowStart, col].cell.LocalPosition.Y;
+                        double y2 = page.Map[run.RowEnd, col].cell.LocalPosition.Y + page.Map[run.RowStart, col].cell.Size.Y;
                         page.GridLines.Add(new GridLine(x, y1, x, y2));
                         activeVertical.Remove(col);
                     }
@@ -369,6 +371,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var hKeys = new List<int>(activeHorizontal.Keys);
                     foreach (int key in hKeys)
                         flushHorizontal(key);
+
+                    // flush vertical runs that didn't continue
+                    var vKeys = new List<int>(activeVertical.Keys);
+                    foreach (int key in vKeys)
+                    {
+                        VerticalLineRun run = activeVertical[key];
+                        if (run.RowEnd < row)
+                            flushVertical(key);
+                    }
 
                     for (int col = 0; col < colCount; col++)
                     {
@@ -469,6 +480,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         page.Map[row, col] = cell;
                     }
                 }
+                // final flush
+                foreach (int key in new List<int>(activeVertical.Keys))
+                    flushVertical(key);
+
+                foreach (int key in new List<int>(activeHorizontal.Keys))
+                    flushHorizontal(key);
                 //create gridlines
                 //make adjustments
                 //AddHeaderFooter
