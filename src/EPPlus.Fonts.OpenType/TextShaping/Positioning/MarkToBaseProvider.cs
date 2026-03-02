@@ -127,18 +127,15 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
         private List<MarkToBaseSubTableFormat1> FindAllMarkToBaseSubtables(GposTable gpos)
         {
             var subtables = new List<MarkToBaseSubTableFormat1>();
-
             if (gpos == null)
                 return subtables;
 
-            // Find "mark" feature
             foreach (var featureRecord in gpos.FeatureList.FeatureRecords)
             {
                 if (featureRecord.FeatureTag.Value == "mark")
                 {
                     var feature = featureRecord.FeatureTable;
 
-                    // Get lookups for this feature
                     foreach (var lookupIndex in feature.LookupListIndices)
                     {
                         if (lookupIndex >= gpos.LookupList.Lookups.Count)
@@ -146,16 +143,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
 
                         var lookup = gpos.LookupList.Lookups[lookupIndex];
 
-                        // We want MarkToBase (Type 4)
-                        if (lookup.LookupType == 4)
+                        // ✅ Kolla bara innehållet, ignorera LookupType
+                        foreach (var subtable in lookup.SubTables)
                         {
-                            // Collect all Format 1 subtables
-                            foreach (var subtable in lookup.SubTables)
+                            if (subtable is MarkToBaseSubTableFormat1 markToBase)
                             {
-                                if (subtable is MarkToBaseSubTableFormat1 markToBase)
-                                {
-                                    subtables.Add(markToBase);
-                                }
+                                subtables.Add(markToBase);
                             }
                         }
                     }

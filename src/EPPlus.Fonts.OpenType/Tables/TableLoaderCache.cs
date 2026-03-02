@@ -23,6 +23,7 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Tables.Vmtx;
 
 namespace EPPlus.Fonts.OpenType.Tables
 {
@@ -40,8 +41,10 @@ namespace EPPlus.Fonts.OpenType.Tables
         public GlyfTableLoader GlyfLoader;
         public Os2TableLoader Os2Loader;
         public HheaTableLoader HheaLoader;
+        public VheaTableLoader VheaLoader;
         public MaxpTableLoader MaxpLoader;
         public HmtxTableLoader HmtxLoader;
+        public VmtxTableLoader VmtxLoader;
         public NameTableLoader NameLoader;
         public KernTableLoader KernLoader;
         public PostTableLoader PostLoader;

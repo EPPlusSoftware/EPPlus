@@ -1,0 +1,20 @@
+Noto Emoji Font
+Copyright 2013 Google LLC
+Licensed under the SIL Open Font License, Version 1.1
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is available with a FAQ at: https://scripts.sil.org/OFL
+
+The font and its source code are available at:
+https://github.com/googlefonts/noto-emoji
+
+
+Noto Sans Math Font
+Copyright 2022 The Noto Project Authors (https://github.com/notofonts/math)
+Licensed under the SIL Open Font License, Version 1.1
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is available with a FAQ at: https://openfontlicense.org
+
+The font and its source code are available at:
+https://github.com/notofonts/math

@@ -119,7 +119,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Debug.WriteLine($"Line '{line}': {lineResult.Width}");
             }
 
-            double expectedHeight = shaper.GetLineHeightInPoints(11.0) * lines.Length;
+            double expectedHeight = shaper.GetLineHeightInPoints(11.0f) * lines.Length;
 
             // Assert
             Debug.WriteLine("");
@@ -164,7 +164,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             // Act
             var oldSpacing = oldMeasurer.GetSingleLineSpacing();
-            var newSpacing = shaper.GetLineHeightInPoints(11.0);
+            var newSpacing = shaper.GetLineHeightInPoints(11.0f);
 
             // Assert
             Debug.WriteLine($"Old Spacing: {oldSpacing}, New Spacing: {newSpacing}");
@@ -185,7 +185,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             // Act
             var oldBaseline = oldMeasurer.GetBaseLine();
-            var newBaseline = shaper.GetBaseLineInPoints(11.0);
+            var newBaseline = shaper.GetAscentInPoints(11.0f);
 
             // Assert
             Debug.WriteLine($"Old Baseline: {oldBaseline}, New Baseline: {newBaseline}");

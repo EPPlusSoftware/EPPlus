@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
@@ -35,8 +36,8 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            int width = (int)Bounds.Width;
-            int height = (int)Bounds.Height;
+            var width = Bounds.Width.PointToPixel();
+            var height = Bounds.Height.PointToPixel();
 
             sb.Append($"<path d=\"");
             for (int i = 0; i < Commands.Count; i++)

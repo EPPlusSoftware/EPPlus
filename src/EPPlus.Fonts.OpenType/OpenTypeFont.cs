@@ -27,6 +27,9 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Tables.Vhea;
+using EPPlus.Fonts.OpenType.Tables.Vmtx;
+using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,14 +112,22 @@ namespace EPPlus.Fonts.OpenType
             _kernTableLoader = TableRecords.ContainsKey(TableNames.Kern)
                 ? TableLoaders.GetKernTableLoader(_tblSettings)
                 : null;
+            _vheaTableLoader = TableRecords.ContainsKey(TableNames.Vhea)
+                ? TableLoaders.GetVheaTableLoader(_tblSettings)
+                : null;
+            _vmtxTableLoader = TableRecords.ContainsKey(TableNames.Vmtx)
+               ? TableLoaders.GetVmtxTableLoader(_tblSettings)
+               : null;
         }
 
         Os2TableLoader _os2TableLoader;
         NameTableLoader _nameTableLoader;
         HheaTableLoader _hheaTableLoader;
+        VheaTableLoader _vheaTableLoader;
         HeadTableLoader _headTableLoader;
         CmapTableLoader _cmapTableLoader;
         HmtxTableLoader _hmtxTableLoader;
+        VmtxTableLoader _vmtxTableLoader;
         MaxpTableLoader _maxpTableLoader;
         PostTableLoader _postTableLoader;
         LocaTableLoader _locaTableLoader;
@@ -125,6 +136,55 @@ namespace EPPlus.Fonts.OpenType
 
         internal GlyfTableLoader _glyfTableLoader;
         internal KernTableLoader _kernTableLoader;
+        private volatile bool _fullyLoaded = false;
+
+        public bool FullyLoaded => _fullyLoaded;
+        internal bool IsReadOnly { get; set; }
+
+        internal void EnsureFullyLoaded()
+        {
+            if (_fullyLoaded)
+                return;
+
+            lock (_loaderCache.SyncLock)
+            {
+
+                // --- Required tables (always present in valid fonts) ---
+                // Each property accessor calls its TableLoader.Load() which
+                // reads from the byte[] stream and caches the result.
+                // By accessing them all here under the font-level lock,
+                // we guarantee no concurrent reader access.
+                FontTableBase _ = CmapTable;
+                _ = HeadTable;
+                _ = HheaTable;
+                _ = HmtxTable;
+                _ = MaxpTable;
+                _ = NameTable;
+                _ = Os2Table;
+                _ = PostTable;
+                _ = LocaTable;
+
+                // --- Optional tables (only if present in font) ---
+                if (_gsubTableLoader != null)
+                {
+                    var gsub = GsubTable;  // Forces full GSUB parse
+                }
+                if (_gposTableLoader != null)
+                {
+                    var gpos = GposTable;  // Forces full GPOS parse (incl. MarkToBase subtables)
+                }
+                if (_glyfTableLoader != null)
+                {
+                    var glyf = GlyfTable;  // Forces full glyph outline parse
+                }
+                if (_kernTableLoader != null)
+                {
+                    var kern = KernTable;  // Forces legacy kern table parse
+                }
+
+                _fullyLoaded = true;
+            }
+        }
 
         internal FontSerializationContext GetSerializationContext()
         {
@@ -190,6 +250,23 @@ namespace EPPlus.Fonts.OpenType
                 return null;
             }
         }
+
+        public VheaTable VheaTable
+        {
+            get
+            {
+                if (_vheaTableLoader != null)
+                {
+                    return _vheaTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Vhea))
+                {
+                    return (VheaTable)_localTableCache.Get(TableNames.Vhea);
+                }
+                return null;
+            }
+        }
+
         public HmtxTable HmtxTable
         {
             get
@@ -206,6 +283,23 @@ namespace EPPlus.Fonts.OpenType
             }
 
         }
+
+        public VmtxTable VmtxTable
+        {
+            get
+            {
+                if (_vmtxTableLoader != null)
+                {
+                    return _vmtxTableLoader.Load();
+                }
+                else if (_localTableCache.Contains(TableNames.Vmtx))
+                {
+                    return (VmtxTable)_localTableCache.Get(TableNames.Vmtx);
+                }
+                return null;
+            }
+        }
+
         public MaxpTable MaxpTable
         {
             get
@@ -487,6 +581,10 @@ namespace EPPlus.Fonts.OpenType
         internal void AddOrReplaceTable<T>(T table)
             where T : FontTableBase
         {
+            if (IsReadOnly)
+                throw new InvalidOperationException(
+                    $"Cannot modify a cached font instance. Table: {table.Name}. " +
+                    "Use CreateSubset() or create a new OpenTypeFont instance.");
             _localTableCache.AddOrReplace(table.Name, table);
 
 
@@ -508,63 +606,22 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
-            // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
-
-            if (usedChars.Count() == 0)
+            var charArray = usedChars.ToArray();
+            if (charArray.Length == 0)
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
+            var codePoints = CharacterUtil.ExtractCodePointsFromChars(charArray);
 
-            // Konvertera chars till Unicode code points
-            var codePoints = usedChars
-                .Select(c => (uint)c)      // tvinga unsigned
-                .Distinct()
-                .Where(cp => cp <= 0x10FFFF) // validering
-                .Select(cp => (int)cp);
-
-            // Skapa subset-font
+            // Använd "this" direkt — IsReadOnly-skyddet på AddOrReplaceTable 
+            // garanterar att denna instans aldrig modifieras av subsetting.
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
             var postProcessor = new SubsetPostProcessor();
             postProcessor.PostProcessSubset(newFont);
-
             return newFont;
-        }
-
-        public OpenTypeFont CreateSubset_Old(IEnumerable<char> usedChars)
-        {
-            // 1. Map chars to glyph IDs
-            var glyphIds = new HashSet<ushort>();
-            foreach (var ch in usedChars)
-            {
-                var glyphId = CmapTable.MapCharToGlyph(ch);
-                if (glyphId >= 0)
-                    glyphIds.Add((ushort)glyphId);
-            }
-            glyphIds.Add(0); // Always include .notdef
-
-            // 2. Handle composite glyphs
-            GlyfTable.ResolveCompositeGlyphs(glyphIds);
-
-            // 3. Create new font instance
-            var subsetFont = new OpenTypeFont(_fontBytes, Format);
-
-            // 4. Copy and filter tables
-            subsetFont.AddOrReplaceTable(HeadTable.Clone());
-            subsetFont.AddOrReplaceTable(MaxpTable.Clone());
-            subsetFont.MaxpTable.numGlyphs = (ushort)glyphIds.Count;
-
-            //subsetFont.ReplaceTable(TableNames.Glyf, GlyfTable.CreateSubset(glyphIds));
-            //subsetFont.LocaTable = this.LocaTable.CreateSubset(glyphIds);
-            //subsetFont.HmtxTable = this.HmtxTable.CreateSubset(glyphIds);
-            //subsetFont.CmapTable = this.CmapTable.CreateSubset(usedChars);
-
-            //// 5. Recalculate checksums
-            //subsetFont.RecalculateChecksums();
-
-            return subsetFont;
         }
 
         public static bool TryParseEnum<T>(string value, out T result) where T : struct
@@ -599,7 +656,7 @@ namespace EPPlus.Fonts.OpenType
         /// For subset fonts: Maps original glyph IDs to new subset glyph IDs.
         /// Null for non-subset fonts.
         /// </summary>
-        //public Dictionary<ushort, ushort> SubsetGlyphMapping { get; internal set; }
+        public Dictionary<ushort, ushort> SubsetGlyphMapping { get; internal set; }
 
 
         /// <summary>
@@ -658,6 +715,10 @@ namespace EPPlus.Fonts.OpenType
                     return GsubTable.Serialize(ctx);
                 case TableNames.Gpos:
                     return GposTable.Serialize(ctx);
+                case TableNames.Vhea:
+                    return VheaTable?.Serialize(ctx);
+                case TableNames.Vmtx:
+                    return VmtxTable?.Serialize(ctx);
                 default:
                     return null;
             }

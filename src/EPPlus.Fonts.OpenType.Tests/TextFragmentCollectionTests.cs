@@ -278,5 +278,31 @@ namespace EPPlus.Fonts.OpenType.Tests
             
             Assert.AreEqual(169, pixelsWholeLine3);
         }
+
+        [TestMethod]
+        public void CorrectTextLinesAreReturnedWhenSmallMaxWidth()
+        {
+            var defaultFont = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            var ttMeasurer = new FontMeasurerTrueType(defaultFont);
+
+            var txt = "This is my text";
+
+            //This should be small enough to put each word on a new row.
+            var maxWidth = 21.5d;
+
+            var txtLines = ttMeasurer.MeasureAndWrapTextLines(txt, defaultFont, maxWidth);
+
+            Assert.AreEqual(4, txtLines.Count);
+            Assert.AreEqual("This", txtLines[0].Text);
+            Assert.AreEqual("is", txtLines[1].Text);
+            Assert.AreEqual("my", txtLines[2].Text);
+            Assert.AreEqual("text", txtLines[3].Text);
+        }
     }
 }

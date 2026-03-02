@@ -239,10 +239,10 @@ namespace EPPlus.Fonts.OpenType
             return wrappedStrings;
         }
 
-        public List<TextLineSimple> MeasureAndWrapTextLines(string text, MeasurementFont font, double MaxWidthInPixels, double preExistingWidthPixels = 0)
+        public List<TextLineSimple> MeasureAndWrapTextLines(string text, MeasurementFont font, double maxWidthPoints, double preExistingWidthPixels = 0)
         {
             SetFont(font.Size, font.FontFamily);
-            var wrappedStrings = TextData.MeasureAndWrapTextLines(text, FontSize, CurrentFont, MaxWidthInPixels.PixelToPoint(), preExistingWidthPixels.PixelToPoint());
+            var wrappedStrings = TextData.MeasureAndWrapTextLines(text, FontSize, CurrentFont, maxWidthPoints, preExistingWidthPixels.PixelToPoint());
             return wrappedStrings;
         }
 
@@ -323,6 +323,32 @@ namespace EPPlus.Fonts.OpenType
 
             //Wrap the fragments
             return TextData.WrapMultipleTextFragmentsToTextLines(paragraph, maxWidthPoints);
+        }
+
+        public List<TextLineSimple> WrapMultipleTextFragmentsToTextLines_New(List<Integration.TextFragment> frags, double maxWidthPoints)
+        {
+            var layout = TextData.GetTextLayoutEngine(frags[0].Font);
+            var lines = layout.WrapRichTextLines(frags, maxWidthPoints);
+            return lines;
+        }
+
+        public List<TextLineSimple> WrapMultipleTextFragmentsToTextLines_New(List<string> rtTextFrags, List<MeasurementFont> fonts, double maxWidthPoints)
+        {
+            var layout = TextData.GetTextLayoutEngine(fonts[0]);
+
+            var newFrags = new List<Integration.TextFragment>();
+
+            for (int i = 0; i < rtTextFrags.Count(); i++)
+            {
+                var currentFrag = new Integration.TextFragment() { Text = rtTextFrags[i], Font = fonts[i] };
+                newFrags.Add(currentFrag);
+            }
+
+            return layout.WrapRichTextLines(newFrags, maxWidthPoints);
+            //TextParagraph paragraph = new TextParagraph(fragments, fonts);
+
+            ////Wrap the fragments
+            //return TextData.WrapMultipleTextFragmentsToTextLines(paragraph, maxWidthPoints);
         }
     }
 }

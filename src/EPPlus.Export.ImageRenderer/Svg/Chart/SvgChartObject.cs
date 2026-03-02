@@ -23,14 +23,40 @@ namespace EPPlusImageRenderer.Svg
     internal abstract class DrawingObject
     {
         internal protected DrawingBase DrawingRenderer { get; }
-        internal BoundingBox Bounds { get; set; }
+        internal virtual BoundingBox Bounds { get; set; }
 
+        protected DrawingObject(DrawingBase renderer)
+        {
+            DrawingRenderer = renderer;
+        }
         protected DrawingObject(DrawingBase renderer, BoundingBox parent)
         {
             DrawingRenderer = renderer;
             Bounds = new BoundingBox() { Parent=parent};
         }
         internal abstract void AppendRenderItems(List<RenderItem> renderItems);
+    }
+    internal abstract class DrawingObjectNoBounds
+    {
+        internal protected DrawingBase DrawingRenderer { get; }
+
+        protected DrawingObjectNoBounds(DrawingBase renderer)
+        {
+            DrawingRenderer = renderer;
+        }
+        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
+    }
+    internal class SvgChartArea : SvgChartObject
+    {
+        public SvgChartArea(SvgChart sc) : base(sc)
+        {
+            Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
+        }
+
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            renderItems.Add(Rectangle);
+        }
     }
     internal abstract class SvgChartObject : DrawingObject
     {
@@ -43,10 +69,10 @@ namespace EPPlusImageRenderer.Svg
         internal void SetMargins(ExcelTextBody tb)
         {
             tb.GetInsetsOrDefaults(out double l, out double r, out double t, out double b);
-            LeftMargin = l.PointToPixel();
-            RightMargin = r.PointToPixel();
-            TopMargin = t.PointToPixel();
-            BottomMargin = b.PointToPixel();
+            LeftMargin = l;
+            RightMargin = r;
+            TopMargin = t;
+            BottomMargin = b;
         }
         internal double LeftMargin { get; set; }
         internal double RightMargin { get; set; }

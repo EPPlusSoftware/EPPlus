@@ -30,9 +30,64 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
         /// Phase 1: Discover.
         /// MarkToBase doesn't add new glyphs - it only positions existing marks and bases.
         /// </summary>
+        /// <summary>
+        /// Phase 1: Discover mark glyphs that should be included if their base glyphs are included.
+        /// This is CRITICAL because combining characters (U+0302, U+0309, etc.) map to mark glyphs
+        /// that might not be discovered by the normal cmap subsetting process.
+        /// We need to add ALL mark glyphs that can attach to ANY included base glyph.
+        /// </summary>
         public void Discover(FontSubsettingContext context, LookupTable lookup, GposSubsetProcessor processor)
         {
-            // No-op: positioning doesn't require additional glyphs
+            // Iterate through all subtables in this lookup
+            foreach (var subtableObj in lookup.SubTables)
+            {
+                if (subtableObj is MarkToBaseSubTableFormat1 subtable)
+                {
+                    DiscoverMarkToBaseSubtable(context, subtable);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Discovers mark and base glyphs from a Mark-to-Base subtable.
+        /// Strategy: If ANY base glyph is included, include ALL marks that can attach to it.
+        /// This ensures combining characters work even if not explicitly in the subset string.
+        /// </summary>
+        private void DiscoverMarkToBaseSubtable(FontSubsettingContext context, MarkToBaseSubTableFormat1 subtable)
+        {
+            if (subtable.BaseCoverage == null || subtable.MarkCoverage == null)
+                return;
+
+            // Check if any included base glyph exists in this subtable
+            bool hasIncludedBase = false;
+
+            // Iterate through all potentially included glyphs
+            foreach (ushort baseGlyph in context.IncludedGlyphs)
+            {
+                // Check if this base glyph is in the BaseCoverage
+                int baseIndex = subtable.BaseCoverage.GetGlyphIndex(baseGlyph);
+                if (baseIndex >= 0)
+                {
+                    hasIncludedBase = true;
+                    break;
+                }
+            }
+
+            // If we have at least one included base, include ALL marks from this subtable
+            if (hasIncludedBase)
+            {
+                // MarkCoverage.GetGlyphIndex() returns -1 if glyph is not covered
+                // We need to iterate through all possible glyph IDs to find covered marks
+                for (ushort markGlyph = 0; markGlyph < 65535; markGlyph++)
+                {
+                    int markIndex = subtable.MarkCoverage.GetGlyphIndex(markGlyph);
+                    if (markIndex >= 0)
+                    {
+                        // This is a mark glyph - add it to included glyphs
+                        context.IncludedGlyphs.Add(markGlyph);
+                    }
+                }
+            }
         }
 
         /// <summary>

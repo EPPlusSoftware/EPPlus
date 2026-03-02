@@ -18,10 +18,10 @@ namespace EPPlus.Export.ImageRenderer.Svg
             float maxSize = isLegend ? 7f : float.MaxValue;
             var size = m.Size > maxSize ? maxSize : m.Size;
             var halfSize = size / 2;
-            var xPath = x / sc.ChartArea.Width;
-            var yPath = y / sc.ChartArea.Height;
-            var halfY = halfSize / sc.ChartArea.Height;
-            var halfX = halfSize / sc.ChartArea.Width;
+            var xPath = x / sc.ChartArea.Rectangle.Width;
+            var yPath = y / sc.ChartArea.Rectangle.Height;
+            var halfY = halfSize / sc.ChartArea.Rectangle.Height;
+            var halfX = halfSize / sc.ChartArea.Rectangle.Width;
             switch (m.Style)
             {
                 case eMarkerStyle.Circle:

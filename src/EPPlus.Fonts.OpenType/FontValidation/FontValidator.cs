@@ -23,6 +23,8 @@ using EPPlus.Fonts.OpenType.Tables.Maxp;
 using EPPlus.Fonts.OpenType.Tables.Name;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tables.Post;
+using EPPlus.Fonts.OpenType.Tables.Vhea;
+using EPPlus.Fonts.OpenType.Tables.Vmtx;
 using System;
 using System.Collections.Generic;
 
@@ -42,12 +44,14 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             _validators.Add(new HeadTableValidator());
             _validators.Add(new MaxpTableValidator());
             _validators.Add(new HheaTableValidator());
+            _validators.Add(new VheaTableValidator());
             _validators.Add(new NameTableValidator());
             _validators.Add(new Os2TableValidator());
             _validators.Add(new PostTableValidator());
             _validators.Add(new CmapTableValidator());
             _validators.Add(new LocaTableValidator());
             _validators.Add(new HmtxTableValidator());
+            _validators.Add(new VmtxTableValidator());
             _validators.Add(new GlyfTableValidator());
             _validators.Add(new GsubTableValidator());
             // Add more as needed...
@@ -56,12 +60,14 @@ namespace EPPlus.Fonts.OpenType.FontValidation
             _tableAccessors.Add(typeof(HeadTable), delegate(OpenTypeFont font) { return font.HeadTable; });
             _tableAccessors.Add(typeof(MaxpTable), delegate(OpenTypeFont font) { return font.MaxpTable; });
             _tableAccessors.Add(typeof(HheaTable), delegate(OpenTypeFont font) { return font.HheaTable; });
+            _tableAccessors.Add(typeof(VheaTable), delegate (OpenTypeFont font) { return font.VheaTable; });
             _tableAccessors.Add(typeof(NameTable), delegate(OpenTypeFont font) { return font.NameTable; });
             _tableAccessors.Add(typeof(Os2Table), delegate(OpenTypeFont font) { return font.Os2Table; });
             _tableAccessors.Add(typeof(PostTable), delegate (OpenTypeFont font) { return font.PostTable; });
             _tableAccessors.Add(typeof(CmapTable), delegate (OpenTypeFont font) { return font.CmapTable; });
             _tableAccessors.Add(typeof(LocaTable), delegate (OpenTypeFont font) { return font.LocaTable; });
             _tableAccessors.Add(typeof(HmtxTable), delegate (OpenTypeFont font) { return font.HmtxTable; });
+            _tableAccessors.Add(typeof(VmtxTable), delegate (OpenTypeFont font) { return font.VmtxTable; });
             _tableAccessors.Add(typeof(GlyfTable), delegate (OpenTypeFont font) { return font.GlyfTable; });
             _tableAccessors.Add(typeof(GsubTable), delegate (OpenTypeFont font) { return font.GsubTable; });
         }

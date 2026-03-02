@@ -1,4 +1,5 @@
-﻿using EPPlus.Graphics;
+﻿using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using OfficeOpenXml.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.Utils
@@ -11,8 +12,8 @@ namespace EPPlus.Export.ImageRenderer.Utils
             {
                 Left = 0,
                 Top = 0,
-                Width = drawing.GetPixelWidth(),
-                Height = drawing.GetPixelHeight()
+                Width = drawing.GetPixelWidth().PixelToPoint(),
+                Height = drawing.GetPixelHeight().PixelToPoint()
             };
         }
     }

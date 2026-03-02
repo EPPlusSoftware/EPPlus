@@ -71,7 +71,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             return copy;
         }
 
-
         internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
             // Step 1: Write header
@@ -83,9 +82,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             writer.WriteUInt16BigEndian(count);
             writer.WriteUInt16BigEndian(stringOffset);
 
-
-            // Step 2: Prepare string data with deduplication
+            // Step 2: Prepare string data with ENCODING-AWARE deduplication
             var stringData = new List<byte>();
+            // FIX: Include encoding in the key to avoid collisions between different encodings
             var stringOffsetMap = new Dictionary<string, ushort>();
 
             foreach (var record in NameRecords)
@@ -94,17 +93,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
                 var str = record.Name ?? string.Empty;
                 var encoded = encoding.GetBytes(str);
 
-                if (!stringOffsetMap.TryGetValue(str, out var offset))
+                // FIX: Create a unique key that includes both the text AND the encoding
+                // This ensures that "Aptos Narrow" in ISO-8859-1 and UTF-16BE get different offsets
+                string dedupKey = $"{str}|{encoding.CodePage}";
+
+                if (!stringOffsetMap.TryGetValue(dedupKey, out var offset))
                 {
                     offset = (ushort)stringData.Count;
-                    stringOffsetMap[str] = offset;
+                    stringOffsetMap[dedupKey] = offset;
                     stringData.AddRange(encoded);
                 }
 
                 record.length = (ushort)encoded.Length;
                 record.offset = offset;
             }
-
 
             // Step 3: Write NameRecords
             foreach (var record in NameRecords)
@@ -116,22 +118,97 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             writer.Write(stringData.ToArray());
         }
 
+        // ALSO UPDATE GetEncodingForRecord() TO RESPECT encodingId:
         private static Encoding GetEncodingForRecord(NameRecord record)
         {
-            // Windows / Unicode – alltid säkert
-            if (record.platformId == 3 || record.platformId == 0)
-                return Encoding.BigEndianUnicode; // UTF-16BE
-
-            // Macintosh – platformId == 1
-            if (record.platformId == 1)
+            // Unicode platform
+            if (record.platformId == 0)
             {
-                // MacRoman (codepage 10000) finns inte i .NET 3.5 → fallback till ISO-8859-1
-                // Skillnaden är minimal för västerländska typsnitt – alla vanliga tecken är identiska
-                return Encoding.GetEncoding("ISO-8859-1");
+                return Encoding.BigEndianUnicode; // UTF-16BE
             }
 
-            // Fallback – borde aldrig hända
+            // Macintosh platform
+            if (record.platformId == 1)
+            {
+                // encodingId 0 = MacRoman (single-byte)
+                // .NET doesn't have MacRoman (codepage 10000) in all versions
+                // Fallback to ISO-8859-1 (Latin-1)
+                try
+                {
+                    return Encoding.GetEncoding("ISO-8859-1");
+                }
+                catch
+                {
+                    return Encoding.UTF8;
+                }
+            }
+
+            // Windows platform - CRITICAL: Must respect encodingId!
+            if (record.platformId == 3)
+            {
+                return GetWindowsEncoding(record.encodingId);
+            }
+
+            // Fallback for unknown platforms
             return Encoding.UTF8;
+        }
+
+        // ADD GetWindowsEncoding() method:
+        private static Encoding GetWindowsEncoding(ushort encodingId)
+        {
+            try
+            {
+                switch (encodingId)
+                {
+                    case 0:
+                        // Symbol encoding – fallback to Windows-1252
+                        return Encoding.GetEncoding(1252);
+
+                    case 1:
+                        // Unicode BMP (UCS-2) – UTF-16BE
+                        // THIS IS THE MOST COMMON for modern fonts!
+                        return Encoding.BigEndianUnicode;
+
+                    case 2:
+                        // Shift-JIS – Japanese
+                        return Encoding.GetEncoding(932);
+
+                    case 3:
+                        // GB2312 – Simplified Chinese
+                        return Encoding.GetEncoding(936);
+
+                    case 4:
+                        // Big5 – Traditional Chinese
+                        return Encoding.GetEncoding(950);
+
+                    case 5:
+                        // Wansung – Korean
+                        return Encoding.GetEncoding(949);
+
+                    case 6:
+                        // Johab – Korean (alternative)
+                        return Encoding.GetEncoding(1361);
+
+                    case 10:
+                        // Unicode full repertoire
+                        // .NET doesn't have UTF-32BE directly, use UTF-16BE
+                        return Encoding.BigEndianUnicode;
+
+                    default:
+                        // Fallback for unknown encodings
+                        return Encoding.BigEndianUnicode;
+                }
+            }
+            catch (NotSupportedException)
+            {
+                // If encoding doesn't exist (e.g. in .NET Standard without System.Text.Encoding.CodePages)
+                // Fallback to UTF-16BE - this is safe for most modern fonts
+                return Encoding.BigEndianUnicode;
+            }
+            catch (ArgumentException)
+            {
+                return Encoding.BigEndianUnicode;
+            }
         }
 
         //private Encoding GetEncodingForRecord(NameRecord record)

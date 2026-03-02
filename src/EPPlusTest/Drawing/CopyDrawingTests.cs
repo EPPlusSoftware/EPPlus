@@ -760,7 +760,6 @@ namespace EPPlusTest.Drawing
             target.Workbook.Worksheets.Delete(tmpWs);
         }
 
-
         [TestMethod]
         public void s814CopySameImageTwiceToEmptyNamedRanges()
         {

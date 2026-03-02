@@ -15,9 +15,11 @@
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils.Platform;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -149,6 +151,8 @@ namespace EPPlus.Fonts.OpenType
                     var cached = OpenTypeFontCache.GetFromCache(fontName, subFamily);
                     if (cached != null && cached.Font != null && cached.IsLoaded)
                     {
+                        cached.Font.EnsureFullyLoaded();
+                        Debug.WriteLine($"[CACHE HIT] {fontName}_{subFamily} → Font={cached.Font.GetHashCode()}, CmapSubTables={cached.Font.CmapTable?.SubTables?.Count}");
                         return cached.Font;
                     }
                 }
@@ -167,10 +171,12 @@ namespace EPPlus.Fonts.OpenType
 
                 // Load the font from file
                 var font = OpenTypeFontFactory.CreateFromFace(face);
+                font.EnsureFullyLoaded();
 
                 // Add to cache and signal waiting threads
                 if (!ignoreCache)
                 {
+                    font.IsReadOnly = true;
                     OpenTypeFontCache.AddToCache(font, fontName, subFamily);
                 }
 
