@@ -124,7 +124,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 groupItem = new SvgGroupItem(DrawingRenderer, new BoundingBox(Left, Top, Width, Height), Rotation);
             }
             renderItems.Add(groupItem);
+
+            var textboxGroupItem = new SvgGroupItem(DrawingRenderer);
+            renderItems.Add(textboxGroupItem);
+
+            var titleItem = new SvgTitleItem(DrawingRenderer, "TextBox Rect");
+
+            renderItems.Add(titleItem);
             renderItems.Add(rect);
+
+            renderItems.Add(new SvgEndGroupItem(DrawingRenderer, rect.Bounds));
+
             TextBody.Bounds.Left = LeftMargin;
             TextBody.Bounds.Top = TopMargin;
             TextBody.AppendRenderItems(renderItems);

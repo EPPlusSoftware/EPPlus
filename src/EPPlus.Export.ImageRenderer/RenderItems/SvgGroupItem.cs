@@ -41,6 +41,10 @@ namespace EPPlusImageRenderer.RenderItems
 
         //internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds)
 
+        internal SvgGroupItem(DrawingBase renderer) : base(renderer)
+        {
+        }
+
         internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds) : base(renderer)
         {
             Bounds = bounds;
