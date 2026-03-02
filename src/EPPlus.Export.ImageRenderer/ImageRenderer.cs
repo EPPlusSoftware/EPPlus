@@ -17,7 +17,6 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
-using EPPlus.Export.ImageRenderer.Text;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
@@ -37,7 +36,6 @@ namespace EPPlusImageRenderer
     {
         public string RenderDrawingToSvg(ExcelDrawing drawing)
         {
-            drawing.GetSizeInPixels(out int width, out int height);
             var sb = new StringBuilder();
             if (drawing is ExcelShape shape)
             {
@@ -54,6 +52,8 @@ namespace EPPlusImageRenderer
 
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
+
+
         //public string RenderRangeToSvg(ExcelRange range)
         //{
         //    var ws = range.Worksheet;
@@ -80,33 +80,33 @@ namespace EPPlusImageRenderer
         //    return sb.ToString();
         //}
 
-        public string RenderBox(string boxText)
-        {
-            string retStr = "";
-            var container = new TextContainerBase(boxText);
-            var element = GenerateSvg(container);
+        //public string RenderBox(string boxText)
+        //{
+        //    string retStr = "";
+        //    var container = new TextContainerBase(boxText);
+        //    var element = GenerateSvg(container);
 
-            using (var ms = EPPlusMemoryManager.GetStream())
-            {
-                SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
-                writer.RenderSvgElement(element, true);
-                ms.Position = 0;
-                using (var sr = new StreamReader(ms))
-                {
-                    retStr = sr.ReadToEnd();
-                    return retStr;
-                }
-            }
+        //    using (var ms = EPPlusMemoryManager.GetStream())
+        //    {
+        //        SvgWriter writer = new SvgWriter(ms, Encoding.UTF8);
+        //        writer.RenderSvgElement(element, true);
+        //        ms.Position = 0;
+        //        using (var sr = new StreamReader(ms))
+        //        {
+        //            retStr = sr.ReadToEnd();
+        //            return retStr;
+        //        }
+        //    }
 
-            //writer.RenderSvgElement(element, true);
+        //    //writer.RenderSvgElement(element, true);
 
-            //StreamReader reader = new StreamReader(ms);
-            //retStr = reader.ReadToEnd();
+        //    //StreamReader reader = new StreamReader(ms);
+        //    //retStr = reader.ReadToEnd();
             
-            ////SvgParagraph para = new SvgParagraph(container.GetContent(),);
-            ////var doc = new SvgEpplusDocument();
-            //return retStr;
-        }
+        //    ////SvgParagraph para = new SvgParagraph(container.GetContent(),);
+        //    ////var doc = new SvgEpplusDocument();
+        //    //return retStr;
+        //}
 
         //public string RenderTextBody(ExcelTextBody body, double shapeWidth, double shapeHeight)
         //{
@@ -178,61 +178,61 @@ namespace EPPlusImageRenderer
             return def;
         }
 
-        internal SvgElement GenerateSvg(TextContainerBase container)
-        {
-            var fullString = container.GetContent();
+        //internal SvgElement GenerateSvg(TextContainerBase container)
+        //{
+        //    var fullString = container.GetContent();
 
-            var doc = new SvgEpplusDocument(500, 500);
+        //    var doc = new SvgEpplusDocument(500, 500);
 
-            var bg = new SvgElement("rect");
-            bg.AddAttribute("width", "100%");
-            bg.AddAttribute("height", "100%");
-            bg.AddAttribute("fill", "red");
-            bg.AddAttribute("opacity", "0.1");
+        //    var bg = new SvgElement("rect");
+        //    bg.AddAttribute("width", "100%");
+        //    bg.AddAttribute("height", "100%");
+        //    bg.AddAttribute("fill", "red");
+        //    bg.AddAttribute("opacity", "0.1");
 
-            var nameId = "boundingBox";
-            var def = new SvgElement("defs");
-            var clipPath = new SvgElement("clipPath");
-            clipPath.AddAttribute("id", nameId);
+        //    var nameId = "boundingBox";
+        //    var def = new SvgElement("defs");
+        //    var clipPath = new SvgElement("clipPath");
+        //    clipPath.AddAttribute("id", nameId);
 
-            def.AddChildElement(clipPath);
+        //    def.AddChildElement(clipPath);
 
-            var bb = new SvgElement("rect");
-            bb.AddAttribute("x", container.Position.X);
-            bb.AddAttribute("y", container.Position.Y);
-            bb.AddAttribute("width", container.Width);
-            bb.AddAttribute("height", container.Height);
-            //bb.AddAttribute("fill", "blue");
-            //bb.AddAttribute("opacity", "0.5");
+        //    var bb = new SvgElement("rect");
+        //    bb.AddAttribute("x", container.Position.X);
+        //    bb.AddAttribute("y", container.Position.Y);
+        //    bb.AddAttribute("width", container.Width);
+        //    bb.AddAttribute("height", container.Height);
+        //    //bb.AddAttribute("fill", "blue");
+        //    //bb.AddAttribute("opacity", "0.5");
 
-            clipPath.AddChildElement(bb);
+        //    clipPath.AddChildElement(bb);
 
-            var fontSizePx = 16d;
+        //    var fontSizePx = 16d;
 
-            var renderElement = new SvgElement("text");
-            renderElement.AddAttribute("x", container.Position.X);
-            renderElement.AddAttribute("y", container.Position.Y + fontSizePx);
-            renderElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
-            renderElement.AddAttribute("clip-path", $"url(#{nameId})");
+        //    var renderElement = new SvgElement("text");
+        //    renderElement.AddAttribute("x", container.Position.X);
+        //    renderElement.AddAttribute("y", container.Position.Y + fontSizePx);
+        //    renderElement.AddAttribute("_measurementFont-size", $"{fontSizePx}px");
+        //    renderElement.AddAttribute("clip-path", $"url(#{nameId})");
 
-            renderElement.Content = fullString;
+        //    renderElement.Content = fullString;
 
-            var bbVisual = new SvgElement("rect");
-            bbVisual.AddAttribute("x", container.Position.X);
-            bbVisual.AddAttribute("y", container.Position.Y);
-            bbVisual.AddAttribute("width", container.Width);
-            bbVisual.AddAttribute("height", container.Height);
-            bbVisual.AddAttribute("fill", "blue");
-            bbVisual.AddAttribute("opacity", "0.5");
+        //    var bbVisual = new SvgElement("rect");
+        //    bbVisual.AddAttribute("x", container.Position.X);
+        //    bbVisual.AddAttribute("y", container.Position.Y);
+        //    bbVisual.AddAttribute("width", container.Width);
+        //    bbVisual.AddAttribute("height", container.Height);
+        //    bbVisual.AddAttribute("fill", "blue");
+        //    bbVisual.AddAttribute("opacity", "0.5");
 
-            doc.AddChildElement(def);
-            doc.AddChildElement(bg);
-            doc.AddChildElement(bbVisual);
-            doc.AddChildElement(renderElement);
+        //    doc.AddChildElement(def);
+        //    doc.AddChildElement(bg);
+        //    doc.AddChildElement(bbVisual);
+        //    doc.AddChildElement(renderElement);
 
-            doc.AddAttributes();
+        //    doc.AddAttributes();
 
-            return doc;
-        }
+        //    return doc;
+        //}
     }
 }

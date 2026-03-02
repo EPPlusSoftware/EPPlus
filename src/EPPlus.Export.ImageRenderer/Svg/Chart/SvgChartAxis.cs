@@ -18,7 +18,6 @@ using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -88,7 +87,7 @@ namespace EPPlusImageRenderer.Svg
                             else
                             {
                                 Rectangle.Width = GetTextWidest(sc, ax) + RightMargin;
-                                var lp = sc.ChartArea.Width - Rectangle.Width - 8D;
+                                var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
                                 if (sc.Chart.Legend.Position == eLegendPosition.Right)
                                 {
                                     lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
@@ -99,7 +98,7 @@ namespace EPPlusImageRenderer.Svg
                         else
                         {
                             Rectangle.Height = GetTextHeight(sc, ax);
-                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
+                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                         }
                     }
 
@@ -182,7 +181,7 @@ namespace EPPlusImageRenderer.Svg
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
         public List<SvgRenderLineItem> MajorGridlinePositions { get; private set; }
         public List<SvgRenderLineItem> MinorGridlinePositions { get; private set; }
-        public List<SvgTextBoxItem> AxisValuesTextBoxes
+        public List<SvgTextBox> AxisValuesTextBoxes
         {
             get;
             private set;
@@ -278,16 +277,16 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private List<SvgTextBoxItem> GetAxisValueTextBoxes()
+        private List<SvgTextBox> GetAxisValueTextBoxes()
         {
             var tm = Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
-            var ret= new List<SvgTextBoxItem>();
+            var ret= new List<SvgTextBox>();
             double maxWidth, maxHeight;
             if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                maxWidth = SvgChart.ChartArea.Bounds.Width / 3; //TODO: Check this value.
+                maxWidth = SvgChart.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
                 maxHeight = Rectangle.Height / AxisValues.Count;
             }
             else
@@ -307,7 +306,7 @@ namespace EPPlusImageRenderer.Svg
                 //bounds.Top = y;
                 var width = m.Width.PointToPixel();
                 var height = m.Height.PointToPixel();
-                var tb = new SvgTextBoxItem(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+                var tb = new SvgTextBox(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
                 tb.TextBody.ImportParagraph(p, 0, v);
@@ -335,7 +334,7 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorWidth = Rectangle.Width / AxisValues.Count;
-                    return Rectangle.Left + majorWidth * i + (majorWidth / 2) - m.Width.PointToPixel() / 2;
+                    return Rectangle.Left + majorWidth * i;
                 }
                 else
                 {
@@ -587,6 +586,15 @@ namespace EPPlusImageRenderer.Svg
             };
 
             var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? SvgChart.Bounds.Height : SvgChart.Bounds.Width; //Fix and use plotarea width/height.
+            if(isCount)
+            {
+                majorUnit = 1;
+                for(int i=1;i<=max;i++)
+                {
+                    l.Add(i);
+                }
+                return l;
+            }
             if (ax.IsDate)
             {
                 var res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
@@ -628,123 +636,5 @@ namespace EPPlusImageRenderer.Svg
 
             return l;
         }
-
-        private void GetAutoMinMaxValue(ExcelChartAxisStandard ax, int maxMajorTickmarks, bool isCount, ref double? min, ref double? max, out double? majorUnit)
-        {
-            if (ax.MinValue.HasValue)
-            {
-                min = ax.MinValue;
-            }
-            else
-            {
-                if (isCount)
-                {
-                    min = 1;
-                }
-                else
-                {
-                    var diffFromZero = (max - min) / max;
-                    if (diffFromZero > 0.091 && min > 0D)
-                    {
-                        min = 0;
-                    }
-                }
-            }
-
-            if (isCount)
-            {
-                majorUnit = 1;
-            }
-            else
-            {
-                if (ax.MaxValue.HasValue)
-                {
-                    max = ax.MaxValue;
-                    majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
-                    if (ax.MinValue.HasValue == false)
-                    {
-                        var newMin = max - majorUnit;
-                        while (newMin > min)
-                        {
-                            newMin -= majorUnit.Value;
-                        }
-                        min = newMin;
-                    }
-                }
-                else
-                {
-                    majorUnit = ax.MajorUnit ?? GetAutoUnit(min.Value, max.Value);
-                    if (isCount == false)
-                    {
-                        var diff = max.Value - min.Value;
-                        var newMax = min.Value + majorUnit;
-                        while ((newMax - min) < (diff * 1.05))
-                        {
-                            newMax += majorUnit.Value;
-                        }
-                        max = newMax;
-                    }
-                    if (min != 0 && max - min < 9)
-                    {
-                        min -= 2;
-                    }
-                }
-                var newUnit = majorUnit;
-                while (newUnit >= 2 && (max - min) / newUnit > maxMajorTickmarks)
-                {
-                    newUnit /= 2;
-                }
-            }
-        }
-
-        private double GetAutoUnit(double min, double max)
-        {
-            //if (diff < 8)
-            //{
-            //    return 1;
-            //}
-            //else
-            //{
-            if (min < 0)
-            {
-                var diff = max - min;
-                return 0;
-            }
-            else
-            {
-                var diff = max - min;
-                var rawMajorUnit = diff;
-                var exponent = Math.Floor(Math.Log10(rawMajorUnit));
-                var fraction = rawMajorUnit / (Math.Pow(10, exponent));
-                double unit;
-                if (fraction <= 1)
-                {
-                    unit = 1D;
-                }
-                else if (fraction <= 2)
-                {
-                    unit = 2;
-                }
-                else if (fraction <= 2.5)
-                {
-                    unit = 2.5;
-                }
-                else if (fraction <= 5)
-                {
-                    unit = 5;
-                }
-                else
-                {
-                    unit = 10;
-                }
-
-                var axMax = unit * Math.Pow(10, exponent);
-                var axMin = Math.Floor(min / axMax) * axMax;
-                axMax = Math.Ceiling(max / axMax) * axMax;
-                return axMax / 10;
-            }
-            //}
-        }
-
     }
 }

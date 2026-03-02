@@ -71,7 +71,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public double GetBaseLineInPoints(float fontSize)
         {
-            return _shaper.GetBaseLineInPoints(fontSize);
+            return _shaper.GetAscentInPoints(fontSize);
         }
 
         public double GetDescentInPoints(float fontSize)

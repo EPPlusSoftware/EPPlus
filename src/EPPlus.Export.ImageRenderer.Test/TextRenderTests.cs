@@ -221,7 +221,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 cube.SetPixelWidth(5000);
                 var svgShape = new SvgShape(cube);
 
-                SvgTextBodyItem tbItem = svgShape.TextBox.TextBody;
+                SvgTextBodyItem tbItem = svgShape.TextBox;
 
                 var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
                 var pxWidth = txtRun1Bounds.Width.PointToPixel();

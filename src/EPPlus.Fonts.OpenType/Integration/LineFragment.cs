@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Fonts.OpenType.Integration
+{
+    /// <summary>
+    /// The fragment of a richTextFragment that is within a line
+    /// </summary>
+    public class LineFragment
+    {
+        public int StartIdx { get; set; }
+        public double Width { get; set; }
+        public int RtFragIdx { get; set; }
+
+        //public double AscentInPoints { get; private set; }
+        //public double DescentInPoints { get; private set; }
+
+        internal LineFragment(int rtFragmentIdx, int idxWithinLine/*, double ascentInPoints, double descentInPoints*/)
+        {
+            RtFragIdx = rtFragmentIdx;
+            StartIdx = idxWithinLine;
+            //AscentInPoints = ascentInPoints;
+            //DescentInPoints = descentInPoints;
+        }
+    }
+}

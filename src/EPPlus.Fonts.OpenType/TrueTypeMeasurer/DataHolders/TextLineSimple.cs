@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPPlus.Fonts.OpenType.Integration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
     public class TextLineSimple
     {
         public List<RichTextFragmentSimple> RtFragments { get; private set; } = new List<RichTextFragmentSimple>();
+
+        public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
 
         public string Text { get; internal set; }
         /// <summary>
@@ -69,6 +72,43 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
                 var endIdx = RtFragments[idxInLst + 1].charStarIdxWithinCurrentLine;
                 return Text.Substring(startIdx, endIdx - startIdx);
             }
+        }
+
+        public string GetLineFragmentText(LineFragment rtFragment)
+        {
+            if (LineFragments.Contains(rtFragment) == false)
+            {
+                throw new InvalidOperationException($"GetFragmentText failed. Cannot retrieve {rtFragment} since it is not part of this textLine: {this}");
+            }
+
+            if (string.IsNullOrEmpty(Text))
+            {
+                return Text;
+            }
+
+            var startIdx = rtFragment.StartIdx;
+
+            var idxInLst = LineFragments.FindIndex(x => x == rtFragment);
+            if (idxInLst == LineFragments.Count - 1)
+            {
+                return Text.Substring(startIdx, Text.Length - startIdx);
+            }
+            else
+            {
+                var endIdx = LineFragments[idxInLst + 1].StartIdx;
+                return Text.Substring(startIdx, endIdx - startIdx);
+            }
+        }
+
+        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit)
+        {
+            //If we are splitting a fragment its position in the new line should be 0
+            var newLineFragment = new LineFragment(origLf.RtFragIdx, 0);
+            newLineFragment.Width = origLf.Width - widthAtSplit;
+
+            origLf.Width = widthAtSplit;
+
+            return newLineFragment;
         }
     }
 }

@@ -14,7 +14,6 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
@@ -46,8 +45,8 @@ namespace EPPlusImageRenderer.Svg
             }
             var l = ((ExcelChartStandard)sc.Chart).Legend;
 
-            LeftMargin = RightMargin = 4;
-            TopMargin = BottomMargin = 4;
+            LeftMargin = RightMargin = 3; //4px
+            TopMargin = BottomMargin = 3; //4px
 
             if (l.Layout.HasLayout)
             {
@@ -57,6 +56,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 Rectangle = GetLegendRectangle(sc, l);
             }
+
             Bounds.Left = Rectangle.Left;
             Bounds.Top = Rectangle.Top;
             Bounds.Width = Rectangle.Width;
@@ -127,14 +127,14 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.Bottom:
                     rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) ; // 28 is for the line length + 2px between line and text
                     rect.Height = TopMargin + BottomMargin + highest + MarginExtra;
-                    rect.Left = (sc.ChartArea.Width - rect.Width) / 2;
+                    rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
                         rect.Top = sc.Title.Rectangle.Top+ sc.Title.Rectangle.Height + MiddleMargin;
                     }
                     else 
                     {
-                        rect.Top = sc.ChartArea.Height - rect.Height - BottomMargin;
+                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -145,7 +145,7 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Right ||
                         l.Position == eLegendPosition.TopRight)
                     {
-                        rect.Left = sc.ChartArea.Width - rect.Width - TopMargin;
+                        rect.Left = sc.ChartArea.Rectangle.Width - rect.Width - TopMargin;
                     }
                     else
                     {
@@ -154,7 +154,7 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Left ||
                         l.Position == eLegendPosition.Right)
                     {
-                        rect.Top = sc.ChartArea.Height / 2 + TopMargin + 2;
+                        rect.Top = sc.ChartArea.Rectangle.Height / 2 + TopMargin + 2;
                     }
                     else
                     {
@@ -172,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
             if (isVertical)
             {                
 
-                //var top = sc.Title.Rectangle.Height+8+10;
+                //var top = sc.Title.GetRectangle.Height+8+10;
                 //var width = margin;
             }
             return rect;

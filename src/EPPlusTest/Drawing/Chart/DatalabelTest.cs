@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlusTest.Drawing.Chart
 {
