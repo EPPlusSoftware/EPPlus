@@ -406,6 +406,16 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else
                 {
+                    if(LinkedCell.IsSingleCell == false)
+                    {
+                        string combinedString = "";
+                        string separator = " ";
+                        foreach(var address in LinkedCell)
+                        {
+                            combinedString += address.Text + separator;
+                        }
+                        return combinedString;
+                    }
                     return LinkedCell.Text;
                 }
             }
