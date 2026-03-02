@@ -56,8 +56,16 @@ namespace OfficeOpenXml.Constants
         internal const string ConditionalFormattingUri = "{78C0D931-6437-407d-A8EE-F0AAD7539E65}";
         internal const string ExtChildUri = "{B025F937-C7B1-47D3-B67F-A62EFF666E3E}";
 
-        //Feature property bag refrence used for checkboxes is styling.
+        //Feature property bag refrence used for checkboxes is styling. (xfComplementXf)
+        /// <summary>
+        /// NOT FOR DXF
+        /// </summary>
         internal const string FeaturePropertyBag = "{C7286773-470A-42A8-94C5-96B5CB345126}";
+        //dxfComplementExt
+        /// <summary>
+        /// FOR DXF
+        /// </summary>
+        internal const string FeaturePropertyBagDxf = "{0417FA29-78FA-4A13-93AC-8FF0FAFDF519}";
 
         internal const string Connection2010Uri = "{DE250136-89BD-433C-8126-D09CA5730AF9}";
     }
