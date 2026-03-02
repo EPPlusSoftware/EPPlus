@@ -63,7 +63,7 @@ namespace OfficeOpenXml
         public static void Calculate(this ExcelWorkbook workbook, ExcelCalculationOption options)
         {
             #if !NET35
-            workbook.ThrowIfCalculationCancelled(); // Guard: prevent recalc on poisoned workbook
+            workbook.ThrowIfCalculationCanceled(); // Guard: prevent recalc on poisoned workbook
             #endif
 
             Init(workbook);
@@ -93,7 +93,7 @@ namespace OfficeOpenXml
             }
             catch (OperationCanceledException)
             {
-                workbook.MarkCalculationCancelled();
+                workbook.MarkCalculationCanceled();
                 throw;
             }
 #endif
@@ -175,7 +175,7 @@ namespace OfficeOpenXml
         {
             Init(worksheet.Workbook);
 #if !NET35
-            worksheet.Workbook.ThrowIfCalculationCancelled();
+            worksheet.Workbook.ThrowIfCalculationCanceled();
             try
             {
 #endif
@@ -185,7 +185,7 @@ namespace OfficeOpenXml
             }
             catch (OperationCanceledException)
             {
-                worksheet.Workbook.MarkCalculationCancelled();
+                worksheet.Workbook.MarkCalculationCanceled();
                 throw;
             }
 #endif
@@ -225,7 +225,7 @@ namespace OfficeOpenXml
         public static void Calculate(this ExcelRangeBase range, ExcelCalculationOption options)
         {
 #if !NET35
-            range._workbook.ThrowIfCalculationCancelled();
+            range._workbook.ThrowIfCalculationCanceled();
             try
             {
 #endif
@@ -237,7 +237,7 @@ namespace OfficeOpenXml
             }
             catch (OperationCanceledException)
             {
-                range._workbook.MarkCalculationCancelled();
+                range._workbook.MarkCalculationCanceled();
                 throw;
             }
 #endif

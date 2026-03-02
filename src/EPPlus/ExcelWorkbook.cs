@@ -405,29 +405,29 @@ namespace OfficeOpenXml
         #region Calculation cancellation (poison flag)
 
         #if !NET35
-        internal bool IsCalculationCancelled { get; private set; }
+        internal bool IsCalculationCanceled { get; private set; }
 
-        internal void MarkCalculationCancelled()
+        internal void MarkCalculationCanceled()
         {
-            IsCalculationCancelled = true;
+            IsCalculationCanceled = true;
         }
 
-        internal void ThrowIfCalculationCancelled()
+        internal void ThrowIfCalculationCanceled()
         {
-            if (IsCalculationCancelled)
+            if (IsCalculationCanceled)
             {
                 throw new InvalidOperationException(
-                    "This workbook has been left in an inconsistent state due to a cancelled " +
+                    "This workbook has been left in an inconsistent state due to a canceled " +
                     "calculation. The workbook must be disposed and cannot be used for further " +
                     "operations. Reload the workbook from the source to continue.");
             }
         }
 
         /// <summary>
-        /// Returns true if a calculation was cancelled, leaving the workbook in an inconsistent state.
+        /// Returns true if a calculation was canceled, leaving the workbook in an inconsistent state.
         /// A workbook in this state must be disposed — saving or recalculating is not permitted.
         /// </summary>
-        public bool IsCalculationInconsistent => IsCalculationCancelled;
+        public bool IsCalculationInconsistent => IsCalculationCanceled;
         #endif
 
         #endregion

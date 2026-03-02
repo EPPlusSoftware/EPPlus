@@ -955,7 +955,7 @@ namespace OfficeOpenXml
         {
             CheckNotDisposed();
 #if !NET35
-            Workbook.ThrowIfCalculationCancelled();
+            Workbook.ThrowIfCalculationCanceled();
 #endif
             try
             {
