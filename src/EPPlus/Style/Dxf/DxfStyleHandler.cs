@@ -136,15 +136,6 @@ namespace OfficeOpenXml.Style.Dxf
                 foreach (var column in tbl.Columns)
                 {
                     column.HeaderRowDxfId = AddDxfNode(styles.Dxfs, dxfsNode, column.HeaderRowStyle);
-
-                    //if (column.DataDxfId.HasValue && column.DataStyle.DxfId == column.DataDxfId)
-                    //{
-                    //    //This is a no-op. The col already has the correct DataDxfId
-                    //}
-                    //else
-                    //{
-                    //    column.DataDxfId = AddDxfNode(styles.Dxfs, dxfsNode, column.DataStyle);
-                    //}
                     column.DataDxfId = AddDxfNode(styles.Dxfs, dxfsNode, column.DataStyle);
                     column.TotalsRowDxfId = AddDxfNode(styles.Dxfs, dxfsNode, column.TotalsRowStyle);
                 }
