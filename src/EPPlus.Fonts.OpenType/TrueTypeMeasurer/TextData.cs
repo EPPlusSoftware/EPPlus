@@ -17,12 +17,13 @@ using EPPlus.Fonts.OpenType.Tables.Kern;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace EPPlus.Fonts.OpenType
 {

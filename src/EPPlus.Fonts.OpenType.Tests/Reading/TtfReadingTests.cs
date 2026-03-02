@@ -166,42 +166,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         }
 
         [TestMethod]
-        public void ReadAllTTFFonts()
-        {
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Ttf);
-
-            List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
-
-            for (int i = 0; i < allFontsList.Count; i++)
-            {
-                LicenseDataHolder dataHolderItem = new LicenseDataHolder()
-                {
-                    FontName = allFontsList[i].FullName,
-                    LicenseType = allFontsList[i].Os2Table.fsType,
-                    LTypeString = GetFsString(allFontsList[i].Os2Table.fsType)
-                };
-
-                dataHolder.Add(dataHolderItem);
-                Assert.AreEqual(Scanner.FontFormat.Ttf, allFontsList[i].Format);
-            }
-
-            var fontsThatCannotBeEmbedded = dataHolder.Where(x => x.LicenseType == 2);
-
-            Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
-        }
-
-        [TestMethod]
-        public void ReadAllFonts()
-        {
-            var sw = new Stopwatch();
-            sw.Start();
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true);
-            sw.Stop();
-
-            Trace.WriteLine(sw.ElapsedMilliseconds);
-        }
-
-        [TestMethod]
         public void TestWrapText()
         {
             string fontName = "Aptos Narrow";

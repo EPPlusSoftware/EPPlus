@@ -30,7 +30,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
             FontFaceInfo bestMatch = null;
             int bestScore = -1;
-
+            int nMatches = 0;
             foreach (var face in candidates)
             {
                 if (string.IsNullOrEmpty(face.FamilyName))
@@ -38,8 +38,10 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
                 int score = CalculateMatchScore(face, familyName, desiredStyle);
 
+                
                 if (score > bestScore)
                 {
+                    if (score >= 3000) nMatches++;
                     bestScore = score;
                     bestMatch = face;
                 }
