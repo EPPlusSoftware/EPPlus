@@ -310,9 +310,9 @@ namespace EPPlusImageRenderer.Svg
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
-                if (p.HorizontalAlignment != eTextAlignment.Center)
+                if (p.HorizontalAlignment != eTextAlignment.Center && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
                 {
-                    //Axises are always seemingly center aligned
+                    //Horizontal axises are always center aligned visually
                     //Should be broken out as input to ImportParagraph instead of changing the base item
                     p.HorizontalAlignment = eTextAlignment.Center;
                 }

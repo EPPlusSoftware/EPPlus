@@ -43,6 +43,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal eTextAlignment HorizontalAlignment { get; private set; } = eTextAlignment.Left;
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
+        internal bool DisplayBounds { get; set; } = true;
+
+        private double? _centerAdjustment = null;
+
         public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
             ParentTextBody = textBody;
@@ -101,7 +105,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //Textbody or Textbox are assumed to handle shape/chart margins
                 //Paragraph handles only indentations/margins that is applied ON TOP of those margins
                 //Paragraph left is the exact position where the text itself starts on the left
-                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+                if (HorizontalAlignment != eTextAlignment.Center)
+                {
+                    Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+                }
+                else
+                {
+                    //Center is a bit strange the bounds really are the same as left or right aligned
+                    //It doesn't truly matter as only left min and right max play a role
+                    Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
+                    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+
+                }
                 Bounds.Width = parent.Width - _rightMargin - _leftMargin;
 
                 //Bounds.Width = ParentTextBody.Width;
@@ -250,16 +265,51 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var measurer = new FontMeasurerTrueType();
                 var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
                 lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
+
                 Bounds.Width = maxWidth;
-                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+                if (HorizontalAlignment != eTextAlignment.Center)
+                {
+                    Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+                }
+                else
+                {
+                    //Center is a bit strange the bounds really are the same as left or right aligned
+                    //It doesn't truly matter as only left min and right max play a role
+                    Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
+                    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+
+                }
             }
             else
             {
                 lines = WrapToSimpleTextLines(p);
             }
 
-            if (lines != null)
+
+            if (lines != null && lines.Count != 0)
             {
+                //This could be moved into a textLines collection class
+                //START
+                var idxOfLargestLine = 0;
+                double widthOfLargestLine = lines[0].Width;
+
+                for (int i = 1; i < lines.Count; i++)
+                {
+                    if (lines[i].Width > widthOfLargestLine)
+                    {
+                        widthOfLargestLine = lines[i].Width;
+                        idxOfLargestLine = i;
+                    }
+                }
+                //END
+
+                if(HorizontalAlignment == eTextAlignment.Center)
+                {
+                    //Bounds of the paragraph should be bounds of the text itself.
+                    //Therefore we must know the starting point to set accurate left and offset from left.
+                    Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                }
+
                 foreach (var line in lines)
                 {
                     double prevWidth = 0;
@@ -267,7 +317,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     if (HorizontalAlignment == eTextAlignment.Center)
                     {
                         var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                        prevWidth = -ctrLineWidth / 2;
+                   
+                        //center adjustment should always have value here
+                        prevWidth = _centerAdjustment.Value - (ctrLineWidth / 2) - Bounds.Left;
                     }
 
                     if (lineSpacingIsExact == false)
@@ -302,16 +354,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         runItem.Bounds.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
                     }
-
                     lastDescent = line.LargestDescent;
                 }
             }
             Bounds.Height = runLineSpacing + lastDescent;
             Bounds.Width = greatestWidth;
-            //if (HorizontalAlignment == eTextAlignment.Center)
-            //{
-            //    Bounds.Left = Bounds.Left - greatestWidth;
-            //}
         }
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p)

@@ -55,6 +55,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             sb.AppendLine("<title>paragraph</title> ");
 
+            if(DisplayBounds)
+            {
+                sb.AppendLine($"<g>");
+                sb.AppendLine("<title>Bounding-Box: Paragraph</title> ");
+                SvgRenderRectItem visualBoundingBox = new SvgRenderRectItem(DrawingRenderer, ParentTextBody.Bounds);
+
+                //Left/Top handled by transform
+                visualBoundingBox.Bounds.Width = Bounds.Width;
+                visualBoundingBox.Bounds.Height = Bounds.Height;
+
+                visualBoundingBox.FillOpacity = 0.3;
+                visualBoundingBox.FillColor = "red";
+                visualBoundingBox.Render(sb);
+                sb.AppendLine($"</g>");
+
+            }
+
             //var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
             ////The bb is affected by the Transform so set pos to zero
             //if (IsFirstParagraph == false)
