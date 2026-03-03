@@ -16,6 +16,8 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
@@ -47,7 +49,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             PopulatePages(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             //AddCellsToPageLayout(WorksheetLayout, PagesLayout);
             //HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
-            MoveCellToPageFromContent(pageSettings, PagesLayout);
+            MoveCellToPageFromContent(pageSettings, dictionaries, PagesLayout);
             ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
             //ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
             //AdjustAndSort(PagesLayout, dictionaries);
@@ -241,7 +243,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfCellBorderLayout || x is PdfDrawingLayout).ToList();
             foreach (var mergedCell in mcd)
-            {
+            { 
                 var m = mergedCell as PdfMergedCellLayout;
                 var c = mergedCell as PdfCellContentLayout;
                 var b = mergedCell as PdfCellBorderLayout;
@@ -288,14 +290,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void MoveCellToPageFromContent(PdfPageSettings pageSettings, PdfPagesLayout pages)
+        private void MoveCellToPageFromContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPagesLayout pages)
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
-                var rowCount = page.ToRow - page.FromRow + 1;
-                var colCount = page.ToCol - page.FromCol + 1;
-                int col = 0;
-                int row = 0;
                 page.CreateMap();
                 page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.Margins.TopPu);
                 var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
@@ -307,74 +305,59 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         iSl.UpdateShadingPositionMatrix(pageSettings);
                     if (child is PdfMergedCellLayout m)
                     {
-                        if (m.address._fromCol <= page.ToCol)
+                        var localFromRow = m.address._fromRow - page.FromRow;
+                        var localFromCol = m.address._fromCol - page.FromCol;
+                        var localToRow = m.address._toRow - page.FromRow;
+                        var localToCol = m.address._toCol - page.FromCol;
+                        int colCount = 0;
+                        int rowCount = 0;
+
+                        for (int r = localFromRow; r <= localToRow; r++)
                         {
-                            /*Loop should be over the cells in a merged cell covered in the page
-                             * need to reset r and c to 0 on each page
-                             * so we need indexes for row and col for transforms and another for the map.
-                             */
-                            var mRowCount = 0;
-                            var mColCount = 0;
-                            var innerCol = col;
-                            var innerRow = row;
-                            for (int r = m.address._fromRow-1; r < m.address._toRow-1; r++)
+                            if (r >= (page.ToRow - page.FromRow) + 1) break;
+                            if (r < 0)
                             {
-                                if (r > page.ToRow) break;
-                                mColCount = 0;
-                                for (int c = m.address._fromCol-1; c < m.address._toCol-1; c++)
+                                rowCount++;
+                                continue;
+                            }
+                            for (int c = localFromCol; c <= localToCol; c++)
+                            {
+                                if (c >= (page.ToCol - page.FromCol) + 1) break;
+                                if (c < 0)
                                 {
-                                    if (c > page.ToCol-1) break;
-                                    page.Map[r, c].Name = ExcelRange.GetColumnLetter(c + 1) + (r + 1);
-                                    page.Map[r, c].cell = m;
-                                    page.Map[r, c].Type = PageMap.CellType.Merged;
-                                    page.Map[r, c].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
-                                    page.Map[r, c].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
-                                    page.Map[r, c].row = row + 1;
-                                    page.Map[r, c].col = col + 1;
-                                    mColCount++;
+                                    colCount++;
+                                    continue;
                                 }
+                                page.Map[r, c].Name = ExcelRange.GetColumnLetter(m.cell._fromCol + colCount) + (m.cell._fromRow + rowCount);
+                                page.Map[r, c].cell = m;
+                                page.Map[r, c].Type = PageMap.CellType.Merged;
+                                page.Map[r, c].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
+                                page.Map[r, c].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
+                                page.Map[r, c].row = m.cell._fromRow + rowCount;
+                                page.Map[r, c].col = m.cell._fromCol + colCount;
+                                colCount++;
                             }
-                            col = col + mColCount;
-                            if (col >= colCount)
-                            {
-                                col = 0;
-                                row++;
-                            }
+                            rowCount++;
+                            colCount = 0;
                         }
                     }
                     else if (child is PdfCellLayout l)
                     {
-                        while (!string.IsNullOrEmpty(page.Map[row, col].Name))
-                        {
-                            col++;
-                            if (col >= colCount)
-                            {
-                                col = 0;
-                                row++;
-                            }
-                            if (row > rowCount)
-                            {
-                                break;
-                            }
-                        }
-                        if (row < rowCount && col < colCount)
-                        {
-                            page.Map[row, col].Name = l.Name;
-                            page.Map[row, col].cell = l;
-                            page.Map[row, col].Type = PageMap.CellType.Normal;
-                            page.Map[row, col].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == l.Name);
-                            page.Map[row, col].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == l.Name);
-                            page.Map[row, col].row = row + 1;
-                            page.Map[row, col].col = col + 1;
-                            page.Map[row, col].RightTextBucketSpill = page.Map[row, col].content != null ? page.Map[row, col].content.RightTextSpillLength : 0d;
-                            page.Map[row, col].LeftTextBucketSpill = page.Map[row, col].content != null ? page.Map[row, col].content.LeftTextSpillLength : 0d;
-                        }
-                        col++;
-                        if (col >= colCount)
-                        {
-                            col = 0;
-                            row++;
-                        }
+                        var localFromRow = l.cell._fromRow - page.FromRow;
+                        var localFromCol = l.cell._fromCol - page.FromCol;
+                        page.Map[localFromRow, localFromCol].Name = l.Name;
+                        page.Map[localFromRow, localFromCol].cell = l;
+                        page.Map[localFromRow, localFromCol].Type = PageMap.CellType.Normal;
+                        page.Map[localFromRow, localFromCol].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == l.Name);
+                        page.Map[localFromRow, localFromCol].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == l.Name);
+                        page.Map[localFromRow, localFromCol].row = l.cell._fromRow;
+                        page.Map[localFromRow, localFromCol].col = l.cell._fromCol;
+                        page.Map[localFromRow, localFromCol].RightTextBucketSpill = page.Map[localFromRow, localFromCol].content != null ? page.Map[localFromRow, localFromCol].content.RightTextSpillLength : 0d;
+                        page.Map[localFromRow, localFromCol].LeftTextBucketSpill = page.Map[localFromRow, localFromCol].content != null ? page.Map[localFromRow, localFromCol].content.LeftTextSpillLength : 0d;
+                    }
+                    else if (child is PdfCellContentLayout cl)
+                    {
+                        cl.CreateTextShape(dictionaries);
                     }
                 }
                 page.RemoveChild(page.ChildObjects[0]);
@@ -527,7 +510,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
                         bool differentTop = !hasTop || top.cell != cell.cell;
 
-                        bool borderTop = hasTop && (top.border != null &&
+                        bool borderTop = hasTop && (top.border != null && cell.border != null &&
                             (top.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None || cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None));
 
                         if (differentTop && !borderTop)
@@ -562,12 +545,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             if (cell.border != null && cell.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None &&
                                 cell.RightTextBucketSpill <= 0)
                             {
-                                addVertical(row, col + 1);
+                                //addVertical(row, col + 1);
                             }
                         }
 
 
-                        if (page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);
+                        /*if (page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);*/
                         page.Map[row, col] = cell;
                     }
                 }
