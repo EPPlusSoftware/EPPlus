@@ -83,6 +83,6 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal ExcelAddressBase SingleCellAddressFromSeries;
+        internal string ValueFromSeries;
     }
 }

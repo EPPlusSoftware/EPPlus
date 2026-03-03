@@ -20,6 +20,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.IO;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -116,6 +117,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        ChartDataSource DataLabelRangeSource = null;
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -145,6 +148,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _seriesPath = string.Format(_seriesPath, _seriesTopPath);
             _numCachePath = string.Format(_numCachePath, _seriesTopPath);
 
+            //var XSeriesSource = new ChartDataSource(isPivot, ns, node, chart.WorkSheet);
             var np = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
             var sp = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
 
@@ -218,18 +222,53 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-
-        internal void SetDataLabelRange(ExcelRangeBase address)
+        internal string DataLabelSerie 
         {
-            AddExtLstXml();
-
-            var datalabelsRange = CreateNode(dlblRangePath);
-            var formulaNode = CreateNode($"{dlblRangePath}/c15:f");
-            formulaNode.InnerText = address.AddressAbsolute;
-
-            var rangeNode = CreateNode($"{dlblRangePath}/c15:dlblRangeCache");
-            CreateCache(address.FullAddressAbsolute, rangeNode);
+            get
+            {
+                if(DataLabelRangeSource == null)
+                {
+                    AddExtLstXml();
+                    var datalabelsRange = CreateNode(dlblRangePath);
+                    DataLabelRangeSource = new ChartDataSource(_isPivot, NameSpaceManager, TopNode, _chart.WorkSheet, extPath);
+                    if(GetDataLabelRange() != null)
+                    {
+                        DataLabelRangeSource.SetStrRef(GetDataLabelRange());
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                
+                return DataLabelRangeSource.StrRef;
+            }
+            set
+            {
+                DataLabelRangeSource.SetStrRef(value);
+            }
         }
+        internal void SetDataLabelRange(string strRef)
+        {
+            var dlblSer = DataLabelSerie;
+
+            DataLabelSerie = strRef;
+            //DataLabelRangeSource.CreateCache(GetTopNode(dlblSer.))
+
+            //AddExtLstXml();
+
+            //var datalabelsRange = CreateNode(dlblRangePath);
+            //var formulaNode = CreateNode($"{dlblRangePath}/c15:f");
+            //formulaNode.InnerText = address.AddressAbsolute;
+
+            //var rangeNode = CreateNode($"{dlblRangePath}/c15:dlblRangeCache");
+            //CreateCache(address.FullAddressAbsolute, rangeNode);
+        }
+
+        //internal void GetDataLabelCache()
+        //{
+        //    DataLabelRangeSource.cac
+        //}
 
         const string headerPath = "c:tx/c:v";
         /// <summary>

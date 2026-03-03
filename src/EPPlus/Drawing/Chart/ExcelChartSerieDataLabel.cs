@@ -10,16 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Style;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -59,14 +52,14 @@ namespace OfficeOpenXml.Drawing.Chart
                         var address = DataLabelRange;
                         for(int i = 0; i< _dataLabels.Count(); i++)
                         {
-                            if (address.Rows > address.Columns)
-                            {
-                                _dataLabels[i].SingleCellAddressFromSeries = address.TakeSingleCell(i, 0);
-                            }
-                            else
-                            {
-                                _dataLabels[i].SingleCellAddressFromSeries = address.TakeSingleCell(0, i);
-                            }
+                            //if (address.Rows > address.Columns)
+                            //{
+                            //    _dataLabels[i].SingleCellAddressFromSeries = address.TakeSingleCell(i, 0);
+                            //}
+                            //else
+                            //{
+                            //    _dataLabels[i].SingleCellAddressFromSeries = address.TakeSingleCell(0, i);
+                            //}
                         }
                     }
                 }
@@ -98,33 +91,38 @@ namespace OfficeOpenXml.Drawing.Chart
             return (ExcelChartStandardSerie)_chart.Series[idxNodeValue];
         }
 
+
+        public void SetValueSource(ExcelAddressBase address)
+        {
+            SetValueSource(address.AddressAbsolute.ToString());
+        }
         /// <summary>
         /// Select datalabel range for
         /// Value From Cells
         /// </summary>
         /// <param name="address">must be a single; cell, row or column</param>
         /// <exception cref="InvalidExpressionException">Thrown when input is not a cell, a row or a column</exception>
-        public void SelectRange(ExcelRangeBase address)
+        public void SetValueSource(string strRef)
         {
             //TODO: Arguably this is just another series with a series cache.
             //Same as Cat or Val except that it is added in Ext on the Serie node
             //ShowValue property essentially changes the datalabels in the same way.
             //This could be unified somehow so that all serie ranges; Cat, Val and DataLabelRange are handled the same way.
 
-            bool moreThanOneRow = address.Rows > 1;
-            bool moreThanOneColumn = address.Columns > 1;
+            //bool moreThanOneRow = address.Rows > 1;
+            //bool moreThanOneColumn = address.Columns > 1;
 
-            if (moreThanOneRow && moreThanOneColumn)
-            {
-                throw new InvalidExpressionException($"DataLabelRange cannot be set to invalid range: '{address.Address}'\n" +
-                    $"The range must be a single cell, a single row or a single column");
-            }
+            //if (moreThanOneRow && moreThanOneColumn)
+            //{
+            //    throw new InvalidExpressionException($"DataLabelRange cannot be set to invalid range: '{address.Address}'\n" +
+            //        $"The range must be a single cell, a single row or a single column");
+            //}
 
-            DataLabelRange = address;
+            //DataLabelRange = address;
 
             var currentSeries = GetParentSeries();
             //Set the ext data needed in the Series node
-            currentSeries.SetDataLabelRange(address);
+            currentSeries.SetDataLabelRange(strRef);
 
             //Create the Datalabels if they do not exist
             if (DataLabels.Count < currentSeries.NumberOfItems)
@@ -143,20 +141,23 @@ namespace OfficeOpenXml.Drawing.Chart
                     currentLabel.AddExtFieldTableEmpty();
                     currentLabel.ShowDatalabelsRange = true;
 
-                    if (address.Rows > address.Columns)
-                    {
-                        currentLabel.SingleCellAddressFromSeries = address.TakeSingleCell(i, 0);
-                    }
-                    else
-                    {
-                        currentLabel.SingleCellAddressFromSeries = address.TakeSingleCell(0, i);
-                    }
+                    //currentSeries.
+                    //if (address.Rows > address.Columns)
+                    //{
+                    //    currentLabel.SingleCellAddressFromSeries = address.TakeSingleCell(i, 0);
+                    //}
+                    //else
+                    //{
+                    //    currentLabel.SingleCellAddressFromSeries = address.TakeSingleCell(0, i);
+                    //}
 
                     ////Adds field CellRange to the paragraph of the label
                     ///For backwards compatability if opened in excel versions prior to Excel 2013
                     //currentLabel.AddField("CELLRANGE");
                 }
             }
+
+            
         }
     }
 }
