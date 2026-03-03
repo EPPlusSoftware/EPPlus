@@ -17,7 +17,7 @@ using EPPlus.Fonts.OpenType.TextShaping.Kerning;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
 using EPPlus.Fonts.OpenType.TextShaping.Positioning;
 using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 

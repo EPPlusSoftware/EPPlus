@@ -14,7 +14,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Result of text shaping operation containing positioned glyphs.

@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/21/2025         EPPlus Software AB           Test base class
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 
 namespace EPPlus.Fonts.OpenType.Tests
@@ -112,13 +113,33 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestInitialize]
         public void ClearAllCaches()
         {
-            //OpenTypeFonts.ClearFontCache();
+            OpenTypeFonts.ClearFontCache();
+            ConfigureResolver();
+        }
+
+        protected virtual void ConfigureResolver()
+        {
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, false)));
         }
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void BaseClassInitialize(TestContext context)
         {
             FontDirectoriesTestHelper.ClassInitialize(context);
+        }
+
+        /// <summary>
+        /// Temporarily configures the font resolver for the duration of one test.
+        /// Restores the default test resolver automatically via [TestCleanup].
+        /// </summary>
+        protected static void UseSystemFonts()
+        {
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(null, true)));
+        }
+
+        protected static void UseFontFolders(IEnumerable<string> directories, bool searchSystemDirectories = false)
+        {
+            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(directories, searchSystemDirectories)));
         }
     }
 }

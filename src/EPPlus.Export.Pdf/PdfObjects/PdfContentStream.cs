@@ -17,7 +17,8 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         public PdfContentStream(int objectNumber, string command = null, int version = 0)
             : base(objectNumber, version)
         {
-            if(!string.IsNullOrEmpty(command))
+            if (!string.IsNullOrEmpty(command))
             {
                 commands.Add(command);
             }
@@ -66,7 +67,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
-                commands.Add( cell.CellFillData.enhanceGridLine ? Color.Black.ToStrokeCommand() : cell.CellFillData.BackgroundColor.ToStrokeCommand());
+                commands.Add(cell.CellFillData.enhanceGridLine ? Color.Black.ToStrokeCommand() : cell.CellFillData.BackgroundColor.ToStrokeCommand());
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
                 commands.Add("Q");
@@ -190,7 +191,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     var glyph = text.Glyphs[j];
                     sb.Append($"<{glyph.GlyphId:X4}>");
                     int kerning = glyph.XAdvance - glyph.BaseAdvance;
-                    
+
                     if (kerning != 0)
                     {
                         // Convert to PDF units (1000-based) and negate
@@ -249,7 +250,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         }
                     }
 
-                    if(wordIndex ==  words.Characters.Count && j < line.Words.Count - 1)
+                    if (wordIndex == words.Characters.Count && j < line.Words.Count - 1)
                     {
                         wordIndex = 0;
                         continue;
@@ -345,7 +346,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     useModifiedMatrix = false;
                     textRun = string.Empty;
                     textAdvance = 0;
-                    
+
                     if (wordIndex < words.Characters.Count)
                     {
                         currentStyle = words.Characters[wordIndex];
@@ -443,7 +444,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public void AddMarginClipping(Transform pageLayout, PdfContentBounds bounds)
         {
-            if(pageLayout is not PdfPageLayout pl) return;
+            if (pageLayout is not PdfPageLayout pl) return;
 
             commands.Add($"% Margin Clip Start");
             double y = bounds.Top;

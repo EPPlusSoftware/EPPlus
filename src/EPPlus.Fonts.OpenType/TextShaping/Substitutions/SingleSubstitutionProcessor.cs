@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions

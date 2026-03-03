@@ -4,6 +4,7 @@ using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,7 +24,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_MeasureSimpleText_ShouldBeClose()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             // Old measurer
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
@@ -59,7 +60,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_MeasureTextWithKerning_ShouldBeClose()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
 
@@ -88,7 +89,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_MeasureMultiLineText_NewImplementationFixesBugs()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             oldMeasurer.MeasureWrappedTextCells = true;
@@ -157,7 +158,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_GetSingleLineSpacing_ShouldMatch()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             var shaper = new TextShaper(font);
@@ -178,7 +179,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_GetBaseLine_ShouldMatch()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             var shaper = new TextShaper(font);
@@ -203,7 +204,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_WrapSimpleText_ShouldGiveSameLines()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
 
@@ -246,7 +247,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_WrapTextWithPreExistingWidth_ShouldGiveSameLines()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             var shaper = new TextShaper(font);
@@ -287,7 +288,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_WrapRichText_ShouldGiveSimilarLines()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             var shaper = new TextShaper(font);
@@ -343,7 +344,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_EmptyString_BothShouldReturnZero()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             var shaper = new TextShaper(font);
@@ -371,7 +372,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void Compare_SingleCharacter_ShouldMatch()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             var oldMeasurer = new FontMeasurerTrueType(11f, "Roboto", FontSubFamily.Regular);
             var shaper = new TextShaper(font);

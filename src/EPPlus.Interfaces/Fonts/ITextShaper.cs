@@ -11,7 +11,7 @@
   01/15/2025         EPPlus Software AB           Initial implementation
  *************************************************************************************************/
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Core text shaping - converts text to positioned glyphs.

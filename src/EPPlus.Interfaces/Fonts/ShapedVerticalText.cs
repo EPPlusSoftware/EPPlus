@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Diagnostics;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Result of a vertical text shaping operation containing positioned glyphs.

@@ -13,6 +13,7 @@
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Drawing;

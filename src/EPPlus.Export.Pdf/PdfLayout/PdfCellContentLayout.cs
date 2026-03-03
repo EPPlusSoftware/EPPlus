@@ -16,6 +16,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;

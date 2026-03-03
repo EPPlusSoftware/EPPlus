@@ -11,7 +11,7 @@
   02/19/2026         EPPlus Software AB           Vertical text shaping support (Excel rotation 255)
                                                   Requires TextShaper.cs to be declared as partial
  *************************************************************************************************/
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 
 namespace EPPlus.Fonts.OpenType.TextShaping

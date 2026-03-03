@@ -77,8 +77,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var oldGpos = context.OriginalFont.GposTable;
             if (oldGpos == null) return;
 
-            Debug.WriteLine($"[GPOS Subset] Original GPOS has {oldGpos.LookupList.Lookups.Count} lookups");
-
             // Count Type 4 (MarkToBase) lookups
             int markToBaseCount = 0;
             foreach (var lookup in oldGpos.LookupList.Lookups)
@@ -90,13 +88,11 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     markToBaseCount++;
                 }
             }
-            Debug.WriteLine($"[GPOS Subset] Original has {markToBaseCount} MarkToBase lookups");
 
             var newGpos = oldGpos.Rewrite(context);
 
             if (newGpos != null)
             {
-                Debug.WriteLine($"[GPOS Subset] New GPOS has {newGpos.LookupList.Lookups.Count} lookups");
                 context.SubsetFont.AddOrReplaceTable(newGpos);
             }
         }

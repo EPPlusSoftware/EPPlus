@@ -21,6 +21,8 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Export.Pdf.PdfResources
 {
@@ -53,7 +55,7 @@ namespace EPPlus.Export.Pdf.PdfResources
             : base("F", labelNumber)
         {
             this.fontName = fontName;
-            fontData = OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+            fontData = OpenTypeFonts.LoadFont(fontName, subFamily, pageSettings.FontDirectories, pageSettings.SearchSystemDirectories);
         }
 
         internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
@@ -201,7 +203,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal PdfType0FontDict GetType0FontDictObject(int objectNumber, int version = 0)
         {
             type0FontObjectNumber = objectNumber;
-            return new PdfType0FontDict(objectNumber, fontData.FullName, type0Encoding, CIDFontObjectNumber, unicodeCMapFontObjectNumber );
+            return new PdfType0FontDict(objectNumber, fontData.FullName, type0Encoding, CIDFontObjectNumber, unicodeCMapFontObjectNumber);
         }
 
         internal PdfToUnicodeCMap GetUnicodeCmapObject(int objectNumber, int version = 0)

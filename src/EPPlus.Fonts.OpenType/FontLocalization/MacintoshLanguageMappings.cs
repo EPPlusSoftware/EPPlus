@@ -9,21 +9,25 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  02/27/2026         EPPlus Software AB           Thread-safe initialization
  *************************************************************************************************/
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.FontLocalization
 {
     internal static class MacintoshLanguageMappings
     {
-        private static IDictionary<int, LanguageMapping> _mappings = new Dictionary<int, LanguageMapping>();
+        private static readonly object _syncRoot = new object();
+        private static volatile bool _initialized = false;
+        private static readonly Dictionary<int, LanguageMapping> _mappings = new Dictionary<int, LanguageMapping>();
 
         private static void AddMapping(int hexNumber, Languages language)
         {
+            // Called only within lock, no additional lock needed
             var mapping = LanguageMapping.Create(hexNumber, language);
             _mappings.Add(mapping.code, mapping);
         }
+
         private static void CreateMappings()
         {
             AddMapping(0, Languages.English);
@@ -147,9 +151,17 @@ namespace EPPlus.Fonts.OpenType.FontLocalization
         {
             get
             {
-                if (_mappings.Count() == 0)
+                // Double-checked locking pattern, compatible with .NET 3.5+
+                if (!_initialized)
                 {
-                    CreateMappings();
+                    lock (_syncRoot)
+                    {
+                        if (!_initialized)
+                        {
+                            CreateMappings();
+                            _initialized = true;
+                        }
+                    }
                 }
                 return _mappings;
             }

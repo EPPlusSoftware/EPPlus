@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Tables.Name;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;

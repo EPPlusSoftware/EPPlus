@@ -18,11 +18,12 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -40,7 +41,7 @@ namespace EPPlus.Fonts.OpenType
 
         internal static OpenTypeFont GetFontData(string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
+            return OpenTypeFonts.LoadFont(fontName, subFamily, FontDirectories, SearchSystemDirectories);
         }
 
         internal static TextLayoutEngine GetTextLayoutEngine(MeasurementFont mFont)
@@ -1481,16 +1482,5 @@ namespace EPPlus.Fonts.OpenType
 
             return outputTextLines;
         }
-    }
-}
-
-namespace EPPlus.Fonts.OpenType
-{
-    public enum FontSubFamily
-    {
-        Regular,
-        Bold,
-        Italic,
-        BoldItalic
     }
 }

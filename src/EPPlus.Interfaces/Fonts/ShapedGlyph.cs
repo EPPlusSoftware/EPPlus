@@ -15,7 +15,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Represents a shaped glyph with positioning information.

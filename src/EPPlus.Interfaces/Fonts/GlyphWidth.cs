@@ -13,7 +13,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Lightweight glyph representation optimized for text measurement and wrapping.
