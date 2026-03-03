@@ -184,6 +184,18 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package); 
             }
         }
+        [TestMethod]
+        public void i2303()
+        {
+            using (var package = OpenTemplatePackage("i2303.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+                var drawing = sheet.Drawings.First();
+                var image = drawing.As.Picture.Image;
+                
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 
