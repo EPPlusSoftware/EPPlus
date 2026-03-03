@@ -202,7 +202,7 @@ namespace EPPlusImageRenderer.Svg
                             sls.SeriesIcon = si;
 
                             var tbLeft = si.X2 + MarginExtra;
-                            var tbTop = si.Y2 - tm.Height * 0.75; //TODO:Should probably be font ascent 
+                            var tbTop = si.Y2 - tm.Height * 0.5; //TODO:Should probably be font ascent 
                             double tbWidth;
                             if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
                             {
@@ -214,7 +214,7 @@ namespace EPPlusImageRenderer.Svg
                             }
 
                             var tbHeight = tm.Height;
-                            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight);
+                            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                             sls.Textbox.Bounds.Left = si.X2 + MarginExtra;
 
                             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -270,7 +270,7 @@ namespace EPPlusImageRenderer.Svg
                 float x = 0;                
                 if (pSls == null)
                 {
-                    x = (float)Rectangle.Left + (float)LeftMargin + MarginExtra;
+                    x = (float)Rectangle.Left + (float)LeftMargin;// + MarginExtra;
                 }
                 else
                 {

@@ -23,7 +23,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
-        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false) : base(renderer, parent, false)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderer, parent, autoSize)
         {
             Bounds.Left = left;
             Bounds.Top = top;
