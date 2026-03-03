@@ -673,7 +673,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 FontFamily = "Aptos Narrow",
                 Size = 11,
                 Style = MeasurementFontStyles.Regular
-            }; ;
+            };
 
             var font2 = new MeasurementFont()
             {
@@ -958,6 +958,30 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             Assert.AreEqual("pellentesqu", wrappedLines[0]);
             Assert.AreEqual("er", wrappedLines[1]);
+        }
+
+        [TestMethod]
+        public void VerifyWrappingSingleChar()
+        {
+            List<string> lstOfRichText = new() { "SE/DKK" };
+
+            var font1 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            var maxWidthPt = 31.8125234375d;
+            var gottenFont = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            var shaper = new TextShaper(gottenFont);
+            var layout = new TextLayoutEngine(shaper);
+
+            List<TextFragment> fragments = new List<TextFragment>() { new TextFragment() { Font = font1, Text = lstOfRichText[0] } };
+
+            var wrappedLines = layout.WrapRichTextLines(fragments, maxWidthPt);
+
+            Assert.AreEqual(0, wrappedLines[1].LineFragments[0].StartIdx);
         }
     }
 }

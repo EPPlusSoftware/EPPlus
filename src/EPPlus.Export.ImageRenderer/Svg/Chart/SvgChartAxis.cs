@@ -317,12 +317,14 @@ namespace EPPlusImageRenderer.Svg
                     p.HorizontalAlignment = eTextAlignment.Center;
                 }
 
+                //tb.ImportTextBody(Axis.TextBody);
                 tb.TextBody.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
                 tb.Rectangle.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
                 ret.Add(tb);
             }
+            //ret[0].TextBody.SetHorizontalAlignmentPosition();
             return ret;
         }
 

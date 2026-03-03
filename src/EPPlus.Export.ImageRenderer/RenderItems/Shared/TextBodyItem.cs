@@ -92,10 +92,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //SetHorizontalAlignmentPosition();
         }
 
-        private void SetHorizontalAlignmentPosition()
+        internal void SetHorizontalAlignmentPosition()
         {
-            if (AutoSize)
-            {
+            //if (AutoSize)
+            //{
                 foreach (var p in Paragraphs)
                 {
                     switch (p.HorizontalAlignment)
@@ -104,7 +104,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             p.Bounds.Left = 0;
                             break;
                         case eTextAlignment.Center:
-                            p.Bounds.Left = Bounds.Width / 2 - p.Bounds.Width / 2;
+                            p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
                             break;
                         case eTextAlignment.Right:
                             p.Bounds.Left = Bounds.Right - p.Bounds.Width;
@@ -117,7 +117,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             break;
                     }
                 }
-            }
+            //}
         }
 
         internal virtual void ImportTextBody(ExcelTextBody body)
@@ -127,6 +127,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             VerticalAlignment = eTextAnchoringType.Top;
             //We already apply bounds top via the parent Transform
             double paragraphStartY = GetAlignmentVertical();
+            double largestWidth = double.MinValue;
 
             foreach (var paragraph in body.Paragraphs)
             {
@@ -168,7 +169,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 ImportParagraph(paragraph, paragraphStartY);
                 var addedPara = Paragraphs.Last();
                 paragraphStartY = addedPara.Bounds.Bottom;
+                largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
+
+            foreach (var paragraph in body.Paragraphs)
+            {
+                SetHorizontalAlignmentPosition();
+            }
+
             if (Paragraphs != null && Paragraphs.Count() > 0)
             {
                 Bounds.Height = paragraphStartY;

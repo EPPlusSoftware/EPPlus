@@ -257,6 +257,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             int fragIdxAtBreak = state.CurrentFragmentIdx;
 
+            int adjustmentForLineBuilderLength = 0;
+
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
@@ -299,6 +301,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                 if (lastChar != ' ')
                 {
                     lineBuilder.Append(lastChar);
+                    //Since we appended we should remove it from line builder length when end current and initialize next happens
+                    adjustmentForLineBuilderLength = 1;
 
                     //The char that made us move past maxWidth
                     //must be added to the new line
@@ -311,7 +315,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
             }
 
-            state.EndCurrentTextLineAndIntializeNext(lineBuilder.Length);
+            state.EndCurrentTextLineAndIntializeNext(lineBuilder.Length - adjustmentForLineBuilderLength);
             state.CurrentWordWidth = state.CurrentLineWidth;
 
             state.WordStart = -1;

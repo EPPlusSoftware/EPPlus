@@ -513,7 +513,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 2;
+                //var ix = 0;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
@@ -538,6 +538,21 @@ namespace TestProject1
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\SimplestChartTitle.svg", svg);
+            }
+        }
+
+
+        [TestMethod]
+        public void OpenRightAligned()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("SimpleChartRightAlign.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\SimplestChartRightAlign.svg", svg);
             }
         }
 

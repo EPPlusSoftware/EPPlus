@@ -118,25 +118,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                 }
                 Bounds.Width = parent.Width - _rightMargin - _leftMargin;
-
-                //Bounds.Width = ParentTextBody.Width;
-                //var globBounds = Bounds.GetGlobalBoundingbox();
-                //Bounds.Width = parent.Width;
-                //Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-                //Bounds.Width = parent.Width - _rightMargin - _leftMargin;
-                //Bounds.Width = parent.Width;
-                //Bounds.Left = _leftMargin;
-                ////if (HorizontalAlignment != eTextAlignment.Center)
-                ////{
-                ////    Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-                ////}
-                ////else
-                ////{
-                ////    //Center is a bit strange the bounds really are the same as left or right aligned
-                ////    //It doesn't truly matter as only left min and right max play a role
-                ////    Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
-                ////}
-                //Bounds.Width = parent.Width - _rightMargin - _leftMargin;
             }
 
             //---Get measurer---
@@ -273,11 +254,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
                 else
                 {
-                    //Center is a bit strange the bounds really are the same as left or right aligned
-                    //It doesn't truly matter as only left min and right max play a role
                     Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
                     _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-
                 }
             }
             else
@@ -297,13 +275,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 {
                     if (lines[i].Width > widthOfLargestLine)
                     {
-                        widthOfLargestLine = lines[i].Width;
+                        var ctrLineWidth = lines[i].GetWidthWithoutTrailingSpaces();
+                        widthOfLargestLine = ctrLineWidth;
                         idxOfLargestLine = i;
                     }
                 }
                 //END
 
-                if(HorizontalAlignment == eTextAlignment.Center)
+                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize)
                 {
                     //Bounds of the paragraph should be bounds of the text itself.
                     //Therefore we must know the starting point to set accurate left and offset from left.
@@ -317,9 +296,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     if (HorizontalAlignment == eTextAlignment.Center)
                     {
                         var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                   
-                        //center adjustment should always have value here
-                        prevWidth = _centerAdjustment.Value - (ctrLineWidth / 2) - Bounds.Left;
+
+                        //var LeftForLargestLine = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                        //var LeftForCurrentLine = _centerAdjustment.Value - (ctrLineWidth / 2);
+
+                        //Calculate distance/offset between the Left of this paragraph(LeftForLargestLine) and the Left of currentLine
+                        //prevWidth = LeftForCurrentLine - LeftForLargestLine;
+
+                        //Calculate difference in widths and split to get offset between leftmost position and current line
+                        prevWidth = (widthOfLargestLine - ctrLineWidth)/2;
+                    }
+                    else if (HorizontalAlignment == eTextAlignment.Right)
+                    {
+                        //Note that the actual bounds with the space will be outside max bounds.
+                        //This appears to be how excel does it
+                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                        prevWidth = widthOfLargestLine - ctrLineWidth;
                     }
 
                     if (lineSpacingIsExact == false)
@@ -330,9 +322,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     {
                         runLineSpacing += ParagraphLineSpacing;
                     }
-                    if (line.Width > greatestWidth)
+                    if (line.GetWidthWithoutTrailingSpaces() > greatestWidth)
                     {
-                        greatestWidth = line.Width;
+                        greatestWidth = line.GetWidthWithoutTrailingSpaces();
                     }
 
                     foreach (var lineFragment in line.LineFragments)
