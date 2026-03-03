@@ -263,6 +263,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal struct PdfCellTextItem
     {
+        public IFontProvider fontProvider;
         public string FontName;
         public int FontFamily;
         public FontSubFamily SubFamily;

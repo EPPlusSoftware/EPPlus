@@ -181,7 +181,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                     commands.Add($"S");
                 }
-                commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
+                commands.Add($"/{font.Label} {size.ToPdfString()} Tf"); //move to inside for looop
                 commands.Add(color.ToFillCommand());
                 commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
                 var sb = new StringBuilder();

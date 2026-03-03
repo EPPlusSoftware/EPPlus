@@ -148,12 +148,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     dictionaries.Fonts.Add(fontdata.FullFontName, new PdfFontResource(fontdata.FontName, fontdata.SubFamily,label, pageSettings));
                 }
-                foreach (char c in fontdata.Text)
-                {
-                    var hash = dictionaries.Fonts[fontdata.FullFontName].Subset;
-                    if (!hash.Contains(c))
-                        hash.Add(c);
-                }
+
+                var manger = dictionaries.Fonts[fontdata.FullFontName].fontSubsetManager;
+                manger.AddText(fontdata.Text);
+
+                //foreach (char c in fontdata.Text)
+                //{
+                //    var hash = dictionaries.Fonts[fontdata.FullFontName].Subset;
+                //    if (!hash.Contains(c))
+                //    {
+                //        hash.Add(c);
+                //    }
+                //}
             }
             if (maxWidth < textLength)
             {

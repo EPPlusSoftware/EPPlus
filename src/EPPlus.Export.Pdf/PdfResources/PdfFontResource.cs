@@ -17,11 +17,9 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Export.Pdf.PdfResources
@@ -51,16 +49,19 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal HashSet<ushort> Gids = new HashSet<ushort>();
         internal Dictionary<int, string> charactermappings = new Dictionary<int, string>();
 
+        internal FontSubsetManager fontSubsetManager;
+
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
             : base("F", labelNumber)
         {
             this.fontName = fontName;
             fontData = OpenTypeFonts.LoadFont(fontName, subFamily, pageSettings.FontDirectories, pageSettings.SearchSystemDirectories);
+            fontSubsetManager = new FontSubsetManager(fontData);
         }
 
         internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.GetFontData(pageSettings.FontDirectories, fontName, subFamily, pageSettings.SearchSystemDirectories);
+            return OpenTypeFonts.LoadFont(fontName,subFamily, pageSettings.FontDirectories, pageSettings.SearchSystemDirectories);
         }
 
         //Get font data from fontResources. If font does not exsist, add it to fontResources.
