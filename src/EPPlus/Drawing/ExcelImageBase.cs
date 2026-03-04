@@ -182,6 +182,7 @@ namespace OfficeOpenXml.Drawing
             {
                 ImageBytes = image;
             }
+
             using (var ms = EPPlusMemoryManager.GetStream(image))
             {
                 var imageHandler = new GenericImageHandler();
