@@ -36,8 +36,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _physicalRows = rangeDef.NumberOfRows;
             Size = rangeDef;
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = rangeDef.NumberOfRows - 1, ToCol = rangeDef.NumberOfCols - 1 };
-            Debug.Assert(_physicalRows >= 0);
-            Debug.Assert(_physicalRows <= Size.NumberOfRows);
         }
         /// <summary>
         /// The constructor
@@ -55,8 +53,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
             _physicalRows = rangeDef.NumberOfRows;
             Size = rangeDef;
-            Debug.Assert(_physicalRows >= 0);
-            Debug.Assert(_physicalRows <= Size.NumberOfRows);
         }
 
         /// <summary>
@@ -76,8 +72,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _physicalRows = physicalDef.NumberOfRows;
             _cells = new ICellInfo[physicalDef.NumberOfRows, physicalDef.NumberOfCols];
             Size = new RangeDefinition(logicalRows, physicalDef.NumberOfCols);
-            Debug.Assert(_physicalRows >= 0);
-            Debug.Assert(_physicalRows <= Size.NumberOfRows);
         }
 
         /// <summary>
@@ -98,8 +92,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 ToRow = logicalRows - 1,
                 ToCol = physicalDef.NumberOfCols - 1
             };
-            Debug.Assert(_physicalRows >= 0);
-            Debug.Assert(_physicalRows <= Size.NumberOfRows);
         }
 
         /// <summary>
@@ -119,8 +111,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 }
             }
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = Size.NumberOfRows - 1, ToCol = Size.NumberOfCols - 1 };
-            Debug.Assert(_physicalRows >= 0);
-            Debug.Assert(_physicalRows <= Size.NumberOfRows);
         }
 
         /// <summary>
@@ -141,8 +131,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 }
             }
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = Size.NumberOfRows - 1, ToCol = Size.NumberOfCols - 1 };
-            Debug.Assert(_physicalRows >= 0);
-            Debug.Assert(_physicalRows <= Size.NumberOfRows);
         }
 
         /// <summary>
