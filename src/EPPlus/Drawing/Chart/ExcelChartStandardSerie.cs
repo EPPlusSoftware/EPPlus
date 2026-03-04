@@ -248,6 +248,16 @@ namespace OfficeOpenXml.Drawing.Chart
                 DataLabelRangeSource.SetStrRef(value);
             }
         }
+
+        internal string[] GetDataLabelLiterals()
+        {
+            if(string.IsNullOrEmpty(DataLabelSerie) == false)
+            {
+                return DataLabelRangeSource.StringLiterals;
+            }
+            return null;
+        }
+
         internal void SetDataLabelRange(string strRef)
         {
             var dlblSer = DataLabelSerie;
@@ -690,6 +700,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 CreateCache(XSeries, node);
             }
 
+            if(!string.IsNullOrEmpty(DataLabelSerie))
+            {
+                var node = GetTopNode(DataLabelSerie, extPath);
+                DataLabelRangeSource.CreateCache(node);
+            }
         }
         internal void CreateCache(string address, XmlNode node)
         {

@@ -417,6 +417,10 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void DatalabelRangeLiterals()
         {
+            string item1 = "one";
+            string item2 = "two";
+            string item3 = "three";
+
             using (var p = OpenPackage("dlblRangeLiterals.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("DataLabelSheet");
@@ -437,27 +441,31 @@ namespace EPPlusTest.Drawing.Chart
                 sDlbl.ShowValue = true;
                 sDlbl.Position = eLabelPosition.OutEnd;
 
-                sDlbl.SetValueSource("{\"one\",\"two\",\"three\"}");
+                sDlbl.SetValueSource($"{{\"{item1}\",\"{item2}\",\"{item3}\"}}");
+
+                var dlblLitterals = barSerie.GetDataLabelLiterals();
+
+                Assert.AreEqual(item1, dlblLitterals[0]);
+                Assert.AreEqual(item2, dlblLitterals[1]);
+                Assert.AreEqual(item3, dlblLitterals[2]);
 
                 SaveAndCleanup(p);
             }
 
-            ////Ensure data is read correctly after write
-            //using (var p = OpenPackage("dlblMissMatchTest.xlsx"))
-            //{
-            //    var ws = p.Workbook.Worksheets[0];
-            //    var chart = ws.Drawings[0].As.Chart.BarChart;
+            using (var p = OpenPackage("dlblRangeLiterals.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var chart = ws.Drawings[0].As.Chart.BarChart;
 
-            //    var barSerie = chart.Series[0];
-            //    Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
+                var barSerie = chart.Series[0];
 
-            //    Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
-            //    Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
+                var cache = barSerie.GetDataLabelLiterals();
 
-            //    //Ensure replacement text works
-            //    var labelFive = chart.Series[0].DataLabel.DataLabels[5];
-            //    Assert.AreEqual("My replacement text", labelFive.GetExistingParagraphStrings()[0][0]);
-            //}
+                Assert.AreEqual(item1, cache[0]);
+                Assert.AreEqual(item2, cache[1]);
+                Assert.AreEqual(item3, cache[2]);
+
+            }
         }
     }
 }

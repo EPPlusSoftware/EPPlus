@@ -114,7 +114,6 @@ namespace OfficeOpenXml.Drawing.Chart
             //Set the ext data needed in the Series node
             currentSeries.SetDataLabelRange(strRef);
 
-
             if(currentSeries.DataLabelRangeSource.RefIsValidAddress)
             {
                 DataLabelRange = _chart.WorkSheet.Cells[strRef];
