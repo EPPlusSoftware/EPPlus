@@ -212,7 +212,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
                                 // Get all fonts used in this paragraph (primary + fallbacks like emoji)
                                 var usedFonts = shaper.GetUsedFonts().ToList();
-                                var fontIdMap = new Dictionary<byte, int>();
+                                var fontIdMap = new Dictionary<byte, string>();
 
                                 // Register each font globally and map FontId → Resource Index
                                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
@@ -231,9 +231,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                     }
 
                                     // Map this paragraph's FontId to global resource index
-                                    fontIdMap[fontId] = globalFontToResourceIndex[font]; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
+                                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
                                 }
-
+                                //content.ShapedText.Add(shaped);
+                                content.CreateTextShape(dictionaries, shaped);
+                                content.fontIdMap = fontIdMap;
+                                content.textLayoutEngine = layoutEngine;
+                                content.usedFonts = usedFonts;
                                 content.fontData[i] = fd;
                             }
                             break;
@@ -263,8 +267,45 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                     layoutEngineCache[fd.fontProvider] = layoutEngine;
                                 }
 
+                                var options = ShapingOptions.Default;
+                                options.ApplyPositioning = true;
+                                options.ApplySubstitutions = true;
 
-                                content.fontData[i] = fd;
+                                // Shape the text
+                                var shaped = shaper.Shape(fd.Text, options);
+
+                                // Get all fonts used in this paragraph (primary + fallbacks like emoji)
+                                var usedFonts = shaper.GetUsedFonts().ToList();
+                                var fontIdMap = new Dictionary<byte, string>();
+
+                                // Register each font globally and map FontId → Resource Index
+                                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
+                                {
+                                    var font = usedFonts[fontId];
+
+                                    // Add to global tracking if new
+                                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
+                                    {
+                                        int label = 1;
+                                        if (dictionaries.Fonts.Count > 0)
+                                        {
+                                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+                                        }
+                                        dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
+                                    }
+
+                                    // Map this paragraph's FontId to global resource index
+                                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
+                                }
+                                //content.ShapedText.Add(shaped);
+                                copy.CreateTextShape(dictionaries, shaped);
+                                copy.fontIdMap = fontIdMap;
+                                copy.textLayoutEngine = layoutEngine;
+                                copy.usedFonts = usedFonts;
+                                copy.fontData[i] = fd;
+
+
+                                copy.fontData[i] = fd;
                             }
                         }
                     }
@@ -375,6 +416,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         private void MoveCellToPageFromContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPagesLayout pages)
         {
+            List<string> entriesToRemove = new();
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
                 page.CreateMap();
@@ -394,6 +436,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         var localToCol = m.address._toCol - page.FromCol;
                         int colCount = 0;
                         int rowCount = 0;
+                        bool remove = true;
 
                         for (int r = localFromRow; r <= localToRow; r++)
                         {
@@ -419,9 +462,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                 page.Map[r, c].row = m.cell._fromRow + rowCount;
                                 page.Map[r, c].col = m.cell._fromCol + colCount;
                                 colCount++;
+                                remove = false;
                             }
                             rowCount++;
                             colCount = 0;
+                        }
+                        if (remove)
+                        {
+                            entriesToRemove.Add(child.Name);
                         }
                     }
                     else if (child is PdfCellLayout l)
@@ -444,6 +492,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     //}
                 }
                 page.RemoveChild(page.ChildObjects[0]);
+                foreach (var entry in entriesToRemove)
+                {
+                    var cell = contentObjects.OfType<PdfMergedCellLayout>().FirstOrDefault(t => t.Name == entry);
+                    var content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == entry);
+                    var border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == entry);
+                    page.RemoveChild(content);
+                    page.RemoveChild(border);
+                    page.RemoveChild(cell);
+                }
             }
         }
 
@@ -691,7 +748,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (child is PdfCellContentLayout contentLayout)
                     {
                         contentLayout.CreateClippingRect(page.ChildObjects);//doe
-                        contentLayout.CreateTextShape(dictionaries);
+                        //contentLayout.CreateTextShape(dictionaries);
                     }
                     if (child is PdfMergedCellLayout mergedLayout)
                     {

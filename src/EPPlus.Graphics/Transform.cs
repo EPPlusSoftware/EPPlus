@@ -270,6 +270,7 @@ namespace EPPlus.Graphics
 
         public void RemoveChild(Transform child)
         {
+            if (child == null) return;
             if(ChildObjects.Remove(child))
             {
                 child._parent = null;

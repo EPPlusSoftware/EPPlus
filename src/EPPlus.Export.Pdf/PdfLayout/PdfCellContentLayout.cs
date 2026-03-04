@@ -13,6 +13,7 @@
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -34,7 +35,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool Clip;
         public Rect Clipping;
         public PdfCellStyle CellStyle;
+        
         public List<ShapedText> ShapedText = new List<ShapedText>();
+        public Dictionary<byte, string> fontIdMap;
+        public TextLayoutEngine textLayoutEngine;
+        public List<OpenTypeFont> usedFonts;
+
         public ExcelRangeBase cell;
 
         //internal PdfCellTextItem fontData; //This object needs to be remade. Maybe store an ExcelRichTextCollection
@@ -632,15 +638,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
             };
         }
 
-        internal void CreateTextShape(PdfDictionaries dictionaries)
+        internal void CreateTextShape(PdfDictionaries dictionaries, ShapedText shaped)
         {
             foreach (var fontdata in this.fontData)
             {
-                var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
+                //var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
                 var options = ShapingOptions.Default;
                 options.ApplyPositioning = true;
                 options.ApplySubstitutions = true;
-                ShapedText.Add(shaper.Shape(fontdata.Text, options));
+                ShapedText.Add(shaped);
                 dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText.Last());
             }
         }

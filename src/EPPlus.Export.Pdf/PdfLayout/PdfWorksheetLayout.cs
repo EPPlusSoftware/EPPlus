@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     GetFillStyles(cell, cellStyle);
                     GetBorderStyles(cell, cellStyle);
                     GetFontStyles(cell, cellStyle);
-                    PdfCellBorderLayout border = HandleEdgeBorders(cell, cellStyle, x, y, width, height);
+                    PdfCellBorderLayout border = HandleEdgeBorders(cell, cellStyle, cell.Address, x, y, width, height);
                     if (cell.Merge)
                     {
                         HandleMergedCell(worksheet, pageSettings, dictionaries, cell, cellStyle, checkedMergedCells, x, y);
@@ -347,8 +347,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
             //        }
             //    }
             //}
-            AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y - height, width, height, 2);
-            var border = HandleDiagonalBorders(cell, CellStyle, x, y, width, height);
+            AddCellContent(pageSettings, dictionaries, cell, CellStyle, cell.Address, x, y - height, width, height, 2);
+            var border = HandleDiagonalBorders(cell, CellStyle, cell.Address, x, y, width, height);
             if (border != null)
             {
                 border.InitDiagonalBorders(cell, width, height);
@@ -376,9 +376,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 mergedCell.Z = 5;
                 mergedCell.address = address;
                 AddChild(mergedCell);
-                AddCellContent(pageSettings, dictionaries, cell, CellStyle, x, y-height, width, height, 6);
+                AddCellContent(pageSettings, dictionaries, cell, CellStyle, address.Address, x, y-height, width, height, 6);
                 checkedMergedCells.Add(mergeAddress);
-                var border = HandleDiagonalBorders(cell, null, x, y, width, height);
+                var border = HandleDiagonalBorders(cell, null, address.Address, x, y, width, height);
                 if (border != null)
                 {
                     border.InitDiagonalBorders(cell, width, height);
@@ -388,25 +388,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create content.
-        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, int zOrder)
+        private void AddCellContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, string name, double x, double y, double width, double height, int zOrder)
         {
             if (!string.IsNullOrEmpty(cell.Text))
             {
                 var cellContent = new PdfCellContentLayout(cell, CellStyle, pageSettings, x, y, width, height, 1, 1, 0, this, dictionaries);
-                cellContent.Name = cell.Address;// + "_c";
+                cellContent.Name = name;// + "_c";
                 cellContent.Z = zOrder;
             }
         }
 
         //Create Edge borders.
-        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfCellStyle tableStyle, double x, double y, double width, double height)
+        private PdfCellBorderLayout HandleEdgeBorders(ExcelRangeBase cell, PdfCellStyle tableStyle, string name, double x, double y, double width, double height)
         {
             bool edges = new[] { cell.Style.Border.Top.Style, cell.Style.Border.Bottom.Style, cell.Style.Border.Left.Style, cell.Style.Border.Right.Style }.All(s => s == ExcelBorderStyle.None);
             bool edges2 = new[] { tableStyle.dxfTop, tableStyle.dxfBottom, tableStyle.dxfLeft, tableStyle.dxfRight }.Any(s => s != null && s.HasValue);
             if (!edges || edges2)
             {
                 var clb0 = new PdfCellBorderLayout(cell, tableStyle, x, y, width, height, 1, 1, 0, this);
-                clb0.Name = cell.Address;// + "_b";
+                clb0.Name = name;// + "_b";
                 clb0.Z = 7;
                 return clb0;
             }
@@ -414,13 +414,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create Diagonal borders.
-        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, PdfCellStyle TableStyle, double x, double y, double width, double height)
+        private PdfCellBorderLayout HandleDiagonalBorders(ExcelRangeBase cell, PdfCellStyle TableStyle, string name, double x, double y, double width, double height)
         {
             bool diagonals = new[] { cell.Style.Border.Diagonal.Style }.All(s => s == ExcelBorderStyle.None);
             if (!diagonals)
             {
                 var clb0 = new PdfCellBorderLayout(cell, TableStyle, x, y, width, height, 1, 1, 0, this);
-                clb0.Name = cell.Address;// + "_b";
+                clb0.Name = name;// + "_b";
                 clb0.Z = 7;
                 return clb0;
             }

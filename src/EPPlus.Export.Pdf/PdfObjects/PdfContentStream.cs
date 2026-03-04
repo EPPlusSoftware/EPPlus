@@ -133,6 +133,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
             for (int i = 0; i < cell.fontData.Count; i++)
             {
+                byte currentFontId = 0;
+
+
+
                 var fontData = cell.fontData[i];
                 var text = cell.ShapedText[i];
                 var textLength = text.GetWidthInPoints((float)fontData.FontSize, 2048);
@@ -181,14 +185,22 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                     commands.Add($"S");
                 }
-                commands.Add($"/{font.Label} {size.ToPdfString()} Tf"); //move to inside for looop
                 commands.Add(color.ToFillCommand());
                 commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
+                commands.Add($"/{font.Label} {size.ToPdfString()} Tf"); //move to inside for looop
                 var sb = new StringBuilder();
                 sb.Append("[");
                 for (int j = 0; j < text.Glyphs.Length; j++)
                 {
                     var glyph = text.Glyphs[j];
+
+                    if (glyph.FontId != currentFontId)
+                    {
+                        sb.Append("] TJ");
+                        sb.Append($"/{font.Label} {size.ToPdfString()} Tf");
+                        sb.Append("[");
+                    }
+
                     sb.Append($"<{glyph.GlyphId:X4}>");
                     int kerning = glyph.XAdvance - glyph.BaseAdvance;
 
