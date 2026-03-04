@@ -413,5 +413,51 @@ namespace EPPlusTest.Drawing.Chart
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void DatalabelRangeLiterals()
+        {
+            using (var p = OpenPackage("dlblRangeLiterals.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("DataLabelSheet");
+
+                ws.Cells["A1"].Value = "Week";
+                ws.Cells["B1"].Value = "Income";
+
+                ws.Cells["A2:A10"].Formula = $"\"Week \"&(ROW()-1)";
+                ws.Cells["B2:B10"].Formula = $"(ROW()-1)*7";
+                ws.Cells["C2:C10"].Formula = $"\"Comment \"&(ROW()-1)";
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddBarChart("columnChart", eBarChartType.ColumnClustered);
+
+                var barSerie = chart.Series.Add(ws.Cells["B2:B10"], ws.Cells["A2:A10"]);
+                var sDlbl = barSerie.DataLabel;
+
+                sDlbl.ShowValue = true;
+                sDlbl.Position = eLabelPosition.OutEnd;
+
+                sDlbl.SetValueSource("{\"one\",\"two\",\"three\"}");
+
+                SaveAndCleanup(p);
+            }
+
+            ////Ensure data is read correctly after write
+            //using (var p = OpenPackage("dlblMissMatchTest.xlsx"))
+            //{
+            //    var ws = p.Workbook.Worksheets[0];
+            //    var chart = ws.Drawings[0].As.Chart.BarChart;
+
+            //    var barSerie = chart.Series[0];
+            //    Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
+
+            //    Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
+            //    Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
+
+            //    //Ensure replacement text works
+            //    var labelFive = chart.Series[0].DataLabel.DataLabels[5];
+            //    Assert.AreEqual("My replacement text", labelFive.GetExistingParagraphStrings()[0][0]);
+            //}
+        }
     }
 }
