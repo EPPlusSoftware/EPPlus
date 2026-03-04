@@ -285,5 +285,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeBool(rangePath+"/@val", value);
             }
         }
+
+        internal ExcelAddressBase SingleCellAddressFromSeries = null;
     }
 }

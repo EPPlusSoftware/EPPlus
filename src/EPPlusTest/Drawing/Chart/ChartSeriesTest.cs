@@ -306,7 +306,7 @@ namespace EPPlusTest.Drawing.Chart
                 sDlbl.SetValueSource(ws.Cells["C2:C10"]);
                 Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
 
-                //Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
                 Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
 
                 //Ensure replacement text works
@@ -327,7 +327,7 @@ namespace EPPlusTest.Drawing.Chart
                 var barSerie = chart.Series[0];
                 Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
 
-                //Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
                 Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
 
                 //Ensure replacement text works
@@ -371,7 +371,7 @@ namespace EPPlusTest.Drawing.Chart
                 chart.Series[0].DataLabel.DataLabels[21].ShowValue = false;
                 chart.Series[0].DataLabel.DataLabels[26].ShowValue = false;
 
-                //Assert.AreEqual("E22", chart.Series[0].DataLabel.DataLabels[21].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("E22", chart.Series[0].DataLabel.DataLabels[21].SingleCellAddressFromSeries.Address);
                 Assert.AreEqual("First comment", ws.Cells["E22"].Text);
 
                 SaveAndCleanup(package);
@@ -405,7 +405,7 @@ namespace EPPlusTest.Drawing.Chart
                 label2.ShowValue = false;
                 label3.ShowValue = false;
 
-                //Assert.AreEqual("E30", chart.Series[0].DataLabel.DataLabels[28].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("E30", chart.Series[0].DataLabel.DataLabels[28].SingleCellAddressFromSeries.Address);
                 Assert.AreEqual(commentText, ws.Cells["E30"].Text);
 
                 //XforSave is set soley on labels that are not truly neccesary

@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        ChartDataSource DataLabelRangeSource = null;
+        internal ChartDataSource DataLabelRangeSource = null;
 
         /// <summary>
         /// Default constructor
@@ -251,24 +251,8 @@ namespace OfficeOpenXml.Drawing.Chart
         internal void SetDataLabelRange(string strRef)
         {
             var dlblSer = DataLabelSerie;
-
             DataLabelSerie = strRef;
-            //DataLabelRangeSource.CreateCache(GetTopNode(dlblSer.))
-
-            //AddExtLstXml();
-
-            //var datalabelsRange = CreateNode(dlblRangePath);
-            //var formulaNode = CreateNode($"{dlblRangePath}/c15:f");
-            //formulaNode.InnerText = address.AddressAbsolute;
-
-            //var rangeNode = CreateNode($"{dlblRangePath}/c15:dlblRangeCache");
-            //CreateCache(address.FullAddressAbsolute, rangeNode);
         }
-
-        //internal void GetDataLabelCache()
-        //{
-        //    DataLabelRangeSource.cac
-        //}
 
         const string headerPath = "c:tx/c:v";
         /// <summary>
