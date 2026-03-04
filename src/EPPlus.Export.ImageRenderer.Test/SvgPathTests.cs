@@ -513,7 +513,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 0;
+                //var ix = 3;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
