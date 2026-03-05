@@ -303,7 +303,7 @@ namespace EPPlusTest.Drawing.Chart
                 sDlbl.ShowCategory = true;
                 sDlbl.Position = eLabelPosition.OutEnd;
 
-                sDlbl.SetValueSource(ws.Cells["C2:C10"]);
+                sDlbl.SetValueFromCellsSource(ws.Cells["C2:C10"]);
                 Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
 
                 Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
@@ -365,7 +365,7 @@ namespace EPPlusTest.Drawing.Chart
                 chart.Series[0].DataLabel.Separator = " ";
 
                 //Select comment range
-                chart.Series[0].DataLabel.SetValueSource(ws.Cells["E1:E53"]);
+                chart.Series[0].DataLabel.SetValueFromCellsSource(ws.Cells["E1:E53"]);
 
                 //Set the relevant labels to not show value
                 chart.Series[0].DataLabel.DataLabels[21].ShowValue = false;
@@ -393,7 +393,7 @@ namespace EPPlusTest.Drawing.Chart
                 chart.Series[0].DataLabel.Separator = " ";
 
                 //Select comment range
-                chart.Series[0].DataLabel.SetValueSource(ws.Cells["E2:E53"]);
+                chart.Series[0].DataLabel.SetValueFromCellsSource(ws.Cells["E2:E53"]);
 
                 //Note that since we start on E2 the datalabel idx becomes 20 for row 22 etc.
                 var label1 = chart.Series[0].DataLabel.DataLabels[20];
@@ -441,7 +441,7 @@ namespace EPPlusTest.Drawing.Chart
                 sDlbl.ShowValue = true;
                 sDlbl.Position = eLabelPosition.OutEnd;
 
-                sDlbl.SetValueSource($"{{\"{item1}\",\"{item2}\",\"{item3}\"}}");
+                sDlbl.ValueFromCellsSource = $"{{\"{item1}\",\"{item2}\",\"{item3}\"}}";
 
                 var dlblLitterals = barSerie.GetDataLabelLiterals();
 

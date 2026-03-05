@@ -10,9 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -28,10 +30,15 @@ namespace OfficeOpenXml.Drawing.Chart
             Position = eLabelPosition.Center;
             var parentSeries = GetParentSeries();
 
-            var address = parentSeries.GetDataLabelRange();
-            if (string.IsNullOrEmpty(address) == false)
+            var strRef = parentSeries.GetDataLabelRange();
+            if (string.IsNullOrEmpty(strRef) == false)
             {
-                DataLabelRange = chart.WorkSheet.Cells[address];
+                SetValueSource(strRef);
+                //ValueFromCells = strRef;
+                //if (ExcelCellBase.IsValidAddress(strRef))
+                //{
+                //    DataLabelRange = chart.WorkSheet.Cells[strRef];
+                //}
             }
         }
         ExcelChartDataLabelCollection _dataLabels = null;
@@ -67,11 +74,24 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        private string _valueFromCellsReference = null;
+
         /// <summary>
-        /// Does the datalabels of this chart contain
-        /// Value From Cells
+        /// Value From Cells in excel
+        /// This can be a range address or a list of values defined by a formula or within {}
+        /// e.g {"\one\",\"two\"}
+        /// This follows essentially the same rules as Serie or XSerie ranges in chart.AddSerie()
         /// </summary>
-        public bool ValueFromCells { get { return DataLabelRange != null; } }
+        public string ValueFromCellsSource { 
+            get
+            {
+                return _valueFromCellsReference;
+            }
+            set
+            {
+                SetValueSource(value);
+            }
+        }
 
         internal ExcelRangeBase DataLabelRange { get; private set; } = null;
 
@@ -91,18 +111,21 @@ namespace OfficeOpenXml.Drawing.Chart
             return (ExcelChartStandardSerie)_chart.Series[idxNodeValue];
         }
 
-
-        public void SetValueSource(ExcelAddressBase address)
+        /// <summary>
+        /// Select range for Value From Cells
+        /// sets ValueFromCellsSource to the AddressAbsolute of the address
+        /// </summary>
+        public void SetValueFromCellsSource(ExcelAddressBase address)
         {
             SetValueSource(address.AddressAbsolute.ToString());
         }
+
         /// <summary>
-        /// Select datalabel range for
-        /// Value From Cells
+        /// Select range for Value From Cells
         /// </summary>
-        /// <param name="address">must be a single; cell, row or column</param>
+        /// <param name="reference">must be a single; cell, row or column. Or alternatively a collection of literals</param>
         /// <exception cref="InvalidExpressionException">Thrown when input is not a cell, a row or a column</exception>
-        public void SetValueSource(string strRef)
+        private void SetValueSource(string reference)
         {
             //TODO: Arguably this is just another series with a series cache.
             //Same as Cat or Val except that it is added in Ext on the Serie node
@@ -112,11 +135,11 @@ namespace OfficeOpenXml.Drawing.Chart
 
             var currentSeries = GetParentSeries();
             //Set the ext data needed in the Series node
-            currentSeries.SetDataLabelRange(strRef);
+            currentSeries.SetDataLabelRange(reference);
 
             if(currentSeries.DataLabelRangeSource.RefIsValidAddress)
             {
-                DataLabelRange = _chart.WorkSheet.Cells[strRef];
+                DataLabelRange = _chart.WorkSheet.Cells[reference];
             }
 
             //Create the Datalabels if they do not exist

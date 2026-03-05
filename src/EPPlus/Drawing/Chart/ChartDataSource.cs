@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.Chart
         string _StrRefPath = "{0}/{1}/c:f";
         string _xSeriesStrLitPath, _xSeriesNumLitPath;
 
-        public string StrRef
+        internal string StrRefFormulaValue
         {
             get { return _strRef; }
         }
@@ -361,13 +361,14 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Creates a num cach for a chart serie.
         /// Please note that a serie can only have one column to have a cache.        
         /// </summary>
-        public void CreateCache(XmlNode seriesTopNode)
+        /// should be public later
+        internal void CreateCache(XmlNode seriesTopNode)
         {
             if (_isPivot) throw (new NotImplementedException("Cache for pivotcharts has not been implemented yet."));
 
-            if (!string.IsNullOrEmpty(StrRef))
+            if (!string.IsNullOrEmpty(StrRefFormulaValue))
             {
-                var addr = new ExcelRangeBase(_ws, StrRef);
+                var addr = new ExcelRangeBase(_ws, StrRefFormulaValue);
                 bool moreThanOneRow = addr.Rows > 1;
                 bool moreThanOneColumn = addr.Columns > 1;
 
@@ -376,7 +377,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     throw (new InvalidOperationException("A serie cannot be multiple columns. Please add one serie per column to create a cache"));
                 }
 
-                CreateCache(StrRef, seriesTopNode);
+                CreateCache(StrRefFormulaValue, seriesTopNode);
             }
         }
         internal void CreateCache(string address, XmlNode node)

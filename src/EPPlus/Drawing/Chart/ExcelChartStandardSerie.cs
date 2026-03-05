@@ -241,7 +241,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                 }
                 
-                return DataLabelRangeSource.StrRef;
+                return DataLabelRangeSource.StrRefFormulaValue;
             }
             set
             {
