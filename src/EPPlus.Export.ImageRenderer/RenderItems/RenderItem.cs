@@ -234,6 +234,53 @@ namespace EPPlusImageRenderer.RenderItems
         //    theme = theme;
         //}
     }
+
+    internal abstract class RenderItemIndependent : RenderItemBase
+    {
+        public string FillColor { get; set; }
+        public string FilterName { get; set; }
+        public SvgFillType FillType { get; set; }
+        public double? FillOpacity { get; set; }
+        public string BorderColor { get; set; }
+        public double? BorderWidth { get; set; }
+        public double[] BorderDashArray { get; set; }
+        public double? BorderDashOffset { get; set; }
+        public eLineCap LineCap { get; set; } = eLineCap.Flat;
+        public SvgLineJoin LineJoin { get; set; } = SvgLineJoin.Miter;
+        public double? BorderOpacity { get; set; }
+        public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
+        public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
+        public double? GlowRadius { get; private set; }
+        public string GlowColor { get; private set; }
+
+        protected void CloneBase(RenderItem item)
+        {
+            item.FillColor = FillColor;
+            item.FillOpacity = FillOpacity;
+            item.BorderWidth = BorderWidth;
+            item.BorderColor = BorderColor;
+            item.BorderDashArray = BorderDashArray;
+            item.BorderDashOffset = BorderDashOffset;
+            item.BorderOpacity = BorderOpacity;
+            item.LineJoin = LineJoin;
+            item.LineCap = LineCap;
+            item.FillColorSource = FillColorSource;
+        }
+
+        
+        internal string SetFillColor(Color color)
+        {
+            FillColor = GetAdjustedColor(color);
+            return FillColor;
+        }
+
+        private string GetAdjustedColor(Color color)
+        {
+            var fc = ColorUtils.GetAdjustedColor(FillColorSource, color);
+            return "#" + fc.ToArgb().ToString("x8").Substring(2);
+        }
+    }
+
     /// <summary>
     /// Base class for any item rendered.
     /// </summary>

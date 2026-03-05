@@ -63,5 +63,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             return new SvgParagraphItem(this, DrawingRenderer, parent, paragraph, textIfEmpty);
         }
+
+        internal override ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "")
+        {
+            return new SvgParagraphItem(this, DrawingRenderer, parent, textIfEmpty);
+        }
     }
 }
