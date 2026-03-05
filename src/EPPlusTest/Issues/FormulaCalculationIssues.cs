@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
