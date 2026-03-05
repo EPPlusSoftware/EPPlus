@@ -10,17 +10,18 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Linq;
 using OfficeOpenXml.Core.CellStore;
-using System.Globalization;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -249,8 +250,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal string GetHeaderText()
+        internal string GetHeaderText(int index)
         {
+            var ret = "";
             if(string.IsNullOrEmpty(Header) == false)
             {
                 return Header;
@@ -259,18 +261,19 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (string.IsNullOrEmpty(HeaderAddress.WorkSheetName))
                 {
-                    return _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                    ret = _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                 }
                 else
                 {
                     var ws = _chart.WorkSheet.Workbook.Worksheets[HeaderAddress.WorkSheetName];
                     if (ws != null)
                     {
-                        return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                        ret = ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                     }
-                }
+                }                
             }
-            return "";
+            return string.IsNullOrEmpty(ret) ? $"Series{index + 1}" : ret;
+            ;
         }
     }
 }

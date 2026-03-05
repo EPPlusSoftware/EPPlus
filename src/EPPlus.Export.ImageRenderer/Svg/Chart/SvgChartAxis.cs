@@ -350,7 +350,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    var majorWidth = Rectangle.Width / (AxisValues.Count - 1);
+                    var majorWidth = Rectangle.Width / AxisValues.Count;
 
                     return Rectangle.Left + majorWidth * i - m.Width.PointToPixel() / 2;
                 }

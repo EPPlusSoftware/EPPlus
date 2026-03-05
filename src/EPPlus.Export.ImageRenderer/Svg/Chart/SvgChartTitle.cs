@@ -161,7 +161,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        defaultText = s.GetHeaderText();
+                        defaultText = s.GetHeaderText(0);
                     }
                 }
                 else

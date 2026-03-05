@@ -35,7 +35,7 @@ namespace EPPlusImageRenderer.Svg
         ITextMeasurer _ttMeasurer;
         const int MarginExtra = 2;
         const int MiddleMargin = 10;
-        const int LineLength = 30;
+        const int LineLength = 28;
         internal SvgChartLegend(SvgChart sc) : base(sc)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
@@ -93,8 +93,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 foreach (var s in ct.Series)
                 {
-                    var text = s.GetHeaderText();
-                    if (string.IsNullOrEmpty(text)) text = $"Series{index + 1}";
+                    var text = s.GetHeaderText(index);
                     var entry = l.Entries.FirstOrDefault(x => x.Index == index);
                     ExcelTextFont font;
                     if(entry==null || entry.Font.IsEmpty)
@@ -125,7 +124,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) ; // 28 is for the line length + 2px between line and text
+                    rect.Width = textWidth + LeftMargin + RightMargin + ((LineLength + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) + 2 ; // 28 is for the line length + 2px between line and text
                     rect.Height = TopMargin + BottomMargin + highest + MarginExtra;
                     rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
@@ -202,7 +201,7 @@ namespace EPPlusImageRenderer.Svg
                             sls.SeriesIcon = si;
 
                             var tbLeft = si.X2 + MarginExtra;
-                            var tbTop = si.Y2 - tm.Height * 0.75; //TODO:Should probably be font ascent 
+                            var tbTop = si.Y2 - tm.Height * 0.5; //TODO:Should probably be font ascent 
                             double tbWidth;
                             if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
                             {
@@ -214,11 +213,11 @@ namespace EPPlusImageRenderer.Svg
                             }
 
                             var tbHeight = tm.Height;
-                            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight);
+                            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                             sls.Textbox.Bounds.Left = si.X2 + MarginExtra;
 
                             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
-                            var headerText = s.GetHeaderText();
+                            var headerText = s.GetHeaderText(index);
                             if (entry == null || entry.Font.IsEmpty)
                             {
                                 //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
@@ -270,7 +269,7 @@ namespace EPPlusImageRenderer.Svg
                 float x = 0;                
                 if (pSls == null)
                 {
-                    x = (float)Rectangle.Left + (float)LeftMargin + MarginExtra;
+                    x = (float)Rectangle.Left + (float)LeftMargin;// + MarginExtra;
                 }
                 else
                 {

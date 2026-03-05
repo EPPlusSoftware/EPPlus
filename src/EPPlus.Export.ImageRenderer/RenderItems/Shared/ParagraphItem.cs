@@ -43,7 +43,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal eTextAlignment HorizontalAlignment { get; private set; } = eTextAlignment.Left;
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
-        internal bool DisplayBounds { get; set; } = true;
+        internal bool DisplayBounds { get; set; } = false;
 
         private double? _centerAdjustment = null;
 
