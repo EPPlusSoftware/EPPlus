@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private string _valueFromCellsReference = null;
+        private string _valueFromCellsRange = null;
 
         /// <summary>
         /// Value From Cells in excel
@@ -82,10 +82,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// e.g {"\one\",\"two\"}
         /// This follows essentially the same rules as Serie or XSerie ranges in chart.AddSerie()
         /// </summary>
-        public string ValueFromCellsSource { 
+        public string ValueFromCellsRange { 
             get
             {
-                return _valueFromCellsReference;
+                return _valueFromCellsRange;
             }
             set
             {

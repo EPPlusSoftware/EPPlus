@@ -440,8 +440,8 @@ namespace EPPlusTest.Drawing.Chart
 
                 sDlbl.ShowValue = true;
                 sDlbl.Position = eLabelPosition.OutEnd;
-
-                sDlbl.ValueFromCellsSource = $"{{\"{item1}\",\"{item2}\",\"{item3}\"}}";
+             
+                sDlbl.ValueFromCellsRange = $"{{\"{item1}\",\"{item2}\",\"{item3}\"}}";
 
                 var dlblLitterals = barSerie.GetDataLabelLiterals();
 
