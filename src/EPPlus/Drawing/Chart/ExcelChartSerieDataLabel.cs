@@ -113,11 +113,11 @@ namespace OfficeOpenXml.Drawing.Chart
 
         /// <summary>
         /// Select range for Value From Cells
-        /// sets ValueFromCellsSource to the AddressAbsolute of the address
+        /// sets ValueFromCellsRange to the AddressAbsolute of the address
         /// </summary>
-        public void SetValueFromCellsSource(ExcelAddressBase address)
+        public void SetValueFromCellsRange(ExcelAddressBase address)
         {
-            SetValueSource(address.AddressAbsolute.ToString());
+            ValueFromCellsRange = address.AddressAbsolute.ToString();
         }
 
         /// <summary>
