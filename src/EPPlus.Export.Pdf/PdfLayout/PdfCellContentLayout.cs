@@ -36,15 +36,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public Rect Clipping;
         public PdfCellStyle CellStyle;
         
-        public List<ShapedText> ShapedText = new List<ShapedText>();
-        public Dictionary<byte, string> fontIdMap;
+
         public TextLayoutEngine textLayoutEngine;
-        public List<OpenTypeFont> usedFonts;
 
         public ExcelRangeBase cell;
 
-        //internal PdfCellTextItem fontData; //This object needs to be remade. Maybe store an ExcelRichTextCollection
-        internal List<PdfCellTextItem> fontData = new List<PdfCellTextItem>();
+        internal List<PdfTextFormat> TextFormats = new List<PdfTextFormat>();
         public double textLength = 0;
         public double textHeight = 0;
         public double LeftTextSpillLength = 0d;
@@ -104,34 +101,34 @@ namespace EPPlus.Export.Pdf.PdfLayout
             for (int i = 0; i < cell.RichText.Count; i++)
             {
                 var rt = cell.RichText[i];
-                var fontdata = new PdfCellTextItem();
-                fontdata.Text = rt.Text;
-                fontdata.FontName = rt.FontName;
-                fontdata.FontFamily = rt.Family;
-                fontdata.FontSize = rt.Size;
-                fontdata.Bold = rt.Bold || bold;
-                fontdata.Italic = rt.Italic || italic;
-                fontdata.Strike = rt.Strike || strike;
-                fontdata.Underline = rt.UnderLine || underline;
-                fontdata.UnderlineType = rt.UnderLineType == ExcelUnderLineType.None ? underLineType : rt.UnderLineType;
-                fontdata.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                fontdata.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                fontdata.FontColor = rt.Color;
-                fontdata.SubFamily = FontSubFamily.Regular;
-                if (fontdata.Bold)
+                var textformat = new PdfTextFormat();
+                textformat.Text = rt.Text;
+                textformat.FontName = rt.FontName;
+                textformat.FontFamily = rt.Family;
+                textformat.FontSize = rt.Size;
+                textformat.Bold = rt.Bold || bold;
+                textformat.Italic = rt.Italic || italic;
+                textformat.Strike = rt.Strike || strike;
+                textformat.Underline = rt.UnderLine || underline;
+                textformat.UnderlineType = rt.UnderLineType == ExcelUnderLineType.None ? underLineType : rt.UnderLineType;
+                textformat.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+                textformat.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+                textformat.FontColor = rt.Color;
+                textformat.SubFamily = FontSubFamily.Regular;
+                if (textformat.Bold)
                 {
-                    fontdata.SubFamily = FontSubFamily.Bold;
-                    if (fontdata.Italic)
+                    textformat.SubFamily = FontSubFamily.Bold;
+                    if (textformat.Italic)
                     {
-                        fontdata.SubFamily = FontSubFamily.BoldItalic;
+                        textformat.SubFamily = FontSubFamily.BoldItalic;
                     }
                 }
-                else if (fontdata.Italic)
+                else if (textformat.Italic)
                 {
-                    fontdata.SubFamily = FontSubFamily.Italic;
+                    textformat.SubFamily = FontSubFamily.Italic;
                 }
-                font.FontFamily = fontdata.FontName;
-                font.Size = (float)fontdata.FontSize;
+                font.FontFamily = textformat.FontName;
+                font.Size = (float)textformat.FontSize;
                 font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
                               (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
                               (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
@@ -141,22 +138,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     0 => MeasurementFontStyles.Regular,
                     var s => s
                 };
-                var result = fontMeasurerTrueType.MeasureText(fontdata.Text, font);
+                var result = fontMeasurerTrueType.MeasureText(textformat.Text, font);
                 textLength += result.Width;
                 textHeight = Math.Max(textHeight, result.Height);
-                this.fontData.Add(fontdata);
-                if (!dictionaries.Fonts.ContainsKey(fontdata.FullFontName))
+                this.TextFormats.Add(textformat);
+                if (!dictionaries.Fonts.ContainsKey(textformat.FullFontName))
                 {
                     int label = 1;
                     if (dictionaries.Fonts.Count > 0)
                     {
                         label = dictionaries.Fonts.Last().Value.labelNumber + 1;
                     }
-                    dictionaries.Fonts.Add(fontdata.FullFontName, new PdfFontResource(fontdata.FontName, fontdata.SubFamily,label, pageSettings));
+                    dictionaries.Fonts.Add(textformat.FullFontName, new PdfFontResource(textformat.FontName, textformat.SubFamily, label, pageSettings));
                 }
 
-                var manger = dictionaries.Fonts[fontdata.FullFontName].fontSubsetManager;
-                manger.AddText(fontdata.Text);
+                var manger = dictionaries.Fonts[textformat.FullFontName].fontSubsetManager;
+                manger.AddText(textformat.Text);
 
                 //foreach (char c in fontdata.Text)
                 //{
@@ -234,7 +231,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
         {
-            List<PdfCellTextItem> characters = new List<PdfCellTextItem>();
+            List<PdfTextFormat> characters = new List<PdfTextFormat>();
             List<PdfCellWord> Words = new List<PdfCellWord>();
             bool bold = false, italic = false, underline = false, strike = false;
             ExcelUnderLineType underLineType = ExcelUnderLineType.None;
@@ -251,7 +248,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var rt = cell.RichText[i];
                 for (int j = 0; j < rt.Text.Length; j++)
                 {
-                    var character = new PdfCellTextItem();
+                    var character = new PdfTextFormat();
                     character.Text = rt.Text[j].ToString();
                     character.FontName = rt.FontName;
                     character.FontFamily = rt.Family;
@@ -640,14 +637,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         internal void CreateTextShape(PdfDictionaries dictionaries, ShapedText shaped)
         {
-            foreach (var fontdata in this.fontData)
+            for (int i =0; i< TextFormats.Count; i++)
             {
+                var tf = TextFormats[i];
                 //var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
                 var options = ShapingOptions.Default;
                 options.ApplyPositioning = true;
                 options.ApplySubstitutions = true;
-                ShapedText.Add(shaped);
-                dictionaries.Fonts[fontdata.FullFontName].Shaped.Add(ShapedText.Last());
+                tf.ShapedText = shaped;
+                dictionaries.Fonts[tf.FullFontName].ShapedText = shaped;
+                TextFormats[i] = tf;
             }
         }
     }

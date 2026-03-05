@@ -32,7 +32,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 var text = textCollection[i];
                 var ns = ws.Workbook.Styles.GetNormalStyle();
-                PdfCellTextItem textItem = new PdfCellTextItem();
+                PdfTextFormat textItem = new PdfTextFormat();
                 textItem.FontName = string.IsNullOrEmpty( text.FontName) ? ns.Style.Font.Name : text.FontName;
                 textItem.FontSize = text.FontSize == null ? ns.Style.Font.Size : (double)text.FontSize;
                 textItem.Bold = text.Bold;

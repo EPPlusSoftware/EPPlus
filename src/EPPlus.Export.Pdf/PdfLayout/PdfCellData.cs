@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
@@ -196,7 +197,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellWord
     {
-        public List<PdfCellTextItem> Characters = new List<PdfCellTextItem>();
+        public List<PdfTextFormat> Characters = new List<PdfTextFormat>();
         private string _text = null;
         public string Text
         {
@@ -261,9 +262,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
     }
 
-    internal struct PdfCellTextItem
+    internal struct PdfTextFormat
     {
-        public IFontProvider fontProvider;
+        public IFontProvider FontProvider;
+        //sometimes a font can have other fonts for certain characters. Key as the glyph id, Value is the font label.
+        public Dictionary<byte, string> FontIDLabel;
+        public Dictionary<byte, string> FontIdMap;
+        public List<OpenTypeFont> UsedFonts;
+
+        public ShapedText ShapedText;
         public string FontName;
         public int FontFamily;
         public FontSubFamily SubFamily;
@@ -284,10 +291,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double characterOffset;
         public List<GlyphPosition> GlyphPositions;
         public string FullFontName
-        { get { return FontName + " " + SubFamily; } }
+        {
+            get
+            {
+                string subfam = " " + SubFamily.ToString();
+                if (SubFamily == FontSubFamily.Regular)
+                    subfam = "";
+                else if (SubFamily == FontSubFamily.BoldItalic)
+                    subfam = " Bold Italic";
+                return FontName + subfam;
+            }
+        }
 
         //Compares stylings.
-        public bool Equals(PdfCellTextItem other)
+        public bool Equals(PdfTextFormat other)
         {
             if (!string.Equals(FontName, other.FontName))
                 return false;

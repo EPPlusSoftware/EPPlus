@@ -131,42 +131,42 @@ namespace EPPlus.Export.Pdf.PdfObjects
             double rotation = alignment.TextRotation * System.Math.PI / 180.0;
             //bool isVertical = alignment.IsVertical;
 
-            for (int i = 0; i < cell.fontData.Count; i++)
+            for (int i = 0; i < cell.TextFormats.Count; i++)
             {
                 byte currentFontId = 0;
 
 
 
-                var fontData = cell.fontData[i];
-                var text = cell.ShapedText[i];
-                var textLength = text.GetWidthInPoints((float)fontData.FontSize, 2048);
-                var color = fontData.FontColor;
-                var font = GetFontResource(dictionaries, pageSettings, fontData.FullFontName, fontData.SubFamily, fontData.FontSize);
-                double size = fontData.FontSize;
-                double scale = fontData.FontSize / font.fontData.HeadTable.UnitsPerEm;
+                var textFormat = cell.TextFormats[i];
+                var shapedText = textFormat.ShapedText;
+                var textLength = shapedText.GetWidthInPoints((float)textFormat.FontSize, 2048);
+                var color = textFormat.FontColor;
+                var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.FontSize);
+                double size = textFormat.FontSize;
+                double scale = textFormat.FontSize / fontResrouce.fontData.HeadTable.UnitsPerEm;
                 Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X, position.Y);
                 commands.Add("BT");
                 textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
-                if (fontData.SuperScript)
+                if (textFormat.SuperScript)
                 {
-                    var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
-                    var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
-                    var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
+                    var supOffX = fontResrouce.fontData.Os2Table.ySuperscriptXOffset * scale;
+                    var supOffY = fontResrouce.fontData.Os2Table.ySuperscriptYOffset * scale;
+                    var supSizeY = fontResrouce.fontData.Os2Table.ySuperscriptYSize * scale;
                     textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
                     size = supSizeY;
                 }
-                else if (fontData.SubScript)
+                else if (textFormat.SubScript)
                 {
-                    var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
-                    var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
-                    var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
+                    var supOffX = fontResrouce.fontData.Os2Table.ySubscriptXOffset * scale;
+                    var supOffY = fontResrouce.fontData.Os2Table.ySubscriptYOffset * scale;
+                    var supSizeY = fontResrouce.fontData.Os2Table.ySubscriptYSize * scale;
                     textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
                     size = supSizeY;
                 }
-                if (fontData.Underline)
+                if (textFormat.Underline)
                 {
-                    var underlinePos = font.fontData.PostTable.underlinePosition * scale;
-                    var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
+                    var underlinePos = fontResrouce.fontData.PostTable.underlinePosition * scale;
+                    var underlineWidth = fontResrouce.fontData.PostTable.underlineThickness * scale;
                     var start = textMatrix.Transform(new Vector2(0, underlinePos));
                     var end = textMatrix.Transform(new Vector2(textLength, underlinePos));
                     commands.Add($"{underlineWidth.ToPdfString()} w");
@@ -174,10 +174,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                     commands.Add($"S");
                 }
-                if (fontData.Strike)
+                if (textFormat.Strike)
                 {
-                    var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
-                    var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
+                    var strikePos = fontResrouce.fontData.Os2Table.yStrikeoutPosition * scale;
+                    var strikeWidth = fontResrouce.fontData.Os2Table.yStrikeoutSize * scale;
                     var start = textMatrix.Transform(new Vector2(0, strikePos));
                     var end = textMatrix.Transform(new Vector2(textLength, strikePos));
                     commands.Add($"{strikeWidth.ToPdfString()} w");
@@ -187,17 +187,18 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 }
                 commands.Add(color.ToFillCommand());
                 commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
-                commands.Add($"/{font.Label} {size.ToPdfString()} Tf"); //move to inside for looop
+                commands.Add($"/{fontResrouce.Label} {size.ToPdfString()} Tf"); //move to inside for looop
                 var sb = new StringBuilder();
                 sb.Append("[");
-                for (int j = 0; j < text.Glyphs.Length; j++)
+                for (int j = 0; j < shapedText.Glyphs.Length; j++)
                 {
-                    var glyph = text.Glyphs[j];
+                    var glyph = shapedText.Glyphs[j];
 
                     if (glyph.FontId != currentFontId)
                     {
+                        currentFontId = glyph.FontId;
                         sb.Append("] TJ");
-                        sb.Append($"/{font.Label} {size.ToPdfString()} Tf");
+                        sb.Append($"/{textFormat.FontIDLabel[currentFontId]} {size.ToPdfString()} Tf");
                         sb.Append("[");
                     }
 
@@ -212,7 +213,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         sb.Append($" {adjustment.ToPdfStringF0()}");
                     }
 
-                    if (j < text.Glyphs.Length - 1)
+                    if (j < shapedText.Glyphs.Length - 1)
                     {
                         sb.Append(" ");
                     }
@@ -236,8 +237,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 bool useModifiedMatrix = false;
                 commands.Add("BT");
                 commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
-                PdfCellTextItem lastCharacter = line.Words[0].Characters[0];
-                PdfCellTextItem currentStyle = line.Words[0].Characters[0];
+                PdfTextFormat lastCharacter = line.Words[0].Characters[0];
+                PdfTextFormat currentStyle = line.Words[0].Characters[0];
                 string textRun = string.Empty;
                 double textAdvance = 0d;
                 double textVAdvance = 0d;

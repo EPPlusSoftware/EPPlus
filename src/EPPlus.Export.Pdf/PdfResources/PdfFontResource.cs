@@ -43,7 +43,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal string type0Encoding = "Identity-H";
 
         internal TextShaper Shaper = null;
-        internal List<ShapedText> Shaped = new List<ShapedText>();
+        internal ShapedText ShapedText;
 
         internal HashSet<char> Subset = new HashSet<char>();
         internal HashSet<ushort> Gids = new HashSet<ushort>();
@@ -65,7 +65,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         }
 
         //Get font data from fontResources. If font does not exsist, add it to fontResources.
-        internal static OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfCellTextItem FontData)
+        internal static OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfTextFormat FontData)
         {
             if (!fontResources.ContainsKey(FontData.FullFontName))
             {
@@ -249,18 +249,15 @@ namespace EPPlus.Export.Pdf.PdfResources
 
         internal void CreateGidsAndCharMaps()
         {
-            foreach (var shape in Shaped)
+            foreach (var glyph in ShapedText.Glyphs)
             {
-                foreach (var glyph in shape.Glyphs)
+                Gids.Add(glyph.GlyphId);
+                if (!charactermappings.ContainsKey(glyph.GlyphId))
                 {
-                    Gids.Add(glyph.GlyphId);
-                    if (!charactermappings.ContainsKey(glyph.GlyphId))
+                    var chars = ExtractCharactersForGlyph(glyph, ShapedText.OriginalText);
+                    if (!string.IsNullOrEmpty(chars))
                     {
-                        var chars = ExtractCharactersForGlyph(glyph, shape.OriginalText);
-                        if (!string.IsNullOrEmpty(chars))
-                        {
-                            charactermappings.Add(glyph.GlyphId, chars);
-                        }
+                        charactermappings.Add(glyph.GlyphId, chars);
                     }
                 }
             }
