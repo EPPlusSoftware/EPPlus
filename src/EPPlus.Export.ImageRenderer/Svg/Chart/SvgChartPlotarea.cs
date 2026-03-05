@@ -39,12 +39,12 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var lp = sc.Chart.Legend?.Position;
-                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.GlobalBottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + TopMargin;
+                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Bounds.Bottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + TopMargin;
                 if(sc.HorizontalAxis!=null && sc.Chart.XAxis.LabelPosition==eTickLabelPosition.High)
                 {
                     rect.Top += sc.HorizontalAxis.Rectangle.Height;
                 }
-                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Rectangle.GlobalRight + LeftMargin : LeftMargin;                
+                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Bounds.Right + LeftMargin : LeftMargin;                
                 if(sc.VerticalAxis!=null)
                 {
                     rect.Left = sc.VerticalAxis.Rectangle?.GlobalRight ?? sc.VerticalAxis.Title.Rectangle.GlobalRight;
