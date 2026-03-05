@@ -578,7 +578,7 @@ namespace TestProject1
                 _currentShape.TextBody.RightInsert = 0;
                 _currentShape.TextBody.LeftInsert = 0;
 
-                var para1 = _currentShape.TextBody.Paragraphs.Add("TextBox\r\na");
+                var para1 = _currentShape.TextBody.Paragraphs.Add("TextBodySvg\r\na");
                 //var test = _currentShape.TextBody.AnchorCenter;
 
                 para1.LeftMargin = 5;

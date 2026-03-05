@@ -128,7 +128,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var textboxGroupItem = new SvgGroupItem(DrawingRenderer);
             renderItems.Add(textboxGroupItem);
 
-            var titleItem = new SvgTitleItem(DrawingRenderer, "TextBox Rect");
+            var titleItem = new SvgTitleItem(DrawingRenderer, "TextBodySvg Rect");
 
             renderItems.Add(titleItem);
             renderItems.Add(rect);
