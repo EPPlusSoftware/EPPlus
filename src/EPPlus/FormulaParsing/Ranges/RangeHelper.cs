@@ -38,7 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                     // the range column has no data at all
                     if (adjusted.FromCol > adjusted.ToCol || adjusted.FromRow > adjusted.ToRow)
                         return 0;
-                    return adjusted.ToRow - range.Address.FromRow + 1;
+                    var rangeFromRow = range.Address != null
+                                ? range.Address.FromRow : adjusted.FromRow;
+                    return adjusted.ToRow - rangeFromRow + 1;
                 }
             }
 

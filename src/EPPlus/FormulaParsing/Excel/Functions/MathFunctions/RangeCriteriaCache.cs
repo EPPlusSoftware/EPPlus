@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         /// <summary>
         /// Creates a new RangeCriteriaCache with specified limits
         /// </summary>
-        /// <param name="package"></param>The ExcelPackage where the cache operates.</param>
+        /// <param name="package">The ExcelPackage where the cache operates.</param>
         public RangeCriteriaCache(ExcelPackage package)
         {
             _package = package;

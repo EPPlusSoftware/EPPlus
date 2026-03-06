@@ -1,0 +1,14 @@
+/* Sidebar width */
+.sidenav {
+    width: 320px;        /* default is around 260px, adjust to taste */
+}
+
+/* Push the main content over to match */
+.sidenav + .article {
+    margin-left: 320px;
+}
+
+/* Also adjust the inner toc container */
+#toc {
+    width: 320px;
+}

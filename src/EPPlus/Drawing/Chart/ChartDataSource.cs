@@ -79,7 +79,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// This class and children should loosely represent "CT_AxDataSource" in dml-chart.xsd
         /// </summary>
         /// <param name="isPivot">If this source is part of a pivotTable</param>
-        ///
+        /// <param name="node">The xml node</param>
+        /// <param name="ns">The namespace manager</param>
+        /// <param name="ws">The worksheet</param>
+        /// <param name="seriesTopPath">The path to the top node of the series this source belongs to, e.g. "c:ser[1]"</param>
         internal ChartDataSource(bool isPivot, XmlNamespaceManager ns, XmlNode node, ExcelWorksheet ws, string seriesTopPath) : base(ns, node)
         {
             _isPivot = isPivot;

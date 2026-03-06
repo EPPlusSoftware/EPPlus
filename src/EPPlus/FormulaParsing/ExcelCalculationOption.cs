@@ -125,7 +125,7 @@ namespace OfficeOpenXml.FormulaParsing
 #if !NET35
         /// <summary>
         /// A cancellation token that can be used to cancel a running calculation.
-        /// When cancelled, an <see cref="OperationCanceledException"/> will be thrown
+        /// When cancelled, an <see cref="System.OperationCanceledException"/> will be thrown
         /// and the workbook will be left in an inconsistent, partially calculated state.
         /// The workbook must be discarded after cancellation — saving or recalculating
         /// a cancelled workbook is not permitted.

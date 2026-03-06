@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         internal ExcelChart _chart;
         internal string _nodeName;
-        internal protected string NsPrefix { private set; get; }
+        internal string NsPrefix { private set; get; }
         private readonly string _formatPath;
         private readonly string _sourceLinkedPath;
 
