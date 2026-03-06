@@ -25,8 +25,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             {
                 majorValue = axisOptions.LockedInterval.Value;
             }
-            //dataMin = FloorToUnit(dataMin, majorUnit, (int)majorValue).ToOADate();
-            //dataMax = CeilingToUnit(dataMax, majorUnit, (int)majorValue).ToOADate();
+
             return new AxisScale
             {
                 Min = axisMin,
