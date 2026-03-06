@@ -1,0 +1,149 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+
+
+//namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
+//{
+//    using EPPlusImageRenderer;
+//    using EPPlusImageRenderer.RenderItems;
+//    using EPPlusImageRenderer.Svg;
+//    using global::EPPlus.Graphics;
+//    using OfficeOpenXml.Drawing;
+//    using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+//    using System;
+//    using System.Collections.Generic;
+
+
+//    namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
+//    {
+//        internal class SvgTextBox
+//        {
+//            internal SvgTextBox(DrawingBase renderer, BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN)
+//            {
+//                Left = left;
+//                Top = top;
+
+//                Init(renderer, parent, maxWidth, maxHeight);
+//            }
+
+//            private void Init(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight)
+//            {
+//                Parent = parent;
+//                RectBounds.Left = parent.Left;
+//                RectBounds.Top = parent.Top;
+//                RectBounds.Width = parent.Width;
+//                RectBounds.Height = parent.Height;
+
+//                TextBody = new SvgTextBodyItem(renderer, RectBounds, true);
+//                TextBody.MaxWidth = maxWidth;
+//                TextBody.MaxHeight = maxHeight;
+//            }
+
+//            internal SvgTextBox(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight)
+//            {
+//                Init(renderer, parent, maxWidth, maxHeight);
+//            }
+
+//            BoundingBox RectBounds = new BoundingBox();
+
+//            //Simplified input
+//            internal SvgTextBox(DrawingBase renderer, BoundingBox parent, BoundingBox maxBounds) : this(
+//                                                renderer, parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height, maxBounds.Width, maxBounds.Height)
+//            {
+//            }
+
+//            public SvgTextBodyItem TextBody { get; set; }
+//            public double Left { get; set; }
+//            public double Top { get; set; }
+//            public double Width
+//            {
+//                get
+//                {
+//                    return LeftMargin + (TextBody?.Width ?? 0D) + RightMargin;
+//                }
+//            }
+//            public double Height
+//            {
+//                get
+//                {
+//                    return TopMargin + (TextBody?.Height ?? 0d) + BottomMargin;
+//                }
+//            }
+//            internal double LeftMargin
+//            {
+//                get; set;
+//            }
+
+//            internal double TopMargin
+//            {
+//                get; set;
+//            }
+
+//            internal double RightMargin
+//            {
+//                get; set;
+//            }
+
+//            internal double BottomMargin
+//            {
+//                get; set;
+//            }
+//            internal BoundingBox Parent { get; private set; }
+//            internal double Rotation
+//            {
+//                get
+//                {
+//                    return RectBounds.Rotation;
+//                }
+//                set
+//                {
+//                    RectBounds.Rotation = value;
+//                }
+//            }
+
+//            internal void ImportTextBody(ExcelTextBody body)
+//            {
+//                double l, r, t, b;
+//                body.GetInsetsOrDefaults(out l, out t, out r, out b);
+//                LeftMargin = l;
+//                TopMargin = t;
+//                RightMargin = r;
+//                BottomMargin = b;
+
+//                TextBody.ImportTextBody(body);
+//            }
+
+//            internal void AppendRenderItems(List<RenderItem> renderItems)
+//            {
+//                var rect = RectBounds;
+//                SvgGroupItem groupItem;
+//                if (Rotation == 0)
+//                {
+//                    groupItem = new SvgGroupItem(DrawingRenderer, new BoundingBox(Left, Top, Width, Height));
+//                }
+//                else
+//                {
+//                    groupItem = new SvgGroupItem(DrawingRenderer, new BoundingBox(Left, Top, Width, Height), Rotation);
+//                }
+//                renderItems.Add(groupItem);
+//                renderItems.Add(rect);
+//                TextBody.Bounds.Left = LeftMargin;
+//                TextBody.Bounds.Top = TopMargin;
+//                TextBody.AppendRenderItems(renderItems);
+//                renderItems.Add(new SvgEndGroupItem(DrawingRenderer, rect.Bounds));
+//            }
+
+//            internal void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)
+//            {
+//                TextBody.ImportParagraph(item, startingY, text);
+//            }
+//        }
+//    }
+
+//    //internal class TextBoxNoReliance
+//    //{
+
+//    //}
+//}
