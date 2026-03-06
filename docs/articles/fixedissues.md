@@ -1,4 +1,24 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.5.0
+### Minor Features
+* Added ´CancellationToken´ to Calculate - see [Cancelling a calculation](https://github.com/EPPlusSoftware/EPPlus/wiki/Cancelling-a-calculation).
+* Added property ´ValueFromCellsRange´ and the ´SetValueFromCellsRange´ method to data labels on chart series.
+* Improved performance for SUMIFS, AVERAGEIFS, COUNTIFS.
+* Improved performance for formula calculation with full column references (e.g. A:A, $B:$B).
+### Fixed issues
+* Deleting pictures in cells, caused a corrupt workbook in rare cases.
+* Fixed several formatting issues when reading and writing tables with checkboxes in them.
+* Fixed several issues when using a custom ExcelPackage.Workbook.NumberFormatToTextHandler:
+* Fixed unary minus coercion on dynamic array results.
+* Fixed off-by-one in ´InsertAndShift´ resize condition. This caused an ´ArgumentException´ when calling ´InsertColumn´ on xlsx files where the number of defined columns was at the array boundary.
+* Fixed culture-specific DateTime in PowerQuery metadata.
+* Calculated field computation in pivot tables did not work correctly in some cases.
+* Copying a Connection shape from one workbook to another caused an unhandled exception.
+* Having the wrong content type/extension on an image in the workbook package, caused an unhandled exception on load.
+Breaking Change:
+* Setting dataLabelPosition.Top on BarCharts corrupted the excel file when saved. Trying to set this now throws an error instead. 
+* NumberFormatToTextArgs.NumberFormat now returns the interface IExcelNumberFormat rather than the ExcelNumberFormatXml class. All public variables remain the same and it can be safely cast to ´ExcelNumberFormatXml´ as long as ´Package.Workbook.NumberFormatToTextHandler´ is null.
+
 ## Version 8.4.2
 * Fixed an issue where the ExcelRange.Text property could format negative values with double minus signs in rare cases.
 * Fixed a performance issue when using FollowDependencyChain = false in the Calculate method. With this option, EPPlus no longer calculates dependent cells or dynamic array formula spills.
