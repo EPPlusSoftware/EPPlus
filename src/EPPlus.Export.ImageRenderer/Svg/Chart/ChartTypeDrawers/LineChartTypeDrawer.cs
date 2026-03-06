@@ -1,4 +1,5 @@
-﻿using EPPlusImageRenderer.RenderItems;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -20,14 +21,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var isPercentStacked = Chart.IsTypePercentStacked();
             var xValues = new List<List<object>>();
             var yValues = new List<List<object>>();
+            var serieDataLabels = new List<SvgChartSerieDataLabel>();
+
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
                 var yValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 var xValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+
                 xValues.Add(xValue);
                 yValues.Add(yValue);
+
+                if (serie.HasDataLabel)
+                {
+                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Plotarea.Bounds);
+                    serieDataLabels.Add(datalabel);
+                }
             }
-            
+
             if (Chart.IsTypeStacked())
             {
                 SumSeries(yValues);
@@ -43,6 +53,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var ySerie = yValues[i];
                 var serie = (ExcelLineChartSerie)chartType.Series[i];
                 AddLine(chartType, serie, xSerie, ySerie);
+            }
+
+            foreach(var dataLabel in serieDataLabels)
+            {
+                dataLabel.AppendRenderItems(RenderItems);
             }
 
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));

@@ -61,6 +61,8 @@ namespace EPPlusImageRenderer.Svg
             {
                 Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
             }
+
+
         }
 
         private void  SetAxisPositionsFromPlotarea(SvgChart sc)
