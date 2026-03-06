@@ -37,37 +37,6 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         public ExcelLayout Layout { get; private set; }
 
-        ExcelParagraphCollection _paragraphs = null;
-
-        /// <summary>
-        /// Access to text body properties
-        /// </summary>
-        private ExcelParagraphCollection ParagraphCollection
-        {
-            get
-            {
-                if (_paragraphs == null)
-                {
-                    _paragraphs = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, _fontPropertiesPath + "/a:p", SchemaNodeOrder);
-                }
-                return _paragraphs;
-            }
-        }
-
-        /// <summary>
-        /// Replace datalabel text
-        /// </summary>
-        /// <param name="replacementText"></param>
-        public void SetText(string replacementText)
-        {
-            ParagraphCollection.Clear();
-            ParagraphCollection.Add(replacementText, true);
-        }
-
-        internal List<List<string>> GetExistingParagraphStrings()
-        {
-            return ParagraphCollection.GetParagraphTextLists();
-        }
         /// <summary>
         /// The index of an individual datalabel
         /// </summary>

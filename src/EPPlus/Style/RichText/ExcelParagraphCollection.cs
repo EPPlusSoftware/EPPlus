@@ -215,29 +215,6 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        internal List<List<string>> GetParagraphTextLists()
-        {
-            List<List<string>> strings = new List<List<string>>();
-            var pars = TopNode.SelectNodes(_path, NameSpaceManager);
-
-            foreach(XmlNode paragraph in pars)
-            {
-                List<string> paragraphTexts = new List<string>();
-                foreach (XmlNode node in paragraph.ChildNodes)
-                {
-                    if (node.LocalName == "fld" || node.LocalName == "r")
-                    {
-                        var textNode = node.SelectSingleNode("a:t", NameSpaceManager);
-                        var text = textNode.InnerText;
-                        paragraphTexts.Add(text);
-                    }
-                }
-                strings.Add(paragraphTexts);
-            }
-
-            return strings;
-        }
-
         #region IEnumerable<ExcelRichText> Members
 
         IEnumerator<ExcelParagraph> IEnumerable<ExcelParagraph>.GetEnumerator()

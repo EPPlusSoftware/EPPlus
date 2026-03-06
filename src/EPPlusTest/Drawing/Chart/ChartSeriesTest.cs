@@ -309,12 +309,6 @@ namespace EPPlusTest.Drawing.Chart
                 Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
                 Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
 
-                //Ensure replacement text works
-                var labelFive = chart.Series[0].DataLabel.DataLabels[5];
-                labelFive.SetText("My replacement text");
-
-                Assert.AreEqual("My replacement text", labelFive.GetExistingParagraphStrings()[0][0]);
-
                 SaveAndCleanup(p);
             }
 
@@ -329,10 +323,6 @@ namespace EPPlusTest.Drawing.Chart
 
                 Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
                 Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
-
-                //Ensure replacement text works
-                var labelFive = chart.Series[0].DataLabel.DataLabels[5];
-                Assert.AreEqual("My replacement text", labelFive.GetExistingParagraphStrings()[0][0]);
             }
         }
 
@@ -464,7 +454,6 @@ namespace EPPlusTest.Drawing.Chart
                 Assert.AreEqual(item1, cache[0]);
                 Assert.AreEqual(item2, cache[1]);
                 Assert.AreEqual(item3, cache[2]);
-
             }
         }
     }
