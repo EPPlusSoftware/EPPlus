@@ -228,19 +228,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                             label = dictionaries.Fonts.Last().Value.labelNumber + 1;
                                         }
                                         dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
-                                        var manger = dictionaries.Fonts[font.FullName].fontSubsetManager;
-                                        manger.AddText(fd.Text);
+                                        //var manger = dictionaries.Fonts[font.FullName].fontSubsetManager;
+                                        //manger.AddText(fd.Text);
                                     }
 
                                     // Map this paragraph's FontId to global resource index
                                     fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
                                 }
                                 //content.ShapedText.Add(shaped);
-                                content.CreateTextShape(dictionaries, shaped);
+                                //content.CreateTextShape(dictionaries, shaped);
                                 content.textLayoutEngine = layoutEngine;
+                                fd.ShapedText = shaped;
                                 fd.FontIdMap = fontIdMap;
                                 fd.UsedFonts = usedFonts;
                                 content.TextFormats[i] = fd;
+                                shaper.ResetFontTracking();
                             }
                             break;
                         }
@@ -294,20 +296,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                             label = dictionaries.Fonts.Last().Value.labelNumber + 1;
                                         }
                                         dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
-                                        var manger = dictionaries.Fonts[font.FullName].fontSubsetManager;
-                                        manger.AddText(fd.Text);
+                                        //var manger = dictionaries.Fonts[font.FullName].fontSubsetManager;
+                                        //manger.AddText(fd.Text);
                                     }
 
                                     // Map this paragraph's FontId to global resource index
                                     fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
                                 }
                                 //content.ShapedText.Add(shaped);
-                                copy.CreateTextShape(dictionaries, shaped);
+                                //copy.CreateTextShape(dictionaries, shaped);
                                 copy.textLayoutEngine = layoutEngine;
+                                fd.ShapedText = shaped;
                                 fd.FontIdMap = fontIdMap;
                                 fd.UsedFonts = usedFonts;
-
                                 copy.TextFormats[i] = fd;
+                                shaper.ResetFontTracking();
                             }
                         }
                     }
@@ -642,6 +645,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                     if (spill <= 0d) break;
                                 }
                             }
+
+                            cell.content.GidsAndCharMap(dictionaries);
                         }
 
                         //Collect gridlines

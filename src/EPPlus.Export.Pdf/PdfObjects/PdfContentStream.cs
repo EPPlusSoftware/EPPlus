@@ -198,7 +198,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     {
                         currentFontId = glyph.FontId;
                         sb.Append("] TJ");
-                        sb.Append($"/{textFormat.FontIDLabel[currentFontId]} {size.ToPdfString()} Tf");
+                        sb.Append($"/{textFormat.FontIdMap[currentFontId]} {size.ToPdfString()} Tf");
                         sb.Append("[");
                     }
 

@@ -47,7 +47,7 @@ namespace EPPlus.Export.Pdf.PdfResources
 
         internal HashSet<char> Subset = new HashSet<char>();
         internal HashSet<ushort> Gids = new HashSet<ushort>();
-        internal Dictionary<int, string> charactermappings = new Dictionary<int, string>();
+        internal Dictionary<ushort, string> charactermappings = new Dictionary<ushort, string>();
 
         internal FontSubsetManager fontSubsetManager;
 
@@ -249,15 +249,18 @@ namespace EPPlus.Export.Pdf.PdfResources
 
         internal void CreateGidsAndCharMaps()
         {
-            foreach (var glyph in ShapedText.Glyphs)
+            if (ShapedText != null)
             {
-                Gids.Add(glyph.GlyphId);
-                if (!charactermappings.ContainsKey(glyph.GlyphId))
+                foreach (var glyph in ShapedText.Glyphs)
                 {
-                    var chars = ExtractCharactersForGlyph(glyph, ShapedText.OriginalText);
-                    if (!string.IsNullOrEmpty(chars))
+                    Gids.Add(glyph.GlyphId);
+                    if (!charactermappings.ContainsKey(glyph.GlyphId))
                     {
-                        charactermappings.Add(glyph.GlyphId, chars);
+                        var chars = ExtractCharactersForGlyph(glyph, ShapedText.OriginalText);
+                        if (!string.IsNullOrEmpty(chars))
+                        {
+                            charactermappings.Add(glyph.GlyphId, chars);
+                        }
                     }
                 }
             }

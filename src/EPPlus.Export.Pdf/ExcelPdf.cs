@@ -107,7 +107,7 @@ namespace EPPlus.Export.Pdf
             {
                 foreach (var font in Dictionaries.Fonts)
                 {
-                    font.Value.CreateGidsAndCharMaps();
+                    //font.Value.CreateGidsAndCharMaps();
                     var CidSet = font.Value.GetCidSet(Document.Count + 1);
                     if (CidSet != null) Document.Add(CidSet);
                     Document.Add(font.Value.GetEmbeddedFontStreamObject(Document.Count + 1));
