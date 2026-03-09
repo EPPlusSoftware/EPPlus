@@ -29,6 +29,12 @@ namespace OfficeOpenXml.CellPictures
             this.calcOrigin = calcOrigin;
             this.altText = altText;
         }
+
+        public LocalImageCacheKey(ExcelCellPicture picture) 
+            : this(picture.ImageUri, picture.CalcOrigin, picture.AltText)
+        {
+        }
+
         protected override string Build()
         {
             var sb = new StringBuilder();

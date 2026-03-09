@@ -150,16 +150,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             return -1;
         }
 
+
         private int GetMaxItemsRow(IRangeInfo lookupRange)
         {
+            var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
+            if (adjusted != null)
+            {
+                return adjusted.ToRow - adjusted.FromRow + 1;
+            }
             if (lookupRange.Address.ToRow > lookupRange.Dimension.ToRow)
             {
                 return lookupRange.Dimension.ToRow - lookupRange.Address.FromRow + 1;
-            }            
+            }
             return _lookupRange.Size.NumberOfRows;
         }
+
         private int GetMaxItemsColumns(IRangeInfo lookupRange)
         {
+            var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
+            if (adjusted != null)
+            {
+                return adjusted.ToCol - adjusted.FromCol + 1;
+            }
             if (lookupRange.Address.ToCol > lookupRange.Dimension.ToCol)
             {
                 return lookupRange.Dimension.ToCol - lookupRange.Address.FromCol + 1;

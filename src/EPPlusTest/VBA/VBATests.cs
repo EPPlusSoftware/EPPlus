@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils.VBA;
 using OfficeOpenXml.VBA;
 using OfficeOpenXml.VBA.ContentHash;
@@ -12,6 +14,8 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.XPath;
 
 namespace EPPlusTest.VBA
 {
@@ -299,6 +303,92 @@ namespace EPPlusTest.VBA
             //Create a new module and set the code
             var module = package.Workbook.VbaProject.Modules.AddModule("My BubbleChartModule");
             module.Code = sb.ToString();
+        }
+
+
+        [TestMethod]
+        public void ReadAndSaveTemplateDxfIdsCheckbox()
+        {
+            using (var package = OpenTemplatePackage("i2273.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("i2273.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var tbl = ws.Tables[0];
+                var cols = tbl.Columns;
+
+                //Verify style bools
+                Assert.IsTrue(cols[0].DataStyle.Checkbox);
+                Assert.IsTrue(cols[1].DataStyle.Checkbox);
+
+                var topNode = cols[0].DataStyle._helper.TopNode;
+                cols[0].DataStyle._helper.GetDefaultNode("extLst/ext");
+
+                //ws.Workbook.Styles
+                var extNode = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+                var extNodeCol2 = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+
+                //Verify dxf property bag
+                Assert.IsTrue(extNode.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+                Assert.IsTrue(extNodeCol2.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void EnsureEpplusReadsXlsmDxfIdsForTablesCorrectly()
+        {
+            var fileName = "MyVBACheckboxes";
+            var fileEnding = ".xlsm";
+
+            using (var package = OpenPackage(fileName + fileEnding, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("TableCheckboxes");
+                package.Workbook.CreateVBAProject();
+
+                var tbl = ws.Tables.Add(ws.Cells["B2:C3"], "Table1");
+                tbl.ShowHeader = true;
+                tbl.DataStyle.Checkbox = true;
+                tbl.Columns[0].DataStyle.Checkbox = true;
+                tbl.Columns[1].DataStyle.Checkbox = true;
+
+                ws.Cells["B3:C3"].Value = false;
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage(fileName + fileEnding))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var tbl = ws.Tables[0];
+                var cols = tbl.Columns;
+
+                //Verify style bools
+                Assert.IsTrue(tbl.DataStyle.Checkbox);
+                Assert.IsTrue(cols[0].DataStyle.Checkbox);
+                Assert.IsTrue(cols[1].DataStyle.Checkbox);
+
+                var topNode = cols[0].DataStyle._helper.TopNode;
+                cols[0].DataStyle._helper.GetDefaultNode("extLst/ext");
+
+                //ws.Workbook.Styles
+                var extNode = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+                var extNodeCol2 = (XmlElement)cols[0].DataStyle._helper.GetDefaultNode($"extLst/ext");
+
+                //Verify dxf property bag
+                Assert.IsTrue(extNode.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+                Assert.IsTrue(extNodeCol2.GetAttribute("uri") == ExtLstUris.FeaturePropertyBagDxf);
+
+                var outFile = GetOutputFile("", fileName + "_Resaved" + fileEnding);
+                package.SaveAs(outFile);
+            }
         }
     }
 }

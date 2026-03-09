@@ -232,7 +232,7 @@ namespace EPPlusTest.Issues
                 try { fromWs1 = ctx.ws1.Calculate("'Sheet2'!C1"); }
                 catch (Exception ex) { fromWs1 = $"EXCEPTION: {ex.GetType().Name}: {ex.Message}"; }
                 return $"ws2.Calculate(\"'Sheet2'!C1\") => {fromWs2}\nws1.Calculate(\"'Sheet2'!C1\") => {fromWs1}";
-                Assert.AreEqual(fromWs1, 10);
+                //Assert.AreEqual(fromWs1, 10);
             });
 
             RunTest("Sanity: removing sheet-scoped name fixes formula-string eval", ctx =>

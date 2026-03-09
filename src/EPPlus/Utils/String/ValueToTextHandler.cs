@@ -263,7 +263,14 @@ namespace OfficeOpenXml.Utils.String
             }
             else
             {
-                return d.ToString(format, cultureInfo);
+                try
+                {
+                    return d.ToString(format, cultureInfo);
+                }
+                catch
+                {
+                    return format;
+                }
             }
         }
 

@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Data.QueryTable
         }
         /// <summary>
         /// Adds a new query table to the collection. Worksheet level query tables are legacy objects and can only be used for older types of connection. 
-        /// For newer types of connections like PowerQuery, use <see cref="ExcelTableCollection.AddQueryTable(ExcelAddressBase, string, ExcelConnection, string[])"/> instead.
+        /// For newer types of connections like PowerQuery, use <see cref="OfficeOpenXml.Table.ExcelTableCollection.AddQueryTable(ExcelAddressBase, string, ExcelConnection, string[])"/> instead.
         /// </summary>
         /// <param name="address">The address</param>
         /// <param name="name">The name of the query table.</param>

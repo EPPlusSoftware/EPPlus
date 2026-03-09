@@ -21,6 +21,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -49,34 +50,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
-            else if(argumentIndex==1)
+            else if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.Normal;
             }
             return FunctionParameterInformation.AdjustParameterAddress;
         }));
-        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             if (index == 0 && args[0].Result is IRangeInfo valueRange)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, ctx);
                 addresses = EnqueueMatchingAddresses(valueRange, matchIndexes, ref addresses);
             }
-            else if(args[index].Result is IRangeInfo criteriaRange)
+            else if (args[index].Result is IRangeInfo criteriaRange)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, index);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args, ctx, index);
                 addresses = EnqueueMatchingAddresses(criteriaRange, matchIndexes, ref addresses);
             }
         }
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var valueRange = arguments[0].ValueAsRangeInfo;           
+            var valueRange = arguments[0].ValueAsRangeInfo;
             GetArguments(context, arguments, out List<RangeOrValue> argRanges, out List<RangeOrValue> criteria, out int cols, out int rows, 1);
-            
+
             if (cols == 1 && rows == 1)
             {
                 var result = GetSumValue(context, valueRange, argRanges, criteria, 0, 0, out ExcelErrorValue ev);
+
                 if (double.IsNaN(result) && ev != null)
                 {
                     return CreateResult(ev, DataType.ExcelError);
@@ -108,16 +111,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
 
+
         private double GetSumValue(ParsingContext context, IRangeInfo valueRange, List<RangeOrValue> argRanges, List<RangeOrValue> criterias, int row, int col, out ExcelErrorValue ev)
         {
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criterias[0], row, col), context);
-            var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
-            for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
-            {
-                var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criterias[ix], row, col), context);
-                matchIndexes = matchIndexes.Intersect(indexes);
-            }
-            var sumRange = RangeFlattener.FlattenRangeObject(valueRange);
+
+            GetFilteredValueRange(context, valueRange, argRanges, criterias, row, col, out List<int> matchIndexes, out List<object> sumRange);
+
             KahanSum result = 0d;
             foreach (var index in matchIndexes)
             {

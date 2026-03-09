@@ -116,7 +116,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
         protected IList<CompileResult> _args=null;
         internal Queue<FormulaRangeAddress> _dependencyAddresses = null;
-        internal bool SetArguments(IList<CompileResult> argsResults)
+        internal bool SetArguments(IList<CompileResult> argsResults, ParsingContext ctx)
         {
             _args = argsResults;
             if (_function.ParametersInfo.HasNormalArguments == false)
@@ -126,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     var pi = _function.ParametersInfo.GetParameterInfo(i);
                     if (EnumUtil.HasFlag(pi, FunctionParameterInformation.AdjustParameterAddress) && argsResults[i].Address != null)
                     {
-                        _function.GetNewParameterAddress(argsResults, i, ref _dependencyAddresses);
+                        _function.GetNewParameterAddress(argsResults, i, ctx, ref _dependencyAddresses);
                     }
                 }
                 return _dependencyAddresses != null;

@@ -14,6 +14,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,7 @@ namespace OfficeOpenXml.Style
         {
         }
         const string AligPath = "../../a:pPr/@algn";
+        const string FldPath = "../a:fld";
         /// <summary>
         /// Text
         /// </summary>
