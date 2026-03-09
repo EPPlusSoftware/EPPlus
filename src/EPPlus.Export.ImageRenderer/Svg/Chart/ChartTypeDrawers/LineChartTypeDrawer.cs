@@ -3,16 +3,14 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class LineChartTypeDrawer : ChartTypeDrawer
     {
+        List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
+
         internal LineChartTypeDrawer(SvgChart svgChart, ExcelChart chartType) : base(svgChart, chartType)
         {
             var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
@@ -21,7 +19,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var isPercentStacked = Chart.IsTypePercentStacked();
             var xValues = new List<List<object>>();
             var yValues = new List<List<object>>();
-            var serieDataLabels = new List<SvgChartSerieDataLabel>();
 
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
@@ -52,7 +49,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var xSerie = xValues[i];
                 var ySerie = yValues[i];
                 var serie = (ExcelLineChartSerie)chartType.Series[i];
-                AddLine(chartType, serie, xSerie, ySerie);
+
+                SvgChartSerieDataLabel dataLabel = null;
+                if (serie.HasDataLabel)
+                {
+                    dataLabel = serieDataLabels[i];
+                }
+
+                AddLine(chartType, serie, xSerie, ySerie, dataLabel);
             }
 
             foreach(var dataLabel in serieDataLabels)
@@ -72,7 +76,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues)
+        private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, SvgChartSerieDataLabel serieDataLabel)
         {
             var xAxis = _svgChart.HorizontalAxis;
             SvgChartAxis yAxis;
@@ -108,6 +112,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     coords.Add(xPos / _svgChart.Plotarea.Rectangle.Bounds.Width);
                     coords.Add(yPos / _svgChart.Plotarea.Rectangle.Bounds.Height);
+
+                    if(serieDataLabel != null)
+                    {
+                        serieDataLabel.dlblTextBoxes[i].Left = xPos;
+                        serieDataLabel.dlblTextBoxes[i].Top = yPos;
+                    }
                 }
                 if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
                 {
@@ -120,6 +130,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         markerItems.Add(LineMarkerHelper.GetMarkerBackground(_svgChart, serie, mx, my, false));
                     }
                     markerItems.Add(ls);
+
+                    if (serieDataLabel != null)
+                    {
+                        serieDataLabel.dlblTextBoxes[i].Left = xPos;
+                        serieDataLabel.dlblTextBoxes[i].Top = yPos;
+                    }
                 }
             }
 

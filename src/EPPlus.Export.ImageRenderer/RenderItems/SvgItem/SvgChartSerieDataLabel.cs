@@ -24,7 +24,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgChartSerieDataLabel : SvgChartObject
     {
-        List<SvgTextBox> dlblTextBoxes = new List<SvgTextBox>();
+        internal List<SvgTextBox> dlblTextBoxes = new List<SvgTextBox>();
 
         string separator;
 
@@ -46,9 +46,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 for (int i = 0; i < serie.NumberOfItems; i++)
                 {
-                    var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
-                    txtBox.ImportTextBody(dlblSerie.TextBody);
-
                     List<string> dlblStrings = new List<string>();
 
                     if (dlblSerie.ShowSeriesName)
@@ -74,7 +71,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         }
                     }
 
+                    var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
+                    txtBox.ImportTextBody(dlblSerie.TextBody);
+
                     txtBox.TextBody.ImportParagraph(dlblSerie.TextBody.Paragraphs[0], 0, finalString);
+                    //Remove dummy paragraph added by ImportTextBody
+                    txtBox.TextBody.Paragraphs.RemoveAt(0);
+                    //Reset run y-position.
+                    //Datalabel does not use the standard line-spacing textbody offsets
+                    txtBox.TextBody.Paragraphs[0].Runs[0].YPosition = 0;
 
                     dlblTextBoxes.Add(txtBox);
                 }

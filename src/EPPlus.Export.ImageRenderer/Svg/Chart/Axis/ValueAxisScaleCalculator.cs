@@ -34,7 +34,7 @@ internal class ValueAxisScaleCalculator
         }
 
         var isAllPositive = dataMin >= 0 && dataMax >= 0;
-        var isAllNegativ = dataMin <= 0 && dataMax <= 0;
+        var isAllNegative = dataMin <= 0 && dataMax <= 0;
         if(dataMin < 0 && dataMax > 0 && axisOptions.IsStacked100)
         {
             desiredTicks *= 2;
@@ -78,7 +78,7 @@ internal class ValueAxisScaleCalculator
                 if (axisOptions.AddPadding)
                 {
                     dataMax = axisOptions.LockedMax.Value;
-                    if (isAllNegativ && dataMax > 0)
+                    if (isAllNegative && dataMax > 0)
                     {
                         dataMax = 0;
                     }
@@ -145,7 +145,7 @@ internal class ValueAxisScaleCalculator
                         axisMax = 1;
                     }
 
-                    if (axisMax > 0 && isAllNegativ)
+                    if (axisMax > 0 && isAllNegative)
                     {
                         axisMax = 0;
                     }
