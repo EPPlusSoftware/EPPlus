@@ -12,8 +12,6 @@
  *************************************************************************************************/
 
 using EPPlus.Export.ImageRenderer;
-using EPPlus.Export.ImageRenderer.RenderItems.Independent.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.Independent.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;

@@ -10,15 +10,17 @@
  *************************************************************************************************
   05/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
-using System.Linq;
-using OfficeOpenXml.Core.CellStore;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.IO;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -217,7 +219,30 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(headerAddressPath, ExcelCellBase.GetFullAddress(value.WorkSheetName, value.Address));
                 SetXmlNodeString("c:tx/c:strRef/c:strCache/c:ptCount/@val", "0");
             }
-        }        
+        }
+        
+        internal string GetHeaderString()
+        {
+            if(string.IsNullOrEmpty(Header))
+            {
+                if(HeaderAddress == null)
+                {
+                    return null;
+                }
+
+                var ws = string.IsNullOrEmpty(HeaderAddress.WorkSheetName) ? _chart.WorkSheet : _chart.WorkSheet.Workbook.Worksheets[HeaderAddress.WorkSheetName];
+                if (ws == null) //Worksheet does not exist, exit
+                {
+                    return null;
+                }
+                return ws.Cells[HeaderAddress.Address].Text;
+            }
+            else
+            {
+                return Header;
+            }
+        }
+
         string _seriesTopPath;
         string _seriesPath = "{0}/c:numRef/c:f";
         string _numCachePath = "{0}/c:numRef/c:numCache";

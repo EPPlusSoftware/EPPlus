@@ -114,6 +114,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var rect = Rectangle;
+
+            if(rect.FillColor == null)
+            {
+                rect.FillColor = "transparent";
+            }
+
             SvgGroupItem groupItem;
             if (Rotation == 0)
             {

@@ -60,7 +60,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal bool WrapText = true;
 
-        private FontMeasurerTrueType _measurer = null;
         internal string _text;
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text=null)
@@ -199,10 +198,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         //    Paragraphs.Add(paragraph);
         //}
-        public void SetMeasurer(FontMeasurerTrueType fontMeasurer)
-        {
-            _measurer = fontMeasurer;
-        }
+        //public void SetMeasurer(FontMeasurerTrueType fontMeasurer)
+        //{
+        //    _measurer = fontMeasurer;
+        //}
 
         double? _alignmentY = null;
 

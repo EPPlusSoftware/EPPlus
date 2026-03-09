@@ -33,7 +33,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel)
                 {
-                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Plotarea.Bounds);
+                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, xValue, yValue);
                     serieDataLabels.Add(datalabel);
                 }
             }

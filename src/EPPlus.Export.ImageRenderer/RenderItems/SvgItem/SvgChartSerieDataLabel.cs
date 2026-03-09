@@ -26,13 +26,67 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         List<SvgTextBox> dlblTextBoxes = new List<SvgTextBox>();
 
-        public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds) : base(chart)
+        string separator;
+
+        public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues) : base(chart)
         {
-            foreach(var dlbl in dlblSerie.DataLabels)
+            if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
-                var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
-                txtBox.ImportTextBody(dlbl.TextBody);
-                dlblTextBoxes.Add(txtBox);
+                separator = string.IsNullOrEmpty(dlblSerie.Separator) ? "," : dlblSerie.Separator;
+
+                //string dlblStr = "";
+
+                ////dlblStr +=""
+                ////StringBuilder sb = new StringBuilder();
+                //if (dlblSerie.ShowSeriesName)
+                //{
+                //    dlblStr += serie.Header;
+                //    //AppendToDatalabelStr(sb, serie.Header);
+                //}
+
+                for (int i = 0; i < serie.NumberOfItems; i++)
+                {
+                    var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
+                    txtBox.ImportTextBody(dlblSerie.TextBody);
+
+                    List<string> dlblStrings = new List<string>();
+
+                    if (dlblSerie.ShowSeriesName)
+                    {
+                        dlblStrings.Add(serie.GetHeaderString());
+                    }
+                    if (dlblSerie.ShowCategory)
+                    {
+                        dlblStrings.Add(xValues[i].ToString());
+                    }
+                    if (dlblSerie.ShowValue)
+                    {
+                        dlblStrings.Add(yValues[i].ToString());
+                    }
+
+                    string finalString = "";
+                    for (int j = 0; j < dlblStrings.Count; j++)
+                    {
+                        finalString += dlblStrings[j];
+                        if (j != dlblStrings.Count - 1)
+                        {
+                            finalString += separator;
+                        }
+                    }
+
+                    txtBox.TextBody.ImportParagraph(dlblSerie.TextBody.Paragraphs[0], 0, finalString);
+
+                    dlblTextBoxes.Add(txtBox);
+                }
+            }
+            else
+            {
+                foreach (var dlbl in dlblSerie.DataLabels)
+                {
+                    var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
+                    txtBox.ImportTextBody(dlbl.TextBody);
+                    dlblTextBoxes.Add(txtBox);
+                }
             }
         }
 
@@ -48,6 +102,26 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
+
+        //internal void AppendToDatalabelStr(StringBuilder sb, string toAppend)
+        //{
+        //    sb.Append(toAppend);
+        //    sb.Append(separator);
+        //}
+
+        //internal string GetDatalabelString(ExcelChartSerieDataLabel dlbl, ExcelChartStandardSerie serie)
+        //{
+        //    var dlblStr = "";
+
+        //    //if(dlbl.ShowValue)
+        //    //{
+               
+        //    //}
+        //    //if(dlbl.ShowSeriesName)
+        //    //{
+        //    //    dlb
+        //    //}
+        //}
 
         //public override RenderItemType Type => throw new NotImplementedException();
 
