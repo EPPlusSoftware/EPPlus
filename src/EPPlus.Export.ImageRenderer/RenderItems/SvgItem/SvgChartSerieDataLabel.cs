@@ -40,22 +40,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 if(dlblSerie.ShowLegendKey)
                 {
-                    SvgChartLegend legendItem = null;
                     if (chart.Legend == null)
                     {
-                        legendItem = dlblSerie.ShowLegendKey == false ? null : new SvgChartLegend(chart);
+                        seriesIcon = chart.GetSeriesIcon(serie, index, maxBounds);
                     }
                     else
                     {
-                        legendItem = chart.Legend;
+                        var legendItem = chart.Legend;
+                        var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[index].SeriesIcon;
+                        var clonedIcon = seriesIconOrig.Clone(chart);
+
+                        clonedIcon.Y1 = 0;
+                        clonedIcon.Y2 = 0;
+
+                        seriesIcon = clonedIcon;
                     }
-                    var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[index].SeriesIcon;
-                    var clonedIcon = seriesIconOrig.Clone(chart);
 
-                    clonedIcon.Y1 = 0;
-                    clonedIcon.Y2 = 0;
-
-                    seriesIcon = clonedIcon;
                 }
 
                 for (int i = 0; i < serie.NumberOfItems; i++)

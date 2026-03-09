@@ -36,10 +36,10 @@ namespace EPPlusImageRenderer.Svg
         const float MarginExtra = 1.5f;
         const float MiddleMargin = 7.5f;
         const float LineLength = 21;
-        internal SvgChartLegend(SvgChart sc) : base(sc)
+        internal SvgChartLegend(SvgChart sc, bool isDataLabelLegend = false) : base(sc)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            if (sc.Chart.HasLegend == false || sc.Chart.Series.Count == 0)
+            if (sc.Chart.HasLegend == false && isDataLabelLegend == false || sc.Chart.Series.Count == 0)
             {
                 return;
             }

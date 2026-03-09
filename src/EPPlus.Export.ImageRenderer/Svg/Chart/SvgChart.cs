@@ -12,9 +12,12 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -216,6 +219,27 @@ namespace EPPlusImageRenderer.Svg
                 return margin; 
             }
 
+        }
+
+
+        internal SvgRenderLineItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
+        {
+            const float MarginExtra = 1.5f;
+            const float LineLength = 21;
+
+            var item = new SvgRenderLineItem(this, parentItem);
+            item.SetDrawingPropertiesFill(s.Fill, this.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(s.Border, this.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+
+            float y = (float)parentItem.Top + MarginExtra;
+            float x = 0;
+            item.X1 = x;
+            item.Y1 = y;
+            item.X2 = x + LineLength;
+            item.Y2 = y;
+            item.LineCap = eLineCap.Round;
+
+            return item;
         }
     }
 }
