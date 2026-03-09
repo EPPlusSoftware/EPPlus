@@ -12,12 +12,15 @@
  *************************************************************************************************/
 
 using EPPlus.Export.ImageRenderer;
+using EPPlus.Export.ImageRenderer.RenderItems.Independent.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.Independent.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
@@ -27,6 +30,7 @@ using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Utils;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Text;
 
@@ -53,6 +57,33 @@ namespace EPPlusImageRenderer
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
 
+        ////Attempt at ensuring features can be created/tested individually by the system
+        ////Without relying on having a whole workbook or epplus project.
+        ////Simply: Does our positioning, sizing and parent hierarchy logic work as expected or not.
+        //public string RenderIndependentCanvas(double widthPixel, double heightPixel, Color bgColor)
+        //{
+        //    var widthPoint = widthPixel.PixelToPoint();
+        //    var heightPoint = heightPixel.PixelToPoint();
+
+        //    var CanvasBounds = new BoundingBox(widthPoint, heightPoint);
+
+        //    var sb = new StringBuilder();
+        //    var canvas = new SvgIndependentCanvas(CanvasBounds, bgColor);
+
+        //    var rect = new SvgIndependentRect(canvas.Bounds, widthPoint/2, heightPoint/2);
+        //    rect.FillColor = "red";
+        //    rect.Left = 10;
+
+        //    //BoundingBox boundsTextBox = new BoundingBox(rect.Bounds.Left, rect.Bounds.Top, rect.Bounds.Width, rect.Bounds.Height);
+        //    //var independentTxtBox = new SvgIndependentTextBox(canvas, boundsTextBox);
+
+        //    //var textBox = new svgin
+
+        //    canvas.AddRenderItem(rect);
+
+        //    canvas.Render(sb);
+        //    return sb.ToString();
+        //}
 
 
         //public string RenderTextBox(ExcelDrawing someDrawing, BoundingBox parent, double maxHeight, double maxWidth)

@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer.Svg
         /// <summary>
         /// Textbox from memory
         /// </summary>
-        public SvgTextBodyItem TextBox { get; internal set; }
+        public SvgTextBodyItem TextBodySvg { get; internal set; }
 
         public SvgShape(ExcelShape shape) : base(shape)
         {
@@ -114,7 +114,7 @@ namespace EPPlusImageRenderer.Svg
 
                     InsetTextBox.FillOpacity = 0.3d;
 
-                    TextBox = CreateTextBodyItem(_shape.TextBody);
+                    TextBodySvg = CreateTextBodyItem(_shape.TextBody);
                 }
             }
         }

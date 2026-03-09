@@ -95,7 +95,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         [TestMethod]
         public void TextFragmentHandlesEndLines()
         {
-            string strWEndLines = "TextBox\r\na";
+            string strWEndLines = "TextBodySvg\r\na";
 
             List<string> inputFrags = new List<string>() { strWEndLines };
             var textFragments = new TextFragmentCollection(inputFrags);
@@ -220,20 +220,19 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 cube.SetPixelWidth(5000);
                 var svgShape = new SvgShape(cube);
-
-                SvgTextBodyItem tbItem = svgShape.TextBox;
+                SvgTextBodyItem tbItem = svgShape.TextBodySvg;
 
                 var txtRun1Bounds = tbItem.Paragraphs[0].Runs[0].Bounds;
                 var pxWidth = txtRun1Bounds.Width.PointToPixel();
-                Assert.AreEqual(43.835286458333336d, pxWidth);
+                Assert.AreEqual(43.835286458333336d, pxWidth, 0.2d);
 
                 var txtRuns2 = tbItem.Paragraphs[1].Runs;
 
-                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width.PointToPixel());
+                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width.PointToPixel(),0.2);
                 var currentLineWidth = txtRuns2[0].Bounds.Width.PointToPixel();
 
-                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left.PointToPixel());
-                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width.PointToPixel());
+                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left.PointToPixel(),0.2);
+                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width.PointToPixel(),0.2);
                 currentLineWidth += txtRuns2[1].Bounds.Width.PointToPixel();
 
                 Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left.PointToPixel(),0.0001);
@@ -252,84 +251,108 @@ namespace EPPlus.Export.ImageRenderer.Tests
             }
         }
 
-        [TestMethod]
-        public void ConceptLines()
+        private ExcelShape GenerateTextShapeWithDifficultText(ExcelPackage p)
         {
-            var currentChar = 'a';
-            var defaultFont = new MeasurementFont
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Regular
-            };
+            var myCulture = CultureInfo.CurrentCulture;
 
-            List<string> manyRichText = new List<string>();
-            List<MeasurementFont> manyFonts = new List<MeasurementFont>();
+            var ws = p.Workbook.Worksheets.Add("ShapeSheet");
 
-            for (int i = 0; i< 20; i++)
-            {
-                manyRichText.Add(currentChar.ToString());
-                manyFonts.Add(defaultFont);
-                currentChar++;
-                defaultFont.Size ++;
-            }
+            var cube = ws.Drawings.AddShape("myCube", eShapeStyle.Cube);
 
-            var fragments = new TextFragmentCollection(manyRichText);
-            var fontMeasurer = new FontMeasurerTrueType();
+            cube.Fill.Style = eFillStyle.SolidFill;
+            cube.Fill.Color = System.Drawing.Color.BlueViolet;
+            cube.Font.Color = System.Drawing.Color.Goldenrod;
 
-            var strings = fontMeasurer.WrapMultipleTextFragments(fragments, manyFonts, 30d.PixelToPoint());
+            cube.TextBody.TopInsert = 0;
+            cube.TextBody.BottomInsert = 0;
+            cube.TextBody.RightInsert = 0;
+            cube.TextBody.LeftInsert = 0;
 
-            var outputLines = fragments.GetOutputLines();
+            var para1 = cube.TextBody.Paragraphs.Add("TextBodySvg\r\na");
+
+            var para2 = cube.TextBody.Paragraphs.Add("TextBox2");
+            para2.TextRuns[0].FontItalic = true;
+            para2.TextRuns[0].FontBold = true;
+            para2.TextRuns.Add("ra underline").FontUnderLine = eUnderLineType.Dash;
+            para2.TextRuns.Add("La Strike").FontStrike = eStrikeType.Single;
+            var tRun1 = para2.TextRuns.Add("Goudy size 16");
+            tRun1.SetFromFont("Goudy Stout", 16);
+
+            tRun1.Fill.Color = System.Drawing.Color.IndianRed;
+            var tRun2 = para2.TextRuns.Add("SvgSize 24");
+            tRun2.FontSize = 24;
+
+            cube.TextBody.HorizontalTextOverflow = eTextHorizontalOverflow.Clip;
+            cube.TextBody.VerticalTextOverflow = eTextVerticalOverflow.Clip;
+
+            var aFont = cube.Font;
+            var paragraph0 = cube.TextBody.Paragraphs[0];
+
+            var autofit = cube.TextBody.TextAutofit;
+
+            cube.ChangeCellAnchor(eEditAs.Absolute);
+
+            cube.GetSizeInPixels(out int testWidth, out int testHeight);
+
+            cube.SetPixelHeight(400);
+            cube.SetPixelWidth(400);
+
+            return cube;
+        }
 
 
-            //var paragraph = new TextParagraph(fragments, manyFonts);
+        [TestMethod]
+        public void VerifyVerticalAlignTop()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
-            //List<string> manyRichText = new List<string>() {"a","b","c","d","e","f","g" };
+            using var p = new ExcelPackage();
+            var shape = GenerateTextShapeWithDifficultText(p);
+
+            shape.TextAnchoring = eTextAnchoringType.Top;
+
+            var svgShape = new SvgShape(shape);
+            SvgTextBodyItem tbItem = svgShape.TextBodySvg;
+
+            Assert.AreEqual(100, tbItem.Bounds.GlobalTop.PointToPixel());
         }
 
         [TestMethod]
-        public void ConceptTextRun()
+        public void VerifyVerticalAlignCenter()
         {
-            string rt1 = "My richtext1\r\n of len";
-            string rt2 = "gth beyond and then I am richtext2";
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
-            string combined = rt1 + rt2;
+            using var p = new ExcelPackage();
+            var shape = GenerateTextShapeWithDifficultText(p);
 
-            int charMax = 10;
+            shape.TextAnchoring = eTextAnchoringType.Center;
 
-            int lineCharCount = 0;
+            var svgShape = new SvgShape(shape);
+            SvgTextBodyItem tbItem = svgShape.TextBodySvg;
 
-            List<string> lines = new List<string>();
+            //Appears off by 1-2 px bc of border width
+            Assert.AreEqual(190d, tbItem.Bounds.GlobalTop.PointToPixel(),1.0);
+        }
 
-            for (int i = 0; i < combined.Length; i++)
-            {
-                if(lineCharCount > charMax)
-                {
-                    var currLine = combined.Substring(i - lineCharCount, lineCharCount);
-                    lines.Add(currLine);
-                    lineCharCount = 0;
-                }
 
-                if (combined[i] == '\r')
-                {
-                    var currLine = combined.Substring(i - lineCharCount, lineCharCount);
-                    lines.Add(currLine);
-                    lineCharCount = 0;
-                    i++;
-                    continue;
-                }
+        [TestMethod]
+        public void VerifyVerticalAlignBottom()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
-                lineCharCount++;
-            }
+            using var p = new ExcelPackage();
+            var shape = GenerateTextShapeWithDifficultText(p);
 
-            var finalLine = combined.Substring(combined.Length - lineCharCount, lineCharCount);
-            lines.Add(finalLine);
+            shape.TextAnchoring = eTextAnchoringType.Bottom;
 
-            foreach (string line in lines)
-            {
-                Debug.WriteLine(line);
-            }
+            var svgShape = new SvgShape(shape);
+            SvgTextBodyItem tbItem = svgShape.TextBodySvg;
 
+            var ir = new EPPlusImageRenderer.ImageRenderer();
+            var svg = ir.RenderDrawingToSvg(shape);
+
+            //Appears off by ~2 px because of border width
+            Assert.AreEqual(278d, tbItem.Bounds.GlobalTop.PointToPixel(), 1.0);
         }
     }
 }

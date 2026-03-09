@@ -542,6 +542,21 @@ namespace TestProject1
         }
 
 
+        [TestMethod] 
+        public void GenerateDataLabels()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datalabelsSvg.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\datalabelsAttempt.svg", svg);
+            }
+        }
+
+
         [TestMethod]
         public void OpenRightAligned()
         {
@@ -578,7 +593,7 @@ namespace TestProject1
                 _currentShape.TextBody.RightInsert = 0;
                 _currentShape.TextBody.LeftInsert = 0;
 
-                var para1 = _currentShape.TextBody.Paragraphs.Add("TextBox\r\na");
+                var para1 = _currentShape.TextBody.Paragraphs.Add("TextBodySvg\r\na");
                 //var test = _currentShape.TextBody.AnchorCenter;
 
                 para1.LeftMargin = 5;
