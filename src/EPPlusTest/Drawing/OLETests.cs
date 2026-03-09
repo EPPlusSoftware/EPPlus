@@ -795,6 +795,6 @@ namespace EPPlusTest.Drawing
             var linkOleBytes = linkOle.GetEmbeddedObjectBytes();
             Assert.IsNull(linkOleBytes);
         }
-
+      
     }
 }

@@ -24,6 +24,7 @@ using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Runtime.InteropServices;
 using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -641,7 +642,21 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 isValidFormat = true;
                 var ws = _currentWorksheet ?? _context.CurrentWorksheet;
-                var arg = new NumberFormatToTextArgs(ws, _context.CurrentCell.Row, _context.CurrentCell.Column, value, ws.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
+
+                var existingId = ExcelNumberFormat.GetFromBuildIdFromFormat(format);
+
+                NumberFormatToTextArgs arg;
+                if (existingId == int.MinValue)
+                {
+                    //The format does not have a corresponding styleId
+                    //Still allow the NumberFormatToTextHandler to see the format
+                    arg = new NumberFormatToTextArgs(ws, _context.CurrentCell.Row, _context.CurrentCell.Column, value, format);
+                }
+                else
+                {
+                    arg = new NumberFormatToTextArgs(ws, _context.CurrentCell.Row, _context.CurrentCell.Column, value, existingId);
+                }
+                arg.FromFormula = true;
                 return _workbook.NumberFormatToTextHandler(arg);
             }
         }

@@ -64,8 +64,10 @@
       "default",
       "templates/epplus"
     ],
-    "globalMetadata":{
-    "_disableContribution":true
+    "globalMetadata": {
+       	"_disableContribution": true,
+  	"_appLogoPath": "images/logo.png",
+	"_appFaviconPath": "images/favicon.ico"
     },
     "postProcessors": [],
     "markdownEngineName": "markdig",

@@ -40,11 +40,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }));
-        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             if (args[index].Result is IRangeInfo criteriaRange)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(0, args, index);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(0, args, ctx, index);
                 EnqueueMatchingAddresses(criteriaRange, matchIndexes, ref addresses);
             }
         }
@@ -76,16 +76,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
 
+
         private double GetCountValue(ParsingContext context, List<RangeOrValue> argRanges, List<RangeOrValue> criteria, int row, int col)
         {
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criteria[0], row, col), context, false);
-            var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
-            for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
+            var matchIndexes = GetMatchIndexes(argRanges[0], GetCriteriaValue(criteria[0], row, col), context, false);
+
+            // Use HashSet.IntersectWith for multi-criteria (more efficient than LINQ Intersect)
+            if (argRanges.Count > 1)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criteria[ix], row, col), context, false);
-                matchIndexes = matchIndexes.Intersect(indexes);
+                var hashSet = new HashSet<int>(matchIndexes);
+                for (var ix = 1; ix < argRanges.Count && hashSet.Count > 0; ix++)
+                {
+                    var indexes = GetMatchIndexes(argRanges[ix], GetCriteriaValue(criteria[ix], row, col), context, false);
+                    hashSet.IntersectWith(indexes);
+                }
+                return (double)hashSet.Count;
             }
-            return (double)matchIndexes.Count();
+
+            return (double)matchIndexes.Count;
         }
     }
 }

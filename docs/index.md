@@ -4,4 +4,4 @@ EPPlus is a .NET Framework/.NET Core library for managing Office Open XML spread
 The API documentation provided is generated from the XML comments in the EPPlus source code. It is updated when we releases new versions of the library.
 
 ### Breaking changes
-See this list of [breaking changes](articles/breakingchanges.html) in version 5.
+See this list of [breaking changes](articles/breakingchanges.md) in version 5.

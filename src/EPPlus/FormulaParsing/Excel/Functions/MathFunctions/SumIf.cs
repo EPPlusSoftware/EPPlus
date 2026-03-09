@@ -41,14 +41,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.SetArrayParameterIndexes(1);
         }
-        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             if(index == 2)
             {
                 if (args[0].Result is IRangeInfo criteriaRange && args[2].Result is IRangeInfo valueRange)
                 {
                     var rv = new RangeOrValue { Range = criteriaRange };                    
-                    var  mi=GetMatchIndexes(rv, args[1].Result, null);
+                    var  mi=GetMatchIndexes(rv, args[1].Result, ctx);
                     addresses = EnqueueMatchingAddresses(valueRange, mi, ref addresses);
                 }
             }

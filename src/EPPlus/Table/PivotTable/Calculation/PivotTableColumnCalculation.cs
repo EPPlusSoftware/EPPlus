@@ -10,20 +10,15 @@
  *************************************************************************************************
   03/07/2024         EPPlus Software AB       EPPlus 7.2
  *************************************************************************************************/
-using OfficeOpenXml.DataValidation.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -40,55 +35,140 @@ namespace OfficeOpenXml.Table.PivotTable
 			_fr = _tbl.WorkSheet.Workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
 			_calcItems = tbl.CalculatedItems;
         }
-		internal void CalculateFormulaFields(List<int> fieldIndex)
-		{
-			var calcOrder = GetCalcOrder();
-			foreach(var i in calcOrder)
-			{
-				var f = _tbl.Fields[i];
-				var tokens = f.Cache.FormulaTokens;
-				var calcTokens = GetPivotFieldReferencesInFormula(f, tokens);
-				PivotCalculationStore store;
-				if(calcTokens.Any(x => x == null))
-				{
-					//Contains invalid field reference or functions not supported in PT.
-					throw (new InvalidOperationException($"Pivot table {_tbl.Name} contains invalid column calculated formula : {f.Cache.Formula}. The formula contains an invalid field, an unsupported function or cell reference."));
+        internal void CalculateFormulaFields(List<int> fieldIndex)
+        {
+            var calcOrder = GetCalcOrder();
+            var cacheFields = _tbl.CacheDefinition._cacheReference.Fields;
+
+            foreach (var cfIndex in calcOrder)
+            {
+                var cf = cacheFields[cfIndex];
+                var tokens = cf.FormulaTokens;
+
+                // Build pivot field references from tokens
+                // (mirrors original GetPivotFieldReferencesInFormula logic, but against cache)
+                var calcTokens = new List<int[]>();
+                bool hasInvalid = false;
+                int ix = 0;
+                foreach (var t in tokens)
+                {
+                    if (t.TokenType == TokenType.PivotField)
+                    {
+                        var refCf = cacheFields.FirstOrDefault(
+                            x => x.Name.Equals(t.Value, StringComparison.InvariantCultureIgnoreCase));
+                        if (refCf != null)
+                        {
+                            calcTokens.Add(new int[] { ix });
+                        }
+                        else
+                        {
+                            hasInvalid = true;
+                            break;
+                        }
+                    }
+                    else if (t.TokenType == TokenType.Array ||
+                             t.TokenType == TokenType.CellAddress ||
+                             t.TokenType == TokenType.FullColumnAddress ||
+                             t.TokenType == TokenType.FullRowAddress ||
+                             t.TokenType == TokenType.TableName ||
+                             t.TokenType == TokenType.WorksheetName)
+                    {
+                        hasInvalid = true;
+                        break;
+                    }
+                    else if (t.TokenType == TokenType.Function)
+                    {
+                        var func = _fr.GetFunction(t.Value);
+                        if (func != null && func.IsAllowedInCalculatedPivotTableField == false)
+                        {
+                            hasInvalid = true;
+                            break;
+                        }
+                    }
+                    ix++;
+                }
+
+                PivotCalculationStore store;
+                if (hasInvalid)
+                {
+                    throw new InvalidOperationException(
+                        $"Pivot table {_tbl.Name} contains invalid column calculated formula : " +
+                        $"{cf.Formula}. The formula contains an invalid field, an unsupported " +
+                        "function or cell reference.");
                 }
                 else
-				{
-					store = CalculateField(f, tokens, calcTokens, fieldIndex);
-                }
-                if (f.IsDataField)
                 {
-                    var ix = _tbl.DataFields.IndexOf(f.DataField);
-                    _tbl.CalculatedItems[ix] = store;
+                    store = new PivotCalculationStore();
+                    var options = new ExcelCalculationOption();
+                    var depChain = new RpnOptimizedDependencyChain(_tbl.WorkSheet.Workbook, options);
+                    var ct = new List<Token>();
+                    ct.AddRange(tokens.Select(x => new Token(x.Value, x.TokenType, x.IsNegated)));
+
+                    // Collect ALL unique keys across all referenced source fields,
+                    // so we don't miss keys that only exist in some fields.
+                    var allKeys = new List<int[]>();
+                    var seenKeys = new HashSet<string>();
+                    foreach (var c in calcTokens)
+                    {
+                        var fieldName = tokens[c[0]].Value;
+                        if (_tbl.CalculatedFieldReferencedItems.TryGetValue(fieldName, out var refStore))
+                        {
+                            foreach (var k in refStore.Index)
+                            {
+                                var keyStr = string.Join(",", k.Key.Select(x => x.ToString()).ToArray());
+                                if (seenKeys.Add(keyStr))
+                                {
+                                    allKeys.Add(k.Key);
+                                }
+                            }
+                        }
+                    }
+
+                    // Calculate formula for each key combination
+                    foreach (var key in allKeys)
+                    {
+
+                        foreach (var c in calcTokens)
+                        {
+                            var fieldName = tokens[c[0]].Value;
+                            if (_tbl.CalculatedFieldReferencedItems.TryGetValue(fieldName, out var refStore)
+                                && refStore.ContainsKey(key))
+                            {
+                                ct[c[0]] = GetTokenFromValue(refStore[key]);
+                            }
+                            else
+                            {
+                                // Key doesn't exist for this field — use 0 as default
+                                // (Excel treats missing pivot values as 0 in calculated fields)
+                                ct[c[0]] = new Token("0", TokenType.Decimal);
+                            }
+                        }
+                        var cv = RpnFormulaExecution.ExecutePivotFieldFormula(depChain, ct, options);
+                        store.Add(key, cv);
+                    }
                 }
-                else
+
+                // Map back to DataField by matching the cache field.
+                // Multiple DataFields can reference the same calculated cache field
+                // (e.g. same field with different ShowDataAs), so don't break on first match.
+                bool stored = false;
+                for (int d = 0; d < _tbl.DataFields.Count; d++)
                 {
-                    _tbl.CalculatedFieldReferencedItems.Add(f.Name, store);
+                    var dfCache = _tbl.DataFields[d].Field.Cache;
+                    if (dfCache == cf ||
+                        dfCache.Name.Equals(cf.Name, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        _tbl.CalculatedItems[d] = store;
+                        stored = true;
+                    }
+                }
+                if (!stored)
+                {
+                    _tbl.CalculatedFieldReferencedItems[cf.Name] = store;
                 }
             }
         }
 
-		private PivotCalculationStore CalculateField(ExcelPivotTableField f, IList<Token> tokens, List<int[]> calcTokens, List<int> fieldIndex)
-		{
-			var store = new PivotCalculationStore();
-			var options = new ExcelCalculationOption();
-			var depChain = new RpnOptimizedDependencyChain(_tbl.WorkSheet.Workbook, options);
-			var ct = new List<Token>();
-			ct.AddRange(tokens.Select(x => new Token(x.Value, x.TokenType, x.IsNegated)));
-			foreach (var ci in _tbl.CalculatedFieldReferencedItems.First().Value.Index)
-			{
-				foreach (var c in calcTokens)
-				{
-					var v = _tbl.CalculatedFieldReferencedItems[tokens[c[0]].Value][ci.Key];
-					ct[c[0]] = GetTokenFromValue(v);
-				}
-				var cv=RpnFormulaExecution.ExecutePivotFieldFormula(depChain, ct, options);
-				store.Add(ci.Key, cv);
-			}
-			return store;
-		}
 		private Token GetTokenFromValue(object v)
 		{
 			if(ConvertUtil.IsNumericOrDate(v))
@@ -116,88 +196,67 @@ namespace OfficeOpenXml.Table.PivotTable
 			return new Token(v.ToString(),TokenType.String);
 		}
 
-		private List<int[]> GetPivotFieldReferencesInFormula(ExcelPivotTableField f, IList<Token> tokens)
-		{
-			var ret = new List<int[]>();
-			int ix = 0;
-			foreach (var t in tokens)
-			{
-				if(t.TokenType==TokenType.PivotField)
-				{
-					var ff = _tbl.Fields[t.Value];
-					if (ff == null)
-					{
-						ret.Add(null);
-						return ret;
-					}
-					else
-					{
-						ret.Add([ix, ff.Index]);
-					}
-				}
-				else if(
-					t.TokenType == TokenType.Array ||
-				    t.TokenType == TokenType.CellAddress ||
-				    t.TokenType == TokenType.FullColumnAddress ||
-					t.TokenType == TokenType.FullRowAddress ||
-					t.TokenType == TokenType.TableName ||
-					t.TokenType == TokenType.WorksheetName)
-				{
-					ret.Add(null);
-					return ret;
-				}
-				else if(t.TokenType==TokenType.Function)
-				{
-					var function = _fr.GetFunction(t.Value);
-					if(function.IsAllowedInCalculatedPivotTableField==false)
-					{
-						ret.Add(null);
-						return ret;
-					}
-				}
-				ix++;
-			}
-			return ret;
-		}
+        private List<int> GetCalcOrder()
+        {
+            var calcOrder = new List<int>();
+            var cacheFields = _tbl.CacheDefinition._cacheReference.Fields;
 
-		private List<int> GetCalcOrder()
-		{
-			var calcOrder = new List<int>();
-			foreach (var f in _tbl.Fields.Where(x => string.IsNullOrEmpty(x.Cache.Formula) == false))
-			{
-				if (calcOrder.Contains(f.Index)) continue;
-				ValidateNoCircularReference(f, calcOrder);
-			}
-			return calcOrder;
-		}
+            // Collect cache field indices that are used as DataFields and have formulas
+            var relevantCfIndices = new HashSet<int>();
+            foreach (var df in _tbl.DataFields)
+            {
+                if (!string.IsNullOrEmpty(df.Field.Cache.Formula))
+                {
+                    var cfIndex = cacheFields.IndexOf(df.Field.Cache);
+                    if (cfIndex >= 0)
+                    {
+                        relevantCfIndices.Add(cfIndex);
+                    }
+                }
+            }
 
-		private bool ValidateNoCircularReference(ExcelPivotTableField f, List<int> calcOrder, Stack<ExcelPivotTableField> prevFields = null)
-		{
-			if (prevFields == null) prevFields = new Stack<ExcelPivotTableField>();
-			var tokens = SourceCodeTokenizer.PivotFormula.Tokenize(f.Cache.Formula);
-			foreach (var t in tokens)
-			{
-				if (t.TokenType == TokenType.PivotField)
-				{
-					var f2 = _tbl.Fields[t.Value];
-					if (f2 != null && string.IsNullOrEmpty(f2.Cache.Formula)==false)
-					{
-						if (t.Value.Equals(f.Name, StringComparison.InvariantCultureIgnoreCase))
-						{
-							throw(new InvalidOperationException($"Circular reference in pivot table {_tbl.Name} Calculated Field {f.Name}"));
-						}
-						if(prevFields.Any(x=>x.Name.Equals(t.Value, StringComparison.InvariantCultureIgnoreCase)))
-						{
-							throw(new InvalidOperationException($"Circular reference in pivot table {_tbl.Name} Calculated Field {f.Name}"));
-						}
+            foreach (var cfIndex in relevantCfIndices)
+            {
+                if (calcOrder.Contains(cfIndex)) continue;
+                ValidateNoCircularReferenceCacheField(
+                    cacheFields[cfIndex], cfIndex, calcOrder, cacheFields);
+            }
+            return calcOrder;
+        }
 
-						prevFields.Push(f);
-						ValidateNoCircularReference(f2, calcOrder, prevFields);
-					}
-				}
-			}
-			calcOrder.Add(f.Index);
-			return true;
-		}
+        private bool ValidateNoCircularReferenceCacheField(
+            ExcelPivotTableCacheField cf,
+            int cfIndex,
+            List<int> calcOrder,
+            List<ExcelPivotTableCacheField> cacheFields,
+            Stack<int> prevIndices = null)
+        {
+            if (prevIndices == null) prevIndices = new Stack<int>();
+            var tokens = SourceCodeTokenizer.PivotFormula.Tokenize(cf.Formula);
+            foreach (var t in tokens)
+            {
+                if (t.TokenType == TokenType.PivotField)
+                {
+                    var refIndex = cacheFields.FindIndex(
+                        x => x.Name.Equals(t.Value, StringComparison.InvariantCultureIgnoreCase));
+                    if (refIndex >= 0 && !string.IsNullOrEmpty(cacheFields[refIndex].Formula))
+                    {
+                        if (refIndex == cfIndex || prevIndices.Contains(refIndex))
+                        {
+                            throw new InvalidOperationException(
+                                $"Circular reference in pivot table {_tbl.Name} Calculated Field {cf.Name}");
+                        }
+                        prevIndices.Push(cfIndex);
+                        ValidateNoCircularReferenceCacheField(
+                            cacheFields[refIndex], refIndex, calcOrder, cacheFields, prevIndices);
+                    }
+                }
+            }
+            if (!calcOrder.Contains(cfIndex))
+            {
+                calcOrder.Add(cfIndex);
+            }
+            return true;
+        }
 	}
 }

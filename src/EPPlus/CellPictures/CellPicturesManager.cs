@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
@@ -160,19 +161,51 @@ namespace OfficeOpenXml.CellPictures
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
 
+
+
             if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
-                if(existingPic != null && existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                if(existingPic != null)
                 {
                     var cKey = GetCacheKey(existingPic);
-                    _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
-                    if(numberOfRefsLeft <= 0)
+
+                    //Happens if calculate has deleted the ref
+                    if (_richDataStore.HasValueBeenDeleted(cachedVmId))
                     {
-                        _richDataStore.DeleteRichData(row, col);
+                        _referenceCache.RemoveReference(cKey, out int numRefs);
+                        return;
                     }
-                    _pictureStore.RemoveReference(existingPic.ImageUri);
+
+                    if (existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                    {
+                        _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                        if (numberOfRefsLeft <= 0)
+                        {
+                            _richDataStore.DeleteRichData(row, col);
+                        }
+                        _pictureStore.RemoveReference(existingPic.ImageUri);
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                    }
+                    else
+                    {
+                        //There is no need to do anything.
+                        //This method is attempting to set the picture to the exact same as what is already in the cell
+                        return;
+                    }
                 }
-                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                else
+                {
+                    //Happens if calculate has deleted the ref
+                    if (_richDataStore.HasValueBeenDeleted(cachedVmId))
+                    {
+                        _referenceCache.RemoveReference(cacheKey, out int numRefs);
+                        return;
+                    }
+                    else
+                    {
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                    }
+                }
                 return;
             }
 
@@ -216,9 +249,38 @@ namespace OfficeOpenXml.CellPictures
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
 
+            var existingPic = GetCellPicture(row, col, StructureTypes.WebImage);
+            if (existingPic == null)
+            {
+                existingPic = GetCellPicture(row, col);
+            }
+
             if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
-                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                if (existingPic != null)
+                {
+                    if(existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                    {
+                        var cKey = GetCacheKey(existingPic);
+                        _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                        if (numberOfRefsLeft <= 0)
+                        {
+                            _richDataStore.DeleteRichData(row, col);
+                        }
+                        _pictureStore.RemoveReference(existingPic.ImageUri);
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                    }
+                    else
+                    {
+                        //There is no need to do anything.
+                        //This method is attempting to set the picture to the exact same as what is already in the cell
+                        return;
+                    }
+                }
+                else
+                {
+                    AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                }
                 return;
             }
 
@@ -230,7 +292,6 @@ namespace OfficeOpenXml.CellPictures
             }
             else
             {
-                var existingPic = GetCellPicture(row, col);
                 if (existingPic != null)
                 {
                     if (existingPic.ImageUri.OriginalString == imageUri.OriginalString)
@@ -295,6 +356,11 @@ namespace OfficeOpenXml.CellPictures
             {
                 _referenceCache.AddReference(cacheKey);
             }
+        }
+
+        internal void ReadAndAddReference(PictureCacheKey key, uint vmId)
+        {
+            _referenceCache.Add(key, vmId);
         }
 
         private void AddReferenceToPicture(int row, int col, PictureCacheKey key, uint vmId)
@@ -386,6 +452,37 @@ namespace OfficeOpenXml.CellPictures
                 _sheet._metadataStore.SetValue(row, col, mdr);
                 _sheet.Cells[row, col].Value = null;
             }
+        }
+
+
+        /// <summary>
+        /// Builds an <see cref="ExcelCellPicture"/> for the specified cell during worksheet XML loading.
+        /// This method uses the value metadata index to resolve the corresponding rich value, constructs
+        /// a cell picture when the rich value represents image data, and registers the picture reference
+        /// for internal tracking.
+        /// </summary>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <param name="valueMetadataIndex">
+        /// The one-based metadata index read from the worksheet XML that identifies the rich value.
+        /// </param>
+        /// <param name="fromRichValue">The rich value associated with the cell.</param>
+        /// <returns>
+        /// A constructed <see cref="ExcelCellPicture"/> if the rich value contains image data;
+        /// otherwise, <c>null</c>.
+        /// </returns>
+
+        public ExcelCellPicture BuildCellPicture(int row, int col, uint valueMetadataIndex, ExcelRichValue fromRichValue)
+        {
+            fromRichValue?.SetStructure(_sheet.Workbook.RichData.Db);
+            var vmId = _sheet.Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)valueMetadataIndex - 1);
+            var pic = GetExcelCellPictureByRichValue(fromRichValue, row, col, vmId);
+            if (pic == null) return null;
+
+            var cacheKey = CellPictureReferenceCache.CreateKey(pic);
+            _referenceCache.Add(cacheKey, vmId);
+
+            return pic;
         }
     }
 }

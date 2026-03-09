@@ -187,6 +187,36 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(" ", retText);
         }
+        [TestMethod]
+        public void i2278()
+        {
+            using (var package = OpenTemplatePackage("i2278.xlsx"))
+            {
+                using var target = new ExcelPackage();
+                var targetSheet = target.Workbook.Worksheets.Add("Sheet1");
+
+                var worksheet = package.Workbook.Worksheets[0];
+
+                foreach (var drawing in worksheet.Drawings)
+                {
+                    drawing.Copy(targetSheet, drawing.From.Row, drawing.From.Column, drawing.From.RowOff, drawing.From.ColumnOff);
+                }
+
+                SaveAndCleanup(package); 
+            }
+        }
+        [TestMethod]
+        public void i2303()
+        {
+            using (var package = OpenTemplatePackage("i2303.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+                var drawing = sheet.Drawings.First();
+                var image = drawing.As.Picture.Image;
+                
+                SaveAndCleanup(package);
+            }
+        }        
     }
 }
 

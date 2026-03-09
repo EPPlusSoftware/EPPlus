@@ -953,6 +953,9 @@ namespace OfficeOpenXml
         public void Save()
         {
             CheckNotDisposed();
+#if !NET35
+            Workbook.ThrowIfCalculationCanceled();
+#endif
             try
             {
                 if (_stream is MemoryStream && _stream.Length > 0)

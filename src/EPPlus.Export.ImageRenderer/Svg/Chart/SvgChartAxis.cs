@@ -294,6 +294,7 @@ namespace EPPlusImageRenderer.Svg
                 maxWidth = Rectangle.Width / AxisValues.Count;
                 maxHeight = SvgChart.ChartArea.Bounds.Height / 3; //TODO: Check this value.
             }
+            double widest=0;
             for (var i = 0; i < AxisValues.Count; i++)
             {
                 var v = AxisValues[i];
@@ -322,9 +323,23 @@ namespace EPPlusImageRenderer.Svg
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
                 tb.Rectangle.SetDrawingPropertiesFill(Axis.Fill, axisStyle.FillReference.Color);
+
+                if(widest < tb.Width)
+                {
+                    widest = tb.Width;
+                }
                 ret.Add(tb);
             }
-            //ret[0].TextBody.SetHorizontalAlignmentPosition();
+
+            if(Axis.IsVertical)
+            {
+                //If the axis is vertical, we need to adjust the left position of the textboxes to align them to the right and not have them overlap with the axis line.
+                foreach(var tb in ret)
+                {
+                    tb.Left += (widest - tb.Width);
+                }
+            }
+
             return ret;
         }
 

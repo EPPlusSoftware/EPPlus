@@ -36,19 +36,16 @@ namespace OfficeOpenXml.Drawing
         /// <param name="topNode"></param>
         /// <param name="path"></param>
         /// <param name="schemaNodeOrder"></param>
-        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null) :
+        /// <param name="initXml"></param>
+        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null, Action initXml=null) :
             base(ns, topNode)   
         {
             _pictureRelationDocument = pictureRelationDocument;
             _path = path;
 
-            _initXml = null;
+            _initXml = initXml;
 			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
-
-        string ctTextBodyPath;
-
-
         /// <summary>
         /// The anchoring position within the shape
         /// </summary>
