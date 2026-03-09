@@ -129,7 +129,7 @@ namespace EPPlusImageRenderer.Svg
                     rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = sc.Title.Rectangle.Top+ sc.Title.Rectangle.Height + MiddleMargin;
+                        rect.Top = sc.Title.Rectangle.Top + sc.Title.Rectangle.Height + MiddleMargin;
                     }
                     else 
                     {

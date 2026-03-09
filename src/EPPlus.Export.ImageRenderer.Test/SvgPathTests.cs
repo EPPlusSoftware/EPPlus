@@ -557,6 +557,22 @@ namespace TestProject1
         }
 
 
+
+        [TestMethod]
+        public void GenerateDataLabelsTrueMost()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datalabelsSvgTrueMost.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\datalabelsTrueMost.svg", svg);
+            }
+        }
+
+
         [TestMethod]
         public void OpenRightAligned()
         {

@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
@@ -19,6 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var isPercentStacked = Chart.IsTypePercentStacked();
             var xValues = new List<List<object>>();
             var yValues = new List<List<object>>();
+            int serCounter = 0;
 
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
@@ -30,9 +32,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel)
                 {
-                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, xValue, yValue);
+                   
+                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, xValue, yValue, serCounter);
                     serieDataLabels.Add(datalabel);
                 }
+                serCounter++;
             }
 
             if (Chart.IsTypeStacked())
@@ -115,8 +119,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     if(serieDataLabel != null)
                     {
-                        serieDataLabel.dlblTextBoxes[i].Left = xPos;
-                        serieDataLabel.dlblTextBoxes[i].Top = yPos;
+                        var gBounds = new BoundingBox(xPos, yPos, 0, 0);
+                        serieDataLabel.groupItems.Add(new SvgGroupItem(_svgChart, gBounds));
                     }
                 }
                 if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
@@ -133,8 +137,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     if (serieDataLabel != null)
                     {
-                        serieDataLabel.dlblTextBoxes[i].Left = xPos;
-                        serieDataLabel.dlblTextBoxes[i].Top = yPos;
+                        var gBounds = new BoundingBox(xPos, yPos, 0, 0);
+                        serieDataLabel.groupItems.Add(new SvgGroupItem(_svgChart, gBounds));
                     }
                 }
             }

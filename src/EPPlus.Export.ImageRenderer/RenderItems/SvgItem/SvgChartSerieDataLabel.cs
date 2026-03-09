@@ -24,25 +24,39 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgChartSerieDataLabel : SvgChartObject
     {
-        internal List<SvgTextBox> dlblTextBoxes = new List<SvgTextBox>();
+        //positioning is handled by parent item via these
+        internal List<SvgGroupItem> groupItems = new List<SvgGroupItem>();
 
+        private List<SvgTextBox> dlblTextBoxes = new List<SvgTextBox>();
+        private RenderItem seriesIcon = null;
+        
         string separator;
 
-        public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues) : base(chart)
+        public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
                 separator = string.IsNullOrEmpty(dlblSerie.Separator) ? "," : dlblSerie.Separator;
 
-                //string dlblStr = "";
+                if(dlblSerie.ShowLegendKey)
+                {
+                    SvgChartLegend legendItem = null;
+                    if (chart.Legend == null)
+                    {
+                        legendItem = dlblSerie.ShowLegendKey == false ? null : new SvgChartLegend(chart);
+                    }
+                    else
+                    {
+                        legendItem = chart.Legend;
+                    }
+                    var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[index].SeriesIcon;
+                    var clonedIcon = seriesIconOrig.Clone(chart);
 
-                ////dlblStr +=""
-                ////StringBuilder sb = new StringBuilder();
-                //if (dlblSerie.ShowSeriesName)
-                //{
-                //    dlblStr += serie.Header;
-                //    //AppendToDatalabelStr(sb, serie.Header);
-                //}
+                    clonedIcon.Y1 = 0;
+                    clonedIcon.Y2 = 0;
+
+                    seriesIcon = clonedIcon;
+                }
 
                 for (int i = 0; i < serie.NumberOfItems; i++)
                 {
@@ -97,42 +111,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            SvgGroupItem groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
-            renderItems.Add(groupItem);
-
-            foreach (var renderItem in dlblTextBoxes)
+            for(int i = 0; i< groupItems.Count; i++) 
             {
-                renderItem.AppendRenderItems(renderItems);
+                if (seriesIcon != null)
+                {
+                    groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
+                    groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
+                    dlblTextBoxes[i].Left += seriesIcon.Bounds.Width + dlblTextBoxes[i].LeftMargin;
+                }
+
+                renderItems.Add(groupItems[i]);
+                renderItems.Add(seriesIcon);
+                dlblTextBoxes[i].AppendRenderItems(renderItems);
+
+                renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
-
-            renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         }
-
-        //internal void AppendToDatalabelStr(StringBuilder sb, string toAppend)
-        //{
-        //    sb.Append(toAppend);
-        //    sb.Append(separator);
-        //}
-
-        //internal string GetDatalabelString(ExcelChartSerieDataLabel dlbl, ExcelChartStandardSerie serie)
-        //{
-        //    var dlblStr = "";
-
-        //    //if(dlbl.ShowValue)
-        //    //{
-               
-        //    //}
-        //    //if(dlbl.ShowSeriesName)
-        //    //{
-        //    //    dlb
-        //    //}
-        //}
-
-        //public override RenderItemType Type => throw new NotImplementedException();
-
-        //public override void Render(StringBuilder sb)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
