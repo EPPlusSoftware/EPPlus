@@ -33,9 +33,9 @@ namespace EPPlusImageRenderer.Svg
         
         List<TextMeasurement> _seriesHeadersMeasure =new List<TextMeasurement>();
         ITextMeasurer _ttMeasurer;
-        const int MarginExtra = 2;
-        const int MiddleMargin = 10;
-        const int LineLength = 28;
+        const float MarginExtra = 1.5f;
+        const float MiddleMargin = 7.5f;
+        const float LineLength = 21;
         internal SvgChartLegend(SvgChart sc) : base(sc)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
