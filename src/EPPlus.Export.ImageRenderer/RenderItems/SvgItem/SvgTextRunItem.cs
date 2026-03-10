@@ -6,6 +6,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Globalization;
@@ -15,6 +16,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgTextRunItem : TextRunItem
     {
+        public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, MeasurementFont font, string displayText) : base(renderer, parent, font, displayText)
+        {
+        }
+
         public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(renderer,parent, run, displayText)
         {
         }

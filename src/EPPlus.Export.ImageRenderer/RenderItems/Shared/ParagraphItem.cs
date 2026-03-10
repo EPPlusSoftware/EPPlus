@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
@@ -53,6 +54,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
+
+            _measurer = new FontMeasurerTrueType(defaultFont);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, _measurer);
         }
 
         public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
@@ -167,6 +171,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return targetTxtRun;
         }
 
+        public void AddText(string text, double prevWidth)
+        {
+            var container = CreateTextRun(_paragraphFont, Bounds, text);
+            Runs.Add(container);
+
+            container.Bounds.Name = $"Container{Runs.Count}";
+            container.Bounds.Left = prevWidth;
+        }
         public void AddText(string text, ExcelTextFont font, bool isOld)
         {
             var measurer = new FontMeasurerTrueType();
@@ -194,6 +206,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             container.Bounds.Left = prevWidth;
         }
 
+        void GenerateTextFragments(string text)
+        {
+            _newTextFragments = new List<TextFragment>();
+
+            if (string.IsNullOrEmpty(text) == false)
+            {
+                var currentFrag = new TextFragment() { Text = text, Font = _paragraphFont};
+                _newTextFragments.Add(currentFrag);
+            }
+        }
+
         /// <summary>
         /// Log linebreak positions and sizes of the runs
         /// So that we can easily know what textfragment is on what line and what size it has later
@@ -215,7 +238,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 fontSizes.Add(runFont.Size);
             }
 
-            _textFragments = new TextFragmentCollection(runContents, fontSizes);
+            //_textFragments = new TextFragmentCollection(runContents, fontSizes);
 
             _newTextFragments = new List<EPPlus.Fonts.OpenType.Integration.TextFragment>();
 
@@ -227,6 +250,97 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     _newTextFragments.Add(currentFrag);
                 }
             }
+        }
+
+        internal void AddLinesAndTextRuns(string textIfEmpty)
+        {
+            GenerateTextFragments(textIfEmpty);
+            var lines = new List<TextLineSimple>();
+
+            var measurer = new FontMeasurerTrueType();
+            var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
+            lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, _paragraphFont, maxWidth);
+            bool lineSpacingIsExact = _lsMultiplier.HasValue == false;
+            double runLineSpacing = 0;
+            double greatestWidth = 0;
+            //In points
+            double lastDescent = 0;
+
+            if (lines != null && lines.Count != 0)
+            {
+                //This could be moved into a textLines collection class
+                //START
+                var idxOfLargestLine = 0;
+                double widthOfLargestLine = lines[0].Width;
+
+                for (int i = 1; i < lines.Count; i++)
+                {
+                    if (lines[i].Width > widthOfLargestLine)
+                    {
+                        var ctrLineWidth = lines[i].GetWidthWithoutTrailingSpaces();
+                        widthOfLargestLine = ctrLineWidth;
+                        idxOfLargestLine = i;
+                    }
+                }
+                //END
+
+                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize)
+                {
+                    //Bounds of the paragraph should be bounds of the text itself.
+                    //Therefore we must know the starting point to set accurate left and offset from left.
+                    Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                }
+
+                foreach (var line in lines)
+                {
+                    double prevWidth = 0;
+
+                    if (HorizontalAlignment == eTextAlignment.Center)
+                    {
+                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                        prevWidth = (widthOfLargestLine - ctrLineWidth) / 2;
+                    }
+                    else if (HorizontalAlignment == eTextAlignment.Right)
+                    {
+                        //Note that the actual bounds with the space will be outside max bounds.
+                        //This appears to be how excel does it
+                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                        prevWidth = widthOfLargestLine - ctrLineWidth;
+                    }
+
+                    if (lineSpacingIsExact == false)
+                    {
+                        runLineSpacing += line.LargestAscent + lastDescent;
+                    }
+                    else
+                    {
+                        runLineSpacing += ParagraphLineSpacing;
+                    }
+                    if (line.GetWidthWithoutTrailingSpaces() > greatestWidth)
+                    {
+                        greatestWidth = line.GetWidthWithoutTrailingSpaces();
+                    }
+
+                    foreach (var lineFragment in line.LineFragments)
+                    {
+                        var displayText = line.GetLineFragmentText(lineFragment);
+
+                        if (string.IsNullOrEmpty(textIfEmpty) == false)
+                        {
+                            AddText(displayText, prevWidth);
+                        }
+
+                        TextRunItem runItem = Runs.Last();
+                        runItem.YPosition = runLineSpacing;
+
+                        runItem.Bounds.Width = lineFragment.Width;
+                        prevWidth += lineFragment.Width;
+                    }
+                    lastDescent = line.LargestDescent;
+                }
+            }
+            Bounds.Height = runLineSpacing + lastDescent;
+            Bounds.Width = greatestWidth;
         }
 
         private void AddLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
@@ -296,13 +410,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         if (HorizontalAlignment == eTextAlignment.Center)
                         {
                             var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-
-                            //var LeftForLargestLine = _centerAdjustment.Value - (widthOfLargestLine / 2);
-                            //var LeftForCurrentLine = _centerAdjustment.Value - (ctrLineWidth / 2);
-
-                            //Calculate distance/offset between the Left of this paragraph(LeftForLargestLine) and the Left of currentLine
-                            //prevWidth = LeftForCurrentLine - LeftForLargestLine;
-
                             //Calculate difference in widths and split to get offset between leftmost position and current line
                             prevWidth = (widthOfLargestLine - ctrLineWidth) / 2;
                         }
@@ -396,5 +503,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <returns></returns>
         internal abstract TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
         internal abstract TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
+        internal abstract TextRunItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText);
     }
 }

@@ -45,6 +45,16 @@ namespace EPPlusImageRenderer
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
 
+        //public string RenderTestCanvas(double widthPixel, double heightPixel, Color bgColor)
+        //{
+
+        //}
+
+        //public string RenderBaseItemToSvg(DrawingBase drawing)
+        //{
+
+        //}
+
         ////Attempt at ensuring features can be created/tested individually by the system
         ////Without relying on having a whole workbook or epplus project.
         ////Simply: Does our positioning, sizing and parent hierarchy logic work as expected or not.
@@ -129,7 +139,7 @@ namespace EPPlusImageRenderer
 
         //    //StreamReader reader = new StreamReader(ms);
         //    //retStr = reader.ReadToEnd();
-            
+
         //    ////SvgParagraph para = new SvgParagraph(container.GetContent(),);
         //    ////var doc = new SvgEpplusDocument();
         //    //return retStr;
