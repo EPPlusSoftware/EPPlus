@@ -212,7 +212,7 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% Margin Clip End");
             if (PageSettings.ShowGridLines)
             {
-                //contentStream.AddOuterGridBorder(pageLayout);
+                contentStream.AddOuterGridBorder(pageLayout);
             }
             //Add header and footer.
             //AddHeaderFooter(contentStream, pageLayout, page);

@@ -108,7 +108,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest43.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest44.pdf");
         }
 
         static byte[] HexStringToBytes(string hex)

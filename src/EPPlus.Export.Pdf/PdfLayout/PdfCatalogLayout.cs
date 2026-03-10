@@ -19,15 +19,12 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
@@ -47,28 +44,60 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCatalogLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
             : base(0, 0, 0, 0)
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             Name = worksheet.Name + " Catalog";
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
+            sw.Stop();
+            var t1 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
             //CreateFontSubsets(pageSettings, dictionaries.Fonts);
             var PagesLayout = CreatePagesLayoutObject();
+            sw.Stop();
+            var t2 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
             CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
+            sw.Stop();
+            var t3 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
             PopulatePages(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
+            sw.Stop();
+            var t4 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
             //AddCellsToPageLayout(WorksheetLayout, PagesLayout);
             //HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             MoveCellToPageFromContent(pageSettings, dictionaries, PagesLayout);
+            sw.Stop();
+            var t5 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
             ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
+            sw.Stop();
+            var t6 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
             //ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
             //AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
-            AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
-        }
+            sw.Stop();
+            var t7 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
 
-        private void CreateFontSubsets(PdfPageSettings pageSettings, Dictionary<string, PdfFontResource> fonts)
-        {
-            foreach (var font in fonts)
-            {
-                font.Value.CreateSubset();
-            }
+            AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
+            sw.Stop();
+            var t8 = sw.ElapsedMilliseconds;
+            sw.Reset();
         }
 
         //Create the pages layout.
@@ -141,20 +170,63 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        //Internal class for storing bounds for pages
+        private class PageData
+        {
+            public PdfPageLayout Page;
+            public Rect Bounds; // replace BoundingBox with whatever your bounds type is
+
+            public PageData(PdfPageLayout page, Rect bounds)
+            {
+                Page = page;
+                Bounds = bounds;
+            }
+        }
+
+        //Move cells to their overlapping pages.
         private void PopulatePages(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
         {
             var shaperCache = new Dictionary<IFontProvider, TextShaper>();
             var layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
 
-            var transforms = WorksheetLayout.ChildObjects.ToList();
+            var pageData = new List<PageData>();
+            foreach (PdfPageLayout p in pages.ChildObjects)
+                pageData.Add(new PageData(p, p.ChildObjects[0].GetGlobalBoundingbox()));
+            pageData.Sort((a, b) => a.Bounds.Top.CompareTo(b.Bounds.Top));
+            
+            var transforms = new List<Transform>(WorksheetLayout.ChildObjects);
             foreach (var t in transforms)
             {
                 var cellBounds = t.GetGlobalBoundingbox();
-                foreach (PdfPageLayout page in pages.ChildObjects)
+
+                // Pass 1: check if ANY page fully contains this transform. 
+                // If so, we use only that page and skip all partial intersects.
+                PageData fullIntersectPage = null;
+                foreach (var pd in pageData)
                 {
-                    var contentbounds = page.ChildObjects[0].GetGlobalBoundingbox();
-                    bool fullIntersect = IntersectsFully(contentbounds, cellBounds);
-                    bool partialIntersect = Intersects(cellBounds, contentbounds);
+                    if (pd.Bounds.Top > cellBounds.Bottom) break;
+                    if (pd.Bounds.Bottom < cellBounds.Top) continue;
+
+                    if (IntersectsFully(pd.Bounds, cellBounds))
+                    {
+                        fullIntersectPage = pd;
+                        break;
+                    }
+                }
+
+                // Pass 2: assign to pages.
+                foreach (var pd in pageData)
+                {
+                    if (pd.Bounds.Top > cellBounds.Bottom) break;
+                    if (pd.Bounds.Bottom < cellBounds.Top) continue;
+
+                    bool fullIntersect = fullIntersectPage != null && pd == fullIntersectPage;
+                    bool partialIntersect = fullIntersectPage == null && !fullIntersect && Intersects(cellBounds, pd.Bounds);
+
+                    if (!fullIntersect && !partialIntersect) continue;
+
+                    var page = pd.Page;
+
                     if (t is PdfMergedCellLayout merged)
                     {
                         if (fullIntersect)
@@ -162,9 +234,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             page.ChildObjects[0].AddChild(merged);
                             break;
                         }
-                        else if (partialIntersect)
+                        else
                         {
-                            var copy = new PdfMergedCellLayout(dictionaries, merged.cell, merged.CellStyle, merged.LocalPosition.X, merged.LocalPosition.Y + merged.Size.Y, merged.Size.X, merged.Size.Y, merged.LocalScale.X, merged.LocalScale.Y, merged.LocalRotation, WorksheetLayout);
+                            var copy = new PdfMergedCellLayout(dictionaries, merged.cell, merged.CellStyle,
+                                merged.LocalPosition.X, merged.LocalPosition.Y + merged.Size.Y,
+                                merged.Size.X, merged.Size.Y,
+                                merged.LocalScale.X, merged.LocalScale.Y,
+                                merged.LocalRotation, WorksheetLayout);
                             copy.Name = merged.Name;
                             copy.Z = merged.Z;
                             copy.address = merged.address;
@@ -179,139 +255,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             break;
                         }
                     }
-                    else if (t is PdfCellContentLayout content)
+                    else if (t is PdfCellContentLayout cellContent)
                     {
                         if (fullIntersect)
                         {
-                            page.AddCell(content);
-                            for (int i = 0; i < content.TextFormats.Count; i++)
-                            {
-                                var fd = content.TextFormats[i];
-                                fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
-                                //Wraptext
-
-
-                                if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
-                                {
-                                    shaper = new TextShaper(fd.FontProvider);
-                                    shaperCache[fd.FontProvider] = shaper;
-                                }
-
-                                if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
-                                {
-                                    layoutEngine = new TextLayoutEngine(shaper);
-                                    layoutEngineCache[fd.FontProvider] = layoutEngine;
-                                }
-
-                                var options = ShapingOptions.Default;
-                                options.ApplyPositioning = true;
-                                options.ApplySubstitutions = true;
-
-                                // Shape the text
-                                var shaped = shaper.Shape(fd.Text, options);
-
-                                // Get all fonts used in this paragraph (primary + fallbacks like emoji)
-                                var usedFonts = shaper.GetUsedFonts().ToList();
-                                var fontIdMap = new Dictionary<byte, string>();
-
-                                // Register each font globally and map FontId → Resource Index
-                                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
-                                {
-                                    var font = usedFonts[fontId];
-
-                                    // Add to global tracking if new
-                                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
-                                    {
-                                        int label = 1;
-                                        if (dictionaries.Fonts.Count > 0)
-                                        {
-                                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
-                                        }
-                                        dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
-                                        //var manger = dictionaries.Fonts[font.FullName].fontSubsetManager;
-                                        //manger.AddText(fd.Text);
-                                    }
-
-                                    // Map this paragraph's FontId to global resource index
-                                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
-                                }
-                                //content.ShapedText.Add(shaped);
-                                //content.CreateTextShape(dictionaries, shaped);
-                                content.textLayoutEngine = layoutEngine;
-                                fd.ShapedText = shaped;
-                                fd.FontIdMap = fontIdMap;
-                                fd.UsedFonts = usedFonts;
-                                content.TextFormats[i] = fd;
-                                shaper.ResetFontTracking();
-                            }
+                            page.AddCell(cellContent);
+                            LayoutAndShapeContent(pageSettings, dictionaries, shaperCache, layoutEngineCache, cellContent);
                             break;
                         }
-                        else if (partialIntersect)
+                        else
                         {
-                            var copy = new PdfCellContentLayout(content.cell, content.CellStyle, pageSettings, content.LocalPosition.X, content.LocalPosition.Y, content.Size.X, content.Size.Y, content.LocalScale.X, content.LocalScale.Y, content.LocalRotation, WorksheetLayout, dictionaries);
-                            copy.Name = content.Name;
-                            copy.Z = content.Z;
+                            var copy = new PdfCellContentLayout(cellContent.cell, cellContent.CellStyle, pageSettings,
+                                cellContent.LocalPosition.X, cellContent.LocalPosition.Y,
+                                cellContent.Size.X, cellContent.Size.Y,
+                                cellContent.LocalScale.X, cellContent.LocalScale.Y,
+                                cellContent.LocalRotation, WorksheetLayout, dictionaries);
+                            copy.Name = cellContent.Name;
+                            copy.Z = cellContent.Z;
                             page.ChildObjects[0].AddChild(copy);
-                            for (int i = 0; i < content.TextFormats.Count; i++)
-                            {
-                                var fd = content.TextFormats[i];
-                                fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
-                                //Wraptext
-
-
-                                if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
-                                {
-                                    shaper = new TextShaper(fd.FontProvider);
-                                    shaperCache[fd.FontProvider] = shaper;
-                                }
-
-                                if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
-                                {
-                                    layoutEngine = new TextLayoutEngine(shaper);
-                                    layoutEngineCache[fd.FontProvider] = layoutEngine;
-                                }
-
-                                var options = ShapingOptions.Default;
-                                options.ApplyPositioning = true;
-                                options.ApplySubstitutions = true;
-
-                                // Shape the text
-                                var shaped = shaper.Shape(fd.Text, options);
-
-                                // Get all fonts used in this paragraph (primary + fallbacks like emoji)
-                                var usedFonts = shaper.GetUsedFonts().ToList();
-                                var fontIdMap = new Dictionary<byte, string>();
-
-                                // Register each font globally and map FontId → Resource Index
-                                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
-                                {
-                                    var font = usedFonts[fontId];
-
-                                    // Add to global tracking if new
-                                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
-                                    {
-                                        int label = 1;
-                                        if (dictionaries.Fonts.Count > 0)
-                                        {
-                                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
-                                        }
-                                        dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
-                                        //var manger = dictionaries.Fonts[font.FullName].fontSubsetManager;
-                                        //manger.AddText(fd.Text);
-                                    }
-
-                                    // Map this paragraph's FontId to global resource index
-                                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label; //solve this conversin. we have string, object, but this is byte, int. maybe change int to string and use dictaionart.font,label
-                                }
-                                //content.ShapedText.Add(shaped);
-                                //copy.CreateTextShape(dictionaries, shaped);
-                                copy.textLayoutEngine = layoutEngine;
-                                fd.ShapedText = shaped;
-                                fd.FontIdMap = fontIdMap;
-                                fd.UsedFonts = usedFonts;
-                                copy.TextFormats[i] = fd;
-                                shaper.ResetFontTracking();
-                            }
+                            LayoutAndShapeContent(pageSettings, dictionaries, shaperCache, layoutEngineCache, copy);
                         }
                     }
                     else if (t is PdfCellBorderLayout border)
@@ -321,9 +283,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             page.AddCell(border);
                             break;
                         }
-                        else if (partialIntersect)
+                        else
                         {
-                            var copy = new PdfCellBorderLayout(border.cell, null, border.LocalPosition.X, border.LocalPosition.Y + border.Size.Y, border.Size.X, border.Size.Y, border.LocalScale.X, border.LocalScale.Y, border.LocalRotation, WorksheetLayout);
+                            var copy = new PdfCellBorderLayout(border.cell, null,
+                                border.LocalPosition.X, border.LocalPosition.Y + border.Size.Y,
+                                border.Size.X, border.Size.Y,
+                                border.LocalScale.X, border.LocalScale.Y,
+                                border.LocalRotation, WorksheetLayout);
                             copy.Name = border.Name;
                             copy.Z = border.Z;
                             copy.BorderData = border.BorderData;
@@ -335,12 +301,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     else if (t is PdfDrawingLayout drawing)
                     {
                         if (fullIntersect)
+                            break;
+                        else
                         {
-                            //
-                        }
-                        else if (partialIntersect)
-                        {
-                            var copy = new PdfDrawingLayout(null, drawing.LocalPosition.X, drawing.LocalPosition.Y, drawing.Size.X, drawing.Size.Y);
+                            var copy = new PdfDrawingLayout(null,
+                                drawing.LocalPosition.X, drawing.LocalPosition.Y,
+                                drawing.Size.X, drawing.Size.Y);
                             page.ChildObjects[0].AddChild(copy);
                         }
                     }
@@ -348,77 +314,66 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        //Go though all the cells in WorksheetLayout and add them to the overlapping page.
-        private void AddCellsToPageLayout(Transform WorksheetLayout, PdfPagesLayout pages)
+        //Font handling, Text shaping and layouting wrapped text
+        private static void LayoutAndShapeContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, PdfCellContentLayout content)
         {
-            var cells = WorksheetLayout.ChildObjects.Where(x => x is PdfCellLayout || x is PdfCellContentLayout || x is PdfCellBorderLayout).ToList();
-            foreach (var cell in cells)
+            for (int i = 0; i < content.TextFormats.Count; i++)
             {
-                var cellBounds = cell.GetGlobalBoundingbox();
-                foreach (PdfPageLayout page in pages.ChildObjects)
+                var fd = content.TextFormats[i];
+                fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
+                //Wraptext TODO
+
+
+                if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
                 {
-                    var contentbounds = page.ChildObjects[0].GetGlobalBoundingbox();
-                    if (IntersectsFully(contentbounds, cellBounds))
-                    {
-                        page.AddCell(cell);
-                        break;
-                    }
+                    shaper = new TextShaper(fd.FontProvider);
+                    shaperCache[fd.FontProvider] = shaper;
                 }
+
+                if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
+                {
+                    layoutEngine = new TextLayoutEngine(shaper);
+                    layoutEngineCache[fd.FontProvider] = layoutEngine;
+                }
+
+                var options = ShapingOptions.Default;
+                options.ApplyPositioning = true;
+                options.ApplySubstitutions = true;
+
+                // Shape the text
+                var shaped = shaper.Shape(fd.Text, options);
+
+                // Get all fonts used in this paragraph (primary + fallbacks like emoji)
+                var usedFonts = shaper.GetUsedFonts().ToList();
+                var fontIdMap = new Dictionary<byte, string>();
+
+                // Register each font globally and map FontId → Resource Index
+                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
+                {
+                    var font = usedFonts[fontId];
+
+                    // Add to global tracking if new
+                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
+                    {
+                        int label = 1;
+                        if (dictionaries.Fonts.Count > 0)
+                        {
+                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+                        }
+                        dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
+                    }
+                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+                }
+                content.textLayoutEngine = layoutEngine;
+                fd.ShapedText = shaped;
+                fd.FontIdMap = fontIdMap;
+                fd.UsedFonts = usedFonts;
+                content.TextFormats[i] = fd;
+                shaper.ResetFontTracking();
             }
         }
 
-        //Handle merged cells and drawings by checking which pages intersects with them and then make copies for each page.
-        private void HandleMergedCellsAndDrawings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
-        {
-            var mcd = WorksheetLayout.ChildObjects.Where(x => x is PdfMergedCellLayout || x is PdfCellContentLayout || x is PdfCellBorderLayout || x is PdfDrawingLayout).ToList();
-            foreach (var mergedCell in mcd)
-            { 
-                var m = mergedCell as PdfMergedCellLayout;
-                var c = mergedCell as PdfCellContentLayout;
-                var b = mergedCell as PdfCellBorderLayout;
-                var d = mergedCell as PdfDrawingLayout;
-                var bounds = mergedCell.GetGlobalBoundingbox();
-                int index = 0;
-                foreach (var page in pages.ChildObjects)
-                {
-                    if (Intersects(bounds, page.ChildObjects[0].GetGlobalBoundingbox()))
-                    {
-                        if (m is PdfMergedCellLayout)
-                        {
-                            var copy = new PdfMergedCellLayout(dictionaries, m.cell, m.CellStyle, m.LocalPosition.X, m.LocalPosition.Y + m.Size.Y, m.Size.X, m.Size.Y, m.LocalScale.X, m.LocalScale.Y, m.LocalRotation, WorksheetLayout);
-                            copy.Name = m.Name;
-                            copy.Z = m.Z;
-                            copy.address = m.address;
-                            page.ChildObjects[0].InsertChildAt(copy, index);
-                        }
-                        else if (c is PdfCellContentLayout)
-                        {
-                            var copy = new PdfCellContentLayout(c.cell, c.CellStyle, pageSettings, c.LocalPosition.X, c.LocalPosition.Y, c.Size.X, c.Size.Y, c.LocalScale.X, c.LocalScale.Y, c.LocalRotation, WorksheetLayout, dictionaries);
-                            copy.Name = c.Name;
-                            copy.Z = c.Z;
-                            page.ChildObjects[0].InsertChildAt(copy, index);
-                        }
-                        else if (b is PdfCellBorderLayout)
-                        {
-                            var copy = new PdfCellBorderLayout(b.cell, null, b.LocalPosition.X, b.LocalPosition.Y + b.Size.Y, b.Size.X, b.Size.Y, b.LocalScale.X, b.LocalScale.Y, b.LocalRotation, WorksheetLayout);
-                            copy.Name = b.Name;
-                            copy.Z = b.Z;
-                            copy.BorderData = b.BorderData;
-                            copy.range = b.range;
-                            copy.IsMerged = b.IsMerged;
-                            page.ChildObjects[0].InsertChildAt(copy, index);
-                        }
-                        else if (d is PdfDrawingLayout) //NOT IMPLEMENTED
-                        {
-                            var copy = new PdfDrawingLayout(null, d.LocalPosition.X, d.LocalPosition.Y, d.Size.X, d.Size.Y);
-                            page.ChildObjects[0].InsertChildAt(copy, index);
-                        }
-                    }
-                    index++;
-                }
-            }
-        }
-
+        //Create a map for page
         private void MoveCellToPageFromContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPagesLayout pages)
         {
             List<string> entriesToRemove = new();
@@ -491,10 +446,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         page.Map[localFromRow, localFromCol].RightTextBucketSpill = page.Map[localFromRow, localFromCol].content != null ? page.Map[localFromRow, localFromCol].content.RightTextSpillLength : 0d;
                         page.Map[localFromRow, localFromCol].LeftTextBucketSpill = page.Map[localFromRow, localFromCol].content != null ? page.Map[localFromRow, localFromCol].content.LeftTextSpillLength : 0d;
                     }
-                    //else if (child is PdfCellContentLayout cl)
-                    //{
-                    //    cl.CreateTextShape(dictionaries);
-                    //}
                 }
                 page.RemoveChild(page.ChildObjects[0]);
                 foreach (var entry in entriesToRemove)
@@ -516,6 +467,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var rowCount = page.ToRow - page.FromRow + 1;
                 var colCount = page.ToCol - page.FromCol + 1;
 
+                // ── Interior vertical lines ──────────────────────────────────────────
                 var activeVertical = new Dictionary<int, VerticalLineRun>();
                 Action<int> flushVertical = delegate (int col)
                 {
@@ -524,7 +476,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         double x = page.Map[run.RowStart, col].cell.LocalPosition.X;
                         double y1 = page.Map[run.RowStart, col].cell.LocalPosition.Y;
-                        double y2 = page.Map[run.RowEnd, col].cell.LocalPosition.Y + page.Map[run.RowStart, col].cell.Size.Y;
+                        double y2 = page.Map[run.RowEnd, col].cell.LocalPosition.Y
+                                  + page.Map[run.RowEnd, col].cell.Size.Y;
                         page.GridLines.Add(new GridLine(x, y1, x, y2));
                         activeVertical.Remove(col);
                     }
@@ -535,9 +488,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (activeVertical.TryGetValue(c, out run))
                     {
                         if (run.RowEnd == r - 1)
-                        {
                             run.RowEnd = r;
-                        }
                         else
                         {
                             flushVertical(c);
@@ -550,6 +501,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                 };
 
+                // ── Interior horizontal lines ────────────────────────────────────────
                 var activeHorizontal = new Dictionary<int, HorizontalLineRun>();
                 Action<int> flushHorizontal = delegate (int row)
                 {
@@ -558,8 +510,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         double y = page.Map[row, run.ColStart].cell.LocalPosition.Y;
                         double x1 = page.Map[row, run.ColStart].cell.LocalPosition.X;
-                        double x2 = page.Map[row, run.ColEnd].cell.LocalPosition.X + page.Map[row, run.ColEnd].cell.Size.X;
-                        page.GridLines.Add(new GridLine ( x1, y, x2, y ));
+                        double x2 = page.Map[row, run.ColEnd].cell.LocalPosition.X
+                                  + page.Map[row, run.ColEnd].cell.Size.X;
+                        page.GridLines.Add(new GridLine(x1, y, x2, y));
                         activeHorizontal.Remove(row);
                     }
                 };
@@ -569,9 +522,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (activeHorizontal.TryGetValue(r, out run))
                     {
                         if (run.ColEnd == c - 1)
-                        {
                             run.ColEnd = c;
-                        }
                         else
                         {
                             flushHorizontal(r);
@@ -584,19 +535,17 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                 };
 
+                // ── Main loop ────────────────────────────────────────────────────────
                 for (int row = 0; row < rowCount; row++)
                 {
-                    // flush horizontal runs not continued into this row
-                    var hKeys = new List<int>(activeHorizontal.Keys);
-                    foreach (int key in hKeys)
+                    // Flush horizontal runs not continued into this row
+                    foreach (int key in new List<int>(activeHorizontal.Keys))
                         flushHorizontal(key);
 
-                    // flush vertical runs that didn't continue
-                    var vKeys = new List<int>(activeVertical.Keys);
-                    foreach (int key in vKeys)
+                    // Flush vertical runs that didn't continue
+                    foreach (int key in new List<int>(activeVertical.Keys))
                     {
-                        VerticalLineRun run = activeVertical[key];
-                        if (run.RowEnd < row)
+                        if (activeVertical[key].RowEnd < row)
                             flushVertical(key);
                     }
 
@@ -608,24 +557,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         if (col != 0) leftCell = page.Map[row, col - 1];
                         if (col != colCount - 1) rightCell = page.Map[row, col + 1];
 
-                        //Check for text that spills into other cells. Used for gridlines
-
-                        //Check text spill from left cell
+                        // ── Text-spill propagation (unchanged) ───────────────────────
                         if (leftCell.cell != null)
                         {
                             if (leftCell.content != null)
                             {
                                 if (leftCell.content.RightTextSpillLength > 0d)
-                                {
                                     cell.RightTextBucketSpill = leftCell.content.RightTextSpillLength - cell.cell.Size.X;
-                                }
                             }
                             else if (leftCell.RightTextBucketSpill > 0d)
                             {
                                 cell.RightTextBucketSpill = leftCell.RightTextBucketSpill - cell.cell.Size.X;
                             }
                         }
-                        //check text spill to right //gör denna också för  left cell...
+
                         if (cell.content != null)
                         {
                             if (cell.content.LeftTextSpillLength > 0d)
@@ -640,7 +585,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                         break;
                                     }
                                     prevCell.LeftTextBucketSpill = spill - prevCell.cell.Size.X;
-                                    spill = spill - prevCell.cell.Size.X;
+                                    spill -= prevCell.cell.Size.X;
                                     page.Map[row, i - 1] = prevCell;
                                     if (spill <= 0d) break;
                                 }
@@ -649,71 +594,267 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             cell.content.GidsAndCharMap(dictionaries);
                         }
 
-                        //Collect gridlines
+                        // ── Gridline collection ──────────────────────────────────────
 
-                        //Check Top edge
-                        bool hasTop = row > 0;
-                        var top = hasTop ? page.Map[row - 1, col] : default;
-
-                        bool differentTop = !hasTop || top.cell != cell.cell;
-
-                        bool borderTop = hasTop && (top.border != null && cell.border != null &&
-                            (top.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None || cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None));
-
-                        if (differentTop && !borderTop)
-                            AddHorizontalSegment(row, col);
-
-                        //Check Bottom edge
-                        if (row == page.RowCount - 1)
+                        // Interior horizontal — only between two rows (skip top page edge)
+                        if (row > 0)
                         {
-                            if (cell.border != null && cell.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None)
-                            {
-                                AddHorizontalSegment(row + 1, col);
-                            }
+                            var t = page.Map[row - 1, col];
+                            bool differentTop = t.cell != cell.cell;
+                            bool borderTop = t.border != null && cell.border != null &&
+                                (t.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None ||
+                                 cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None);
+
+                            if (differentTop && !borderTop)
+                                AddHorizontalSegment(row - 1, col);
                         }
 
-                        //Check Left edge
-                        bool hasLeft = col > 0;
-                        var left = hasLeft ? page.Map[row, col - 1] : default;
-
-                        bool differentLeft = !hasLeft || left.cell != cell.cell;
-
-                        bool spillLeft = hasLeft &&
-                            (left.RightTextBucketSpill > 0 || cell.LeftTextBucketSpill > 0);
-
-                        bool borderLeft = hasLeft && ((left.border != null && left.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None) || (cell.border != null && cell.border.BorderData.Left.BorderStyle != ExcelBorderStyle.None));
-
-                        if (differentLeft && !spillLeft && !borderLeft)
-                            addVertical(row, col);
-
-                        //Check Right edge
-                        if (col == page.ColCount - 1)
+                        // Interior vertical — only between two columns (skip left page edge)
+                        if (col > 0)
                         {
-                            if (cell.border != null && cell.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None &&
-                                cell.RightTextBucketSpill <= 0)
-                            {
-                                //addVertical(row, col + 1);
-                            }
+                            var l = page.Map[row, col - 1];
+                            bool differentLeft = l.cell != cell.cell;
+                            bool spillLeft = l.RightTextBucketSpill > 0 || cell.LeftTextBucketSpill > 0;
+                            bool borderLeft = (l.border != null && l.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None) ||
+                                                (cell.border != null && cell.border.BorderData.Left.BorderStyle != ExcelBorderStyle.None);
+
+                            if (differentLeft && !spillLeft && !borderLeft)
+                                addVertical(row, col);
                         }
 
-
-                        /*if (page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);*/
                         page.Map[row, col] = cell;
                     }
                 }
-                // final flush
+
+                // ── Final flush ──────────────────────────────────────────────────────
                 foreach (int key in new List<int>(activeVertical.Keys))
                     flushVertical(key);
-
                 foreach (int key in new List<int>(activeHorizontal.Keys))
                     flushHorizontal(key);
-                //create gridlines
-                //make adjustments
-                //AddHeaderFooter
-                //remove unused cells
-                //sort
+
+                var tl = page.Map[0, 0].cell; // bottom-left
+                var br = page.Map[0, colCount - 1].cell; // bottom-right
+                var bl = page.Map[rowCount - 1, 0].cell; // top-left
+                var tr = page.Map[rowCount - 1, colCount - 1].cell; // top-right
+
+                double left = bl.LocalPosition.X;
+                double right = br.LocalPosition.X + br.Size.X;
+                double bottom = bl.LocalPosition.Y;
+                double top = tl.LocalPosition.Y + tl.Size.Y;
+
+                page.BorderLines.Add(new GridLine(left, bottom, right, bottom)); // bottom
+                page.BorderLines.Add(new GridLine(left, top, right, top));    // top
+                page.BorderLines.Add(new GridLine(left, bottom, left, top));    // left
+                page.BorderLines.Add(new GridLine(right, bottom, right, top));    // right
             }
         }
+
+        //Create gridlines
+        //private void ProocessPageAndCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPagesLayout pages)
+        //{
+        //    foreach (PdfPageLayout page in pages.ChildObjects)
+        //    {
+        //        var rowCount = page.ToRow - page.FromRow + 1;
+        //        var colCount = page.ToCol - page.FromCol + 1;
+
+        //        var activeVertical = new Dictionary<int, VerticalLineRun>();
+        //        Action<int> flushVertical = delegate (int col)
+        //        {
+        //            VerticalLineRun run;
+        //            if (activeVertical.TryGetValue(col, out run))
+        //            {
+        //                double x = page.Map[run.RowStart, col].cell.LocalPosition.X;
+        //                double y1 = page.Map[run.RowStart, col].cell.LocalPosition.Y;
+        //                double y2 = page.Map[run.RowEnd, col].cell.LocalPosition.Y + page.Map[run.RowStart, col].cell.Size.Y;
+        //                page.GridLines.Add(new GridLine(x, y1, x, y2));
+        //                activeVertical.Remove(col);
+        //            }
+        //        };
+        //        Action<int, int> addVertical = delegate (int r, int c)
+        //        {
+        //            VerticalLineRun run;
+        //            if (activeVertical.TryGetValue(c, out run))
+        //            {
+        //                if (run.RowEnd == r - 1)
+        //                {
+        //                    run.RowEnd = r;
+        //                }
+        //                else
+        //                {
+        //                    flushVertical(c);
+        //                    activeVertical[c] = new VerticalLineRun { Col = c, RowStart = r, RowEnd = r };
+        //                }
+        //            }
+        //            else
+        //            {
+        //                activeVertical[c] = new VerticalLineRun { Col = c, RowStart = r, RowEnd = r };
+        //            }
+        //        };
+
+        //        var activeHorizontal = new Dictionary<int, HorizontalLineRun>();
+        //        Action<int> flushHorizontal = delegate (int row)
+        //        {
+        //            HorizontalLineRun run;
+        //            if (activeHorizontal.TryGetValue(row, out run))
+        //            {
+        //                double y = page.Map[row, run.ColStart].cell.LocalPosition.Y;
+        //                double x1 = page.Map[row, run.ColStart].cell.LocalPosition.X;
+        //                double x2 = page.Map[row, run.ColEnd].cell.LocalPosition.X + page.Map[row, run.ColEnd].cell.Size.X;
+        //                page.GridLines.Add(new GridLine(x1, y, x2, y));
+        //                activeHorizontal.Remove(row);
+        //            }
+        //        };
+        //        Action<int, int> AddHorizontalSegment = delegate (int r, int c)
+        //        {
+        //            HorizontalLineRun run;
+        //            if (activeHorizontal.TryGetValue(r, out run))
+        //            {
+        //                if (run.ColEnd == c - 1)
+        //                {
+        //                    run.ColEnd = c;
+        //                }
+        //                else
+        //                {
+        //                    flushHorizontal(r);
+        //                    activeHorizontal[r] = new HorizontalLineRun { Row = r, ColStart = c, ColEnd = c };
+        //                }
+        //            }
+        //            else
+        //            {
+        //                activeHorizontal[r] = new HorizontalLineRun { Row = r, ColStart = c, ColEnd = c };
+        //            }
+        //        };
+
+        //        for (int row = 0; row < rowCount; row++)
+        //        {
+        //            // flush horizontal runs not continued into this row
+        //            var hKeys = new List<int>(activeHorizontal.Keys);
+        //            foreach (int key in hKeys)
+        //                flushHorizontal(key);
+
+        //            // flush vertical runs that didn't continue
+        //            var vKeys = new List<int>(activeVertical.Keys);
+        //            foreach (int key in vKeys)
+        //            {
+        //                VerticalLineRun run = activeVertical[key];
+        //                if (run.RowEnd < row)
+        //                    flushVertical(key);
+        //            }
+
+        //            for (int col = 0; col < colCount; col++)
+        //            {
+        //                var cell = page.Map[row, col];
+        //                PageMap leftCell = new PageMap();
+        //                PageMap rightCell = new PageMap();
+        //                if (col != 0) leftCell = page.Map[row, col - 1];
+        //                if (col != colCount - 1) rightCell = page.Map[row, col + 1];
+
+        //                //Check for text that spills into other cells. Used for gridlines
+
+        //                //Check text spill from left cell
+        //                if (leftCell.cell != null)
+        //                {
+        //                    if (leftCell.content != null)
+        //                    {
+        //                        if (leftCell.content.RightTextSpillLength > 0d)
+        //                        {
+        //                            cell.RightTextBucketSpill = leftCell.content.RightTextSpillLength - cell.cell.Size.X;
+        //                        }
+        //                    }
+        //                    else if (leftCell.RightTextBucketSpill > 0d)
+        //                    {
+        //                        cell.RightTextBucketSpill = leftCell.RightTextBucketSpill - cell.cell.Size.X;
+        //                    }
+        //                }
+        //                //check text spill to right //gör denna också för  left cell...
+        //                if (cell.content != null)
+        //                {
+        //                    if (cell.content.LeftTextSpillLength > 0d)
+        //                    {
+        //                        double spill = cell.content.LeftTextSpillLength;
+        //                        for (int i = col; i > 0; i--)
+        //                        {
+        //                            var prevCell = page.Map[row, i - 1];
+        //                            if (prevCell.content != null)
+        //                            {
+        //                                cell.content.CreateClippingRect(cell.cell, prevCell.cell.LocalPosition.X + prevCell.cell.Size.X);
+        //                                break;
+        //                            }
+        //                            prevCell.LeftTextBucketSpill = spill - prevCell.cell.Size.X;
+        //                            spill = spill - prevCell.cell.Size.X;
+        //                            page.Map[row, i - 1] = prevCell;
+        //                            if (spill <= 0d) break;
+        //                        }
+        //                    }
+
+        //                    cell.content.GidsAndCharMap(dictionaries);
+        //                }
+
+        //                //Collect gridlines
+
+        //                //Check Top edge
+        //                bool hasTop = row > 0;
+        //                var top = hasTop ? page.Map[row - 1, col] : default;
+
+        //                bool differentTop = !hasTop || top.cell != cell.cell;
+
+        //                bool borderTop = hasTop && (top.border != null && cell.border != null &&
+        //                    (top.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None || cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None));
+
+        //                if (differentTop && !borderTop)
+        //                    AddHorizontalSegment(row, col);
+
+        //                //Check Bottom edge
+        //                if (row == page.RowCount - 1)
+        //                {
+        //                    if (cell.border != null && cell.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None)
+        //                    {
+        //                        AddHorizontalSegment(row + 1, col);
+        //                    }
+        //                }
+
+        //                //Check Left edge
+        //                bool hasLeft = col > 0;
+        //                var left = hasLeft ? page.Map[row, col - 1] : default;
+
+        //                bool differentLeft = !hasLeft || left.cell != cell.cell;
+
+        //                bool spillLeft = hasLeft &&
+        //                    (left.RightTextBucketSpill > 0 || cell.LeftTextBucketSpill > 0);
+
+        //                bool borderLeft = hasLeft && ((left.border != null && left.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None) || (cell.border != null && cell.border.BorderData.Left.BorderStyle != ExcelBorderStyle.None));
+
+        //                if (differentLeft && !spillLeft && !borderLeft)
+        //                    addVertical(row, col);
+
+        //                //Check Right edge
+        //                if (col == page.ColCount - 1)
+        //                {
+        //                    if (cell.border != null && cell.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None &&
+        //                        cell.RightTextBucketSpill <= 0)
+        //                    {
+        //                        //addVertical(row, col + 1);
+        //                    }
+        //                }
+
+
+        //                /*if (page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);*/
+        //                page.Map[row, col] = cell;
+        //            }
+        //        }
+        //        // final flush
+        //        foreach (int key in new List<int>(activeVertical.Keys))
+        //            flushVertical(key);
+
+        //        foreach (int key in new List<int>(activeHorizontal.Keys))
+        //            flushHorizontal(key);
+        //        //create gridlines
+        //        //make adjustments
+        //        //AddHeaderFooter
+        //        //remove unused cells
+        //        //sort
+        //    }
+        //}
 
         //Restore the positions of the content, move content children to page and remove content object.
         private void ConvertToPDFCoordiantes(PdfPageSettings pageSettings, PdfPagesLayout pages, ExcelWorksheet ws)
