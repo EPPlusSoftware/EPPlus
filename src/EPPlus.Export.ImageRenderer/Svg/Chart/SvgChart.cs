@@ -12,9 +12,12 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -115,6 +118,17 @@ namespace EPPlusImageRenderer.Svg
                     HorizontalAxis.Title.TextBox.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.TextBox.Width / 2);
                     HorizontalAxis.Title.TextBox.Top = HorizontalAxis.Rectangle.Bottom;
                 }
+
+                //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
+                if (VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D) 
+                {
+                    var newtop = VerticalAxis.GetPositionInPlotarea(0D) + sc.Plotarea.Rectangle.Top;
+                    var topDiff = HorizontalAxis.Rectangle.Top - newtop;
+                    HorizontalAxis.Rectangle.Top = newtop;
+                    HorizontalAxis.Rectangle.Height += topDiff;
+                    HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                }
+
                 HorizontalAxis.AddTickmarksAndValues();
             }
 
@@ -216,6 +230,27 @@ namespace EPPlusImageRenderer.Svg
                 return margin; 
             }
 
+        }
+
+
+        internal SvgRenderLineItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
+        {
+            const float MarginExtra = 1.5f;
+            const float LineLength = 21;
+
+            var item = new SvgRenderLineItem(this, parentItem);
+            item.SetDrawingPropertiesFill(s.Fill, this.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(s.Border, this.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+
+            float y = (float)parentItem.Top + MarginExtra;
+            float x = 0;
+            item.X1 = x;
+            item.Y1 = y;
+            item.X2 = x + LineLength;
+            item.Y2 = y;
+            item.LineCap = eLineCap.Round;
+
+            return item;
         }
     }
 }

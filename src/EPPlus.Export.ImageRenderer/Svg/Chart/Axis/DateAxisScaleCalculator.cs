@@ -16,11 +16,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale Calculate(double dataMin, double dataMax, double chartHeightPixels, AxisOptions axisOptions = null)
         {
 
-            ComputeAutoAxis(DateTime.FromOADate(dataMin), DateTime.FromOADate(dataMax));
+            ComputeAutoAxis(DateTime.FromOADate(dataMin), DateTime.FromOADate(dataMax), axisOptions.AddPadding);
             var range = dataMax - dataMin;
 
             // Calculate major majorUnit based on range
-            CalculateMajorUnit(axisOptions.LockedMin ?? dataMin, axisOptions.LockedMax ?? dataMax, out double majorValue, out double axisMin, out double axisMax, out double minorUnit, out eTimeUnit majorUnit);
+            CalculateMajorUnit(axisOptions.LockedMin ?? dataMin, axisOptions.LockedMax ?? dataMax, axisOptions.AddPadding, out double majorValue, out double axisMin, out double axisMax, out double minorUnit, out eTimeUnit majorUnit);
             if(axisOptions.LockedInterval.HasValue)
             {
                 majorValue = axisOptions.LockedInterval.Value;
@@ -84,7 +84,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         /// Computes Excel-compatible auto axis min, max, and major unit for a date axis.
         /// If the OOXML already contains explicit min/max values, use those directly instead.
         /// </summary>
-        public static AxisResult ComputeAutoAxis(DateTime dataMin, DateTime dataMax)
+        public static AxisResult ComputeAutoAxis(DateTime dataMin, DateTime dataMax, bool snapInterval)
         {
             double serialMin = ToExcelSerial(dataMin);
             double serialMax = ToExcelSerial(dataMax);
@@ -95,10 +95,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             if (interval == 0)
                 interval = 730; // fallback for very large ranges
 
-            // Step 2: snap outward to multiples of the interval
-            double axisMin = Math.Floor(serialMin / interval) * interval;
-            double axisMax = Math.Ceiling(serialMax / interval) * interval;
-
+            double axisMin = serialMin;
+            double axisMax = serialMax;
+            if (snapInterval)
+            {
+                // Step 2: snap outward to multiples of the interval
+                axisMin = Math.Floor(serialMin / interval) * interval;
+                axisMax = Math.Ceiling(serialMax / interval) * interval;
+            }
+            else
+            {
+                axisMin = serialMin;
+                axisMax = serialMax;
+            }
             // Step 3: expand until we have enough ticks, then re-snap
             while ((axisMax - axisMin) / interval < TargetTicks - 1)
             {
@@ -121,7 +130,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         /// <summary>
         /// Calculate major majorUnit based on data range (in days)
         /// </summary>
-        private static void CalculateMajorUnit(double min, double max,out double majorValue, out double axisMin, out double axisMax, out double minorUnits, out eTimeUnit majorUnit)
+        private static void CalculateMajorUnit(double min, double max, bool snapToInterval, out double majorValue, out double axisMin, out double axisMax, out double minorUnits, out eTimeUnit majorUnit)
         {                        
             var dtMin = DateTime.FromOADate(ExcelNormalizeOADate(min));
             var dtMax = DateTime.FromOADate(ExcelNormalizeOADate(max));
@@ -209,21 +218,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 majorUnit = eTimeUnit.Years;
             }
 
-
-            axisMin = Math.Floor(min / interval) * interval;
-            axisMax = Math.Ceiling(max / interval) * interval;
-            if(axisMax==max)
+            if (snapToInterval)
             {
-                axisMax+= interval;
+                axisMin = Math.Floor(min / interval) * interval;
+                axisMax = Math.Ceiling(max / interval) * interval;
+
+                if (axisMax == max)
+                {
+                    axisMax += interval;
+                }
+                // Step 3: expand until we have enough ticks, then re-snap
+                while ((axisMax - axisMin) / interval < TargetTicks - 1 && ((min - axisMin) < interval * 2))
+                {
+                    axisMin -= majorValue;
+                }
+            }
+            else
+            {
+                axisMin= min;
+                axisMax = max;
             }
 
-            // Step 3: expand until we have enough ticks, then re-snap
-            while ((axisMax - axisMin) / interval < TargetTicks - 1 && ((min-axisMin) < interval * 2))
-            {
-                axisMin -= majorValue;
-            }
-
-            minorUnits = 1;
+             minorUnits = 1;
         }
 
         private static double ExcelNormalizeOADate(double value)

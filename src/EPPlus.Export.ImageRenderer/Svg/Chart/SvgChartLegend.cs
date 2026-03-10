@@ -33,13 +33,13 @@ namespace EPPlusImageRenderer.Svg
         
         List<TextMeasurement> _seriesHeadersMeasure =new List<TextMeasurement>();
         ITextMeasurer _ttMeasurer;
-        const int MarginExtra = 2;
-        const int MiddleMargin = 10;
-        const int LineLength = 28;
-        internal SvgChartLegend(SvgChart sc) : base(sc)
+        const float MarginExtra = 1.5f;
+        const float MiddleMargin = 7.5f;
+        const float LineLength = 21;
+        internal SvgChartLegend(SvgChart sc, bool isDataLabelLegend = false) : base(sc)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            if (sc.Chart.HasLegend == false || sc.Chart.Series.Count == 0)
+            if (sc.Chart.HasLegend == false && isDataLabelLegend == false || sc.Chart.Series.Count == 0)
             {
                 return;
             }
@@ -129,7 +129,7 @@ namespace EPPlusImageRenderer.Svg
                     rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = sc.Title.Rectangle.Top+ sc.Title.Rectangle.Height + MiddleMargin;
+                        rect.Top = sc.Title.Rectangle.Top + sc.Title.Rectangle.Height + MiddleMargin;
                     }
                     else 
                     {

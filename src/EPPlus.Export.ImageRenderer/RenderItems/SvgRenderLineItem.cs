@@ -111,6 +111,18 @@ namespace EPPlusImageRenderer.RenderItems
             CloneBase(clone);
             return clone;
         }
+
+        internal SvgRenderLineItem Clone(DrawingBase baseItem)
+        {
+            var clone = new SvgRenderLineItem(baseItem, baseItem.Bounds);
+            clone.X1 = X1;
+            clone.Y1 = Y1;
+            clone.X2 = X2;
+            clone.Y2 = Y2;
+            CloneBase(clone);
+            return clone;
+        }
+
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = X1;

@@ -57,13 +57,14 @@ namespace EPPlusImageRenderer.Svg
 
             if (ax.Deleted == false || ax.HasMajorGridlines || ax.HasMinorGridlines)
             {
-                Values = GetAxisValue(ax, Rectangle, out double? min, out double? max, out double? majorUnit);
+                Values = GetAxisValue(ax, Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit);
                 AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
                 
                 Min = min ?? 0D;
                 Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
                 MajorUnit = majorUnit ?? 1;
                 MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+                MajorDateUnit = dateUnit;
                 if (ax.Deleted == false)
                 {
                     if (ax.Layout.HasLayout)
@@ -193,6 +194,7 @@ namespace EPPlusImageRenderer.Svg
         public double Max { get; set; }
         public double MajorUnit { get; set; }
         public double MinorUnit { get; set; }
+        public eTimeUnit? MajorDateUnit { get; set; }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             Title?.AppendRenderItems(renderItems);
@@ -243,15 +245,15 @@ namespace EPPlusImageRenderer.Svg
 
 
         internal void AddTickmarksAndValues()
-        {            
+        {
             if (Axis.MajorTickMark != eAxisTickMark.None)
             {
-                MajorAxisPositions = AddTickmarks(MajorUnit,double.NaN, 4, Axis.MajorTickMark);
+                MajorAxisPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4, Axis.MajorTickMark);
             }
 
             if (Axis.MinorTickMark != eAxisTickMark.None)
             {
-                MinorAxisPositions = AddTickmarks(MinorUnit, MajorUnit, 2, Axis.MinorTickMark);
+                MinorAxisPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2, Axis.MinorTickMark);
             }
 
             if(Axis.HasMajorGridlines)
@@ -412,7 +414,7 @@ namespace EPPlusImageRenderer.Svg
 
         }
 
-        private List<SvgRenderLineItem> AddTickmarks(double units, double parentUnit, float tickMarkWidth, eAxisTickMark type)
+        private List<SvgRenderLineItem> AddTickmarks(double units, eTimeUnit? dateUnit, double parentUnit, float tickMarkWidth, eAxisTickMark type)
         {
             var axisStyle = GetAxisStyleEntry();
 
@@ -437,7 +439,8 @@ namespace EPPlusImageRenderer.Svg
             }
 
             var diff = Max - min;
-            for (double d = min; d <= Max; d += units)
+            double d = min;
+            while (d <= Max)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
@@ -479,6 +482,26 @@ namespace EPPlusImageRenderer.Svg
                     tm.SetDrawingPropertiesBorder(Axis.Border, axisStyle.BorderReference.Color, true);
                     tms.Add(tm);
                 }
+                //if (dateUnit.HasValue)
+                //{
+                switch (dateUnit)
+                {
+                    case eTimeUnit.Years:
+                        d = DateTime.FromOADate(d).AddYears((int)units).ToOADate();
+                        break;
+                    case eTimeUnit.Months:
+                        d = DateTime.FromOADate(d).AddMonths((int)units).ToOADate();
+                        break;
+                    default:
+                        d += units;
+                        break;
+                }
+                   // }
+            //    }
+            //    else
+            //    {
+            //        d += units;
+            //    }
             }
             return tms;
         }
@@ -586,7 +609,7 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
-        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit)
+        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit)
         {
             var values = ax.GetAxisValues(out bool isCount);
             if (ax.AxisType == eAxisType.Cat &&
@@ -595,6 +618,7 @@ namespace EPPlusImageRenderer.Svg
                 min = 0;
                 max = values.Length;
                 majorUnit = 1;
+                dateUnit = null;
                 return values.ToList();
             }
             var l = new List<object>();
@@ -631,7 +655,8 @@ namespace EPPlusImageRenderer.Svg
             if(isCount)
             {
                 majorUnit = 1;
-                for(int i=1;i<=max;i++)
+                dateUnit = null;
+                for (int i=1;i<=max;i++)
                 {
                     l.Add(i);
                 }
@@ -640,6 +665,7 @@ namespace EPPlusImageRenderer.Svg
             if (ax.IsDate)
             {
                 var res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                dateUnit = res.MajorDateUnit;
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
                 while (dt < maxDt)
@@ -674,6 +700,7 @@ namespace EPPlusImageRenderer.Svg
                 min = res.Min;
                 max = res.Max;
                 majorUnit = res.MajorInterval;
+                dateUnit= null; 
             }
 
             return l;
