@@ -94,7 +94,28 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public void AddParagraph(double startingY, string text = null)
         {
-            CreateParagraph(this, Bounds, text);
+            var paragraph = CreateParagraph(this, Bounds, text);
+            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
+            paragraph.Bounds.Top = startingY;
+            _text = text;
+
+            if (AutoSize)
+            {
+                if (Paragraphs.Count == 0)
+                {
+                    Bounds.Height = paragraph.Bounds.Height;
+                }
+                else
+                {
+                    Bounds.Height += paragraph.Bounds.Height;
+                }
+
+                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
+                {
+                    Bounds.Width = paragraph.Bounds.Width;
+                }
+            }
+            Paragraphs.Add(paragraph);
         }
 
         internal void SetHorizontalAlignmentPosition()

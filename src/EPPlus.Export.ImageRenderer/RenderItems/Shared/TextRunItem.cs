@@ -4,16 +4,12 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -26,17 +22,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal protected MeasurementFont _measurementFont;
         internal protected bool _isFirstInParagraph;
-        FontMeasurerTrueType _measurer;
-        eTextAlignment _horizontalTextAlignment;
-        MeasurementFontStyles _fontStyles;
+
         internal double FontSizeInPixels { get; private set; }
 
         public List<string> Lines { get; private set; }
-
-        /// <summary>
-        /// Aka total Delta Y
-        /// </summary>
-        double _yEndPos;
 
         protected internal bool _isItalic = false;
         protected internal bool _isBold = false;
@@ -45,12 +34,44 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal Color _underlineColor;
 
         internal double YPosition { get; set; }
-        //internal double LineSpacingPerNewLine { get; set; }
-        //internal double BaseLineSpacing { get; set; }
-
-        //internal List<double> YIncreasePerLine { get; private set; } = new List<double>();
-        //internal List<double> PerLineWidth { get; private set; } = new List<double>();
         internal double ClippingHeight = double.NaN;
+
+        internal TextRunItem(DrawingBase renderer, BoundingBox parent, MeasurementFont font, string displayText) : base(renderer, parent)
+        {
+            _originalText = displayText;
+
+            Bounds.Name = "TextRun";
+            _currentText = displayText;
+
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();    
+            
+            _measurementFont = font;
+            _isFirstInParagraph = true;
+
+            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+            Bounds.Height = _measurementFont.Size;
+            if (parent.Height < _measurementFont.Size)
+            {
+                parent.Height = _measurementFont.Size;
+            }
+
+            //To get clipping height we need to get the textbody bounds
+            if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
+            {
+                ClippingHeight = parent.Parent.Parent.Position.Y + parent.Parent.Parent.Size.Y;
+            }
+            if (Lines.Count == 1)
+            {
+                //Bounds.Width = parent.Width;
+                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
+            }
+            else
+            {
+                //Measure text.
+                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
+            }
+            _underLineType = eUnderLineType.None;
+        }
 
         internal TextRunItem(DrawingBase renderer, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(renderer, parent)
         {
@@ -68,7 +89,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _isFirstInParagraph = true;
 
-            _fontStyles = _measurementFont.Style;
+            //_fontStyles = _measurementFont.Style;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
             Bounds.Height = _measurementFont.Size;
@@ -76,7 +97,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 parent.Height = _measurementFont.Size;
             }
-            _horizontalTextAlignment = eTextAlignment.Center;
+            //_horizontalTextAlignment = eTextAlignment.Center;
 
             if (font.Fill.Style == eFillStyle.SolidFill)
             {
@@ -122,12 +143,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _measurementFont = run.GetMeasurementFont();
 
-            _fontStyles = _measurementFont.Style;
+            //_fontStyles = _measurementFont.Style;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
             Bounds.Height = _measurementFont.Size;
 
-            _horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
+            //_horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
 
             if (run.Fill.IsEmpty == false && run.Fill.Style == eFillStyle.SolidFill)
             {

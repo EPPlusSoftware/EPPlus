@@ -5,6 +5,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Globalization;
 using System.Text;
@@ -21,6 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, string text) : base(textBody, renderer, parent)
         {
+            AddLinesAndTextRuns(text);
         }
 
         public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(textBody, renderer, parent, p, textIfEmpty)
@@ -156,6 +158,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
+        }
+
+        internal override TextRunItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
+        {
+            return new SvgTextRunItem(DrawingRenderer, parent, font, displayText);
         }
     }
 }

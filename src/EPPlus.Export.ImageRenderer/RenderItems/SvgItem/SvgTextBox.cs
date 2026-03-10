@@ -151,5 +151,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             TextBody.ImportParagraph(item, startingY, text);
         }
+
+        internal void AddText(double startingY, string text = null)
+        {
+            TextBody.AddParagraph(startingY, text);
+        }
     }
 }
