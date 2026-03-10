@@ -55,6 +55,11 @@ namespace EPPlusImageRenderer
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
 
+        //public string RenderTestCanvas(double widthPixel, double heightPixel, Color bgColor)
+        //{
+
+        //}
+
         //public string RenderBaseItemToSvg(DrawingBase drawing)
         //{
 
@@ -144,7 +149,7 @@ namespace EPPlusImageRenderer
 
         //    //StreamReader reader = new StreamReader(ms);
         //    //retStr = reader.ReadToEnd();
-            
+
         //    ////SvgParagraph para = new SvgParagraph(container.GetContent(),);
         //    ////var doc = new SvgEpplusDocument();
         //    //return retStr;

@@ -118,10 +118,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
                     groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
                     dlblTextBoxes[i].Left += seriesIcon.Bounds.Width + dlblTextBoxes[i].LeftMargin;
+                    renderItems.Add(groupItems[i]);
+                    renderItems.Add(seriesIcon);
+                }
+                else
+                {
+                    renderItems.Add(groupItems[i]);
                 }
 
                 renderItems.Add(groupItems[i]);
-                renderItems.Add(seriesIcon);
                 dlblTextBoxes[i].AppendRenderItems(renderItems);
 
                 renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
