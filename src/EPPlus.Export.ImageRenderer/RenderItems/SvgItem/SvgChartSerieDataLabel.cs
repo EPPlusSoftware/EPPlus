@@ -10,6 +10,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
@@ -17,6 +18,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 
@@ -27,97 +29,119 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         //positioning is handled by parent item via these
         internal List<SvgGroupItem> groupItems = new List<SvgGroupItem>();
 
-        private List<SvgTextBox> dlblTextBoxes = new List<SvgTextBox>();
         private RenderItem seriesIcon = null;
+        private List<SvgChartDataLabelStandard> dataLabels = new List<SvgChartDataLabelStandard>();
         
         string separator;
 
         public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
+            bool addSeriesIcon = false;
+
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
                 separator = string.IsNullOrEmpty(dlblSerie.Separator) ? "," : dlblSerie.Separator;
 
-                if(dlblSerie.ShowLegendKey)
-                {
-                    if (chart.Legend == null)
-                    {
-                        seriesIcon = chart.GetSeriesIcon(serie, index, maxBounds);
-                    }
-                    else
-                    {
-                        var legendItem = chart.Legend;
-                        var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[index].SeriesIcon;
-                        var clonedIcon = seriesIconOrig.Clone(chart);
-
-                        clonedIcon.Y1 = 0;
-                        clonedIcon.Y2 = 0;
-
-                        seriesIcon = clonedIcon;
-                    }
-
-                }
-
                 for (int i = 0; i < serie.NumberOfItems; i++)
                 {
-                    List<string> dlblStrings = new List<string>();
-
-                    if (dlblSerie.ShowSeriesName)
-                    {
-                        dlblStrings.Add(serie.GetHeaderString());
-                    }
-                    if (dlblSerie.ShowCategory)
-                    {
-                        dlblStrings.Add(xValues[i].ToString());
-                    }
-                    if (dlblSerie.ShowValue)
-                    {
-                        dlblStrings.Add(yValues[i].ToString());
-                    }
-
-                    string finalString = "";
-                    for (int j = 0; j < dlblStrings.Count; j++)
-                    {
-                        finalString += dlblStrings[j];
-                        if (j != dlblStrings.Count - 1)
-                        {
-                            finalString += separator;
-                        }
-                    }
-
-                    var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
-                    txtBox.ImportTextBody(dlblSerie.TextBody);
-
-                    txtBox.TextBody.ImportParagraph(dlblSerie.TextBody.Paragraphs[0], 0, finalString);
-                    //Remove dummy paragraph added by ImportTextBody
-                    txtBox.TextBody.Paragraphs.RemoveAt(0);
-                    //Reset run y-position.
-                    //Datalabel does not use the standard line-spacing textbody offsets
-                    txtBox.TextBody.Paragraphs[0].Runs[0].YPosition = 0;
-
-                    dlblTextBoxes.Add(txtBox);
+                    AddDatalabel(chart, serie, dlblSerie, xValues[i], yValues[i], maxBounds, ref addSeriesIcon);
                 }
             }
             else
             {
-                foreach (var dlbl in dlblSerie.DataLabels)
+                for (int i = 0; i < dlblSerie.DataLabels.Count; i++)
                 {
-                    var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
-                    txtBox.ImportTextBody(dlbl.TextBody);
-                    dlblTextBoxes.Add(txtBox);
+                    var dataLabel = dlblSerie.DataLabels[i];
+                    separator = string.IsNullOrEmpty(dataLabel.Separator) ? "," : dataLabel.Separator;
+
+                    AddDatalabel(chart, serie, dataLabel, xValues[i], yValues[i], maxBounds, ref addSeriesIcon);
                 }
             }
+
+            if(addSeriesIcon)
+            {
+                if (chart.Legend == null)
+                {
+                    seriesIcon = chart.GetSeriesIcon(serie, index, maxBounds);
+                }
+                else
+                {
+                    var legendItem = chart.Legend;
+                    var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[index].SeriesIcon;
+                    var clonedIcon = seriesIconOrig.Clone(chart);
+
+                    clonedIcon.Y1 = 0;
+                    clonedIcon.Y2 = 0;
+
+                    seriesIcon = clonedIcon;
+                }
+            }
+
+        }
+
+        private void AddDatalabel(SvgChart chart, ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds, ref bool addSeriesIcon)
+        {
+            List<string> dlblStrings = new List<string>();
+
+
+            if (addSeriesIcon == false && dataLabel.ShowLegendKey)
+            {
+                addSeriesIcon = dataLabel.ShowLegendKey;
+            }
+
+            if (dataLabel.ShowSeriesName)
+            {
+                dlblStrings.Add(serie.GetHeaderString());
+            }
+            if (dataLabel.ShowCategory)
+            {
+                dlblStrings.Add(xValue.ToString());
+            }
+            if (dataLabel.ShowValue)
+            {
+                dlblStrings.Add(yValue.ToString());
+            }
+
+            string finalString = "";
+            for (int j = 0; j < dlblStrings.Count; j++)
+            {
+                finalString += dlblStrings[j];
+                if (j != dlblStrings.Count - 1)
+                {
+                    finalString += separator;
+                }
+            }
+
+            var txtBox = new SvgTextBox(chart, maxBounds, maxBounds);
+            txtBox.ImportTextBody(dataLabel.TextBody);
+
+            if (txtBox.TextBody.Paragraphs.Count == 0)
+            {
+                txtBox.TextBody.AddParagraph(0, finalString);
+            }
+            else if (txtBox.TextBody.Paragraphs.Count == 1)
+            {
+                txtBox.TextBody.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
+                //Remove dummy paragraph added by ImportTextBody
+                txtBox.TextBody.Paragraphs.RemoveAt(0);
+            }
+            //Reset run y-position.
+            //Datalabel does not use the standard line-spacing textbody offsets
+            txtBox.TextBody.Paragraphs[0].Runs[0].YPosition = 0;
+
+            var newDataLabel = new SvgChartDataLabelStandard(chart, dataLabel, txtBox);
+            dataLabels.Add(newDataLabel);
         }
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             for(int i = 0; i< groupItems.Count; i++) 
             {
-                if (seriesIcon != null)
+                if (seriesIcon != null && dataLabels[i].hasLegendKey)
                 {
                     groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
                     groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
-                    dlblTextBoxes[i].Left += seriesIcon.Bounds.Width + dlblTextBoxes[i].LeftMargin;
+                    dataLabels[i].TxtBox.Left += seriesIcon.Bounds.Width + dataLabels[i].TxtBox.LeftMargin;
                     renderItems.Add(groupItems[i]);
                     renderItems.Add(seriesIcon);
                 }
@@ -126,8 +150,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     renderItems.Add(groupItems[i]);
                 }
 
-                renderItems.Add(groupItems[i]);
-                dlblTextBoxes[i].AppendRenderItems(renderItems);
+                dataLabels[i].TxtBox.AppendRenderItems(renderItems);
 
                 renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
