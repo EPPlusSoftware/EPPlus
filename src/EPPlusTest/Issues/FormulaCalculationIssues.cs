@@ -1472,6 +1472,32 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
         }
+
+        [TestMethod]
+        public void s1018()
+        {
+            SwitchToCulture("fi-FI");
+            using (var package = OpenPackage("testValueAndNumberValue.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("Calculation");
+                ws.Cells["A2"].Value = "-9.388.757,91";
+                ws.Cells["C2"].Formula = "NUMBERVALUE(A2,\",\",\".\")";
+
+                package.Workbook.CalcMode = ExcelCalcMode.Automatic;
+                var options = new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+                {
+                    PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+                    AllowCircularReferences = true,
+                    EnableUnicodeAwareStringOperations = true
+
+                };
+                package.Workbook.Calculate(options);
+
+                Assert.AreEqual(-9388757.91, ws.Cells["C2"].Value);
+            }
+            SwitchBackToCurrentCulture();
+        }
+  
     }
 }
 
