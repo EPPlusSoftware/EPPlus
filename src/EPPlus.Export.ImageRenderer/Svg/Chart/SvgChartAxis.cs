@@ -28,6 +28,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace EPPlusImageRenderer.Svg
@@ -292,7 +293,7 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 maxWidth = Rectangle.Width / AxisValues.Count;
-                maxHeight = SvgChart.ChartArea.Bounds.Height / 3; //TODO: Check this value.
+                maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
             }
             double widest=0;
             for (var i = 0; i < AxisValues.Count; i++)
@@ -301,10 +302,6 @@ namespace EPPlusImageRenderer.Svg
                 var m = tm.MeasureText(v, mf);
                 var x = GetAxisItemLeft(i, m);
                 var y = GetAxisItemTop(i, m);
-                //var tb = new TextBox(Chart, x, y, m.Width, m.Height);
-                //var bounds = new BoundingBox();
-                //bounds.Left = x;
-                //bounds.Top = y;
                 var width = m.Width.PointToPixel();
                 var height = m.Height.PointToPixel();
                 var tb = new SvgTextBox(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
@@ -318,7 +315,6 @@ namespace EPPlusImageRenderer.Svg
                     p.HorizontalAlignment = eTextAlignment.Center;
                 }
 
-                //tb.ImportTextBody(Axis.TextBody);
                 tb.TextBody.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
@@ -337,6 +333,25 @@ namespace EPPlusImageRenderer.Svg
                 foreach(var tb in ret)
                 {
                     tb.Left += (widest - tb.Width);
+                }
+            }
+            else
+            {
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
+                var majorWidth = Rectangle.Width / AxisValues.Count;
+                foreach (var tb in ret)
+                {
+                    switch (lblAlignment)
+                    {
+                        case OfficeOpenXml.eAxisLabelAlignment.Left:
+                            break;
+                        case OfficeOpenXml.eAxisLabelAlignment.Center:
+                            tb.Left += majorWidth / 2 - tb.Width / 2;
+                            break;
+                        case OfficeOpenXml.eAxisLabelAlignment.Right:
+                            tb.Left += majorWidth - tb.Width;
+                            break;
+                    }
                 }
             }
 

@@ -90,7 +90,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
             Paragraphs.Add(paragraph);
-            //SetHorizontalAlignmentPosition();
         }
 
         public void AddParagraph(double startingY, string text = null)

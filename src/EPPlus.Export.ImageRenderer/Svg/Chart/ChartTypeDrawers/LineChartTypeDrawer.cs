@@ -91,14 +91,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
-                //if (xValues == null || xAxis.Axis.AxisType==)
-                //{
+                if (xValues == null || xAxis.Axis.AxisType==eAxisType.Cat)
+                {
                     x = (double)i;
-                //}
-                //else
-                //{
-                //    x = ConvertUtil.GetValueDouble(xValues[i], false, true);
-                //}
+                }
+                else
+                {
+                    x = ConvertUtil.GetValueDouble(xValues[i], false, true);
+                }
 
                 var y = ConvertUtil.GetValueDouble(yValues[i], false, true);
                 var xPos = xAxis.GetPositionInPlotarea(x);

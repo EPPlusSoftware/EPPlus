@@ -513,7 +513,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 3;
+                //var ix = 2;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
@@ -643,16 +643,16 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 2;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
-                }
+                var ix = 2;
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
+                //}
             }
         }
         [TestMethod]
