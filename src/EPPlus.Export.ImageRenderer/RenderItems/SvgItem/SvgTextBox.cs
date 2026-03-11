@@ -99,10 +99,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void ImportTextBody(ExcelTextBody body)
+        internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true)
         {
             double l, r, t, b;
-            body.GetInsetsOrDefaults(out l, out t, out r, out b);
+            if (useDefaults)
+            {
+                body.GetInsetsOrDefaults(out l, out t, out r, out b);
+            }
+            else
+            {
+                body.GetInsetsInPoints(out l, out t, out r, out b);
+            }
             LeftMargin = l;
             TopMargin = t;
             RightMargin = r;

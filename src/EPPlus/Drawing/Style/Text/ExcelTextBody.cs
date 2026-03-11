@@ -436,16 +436,24 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Get Insets in points
         /// </summary>
-        /// <param name="Left"></param>
-        /// <param name="Top"></param>
-        /// <param name="Right"></param>
-        /// <param name="Bottom"></param>
-        internal void GetInsetsOrDefaults(out double Left, out double Top, out double Right, out double Bottom)
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        internal void GetInsetsOrDefaults(out double left, out double top, out double right, out double bottom)
         {
-            Left = LeftInsert ?? DefaultRightLeft;
-            Top = TopInsert ?? DefaultRightLeft;
-            Right = RightInsert ?? DefaultTopBot;
-            Bottom = BottomInsert ?? DefaultTopBot;
+            left = LeftInsert ?? DefaultRightLeft;
+            top = TopInsert ?? DefaultRightLeft;
+            right = RightInsert ?? DefaultTopBot;
+            bottom = BottomInsert ?? DefaultTopBot;
+        }
+
+        internal void GetInsetsInPoints(out double left, out double top, out double right, out double bottom)
+        {
+            left = (LeftInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
+            top = (TopInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
+            right = (RightInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
+            bottom = (BottomInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
         }
 
         ExcelDrawingParagraphCollection _paragraphs = null;

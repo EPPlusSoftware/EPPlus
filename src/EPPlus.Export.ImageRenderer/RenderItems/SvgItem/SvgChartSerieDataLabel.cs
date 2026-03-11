@@ -25,7 +25,7 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgChartSerieDataLabel : SvgChartObject
+    internal class SvgChartSerieDataLabel : DrawingObjectNoBounds
     {
         //positioning is handled by parent item via these
         internal List<SvgGroupItem> groupItems = new List<SvgGroupItem>();
@@ -99,26 +99,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
+        internal void SetPositionOffset(double xPos, double yPos, int i)
+        {
+            dataLabels[i].SetOriginPointOffset(xPos, yPos);
+        }
+
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            for(int i = 0; i< groupItems.Count; i++) 
+            for(int i = 0; i< dataLabels.Count; i++) 
             {
                 if (seriesIcon != null && dataLabels[i].HasLegendKey)
                 {
-                    groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
-                    groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
+                    //groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
+                    //groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
                     dataLabels[i].AddSeriesIcon(seriesIcon.Bounds.Width, seriesIcon.Bounds.Height);
-                    renderItems.Add(groupItems[i]);
+                    //renderItems.Add(groupItems[i]);
                     renderItems.Add(seriesIcon);
                 }
                 else
                 {
-                    renderItems.Add(groupItems[i]);
+                    //renderItems.Add(groupItems[i]);
                 }
 
                 dataLabels[i].AppendRenderItems(renderItems);
 
-                renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
+                //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
         }
     }
