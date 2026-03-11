@@ -122,21 +122,13 @@ namespace EPPlus.Export.Pdf.PdfObjects
             return Dictionaries.Fonts[fontName];
         }
 
-        public void AddText(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        public void AddText(ITextLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
-            var position = cell.LocalPosition;
-            var alignment = cell.CellAlignmentData;
             double advanceX = 0;
-
-            double rotation = alignment.TextRotation * System.Math.PI / 180.0;
-            //bool isVertical = alignment.IsVertical;
-
+            double rotation = textRotation * System.Math.PI / 180.0;
             for (int i = 0; i < cell.TextFormats.Count; i++)
             {
                 byte currentFontId = 0;
-
-
-
                 var textFormat = cell.TextFormats[i];
                 var shapedText = textFormat.ShapedText;
                 var textLength = shapedText.GetWidthInPoints((float)textFormat.FontSize, 2048);
@@ -386,7 +378,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Content Start: {cell.Name}");
             commands.Add("q");
             if (cell.Clip) AddClipping(cell);
-            AddText(cell, dictionaries, pageSettings);
+            AddText(cell, cell.LocalPosition, cell.CellAlignmentData.TextRotation, dictionaries, pageSettings);
             commands.Add("Q");
             commands.Add($"% Content End: {cell.Name}");
         }
@@ -400,7 +392,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             commands.Add($"% HeaderFooter Start: {cell.Name}");
             commands.Add("q");
-            //AddText(cell.LocalPosition, cell.Lines, cell.CellAlignmentData, dictionaries, pageSettings);
+            AddText(cell, cell.LocalPosition, 0, dictionaries, pageSettings);
             commands.Add("Q");
             commands.Add($"% HeaderFooter End: {cell.Name}");
         }

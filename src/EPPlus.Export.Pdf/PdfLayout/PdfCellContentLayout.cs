@@ -29,30 +29,29 @@ using Vector2 = EPPlus.Graphics.Math.Vector2;
 namespace EPPlus.Export.Pdf.PdfLayout
 {
     [DebuggerDisplay("Content: {Name}")]
-    internal class PdfCellContentLayout : Transform
+    internal class PdfCellContentLayout : Transform, ITextLayout
     {
         public PdfCellLines Lines = new PdfCellLines();
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
         public PdfCellStyle CellStyle;
-        
-
-        public TextLayoutEngine textLayoutEngine;
-
         public ExcelRangeBase cell;
-
-        internal List<PdfTextFormat> TextFormats = new List<PdfTextFormat>();
-        public double textLength = 0;
-        public double textHeight = 0;
+        public TextLayoutEngine textLayoutEngine;
+        private List<PdfTextFormat> textFormats = new List<PdfTextFormat>();
+        private double textLength = 0;
+        private double textHeight = 0;
         public double LeftTextSpillLength = 0d;
         public double RightTextSpillLength = 0d;
-
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
-
         internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
         internal static MeasurementFont font = new MeasurementFont();
+
+        public List<PdfTextFormat> TextFormats { get => textFormats; set => textFormats = value; }
+        public double TextLength { get => textLength; set => textLength = value; }
+        public double TextHeight { get => textHeight; set => textHeight = value; }
+        public TextLayoutEngine TextLayoutEngine { get => textLayoutEngine; set => textLayoutEngine = value; }
 
         public PdfCellContentLayout(ExcelRangeBase cell, PdfCellStyle CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
@@ -64,25 +63,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.VerticalAlignment = cell.Style.VerticalAlignment;
             CellAlignmentData.Indent = cell.Style.Indent;
             CellAlignmentData.WrapText = cell.Style.WrapText;
-            CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit; //Need to fix Transform issues and then implement a method that sets scale on the text object.
+            CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit;
             CellAlignmentData.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
-
-            if (cell.IsRichText)
-            {
-                //HandleRichText(pageSettings, dictionaries, width, height, x, cell.Style.TextRotation);
-                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
-                HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
-            }
-            else
-            {
-                cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                //HandleRichText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation, CellStyle);
-                HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
-                //HandleText(pageSettings, dictionaries, x, y, width, height, cell.Style.TextRotation);
-            }
-            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height); //Need to implement new alignment system for embedding fonts
+            if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
+            HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
+            CalculateTextSpill(width, CellAlignmentData.TextRotation);
+            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y); 
             CheckClipping(cell, x, y, width, height);
         }
@@ -142,7 +130,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var result = fontMeasurerTrueType.MeasureText(textformat.Text, font);
                 textLength += result.Width;
                 textHeight = Math.Max(textHeight, result.Height);
-                this.TextFormats.Add(textformat);
+                this.textFormats.Add(textformat);
                 if (!dictionaries.Fonts.ContainsKey(textformat.FullFontName))
                 {
                     int label = 1;
@@ -152,19 +140,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     dictionaries.Fonts.Add(textformat.FullFontName, new PdfFontResource(textformat.FontName, textformat.SubFamily, label, pageSettings));
                 }
-
                 var manger = dictionaries.Fonts[textformat.FullFontName].fontSubsetManager;
                 manger.AddText(textformat.Text);
-
-                //foreach (char c in fontdata.Text)
-                //{
-                //    var hash = dictionaries.Fonts[fontdata.FullFontName].Subset;
-                //    if (!hash.Contains(c))
-                //    {
-                //        hash.Add(c);
-                //    }
-                //}
             }
+        }
+
+        private void CalculateTextSpill(double maxWidth, double rotation)
+        {
             if (maxWidth < textLength)
             {
                 if (rotation != 0)
@@ -228,221 +210,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     RightTextSpillLength = (textLength - Size.X) / 2d;
                 }
             }
-        }
-
-        private void HandleRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
-        {
-            List<PdfTextFormat> characters = new List<PdfTextFormat>();
-            List<PdfCellWord> Words = new List<PdfCellWord>();
-            bool bold = false, italic = false, underline = false, strike = false;
-            ExcelUnderLineType underLineType = ExcelUnderLineType.None;
-            if(CellStyle.dxfFont != null)
-            {
-                bold = CellStyle.dxfFont.Bold != null ? (bool)CellStyle.dxfFont.Bold : false;
-                italic = CellStyle.dxfFont.Italic != null ? (bool)CellStyle.dxfFont.Italic : false;
-                strike = CellStyle.dxfFont.Strike != null ? (bool)CellStyle.dxfFont.Strike : false;
-                underline = CellStyle.dxfFont.Underline != null;
-                underLineType = CellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)CellStyle.dxfFont.Underline : ExcelUnderLineType.None;
-            }
-            for (int i = 0; i < cell.RichText.Count; i++)
-            {
-                var rt = cell.RichText[i];
-                for (int j = 0; j < rt.Text.Length; j++)
-                {
-                    var character = new PdfTextFormat();
-                    character.Text = rt.Text[j].ToString();
-                    character.FontName = rt.FontName;
-                    character.FontFamily = rt.Family;
-                    character.FontSize = rt.Size;
-                    character.Bold = rt.Bold || bold;
-                    character.Italic = rt.Italic || italic;
-                    character.Strike = rt.Strike || strike;
-                    character.Underline = rt.UnderLine || underline;
-                    character.UnderlineType = rt.UnderLineType == ExcelUnderLineType.None ? underLineType : rt.UnderLineType;
-                    character.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                    character.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                    character.FontColor = rt.Color;
-                    character.SubFamily = FontSubFamily.Regular;
-                    if (character.Bold)
-                    {
-                        character.SubFamily = FontSubFamily.Bold;
-                        if (character.Italic)
-                        {
-                            character.SubFamily = FontSubFamily.BoldItalic;
-                        }
-                    }
-                    else if (character.Italic)
-                    {
-                        character.SubFamily = FontSubFamily.Italic;
-                    }
-                    font.FontFamily = character.FontName;
-                    font.Size = (float)character.FontSize;
-                    font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                                  (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                                  (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                                  (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                                  switch
-                    {
-                        0 => MeasurementFontStyles.Regular,
-                        var s => s
-                    };
-                    var result = fontMeasurerTrueType.MeasureText(character.Text, font);
-                    character.TextLength = result.Width;
-                    character.LineHeight = result.Height;
-                    character.FontHeight = result.FontHeight;
-                    var fontData = PdfFontResource.GetFontResourceData(dictionaries.Fonts, pageSettings, character);
-                    double gbox = (fontData.Os2Table.sTypoAscender - fontData.Os2Table.sTypoDescender) * (cell.Style.Font.Size / fontData.HeadTable.UnitsPerEm);
-                    character.GlyphBox = new Rect();
-                    character.GlyphBox.Width = gbox;
-                    character.GlyphBox.Height = gbox;
-                    character.characterOffset = (x + (character.GlyphBox.Width - result.Width) / 2d) - x;
-                    characters.Add(character);
-                }
-            }
-            var w = new PdfCellWord();
-            for (int i = 0; i < characters.Count; i++)
-            {
-                var t = characters[i];
-                if (char.IsWhiteSpace(t.Text[0]))
-                {
-                    Words.Add(w);
-                    w = new PdfCellWord();
-                    w.Characters.Add(t);
-                    Words.Add(w);
-                    w = new PdfCellWord();
-                }
-                else
-                {
-                    w.Characters.Add(t);
-                }
-                if (i == characters.Count - 1)
-                {
-                    Words.Add(w);
-                }
-            }
-            if (rotation == 255)
-            {
-                Lines.WritingMode = PdfWritingMode.VerticalTtb;
-                if (cell.Style.WrapText)
-                {
-                    double lineHeight = 0d;
-                    var line = new PdfCellLine();
-                    for (int i = 0; i < Words.Count; i++)
-                    {
-                        if (Words[i].TextHeight > maxHeight)
-                        {
-                            double lineCount = Words[i].TextHeight / maxHeight;
-                            int currentIndex = 0;
-                            while (lineCount > 0)
-                            {
-                                PdfCellWord newWord = new PdfCellWord();
-                                double wordlength = 0;
-                                for (int j = currentIndex; j < Words[i].Characters.Count; j++)
-                                {
-                                    if (wordlength + Words[i].Characters[j].LineHeight > maxHeight)
-                                    {
-                                        currentIndex = j;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        newWord.Characters.Add(Words[i].Characters[j]);
-                                        wordlength += Words[i].Characters[j].LineHeight;
-                                    }
-                                }
-                                line.Words.Add(newWord);
-                                Lines.Lines.Add(line);
-                                lineCount--;
-                                line = new PdfCellLine();
-                            }
-                        }
-                        else if (lineHeight + Words[i].TextHeight < maxHeight)
-                        {
-                            lineHeight += Words[i].TextHeight;
-                            line.Words.Add(Words[i]);
-                        }
-                        else
-                        {
-                            Lines.Lines.Add(line);
-                            lineHeight = Words[i].TextHeight;
-                            line = new PdfCellLine();
-                            line.Words.Add(Words[i]);
-                        }
-                    }
-                    Lines.Lines.Add(line);
-                }
-                else
-                {
-                    var line = new PdfCellLine();
-                    foreach (var word in Words)
-                    {
-                        line.Words.Add(word);
-                    }
-                    Lines.Lines.Add(line);
-                }
-            }
-            else
-            {
-                Lines.WritingMode = PdfWritingMode.HorizontalLtr;
-                if (cell.Style.WrapText)
-                {
-                    double lineLength = 0d;
-                    var line = new PdfCellLine();
-                    for (int i = 0; i < Words.Count; i++)
-                    {
-                        if (Words[i].TextLength > maxWidth)
-                        {
-                            double lineCount = Words[i].TextLength / maxWidth;
-                            int currentIndex = 0;
-                            while (lineCount > 0)
-                            {
-                                PdfCellWord newWord = new PdfCellWord();
-                                double wordlength = 0;
-                                for (int j = currentIndex; j < Words[i].Characters.Count; j++)
-                                {
-                                    if (wordlength + Words[i].Characters[j].TextLength > maxWidth)
-                                    {
-                                        currentIndex = j;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        newWord.Characters.Add(Words[i].Characters[j]);
-                                        wordlength += Words[i].Characters[j].TextLength;
-                                    }
-                                }
-                                line.Words.Add(newWord);
-                                Lines.Lines.Add(line);
-                                lineCount--;
-                                line = new PdfCellLine();
-                            }
-                        }
-                        else if (lineLength + Words[i].TextLength < maxWidth)
-                        {
-                            lineLength += Words[i].TextLength;
-                            line.Words.Add(Words[i]);
-                        }
-                        else
-                        {
-                            Lines.Lines.Add(line);
-                            lineLength = Words[i].TextLength;
-                            line = new PdfCellLine();
-                            line.Words.Add(Words[i]);
-                        }
-                    }
-                    Lines.Lines.Add(line);
-                }
-                else
-                {
-                    var line = new PdfCellLine();
-                    foreach (var word in Words)
-                    {
-                        line.Words.Add(word);
-                    }
-                    Lines.Lines.Add(line);
-                }
-            }
-            Lines.Lines.RemoveAll(l => l.Words.Count <= 0);
         }
 
         //Calculate text position from alignment and offsets for each line of text.
@@ -634,21 +401,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 Width =  width - rightMargin * 2,
                 Height = cell.Size.Y
             };
-        }
-
-        internal void CreateTextShape(PdfDictionaries dictionaries, ShapedText shaped)
-        {
-            for (int i =0; i< TextFormats.Count; i++)
-            {
-                var tf = TextFormats[i];
-                //var shaper = dictionaries.Fonts[fontdata.FullFontName].Shaper;
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
-                tf.ShapedText = shaped;
-                dictionaries.Fonts[tf.FullFontName].ShapedText = shaped;
-                TextFormats[i] = tf;
-            }
         }
 
         internal void GidsAndCharMap(PdfDictionaries dictionaries)

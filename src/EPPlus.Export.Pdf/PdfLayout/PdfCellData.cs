@@ -285,6 +285,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public string Text;
         public Color FontColor;
         public double TextLength;
+        public double TextHeight;
         public double LineHeight;
         public double FontHeight;
         public Rect GlyphBox;

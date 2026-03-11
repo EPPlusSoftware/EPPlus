@@ -29,14 +29,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
             : base(dictionaries, cell, CellStyle, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
-            //var fill = cell.Style.Fill;
-            //if(!fill.HasGradient && fill.PatternType == ExcelFillStyle.None)
-            //{
-            //    CellFillData.BackgroundColor = Color.White;
-            //    CellFillData.PatternStyle = ExcelFillStyle.Solid;
-            //    CellFillData.enhanceGridLine = true;
-            //}
-
         }
 
         //Slightly shift position for cleaner result after gridlines are created.
