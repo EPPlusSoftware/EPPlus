@@ -26,20 +26,21 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.FormulaParsing.TestHelpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
 using System.Threading;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using EPPlusTest.FormulaParsing.TestHelpers;
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -300,6 +301,78 @@ namespace EPPlusTest.Excel.Functions
             var func = new Weekday();
             var result = func.Execute(FunctionsHelper.CreateArgs(new DateTime(2012, 4, 1).ToOADate(), 3), _parsingContext);
             Assert.AreEqual(6, result.Result);
+        }
+
+        [TestMethod]
+        public void WeekdayShouldReturnCorrectResultForAThursdayWhenTypeIs12()
+        {
+            var func = new Weekday();
+            var date = new DateTime(2026, 3, 12).ToOADate();
+
+            var result = func.Execute(FunctionsHelper.CreateArgs(date, 12), _parsingContext);
+            var result2 = func.Execute(FunctionsHelper.CreateArgs(date, 13), _parsingContext);
+            var result3 = func.Execute(FunctionsHelper.CreateArgs(date, 14), _parsingContext);
+            var result4 = func.Execute(FunctionsHelper.CreateArgs(date, 15), _parsingContext);
+            var result5 = func.Execute(FunctionsHelper.CreateArgs(date, 16), _parsingContext);
+            var result6 = func.Execute(FunctionsHelper.CreateArgs(date, 17), _parsingContext);
+
+            Assert.AreEqual(3, result.Result);
+            Assert.AreEqual(2, result2.Result);
+            Assert.AreEqual(1, result3.Result);
+            Assert.AreEqual(7, result4.Result);
+            Assert.AreEqual(6, result5.Result);
+            Assert.AreEqual(5, result6.Result);
+        }
+
+        [TestMethod]
+        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs12()
+        {
+            var func = new Weekday();
+            var date = new DateTime(2026, 3, 11).ToOADate();
+
+            var result = func.Execute(FunctionsHelper.CreateArgs(date, 12), _parsingContext);
+            var result2 = func.Execute(FunctionsHelper.CreateArgs(date, 13), _parsingContext);
+            var result3 = func.Execute(FunctionsHelper.CreateArgs(date, 14), _parsingContext);
+            var result4 = func.Execute(FunctionsHelper.CreateArgs(date, 15), _parsingContext);
+            var result5 = func.Execute(FunctionsHelper.CreateArgs(date, 16), _parsingContext);
+            var result6 = func.Execute(FunctionsHelper.CreateArgs(date, 17), _parsingContext);
+
+            Assert.AreEqual(2, result.Result);
+            Assert.AreEqual(1, result2.Result);
+            Assert.AreEqual(7, result3.Result);
+            Assert.AreEqual(6, result4.Result);
+            Assert.AreEqual(5, result5.Result);
+            Assert.AreEqual(4, result6.Result);
+        }
+
+        [TestMethod]
+        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs17ForAllDays()
+        {
+            var func = new Weekday();
+
+            List<double> weekOfOADates = new List<double>();
+
+            for(int i = 0; i< 7; i++)
+            {
+                weekOfOADates.Add(new DateTime(2026, 3, 9 + i).ToOADate());
+            }
+
+            for(int i = 0; i< 7; i++)
+            {
+                var result = func.Execute(FunctionsHelper.CreateArgs(weekOfOADates[i], 17), _parsingContext);
+
+                if(2 + i <= 7)
+                {
+                    Assert.AreEqual(2 + i, result.Result);
+                }
+                else
+                {
+                    //only happens for 2+6=8 go back to 1
+                    Assert.AreEqual(1, result.Result);
+                    //Equivalent to
+                    Assert.AreEqual(2+i-7, result.Result);
+                }
+            }
         }
 
         [TestMethod]
