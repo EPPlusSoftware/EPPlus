@@ -189,6 +189,10 @@ namespace OfficeOpenXml
                 if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint && address.Rows < ExcelPackage.MaxRows)
                 {
                     address = address.AddRow(rowFrom, rows, false);
+                    if(address == null && new ExcelAddressBase(namedRange.Address)._fromRow == 1048576)
+                    {
+                        throw new InvalidOperationException("Cannot insert row over Max Rows");
+                    }
                 }
                 if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint && address.Columns < ExcelPackage.MaxColumns)
                 {
