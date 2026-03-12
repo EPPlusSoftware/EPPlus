@@ -73,31 +73,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
                 case 3:
                     return _zeroBasedStartOnSunday[dayIx];
                 case 12:
-                    return _oneBasedStartOnMonday[GetIndex(dayIx - 1)];
                 case 13:
-                    return _oneBasedStartOnMonday[GetIndex(dayIx - 2)];
                 case 14:
-                    return _oneBasedStartOnMonday[GetIndex(dayIx - 3)];
                 case 15:
-                    return _oneBasedStartOnMonday[GetIndex(dayIx - 4)];
                 case 16:
-                    return _oneBasedStartOnMonday[GetIndex(dayIx - 5)];
                 case 17:
-                    return _oneBasedStartOnMonday[GetIndex(dayIx - 6)];
+                    var dayIxForArr0 = returnType - 11;
+
+                    //Calculate distance/index from expected 0
+                    var idx = dayIx - dayIxForArr0;
+
+                    //If index is negative count backwards from end of array
+                    if (idx < 0)
+                    {
+                        idx = _oneBasedStartOnMonday.Count + idx;
+                    }
+
+                    return _oneBasedStartOnMonday[idx];
                 default:
                     throw new ExcelErrorValueException(eErrorType.Num);
-            }
-        }
-
-        int GetIndex(int indexPotentiallyNegative)
-        {
-            if(indexPotentiallyNegative >= 0)
-            {
-                return indexPotentiallyNegative; 
-            }
-            else
-            {
-                return _oneBasedStartOnMonday.Count + indexPotentiallyNegative;
             }
         }
     }

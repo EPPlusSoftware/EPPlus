@@ -345,34 +345,62 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(4, result6.Result);
         }
 
-        [TestMethod]
-        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs17ForAllDays()
+        List<double> CreateListOfOaDates()
         {
-            var func = new Weekday();
-
             List<double> weekOfOADates = new List<double>();
 
-            for(int i = 0; i< 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 weekOfOADates.Add(new DateTime(2026, 3, 9 + i).ToOADate());
             }
 
-            for(int i = 0; i< 7; i++)
-            {
-                var result = func.Execute(FunctionsHelper.CreateArgs(weekOfOADates[i], 17), _parsingContext);
+            return weekOfOADates;
+        }
 
-                if(2 + i <= 7)
-                {
-                    Assert.AreEqual(2 + i, result.Result);
-                }
-                else
-                {
-                    //only happens for 2+6=8 go back to 1
-                    Assert.AreEqual(1, result.Result);
-                    //Equivalent to
-                    Assert.AreEqual(2+i-7, result.Result);
-                }
+        [TestMethod]
+        public void WeekdayShouldReturnCorrectResultyWhenTypeIs12ForAllDays()
+        {
+            var allWeekdays = CreateListOfOaDates();
+            var func = new Weekday();
+
+            List<CompileResult> results = new List<CompileResult>();
+
+            for (int i = 0; i < 7; i++)
+            {
+                var result = func.Execute(FunctionsHelper.CreateArgs(allWeekdays[i], 12), _parsingContext);
+                results.Add(result);
             }
+
+            Assert.AreEqual(7, results[0].Result);
+            Assert.AreEqual(1, results[1].Result);
+            Assert.AreEqual(2, results[2].Result);
+            Assert.AreEqual(3, results[3].Result);
+            Assert.AreEqual(4, results[4].Result);
+            Assert.AreEqual(5, results[5].Result);
+            Assert.AreEqual(6, results[6].Result);
+        }
+
+        [TestMethod]
+        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs17ForAllDays()
+        {
+            var allWeekdays = CreateListOfOaDates();
+            var func = new Weekday();
+
+            List<CompileResult> results = new List<CompileResult>();
+
+            for (int i = 0; i < 7; i++)
+            {
+                var result = func.Execute(FunctionsHelper.CreateArgs(allWeekdays[i], 17), _parsingContext);
+                results.Add(result);
+            }
+
+            Assert.AreEqual(2, results[0].Result);
+            Assert.AreEqual(3, results[1].Result);
+            Assert.AreEqual(4, results[2].Result);
+            Assert.AreEqual(5, results[3].Result);
+            Assert.AreEqual(6, results[4].Result);
+            Assert.AreEqual(7, results[5].Result);
+            Assert.AreEqual(1, results[6].Result);
         }
 
         [TestMethod]
