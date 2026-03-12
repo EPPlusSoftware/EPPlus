@@ -432,7 +432,7 @@ namespace EPPlusTest.Excel.Functions
         [DataRow("Friday", 6)]
         [DataRow("Saturday", 7)]
         [DataRow("Sunday", 1)]
-        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs17ForAllDays(string day, int expectedResult)
+        public void WeekdayWhenTypeIs17ForAllDays(string day, int expectedResult)
         {
             var func = new Weekday();
 
