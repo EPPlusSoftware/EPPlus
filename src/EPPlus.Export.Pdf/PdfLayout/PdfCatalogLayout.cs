@@ -93,7 +93,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             sw.Start();
 
             //ConvertToPDFCoordiantes(pageSettings, PagesLayout, worksheet);
-            //AdjustAndSort(PagesLayout, dictionaries);
+            AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
             sw.Stop();
             var t7 = sw.ElapsedMilliseconds;
@@ -424,6 +424,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                 page.Map[r, c].cell = m;
                                 page.Map[r, c].Type = PageMap.CellType.Merged;
                                 page.Map[r, c].content = contentObjects.OfType<PdfCellContentLayout>().FirstOrDefault(t => t.Name == m.Name);
+                                if (page.Map[r, c].content != null) page.Map[r, c].content.Clip = true;
                                 page.Map[r, c].border = contentObjects.OfType<PdfCellBorderLayout>().FirstOrDefault(t => t.Name == m.Name);
                                 page.Map[r, c].row = m.cell._fromRow + rowCount;
                                 page.Map[r, c].col = m.cell._fromCol + colCount;
@@ -563,17 +564,45 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         if (col != 0) leftCell = page.Map[row, col - 1];
                         if (col != colCount - 1) rightCell = page.Map[row, col + 1];
 
-                        // ── Text-spill propagation (unchanged) ───────────────────────
+                        // ── Text-spill propagation ───────────────────────────────────
                         if (leftCell.cell != null)
                         {
                             if (leftCell.content != null)
                             {
                                 if (leftCell.content.RightTextSpillLength > 0d)
-                                    cell.RightTextBucketSpill = leftCell.content.RightTextSpillLength - cell.cell.Size.X;
+                                {
+                                    if (cell.content != null)
+                                    {
+                                        // Spill collides with content — clip the source and force a gridline
+                                        leftCell.content.Clip = true;
+                                        addVertical(row, col);
+                                    }
+                                    else
+                                    {
+                                        cell.RightTextBucketSpill = leftCell.content.RightTextSpillLength - cell.cell.Size.X;
+                                    }
+                                }
                             }
                             else if (leftCell.RightTextBucketSpill > 0d)
                             {
-                                cell.RightTextBucketSpill = leftCell.RightTextBucketSpill - cell.cell.Size.X;
+                                if (cell.content != null)
+                                {
+                                    // Bucket spill collides with content — walk back to find origin and clip it, force a gridline
+                                    for (int i = col - 1; i >= 0; i--)
+                                    {
+                                        var originCell = page.Map[row, i];
+                                        if (originCell.content != null)
+                                        {
+                                            originCell.content.Clip = true;
+                                            break;
+                                        }
+                                    }
+                                    addVertical(row, col);
+                                }
+                                else
+                                {
+                                    cell.RightTextBucketSpill = leftCell.RightTextBucketSpill - cell.cell.Size.X;
+                                }
                             }
                         }
 
@@ -587,7 +616,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                     var prevCell = page.Map[row, i - 1];
                                     if (prevCell.content != null)
                                     {
+                                        // Spill collides with content — clip and force a gridline at the boundary
+                                        cell.content.Clip = true;
                                         cell.content.CreateClippingRect(cell.cell, prevCell.cell.LocalPosition.X + prevCell.cell.Size.X);
+                                        addVertical(row, i);
                                         break;
                                     }
                                     prevCell.LeftTextBucketSpill = spill - prevCell.cell.Size.X;
@@ -607,8 +639,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         {
                             var t = page.Map[row - 1, col];
                             bool differentTop = t.cell != cell.cell;
-                            bool borderTop = (t.border != null && t.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None) ||
-                                       (cell.border != null && cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None);
+
+                            // Border data is only stored at the merged cell's origin row — walk up to find it
+                            int topOriginRow = row - 1;
+                            while (topOriginRow > 0 && page.Map[topOriginRow - 1, col].cell == t.cell)
+                                topOriginRow--;
+                            var topBorder = page.Map[topOriginRow, col].border;
+
+                            int cellOriginRow = row;
+                            while (cellOriginRow > 0 && page.Map[cellOriginRow - 1, col].cell == cell.cell)
+                                cellOriginRow--;
+                            var cellBorder = page.Map[cellOriginRow, col].border;
+
+                            bool borderTop = (topBorder != null && topBorder.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None) ||
+                                             (cellBorder != null && cellBorder.BorderData.Top.BorderStyle != ExcelBorderStyle.None);
 
                             if (differentTop && !borderTop)
                                 AddHorizontalSegment(row - 1, col);
@@ -620,8 +664,20 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             var l = page.Map[row, col - 1];
                             bool differentLeft = l.cell != cell.cell;
                             bool spillLeft = l.RightTextBucketSpill > 0 || cell.LeftTextBucketSpill > 0;
-                            bool borderLeft = (l.border != null && l.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None) ||
-                                                (cell.border != null && cell.border.BorderData.Left.BorderStyle != ExcelBorderStyle.None);
+
+                            // Border data is only stored at the merged cell's origin column — walk left to find it
+                            int leftOriginCol = col - 1;
+                            while (leftOriginCol > 0 && page.Map[row, leftOriginCol - 1].cell == l.cell)
+                                leftOriginCol--;
+                            var leftBorder = page.Map[row, leftOriginCol].border;
+
+                            int cellOriginCol = col;
+                            while (cellOriginCol > 0 && page.Map[row, cellOriginCol - 1].cell == cell.cell)
+                                cellOriginCol--;
+                            var cellBorderV = page.Map[row, cellOriginCol].border;
+
+                            bool borderLeft = (leftBorder != null && leftBorder.BorderData.Right.BorderStyle != ExcelBorderStyle.None) ||
+                                              (cellBorderV != null && cellBorderV.BorderData.Left.BorderStyle != ExcelBorderStyle.None);
 
                             if (differentLeft && !spillLeft && !borderLeft)
                                 addVertical(row, col);
@@ -637,6 +693,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 foreach (int key in new List<int>(activeHorizontal.Keys))
                     flushHorizontal(key);
 
+                // ── Border lines (4 outer edges, derived from the corner cells) ──────
                 var tl = page.Map[0, 0].cell; // bottom-left
                 var br = page.Map[0, colCount - 1].cell; // bottom-right
                 var bl = page.Map[rowCount - 1, 0].cell; // top-left
@@ -651,238 +708,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 page.BorderLines.Add(new GridLine(left, top, right, top));    // top
                 page.BorderLines.Add(new GridLine(left, bottom, left, top));    // left
                 page.BorderLines.Add(new GridLine(right, bottom, right, top));    // right
-            }
-        }
-
-        //Create gridlines
-        //private void ProocessPageAndCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPagesLayout pages)
-        //{
-        //    foreach (PdfPageLayout page in pages.ChildObjects)
-        //    {
-        //        var rowCount = page.ToRow - page.FromRow + 1;
-        //        var colCount = page.ToCol - page.FromCol + 1;
-
-        //        var activeVertical = new Dictionary<int, VerticalLineRun>();
-        //        Action<int> flushVertical = delegate (int col)
-        //        {
-        //            VerticalLineRun run;
-        //            if (activeVertical.TryGetValue(col, out run))
-        //            {
-        //                double x = page.Map[run.RowStart, col].cell.LocalPosition.X;
-        //                double y1 = page.Map[run.RowStart, col].cell.LocalPosition.Y;
-        //                double y2 = page.Map[run.RowEnd, col].cell.LocalPosition.Y + page.Map[run.RowStart, col].cell.Size.Y;
-        //                page.GridLines.Add(new GridLine(x, y1, x, y2));
-        //                activeVertical.Remove(col);
-        //            }
-        //        };
-        //        Action<int, int> addVertical = delegate (int r, int c)
-        //        {
-        //            VerticalLineRun run;
-        //            if (activeVertical.TryGetValue(c, out run))
-        //            {
-        //                if (run.RowEnd == r - 1)
-        //                {
-        //                    run.RowEnd = r;
-        //                }
-        //                else
-        //                {
-        //                    flushVertical(c);
-        //                    activeVertical[c] = new VerticalLineRun { Col = c, RowStart = r, RowEnd = r };
-        //                }
-        //            }
-        //            else
-        //            {
-        //                activeVertical[c] = new VerticalLineRun { Col = c, RowStart = r, RowEnd = r };
-        //            }
-        //        };
-
-        //        var activeHorizontal = new Dictionary<int, HorizontalLineRun>();
-        //        Action<int> flushHorizontal = delegate (int row)
-        //        {
-        //            HorizontalLineRun run;
-        //            if (activeHorizontal.TryGetValue(row, out run))
-        //            {
-        //                double y = page.Map[row, run.ColStart].cell.LocalPosition.Y;
-        //                double x1 = page.Map[row, run.ColStart].cell.LocalPosition.X;
-        //                double x2 = page.Map[row, run.ColEnd].cell.LocalPosition.X + page.Map[row, run.ColEnd].cell.Size.X;
-        //                page.GridLines.Add(new GridLine(x1, y, x2, y));
-        //                activeHorizontal.Remove(row);
-        //            }
-        //        };
-        //        Action<int, int> AddHorizontalSegment = delegate (int r, int c)
-        //        {
-        //            HorizontalLineRun run;
-        //            if (activeHorizontal.TryGetValue(r, out run))
-        //            {
-        //                if (run.ColEnd == c - 1)
-        //                {
-        //                    run.ColEnd = c;
-        //                }
-        //                else
-        //                {
-        //                    flushHorizontal(r);
-        //                    activeHorizontal[r] = new HorizontalLineRun { Row = r, ColStart = c, ColEnd = c };
-        //                }
-        //            }
-        //            else
-        //            {
-        //                activeHorizontal[r] = new HorizontalLineRun { Row = r, ColStart = c, ColEnd = c };
-        //            }
-        //        };
-
-        //        for (int row = 0; row < rowCount; row++)
-        //        {
-        //            // flush horizontal runs not continued into this row
-        //            var hKeys = new List<int>(activeHorizontal.Keys);
-        //            foreach (int key in hKeys)
-        //                flushHorizontal(key);
-
-        //            // flush vertical runs that didn't continue
-        //            var vKeys = new List<int>(activeVertical.Keys);
-        //            foreach (int key in vKeys)
-        //            {
-        //                VerticalLineRun run = activeVertical[key];
-        //                if (run.RowEnd < row)
-        //                    flushVertical(key);
-        //            }
-
-        //            for (int col = 0; col < colCount; col++)
-        //            {
-        //                var cell = page.Map[row, col];
-        //                PageMap leftCell = new PageMap();
-        //                PageMap rightCell = new PageMap();
-        //                if (col != 0) leftCell = page.Map[row, col - 1];
-        //                if (col != colCount - 1) rightCell = page.Map[row, col + 1];
-
-        //                //Check for text that spills into other cells. Used for gridlines
-
-        //                //Check text spill from left cell
-        //                if (leftCell.cell != null)
-        //                {
-        //                    if (leftCell.content != null)
-        //                    {
-        //                        if (leftCell.content.RightTextSpillLength > 0d)
-        //                        {
-        //                            cell.RightTextBucketSpill = leftCell.content.RightTextSpillLength - cell.cell.Size.X;
-        //                        }
-        //                    }
-        //                    else if (leftCell.RightTextBucketSpill > 0d)
-        //                    {
-        //                        cell.RightTextBucketSpill = leftCell.RightTextBucketSpill - cell.cell.Size.X;
-        //                    }
-        //                }
-        //                //check text spill to right //gör denna också för  left cell...
-        //                if (cell.content != null)
-        //                {
-        //                    if (cell.content.LeftTextSpillLength > 0d)
-        //                    {
-        //                        double spill = cell.content.LeftTextSpillLength;
-        //                        for (int i = col; i > 0; i--)
-        //                        {
-        //                            var prevCell = page.Map[row, i - 1];
-        //                            if (prevCell.content != null)
-        //                            {
-        //                                cell.content.CreateClippingRect(cell.cell, prevCell.cell.LocalPosition.X + prevCell.cell.Size.X);
-        //                                break;
-        //                            }
-        //                            prevCell.LeftTextBucketSpill = spill - prevCell.cell.Size.X;
-        //                            spill = spill - prevCell.cell.Size.X;
-        //                            page.Map[row, i - 1] = prevCell;
-        //                            if (spill <= 0d) break;
-        //                        }
-        //                    }
-
-        //                    cell.content.GidsAndCharMap(dictionaries);
-        //                }
-
-        //                //Collect gridlines
-
-        //                //Check Top edge
-        //                bool hasTop = row > 0;
-        //                var top = hasTop ? page.Map[row - 1, col] : default;
-
-        //                bool differentTop = !hasTop || top.cell != cell.cell;
-
-        //                bool borderTop = hasTop && (top.border != null && cell.border != null &&
-        //                    (top.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None || cell.border.BorderData.Top.BorderStyle != ExcelBorderStyle.None));
-
-        //                if (differentTop && !borderTop)
-        //                    AddHorizontalSegment(row, col);
-
-        //                //Check Bottom edge
-        //                if (row == page.RowCount - 1)
-        //                {
-        //                    if (cell.border != null && cell.border.BorderData.Bottom.BorderStyle != ExcelBorderStyle.None)
-        //                    {
-        //                        AddHorizontalSegment(row + 1, col);
-        //                    }
-        //                }
-
-        //                //Check Left edge
-        //                bool hasLeft = col > 0;
-        //                var left = hasLeft ? page.Map[row, col - 1] : default;
-
-        //                bool differentLeft = !hasLeft || left.cell != cell.cell;
-
-        //                bool spillLeft = hasLeft &&
-        //                    (left.RightTextBucketSpill > 0 || cell.LeftTextBucketSpill > 0);
-
-        //                bool borderLeft = hasLeft && ((left.border != null && left.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None) || (cell.border != null && cell.border.BorderData.Left.BorderStyle != ExcelBorderStyle.None));
-
-        //                if (differentLeft && !spillLeft && !borderLeft)
-        //                    addVertical(row, col);
-
-        //                //Check Right edge
-        //                if (col == page.ColCount - 1)
-        //                {
-        //                    if (cell.border != null && cell.border.BorderData.Right.BorderStyle != ExcelBorderStyle.None &&
-        //                        cell.RightTextBucketSpill <= 0)
-        //                    {
-        //                        //addVertical(row, col + 1);
-        //                    }
-        //                }
-
-
-        //                /*if (page.Map[row, col].content != null) page.Map[row, col].content.CreateTextShape(dictionaries);*/
-        //                page.Map[row, col] = cell;
-        //            }
-        //        }
-        //        // final flush
-        //        foreach (int key in new List<int>(activeVertical.Keys))
-        //            flushVertical(key);
-
-        //        foreach (int key in new List<int>(activeHorizontal.Keys))
-        //            flushHorizontal(key);
-        //        //create gridlines
-        //        //make adjustments
-        //        //AddHeaderFooter
-        //        //remove unused cells
-        //        //sort
-        //    }
-        //}
-
-        //Restore the positions of the content, move content children to page and remove content object.
-        private void ConvertToPDFCoordiantes(PdfPageSettings pageSettings, PdfPagesLayout pages, ExcelWorksheet ws)
-        {
-            foreach (PdfPageLayout page in pages.ChildObjects)
-            {
-                page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.Margins.TopPu);
-                var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
-                foreach (var child in contentObjects)
-                {
-                    page.AddChild(child);
-                    if (child is IShadingLayout iSl)
-                        iSl.UpdateShadingPositionMatrix(pageSettings);
-                    if (child is IBorderLayout iBl)
-                        iBl.UpdateLocalBorderPosition();
-                }
-                page.RemoveChild(page.ChildObjects[0]);
-
-                page.GenerateVerticalGridLines(ws);
-                page.GenerateHorizontalGridLines(ws);
-                page.GenerateBorderLines();
-                //page.GenerateGridLines();
-                page.ChildObjects.RemoveAll(x => x.Name.Contains("*")); //Remove all content with * in its name. Better approach would be to not add them at all, But they are needed for grid lines.
+                page.ChildObjects.RemoveAll(x => x is PdfCellLayout && ((PdfCellLayout)x).delete == true);
             }
         }
 
@@ -898,12 +724,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     {
                         cellLayout.AdjustForGridLines();
                     }
-                    if (child is PdfCellContentLayout contentLayout)
+                    else if (child is PdfCellContentLayout content)
                     {
-                        contentLayout.CreateClippingRect(page.ChildObjects);//doe
-                        //contentLayout.CreateTextShape(dictionaries);
+                        content.CreateClippingRect(page.ChildObjects);
                     }
-                    if (child is PdfMergedCellLayout mergedLayout)
+                    else if (child is PdfMergedCellLayout mergedLayout)
                     {
                         mergedLayout.AdjustForGridLines();
                     }
@@ -978,20 +803,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     rightF = ws.HeaderFooter.OddFooter.RightAligned;
                 }
                 var lh = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftH, ws, pageSettings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                lh.Name = "LeftHeader";
                 lh.LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu);
                 lh.AdjustPositionByTextLength('l', 'h');
                 var ch = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerH, ws, pageSettings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                ch.Name = "CenterHeader";
                 ch.LocalPosition = new Vector2(pageSettings.PageSize.WidthPu / 2d, pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu);
                 ch.AdjustPositionByTextLength('c', 'h');
                 var rh = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightH, ws, pageSettings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                rh.Name = "RightHeader";
                 rh.LocalPosition = new Vector2(pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu, pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu);
                 rh.AdjustPositionByTextLength('r', 'h');
                 var lf = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(leftF, ws, pageSettings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                lf.Name = "LeftFooter";
                 lf.LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.Margins.FooterPu);
                 var cf = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(centerF, ws, pageSettings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                cf.Name = "CenterFooter";
                 cf.LocalPosition = new Vector2(pageSettings.PageSize.WidthPu / 2d, pageSettings.Margins.FooterPu);
                 cf.AdjustPositionByTextLength('c', 'f');
                 var rf = (PdfHeaderFooterLayout)pages.ChildObjects[i].AddChild(new PdfHeaderFooterLayout(rightF, ws, pageSettings, dictionaries, pageNumber, pages.ChildObjects.Count));
+                rf.Name = "RightFooter";
                 rf.LocalPosition = new Vector2(pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu, pageSettings.Margins.FooterPu);
                 rf.AdjustPositionByTextLength('r', 'f');
                 pageNumber++;

@@ -14,16 +14,13 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -461,7 +458,6 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             var heightAdjust = y - bounds.Bottom;
             commands.Add($"{bounds.X.ToPdfString()} {y.ToPdfString()} {(width - bounds.Left).ToPdfString()} {(bounds.Height - heightAdjust).ToPdfString()} re W n");
-            //commands.Add($"{bounds.X.ToPdfString()} {bounds.Y.ToPdfString()} {bounds.Width.ToPdfString()} {bounds.Height.ToPdfString()} re W n");
         }
 
         internal override string RenderDictionary()

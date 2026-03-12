@@ -324,29 +324,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, PdfCellStyle CellStyle)
         {
             //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
-            bool deleteMark = !cell.IsEmpty() || cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol);
+            bool delete = cell.IsEmpty() && !cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol);
             var cl0 = new PdfCellLayout(dictionaries, cell, CellStyle, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address;
             cl0.Z = 1;
-            cl0.delete = deleteMark;
-            ////check left cell for textspill
-            //if (cell._fromCol > 1)
-            //{
-            //    var leftCell = cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1];
-            //    var leftCellLayouts = ChildObjects.Where(x => x.Name == leftCell.Address || x.Name == leftCell.Address + "_c" || x.Name == leftCell.Address + "*").ToList();
-            //    foreach (var lc in leftCellLayouts)
-            //    {
-            //        if (lc is PdfCellContentLayout c)
-            //        {
-            //            cl0.LeftTextSpillLength = Math.Max( c.RightTextSpillLength - width, 0d);
-            //            break;
-            //        }
-            //        else if (lc is PdfCellLayout l)
-            //        {
-            //            if (leftCellLayouts.Count == 1) cl0.LeftTextSpillLength = Math.Max(l.LeftTextSpillLength - width, 0d);
-            //        }
-            //    }
-            //}
+            cl0.delete = delete;
             AddCellContent(pageSettings, dictionaries, cell, CellStyle, cell.Address, x, y - height, width, height, 2);
             var border = HandleDiagonalBorders(cell, CellStyle, cell.Address, x, y, width, height);
             if (border != null)

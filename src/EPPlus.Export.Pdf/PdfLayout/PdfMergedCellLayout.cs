@@ -14,6 +14,7 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Drawing;
