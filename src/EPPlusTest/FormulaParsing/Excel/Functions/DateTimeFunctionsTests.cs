@@ -189,7 +189,7 @@ namespace EPPlusTest.Excel.Functions
             var expectedResult = GetTime(10, 11, 12);
             var func = new Time();
             var result = func.Execute(FunctionsHelper.CreateArgs(10, 11, 12), _parsingContext);
-            Assert.AreEqual(expectedResult, result.Result);  
+            Assert.AreEqual(expectedResult, result.Result);
         }
 
         [TestMethod]
@@ -303,104 +303,143 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(6, result.Result);
         }
 
+        static readonly Dictionary<string, double> MondayToSundayOADict = new Dictionary<string, double>()
+        {
+            {"Monday",  new DateTime(2026, 3, 9).ToOADate()},
+            {"Tuesday",  new DateTime(2026, 3, 10).ToOADate()},
+            {"Wednesday",  new DateTime(2026, 3, 11).ToOADate()},
+            {"Thursday",  new DateTime(2026, 3, 12).ToOADate()},
+            {"Friday",  new DateTime(2026, 3, 13).ToOADate()},
+            {"Saturday",  new DateTime(2026, 3, 14).ToOADate()},
+            {"Sunday",  new DateTime(2026, 3, 15).ToOADate()}
+
+        };
+
         [TestMethod]
-        public void WeekdayShouldReturnCorrectResultForAThursdayWhenTypeIs12()
+        [DataRow("Monday", 1)]
+        [DataRow("Tuesday", 2)]
+        [DataRow("Wednesday", 3)]
+        [DataRow("Thursday", 4)]
+        [DataRow("Friday", 5)]
+        [DataRow("Saturday", 6)]
+        [DataRow("Sunday", 7)]
+        public void WeekdayWhenTypeIs11ForAllDays(string day, int expectedResult)
         {
             var func = new Weekday();
-            var date = new DateTime(2026, 3, 12).ToOADate();
 
-            var result = func.Execute(FunctionsHelper.CreateArgs(date, 12), _parsingContext);
-            var result2 = func.Execute(FunctionsHelper.CreateArgs(date, 13), _parsingContext);
-            var result3 = func.Execute(FunctionsHelper.CreateArgs(date, 14), _parsingContext);
-            var result4 = func.Execute(FunctionsHelper.CreateArgs(date, 15), _parsingContext);
-            var result5 = func.Execute(FunctionsHelper.CreateArgs(date, 16), _parsingContext);
-            var result6 = func.Execute(FunctionsHelper.CreateArgs(date, 17), _parsingContext);
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 11), _parsingContext);
 
-            Assert.AreEqual(3, result.Result);
-            Assert.AreEqual(2, result2.Result);
-            Assert.AreEqual(1, result3.Result);
-            Assert.AreEqual(7, result4.Result);
-            Assert.AreEqual(6, result5.Result);
-            Assert.AreEqual(5, result6.Result);
+            Assert.AreEqual(expectedResult, result.Result);
         }
 
         [TestMethod]
-        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs12()
+        [DataRow("Monday", 7)]
+        [DataRow("Tuesday", 1)]
+        [DataRow("Wednesday", 2)]
+        [DataRow("Thursday", 3)]
+        [DataRow("Friday", 4)]
+        [DataRow("Saturday", 5)]
+        [DataRow("Sunday", 6)]
+        public void WeekdayWhenTypeIs12ForAllDays(string day, int expectedResult)
         {
             var func = new Weekday();
-            var date = new DateTime(2026, 3, 11).ToOADate();
 
-            var result = func.Execute(FunctionsHelper.CreateArgs(date, 12), _parsingContext);
-            var result2 = func.Execute(FunctionsHelper.CreateArgs(date, 13), _parsingContext);
-            var result3 = func.Execute(FunctionsHelper.CreateArgs(date, 14), _parsingContext);
-            var result4 = func.Execute(FunctionsHelper.CreateArgs(date, 15), _parsingContext);
-            var result5 = func.Execute(FunctionsHelper.CreateArgs(date, 16), _parsingContext);
-            var result6 = func.Execute(FunctionsHelper.CreateArgs(date, 17), _parsingContext);
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 12), _parsingContext);
 
-            Assert.AreEqual(2, result.Result);
-            Assert.AreEqual(1, result2.Result);
-            Assert.AreEqual(7, result3.Result);
-            Assert.AreEqual(6, result4.Result);
-            Assert.AreEqual(5, result5.Result);
-            Assert.AreEqual(4, result6.Result);
-        }
-
-        List<double> CreateListOfOaDates()
-        {
-            List<double> weekOfOADates = new List<double>();
-
-            for (int i = 0; i < 7; i++)
-            {
-                weekOfOADates.Add(new DateTime(2026, 3, 9 + i).ToOADate());
-            }
-
-            return weekOfOADates;
+            Assert.AreEqual(expectedResult, result.Result);
         }
 
         [TestMethod]
-        public void WeekdayShouldReturnCorrectResultyWhenTypeIs12ForAllDays()
+        [DataRow("Monday", 6)]
+        [DataRow("Tuesday", 7)]
+        [DataRow("Wednesday", 1)]
+        [DataRow("Thursday", 2)]
+        [DataRow("Friday", 3)]
+        [DataRow("Saturday", 4)]
+        [DataRow("Sunday", 5)]
+        public void WeekdayWhenTypeIs13ForAllDays(string day, int expectedResult)
         {
-            var allWeekdays = CreateListOfOaDates();
             var func = new Weekday();
 
-            List<CompileResult> results = new List<CompileResult>();
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 13), _parsingContext);
 
-            for (int i = 0; i < 7; i++)
-            {
-                var result = func.Execute(FunctionsHelper.CreateArgs(allWeekdays[i], 12), _parsingContext);
-                results.Add(result);
-            }
-
-            Assert.AreEqual(7, results[0].Result);
-            Assert.AreEqual(1, results[1].Result);
-            Assert.AreEqual(2, results[2].Result);
-            Assert.AreEqual(3, results[3].Result);
-            Assert.AreEqual(4, results[4].Result);
-            Assert.AreEqual(5, results[5].Result);
-            Assert.AreEqual(6, results[6].Result);
+            Assert.AreEqual(expectedResult, result.Result);
         }
 
         [TestMethod]
-        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs17ForAllDays()
+        [DataRow("Monday", 5)]
+        [DataRow("Tuesday", 6)]
+        [DataRow("Wednesday", 7)]
+        [DataRow("Thursday", 1)]
+        [DataRow("Friday", 2)]
+        [DataRow("Saturday", 3)]
+        [DataRow("Sunday", 4)]
+        public void WeekdayWhenTypeIs14ForAllDays(string day, int expectedResult)
         {
-            var allWeekdays = CreateListOfOaDates();
             var func = new Weekday();
 
-            List<CompileResult> results = new List<CompileResult>();
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 14), _parsingContext);
 
-            for (int i = 0; i < 7; i++)
-            {
-                var result = func.Execute(FunctionsHelper.CreateArgs(allWeekdays[i], 17), _parsingContext);
-                results.Add(result);
-            }
+            Assert.AreEqual(expectedResult, result.Result);
+        }
 
-            Assert.AreEqual(2, results[0].Result);
-            Assert.AreEqual(3, results[1].Result);
-            Assert.AreEqual(4, results[2].Result);
-            Assert.AreEqual(5, results[3].Result);
-            Assert.AreEqual(6, results[4].Result);
-            Assert.AreEqual(7, results[5].Result);
-            Assert.AreEqual(1, results[6].Result);
+
+        [TestMethod]
+        [DataRow("Monday", 4)]
+        [DataRow("Tuesday", 5)]
+        [DataRow("Wednesday", 6)]
+        [DataRow("Thursday", 7)]
+        [DataRow("Friday", 1)]
+        [DataRow("Saturday", 2)]
+        [DataRow("Sunday", 3)]
+        public void WeekdayWhenTypeIs15ForAllDays(string day, int expectedResult)
+        {
+            var func = new Weekday();
+
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 15), _parsingContext);
+
+            Assert.AreEqual(expectedResult, result.Result);
+        }
+
+        [TestMethod]
+        [DataRow("Monday", 3)]
+        [DataRow("Tuesday", 4)]
+        [DataRow("Wednesday", 5)]
+        [DataRow("Thursday", 6)]
+        [DataRow("Friday", 7)]
+        [DataRow("Saturday", 1)]
+        [DataRow("Sunday", 2)]
+        public void WeekdayWhenTypeIs16ForAllDays(string day, int expectedResult)
+        {
+            var func = new Weekday();
+
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 16), _parsingContext);
+
+            Assert.AreEqual(expectedResult, result.Result);
+        }
+
+        [TestMethod]
+        [DataRow("Monday", 2)]
+        [DataRow("Tuesday", 3)]
+        [DataRow("Wednesday", 4)]
+        [DataRow("Thursday", 5)]
+        [DataRow("Friday", 6)]
+        [DataRow("Saturday", 7)]
+        [DataRow("Sunday", 1)]
+        public void WeekdayShouldReturnCorrectResultForAWednesdayWhenTypeIs17ForAllDays(string day, int expectedResult)
+        {
+            var func = new Weekday();
+
+            var oaDate = MondayToSundayOADict[day];
+            var result = func.Execute(FunctionsHelper.CreateArgs(oaDate, 17), _parsingContext);
+
+            Assert.AreEqual(expectedResult, result.Result);
         }
 
         [TestMethod]
