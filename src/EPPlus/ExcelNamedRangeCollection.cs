@@ -179,26 +179,78 @@ namespace OfficeOpenXml
             Insert(rowFrom, colFrom, rows, cols, n => true, lowerLimint, upperLimit);
         }
 
-        internal void Insert(int rowFrom, int colFrom, int rows, int cols, Func<ExcelNamedRange, bool> filter, int lowerLimint = 0, int upperLimit=int.MaxValue)
+        internal void Insert(int rowFrom, int colFrom, int rows, int cols, Func<ExcelNamedRange, bool> filter, int lowerLimit = 0, int upperLimit=int.MaxValue)
         {
             var namedRanges = this._list.Where(filter);
             foreach(var namedRange in namedRanges)
             {
                 if (namedRange._fromRow <= 0) continue;
                 var address = new ExcelAddressBase(namedRange.Address);
-                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint && address.Rows < ExcelPackage.MaxRows)
+                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimit && address.Rows < ExcelPackage.MaxRows)
                 {
-                    address = address.AddRow(rowFrom, rows, false);
-                    if(address == null && new ExcelAddressBase(namedRange.Address)._fromRow == 1048576)
+                    if(address._toRow + rows > ExcelPackage.MaxRows)
                     {
-                        throw new InvalidOperationException("Cannot insert row over Max Rows");
+                        if (address._fromRowFixed == false)
+                        {
+                            //if relative the address should remain as is
+                        }
+                        else if (address._fromRowFixed | address._toRowFixed)
+                        {
+                            //This may look strange at a glance but appears to be how excel does it despite absolute refs
+                            address = address.AddRow(rowFrom, rows, false, false);
+                        }
+                        else
+                        {
+                            //If over MaxRows this results in null
+                            address = address.AddRow(rowFrom, rows, false);
+                        }
+                    }
+                    else
+                    {
+                        //If over MaxRows this results in null
+                        address = address.AddRow(rowFrom, rows, false);
                     }
                 }
-                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint && address.Columns < ExcelPackage.MaxColumns)
+                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimit && address.Columns < ExcelPackage.MaxColumns)
                 {
-                    address = address.AddColumn(colFrom, cols, false,false);
+                    if (address._toCol + cols > ExcelPackage.MaxColumns)
+                    {
+                        if (address._toColFixed == false && address._fromColFixed == false)
+                        {
+                            //if relative the address should remain as is
+                        }
+                        else if (address._fromColFixed | address._toColFixed)
+                        {
+                            //This may look strange at a glance but appears to be how excel does it despite absolute refs
+                            address = address.AddColumn(colFrom, cols, false, false);
+                        }
+                        else
+                        {
+                            address = address.AddColumn(colFrom, cols, false);
+                        }
+                    }
+                    else
+                    {
+                        //If over MaxRows this results in null
+                        address = address.AddColumn(colFrom, cols, false, false);
+                    }
                 }
-                namedRange.Address = address.Address;
+
+                if(address == null)
+                {
+                    namedRange.Address = $"{namedRange.WorkSheetName}!{ExcelErrorValue.Values.Ref}";
+
+                    if(namedRange.SetCommentWarningWhenOverMax)
+                    {
+                        namedRange.NameComment += $"\n This namedRange was set to #REF! by Insert with input \n" +
+                        $"rowFrom: {rowFrom}, colfrom:{colFrom}, rows:{rows}, cols: {cols}.\n" +
+                        $"MaxRows are {ExcelPackage.MaxRows}, MaxColumns are: {ExcelPackage.MaxColumns}";
+                    }
+                }
+                else
+                {
+                    namedRange.Address = address.Address;
+                }
             }
         }
         internal void Delete(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)

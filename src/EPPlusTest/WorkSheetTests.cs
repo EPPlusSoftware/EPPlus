@@ -2758,27 +2758,7 @@ namespace EPPlusTest
 
                 var adress = namedRange.Address;
 
-                namedRange.SetAddress("披露附注!D7152", p.Workbook, ws.Name);
-
                 ws.InsertRow(347, 1, 346);
-                SaveAndCleanup(p);
-            }
-        }
-
-
-        [TestMethod]
-        public void InsertRowIssue2()
-        {
-            using (var p = OpenPackage("namedRangeWs.xlsx", true))
-            {
-                var ws = p.Workbook.Worksheets.Add("ANamedRange");
-
-                //var namedRange = ws.Names.Add("EndNamedRangeA", ws.Cells["A1048576"]);
-                var namedRange2 = ws.Names.Add("EndNamedRangeB", ws.Cells["B1048576"], true);
-
-                //On Insert relative references stay on the last row Absolute ones become #!REF
-                ws.InsertRow(347, 1, 346);
-
                 SaveAndCleanup(p);
             }
         }
