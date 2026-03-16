@@ -2747,5 +2747,20 @@ namespace EPPlusTest
 
             return wks.Cells[$"{originalTemplateRow}:{originalTemplateRow + insertCount}"];
         }
+
+        [TestMethod]
+        public void InsertRowIssue()
+        {
+            using (var p = OpenTemplatePackage("s1019.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.GetByName("披露附注");
+                var namedRange = ws.Names["上一行"];
+
+                var adress = namedRange.Address;
+
+                ws.InsertRow(347, 1, 346);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
