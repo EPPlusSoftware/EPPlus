@@ -39,7 +39,6 @@ namespace OfficeOpenXml
             RelativeTableAddress = 2
         }
 
-        internal bool SetCommentWarningWhenOverMax = false;
         ExcelWorksheet _sheet;
         /// <summary>
         /// A named range

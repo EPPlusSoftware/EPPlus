@@ -239,13 +239,6 @@ namespace OfficeOpenXml
                 if(address == null)
                 {
                     namedRange.Address = $"{namedRange.WorkSheetName}!{ExcelErrorValue.Values.Ref}";
-
-                    if(namedRange.SetCommentWarningWhenOverMax)
-                    {
-                        namedRange.NameComment += $"\n This namedRange was set to #REF! by Insert with input \n" +
-                        $"rowFrom: {rowFrom}, colfrom:{colFrom}, rows:{rows}, cols: {cols}.\n" +
-                        $"MaxRows are {ExcelPackage.MaxRows}, MaxColumns are: {ExcelPackage.MaxColumns}";
-                    }
                 }
                 else
                 {
