@@ -41,7 +41,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
-        internal eTextAlignment HorizontalAlignment { get; private set; } = eTextAlignment.Left;
+        internal eTextAlignment HorizontalAlignment { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         internal bool DisplayBounds { get; set; } = false;
@@ -68,7 +68,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 if(IsFirstParagraph)
                 {
-                    SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                    if(p.DefaultRunProperties.Fill != null)
+                    {
+                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                    }
                 }
                 else
                 {
@@ -87,9 +90,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     }
                 }
             }
+            else
+            {
+                if(p._paragraphs.FirstDefaultRunProperties!= null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+                {
+                    var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
+                    SetDrawingPropertiesFill(fill, null);
+                }
+            }
 
-            //---Initialize Bounds / Margins-- -
-            Bounds.Name = "Paragraph";
+                //---Initialize Bounds / Margins-- -
+                Bounds.Name = "Paragraph";
 
             var indent = 48 * p.IndentLevel;
             _leftMargin = p.LeftMargin + p.Indent + indent;

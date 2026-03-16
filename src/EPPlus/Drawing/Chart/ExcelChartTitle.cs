@@ -18,6 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using System.Text;
 using System.Xml;
 
@@ -56,7 +57,6 @@ namespace OfficeOpenXml.Drawing.Chart
                     chart.ApplyStyleOnPart(this, chart.StyleManager?.Style?.Title, true);
                 }
             }
-
         }
 
         private void CreateTopNode()
@@ -148,7 +148,11 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
+                    //var defBody = DefaultTextBody;
+                    //var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:bodyPr/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
+                    //_textBody.Paragraphs.FirstDefaultRunProperties = firstDefaultRunProperties;
+                    //_textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties();
                 }
                 return _textBody;
             }
@@ -245,7 +249,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
             var tb = TextBody;
-            _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont);
+            _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont, eTextAlignment.Center);
         }
 
         private ExcelChartStyleEntry GetStylePart()

@@ -145,7 +145,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //}
         }
 
-        internal virtual void ImportTextBody(ExcelTextBody body)
+        internal virtual void ImportTextBody(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             _text = null;
             VerticalAlignment = body.Anchor;
@@ -161,6 +161,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 paragraphStartY = addedPara.Bounds.Bottom;
                 largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
+
+
 
             foreach (var paragraph in body.Paragraphs)
             {

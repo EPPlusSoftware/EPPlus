@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style
         private readonly float _defaultFontSize;
         private readonly ExcelTextFont _defaultFont;
         private readonly ExcelTextBody _textBody;
-        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11) :
+        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11, eTextAlignment defaultAlignment = eTextAlignment.Left) :
             base(ns, topNode)
         {
             _drawing = drawing;
@@ -67,8 +67,9 @@ namespace OfficeOpenXml.Style
             //_defaultFont = tfXml;
 
             _path = path;
-            foreach(var p in tb.Paragraphs)
+            foreach (var p in tb.Paragraphs)
             {
+                p.defaultAlignment = defaultAlignment;
                 foreach(var tr in p.TextRuns)
                 {
                     _list.Add(new ExcelParagraph(tr));

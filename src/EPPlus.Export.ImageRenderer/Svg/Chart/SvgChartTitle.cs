@@ -20,6 +20,8 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -190,7 +192,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
-                TextBox.ImportTextBody(_title.TextBody);
+                TextBox.ImportTextBody(_title.TextBody, true, ExcelHorizontalAlignment.Center);
             }
             else
             {
@@ -213,6 +215,8 @@ namespace EPPlusImageRenderer.Svg
         }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
+            var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();
+            TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
             TextBox.AppendRenderItems(renderItems);
             TextBox.Rectangle.SetDrawingPropertiesFill(_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
             TextBox.Rectangle.SetDrawingPropertiesBorder(_title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);

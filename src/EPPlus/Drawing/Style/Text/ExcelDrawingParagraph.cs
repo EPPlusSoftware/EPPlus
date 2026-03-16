@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Drawing
 
             //////Previously new paragraphs used the first DefaultRunProperties
             //////Uncertain if we should keep this behaviour at least as an option. TODO: Decide if breaking change or legacy setting (or keep only previous paragraph's settings?)
-            bool legacyDefaultRunPropertySetting = true;
+            bool legacyDefaultRunPropertySetting = false;
 
             if (paragraphs.Count == 0)
             {
@@ -127,6 +127,9 @@ namespace OfficeOpenXml.Drawing
                 return sb.ToString();
             }
         }
+
+
+        internal eTextAlignment defaultAlignment = eTextAlignment.Left;
         /// <summary>
         /// Horizontal Alignment
         /// </summary>
@@ -134,7 +137,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString("a:pPr/@algn").ToEnum(eTextAlignment.Left, new Dictionary<string, eTextAlignment>
+                return GetXmlNodeString("a:pPr/@algn").ToEnum(defaultAlignment, new Dictionary<string, eTextAlignment>
                 {
                     ["r"] = eTextAlignment.Right,
                     ["ctr"] = eTextAlignment.Center,

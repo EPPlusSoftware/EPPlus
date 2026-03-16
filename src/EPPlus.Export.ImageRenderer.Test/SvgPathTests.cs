@@ -725,6 +725,36 @@ namespace TestProject1
                 }
             }
         }
+
+        [TestMethod]
+        public void TestStyling()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("MyCellsAdvanced.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var myCell = ws.Cells["B3"];
+                var myCellStyle = myCell.Style;
+                var fillStyle = myCell.Style.Fill;
+                var fontColor = myCell.Style.Font.Color;
+
+                var bgRgb = myCell.Style.Fill.BackgroundColor.Rgb;
+                var bgFillCol = myCell.Style.Fill.PatternColor.Rgb;
+
+                var myOtherCell = ws.Cells["B2"];
+
+                var myShape = ws.Drawings[0].As.Shape;
+                var myRichtext = myShape.RichText;
+                var firstDefault = myShape.TextBody.Paragraphs.FirstDefaultRunProperties;
+
+                var firstPara = myShape.TextBody.Paragraphs[0];
+                var defRun = firstPara.DefaultRunProperties;
+
+                var secondPara = myShape.TextBody.Paragraphs[1];
+                var secondDefRun = secondPara.DefaultRunProperties;
+            }
+        }
+
         [TestMethod]
         public void GenerateSvgForCharts_SecondaryAxis()
         {

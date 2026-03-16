@@ -5,6 +5,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 
@@ -118,7 +119,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true)
+        internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             double l, r, t, b;
             if (useDefaults)
