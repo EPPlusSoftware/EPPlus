@@ -27,13 +27,10 @@ namespace EPPlusTest.PDF
         /* BIG PDF TODO
          * This should be turned into tickets on github..
          * 
-         * Cells: Cutting Text in general. Check cells at text length
          * Cells: Display errors option
          * Cells: Icons
          * Cells: Pictures in cells
          * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
-         * 
-         * Merged Cells: Merged cells with no color set will have the color set to white to hide gridlines. They should not have color set to keep tranparency if we want to include background.
          * 
          * Tables: Table Implementation
          * Tables: Fix order of applying table styling. Right now Table is used if it exsists, but cell styling should be prioritised and table should be ignored if cell has styluing.
@@ -42,17 +39,10 @@ namespace EPPlusTest.PDF
          * 
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
          * 
-         * Text: Bold (Can now do back up bold if bold font not found)
-         * Text: Italic (Can now do back up italic if italic font not found)
-         * Text: Underline (Basic underline done, need double and single and double accounting)
-         * Text: Strikethrough (Done, small adjustments to line to match excel perhaps)
-         * Text: Superscript (Done, might need adjustments such as moving it towrds top of cell more)
-         * Text: Subscript (Done, might need adjustments. Excel adjusts cell height and moves subscript lower inside the cell)
+         * Text: Set up to use back up techniques when not embedding font
          * Text: Equations
          * Text: Shrink To Fit
-         * Text: Broken text hide when overlapping other cells with text
-         * Text: Center vertical text
-         * Text: Render text to image from fonts that are not allowed to be embedded?
+         * Text: Implement vertical text again
          * 
          * Layout: Respect Page Breaks
          * Layout: Center on page Horizontal and vertical
@@ -65,16 +55,16 @@ namespace EPPlusTest.PDF
          * Layout: Selected worksheets to pdf
          * Layout: Cell range to pdf
          * Layout: Remove empty last page
-         * Layout: Calculate width and height of cells more correctly
-         * Layout: Fix Mask away stuff outside margins being broken
-         * Layout: clipping rekt should exapnd with text longer than its own cell untiln reaching margin area text outside should create a new page. It also should affect gridlines
+         * Layout: Calculate height of cells more correctly
+         * Layout: Print Area
+         * Layout: Print titles
          * 
          * Borders: Adjust and make border look better
          * 
          * Pivot Table: Pivot table implementation
          * 
-         * Drawings: Shapes
-         * Drawings Pictures
+         * Drawings: Pictures
+         * Drawings Shapes
          * Drawings: Charts
          * Drawings: 3D models
          * 
@@ -89,7 +79,6 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
             //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
-
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");

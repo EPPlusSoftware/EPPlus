@@ -112,6 +112,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Create page and content objects.
         private void CreatePageLayoutObjects(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfWorksheetLayout worksheetLayout, PdfPagesLayout pages)
         {
+
+            /*Speculating how to make page breaks work. When we have all pages we create a pages map. we find all rows and columns that has a page break and then we rezise the content object until it reaches the page break*/
+
             //Get x cooridiantes to break for new page
             List<double> xBreaks = new List<double>() { 0d };
             double currentWidth = 0, boundsWidth = pageSettings.ContentBounds.Width;
