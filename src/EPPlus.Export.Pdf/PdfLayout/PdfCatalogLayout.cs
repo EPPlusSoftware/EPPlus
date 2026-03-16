@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -65,6 +66,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var t3 = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
+            var s0 = this.ToHierarchyString();
 
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             sw.Stop();
@@ -77,6 +79,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var t4 = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
+            var s1 = this.ToHierarchyString();
 
             //AddCellsToPageLayout(WorksheetLayout, PagesLayout);
             //HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
@@ -85,6 +88,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var t5 = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
+            var s2 = this.ToHierarchyString();
 
             ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
             sw.Stop();
@@ -128,24 +132,36 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     boundsWidth = currentWidth + pageSettings.ContentBounds.Width;
                 }
                 currentWidth += width;
+                if (worksheet.Column(j).PageBreak)
+                {
+                    xBreaks.Add(currentWidth);
+                    boundsWidth = currentWidth + pageSettings.ContentBounds.Width;
+                }
             }
+                xBreaks.Add(currentWidth);
             //Get y cooridiantes to break for new page
             List<double> yBreaks = new List<double>() { 0d };
-            double currentHeight = 0, boundsHegiht = -pageSettings.ContentBounds.Height;
+            double currentHeight = 0, boundsHeight = -pageSettings.ContentBounds.Height;
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
-                if (currentHeight - height <= boundsHegiht)
+                if (currentHeight - height <= boundsHeight)
                 {
                     yBreaks.Add(currentHeight);
-                    boundsHegiht = currentHeight - pageSettings.ContentBounds.Height;
+                    boundsHeight = currentHeight - pageSettings.ContentBounds.Height;
                 }
                 currentHeight -= height;
+                if (worksheet.Row(i).PageBreak)
+                {
+                    yBreaks.Add(currentHeight);
+                    boundsHeight = currentHeight - pageSettings.ContentBounds.Height;
+                }
             }
+                yBreaks.Add(currentHeight);
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
-            int horizontalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.X / pageSettings.ContentBounds.Width));
-            int verticalPageCount = System.Math.Max(1, (int)System.Math.Ceiling(System.Math.Abs( worksheetLayout.Size.Y) / pageSettings.ContentBounds.Height));
+            int horizontalPageCount = xBreaks.Count-1; //System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.X / pageSettings.ContentBounds.Width));
+            int verticalPageCount = yBreaks.Count-1; //System.Math.Max(1, (int)System.Math.Ceiling(System.Math.Abs( worksheetLayout.Size.Y) / pageSettings.ContentBounds.Height));
             int totalPages = horizontalPageCount * verticalPageCount;
             //Create the new pages and place them in a grid.
             for (int i = 0; i < totalPages; i++)
@@ -165,10 +181,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double y = row * -pageSettings.PageSize.HeightPu;
                 PdfPageLayout page = new PdfPageLayout(x, y-pageSettings.PageSize.HeightPu, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
                 page.Name = "Page " + (i + 1);
-                PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
+                //ContentLayout
+                double width = xBreaks[col + 1] - xBreaks[col];
+                double height = Math.Abs( yBreaks[row] - yBreaks[row + 1]);
+                PdfContentLayout content = new PdfContentLayout(0, 0, width, height);
                 content.Name = "Content " + (i + 1);
                 page.AddChild(content);
-                content.Position = new Vector2(xBreaks[col], yBreaks[row] - pageSettings.ContentBounds.Height); //We set position after making content a child of page otherwise positioning breaks and causes errors.
+                content.Position = new Vector2(xBreaks[col], yBreaks[row+1]);
                 pages.AddChild(page);
             }
         }
@@ -389,7 +408,25 @@ namespace EPPlus.Export.Pdf.PdfLayout
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
                 page.CreateMap();
-                page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.Margins.TopPu);
+                var x = pageSettings.Margins.LeftPu;
+                if (pageSettings.CenterOnPageHorizontally)
+                {
+                    var w = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                    x = pageSettings.Margins.LeftPu + (w - page.ChildObjects[0].Size.X) / 2;
+                }
+                var y = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y;
+                if (pageSettings.CenterOnPageVertically)
+                {
+                    var h = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - pageSettings.Margins.BottomPu;
+                    y = pageSettings.Margins.BottomPu + (h - page.ChildObjects[0].Size.Y) / 2;
+                }
+                page.ChildObjects[0].LocalPosition = new Vector2(x, y);
+                page.ContentTop = page.ChildObjects[0].LocalPosition.Y + page.ChildObjects[0].Size.Y;
+                page.ContentBottom = page.ChildObjects[0].LocalPosition.Y;
+                page.ContentLeft = page.ChildObjects[0].LocalPosition.X;
+                page.ContentRight = page.ChildObjects[0].LocalPosition.X + page.ChildObjects[0].Size.X;
+                page.ContentHeight = page.ChildObjects[0].Size.Y;
+
                 var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
                 for (int i = 0; i < contentObjects.Count; i++)
                 {

@@ -444,20 +444,20 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Gridlines Border End");
         }
 
-        public void AddMarginClipping(Transform pageLayout, PdfContentBounds bounds)
+        public void AddMarginClipping(PdfPageLayout pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
 
             commands.Add($"% Margin Clip Start");
-            double y = bounds.Top;
+            double y = pageLayout.ContentTop;
             double width = 0d;
             foreach (var line in pl.BorderLines)
             {
                 width = System.Math.Max(width, System.Math.Max(line.X1, line.X2));
                 y = System.Math.Min(y, System.Math.Min(line.Y1, line.Y2));
             }
-            var heightAdjust = y - bounds.Bottom;
-            commands.Add($"{bounds.X.ToPdfString()} {y.ToPdfString()} {(width - bounds.Left).ToPdfString()} {(bounds.Height - heightAdjust).ToPdfString()} re W n");
+            var heightAdjust = y - pageLayout.ContentBottom;
+            commands.Add($"{pageLayout.ContentLeft.ToPdfString()} {y.ToPdfString()} {(width - pageLayout.ContentLeft).ToPdfString()} {(pageLayout.ContentHeight - heightAdjust).ToPdfString()} re W n");
         }
 
         internal override string RenderDictionary()

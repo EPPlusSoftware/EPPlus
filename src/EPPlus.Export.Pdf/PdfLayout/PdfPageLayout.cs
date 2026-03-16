@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
@@ -71,6 +72,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public int ColCount = 0;
 
         public PageMap[,] Map;
+
+        public double ContentTop;
+        public double ContentBottom;
+        public double ContentLeft;
+        public double ContentRight;
+        public double ContentX;
+        public double ContentHeight;
 
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height) { }

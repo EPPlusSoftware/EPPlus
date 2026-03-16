@@ -78,6 +78,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
+            //using var p = OpenTemplatePackage("PdfGrids\\PdfPageBreakTest.xlsx");
             //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
             //using var p = OpenTemplatePackage("PdfBorders.xlsx");
             //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
@@ -92,12 +93,14 @@ namespace EPPlusTest.PDF
             pageSettings.Orientation = Orientations.Portrait;
             pageSettings.Margins = PdfMargins.Normal;
             pageSettings.ShowGridLines = true;
+            pageSettings.CenterOnPageHorizontally = true;
+            pageSettings.CenterOnPageVertically = true;
             //Debug Flags
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest44.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest45.pdf");
         }
     }
 }

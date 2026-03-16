@@ -68,7 +68,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 y -= height;
             }
             HandleDrawings(worksheet);
-            Size = new Vector2(totalWidth, y);
+            Size = new Vector2(totalWidth, Math.Abs(y));
         }
 
         /// <summary>
