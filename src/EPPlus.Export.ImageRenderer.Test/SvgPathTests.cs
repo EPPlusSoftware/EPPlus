@@ -576,7 +576,7 @@ namespace TestProject1
         public void GenerateDatalabelsLeaderLines()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datalabelsSvgLeaderLines.xlsx"))
+            using (var p = OpenTemplatePackage("datalabelsSvgLeaderLinesAdjustedToBeSimilar.xlsx"))
             {
                 var c = p.Workbook.Worksheets[0].Drawings[0];
 

@@ -45,6 +45,10 @@ namespace EPPlusImageRenderer.RenderItems
         {
         }
 
+        internal SvgGroupItem(DrawingBase renderer, double xPos, double yPos) : base(renderer)
+        {
+           GroupTransform = $"transform=\"translate({xPos.PointToPixelString()}, {yPos.PointToPixelString()})\"";
+        }
 
         internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds) : base(renderer)
         {

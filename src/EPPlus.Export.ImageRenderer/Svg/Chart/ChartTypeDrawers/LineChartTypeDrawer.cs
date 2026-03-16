@@ -124,8 +124,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     if(serieDataLabel != null)
                     {
-                        var gBounds = new BoundingBox(xPos, yPos, 0, 0);
-                        serieDataLabel.groupItems.Add(new SvgGroupItem(_svgChart, gBounds));
+                        serieDataLabel.SetPositionOffset(xPos, yPos, i);
                     }
                 }
                 if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
@@ -142,8 +141,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     if (serieDataLabel != null)
                     {
-                        var gBounds = new BoundingBox(xPos, yPos, 0, 0);
-                        serieDataLabel.groupItems.Add(new SvgGroupItem(_svgChart, gBounds));
+                        serieDataLabel.SetPositionOffset(xPos, yPos, i);
                     }
                 }
             }

@@ -90,6 +90,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
+                rect.Left = sc.Bounds.Width * (float)(ml.Left ?? 0D) / 100;
                 //TODO:Add factor from default position
             }
             //Width is always factor.
@@ -101,6 +102,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
+                rect.Top = sc.Bounds.Height * (float)(ml.Top ?? 0D) / 100;
                 //TODO:Add factor from default position
             }
             //Height is always factor.
