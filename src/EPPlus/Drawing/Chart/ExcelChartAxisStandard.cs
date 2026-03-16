@@ -814,7 +814,7 @@ namespace OfficeOpenXml.Drawing.Chart
             List<object> pl = new List<object>();
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
-                foreach (var serie in _chart.Series)
+                foreach (var serie in ct.Series)
                 {
                     var l = new List<object>();
                     values.Add(l);
@@ -832,11 +832,11 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (ct.YAxis == this)
+                        if (ct.YAxis.Id == Id)
                         {
                             AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, pl);
                         }
-                        else if (ct.XAxis == this)
+                        else if (ct.XAxis.Id == Id)
                         {
                             AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
                         }

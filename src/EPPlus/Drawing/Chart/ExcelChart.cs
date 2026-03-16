@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -105,7 +106,7 @@ namespace OfficeOpenXml.Drawing.Chart
             return false;
         }
         internal abstract void AddAxis();
-        bool _secondaryAxis = false;
+        bool? _secondaryAxis = null;
         /// <summary>
         /// If true the charttype will use the secondary axis.
         /// The chart must contain a least one other charttype that uses the primary axis.
@@ -114,7 +115,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return _secondaryAxis;
+                if (_secondaryAxis.HasValue == false)
+                {
+                    _secondaryAxis = Array.FindIndex(Axis, x => ((ExcelChartAxis)x).Id == YAxis.Id) > 1;
+                }
+                return _secondaryAxis.Value;
             }
             set
             {

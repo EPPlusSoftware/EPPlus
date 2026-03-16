@@ -16,8 +16,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
             RenderItems.Add(groupItem);
-            var isStacked = Chart.IsTypeStacked();
-            var isPercentStacked = Chart.IsTypePercentStacked();
+            var isStacked = chartType.IsTypeStacked();
+            var isPercentStacked = chartType.IsTypePercentStacked();
             var xValues = new List<List<object>>();
             var yValues = new List<List<object>>();
             int serCounter = 0;
@@ -39,11 +39,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 serCounter++;
             }
 
-            if (Chart.IsTypeStacked())
+            if (chartType.IsTypeStacked())
             {
                 SumSeries(yValues);
             }
-            else if (Chart.IsTypePercentStacked())
+            else if (chartType.IsTypePercentStacked())
             {
                 ExcelChartAxisStandard.CalculateStacked100(yValues);
             }
@@ -81,16 +81,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
         private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, SvgChartSerieDataLabel serieDataLabel)
-        {
-            var xAxis = _svgChart.HorizontalAxis;
-            SvgChartAxis yAxis;
+        {            
+            SvgChartAxis yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
             {
                 yAxis = _svgChart.SecondVerticalAxis;
+                xAxis = _svgChart.SecondHorizontalAxis;
+                if(xAxis.Axis.Deleted && xAxis.Values==null)
+                {
+                    xAxis = _svgChart.HorizontalAxis;
+                }
             }
             else
             {
                 yAxis = _svgChart.VerticalAxis;
+                xAxis = _svgChart.HorizontalAxis;
             }
             var linePath = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
             var coords = new List<double>();
@@ -147,6 +152,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             linePath.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
             linePath.SetDrawingPropertiesEffects(serie.Effect);
             linePath.FillColor = "none"; // No fill for line
+            linePath.StrokeMiterLimit = 4; // A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
+            linePath.LineJoin = SvgLineJoin.Round; 
             RenderItems.Add(linePath);
             RenderItems.AddRange(markerItems);
         }

@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The compound line type that is to be used for lines with text such as underlines
         /// </summary>
-        public eCompundLineStyle CompoundLineStyle
+        public eCompoundLineStyle CompoundLineStyle
         {
             get
             {

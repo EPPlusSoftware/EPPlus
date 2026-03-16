@@ -382,7 +382,6 @@ public abstract class TestBase
     }
     protected static void LoadGeoTestData(ExcelWorksheet ws)
     {
-
         var l = new List<GeoData>
             {
                 new GeoData{ Country="Sweden", State = "Stockholm", Sales = 154 },

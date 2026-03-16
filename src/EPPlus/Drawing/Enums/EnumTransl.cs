@@ -94,34 +94,34 @@ namespace OfficeOpenXml.Drawing
                     return eLineCap.Flat;
             }
         }
-        internal static eCompundLineStyle     ToLineCompound(string s)
+        internal static eCompoundLineStyle     ToLineCompound(string s)
         {
             switch (s)
             {
                 case "dbl":
-                    return eCompundLineStyle.Double;
-                case "sng":
-                    return eCompundLineStyle.Single;
+                    return eCompoundLineStyle.Double;
                 case "thickThin":
-                    return eCompundLineStyle.DoubleThickThin;
+                    return eCompoundLineStyle.DoubleThickThin;
                 case "thinThick":
-                    return eCompundLineStyle.DoubleThinThick;
+                    return eCompoundLineStyle.DoubleThinThick;
+                case "tri":
+                    return eCompoundLineStyle.TripleThinThickThin;
                 default:
-                    return eCompundLineStyle.TripleThinThickThin;
+                    return eCompoundLineStyle.Single;
             }
         }
 
-        internal static string FromLineCompound(eCompundLineStyle v)
+        internal static string FromLineCompound(eCompoundLineStyle v)
         {
             switch (v)
             {
-                case eCompundLineStyle.Double:
+                case eCompoundLineStyle.Double:
                     return "dbl";
-                case eCompundLineStyle.Single:
+                case eCompoundLineStyle.Single:
                     return "sng";
-                case eCompundLineStyle.DoubleThickThin:
+                case eCompoundLineStyle.DoubleThickThin:
                     return "thickThin";
-                case eCompundLineStyle.DoubleThinThick:
+                case eCompoundLineStyle.DoubleThinThick:
                     return "thinThick";
                 default:
                     return "tri";

@@ -84,14 +84,14 @@ namespace EPPlusTest.Drawing
             shape.Border.Fill.Color = Color.Red;
             shape.Border.Width = 12;
             shape.Border.LineStyle = eLineStyle.Dot;
-            shape.Border.CompoundLineStyle = eCompundLineStyle.TripleThinThickThin;
+            shape.Border.CompoundLineStyle = eCompoundLineStyle.TripleThinThickThin;
 
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Border.Fill.Style);
             Assert.IsNotNull(shape.Border.Fill.SolidFill);
             Assert.AreEqual(12, shape.Border.Width);
             Assert.AreEqual(eLineStyle.Dot, shape.Border.LineStyle);
-            Assert.AreEqual(eCompundLineStyle.TripleThinThickThin, shape.Border.CompoundLineStyle);
+            Assert.AreEqual(eCompoundLineStyle.TripleThinThickThin, shape.Border.CompoundLineStyle);
         }
         [TestMethod]
         public void BorderAlignRoundJoin()
@@ -105,7 +105,7 @@ namespace EPPlusTest.Drawing
             //Act
             shape.Border.Fill.Color = Color.Red;
             shape.Border.LineStyle = eLineStyle.LongDashDotDot;
-            shape.Border.CompoundLineStyle = eCompundLineStyle.Double;
+            shape.Border.CompoundLineStyle = eCompoundLineStyle.Double;
             shape.Border.Alignment = ePenAlignment.Inset;
             shape.Border.LineCap = eLineCap.Square;
             shape.Border.Join = eLineJoin.Round;
@@ -114,7 +114,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eFillStyle.SolidFill, shape.Border.Fill.Style);
             Assert.IsNotNull(shape.Border.Fill.SolidFill);
             Assert.AreEqual(eLineStyle.LongDashDotDot, shape.Border.LineStyle);
-            Assert.AreEqual(eCompundLineStyle.Double, shape.Border.CompoundLineStyle);
+            Assert.AreEqual(eCompoundLineStyle.Double, shape.Border.CompoundLineStyle);
             Assert.AreEqual(ePenAlignment.Inset, shape.Border.Alignment);
             Assert.AreEqual(eLineJoin.Round, shape.Border.Join);
             Assert.AreEqual(eLineCap.Square, shape.Border.LineCap);
@@ -131,7 +131,7 @@ namespace EPPlusTest.Drawing
             //Act
             shape.Border.Fill.Color = Color.Red;
             shape.Border.LineStyle = eLineStyle.LongDashDotDot;
-            shape.Border.CompoundLineStyle = eCompundLineStyle.Double;
+            shape.Border.CompoundLineStyle = eCompoundLineStyle.Double;
             shape.Border.LineCap = eLineCap.Flat;
             shape.Border.Join = eLineJoin.Bevel;
             shape.Border.MiterJoinLimit=10000;  //Sets join to Miter
@@ -140,7 +140,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eFillStyle.SolidFill, shape.Border.Fill.Style);
             Assert.IsNotNull(shape.Border.Fill.SolidFill);
             Assert.AreEqual(eLineStyle.LongDashDotDot, shape.Border.LineStyle);
-            Assert.AreEqual(eCompundLineStyle.Double, shape.Border.CompoundLineStyle);
+            Assert.AreEqual(eCompoundLineStyle.Double, shape.Border.CompoundLineStyle);
             Assert.AreEqual(eLineJoin.Miter, shape.Border.Join);
             Assert.AreEqual(10000, shape.Border.MiterJoinLimit);
             Assert.AreEqual(eLineCap.Flat, shape.Border.LineCap);

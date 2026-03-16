@@ -36,6 +36,24 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
+            //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
+            switch (CompoundLineStyle)
+            {
+                case eCompoundLineStyle.Single:
+                    RenderPathItem(sb, null, null);
+                    break;
+                case eCompoundLineStyle.Double:
+                    var name = $"double-stroke-{Guid.NewGuid().ToString()}";
+                    sb.Append($"<defs><mask id=\"{name}\">");
+
+                    RenderPathItem(sb, BorderWidth, "white");
+                    RenderPathItem(sb, BorderWidth * (3D / 7D), "black");
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+                    break;
+            }
+        }
+        private void RenderPathItem(StringBuilder sb, double? borderWidth, string color)
+        {
             var width = Bounds.Width.PointToPixel();
             var height = Bounds.Height.PointToPixel();
 
@@ -45,8 +63,9 @@ namespace EPPlusImageRenderer.RenderItems
                 Commands[i].Render(width, height, sb);
             }
             sb.Append("\" ");
-            base.Render(sb);
+            RenderCompoundItems(sb, borderWidth, color);
             sb.Append("/>");
+
         }
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)

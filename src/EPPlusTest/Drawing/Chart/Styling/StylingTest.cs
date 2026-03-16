@@ -140,7 +140,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             Assert.AreEqual(9, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Size);
             Assert.AreEqual(eTextCapsType.None, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Capitalization);
             Assert.AreEqual(ePenAlignment.Center, chart.StyleManager.Style.CategoryAxis.Border.Alignment);
-            Assert.AreEqual(eCompundLineStyle.Single, chart.StyleManager.Style.CategoryAxis.Border.CompoundLineStyle);
+            Assert.AreEqual(eCompoundLineStyle.Single, chart.StyleManager.Style.CategoryAxis.Border.CompoundLineStyle);
             Assert.AreEqual(eLineCap.Flat, chart.StyleManager.Style.CategoryAxis.Border.LineCap);
             Assert.AreEqual(1.5, chart.StyleManager.Style.CategoryAxis.Border.Width);
             Assert.AreEqual(eFillStyle.SolidFill, chart.StyleManager.Style.CategoryAxis.Border.Fill.Style);

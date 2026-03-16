@@ -59,6 +59,8 @@ namespace EPPlusImageRenderer.RenderItems
         public ExcelDrawingBlipFill BlipFill { get; private set; }
         public double? BorderWidth { get; set; }
         public double[] BorderDashArray { get; set; }
+        public int StrokeMiterLimit { get; set; } = 4;
+        public eCompoundLineStyle CompoundLineStyle { get; set; } = eCompoundLineStyle.Single;
         public double? BorderDashOffset { get; set; }
         public eLineCap LineCap { get; set; } = eLineCap.Flat;
         public SvgLineJoin LineJoin { get; set; } = SvgLineJoin.Miter;
@@ -100,12 +102,13 @@ namespace EPPlusImageRenderer.RenderItems
         }
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
         {
+            double? opacity=null;
             switch (fill.Style)
             {
                 case eFillStyle.NoFill:
                     if (fill.IsEmpty)
                     {
-                        FillColor = GetFillColor(fill, color, FillColorSource);
+                        FillColor = GetFillColor(fill, color, FillColorSource, out opacity);
                     }
                     else
                     {
@@ -113,22 +116,27 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     break;
                 case eFillStyle.SolidFill:
-                    FillColor = GetFillColor(fill, color, FillColorSource);
+                    FillColor = GetFillColor(fill, color, FillColorSource, out opacity);
                     break;
                 case eFillStyle.GradientFill:
                     GradientFill = new DrawGradientFill(DrawingRenderer.Theme, fill.GradientFill);
                     FillColor = null;
                     break;
             }
+            if (opacity.HasValue)
+            {
+                FillOpacity = opacity;
+            }
         }
         internal virtual void SetDrawingPropertiesBorder(ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, double defaultWidth=1.5)
         {
+            double? opacity = null;
             switch (border.Fill.Style)
             {
                 case eFillStyle.NoFill:
                     if(border.Fill.IsEmpty)
                     {
-                        BorderColor = GetFillColor(border.Fill, color, BorderColorSource);
+                        BorderColor = GetFillColor(border.Fill, color, BorderColorSource, out opacity);
                     }
                     else
                     {
@@ -136,13 +144,18 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     break;
                 case eFillStyle.SolidFill:
-                    BorderColor = GetFillColor(border.Fill, color, BorderColorSource);
+                    BorderColor = GetFillColor(border.Fill, color, BorderColorSource, out opacity);
                     BorderGradientFill = null;
                     break;
                 case eFillStyle.GradientFill:
                     BorderGradientFill = new DrawGradientFill(DrawingRenderer.Theme, border.Fill.GradientFill);
                     BorderColor = null;
                     break;
+            }
+
+            if (opacity.HasValue)
+            {
+                BorderOpacity = opacity;
             }
 
             if (hasBorder && BorderColorSource != PathFillMode.None)
@@ -152,8 +165,9 @@ namespace EPPlusImageRenderer.RenderItems
                 {
                     BorderDashArray = GetDashArray(border);
                 }
-                if(border.CompoundLineStyle!=eCompundLineStyle.Single)
+                if(border.CompoundLineStyle!=eCompoundLineStyle.Single)
                 {
+                    CompoundLineStyle = border.CompoundLineStyle;
                     //TODO:Add support double compound borders.
                 }
             }
@@ -197,8 +211,9 @@ namespace EPPlusImageRenderer.RenderItems
             return null;
         }
 
-        private string GetFillColor(ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource)
+        private string GetFillColor(ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource, out double? opacity)
         {
+            opacity = null;
             if (fillColorSource == PathFillMode.None)
             {
                 return "none";
@@ -226,13 +241,12 @@ namespace EPPlusImageRenderer.RenderItems
             }
 
             fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
+            if(fc.A<255 && fc!=Color.Empty)
+            {
+                opacity = fc.A/255D;
+            }
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
-
-        //internal void SetTheme(ExcelTheme theme)
-        //{
-        //    theme = theme;
-        //}
     }
 
     internal abstract class RenderItemIndependent : RenderItemBase

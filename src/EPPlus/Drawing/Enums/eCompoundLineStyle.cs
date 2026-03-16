@@ -15,7 +15,7 @@ namespace OfficeOpenXml.Drawing
     /// <summary>
     /// The compound line type. Used for underlining text
     /// </summary>
-    public enum eCompundLineStyle
+    public enum eCompoundLineStyle
     {
         /// <summary>
         /// Double lines with equal width

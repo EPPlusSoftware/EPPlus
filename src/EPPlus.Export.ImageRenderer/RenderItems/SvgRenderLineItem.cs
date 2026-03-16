@@ -92,17 +92,33 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ", 
-                X1.PointToPixelString(), 
-                Y1.PointToPixelString(), 
-                X2.PointToPixelString(), 
-                Y2.PointToPixelString());
-            base.Render(sb);
-            if(LineCap!=eLineCap.Flat)
+            //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
+            switch (CompoundLineStyle)
             {
-                sb.AppendFormat(" stroke-linecap=\"{0}\"", LineCap == eLineCap.Round ? "round" : "square");
+                case eCompoundLineStyle.Double:
+                    LineCap = eLineCap.Flat;
+                    var name = $"double-stroke-{Guid.NewGuid().ToString()}";
+                    sb.Append($"<defs><mask id=\"{name}\">");
+
+                    RenderLineItem(sb, BorderWidth, "white");
+                    RenderLineItem(sb, BorderWidth * (3D / 7D), "black");
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+                    break;
+                default:
+                    RenderLineItem(sb, null, null);
+                    break;
             }
-            sb.AppendFormat("/>");
+        }
+
+        private void RenderLineItem(StringBuilder sb, double? borderWidth, string color)
+        {
+            sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
+                X1.PointToPixelString(),
+                Y1.PointToPixelString(),
+                X2.PointToPixelString(),
+                Y2.PointToPixelString());
+            
+            RenderCompoundItems(sb, borderWidth, color);
         }
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)

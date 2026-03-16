@@ -116,8 +116,16 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Top = sc.GetPlotAreaTop();
                     Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right : margin;                               
                     break;
+                case eAxisPosition.Right:
+                    Rectangle.Top = sc.GetPlotAreaTop();
+                    Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width : sc.Bounds.Right - Rectangle.Width - margin;
+                    break;
                 case eAxisPosition.Bottom:
                     Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
+                    Rectangle.Left = GetHorizontalLeft(sc);
+                    break;
+                case eAxisPosition.Top:
+                    Rectangle.Top = sc.Title != null && sc.Title._title.Layout.HasLayout==false ? sc.Title.Rectangle.Bottom+margin : margin;
                     Rectangle.Left = GetHorizontalLeft(sc);
                     break;
             }

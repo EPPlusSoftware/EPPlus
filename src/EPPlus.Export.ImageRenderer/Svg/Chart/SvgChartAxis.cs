@@ -27,6 +27,7 @@ using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -37,11 +38,11 @@ namespace EPPlusImageRenderer.Svg
     {
         internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc)
         {
-            SvgChart= sc;
+            SvgChart = sc;
             Axis = ax;
             SetMargins(ax.TextBody);
 
-            if (sc.Chart.Series.Count == 0 || (ax.Deleted == true && ax.Title == null))
+            if (sc.Chart.Series.Count == 0 || (ax.Deleted == true && ax.HasTitle==false))
             {
                 return;
             }
@@ -100,6 +101,7 @@ namespace EPPlusImageRenderer.Svg
                         else
                         {
                             Rectangle.Height = GetTextHeight(sc, ax);
+                            //TODO:Fix
                             Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                         }
                     }
@@ -107,7 +109,11 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.FillColor = "none";
 
                     Line = new SvgRenderLineItem(sc, Rectangle.Bounds);
-                    Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                    Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
+                    if(Line.BorderWidth < 1)
+                    {
+                        Line.BorderWidth = 1;
+                    }
                 }
             }
         }
@@ -332,13 +338,24 @@ namespace EPPlusImageRenderer.Svg
             if(Axis.IsVertical)
             {
                 //If the axis is vertical, we need to adjust the left position of the textboxes to align them to the right and not have them overlap with the axis line.
-                foreach(var tb in ret)
+                if (Axis.AxisPosition == eAxisPosition.Left)
                 {
-                    tb.Left += (widest - tb.Width);
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += (widest - tb.Width);
+                    }
+                }
+                else
+                {
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += LeftMargin;
+                    }
                 }
             }
             else
             {
+                //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
                 var majorWidth = Rectangle.Width / AxisValues.Count;
                 foreach (var tb in ret)
@@ -363,7 +380,7 @@ namespace EPPlusImageRenderer.Svg
         private double GetAxisItemLeft(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
             if (Axis.AxisPosition == eAxisPosition.Left)
-                {
+            {
                 return Rectangle.Left;
             }
             else if (Axis.AxisPosition == eAxisPosition.Right)
@@ -393,22 +410,22 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Top)
             {
-                return Rectangle.Top - m.Height.PointToPixel() - TopMargin;
+                return Rectangle.Bottom - m.Height - TopMargin;
             }
             else if (Axis.AxisPosition == eAxisPosition.Bottom)
             {
-                return Rectangle.Bottom - m.Height.PointToPixel() + BottomMargin;
+                return Rectangle.Bottom - m.Height + BottomMargin;
             }
             else
             {
                 var majorHeight = Rectangle.Height / (AxisValues.Count-1);
                 if (Axis.AxisType == eAxisType.Cat)
                 {
-                    return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) + (majorHeight / 2) - m.Height.PointToPixel() / 2;
+                    return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) + (majorHeight / 2) - m.Height / 2;
                 }
                 else
                 {
-                    return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) - m.Height.PointToPixel() / 2;
+                        return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) - m.Height / 2;
                 }
             }
 
@@ -433,7 +450,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 tickMarkWidthInside = tickMarkWidth;
             }
-            if(type==eAxisTickMark.Out|| type == eAxisTickMark.Cross)
+            if(type==eAxisTickMark.Out || type == eAxisTickMark.Cross)
             {
                 tickMarkWidthOutside = tickMarkWidth;
             }
@@ -462,8 +479,8 @@ namespace EPPlusImageRenderer.Svg
                         case eAxisPosition.Top:
                             x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
                             x2 = x1;
-                            y1 = (float)Rectangle.Bottom - tickMarkWidthInside;
-                            y2 = (float)Rectangle.Bottom + tickMarkWidthOutside;
+                            y1 = (float)Rectangle.Bottom - tickMarkWidthOutside;
+                            y2 = (float)Rectangle.Bottom + tickMarkWidthInside;
                             break;
                         case eAxisPosition.Bottom:
                             x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
@@ -480,6 +497,10 @@ namespace EPPlusImageRenderer.Svg
                     tm.X2 = x2;
                     tm.Y2 = y2;
                     tm.SetDrawingPropertiesBorder(Axis.Border, axisStyle.BorderReference.Color, true);
+                    if(tm.BorderWidth<1) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                    {
+                        tm.BorderWidth = 1;
+                    }
                     tms.Add(tm);
                 }
                 //if (dateUnit.HasValue)
@@ -490,7 +511,16 @@ namespace EPPlusImageRenderer.Svg
                         d = DateTime.FromOADate(d).AddYears((int)units).ToOADate();
                         break;
                     case eTimeUnit.Months:
-                        d = DateTime.FromOADate(d).AddMonths((int)units).ToOADate();
+                        if (units>=1D)
+                        {
+                            d = DateTime.FromOADate(d).AddMonths((int)units).ToOADate();
+                        }
+                        else
+                        {
+                            var dt = DateTime.FromOADate(d);
+                            var days = DateTime.DaysInMonth(dt.Year, dt.Month) * units;
+                            d += days;
+                        }
                         break;
                     default:
                         d += units;
@@ -660,7 +690,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     l.Add(i);
                 }
-                return l;
+                return l;                
             }
             if (ax.IsDate)
             {
