@@ -45,8 +45,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double RightTextSpillLength = 0d;
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
-        internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
-        internal static MeasurementFont font = new MeasurementFont();
+        //internal static FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
+        //internal static MeasurementFont font = new MeasurementFont();
 
         public List<PdfTextFormat> TextFormats { get => textFormats; set => textFormats = value; }
         public double TextLength { get => textLength; set => textLength = value; }
@@ -116,20 +116,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     textformat.SubFamily = FontSubFamily.Italic;
                 }
-                font.FontFamily = textformat.FontName;
-                font.Size = (float)textformat.FontSize;
-                font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                              (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                              (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                              (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                              switch
-                {
-                    0 => MeasurementFontStyles.Regular,
-                    var s => s
-                };
-                var result = fontMeasurerTrueType.MeasureText(textformat.Text, font);
-                textLength += result.Width;
-                textHeight = Math.Max(textHeight, result.Height);
+               
                 this.textFormats.Add(textformat);
                 if (!dictionaries.Fonts.ContainsKey(textformat.FullFontName))
                 {

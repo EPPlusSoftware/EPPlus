@@ -99,5 +99,23 @@ namespace EPPlusTest.PDF
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
             pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest44.pdf");
         }
+
+        [TestMethod]
+        public void TestWritePdf2()
+        {
+            using var p = OpenTemplatePackage("PDFTest2.xlsx");
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.ShowGridLines = true;
+            pageSettings.PageSize = PdfPageSize.A4;
+            pageSettings.Orientation = Orientations.Portrait;
+            pageSettings.Margins = PdfMargins.Normal;
+            pageSettings.ShowGridLines = true;
+            //Debug Flags
+            pageSettings.Debug = true;
+            pageSettings.PrintAsText = true;
+
+            ExcelPdf pedeef = new ExcelPdf(p.Workbook.Worksheets.First(), pageSettings);
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\EmojiTest.pdf");
+        }
     }
 }

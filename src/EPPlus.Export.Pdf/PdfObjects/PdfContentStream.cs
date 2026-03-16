@@ -125,10 +125,9 @@ namespace EPPlus.Export.Pdf.PdfObjects
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int i = 0; i < cell.TextFormats.Count; i++)
             {
-                byte currentFontId = 0;
                 var textFormat = cell.TextFormats[i];
                 var shapedText = textFormat.ShapedText;
-                var textLength = shapedText.GetWidthInPoints((float)textFormat.FontSize, 2048);
+                var textLength = shapedText.GetWidthInPoints((float)textFormat.FontSize);
                 var color = textFormat.FontColor;
                 var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.FontSize);
                 double size = textFormat.FontSize;
@@ -176,7 +175,17 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 }
                 commands.Add(color.ToFillCommand());
                 commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
-                commands.Add($"/{fontResrouce.Label} {size.ToPdfString()} Tf"); //move to inside for looop
+
+                // FIX: Always use fontIdMap to determine the initial font.
+                // FontId=0 does NOT always mean "primary font" — when the text starts
+                // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
+                // The fontIdMap correctly maps FontId → PDF font label in all cases.
+                byte currentFontId = shapedText.Glyphs.Length > 0 ? shapedText.Glyphs[0].FontId : (byte)0;
+                string currentFontLabel = textFormat.FontIdMap.ContainsKey(currentFontId)
+                    ? textFormat.FontIdMap[currentFontId]
+                    : fontResrouce.Label;
+                commands.Add($"/{currentFontLabel} {size.ToPdfString()} Tf");
+
                 var sb = new StringBuilder();
                 sb.Append("[");
                 for (int j = 0; j < shapedText.Glyphs.Length; j++)
@@ -185,10 +194,11 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
                     if (glyph.FontId != currentFontId)
                     {
-                        currentFontId = glyph.FontId;
-                        sb.Append("] TJ");
-                        sb.Append($"/{textFormat.FontIdMap[currentFontId]} {size.ToPdfString()} Tf");
+                        // Close TJ array, switch font, open new TJ array
+                        sb.Append("] TJ\n");
+                        sb.Append($"/{textFormat.FontIdMap[glyph.FontId]} {size.ToPdfString()} Tf\n");
                         sb.Append("[");
+                        currentFontId = glyph.FontId;
                     }
 
                     sb.Append($"<{glyph.GlyphId:X4}>");
@@ -196,8 +206,6 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
                     if (kerning != 0)
                     {
-                        // Convert to PDF units (1000-based) and negate
-                        // PDF uses negative values to ADD space, positive to REMOVE space
                         double adjustment = -(kerning * 1000.0 / 1000);
                         sb.Append($" {adjustment.ToPdfStringF0()}");
                     }
