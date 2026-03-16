@@ -52,97 +52,148 @@ namespace EPPlusImageRenderer.Svg
 
             VerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.YAxis);
             HorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.XAxis);
-            if (chart.Axis.Length > 2)
+            if (chart.Axis.Length > 3)
+            {
+                SecondVerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
+                SecondHorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[3]);
+            }
+            else if(chart.Axis.Length > 2)
             {
                 SecondVerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
             }
 
             Plotarea = new SvgChartPlotarea(this);
 
+            //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea
             SetAxisPositionsFromPlotarea(this);
-            foreach (var ct in chart.PlotArea.ChartTypes)
-            {
-                Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
-            }
 
-
+            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
         }
 
         private void  SetAxisPositionsFromPlotarea(SvgChart sc)
         {
             if(VerticalAxis != null)
             {
-                if (VerticalAxis.Rectangle != null)
-                {
-                    VerticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
-                    VerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                    VerticalAxis.Rectangle.Left = Plotarea.Rectangle.Left - VerticalAxis.Rectangle.Width;
-                    VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = (float)Plotarea.Rectangle.Left;
-                    VerticalAxis.Line.Y1 = (float)VerticalAxis.Rectangle.Top;
-                    VerticalAxis.Line.Y2 = (float)VerticalAxis.Rectangle.Bottom;
-                }
-
-                if(VerticalAxis.Title!=null)
-                {
-                    VerticalAxis.Title.Rectangle.Height = Plotarea.Rectangle.Height;
-                    VerticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
-                    VerticalAxis.Title.InitTextBox();
-                    VerticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (VerticalAxis.Title.TextBox.Height / 2);
-                    if (VerticalAxis.Rectangle == null)
-                    {
-                        VerticalAxis.Title.TextBox.Left = sc.ChartArea.LeftMargin;
-                    }
-                    else
-                    {
-                        VerticalAxis.Title.TextBox.Left = VerticalAxis.Rectangle.Left - VerticalAxis.Title.TextBox.Width ;
-                    }
-                }
-                
+                PlaceVerticalAxis(sc, VerticalAxis);
                 VerticalAxis.AddTickmarksAndValues();
             }
 
             if (HorizontalAxis!=null && HorizontalAxis.Rectangle != null)
             {
-                HorizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
-                HorizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
-                HorizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
-                HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Bottom;
-                HorizontalAxis.Line.X1 = (float)HorizontalAxis.Rectangle.Left;
-                HorizontalAxis.Line.X2 = (float)HorizontalAxis.Rectangle.Right;
+                PlaceHorizontalAxis(sc, HorizontalAxis);
 
-                if (HorizontalAxis.Title != null)
+                //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
+                if (VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
                 {
-                    HorizontalAxis.Title.Rectangle.Height = sc.Bounds.Height / 4;
-                    HorizontalAxis.Title.Rectangle.Width = HorizontalAxis.Rectangle?.Width ?? sc.Plotarea.Rectangle.Width;
-                    HorizontalAxis.Title.InitTextBox();
-                    HorizontalAxis.Title.TextBox.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (HorizontalAxis.Title.TextBox.Width / 2);
-                    HorizontalAxis.Title.TextBox.Top = HorizontalAxis.Rectangle.Bottom;
+                    var newtop = VerticalAxis.GetPositionInPlotarea(0D) + sc.Plotarea.Rectangle.Top;
+                    var topDiff = HorizontalAxis.Rectangle.Top - newtop;
+                    HorizontalAxis.Rectangle.Top = newtop;
+                    HorizontalAxis.Rectangle.Height += topDiff;
+                    HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
                 }
+
                 HorizontalAxis.AddTickmarksAndValues();
             }
 
             if (SecondVerticalAxis!=null)
             {
-                if (SecondVerticalAxis.Rectangle != null)
-                {
-                    SecondVerticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
-                    SecondVerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                    SecondVerticalAxis.Rectangle.Left = Plotarea.Rectangle.Left - SecondVerticalAxis.Rectangle.Width;
-                    SecondVerticalAxis.Line.X1 = SecondVerticalAxis.Line.X2 = (float)Plotarea.Rectangle.Left;
-                    SecondVerticalAxis.Line.Y1 = (float)SecondVerticalAxis.Rectangle.Top;
-                    SecondVerticalAxis.Line.Y2 = (float)SecondVerticalAxis.Rectangle.Bottom;
-                }
-
-                if (SecondVerticalAxis.Title != null)
-                {
-                    SecondVerticalAxis.Title.Rectangle.Height = SecondVerticalAxis.Rectangle.Height;
-                    SecondVerticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
-                    SecondVerticalAxis.Title.InitTextBox();
-                    SecondVerticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (SecondVerticalAxis.Title.TextBox.Height / 2);
-                    SecondVerticalAxis.Title.TextBox.Left = SecondVerticalAxis.Title.Rectangle.Left;
-                }
-
+                PlaceVerticalAxis(sc, SecondVerticalAxis);
                 SecondVerticalAxis.AddTickmarksAndValues();
+            }
+
+            if (SecondHorizontalAxis != null && SecondHorizontalAxis.Rectangle != null)
+            {
+                PlaceHorizontalAxis(sc, SecondHorizontalAxis);
+                SecondHorizontalAxis.AddTickmarksAndValues();
+            }
+        }
+
+        private void PlaceHorizontalAxis(SvgChart sc, SvgChartAxis horizontalAxis)
+        {
+            horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
+            horizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
+            horizontalAxis.Line.X1 = (float)horizontalAxis.Rectangle.Left;
+            horizontalAxis.Line.X2 = (float)horizontalAxis.Rectangle.Right;
+
+            if (horizontalAxis.Title == null)
+            {
+                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
+                {
+                    horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
+                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Bottom;
+                }
+                else
+                {
+                    horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Top-horizontalAxis.Rectangle.Height;
+                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Top;
+                }
+            }
+            else
+            {
+                horizontalAxis.Title.Rectangle.Height = sc.Bounds.Height / 4;
+                horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? sc.Plotarea.Rectangle.Width;
+                horizontalAxis.Title.InitTextBox();
+                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
+                {
+                    horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom;
+                }
+                else
+                {
+                    horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.TextBox.Height;
+                }
+                horizontalAxis.Title.TextBox.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (horizontalAxis.Title.TextBox.Width / 2);
+            }
+        }
+
+        private void PlaceVerticalAxis(SvgChart sc, SvgChartAxis verticalAxis)
+        {
+            if (verticalAxis.Rectangle != null)
+            {
+                verticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
+                verticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
+                verticalAxis.Line.Y1 = (float)verticalAxis.Rectangle.Top;
+                verticalAxis.Line.Y2 = (float)verticalAxis.Rectangle.Bottom;
+                if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
+                {
+                    verticalAxis.Rectangle.Left = Plotarea.Rectangle.Left - verticalAxis.Rectangle.Width;
+                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Rectangle.Left;
+                }
+                else
+                {
+                    verticalAxis.Rectangle.Left = Plotarea.Rectangle.Right;
+                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Rectangle.Right;
+                }
+            }
+
+            if (verticalAxis.Title != null)
+            {
+                verticalAxis.Title.Rectangle.Height = Plotarea.Rectangle.Height;
+                verticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
+                verticalAxis.Title.InitTextBox();
+                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (verticalAxis.Title.TextBox.Height / 2);
+
+                if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
+                {
+                    if (verticalAxis.Rectangle == null)
+                    {
+                        verticalAxis.Title.TextBox.Left = sc.ChartArea.LeftMargin;
+                    }
+                    else
+                    {
+                        verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Left - verticalAxis.Title.TextBox.Width;
+                    }
+                }
+                else 
+                {
+                    if (verticalAxis.Rectangle == null)
+                    {
+                        verticalAxis.Title.TextBox.Left = Plotarea.Rectangle.Right;
+                    }
+                    else
+                    {
+                        verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
+                    }
+                }
             }
         }
 
@@ -153,6 +204,7 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartAxis VerticalAxis { get; set; }
         internal SvgChartAxis HorizontalAxis { get; set; }
         internal SvgChartAxis SecondVerticalAxis { get; set; }
+        internal SvgChartAxis SecondHorizontalAxis { get; set; }
         internal SvgChartTitle VerticalAxisTitle { get; set; }
         internal SvgChartTitle HorizontalAxisTitle { get; set; }
         internal SvgChartTitle SecondVerticalAxisTitle { get; set; }
@@ -178,6 +230,7 @@ namespace EPPlusImageRenderer.Svg
 
             HorizontalAxis?.AppendRenderItems(RenderItems);
             VerticalAxis?.AppendRenderItems(RenderItems);
+            SecondHorizontalAxis?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.AppendRenderItems(RenderItems);
 
             if (Plotarea != null)

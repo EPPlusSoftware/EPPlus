@@ -513,7 +513,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 3;
+                //var ix = 2;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
@@ -673,7 +673,7 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 2;
+                //var ix = 1;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
@@ -693,19 +693,58 @@ namespace TestProject1
             {
                 var ws = p.Workbook.Worksheets[1];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var ix = 1;
-                var c = ws.Drawings[ix];
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
                 //var ix = 1;
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var svg = renderer.RenderDrawingToSvg(c);
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                //}
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                }
             }
         }
-
+        [TestMethod]
+        public void GenerateSvgForCharts_sheet3()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[2];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet3{ix++}.svg", svg);
+                }
+            }
+        }
+        [TestMethod]
+        public void GenerateSvgForCharts_SecondaryAxis()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg_SecAxis{ix++}.svg", svg);
+                }
+            }
+        }
         [TestMethod]
         public void CreateChartsWithDifferentSize()
         {

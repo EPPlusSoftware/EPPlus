@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Xml;
 using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 namespace OfficeOpenXml.Drawing.Chart
@@ -385,6 +386,57 @@ namespace OfficeOpenXml.Drawing.Chart
                 string v = value.ToString();
                 v = v.Substring(0, 1).ToLower(CultureInfo.InvariantCulture) + v.Substring(1, v.Length - 1);
                 SetXmlNodeString(_ticLblPos_Path, v);
+            }
+        }
+        const string _label_alignment_path = "c:lblAlgn/@val";
+        /// <summary>
+        /// Set the alingment for the axis labels within the major tickmarks.
+        /// </summary>
+        public eAxisLabelAlignment LabelAlignment
+        {
+            get
+            {
+                switch(GetXmlNodeString(_label_alignment_path))
+                {
+                    case "l":
+                        return eAxisLabelAlignment.Left;
+                    case "r":
+                        return eAxisLabelAlignment.Right;
+                    default:
+                        return eAxisLabelAlignment.Center;
+                }
+            }
+            set
+            {
+                string v;
+                switch (value)
+                {
+                    case eAxisLabelAlignment.Left:
+                        v = "l";
+                        break;
+                    case eAxisLabelAlignment.Right:
+                        v = "r";
+                        break;
+                    default:
+                        v = "ctr";
+                        break;
+                }
+                SetXmlNodeString(_label_alignment_path, v);
+            }
+        }
+        const string _label_offset_path = "c:lblOffset/@val";
+        /// <summary>
+        /// Set the offset in whole percent between the labels and the axis.
+        /// </summary>
+        public int LabelOffset
+        {
+            get
+            {
+                return GetXmlNodeInt(_label_offset_path, 100);
+            }
+            set
+            {
+                SetXmlNodeInt(_label_offset_path, value, null, false);
             }
         }
         const string _displayUnitPath = "c:dispUnits/c:builtInUnit/@val";
@@ -762,7 +814,7 @@ namespace OfficeOpenXml.Drawing.Chart
             List<object> pl = new List<object>();
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
-                foreach (var serie in _chart.Series)
+                foreach (var serie in ct.Series)
                 {
                     var l = new List<object>();
                     values.Add(l);
@@ -780,11 +832,11 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (ct.YAxis == this)
+                        if (ct.YAxis.Id == Id)
                         {
                             AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, pl);
                         }
-                        else if (ct.XAxis == this)
+                        else if (ct.XAxis.Id == Id)
                         {
                             AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
                         }

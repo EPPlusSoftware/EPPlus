@@ -15,10 +15,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         internal SvgTextBox(DrawingBase renderer, BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN) : base(renderer)
         {
+            Init(renderer, parent, maxWidth, maxHeight);
             Left = left;
             Top = top;
-
-            Init(renderer, parent, maxWidth, maxHeight);
         }
 
         private void Init(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight)
@@ -51,8 +50,28 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
         public SvgTextBodyItem TextBody {get;set;}
-        public double Left { get; set; }
-        public double Top { get; set; }
+        public double Left 
+        {
+            get
+            {
+                return TextBody.Bounds.Left - LeftMargin;
+            }
+            set
+            {
+                TextBody.Bounds.Left = value + LeftMargin;
+            }
+        }
+        public double Top 
+        { 
+            get
+            {
+                return TextBody.Bounds.Top - TopMargin;
+            }
+            set
+            {
+                TextBody.Bounds.Top = value + TopMargin;
+            } 
+        }
         public double Width
         { 
             get 

@@ -73,6 +73,9 @@ namespace OfficeOpenXml.Utils.TypeConversion
                     case eColorTransformType.LumOff:
                         c = ApplyLumMod(c, 1, v);
                         break;
+                    case eColorTransformType.Alpha:
+                        c = Color.FromArgb((byte)Math.Round(255 * v), c.R, c.G, c.B);
+                        break;
                 }
             }
             return c;

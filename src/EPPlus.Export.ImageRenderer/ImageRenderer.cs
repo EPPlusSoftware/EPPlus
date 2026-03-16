@@ -11,24 +11,14 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
-using EPPlus.Export.ImageRenderer;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
-using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
-using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Utils;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Text;
 

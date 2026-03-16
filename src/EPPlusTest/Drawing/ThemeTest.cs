@@ -236,7 +236,7 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eLineStyle.Solid, currentTheme.FormatScheme.BorderStyle[0].Style);
             Assert.AreEqual(ePenAlignment.Center, currentTheme.FormatScheme.BorderStyle[0].Alignment);
             Assert.AreEqual(eLineCap.Flat, currentTheme.FormatScheme.BorderStyle[0].Cap);
-            Assert.AreEqual(eCompundLineStyle.Single, currentTheme.FormatScheme.BorderStyle[0].CompoundLineStyle);
+            Assert.AreEqual(eCompoundLineStyle.Single, currentTheme.FormatScheme.BorderStyle[0].CompoundLineStyle);
             Assert.IsNull(currentTheme.FormatScheme.BorderStyle[0].HeadEnd.Width);
             Assert.IsNull(currentTheme.FormatScheme.BorderStyle[0].HeadEnd.Height);
             Assert.IsNull(currentTheme.FormatScheme.BorderStyle[0].HeadEnd.Style);

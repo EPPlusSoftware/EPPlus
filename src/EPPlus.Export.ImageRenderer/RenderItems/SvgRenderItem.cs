@@ -15,9 +15,11 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 namespace EPPlusImageRenderer.RenderItems
 {
     internal enum SvgFillType
@@ -33,6 +35,11 @@ namespace EPPlusImageRenderer.RenderItems
         }
         public override void Render(StringBuilder sb)
         {
+            RenderBase(sb);
+        }
+
+        private void RenderBase(StringBuilder sb)
+        {
             if (string.IsNullOrEmpty(FillColor) == false)
             {
                 sb.Append($"fill=\"{FillColor}\" ");
@@ -46,7 +53,7 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 sb.Append($"filter=\"{FilterName}\" ");
             }
-           
+
             if (BorderWidth.HasValue)
             {
                 if (string.IsNullOrEmpty(BorderColor) == false)
@@ -58,15 +65,49 @@ namespace EPPlusImageRenderer.RenderItems
 
                 if (BorderDashArray != null)
                 {
-                    var BorderDashArrayStr = BorderDashArray.Select(x => 
+                    var BorderDashArrayStr = BorderDashArray.Select(x =>
                     x.ToString(CultureInfo.InvariantCulture)).ToArray();
 
                     sb.Append($"stroke-dasharray=\"" + $"{string.Join(",", BorderDashArrayStr)}\" ");
                 }
+                if (BorderOpacity.HasValue)
+                {
+                    sb.Append($" stroke-opacity=\"{(Math.Round(BorderOpacity.Value * 100)).ToString(CultureInfo.InvariantCulture)}%\" ");
+                }
             }
 
-            sb.Append($"stroke-miterlimit =\"8\" ");
+            sb.Append($"stroke-miterlimit =\"{StrokeMiterLimit}\" ");
         }
+
         internal abstract SvgRenderItem Clone(SvgShape svgDocument);
+        private protected void RenderCompoundItems(StringBuilder sb, double? borderWidth, string color)
+        {
+            var tmpBorderWidth = BorderWidth;
+            string tmpBorderColor = null;
+            BorderWidth = borderWidth ?? BorderWidth;
+            if (string.IsNullOrEmpty(color) == false)
+            {
+                tmpBorderColor = BorderColor;
+                BorderColor = color;
+            }
+
+            RenderBase(sb);
+            if (LineCap != eLineCap.Flat)
+            {
+                sb.AppendFormat(" stroke-linecap=\"{0}\"", LineCap == eLineCap.Round ? "round" : "square");
+            }
+            if (LineJoin != SvgLineJoin.Miter)
+            {
+                sb.AppendFormat(" stroke-linejoin=\"{0}\"", LineJoin);
+            }
+            sb.AppendFormat("/>");
+
+            BorderWidth = tmpBorderWidth;
+            if (string.IsNullOrEmpty(color) == false)
+            {
+                BorderColor = tmpBorderColor;
+            }
+        }
+
     }
 }

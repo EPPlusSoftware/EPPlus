@@ -361,7 +361,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
                 lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
 
-                Bounds.Width = maxWidth;
+                //Bounds.Width = maxWidth;
                 if (HorizontalAlignment != eTextAlignment.Center)
                 {
                     Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
@@ -383,7 +383,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //This could be moved into a textLines collection class
                 //START
                 var idxOfLargestLine = 0;
-                double widthOfLargestLine = lines[0].Width;
+                double widthOfLargestLine = lines[0].GetWidthWithoutTrailingSpaces();
 
                 for (int i = 1; i < lines.Count; i++)
                 {
@@ -396,65 +396,65 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
                 //END
 
-                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize)
+                if (ParentTextBody.AutoSize)
                 {
                     //Bounds of the paragraph should be bounds of the text itself.
                     //Therefore we must know the starting point to set accurate left and offset from left.
-                    Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                    Bounds.Left = 0;
                 }
 
-                foreach (var line in lines)
-                {
-                    double prevWidth = 0;
+                    foreach (var line in lines)
+                    {
+                        double prevWidth = 0;
 
-                    if (HorizontalAlignment == eTextAlignment.Center)
-                    {
-                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                        //Calculate difference in widths and split to get offset between leftmost position and current line
-                        prevWidth = (widthOfLargestLine - ctrLineWidth)/2;
-                    }
-                    else if (HorizontalAlignment == eTextAlignment.Right)
-                    {
-                        //Note that the actual bounds with the space will be outside max bounds.
-                        //This appears to be how excel does it
-                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                        prevWidth = widthOfLargestLine - ctrLineWidth;
-                    }
-
-                    if (lineSpacingIsExact == false)
-                    {
-                        runLineSpacing += line.LargestAscent + lastDescent;
-                    }
-                    else
-                    {
-                        runLineSpacing += ParagraphLineSpacing;
-                    }
-                    if (line.GetWidthWithoutTrailingSpaces() > greatestWidth)
-                    {
-                        greatestWidth = line.GetWidthWithoutTrailingSpaces();
-                    }
-
-                    foreach (var lineFragment in line.LineFragments)
-                    {
-                        var displayText = line.GetLineFragmentText(lineFragment);
-
-                        if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+                        if (HorizontalAlignment == eTextAlignment.Center)
                         {
-                            AddText(displayText, p.DefaultRunProperties, prevWidth);
+                            var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                            //Calculate difference in widths and split to get offset between leftmost position and current line
+                            prevWidth = (widthOfLargestLine - ctrLineWidth) / 2;
+                        }
+                        else if (HorizontalAlignment == eTextAlignment.Right)
+                        {
+                            //Note that the actual bounds with the space will be outside max bounds.
+                            //This appears to be how excel does it
+                            var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
+                            prevWidth = widthOfLargestLine - ctrLineWidth;
+                        }
+
+                        if (lineSpacingIsExact == false)
+                        {
+                            runLineSpacing += line.LargestAscent + lastDescent;
                         }
                         else
                         {
-                            AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText, prevWidth);
+                            runLineSpacing += ParagraphLineSpacing;
+                        }
+                        if (line.GetWidthWithoutTrailingSpaces() > greatestWidth)
+                        {
+                            greatestWidth = line.GetWidthWithoutTrailingSpaces();
                         }
 
-                        TextRunItem runItem = Runs.Last();
-                        runItem.YPosition = runLineSpacing;
+                        foreach (var lineFragment in line.LineFragments)
+                        {
+                            var displayText = line.GetLineFragmentText(lineFragment);
 
-                        runItem.Bounds.Width = lineFragment.Width;
-                        prevWidth += lineFragment.Width;
+                            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+                            {
+                                AddText(displayText, p.DefaultRunProperties, prevWidth);
+                            }
+                            else
+                            {
+                                AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText, prevWidth);
+                            }
+
+                            TextRunItem runItem = Runs.Last();
+                            runItem.YPosition = runLineSpacing;
+
+                            runItem.Bounds.Width = lineFragment.Width;
+                            prevWidth += lineFragment.Width;
+                        }
+                        lastDescent = line.LargestDescent;
                     }
-                    lastDescent = line.LargestDescent;
-                }
             }
             Bounds.Height = runLineSpacing + lastDescent;
             Bounds.Width = greatestWidth;
