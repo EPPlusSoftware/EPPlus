@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
+  03/16/2026         EPPlus Software AB           Multi-font aware width calculation via FontUnitsPerEm
  *************************************************************************************************/
 using System;
 using System.Diagnostics;
@@ -18,6 +19,8 @@ namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Result of text shaping operation containing positioned glyphs.
+    /// Supports multi-font text (e.g., primary font + emoji fallback) where glyphs
+    /// may originate from fonts with different UnitsPerEm values.
     /// </summary>
     [DebuggerDisplay("Glyphs length: {Glyphs.Length}, OriginalText: {OriginalText}")]
     public class ShapedText
@@ -33,8 +36,20 @@ namespace OfficeOpenXml.Interfaces.Fonts
         public string OriginalText { get; set; }
 
         /// <summary>
-        /// Total horizontal advance width in font units.
+        /// UnitsPerEm indexed by FontId. Set by TextShaper after shaping.
+        /// FontUnitsPerEm[0] = first used font's UPM, [1] = second font's UPM, etc.
+        /// Note: FontId 0 is the first font that was actually used during shaping,
+        /// which may be a fallback font if the text starts with e.g. emoji characters.
+        /// </summary>
+        public ushort[] FontUnitsPerEm { get; set; }
+
+        /// <summary>
+        /// Total horizontal advance width in font design units.
         /// This is the sum of all glyph XAdvance values.
+        /// WARNING: When glyphs come from fonts with different UnitsPerEm, this sum
+        /// mixes design units from different scales and should NOT be used for point/pixel
+        /// conversion. Use <see cref="GetWidthInPoints(float)"/> instead.
+        /// This property remains for backward compatibility with single-font usage.
         /// </summary>
         public int TotalAdvanceWidth
         {
@@ -53,27 +68,47 @@ namespace OfficeOpenXml.Interfaces.Fonts
         }
 
         /// <summary>
-        /// Convert total advance width to PDF points.
+        /// Convert advance width to PDF points.
+        /// Handles multi-font text correctly by using each glyph's FontId to look up
+        /// the correct UnitsPerEm from <see cref="FontUnitsPerEm"/>.
+        /// This is the preferred overload for all new code.
         /// </summary>
         /// <param name="fontSize">Font size in points</param>
-        /// <param name="unitsPerEm">Units per EM from font head table</param>
         /// <returns>Width in PDF points</returns>
-        public float GetWidthInPoints(float fontSize, float unitsPerEm)
+        public float GetWidthInPoints(float fontSize)
         {
-            return (TotalAdvanceWidth / unitsPerEm) * fontSize;
+            if (Glyphs == null || Glyphs.Length == 0)
+                return 0f;
+
+            // No FontUnitsPerEm set — fall back to simple calculation with default 1000
+            if (FontUnitsPerEm == null || FontUnitsPerEm.Length == 0)
+                return (TotalAdvanceWidth / 1000f) * fontSize;
+
+            // Fast path: single font — all glyphs share the same UnitsPerEm
+            if (FontUnitsPerEm.Length == 1)
+                return (TotalAdvanceWidth / (float)FontUnitsPerEm[0]) * fontSize;
+
+            // Multi-font path: convert each glyph individually
+            float totalWidth = 0f;
+            foreach (var glyph in Glyphs)
+            {
+                float upm = glyph.FontId < FontUnitsPerEm.Length
+                    ? FontUnitsPerEm[glyph.FontId]
+                    : FontUnitsPerEm[0];
+                totalWidth += (glyph.XAdvance / upm) * fontSize;
+            }
+            return totalWidth;
         }
 
         /// <summary>
-        /// Convert total advance width to pixels.
+        /// Convert advance width to pixels. Multi-font aware.
         /// </summary>
         /// <param name="fontSize">Font size in points</param>
         /// <param name="dpi">Screen DPI (typically 96 or 72)</param>
-        /// <param name="unitsPerEm">Units per EM from font head table</param>
         /// <returns>Width in pixels</returns>
-        public float GetWidthInPixels(float fontSize, float dpi, float unitsPerEm)
+        public float GetWidthInPixels(float fontSize, float dpi)
         {
-            float points = GetWidthInPoints(fontSize, unitsPerEm);
-            return points * (dpi / 72f);
+            return GetWidthInPoints(fontSize) * (dpi / 72f);
         }
 
         /// <summary>
@@ -94,25 +129,33 @@ namespace OfficeOpenXml.Interfaces.Fonts
 
             foreach (var glyph in Glyphs)
             {
-                // Show glyph (using glyph ID)
                 sb.AppendFormat("<{0:X4}> Tj\n", glyph.GlyphId);
 
-                // Calculate advance in PDF points
-                float advanceX = (glyph.XAdvance / unitsPerEm) * fontSize;
+                float glyphUpm = GetUnitsPerEm(glyph.FontId, unitsPerEm);
+                float advanceX = (glyph.XAdvance / glyphUpm) * fontSize;
 
-                // Apply Y-offset if present (for subscript/superscript)
                 if (Math.Abs(glyph.YOffset) > 0.001f)
                 {
-                    float offsetY = (glyph.YOffset / unitsPerEm) * fontSize;
+                    float offsetY = (glyph.YOffset / glyphUpm) * fontSize;
                     sb.AppendFormat("0 {0:F3} Td\n", offsetY);
                 }
 
-                // Advance to next position
                 sb.AppendFormat("{0:F3} 0 Td\n", advanceX);
             }
 
             sb.AppendLine("ET");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets the UnitsPerEm for a given FontId.
+        /// Uses FontUnitsPerEm array if available, otherwise falls back to the provided default.
+        /// </summary>
+        private float GetUnitsPerEm(byte fontId, float fallback)
+        {
+            if (FontUnitsPerEm != null && fontId < FontUnitsPerEm.Length)
+                return FontUnitsPerEm[fontId];
+            return fallback;
         }
 
         public ShapedText()

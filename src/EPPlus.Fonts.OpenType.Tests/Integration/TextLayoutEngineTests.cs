@@ -170,7 +170,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Measure "Hello " to get its width
             var testShaper = new TextShaper(font);
             var shaped = testShaper.Shape("Hello ", ShapingOptions.Default);
-            double preWidth = shaped.GetWidthInPoints(11f, testShaper.UnitsPerEm);
+            double preWidth = shaped.GetWidthInPoints(11f);
 
             // Act - Add text with pre-existing width, narrow max width
             var lines = layout.WrapText("world test", 11f, preWidth + 50, preWidth);

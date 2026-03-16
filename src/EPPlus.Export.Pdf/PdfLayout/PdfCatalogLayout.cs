@@ -343,14 +343,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Font handling, Text shaping and layouting wrapped text
+        //Font handling, Text shaping and layouting wrapped text
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
             for (int i = 0; i < text.TextFormats.Count; i++)
             {
                 var fd = text.TextFormats[i];
                 fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
-                //Wraptext TODO
-
 
                 if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
                 {
@@ -368,19 +367,16 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 options.ApplyPositioning = true;
                 options.ApplySubstitutions = true;
 
-                // Shape the text
                 var shaped = shaper.Shape(fd.Text, options);
-
-                // Get all fonts used in this paragraph (primary + fallbacks like emoji)
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
 
-                // Register each font globally and map FontId → Resource Index
+                var allProviderFonts = fd.FontProvider.GetAllFonts().ToList();
+
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
                 {
                     var font = usedFonts[fontId];
 
-                    // Add to global tracking if new
                     if (!dictionaries.Fonts.ContainsKey(font.FullName))
                     {
                         int label = 1;
@@ -388,10 +384,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         {
                             label = dictionaries.Fonts.Last().Value.labelNumber + 1;
                         }
-                        dictionaries.Fonts.Add(font.FullName, new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings));
+                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+                        fontResource.fontData = font;
+                        dictionaries.Fonts.Add(font.FullName, fontResource);
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
                 }
+
                 text.TextLayoutEngine = layoutEngine;
                 fd.ShapedText = shaped;
                 fd.FontIdMap = fontIdMap;

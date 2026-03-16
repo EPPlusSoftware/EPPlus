@@ -180,7 +180,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return new ShapedText
             {
                 OriginalText = text,
-                Glyphs = glyphs.ToArray()
+                Glyphs = glyphs.ToArray(),
+                FontUnitsPerEm = BuildFontUnitsPerEm()
             };
         }
 
@@ -539,22 +540,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         #region Utilities
 
         /// <summary>
-        /// Measures the width of text in font units.
-        /// </summary>
-        public int MeasureText(string text, ShapingOptions options = null)
-        {
-            var shaped = Shape(text, options);
-            return shaped.TotalAdvanceWidth;
-        }
-
-        /// <summary>
         /// Measures the width of text in PDF points.
         /// </summary>
         public float MeasureTextInPoints(string text, float fontSize, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-            return shaped.GetWidthInPoints(fontSize, unitsPerEm);
+            return shaped.GetWidthInPoints(fontSize);
         }
 
         /// <summary>
@@ -563,8 +554,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public float MeasureTextInPixels(string text, float fontSize, float dpi, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-            return shaped.GetWidthInPixels(fontSize, dpi, unitsPerEm);
+            return shaped.GetWidthInPixels(fontSize, dpi);
         }
 
         #endregion
@@ -599,12 +589,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public MultiLineMetrics MeasureLines(string text, float fontSize, ShapingOptions options = null)
         {
             var shapedLines = ShapeLines(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
 
             float maxWidth = 0;
             foreach (var line in shapedLines)
             {
-                float lineWidth = line.GetWidthInPoints(fontSize, unitsPerEm);
+                float lineWidth = line.GetWidthInPoints(fontSize);
                 maxWidth = Math.Max(maxWidth, lineWidth);
             }
 
@@ -761,5 +750,22 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         #endregion
+
+        /// <summary>
+        /// Builds a UnitsPerEm lookup array indexed by FontId.
+        /// Must be called after shaping when _usedFonts is populated.
+        /// </summary>
+        private ushort[] BuildFontUnitsPerEm()
+        {
+            if (_usedFonts.Count == 0)
+                return new ushort[] { _primaryFont.HeadTable.UnitsPerEm };
+
+            var result = new ushort[_usedFonts.Count];
+            for (int i = 0; i < _usedFonts.Count; i++)
+            {
+                result[i] = _usedFonts[i].HeadTable.UnitsPerEm;
+            }
+            return result;
+        }
     }
 }

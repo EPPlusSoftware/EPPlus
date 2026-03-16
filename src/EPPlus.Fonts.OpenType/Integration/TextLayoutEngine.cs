@@ -208,7 +208,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             var shaped = _shaper.Shape(text, options);
-            return shaped.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
+            return shaped.GetWidthInPoints(fontSize);
         }
 
         private ITextShaper GetShaperForFont(MeasurementFont font)

@@ -214,20 +214,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         #region Measurement Tests
 
         [TestMethod]
-        public void MeasureText_ReturnsPositiveWidth()
-        {
-            // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
-
-            // Act
-            int width = shaper.MeasureText("Hello");
-
-            // Assert
-            Assert.IsTrue(width > 0, "Width should be positive");
-        }
-
-        [TestMethod]
         public void MeasureTextInPoints_ReturnsReasonableValue()
         {
             // Arrange
@@ -527,7 +513,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             // Act
             var shaped = shaper.Shape("Hello");
-            float width1 = shaped.GetWidthInPoints(12, font.HeadTable.UnitsPerEm);
+            float width1 = shaped.GetWidthInPoints(12);
             float width2 = shaper.MeasureTextInPoints("Hello", 12);
 
             // Assert
@@ -543,7 +529,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             // Act
             var shaped = shaper.Shape("Hello");
-            float width1 = shaped.GetWidthInPixels(12, 96, font.HeadTable.UnitsPerEm);
+            float width1 = shaped.GetWidthInPixels(12, 96);
             float width2 = shaper.MeasureTextInPixels("Hello", 12, 96);
 
             // Assert
