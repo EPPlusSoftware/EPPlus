@@ -23,7 +23,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         List<SvgRenderLineItem> LeaderLines = new List<SvgRenderLineItem>();
 
-        Coordinate orginPointOffset = new Coordinate (0, 0);
+        Coordinate originPoint = new Coordinate (0, 0);
+        Coordinate manualLayoutOffset = new Coordinate (0, 0);
 
         PointLines lines;
         ////Connection point coords are accurate to Internal bounds
@@ -141,8 +142,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     var rect = GetRectFromManualLayout(chart, individualLabel.Layout);
                     Rectangle = rect;
 
-                    LeftMargin = Rectangle.Left;
-                    TopMargin = Rectangle.Top;
+                    //LeftMargin = Rectangle.Left;
+                    //TopMargin = Rectangle.Top;
+                    manualLayoutOffset = new Coordinate(Rectangle.Left, Rectangle.Top);
 
                     if (dataLabel.ShowLeaderLines)
                     {
@@ -214,86 +216,91 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        //private int GetClosestConnectionPointToOriginIndex()
-        //{
-        //    //Origin in local coordinates is 0,0
-        //    return GetClosestConnectionPointCoordinateIndex(new Coordinate(0, 0));
-        //}
+        private int GetClosestConnectionPointToOriginIndex()
+        {
+            //Origin in local coordinates is 0,0
+            return GetClosestConnectionPointCoordinateIndex(new Coordinate(0, 0));
+        }
 
-        //private int GetClosestConnectionPointCoordinateIndex(Coordinate originPoint)
-        //{
-        //    //CalculateConnectionPoints();
+        private int GetClosestConnectionPointCoordinateIndex(Coordinate originPoint)
+        {
+            //CalculateConnectionPoints();
 
-        //    double smallestDist = double.MaxValue;
-        //    int i = 0;
-        //    int smallestIndex = 0;
+            double smallestDist = double.MaxValue;
+            int i = 0;
+            int smallestIndex = 0;
 
-        //    foreach(var line in lines.RenderLines)
-        //    {
-                
-        //        var w = Math.Abs(line.X2 - originPoint.X);
-        //        var h = Math.Abs(line.Y2 - originPoint.Y);
+            foreach (var line in lines.RenderLines)
+            {
+                line.X1 = originPoint.X - line.Bounds.Left - Bounds.Left;
+                line.Y1 = originPoint.Y + line.Bounds.Top;
 
-        //        //Use pythagoran theorem to get diagonal distance
-        //        var totalDist = Math.Sqrt(Math.Pow(w,2) + Math.Pow(h,2));
+                var w = Math.Abs(line.X2 + manualLayoutOffset.X - originPoint.X);
+                var h = Math.Abs(line.Y2 + manualLayoutOffset.Y - originPoint.Y);
 
-        //        if (totalDist < smallestDist)
-        //        {
-        //            smallestDist = totalDist;
-        //            smallestIndex = i;
-        //        }
-        //        i++;
-        //    }
+                //Use pythagoran theorem to get diagonal distance
+                var totalDist = Math.Sqrt(Math.Pow(w, 2) + Math.Pow(h, 2));
 
-        //    return smallestIndex;
-        //}
+                if (totalDist < smallestDist)
+                {
+                    smallestDist = totalDist;
+                    smallestIndex = i;
+                }
+                i++;
+            }
+
+            return smallestIndex;
+        }
 
         internal void SetOriginPointOffset(double xPos, double yPos)
         {
-            orginPointOffset.X = xPos;
-            orginPointOffset.Y = yPos;
+            originPoint.X = xPos;
+            originPoint.Y = yPos;
 
             Bounds.Top = yPos;
             Bounds.Left = xPos;
 
-            //if (_hasManualLayout)
-            //{
-            //    if (_hasLeaderLines)
-            //    {
-            //        var index = GetClosestConnectionPointCoordinateIndex(orginPointOffset);
+            if (_hasManualLayout)
+            {
+                Bounds.Top += manualLayoutOffset.Y;
+                Bounds.Left += manualLayoutOffset.X;
 
-            //        LeaderLines.Clear();
+                if (_hasLeaderLines)
+                {
+                    var index = GetClosestConnectionPointCoordinateIndex(originPoint);
 
-            //        double xOffset = 0;
-            //        if (index == 0 || index == 2)
-            //        {
-            //            //If Left or Right
-            //            //Add extra 7 px (5.25pt) line to the given side
-            //            var extraLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
+                    LeaderLines.Clear();
 
-            //            xOffset = index == 0 ? -5.25d : 5.25d;
+                    double xOffset = 0;
+                    if (index == 0 || index == 2)
+                    {
+                        //If Left or Right
+                        //Add extra 7 px (5.25pt) line to the given side
+                        var extraLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
 
-            //            extraLine.X1 = lines.connectionPoints.Points[index].X;
-            //            extraLine.Y1 = lines.connectionPoints.Points[index].Y;
-            //            extraLine.Y2 = lines.connectionPoints.Points[index].Y;
-            //            extraLine.X2 = extraLine.X1 + xOffset;
+                        xOffset = index == 0 ? -5.25d : 5.25d;
 
-            //            extraLine.BorderColor = "black";
-            //            extraLine.BorderWidth = 1;
+                        extraLine.X1 = lines.ConnectionPoints.Points[index].X;
+                        extraLine.Y1 = lines.ConnectionPoints.Points[index].Y;
+                        extraLine.Y2 = lines.ConnectionPoints.Points[index].Y;
+                        extraLine.X2 = extraLine.X1 + xOffset;
 
-            //            LeaderLines.Add(extraLine);
-            //        }
-            //        var mainLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
-            //        mainLine.X1 = lines.connectionPoints.Points[index].X + xOffset;
-            //        mainLine.Y1 = lines.connectionPoints.Points[index].Y;
-            //        mainLine.X2 = -Bounds.Left;
-            //        mainLine.Y2 = -Bounds.Top;
+                        extraLine.BorderColor = "black";
+                        extraLine.BorderWidth = 1;
 
-            //        mainLine.BorderColor = "black";
-            //        mainLine.BorderWidth = 1;
-            //        LeaderLines.Add(mainLine);
-            //    }
-            //}
+                        LeaderLines.Add(extraLine);
+                    }
+                    var mainLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
+                    mainLine.X1 = lines.ConnectionPoints.Points[index].X + xOffset;
+                    mainLine.Y1 = lines.ConnectionPoints.Points[index].Y;
+                    mainLine.X2 = -Bounds.Left;
+                    mainLine.Y2 = -Bounds.Top;
+
+                    mainLine.BorderColor = "black";
+                    mainLine.BorderWidth = 1;
+                    LeaderLines.Add(mainLine);
+                }
+            }
         }
 
         //private void CalculateConnectionPoints()
@@ -321,6 +328,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var titleItem = new SvgTitleItem(DrawingRenderer, "DataLabelRect");
             renderItems.Add(titleItem);
+            SvgRenderRectItem rect = new SvgRenderRectItem(ChartRenderer, Bounds);
+            rect.Bounds.Left = 0;
+            rect.Bounds.Top = 0;
+            rect.Bounds.Width = Bounds.Width;
+            rect.Bounds.Height = Bounds.Height;
+
+            rect.FillColor = "red";
+            rect.FillOpacity = 0.2;
+            renderItems.Add(rect);
 
             TxtBox.AppendRenderItems(renderItems);
 
@@ -328,12 +344,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 lines.AppendRenderItems(renderItems);
             }
-
-            SvgRenderRectItem rect = new SvgRenderRectItem(ChartRenderer, Bounds);
-            rect.Bounds = Bounds;
-            rect.FillColor = "red";
-            rect.FillOpacity = 0.2;
-            renderItems.Add(rect);
+            //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
 
             //if (LeaderLines != null && LeaderLines.Count > 0)
             //{
