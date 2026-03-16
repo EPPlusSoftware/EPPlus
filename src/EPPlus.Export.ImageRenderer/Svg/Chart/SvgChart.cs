@@ -115,20 +115,18 @@ namespace EPPlusImageRenderer.Svg
             horizontalAxis.Line.X1 = (float)horizontalAxis.Rectangle.Left;
             horizontalAxis.Line.X2 = (float)horizontalAxis.Rectangle.Right;
 
-            if (horizontalAxis.Title == null)
+            if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
             {
-                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Bottom;
-                }
-                else
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Top-horizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Top;
-                }
+                horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
+                horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Bottom;
             }
             else
+            {
+                horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Top - horizontalAxis.Rectangle.Height;
+                horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Top;
+            }
+
+            if (horizontalAxis.Title != null)
             {
                 horizontalAxis.Title.Rectangle.Height = sc.Bounds.Height / 4;
                 horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? sc.Plotarea.Rectangle.Width;

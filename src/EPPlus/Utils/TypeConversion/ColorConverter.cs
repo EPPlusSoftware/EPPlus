@@ -76,6 +76,12 @@ namespace OfficeOpenXml.Utils.TypeConversion
                     case eColorTransformType.Alpha:
                         c = Color.FromArgb((byte)Math.Round(255 * v), c.R, c.G, c.B);
                         break;
+                    case eColorTransformType.AlphaMod:
+                        c = Color.FromArgb((byte)Math.Round(c.A * v), c.R, c.G, c.B);
+                        break;
+                    case eColorTransformType.AlphaOff:
+                        c = Color.FromArgb((byte)(c.A + v), c.R, c.G, c.B);
+                        break;
                 }
             }
             return c;

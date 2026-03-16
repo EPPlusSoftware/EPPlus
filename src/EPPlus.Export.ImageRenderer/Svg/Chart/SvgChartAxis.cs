@@ -254,12 +254,12 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.MajorTickMark != eAxisTickMark.None)
             {
-                MajorAxisPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4, Axis.MajorTickMark);
+                MajorAxisPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
             }
 
             if (Axis.MinorTickMark != eAxisTickMark.None)
             {
-                MinorAxisPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2, Axis.MinorTickMark);
+                MinorAxisPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
             }
 
             if(Axis.HasMajorGridlines)
@@ -431,12 +431,16 @@ namespace EPPlusImageRenderer.Svg
 
         }
 
-        private List<SvgRenderLineItem> AddTickmarks(double units, eTimeUnit? dateUnit, double parentUnit, float tickMarkWidth, eAxisTickMark type)
+        private List<SvgRenderLineItem> AddTickmarks(double units, eTimeUnit? dateUnit, double parentUnit, double tickMarkWidth, eAxisTickMark type)
         {
             var axisStyle = GetAxisStyleEntry();
 
             var tms = new List<SvgRenderLineItem>();
-            double min;
+            double min, addMinor=0D;
+            if(double.IsNaN(parentUnit)==false && parentUnit==units)
+            {
+                addMinor = parentUnit / 2;
+            }
             if (Axis.AxisType == eAxisType.Cat)
             {
                 min = 0;
@@ -445,7 +449,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 min = Min;
             }
-            float tickMarkWidthInside=0, tickMarkWidthOutside=0;
+            double tickMarkWidthInside=0, tickMarkWidthOutside=0;
             if(type==eAxisTickMark.In || type==eAxisTickMark.Cross)
             {
                 tickMarkWidthInside = tickMarkWidth;
@@ -456,12 +460,12 @@ namespace EPPlusImageRenderer.Svg
             }
 
             var diff = Max - min;
-            double d = min;
+            double d = min + addMinor;
             while (d <= Max)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
-                    float x1, y1, x2, y2;
+                    double x1, y1, x2, y2;
                     switch (Axis.AxisPosition)
                     {
                         case eAxisPosition.Left:

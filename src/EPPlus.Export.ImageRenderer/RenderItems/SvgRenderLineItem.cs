@@ -100,17 +100,48 @@ namespace EPPlusImageRenderer.RenderItems
                     var name = $"double-stroke-{Guid.NewGuid().ToString()}";
                     sb.Append($"<defs><mask id=\"{name}\">");
 
-                    RenderLineItem(sb, BorderWidth, "white");
-                    RenderLineItem(sb, BorderWidth * (3D / 7D), "black");
+                    RenderLineItem(sb, BorderWidth, "white", null);
+                    RenderLineItem(sb, BorderWidth * (3D / 7D), "black", null);
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+                    break;
+                case eCompoundLineStyle.DoubleThickThin:
+                    WriteThickThin(sb, "double-thick-thin-stroke-{0}", (BorderWidth ?? 1D) * 1D / 7D);
+                    break;
+                case eCompoundLineStyle.DoubleThinThick:
+                    WriteThickThin(sb, "double-thin-thick-stroke-{0}", ((BorderWidth ?? 1D) * 1D / 7D) * -1);
+                    break;
+                case eCompoundLineStyle.TripleThinThickThin:
+                    var guid= Guid.NewGuid().ToString();
+                    var gapOffset = 5 * BorderWidth.Value / 16;
+                    name = $"triple-stroke-{guid}";
+                    sb.Append($"<defs>");
+                    sb.Append($"<filter id=\"gap-left-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\" filterUnits=\"userSpaceOnUse\"><feOffset dx=\"0\" dy=\"-{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>"); 
+                    sb.Append($"<filter id=\"gap-right-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\" filterUnits=\"userSpaceOnUse\"><feOffset dx=\"0\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");
+                    sb.Append($"<mask id=\"{name}\">");
+                    RenderLineItem(sb, BorderWidth, "white", null);
+                    RenderLineItem(sb, BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-left-{guid})\"");
+                    RenderLineItem(sb, BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-right-{guid})\"");
                     sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
                     break;
                 default:
-                    RenderLineItem(sb, null, null);
+                    RenderLineItem(sb, null, null, null);
                     break;
             }
         }
+        private void WriteThickThin(StringBuilder sb, string name, double gapOffset)
+        {
+            var guid = Guid.NewGuid().ToString();
+            name = string.Format(name, guid);
+            string gapFilterName = $"f-gap-shift-{guid}";
+            sb.Append("<defs>");
+            sb.Append($"<filter id=\"{gapFilterName}\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\" filterUnits=\"userSpaceOnUse\"><feOffset in=\"SourceGraphic\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\"/></filter>");
+            sb.Append($"<mask id=\"{name}\">");
+            RenderLineItem(sb, BorderWidth, "white", null);
+            RenderLineItem(sb, BorderWidth * (1D / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
+            sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+        }
 
-        private void RenderLineItem(StringBuilder sb, double? borderWidth, string color)
+        private void RenderLineItem(StringBuilder sb, double? borderWidth, string color, string filter)
         {
             sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
                 X1.PointToPixelString(),
@@ -118,7 +149,7 @@ namespace EPPlusImageRenderer.RenderItems
                 X2.PointToPixelString(),
                 Y2.PointToPixelString());
             
-            RenderCompoundItems(sb, borderWidth, color);
+            RenderCompoundItems(sb, borderWidth, color, filter);
         }
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
