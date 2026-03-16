@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.Constants;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
@@ -85,6 +86,20 @@ namespace EPPlusImageRenderer.Utils
                     $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"0.8\" result=\"glowColor\"/>" +
                     $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
                     $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
+                }
+                if(item.OuterShadowEffect != null)
+                {
+                    if (string.IsNullOrEmpty(item.FilterName))
+                    {
+                        var filterName = GetFilterName(ix);
+                        item.FilterName = $"Url(#{filterName})";
+                        filter = $"<filter id=\"{filterName}\" >";
+                    }
+                    item.GetOuterShadowColor(out string shadowColor, out double opacity);
+                    var dx = Math.Round(item.OuterShadowEffect.Distance * Math.Cos(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
+                    var dy = Math.Round(item.OuterShadowEffect.Distance * Math.Sin(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
+                    var blurRadius = item.OuterShadowEffect.BlurRadius??0D / 2;
+                    filter += $"<feDropShadow dx=\"{dx.PointToPixelString()}\" dy=\"{dy.PointToPixelString()}\" stdDeviation=\"{blurRadius.PointToPixelString()}\" flood-color=\"{shadowColor}\" flood-opacity=\"{opacity.ToString("N2", CultureInfo.InvariantCulture)}\" />";
                 }
                 if(string.IsNullOrEmpty(filter)==false)
                 {
