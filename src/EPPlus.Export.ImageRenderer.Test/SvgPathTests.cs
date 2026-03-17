@@ -588,6 +588,20 @@ namespace TestProject1
 
 
         [TestMethod]
+        public void GenerateDatalabelsLeaderLinesBg()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datalabelsSvgRightAlignedWithBg.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\datalabelsSvgLeaderLinesBg.svg", svg);
+            }
+        }
+
+        [TestMethod]
         public void OpenRightAligned()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

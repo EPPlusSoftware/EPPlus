@@ -10,6 +10,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -38,11 +39,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         ExcelTextFont defaultFont;
         ExcelDrawingParagraph defaultParagraph;
 
+        BoundingBox plotAreaBounds;
+
         public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             bool addSeriesIcon = false;
+            plotAreaBounds = chart.Plotarea.Rectangle.Bounds;
 
-            if(dlblSerie.TextBody.Paragraphs.Count != 0)
+            if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
                 defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
                 defaultFont = dlblSerie.TextBody.Paragraphs[0].DefaultRunProperties;
@@ -104,8 +108,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels[i].SetOriginPointOffset(xPos, yPos);
         }
 
+        internal void SetParentPoint(BoundingBox parent, int index)
+        {
+            dataLabels[index].SetParentPoint(parent);
+        }
+
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
+            var plotAreaGroup = new SvgGroupItem(DrawingRenderer, plotAreaBounds);
+            renderItems.Add(plotAreaGroup);
             for(int i = 0; i< dataLabels.Count; i++) 
             {
                 if (seriesIcon != null && dataLabels[i].HasLegendKey)
@@ -125,6 +136,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
+            renderItems.Add(new SvgEndGroupItem(DrawingRenderer, plotAreaBounds));
         }
     }
 }

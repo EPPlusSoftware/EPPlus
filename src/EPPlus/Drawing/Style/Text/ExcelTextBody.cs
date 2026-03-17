@@ -450,10 +450,10 @@ namespace OfficeOpenXml.Drawing
 
         internal void GetInsetsInPoints(out double left, out double top, out double right, out double bottom)
         {
-            left = (LeftInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
-            top = (TopInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
-            right = (RightInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
-            bottom = (BottomInsert ?? 0) / ExcelDrawing.EMU_PER_POINT;
+            left = (LeftInsert ?? 0);
+            top = (TopInsert ?? 0);
+            right = (RightInsert ?? 0);
+            bottom = (BottomInsert ?? 0);
         }
 
         ExcelDrawingParagraphCollection _paragraphs = null;

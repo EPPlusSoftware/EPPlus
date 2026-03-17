@@ -59,16 +59,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, _measurer);
         }
 
-        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
+        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
         {
-            ParentTextBody = textBody; 
+            ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
 
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
-                if(IsFirstParagraph)
+                if (IsFirstParagraph)
                 {
-                    if(p.DefaultRunProperties.Fill != null)
+                    if (p.DefaultRunProperties.Fill != null)
                     {
                         SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
                     }
@@ -76,7 +76,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 else
                 {
                     //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
-                    if(p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+                    if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
                     {
                         SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
                     }
@@ -92,15 +92,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             else
             {
-                if(p._paragraphs.FirstDefaultRunProperties!= null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+                if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
                 {
                     var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
                     SetDrawingPropertiesFill(fill, null);
                 }
             }
 
-                //---Initialize Bounds / Margins-- -
-                Bounds.Name = "Paragraph";
+            //---Initialize Bounds / Margins-- -
+            Bounds.Name = "Paragraph";
 
             var indent = 48 * p.IndentLevel;
             _leftMargin = p.LeftMargin + p.Indent + indent;

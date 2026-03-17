@@ -162,8 +162,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
 
-
-
             foreach (var paragraph in body.Paragraphs)
             {
                 SetHorizontalAlignmentPosition();
