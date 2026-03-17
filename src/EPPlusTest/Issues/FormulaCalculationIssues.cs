@@ -1471,19 +1471,6 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
         }
-
-        [TestMethod]
-        public void sc1014()
-        {
-            var sw = Stopwatch.StartNew();
-            Console.WriteLine($"Opening workbook");
-            using var package = OpenTemplatePackage("Cycle Review AR_Populated.xlsx");
-            Console.WriteLine($"Starting calc at {sw.Elapsed.TotalMilliseconds} ms");
-            package.Workbook.Calculate();
-            sw.Stop();
-
-            Console.WriteLine($"Calculation stopped at {sw.Elapsed.TotalSeconds} seconds");
-        }
     }
 }
 
