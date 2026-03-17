@@ -802,6 +802,12 @@ namespace OfficeOpenXml
         public static void Configure(Action<ExcelPackageConfiguration> configHandler)
         {
             configHandler(_configuration);
+#if(Core)
+            if(_configuration.Configuration != null)
+            {
+                EPPlusLicense.SetConfiguration(_configuration.Configuration);
+            }
+#endif
         }
         /// <summary>
         /// Errors that has been logged during initialization of the ExcelPackage class.
