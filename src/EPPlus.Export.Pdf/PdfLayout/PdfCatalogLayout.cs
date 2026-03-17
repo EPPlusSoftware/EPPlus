@@ -353,6 +353,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
             var totalTextLength = 0d;
+            var maxLineHeight = 0d;
             for (int i = 0; i < text.TextFormats.Count; i++)
             {
                 var fd = text.TextFormats[i];
@@ -401,8 +402,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 text.TextLayoutEngine = layoutEngine;
                 fd.ShapedText = shaped;
                 var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
+                var textHeight = fd.ShapedText.GetLineHeightInPoints((float)fd.FontSize);
                 fd.TextLength = textWdith;
+                fd.TextHeight = textHeight;
                 totalTextLength += textWdith;
+                maxLineHeight = Math.Max(textHeight, maxLineHeight);
                 fd.FontIdMap = fontIdMap;
                 fd.UsedFonts = usedFonts;
                 text.TextFormats[i] = fd;
@@ -412,6 +416,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             if (text is PdfCellContentLayout ccl)
             {
                 ccl.TextLength = totalTextLength;
+                ccl.TextHeight = maxLineHeight;
                 ccl.CalculateTextSpill(ccl.Size.X, ccl.CellAlignmentData.TextRotation);
                 ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
                 ccl.CheckClipping(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);

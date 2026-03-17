@@ -33,6 +33,8 @@ namespace EPPlusTest.PDF
          * Cells: Pictures in cells : Prio 3
          * Cells: Conditional Formatting
          * 
+         * Text: Wrap text
+         * Text: Vertical text again
          * Text: Equations : Prio 5
          * Text: Shrink To Fit (Scaling)
          * 
@@ -68,7 +70,6 @@ namespace EPPlusTest.PDF
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
          * 
          * Text: Set up to use back up techniques when not embedding font
-         * Text: Implement vertical text again
          * 
          * Layout: Calculate height of cells more correctly
          *
