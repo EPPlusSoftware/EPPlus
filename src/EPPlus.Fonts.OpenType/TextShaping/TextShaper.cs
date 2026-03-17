@@ -177,11 +177,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             // Phase 4: Build result
+            var fontUnitsPerEm = BuildFontUnitsPerEm();
+            var fontLineHeights = BuildFontLineHeights();
             return new ShapedText
             {
                 OriginalText = text,
                 Glyphs = glyphs.ToArray(),
-                FontUnitsPerEm = BuildFontUnitsPerEm()
+                FontUnitsPerEm = fontUnitsPerEm,
+                FontLineHeights = fontLineHeights
             };
         }
 
@@ -766,6 +769,44 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 result[i] = _usedFonts[i].HeadTable.UnitsPerEm;
             }
             return result;
+        }
+
+        /// <summary>
+        /// Builds a line height lookup array (in design units) indexed by FontId.
+        /// Uses the same metric selection logic as GetLineHeightInPoints:
+        /// if USE_TYPO_METRICS is set, uses sTypoAscender - sTypoDescender + sTypoLineGap;
+        /// otherwise uses usWinAscent + usWinDescent.
+        /// </summary>
+        private int[] BuildFontLineHeights()
+        {
+            if (_usedFonts.Count == 0)
+                return new int[] { GetLineHeightDesignUnits(_primaryFont) };
+
+            var result = new int[_usedFonts.Count];
+            for (int i = 0; i < _usedFonts.Count; i++)
+            {
+                result[i] = GetLineHeightDesignUnits(_usedFonts[i]);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the line height in design units for a font, using the same
+        /// metric selection as GetLineHeightInPoints.
+        /// </summary>
+        private static int GetLineHeightDesignUnits(OpenTypeFont font)
+        {
+            if (font.Os2Table.UseTypoMetrics)
+            {
+                return font.Os2Table.sTypoAscender
+                     - font.Os2Table.sTypoDescender
+                     + font.Os2Table.sTypoLineGap;
+            }
+            else
+            {
+                return font.Os2Table.usWinAscent
+                     + font.Os2Table.usWinDescent;
+            }
         }
     }
 }
