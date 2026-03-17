@@ -118,7 +118,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private void CreatePageLayoutObjects(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfWorksheetLayout worksheetLayout, PdfPagesLayout pages)
         {
 
-            /*Speculating how to make page breaks work. When we have all pages we create a pages map. we find all rows and columns that has a page break and then we rezise the content object until it reaches the page break*/
+            /* when calculating pages we need to take row and column headings width and height into consideration we could start our for loops and 0 and check if j==0 and add row width and then just proceed like usual and
+             * every time we hit a break we then add row width again. these are found in worksheet layout to use where we calculate them. 
+             *
+             * Next step in populatePages? would be to add additional cells for these headings when we have a new page first row is creating new PdfCellLayout and PdfCellContentLayout. This might conflict with text shaping since we now add new text while also shaping text.
+             * A solution to this could be when doing the worksheet layout is to check dimensions and add A-Z, 1-9 as needed to a new font entry in dictionaries.Fonts
+             */
 
             //Get x cooridiantes to break for new page
             List<double> xBreaks = new List<double>() { 0d };

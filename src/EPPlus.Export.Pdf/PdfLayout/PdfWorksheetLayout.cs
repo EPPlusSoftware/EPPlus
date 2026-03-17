@@ -17,7 +17,6 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
@@ -31,6 +30,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
     internal class PdfWorksheetLayout : Transform
     {
         public static double ZeroCharWidth;
+        public static double RowHeadingWidth; //This is calculated based on the toRowDimension. row heading text is centered at bottom. font is theme default at default size.
+        public static double ColumnHeadingHeight; //This is calculated using themefont height and is using theme font at default size.
 
         public PdfWorksheetLayout(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
         {
