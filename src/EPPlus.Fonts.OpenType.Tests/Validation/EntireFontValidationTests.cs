@@ -11,7 +11,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void ValidateEntireFont()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var report = font.ValidateFont(FontValidationSeverity.Error);
             Assert.IsTrue(report.IsValid);
         }

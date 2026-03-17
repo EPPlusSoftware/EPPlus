@@ -13,7 +13,7 @@
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Linq;
 

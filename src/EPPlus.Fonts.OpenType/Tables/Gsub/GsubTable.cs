@@ -127,29 +127,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
             if (this.FeatureList != null && lookupResult != null)
             {
                 featureResult = this.FeatureList.Rewrite(context, lookupResult.OldToNewIndexMap);
-                if (featureResult != null)
-                {
-                    Debug.WriteLine("\n=== FEATURE INDEX MAPPING ===");
-                    Debug.WriteLine($"Original features: {this.FeatureList.FeatureRecords.Count}");
-                    Debug.WriteLine($"New features: {featureResult.NewFeatureList.FeatureRecords.Count}");
-                    Debug.WriteLine($"Mapping entries: {featureResult.OldToNewIndexMap.Count}");
-
-                    Debug.WriteLine("\nMapping details:");
-                    foreach (var kvp in featureResult.OldToNewIndexMap.OrderBy(k => k.Key))
-                    {
-                        var oldFeature = this.FeatureList.FeatureRecords[kvp.Key];
-                        var newFeature = featureResult.NewFeatureList.FeatureRecords[kvp.Value];
-                        Debug.WriteLine($"  Old[{kvp.Key}] '{oldFeature.FeatureTag.Value}' → New[{kvp.Value}] '{newFeature.FeatureTag.Value}'");
-                    }
-
-                    Debug.WriteLine("\nOriginal script DFLT had features:");
-                    var origDflt = this.ScriptList.ScriptRecords.FirstOrDefault(s => s.ScriptTag.Value == "DFLT");
-                    if (origDflt?.ScriptTable?.DefaultLangSys != null)
-                    {
-                        var indices = string.Join(", ", origDflt.ScriptTable.DefaultLangSys.FeatureIndices.Select(i => i.ToString()).ToArray());
-                        Debug.WriteLine($"  [{indices}]");
-                    }
-                }
                 if (featureResult == null || featureResult.NewFeatureList == null || featureResult.NewFeatureList.FeatureRecords.Count == 0)
                 {
                     // No features remain

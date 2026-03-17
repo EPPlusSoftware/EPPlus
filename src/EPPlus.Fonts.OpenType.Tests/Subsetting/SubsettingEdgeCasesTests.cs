@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [ExpectedException(typeof(ArgumentException))]
         public void Subset_EmptyString_ShouldThrow()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subset = font.CreateSubset("");
         }
 
@@ -36,14 +36,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [ExpectedException(typeof(ArgumentNullException))]
         public void Subset_NullArray_ShouldThrow()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subset = font.CreateSubset((char[])null);
         }
 
         [TestMethod]
         public void Subset_SingleChar_ShouldHaveMinimalGlyphs()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subset = font.CreateSubset("a");
 
             SaveFont("edge_single_char.ttf", subset);
@@ -56,7 +56,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_LargeText_ShouldCompleteQuickly()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var allLatinChars = Enumerable.Range(32, 95).Select(i => (char)i).ToArray();
 
             var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -72,7 +72,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_DuplicateChars_ShouldDedup()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var subset1 = font.CreateSubset("aaa");
             var subset2 = font.CreateSubset("a");
@@ -84,7 +84,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_AllGlyphs_ShouldBeSimilarSizeToOriginal()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             // Get ALL characters from cmap
             var allChars = new HashSet<char>();
@@ -115,7 +115,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_PreservesRobotoKerning()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var builder = new SubsetFontBuilder();
 
             // Act

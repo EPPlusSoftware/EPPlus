@@ -16,19 +16,37 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
 {
     internal static class PdfString
     {
+        /// <summary>
+        /// Returns the value formated for use in pdf document.
+        /// </summary>
+        /// <param name="val">Value to turn into a string.</param>
+        /// <returns>The value repsented as a string.</returns>
         internal static string ToPdfString(this double val)
         {
             return val.ToString(CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Returns the value formated for use in pdf document.
+        /// </summary>
+        /// <param name="val">Value to turn into a string.</param>
+        /// <returns>The value repsented as a string with 4 decimals.</returns>
         internal static string ToPdfStringF4(this double val)
         {
             return val.ToString("F4", CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Returns the value formated for use in pdf document.
+        /// </summary>
+        /// <param name="val">Value to turn into a string.</param>
+        /// <returns>The value repsented as a string with no decimals.</returns>
         internal static string ToPdfStringF0(this double val)
         {
             return val.ToString("F0", CultureInfo.InvariantCulture);
         }
 
+        //Delete this method?
         public static bool IsNullOrWhiteSpace(string s)
         {
             if (s == null)

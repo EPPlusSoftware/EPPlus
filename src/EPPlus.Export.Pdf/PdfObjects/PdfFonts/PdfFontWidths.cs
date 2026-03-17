@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
@@ -108,6 +109,12 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         {
             var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
             return $"   [ {widthsStr} ]";
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
+            WriteAscii(bw, $"   [ {widthsStr} ]");
         }
     }
 }

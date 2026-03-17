@@ -37,9 +37,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
 
         #region Helper Classes for .NET 3.5 Compatibility
 
-        /// <summary>
-        /// Represents a glyph pair key for kerning lookups
-        /// </summary>
         private class GlyphPair
         {
             public ushort FirstGlyph { get; set; }
@@ -64,9 +61,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             }
         }
 
-        /// <summary>
-        /// Represents anchor point data for mark-to-base attachments
-        /// </summary>
         private class AnchorPointPair
         {
             public short MarkAnchorX { get; set; }
@@ -75,9 +69,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             public short BaseAnchorY { get; set; }
         }
 
-        /// <summary>
-        /// Represents a single position adjustment
-        /// </summary>
         private class SinglePosValue
         {
             public short XPlacement { get; set; }
@@ -91,8 +82,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void Diagnose_SerializedFontOffsets()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             Debug.WriteLine("=== ORIGINAL TABLE RECORDS ===");
             foreach (var kvp in font.TableRecords)
@@ -101,23 +91,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
                     kvp.Key, kvp.Value.Offset, kvp.Value.Length));
             }
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
 
             Debug.WriteLine(string.Format("\n=== SERIALIZED FONT: {0} bytes ===", bytes.Length));
 
-            // Read back table directory from serialized bytes
             using (var ms = new MemoryStream(bytes))
             using (var reader = new FontsBinaryReader(ms))
             {
-                // Skip sfnt header (12 bytes)
                 reader.BaseStream.Position = 0;
                 uint sfntVersion = reader.ReadUInt32BigEndian();
                 ushort numTables = reader.ReadUInt16BigEndian();
-                reader.ReadUInt16BigEndian(); // searchRange
-                reader.ReadUInt16BigEndian(); // entrySelector  
-                reader.ReadUInt16BigEndian(); // rangeShift
+                reader.ReadUInt16BigEndian();
+                reader.ReadUInt16BigEndian();
+                reader.ReadUInt16BigEndian();
 
                 Debug.WriteLine(string.Format("\nsfntVersion: 0x{0:X8}", sfntVersion));
                 Debug.WriteLine(string.Format("numTables: {0}", numTables));
@@ -131,14 +118,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
                     uint offset = reader.ReadUInt32BigEndian();
                     uint length = reader.ReadUInt32BigEndian();
 
-                    string status = "";
-                    if (offset + length > bytes.Length)
-                    {
-                        status = " *** INVALID: extends beyond file!";
-                    }
-
-                    Debug.WriteLine(string.Format("{0}: Offset={1}, Length={2}{3}",
-                        tag, offset, length, status));
+                    string status = offset + length > bytes.Length ? " *** INVALID: extends beyond file!" : "";
+                    Debug.WriteLine(string.Format("{0}: Offset={1}, Length={2}{3}", tag, offset, length, status));
                 }
             }
         }
@@ -148,39 +129,32 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_StructurePreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var originalGpos = font.GposTable;
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert - Structure
             Assert.IsNotNull(reparsed.GposTable, "GPOS table should exist after roundtrip");
             Assert.AreEqual(originalGpos.MajorVersion, reparsed.GposTable.MajorVersion);
             Assert.AreEqual(originalGpos.MinorVersion, reparsed.GposTable.MinorVersion);
 
-            // Script count
             Assert.AreEqual(
                 originalGpos.ScriptList.ScriptRecords.Count,
                 reparsed.GposTable.ScriptList.ScriptRecords.Count,
                 "Script count should match");
 
-            // Feature count
             Assert.AreEqual(
                 originalGpos.FeatureList.FeatureRecords.Count,
                 reparsed.GposTable.FeatureList.FeatureRecords.Count,
                 "Feature count should match");
 
-            // Lookup count
             Assert.AreEqual(
                 originalGpos.LookupList.Lookups.Count,
                 reparsed.GposTable.LookupList.Lookups.Count,
                 "Lookup count should match");
 
-            // Lookup types should match
             for (int i = 0; i < originalGpos.LookupList.Lookups.Count; i++)
             {
                 Assert.AreEqual(
@@ -193,29 +167,22 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_FeatureTagsPreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var originalTags = new List<string>();
             foreach (var feature in font.GposTable.FeatureList.FeatureRecords)
-            {
                 originalTags.Add(feature.FeatureTag.Value);
-            }
             originalTags.Sort();
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
             var reparsedTags = new List<string>();
             foreach (var feature in reparsed.GposTable.FeatureList.FeatureRecords)
-            {
                 reparsedTags.Add(feature.FeatureTag.Value);
-            }
             reparsedTags.Sort();
 
-            // Assert
             Assert.AreEqual(originalTags.Count, reparsedTags.Count, "Feature count should match");
             for (int i = 0; i < originalTags.Count; i++)
             {
@@ -229,29 +196,22 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_ScriptTagsPreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var originalTags = new List<string>();
             foreach (var script in font.GposTable.ScriptList.ScriptRecords)
-            {
                 originalTags.Add(script.ScriptTag.Value);
-            }
             originalTags.Sort();
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
             var reparsedTags = new List<string>();
             foreach (var script in reparsed.GposTable.ScriptList.ScriptRecords)
-            {
                 reparsedTags.Add(script.ScriptTag.Value);
-            }
             reparsedTags.Sort();
 
-            // Assert
             Assert.AreEqual(originalTags.Count, reparsedTags.Count, "Script count should match");
             for (int i = 0; i < originalTags.Count; i++)
             {
@@ -269,25 +229,19 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_PairPos_KerningValuesPreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Collect original kerning pairs
             var originalKerning = CollectKerningPairs(font);
             Debug.WriteLine(string.Format("Original font has {0} kerning pairs", originalKerning.Count));
-
             Assert.IsTrue(originalKerning.Count > 0, "Font should have kerning pairs");
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert - All kerning values should be preserved
             var reparsedKerning = CollectKerningPairs(reparsed);
 
-            Assert.AreEqual(originalKerning.Count, reparsedKerning.Count,
-                "Kerning pair count should match");
+            Assert.AreEqual(originalKerning.Count, reparsedKerning.Count, "Kerning pair count should match");
 
             int verified = 0;
             foreach (var pair in originalKerning.Keys)
@@ -311,17 +265,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_PairPos_SpecificPairsVerified()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Get glyph IDs for test characters
             ushort fGlyph, eGlyph, aGlyph, vGlyph;
             font.CmapTable.TryGetGlyphId('f', out fGlyph);
             font.CmapTable.TryGetGlyphId('e', out eGlyph);
             font.CmapTable.TryGetGlyphId('A', out aGlyph);
             font.CmapTable.TryGetGlyphId('V', out vGlyph);
 
-            // Get original values
             var origLookup = FindFirstLookupOfType(font.GposTable, 2);
             Assert.IsNotNull(origLookup, "Should have PairPos lookup");
 
@@ -332,21 +283,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             bool hasFe = origSubtable.TryGetPairAdjustment(fGlyph, eGlyph, out feOrig1, out feOrig2);
             bool hasAv = origSubtable.TryGetPairAdjustment(aGlyph, vGlyph, out avOrig1, out avOrig2);
 
-            if (hasFe)
-            {
-                Debug.WriteLine(string.Format("Original: f-e = {0}", feOrig1.XAdvance));
-            }
-            if (hasAv)
-            {
-                Debug.WriteLine(string.Format("Original: A-V = {0}", avOrig1.XAdvance));
-            }
+            if (hasFe) Debug.WriteLine(string.Format("Original: f-e = {0}", feOrig1.XAdvance));
+            if (hasAv) Debug.WriteLine(string.Format("Original: A-V = {0}", avOrig1.XAdvance));
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             var newLookup = FindFirstLookupOfType(reparsed.GposTable, 2);
             Assert.IsNotNull(newLookup, "Reparsed should have PairPos lookup");
 
@@ -356,8 +299,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             if (hasFe)
             {
                 ValueRecord feNew1, feNew2;
-                Assert.IsTrue(newSubtable.TryGetPairAdjustment(fGlyph, eGlyph, out feNew1, out feNew2),
-                    "f-e pair should exist");
+                Assert.IsTrue(newSubtable.TryGetPairAdjustment(fGlyph, eGlyph, out feNew1, out feNew2), "f-e pair should exist");
                 Assert.AreEqual(feOrig1.XAdvance, feNew1.XAdvance, "f-e kerning should match");
                 Debug.WriteLine(string.Format("f-e: {0} verified", feNew1.XAdvance));
             }
@@ -365,8 +307,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             if (hasAv)
             {
                 ValueRecord avNew1, avNew2;
-                Assert.IsTrue(newSubtable.TryGetPairAdjustment(aGlyph, vGlyph, out avNew1, out avNew2),
-                    "A-V pair should exist");
+                Assert.IsTrue(newSubtable.TryGetPairAdjustment(aGlyph, vGlyph, out avNew1, out avNew2), "A-V pair should exist");
                 Assert.AreEqual(avOrig1.XAdvance, avNew1.XAdvance, "A-V kerning should match");
                 Debug.WriteLine(string.Format("A-V: {0} verified", avNew1.XAdvance));
             }
@@ -375,25 +316,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_PairPos_ValueFormatPreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var origLookup = FindFirstLookupOfType(font.GposTable, 2);
             var origSubtable = origLookup.SubTables[0] as PairPosSubTableFormat1;
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
             var newLookup = FindFirstLookupOfType(reparsed.GposTable, 2);
             var newSubtable = newLookup.SubTables[0] as PairPosSubTableFormat1;
 
-            // Assert
-            Assert.AreEqual(origSubtable.ValueFormat1, newSubtable.ValueFormat1,
-                "ValueFormat1 should be preserved");
-            Assert.AreEqual(origSubtable.ValueFormat2, newSubtable.ValueFormat2,
-                "ValueFormat2 should be preserved");
+            Assert.AreEqual(origSubtable.ValueFormat1, newSubtable.ValueFormat1, "ValueFormat1 should be preserved");
+            Assert.AreEqual(origSubtable.ValueFormat2, newSubtable.ValueFormat2, "ValueFormat2 should be preserved");
 
             Debug.WriteLine(string.Format("ValueFormat1: 0x{0:X4}", newSubtable.ValueFormat1));
             Debug.WriteLine(string.Format("ValueFormat2: 0x{0:X4}", newSubtable.ValueFormat2));
@@ -406,8 +342,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_SinglePos_ValuesPreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var singlePosLookup = FindFirstLookupOfType(font.GposTable, 1);
             if (singlePosLookup == null)
@@ -416,20 +351,16 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
                 return;
             }
 
-            // Collect original adjustments
             var originalAdjustments = CollectSinglePosAdjustments(font);
             Debug.WriteLine(string.Format("Original has {0} single adjustments", originalAdjustments.Count));
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             var reparsedAdjustments = CollectSinglePosAdjustments(reparsed);
 
-            Assert.AreEqual(originalAdjustments.Count, reparsedAdjustments.Count,
-                "SinglePos adjustment count should match");
+            Assert.AreEqual(originalAdjustments.Count, reparsedAdjustments.Count, "SinglePos adjustment count should match");
 
             foreach (ushort glyphId in originalAdjustments.Keys)
             {
@@ -440,14 +371,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
 
                 var actual = reparsedAdjustments[glyphId];
 
-                Assert.AreEqual(expected.XPlacement, actual.XPlacement,
-                    string.Format("Glyph {0} XPlacement", glyphId));
-                Assert.AreEqual(expected.YPlacement, actual.YPlacement,
-                    string.Format("Glyph {0} YPlacement", glyphId));
-                Assert.AreEqual(expected.XAdvance, actual.XAdvance,
-                    string.Format("Glyph {0} XAdvance", glyphId));
-                Assert.AreEqual(expected.YAdvance, actual.YAdvance,
-                    string.Format("Glyph {0} YAdvance", glyphId));
+                Assert.AreEqual(expected.XPlacement, actual.XPlacement, string.Format("Glyph {0} XPlacement", glyphId));
+                Assert.AreEqual(expected.YPlacement, actual.YPlacement, string.Format("Glyph {0} YPlacement", glyphId));
+                Assert.AreEqual(expected.XAdvance, actual.XAdvance, string.Format("Glyph {0} XAdvance", glyphId));
+                Assert.AreEqual(expected.YAdvance, actual.YAdvance, string.Format("Glyph {0} YAdvance", glyphId));
             }
 
             Debug.WriteLine(string.Format("Verified {0} single adjustments", originalAdjustments.Count));
@@ -460,8 +387,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_MarkToBase_StructurePreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var markToBaseLookup = FindFirstLookupOfType(font.GposTable, 4);
             if (markToBaseLookup == null)
@@ -473,12 +399,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var origSubtable = markToBaseLookup.SubTables[0] as MarkToBaseSubTableFormat1;
             Assert.IsNotNull(origSubtable, "Should have MarkToBase subtable");
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             var newLookup = FindFirstLookupOfType(reparsed.GposTable, 4);
             Assert.IsNotNull(newLookup, "MarkToBase lookup should exist");
 
@@ -490,16 +414,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             Assert.AreEqual(origSubtable.BaseArray.BaseCount, newSubtable.BaseArray.BaseCount, "BaseCount");
 
             Debug.WriteLine(string.Format("MarkToBase preserved: {0} classes, {1} marks, {2} bases",
-                newSubtable.MarkClassCount,
-                newSubtable.MarkArray.MarkCount,
-                newSubtable.BaseArray.BaseCount));
+                newSubtable.MarkClassCount, newSubtable.MarkArray.MarkCount, newSubtable.BaseArray.BaseCount));
         }
 
         [TestMethod]
         public void SerializeGpos_MarkToBase_AnchorPointsPreserved()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             var markToBaseLookup = FindFirstLookupOfType(font.GposTable, 4);
             if (markToBaseLookup == null)
@@ -509,9 +430,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             }
 
             var origSubtable = markToBaseLookup.SubTables[0] as MarkToBaseSubTableFormat1;
-
-            // Find valid mark-base pairs
             var originalAttachments = CollectMarkToBaseAttachments(origSubtable);
+
             if (originalAttachments.Count == 0)
             {
                 Assert.Inconclusive("No attachments found");
@@ -520,12 +440,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
 
             Debug.WriteLine(string.Format("Found {0} mark-base attachments", originalAttachments.Count));
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             var newLookup = FindFirstLookupOfType(reparsed.GposTable, 4);
             var newSubtable = newLookup.SubTables[0] as MarkToBaseSubTableFormat1;
 
@@ -539,10 +457,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
                 var expected = originalAttachments[pair];
 
                 AnchorTable newMarkAnchor, newBaseAnchor;
-                Assert.IsTrue(newSubtable.TryGetAttachment(pair.FirstGlyph, pair.SecondGlyph,
-                    out newMarkAnchor, out newBaseAnchor),
-                    string.Format("Missing attachment for mark {0}, base {1}",
-                        pair.FirstGlyph, pair.SecondGlyph));
+                Assert.IsTrue(newSubtable.TryGetAttachment(pair.FirstGlyph, pair.SecondGlyph, out newMarkAnchor, out newBaseAnchor),
+                    string.Format("Missing attachment for mark {0}, base {1}", pair.FirstGlyph, pair.SecondGlyph));
 
                 Assert.AreEqual(expected.MarkAnchorX, newMarkAnchor.XCoordinate,
                     string.Format("Mark anchor X for ({0}, {1})", pair.FirstGlyph, pair.SecondGlyph));
@@ -566,15 +482,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_FeatureLookupIndices_AreValid()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             int lookupCount = reparsed.GposTable.LookupList.Lookups.Count;
 
             foreach (var feature in reparsed.GposTable.FeatureList.FeatureRecords)
@@ -593,7 +506,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void Diagnose_GposTableOffset()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
             Debug.WriteLine("=== TABLE RECORDS ===");
             foreach (var kvp in font.TableRecords)
@@ -604,9 +517,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
 
             Debug.WriteLine(string.Format("\n=== READER STATE ==="));
             Debug.WriteLine(string.Format("Reader stream length: {0}", font._tblSettings.TableReaderFactory.FontBytesLength));
-            Debug.WriteLine(string.Format("Reader stream position: {0}", font._tblSettings.TableReaderFactory.FontBytesLength));
 
-            // Try to read GPOS
             Debug.WriteLine("\n=== LOADING GPOS ===");
             var gpos = font.GposTable;
             Debug.WriteLine(string.Format("GPOS version: {0}.{1}", gpos.MajorVersion, gpos.MinorVersion));
@@ -615,20 +526,16 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_LangSysFeatureIndices_AreValid()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             int featureCount = reparsed.GposTable.FeatureList.FeatureRecords.Count;
 
             foreach (var script in reparsed.GposTable.ScriptList.ScriptRecords)
             {
-                // Check DefaultLangSys
                 if (script.ScriptTable.DefaultLangSys != null)
                 {
                     foreach (var idx in script.ScriptTable.DefaultLangSys.FeatureIndices)
@@ -639,7 +546,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
                     }
                 }
 
-                // Check other LangSys records
                 foreach (var langSys in script.ScriptTable.LangSysRecords)
                 {
                     foreach (var idx in langSys.LangSysTable.FeatureIndices)
@@ -661,15 +567,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_CoverageGlyphIds_AreValid()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Act
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
-            var reparsed = new OpenTypeFont(bytes, font.Format);
+            var reparsed = new OpenTypeFont(bytes);
 
-            // Assert
             ushort maxGlyph = reparsed.MaxpTable.numGlyphs;
 
             for (int lookupIdx = 0; lookupIdx < reparsed.GposTable.LookupList.Lookups.Count; lookupIdx++)
@@ -708,9 +611,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             foreach (var lookup in gpos.LookupList.Lookups)
             {
                 if (lookup.LookupType == lookupType)
-                {
                     return lookup;
-                }
             }
             return null;
         }
@@ -729,7 +630,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
 
                 var coveredGlyphs = subtable.Coverage.GetCoveredGlyphs();
 
-                // PairSets är en List<PairSet> som är indexerad parallellt med Coverage
                 for (int i = 0; i < coveredGlyphs.Length && i < subtable.PairSets.Count; i++)
                 {
                     ushort firstGlyph = coveredGlyphs[i];
@@ -836,33 +736,16 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var coverages = new List<CoverageTable>();
 
             var pp1 = subtable as PairPosSubTableFormat1;
-            if (pp1 != null)
-            {
-                coverages.Add(pp1.Coverage);
-                return coverages;
-            }
+            if (pp1 != null) { coverages.Add(pp1.Coverage); return coverages; }
 
             var sp1 = subtable as SinglePosSubTableFormat1;
-            if (sp1 != null)
-            {
-                coverages.Add(sp1.Coverage);
-                return coverages;
-            }
+            if (sp1 != null) { coverages.Add(sp1.Coverage); return coverages; }
 
             var sp2 = subtable as SinglePosSubTableFormat2;
-            if (sp2 != null)
-            {
-                coverages.Add(sp2.Coverage);
-                return coverages;
-            }
+            if (sp2 != null) { coverages.Add(sp2.Coverage); return coverages; }
 
             var mtb = subtable as MarkToBaseSubTableFormat1;
-            if (mtb != null)
-            {
-                coverages.Add(mtb.MarkCoverage);
-                coverages.Add(mtb.BaseCoverage);
-                return coverages;
-            }
+            if (mtb != null) { coverages.Add(mtb.MarkCoverage); coverages.Add(mtb.BaseCoverage); return coverages; }
 
             return coverages;
         }

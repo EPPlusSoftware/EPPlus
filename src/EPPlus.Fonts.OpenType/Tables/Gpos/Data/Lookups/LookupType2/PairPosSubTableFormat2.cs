@@ -54,11 +54,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2
             value1 = null;
             value2 = null;
 
-            System.Diagnostics.Debug.WriteLine($"[Format2] Trying pair: {firstGlyph} + {secondGlyph}");
 
             if (Coverage == null || ClassDef1 == null || ClassDef2 == null || ClassMatrix == null)
             {
-                System.Diagnostics.Debug.WriteLine($"  ✗ Missing data: Cov={Coverage != null}, CD1={ClassDef1 != null}, CD2={ClassDef2 != null}, Matrix={ClassMatrix != null}");
                 return false;
             }
 

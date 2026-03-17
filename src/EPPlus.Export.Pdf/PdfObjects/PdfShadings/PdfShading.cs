@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics;
+using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
@@ -59,6 +60,27 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
                 sb.AppendFormat($"\n   /AntiAlias {AntiAlias.ToString()}");
             }
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Shading\n" +
+                            $"   /ShadingType 0\n" +
+                            $"   /ColorSpace {ColorSpace.ToString()}");
+            if (Background != null)
+            {
+                //add background
+            }
+            if (BBox != null)
+            {
+                //add bbox
+            }
+            if (AntiAlias != null)
+            {
+                sb.AppendFormat($"\n   /AntiAlias {AntiAlias.ToString()}");
+            }
+            WriteAscii(bw, sb.ToString());
         }
     }
 }

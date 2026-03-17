@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +31,14 @@ namespace EPPlus.Fonts.OpenType.Benchmarks
 
             // Pre-load font into cache
             OpenTypeFonts.ClearFontCache();
-            OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+            OpenTypeFonts.LoadFont("Roboto");
         }
 
         [Benchmark]
         public OpenTypeFont Load_FromCache_SingleThread()
         {
             // This should be extremely fast - just cache lookup
-            return OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+            return OpenTypeFonts.LoadFont("Roboto");
         }
 
         [Benchmark]
@@ -46,10 +47,10 @@ namespace EPPlus.Fonts.OpenType.Benchmarks
             // Simulates loading multiple font styles (like for a document)
             return new[]
             {
-                OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular),
-                OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Bold),
-                OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Italic),
-                OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.BoldItalic)
+                OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular),
+                OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Bold),
+                OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Italic),
+                OpenTypeFonts.LoadFont("Roboto", FontSubFamily.BoldItalic)
             };
         }
     }

@@ -25,20 +25,20 @@ namespace EPPlus.Fonts.OpenType
             {
                 // Pass the start offset to the constructor
                 // This tells OpenTypeFont where this font's table directory starts
-                return new OpenTypeFont(fontData, face.OffsetInFile, FontFormat.Ttf);
+                return new OpenTypeFont(fontData, face.OffsetInFile);
             }
             else // Regular TTF/OTF
             {
                 var format = Path.GetExtension(face.FilePath).ToLowerInvariant() == ".otf"
                     ? FontFormat.Otf
                     : FontFormat.Ttf;
-                return new OpenTypeFont(fontData, format);
+                return new OpenTypeFont(fontData);
             }
         }
 
-        public static OpenTypeFont CreateFromBytes(byte[] bytes, FontFormat format)
+        public static OpenTypeFont CreateFromBytes(byte[] bytes)
         {
-            return new OpenTypeFont(bytes, format);
+            return new OpenTypeFont(bytes);
         }
     }
 }

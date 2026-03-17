@@ -2,6 +2,7 @@
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections;
 using System.Collections.Generic;

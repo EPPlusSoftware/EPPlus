@@ -17,7 +17,7 @@ using EPPlus.Fonts.OpenType.TextShaping.Kerning;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
 using EPPlus.Fonts.OpenType.TextShaping.Positioning;
 using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 
@@ -177,10 +177,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             // Phase 4: Build result
+            var fontUnitsPerEm = BuildFontUnitsPerEm();
+            var fontLineHeights = BuildFontLineHeights();
             return new ShapedText
             {
                 OriginalText = text,
-                Glyphs = glyphs.ToArray()
+                Glyphs = glyphs.ToArray(),
+                FontUnitsPerEm = fontUnitsPerEm,
+                FontLineHeights = fontLineHeights
             };
         }
 
@@ -539,22 +543,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         #region Utilities
 
         /// <summary>
-        /// Measures the width of text in font units.
-        /// </summary>
-        public int MeasureText(string text, ShapingOptions options = null)
-        {
-            var shaped = Shape(text, options);
-            return shaped.TotalAdvanceWidth;
-        }
-
-        /// <summary>
         /// Measures the width of text in PDF points.
         /// </summary>
         public float MeasureTextInPoints(string text, float fontSize, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-            return shaped.GetWidthInPoints(fontSize, unitsPerEm);
+            return shaped.GetWidthInPoints(fontSize);
         }
 
         /// <summary>
@@ -563,8 +557,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public float MeasureTextInPixels(string text, float fontSize, float dpi, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-            return shaped.GetWidthInPixels(fontSize, dpi, unitsPerEm);
+            return shaped.GetWidthInPixels(fontSize, dpi);
         }
 
         #endregion
@@ -599,12 +592,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public MultiLineMetrics MeasureLines(string text, float fontSize, ShapingOptions options = null)
         {
             var shapedLines = ShapeLines(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
 
             float maxWidth = 0;
             foreach (var line in shapedLines)
             {
-                float lineWidth = line.GetWidthInPoints(fontSize, unitsPerEm);
+                float lineWidth = line.GetWidthInPoints(fontSize);
                 maxWidth = Math.Max(maxWidth, lineWidth);
             }
 
@@ -761,5 +753,60 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         #endregion
+
+        /// <summary>
+        /// Builds a UnitsPerEm lookup array indexed by FontId.
+        /// Must be called after shaping when _usedFonts is populated.
+        /// </summary>
+        private ushort[] BuildFontUnitsPerEm()
+        {
+            if (_usedFonts.Count == 0)
+                return new ushort[] { _primaryFont.HeadTable.UnitsPerEm };
+
+            var result = new ushort[_usedFonts.Count];
+            for (int i = 0; i < _usedFonts.Count; i++)
+            {
+                result[i] = _usedFonts[i].HeadTable.UnitsPerEm;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Builds a line height lookup array (in design units) indexed by FontId.
+        /// Uses the same metric selection logic as GetLineHeightInPoints:
+        /// if USE_TYPO_METRICS is set, uses sTypoAscender - sTypoDescender + sTypoLineGap;
+        /// otherwise uses usWinAscent + usWinDescent.
+        /// </summary>
+        private int[] BuildFontLineHeights()
+        {
+            if (_usedFonts.Count == 0)
+                return new int[] { GetLineHeightDesignUnits(_primaryFont) };
+
+            var result = new int[_usedFonts.Count];
+            for (int i = 0; i < _usedFonts.Count; i++)
+            {
+                result[i] = GetLineHeightDesignUnits(_usedFonts[i]);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the line height in design units for a font, using the same
+        /// metric selection as GetLineHeightInPoints.
+        /// </summary>
+        private static int GetLineHeightDesignUnits(OpenTypeFont font)
+        {
+            if (font.Os2Table.UseTypoMetrics)
+            {
+                return font.Os2Table.sTypoAscender
+                     - font.Os2Table.sTypoDescender
+                     + font.Os2Table.sTypoLineGap;
+            }
+            else
+            {
+                return font.Os2Table.usWinAscent
+                     + font.Os2Table.usWinDescent;
+            }
+        }
     }
 }

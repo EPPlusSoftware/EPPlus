@@ -9,33 +9,34 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  02/27/2026         EPPlus Software AB           Thread-safe initialization
  *************************************************************************************************/
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.FontLocalization
 {
     internal static class WindowsLanguageMappings
     {
-        private static IDictionary<int, LanguageMapping> _mappings = new Dictionary<int, LanguageMapping>();
+        private static readonly object _syncRoot = new object();
+        private static volatile bool _initialized = false;
+        private static readonly Dictionary<int, LanguageMapping> _mappings = new Dictionary<int, LanguageMapping>();
+
         private static void AddMappping(int hexNumber, Languages language)
         {
-            lock (_mappings)
-            {
-                if (_mappings.ContainsKey(hexNumber)) return;
+            // Called only within lock during initialization, no additional lock needed
+            if (_mappings.ContainsKey(hexNumber)) return;
 
-                var mapping = LanguageMapping.Create(hexNumber, language);
-                _mappings.Add(mapping.code, mapping);
-            }
+            var mapping = LanguageMapping.Create(hexNumber, language);
+            _mappings.Add(mapping.code, mapping);
         }
+
         private static void CreateMappings()
         {
-
             AddMappping(0x0436, Languages.Afrikaans);
             AddMappping(0x041C, Languages.Albanian);
             AddMappping(0x0484, Languages.Alsatian);
             AddMappping(0x045E, Languages.Amharic);
-            
+
             AddMappping(0x1401, Languages.Arabic);
             AddMappping(0x3C01, Languages.Arabic);
             AddMappping(0x0C01, Languages.Arabic);
@@ -47,12 +48,14 @@ namespace EPPlus.Fonts.OpenType.FontLocalization
             AddMappping(0x1801, Languages.Arabic);
             AddMappping(0x2001, Languages.Arabic);
             AddMappping(0x4001, Languages.Arabic);
-            AddMappping(0x0401, Languages.Arabic);
             AddMappping(0x2801, Languages.Arabic);
             AddMappping(0x1C01, Languages.Arabic);
             AddMappping(0x3801, Languages.Arabic);
             AddMappping(0x2401, Languages.Arabic);
-            
+            AddMappping(0x0401, Languages.Arabic);
+            AddMappping(0x2801, Languages.Arabic);
+            AddMappping(0x1401, Languages.Arabic);
+            AddMappping(0x0429, Languages.Dari);
             AddMappping(0x042B, Languages.Armenian);
             AddMappping(0x044D, Languages.Assamese);
             AddMappping(0x082C, Languages.Azeri_Cyrillic);
@@ -64,24 +67,23 @@ namespace EPPlus.Fonts.OpenType.FontLocalization
             AddMappping(0x0445, Languages.Bengali);
             AddMappping(0x201A, Languages.Bosnian_Cyrillic);
             AddMappping(0x141A, Languages.Bosnian_Latin);
-
             AddMappping(0x047E, Languages.Breton);
             AddMappping(0x0402, Languages.Bulgarian);
             AddMappping(0x0403, Languages.Catalan);
-            AddMappping(0x1404, Languages.Chinese);
-            AddMappping(0x0804, Languages.Chinese);
-            AddMappping(0x1004, Languages.Chinese);
-            AddMappping(0x0404, Languages.Chinese);
+            AddMappping(0x0C04, Languages.Chinese_Traditional);
+            AddMappping(0x1404, Languages.Chinese_Traditional);
+            AddMappping(0x0804, Languages.Chinese_Simplified);
+            AddMappping(0x1004, Languages.Chinese_Simplified);
+            AddMappping(0x0404, Languages.Chinese_Traditional);
             AddMappping(0x0483, Languages.Corsican);
             AddMappping(0x041A, Languages.Croatian);
-
             AddMappping(0x101A, Languages.Croatian_Latin);
-            AddMappping(0x0405, Languages.Czech );
+            AddMappping(0x0405, Languages.Czech);
             AddMappping(0x0406, Languages.Danish);
             AddMappping(0x048C, Languages.Dari);
             AddMappping(0x0465, Languages.Divehi);
-            AddMappping(0x0813, Languages.Dutch);
             AddMappping(0x0413, Languages.Dutch);
+            AddMappping(0x0813, Languages.Dutch);
 
             AddMappping(0x0C09, Languages.English);
             AddMappping(0x2809, Languages.English);
@@ -107,7 +109,7 @@ namespace EPPlus.Fonts.OpenType.FontLocalization
             AddMappping(0x080C, Languages.French);
             AddMappping(0x0C0C, Languages.French);
             AddMappping(0x040C, Languages.French);
-            AddMappping(0x140c, Languages.French);
+            AddMappping(0x140C, Languages.French);
             AddMappping(0x180C, Languages.French);
             AddMappping(0x100C, Languages.French);
             AddMappping(0x0462, Languages.Frisian);
@@ -258,9 +260,17 @@ namespace EPPlus.Fonts.OpenType.FontLocalization
         {
             get
             {
-                if(_mappings.Count() == 0)
+                // Double-checked locking pattern, compatible with .NET 3.5+
+                if (!_initialized)
                 {
-                    CreateMappings();
+                    lock (_syncRoot)
+                    {
+                        if (!_initialized)
+                        {
+                            CreateMappings();
+                            _initialized = true;
+                        }
+                    }
                 }
                 return _mappings;
             }

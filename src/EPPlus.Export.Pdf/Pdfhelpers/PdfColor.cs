@@ -13,17 +13,51 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 
 namespace EPPlus.Export.Pdf.Pdfhelpers
 {
     internal static class PdfColor
     {
+        /// <summary>
+        /// Returns the red component of the color as a nomralized value.
+        /// </summary>
+        /// <param name="c">The color to extract the component</param>
+        /// <returns>Normalized value of the color component.</returns>
         public static float GetR(this Color c) => c.R / 255f;
+
+        /// <summary>
+        /// Returns the green component of the color as a nomralized value.
+        /// </summary>
+        /// <param name="c">The color to extract the component</param>
+        /// <returns>Normalized value of the color component.</returns>
         public static float GetG(this Color c) => c.G / 255f;
+
+        /// <summary>
+        /// Returns the blue component of the color as a nomralized value.
+        /// </summary>
+        /// <param name="c">The color to extract the component</param>
+        /// <returns>Normalized value of the color component.</returns>
         public static float GetB(this Color c) => c.B / 255f;
+
+        /// <summary>
+        /// Returns the alpha component of the color as a nomralized value.
+        /// </summary>
+        /// <param name="c">The color to extract the component</param>
+        /// <returns>Normalized value of the color component.</returns>
         public static float GetA(this Color c) => c.A / 255f;
 
+        /// <summary>
+        /// Convert a hex string representing a color into a color.
+        /// </summary>
+        /// <param name="hex">String with corlor in hex code.
+        /// Valid inputs that sets color to Color.Empty:
+        /// "#0"
+        /// "0"
+        /// ""
+        /// null
+        /// </param>
+        /// <returns>System.Drawing.Color object.</returns>
+        /// <exception cref="FormatException">Throws exception of string is in invalid format.</exception>
         public static Color SetColorFromHex(string hex)
         {
             if (string.IsNullOrEmpty(hex) || hex == "0" || hex == "#0")
@@ -67,30 +101,25 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             return Color.FromArgb(A, R, G, B);
         }
 
+        /// <summary>
+        /// Returns a string for pdf command for stroke.
+        /// </summary>
+        /// <param name="c">The color to use for stroke.</param>
+        /// <returns>The command string for a stroke color</returns>
         public static string ToStrokeCommand(this Color c) => $"{c.GetR().ToString("F", CultureInfo.InvariantCulture)} {c.GetG().ToString("F", CultureInfo.InvariantCulture)} {c.GetB().ToString("F", CultureInfo.InvariantCulture)} RG";
+
+        /// <summary>
+        /// Returns a string for pdf command for fill.
+        /// </summary>
+        /// <param name="c">The color to use for fill.</param>
+        /// <returns>The command string for a fill color</returns>
         public static string ToFillCommand(this Color c) => $"{c.GetR().ToString("F", CultureInfo.InvariantCulture)} {c.GetG().ToString("F", CultureInfo.InvariantCulture)} {c.GetB().ToString("F", CultureInfo.InvariantCulture)} rg";
 
-        //public bool Equals(Color other)
-        //{
-        //    if (other is null) return false;
-        //    return R == other.R && G == other.G && B == other.B && A == other.A;
-        //}
-
-        //public override bool Equals(object obj) => Equals(obj as Color);
-
-        //public override int GetHashCode()
-        //{
-        //    unchecked
-        //    {
-        //        int hash = 17;
-        //        hash = hash * 31 + R.GetHashCode();
-        //        hash = hash * 31 + G.GetHashCode();
-        //        hash = hash * 31 + B.GetHashCode();
-        //        hash = hash * 31 + A.GetHashCode();
-        //        return hash;
-        //    }
-        //}
-
+        /// <summary>
+        /// Get the color represented in Hex as a string.
+        /// </summary>
+        /// <param name="c">The color which to return the hex value as a string.</param>
+        /// <returns>String represeting the hex value of the color.</returns>
         public static string ToHexString(this Color c)
         {
             int r = (int)(c.R);
@@ -99,14 +128,5 @@ namespace EPPlus.Export.Pdf.Pdfhelpers
             int a = (int)(c.A);
             return $"#{r:X2}{g:X2}{b:X2}{a:X2}";
         }
-
-        //public static Color Red => new Color(1, 0, 0);
-        //public static Color Green => new Color(0, 1, 0);
-        //public static Color Blue => new Color(0, 0, 1);
-        //public static Color Black => new Color(0, 0, 0);
-        //public static Color White => new Color(1, 1, 1);
-        //public static Color Gray => new Color(0.5f, 0.5f, 0.5f);
-        //public static Color LightGray => new Color(0.75f, 0.75f, 0.75f);
-        //public static Color None => new Color(0, 0, 0, 0);
     }
 }

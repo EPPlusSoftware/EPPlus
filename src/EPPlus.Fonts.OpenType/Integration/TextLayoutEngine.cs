@@ -17,6 +17,7 @@
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,7 +208,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             var shaped = _shaper.Shape(text, options);
-            return shaped.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
+            return shaped.GetWidthInPoints(fontSize);
         }
 
         private ITextShaper GetShaperForFont(MeasurementFont font)
@@ -219,10 +220,10 @@ namespace EPPlus.Fonts.OpenType.Integration
                 return cachedShaper;
             }
 
-            var openTypeFont = OpenTypeFonts.GetFontData(
-                fontDirectories: _fontDirectories,
+            var openTypeFont = OpenTypeFonts.LoadFont(
                 fontName: font.FontFamily,
                 subFamily: GetFontSubFamily(font.Style),
+                fontDirectories: _fontDirectories,
                 searchSystemDirectories: _searchSystemDirectories
             );
 

@@ -16,6 +16,7 @@ using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects.PdfFunctions;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
 {
@@ -92,6 +93,34 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfShadings
             }
             sb.Append(" >>");
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var coordsStr = string.Join(" ", Coords.Select(w => w.ToPdfString()).ToArray());
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Shading\n" +
+                            $"   /ShadingType 2\n" +
+                            $"   /ColorSpace /{ColorSpace.ToString()}\n" +
+                            $"   /Coords [ {coordsStr} ]\n");
+            sb.AppendFormat($"   /Function {Function.RenderDictionary()}");
+            if (Domain != null)
+            {
+                var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
+                sb.AppendFormat($"\n   /Domain [ {domainStr} ]");
+            }
+            //if (Matrix != null)
+            //{
+            //    var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfString()).ToArray());
+            //    sb.AppendFormat($"\n   /matrix [ {matrixStr} ]");
+            //}
+            if (Extend != null)
+            {
+                var extendStr = string.Join(" ", Extend.Select(w => w.ToString().ToLower()).ToArray());
+                sb.AppendFormat($"\n   /Extend [ {extendStr} ]");
+            }
+            sb.Append(" >>");
+            WriteAscii(bw, sb.ToString());
         }
     }
 }

@@ -192,6 +192,10 @@ namespace OfficeOpenXml.Style
                 rt.Italic = style.Font.Italic;
                 rt.PreserveSpace = true;
                 rt.UnderLine = style.Font.UnderLine;
+                rt.Strike = style.Font.Strike;
+                rt.VerticalAlign = style.Font.VerticalAlign;
+                rt.Family = style.Font.Family;
+                rt.Charset = style.Font.Charset != null ? (int)style.Font.Charset : 1;
                 int hex;
                 var s = _cells.Worksheet.GetStyleInner(_cells._fromRow, _cells._fromCol);
                 var fnt = _cells.Worksheet.Workbook.Styles.GetStyleObject(s, _cells.Worksheet.PositionId, ExcelAddressBase.GetAddress(_cells._fromRow, _cells._fromCol)).Font;

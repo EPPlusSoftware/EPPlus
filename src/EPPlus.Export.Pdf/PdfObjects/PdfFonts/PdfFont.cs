@@ -10,13 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
 {
     public enum PdfFontSubType
     {
-        /*TODO*/Type0,      //Used for Asian fonts
+        Type0,      //Used for embedded fonts
         Type1,      //Used for built-in fonts
         MMType1,
         /*TODO*/Type3,      //Custom front
@@ -41,6 +42,7 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
         private readonly int lastChar;
         private readonly int widthObjectNumber;
         private readonly int fontDescriptorObjectNumber;
+
 
 
         public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, int firstChar = -1, int lastChar = -1, int widthObjectNumber = -1, int fontDescObjectNumner = -1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
@@ -88,6 +90,43 @@ namespace EPPlus.Export.Pdf.PdfObjects.PdfFonts
             }
             sb.AppendFormat($"   /Encoding /{encoding} >>");
             return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<< /Type /Font\n" +
+                            $"   /Subtype /{subType}\n" +
+                            $"   /BaseFont /{baseFont.Replace(" ", "")}");
+            if (encoding == PdfFontEncoding.None)
+            {
+                sb.Append(" >>");
+                WriteAscii(bw, sb.ToString());
+                return;
+            }
+            else
+            {
+                sb.Append("\n");
+            }
+            if (firstChar > -1)
+            {
+                sb.AppendFormat($"   /FirstChar {firstChar}\n");
+            }
+            if (lastChar > -1)
+            {
+                sb.AppendFormat($"   /LastChar {lastChar}\n");
+            }
+            if (widthObjectNumber > -1)
+            {
+                sb.AppendFormat($"   /Widths {widthObjectNumber} 0 R\n");
+            }
+            if (fontDescriptorObjectNumber > -1)
+            {
+                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber} 0 R\n");
+            }
+            sb.AppendFormat($"   /Encoding /{encoding} >>");
+            WriteAscii(bw, sb.ToString());
+            return;
         }
     }
 }

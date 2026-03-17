@@ -14,8 +14,14 @@ using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    /// <summary>
+    /// Interface for shading objects.
+    /// </summary>
     internal interface IShadingLayout
     {
+        /// <summary>
+        /// Update position matrix.
+        /// </summary>
         abstract void UpdateShadingPositionMatrix(PdfPageSettings pageSettings);
     }
 }
