@@ -19,6 +19,7 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
@@ -346,6 +347,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Font handling, Text shaping and layouting wrapped text
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
+            var totalTextLength = 0d;
             for (int i = 0; i < text.TextFormats.Count; i++)
             {
                 var fd = text.TextFormats[i];
@@ -393,10 +395,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
                 text.TextLayoutEngine = layoutEngine;
                 fd.ShapedText = shaped;
+                var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
+                fd.TextLength = textWdith;
+                totalTextLength += textWdith;
                 fd.FontIdMap = fontIdMap;
                 fd.UsedFonts = usedFonts;
                 text.TextFormats[i] = fd;
                 shaper.ResetFontTracking();
+            }
+            //saker här sen
+            if (text is PdfCellContentLayout ccl)
+            {
+                ccl.TextLength = totalTextLength;
+                ccl.CalculateTextSpill(ccl.Size.X, ccl.CellAlignmentData.TextRotation);
+                ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
+                ccl.CheckClipping(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
             }
         }
 

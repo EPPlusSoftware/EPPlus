@@ -27,9 +27,37 @@ namespace EPPlusTest.PDF
         /* BIG PDF TODO
          * This should be turned into tickets on github..
          * 
+         * FEATURES:
          * Cells: Display errors option
          * Cells: Icons
-         * Cells: Pictures in cells
+         * Cells: Pictures in cells : Prio 3
+         * Cells: Conditional Formatting
+         * 
+         * Text: Equations : Prio 5
+         * Text: Shrink To Fit (Scaling)
+         * 
+         * Layout: Scaling
+         * Layout: Fit to number of pages (Scaling)
+         * Layout: Excel Workbook to pdf (Export)
+         * Layout: Selected worksheets to pdf (Export)
+         * Layout: Cell range to pdf (Export)
+         * Layout: Print Area (This is like a collection of cell ranges) (Export)
+         * Layout: Comments and Notes
+         * Layout: Row and column headings
+         * Layout: Print titles
+         * Layout: Background (Excel does not add this to pdf it seems) (Images) : Prio 4
+         * Layout: Remove empty last page
+         * 
+         * Pivot Table: Pivot table implementation : Prio 5
+         * 
+         * Drawings: Pictures (Images) :  Prio 3
+         * Drawings Shapes (Images) : Prio 5
+         * Drawings: Charts (Images) : Prio 5
+         * Drawings: 3D models (Images) : Prio 5
+         * 
+         * PDF: Compress parts
+         * 
+         * IMPROVEMENTS;
          * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
          * 
          * Tables: Table Implementation
@@ -40,35 +68,11 @@ namespace EPPlusTest.PDF
          * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
          * 
          * Text: Set up to use back up techniques when not embedding font
-         * Text: Equations
-         * Text: Shrink To Fit
          * Text: Implement vertical text again
          * 
-         * Layout: Respect Page Breaks
-         * Layout: Center on page Horizontal and vertical
-         * Layout: Scaling
-         * Layout: Fit to number of pages
-         * Layout: Row and column headings
-         * Layout: Background (Excel does not add this to pdf it seems)
-         * Layout: Comments and Notes
-         * Layout: Excel Workbook to pdf
-         * Layout: Selected worksheets to pdf
-         * Layout: Cell range to pdf
-         * Layout: Remove empty last page
          * Layout: Calculate height of cells more correctly
-         * Layout: Print Area
-         * Layout: Print titles
-         * 
+         *
          * Borders: Adjust and make border look better
-         * 
-         * Pivot Table: Pivot table implementation
-         * 
-         * Drawings: Pictures
-         * Drawings Shapes
-         * Drawings: Charts
-         * Drawings: 3D models
-         * 
-         * PDF: Compress parts
          */
 
 
@@ -100,7 +104,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest45.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest46.pdf");
         }
 
         [TestMethod]

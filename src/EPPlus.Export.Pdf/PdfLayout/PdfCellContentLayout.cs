@@ -69,10 +69,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
             if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
             HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
-            CalculateTextSpill(width, CellAlignmentData.TextRotation);
-            LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
+            //CalculateTextSpill(width, CellAlignmentData.TextRotation);
+            //LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
             Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y); 
-            CheckClipping(cell, x, y, width, height);
+            //CheckClipping(cell, x, y, width, height);
         }
 
         private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
@@ -132,7 +132,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void CalculateTextSpill(double maxWidth, double rotation)
+        public void CalculateTextSpill(double maxWidth, double rotation)
         {
             if (maxWidth < textLength)
             {
@@ -200,7 +200,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Calculate text position from alignment and offsets for each line of text.
-        private Vector2 CalculateAlignmentPositionAndTextOffsets(ExcelRangeBase cell, double cellX, double CellY, double cellWidth, double cellHeight)
+        public Vector2 CalculateAlignmentPositionAndTextOffsets(ExcelRangeBase cell, double cellX, double CellY, double cellWidth, double cellHeight)
         {
             double x = 0d;
             double y = 0d;
@@ -336,7 +336,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Check if clipping is needed.
-        private void CheckClipping(ExcelRangeBase cell, double x, double y, double width, double height)
+        public void CheckClipping(ExcelRangeBase cell, double x, double y, double width, double height)
         {
             if (textLength >= width || cell.Merge)
             {
