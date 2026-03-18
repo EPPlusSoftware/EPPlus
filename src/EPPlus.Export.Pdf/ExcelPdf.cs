@@ -184,7 +184,7 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            //contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);

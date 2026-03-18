@@ -241,7 +241,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cellStyle.xfFill = col.Style.Fill;
                 var cl0 = new PdfCellLayout(dictionaries, col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
                 cl0.Name = col.Address;
-                cl0.Z = 1;
+                cl0.Z = 8;
+                cl0.isHeading = true;
                 X = X + width;
             }
         }
@@ -263,7 +264,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cellStyle.xfFill = row.Style.Fill;
                 var cl0 = new PdfCellLayout(dictionaries, row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
                 cl0.Name = j.ToString();
-                cl0.Z = 1;
+                cl0.Z = 8;
+                cl0.isHeading = true;
                 Y = Y - height;
             }
         }
@@ -568,6 +570,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     else if (child is PdfCellLayout l)
                     {
+                        if (l.isHeading) continue;
                         var localFromRow = l.cell._fromRow - page.FromRow;
                         var localFromCol = l.cell._fromCol - page.FromCol;
                         page.Map[localFromRow, localFromCol].Name = l.Name;
