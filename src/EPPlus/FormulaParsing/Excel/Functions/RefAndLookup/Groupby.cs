@@ -142,7 +142,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             // total_depth (optional, default = GrandTotals)
             if (arguments.Count > 4 && arguments[4].Value != null)
             {
-                if (!Enum.IsDefined(typeof(TotalDepth), Convert.ToInt32(arguments[4].Value)))
+                if (!Enum.IsDefined(typeof(TotalDepth), Convert.ToInt32(arguments[4].Value)) 
+                    || args.RowFields.Size.NumberOfCols > Convert.ToInt32(arguments[4].Value)
+                    || args.RowFields.Size.NumberOfCols * -1 < Convert.ToInt32(arguments[4].Value) * -1 )
                 {
                     error = CompileResult.GetErrorResult(eErrorType.Value);
                     return false;
@@ -161,7 +163,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             // field_relationship (optional)
             if (arguments.Count > 7 && arguments[7].Value != null)
             {
-                if (!Enum.IsDefined(typeof(FieldRelationship), Convert.ToInt32(arguments[7].Value)))
+                if (!Enum.IsDefined(typeof(FieldRelationship), Convert.ToInt32(arguments[7].Value)) 
+                    || args.TotalDepth == TotalDepth.GrandAndSubtotals || args.TotalDepth == TotalDepth.GrandAndSubtotalsAtTop)
                 {
                     error = CompileResult.GetErrorResult(eErrorType.Value);
                     return false;

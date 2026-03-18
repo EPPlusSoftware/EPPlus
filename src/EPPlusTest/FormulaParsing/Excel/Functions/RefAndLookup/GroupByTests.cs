@@ -1,6 +1,8 @@
 ﻿using FakeItEasy.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
@@ -181,6 +183,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(8d, s.Cells["D1"].Value);
             }
         }
+
         [TestMethod]
         public void GroupByFieldRelationship()
         {
@@ -199,7 +202,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["B4"].Value = 54;
                 s.Cells["B5"].Value = 23;
 
-                s.Cells["C1"].Formula = "=CHOOSECOLS(GROUPBY(HSTACK(CHOOSE(MONTH(A1:A5),\"Jan\",\"Feb\",\"Mar\",\"Apr\",\"Maj\",\"Jun\",\"Jul\",\"Aug\",\"Sep\",\"Okt\",\"Nov\",\"Dec\"), MONTH(A1:A5) ), B1:B5, _xleta.SUM,,,2,,1 ); {1;3} )";
+                s.Cells["C1"].Formula = "=GROUPBY(HSTACK(CHOOSE(MONTH(A1:A5),\"Jan\",\"Feb\",\"Mar\",\"Apr\",\"Maj\",\"Jun\",\"Jul\",\"Aug\",\"Sep\",\"Okt\",\"Nov\",\"Dec\"), MONTH(A1:A5) ), B1:B5, _xleta.SUM,,,2,,1 )";
+                s.Calculate();
+                Assert.AreEqual("Jan", s.Cells["C1"].Value);
+                Assert.AreEqual(53d, s.Cells["E1"].Value);
+                Assert.AreEqual("Feb", s.Cells["C2"].Value);
+                Assert.AreEqual(20d, s.Cells["E2"].Value);
+                Assert.AreEqual("Mar", s.Cells["C3"].Value);
+                Assert.AreEqual(108d, s.Cells["E3"].Value);
+                // Det ska inte gå att ha med subtotaler, subtotals are not supported
+            }
+        }
+
+        [TestMethod]
+        public void GroupByFieldRelationship2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = new DateTime(2025, 01, 01);
+                s.Cells["A2"].Value = new DateTime(2025, 02, 01);
+                s.Cells["A3"].Value = new DateTime(2025, 03, 01);
+                s.Cells["A4"].Value = new DateTime(2025, 03, 01);
+                s.Cells["A5"].Value = new DateTime(2025, 01, 01);
+
+                s.Cells["B1"].Value = 30;
+                s.Cells["B2"].Value = 20;
+                s.Cells["B3"].Value = 54;
+                s.Cells["B4"].Value = 54;
+                s.Cells["B5"].Value = 23;
+
+                s.Cells["C1"].Formula = "=CHOOSECOLS(GROUPBY(HSTACK(CHOOSE(MONTH(A1:A5),\"Jan\",\"Feb\",\"Mar\",\"Apr\",\"Maj\",\"Jun\",\"Jul\",\"Aug\",\"Sep\",\"Okt\",\"Nov\",\"Dec\"), MONTH(A1:A5) ), B1:B5, _xleta.SUM,,,2,,1) ,{1,3})";
                 s.Calculate();
                 Assert.AreEqual("Jan", s.Cells["C1"].Value);
                 Assert.AreEqual(53d, s.Cells["D1"].Value);
@@ -207,7 +240,84 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(20d, s.Cells["D2"].Value);
                 Assert.AreEqual("Mar", s.Cells["C3"].Value);
                 Assert.AreEqual(108d, s.Cells["D3"].Value);
-                // Det ska inte gå att ha med subtotaler, subtotals are not supported
+            }
+            // Det ska inte gå att ha med subtotaler, subtotals are not supported
+        }
+        [TestMethod]
+        public void GroupBy_NoTotals_ShouldNotIncludeTotalRow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Joe";
+                s.Cells["A2"].Value = "Anna";
+                s.Cells["A3"].Value = "Bertil";
+                s.Cells["A4"].Value = "Joe";
+                s.Cells["B1"].Value = 1;
+                s.Cells["B2"].Value = 2;
+                s.Cells["B3"].Value = 3;
+                s.Cells["B4"].Value = 0;
+
+                // fieldSettings = 0 stänger av totalsraden
+                s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.SUM,, 0)";
+                s.Calculate();
+
+                Assert.AreEqual("Anna", s.Cells["C1"].Value);
+                Assert.AreEqual("Bertil", s.Cells["C2"].Value);
+                Assert.AreEqual("Joe", s.Cells["C3"].Value);
+                Assert.AreEqual(2d, s.Cells["D1"].Value);
+                Assert.AreEqual(3d, s.Cells["D2"].Value);
+                Assert.AreEqual(1d, s.Cells["D3"].Value);
+
+                // C4 ska vara tom – ingen totalsrad när fieldSettings = 0
+                Assert.AreNotEqual(s.Cells["C4"].Value, "Total");
+                Assert.AreNotEqual(s.Cells["D4"].Value, 0d);
+            }
+        }
+
+        [TestMethod]
+        public void GroupByMEGATESTWOWOWOWOOWOW()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Stockholm";
+                s.Cells["A2"].Value = "Stockholm";
+                s.Cells["A3"].Value = "Göteborg";
+                s.Cells["A4"].Value = "Linköping";
+                s.Cells["A5"].Value = "Linköping";
+                s.Cells["A6"].Value = "Göteborg";
+                s.Cells["A7"].Value = "Stockholm";
+
+                s.Cells["B1"].Value = "Cykel";
+                s.Cells["B2"].Value = "Boll";
+                s.Cells["B3"].Value = "Fisk";
+                s.Cells["B4"].Value = "Bomb";
+                s.Cells["B5"].Value = "Bok";
+                s.Cells["B6"].Value = "Boll";
+                s.Cells["B7"].Value = "Fisk";
+
+                s.Cells["C1"].Value = "Vällingby";
+                s.Cells["C2"].Value = "Vällingby";
+                s.Cells["C3"].Value = "Majorna";
+                s.Cells["C4"].Value = "Skäggetorp";
+                s.Cells["C5"].Value = "Tornby";
+                s.Cells["C6"].Value = "Majorna";
+                s.Cells["C7"].Value = "Vällingby";
+
+                s.Cells["D1"].Value = 1000;
+                s.Cells["D2"].Value = 300;
+                s.Cells["D3"].Value = 200;
+                s.Cells["D4"].Value = 3000;
+                s.Cells["D5"].Value = 700;
+                s.Cells["D6"].Value = 300;
+                s.Cells["D7"].Value = 300;
+
+                s.Cells["E1"].Formula = "GROUPBY(A1:C7, D1:D7, _xleta.SUM,3,2,-1,,,0)";
+                s.Calculate();
+
+                Assert.AreEqual("Stockholm", s.Cells["E1"].Value);
+                Assert.AreEqual("Grand Total", s.Cells["E17"].Value);
             }
         }
     }
