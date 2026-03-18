@@ -621,17 +621,19 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Shapes text into lightweight GlyphWidth structs optimized for text measurement.
         /// </summary>
-        public GlyphWidth[] ShapeLight(string text, ShapingOptions options = null)
+        public ShapedLightText ShapeLight(string text, ShapingOptions options = null)
         {
             if (string.IsNullOrEmpty(text))
             {
-                return new GlyphWidth[0];
+                return new ShapedLightText
+                {
+                    Glyphs = new GlyphWidth[0],
+                    FontUnitsPerEm = new ushort[] { _primaryFont.HeadTable.UnitsPerEm }
+                };
             }
 
             if (options == null)
-            {
                 options = ShapingOptions.Default;
-            }
 
             var glyphs = MapToGlyphs(text);
 
@@ -645,7 +647,21 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ApplyKerningOnly(glyphs);
             }
 
-            return ExtractGlyphWidths(glyphs);
+            return new ShapedLightText
+            {
+                Glyphs = ExtractGlyphWidths(glyphs),
+                FontUnitsPerEm = BuildFontUnitsPerEm()
+            };
+        }
+
+
+        /// <summary>
+        /// Gets the UnitsPerEm for each font used in the last shaping operation.
+        /// Indexed by FontId. Must be called after Shape/ShapeLight and before ResetFontTracking.
+        /// </summary>
+        public ushort[] GetFontUnitsPerEm()
+        {
+            return BuildFontUnitsPerEm();
         }
 
         private void ApplyKerningOnly(List<ShapedGlyph> glyphs)
@@ -681,7 +697,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 {
                     XAdvance = (ushort)g.XAdvance,
                     ClusterIndex = g.ClusterIndex,
-                    CharCount = g.CharCount
+                    CharCount = g.CharCount,
+                    FontId = g.FontId
                 };
             }
 

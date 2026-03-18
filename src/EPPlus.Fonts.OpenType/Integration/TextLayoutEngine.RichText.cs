@@ -128,19 +128,15 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             var shaper = GetShaperForFont(fragment.Font);
             var options = fragment.Options ?? ShapingOptions.Default;
-
             int len = fragment.Text.Length;
-
             var charWidths = GetCharWidthBuffer(len);
+            Array.Clear(charWidths, 0, len);
 
             // ShapeLight applies only kerning (sufficient for line-breaking).
             // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
             // is ~250x slower and irrelevant for wrapping decisions.
-            var glyphWidths = shaper.ShapeLight(fragment.Text, options);
-            double scale = fragment.Font.Size / shaper.UnitsPerEm;
-
-            Array.Clear(charWidths, 0, len);
-            FillCharWidths(glyphWidths, scale, len, charWidths);
+            var shaped = shaper.ShapeLight(fragment.Text, options);
+            shaped.FillCharWidths(fragment.Font.Size, charWidths, len);
 
             //Store for after everything is done
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
@@ -159,7 +155,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     HandleLineBreak(lineBuilder, state);
                     SkipLineBreakChars(fragment.Text, ref i);
-
                     state.CurrentLineWidth = 0;
                     state.CurrentWordWidth = 0;
                     state.WordStart = -1;
@@ -170,7 +165,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 state.CurrentLineWidth += charWidths[i];
                 state.CurrentWordWidth += charWidths[i];
                 state.LineFrag.Width += charWidths[i];
-
                 lineBuilder.Append(c);
 
                 if (c == ' ')
@@ -182,10 +176,11 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     WrapCurrentLine(lineBuilder, state, maxWidthPoints, charWidths[i]);
                 }
+
                 i++;
             }
 
-            if(state.LineFrag.Width > 0)
+            if (state.LineFrag.Width > 0)
             {
                 state.CurrentTextLine.LineFragments.Add(state.LineFrag);
             }
