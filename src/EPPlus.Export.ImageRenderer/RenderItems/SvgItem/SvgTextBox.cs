@@ -142,10 +142,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var rect = Rectangle;
 
-            if(rect.FillColor == null)
-            {
-                rect.FillColor = "transparent";
-            }
+            //if (rect.FillColor == null)
+            //{
+            //    rect.FillColor = "transparent";
+            //}
 
             SvgGroupItem groupItem;
             if (Rotation == 0)

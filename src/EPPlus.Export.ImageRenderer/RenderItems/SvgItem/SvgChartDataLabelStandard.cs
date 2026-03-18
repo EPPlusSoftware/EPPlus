@@ -56,31 +56,60 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var iconHeight = seriesIcon.Bounds.Height;
 
             _seriesIcon = seriesIcon;
-            _seriesIcon.Bounds.Parent = _parentPoint;
+            _seriesIcon.Bounds.Parent = Bounds;
 
             if (haveAdjustedForIcon == false)
             {
-                if (_hasManualLayout == false)
-                {
-                    TxtBox.Left += iconWidth + TxtBox.LeftMargin;
-                    if (iconHeight > TxtBox.Height)
-                    {
-                        Bounds.Height = iconHeight;
-                    }
-                }
-                else
-                {
-                    Bounds.Left += iconWidth + TxtBox.LeftMargin;
-                    Bounds.Width += iconWidth;
-                    Bounds.Height += iconHeight;
-                }
+                TxtBox.Left += iconWidth;
+                _seriesIcon.Bounds.Left -= 0.75d;
+                //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
+                Bounds.Left += 4d + 2.25d;
+                LeftMargin -= 2.25d + 4d;
+                Bounds.Width += iconWidth + 2.25d;
+                
+                //Bounds.Left += TxtBox.LeftMargin;
+                //Bounds.Width += iconWidth;
+                //_seriesIcon.Bounds.Left -= 0.75;
+                //if (iconHeight > TxtBox.Height)
+                //{
+                //    Bounds.Height = iconHeight;
+                //}
+                //TxtBox.Left += iconWidth + 3;
+                //Bounds.Width += iconWidth + 3;
+
+
+                //if (iconHeight > TxtBox.Rectangle.Bounds.Height)
+                //{
+                //    Bounds.Height = iconHeight;
+                //}
+                //if (_hasManualLayout == false)
+                //{
+                //    TxtBox.Left += iconWidth + TxtBox.LeftMargin;
+                //    if (iconHeight > TxtBox.Height)
+                //    {
+                //        Bounds.Height = iconHeight;
+                //    }
+                //}
+                //else
+                //{
+                //    Bounds.Left += iconWidth + TxtBox.LeftMargin;
+                //    Bounds.Width += iconWidth;
+                //    Bounds.Height += iconHeight;
+                //}
+
+                //Bounds.Left -= 3d;
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px) in addition to the width of the marker
-                Bounds.Left += 4.5d;
+                //TxtBox.Left += 4.5d;
+                //seriesIcon.Bounds.Left += 4.5d;
+                //Bounds.Left -= 4.5d;
+                //Bounds.Left -= 4.5d;
+                //Bounds.Width += 4.5d;
+
                 haveAdjustedForIcon = true;
             }
         }
 
-        internal void ImportDataLabel(SvgChart chart, ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds)
+        internal void ImportDataLabel(SvgChart chart, ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins)
         {
             List<string> dlblStrings = new List<string>();
 
@@ -128,15 +157,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
 
+            if(txtBox.LeftMargin == 0)
+            {
+                txtBox.LeftMargin = defaultMargins.Left;
+                txtBox.RightMargin = defaultMargins.Width;
+                txtBox.TopMargin = defaultMargins.Top;
+                txtBox.BottomMargin = defaultMargins.Height;
+            }
+
+            //Txtbox is Broken. Workaround
+            txtBox.Left += txtBox.LeftMargin;
+            txtBox.Top += txtBox.TopMargin;
+
             //Center the textbox at the origin point
-            Bounds.Left -= txtBox.Width / 2;
-            Bounds.Top -= txtBox.Height / 2;
+            Bounds.Left -= txtBox.Rectangle.Bounds.Width / 2;
+            Bounds.Top -= txtBox.Rectangle.Bounds.Height / 2;
+
+            //Set initial width and height to content
+            Bounds.Width = txtBox.Rectangle.Bounds.Width;
+            Bounds.Height = txtBox.Rectangle.Bounds.Height;
 
             TxtBox = txtBox;
 
             if (dataLabel.Fill.IsEmpty == false)
             {
-                TxtBox.Rectangle.FillColor = "#" + dataLabel.Fill.Color.ToColorString();
+                TxtBox.Rectangle.SetDrawingPropertiesFill(dataLabel.Fill, null);
             }
             if (dataLabel.Font.IsEmpty == false)
             {
@@ -169,22 +214,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     {
                         _hasLeaderLines = true;
                     }
-
-                    if (dataLabel.ShowLeaderLines)
-                    {
-                        var cPoints = new ConnectionPointsMiddle(TxtBox.Rectangle.Bounds.Left, TxtBox.Rectangle.Bounds.Top, TxtBox.Rectangle.Bounds.Width, TxtBox.Rectangle.Bounds.Height);
-
-                        //Since this is a child transform changes to this transform will compound
-                        _connectionPointLines = new PointLines(ChartRenderer, Bounds, cPoints);
-                    }
                 }
             }
         }
 
         private int GetClosestConnectionPointCoordinateIndex(Coordinate originPoint)
         {
-            //CalculateConnectionPoints();
-
             double smallestDist = double.MaxValue;
             int i = 0;
             int smallestIndex = 0;
@@ -241,11 +276,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 if (_hasLeaderLines)
                 {
+                    //With origin in top left of current bounds get the connection points
+                    var cPoints = new ConnectionPointsMiddle(0, 0, Bounds.Width, Bounds.Height);
+
+                    //Ready to draw the lines so that we can visualize the distances to each point
+                    _connectionPointLines = new PointLines(ChartRenderer, Bounds, cPoints);
+
+                    //Adjust if there is a margin
+                    _connectionPointLines.Bounds.Left += LeftMargin;
                     _connectionPointLines.UpdateLines();
 
-                    var originPoint = new Coordinate(-Bounds.Left, -Bounds.Top);
+                    //Get the offset between those points and the origin point
+                    var offsetToParentPoint = new Coordinate(-(Bounds.Left + LeftMargin), -(Bounds.Top + TopMargin));
 
-                    var index = GetClosestConnectionPointCoordinateIndex(originPoint);
+                    //Calculate closest point
+                    var index = GetClosestConnectionPointCoordinateIndex(offsetToParentPoint);
 
                     LeaderLines.Clear();
 
@@ -256,9 +301,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         //Add extra 7 px (5.25pt) line to the given side
                         var extraLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
 
-                        xOffset = index == 0 ? -5.25d : 5.25d;
+                        xOffset += index == 0 ? -5.25d : 5.25d;
 
-                        extraLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X;
+                        extraLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + LeftMargin;
                         extraLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
                         extraLine.Y2 = _connectionPointLines.ConnectionPoints.Points[index].Y;
                         extraLine.X2 = extraLine.X1 + xOffset;
@@ -269,10 +314,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         LeaderLines.Add(extraLine);
                     }
                     var mainLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
-                    mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset;
+                    mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
                     mainLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
-                    mainLine.X2 = originPoint.X;
-                    mainLine.Y2 = originPoint.Y;
+                    mainLine.X2 = offsetToParentPoint.X + LeftMargin;
+                    mainLine.Y2 = offsetToParentPoint.Y;
 
                     mainLine.BorderColor = "gray";
                     mainLine.BorderWidth = 0.5;
@@ -306,33 +351,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(group);
 
             var titleItem = new SvgTitleItem(DrawingRenderer, "DataLabel size adjustment");
-            //renderItems.Add(titleItem);
-            //SvgRenderRectItem rect = new SvgRenderRectItem(ChartRenderer, Bounds);
-            //rect.Bounds.Left = 0;
-            //rect.Bounds.Top = 0;
-            //rect.Bounds.Width = Bounds.Width;
-            //rect.Bounds.Height = Bounds.Height;
+            renderItems.Add(titleItem);
+            SvgRenderRectItem rect = new SvgRenderRectItem(ChartRenderer, Bounds);
+            rect.Bounds.Left = LeftMargin;
+            rect.Bounds.Top = 0;
+            rect.Bounds.Width = Bounds.Width;
+            rect.Bounds.Height = Bounds.Height;
 
-            //rect.FillColor = "red";
-            //rect.FillOpacity = 0.2;
-            //renderItems.Add(rect);
-
-            //TxtBox.Rectangle.FillColor = "red";
-            //TxtBox.Rectangle.FillOpacity = 1d;
-
-            if(_seriesIcon != null)
-            {
-                var height = Bounds.Height;
-                if(height == 0)
-                {
-                    height = TxtBox.Height;
-                }
-                //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new SvgGroupItem(ChartRenderer, 0, height / 2 - 2);
-                renderItems.Add(iconGrp);
-                renderItems.Add(_seriesIcon);
-                renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
-            }
+            rect.FillColor = "red";
+            rect.FillOpacity = 0.2;
+            renderItems.Add(rect);
 
             TxtBox.AppendRenderItems(renderItems);
             
@@ -343,6 +371,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     _connectionPointLines.AppendRenderItems(renderItems);
                 }
             }
+
+            if (_seriesIcon != null)
+            {
+                var height = Bounds.Height;
+                if (height == 0)
+                {
+                    height = TxtBox.Height;
+                }
+                //Currently series icon always has a y1 y2 of 2
+                var iconGrp = new SvgGroupItem(ChartRenderer, _seriesIcon.Bounds.Left, height / 2 - 2);
+                renderItems.Add(iconGrp);
+                renderItems.Add(_seriesIcon);
+                renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
+            }
+
 
             if (LeaderLines != null && LeaderLines.Count > 0)
             {
