@@ -28,7 +28,7 @@ jobs:
       shell: pwsh
 
     - name: Generate SBOM
-      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json
+      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.json
 
     - name: Upload SBOM as artifact
       uses: actions/upload-artifact@v4
