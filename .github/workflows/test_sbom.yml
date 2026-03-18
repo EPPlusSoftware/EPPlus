@@ -1,10 +1,7 @@
 name: Build Release Branches SBOM Test
 
 on:
-  push:
-    branches: [ "release/**" ]
-  pull_request:
-    branches: [ "release/**" ]
+  workflow_dispatch:
 
 jobs:
   build:
