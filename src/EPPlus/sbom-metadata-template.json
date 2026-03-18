@@ -1,0 +1,46 @@
+{
+  "component": {
+    "name": "EPPlus",
+    "type": "library",
+    "licenses": [
+      {
+        "license": {
+          "name": "Polyform Noncommercial 1.0.0",
+          "url": "https://polyformproject.org/licenses/noncommercial/1.0.0/",
+          "text": {
+            "content": "Free to use for noncommercial purposes under the PolyForm Noncommercial License 1.0.0."
+          }
+        }
+      },
+      {
+        "license": {
+          "name": "EPPlus Commercial License",
+          "url": "https://epplussoftware.com/en/LicenseOverview/Eulas",
+          "text": {
+            "content": "Commercial use requires a paid license. See the End User License Agreement at the provided URL."
+          }
+        }
+      }
+    ],
+    "supplier": {
+      "name": "EPPlus Software AB",
+      "url": ["https://epplussoftware.com"],
+      "contact": [
+        {
+          "name": "EPPlus Software AB",
+          "email": "info@epplussoftware.com"
+        }
+      ]
+    },
+    "externalReferences": [
+      {
+        "type": "website",
+        "url": "https://epplussoftware.com"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/EPPlusSoftware/EPPlus"
+      }
+    ]
+  }
+}
