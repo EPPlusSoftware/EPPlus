@@ -100,12 +100,13 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = true;
             pageSettings.CenterOnPageHorizontally = true;
             pageSettings.CenterOnPageVertically = true;
+            pageSettings.ShowHeadings = true;
             //Debug Flags
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest46.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest47.pdf");
         }
 
         [TestMethod]

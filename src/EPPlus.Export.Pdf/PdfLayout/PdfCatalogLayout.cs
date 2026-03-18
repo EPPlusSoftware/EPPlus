@@ -19,12 +19,14 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Security;
@@ -62,7 +64,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             sw.Reset();
             sw.Start();
 
-            CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
+            CreatePageLayoutObjects(worksheet, pageSettings, dictionaries, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
             sw.Stop();
             var t3 = sw.ElapsedMilliseconds;
             sw.Reset();
@@ -115,7 +117,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create page and content objects.
-        private void CreatePageLayoutObjects(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfWorksheetLayout worksheetLayout, PdfPagesLayout pages)
+        private void CreatePageLayoutObjects(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheetLayout worksheetLayout, PdfPagesLayout pages)
         {
 
             /* when calculating pages we need to take row and column headings width and height into consideration we could start our for loops and 0 and check if j==0 and add row width and then just proceed like usual and
@@ -126,45 +128,63 @@ namespace EPPlus.Export.Pdf.PdfLayout
              */
 
             //Get x cooridiantes to break for new page
-            List<double> xBreaks = new List<double>() { 0d };
+            double rowHeading = PdfWorksheetLayout.RowHeadingWidth;
+            List<double> xBreaks = new List<double>() { 0 };
             double currentWidth = 0, boundsWidth = pageSettings.ContentBounds.Width;
+            List<int> columns = new List<int>();
+            int columnCount = 0;
             for (int j = 1; j <= worksheet.Dimension._toCol; j++)
             {
                 if (worksheet.Column(j).Hidden) { continue; }
                 var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(j).Width, PdfWorksheetLayout.ZeroCharWidth);
-                if (currentWidth + width >= boundsWidth)
+                if (currentWidth + width + rowHeading >= boundsWidth)
                 {
                     xBreaks.Add(currentWidth);
+                    columns.Add(columnCount);
+                    columnCount = 0;
                     boundsWidth = currentWidth + pageSettings.ContentBounds.Width;
                 }
                 currentWidth += width;
+                columnCount++;
                 if (worksheet.Column(j).PageBreak)
                 {
                     xBreaks.Add(currentWidth);
+                    columns.Add(columnCount);
+                    columnCount = 0;
                     boundsWidth = currentWidth + pageSettings.ContentBounds.Width;
                 }
             }
-                xBreaks.Add(currentWidth);
+            xBreaks.Add(currentWidth);
+            columns.Add(columnCount);
             //Get y cooridiantes to break for new page
+            double colHeading = -PdfWorksheetLayout.ColumnHeadingHeight;
             List<double> yBreaks = new List<double>() { 0d };
             double currentHeight = 0, boundsHeight = -pageSettings.ContentBounds.Height;
+            List<int> rows = new List<int>();
+            int rowCount = 0;
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
-                if (currentHeight - height <= boundsHeight)
+                if (currentHeight - height - colHeading <= boundsHeight)
                 {
                     yBreaks.Add(currentHeight);
+                    rows.Add(rowCount);
+                    rowCount = 0;
                     boundsHeight = currentHeight - pageSettings.ContentBounds.Height;
                 }
                 currentHeight -= height;
+                rowCount++;
                 if (worksheet.Row(i).PageBreak)
                 {
                     yBreaks.Add(currentHeight);
+                    rows.Add(rowCount);
+                    rowCount = 0;
                     boundsHeight = currentHeight - pageSettings.ContentBounds.Height;
                 }
             }
-                yBreaks.Add(currentHeight);
+            yBreaks.Add(currentHeight);
+            rows.Add(rowCount);
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             int horizontalPageCount = xBreaks.Count-1; //System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.X / pageSettings.ContentBounds.Width));
             int verticalPageCount = yBreaks.Count-1; //System.Math.Max(1, (int)System.Math.Ceiling(System.Math.Abs( worksheetLayout.Size.Y) / pageSettings.ContentBounds.Height));
@@ -192,9 +212,59 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double height = Math.Abs( yBreaks[row] - yBreaks[row + 1]);
                 PdfContentLayout content = new PdfContentLayout(0, 0, width, height);
                 content.Name = "Content " + (i + 1);
+                if (pageSettings.ShowHeadings)
+                {
+                    AddColumnHeadings(worksheet, dictionaries, content, columns[col], col, columns);
+                    AddRowHeadings(worksheet, dictionaries, content, rows[row], row, rows);
+                }
                 page.AddChild(content);
                 content.Position = new Vector2(xBreaks[col], yBreaks[row+1]);
                 pages.AddChild(page);
+            }
+        }
+
+        private void AddColumnHeadings(ExcelWorksheet ws, PdfDictionaries dictionaries, PdfContentLayout content, int columnsInPage, int pageColumn, List<int> columns )
+        {
+            int startColIndex = 1;
+            for (int i = 0; i < pageColumn; i++)
+            {
+                startColIndex += columns[i];
+            }
+            double X = content.LocalPosition.X;
+            for (int j = startColIndex; j < startColIndex + columnsInPage; j++)
+            {
+                string column = ExcelRangeBase.GetColumnLetter(j);
+                var col = ws.Cells[column];
+                var width = UnitConversion.ExcelColumnWidthToPoints(ws.Column(j).Width, PdfWorksheetLayout.ZeroCharWidth);
+                var height = UnitConversion.ExcelRowHeightToPoints(ws.DefaultRowHeight);
+                var cellStyle = new PdfCellStyle();
+                cellStyle.xfFill = col.Style.Fill;
+                var cl0 = new PdfCellLayout(dictionaries, col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
+                cl0.Name = col.Address;
+                cl0.Z = 1;
+                X = X + width;
+            }
+        }
+
+        private void AddRowHeadings(ExcelWorksheet ws, PdfDictionaries dictionaries, PdfContentLayout content, int rowsInPage, int pageRow, List<int> rows)
+        {
+            int startRowIndex = 1;
+            for (int i = 0; i < pageRow; i++)
+            {
+                startRowIndex += rows[i];
+            }
+            double Y = content.LocalPosition.Y + content.Size.Y;
+            for (int j = startRowIndex; j < startRowIndex + rowsInPage; j++)
+            {
+                var row = ws.Cells[j, 1];
+                var height = UnitConversion.ExcelRowHeightToPoints(ws.Row(j).Height);
+                var width = PdfWorksheetLayout.RowHeadingWidth;
+                var cellStyle = new PdfCellStyle();
+                cellStyle.xfFill = row.Style.Fill;
+                var cl0 = new PdfCellLayout(dictionaries, row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
+                cl0.Name = j.ToString();
+                cl0.Z = 1;
+                Y = Y - height;
             }
         }
 
@@ -217,7 +287,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Move cells to their overlapping pages.
         private void PopulatePages(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
         {
-
             var pageData = new List<PageData>();
             foreach (PdfPageLayout p in pages.ChildObjects)
             {
@@ -228,12 +297,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
             }
             pageData.Sort((a, b) => a.Bounds.Top.CompareTo(b.Bounds.Top));
-
             var transforms = new List<Transform>(WorksheetLayout.ChildObjects);
             foreach (var t in transforms)
             {
                 var cellBounds = t.GetGlobalBoundingbox();
-
                 // Pass 1: check if ANY page fully contains this transform. 
                 // If so, we use only that page and skip all partial intersects.
                 PageData fullIntersectPage = null;
@@ -349,7 +416,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Font handling, Text shaping and layouting wrapped text
-        //Font handling, Text shaping and layouting wrapped text
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
             var totalTextLength = 0d;
@@ -412,7 +478,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 text.TextFormats[i] = fd;
                 shaper.ResetFontTracking();
             }
-            //saker här sen
             if (text is PdfCellContentLayout ccl)
             {
                 ccl.TextLength = totalTextLength;
