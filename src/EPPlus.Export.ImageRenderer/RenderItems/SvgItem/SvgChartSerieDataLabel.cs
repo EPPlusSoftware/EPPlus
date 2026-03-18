@@ -103,11 +103,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
-        internal void SetPositionOffset(double xPos, double yPos, int i)
-        {
-            dataLabels[i].SetOriginPointOffset(xPos, yPos);
-        }
-
         internal void SetParentPoint(BoundingBox parent, int index)
         {
             dataLabels[index].SetParentPoint(parent);
@@ -121,16 +116,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 if (seriesIcon != null && dataLabels[i].HasLegendKey)
                 {
-                    //groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
-                    //groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
-                    dataLabels[i].AddSeriesIcon(seriesIcon.Bounds.Width, seriesIcon.Bounds.Height);
-                    //renderItems.Add(groupItems[i]);
-                    renderItems.Add(seriesIcon);
+                    dataLabels[i].AddSeriesIcon(seriesIcon);
                 }
-                else
-                {
-                    //renderItems.Add(groupItems[i]);
-                }
+                //else
+                //{
+                //    //renderItems.Add(groupItems[i]);
+                //}
 
                 dataLabels[i].AppendRenderItems(renderItems);
 

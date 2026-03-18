@@ -573,6 +573,20 @@ namespace TestProject1
         }
 
         [TestMethod]
+        public void GenerateDataLabelsTrueMostAndManualLayout()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datalabelsSvgTrueMostWithFillANDManual.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\datalabelsSvgTrueMostWithFillAndManual.svg", svg);
+            }
+        }
+
+        [TestMethod]
         public void GenerateDatalabelsLeaderLines()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -588,7 +602,7 @@ namespace TestProject1
 
 
         [TestMethod]
-        public void GenerateDatalabelsLeaderLinesBg()
+        public void GenerateDatalabelsRightAlignedWithBg()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("datalabelsSvgRightAlignedWithBg.xlsx"))

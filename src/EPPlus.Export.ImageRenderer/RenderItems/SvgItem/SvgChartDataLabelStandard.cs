@@ -4,9 +4,9 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -16,7 +16,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         bool _hasManualLayout = false;
         bool _hasLeaderLines = false;
-
         bool haveAdjustedForIcon = false;
 
         internal SvgTextBox TxtBox;
@@ -25,21 +24,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         List<SvgRenderLineItem> LeaderLines = new List<SvgRenderLineItem>();
 
-        Coordinate originPoint = new Coordinate (0, 0);
-        Coordinate manualLayoutOffset = new Coordinate (0, 0);
+        Coordinate _manualLayoutOffset = new Coordinate (0, 0);
+        bool renderConnectionPointLines = false;
 
-        PointLines connectionPointLines;
-
+        PointLines _connectionPointLines;
         eLabelPosition _labelPosition;
-        ////Connection point coords are accurate to Internal bounds
-        //BoundingBox internalBounds = new BoundingBox();
-        //List<Coordinate> ConnectionPoints = new List<Coordinate>();
 
         public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         {
             var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
             txtBox.AddText(0, dataLabelText);
-            FitToTextBoxContent();
         }
 
         public SvgChartDataLabelStandard(DrawingChart chart, ExcelChartDataLabelStandard standard) : base(chart)
@@ -52,25 +46,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             HasLegendKey = standard.ShowLegendKey;
             TxtBox = txtBox;
-            FitToTextBoxContent();
         }
 
-        private void FitToTextBoxContent()
-        {
-            //Bounds.Left = TxtBox.Left;
-            //Bounds.Top = TxtBox.Top;
-            //Bounds.Height = TxtBox.Height;
-            //Bounds.Width = TxtBox.Width;
-        }
+        RenderItem _seriesIcon = null;
 
-        internal void AddSeriesIcon(double iconWidth, double iconHeight)
+        internal void AddSeriesIcon(RenderItem seriesIcon)
         {
+            var iconWidth = seriesIcon.Bounds.Width;
+            var iconHeight = seriesIcon.Bounds.Height;
+
+            _seriesIcon = seriesIcon;
+            _seriesIcon.Bounds.Parent = _parentPoint;
+
             if (haveAdjustedForIcon == false)
             {
                 if (_hasManualLayout == false)
                 {
                     TxtBox.Left += iconWidth + TxtBox.LeftMargin;
-                    FitToTextBoxContent();
                     if (iconHeight > TxtBox.Height)
                     {
                         Bounds.Height = iconHeight;
@@ -82,6 +74,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     Bounds.Width += iconWidth;
                     Bounds.Height += iconHeight;
                 }
+                //It seems there is a hard-coded margin in excel of about 4.5pt (6px) in addition to the width of the marker
+                Bounds.Left += 4.5d;
                 haveAdjustedForIcon = true;
             }
         }
@@ -122,11 +116,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             txtBox.TextBody.Bounds.Top = 0;
             txtBox.TextBody.AutoSize = true;
 
-            //txtBox.LeftMargin = 3.1181d;
-            //txtBox.RightMargin = 3.1181d;
-            //txtBox.TopMargin = 1.4173d;
-            //txtBox.BottomMargin = 1.4173d;
-
             if (txtBox.TextBody.Paragraphs.Count == 0)
             {
                 txtBox.TextBody.ImportParagraph(defaultParagraph, 0, finalString);
@@ -139,36 +128,42 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
 
+            //Center the textbox at the origin point
             Bounds.Left -= txtBox.Width / 2;
             Bounds.Top -= txtBox.Height / 2;
-            ////Reset run y-position.
-            ////Datalabel does not use the standard line-spacing textbody offsets
-            //txtBox.TextBody.Paragraphs[0].Runs[0].YPosition = 0;
 
             TxtBox = txtBox;
 
+            if (dataLabel.Fill.IsEmpty == false)
+            {
+                TxtBox.Rectangle.FillColor = "#" + dataLabel.Fill.Color.ToColorString();
+            }
+            if (dataLabel.Font.IsEmpty == false)
+            {
+                txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
+            }
+
             _labelPosition = dataLabel.Position;
-
-            //TxtBox.TextBody.Bounds.Left += TxtBox.LeftMargin;
-            //TxtBox.TextBody.Bounds.Top += TxtBox.TopMargin;
-
-            //TxtBox.Left = txtBox.LeftMargin;
-            //TxtBox.Top = txtBox.TopMargin;
 
             if (dataLabel is ExcelChartDataLabelItem)
             {
                 var individualLabel = dataLabel as ExcelChartDataLabelItem;
 
+                if (individualLabel.Fill.IsEmpty == false)
+                {
+                    TxtBox.Rectangle.FillColor = "#" + individualLabel.Fill.Color.ToColorString();
+                }
+
                 if (individualLabel.Layout != null && individualLabel.Layout.HasLayout)
                 {
-                    FitToTextBoxContent();
                     _hasManualLayout = true;
                     var rect = GetRectFromManualLayout(chart, individualLabel.Layout);
                     Rectangle = rect;
 
-                    //LeftMargin = Rectangle.Left;
-                    //TopMargin = Rectangle.Top;
-                    manualLayoutOffset = new Coordinate(Rectangle.Left, Rectangle.Top);
+                    _manualLayoutOffset = new Coordinate(Rectangle.Left, Rectangle.Top);
+
+                    Bounds.Left += _manualLayoutOffset.X;
+                    Bounds.Top += _manualLayoutOffset.Y;
 
                     if (dataLabel.ShowLeaderLines)
                     {
@@ -177,16 +172,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                     if (dataLabel.ShowLeaderLines)
                     {
-                        var cPoints = new ConnectionPointsMiddle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height);
+                        var cPoints = new ConnectionPointsMiddle(TxtBox.Rectangle.Bounds.Left, TxtBox.Rectangle.Bounds.Top, TxtBox.Rectangle.Bounds.Width, TxtBox.Rectangle.Bounds.Height);
 
                         //Since this is a child transform changes to this transform will compound
-                        connectionPointLines = new PointLines(ChartRenderer, Bounds, cPoints);
+                        _connectionPointLines = new PointLines(ChartRenderer, Bounds, cPoints);
                     }
                 }
-            }
-            else
-            {
-                FitToTextBoxContent();
             }
         }
 
@@ -198,7 +189,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             int i = 0;
             int smallestIndex = 0;
 
-            foreach (var line in connectionPointLines.RenderLines)
+            foreach (var line in _connectionPointLines.RenderLines)
             {
                 line.X1 = originPoint.X;
                 line.Y1 = originPoint.Y;
@@ -233,6 +224,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     Bounds.Left -= TxtBox.Width + (parentPoint.Width / 2);
                     break;
                 case eLabelPosition.Right:
+                case eLabelPosition.BestFit:
                     Bounds.Left += TxtBox.Width / 2 + parentPoint.Width;
                     break;
                 case eLabelPosition.Top:
@@ -244,63 +236,50 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
             }
-        }
-
-        internal void SetOriginPointOffset(double xPos, double yPos)
-        {
-            originPoint.X = xPos;
-            originPoint.Y = yPos;
-
-            Bounds.Top = yPos;
-            Bounds.Left = xPos;
 
             if (_hasManualLayout)
             {
-                //Bounds.Top += manualLayoutOffset.Y;
-                //Bounds.Left += manualLayoutOffset.X;
+                if (_hasLeaderLines)
+                {
+                    _connectionPointLines.UpdateLines();
 
-                //if (_hasLeaderLines)
-                //{
-                //    originPoint.Y -= Bounds.Top;
-                //    originPoint.X -= Bounds.Left;
+                    var originPoint = new Coordinate(-Bounds.Left, -Bounds.Top);
 
-                //    var index = GetClosestConnectionPointCoordinateIndex(originPoint);
+                    var index = GetClosestConnectionPointCoordinateIndex(originPoint);
 
-                //    LeaderLines.Clear();
+                    LeaderLines.Clear();
 
-                //    double xOffset = 0;
-                //    if (index == 0 || index == 2)
-                //    {
-                //        //If Left or Right
-                //        //Add extra 7 px (5.25pt) line to the given side
-                //        var extraLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
+                    double xOffset = 0;
+                    if (index == 0 || index == 2)
+                    {
+                        //If Left or Right
+                        //Add extra 7 px (5.25pt) line to the given side
+                        var extraLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
 
-                //        xOffset = index == 0 ? -5.25d : 5.25d;
+                        xOffset = index == 0 ? -5.25d : 5.25d;
 
-                //        extraLine.X1 = connectionPointLines.ConnectionPoints.Points[index].X;
-                //        extraLine.Y1 = connectionPointLines.ConnectionPoints.Points[index].Y;
-                //        extraLine.Y2 = connectionPointLines.ConnectionPoints.Points[index].Y;
-                //        extraLine.X2 = extraLine.X1 + xOffset;
+                        extraLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X;
+                        extraLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
+                        extraLine.Y2 = _connectionPointLines.ConnectionPoints.Points[index].Y;
+                        extraLine.X2 = extraLine.X1 + xOffset;
 
-                //        extraLine.BorderColor = "gray";
-                //        extraLine.BorderWidth = 0.5;
+                        extraLine.BorderColor = "gray";
+                        extraLine.BorderWidth = 0.5;
 
-                //        LeaderLines.Add(extraLine);
-                //    }
-                //    var mainLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
-                //    mainLine.X1 = connectionPointLines.ConnectionPoints.Points[index].X + xOffset;
-                //    mainLine.Y1 = connectionPointLines.ConnectionPoints.Points[index].Y;
-                //    mainLine.X2 = originPoint.X;
-                //    mainLine.Y2 = originPoint.Y;
+                        LeaderLines.Add(extraLine);
+                    }
+                    var mainLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
+                    mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset;
+                    mainLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
+                    mainLine.X2 = originPoint.X;
+                    mainLine.Y2 = originPoint.Y;
 
-                //    mainLine.BorderColor = "gray";
-                //    mainLine.BorderWidth = 0.5;
-                //    LeaderLines.Add(mainLine);
-                //}
+                    mainLine.BorderColor = "gray";
+                    mainLine.BorderWidth = 0.5;
+                    LeaderLines.Add(mainLine);
+                }
             }
         }
-
-        bool renderConnectionPointLines = false;
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
@@ -310,18 +289,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var titleItemOrigin = new SvgTitleItem(DrawingRenderer, "DataLabel originpoint");
             renderItems.Add(titleItemOrigin);
 
-            SvgRenderRectItem markerRect = new SvgRenderRectItem(DrawingRenderer, _parentPoint);
+            //SvgRenderRectItem markerRect = new SvgRenderRectItem(DrawingRenderer, _parentPoint);
 
-            markerRect.Width = _parentPoint.Width;
-            markerRect.Height = _parentPoint.Height;
+            //markerRect.Width = _parentPoint.Width;
+            //markerRect.Height = _parentPoint.Height;
 
-            markerRect.Top -= _parentPoint.Height / 2;
-            markerRect.Left -= _parentPoint.Width / 2;
+            //markerRect.Top -= _parentPoint.Height / 2;
+            //markerRect.Left -= _parentPoint.Width / 2;
 
-            markerRect.FillColor = "blue";
-            markerRect.FillOpacity = 0.2d;
+            //markerRect.FillColor = "blue";
+            //markerRect.FillOpacity = 0.2d;
 
-            renderItems.Add(markerRect);
+            //renderItems.Add(markerRect);
 
             var group = new SvgGroupItem(ChartRenderer, Bounds);
             renderItems.Add(group);
@@ -338,16 +317,30 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //rect.FillOpacity = 0.2;
             //renderItems.Add(rect);
 
-            TxtBox.Rectangle.FillColor = "red";
-            TxtBox.Rectangle.FillOpacity = 1d;
+            //TxtBox.Rectangle.FillColor = "red";
+            //TxtBox.Rectangle.FillOpacity = 1d;
+
+            if(_seriesIcon != null)
+            {
+                var height = Bounds.Height;
+                if(height == 0)
+                {
+                    height = TxtBox.Height;
+                }
+                //Currently series icon always has a y1 y2 of 2
+                var iconGrp = new SvgGroupItem(ChartRenderer, 0, height / 2 - 2);
+                renderItems.Add(iconGrp);
+                renderItems.Add(_seriesIcon);
+                renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
+            }
 
             TxtBox.AppendRenderItems(renderItems);
             
             if(renderConnectionPointLines)
             {
-                if (connectionPointLines != null)
+                if (_connectionPointLines != null)
                 {
-                    connectionPointLines.AppendRenderItems(renderItems);
+                    _connectionPointLines.AppendRenderItems(renderItems);
                 }
             }
 
