@@ -1,4 +1,4 @@
-name: Build Release Branches
+name: Build Release Branches SBOM Test
 
 on:
   push:
