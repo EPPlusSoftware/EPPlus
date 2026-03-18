@@ -66,44 +66,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 Bounds.Left += 4d + 2.25d;
                 LeftMargin -= 2.25d + 4d;
                 Bounds.Width += iconWidth + 2.25d;
-                
-                //Bounds.Left += TxtBox.LeftMargin;
-                //Bounds.Width += iconWidth;
-                //_seriesIcon.Bounds.Left -= 0.75;
-                //if (iconHeight > TxtBox.Height)
-                //{
-                //    Bounds.Height = iconHeight;
-                //}
-                //TxtBox.Left += iconWidth + 3;
-                //Bounds.Width += iconWidth + 3;
-
-
-                //if (iconHeight > TxtBox.Rectangle.Bounds.Height)
-                //{
-                //    Bounds.Height = iconHeight;
-                //}
-                //if (_hasManualLayout == false)
-                //{
-                //    TxtBox.Left += iconWidth + TxtBox.LeftMargin;
-                //    if (iconHeight > TxtBox.Height)
-                //    {
-                //        Bounds.Height = iconHeight;
-                //    }
-                //}
-                //else
-                //{
-                //    Bounds.Left += iconWidth + TxtBox.LeftMargin;
-                //    Bounds.Width += iconWidth;
-                //    Bounds.Height += iconHeight;
-                //}
-
-                //Bounds.Left -= 3d;
-                //It seems there is a hard-coded margin in excel of about 4.5pt (6px) in addition to the width of the marker
-                //TxtBox.Left += 4.5d;
-                //seriesIcon.Bounds.Left += 4.5d;
-                //Bounds.Left -= 4.5d;
-                //Bounds.Left -= 4.5d;
-                //Bounds.Width += 4.5d;
 
                 haveAdjustedForIcon = true;
             }
@@ -333,19 +295,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var titleItemOrigin = new SvgTitleItem(DrawingRenderer, "DataLabel originpoint");
             renderItems.Add(titleItemOrigin);
-
-            //SvgRenderRectItem markerRect = new SvgRenderRectItem(DrawingRenderer, _parentPoint);
-
-            //markerRect.Width = _parentPoint.Width;
-            //markerRect.Height = _parentPoint.Height;
-
-            //markerRect.Top -= _parentPoint.Height / 2;
-            //markerRect.Left -= _parentPoint.Width / 2;
-
-            //markerRect.FillColor = "blue";
-            //markerRect.FillOpacity = 0.2d;
-
-            //renderItems.Add(markerRect);
 
             var group = new SvgGroupItem(ChartRenderer, Bounds);
             renderItems.Add(group);
