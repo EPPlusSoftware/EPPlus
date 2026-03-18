@@ -2,6 +2,7 @@
 <bom xmlns="http://cyclonedx.org/schema/bom/1.6">
   <metadata>
     <component type="library">
+      <description>EPPlus is a .NET spreadsheet library for creating, manipulating and calculating workbooks in the Open Office XML format (xlsx).</description>
       <supplier>
         <name>EPPlus Software AB</name>
         <url>https://epplussoftware.com</url>
