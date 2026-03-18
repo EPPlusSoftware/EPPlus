@@ -1,4 +1,7 @@
-﻿using OfficeOpenXml.Configuration;
+﻿#if(Core)
+using Microsoft.Extensions.Configuration;
+#endif
+using OfficeOpenXml.Configuration;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -45,6 +48,13 @@ namespace OfficeOpenXml
         /// If your subscription has expired past the <see cref="EPPlusLicenseInfo.LicenseValidTo"/> date, you can set this flag to get a 15 additional days to renew the license.
         /// </summary>
         public bool ExtendUnderRenewal { get; set; }
+
+#if(Core)
+        internal static void SetConfiguration(IConfiguration config)
+        {
+            _configuration.Configuration = config;
+        }
+#endif
 
         internal bool IsLicenseSet(List<ExcelInitializationError> initErrors)
         {
