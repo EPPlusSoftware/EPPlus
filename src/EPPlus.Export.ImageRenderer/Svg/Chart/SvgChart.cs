@@ -274,7 +274,6 @@ namespace EPPlusImageRenderer.Svg
 
         }
 
-
         internal SvgRenderLineItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
         {
             const float MarginExtra = 1.5f;

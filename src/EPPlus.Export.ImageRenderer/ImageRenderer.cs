@@ -11,9 +11,12 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Graphics;
+using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -45,6 +48,44 @@ namespace EPPlusImageRenderer
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
 
+        public string RenderTest()
+        {
+            var baseBB = new BoundingBox();
+
+            baseBB.Width = 400;
+            baseBB.Height = 400;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+            //SvgRenderRectItem myBgItem = new SvgRenderRectItem(baseItem, baseItem.Bounds);
+            //myBgItem.FillColor = "purple";
+            //myBgItem.FillOpacity = 0.2d;
+
+            //SvgRenderRectItem myInnerItem = new SvgRenderRectItem(baseItem, myBgItem.Bounds);
+
+            //myInnerItem.FillColor = "green";
+            //myInnerItem.FillOpacity = 0.8d;
+
+            //myInnerItem.Width = 50;
+            //myInnerItem.Height = 50;
+
+            //var container = new SvgContainerItem(myInnerItem, myBgItem);
+
+            //container.MarginLeft = 5;
+            //container.MarginRight = 5;
+            //container.MarginTop = 5;
+            //container.MarginBottom = 5;
+
+            //container.ApplyMargins();
+
+            //baseItem.RenderItems.Add(container);
+
+            var sb = new StringBuilder();
+
+            baseItem.Render(sb);
+
+            return sb.ToString();
+        }
         //public string RenderTestCanvas(double widthPixel, double heightPixel, Color bgColor)
         //{
 

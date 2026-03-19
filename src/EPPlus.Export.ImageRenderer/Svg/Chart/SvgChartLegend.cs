@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.Svg
     internal class SvgChartLegend : SvgChartObject
     {
         
-        List<TextMeasurement> _seriesHeadersMeasure =new List<TextMeasurement>();
+        List<TextMeasurement> _seriesHeadersMeasure = new List<TextMeasurement>();
         ITextMeasurer _ttMeasurer;
         const float MarginExtra = 1.5f;
         const float MiddleMargin = 7.5f;
@@ -197,7 +197,8 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.LineStacked100:
                             var ls=(ExcelLineChartSerie)s;
                             var tm = _seriesHeadersMeasure[index];
-                            var si = GetSeriesIcon(sc, ls, index, tm, pSls);
+                            var prevTm = _seriesHeadersMeasure[index - 1];
+                            var si = GetSeriesIcon(sc, ls, prevTm, tm, pSls);
                             sls.SeriesIcon = si;
 
                             var tbLeft = si.X2 + MarginExtra;
@@ -256,11 +257,11 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private SvgRenderLineItem GetSeriesIcon(SvgChart sc, ExcelLineChartSerie ls, int index, TextMeasurement tm, SvgLegendSerie pSls)
+        private SvgRenderLineItem GetSeriesIcon(SvgChart sc, ExcelChartStandardSerie cStandardSerie, TextMeasurement pTm, TextMeasurement tm, SvgLegendSerie pSls)
         {
             var item = new SvgRenderLineItem(sc, Rectangle.Bounds);
-            item.SetDrawingPropertiesFill(ls.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(ls.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, ls.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
+            item.SetDrawingPropertiesFill(cStandardSerie.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(cStandardSerie.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
 
             if (sc.Chart.Legend.Position == eLegendPosition.Top ||
                sc.Chart.Legend.Position == eLegendPosition.Bottom)
@@ -291,7 +292,6 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    var pTm = _seriesHeadersMeasure[index - 1];
                     y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + MiddleMargin;
                 }
 

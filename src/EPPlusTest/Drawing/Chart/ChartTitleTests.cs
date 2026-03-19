@@ -102,16 +102,5 @@ namespace EPPlusTest.Drawing.Chart
             chart.Title.SetAutoTitle();
             chart.Font.Color = Color.Red;
         }
-
-        [TestMethod]
-        public void AddTitleMoveTest()
-        {
-            var ws = _pck.Workbook.Worksheets.Add("TitleMoveTest");
-            var chart = ws.Drawings.AddBarChart("barChart1", eBarChartType.BarClustered);
-            ws.Cells["A1"].Value = "Linked Cell Title";
-            chart.Series.Add("Data!N1:N10", "Data!K1:K10");
-            chart.XAxis.AddTitle(ws.Cells["A1"]);
-            chart.Title.l
-        }
     }
 }
