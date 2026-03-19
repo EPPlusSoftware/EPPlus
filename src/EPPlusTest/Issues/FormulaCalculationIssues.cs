@@ -1497,7 +1497,37 @@ namespace EPPlusTest.Issues
             }
             SwitchBackToCurrentCulture();
         }
-  
+
+        [TestMethod]
+        public void s1023()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("s1023");
+                s.Cells["A1"].Formula = "IF(LEFT(B1,1) = \"1\", -D1, D1)";
+                s.Cells["B1"].Value = 111;
+                s.Cells["C1"].Value = 50;
+                s.Cells["D1"].Formula = "UNIQUE(FILTER(B: B & C:C, B: B & C:C<>\"\"))";
+                s.Workbook.Calculate();
+
+                Assert.AreEqual(-11150d, s.Cells["A1"].Value);
+                Assert.AreEqual("11150", s.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void s1023NegNumericString()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("s1023");
+                s.Cells["A1"].Formula = "-D1";
+                s.Cells["D1"].Value = "11150";
+                s.Cells["A1"].Calculate();
+
+                Assert.AreEqual(-11150d, s.Cells["A1"].Value);
+            }
+        }
     }
 }
 
