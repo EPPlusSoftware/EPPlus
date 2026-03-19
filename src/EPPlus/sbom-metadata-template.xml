@@ -15,12 +15,12 @@
         <license>
           <name>Polyform Noncommercial 1.0.0</name>
           <url>https://polyformproject.org/licenses/noncommercial/1.0.0/</url>
-          <text>Free to use for noncommercial purposes under the PolyForm Noncommercial License 1.0.0.</text>
+          <text>Free to use if you qualify as noncommercial under the PolyForm Noncommercial License 1.0.0. Commercial organizations require a paid license.</text>
         </license>
         <license>
           <name>EPPlus Commercial License</name>
           <url>https://epplussoftware.com/en/LicenseOverview/Eulas</url>
-          <text>Commercial use requires a paid license. See the End User License Agreement at the provided URL.</text>
+          <text>Usage within a commercial organization or for commercial purposes requires a paid license. See the End User License Agreement at the provided URL.</text>
         </license>
       </licenses>
       <externalReferences>
