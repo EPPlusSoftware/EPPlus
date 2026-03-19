@@ -294,6 +294,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cl0.Name = j.ToString();
                 cl0.Z = 8;
                 cl0.isHeading = true;
+
+
                 Y = Y - height;
             }
         }
