@@ -1,4 +1,5 @@
 # This workflow will build, test, sign and pack the release branches for EPPlus.
+# It will also generate and publish an SBOM
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
 name: Build Release Branches
@@ -21,6 +22,26 @@ jobs:
         dotnet-version: '9.0.x'
     - name: Restore dependencies
       run: dotnet restore ./src/EPPlus.sln
+
+    # --- SBOM ---
+    - name: Install CycloneDX
+      run: dotnet tool install --global CycloneDX
+    - name: Read version from csproj
+      id: read_version
+      run: |
+        $version = ([xml](Get-Content ./src/EPPlus/EPPlus.csproj)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+        echo "VERSION=$version" >> $env:GITHUB_ENV
+      shell: pwsh
+    - name: Generate SBOM
+      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml
+    - name: Generate SHA-256 checksum for SBOM
+      run: |
+        $sbomFile = "./sbom/epplus-${{ env.VERSION }}.sbom.json"
+        $hash = (Get-FileHash -Path $sbomFile -Algorithm SHA256).Hash.ToLower()
+        "$hash  epplus-${{ env.VERSION }}.sbom.json" | Out-File -FilePath "./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256" -Encoding utf8NoBOM
+      shell: pwsh
+    # --- SBOM ---
+
     - name: Build
       run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
     - name: Test
@@ -70,3 +91,32 @@ jobs:
       with:
           name: signed-nuget-package
           path: ./output/*.nupkg
+    # --- SBOM ---
+    - name: Upload SBOM to Azure Blob Storage
+      run: |
+        az storage blob upload `
+          --account-name eppluswebprod `
+          --container-name sbom `
+          --name epplus-${{ env.VERSION }}.sbom.json `
+          --file ./sbom/epplus-${{ env.VERSION }}.sbom.json `
+          --auth-mode login `
+          --overwrite
+      shell: pwsh
+    - name: Upload SBOM checksum to Azure Blob Storage
+      run: |
+        az storage blob upload `
+          --account-name eppluswebprod `
+          --container-name sbom `
+          --name epplus-${{ env.VERSION }}.sbom.json.sha256 `
+          --file ./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256 `
+          --auth-mode login `
+          --overwrite
+      shell: pwsh
+    - name: Upload SBOM as artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: sbom
+          path: |
+            ./sbom/epplus-${{ env.VERSION }}.sbom.json
+            ./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256
+    # --- SBOM ---
