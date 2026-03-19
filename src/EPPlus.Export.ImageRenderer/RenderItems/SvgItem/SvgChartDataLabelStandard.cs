@@ -288,6 +288,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
+        private void AppendDebugBounds(List<RenderItem> renderItems)
+        {
+            SvgRenderRectItem rect = new SvgRenderRectItem(ChartRenderer, Bounds);
+            rect.Bounds.Left = LeftMargin;
+            rect.Bounds.Top = 0;
+            rect.Bounds.Width = Bounds.Width;
+            rect.Bounds.Height = Bounds.Height;
+
+            rect.FillColor = "red";
+            rect.FillOpacity = 0.2;
+            renderItems.Add(rect);
+        }
+
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var parentPointGroup = new SvgGroupItem(ChartRenderer, _parentPoint);
@@ -301,15 +314,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var titleItem = new SvgTitleItem(DrawingRenderer, "DataLabel size adjustment");
             renderItems.Add(titleItem);
-            SvgRenderRectItem rect = new SvgRenderRectItem(ChartRenderer, Bounds);
-            rect.Bounds.Left = LeftMargin;
-            rect.Bounds.Top = 0;
-            rect.Bounds.Width = Bounds.Width;
-            rect.Bounds.Height = Bounds.Height;
 
-            rect.FillColor = "red";
-            rect.FillOpacity = 0.2;
-            renderItems.Add(rect);
+            //AppendDebugBounds(renderItems);
 
             TxtBox.AppendRenderItems(renderItems);
             

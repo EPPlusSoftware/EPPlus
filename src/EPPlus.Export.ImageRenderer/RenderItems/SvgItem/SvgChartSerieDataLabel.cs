@@ -1,28 +1,9 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
-using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Tables.Cmap;
-using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Graphics;
+﻿using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Utils.String;
-using OfficeOpenXml.Utils.TypeConversion;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -30,36 +11,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         //positioning is handled by parent item via these
         internal List<SvgGroupItem> groupItems = new List<SvgGroupItem>();
+        private List<SvgChartDataLabelStandard> dataLabels = new List<SvgChartDataLabelStandard>();
 
         private RenderItem seriesIcon = null;
-        private List<SvgChartDataLabelStandard> dataLabels = new List<SvgChartDataLabelStandard>();
-        
-        string separator;
-
-        ExcelTextFont defaultFont;
+        private int _serieIndex = -1;
         ExcelDrawingParagraph defaultParagraph;
-
         BoundingBox plotAreaBounds;
-
         BoundingBox _defaultMargins;
-
         ExcelChartSerieDataLabel _dlblSerie;
-
-        int _serieIndex = -1;
-        bool _hasAddedSeriesIcon = false;
 
         public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             _serieIndex = index;
             _dlblSerie = dlblSerie;
-
-            bool addSeriesIcon = false;
             plotAreaBounds = chart.Plotarea.Rectangle.Bounds;
 
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
                 defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
-                defaultFont = dlblSerie.TextBody.Paragraphs[0].DefaultRunProperties;
                 dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
                 _defaultMargins = new BoundingBox(l, top, right, bottom);
             }
@@ -144,18 +113,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(plotAreaGroup);
             for(int i = 0; i< dataLabels.Count; i++) 
             {
-                //if (seriesIcon != null && dataLabels[i].HasLegendKey)
-                //{
-                //    dataLabels[i].AddSeriesIcon(seriesIcon);
-                //}
-                //else
-                //{
-                //    //renderItems.Add(groupItems[i]);
-                //}
-
                 dataLabels[i].AppendRenderItems(renderItems);
-
-                //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
             renderItems.Add(new SvgEndGroupItem(DrawingRenderer, plotAreaBounds));
         }
