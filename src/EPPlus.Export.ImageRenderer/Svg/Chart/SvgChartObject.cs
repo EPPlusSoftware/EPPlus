@@ -79,7 +79,6 @@ namespace EPPlusImageRenderer.Svg
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
         internal SvgRenderRectItem Rectangle { get; set; }
-        internal SvgRenderLineItem Line { get; set; }
         protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
         {
             var rect = new SvgRenderRectItem(sc, sc.ChartArea.Bounds);

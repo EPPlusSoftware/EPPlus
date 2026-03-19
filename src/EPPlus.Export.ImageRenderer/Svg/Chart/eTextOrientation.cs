@@ -10,19 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-
-using OfficeOpenXml.Drawing.Chart;
-
-namespace EPPlusImageRenderer
+namespace EPPlus.Export.ImageRenderer
 {
-    internal abstract class DrawingChart : DrawingBase
-    {       
-        public DrawingChart(ExcelChart chart) : base(chart) 
-        {
-        }
-        public ExcelChart Chart 
-        { 
-            get =>(ExcelChart)Drawing;  
-        }
+    internal enum eTextOrientation
+    {
+        Horizontal,
+        Diagonal,
+        Vertical,
     }
 }

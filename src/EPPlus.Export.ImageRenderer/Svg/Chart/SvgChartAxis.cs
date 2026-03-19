@@ -10,32 +10,29 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChartAxis : SvgChartObject, IDrawingChartAxis
     {
+        private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
         internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc)
         {
             SvgChart = sc;
@@ -58,7 +55,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (ax.Deleted == false || ax.HasMajorGridlines || ax.HasMinorGridlines)
             {
-                Values = GetAxisValue(ax, Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit);
+                Values = GetAxisValue(ax, sc.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
                 AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
                 
                 Min = min ?? 0D;
@@ -66,6 +63,7 @@ namespace EPPlusImageRenderer.Svg
                 MajorUnit = majorUnit ?? 1;
                 MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
                 MajorDateUnit = dateUnit;
+                LabelOrientation = orientation;
                 if (ax.Deleted == false)
                 {
                     if (ax.Layout.HasLayout)
@@ -125,6 +123,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal ExcelChartAxis Axis { get; }
         internal SvgChart SvgChart { get; }
+        internal SvgRenderLineItem Line { get; set; }
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
         {
             var displayValues = new List<string>();
@@ -147,15 +146,33 @@ namespace EPPlusImageRenderer.Svg
         }
         private double GetTextHeight(SvgChart sc, ExcelChartAxisStandard ax)
         {
-            var tm = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            var highest = 0f;
+            var tm = sc.TextMeasurer;
+            var highest = 0D;
             var mf = ax.Font.GetMeasureFont();
             foreach (var s in AxisValues)
             {
                 var m = tm.MeasureText(s, mf);
-                if (m.Height > highest)
+                switch (LabelOrientation)
                 {
-                    highest = m.Height;
+                    case eTextOrientation.Horizontal:
+                        if (m.Height > highest)
+                        {
+                            highest = m.Height;
+                        }
+                        break;
+                    case eTextOrientation.Diagonal:
+                        var width = (m.Width + m.Height) * COS45;
+                        if (width > highest)
+                        {
+                            highest = width;
+                        }
+                        break;
+                    case eTextOrientation.Vertical:
+                        if (m.Width > highest)
+                        {
+                            highest = m.Width;
+                        }
+                        break;
                 }
             }
             return highest.PointToPixel();
@@ -201,6 +218,7 @@ namespace EPPlusImageRenderer.Svg
         public double MajorUnit { get; set; }
         public double MinorUnit { get; set; }
         public eTimeUnit? MajorDateUnit { get; set; }
+        public eTextOrientation LabelOrientation { get; set; }
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             Title?.AppendRenderItems(renderItems);
@@ -300,19 +318,117 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                maxWidth = Rectangle.Width / AxisValues.Count;
-                maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
+                switch (LabelOrientation)
+                {
+                    case eTextOrientation.Vertical:
+                        maxWidth = (Rectangle.Height / AxisValues.Count) * 1;
+                        maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
+                        break;                    
+                    case eTextOrientation.Diagonal:
+                        maxWidth = (Rectangle.Width / AxisValues.Count) * 1 / COS45;
+                        maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
+                        break;
+                    default:
+                        maxWidth = Rectangle.Width / AxisValues.Count;
+                        maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
+                        break;
+                }
             }
             double widest=0;
             for (var i = 0; i < AxisValues.Count; i++)
             {
+
                 var v = AxisValues[i];
                 var m = tm.MeasureText(v, mf);
-                var x = GetAxisItemLeft(i, m);
-                var y = GetAxisItemTop(i, m);
-                var width = m.Width.PointToPixel();
-                var height = m.Height.PointToPixel();
+                var ticMarkX = GetAxisItemLeft(i, m);
+                var ticMarkY = GetAxisItemTop(i, m);
+                var width = m.Width;
+                var height = m.Height;
+                double x, y;
+                if(LabelOrientation==eTextOrientation.Horizontal)
+                {
+                    if (Axis.AxisType == eAxisType.Cat)
+                    {
+                        x = ticMarkX;
+                        y = ticMarkY;
+                    }
+                    else
+                    {
+                        if(Axis.IsVertical)
+                        {
+                            x = ticMarkX;
+                            y = ticMarkY - height / 2;
+                        }
+                        else
+                        {
+                            x = ticMarkX - width / 2;
+                            y = ticMarkY;
+                        }
+                    }
+                }
+                else
+                {
+                    var rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                    double cos = Math.Cos(MathHelper.Radians(rot));
+                    double sin = Math.Sin(MathHelper.Radians(rot));
+
+                    // Right-center of the rect in local space
+                    double anchorX, anchorY;
+                    if(LabelOrientation==eTextOrientation.Diagonal)
+                    {
+                        if (Axis.AxisPosition == eAxisPosition.Bottom)
+                        {
+                            anchorX = width / 2;
+                            anchorY = height / 2;
+                        }
+                        else
+                        {
+                            anchorX = 0;
+                            anchorY = height / 2;
+                        }
+                    }
+                    else
+                    {
+                        anchorX = width / 2;
+                        anchorY = height / 2;
+
+                    }
+
+                    double rotX = anchorX * cos - anchorY * sin;
+                    double rotY = anchorX * sin + anchorY * cos;
+
+                    var majorWidth = Rectangle.Width / AxisValues.Count;
+                   
+                    if(Axis.AxisPosition == eAxisPosition.Bottom)
+                    {
+                        x = ticMarkX - rotX + 6 + majorWidth / 2;
+                        y = ticMarkY - 6 - rotY;
+                    }
+                    else
+                    {
+                        x = ticMarkX - rotX + 6;
+                        y = ticMarkY + 6 - rotY;
+                    }
+                }
+                
                 var tb = new SvgTextBox(SvgChart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+                if (LabelOrientation == eTextOrientation.Diagonal)
+                {
+                    tb.Rotation = -45;
+                    if(Axis.AxisPosition==eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
+
+                else if (LabelOrientation == eTextOrientation.Vertical)
+                {
+                    tb.Rotation = 90;
+                    if (Axis.AxisPosition == eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
@@ -399,9 +515,11 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    var majorWidth = Rectangle.Width / AxisValues.Count;
-
-                    return Rectangle.Left + majorWidth * i - m.Width.PointToPixel() / 2;
+                    var min = ConvertUtil.GetValueDouble(Values[0]);
+                    var max = ConvertUtil.GetValueDouble(Values.Last());
+                    var v = ConvertUtil.GetValueDouble(Values[i]);
+                    var majorWidth = Rectangle.Width * (v-Min)/(Max-Min);
+                    return Rectangle.Left + majorWidth;
                 }
             }
         }
@@ -414,7 +532,15 @@ namespace EPPlusImageRenderer.Svg
             }
             else if (Axis.AxisPosition == eAxisPosition.Bottom)
             {
-                return Rectangle.Bottom - m.Height + BottomMargin;
+                switch(LabelOrientation)
+                {
+                    case eTextOrientation.Vertical:
+                        return Rectangle.Top - m.Width + BottomMargin;
+                    case eTextOrientation.Diagonal:
+                        return Rectangle.Top -  BottomMargin;
+                    default:
+                        return Rectangle.Top - m.Height + BottomMargin;
+                }
             }
             else
             {
@@ -425,7 +551,8 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                        return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) - m.Height / 2;
+                    //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) - m.Height / 2;
+                    return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
                 }
             }
 
@@ -643,7 +770,7 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
-        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit)
+        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount);
             if (ax.AxisType == eAxisType.Cat &&
@@ -653,8 +780,10 @@ namespace EPPlusImageRenderer.Svg
                 max = values.Length;
                 majorUnit = 1;
                 dateUnit = null;
+                orientation = eTextOrientation.Horizontal;
                 return values.ToList();
             }
+
             var l = new List<object>();
             min = double.MaxValue;
             max = double.MinValue;
@@ -682,7 +811,8 @@ namespace EPPlusImageRenderer.Svg
                 LockedIntervalUnit = ax.MajorTimeUnit,
                 AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right,
                 Axis = ax,
-                IsStacked100 = Chart.IsTypePercentStacked()
+                IsStacked100 = Chart.IsTypePercentStacked(),
+                ChartSize = rect
             };
 
             var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? SvgChart.Bounds.Height : SvgChart.Bounds.Width; //Fix and use plotarea width/height.
@@ -694,11 +824,21 @@ namespace EPPlusImageRenderer.Svg
                 {
                     l.Add(i);
                 }
+                orientation = eTextOrientation.Horizontal;
                 return l;                
             }
             if (ax.IsDate)
             {
-                var res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                AxisScale res;
+                if (ax.IsVertical)
+                {
+                    res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                }
+                else
+                {
+                    res = DateAxisScaleCalculator.CalculateByWidth(min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
+                }
+                orientation = res.TextOrientation;
                 dateUnit = res.MajorDateUnit;
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
@@ -734,7 +874,8 @@ namespace EPPlusImageRenderer.Svg
                 min = res.Min;
                 max = res.Max;
                 majorUnit = res.MajorInterval;
-                dateUnit= null; 
+                dateUnit= null;
+                orientation = eTextOrientation.Horizontal;
             }
 
             return l;

@@ -5,8 +5,10 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
@@ -117,6 +119,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 Rectangle.Bounds.Rotation = value;
             }
         }
+        /// <summary>
+        /// How the text is anchored.
+        /// </summary>
+        internal eTextAnchor TextAnchor
+        {
+            get;
+            set;
+        }
 
         internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true)
         {
@@ -155,12 +165,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 groupItem = new SvgGroupItem(DrawingRenderer, new BoundingBox(Left, Top, Width, Height), Rotation);
             }
+            groupItem.TextAnchor = TextAnchor.ToEnumString();
             renderItems.Add(groupItem);
 
             var textboxGroupItem = new SvgGroupItem(DrawingRenderer);
             renderItems.Add(textboxGroupItem);
 
             var titleItem = new SvgTitleItem(DrawingRenderer, "TextBodySvg Rect");
+            //The rect shound encapse the text element, so we need to set the left depending on the text anchor.
+            if(TextAnchor==eTextAnchor.Middle)
+            {
+                rect.Bounds.Left = -(rect.Bounds.Width / 2);
+            }
+            else if(TextAnchor==eTextAnchor.End)
+            {
+                rect.Bounds.Left = -rect.Bounds.Width;
+            }
 
             renderItems.Add(titleItem);
             renderItems.Add(rect);

@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml.Drawing.Chart;
+﻿using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Drawing.Chart;
+using System.Drawing;
 
 internal class AxisOptions
 {
@@ -9,4 +11,6 @@ internal class AxisOptions
     public bool AddPadding { get; set; } = false;
     public ExcelChartAxisStandard Axis { get; set; }
     public bool IsStacked100 { get; set; }
+    public RenderItem ChartSize { get; set; }
+    public string NumberFormat { get; set; }
 }
