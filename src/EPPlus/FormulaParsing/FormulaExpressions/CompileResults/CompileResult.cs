@@ -126,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 return new CompileResult(RangeOperationsOperator.Negate(ri), DataType.ExcelRange);
             }
 
-            else if (IsNumeric)
+            else if (IsNumeric || IsNumericString)
             {
                 return new CompileResult(ResultNumeric * -1, DataType.Decimal);
             }
