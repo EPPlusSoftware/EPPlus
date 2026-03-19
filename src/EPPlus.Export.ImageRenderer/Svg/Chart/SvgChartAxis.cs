@@ -321,11 +321,11 @@ namespace EPPlusImageRenderer.Svg
                 switch (LabelOrientation)
                 {
                     case eTextOrientation.Vertical:
-                        maxWidth = (Rectangle.Height / AxisValues.Count) * 1;
-                        maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
+                        maxWidth =  SvgChart.ChartArea.Rectangle.Height / 3;
+                        maxHeight = Rectangle.Width / AxisValues.Count; //TODO: Check this value.
                         break;                    
                     case eTextOrientation.Diagonal:
-                        maxWidth = (Rectangle.Width / AxisValues.Count) * 1 / COS45;
+                        maxWidth = (Rectangle.Width + Rectangle.Height) / COS45;
                         maxHeight = SvgChart.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     default:
@@ -372,42 +372,23 @@ namespace EPPlusImageRenderer.Svg
                     double cos = Math.Cos(MathHelper.Radians(rot));
                     double sin = Math.Sin(MathHelper.Radians(rot));
 
-                    // Right-center of the rect in local space
-                    double anchorX, anchorY;
-                    if(LabelOrientation==eTextOrientation.Diagonal)
+                    if (LabelOrientation == eTextOrientation.Diagonal)
                     {
                         if (Axis.AxisPosition == eAxisPosition.Bottom)
                         {
-                            anchorX = width / 2;
-                            anchorY = height / 2;
+                            x = ticMarkX - (height / 2) * cos;
+                            y = ticMarkY + 4 + (height / 2) * cos;
                         }
-                        else
+                        else //Top
                         {
-                            anchorX = 0;
-                            anchorY = height / 2;
+                            x = ticMarkX - (height / 2) * cos;
+                            y = ticMarkY - 4 + (height / 2) * cos;
                         }
                     }
                     else
                     {
-                        anchorX = width / 2;
-                        anchorY = height / 2;
-
-                    }
-
-                    double rotX = anchorX * cos - anchorY * sin;
-                    double rotY = anchorX * sin + anchorY * cos;
-
-                    var majorWidth = Rectangle.Width / AxisValues.Count;
-                   
-                    if(Axis.AxisPosition == eAxisPosition.Bottom)
-                    {
-                        x = ticMarkX - rotX + 6 + majorWidth / 2;
-                        y = ticMarkY - 6 - rotY;
-                    }
-                    else
-                    {
-                        x = ticMarkX - rotX + 6;
-                        y = ticMarkY + 6 - rotY;
+                        x = ticMarkX - (height / 2);
+                        y = ticMarkY + 4 + (height / 2);
                     }
                 }
                 
@@ -469,7 +450,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            else
+            else if(LabelOrientation==eTextOrientation.Horizontal) //Only apples when labels are horizontally aligned
             {
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
