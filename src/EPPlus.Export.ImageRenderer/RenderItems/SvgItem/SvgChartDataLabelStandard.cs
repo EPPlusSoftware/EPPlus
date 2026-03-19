@@ -12,40 +12,33 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     internal class SvgChartDataLabelStandard : SvgChartObject
     {
-        internal bool HasLegendKey { get; private set; } = false;
-
         bool _hasManualLayout = false;
         bool _hasLeaderLines = false;
-        bool haveAdjustedForIcon = false;
+        bool _haveAdjustedForIcon = false;
+        bool _renderConnectionPointLines = false;
 
-        internal SvgTextBox TxtBox;
-
+        private SvgTextBox _txtBox;
         BoundingBox _parentPoint;
-
-        List<SvgRenderLineItem> LeaderLines = new List<SvgRenderLineItem>();
-
+        List<SvgRenderLineItem> _leaderLines = new List<SvgRenderLineItem>();
         Coordinate _manualLayoutOffset = new Coordinate (0, 0);
-        bool renderConnectionPointLines = false;
-
         PointLines _connectionPointLines;
         eLabelPosition _labelPosition;
 
-        public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
-        {
-            var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
-            txtBox.AddText(0, dataLabelText);
-        }
+        //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
+        //{
+        //    var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
+        //    txtBox.AddText(0, dataLabelText);
+        //}
+
+        //public SvgChartDataLabelStandard(DrawingChart chart, ExcelChartDataLabelStandard standard, SvgTextBox txtBox) : base(chart)
+        //{
+        //    HasLegendKey = standard.ShowLegendKey;
+        //    TxtBox = txtBox;
+        //}
 
         public SvgChartDataLabelStandard(DrawingChart chart, ExcelChartDataLabelStandard standard) : base(chart)
         {
-            HasLegendKey = standard.ShowLegendKey;
             _labelPosition = standard.Position;
-        }
-
-        public SvgChartDataLabelStandard(DrawingChart chart, ExcelChartDataLabelStandard standard, SvgTextBox txtBox) : base(chart)
-        {
-            HasLegendKey = standard.ShowLegendKey;
-            TxtBox = txtBox;
         }
 
         RenderItem _seriesIcon = null;
@@ -58,16 +51,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _seriesIcon = seriesIcon;
             _seriesIcon.Bounds.Parent = Bounds;
 
-            if (haveAdjustedForIcon == false)
+            if (_haveAdjustedForIcon == false)
             {
-                TxtBox.Left += iconWidth;
+                _txtBox.Left += iconWidth;
                 _seriesIcon.Bounds.Left -= 0.75d;
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
                 Bounds.Left += 4d + 2.25d;
                 LeftMargin -= 2.25d + 4d;
                 Bounds.Width += iconWidth + 2.25d;
 
-                haveAdjustedForIcon = true;
+                _haveAdjustedForIcon = true;
             }
         }
 
@@ -139,11 +132,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Bounds.Width = txtBox.Rectangle.Bounds.Width;
             Bounds.Height = txtBox.Rectangle.Bounds.Height;
 
-            TxtBox = txtBox;
+            _txtBox = txtBox;
 
             if (dataLabel.Fill.IsEmpty == false)
             {
-                TxtBox.Rectangle.SetDrawingPropertiesFill(dataLabel.Fill, null);
+                _txtBox.Rectangle.SetDrawingPropertiesFill(dataLabel.Fill, null);
             }
             if (dataLabel.Font.IsEmpty == false)
             {
@@ -158,7 +151,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 if (individualLabel.Fill.IsEmpty == false)
                 {
-                    TxtBox.Rectangle.FillColor = "#" + individualLabel.Fill.Color.ToColorString();
+                    _txtBox.Rectangle.FillColor = "#" + individualLabel.Fill.Color.ToColorString();
                 }
 
                 if (individualLabel.Layout != null && individualLabel.Layout.HasLayout)
@@ -218,17 +211,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 case eLabelPosition.Center:
                     break;
                 case eLabelPosition.Left:
-                    Bounds.Left -= TxtBox.Width + (parentPoint.Width / 2);
+                    Bounds.Left -= _txtBox.Width + (parentPoint.Width / 2);
                     break;
                 case eLabelPosition.Right:
                 case eLabelPosition.BestFit:
-                    Bounds.Left += TxtBox.Width / 2 + parentPoint.Width;
+                    Bounds.Left += _txtBox.Width / 2 + parentPoint.Width;
                     break;
                 case eLabelPosition.Top:
-                    Bounds.Top -= (parentPoint.Height + TxtBox.Height) / 2;
+                    Bounds.Top -= (parentPoint.Height + _txtBox.Height) / 2;
                     break;
                 case eLabelPosition.Bottom:
-                    Bounds.Top += (parentPoint.Height + TxtBox.Height) / 2;
+                    Bounds.Top += (parentPoint.Height + _txtBox.Height) / 2;
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
@@ -254,7 +247,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //Calculate closest point
                     var index = GetClosestConnectionPointCoordinateIndex(offsetToParentPoint);
 
-                    LeaderLines.Clear();
+                    _leaderLines.Clear();
 
                     double xOffset = 0;
                     if (index == 0 || index == 2)
@@ -273,7 +266,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         extraLine.BorderColor = "gray";
                         extraLine.BorderWidth = 0.5;
 
-                        LeaderLines.Add(extraLine);
+                        _leaderLines.Add(extraLine);
                     }
                     var mainLine = new SvgRenderLineItem(ChartRenderer, ChartRenderer.Bounds);
                     mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
@@ -283,7 +276,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                     mainLine.BorderColor = "gray";
                     mainLine.BorderWidth = 0.5;
-                    LeaderLines.Add(mainLine);
+                    _leaderLines.Add(mainLine);
                 }
             }
         }
@@ -317,9 +310,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             //AppendDebugBounds(renderItems);
 
-            TxtBox.AppendRenderItems(renderItems);
+            _txtBox.AppendRenderItems(renderItems);
             
-            if(renderConnectionPointLines)
+            if(_renderConnectionPointLines)
             {
                 if (_connectionPointLines != null)
                 {
@@ -332,7 +325,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 var height = Bounds.Height;
                 if (height == 0)
                 {
-                    height = TxtBox.Height;
+                    height = _txtBox.Height;
                 }
                 //Currently series icon always has a y1 y2 of 2
                 var iconGrp = new SvgGroupItem(ChartRenderer, _seriesIcon.Bounds.Left, height / 2 - 2);
@@ -341,10 +334,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
 
-
-            if (LeaderLines != null && LeaderLines.Count > 0)
+            if (_leaderLines != null && _leaderLines.Count > 0)
             {
-                foreach (var line in LeaderLines)
+                foreach (var line in _leaderLines)
                 {
                     renderItems.Add(line);
                 }
