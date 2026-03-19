@@ -19,17 +19,21 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Security;
+using System.Xml.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -166,7 +170,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
-                if (currentHeight - height - colHeading <= boundsHeight)
+                if (currentHeight - height + colHeading <= boundsHeight)
                 {
                     yBreaks.Add(currentHeight);
                     rows.Add(rowCount);
@@ -214,7 +218,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 content.Name = "Content " + (i + 1);
                 if (pageSettings.ShowHeadings)
                 {
-                    AddColumnHeadings(worksheet, dictionaries, content, columns[col], col, columns);
+                    AddColumnHeadings(worksheet, pageSettings, dictionaries, content, columns[col], col, columns);
                     AddRowHeadings(worksheet, dictionaries, content, rows[row], row, rows);
                 }
                 page.AddChild(content);
@@ -223,7 +227,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void AddColumnHeadings(ExcelWorksheet ws, PdfDictionaries dictionaries, PdfContentLayout content, int columnsInPage, int pageColumn, List<int> columns )
+        private void AddColumnHeadings(ExcelWorksheet ws, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfContentLayout content, int columnsInPage, int pageColumn, List<int> columns )
         {
             int startColIndex = 1;
             for (int i = 0; i < pageColumn; i++)
@@ -239,10 +243,34 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var height = UnitConversion.ExcelRowHeightToPoints(ws.DefaultRowHeight);
                 var cellStyle = new PdfCellStyle();
                 cellStyle.xfFill = col.Style.Fill;
-                var cl0 = new PdfCellLayout(dictionaries, col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
-                cl0.Name = col.Address;
-                cl0.Z = 8;
-                cl0.isHeading = true;
+                var cell = new PdfCellLayout(dictionaries, col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
+                cell.Name = col.Address;
+                cell.Z = 8;
+                cell.isHeading = true;
+                cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
+                cell.CellFillData.BackgroundColor = Color.White;
+                //Add text
+                var cellContent = new PdfCellContentLayout(column, col, cellStyle, pageSettings, X, content.LocalPosition.Y + content.Size.Y, width, height, 1, 1, 0, content, dictionaries);
+                cellContent.Name = col.Address;
+                cellContent.Z = 9;
+                //Add border
+                cellStyle.xfTop = col.Style.Border.Top;
+                cellStyle.xfBottom = col.Style.Border.Bottom;
+                cellStyle.xfLeft = col.Style.Border.Left;
+                cellStyle.xfRight = col.Style.Border.Right;
+                var border = new PdfCellBorderLayout(col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
+                border.Name = col.Address;
+                border.Z = 10;
+                border.InitEdgeBorders(col);
+                border.BorderData.Top.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Bottom.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Left.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Right.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Top.IsHeading = true;
+                border.BorderData.Bottom.IsHeading = true;
+                border.BorderData.Left.IsHeading = true;
+                border.BorderData.Right.IsHeading = true;
+
                 X = X + width;
             }
         }
@@ -297,6 +325,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var hfs = p.ChildObjects.Where(x => x is PdfHeaderFooterLayout).ToArray();
                 foreach(var hf in hfs )
                     LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
+                var contents = p.ChildObjects[0].ChildObjects.Where(x => x is PdfCellContentLayout).ToArray();
+                foreach (PdfCellContentLayout content in contents)
+                    LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, content);
+
             }
             pageData.Sort((a, b) => a.Bounds.Top.CompareTo(b.Bounds.Top));
             var transforms = new List<Transform>(WorksheetLayout.ChildObjects);
@@ -497,24 +529,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
                 page.CreateMap();
-                var x = pageSettings.Margins.LeftPu;
+                var hw = PdfWorksheetLayout.RowHeadingWidth;
+                var x = pageSettings.Margins.LeftPu + hw;
                 if (pageSettings.CenterOnPageHorizontally)
                 {
                     var w = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
-                    x = pageSettings.Margins.LeftPu + (w - page.ChildObjects[0].Size.X) / 2;
+                    x = pageSettings.Margins.LeftPu + (w - page.ChildObjects[0].Size.X + hw) / 2;
                 }
-                var y = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y;
+                var hh = PdfWorksheetLayout.ColumnHeadingHeight;
+                var y = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y + hh;
                 if (pageSettings.CenterOnPageVertically)
                 {
                     var h = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - pageSettings.Margins.BottomPu;
-                    y = pageSettings.Margins.BottomPu + (h - page.ChildObjects[0].Size.Y) / 2;
+                    y = pageSettings.Margins.BottomPu + (h - page.ChildObjects[0].Size.Y - hh) / 2;
                 }
                 page.ChildObjects[0].LocalPosition = new Vector2(x, y);
-                page.ContentTop = page.ChildObjects[0].LocalPosition.Y + page.ChildObjects[0].Size.Y;
+                page.ContentTop = page.ChildObjects[0].LocalPosition.Y + hh + page.ChildObjects[0].Size.Y;
                 page.ContentBottom = page.ChildObjects[0].LocalPosition.Y;
-                page.ContentLeft = page.ChildObjects[0].LocalPosition.X;
+                page.ContentLeft = page.ChildObjects[0].LocalPosition.X - hw;
                 page.ContentRight = page.ChildObjects[0].LocalPosition.X + page.ChildObjects[0].Size.X;
-                page.ContentHeight = page.ChildObjects[0].Size.Y;
+                page.ContentHeight = page.ChildObjects[0].Size.Y + hh;
 
                 var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
                 for (int i = 0; i < contentObjects.Count; i++)

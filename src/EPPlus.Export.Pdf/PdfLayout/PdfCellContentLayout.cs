@@ -75,6 +75,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
             //CheckClipping(cell, x, y, width, height);
         }
 
+        public PdfCellContentLayout(string text, ExcelRangeBase cell, PdfCellStyle CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
+    : base(x, y, width, height, scaleX, scaleY, rotation, parent)
+        {
+            this.cell = cell;
+            this.CellStyle = CellStyle;
+            CellAlignmentData = new PdfCellAlignmentData();
+            CellAlignmentData.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            CellAlignmentData.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+            cell._rtc = new ExcelRichTextCollection(text, cell);
+            var ns = cell.Worksheet.Workbook.Styles.GetNormalStyle();
+            cell._rtc[0].FontName = ns.Style.Font.Name;
+            cell._rtc[0].Family = ns.Style.Font.Family;
+            cell._rtc[0].Size = ns.Style.Font.Size;
+            HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
+            //CalculateTextSpill(width, CellAlignmentData.TextRotation);
+            //LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
+            Size = new Vector2(x + width - LocalPosition.X, y + height - LocalPosition.Y);
+            //CheckClipping(cell, x, y, width, height);
+        }
+
         private void HandleText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double maxWidth, double maxHeight, double rotation, PdfCellStyle CellStyle)
         {
             bool bold = false, italic = false, underline = false, strike = false;

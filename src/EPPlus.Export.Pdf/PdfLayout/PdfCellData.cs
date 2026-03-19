@@ -404,6 +404,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellBorderData
     {
+        internal const double OuterGridLine = 1d;
         internal const double Hair = 0.5d;
         internal const double Thin = 0.85d;
         internal const double Small = 1.1d;
@@ -427,6 +428,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double Height = 0;
         public double X = 0;
         public double Y = 0;
+        public bool IsHeading = false;
 
         public PdfCellBorderData(LineType LineType)
         {

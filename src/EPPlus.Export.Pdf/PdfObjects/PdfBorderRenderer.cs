@@ -110,6 +110,15 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     y2 = Y;
                     break;
             }
+            if (border.IsHeading)
+            {
+                DrawBasicBorder(contentStream, border, PdfCellBorderData.OuterGridLine, PdfCellBorderData.NoDash);
+                contentStream.AddCommand($"{x1.ToPdfStringF4()} {y1.ToPdfStringF4()} m");
+                contentStream.AddCommand($"{x2.ToPdfStringF4()} {y2.ToPdfStringF4()} l");
+                contentStream.AddCommand("S");
+                contentStream.AddCommand($"% Border Type End: {border.LineType.ToString()}");
+                return;
+            }
             switch (border.BorderStyle)
             {
                 case ExcelBorderStyle.None:

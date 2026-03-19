@@ -106,7 +106,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest47.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest48.pdf");
         }
 
         [TestMethod]
