@@ -961,6 +961,32 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        public void WrapRichText_MeasureCorrectly()
+        {
+            // Arrange
+            var font = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            var shaper = new TextShaper(font);
+            var layout = new TextLayoutEngine(shaper);
+
+            var fragments = new List<TextFragment>
+            {
+                new TextFragment
+                {
+                    Text = "value, 1",
+                    Font = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 9 }
+                },
+            };
+
+            // Act
+            var lines = layout.WrapRichTextLines(fragments, 1000);
+
+            // Assert
+            Assert.AreEqual(1, lines.Count);
+            Assert.AreEqual(27.5712890625, lines[0].Width);
+            Assert.AreEqual("value, 1", lines[0].Text);
+        }
+
+        [TestMethod]
         public void VerifyWrappingSingleChar()
         {
             List<string> lstOfRichText = new() { "SE/DKK" };

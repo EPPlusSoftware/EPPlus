@@ -10,6 +10,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -38,14 +39,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         ExcelTextFont defaultFont;
         ExcelDrawingParagraph defaultParagraph;
 
+        BoundingBox plotAreaBounds;
+
+        BoundingBox _defaultMargins;
+
+        ExcelChartSerieDataLabel _dlblSerie;
+
+        int _serieIndex = -1;
+        bool _hasAddedSeriesIcon = false;
+
         public SvgChartSerieDataLabel(SvgChart chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
-            bool addSeriesIcon = false;
+            _serieIndex = index;
+            _dlblSerie = dlblSerie;
 
-            if(dlblSerie.TextBody.Paragraphs.Count != 0)
+            bool addSeriesIcon = false;
+            plotAreaBounds = chart.Plotarea.Rectangle.Bounds;
+
+            if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
                 defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
                 defaultFont = dlblSerie.TextBody.Paragraphs[0].DefaultRunProperties;
+                dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
+                _defaultMargins = new BoundingBox(l, top, right, bottom);
             }
 
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
@@ -53,7 +69,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 for (int i = 0; i < serie.NumberOfItems; i++)
                 {
-                    AddDatalabel(chart, serie, dlblSerie, xValues[i], yValues[i], maxBounds, ref addSeriesIcon);
+                    AddDatalabel(chart, serie, dlblSerie, xValues[i], yValues[i], maxBounds);
                 }
             }
             else
@@ -62,69 +78,86 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     var dataLabel = dlblSerie.DataLabels[i];
 
-                    AddDatalabel(chart, serie, dataLabel, xValues[i], yValues[i], maxBounds, ref addSeriesIcon);
+                    AddDatalabel(chart, serie, dataLabel, xValues[i], yValues[i], maxBounds);
                 }
             }
-
-            if(addSeriesIcon)
-            {
-                if (chart.Legend == null)
-                {
-                    seriesIcon = chart.GetSeriesIcon(serie, index, maxBounds);
-                }
-                else
-                {
-                    var legendItem = chart.Legend;
-                    var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[index].SeriesIcon;
-                    var clonedIcon = seriesIconOrig.Clone(chart);
-
-                    clonedIcon.Y1 = 0;
-                    clonedIcon.Y2 = 0;
-
-                    seriesIcon = clonedIcon;
-                }
-            }
-
         }
 
-        private void AddDatalabel(SvgChart chart, ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds, ref bool addSeriesIcon)
+        private void CreateSeriesIcon(SvgChart chart, ExcelChartStandardSerie serie, BoundingBox maxBounds)
         {
-            if (addSeriesIcon == false && dataLabel.ShowLegendKey)
+            if (chart.Legend == null)
             {
-                addSeriesIcon = dataLabel.ShowLegendKey;
+                seriesIcon = chart.GetSeriesIcon(serie, _serieIndex, maxBounds);
+            }
+            else
+            {
+                var legendItem = chart.Legend;
+                var seriesIconOrig = (SvgRenderLineItem)legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+                var clonedIcon = seriesIconOrig.Clone(chart);
+
+                clonedIcon.Y1 = 0;
+                clonedIcon.Y2 = 0;
+
+                seriesIcon = clonedIcon;
+            }
+        }
+
+        private RenderItem GetSeriesIcon(SvgChart chart, ExcelChartStandardSerie serie, BoundingBox maxBounds)
+        {
+            if(seriesIcon == null)
+            {
+                CreateSeriesIcon(chart, serie, maxBounds);
             }
 
+            return seriesIcon;
+        }
+
+        private void AddDatalabel(SvgChart chart, ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
+        {
             var newDataLabel = new SvgChartDataLabelStandard(chart, dataLabel);
-            newDataLabel.ImportDataLabel(chart, serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds);
+            newDataLabel.ImportDataLabel(chart, serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins);
+
+            if(dataLabel.ShowLegendKey)
+            {
+                newDataLabel.AddSeriesIcon(GetSeriesIcon(chart, serie, maxBounds));
+            }
+
             dataLabels.Add(newDataLabel);
         }
 
-        internal void SetPositionOffset(double xPos, double yPos, int i)
+        internal void SetParentPoint(BoundingBox parent, int index)
         {
-            dataLabels[i].SetOriginPointOffset(xPos, yPos);
+            dataLabels[index].SetParentPoint(parent);
         }
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
+            var plotAreaGroup = new SvgGroupItem(DrawingRenderer, plotAreaBounds);
+
+            if(_dlblSerie.Fill.IsEmpty == false)
+            {
+                plotAreaGroup.SetDrawingPropertiesFill(_dlblSerie.Fill, null);
+
+                plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\"";
+            }
+
+            renderItems.Add(plotAreaGroup);
             for(int i = 0; i< dataLabels.Count; i++) 
             {
-                if (seriesIcon != null && dataLabels[i].HasLegendKey)
-                {
-                    //groupItems[i].Bounds.Left += (seriesIcon.Bounds.Width / 2);
-                    //groupItems[i].GroupTransform = $"transform=\"translate({groupItems[i].Bounds.Left.PointToPixelString()}, {groupItems[i].Bounds.Top.PointToPixelString()})\"";
-                    dataLabels[i].AddSeriesIcon(seriesIcon.Bounds.Width, seriesIcon.Bounds.Height);
-                    //renderItems.Add(groupItems[i]);
-                    renderItems.Add(seriesIcon);
-                }
-                else
-                {
-                    //renderItems.Add(groupItems[i]);
-                }
+                //if (seriesIcon != null && dataLabels[i].HasLegendKey)
+                //{
+                //    dataLabels[i].AddSeriesIcon(seriesIcon);
+                //}
+                //else
+                //{
+                //    //renderItems.Add(groupItems[i]);
+                //}
 
                 dataLabels[i].AppendRenderItems(renderItems);
 
                 //renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
             }
+            renderItems.Add(new SvgEndGroupItem(DrawingRenderer, plotAreaBounds));
         }
     }
 }

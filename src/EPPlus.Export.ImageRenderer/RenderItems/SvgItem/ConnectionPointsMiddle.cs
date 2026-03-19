@@ -12,20 +12,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal Coordinate Right;
         internal Coordinate Bottom;
 
-        internal Dictionary<int, Coordinate> Points;
+        internal Dictionary<int, Coordinate> Points = new Dictionary<int, Coordinate>();
 
         internal ConnectionPointsMiddle(double left, double top, double width, double height)
         {
             var middleWidth = width / 2;
             var middleHeight = height / 2;
 
-            Left = new Coordinate(left, middleHeight);
-            Top= new Coordinate(middleWidth, top);
+            var middleX = left + middleWidth;
+            var middleY = top + middleHeight;
 
-            Right = new Coordinate(left + width, middleHeight);
-            Bottom = new Coordinate(middleWidth, top + height);
+            Left = new Coordinate(left, middleY);
+            Top = new Coordinate(middleX, top);
 
-            Points = new Dictionary<int, Coordinate>();
+            Right = new Coordinate(left + width, middleY);
+            Bottom = new Coordinate(left + middleX, top + height);
 
             Points.Add(0, Left);
             Points.Add(1, Top);

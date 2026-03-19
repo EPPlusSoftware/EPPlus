@@ -45,6 +45,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
             }
+            
+            if (FontColorString != null)
+            {
+                groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
+            }
+
             renderItems.Add(groupItem);
             foreach (SvgParagraphItem item in Paragraphs)
             {

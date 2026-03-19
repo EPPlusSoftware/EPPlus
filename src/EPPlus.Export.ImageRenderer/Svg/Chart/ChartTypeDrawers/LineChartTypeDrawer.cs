@@ -11,6 +11,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     internal class LineChartTypeDrawer : ChartTypeDrawer
     {
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
+        List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
 
         internal LineChartTypeDrawer(SvgChart svgChart, ExcelChart chartType) : base(svgChart, chartType)
         {
@@ -32,7 +33,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel)
                 {
-                   
                     var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, xValue, yValue, serCounter);
                     serieDataLabels.Add(datalabel);
                 }
@@ -54,21 +54,26 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var ySerie = yValues[i];
                 var serie = (ExcelLineChartSerie)chartType.Series[i];
 
-                SvgChartSerieDataLabel dataLabel = null;
+                var dataPoints = new List<BoundingBox>();
+
+                AddLine(chartType, serie, xSerie, ySerie, dataPoints);
+
+                dataPointsPerSerie.Add(dataPoints);
+
                 if (serie.HasDataLabel)
                 {
-                    dataLabel = serieDataLabels[i];
+                    for (int j = 0; j < dataPoints.Count; j++)
+                    {
+                        serieDataLabels[i].SetParentPoint(dataPoints[j], j);
+                    }
                 }
-
-                AddLine(chartType, serie, xSerie, ySerie, dataLabel);
             }
+            RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
 
-            foreach(var dataLabel in serieDataLabels)
+            foreach (var dataLabel in serieDataLabels)
             {
                 dataLabel.AppendRenderItems(RenderItems);
             }
-
-            RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
         }
         private void SumSeries(List<List<object>> series)
         {
@@ -80,7 +85,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, SvgChartSerieDataLabel serieDataLabel)
+        private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
         {            
             SvgChartAxis yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
@@ -117,16 +122,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var xPos = xAxis.GetPositionInPlotarea(x);
                 var yPos = yAxis.GetPositionInPlotarea(y);
 
+                BoundingBox pt = null;
+
                 if (double.IsNaN(yPos) == false)
                 {
                     coords.Add(xPos / _svgChart.Plotarea.Rectangle.Bounds.Width);
                     coords.Add(yPos / _svgChart.Plotarea.Rectangle.Bounds.Height);
 
-                    if(serieDataLabel != null)
-                    {
-                        serieDataLabel.SetPositionOffset(xPos, yPos, i);
-                    }
+                    //Log point within chart coordinate system
+                    pt = new BoundingBox(xPos, yPos, 0, 0);
+                    pt.Parent = _svgChart.Plotarea.Bounds;
                 }
+
                 if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
                 {
                     float mx = (float)xPos;
@@ -139,9 +146,22 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     markerItems.Add(ls);
 
-                    if (serieDataLabel != null)
+                    if (pt != null)
                     {
-                        serieDataLabel.SetPositionOffset(xPos, yPos, i);
+                        pt.Width = ls.Bounds.Width;
+                        pt.Height = ls.Bounds.Height;
+                        dataPoints.Add(pt);
+                    }
+                }
+                else
+                {
+
+                    if (pt != null)
+                    {
+                        //Default values in excel
+                        pt.Width = 5;
+                        pt.Height = 5;
+                        dataPoints.Add(pt);
                     }
                 }
             }

@@ -145,7 +145,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //}
         }
 
-        internal virtual void ImportTextBody(ExcelTextBody body)
+        internal virtual void ImportTextBody(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             _text = null;
             VerticalAlignment = body.Anchor;

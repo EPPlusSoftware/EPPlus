@@ -41,7 +41,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
-        internal eTextAlignment HorizontalAlignment { get; private set; } = eTextAlignment.Left;
+        internal eTextAlignment HorizontalAlignment { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         internal bool DisplayBounds { get; set; } = false;
@@ -59,21 +59,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, _measurer);
         }
 
-        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty=null) : base(renderer, parent)
+        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
         {
-            ParentTextBody = textBody; 
+            ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
 
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
-                if(IsFirstParagraph)
+                if (IsFirstParagraph)
                 {
-                    SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                    if (p.DefaultRunProperties.Fill != null)
+                    {
+                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+                    }
                 }
                 else
                 {
                     //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
-                    if(p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+                    if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
                     {
                         SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
                     }
@@ -85,6 +88,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         //Use shape fill somehow
                         //Maybe use a name property for fallback theme accent1 color?
                     }
+                }
+            }
+            else
+            {
+                if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+                {
+                    var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
+                    SetDrawingPropertiesFill(fill, null);
                 }
             }
 

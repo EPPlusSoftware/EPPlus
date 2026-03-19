@@ -141,6 +141,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             var glyphWidths = shaper.ShapeLight(fragment.Text, options);
             double scale = fragment.Font.Size / shaper.UnitsPerEm;
 
+            //var shaped = shaper.Shape(fragment.Text, options);
+            //var widthInPoint = shaped.GetWidthInPoints(fragment.Font.Size, shaper.UnitsPerEm);
+            ////FillCharWidths(gWidthsReal, scale, len, charWidths);
+
             Array.Clear(charWidths, 0, len);
             FillCharWidths(glyphWidths, scale, len, charWidths);
 

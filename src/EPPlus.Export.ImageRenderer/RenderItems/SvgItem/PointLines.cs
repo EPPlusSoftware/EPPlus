@@ -17,27 +17,38 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal ConnectionPointsMiddle ConnectionPoints;
 
+        private List<string> ptColors = new List<string> { "red", "green", "blue", "yellow" };
+
+        private BoundingBox parentBounds;
+
         private PointLines(DrawingBase renderer) : base(renderer)
         {
         }
 
         internal PointLines(DrawingBase renderer, BoundingBox parent, ConnectionPointsMiddle connectionPoints) : this(renderer)
         {
+            parentBounds = parent;
+
             Bounds = new BoundingBox();
 
             Bounds.Parent = parent;
-            Bounds.Left = parent.Left;
-            Bounds.Top = parent.Top;
-            Bounds.Width = parent.Width;
-            Bounds.Height = parent.Height;
+            //Bounds.Left = parent.Left;
+            //Bounds.Top = parent.Top;
+            //Bounds.Width = parent.Width;
+            //Bounds.Height = parent.Height;
             ConnectionPoints = connectionPoints;
 
-            //Add connection points to render
-            List<string> ptColors = new List<string> { "red", "green", "blue", "yellow" };
+            UpdateLines();
+        }
+
+        internal void UpdateLines()
+        {
+            RenderLines.Clear();
+
             for (int i = 0; i < ConnectionPoints.Points.Count; i++)
             {
                 var cPoint = ConnectionPoints.Points[i];
-                var cPointLine = new SvgRenderLineItem(renderer, Bounds);
+                var cPointLine = new SvgRenderLineItem(DrawingRenderer, Bounds);
                 cPointLine.X1 = 0;
                 cPointLine.Y1 = 0;
                 cPointLine.X2 = cPoint.X;

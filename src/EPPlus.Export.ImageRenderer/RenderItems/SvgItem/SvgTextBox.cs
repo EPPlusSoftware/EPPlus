@@ -6,6 +6,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -128,7 +129,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             set;
         }
 
-        internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true)
+        internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             double l, r, t, b;
             if (useDefaults)
@@ -151,10 +152,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var rect = Rectangle;
 
-            if(rect.FillColor == null)
-            {
-                rect.FillColor = "transparent";
-            }
+            //if (rect.FillColor == null)
+            //{
+            //    rect.FillColor = "transparent";
+            //}
 
             SvgGroupItem groupItem;
             if (Rotation == 0)

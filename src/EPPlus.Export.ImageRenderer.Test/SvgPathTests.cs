@@ -573,6 +573,20 @@ namespace TestProject1
         }
 
         [TestMethod]
+        public void GenerateDataLabelsTrueMostAndManualLayout()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datalabelsSvgTrueMostWithFillANDManual.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\datalabelsSvgTrueMostWithFillAndManual.svg", svg);
+            }
+        }
+
+        [TestMethod]
         public void GenerateDatalabelsLeaderLines()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -586,6 +600,20 @@ namespace TestProject1
             }
         }
 
+
+        [TestMethod]
+        public void GenerateDatalabelsRightAlignedWithBg()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datalabelsSvgRightAlignedWithBg.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\datalabelsSvgLeaderLinesBg.svg", svg);
+            }
+        }
 
         [TestMethod]
         public void OpenRightAligned()
@@ -725,6 +753,36 @@ namespace TestProject1
                 }
             }
         }
+
+        [TestMethod]
+        public void TestStyling()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("MyCellsAdvanced.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var myCell = ws.Cells["B3"];
+                var myCellStyle = myCell.Style;
+                var fillStyle = myCell.Style.Fill;
+                var fontColor = myCell.Style.Font.Color;
+
+                var bgRgb = myCell.Style.Fill.BackgroundColor.Rgb;
+                var bgFillCol = myCell.Style.Fill.PatternColor.Rgb;
+
+                var myOtherCell = ws.Cells["B2"];
+
+                var myShape = ws.Drawings[0].As.Shape;
+                var myRichtext = myShape.RichText;
+                var firstDefault = myShape.TextBody.Paragraphs.FirstDefaultRunProperties;
+
+                var firstPara = myShape.TextBody.Paragraphs[0];
+                var defRun = firstPara.DefaultRunProperties;
+
+                var secondPara = myShape.TextBody.Paragraphs[1];
+                var secondDefRun = secondPara.DefaultRunProperties;
+            }
+        }
+
         [TestMethod]
         public void GenerateSvgForCharts_SecondaryAxis()
         {
