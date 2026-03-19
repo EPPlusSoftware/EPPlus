@@ -34,6 +34,12 @@ jobs:
       shell: pwsh
     - name: Generate SBOM
       run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml
+    - name: Generate SHA-256 checksum for SBOM
+      run: |
+        $sbomFile = "./sbom/epplus-${{ env.VERSION }}.sbom.json"
+        $hash = (Get-FileHash -Path $sbomFile -Algorithm SHA256).Hash.ToLower()
+        "$hash  epplus-${{ env.VERSION }}.sbom.json" | Out-File -FilePath "./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256" -Encoding utf8NoBOM
+      shell: pwsh
     # --- SBOM ---
 
     - name: Build
@@ -96,10 +102,21 @@ jobs:
           --auth-mode login `
           --overwrite
       shell: pwsh
-
+    - name: Upload SBOM checksum to Azure Blob Storage
+      run: |
+        az storage blob upload `
+          --account-name eppluswebprod `
+          --container-name sbom `
+          --name epplus-${{ env.VERSION }}.sbom.json.sha256 `
+          --file ./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256 `
+          --auth-mode login `
+          --overwrite
+      shell: pwsh
     - name: Upload SBOM as artifact
       uses: actions/upload-artifact@v4
       with:
           name: sbom
-          path: ./sbom/epplus-${{ env.VERSION }}.sbom.json
+          path: |
+            ./sbom/epplus-${{ env.VERSION }}.sbom.json
+            ./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256
     # --- SBOM ---
