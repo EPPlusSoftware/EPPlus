@@ -16,8 +16,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         internal Point Position = null;
 
-        internal BoundingBox BoundingBoxParent = null;
-
         Point _altRotationPoint = null;
 
         internal Point RotationPoint 
@@ -58,27 +56,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public GroupItem(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
         {
-            BoundingBoxParent = parent;
+            Position.Parent = parent;
             Rotation = rotation;
             if (rotationPoint != null)
             {
                 RotationPoint = new Point(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
             }
-            //if (rotationPoint != null)
-            //{
-            //    SetRotationPoint(rotationPoint);
-            //}
         }
 
-        //internal void SetRotationPoint(Transform point)
-        //{
-        //    _rotationPoint = point;
-        //}
+        internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
+        {
+            RotationPoint = new Point(Bounds.Width/2, Bounds.Height/2);
 
-        //internal void SetRotationBounds(BoundingBox rotationBounds)
-        //{
-        //    _rotationPoint = rotationBounds;
-        //}
+            if (double.IsNaN(rotation) == false)
+            {
+                Rotation = rotation;
+            }
+        }
 
         internal void AddChildItem(RenderItem item)
         {

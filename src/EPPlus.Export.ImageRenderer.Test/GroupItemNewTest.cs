@@ -115,8 +115,19 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             groupItem.AddChildItem(siblingItem);
 
-            parent.Width = groupItem.Bounds.Width;
-            parent.Height = groupItem.Bounds.Height;
+            groupItem.SetRotationPointToCenterOfGroup();
+
+            SvgRenderRectItem centerOfGroupMarker = new SvgRenderRectItem(baseItem, baseItem.Bounds);
+            centerOfGroupMarker.FillColor = "green";
+            centerOfGroupMarker.FillOpacity = 0.8d;
+
+            centerOfGroupMarker.Width = 6;
+            centerOfGroupMarker.Height = 6;
+
+            centerOfGroupMarker.Left = 30 - (centerOfGroupMarker.Width / 2);
+            centerOfGroupMarker.Top = 30 - (centerOfGroupMarker.Height / 2);
+
+            baseItem.RenderItems.Add(centerOfGroupMarker);
 
             var sb = new StringBuilder();
 
@@ -125,7 +136,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             baseItem.Render(sb);
             var svgString = sb.ToString();
 
-            SaveTextFileToWorkbook($"svg\\StandAloneTestGroup.svg", svgString);
+            SaveTextFileToWorkbook($"svg\\TestGroupRotated.svg", svgString);
         }
     }
 }

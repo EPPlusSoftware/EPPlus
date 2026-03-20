@@ -59,19 +59,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (double.IsNaN(Rotation) == false)
             {
                 string rot = Rotation.ToString(CultureInfo.InvariantCulture);
-                if (BoundingBoxParent != null)
-                {
-                    var cx = BoundingBoxParent.Width / 2;
-                    var cy = BoundingBoxParent.Height / 2;
 
-                    if (cx != 0 && cy != 0)
-                    {
-                        rot += $", {cx.ToString(CultureInfo.InvariantCulture)}, {cy.ToString(CultureInfo.InvariantCulture)}";
-                    }
-                }
-                else if(RotationPoint != null && RotationPoint != Position)
+                if(RotationPoint != null && RotationPoint != Position)
                 {
-                    rot += $", {RotationPoint.Left.ToString(CultureInfo.InvariantCulture)}, {RotationPoint.Top.ToString(CultureInfo.InvariantCulture)}";
+                    rot += $", {RotationPoint.Left.PointToPixelString()}, {RotationPoint.Top.PointToPixelString()}";
                 }
 
                 return string.Format(transformRotate, rot);
