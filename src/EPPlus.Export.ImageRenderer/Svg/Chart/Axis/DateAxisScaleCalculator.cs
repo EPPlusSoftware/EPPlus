@@ -410,6 +410,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 
         private static bool FitAsHorizontalText(ITextMeasurer tm, AxisOptions options, double min, double max, int interval, eTimeUnit unit, float height, double width)
         {
+            var minMargin = 2; //2 Points
             var minDate = DateTime.FromOADate(min);
             var maxDate = DateTime.FromOADate(max);
             var date = minDate;
@@ -420,7 +421,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             while (date < maxDate)
             {
                 var textWidth = tm.MeasureText(date.ToString(), mf).Width;
-                horizontalWidth += textWidth;
+                horizontalWidth += textWidth + minMargin;
                 if(horizontalWidth > width)
                 {
                     return false;
@@ -431,11 +432,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 }
                 else if(unit == eTimeUnit.Months)
                 {
-                    date = minDate.AddDays(1).AddMonths(interval).AddDays(-1);
+                    date = minDate.AddDays(1).AddMonths(interval).AddDays(-1); //Extra adds to keep last day of month
                 }
                 else
                 {
-                    date = minDate.AddDays(1).AddYears(interval).AddDays(-1);
+                    date = minDate.AddDays(1);
                 }
             }
             return true;

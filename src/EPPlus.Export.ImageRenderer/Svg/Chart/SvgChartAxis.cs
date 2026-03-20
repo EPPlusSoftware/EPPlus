@@ -374,21 +374,27 @@ namespace EPPlusImageRenderer.Svg
 
                     if (LabelOrientation == eTextOrientation.Diagonal)
                     {
+                        x = ticMarkX - (height / 2) * cos;
                         if (Axis.AxisPosition == eAxisPosition.Bottom)
                         {
-                            x = ticMarkX - (height / 2) * cos;
-                            y = ticMarkY + 4 + (height / 2) * cos;
+                            y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
                         }
                         else //Top
                         {
-                            x = ticMarkX - (height / 2) * cos;
-                            y = ticMarkY - 4 + (height / 2) * cos;
+                            y = ticMarkY - 4 - BottomMargin - (height/2 * cos);
                         }
                     }
                     else
                     {
                         x = ticMarkX - (height / 2);
-                        y = ticMarkY + 4 + (height / 2);
+                        if (Axis.AxisPosition == eAxisPosition.Bottom)
+                        {
+                            y = ticMarkY + BottomMargin + 4;
+                        }
+                        else //Top
+                        {
+                            y = ticMarkY - TopMargin - 4;
+                        }
                     }
                 }
                 
@@ -404,7 +410,7 @@ namespace EPPlusImageRenderer.Svg
 
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
-                    tb.Rotation = 90;
+                    tb.Rotation = -90;
                     if (Axis.AxisPosition == eAxisPosition.Bottom)
                     {
                         tb.TextAnchor = eTextAnchor.End;
@@ -509,18 +515,24 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Top)
             {
-                return Rectangle.Bottom - m.Height - TopMargin;
+                switch (LabelOrientation)
+                {
+                    case eTextOrientation.Vertical:
+                    case eTextOrientation.Diagonal:
+                        return Rectangle.Bottom;
+                    default:
+                        return Rectangle.Bottom - m.Height - TopMargin;
+                }
             }
             else if (Axis.AxisPosition == eAxisPosition.Bottom)
             {
                 switch(LabelOrientation)
                 {
                     case eTextOrientation.Vertical:
-                        return Rectangle.Top - m.Width + BottomMargin;
                     case eTextOrientation.Diagonal:
-                        return Rectangle.Top -  BottomMargin;
+                        return Rectangle.Top;
                     default:
-                        return Rectangle.Top - m.Height + BottomMargin;
+                        return Rectangle.Top + BottomMargin;
                 }
             }
             else
