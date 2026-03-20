@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.6">
+  <metadata>
+    <component type="library">
+      <description>EPPlus is a .NET spreadsheet library for creating, manipulating and calculating workbooks in the Open Office XML format (xlsx).</description>
+      <supplier>
+        <name>EPPlus Software AB</name>
+        <url>https://epplussoftware.com</url>
+        <contact>
+          <name>EPPlus Software AB</name>
+          <email>info@epplussoftware.com</email>
+        </contact>
+      </supplier>
+      <licenses>
+        <license>
+          <name>Polyform Noncommercial 1.0.0</name>
+          <url>https://polyformproject.org/licenses/noncommercial/1.0.0/</url>
+          <text>Free to use if you qualify as noncommercial under the PolyForm Noncommercial License 1.0.0. Commercial organizations require a paid license.</text>
+        </license>
+        <license>
+          <name>EPPlus Commercial License</name>
+          <url>https://epplussoftware.com/en/LicenseOverview/Eulas</url>
+          <text>Usage within a commercial organization or for commercial purposes requires a paid license. See the End User License Agreement at the provided URL.</text>
+        </license>
+      </licenses>
+      <externalReferences>
+        <reference type="website">
+          <url>https://epplussoftware.com</url>
+        </reference>
+        <reference type="vcs">
+          <url>https://github.com/EPPlusSoftware/EPPlus</url>
+        </reference>
+      </externalReferences>
+    </component>
+  </metadata>
+</bom>
