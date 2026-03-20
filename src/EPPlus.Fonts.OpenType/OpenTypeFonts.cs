@@ -13,10 +13,12 @@
   01/23/2026         EPPlus Software AB           Improved thread-safety with per-font locking
   02/26/2026         EPPlus Software AB           Moved caching from DefaultFontResolver to here
   02/27/2026         EPPlus Software AB           Replaced Configure overloads with IEpplusFontConfiguration
+  03/20/2026         EPPlus Software AB           Added thread-local TextShaper cache
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -37,6 +39,14 @@ namespace EPPlus.Fonts.OpenType
 
         // Singleton configuration instance. Internal events wired up in the static constructor.
         private static readonly EpplusFontConfiguration _configuration;
+
+        // Thread-local TextShaper cache — each thread gets its own dictionary of shapers,
+        // one per unique (fontName, subFamily) combination. The underlying OpenTypeFont instances
+        // are shared via the global font cache, but TextShaper is not thread-safe to share.
+        // NOTE: [ThreadStatic] field initializers only run on the primary thread. All other
+        // threads will see null here — the null-check in GetTextShaper() handles this.
+        [ThreadStatic]
+        private static Dictionary<string, TextShaper> _threadLocalShaperCache;
 
         static OpenTypeFonts()
         {
@@ -99,7 +109,48 @@ namespace EPPlus.Fonts.OpenType
         }
 
         /// <summary>
-        /// Clears all cached fonts and font locks.
+        /// Gets a TextShaper for the given font, reusing a thread-local cached instance.
+        /// The underlying OpenTypeFont is shared globally, but each thread gets its own
+        /// TextShaper instance, ensuring thread safety without locking.
+        /// Returns null if the font cannot be resolved.
+        /// </summary>
+        /// <param name="fontName">Font family name</param>
+        /// <param name="subFamily">Font subfamily (Regular, Bold, Italic, etc.)</param>
+        /// <param name="fontDirectories">Additional directories to search. If null, uses globally configured resolver.</param>
+        /// <param name="searchSystemDirectories">Whether to search system font directories</param>
+        public static TextShaper GetTextShaper(
+            string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular,
+            IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            if (fontName == null)
+                throw new ArgumentNullException("fontName");
+
+            // [ThreadStatic] fields are null on all threads except the primary — initialize on first use.
+            if (_threadLocalShaperCache == null)
+                _threadLocalShaperCache = new Dictionary<string, TextShaper>();
+
+            // Use the same cache key logic as LoadFont to avoid collisions between
+            // calls with and without explicit font directories.
+            string key = BuildCacheKey(fontName, subFamily, fontDirectories, searchSystemDirectories);
+
+            TextShaper shaper;
+            if (!_threadLocalShaperCache.TryGetValue(key, out shaper))
+            {
+                var font = LoadFont(fontName, subFamily, fontDirectories, searchSystemDirectories);
+                if (font == null)
+                    return null;
+
+                shaper = new TextShaper(font);
+                _threadLocalShaperCache[key] = shaper;
+            }
+
+            return shaper;
+        }
+
+        /// <summary>
+        /// Clears all cached fonts, font locks and thread-local TextShaper cache.
         /// Thread-safe operation.
         /// </summary>
         public static void ClearFontCache()
@@ -110,6 +161,10 @@ namespace EPPlus.Fonts.OpenType
                 FontScannerCache.Clear();
                 _fontLocks.Clear();
             }
+
+            // Clear the TextShaper cache for the calling thread. Other threads will
+            // lazily rebuild their own caches on next call to GetTextShaper().
+            _threadLocalShaperCache = null;
         }
 
         // -----------------------------------------------------------------------------------------

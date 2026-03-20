@@ -33,7 +33,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             // Act
             var full = shaper.Shape("Hello");
-            shaper.ResetFontTracking();
             var light = shaper.ShapeLight("Hello");
 
             // Assert
@@ -114,7 +113,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             var full = shaper.Shape("Hello World");
             float fullWidth = full.GetWidthInPoints(fontSize);
 
-            shaper.ResetFontTracking();
             var light = shaper.ShapeLight("Hello World");
             float lightWidth = light.GetWidthInPoints(fontSize);
 
