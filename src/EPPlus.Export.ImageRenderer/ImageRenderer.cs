@@ -57,28 +57,28 @@ namespace EPPlusImageRenderer
 
             var baseItem = new DrawingItemForTesting(baseBB);
 
-            //SvgRenderRectItem myBgItem = new SvgRenderRectItem(baseItem, baseItem.Bounds);
-            //myBgItem.FillColor = "purple";
-            //myBgItem.FillOpacity = 0.2d;
+            SvgRenderRectItem myBgItem = new SvgRenderRectItem(baseItem, baseItem.Bounds);
+            myBgItem.FillColor = "purple";
+            myBgItem.FillOpacity = 0.2d;
 
-            //SvgRenderRectItem myInnerItem = new SvgRenderRectItem(baseItem, myBgItem.Bounds);
+            SvgRenderRectItem myInnerItem = new SvgRenderRectItem(baseItem, myBgItem.Bounds);
 
-            //myInnerItem.FillColor = "green";
-            //myInnerItem.FillOpacity = 0.8d;
+            myInnerItem.FillColor = "green";
+            myInnerItem.FillOpacity = 0.8d;
 
-            //myInnerItem.Width = 50;
-            //myInnerItem.Height = 50;
+            myInnerItem.Width = 50;
+            myInnerItem.Height = 50;
 
-            //var container = new SvgContainerItem(myInnerItem, myBgItem);
+            var container = new SvgContainerItem(myInnerItem, myBgItem);
 
-            //container.MarginLeft = 5;
-            //container.MarginRight = 5;
-            //container.MarginTop = 5;
-            //container.MarginBottom = 5;
+            container.MarginLeft = 5;
+            container.MarginRight = 5;
+            container.MarginTop = 5;
+            container.MarginBottom = 5;
 
-            //container.ApplyMargins();
+            container.ApplyMargins();
 
-            //baseItem.RenderItems.Add(container);
+            baseItem.RenderItems.Add(container);
 
             var sb = new StringBuilder();
 

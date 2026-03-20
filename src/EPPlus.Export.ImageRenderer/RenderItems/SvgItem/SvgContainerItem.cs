@@ -18,10 +18,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var grpItem = new SvgGroupItem(DrawingRenderer, Bounds.Left, Bounds.Top);
             grpItem.Render(sb);
 
+            OuterItem.Render(sb);
+
             var grpItem2 = new SvgGroupItem(DrawingRenderer, MarginLeft, MarginTop);
             grpItem2.Render(sb);
 
-            base.Render(sb);
+            InnerItem.Render(sb);
 
             var endGroupItem2 = new SvgEndGroupItem(DrawingRenderer, Bounds);
             endGroupItem2.Render(sb);

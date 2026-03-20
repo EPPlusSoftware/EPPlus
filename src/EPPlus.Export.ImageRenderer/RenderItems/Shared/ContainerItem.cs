@@ -11,8 +11,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     internal abstract class ContainerItem : RenderItem
     {
-        private RenderItem InnerItem;
-        private RenderItem OuterItem;
+        internal RenderItem InnerItem { get; private set; }
+        internal RenderItem OuterItem { get; private set; }
 
         double _marginLeft;
         double _marginTop;
@@ -83,7 +83,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             InnerItem = innerItem;
 
             OuterItem.Bounds.Parent = Bounds;
-            InnerItem.Bounds.Parent = OuterItem.Bounds;
+            InnerItem.Bounds.Parent = Bounds;
         }
 
         internal void ApplyMargins()
@@ -91,20 +91,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Origin-Point: Set. Set in stone. All text moves from there
             //Here it is Bounds.Top and Bounds.Left. Nothing in the content can change that
 
-            OuterItem.Bounds.Top = MarginLeft;
-            OuterItem.Bounds.Left = MarginTop;
-
-            OuterItem.Bounds.Width = InnerItem.Bounds.Width + MarginRight;
-            OuterItem.Bounds.Height = InnerItem.Bounds.Height + MarginBottom;
+            OuterItem.Bounds.Width = InnerItem.Bounds.Width + MarginRight + MarginLeft;
+            OuterItem.Bounds.Height = InnerItem.Bounds.Height + MarginBottom + MarginTop;
 
             Bounds.Width = OuterItem.Bounds.Width;
             Bounds.Height = OuterItem.Bounds.Height;
-        }
-
-        public override void Render(StringBuilder sb)
-        {
-            OuterItem.Render(sb);
-            InnerItem.Render(sb);
         }
 
         public override RenderItemType Type => RenderItemType.Group;
