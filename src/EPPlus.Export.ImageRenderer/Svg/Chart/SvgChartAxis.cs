@@ -79,7 +79,7 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 Rectangle.Width = GetTextWidest(sc, ax) + LeftMargin;
                                 var ll = 8D;
-                                if (sc.Chart.Legend.Position == eLegendPosition.Left)
+                                if (sc.Chart.HasLegend  && sc.Chart.Legend.Position == eLegendPosition.Left)
                                 {
                                     ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
                                 }
@@ -89,7 +89,7 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 Rectangle.Width = GetTextWidest(sc, ax) + RightMargin;
                                 var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
-                                if (sc.Chart.Legend.Position == eLegendPosition.Right)
+                                if (sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right)
                                 {
                                     lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
                                 }
@@ -766,14 +766,35 @@ namespace EPPlusImageRenderer.Svg
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount);
+
+            var options = new AxisOptions
+            {
+                LockedMin = ax.MinValue,
+                LockedMax = ax.MaxValue,
+                LockedInterval = ax.MajorUnit,
+                LockedIntervalUnit = ax.MajorTimeUnit,
+                AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right,
+                Axis = ax,
+                IsStacked100 = Chart.IsTypePercentStacked(),
+                ChartSize = rect
+            };
+
             if (ax.AxisType == eAxisType.Cat &&
                 isCount == false)
             {
                 min = 0;
-                max = values.Length;
+                max = values.Count;
                 majorUnit = 1;
                 dateUnit = null;
                 orientation = eTextOrientation.Horizontal;
+                var res = CategoryAxisScaleCalculator.CalculateByWidth(ref values, SvgChart.TextMeasurer, options);
+                
+                min = res.Min;
+                max = res.Max;
+                majorUnit = res.MajorInterval;
+                dateUnit = null;
+                orientation = res.TextOrientation;
+
                 return values.ToList();
             }
 
@@ -796,17 +817,6 @@ namespace EPPlusImageRenderer.Svg
                     max = d;
                 }
             }
-            var options = new AxisOptions
-            {
-                LockedMin = ax.MinValue,
-                LockedMax = ax.MaxValue,
-                LockedInterval = ax.MajorUnit,
-                LockedIntervalUnit = ax.MajorTimeUnit,
-                AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right,
-                Axis = ax,
-                IsStacked100 = Chart.IsTypePercentStacked(),
-                ChartSize = rect
-            };
 
             var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? SvgChart.Bounds.Height : SvgChart.Bounds.Width; //Fix and use plotarea width/height.
             if(isCount)
@@ -817,8 +827,15 @@ namespace EPPlusImageRenderer.Svg
                 {
                     l.Add(i);
                 }
-                orientation = eTextOrientation.Horizontal;
-                return l;                
+                var res = CategoryAxisScaleCalculator.CalculateByWidth(ref l, SvgChart.TextMeasurer, options);
+
+                min = res.Min;
+                max = res.Max;
+                majorUnit = res.MajorInterval;
+                dateUnit = null;
+                orientation = res.TextOrientation;
+
+                return values.ToList();
             }
             if (ax.IsDate)
             {
