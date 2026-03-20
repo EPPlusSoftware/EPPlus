@@ -794,7 +794,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
         }
-        internal override object[] GetAxisValues(out bool isCount)
+        internal override List<object> GetAxisValues(out bool isCount)
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
@@ -804,7 +804,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 dl.Reverse();
             }
-            return dl.ToArray();
+            return dl;
         }
 
         internal void GetSeriesValues(out bool isCount, out List<List<object>> values)

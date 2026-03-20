@@ -69,7 +69,7 @@ namespace EPPlusImageRenderer.RenderItems
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
         public double? GlowRadius { get; private set; }
         public string GlowColor { get; private set; }
-
+        public ExcelDrawingOuterShadowEffect OuterShadowEffect { get; private set; } = null;
         protected void CloneBase(RenderItem item)
         {
             item.FillColor = FillColor;
@@ -180,6 +180,10 @@ namespace EPPlusImageRenderer.RenderItems
                 var gc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, effect.Glow.Color);
                 GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
             }
+            if(effect.HasOuterShadow)
+            {
+                OuterShadowEffect = effect.OuterShadow;
+            }
         }
 
         private double[] GetDashArray(ExcelDrawingBorder border)
@@ -246,6 +250,29 @@ namespace EPPlusImageRenderer.RenderItems
                 opacity = fc.A/255D;
             }
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
+        }
+
+        internal void GetOuterShadowColor(out string shadowColor, out double opacity)
+        {
+            if (OuterShadowEffect == null)
+            {
+                shadowColor = null;
+                opacity = 0;
+
+            }
+            else
+            {
+                var tc=EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, OuterShadowEffect.Color);
+                if (tc.A < 255 && tc != Color.Empty)
+                {
+                    opacity = tc.A / 255D;
+                }
+                else
+                {
+                    opacity = 1;
+                }
+                shadowColor = "#" + tc.ToArgb().ToString("x8").Substring(2);
+            }
         }
     }
 

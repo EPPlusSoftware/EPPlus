@@ -1,7 +1,12 @@
-﻿using OfficeOpenXml.Drawing.Chart;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils.DateUtils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
@@ -291,6 +296,188 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 default:
                     return date;
             };
+        }
+
+        internal static AxisScale CalculateByWidth(double min, double max, ITextMeasurer tm, AxisOptions options)
+        {
+            //var height = options.ChartSize.Bounds.Height;
+            var ax = options.Axis;
+            var plotAreaWidth = options.ChartSize.Bounds.Width;
+            var mf = ax.Font.GetMeasureFont();
+            
+            var interval = 1; //Day
+            var unit = eTimeUnit.Days;
+            var minString = DateTime.FromOADate(min).ToString(options.NumberFormat);
+            var res = tm.MeasureText(minString, mf);
+            //Get interval for maximum width with vertical text.
+            while (FitAsVerticalDiagonalText(min, max, interval, unit, res.Height, res.Height*0.3, plotAreaWidth)==false)
+            {
+                AddIntervall(ref interval, ref unit);
+            }
+
+            //Get max text width when using diagonal text
+            var width = mf.Size * Math.Sqrt(2);
+            var margin = mf.Size * 0.5;
+
+            if (FitAsVerticalDiagonalText(min, max, interval, unit, width, margin, plotAreaWidth)) //Check diagonal
+            {
+                if(FitAsHorizontalText(tm, options, min, max, interval, unit, res.Height, plotAreaWidth)) //Check horizontal
+                {
+                    return new AxisScale()
+                    {
+                        MajorInterval = interval,
+                        MinorInterval = 1,
+                        MinorDateUnit = unit,
+                        MajorDateUnit = unit,
+                        Min = min,
+                        Max = max,
+                        TextOrientation = eTextOrientation.Horizontal
+                    };
+                }
+                else
+                {
+                    return new AxisScale()
+                    {
+                        MajorInterval = interval,
+                        MinorInterval = 1,
+                        MinorDateUnit = unit,
+                        MajorDateUnit = unit,
+                        Min = min,
+                        Max = max,
+                        TextOrientation = eTextOrientation.Diagonal
+                    };
+                }
+            }
+
+            return new AxisScale()
+            {
+                MajorInterval = interval,
+                MinorInterval = 1,
+                MinorDateUnit = unit,
+                MajorDateUnit = unit,
+                Min = min,
+                Max = max,
+                TextOrientation = eTextOrientation.Vertical
+            };
+
+        }
+
+        //private static bool FitAsDiagonalText(double min, double max, int interval, eTimeUnit unit, float size, double plotAreaWidth)
+        //{
+        //    var margin = size * 0.5;
+        //    var width = size * Math.Sqrt(2) + margin;
+
+        //    if (unit == eTimeUnit.Days)
+        //    {
+        //        return ((max - min) / interval) * width < plotAreaWidth;
+        //    }
+        //    else if(unit == eTimeUnit.Months)
+        //    {
+        //        w
+        //    }
+        //}
+
+        private static void AddIntervall(ref int interval, ref eTimeUnit unit)
+        {
+            if (unit == eTimeUnit.Days)
+            {
+                switch (interval)
+                {
+                    case 1:
+                        interval = 2;
+                        break;
+                    case 2:
+                        interval = 7; //Week
+                        break;
+                    case 7:
+                        interval = 1; //Month
+                        unit = eTimeUnit.Months;
+                        break;
+                    default:
+                        interval *= 10;
+                        break;
+                }
+            }
+            else if (unit == eTimeUnit.Months)
+            {
+                unit = eTimeUnit.Years;
+            }
+            else if (unit == eTimeUnit.Years)
+            {
+                interval++;
+            }
+        }
+
+        private static bool FitAsHorizontalText(ITextMeasurer tm, AxisOptions options, double min, double max, int interval, eTimeUnit unit, float height, double width)
+        {
+            var minMargin = 2; //2 Points
+            var minDate = DateTime.FromOADate(min);
+            var maxDate = DateTime.FromOADate(max);
+            var date = minDate;
+            var horizontalWidth = 0D;
+            var nf = options.NumberFormat;
+            var mf = options.Axis.Font.GetMeasureFont();
+            var angMult = Math.Sin(MathHelper.Radians(45));
+            while (date < maxDate)
+            {
+                var textWidth = tm.MeasureText(date.ToString(), mf).Width;
+                horizontalWidth += textWidth + minMargin;
+                if(horizontalWidth > width)
+                {
+                    return false;
+                }
+                if (unit == eTimeUnit.Days)
+                {
+                    date = date.AddDays(interval);
+                }
+                else if(unit == eTimeUnit.Months)
+                {
+                    date = minDate.AddDays(1).AddMonths(interval).AddDays(-1); //Extra adds to keep last day of month
+                }
+                else
+                {
+                    date = minDate.AddDays(1);
+                }
+            }
+            return true;
+        }
+
+        private static bool FitAsVerticalDiagonalText(double min, double max, int interval,eTimeUnit unit, double textWidth, double margin, double plotAreaWidth)
+        {
+            if (unit == eTimeUnit.Days)
+            {
+                var items = ((max - min) / interval);
+                return  items * textWidth + (items-1) * margin < plotAreaWidth;
+            }
+            else if(unit== eTimeUnit.Months) 
+            {
+                var minDate = DateTime.FromOADate(min);
+                var maxDate = DateTime.FromOADate(max);
+                var date = minDate.AddDays(1).AddMonths(1).AddDays(-1); //Handles last day of month.
+                var items = 1;
+                while(date >= maxDate)
+                {
+                    items++;
+                    if (items * textWidth + (items - 1) * margin > plotAreaWidth) return false;
+                    date = minDate.AddDays(1).AddMonths(1).AddDays(-1);
+                }
+                return items * textWidth + (items - 1) * margin > plotAreaWidth;
+            }
+            else
+            {
+                var minDate = DateTime.FromOADate(min);
+                var maxDate = DateTime.FromOADate(max);
+                var date = minDate.AddDays(1).AddYears(1).AddDays(-1); //Handles leap year
+                var items = 1;
+                while (date >= maxDate)
+                {
+                    items++;
+                    if (items * textWidth + (items - 1) * margin > plotAreaWidth) return false;
+                    date = minDate.AddDays(1).AddYears(1).AddDays(-1);
+                }
+                return items * textWidth + (items - 1) * margin > plotAreaWidth;
+
+            }
         }
     }
 }

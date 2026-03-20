@@ -30,15 +30,17 @@ namespace OfficeOpenXml.Utils.TypeConversion
             if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
             {
                 var newCm=theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
-                var c = GetThemeColor(newCm);
-                return ApplyTransforms(c, cm.Transforms);
+                var nc = GetThemeColor(newCm);
+                return ApplyTransforms(nc, cm.Transforms);
             }
-            return GetThemeColor(cm);
+            var c=GetThemeColor(cm);
+            return ApplyTransforms(c, cm.Transforms);
+
         }
 
         private static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
         {
-            if (transforms.Count == 0) return c;
+            if (transforms==null || transforms.Count == 0) return c;
 
             var r = c.R;
             var g = c.G;
@@ -75,6 +77,12 @@ namespace OfficeOpenXml.Utils.TypeConversion
                         break;
                     case eColorTransformType.Alpha:
                         c = Color.FromArgb((byte)Math.Round(255 * v), c.R, c.G, c.B);
+                        break;
+                    case eColorTransformType.AlphaMod:
+                        c = Color.FromArgb((byte)Math.Round(c.A * v), c.R, c.G, c.B);
+                        break;
+                    case eColorTransformType.AlphaOff:
+                        c = Color.FromArgb((byte)(c.A + v), c.R, c.G, c.B);
                         break;
                 }
             }

@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Reflection.Emit;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -599,6 +600,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract object[] GetAxisValues(out bool isCount);
+        internal abstract List<object> GetAxisValues(out bool isCount);
     }
 }

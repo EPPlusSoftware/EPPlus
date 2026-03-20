@@ -121,7 +121,7 @@ internal class ValueAxisScaleCalculator
                 }
                 else
                 {
-                    axisMin = dataMin - (dataRange * 0.1);
+                    axisMin = dataMin - (dataRange * 0.05);
                     if (axisOptions.IsStacked100 && axisMin < -1)
                     {
                         axisMin = -1;
@@ -139,7 +139,7 @@ internal class ValueAxisScaleCalculator
                 }
                 else
                 {
-                    axisMax = dataMax + (dataRange * 0.1);
+                    axisMax = dataMax + (dataRange * 0.05);
                     if (axisOptions.IsStacked100 && axisMax > 1)
                     {
                         axisMax = 1;

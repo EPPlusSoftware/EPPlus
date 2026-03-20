@@ -13,6 +13,7 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
@@ -33,6 +34,7 @@ namespace EPPlusImageRenderer
 
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
+            TextMeasurer = new FontMeasurerTrueType();
         }
 
 

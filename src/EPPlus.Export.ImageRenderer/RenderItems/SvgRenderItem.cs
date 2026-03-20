@@ -80,7 +80,7 @@ namespace EPPlusImageRenderer.RenderItems
         }
 
         internal abstract SvgRenderItem Clone(SvgShape svgDocument);
-        private protected void RenderCompoundItems(StringBuilder sb, double? borderWidth, string color)
+        private protected void RenderCompoundItems(StringBuilder sb, double? borderWidth, string color, string filter)
         {
             var tmpBorderWidth = BorderWidth;
             string tmpBorderColor = null;
@@ -100,6 +100,12 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 sb.AppendFormat(" stroke-linejoin=\"{0}\"", LineJoin);
             }
+
+            if (string.IsNullOrEmpty(filter) == false)
+            {
+                sb.Append(" " + filter);
+            }
+
             sb.AppendFormat("/>");
 
             BorderWidth = tmpBorderWidth;

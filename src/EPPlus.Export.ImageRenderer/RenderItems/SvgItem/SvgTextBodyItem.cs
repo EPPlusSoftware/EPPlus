@@ -19,7 +19,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderer, parent, autoSize)
         {
-            //Bounds.ClampedToParent = clampedToParent;
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
@@ -31,8 +30,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Bounds.Height = maxHeight;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
-            //Bounds.ClampedToParent = clampedToParent;
         }
+
         internal override List<ParagraphItem> Paragraphs { get; set; } = new List<ParagraphItem>();
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)

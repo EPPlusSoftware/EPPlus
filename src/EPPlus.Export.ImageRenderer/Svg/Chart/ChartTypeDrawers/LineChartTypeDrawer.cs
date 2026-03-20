@@ -169,8 +169,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             linePath.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, linePath, coords.ToArray()));
             linePath.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
             linePath.SetDrawingPropertiesEffects(serie.Effect);
-            linePath.FillColor = "none"; // No fill for line
-            linePath.StrokeMiterLimit = 4; // A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
+            linePath.FillColor = "none";    //No fill for line
+            linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
             linePath.LineJoin = SvgLineJoin.Round; 
             RenderItems.Add(linePath);
             RenderItems.AddRange(markerItems);
