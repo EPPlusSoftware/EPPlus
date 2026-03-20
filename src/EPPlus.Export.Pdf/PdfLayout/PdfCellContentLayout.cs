@@ -76,7 +76,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         public PdfCellContentLayout(string text, ExcelRangeBase cell, PdfCellStyle CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
-    : base(x, y, width, height, scaleX, scaleY, rotation, parent)
+            : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
             this.CellStyle = CellStyle;

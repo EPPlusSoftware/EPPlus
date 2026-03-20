@@ -29,6 +29,7 @@ using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -219,7 +220,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 if (pageSettings.ShowHeadings)
                 {
                     AddColumnHeadings(worksheet, pageSettings, dictionaries, content, columns[col], col, columns);
-                    AddRowHeadings(worksheet, dictionaries, content, rows[row], row, rows);
+                    AddRowHeadings(worksheet, pageSettings, dictionaries, content, rows[row], row, rows);
                 }
                 page.AddChild(content);
                 content.Position = new Vector2(xBreaks[col], yBreaks[row+1]);
@@ -237,6 +238,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             double X = content.LocalPosition.X;
             for (int j = startColIndex; j < startColIndex + columnsInPage; j++)
             {
+                if (ws.Column(j).Hidden) { continue; }
                 string column = ExcelRangeBase.GetColumnLetter(j);
                 var col = ws.Cells[column];
                 var width = UnitConversion.ExcelColumnWidthToPoints(ws.Column(j).Width, PdfWorksheetLayout.ZeroCharWidth);
@@ -275,7 +277,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
-        private void AddRowHeadings(ExcelWorksheet ws, PdfDictionaries dictionaries, PdfContentLayout content, int rowsInPage, int pageRow, List<int> rows)
+        private void AddRowHeadings(ExcelWorksheet ws, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfContentLayout content, int rowsInPage, int pageRow, List<int> rows)
         {
             int startRowIndex = 1;
             for (int i = 0; i < pageRow; i++)
@@ -285,16 +287,39 @@ namespace EPPlus.Export.Pdf.PdfLayout
             double Y = content.LocalPosition.Y + content.Size.Y;
             for (int j = startRowIndex; j < startRowIndex + rowsInPage; j++)
             {
+                if (ws.Row(j).Hidden) { continue; }
                 var row = ws.Cells[j, 1];
                 var height = UnitConversion.ExcelRowHeightToPoints(ws.Row(j).Height);
                 var width = PdfWorksheetLayout.RowHeadingWidth;
                 var cellStyle = new PdfCellStyle();
                 cellStyle.xfFill = row.Style.Fill;
-                var cl0 = new PdfCellLayout(dictionaries, row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
-                cl0.Name = j.ToString();
-                cl0.Z = 8;
-                cl0.isHeading = true;
-
+                var cell = new PdfCellLayout(dictionaries, row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
+                cell.Name = j.ToString();
+                cell.Z = 8;
+                cell.isHeading = true;
+                cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
+                cell.CellFillData.BackgroundColor = Color.Red;
+                //Add text
+                    var cellContent = new PdfCellContentLayout(j.ToString(), row, cellStyle, pageSettings, content.LocalPosition.X - width, Y - height, width, height, 1, 1, 0, content, dictionaries);
+                    cellContent.Name = j.ToString();
+                    cellContent.Z = 9;
+                //Add border
+                cellStyle.xfTop = row.Style.Border.Top;
+                cellStyle.xfBottom = row.Style.Border.Bottom;
+                cellStyle.xfLeft = row.Style.Border.Left;
+                cellStyle.xfRight = row.Style.Border.Right;
+                var border = new PdfCellBorderLayout(row, cellStyle, content.LocalPosition.X - width, Y-height, width, height, 1, 1, 0, content);
+                border.Name = j.ToString();
+                border.Z = 10;
+                border.InitEdgeBorders(row);
+                border.BorderData.Top.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Bottom.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Left.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Right.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Top.IsHeading = true;
+                border.BorderData.Bottom.IsHeading = true;
+                border.BorderData.Left.IsHeading = true;
+                border.BorderData.Right.IsHeading = true;
 
                 Y = Y - height;
             }
