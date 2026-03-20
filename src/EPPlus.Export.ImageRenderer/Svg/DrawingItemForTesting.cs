@@ -45,7 +45,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
             }
             RenderItems.Add(new SvgEndGroupItem(this, Bounds));
 
-            sb.Append($"<svg width=\"{Bounds.Width.PointToPixel()}\" height=\"{Bounds.Height.PointToPixel()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\">");
+            sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\">");
 
             foreach (var item in RenderItems)
             {
