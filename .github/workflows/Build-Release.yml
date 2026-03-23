@@ -20,10 +20,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
-    - name: Check active SDK
-      run: dotnet --version
-    - name: Restore dependencies
-      run: dotnet restore ./src/EPPlus.sln
 
     # --- Read version and TFMs from csproj ---
     - name: Read version and target frameworks from csproj
@@ -36,31 +32,8 @@ jobs:
         echo "TFMS=$tfms" >> $env:GITHUB_ENV
       shell: pwsh
 
-    # --- SBOM ---
-    - name: Install CycloneDX
-      run: dotnet tool install --global CycloneDX
-    - name: Generate combined SBOM
-      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml
-    - name: Generate per-TFM SBOMs
-      run: |
-        $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          Write-Host "Generating SBOM for $tfm"
-          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm
-        }
-      shell: pwsh
-    - name: Generate SHA-256 checksums for all SBOMs
-      run: |
-        Get-ChildItem -Path "./sbom" -Filter "*.sbom.json" | ForEach-Object {
-          $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
-          "$hash  $($_.Name)" | Out-File -FilePath "$($_.FullName).sha256" -Encoding utf8NoBOM
-          Write-Host "Checksum generated for $($_.Name): $hash"
-        }
-      shell: pwsh
-    # --- SBOM ---
-
+    - name: Restore dependencies
+      run: dotnet restore ./src/EPPlus.sln
     - name: Build
       run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
     - name: Test
@@ -124,7 +97,29 @@ jobs:
         name: signed-nuget-package
         path: ./output/*.nupkg
 
-    # --- Upload SBOMs ---
+    # --- SBOM (after build to avoid CycloneDX overwriting project.assets.json) ---
+    - name: Install CycloneDX
+      run: dotnet tool install --global CycloneDX
+    - name: Generate combined SBOM
+      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml
+    - name: Generate per-TFM SBOMs
+      run: |
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          Write-Host "Generating SBOM for $tfm"
+          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm
+        }
+      shell: pwsh
+    - name: Generate SHA-256 checksums for all SBOMs
+      run: |
+        Get-ChildItem -Path "./sbom" -Filter "*.sbom.json" | ForEach-Object {
+          $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
+          "$hash  $($_.Name)" | Out-File -FilePath "$($_.FullName).sha256" -Encoding utf8NoBOM
+          Write-Host "Checksum generated for $($_.Name): $hash"
+        }
+      shell: pwsh
     - name: Upload all SBOMs to Azure Blob Storage
       run: |
         Get-ChildItem -Path "./sbom" | ForEach-Object {
@@ -143,4 +138,4 @@ jobs:
       with:
         name: sbom
         path: ./sbom/
-    # --- Upload SBOMs ---
+    # --- SBOM ---
