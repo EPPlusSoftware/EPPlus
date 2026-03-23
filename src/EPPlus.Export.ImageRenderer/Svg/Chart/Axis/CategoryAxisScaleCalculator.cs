@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var ax = options.Axis;
             var plotAreaWidth = options.ChartSize.Bounds.Width;
             var mf = ax.Font.GetMeasureFont();
-            var displayValues = values.Select(x => ax.ToString()).ToList();
+            var displayValues = values.Select(x => x.ToString()).ToList();
             var res = tm.MeasureText(displayValues[0], mf);
 
             //Get interval for maximum width with vertical text.
@@ -91,9 +91,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var pos = interval;
             while (pos < displayValues.Count && width < plotAreaWidth)
             {
-                pos += interval;
                 width = tm.MeasureText(displayValues[pos], mf).Width + margin;
                 if(width > plotAreaWidth) return false;
+                pos += interval;
             }
             return width <= plotAreaWidth;
         }
