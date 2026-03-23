@@ -93,7 +93,7 @@ namespace EPPlusImageRenderer.Svg
                                 {
                                     lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
                                 }
-                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width;
+                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width-LeftMargin;
                             }
                         }
                         else
@@ -298,7 +298,7 @@ namespace EPPlusImageRenderer.Svg
             {
 
             }
-            if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false)
+            if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
                 AxisValuesTextBoxes = GetAxisValueTextBoxes();
             }

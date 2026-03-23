@@ -17,6 +17,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -168,7 +169,9 @@ namespace EPPlusImageRenderer.Svg
                 verticalAxis.Title.Rectangle.Height = Plotarea.Rectangle.Height;
                 verticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
                 verticalAxis.Title.InitTextBox();
-                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) - (verticalAxis.Title.TextBox.Height / 2);
+                var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
+                var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
+                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {

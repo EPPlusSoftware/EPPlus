@@ -73,6 +73,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     case eChartType.LineMarkersStacked100:
                         drawers.Add(new LineChartTypeDrawer(svgChart, ct));
                         break;
+                    case eChartType.ColumnClustered:
+                        drawers.Add(new ColumnChartTypeDrawer(svgChart, ct));
+                        break;
                     default:
                         throw new NotImplementedException($"No Svg support for Chart type {ct} is implemented.");
                 }
