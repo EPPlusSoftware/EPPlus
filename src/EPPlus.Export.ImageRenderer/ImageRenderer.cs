@@ -48,7 +48,82 @@ namespace EPPlusImageRenderer
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
         }
 
-        public string RenderTest()
+        public enum RenderPresets
+        {
+            ContainerMargins,
+            RotatingContainer
+        }
+
+        public string RenderTest(RenderPresets preset)
+        {
+            return GenerateFromPreset(preset);
+        }
+
+
+        private string rotatingContainer()
+        {
+            var baseBB = new BoundingBox();
+
+            //96x96 px
+            baseBB.Width = 72;
+            baseBB.Height = 72;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+            BoundingBox parent = new BoundingBox();
+
+            var groupItem = new SvgGroupItemNew(baseItem, parent, 45);
+
+            groupItem.Position.Left = 10;
+            groupItem.Position.Top = 10;
+
+            SvgRenderRectItem rectItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
+
+            rectItem.FillColor = "red";
+            rectItem.FillOpacity = 0.2d;
+
+            rectItem.Width = 20;
+            rectItem.Height = 20;
+
+            groupItem.AddChildItem(rectItem);
+
+
+            SvgRenderRectItem siblingItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
+            siblingItem.FillColor = "blue";
+            siblingItem.FillOpacity = 0.2d;
+
+            siblingItem.Width = 20;
+            siblingItem.Height = 20;
+
+            siblingItem.Bounds.Left = 20;
+            siblingItem.Bounds.Top = 20;
+
+            groupItem.AddChildItem(siblingItem);
+
+            groupItem.SetRotationPointToCenterOfGroup();
+
+            SvgRenderRectItem centerOfGroupMarker = new SvgRenderRectItem(baseItem, baseItem.Bounds);
+            centerOfGroupMarker.FillColor = "green";
+            centerOfGroupMarker.FillOpacity = 0.8d;
+
+            centerOfGroupMarker.Width = 6;
+            centerOfGroupMarker.Height = 6;
+
+            centerOfGroupMarker.Left = 30 - (centerOfGroupMarker.Width / 2);
+            centerOfGroupMarker.Top = 30 - (centerOfGroupMarker.Height / 2);
+
+            baseItem.RenderItems.Add(centerOfGroupMarker);
+
+            var sb = new StringBuilder();
+
+            baseItem.RenderItems.Add(groupItem);
+
+            baseItem.Render(sb);
+
+            return sb.ToString();
+        }
+
+        private string containerMargins()
         {
             var baseBB = new BoundingBox();
 
@@ -86,6 +161,19 @@ namespace EPPlusImageRenderer
 
             return sb.ToString();
         }
+
+        private string GenerateFromPreset(RenderPresets preset)
+        {
+            switch (preset)
+            {
+                case RenderPresets.ContainerMargins:
+                    return containerMargins();
+                case RenderPresets.RotatingContainer:
+                    return rotatingContainer();
+            }
+            return "";
+        }
+
         //public string RenderTestCanvas(double widthPixel, double heightPixel, Color bgColor)
         //{
 
