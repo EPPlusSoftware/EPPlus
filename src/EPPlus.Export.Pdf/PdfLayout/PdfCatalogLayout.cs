@@ -298,7 +298,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cell.Z = 8;
                 cell.isHeading = true;
                 cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
-                cell.CellFillData.BackgroundColor = Color.Red;
+                cell.CellFillData.BackgroundColor = Color.White;
                 //Add text
                     var cellContent = new PdfCellContentLayout(j.ToString(), row, cellStyle, pageSettings, content.LocalPosition.X - width, Y - height, width, height, 1, 1, 0, content, dictionaries);
                     cellContent.Name = j.ToString();
@@ -308,7 +308,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cellStyle.xfBottom = row.Style.Border.Bottom;
                 cellStyle.xfLeft = row.Style.Border.Left;
                 cellStyle.xfRight = row.Style.Border.Right;
-                var border = new PdfCellBorderLayout(row, cellStyle, content.LocalPosition.X - width, Y-height, width, height, 1, 1, 0, content);
+                var border = new PdfCellBorderLayout(row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
                 border.Name = j.ToString();
                 border.Z = 10;
                 border.InitEdgeBorders(row);

@@ -465,7 +465,12 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 y = System.Math.Min(y, System.Math.Min(line.Y1, line.Y2));
             }
             var heightAdjust = y - pageLayout.ContentBottom;
-            commands.Add($"{(pageLayout.ContentLeft + (GridLine.Width * 4)).ToPdfString()} {(y).ToPdfString()} {(width - pageLayout.ContentLeft + (GridLine.Width * 8)).ToPdfString()} {(pageLayout.ContentHeight - heightAdjust + (GridLine.Width * 4)).ToPdfString()} re W n");
+
+            var x = (pageLayout.ContentLeft) - (GridLine.Width * 4 );
+            width = width - pageLayout.ContentLeft + (GridLine.Width * 8);
+            var height = pageLayout.ContentHeight - heightAdjust + (GridLine.Width * 4);
+
+            commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
         }
 
         internal override string RenderDictionary()

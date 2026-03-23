@@ -22,6 +22,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Xml.Serialization;
 using Vector2 = EPPlus.Graphics.Math.Vector2;
@@ -88,6 +89,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             cell._rtc[0].FontName = ns.Style.Font.Name;
             cell._rtc[0].Family = ns.Style.Font.Family;
             cell._rtc[0].Size = ns.Style.Font.Size;
+            cell._rtc[0].Color = Color.Black;
             HandleText(pageSettings, dictionaries, x, y, width, height, CellAlignmentData.TextRotation, CellStyle);
             //CalculateTextSpill(width, CellAlignmentData.TextRotation);
             //LocalPosition = CalculateAlignmentPositionAndTextOffsets(cell, x, y, width, height);
