@@ -1,4 +1,4 @@
-# This workflow will build, test, sign and pack the release branches for EPPlus.
+# This workflow will build, test, sign and pack the release branches for EPPlus. 
 # It will also generate and publish an SBOM per target framework.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
