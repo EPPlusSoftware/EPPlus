@@ -306,10 +306,12 @@ namespace EPPlusImageRenderer.Svg
 
         private List<SvgTextBox> GetAxisValueTextBoxes()
         {
+            var ret = new List<SvgTextBox>();
+            if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
+
             var tm = Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var mf = Axis.Font.GetMeasureFont();
             var axisStyle = GetAxisStyleEntry();
-            var ret= new List<SvgTextBox>();
             double maxWidth, maxHeight;
             if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
@@ -529,10 +531,36 @@ namespace EPPlusImageRenderer.Svg
                 switch(LabelOrientation)
                 {
                     case eTextOrientation.Vertical:
+                        if (Axis.LabelPosition == eTickLabelPosition.Low)
+                        {
+                            return Rectangle.Bottom - m.Width;
+                        }
+                        else
+                        {
+                            return Rectangle.Top;
+                        }
                     case eTextOrientation.Diagonal:
-                        return Rectangle.Top;
+                        if (Axis.LabelPosition == eTickLabelPosition.Low)
+                        {
+                            return Rectangle.Bottom - (m.Width+m.Height)* COS45;
+                        }
+                        else
+                        {
+                            return Rectangle.Top;
+                        }
                     default:
-                        return Rectangle.Top + BottomMargin;
+                        if (Axis.LabelPosition == eTickLabelPosition.Low)
+                        {
+                            return Rectangle.Bottom - m.Height;
+                        }
+                        else if (Axis.LabelPosition == eTickLabelPosition.NextTo)
+                        {
+                            return Rectangle.Top + BottomMargin;
+                        }
+                        else //TODO:Add support for hight.
+                        {
+                            return Rectangle.Top + BottomMargin;
+                        }
                 }
             }
             else
@@ -835,7 +863,7 @@ namespace EPPlusImageRenderer.Svg
                 dateUnit = null;
                 orientation = res.TextOrientation;
 
-                return values.ToList();
+                return l.ToList();
             }
             if (ax.IsDate)
             {
