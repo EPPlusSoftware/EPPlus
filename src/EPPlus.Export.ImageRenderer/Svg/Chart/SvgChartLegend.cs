@@ -197,7 +197,12 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.LineStacked100:
                             var ls=(ExcelLineChartSerie)s;
                             var tm = _seriesHeadersMeasure[index];
-                            var prevTm = _seriesHeadersMeasure[index - 1];
+                            TextMeasurement prevTm = tm;
+                            if (pSls != null)
+                            {
+                                prevTm = _seriesHeadersMeasure[index - 1];
+                            }
+                            
                             var si = GetSeriesIcon(sc, ls, prevTm, tm, pSls);
                             sls.SeriesIcon = si;
 
