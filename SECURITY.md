@@ -19,7 +19,12 @@ Security patches will be provided via new revisions released in our public Nuget
 
 ## Reporting a Vulnerability
 
-Create an issue in our [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues), describe the vulnerability (including relevant links) and what version of EPPlus that is affected.
+If you discover a security vulnerability in EPPlus, please report it through GitHub's private vulnerability reporting:
+
+1. Go to the [Security tab](https://github.com/EPPlusSoftware/EPPlus/security/advisories/new) on the EPPlus repository.
+2. Click "Report a vulnerability" and fill in the details.
+
+This ensures the report stays private until we have assessed and addressed the issue. Please do not report security vulnerabilities through the public issue tracker.
 
 ## Code signing 
 Since version 7.5 the EPPlus Nuget package and the EPPlus libraries/dll:s are digitally signed by EPPlus Software AB.
