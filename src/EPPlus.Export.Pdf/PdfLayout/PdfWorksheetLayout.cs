@@ -67,6 +67,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (border != null) border.InitEdgeBorders(cell);
                     x += width;
                     totalWidth = System.Math.Max( x, totalWidth);
+                    if(cell.Comment != null && cell.ThreadedComment == null)
+                        dictionaries.CommentsAndNotes.Add(cell.Address, new PdfCommentsAndNotes(cell.Comment));
+                    if (cell.ThreadedComment != null)
+                    {
+                        dictionaries.CommentsAndNotes.Add(cell.Address, new PdfCommentsAndNotes(cell.ThreadedComment));
+                        PdfCommentsAndNotes.HasThreadedComment = true;
+                    }
                 }
                 y -= height;
             }

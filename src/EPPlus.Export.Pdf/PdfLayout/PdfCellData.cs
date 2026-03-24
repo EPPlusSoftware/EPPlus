@@ -14,8 +14,10 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
+using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.ThreadedComments;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -463,6 +465,22 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public GridLine(double x1, double y1, double x2, double y2)
         {
             X1 = x1; Y1 = y1; X2 = x2; Y2 = y2;
+        }
+    }
+
+    internal class PdfCommentsAndNotes
+    {
+        public ExcelComment Comment;
+        public ExcelThreadedCommentThread ThreadedComment;
+        public static bool HasThreadedComment = false;
+
+        public PdfCommentsAndNotes(ExcelComment comment)
+        {
+            Comment = comment;
+        }
+        public PdfCommentsAndNotes(ExcelThreadedCommentThread tComment)
+        {
+            ThreadedComment = tComment;
         }
     }
 

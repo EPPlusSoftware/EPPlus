@@ -101,7 +101,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             bool bold = false, italic = false, underline = false, strike = false;
             ExcelUnderLineType underLineType = ExcelUnderLineType.None;
-            if (CellStyle.dxfFont != null)
+            if (CellStyle != null && CellStyle.dxfFont != null)
             {
                 bold = CellStyle.dxfFont.Bold != null ? (bool)CellStyle.dxfFont.Bold : false;
                 italic = CellStyle.dxfFont.Italic != null ? (bool)CellStyle.dxfFont.Italic : false;

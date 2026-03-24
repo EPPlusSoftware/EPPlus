@@ -32,6 +32,7 @@ namespace EPPlusTest.PDF
          * Cells: Icons
          * Cells: Pictures in cells : Prio 3
          * Cells: Conditional Formatting
+         * Cells: Calculate clip rect for merged cells with content bounds in mind
          * 
          * Text: Wrap text
          * Text: Vertical text again
@@ -45,7 +46,6 @@ namespace EPPlusTest.PDF
          * Layout: Cell range to pdf (Export)
          * Layout: Print Area (This is like a collection of cell ranges) (Export)
          * Layout: Comments and Notes
-         * Layout: Row and column headings
          * Layout: Print titles
          * Layout: Background (Excel does not add this to pdf it seems) (Images) : Prio 4
          * Layout: Remove empty last page

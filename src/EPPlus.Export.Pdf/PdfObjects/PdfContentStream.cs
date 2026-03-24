@@ -455,6 +455,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         public void AddMarginClipping(PdfPageLayout pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
+            if (pageLayout.isCommentsPage) return;
 
             commands.Add($"% Margin Clip Start");
             double y = pageLayout.ContentTop;

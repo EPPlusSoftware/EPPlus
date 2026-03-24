@@ -19,22 +19,15 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
-using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Security;
-using System.Xml.Linq;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -58,49 +51,53 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Name = worksheet.Name + " Catalog";
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
             sw.Stop();
-            var t1 = sw.ElapsedMilliseconds;
+            var wsLayoutTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
             //CreateFontSubsets(pageSettings, dictionaries.Fonts);
             var PagesLayout = CreatePagesLayoutObject();
             sw.Stop();
-            var t2 = sw.ElapsedMilliseconds;
+            var PagesTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
             CreatePageLayoutObjects(worksheet, pageSettings, dictionaries, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
             sw.Stop();
-            var t3 = sw.ElapsedMilliseconds;
+            var PageTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
-            var s0 = this.ToHierarchyString();
+
+            //Add Page for Notes and Comments
+            CreatePagesAndLayoutComments(pageSettings, dictionaries, worksheet, PagesLayout);
+            sw.Stop();
+            var CommentsTime = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
 
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             sw.Stop();
-            var t8 = sw.ElapsedMilliseconds;
+            var HeaderFooterTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
             PopulatePages(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             sw.Stop();
-            var t4 = sw.ElapsedMilliseconds;
+            var PopulateTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
-            var s1 = this.ToHierarchyString();
 
             //AddCellsToPageLayout(WorksheetLayout, PagesLayout);
             //HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             MoveCellToPageFromContent(pageSettings, dictionaries, PagesLayout);
             sw.Stop();
-            var t5 = sw.ElapsedMilliseconds;
+            var MoveCellsTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
-            var s2 = this.ToHierarchyString();
 
             ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
             sw.Stop();
-            var t6 = sw.ElapsedMilliseconds;
+            var ProcessCellsTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
@@ -108,7 +105,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
             sw.Stop();
-            var t7 = sw.ElapsedMilliseconds;
+            var AdjustSortTime = sw.ElapsedMilliseconds;
             sw.Reset();
         }
 
@@ -300,9 +297,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
                 cell.CellFillData.BackgroundColor = Color.White;
                 //Add text
-                    var cellContent = new PdfCellContentLayout(j.ToString(), row, cellStyle, pageSettings, content.LocalPosition.X - width, Y - height, width, height, 1, 1, 0, content, dictionaries);
-                    cellContent.Name = j.ToString();
-                    cellContent.Z = 9;
+                var cellContent = new PdfCellContentLayout(j.ToString(), row, cellStyle, pageSettings, content.LocalPosition.X - width, Y - height, width, height, 1, 1, 0, content, dictionaries);
+                cellContent.Name = j.ToString();
+                cellContent.Z = 9;
                 //Add border
                 cellStyle.xfTop = row.Style.Border.Top;
                 cellStyle.xfBottom = row.Style.Border.Bottom;
@@ -323,6 +320,164 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
                 Y = Y - height;
             }
+        }
+
+        //Create pages for comments and notes
+        private void CreatePagesAndLayoutComments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, PdfPagesLayout pagesLayout)
+        {
+            if (dictionaries.CommentsAndNotes.Count == 0) return;
+            PdfPageLayout page = new PdfPageLayout(0, 0, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
+            page.Name = "CommentsAndNotes";
+            page.isCommentsPage = true;
+            PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
+            content.Parent = page;
+            var width = pageSettings.ContentBounds.Width;
+            var height = pageSettings.ContentBounds.Height;
+            var tempWS = ws.Workbook.Worksheets.Add("TemporaryWorksheetForCommentsInPdfExporterForEPPlus");
+            var ns = ws.Workbook.Styles.GetNormalStyle();
+            int row = 1;
+            int col = 1;
+            tempWS.Column(col).Width = 10d;
+            tempWS.Column(col+1).Width = 75d;
+            var cell1Width = UnitConversion.ExcelColumnWidthToPoints(10d, PdfWorksheetLayout.ZeroCharWidth);
+            var cell2Width = UnitConversion.ExcelColumnWidthToPoints(75d, PdfWorksheetLayout.ZeroCharWidth);
+            var y = content.LocalPosition.Y + content.Size.Y; ;
+            var x = 0d;
+            foreach (var cn in dictionaries.CommentsAndNotes)
+            {
+                var c1 = tempWS.Cells[row, col];
+                var rt1 = c1.RichText.Add("Cell:");
+                rt1.Bold = true;
+                rt1.FontName = ns.Style.Font.Name;
+                rt1.Family = ns.Style.Font.Family;
+                rt1.Size = ns.Style.Font.Size;
+                c1.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                var c2 = tempWS.Cells[row, col+1];
+                var rt2 = c2.RichText.Add(cn.Key);
+                rt2.Bold = false;
+                rt2.FontName = ns.Style.Font.Name;
+                rt2.Family = ns.Style.Font.Family;
+                rt2.Size = ns.Style.Font.Size;
+                c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                var rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                y -= rowHeight;
+                var leftText = new PdfCellContentLayout(c1, null, pageSettings, x, y, cell1Width, rowHeight, 1, 1, 0, content, dictionaries);
+                var rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
+                row++;
+                if (cn.Value.ThreadedComment != null)
+                {
+                    var tc = cn.Value.ThreadedComment.Comments;
+                    string startC = "Comment:";
+                    foreach (var c in tc)
+                    {
+                        c1 = tempWS.Cells[row, col];
+                        c1.RichText.Clear();
+                        rt1 = c1.RichText.Add(startC);
+                        rt1.Bold = true;
+                        rt1.FontName = ns.Style.Font.Name;
+                        rt1.Family = ns.Style.Font.Family;
+                        rt1.Size = ns.Style.Font.Size;
+                        c1.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                        c2 = tempWS.Cells[row, col + 1];
+                        c2.RichText.Clear();
+                        rt2 = c2.RichText.Add(c.Author.DisplayName);
+                        rt2.Bold = false;
+                        rt2.FontName = ns.Style.Font.Name;
+                        rt2.Family = ns.Style.Font.Family;
+                        rt2.Size = ns.Style.Font.Size;
+                        c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                        y -= rowHeight;
+                        leftText = new PdfCellContentLayout(c1, null, pageSettings, x, y, cell1Width, rowHeight, 1, 1, 0, content, dictionaries);
+                        rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
+                        row++;
+                        c2 = tempWS.Cells[row, col + 1];
+                        c2.RichText.Clear();
+                        rt2 = c2.RichText.Add(c.Text );
+                        rt2.Bold = false;
+                        rt2.FontName = ns.Style.Font.Name;
+                        rt2.Family = ns.Style.Font.Family;
+                        rt2.Size = ns.Style.Font.Size;
+                        c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                        y -= rowHeight;
+                        rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
+                        row++;
+                        c2 = tempWS.Cells[row, col + 1];
+                        c2.RichText.Clear();
+                        rt2 = c2.RichText.Add(c.DateCreated.ToString("yyyy-MM-dd HH:mm")); //depends on culture I guess
+                        rt2.Bold = false;
+                        rt2.FontName = ns.Style.Font.Name;
+                        rt2.Family = ns.Style.Font.Family;
+                        rt2.Size = ns.Style.Font.Size;
+                        c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                        y -= rowHeight;
+                        rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
+                        row++;
+                        startC = "Reply:";
+                    }
+                }
+                else if (cn.Value.Comment != null)
+                {
+                    var n = cn.Value.Comment;
+                    c1 = tempWS.Cells[row, col];
+                    c1.RichText.Clear();
+                    rt1 = c1.RichText.Add("Note:");
+                    rt1.Bold = true;
+                    rt1.FontName = ns.Style.Font.Name;
+                    rt1.Family = ns.Style.Font.Family;
+                    rt1.Size = ns.Style.Font.Size;
+                    c1.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                    var noteStrings = n.Text.Split(':');
+                    c2 = tempWS.Cells[row, col + 1];
+                    c2.RichText.Clear();
+                    rt2 = c2.RichText.Add(noteStrings[0] + ":");
+                    rt2.Bold = false;
+                    rt2.FontName = ns.Style.Font.Name;
+                    rt2.Family = ns.Style.Font.Family;
+                    rt2.Size = ns.Style.Font.Size;
+                    c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                    y -= rowHeight;
+                    leftText = new PdfCellContentLayout(c1, null, pageSettings, x, y, cell1Width, rowHeight, 1, 1, 0, content, dictionaries);
+                    rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
+                    row++;
+                    c2 = tempWS.Cells[row, col + 1];
+                    c2.RichText.Clear();
+                    rt2 = c2.RichText.Add(noteStrings[1]);
+                    rt2.Bold = false;
+                    rt2.FontName = ns.Style.Font.Name;
+                    rt2.Family = ns.Style.Font.Family;
+                    rt2.Size = ns.Style.Font.Size;
+                    c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                    y -= rowHeight;
+                    rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
+                    row++;
+                }
+                rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
+                y -= rowHeight;
+            }
+
+            content.LocalPosition = new Vector2(pageSettings.Margins.LeftPu, content.LocalPosition.Y - pageSettings.Margins.TopPu);
+            pagesLayout.AddChild(page);
+            ws.Workbook.Worksheets.Delete("TemporaryWorksheetForCommentsInPdfExporterForEPPlus");
+        }
+
+        private void LayoutAndShapeCommentsAndNotes(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPageLayout page)
+        {
+            var contentList = page.ChildObjects[0].ChildObjects.ToArray();
+            foreach (var child in contentList)
+            {
+                page.AddChild(child);
+                if (child is PdfCellContentLayout ccl)
+                {
+                    LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, ccl);
+                    ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
+                }
+            }
+            page.RemoveChild(page.ChildObjects[0]);
         }
 
         //Internal class for storing bounds for pages
@@ -347,14 +502,23 @@ namespace EPPlus.Export.Pdf.PdfLayout
             var pageData = new List<PageData>();
             foreach (PdfPageLayout p in pages.ChildObjects)
             {
-                pageData.Add(new PageData(p, p.ChildObjects[0].GetGlobalBoundingbox()));
-
                 var hfs = p.ChildObjects.Where(x => x is PdfHeaderFooterLayout).ToArray();
-                foreach(var hf in hfs )
+                foreach (var hf in hfs)
+                {
                     LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
+                }
+                if (p.isCommentsPage) continue;
+                //{
+                //    LayoutAndShapeCommentsAndNotes(pageSettings, dictionaries, p);
+                //}
+
+                pageData.Add(new PageData(p, p.ChildObjects[0].GetGlobalBoundingbox()));
                 var contents = p.ChildObjects[0].ChildObjects.Where(x => x is PdfCellContentLayout).ToArray();
                 foreach (PdfCellContentLayout content in contents)
+                {
                     LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, content);
+                    AdjustText(content.TextLength, content.TextHeight, content);
+                }
 
             }
             pageData.Sort((a, b) => a.Bounds.Top.CompareTo(b.Bounds.Top));
@@ -367,6 +531,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 PageData fullIntersectPage = null;
                 foreach (var pd in pageData)
                 {
+                    if (pd.Page.isCommentsPage) continue;
                     if (pd.Bounds.Top > cellBounds.Bottom) break;
                     if (pd.Bounds.Bottom < cellBounds.Top) continue;
 
@@ -379,6 +544,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 // Pass 2: assign to pages.
                 foreach (var pd in pageData)
                 {
+                    if (pd.Page.isCommentsPage) continue;
                     if (pd.Bounds.Top > cellBounds.Bottom) break;
                     if (pd.Bounds.Bottom < cellBounds.Top) continue;
 
@@ -423,6 +589,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         {
                             page.AddCell(cellContent);
                             LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, cellContent);
+                            AdjustText(cellContent.TextLength, cellContent.TextHeight, cellContent);
                             break;
                         }
                         else
@@ -436,6 +603,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             copy.Z = cellContent.Z;
                             page.ChildObjects[0].AddChild(copy);
                             LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, copy);
+                            AdjustText(cellContent.TextLength, cellContent.TextHeight, cellContent);
                         }
                     }
                     else if (t is PdfCellBorderLayout border)
@@ -472,6 +640,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             page.ChildObjects[0].AddChild(copy);
                         }
                     }
+                }
+            }
+            foreach (PdfPageLayout p in pages.ChildObjects)
+            {
+                if (p.isCommentsPage)
+                {
+                    LayoutAndShapeCommentsAndNotes(pageSettings, dictionaries, p);
                 }
             }
         }
@@ -543,10 +718,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
             {
                 ccl.TextLength = totalTextLength;
                 ccl.TextHeight = maxLineHeight;
-                ccl.CalculateTextSpill(ccl.Size.X, ccl.CellAlignmentData.TextRotation);
-                ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
-                ccl.CheckClipping(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
             }
+        }
+
+        private static void AdjustText(double totalTextLength, double maxLineHeight, PdfCellContentLayout ccl)
+        {
+            ccl.CalculateTextSpill(ccl.Size.X, ccl.CellAlignmentData.TextRotation);
+            ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
+            ccl.CheckClipping(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
         }
 
         //Create a map for page
@@ -555,6 +734,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             List<string> entriesToRemove = new();
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                if (page.isCommentsPage) continue;
                 page.CreateMap();
                 var hw = PdfWorksheetLayout.RowHeadingWidth;
                 var x = pageSettings.Margins.LeftPu + hw;
@@ -662,6 +842,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                if (page.isCommentsPage) continue;
                 var rowCount = page.ToRow - page.FromRow + 1;
                 var colCount = page.ToCol - page.FromCol + 1;
 
@@ -908,6 +1089,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                if (page.isCommentsPage) continue;
                 //Make adjustments
                 foreach (var child in page.ChildObjects)
                 {
