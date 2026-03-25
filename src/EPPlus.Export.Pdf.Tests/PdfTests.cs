@@ -101,12 +101,13 @@ namespace EPPlusTest.PDF
             pageSettings.CenterOnPageHorizontally = true;
             pageSettings.CenterOnPageVertically = true;
             pageSettings.ShowHeadings = true;
+            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
             //Debug Flags
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest48.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest49.pdf");
         }
 
         [TestMethod]

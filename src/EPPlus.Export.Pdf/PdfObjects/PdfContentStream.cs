@@ -405,8 +405,9 @@ namespace EPPlus.Export.Pdf.PdfObjects
         public void AddInnerGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
+            if (pl.isCommentsPage) return;
 
-            commands.Add($"% Gridlnes Start");
+            commands.Add($"% Gridlines Start");
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
             commands.Add(Color.Black.ToFillCommand());
@@ -435,6 +436,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         public void AddOuterGridBorder(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
+            if (pl.isCommentsPage) return;
 
             commands.Add($"% Gridlines Border Start");
             commands.Add("q");

@@ -60,6 +60,11 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// </summary>
         public bool ShowHeadings = false;
 
+        /// <summary>
+        /// Set if comments and notes should be included.
+        /// </summary>
+        public CommentsAndNotes CommentsAndNotes = CommentsAndNotes.None;
+
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
         /// Set the size of pages.
@@ -169,6 +174,22 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// Order Over then down.
         /// </summary>
         OverThenDown,
+    }
+
+    public enum CommentsAndNotes
+    {
+        /// <summary>
+        /// Comments and Notes will be ignored.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Comments and Notes will be displayed on a seprate page at the end.
+        /// </summary>
+        AtEndOfSheet,
+        /// <summary>
+        /// Notes will be displayed on the sheet. (Comments will not be shown.)
+        /// </summary>
+        AsDisplayedOnSheet
     }
 }
 
