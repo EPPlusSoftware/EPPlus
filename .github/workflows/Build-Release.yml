@@ -30,15 +30,29 @@ jobs:
       id: read_version
       run: |
         $version = ([xml](Get-Content ./src/EPPlus/EPPlus.csproj)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+        $tfms = ([xml](Get-Content ./src/EPPlus/EPPlus.csproj)).Project.PropertyGroup.TargetFrameworks | Where-Object { $_ } | Select-Object -First 1
         echo "VERSION=$version" >> $env:GITHUB_ENV
+        echo "TFMS=$tfms" >> $env:GITHUB_ENV
       shell: pwsh
-    - name: Generate SBOM
-      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml
-    - name: Generate SHA-256 checksum for SBOM
+    - name: Generate combined SBOM
+      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml --spec-version 1.6
+    - name: Generate per-TFM SBOMs
       run: |
-        $sbomFile = "./sbom/epplus-${{ env.VERSION }}.sbom.json"
-        $hash = (Get-FileHash -Path $sbomFile -Algorithm SHA256).Hash.ToLower()
-        "$hash  epplus-${{ env.VERSION }}.sbom.json" | Out-File -FilePath "./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256" -Encoding utf8NoBOM
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          Write-Host "Generating SBOM for $tfm"
+          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm --spec-version 1.6
+        }
+      shell: pwsh
+    - name: Generate SHA-256 checksums for all SBOMs
+      run: |
+        Get-ChildItem -Path "./sbom" -Filter "*.sbom.json" | ForEach-Object {
+          $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
+          "$hash  $($_.Name)" | Out-File -FilePath "$($_.FullName).sha256" -Encoding utf8NoBOM
+          Write-Host "Checksum generated for $($_.Name): $hash"
+        }
       shell: pwsh
     # --- SBOM ---
 
@@ -59,28 +73,34 @@ jobs:
         creds: '{"clientId":"${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }}","clientSecret":"${{ secrets.EPPLUS_CODE_SIGNING_SECRET }}","subscriptionId":"${{ secrets.EPPLUS_CODE_SIGNING_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }}"}'
     - name: Sign EPPlus.dll with AzureSignTool
       run: |
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net9.0\EPPlus.dll" 
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net8.0\EPPlus.dll" 
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\netstandard2.1\EPPlus.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\netstandard2.0\EPPlus.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net462\EPPlus.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net35\EPPlus.dll"
-    - name: Sign EPPlus.Interface.dll with AzureSignTool
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          Write-Host "Signing EPPlus.dll for $tfm"
+          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\$tfm\EPPlus.dll"
+        }
+      shell: pwsh
+    - name: Sign EPPlus.Interfaces.dll with AzureSignTool
       run: |
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net9.0\EPPlus.Interfaces.dll" 
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net8.0\EPPlus.Interfaces.dll" 
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\netstandard2.1\EPPlus.Interfaces.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\netstandard2.0\EPPlus.Interfaces.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net462\EPPlus.Interfaces.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net35\EPPlus.Interfaces.dll"
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          Write-Host "Signing EPPlus.Interfaces.dll for $tfm"
+          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\$tfm\EPPlus.Interfaces.dll"
+        }
+      shell: pwsh
     - name: Sign EPPlus.System.Drawing.dll with AzureSignTool
       run: |
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net9.0\EPPlus.System.Drawing.dll" 
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net8.0\EPPlus.System.Drawing.dll" 
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\netstandard2.1\EPPlus.System.Drawing.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\netstandard2.0\EPPlus.System.Drawing.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net462\EPPlus.System.Drawing.dll"
-        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net35\EPPlus.System.Drawing.dll"
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          Write-Host "Signing EPPlus.System.Drawing.dll for $tfm"
+          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\$tfm\EPPlus.System.Drawing.dll"
+        }
+      shell: pwsh
     - name: Pack NuGet package
       run: dotnet pack ./src/EPPlus.sln --configuration Release --output ./output
     - name: Sign NuGet package
@@ -92,31 +112,22 @@ jobs:
           name: signed-nuget-package
           path: ./output/*.nupkg
     # --- SBOM ---
-    - name: Upload SBOM to Azure Blob Storage
+    - name: Upload all SBOMs to Azure Blob Storage
       run: |
-        az storage blob upload `
-          --account-name eppluswebprod `
-          --container-name sbom `
-          --name epplus-${{ env.VERSION }}.sbom.json `
-          --file ./sbom/epplus-${{ env.VERSION }}.sbom.json `
-          --auth-mode login `
-          --overwrite
-      shell: pwsh
-    - name: Upload SBOM checksum to Azure Blob Storage
-      run: |
-        az storage blob upload `
-          --account-name eppluswebprod `
-          --container-name sbom `
-          --name epplus-${{ env.VERSION }}.sbom.json.sha256 `
-          --file ./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256 `
-          --auth-mode login `
-          --overwrite
+        Get-ChildItem -Path "./sbom" | ForEach-Object {
+          Write-Host "Uploading $($_.Name)"
+          az storage blob upload `
+            --account-name eppluswebprod `
+            --container-name sbom `
+            --name $_.Name `
+            --file $_.FullName `
+            --auth-mode login `
+            --overwrite
+        }
       shell: pwsh
     - name: Upload SBOM as artifact
       uses: actions/upload-artifact@v4
       with:
           name: sbom
-          path: |
-            ./sbom/epplus-${{ env.VERSION }}.sbom.json
-            ./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256
+          path: ./sbom/
     # --- SBOM ---
