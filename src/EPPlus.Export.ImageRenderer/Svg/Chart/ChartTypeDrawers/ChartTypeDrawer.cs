@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,10 +72,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     case eChartType.LineStacked100:
                     case eChartType.LineMarkersStacked:
                     case eChartType.LineMarkersStacked100:
-                        drawers.Add(new LineChartTypeDrawer(svgChart, ct));
+                        drawers.Add(new LineChartTypeDrawer(svgChart, (ExcelLineChart)ct));
                         break;
                     case eChartType.ColumnClustered:
-                        drawers.Add(new ColumnChartTypeDrawer(svgChart, ct));
+                    case eChartType.ColumnStacked:
+                    case eChartType.ColumnStacked100:
+                    case eChartType.BarClustered:
+                    case eChartType.BarStacked:
+                    case eChartType.BarStacked100:
+                        drawers.Add(new BarColumnChartTypeDrawer(svgChart, (ExcelBarChart)ct));
                         break;
                     default:
                         throw new NotImplementedException($"No Svg support for Chart type {ct} is implemented.");
@@ -82,6 +88,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             return drawers;
         }
+        internal void SumSeries(List<List<object>> series)
+        {
+            for (var i = 1; i < series.Count; i++)
+            {
+                for (var j = 0; j < series[i].Count; j++)
+                {
+                    series[i][j] = ConvertUtil.GetValueDouble(series[i][j]) + ConvertUtil.GetValueDouble(series[i - 1][j]);
+                }
+            }
+        }
+
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(RenderItems);

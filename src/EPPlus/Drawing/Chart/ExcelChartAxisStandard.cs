@@ -798,7 +798,16 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
-            var dl = values.SelectMany(x => x).Distinct().ToList();
+            List<object> dl;
+            if (IsVertical)
+            {
+                dl = values.SelectMany(x => x).Distinct().ToList();
+
+            }
+            else
+            {
+                dl = values.SelectMany(x => x).ToList();
+            }
             dl.Sort();
             if (Orientation == eAxisOrientation.MaxMin)
             {
@@ -812,6 +821,7 @@ namespace OfficeOpenXml.Drawing.Chart
             values = new List<List<object>>();
             isCount = false;
             List<object> pl = new List<object>();
+            int ix = 0;
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
                 foreach (var serie in ct.Series)
@@ -827,21 +837,22 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true);
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true,serie.GetHeaderText(ix));
                         }
                     }
                     else
                     {
                         if (ct.YAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, pl);
+                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, serie.GetHeaderText(ix), pl);
                         }
                         else if (ct.XAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false, serie.GetHeaderText(ix));
                         }
                     }
                     pl = l;
+                    ix++;
                 }
             }
             if (_chart.IsTypePercentStacked() && IsYAxis)
@@ -901,7 +912,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, List<object> prevList=null)
+        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, string header, List<object> prevList=null)
         {
             var isStacked = _chart.IsTypeStacked() && prevList != null;
             if (numberLiterals?.Length > 0)

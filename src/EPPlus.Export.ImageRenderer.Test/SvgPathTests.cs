@@ -526,8 +526,8 @@ namespace TestProject1
                 }
             }
         }
-        [TestMethod, Ignore]
-        public void GenerateSvgForColumnCharts()
+        [TestMethod]
+        public void GenerateSvgForColumnCharts1()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ColumnChartForSvg.xlsx"))
@@ -544,7 +544,29 @@ namespace TestProject1
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet1_{ix++}.svg", svg);
+                }
+            }
+        }
+        [TestMethod]
+        public void GenerateSvgForColumnCharts2()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ColumnChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet2_{ix++}.svg", svg);
                 }
             }
         }
