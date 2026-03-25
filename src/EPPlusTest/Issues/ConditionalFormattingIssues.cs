@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Style;
+using System.Drawing;
 using System.Globalization;
 using System.Threading;
 
@@ -74,6 +76,90 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
             Thread.CurrentThread.CurrentCulture = currentCulture;
+        }
+
+        [TestMethod]
+        public void s1025()
+        {
+            using (var package = OpenTemplatePackage("s1025.xlsx"))
+            {
+                ExcelWorkbook wb = package.Workbook;
+                ExcelWorksheet ws = wb.Worksheets[0];
+
+                IExcelConditionalFormattingBetween condGreen = ws.ConditionalFormatting.AddBetween(ws.Cells[5, 2, 25, 2]);
+                condGreen.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                condGreen.Style.Fill.BackgroundColor.Color = ColorTranslator.FromHtml("#A9D08E");
+                condGreen.Formula = ws.Cells[6, 7].FullAddressAbsolute.ToString();
+                condGreen.Formula2 = ws.Cells[6, 8].FullAddressAbsolute.ToString();
+
+                IExcelConditionalFormattingBetween condYellow = ws.ConditionalFormatting.AddBetween(ws.Cells[5, 2, 25, 2]);
+                condYellow.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                condYellow.Style.Fill.BackgroundColor.Color = ColorTranslator.FromHtml("#FFE699");
+                condYellow.Formula = ws.Cells[7, 7].FullAddressAbsolute.ToString();
+                condYellow.Formula2 = ws.Cells[7, 8].FullAddressAbsolute.ToString();
+
+                IExcelConditionalFormattingGreaterThan condRed = ws.ConditionalFormatting.AddGreaterThan(ws.Cells[5, 2, 25, 2]);
+                condRed.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                condRed.Style.Fill.BackgroundColor.Color = ColorTranslator.FromHtml("#FF7979");
+                condRed.Formula = ws.Cells[9, 7].FullAddressAbsolute.ToString();
+
+                Assert.AreEqual(6, condRed.Priority);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void VerifyReadWritePriority()
+        {
+            using (var p = OpenPackage("CFReadWritePriority.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("CFReadWritePriorityWs");
+
+                ws.Cells["A1:C10"].Formula = "ROW()+COLUMN()";
+
+                ws.Calculate();
+
+                var cf1 = ws.Cells["A1:A10"].ConditionalFormatting.AddAboveAverage();
+                var cf2 = ws.Cells["A1:A10"].ConditionalFormatting.AddAboveAverage();
+
+                cf1.Style.Fill.BackgroundColor.SetColor(Color.RosyBrown);
+
+                cf2.Style.Fill.BackgroundColor.SetColor(Color.DarkGreen);
+
+                var cfB1 = ws.Cells["B1:B10"].ConditionalFormatting.AddBetween();
+                cfB1.Formula = "4";
+                cfB1.Formula2 = "14";
+
+                var cfB2 = ws.Cells["B1:B10"].ConditionalFormatting.AddBetween();
+
+                cfB2.Formula = "14";
+                cfB2.Formula2 = "35";
+
+                cfB1.Style.Fill.BackgroundColor.SetColor(Color.BlueViolet);
+                cfB2.Style.Fill.BackgroundColor.SetColor(Color.Chartreuse);
+
+                cfB1.Priority = 1;
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("CFReadWritePriority.xlsx", false))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var cfText = ws.Cells["C3:C5"].ConditionalFormatting.AddContainsText();
+
+                cfText.Formula = "";
+                cfText.Style.Fill.BackgroundColor.Color = Color.Red;
+
+                Assert.AreEqual(5, cfText.Priority);
+
+                var outFile = GetOutputFile("", "CFSamePriorityResave.xlsx");
+
+                p.SaveAs(outFile);
+                //SaveAndCleanup(p);
+            }
         }
     }
 }
