@@ -1,0 +1,62 @@
+name: Grype Direct CycloneDX Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'EPPlus version to test (e.g. 7.3.0)'
+        required: true
+        default: '7.3.0'
+      tfm:
+        description: 'Target framework to test (e.g. net8.0)'
+        required: true
+        default: 'net8.0'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install grype
+      run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
+    - name: Install syft
+      run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
+    - name: Download SBOM
+      run: |
+        curl -sSf "https://epplussoftware.com/security/sbom/${{ github.event.inputs.version }}/${{ github.event.inputs.tfm }}.json" \
+          -o epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.sbom.json
+        echo "SBOM contents (components only):"
+        jq '[.components[] | {name, version}]' epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.sbom.json
+
+    - name: Scan with Grype DIRECTLY (CycloneDX)
+      run: |
+        echo "=== DIRECT CYCLONEDX SCAN ==="
+        grype --add-cpes-if-none \
+          "sbom:./epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.sbom.json" \
+          --output json \
+          --file ./report-direct.json || true
+        echo "Match count: $(jq '.matches | length' ./report-direct.json)"
+        jq '[.matches[] | {id: .vulnerability.id, severity: .vulnerability.severity, package: .artifact.name, version: .artifact.version}]' ./report-direct.json
+
+    - name: Convert via Syft and scan with Grype
+      run: |
+        echo "=== SYFT CONVERSION + GRYPE SCAN ==="
+        syft scan "file:./epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.sbom.json" \
+          -o "syft-json=./epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.syft.json"
+        echo "Syft component count: $(jq '.artifacts | length' ./epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.syft.json)"
+        grype --add-cpes-if-none \
+          "sbom:./epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.syft.json" \
+          --output json \
+          --file ./report-syft.json || true
+        echo "Match count: $(jq '.matches | length' ./report-syft.json)"
+        jq '[.matches[] | {id: .vulnerability.id, severity: .vulnerability.severity, package: .artifact.name, version: .artifact.version}]' ./report-syft.json
+
+    - name: Upload reports as artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: grype-test-${{ github.event.inputs.version }}-${{ github.event.inputs.tfm }}
+        path: |
+          ./report-direct.json
+          ./report-syft.json
+          ./epplus-${{ github.event.inputs.version }}.${{ github.event.inputs.tfm }}.syft.json
