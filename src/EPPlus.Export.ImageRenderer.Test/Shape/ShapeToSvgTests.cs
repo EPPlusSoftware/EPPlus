@@ -10,10 +10,10 @@ using System.Text;
 using System.Xml;
 using TypeConv = OfficeOpenXml.Utils.TypeConversion;
 
-namespace TestProject1
+namespace EPPlus.Export.ImageRenderer.Tests.Shape
 {
     [TestClass]
-    public sealed class SvgPathTests : TestBase
+    public sealed class ShapeToSvgTests : TestBase
     {
         [TestMethod]
         public void Rect()
@@ -505,161 +505,6 @@ namespace TestProject1
             }
         }
         [TestMethod]
-        public void GenerateSvgForCharts()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
-
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForColumnCharts1()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ColumnChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
-
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet1_{ix++}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForColumnCharts2()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ColumnChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[1];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
-
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet2_{ix++}.svg", svg);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GenerateSimplestChart()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("SimplestChart.xlsx"))
-            {
-                var c = p.Workbook.Worksheets[0].Drawings[0];
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\SimplestChartTitle.svg", svg);
-            }
-        }
-
-
-        [TestMethod] 
-        public void GenerateDataLabels()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datalabelsSvg.xlsx"))
-            {
-                var c = p.Workbook.Worksheets[0].Drawings[0];
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\datalabelsAttempt.svg", svg);
-            }
-        }
-
-
-
-        [TestMethod]
-        public void GenerateDataLabelsTrueMost()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datalabelsSvgTrueMostWithFill.xlsx"))
-            {
-                var c = p.Workbook.Worksheets[0].Drawings[0];
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\datalabelsSvgTrueMostWithFill.svg", svg);
-            }
-        }
-
-        [TestMethod]
-        public void GenerateDataLabelsTrueMostAndManualLayout()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datalabelsSvgTrueMostWithFillANDManual.xlsx"))
-            {
-                var c = p.Workbook.Worksheets[0].Drawings[0];
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\datalabelsSvgTrueMostWithFillAndManual.svg", svg);
-            }
-        }
-
-        [TestMethod]
-        public void GenerateDatalabelsLeaderLines()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datalabelsSvgLeaderLinesAdjustedToBeSimilar.xlsx"))
-            {
-                var c = p.Workbook.Worksheets[0].Drawings[0];
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\datalabelsSvgLeaderLines.svg", svg);
-            }
-        }
-
-
-        [TestMethod]
-        public void GenerateDatalabelsRightAlignedWithBg()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datalabelsSvgRightAlignedWithBg.xlsx"))
-            {
-                var c = p.Workbook.Worksheets[0].Drawings[0];
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\datalabelsSvgLeaderLinesBg.svg", svg);
-            }
-        }
-
-        [TestMethod]
         public void OpenRightAligned()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -670,6 +515,34 @@ namespace TestProject1
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\SimplestChartRightAlign.svg", svg);
+            }
+        }
+        [TestMethod]
+        public void TestStyling()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("MyCellsAdvanced.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var myCell = ws.Cells["B3"];
+                var myCellStyle = myCell.Style;
+                var fillStyle = myCell.Style.Fill;
+                var fontColor = myCell.Style.Font.Color;
+
+                var bgRgb = myCell.Style.Fill.BackgroundColor.Rgb;
+                var bgFillCol = myCell.Style.Fill.PatternColor.Rgb;
+
+                var myOtherCell = ws.Cells["B2"];
+
+                var myShape = ws.Drawings[0].As.Shape;
+                var myRichtext = myShape.RichText;
+                var firstDefault = myShape.TextBody.Paragraphs.FirstDefaultRunProperties;
+
+                var firstPara = myShape.TextBody.Paragraphs[0];
+                var defRun = firstPara.DefaultRunProperties;
+
+                var secondPara = myShape.TextBody.Paragraphs[1];
+                var secondDefRun = secondPara.DefaultRunProperties;
             }
         }
 
@@ -734,137 +607,6 @@ namespace TestProject1
                 _currentShape.GetSizeInPixels(out int testWidth, out int testHeight);
 
                 SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void GenerateSvgForLineCharts()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("LineChartRenderTest.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForCharts_sheet2()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[1];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForCharts_sheet3()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[2];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet3{ix++}.svg", svg);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void TestStyling()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("MyCellsAdvanced.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var myCell = ws.Cells["B3"];
-                var myCellStyle = myCell.Style;
-                var fillStyle = myCell.Style.Fill;
-                var fontColor = myCell.Style.Font.Color;
-
-                var bgRgb = myCell.Style.Fill.BackgroundColor.Rgb;
-                var bgFillCol = myCell.Style.Fill.PatternColor.Rgb;
-
-                var myOtherCell = ws.Cells["B2"];
-
-                var myShape = ws.Drawings[0].As.Shape;
-                var myRichtext = myShape.RichText;
-                var firstDefault = myShape.TextBody.Paragraphs.FirstDefaultRunProperties;
-
-                var firstPara = myShape.TextBody.Paragraphs[0];
-                var defRun = firstPara.DefaultRunProperties;
-
-                var secondPara = myShape.TextBody.Paragraphs[1];
-                var secondDefRun = secondPara.DefaultRunProperties;
-            }
-        }
-
-        [TestMethod]
-        public void GenerateSvgForCharts_SecondaryAxis()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 3;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_SecAxis{ix++}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForCharts_SecondaryAxis_sheet2()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[1];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 0;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet2_SecAxis{ix++}.svg", svg);
-                }
             }
         }
         [TestMethod]
