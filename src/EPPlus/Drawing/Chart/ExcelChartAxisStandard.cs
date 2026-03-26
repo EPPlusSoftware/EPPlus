@@ -799,8 +799,15 @@ namespace OfficeOpenXml.Drawing.Chart
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
             List<object> dl;
-            dl = values.SelectMany(x => x).Distinct().ToList();
-            dl.Sort();
+            if(AxisType==eAxisType.Cat)
+            {
+                dl = values.SelectMany(x => x).Distinct().ToList();
+            }
+            else
+            {
+                dl = values.SelectMany(x => x).Distinct().ToList();
+                dl.Sort();
+            }
             if (Orientation == eAxisOrientation.MaxMin)
             {
                 dl.Reverse();
@@ -829,18 +836,18 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, serie.GetHeaderText(ix));
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress.Address, serie.GetHeaderText(ix) });
                         }
                     }
                     else
                     {
                         if (ct.YAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, serie.GetHeaderText(ix), pl);
+                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
                         }
                         else if (ct.XAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false, serie.GetHeaderText(ix));
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false, null);
                         }
                     }
                     pl = l;
@@ -904,7 +911,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, string header, List<object> prevList=null)
+        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, string[] headerInfo, List<object> prevList=null)
         {
             var isStacked = _chart.IsTypeStacked() && prevList != null;
             if (numberLiterals?.Length > 0)
@@ -941,7 +948,14 @@ namespace OfficeOpenXml.Drawing.Chart
                             var v = range.Offset(r, c, 1, 1);
                             if (useText)
                             {
-                                list.Add(v.Text);
+                                if (headerInfo == null)
+                                {
+                                    list.Add(v.Text);
+                                }
+                                else
+                                {
+                                    list.Add(new string[] { v.Text, a.Address, headerInfo[1] });
+                                }
                             }
                             else
                             {

@@ -3,6 +3,7 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -99,21 +100,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var gapPercent = chartType.GapWidth / 100D;     //Gap width between bars/columns in percent
             var overlapPercent = chartType.Overlap / 100D;  //Overlap  between bars/columns in percent
-            var slotWidth = _svgChart.Plotarea.Rectangle.Width / seriesCount;
-            var slotGap = slotWidth * gapPercent;
+            var slotWidth = _svgChart.Plotarea.Rectangle.Width / (slotSize);
+            var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
+            var step = 1 - overlapPercent;
             double barWidth;
-            if(slotSize > 1)
-            {
-                barWidth = 1 + (slotSize - 1) * (1 - overlapPercent);
-            }
-            else
-            {
-                barWidth = slotWidth * (1+overlapPercent);
-            }
+            barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
+            var halfGap = (barWidth * gapPercent) / 2;
             //barWidth = barWidth * overlapPercent;
             //var xl = barWidth / 2;            
             var yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min);
-            for (var i = 0; i < yValues.Count; i++)
+            for (var i = 0;     i < yValues.Count; i++)
             {
                 double x;
                 if (xValues == null || xAxis.Axis.AxisType==eAxisType.Cat)
@@ -133,12 +129,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 else
                 {
-                    xPos = xAxis.GetPositionInPlotarea(x) + (barWidth + barWidth * -overlapPercent) * position;
+                    xPos = xAxis.GetPositionInPlotarea(x) + halfGap + position * barWidth * step;
                 }
                 var yPos = yAxis.GetPositionInPlotarea(y);
 
                 var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-                rect.Left = xPos - barWidth / 2;
+                rect.Left = xPos;
                 rect.Width = barWidth;
                 rect.Top = yPos;
                 rect.Height = yAxisStart - yPos;

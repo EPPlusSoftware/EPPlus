@@ -21,9 +21,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             //var height = options.ChartSize.Bounds.Height;
             var ax = options.Axis;
             var plotAreaWidth = options.ChartSize.Bounds.Width;
-            var mf = ax.Font.GetMeasureFont();
-            var displayValues = values.Select(x => x.ToString()).ToList();
-            var res = tm.MeasureText(displayValues[0], mf);
+            var mf = ax.Font.GetMeasureFont();            
+            var displayValues = GetUniqueValues(values).Select(x=>x.ToString()).ToList();
+            var res = tm.MeasureText(displayValues[0].ToString(), mf);
 
             //Get interval for maximum width with vertical text.
             var interval = GetMinUnitVerticalText(displayValues, res.Height, plotAreaWidth);
@@ -42,7 +42,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         MajorInterval = interval,
                         MinorInterval = 1,
                         Min = 1,
-                        Max = displayValues.Count,
+                        Max = values.Count,
                         TextOrientation = eTextOrientation.Horizontal
                     };
                 }
@@ -53,7 +53,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         MajorInterval = interval,
                         MinorInterval = 1,
                         Min = 1,
-                        Max = displayValues.Count,
+                        Max = values.Count,
                         TextOrientation = eTextOrientation.Diagonal
                     };
                 }
@@ -78,10 +78,33 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MajorInterval = interval,
                 MinorInterval = 1,
                 Min = 1,
-                Max = displayValues.Count,
+                Max = values.Count,
                 TextOrientation = eTextOrientation.Vertical
             };
 
+        }
+
+        internal static List<object> GetUniqueValues(List<object> values)
+        {
+            var ret = new List<object>();
+            var hs = new HashSet<string>();
+            foreach(var v in values)
+            {
+                if(v is string[])
+                {
+                    var s = (string[])v;
+                    var key = s[0] + s[1];
+                    if(hs.Add(key))
+                    {
+                        ret.Add(s[0]);
+                    }
+                }
+                else
+                {
+                    ret.Add(v);
+                }
+            }
+            return ret;
         }
 
         private static bool FitAsHorizontalText(List<string> displayValues, int interval, MeasurementFont mf, ITextMeasurer tm, double plotAreaWidth)
