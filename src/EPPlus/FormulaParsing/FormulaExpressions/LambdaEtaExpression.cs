@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             var functionName = _tokenValue.Replace("_xleta.", string.Empty);
             var func = Context.Configuration.FunctionRepository.GetFunction(functionName);
-            if(func == null || func.ArgumentMinLength > 1)
+            if(func == null || (func.ArgumentMinLength > 1 && func.IsAllowedAsLambdaWithMultipleArguments==false))
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
