@@ -327,149 +327,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
         private void CreatePageForLayoutComments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, PdfPagesLayout pagesLayout)
         {
             PdfCommentsLayout.CreateCommentAndNotesPages(pageSettings, dictionaries, ws, pagesLayout);
-
-            //if (dictionaries.CommentsAndNotes.Count == 0) return;
-            //PdfPageLayout page = new PdfPageLayout(0, 0, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
-            //page.Name = "CommentsAndNotes";
-            //page.isCommentsPage = true;
-            //PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
-            //content.Parent = page;
-            //var width = pageSettings.ContentBounds.Width;
-            //var height = pageSettings.ContentBounds.Height;
-            //var tempWS = ws.Workbook.Worksheets.Add("TemporaryWorksheetForCommentsInPdfExporterForEPPlus");
-            //var ns = ws.Workbook.Styles.GetNormalStyle();
-            //int row = 1;
-            //int col = 1;
-            //tempWS.Column(col).Width = 10d;
-            //tempWS.Column(col+1).Width = 75d;
-            //var cell1Width = UnitConversion.ExcelColumnWidthToPoints(10d, PdfWorksheetLayout.ZeroCharWidth);
-            //var cell2Width = UnitConversion.ExcelColumnWidthToPoints(75d, PdfWorksheetLayout.ZeroCharWidth);
-            //var y = content.LocalPosition.Y + content.Size.Y; ;
-            //var x = 0d;
-            //foreach (var cn in dictionaries.CommentsAndNotes)
-            //{
-            //    var c1 = tempWS.Cells[row, col];
-            //    var rt1 = c1.RichText.Add("Cell:");
-            //    rt1.Bold = true;
-            //    rt1.FontName = ns.Style.Font.Name;
-            //    rt1.Family = ns.Style.Font.Family;
-            //    rt1.Size = ns.Style.Font.Size;
-            //    c1.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-            //    var c2 = tempWS.Cells[row, col+1];
-            //    var rt2 = c2.RichText.Add(cn.Key);
-            //    rt2.Bold = false;
-            //    rt2.FontName = ns.Style.Font.Name;
-            //    rt2.Family = ns.Style.Font.Family;
-            //    rt2.Size = ns.Style.Font.Size;
-            //    c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            //    var rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //    y -= rowHeight;
-            //    var leftText = new PdfCellContentLayout(c1, null, pageSettings, x, y, cell1Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //    var rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //    row++;
-            //    if (cn.Value.ThreadedComment != null)
-            //    {
-            //        var tc = cn.Value.ThreadedComment.Comments;
-            //        string startC = "Comment:";
-            //        foreach (var c in tc)
-            //        {
-            //            c1 = tempWS.Cells[row, col];
-            //            c1.RichText.Clear();
-            //            rt1 = c1.RichText.Add(startC);
-            //            rt1.Bold = true;
-            //            rt1.FontName = ns.Style.Font.Name;
-            //            rt1.Family = ns.Style.Font.Family;
-            //            rt1.Size = ns.Style.Font.Size;
-            //            c1.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-            //            c2 = tempWS.Cells[row, col + 1];
-            //            c2.RichText.Clear();
-            //            rt2 = c2.RichText.Add(c.Author.DisplayName);
-            //            rt2.Bold = false;
-            //            rt2.FontName = ns.Style.Font.Name;
-            //            rt2.Family = ns.Style.Font.Family;
-            //            rt2.Size = ns.Style.Font.Size;
-            //            c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            //            rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //            y -= rowHeight;
-            //            leftText = new PdfCellContentLayout(c1, null, pageSettings, x, y, cell1Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //            rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //            row++;
-            //            c2 = tempWS.Cells[row, col + 1];
-            //            c2.RichText.Clear();
-            //            rt2 = c2.RichText.Add(c.Text );
-            //            rt2.Bold = false;
-            //            rt2.FontName = ns.Style.Font.Name;
-            //            rt2.Family = ns.Style.Font.Family;
-            //            rt2.Size = ns.Style.Font.Size;
-            //            c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            //            rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //            y -= rowHeight;
-            //            rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //            row++;
-            //            c2 = tempWS.Cells[row, col + 1];
-            //            c2.RichText.Clear();
-            //            rt2 = c2.RichText.Add(c.DateCreated.ToString("yyyy-MM-dd HH:mm")); //depends on culture I guess
-            //            rt2.Bold = false;
-            //            rt2.FontName = ns.Style.Font.Name;
-            //            rt2.Family = ns.Style.Font.Family;
-            //            rt2.Size = ns.Style.Font.Size;
-            //            c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            //            rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //            y -= rowHeight;
-            //            rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //            row++;
-            //            startC = "Reply:";
-            //        }
-            //    }
-            //    else if (cn.Value.Comment != null)
-            //    {
-            //        var n = cn.Value.Comment;
-            //        c1 = tempWS.Cells[row, col];
-            //        c1.RichText.Clear();
-            //        rt1 = c1.RichText.Add("Note:");
-            //        rt1.Bold = true;
-            //        rt1.FontName = ns.Style.Font.Name;
-            //        rt1.Family = ns.Style.Font.Family;
-            //        rt1.Size = ns.Style.Font.Size;
-            //        c1.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-            //        var noteStrings = n.Text.Split(':');
-            //        c2 = tempWS.Cells[row, col + 1];
-            //        c2.RichText.Clear();
-            //        rt2 = c2.RichText.Add(noteStrings[0] + ":");
-            //        rt2.Bold = false;
-            //        rt2.FontName = ns.Style.Font.Name;
-            //        rt2.Family = ns.Style.Font.Family;
-            //        rt2.Size = ns.Style.Font.Size;
-            //        c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            //        rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //        y -= rowHeight;
-            //        leftText = new PdfCellContentLayout(c1, null, pageSettings, x, y, cell1Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //        rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //        row++;
-            //        c2 = tempWS.Cells[row, col + 1];
-            //        c2.RichText.Clear();
-            //        rt2 = c2.RichText.Add(noteStrings[1]);
-            //        rt2.Bold = false;
-            //        rt2.FontName = ns.Style.Font.Name;
-            //        rt2.Family = ns.Style.Font.Family;
-            //        rt2.Size = ns.Style.Font.Size;
-            //        c2.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            //        rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //        y -= rowHeight;
-            //        rightText = new PdfCellContentLayout(c2, null, pageSettings, x + cell1Width, y, cell2Width, rowHeight, 1, 1, 0, content, dictionaries);
-            //        row++;
-            //    }
-            //    rowHeight = UnitConversion.ExcelRowHeightToPoints(ws.Row(row).Height);
-            //    y -= rowHeight;
-            //}
-
-            //content.LocalPosition = new Vector2(pageSettings.Margins.LeftPu, page.LocalPosition.Y + pageSettings.Margins.BottomPu);
-            //pagesLayout.AddChild(page);
-            //ws.Workbook.Worksheets.Delete("TemporaryWorksheetForCommentsInPdfExporterForEPPlus");
         }
 
         private void LayoutAndShapeCommentsAndNotes(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPageLayout page)
         {
+            page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y);
             var contentList = page.ChildObjects[0].ChildObjects.ToArray();
             foreach (var child in contentList)
             {
@@ -510,10 +372,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 {
                     LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
                 }
-                if (p.isCommentsPage) continue;
-                //{
-                //    LayoutAndShapeCommentsAndNotes(pageSettings, dictionaries, p);
-                //}
+                if (p.isCommentsPage)
+                {
+                    LayoutAndShapeCommentsAndNotes(pageSettings, dictionaries, p);
+                    continue;
+                }
 
                 pageData.Add(new PageData(p, p.ChildObjects[0].GetGlobalBoundingbox()));
                 var contents = p.ChildObjects[0].ChildObjects.Where(x => x is PdfCellContentLayout).ToArray();
@@ -643,13 +506,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             page.ChildObjects[0].AddChild(copy);
                         }
                     }
-                }
-            }
-            foreach (PdfPageLayout p in pages.ChildObjects)
-            {
-                if (p.isCommentsPage)
-                {
-                    LayoutAndShapeCommentsAndNotes(pageSettings, dictionaries, p);
                 }
             }
         }
@@ -1092,7 +948,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
-                if (page.isCommentsPage) continue;
+                if (page.isCommentsPage)
+                {
+                    foreach (var child in page.ChildObjects)
+                    {
+                        if (child is PdfCellContentLayout content)
+                        {
+                            content.GidsAndCharMap(dictionaries);
+                        }
+                        else if (child is PdfHeaderFooterLayout headerFooterLayout)
+                        {
+                            headerFooterLayout.GidsAndCharMap(dictionaries);
+                        }
+                    }
+                    continue;
+                }
                 //Make adjustments
                 foreach (var child in page.ChildObjects)
                 {
@@ -1107,6 +977,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     else if (child is PdfMergedCellLayout mergedLayout)
                     {
                         mergedLayout.AdjustForGridLines();
+                    }
+                    else if (child is PdfHeaderFooterLayout headerFooterLayout)
+                    {
+                        headerFooterLayout.GidsAndCharMap(dictionaries);
                     }
                 }
                 //Sort by Z ascending and the by Name descending

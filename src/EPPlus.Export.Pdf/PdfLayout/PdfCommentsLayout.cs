@@ -81,7 +81,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 PageData fullIntersectPage = null;
                 foreach (var pd in pageData)
                 {
-                    if (pd.Page.isCommentsPage) continue;
                     if (pd.Bounds.Top > cellBounds.Bottom) break;
                     if (pd.Bounds.Bottom < cellBounds.Top) continue;
 
@@ -94,7 +93,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 // Pass 2: assign to pages.
                 foreach (var pd in pageData)
                 {
-                    if (pd.Page.isCommentsPage) continue;
                     if (pd.Bounds.Top > cellBounds.Bottom) break;
                     if (pd.Bounds.Bottom < cellBounds.Top) continue;
 
@@ -106,7 +104,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     var page = pd.Page;
 
                     if (t is PdfCellContentLayout cellContent)
-                        page.AddChild(cellContent);
+                        page.ChildObjects[0].AddChild(cellContent);
                 }
             }
             ws.Workbook.Worksheets.Delete("TemporaryWorksheetForCommentsInPdfExporterForEPPlus");
@@ -130,9 +128,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             var cell = ws.Cells[row, col];
             cell.RichText.Clear();
-            foreach (var rt in RichText)
+            for (int i=1; i< RichText.Count; i++)
             {
-                var r = cell.RichText.Add(rt.Text);
+                var rt= RichText[i];
+                var trimmedText = rt.Text.Trim();
+                var r = cell.RichText.Add(trimmedText);
                 r.Bold = rt.Bold;
                 r.Italic = rt.Italic;
                 r.Color = rt.Color;
@@ -147,16 +147,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
             cell.Style.HorizontalAlignment = horizontalAlignment;
             cell.Style.VerticalAlignment = verticalAlignment;
             cell.Style.WrapText = true;
-        }
-
-        private static PdfPageLayout CreatePage(PdfPageSettings pageSettings, int pageNumber)
-        {
-            PdfPageLayout page = new PdfPageLayout(0, 0, pageSettings.PageSize.WidthPu, pageSettings.PageSize.HeightPu);
-            page.Name = "CommentsAndNotes " + pageNumber;
-            page.isCommentsPage = true;
-            PdfContentLayout content = new PdfContentLayout(0, 0, pageSettings.ContentBounds);
-            content.Parent = page;
-            return page;
         }
     }
 }

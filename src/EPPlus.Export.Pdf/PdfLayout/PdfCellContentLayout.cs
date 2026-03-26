@@ -425,7 +425,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
                     var font = usedFonts[glyph.FontId];
 
-                     dictionaries.Fonts[font.FullName].Gids.Add(glyph.GlyphId);
+                    dictionaries.Fonts[font.FullName].Gids.Add(glyph.GlyphId);
                     dictionaries.Fonts[font.FullName].fontData = font;
 
                     if (!dictionaries.Fonts[font.FullName].charactermappings.ContainsKey(glyph.GlyphId))

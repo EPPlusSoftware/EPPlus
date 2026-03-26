@@ -149,5 +149,41 @@ namespace EPPlus.Export.Pdf.PdfLayout
             }
         }
 
+        internal void GidsAndCharMap(PdfDictionaries dictionaries)
+        {
+            foreach (var tf in TextFormats)
+            {
+                var usedFonts = tf.UsedFonts;
+
+                foreach (var glyph in tf.ShapedText.Glyphs)
+                {
+                    if (glyph.FontId >= usedFonts.Count)
+                        continue;
+
+                    var font = usedFonts[glyph.FontId];
+
+                    dictionaries.Fonts[font.FullName].Gids.Add(glyph.GlyphId);
+                    dictionaries.Fonts[font.FullName].fontData = font;
+
+                    if (!dictionaries.Fonts[font.FullName].charactermappings.ContainsKey(glyph.GlyphId))
+                    {
+                        var chars = ExtractCharactersForGlyph(glyph, tf.Text);
+                        if (!string.IsNullOrEmpty(chars))
+                        {
+                            dictionaries.Fonts[font.FullName].charactermappings[glyph.GlyphId] = chars;
+                        }
+                    }
+                }
+            }
+        }
+        private string ExtractCharactersForGlyph(ShapedGlyph glyph, string textLine)
+        {
+            var chars = new System.Text.StringBuilder();
+            for (int i = 0; i < glyph.CharCount && glyph.ClusterIndex + i < textLine.Length; i++)
+            {
+                chars.Append(textLine[glyph.ClusterIndex + i]);
+            }
+            return chars.ToString();
+        }
     }
 }
