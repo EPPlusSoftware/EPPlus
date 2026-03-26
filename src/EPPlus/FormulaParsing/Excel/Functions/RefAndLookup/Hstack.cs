@@ -30,6 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override string NamespacePrefix => "_xlfn.";
 
         public override int ArgumentMinLength => 1;
+        public override bool ExecutesLambda => true;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var ranges = new List<IRangeInfo>();

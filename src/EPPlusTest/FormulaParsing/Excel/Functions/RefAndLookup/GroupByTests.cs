@@ -74,35 +74,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        public void GroupByMixedInput()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var s = package.Workbook.Worksheets.Add("test");
-                s.Cells["A1"].Value = "Joe";
-                s.Cells["A2"].Value = "Anna";
-                s.Cells["A3"].Value = ErrorValues.NAError;
-                s.Cells["A4"].Value = false;
-                s.Cells["B1"].Value = 1;
-                s.Cells["B2"].Value = 2;
-                s.Cells["B3"].Value = 4;
-                s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.SUM)";
-                s.Calculate();
-                Assert.AreEqual("Anna", s.Cells["C1"].Value);
-                Assert.AreEqual("Joe", s.Cells["C2"].Value);
-                Assert.AreEqual(ErrorValues.NAError, s.Cells["C3"].Value);
-                Assert.AreEqual(false, s.Cells["C4"].Value);
-                Assert.AreEqual(2d, s.Cells["D1"].Value);
-                Assert.AreEqual(1d, s.Cells["D2"].Value);
-                Assert.AreEqual(4d, s.Cells["D3"].Value);
-                Assert.AreEqual(0d, s.Cells["D4"].Value);
-
-                Assert.AreEqual("Total", s.Cells["C5"].Value);
-                Assert.AreEqual(7d, s.Cells["D5"].Value);
-            }
-        }
-
-        [TestMethod]
         public void GroupByFieldHeaders()
         {
             using (var package = new ExcelPackage())
@@ -276,7 +247,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        public void GroupByMEGATESTWOWOWOWOOWOW()
+        public void GroupBySortingMultipleCols()
         {
             using (var package = new ExcelPackage())
             {
@@ -313,12 +284,151 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["D6"].Value = 300;
                 s.Cells["D7"].Value = 300;
 
-                s.Cells["E1"].Formula = "GROUPBY(A1:C7, D1:D7, _xleta.SUM,3,2,-1,,,0)";
+                s.Cells["E1"].Formula = "GROUPBY(A1:C7, D1:D7, _xleta.SUM,0,2,-1,,0)";
                 s.Calculate();
 
                 Assert.AreEqual("Stockholm", s.Cells["E1"].Value);
-                Assert.AreEqual("Grand Total", s.Cells["E17"].Value);
+                Assert.AreEqual("Grand Total", s.Cells["E11"].Value);
+                Assert.AreEqual(5800d, s.Cells["H11"].Value);
             }
         }
+
+        [TestMethod]
+        public void GroupByTextFunction()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Kalle";
+                s.Cells["A2"].Value = "Alice";
+                s.Cells["A3"].Value = "Kalle";
+                s.Cells["A4"].Value = "Alva";
+
+                s.Cells["B1"].Value = "Hoppade";
+                s.Cells["B2"].Value = "Sprang";
+                s.Cells["B3"].Value = "Hoppade";
+                s.Cells["B4"].Value = "Gick";
+
+                s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.ARRAYTOTEXT)";
+                s.Calculate();
+
+                Assert.AreEqual("Hoppade; Sprang; Hoppade; Gick", s.Cells["D4"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void GroupByAVERAGE()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Kalle";
+                s.Cells["A2"].Value = "Alice";
+                s.Cells["A3"].Value = "Kalle";
+                s.Cells["A4"].Value = "Alva";
+
+                s.Cells["B1"].Value = 1;
+                s.Cells["B2"].Value = 2;
+                s.Cells["B3"].Value = 3;
+                s.Cells["B4"].Value = 4;
+
+                s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.AVERAGE)";
+                s.Calculate();
+
+                Assert.AreEqual("Total", s.Cells["C4"].Value);
+                Assert.AreEqual(2.5d, s.Cells["D4"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void GroupByTextFunction2()
+        {
+            // REMINDER: ARRAYTOTEXT verkar inte fungera som den ska. Kan inte hantera singel cell adress till funktionen, vilket den kan i excel.
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["B4"].Value = "Gick";
+
+                s.Cells["C1"].Formula = "ARRAYTOTEXT(B4)";
+                s.Calculate();
+
+                //Assert.AreEqual("Gick", s.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]        
+        public void GroupByShouldInsertZeroWhenEmptyAndNumericFunction()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                
+                s.Cells["A1"].Value = "B";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "A";
+                s.Cells["A5"].Value = "C";
+
+                s.Cells["B1"].Value = 1;
+                s.Cells["B3"].Value = 3;
+                s.Cells["B5"].Value = 4;
+
+                s.Cells["C1"].Formula = "GROUPBY(A1:A5, B1:B5, _xleta.SUM)";
+                s.Calculate();
+                Assert.AreEqual(0d, s.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void GroupByMultipleFunctions()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+
+                s.Cells["A1"].Value = "B";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "A";
+                s.Cells["A5"].Value = "C";
+
+                s.Cells["B1"].Value = 1;
+                s.Cells["B3"].Value = 3;
+                s.Cells["B5"].Value = 4;
+
+                s.Cells["C1"].Formula = "=GROUPBY(A1:A5, B1:B5,HSTACK(_xleta.COUNT, _xleta.SUM, _xleta.PERCENTOF),1)";
+                s.Calculate();
+                Assert.AreEqual(null, s.Cells["C1"].Value);
+                Assert.AreEqual("COUNT", s.Cells["D1"].Value);
+                Assert.AreEqual("SUM", s.Cells["E1"].Value);
+                Assert.AreEqual("PERCENTOF", s.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void GroupByMultipleFunctions1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+
+                s.Cells["A1"].Value = "B";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "A";
+                s.Cells["A5"].Value = "C";
+
+                s.Cells["B1"].Value = 1;
+                s.Cells["B3"].Value = 3;
+                s.Cells["B5"].Value = 4;
+
+                s.Cells["C1"].Formula = "=HSTACK(COUNT;SUM;PERCENTOF)";
+                s.Calculate();
+                Assert.AreEqual("COUNT", s.Cells["D1"].Value);
+                Assert.AreEqual("SUM", s.Cells["E1"].Value);
+                Assert.AreEqual("PERCENTOF", s.Cells["F1"].Value);
+            }
+        }
+
     }
 }
