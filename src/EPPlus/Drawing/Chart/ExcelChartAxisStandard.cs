@@ -799,15 +799,7 @@ namespace OfficeOpenXml.Drawing.Chart
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
             List<object> dl;
-            if (IsVertical)
-            {
-                dl = values.SelectMany(x => x).Distinct().ToList();
-
-            }
-            else
-            {
-                dl = values.SelectMany(x => x).ToList();
-            }
+            dl = values.SelectMany(x => x).Distinct().ToList();
             dl.Sort();
             if (Orientation == eAxisOrientation.MaxMin)
             {
@@ -837,7 +829,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true,serie.GetHeaderText(ix));
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, serie.GetHeaderText(ix));
                         }
                     }
                     else
@@ -942,7 +934,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     var range = ws.Cells[a.Address];
                     var i = 0;
-                    for(var r=0;r<range.Rows;r++)
+                    for(var r=0;r < range.Rows;r++)
                     {
                         for (var c = 0; c < range.Columns; c++)
                         {
