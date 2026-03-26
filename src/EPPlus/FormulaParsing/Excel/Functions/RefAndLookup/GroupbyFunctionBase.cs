@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -34,7 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             Hierarchy = 0,
             Table = 1
         }
-
+        protected enum FunctionLayout
+        {
+            Single,
+            Horizontal, // HSTACK - results are added as columns
+            Vertical    // VSTACK - results are added as rows
+        }
         // -------------------------------------------------------
         // Shared argument container
         // -------------------------------------------------------
@@ -43,6 +49,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public IRangeInfo RowFields { get; set; }
             public IRangeInfo Values { get; set; }
             public LambdaCalculator Function { get; set; }
+            public List<LambdaCalculator> Functions { get; set; } = new List<LambdaCalculator>();
+            public FunctionLayout FunctionLayout { get; set; } = FunctionLayout.Single;
             public FieldHeaders Headers { get; set; } = FieldHeaders.Missing;
             public int TotalDepth { get; set; } = 1;
             public int SortOrder { get; set; } = 1;
@@ -62,6 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public List<string> ChildOrder { get; set; } = null;
             public List<GroupRow> Rows { get; set; } = new List<GroupRow>();
             public object SubtotalValue { get; set; }
+            public List<object> SubtotalValues { get; set; }
             public bool IsLeaf => Children.Count == 0;
         }
 
@@ -70,6 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public object[] KeyParts { get; set; }
             public List<object[]> Values { get; set; } = new List<object[]>();
             public object AggregatedValue { get; set; }
+            public List<object> AggregatedValues { get; set; } = new List<object>(); // All function results
         }
 
         // -------------------------------------------------------
@@ -94,10 +104,40 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (args.RowFields.Size.NumberOfRows != args.Values.Size.NumberOfRows)
                 return Fail(eErrorType.Value, out error);
 
-            if (arguments[2].DataType != DataType.LambdaCalculation)
+            if (arguments[2].DataType == DataType.LambdaCalculation)
+            {
+                // Single function
+                args.Function = arguments[2].Value as LambdaCalculator;
+                args.Functions.Add(args.Function);
+                args.FunctionLayout = FunctionLayout.Single;
+            }
+            else if (arguments[2].IsExcelRange)
+            {
+                // Multiple functions via HSTACK or VSTACK
+                var range = arguments[2].ValueAsRangeInfo;
+                bool isHorizontal = range.Size.NumberOfRows == 1;
+                args.FunctionLayout = isHorizontal ? FunctionLayout.Horizontal : FunctionLayout.Vertical;
+
+                int count = isHorizontal ? range.Size.NumberOfCols : range.Size.NumberOfRows;
+                for (int i = 0; i < count; i++)
+                {
+                    var cellVal = isHorizontal
+                        ? range.GetOffset(0, i)
+                        : range.GetOffset(i, 0);
+
+                    if (cellVal is LambdaCalculator lc)
+                        args.Functions.Add(lc);
+                    else
+                        return Fail(eErrorType.Value, out error);
+                }
+                args.Function = args.Functions[0];
+            }
+            else
+            {
                 return Fail(eErrorType.Value, out error);
-            args.Function = arguments[2].Value as LambdaCalculator;
-            if (args.Function == null)
+            }
+
+            if (args.Functions.Count == 0)
                 return Fail(eErrorType.Value, out error);
 
             // field_headers (optional)
@@ -240,7 +280,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
 
             var levels = BuildOrderedTree(rootDict, rootOrder);
-            AggregateTree(levels, args.Function, context);
+            AggregateTree(levels, args, context);
             return levels;
         }
 
@@ -255,24 +295,35 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return levels;
         }
 
-        protected void AggregateTree(List<GroupLevel> levels, LambdaCalculator function, ParsingContext context)
+        protected void AggregateTree(List<GroupLevel> levels, GroupByBaseArgs args, ParsingContext context)
         {
             foreach (var level in levels)
             {
                 if (level.IsLeaf)
                 {
-                    foreach (var row in level.Rows)
-                        row.AggregatedValue = Aggregate(function, row.Values, context);
+                    foreach(var row in level.Rows)
+                    {
+                        row.AggregatedValues = args.Functions
+                            .Select(f => Aggregate(f, row.Values, context))
+                            .ToList();
+                        row.AggregatedValue = row.AggregatedValues[0];
+                    }
 
                     var allVals = level.Rows.SelectMany(r => r.Values).ToList();
-                    level.SubtotalValue = Aggregate(function, allVals, context);
+                    level.SubtotalValues = args.Functions
+                        .Select(f => Aggregate(f, allVals, context))
+                        .ToList();
+                    level.SubtotalValue = level.SubtotalValues[0];
                 }
                 else
                 {
-                    AggregateTree(level.Children, function, context);
+                    AggregateTree(level.Children, args, context);
 
                     var allVals = level.Children.SelectMany(c => GetAllValues(c)).ToList();
-                    level.SubtotalValue = Aggregate(function, allVals, context);
+                    level.SubtotalValues = args.Functions
+                    .Select(f => Aggregate(f, allVals, context))
+                    .ToList();
+                    level.SubtotalValue = level.SubtotalValues[0];
                 }
             }
         }
