@@ -168,7 +168,7 @@ namespace EPPlusTest.Drawing
         public void ReadTransparancy()
         {
             //Setup
-            var wsName = "Transparancy";
+            var wsName = "Transparency";
             var expected = 45;
             var ws = _pck.Workbook.Worksheets[wsName];
             if (ws == null) Assert.Inconclusive($"{wsName} worksheet is missing");
@@ -176,7 +176,7 @@ namespace EPPlusTest.Drawing
 
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
-            Assert.AreEqual(expected, shape.Fill.Transparancy);
+            Assert.AreEqual(expected, shape.Fill.Transparency);
             Assert.AreEqual(eColorTransformType.Alpha, shape.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(100 - expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
@@ -192,7 +192,7 @@ namespace EPPlusTest.Drawing
 
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
-            Assert.AreEqual(100 - expected, shape.Fill.Transparancy);
+            Assert.AreEqual(100 - expected, shape.Fill.Transparency);
             Assert.AreEqual(eColorTransformType.Alpha, shape.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }

@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
     public class ExcelChartStyleEntry : XmlHelper
     {
         string _fillReferencePath = "{0}/{1}:fillRef";
-        string _borderReferencePath = "{0}/{1}:lnRef ";
+        string _borderReferencePath = "{0}/{1}:lnRef";
         string _effectReferencePath = "{0}/{1}:effectRef";
         string _fontReferencePath = "{0}/{1}:fontRef";
 

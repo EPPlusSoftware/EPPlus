@@ -117,7 +117,7 @@ namespace EPPlusTest.Issues
 
 				chart.Legend.TextSettings.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
 				chart.Legend.TextSettings.Fill.SolidFill.Color.SetRgbColor(System.Drawing.Color.Black);
-				chart.Legend.TextSettings.Fill.Transparancy = 0;
+				chart.Legend.TextSettings.Fill.Transparency = 0;
 				chart.Legend.TextSettings.Effect.SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType.FullTouching);
 
 				SaveAndCleanup(p);

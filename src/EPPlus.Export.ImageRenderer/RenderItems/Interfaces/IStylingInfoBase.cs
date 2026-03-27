@@ -7,6 +7,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Interfaces
 {
     internal interface IStylingInfoBase
     {
-
+        string FillColor { get; set; }
+        string BorderColor { get; set; }
     }
 }
