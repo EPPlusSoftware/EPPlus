@@ -363,7 +363,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else
                         {
-                            x = ticMarkX - width / 2;
+                            x = ticMarkX; // - width / 2;
                             y = ticMarkY;
                         }
                     }
@@ -495,8 +495,9 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (Axis.AxisType == eAxisType.Cat)
+                if ((Axis.AxisType == eAxisType.Cat || Axis.IsVertical==false) && LabelOrientation==eTextOrientation.Horizontal)
                 {
+                    //Between tickmarks
                     var majorWidth = Rectangle.Width / AxisValues.Count;
                     var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
                     var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
@@ -589,9 +590,10 @@ namespace EPPlusImageRenderer.Svg
             {
                 addMinor = parentUnit / 2;
             }
+
             if (Axis.AxisType == eAxisType.Cat)
             {
-                min = 0;
+                min = 1;
                 max = AxisValues.Count;
             }
             else
@@ -599,6 +601,7 @@ namespace EPPlusImageRenderer.Svg
                 min = Min;
                 max = Max;
             }
+
             double tickMarkWidthInside=0, tickMarkWidthOutside=0;
             if(type==eAxisTickMark.In || type==eAxisTickMark.Cross)
             {
@@ -608,9 +611,9 @@ namespace EPPlusImageRenderer.Svg
             {
                 tickMarkWidthOutside = tickMarkWidth;
             }
-            var diff = max - min;
+            var diff = max - min + 1;
             double d = min + addMinor;
-            while (d <= max)
+            while (d <= max+1)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
@@ -656,8 +659,6 @@ namespace EPPlusImageRenderer.Svg
                     }
                     tms.Add(tm);
                 }
-                //if (dateUnit.HasValue)
-                //{
                 switch (dateUnit)
                 {
                     case eTimeUnit.Years:
@@ -679,12 +680,6 @@ namespace EPPlusImageRenderer.Svg
                         d += units;
                         break;
                 }
-                   // }
-            //    }
-            //    else
-            //    {
-            //        d += units;
-            //    }
             }
             return tms;
         }
@@ -773,7 +768,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min;
+                    var diff = Max - Min+1;
                     return (((Max-val) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
@@ -787,7 +782,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min;
+                    var diff = Max - Min+1;
                     return (((val-Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
@@ -881,7 +876,7 @@ namespace EPPlusImageRenderer.Svg
                 dateUnit = res.MajorDateUnit;
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
-                while (dt < maxDt)
+                while (dt <= maxDt)
                 {
                     l.Add(dt);
                     switch(res.MajorDateUnit ?? eTimeUnit.Days)

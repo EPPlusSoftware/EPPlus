@@ -125,7 +125,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 double xPos;
                 if (yValues.Count == 1)
                 {
-                    xPos = xAxis.GetPositionInPlotarea(x);
+                    xPos = xAxis.GetPositionInPlotarea(x) - barWidth / 2;
                 }
                 else
                 {

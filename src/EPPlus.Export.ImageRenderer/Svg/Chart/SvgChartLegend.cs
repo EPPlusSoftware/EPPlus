@@ -74,22 +74,27 @@ namespace EPPlusImageRenderer.Svg
         {
             var rect = new SvgRenderRectItem(sc, sc.Bounds);
             bool isVertical;
+            double maxWidth, maxHeight;
             switch (l.Position)
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
                     isVertical = false;
+                    maxWidth = sc.ChartArea.Rectangle.Width * 0.8;
+                    maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
                     break;
                 default:
-                    isVertical = true; 
+                    isVertical = true;
+                    maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
+                    maxHeight = sc.ChartArea.Rectangle.Height * 0.8;
                     break;
             }
             var iconLengh = sc.Chart.IsTypeLine() ? LineLength : BarLength;
             var widest = 0d;
             var highest = 0d;
-            var textWidth = 0d;
-            var height = TopMargin;
+            var hight = TopMargin;
             var index = 0;
+            double width=0d;
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
                 foreach (var s in ct.Series)
@@ -107,26 +112,58 @@ namespace EPPlusImageRenderer.Svg
                     }
                     var tm = _ttMeasurer.MeasureText(text, font.GetMeasureFont());
                     _seriesHeadersMeasure.Add(tm);
-                    if(tm.Width > widest)
+                    if (isVertical)
                     {
-                        widest = tm.Width;
+                        width += tm.Width;
+                        if (tm.Width > widest)
+                        {
+                            widest = tm.Width;
+                        }
+                        if (tm.Height > hight)
+                        {
+                            highest = tm.Height;
+                        }
+                        if(hight==0)
+                        {
+                            hight += TopMargin + tm.Height;
+                        }
+                        else
+                        {
+                            hight += MiddleMargin + tm.Height;
+                        }
                     }
-                    if (tm.Height > height)
+                    else
                     {
-                        highest = tm.Height;
+                        if(width + tm.Width >= maxWidth)
+                        {
+                            if(width > widest)
+                            {
+                                widest = width;
+                            }
+                            width = tm.Width;
+                            hight += highest + MiddleMargin;
+                            highest = 0;
+                        }
+                        else
+                        {
+                            width += tm.Width + MiddleMargin;
+                            if (highest < tm.Height)
+                            {
+                                highest = tm.Height;
+                            }
+                        }
                     }
-                    textWidth += tm.Width;
-                    height += tm.Height + MiddleMargin;
+                    
                     index++;
                 }
             }
-            height = height - MiddleMargin + BottomMargin; //remove last margin and add bottom margin
+            hight += BottomMargin;     //remove last margin and add bottom margin
             switch (l.Position)
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    rect.Width = textWidth + LeftMargin + RightMargin + ((iconLengh + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) + 2 ; // 28 is for the line length + 2px between line and text
-                    rect.Height = TopMargin + BottomMargin + highest + MarginExtra;
+                    rect.Width = width + LeftMargin + RightMargin + ((iconLengh + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) + 2 ; // 28 is for the line length + 2px between line and text
+                    rect.Height =  TopMargin + BottomMargin + hight + MarginExtra;
                     rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
@@ -140,9 +177,8 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.Right:
                 case eLegendPosition.TopRight:
                 case eLegendPosition.Left:
-                    var maxHeight = sc.ChartArea.Rectangle.Height * 0.8;
                     rect.Width = widest + LeftMargin + RightMargin + iconLengh + 2; // 28 is for the line length + 2px between line and text
-                    rect.Height = height;
+                    rect.Height = hight;
                     if (rect.Height > maxHeight)
                     {
                         rect.Height = maxHeight;
@@ -175,12 +211,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     break;
             }
-            if (isVertical)
-            {                
 
-                //var top = sc.Title.GetRectangle.Height+8+10;
-                //var width = margin;
-            }
             return rect;
         }
 
