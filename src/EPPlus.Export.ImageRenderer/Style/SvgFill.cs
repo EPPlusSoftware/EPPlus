@@ -9,18 +9,24 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace EPPlus.Export.ImageRenderer.Style
 {
     internal class SvgFill : IFillBasic
     {
-        ExcelDrawingFill _fill;
+        ExcelDrawingFillBasic _fill;
+
+        public SvgFill(ExcelDrawingFillBasic fill)
+        {
+            Style = fill.Style;
+            _fill = fill;
+        }
 
         public SvgFill(ExcelDrawingFill fill)
         {
             Style = fill.Style;
             _fill = fill;
-
         }
 
         public eFillStyle Style {  get; set; }
@@ -30,6 +36,15 @@ namespace EPPlus.Export.ImageRenderer.Style
             get
             {
                 return !_fill.IsEmpty;
+            }
+        }
+
+
+        public bool IsGradient
+        {
+            get
+            {
+                return Style == eFillStyle.GradientFill;
             }
         }
 
@@ -46,7 +61,7 @@ namespace EPPlus.Export.ImageRenderer.Style
         internal static string GetColor(Color c, ExcelTheme theme)
         {
             //Color ret;
-            //if (!string.IsNullOrEmpty(c))
+            //if (!string.IsNullOrEmpty(c.ToColorString()))
             //{
             //    if (int.TryParse(c.Rgb, NumberStyles.HexNumber, null, out int hex))
             //    {
@@ -85,17 +100,18 @@ namespace EPPlus.Export.ImageRenderer.Style
             //{
             //    ret = Utils.TypeConversion.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             //}
+
             return "#" + c.ToArgb().ToString("x8").Substring(2);
         }
 
         public string GetGradientColor1(ExcelTheme theme)
         {
-            throw new NotImplementedException();
+            return GetColor(_fill.GradientFill.Colors.ToArray()[0].Color.GetColor(), theme);
         }
-
         public string GetGradientColor2(ExcelTheme theme)
         {
-            throw new NotImplementedException();
+            return GetColor(_fill.GradientFill.Colors.ToArray()[1].Color.GetColor(), theme);
         }
+
     }
 }

@@ -8,9 +8,9 @@ namespace EPPlus.Export.ImageRenderer.Style
 {
     internal class SvgChartStyleTranslator : IStyleExportDrawing
     {
-        public SvgChartStyleTranslator(ExcelChartStyle chartStyle) 
-        { 
-
+        public SvgChartStyleTranslator(ExcelChartStyleEntry chartStyle) 
+        {
+            var fill = chartStyle.Fill;
         }
         public string StyleKey => throw new NotImplementedException();
 
