@@ -11,6 +11,7 @@
   01/15/2025         EPPlus Software AB           Initial implementation
   01/19/2026         EPPlus Software AB           Added Single Adjustment support (GPOS Type 1)
   02/05/2026         EPPlus Software AB           Added IFontProvider support for fallback fonts
+  03/20/2026         EPPlus Software AB           ResetFontTracking made private, called automatically
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping.Contextual;
 using EPPlus.Fonts.OpenType.TextShaping.Kerning;
@@ -54,6 +55,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Creates a TextShaper with automatic emoji fallback (DefaultFontProvider).
+        /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
+        /// instances directly. It provides a thread-local cached instance and avoids
+        /// duplicate caches across the codebase.
         /// </summary>
         public TextShaper(OpenTypeFont font)
             : this(new DefaultFontProvider(font))
@@ -62,6 +66,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Creates a TextShaper with custom font provider.
+        /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
+        /// instances directly. It provides a thread-local cached instance and avoids
+        /// duplicate caches across the codebase.
         /// </summary>
         public TextShaper(IFontProvider fontProvider)
         {
@@ -96,10 +103,10 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         /// <summary>
-        /// Clears font tracking between different texts.
-        /// Call this if you're reusing the same TextShaper for multiple unrelated texts.
+        /// Resets font tracking state. Called automatically at the start of each
+        /// shaping operation — Shape(), ExtractCharWidths(), ShapeLight().
         /// </summary>
-        public void ResetFontTracking()
+        private void ResetFontTracking()
         {
             _usedFonts.Clear();
             _fontToIdMap.Clear();
@@ -147,6 +154,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <returns>Shaped text with positioned glyphs</returns>
         public ShapedText Shape(string text, ShapingOptions options)
         {
+            ResetFontTracking();
+
             if (string.IsNullOrEmpty(text))
             {
                 return new ShapedText
@@ -234,10 +243,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Core implementation that extracts char widths into provided buffer.
         /// OPTIMIZED: Avoids creating ShapedText object and copying glyphs to array.
-        /// Works directly with List<ShapedGlyph> for better memory efficiency.
+        /// Works directly with List&lt;ShapedGlyph&gt; for better memory efficiency.
         /// </summary>
         private void ExtractCharWidthsCore(string text, float fontSize, ShapingOptions options, double[] targetArray)
         {
+            ResetFontTracking();
+
             // Clear only the portion we will use
             Array.Clear(targetArray, 0, text.Length);
 
@@ -623,6 +634,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         public ShapedLightText ShapeLight(string text, ShapingOptions options = null)
         {
+            ResetFontTracking();
+
             if (string.IsNullOrEmpty(text))
             {
                 return new ShapedLightText
@@ -653,7 +666,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 FontUnitsPerEm = BuildFontUnitsPerEm()
             };
         }
-
 
         /// <summary>
         /// Gets the UnitsPerEm for each font used in the last shaping operation.
@@ -744,8 +756,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Calculates the distance from the top of the font's bounding box to the baseline.
         /// </summary>
-        /// <param name="fontSize">The font size, in points, for which to calculate the baseline position. Must be a positive value.</param>
-        /// <returns>The distance, in points, from the top of the font's bounding box to the baseline for the given font size.</returns>
         public float GetAscentInPoints(float fontSize)
         {
             var ascent = _primaryFont.Os2Table.UseTypoMetrics
