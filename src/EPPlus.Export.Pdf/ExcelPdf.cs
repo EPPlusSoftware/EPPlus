@@ -169,9 +169,9 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Catalog
-        private PdfCatalog AddCatalog(int pagesObjectNumber)
+        private PdfObjects.PdfCatalog AddCatalog(int pagesObjectNumber)
         {
-            var catalog = new PdfCatalog(Document.Count + 1, pagesObjectNumber);
+            var catalog = new PdfObjects.PdfCatalog(Document.Count + 1, pagesObjectNumber);
             Document.Add(catalog);
             return catalog;
         }

@@ -16,8 +16,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using EPPlus.Export.Pdf;
+using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using Mono.Cecil.Cil;
 
 namespace EPPlusTest.PDF
 {
@@ -45,10 +47,10 @@ namespace EPPlusTest.PDF
          * Layout: Selected worksheets to pdf (Export)
          * Layout: Cell range to pdf (Export)
          * Layout: Print Area (This is like a collection of cell ranges) (Export)
-         * Layout: Comments and Notes
          * Layout: Print titles
          * Layout: Background (Excel does not add this to pdf it seems) (Images) : Prio 4
          * Layout: Remove empty last page
+         * Layout: Autofit row
          * 
          * Pivot Table: Pivot table implementation : Prio 5
          * 
@@ -76,7 +78,35 @@ namespace EPPlusTest.PDF
          * Borders: Adjust and make border look better
          */
 
-
+        /* REFACTOR:
+         * 1. Collect: Gather all text in all worksheets, headerfooter and comments
+         * 2. Shape  : Shape the Text in all worksheets, headerfooter and comments
+         * 3. Layout : Autofit row, add print titles, add row and column headings, set up print areas, page breaks
+         * 4. Pages: : Create number of pages needed, assign elements to pages
+         * 5. PDF    : Export to pdf
+         * 
+         * 
+         * --------------0. Set up ---------------------
+         * Create class catalog that takes in a workbook, or a collection of worksheets, or a range.
+         * When step1 is done we check in a comments collections if there are comments and process the comments worksheet the same way.
+         * for each worksheet do following:
+         * --------------1. Collect---------------------
+         * Create array map of worksheet with coords, text, fills and so on.
+         * This is done when all worksheets have been mapped.
+         * Comments and notes will create a temporary worksheet in current workbook with all notes and comments inside cells.
+         * --------------2. Shape  ---------------------
+         * Go through all text in all workbbooks and shape the text.
+         * We also check text height measurements and adjust row height.
+         * --------------3. Layout ---------------------
+         * Precalculate content area of each page using content area and page breaks and print areas. We need to take scaling into account here!
+         * Add pictures, shapes, notes and other elements that lies on top of cells.
+         * Then loop the collection and insert row and column headings, print titles.
+         * We also need to create gridlines here
+         * --------------4. Pages ----------------------
+         * Create Pages and create transform objects of each element from the array and assign them to their respective page.
+         * --------------5. PDF ------------------------
+         * When all worksheets have been processed, combine all into one catalog and create the pdf document.
+         */
 
         [TestMethod]
         public void TestWritePdf()
@@ -126,6 +156,14 @@ namespace EPPlusTest.PDF
 
             ExcelPdf pedeef = new ExcelPdf(p.Workbook.Worksheets.First(), pageSettings);
             pedeef.CreatePdf("c:\\epplustest\\pdf\\EmojiTest.pdf");
+        }
+
+        [TestMethod]
+        public void ReadPrintAreas()
+        {
+            using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            PdfCatalog catlog = new PdfCatalog(ws);
         }
     }
 }
