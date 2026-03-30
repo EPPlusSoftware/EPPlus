@@ -1,11 +1,19 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.5.1
+* Negation of numeric string values now returns the negated number instead of a #VALUE! error in the formula calculation.
+* ´ExcelPackage.Configure´ now sets ´IConfiguration´ for license info.
+* The WEEKDAY function now handles optional return-types 12-17 correctly.
+* Conditional formatting priority now remains correct after loading workbook with conditional formatting rules and add new.
+* Inserting rows or columns when a named range is on the maximum row is now handled as correctly. Absolute referenced defined names become #REF! when pushed outside the maximum. 
+* NUMBERVALUE function now parses decimal and group separators for numbers correctly. 
+
 ## Version 8.5.0
 ### Minor Features
 * Added ´CancellationToken´ to Calculate - see [Cancelling a calculation](https://github.com/EPPlusSoftware/EPPlus/wiki/Cancelling-a-calculation).
 * Added property ´ValueFromCellsRange´ and the ´SetValueFromCellsRange´ method to data labels on chart series.
 * Improved performance for SUMIFS, AVERAGEIFS, COUNTIFS.
 * Improved performance for formula calculation with full column references (e.g. A:A, $B:$B).
-### Fixed issues
+### Fixed issues	
 * Deleting pictures in cells, caused a corrupt workbook in rare cases.
 * Fixed several formatting issues when reading and writing tables with checkboxes in them.
 * Fixed several issues when using a custom ExcelPackage.Workbook.NumberFormatToTextHandler:

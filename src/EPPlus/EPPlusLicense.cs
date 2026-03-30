@@ -19,7 +19,7 @@ namespace OfficeOpenXml
     {
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         static bool _licenseSet = false;
-        internal const string _versionDate = "2025-12-12";
+        internal const string _versionDate = "2026-03-06";
         /// <summary>
         /// The license key used for a commercial license.
         /// </summary>
