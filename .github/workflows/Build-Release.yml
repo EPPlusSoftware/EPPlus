@@ -1,5 +1,5 @@
 # This workflow will build, test, sign and pack the release branches for EPPlus.
-# It will also generate and publish an SBOM
+# It will also generate and publish an SBOM per target framework.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
 name: Build Release Branches
@@ -19,23 +19,89 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.0.x'
-    - name: Restore dependencies
-      run: dotnet restore ./src/EPPlus.sln
+        dotnet-version: '9.0.x'
 
-    # --- SBOM ---
-    - name: Install CycloneDX
-      run: dotnet tool install --global CycloneDX
-    - name: Read version from csproj
-      id: read_version
+    # --- Read version and TFMs from csproj ---
+    - name: Read version and target frameworks from csproj
+      id: read_csproj
       run: |
-        $version = ([xml](Get-Content ./src/EPPlus/EPPlus.csproj)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
-        $tfms = ([xml](Get-Content ./src/EPPlus/EPPlus.csproj)).Project.PropertyGroup.TargetFrameworks | Where-Object { $_ } | Select-Object -First 1
+        $xml = [xml](Get-Content ./src/EPPlus/EPPlus.csproj)
+        $version = $xml.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+        $tfms = $xml.Project.PropertyGroup.TargetFrameworks | Where-Object { $_ } | Select-Object -First 1
         echo "VERSION=$version" >> $env:GITHUB_ENV
         echo "TFMS=$tfms" >> $env:GITHUB_ENV
       shell: pwsh
+
+    - name: Restore dependencies
+      run: dotnet restore ./src/EPPlus.sln
+    - name: Build
+      run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
+    - name: Test
+      run: dotnet test ./src/EPPlus.sln --no-build --verbosity normal --configuration Release
+    - name: Install AzureSignTool
+      run: dotnet tool install --global AzureSignTool --version 6.0.0
+    - name: Install NuGetKeyVaultSignTool
+      run: dotnet tool install --global NuGetKeyVaultSignTool
+
+    - name: Add .NET tools to PATH
+      run: echo "${{ runner.tool_cache }}/.dotnet/tools" >> $env:GITHUB_PATH
+    - name: Authenticate to Azure
+      uses: Azure/login@v2
+      with:
+        creds: '{"clientId":"${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }}","clientSecret":"${{ secrets.EPPLUS_CODE_SIGNING_SECRET }}","subscriptionId":"${{ secrets.EPPLUS_CODE_SIGNING_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }}"}'
+
+    # --- Sign DLLs ---
+    - name: Sign EPPlus.dll with AzureSignTool
+      run: |
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          $dll = ".\src\EPPlus\bin\Release\$tfm\EPPlus.dll"
+          Write-Host "Signing $dll"
+          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 "$dll"
+        }
+      shell: pwsh
+    - name: Sign EPPlus.Interfaces.dll with AzureSignTool
+      run: |
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          $dll = ".\src\EPPlus.Interfaces\bin\Release\$tfm\EPPlus.Interfaces.dll"
+          Write-Host "Signing $dll"
+          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 "$dll"
+        }
+      shell: pwsh
+    - name: Sign EPPlus.System.Drawing.dll with AzureSignTool
+      run: |
+        $tfms = "${{ env.TFMS }}" -split ";"
+        foreach ($tfm in $tfms) {
+          $tfm = $tfm.Trim()
+          if ([string]::IsNullOrEmpty($tfm)) { continue }
+          $dll = ".\src\EPPlus.System.Drawing\bin\Release\$tfm\EPPlus.System.Drawing.dll"
+          Write-Host "Signing $dll"
+          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 "$dll"
+        }
+      shell: pwsh
+    # --- Sign DLLs ---
+
+    - name: Pack NuGet package
+      run: dotnet pack ./src/EPPlus.sln --configuration Release --output ./output
+    - name: Sign NuGet package
+      run: |
+        NuGetKeyVaultSignTool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -tr http://timestamp.globalsign.com/tsa/advanced -fd sha256 -td sha256 -own EPPlusSoftware ".\output\*.nupkg"
+    - name: Upload NuGet package as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: signed-nuget-package
+        path: ./output/*.nupkg
+
+    # --- SBOM (after build to avoid CycloneDX overwriting project.assets.json) ---
+    - name: Install CycloneDX
+      run: dotnet tool install --global CycloneDX
     - name: Generate combined SBOM
-      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml --spec-version 1.6
+      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml --spec-version 1.7
     - name: Generate per-TFM SBOMs
       run: |
         $tfms = "${{ env.TFMS }}" -split ";"
@@ -43,7 +109,7 @@ jobs:
           $tfm = $tfm.Trim()
           if ([string]::IsNullOrEmpty($tfm)) { continue }
           Write-Host "Generating SBOM for $tfm"
-          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm --spec-version 1.6
+          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm --spec-version 1.7
         }
       shell: pwsh
     - name: Generate SHA-256 checksums for all SBOMs
@@ -54,64 +120,6 @@ jobs:
           Write-Host "Checksum generated for $($_.Name): $hash"
         }
       shell: pwsh
-    # --- SBOM ---
-
-    - name: Build
-      run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
-    - name: Test
-      run: dotnet test ./src/EPPlus.sln --no-build --verbosity normal --configuration Release
-    - name: Install AzureSignTool
-      run: dotnet tool install --global AzureSignTool --version 6.0.0 
-    - name: Install NuGetKeyVaultSignTool
-      run: dotnet tool install --global NuGetKeyVaultSignTool
-
-    - name: Add .NET tools to PATH
-      run: echo "${{ runner.tool_cache }}/.dotnet/tools" >> $env:GITHUB_PATH
-    - name: Authenticate to Azure
-      uses: Azure/login@v2
-      with:
-        creds: '{"clientId":"${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }}","clientSecret":"${{ secrets.EPPLUS_CODE_SIGNING_SECRET }}","subscriptionId":"${{ secrets.EPPLUS_CODE_SIGNING_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }}"}'
-    - name: Sign EPPlus.dll with AzureSignTool
-      run: |
-        $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          Write-Host "Signing EPPlus.dll for $tfm"
-          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\$tfm\EPPlus.dll"
-        }
-      shell: pwsh
-    - name: Sign EPPlus.Interfaces.dll with AzureSignTool
-      run: |
-        $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          Write-Host "Signing EPPlus.Interfaces.dll for $tfm"
-          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\$tfm\EPPlus.Interfaces.dll"
-        }
-      shell: pwsh
-    - name: Sign EPPlus.System.Drawing.dll with AzureSignTool
-      run: |
-        $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          Write-Host "Signing EPPlus.System.Drawing.dll for $tfm"
-          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\$tfm\EPPlus.System.Drawing.dll"
-        }
-      shell: pwsh
-    - name: Pack NuGet package
-      run: dotnet pack ./src/EPPlus.sln --configuration Release --output ./output
-    - name: Sign NuGet package
-      run: |
-        NuGetKeyVaultSignTool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -tr http://timestamp.globalsign.com/tsa/advanced -fd sha256 -td sha256 -own EPPlusSoftware ".\output\*.nupkg"
-    - name: Upload NuGet package as artifact
-      uses: actions/upload-artifact@v4
-      with:
-          name: signed-nuget-package
-          path: ./output/*.nupkg
-    # --- SBOM ---
     - name: Upload all SBOMs to Azure Blob Storage
       run: |
         Get-ChildItem -Path "./sbom" | ForEach-Object {
@@ -125,9 +133,9 @@ jobs:
             --overwrite
         }
       shell: pwsh
-    - name: Upload SBOM as artifact
+    - name: Upload all SBOMs as artifact
       uses: actions/upload-artifact@v4
       with:
-          name: sbom
-          path: ./sbom/
+        name: sbom
+        path: ./sbom/
     # --- SBOM ---
