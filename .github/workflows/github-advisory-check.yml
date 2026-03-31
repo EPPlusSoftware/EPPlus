@@ -5,28 +5,21 @@ on:
     - cron: '15 * * * *'  # Every hour at :15
   workflow_dispatch:        # Allow manual triggering
 
-permissions:
-  security-events: read
-
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - name: Check GitHub security advisories
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.ADVISORY_READ_TOKEN }}
         shell: bash
         run: |
-          # Fetch all advisories (no state filter) for debugging
+          # Fetch advisories in triage state using GitHub REST API
           advisories=$(curl -s -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/security-advisories")
-
-          # Debug: print raw API response
-          echo "Raw API response:"
-          echo "$advisories"
+            "https://api.github.com/repos/${{ github.repository }}/security-advisories?state=triage")
 
           # Build the sync payload
           payload=$(echo "$advisories" | jq '{
