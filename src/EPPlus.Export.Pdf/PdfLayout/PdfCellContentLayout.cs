@@ -32,7 +32,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
     [DebuggerDisplay("Content: {Name}")]
     internal class PdfCellContentLayout : Transform, ITextLayout
     {
-        public PdfCellLines Lines = new PdfCellLines();
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;

@@ -1,8 +1,4 @@
-﻿using OfficeOpenXml
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using OfficeOpenXml;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -10,5 +6,12 @@ namespace EPPlus.Export.Pdf.PdfCatalog
     {
         public ExcelRangeBase Range { get; set; }
         public bool ExtendColumns { get; set; }
+        public PdfCellCollection Map { get; set; }
+
+        public PdfRange(ExcelRangeBase range, bool extendColumns)
+        {
+            Range = range;
+            ExtendColumns = extendColumns;
+        }
     }
 }

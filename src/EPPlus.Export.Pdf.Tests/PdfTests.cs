@@ -163,7 +163,8 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            PdfCatalog catlog = new PdfCatalog(ws);
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            PdfCatalog catlog = new PdfCatalog(pageSettings, ws);
         }
     }
 }

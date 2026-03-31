@@ -10,19 +10,41 @@ namespace EPPlus.Export.Pdf.PdfCatalog
     {
         internal PdfCell[,] Cells;
 
-        public PdfCellCollection(int rows, int column)
+        private readonly int fromRow;
+        private readonly int fromColumn;
+
+        public PdfCellCollection(int fromRow, int toRow, int fromColumn, int toColumn)
         {
-            Cells = new PdfCell[rows, column];
+            if(fromRow > toRow) throw new ArgumentOutOfRangeException("Invalid row range. toRow must be equal or greater than fromRow");
+            if(fromColumn > toColumn) throw new ArgumentOutOfRangeException("Invalid column range. toColumn must be equal or greater than fromColumn");
+            this.fromRow = fromRow;
+            this.fromColumn = fromColumn;
+            int x = toRow - fromRow + 1;
+            int y = toColumn - fromColumn + 1;
+
+            Cells = new PdfCell[x, y];
         }
 
-        public void AddCell(int row, int column)
+        public PdfCell this[int row, int column]
         {
-            Cells[row - 1, column - 1] = new PdfCell();
+            get
+            {
+                return Cells[row - fromRow, column - fromColumn];
+            }
+            set
+            {
+                Cells[row - fromRow, column - fromColumn] = value;
+            }
         }
 
-        public PdfCell GetCell(int row, int column)
+        public PdfCell GetInternal(int row, int column)
         {
-            return Cells[row - 1, column - 1];
+            return Cells[row, column];
+        }
+
+        public void SetInternal(int row, int column, PdfCell value)
+        {
+            Cells[row, column] = value;
         }
     }
 }
