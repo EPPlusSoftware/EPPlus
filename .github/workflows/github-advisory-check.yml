@@ -1,0 +1,52 @@
+name: GitHub Advisory Check
+
+on:
+  schedule:
+    - cron: '15 * * * *'  # Every hour at :15
+  workflow_dispatch:        # Allow manual triggering
+
+permissions:
+  security-events: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check GitHub security advisories
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          # Fetch advisories in triage state using GitHub REST API
+          advisories=$(curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/security-advisories?state=triage")
+
+          # Build the sync payload
+          payload=$(echo "$advisories" | jq '{
+            advisories: [.[] | {
+              ghsaId: .ghsa_id,
+              summary: .summary,
+              reportedAt: .created_at
+            }]
+          }')
+
+          count=$(echo "$payload" | jq '.advisories | length')
+          echo "Found $count advisories in triage"
+
+          # Post to EPPlus API
+          response=$(curl -s -o response.json -w "%{http_code}" \
+            -X POST "https://epplussoftware.com/api/security/github-advisories/sync" \
+            -H "X-Api-Key: ${{ secrets.EPPLUS_VULNERABILITY_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d "$payload")
+
+          if [ "$response" != "200" ]; then
+            echo "::warning::Advisory sync failed with HTTP $response"
+            cat response.json
+          else
+            echo "Advisory sync successful:"
+            cat response.json
+          fi
