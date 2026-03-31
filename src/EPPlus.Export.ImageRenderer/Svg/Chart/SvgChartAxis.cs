@@ -11,9 +11,11 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer;
+using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -204,8 +206,8 @@ namespace EPPlusImageRenderer.Svg
 
         public List<SvgRenderLineItem> MajorAxisPositions { get; private set; }
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
-        public List<SvgRenderLineItem> MajorGridlinePositions { get; private set; }
-        public List<SvgRenderLineItem> MinorGridlinePositions { get; private set; }
+        public List<RenderItem> MajorGridlinePositions { get; private set; }
+        public List<RenderItem> MinorGridlinePositions { get; private set; }
         public List<SvgTextBox> AxisValuesTextBoxes
         {
             get;
@@ -268,7 +270,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        internal void AddTickmarksAndValues()
+        internal void AddTickmarksAndValues(List<RenderItem> DefItems)
         {
             if (Axis.MajorTickMark != eAxisTickMark.None)
             {
@@ -283,11 +285,15 @@ namespace EPPlusImageRenderer.Svg
             if(Axis.HasMajorGridlines)
             {
                 MajorGridlinePositions = AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style.GridlineMajor);
+                //DefItems.Add(MajorGridlinePositions[0]);
+                //MajorGridlinePositions.RemoveAt(0);
             }
 
             if ((Axis.HasMinorGridlines))
             {
                 MinorGridlinePositions = AddGridlines(MinorUnit, MajorUnit, Axis.MinorGridlines, Chart.StyleManager.Style.GridlineMinor);
+                //DefItems.Add(MinorGridlinePositions[0]);
+                //MinorGridlinePositions.RemoveAt(0);
             }
 
             if (Axis.CrossBetween == eCrossBetween.MidCat)
@@ -688,11 +694,11 @@ namespace EPPlusImageRenderer.Svg
             }
             return tms;
         }
-        private List<SvgRenderLineItem> AddGridlines(double units, double parentUnit, ExcelDrawingBorder lineItem, ExcelChartStyleEntry styleEntry)
+        private List<RenderItem> AddGridlines(double units, double parentUnit, ExcelDrawingBorder lineItem, ExcelChartStyleEntry styleEntry)
         {
             var axisStyle = GetAxisStyleEntry();
 
-            var tms = new List<SvgRenderLineItem>();
+            var tms = new List<RenderItem>();
             double min;
             if (Axis.AxisType == eAxisType.Cat)
             {
@@ -704,41 +710,107 @@ namespace EPPlusImageRenderer.Svg
             }
             var pa = SvgChart.Plotarea;
             var diff = Max - min;
+
+            List<Point> points = new List<Point>();
+
             for (double d = min; d <= Max; d += units)
             {
                 if(d==min && Line!=null && Line.BorderWidth>0) continue;
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
-                    float x1, y1, x2, y2;
+                    //float x1, y1, x2, y2;
                     switch (Axis.AxisPosition)
                     {
                         case eAxisPosition.Left:
                         case eAxisPosition.Right:
-                            y1 = (float)(pa.Rectangle.Top + pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height));
-                            y2 = y1;
-                            x1 = (float)pa.Rectangle.Right;
-                            x2 = (float)pa.Rectangle.Left;
+                            points.Add(new Point(0f, (float)(pa.Rectangle.Top + pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
+                            //y1 = (float)(pa.Rectangle.Top + pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height));
+                            //y2 = y1;
+                            //x1 = (float)pa.Rectangle.Right;
+                            //x2 = (float)pa.Rectangle.Left;
                             break;
                         case eAxisPosition.Top:
                         case eAxisPosition.Bottom:
-                            x1 = (float)(pa.Rectangle.Left + ((d - min) / diff * pa.Rectangle.Width));
-                            x2 = x1;
-                            y1 = (float)pa.Rectangle.Top;
-                            y2 = (float)pa.Rectangle.Bottom;
+                            points.Add(new Point((float)(pa.Rectangle.Left + ((d - min) / diff * pa.Rectangle.Width)), 0f));
+                            //x1 = (float)(pa.Rectangle.Left + ((d - min) / diff * pa.Rectangle.Width));
+                            //x2 = x1;
+                            //y1 = (float)pa.Rectangle.Top;
+                            //y2 = (float)pa.Rectangle.Bottom;
                             break;
                         default:
                             throw new InvalidOperationException("Invalid axis position");
                     }
 
-                    var tm = new SvgRenderLineItem(SvgChart, SvgChart.Bounds);
-                    tm.X1 = x1;
-                    tm.Y1 = y1;
-                    tm.X2 = x2;
-                    tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(lineItem, styleEntry.BorderReference.Color, true, lineItem.Width);
-                    tms.Add(tm);
+                    //var tm = new SvgRenderLineItem(SvgChart, SvgChart.Bounds);
+                    //tm.X1 = x1;
+                    //tm.Y1 = y1;
+                    //tm.X2 = x2;
+                    //tm.Y2 = y2;
+                    //tm.SetDrawingPropertiesBorder(lineItem, styleEntry.BorderReference.Color, true, lineItem.Width);
+                    //tms.Add(tm);
                 }
             }
+
+            float x1, y1, x2, y2;
+
+            string id = "";
+
+            switch (Axis.AxisPosition)
+            {
+                case eAxisPosition.Left:
+                case eAxisPosition.Right:
+                    id = "xGridLine";
+                    y1 = 0;
+                    y2 = y1;
+                    x1 = (float)pa.Rectangle.Right;
+                    x2 = (float)pa.Rectangle.Left;
+                    break;
+                case eAxisPosition.Top:
+                case eAxisPosition.Bottom:
+                    id = "yGridLine";
+                    x1 = 0;
+                    x2 = x1;
+                    y1 = (float)pa.Rectangle.Top;
+                    y2 = (float)pa.Rectangle.Bottom;
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid axis position");
+            }
+
+            var tm = new SvgRenderLineItem(SvgChart, SvgChart.Bounds);
+            tm.X1 = x1;
+            tm.Y1 = y1;
+            tm.X2 = x2;
+            tm.Y2 = y2;
+            tm.SetDrawingPropertiesBorder(lineItem, styleEntry.BorderReference.Color, true, lineItem.Width);
+
+            tm.DefId = id;
+
+            tms.Add(tm);
+
+            var distY = points[0].Top - (float)points.Last().Top;
+            var distX = points[0].Left - (float)points.Last().Left;
+
+            var offsetX = points[0].Top / (points.Count);
+            var offsetY = points[0].Left / (points.Count);
+
+            for(int i = 0; i < points.Count; i++)
+            {
+                var refItem = new SvgUseRefItem(SvgChart, SvgChart.Bounds, id);
+                if(id == "xGridLine")
+                {
+                    refItem.Y = offsetY * (i+1);
+                    refItem.X = 0f;
+                }
+                else if(id == "yGridLine")
+                {
+                    refItem.X = offsetX * (i + 1);
+                    refItem.Y = 0f;
+                }
+                tms.Add(refItem);
+            }
+
+
             return tms;
         }
 

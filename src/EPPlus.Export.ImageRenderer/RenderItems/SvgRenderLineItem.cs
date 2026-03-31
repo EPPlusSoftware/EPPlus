@@ -24,6 +24,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderLineItem : SvgRenderItem
     {
+
         public SvgRenderLineItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
 

@@ -222,5 +222,19 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 SaveTextFileToWorkbook($"svg\\datalabelsSvgLeaderLinesBg.svg", svg);
             }
         }
+
+        [TestMethod]
+        public void GenerateSimpleLineChart()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("defChartLine3Points.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\defChartLine3Points.svg", svg);
+            }
+        }
     }
 }

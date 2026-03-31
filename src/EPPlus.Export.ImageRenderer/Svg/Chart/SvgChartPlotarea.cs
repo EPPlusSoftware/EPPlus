@@ -140,6 +140,5 @@ namespace EPPlusImageRenderer.Svg
         {
             renderItems.Add(Rectangle);
         }
-
     }
 }
