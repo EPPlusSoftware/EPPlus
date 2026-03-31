@@ -19,6 +19,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
@@ -36,7 +37,8 @@ namespace EPPlusImageRenderer.Svg
         const float MarginExtra = 1.5f;
         const float MiddleMargin = 7.5f;
         const float LineLength = 21;
-        const float BarLength = 4;
+        const float MinBarLength = 4;
+        double _maxWidth, _maxHeight;
         internal SvgChartLegend(SvgChart sc, bool isDataLabelLegend = false) : base(sc)
         {
             _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
@@ -48,14 +50,25 @@ namespace EPPlusImageRenderer.Svg
 
             LeftMargin = RightMargin = 3; //4px
             TopMargin = BottomMargin = 3; //4px
+            switch (l.Position)
+            {
+                case eLegendPosition.Top:
+                case eLegendPosition.Bottom:
+                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.8;
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
+                    break;
+                default:
+                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.8;
+                    break;
+            }
+            double entryWidth, entryHeight;
 
-            if (l.Layout.HasLayout)
+            Rectangle = GetLegendRectangleAndEntrySize(sc, l, out entryWidth, out entryHeight);
+
+            if (l.Layout.HasLayout) //Manual layout will override the position and size of legend, but not the entry size which is used for calculating the position of legend entries.
             {
                 Rectangle = GetRectFromManualLayout(sc, l.Layout);
-            }
-            else
-            {
-                Rectangle = GetLegendRectangle(sc, l);
             }
 
             Bounds.Left = Rectangle.Left;
@@ -67,34 +80,17 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesFill(l.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(l.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
-            SetLegend(sc);
+            SetLegend(sc, entryWidth, entryHeight);
         }
 
-        private SvgRenderRectItem GetLegendRectangle(SvgChart sc, ExcelChartLegend l)
+        private SvgRenderRectItem GetLegendRectangleAndEntrySize(SvgChart sc, ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
             var rect = new SvgRenderRectItem(sc, sc.Bounds);
-            bool isVertical;
-            double maxWidth, maxHeight;
-            switch (l.Position)
-            {
-                case eLegendPosition.Top:
-                case eLegendPosition.Bottom:
-                    isVertical = false;
-                    maxWidth = sc.ChartArea.Rectangle.Width * 0.8;
-                    maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
-                    break;
-                default:
-                    isVertical = true;
-                    maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
-                    maxHeight = sc.ChartArea.Rectangle.Height * 0.8;
-                    break;
-            }
-            var iconLengh = sc.Chart.IsTypeLine() ? LineLength : BarLength;
+            
             var widest = 0d;
             var highest = 0d;
-            var hight = TopMargin;
             var index = 0;
-            double width=0d;
+            //Find the widest and hightest legend entry, and calculate the total width and hight of the legend based on the orientation. 
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
                 foreach (var s in ct.Series)
@@ -110,78 +106,83 @@ namespace EPPlusImageRenderer.Svg
                     {
                         font = entry.Font;
                     }
+
                     var tm = _ttMeasurer.MeasureText(text, font.GetMeasureFont());
                     _seriesHeadersMeasure.Add(tm);
-                    if (isVertical)
+
+                    if(tm.Width > widest)
                     {
-                        width += tm.Width;
-                        if (tm.Width > widest)
-                        {
-                            widest = tm.Width;
-                        }
-                        if (tm.Height > hight)
-                        {
-                            highest = tm.Height;
-                        }
-                        if(hight==0)
-                        {
-                            hight += TopMargin + tm.Height;
-                        }
-                        else
-                        {
-                            hight += MiddleMargin + tm.Height;
-                        }
+                        widest = tm.Width;
                     }
-                    else
+
+                    if(tm.Height> highest)
                     {
-                        if(width + tm.Width >= maxWidth)
-                        {
-                            if(width > widest)
-                            {
-                                widest = width;
-                            }
-                            width = tm.Width;
-                            hight += highest + MiddleMargin;
-                            highest = 0;
-                        }
-                        else
-                        {
-                            width += tm.Width + MiddleMargin;
-                            if (highest < tm.Height)
-                            {
-                                highest = tm.Height;
-                            }
-                        }
+                        highest = tm.Height;
                     }
-                    
+
                     index++;
                 }
             }
-            hight += BottomMargin;     //remove last margin and add bottom margin
+            var iconLengh = GetIconLenght(sc, highest);
+            entryWidth = iconLengh + MarginExtra + widest;
+            entryHeight = highest;
+            //hight += BottomMargin;     //remove last margin and add bottom margin
             switch (l.Position)
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    rect.Width = width + LeftMargin + RightMargin + ((iconLengh + MarginExtra) * index + (MiddleMargin*Math.Max(index-1,0))) + 2 ; // 28 is for the line length + 2px between line and text
-                    rect.Height =  TopMargin + BottomMargin + hight + MarginExtra;
+                    var fullLength = LeftMargin + entryWidth * index + MarginExtra*(index-1) + RightMargin;
+                    if(fullLength > _maxWidth)
+                    {
+                        var height = TopMargin + highest;
+                        var widestLine = 0D;
+                        var width = LeftMargin + entryWidth;
+                        
+                        for(int i = 0; i < index; i++)
+                        {
+                            if (width + entryWidth + RightMargin > _maxWidth)
+                            {
+                                height = height + highest;
+                                if (width + RightMargin > widestLine)
+                                {
+                                    widestLine = width + RightMargin;
+                                }
+                                width = RightMargin + widest;
+                            }
+                            else
+                            {
+                                width += entryWidth + MarginExtra;
+                            }
+                        }
+
+                        height+= BottomMargin;
+                        rect.Width = Math.Max(widestLine, width);
+                        rect.Height = height + BottomMargin;
+                    }
+                    else
+                    {
+                        rect.Width = fullLength;
+                        rect.Height = TopMargin + highest + BottomMargin;
+                    }
                     rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = sc.Title.Rectangle.Top + sc.Title.Rectangle.Height + MiddleMargin;
+                        rect.Top = sc.Title.Rectangle.Bottom + MiddleMargin;
                     }
                     else 
                     {
-                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
+                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height;
                     }
                     break;
                 case eLegendPosition.Right:
                 case eLegendPosition.TopRight:
                 case eLegendPosition.Left:
-                    rect.Width = widest + LeftMargin + RightMargin + iconLengh + 2; // 28 is for the line length + 2px between line and text
-                    rect.Height = hight;
-                    if (rect.Height > maxHeight)
+                    rect.Width = widest + LeftMargin + RightMargin + iconLengh + MarginExtra; 
+                    rect.Height = TopMargin + (highest * (index + 1)) + (index* MarginExtra) + BottomMargin;
+
+                    if (rect.Height > _maxHeight)
                     {
-                        rect.Height = maxHeight;
+                        rect.Height = _maxHeight;
                     }
 
                     if (l.Position == eLegendPosition.Right ||
@@ -215,7 +216,12 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
-        internal void SetLegend(SvgChart sc)
+        private double GetIconLenght(SvgChart sc, double heighestText)
+        {
+            return sc.Chart.IsTypeLine() ? LineLength : Math.Max(MinBarLength, heighestText * 0.6);
+        }
+
+        internal void SetLegend(SvgChart sc, double entryWidth, double entryHeight)
         {
             int index = 0;
             SvgLegendSerie pSls=null;
@@ -241,7 +247,7 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.BarClustered:
                         case eChartType.BarStacked:
                         case eChartType.BarStacked100:
-                            SetBarLegend(sc, index, pSls, pos, s, sls);
+                            SetBarLegend(sc, index, pSls, pos, s, sls, entryWidth, entryHeight);
                             break;
                         default:
                             break;
@@ -328,7 +334,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void SetBarLegend(SvgChart sc, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls)
+        private void SetBarLegend(SvgChart sc, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight)
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
@@ -337,8 +343,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 prevTm = _seriesHeadersMeasure[index - 1];
             }
-
-            var si = GetBarSeriesIcon(sc, bs, prevTm, tm, pSls);
+            var si = GetBarSeriesIcon(sc, bs, prevTm, tm, pSls, entryHeight, entryWidth);
             sls.SeriesIcon = si;
 
             var tbLeft = si.Right + MarginExtra;
@@ -409,7 +414,7 @@ namespace EPPlusImageRenderer.Svg
                     y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + MiddleMargin;
                 }
 
-                item.X1 = (float)LeftMargin; //4
+                item.X1 = (float)LeftMargin; 
                 item.Y1 = y;
                 item.X2 = (float)LineLength;
                 item.Y2 = y;
@@ -419,30 +424,49 @@ namespace EPPlusImageRenderer.Svg
             return item;
         }
 
-        private SvgRenderRectItem GetBarSeriesIcon(SvgChart sc, ExcelChartStandardSerie cStandardSerie, TextMeasurement pTm, TextMeasurement tm, SvgLegendSerie pSls)
+        private SvgRenderRectItem GetBarSeriesIcon(SvgChart sc, ExcelChartStandardSerie cStandardSerie, TextMeasurement pTm, TextMeasurement tm, SvgLegendSerie pSls, double entryHeight, double entryWidth)
         {
             var item = new SvgRenderRectItem(sc, Rectangle.Bounds);
             item.SetDrawingPropertiesFill(cStandardSerie.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(cStandardSerie.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style!=eFillStyle.NoFill, 0.75);
-
+            var iconHeight = GetIconLenght(sc, entryHeight);
+            var icon = pSls?.SeriesIcon as SvgRenderRectItem;
+            var topOffset = 0D;
             if (sc.Chart.Legend.Position == eLegendPosition.Top ||
                sc.Chart.Legend.Position == eLegendPosition.Bottom)
             {
-                float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + MarginExtra;
-                float x = 0;                
-                if (pSls == null)
+                double x;
+                if (pSls!=null && pSls.Textbox.Bounds.Right+entryWidth+RightMargin>_maxWidth)
                 {
-                    x = (float)Rectangle.Left + (float)LeftMargin;// + MarginExtra;
+                    topOffset += entryHeight + MarginExtra;
+                    x = Rectangle.Left + LeftMargin;
                 }
                 else
                 {
-                    x = (float)pSls.Textbox.Bounds.Left;
+                    if (pSls == null)
+                    {
+                        x = Rectangle.Left + (float)LeftMargin;
+                    }
+                    else
+                    {
+                        x = icon.Left + entryWidth+MarginExtra;
+                    }
                 }
+                double y;
+                if (pSls==null)
+                {
+                    y = Rectangle.Top + TopMargin;
+                }
+                else
+                {
+                    y = icon.Top + topOffset;
+                }
+
 
                 item.Left = x;
                 item.Top = y;
-                item.Width = 4;
-                item.Height = 4;
+                item.Width = iconHeight;
+                item.Height = iconHeight;
             }
             else
             {
@@ -458,8 +482,8 @@ namespace EPPlusImageRenderer.Svg
 
                 item.Left = (float)LeftMargin; //4
                 item.Top = y;
-                item.Width = 4;
-                item.Height = 4;
+                item.Width = iconHeight;
+                item.Height = iconHeight;
                 item.LineCap = eLineCap.Round;
             }
 
