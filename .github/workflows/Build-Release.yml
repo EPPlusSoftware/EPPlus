@@ -101,7 +101,7 @@ jobs:
     - name: Install CycloneDX
       run: dotnet tool install --global CycloneDX
     - name: Generate combined SBOM
-      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml --spec-version 1.7
+      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml --spec-version 1.6
     - name: Generate per-TFM SBOMs
       run: |
         $tfms = "${{ env.TFMS }}" -split ";"
@@ -109,7 +109,7 @@ jobs:
           $tfm = $tfm.Trim()
           if ([string]::IsNullOrEmpty($tfm)) { continue }
           Write-Host "Generating SBOM for $tfm"
-          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm --spec-version 1.7
+          dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn "epplus-${{ env.VERSION }}.$tfm.sbom.json" -imp ./src/EPPlus/sbom-metadata-template.xml --framework $tfm --spec-version 1.6
         }
       shell: pwsh
     - name: Generate SHA-256 checksums for all SBOMs
