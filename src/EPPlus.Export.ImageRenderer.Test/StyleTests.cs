@@ -86,7 +86,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
             var chartName = "ChartLineDefaultDownUp.xlsx";
-            using (var p = OpenTemplatePackage("MyLineIonThemeExcel.xlsx"))
+            using (var p = OpenTemplatePackage(chartName))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var lChart = ws.Drawings[0].As.Chart.LineChart;
