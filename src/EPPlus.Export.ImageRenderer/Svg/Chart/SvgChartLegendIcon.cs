@@ -65,7 +65,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         //    throw new NotImplementedException();
         //}
 
-        //private SvgRenderLineItem GetSeriesIcon(SvgChart sc, ExcelChartStandardSerie s, TextMeasurement sHM, TextMeasurement tm, SvgLegendSerie pSls)
+        //private SvgRenderLineItem GetLineSeriesIcon(SvgChart sc, ExcelChartStandardSerie s, TextMeasurement sHM, TextMeasurement tm, SvgLegendSerie pSls)
         //{
         //    var item = new SvgRenderLineItem(sc, Rectangle.Bounds);
         //    item.SetDrawingPropertiesFill(s.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);

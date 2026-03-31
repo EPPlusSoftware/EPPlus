@@ -50,12 +50,12 @@ namespace EPPlusImageRenderer.Utils
                 string filter = "";
                 if (item.GradientFill != null)
                 {
-                    string name = WriteGradient("Gradient", defSb, hs, item.GradientFill, item.FillColorSource, true);
+                    string name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource, true);
                     item.FillColor = $"Url(#{name})";
                 }
                 else if (item.PatternFill != null)
                 {
-                    string name = WritePattern($"Pattern{item.PatternFill.PatternType}", defSb, hs, item.PatternFill, item.FillColorSource);
+                    string name = WritePattern($"Pattern{item.PatternFill.PatternType}{ix}", defSb, hs, item.PatternFill, item.FillColorSource);
                     item.FillColor = $"Url(#{name})";
                 }
                 else if (item.BlipFill != null)
@@ -70,7 +70,7 @@ namespace EPPlusImageRenderer.Utils
                 }
                 if (item.BorderGradientFill != null)
                 {
-                    string name = WriteGradient("StrokeGradient", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
+                    string name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
                     item.BorderColor = $"Url(#{name})";
                 }
                 if(item.GlowColor!=null)

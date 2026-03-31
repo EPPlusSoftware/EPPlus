@@ -261,19 +261,18 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (string.IsNullOrEmpty(HeaderAddress.WorkSheetName))
                 {
-                    ret = _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                    return _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                 }
                 else
                 {
                     var ws = _chart.WorkSheet.Workbook.Worksheets[HeaderAddress.WorkSheetName];
                     if (ws != null)
                     {
-                        ret = ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                        return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                     }
                 }                
             }
-            return string.IsNullOrEmpty(ret) ? $"Series{index + 1}" : ret;
-            ;
+            return $"Series{index + 1}";
         }
     }
 }

@@ -93,7 +93,7 @@ namespace EPPlusImageRenderer.Svg
                                 {
                                     lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
                                 }
-                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width;
+                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width-LeftMargin;
                             }
                         }
                         else
@@ -137,7 +137,7 @@ namespace EPPlusImageRenderer.Svg
                     nf = new ExcelFormatTranslator(sdFormat, 14);
                 }
             }
-            foreach (var v in values)
+            foreach (var v in CategoryAxisScaleCalculator.GetUniqueValues(values))
             {
                 var s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
                 displayValues.Add(s);
@@ -298,7 +298,7 @@ namespace EPPlusImageRenderer.Svg
             {
 
             }
-            if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false)
+            if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
                 AxisValuesTextBoxes = GetAxisValueTextBoxes();
             }
@@ -584,7 +584,7 @@ namespace EPPlusImageRenderer.Svg
             var axisStyle = GetAxisStyleEntry();
 
             var tms = new List<SvgRenderLineItem>();
-            double min, addMinor=0D;
+            double min, max, addMinor=0D;
             if(double.IsNaN(parentUnit)==false && parentUnit==units)
             {
                 addMinor = parentUnit / 2;
@@ -592,10 +592,12 @@ namespace EPPlusImageRenderer.Svg
             if (Axis.AxisType == eAxisType.Cat)
             {
                 min = 0;
+                max = AxisValues.Count;
             }
             else
             {
                 min = Min;
+                max = Max;
             }
             double tickMarkWidthInside=0, tickMarkWidthOutside=0;
             if(type==eAxisTickMark.In || type==eAxisTickMark.Cross)
@@ -606,10 +608,9 @@ namespace EPPlusImageRenderer.Svg
             {
                 tickMarkWidthOutside = tickMarkWidth;
             }
-
-            var diff = Max - min;
+            var diff = max - min;
             double d = min + addMinor;
-            while (d <= Max)
+            while (d <= max)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {

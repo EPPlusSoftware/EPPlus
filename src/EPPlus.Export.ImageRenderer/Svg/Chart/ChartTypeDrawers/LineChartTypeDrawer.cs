@@ -13,7 +13,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
 
-        internal LineChartTypeDrawer(SvgChart svgChart, ExcelChart chartType) : base(svgChart, chartType)
+        internal LineChartTypeDrawer(SvgChart svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
             var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
             RenderItems.Add(groupItem);
