@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Export.HtmlExport
 {
     [TestClass]
-    public class CssRuleCollectionTests
+    public class CssRuleCollectionTests : TestBase
     {
         [TestMethod]
         public void ExportRangeWithNullBorderMergedCellsShouldNotThrow()
@@ -89,33 +89,32 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ChartTitleIssue()
         {
-            using (var package = new ExcelPackage())
+
+            using (var package = OpenTemplatePackage("ChartLineDefaultDownUp.xlsx"))
             {
-                var mySheet = package.Workbook.Worksheets.Add("chartSinglSheet");
+                var mySheet = package.Workbook.Worksheets[0];
 
-                mySheet.Cells["A1:C1"].Formula = "COLUMN()";
+                var lChart = mySheet.Drawings[0].As.Chart.LineChart;
 
-                var lChart = mySheet.Drawings.AddLineChart("chart1", eLineChartType.Line);
+                lChart.StyleManager.ApplyStyles();
 
-                mySheet.Calculate();
+                package.SaveAs("C:\\epplusTest\\Testoutput\\ChartLineDefaultApply.xlsx");
+            }
 
-                var address = mySheet.Cells["A1:C1"];
+            using (var package = OpenPackage("ChartLineDefaultApply.xlsx", false))
+            {
+                var mySheet = package.Workbook.Worksheets[0];
 
-                lChart.Series.Add(address, address);
-
-                lChart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.LineChartStyle2);
-
-                lChart.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
-                lChart.Fill.Color = Color.Aquamarine;
-                lChart.Border.Fill.Color = Color.DarkCyan;
-
+                var lChart = mySheet.Drawings[0].As.Chart.LineChart;
 
                 lChart.Title.Text = "MyTitle";
 
                 lChart.StyleManager.ApplyStyles();
 
+                Assert.AreEqual("MyTitle", lChart.Title.TextBody.Paragraphs[0].Text);
+                Assert.AreEqual("MyTitle", lChart.Title.TextBody.Paragraphs[0].TextRuns[0].Text);
 
-                package.SaveAs("C:\\epplusTest\\Testoutput\\generatedLineChartCrashes.xlsx");
+                package.SaveAs("C:\\epplusTest\\Testoutput\\ChartLineDefaultApplyAndTitle.xlsx");
             }
         }
     }
