@@ -85,5 +85,38 @@ namespace EPPlusTest.Export.HtmlExport
                 package.SaveAs("C:\\epplusTest\\Testoutput\\generatedLineChart.xlsx");
             }
         }
+
+        [TestMethod]
+        public void ChartTitleIssue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var mySheet = package.Workbook.Worksheets.Add("chartSinglSheet");
+
+                mySheet.Cells["A1:C1"].Formula = "COLUMN()";
+
+                var lChart = mySheet.Drawings.AddLineChart("chart1", eLineChartType.Line);
+
+                mySheet.Calculate();
+
+                var address = mySheet.Cells["A1:C1"];
+
+                lChart.Series.Add(address, address);
+
+                lChart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.LineChartStyle2);
+
+                lChart.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
+                lChart.Fill.Color = Color.Aquamarine;
+                lChart.Border.Fill.Color = Color.DarkCyan;
+
+
+                lChart.Title.Text = "MyTitle";
+
+                lChart.StyleManager.ApplyStyles();
+
+
+                package.SaveAs("C:\\epplusTest\\Testoutput\\generatedLineChartCrashes.xlsx");
+            }
+        }
     }
 }

@@ -24,38 +24,42 @@ namespace EPPlus.Export.ImageRenderer.Tests
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
-            using (var p = OpenTemplatePackage("MyLineIonTheme.xlsx"))
+            using (var p = OpenTemplatePackage("MyLineIonThemeExcel.xlsx"))
             {
                 var wbStyles = p.Workbook.Styles;
                 var simpleChart = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
 
                 simpleChart.Title.Text = "Hello";
 
-                p.Workbook.ThemeManager.CurrentTheme.ColorScheme.Accent1.SetPresetColor(Color.DarkGoldenrod);
+                //p.Workbook.ThemeManager.CurrentTheme.ColorScheme.Accent1.SetPresetColor(Color.DarkGoldenrod);
 
                 var chartDefaultStyle = simpleChart.StyleManager.Style;
+                //simpleChart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.LineChartStyle2);
+                ////var fillStyle = simpleChart.StyleManager.Style.DataPointLine.Border.Fill;
 
-                var fillStyle = simpleChart.StyleManager.Style.DataPointLine.Border.Fill;
+                //var svgFill = new SvgFill(fillStyle);
+                //var fillTranslator = new SvgFillTranslator(svgFill);
 
-                var svgFill = new SvgFill(fillStyle);
-                var fillTranslator = new SvgFillTranslator(svgFill);
+                //var context = new TranslatorContext(new HtmlRangeExportSettings());
 
-                var context = new TranslatorContext(new HtmlRangeExportSettings());
+                //var declarations = fillTranslator.GenerateDeclarationList(context);
 
-                var declarations = fillTranslator.GenerateDeclarationList(context);
+                //var styleClass = new CssRule("Style", 0);
 
-                var styleClass = new CssRule("Style", 0);
+                //context.SetTranslator(fillTranslator);
+                //context.AddDeclarations(styleClass);
+                simpleChart.StyleManager.ApplyStyles();
 
-                context.SetTranslator(fillTranslator);
-                context.AddDeclarations(styleClass);
                 //chartDefaultStyle.DataPointLine.FillReference.Color
+                simpleChart.Title.Font.Color = Color.CornflowerBlue;
+                //simpleChart.StyleManager.Style.Title.FontReference.Color.SetPresetColor(Color.CornflowerBlue);
 
                 //Highest order of styling if datapoint does not exist
                 //simpleChart.StyleManager.Style.DeleteAllNode("cs:dataPointLine");
                 simpleChart.StyleManager.Style.DataPointLine.BorderReference.Color.SetPresetColor(Color.Green);
 
                 //simpleChart.StyleManager.Style.DataPointLine.Border.Fill.DeleteNode(path);
-                //simpleChart.StyleManager.Style.DataPointLine.Border.Fill.Color = Color.Red;
+                simpleChart.StyleManager.Style.DataPointLine.Border.Fill.Color = Color.Red;
                 //simpleChart.StyleManager.Style.DataPointLine.Fill.Color = Color.Green;
 
                 //simpleChart.StyleManager.Style.DataPoint.Fill.Color = Color.Yellow;
@@ -63,6 +67,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 simpleChart.StyleManager.ApplyStyles();
 
+                simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
                 //var serLine = chartDefaultStyle.SeriesLine;
                 //var lineElement = serLine.Border.LineElement;
                 //var serLineFillRef = serLine.Border.Fill;
@@ -73,6 +78,30 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 SaveAndCleanup(p);
             }
 
+        }
+
+        [TestMethod]
+        public void TextRunIsStyledButNotTitleFont()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            var chartName = "ChartLineDefaultDownUp.xlsx";
+            using (var p = OpenTemplatePackage("MyLineIonThemeExcel.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var lChart = ws.Drawings[0].As.Chart.LineChart;
+
+                //lChart.Title.Font.Color = Color.DeepSkyBlue;
+
+                lChart.StyleManager.ApplyStyles();
+
+                SaveAndCleanup(p);
+            }
+
+            //using(var p= OpenPackage(chartName,false))
+            //{
+
+            //}
         }
         ///// <summary>
         ///// Exports an <see cref="ExcelTable"/> to a html string

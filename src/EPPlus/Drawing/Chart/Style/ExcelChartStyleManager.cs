@@ -517,11 +517,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 ApplyStyle(_chart.PlotArea, Style.PlotArea);
             }
 
-            ////Title
-            //if (_chart.HasTitle)
-            //{
-            //    ApplyStyle(_chart.Title, Style.Title);
-            //}
+            //Title
+            if (_chart.HasTitle)
+            {
+                ApplyStyle(_chart.Title, Style.Title);
+            }
 
             if (_chart.PlotArea.DataTable!=null)
             {
