@@ -171,7 +171,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else 
                     {
-                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height;
+                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height - MiddleMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -288,7 +288,7 @@ namespace EPPlusImageRenderer.Svg
             sls.SeriesIcon = si;
 
             var tbLeft = si.X2 + MarginExtra;
-            var tbTop = si.Y2 - tm.Height * 0.5; //TODO:Should probably be font ascent 
+            var tbTop = si.Y2 - tm.Height * 0.5;    //TODO:Should probably be font ascent 
             double tbWidth;
             if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
             {
@@ -386,7 +386,7 @@ namespace EPPlusImageRenderer.Svg
                sc.Chart.Legend.Position == eLegendPosition.Bottom)
             {
                 float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + MarginExtra;
-                float x = 0;
+                float x;
                 if (pSls == null)
                 {
                     x = (float)Rectangle.Left + (float)LeftMargin;// + MarginExtra;
