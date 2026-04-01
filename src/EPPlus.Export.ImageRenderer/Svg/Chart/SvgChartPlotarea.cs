@@ -84,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
         private double GetPlotAreaLeft(SvgChart sc)
         {
             var leftAxis = GetAxisByPosition(sc, eAxisPosition.Left);
-            if (leftAxis == null)
+            if (leftAxis == null || (leftAxis.Rectangle==null && leftAxis.Title?.Rectangle==null))
             {
                 return sc.Chart.Legend?.Position == eLegendPosition.Left ? sc.Legend.Bounds.Right + LeftMargin : LeftMargin;
             }
