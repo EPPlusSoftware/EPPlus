@@ -1130,7 +1130,11 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
                             }
-                            
+                            if (t.TokenType == TokenType.EtaReducedLambda)
+                            {
+                                ((FunctionExpression)f._expressions[f._tokenIndex]).SetRpnFormula(f);
+                            }
+
                             var cr = exp.Compile();
                             if (cr.DataType == DataType.LambdaTokens)
                             {
@@ -1155,10 +1159,7 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             s.Push(f._expressions[f._tokenIndex]);
                         }
-                        if(t.TokenType == TokenType.EtaReducedLambda)
-                        {
-                            ((FunctionExpression)f._expressions[f._tokenIndex]).SetRpnFormula(f);
-                        }
+                        
                         break;
                     case TokenType.Negator:
                         s.Push(s.Pop().Negate());

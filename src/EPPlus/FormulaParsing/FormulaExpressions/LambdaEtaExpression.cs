@@ -58,8 +58,22 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            var paramName = $"p{Guid.NewGuid().ToString("N")}";
-            var formula = $"LAMBDA({paramName}, {functionName}({paramName}))";
+            string paramNames;
+            if (func.IsAllowedAsLambdaWithMultipleArguments)
+            {
+                var argList = new StringBuilder();
+                for (int i = 0; i < func.ArgumentMinLength; i++)
+                {
+                    var paramName = $"p{Guid.NewGuid().ToString("N")},";
+                    argList.Append(paramName);
+                }
+                paramNames = argList.ToString(0, argList.Length - 1);                
+            }
+            else
+            {
+                paramNames = $"p{Guid.NewGuid().ToString("N")}";
+            }
+            var formula = $"LAMBDA({paramNames}, {functionName}({paramNames}))";
             var lambdaTokens = SourceCodeTokenizer.Default.Tokenize(formula);
             var rpnTokens = FormulaExecutor.CreateRPNTokens(lambdaTokens);
 

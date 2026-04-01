@@ -128,6 +128,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             
         }
+
+        public virtual string Name
+        { 
+            get 
+            {
+                return GetType().Name.ToUpper();
+            }
+        }
         /// <summary>
         /// Indicates that the function is an ErrorHandlingFunction.
         /// </summary>
@@ -896,7 +904,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 			}
 		}
         /// <summary>
-        /// If the function is allowed in a pivot table calculated field. Default is true, if not overridden.
+        /// The function is allowed...
         /// </summary>
         public virtual bool IsAllowedAsLambdaWithMultipleArguments
         {

@@ -24,6 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class SumV2 : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
+        public override string Name => "SUM";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

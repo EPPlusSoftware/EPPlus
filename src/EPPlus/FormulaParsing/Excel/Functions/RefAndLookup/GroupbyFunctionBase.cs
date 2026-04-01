@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -80,6 +81,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public List<object[]> Values { get; set; } = new List<object[]>();
             public object AggregatedValue { get; set; }
             public List<object> AggregatedValues { get; set; } = new List<object>(); // All function results
+        }
+
+        protected List<string> ResolveFunctionHeaders(GroupByBaseArgs args)
+        {
+            var names = args.Functions
+                .Select(f => f.EtaFunction.Name)
+                .ToList();
+
+            int customCount = names.Count(n => n == "CUSTOM");
+
+            if (customCount > 1)
+            {
+                int counter = 1;
+                for (int i = 0; i < names.Count; i++)
+                    if (names[i] == "CUSTOM")
+                        names[i] = $"CUSTOM{counter++}";
+            }
+
+            return names;
         }
 
         // -------------------------------------------------------
@@ -216,7 +236,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var resolvedHeaders = ResolveHeaders(args);
             bool hasHeaders = resolvedHeaders == FieldHeaders.YesAndShow
                            || resolvedHeaders == FieldHeaders.YesAndDontShow;
+            bool multipleFunctions = args.Functions.Count > 1;
             int startRow = hasHeaders ? 1 : 0;
+            //int startRow = 0;
+            //if (hasHeaders) startRow++;
+            //if (multipleFunctions) startRow++;
             int nKeyCols = args.RowFields.Size.NumberOfCols;
             int nValCols = args.Values.Size.NumberOfCols;
 
@@ -301,17 +325,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if (level.IsLeaf)
                 {
-                    foreach(var row in level.Rows)
+                    foreach (var row in level.Rows)
                     {
                         row.AggregatedValues = args.Functions
-                            .Select(f => Aggregate(f, row.Values, context))
+                            .Select(f => Aggregate(f, row.Values, context,
+                                f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null))
                             .ToList();
                         row.AggregatedValue = row.AggregatedValues[0];
                     }
 
                     var allVals = level.Rows.SelectMany(r => r.Values).ToList();
                     level.SubtotalValues = args.Functions
-                        .Select(f => Aggregate(f, allVals, context))
+                        .Select(f => Aggregate(f, allVals, context,
+                            f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null))
                         .ToList();
                     level.SubtotalValue = level.SubtotalValues[0];
                 }
@@ -321,8 +347,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
                     var allVals = level.Children.SelectMany(c => GetAllValues(c)).ToList();
                     level.SubtotalValues = args.Functions
-                    .Select(f => Aggregate(f, allVals, context))
-                    .ToList();
+                        .Select(f => Aggregate(f, allVals, context,
+                            f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null))
+                        .ToList();
                     level.SubtotalValue = level.SubtotalValues[0];
                 }
             }
@@ -335,7 +362,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return level.Children.SelectMany(c => GetAllValues(c)).ToList();
         }
 
-        protected object Aggregate(LambdaCalculator calculator, List<object[]> values, ParsingContext context)
+        protected object Aggregate(LambdaCalculator calculator, List<object[]> values, ParsingContext context, List<object[]> allValues = null)
         {
             int nRows = values.Count;
             int nCols = values.Count > 0 ? values[0].Length : 1;
@@ -347,6 +374,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             calculator.BeginCalculation();
             calculator.SetVariableValue(0, range, DataType.ExcelRange, context);
+
+            if(calculator.NumberOfVariables > 1 && allValues != null)
+            {
+                // Special case with PERCENTOF where we have to handle two arguments with no input.
+                int allRows = allValues.Count;
+                int allCols = allValues.Count > 0 ? allValues[0].Length : 1;
+                var allRange = new InMemoryRange(allRows, (short)allCols);
+                for (int row = 0; row < allRows; row++)
+                    for (int col = 0; col < allCols; col++)
+                        allRange.SetValue(row, col, allValues[row][col]);
+                calculator.SetVariableValue(1, allRange, DataType.ExcelRange, context);
+            }
             return calculator.Execute(context).ResultValue;
         }
 

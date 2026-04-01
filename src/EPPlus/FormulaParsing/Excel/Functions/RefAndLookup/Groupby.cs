@@ -45,8 +45,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var result = BuildResult(groups, args, context);
 
             return CreateDynamicArrayResult(result, DataType.ExcelRange);
-        }       
-
+        }
+        
         // -------------------------------------------------------
         // Sorting
         // -------------------------------------------------------
@@ -134,6 +134,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var resolvedHeaders = ResolveHeaders(args);
             bool showHeaders = resolvedHeaders == FieldHeaders.YesAndShow
                               || resolvedHeaders == FieldHeaders.NoButGenerate;
+            bool addFunctionHeaders = args.Functions.Count > 1;
             bool showTotals = args.TotalDepth != TotalDepthNoTotals;
             bool totalsAtTop = args.TotalDepth < 0;
             bool totalsAtEnd = args.TotalDepth > 0;
@@ -143,27 +144,66 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             int nKeyCols = args.RowFields.Size.NumberOfCols;
             int nValCols = args.Values.Size.NumberOfCols;
-            int nCols = nKeyCols + nValCols;
+            int nFunctions = args.Functions.Count;
+
+            int valColsPerRow = args.FunctionLayout == FunctionLayout.Horizontal
+                                ? nValCols * nFunctions
+                                : args.FunctionLayout == FunctionLayout.Vertical
+                                ? nValCols + 1  
+                                : nValCols;
+            int nCols = nKeyCols + valColsPerRow;
 
             int dataRows = CountDataRows(levels);
-            int subtotalRows = showSubtotals ? CountSubtotalRows(levels, subtotalDepth, 1) : 0;
-            int totalRows = dataRows + subtotalRows
-                             + (showHeaders ? 1 : 0)
-                             + (showTotals ? 1 : 0);
+            int subtotalRows = showSubtotals
+                ? CountSubtotalRows(levels, subtotalDepth, 1) * (args.FunctionLayout == FunctionLayout.Vertical ? nFunctions : 1)
+                : 0;
+            int resultDataRows = args.FunctionLayout == FunctionLayout.Vertical
+                ? dataRows * nFunctions
+                : dataRows;
+
+            int grandTotalRows = showTotals
+                ? (args.FunctionLayout == FunctionLayout.Vertical ? nFunctions : 1)
+                : 0;
+
+            int totalRows = resultDataRows + subtotalRows
+                          + (showHeaders ? 1 : 0)
+                          + grandTotalRows;
 
             var result = new InMemoryRange(totalRows, (short)nCols);
             int r = 0;
 
-            if (showHeaders)
+            if(addFunctionHeaders)
             {
+                var functionHeaders = ResolveFunctionHeaders(args);
+                if(args.FunctionLayout == FunctionLayout.Horizontal)
+                {
+                    for (int c = 0; c < nFunctions; c++)
+                        result.SetValue(r, c + 1, functionHeaders[c]);
+                    r++;
+                }                
+            }
+            if (showHeaders)
+            {                
                 for (int c = 0; c < nKeyCols; c++)
                     result.SetValue(r, c, resolvedHeaders == FieldHeaders.NoButGenerate
                         ? $"Field {c + 1}"
                         : args.RowFields.GetOffset(0, c)?.ToString());
-                for (int c = 0; c < nValCols; c++)
-                    result.SetValue(r, nKeyCols + c, resolvedHeaders == FieldHeaders.NoButGenerate
-                        ? $"Field {nKeyCols + c + 1}"
-                        : args.Values.GetOffset(0, c)?.ToString());
+
+                if (args.FunctionLayout == FunctionLayout.Horizontal)
+                {
+                    for (int f = 0; f < nFunctions; f++)
+                        for (int c = 0; c < nValCols; c++)
+                            result.SetValue(r, nKeyCols + f * nValCols + c, resolvedHeaders == FieldHeaders.NoButGenerate
+                                ? $"Field {nKeyCols + f * nValCols + c + 1}"
+                                : args.Values.GetOffset(0, c)?.ToString());
+                }
+                else
+                {
+                    for (int c = 0; c < nValCols; c++)
+                        result.SetValue(r, nKeyCols + c + (addFunctionHeaders ? 1: 0), resolvedHeaders == FieldHeaders.NoButGenerate
+                            ? $"Field {nKeyCols + c + 1}"
+                            : args.Values.GetOffset(0, c)?.ToString());
+                }
                 r++;
             }
 
@@ -172,7 +212,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (totalsAtTop && showTotals)
                 r = WriteGrandTotal(result, r, levels, grandTotalStr, nKeyCols, nValCols, args, context);
 
-            r = WriteRows(result, r, levels, subtotalDepth, totalsAtTop, nKeyCols, nValCols, depth: 1);
+            r = WriteRows(result, r, levels, subtotalDepth, totalsAtTop, nKeyCols, nValCols, args, depth: 1);
 
             if (totalsAtEnd && showTotals)
                 WriteGrandTotal(result, r, levels, grandTotalStr, nKeyCols, nValCols, args, context);
@@ -181,44 +221,62 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         private int WriteRows(
-            InMemoryRange result, int r,
-            List<GroupLevel> levels,
-            int subtotalDepth, bool subtotalsAtTop,
-            int nKeyCols, int nValCols,
-            int depth)
+    InMemoryRange result, int r,
+    List<GroupLevel> levels,
+    int subtotalDepth, bool subtotalsAtTop,
+    int nKeyCols, int nValCols,
+    GroupByBaseArgs args,
+    int depth)
         {
+            var functionHeaders = args.FunctionLayout == FunctionLayout.Vertical
+                ? ResolveFunctionHeaders(args)
+                : null;
+
             foreach (var level in levels)
             {
                 bool writeSubtotal = subtotalDepth > 1 && depth <= subtotalDepth - 1;
 
-                // Subtotal at top of this level
                 if (writeSubtotal && subtotalsAtTop)
-                    r = WriteSubtotal(result, r, level, nKeyCols, nValCols);
+                    r = WriteSubtotal(result, r, level, nKeyCols, nValCols, args);
 
                 if (level.IsLeaf)
                 {
-                    // Write leaf GroupRows
                     foreach (var row in level.Rows)
                     {
-                        for (int c = 0; c < nKeyCols; c++)
-                            result.SetValue(r, c, row.KeyParts[c]);
-                        for (int c = 0; c < nValCols; c++)
-                            result.SetValue(r, nKeyCols + c, row.AggregatedValue);
-                        r++;
+                        if (args.FunctionLayout == FunctionLayout.Vertical)
+                        {
+                            for (int f = 0; f < args.Functions.Count; f++)
+                            {
+                                for (int c = 0; c < nKeyCols; c++)
+                                    result.SetValue(r, c, row.KeyParts[c]);
+                                result.SetValue(r, nKeyCols, functionHeaders[f]);
+                                for (int c = 0; c < nValCols; c++)
+                                    result.SetValue(r, nKeyCols + 1 + c, row.AggregatedValues[f]);
+                                r++;
+                            }
+                        }
+                        else
+                        {
+                            for (int c = 0; c < nKeyCols; c++)
+                                result.SetValue(r, c, row.KeyParts[c]);
+                            for (int f = 0; f < args.Functions.Count; f++)
+                                for (int c = 0; c < nValCols; c++)
+                                    result.SetValue(r, nKeyCols + f * nValCols + c, row.AggregatedValues[f]);
+                            r++;
+                        }
                     }
                 }
                 else
                 {
-                    // Recurse into children
-                    r = WriteRows(result, r, level.Children, subtotalDepth, subtotalsAtTop, nKeyCols, nValCols, depth + 1);
+                    r = WriteRows(result, r, level.Children, subtotalDepth, subtotalsAtTop, nKeyCols, nValCols, args, depth + 1);
                 }
 
-                // Subtotal at bottom of this level
                 if (writeSubtotal && !subtotalsAtTop)
-                    r = WriteSubtotal(result, r, level, nKeyCols, nValCols);
+                    r = WriteSubtotal(result, r, level, nKeyCols, nValCols, args);
             }
             return r;
         }
+
 
         private int CountDataRows(List<GroupLevel> levels)
         {
@@ -240,29 +298,62 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return count;
         }
 
-        private int WriteSubtotal(InMemoryRange result, int r, GroupLevel level, int nKeyCols, int nValCols)
+        private int WriteSubtotal(InMemoryRange result, int r, GroupLevel level, int nKeyCols, int nValCols, GroupByBaseArgs args)
         {
-            result.SetValue(r, 0, level.Key);
-            for (int c = 1; c < nKeyCols; c++)
-                result.SetValue(r, c, string.Empty);
-            result.SetValue(r, nKeyCols, level.SubtotalValue);
-            for (int c = 1; c < nValCols; c++)
-                result.SetValue(r, nKeyCols + c, string.Empty);
-            return r + 1;
+            var functionHeaders = ResolveFunctionHeaders(args);
+            if (args.FunctionLayout == FunctionLayout.Vertical)
+            {
+                for (int f = 0; f < args.Functions.Count; f++)
+                {
+                    result.SetValue(r, 0, level.Key);
+                    for (int c = 1; c < nKeyCols; c++)
+                        result.SetValue(r, c, string.Empty);
+                    result.SetValue(r, nKeyCols, functionHeaders[f]);
+                    for (int c = 0; c < nValCols; c++)
+                        result.SetValue(r, nKeyCols + 1 + c, level.SubtotalValues[f]);
+                    r++;
+                }
+            }
+            else
+            {
+                result.SetValue(r, 0, level.Key);
+                for (int c = 1; c < nKeyCols; c++)
+                    result.SetValue(r, c, string.Empty);
+                for (int f = 0; f < args.Functions.Count; f++)
+                    for (int c = 0; c < nValCols; c++)
+                        result.SetValue(r, nKeyCols + f * nValCols + c, level.SubtotalValues[f]);
+                r++;
+            }
+            return r;
         }
 
         private int WriteGrandTotal(InMemoryRange result, int r, List<GroupLevel> levels, string label, int nKeyCols, int nValCols, GroupByBaseArgs args, ParsingContext context)
         {
-            result.SetValue(r, 0, label);
-            for (int c = 1; c < nKeyCols; c++)
-                result.SetValue(r, c, string.Empty);
-
-            var allValues = levels.SelectMany(l => GetAllValues(l)).ToList();
-            result.SetValue(r, nKeyCols, Aggregate(args.Function, args.AllValuesInOrder, context));
-
-            for (int c = 1; c < nValCols; c++)
-                result.SetValue(r, nKeyCols + c, string.Empty);
-            return r + 1;
+            var functionHeaders = ResolveFunctionHeaders(args);
+            if (args.FunctionLayout == FunctionLayout.Vertical)
+            {
+                for (int f = 0; f < args.Functions.Count; f++)
+                {
+                    result.SetValue(r, 0, label);
+                    for (int c = 1; c < nKeyCols; c++)
+                        result.SetValue(r, c, string.Empty);
+                    result.SetValue(r, nKeyCols, functionHeaders[f]);
+                    result.SetValue(r, nKeyCols + 1, Aggregate(args.Functions[f], args.AllValuesInOrder, context,
+                        args.Functions[f].EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null));
+                    r++;
+                }
+            }
+            else
+            {
+                result.SetValue(r, 0, label);
+                for (int c = 1; c < nKeyCols; c++)
+                    result.SetValue(r, c, string.Empty);
+                for (int f = 0; f < args.Functions.Count; f++)
+                    result.SetValue(r, nKeyCols + f * nValCols, Aggregate(args.Functions[f], args.AllValuesInOrder, context,
+                        args.Functions[f].EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null));
+                r++;
+            }
+            return r;
         }
 
         /// <summary>Recursively collects all AggregatedValues from leaf GroupRows.</summary>
