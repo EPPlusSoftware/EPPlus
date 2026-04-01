@@ -140,5 +140,36 @@ namespace EPPlusTest.Export.HtmlExport
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void ExportCss()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            var chartName = "DifficultCssExportMb.xlsx";
+            using (var p = OpenTemplatePackage(chartName))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var range = ws.Cells["A1:G10"];
+
+                var html = range.CreateHtmlExporter();
+                var fs = GetOutputFile("", "cssExportDatabarMb.html");
+
+                var cssStr = html.GetCssString();
+                //var lChart = ws.Drawings[0].As.Chart.LineChart;
+
+                ////lChart.Title.Font.Color = Color.DeepSkyBlue;
+
+                //lChart.StyleManager.ApplyStyles();
+
+                SaveAndCleanup(p);
+            }
+
+            //using(var p= OpenPackage(chartName,false))
+            //{
+
+            //}
+        }
     }
 }

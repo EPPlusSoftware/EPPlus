@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 

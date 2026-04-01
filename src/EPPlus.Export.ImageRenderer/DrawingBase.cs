@@ -19,6 +19,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Text;
@@ -47,6 +48,7 @@ namespace EPPlusImageRenderer
             //Theme = wb.ThemeManager.GetOrCreateTheme();
         }
 
+        internal readonly StyleCache _styleCache = new StyleCache();
         public ExcelDrawing Drawing { get; }
         public ExcelTheme Theme { get;}
         public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;

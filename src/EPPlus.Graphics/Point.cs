@@ -19,7 +19,7 @@ namespace EPPlus.Graphics
 
         internal double Left
         {
-            get { return LocalPosition.Y; }
+            get { return LocalPosition.X; }
             set
             {
                 LocalPosition = new Vector2(value, LocalPosition.Y);

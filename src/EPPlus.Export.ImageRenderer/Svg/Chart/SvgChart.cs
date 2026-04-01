@@ -17,6 +17,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
@@ -31,6 +32,19 @@ namespace EPPlusImageRenderer.Svg
     {
         public SvgChart(ExcelChart chart) : base(chart)
         {
+
+            //chart.Fill.
+            //chart.Fill
+            //chart.Fill.
+            ////chart.StyleManager.Style.ChartArea.
+            ////_styleCache.GetOrCreateId(chart.Fill.)
+            ////var cssExporter = new CssChartExporterSync(chart);
+            ////var css = cssExporter.GetCssString();
+
+            //chart.Fill
+            //var cssExporter = new CssChartExporterSync(chart);
+            //var css = cssExporter.GetCssString();
+
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)

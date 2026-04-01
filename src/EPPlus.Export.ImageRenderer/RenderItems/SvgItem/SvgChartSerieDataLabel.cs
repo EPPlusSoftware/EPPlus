@@ -33,21 +33,27 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 _defaultMargins = new BoundingBox(l, top, right, bottom);
             }
 
+
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
-
-                for (int i = 0; i < serie.NumberOfItems; i++)
+                if (xValues != null)
                 {
-                    AddDatalabel(chart, serie, dlblSerie, xValues[i], yValues[i], maxBounds);
+                    for (int i = 0; i < serie.NumberOfItems; i++)
+                    {
+                        AddDatalabel(chart, serie, dlblSerie, xValues[i], yValues[i], maxBounds);
+                    }
                 }
             }
             else
             {
-                for (int i = 0; i < dlblSerie.DataLabels.Count; i++)
+                if (xValues != null)
                 {
-                    var dataLabel = dlblSerie.DataLabels[i];
+                    for (int i = 0; i < dlblSerie.DataLabels.Count; i++)
+                    {
+                        var dataLabel = dlblSerie.DataLabels[i];
 
-                    AddDatalabel(chart, serie, dataLabel, xValues[i], yValues[i], maxBounds);
+                        AddDatalabel(chart, serie, dataLabel, xValues[i], yValues[i], maxBounds);
+                    }
                 }
             }
         }
@@ -96,7 +102,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal void SetParentPoint(BoundingBox parent, int index)
         {
-            dataLabels[index].SetParentPoint(parent);
+            if (dataLabels.Count > index)
+            {
+                dataLabels[index].SetParentPoint(parent);
+            }
+            //dataLabels[index].SetParentPoint(parent);
         }
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)

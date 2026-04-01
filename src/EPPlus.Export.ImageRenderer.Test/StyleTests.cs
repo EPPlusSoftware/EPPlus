@@ -1,8 +1,10 @@
 ﻿using EPPlus.Export.ImageRenderer.Style;
+using EPPlusImageRenderer;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
+using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
 using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Export.HtmlExport.Writers;
 using OfficeOpenXml.Utils;
@@ -19,6 +21,22 @@ namespace EPPlus.Export.ImageRenderer.Tests
     [TestClass]
     public class StyleTests : TestBase
     {
+
+        [TestMethod]
+        public void BaseThemeChartStyle()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            using (var p = OpenTemplatePackage("baseThemeChartStyle.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\baseThemeChartStyle.svg", svg);
+            }
+        }
+
         [TestMethod]
         public void ExtractThemeStyleWorks()
         {
@@ -68,6 +86,11 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 simpleChart.StyleManager.ApplyStyles();
 
                 simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(simpleChart);
+                SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcel2.svg", svg);
+
                 //var serLine = chartDefaultStyle.SeriesLine;
                 //var lineElement = serLine.Border.LineElement;
                 //var serLineFillRef = serLine.Border.Fill;
@@ -103,6 +126,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             //}
         }
+
         ///// <summary>
         ///// Exports an <see cref="ExcelTable"/> to a html string
         ///// </summary>
