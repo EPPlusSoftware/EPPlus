@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.Constants;
 using EPPlusImageRenderer.RenderItems;
@@ -45,6 +46,7 @@ namespace EPPlusImageRenderer.Utils
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();
             var ix = 1;
+
             foreach (RenderItem item in renderItems)
             {
                 string filter = "";
@@ -105,6 +107,14 @@ namespace EPPlusImageRenderer.Utils
                 {
                     defSb.Append(filter+"</filter>");
                 }
+
+                if(item is SvgRenderItem svgItem)
+                {
+                    if(string.IsNullOrEmpty(svgItem.DefId) == false)
+                    {
+                        svgItem.Render(defSb);
+                    }
+                }
                 ix++;
             }
             if (defSb.Length > 0)
@@ -113,6 +123,9 @@ namespace EPPlusImageRenderer.Utils
                 sb.Append(defSb);
                 sb.Append("</defs>");
             }
+
+            //Remove all items that have already been rendered
+            renderItems.RemoveAll(x => x is SvgRenderItem svgX && string.IsNullOrEmpty(svgX.DefId) == false);
         }
 
         private static string GetFilterName(int ix)

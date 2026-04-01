@@ -42,6 +42,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         internal HashSet<eExcelconditionalFormattingCustomIcon> AddedIcons = new HashSet<eExcelconditionalFormattingCustomIcon>();
 
+        public TranslatorContext(CssExportSettings settings)
+        {
+            Settings = settings;
+            Exclude = new CssExclude();
+        }
 
         public TranslatorContext(HtmlRangeExportSettings settings) 
         {

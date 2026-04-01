@@ -23,5 +23,6 @@ namespace EPPlusImageRenderer.RenderItems
         TSpan = 6,
         Paragraph = 7,
         CommentTitle = 8,
+        Reference = 9,
     }
 }

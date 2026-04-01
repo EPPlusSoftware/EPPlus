@@ -30,6 +30,9 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal abstract class SvgRenderItem : RenderItem
     {
+        //Refrence string if this is part of a definition
+        internal string DefId = null;
+
         internal SvgRenderItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
         }
@@ -40,6 +43,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         private void RenderBase(StringBuilder sb)
         {
+            if (string.IsNullOrEmpty(DefId) == false)
+            {
+                sb.Append($"id=\"{DefId}\" ");
+            }
+
             if (string.IsNullOrEmpty(FillColor) == false)
             {
                 sb.Append($"fill=\"{FillColor}\" ");

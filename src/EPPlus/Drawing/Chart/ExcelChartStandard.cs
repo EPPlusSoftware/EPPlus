@@ -129,7 +129,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _isChartEx = chartNode.NamespaceURI == ExcelPackage.schemaChartExMain;
             _chartXmlHelper = XmlHelperFactory.Create(drawings.NameSpaceManager, chartNode);
-            _chartXmlHelper.AddSchemaNodeOrder(new string[] { "date1904", "lang", "roundedCorners", "AlternateContent", "style", "clrMapOvr", "pivotSource", "protection", "chart", "ofPieType", "title", "autoTitleDeleted", "pivotFmts", "view3D", "floor", "sideWall", "backWall", "plotArea", "wireframe", "barDir", "grouping", "scatterStyle", "radarStyle", "varyColors", "ser", "dLbls", "bubbleScale", "showNegBubbles", "firstSliceAng", "holeSize", "dropLines", "hiLowLines", "upDownBars", "marker", "smooth", "shape", "legend", "plotVisOnly", "dispBlanksAs", "gapWidth", "upBars", "downBars", "showDLblsOverMax", "overlap", "bandFmts", "axId", "spPr", "txPr", "printSettings" }, ExcelDrawing._schemaNodeOrderSpPr);
+            _chartXmlHelper.AddSchemaNodeOrder(new string[] { "date1904", "lang", "roundedCorners", "AlternateContent", "style", "clrMapOvr", "pivotSource", "protection", "chart", "ofPieType", "title", "autoTitleDeleted", "pivotFmts", "view3D", "floor", "sideWall", "backWall", "plotArea", "wireframe", "barDir", "grouping", "scatterStyle", "radarStyle", "varyColors", "ser", "dLbls", "bubbleScale", "showNegBubbles", "firstSliceAng", "holeSize", "dropLines", "hiLowLines", "upDownBars", "marker", "smooth", "shape", "legend", "plotVisOnly", "dispBlanksAs", "gapWidth", "upBars", "downBars", "showDLblsOverMax", "overlap", "bandFmts", "axId", "tx", "layout", "overlay", "spPr", "txPr", "printSettings" }, ExcelDrawing._schemaNodeOrderSpPr);
             WorkSheet = drawings.Worksheet;
         }
         #endregion

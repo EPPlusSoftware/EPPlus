@@ -20,12 +20,12 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                var ix = 4;
+                var ix = 1;
                 var c = ws.Drawings[ix];
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                //var ix = 0;
+                //var ix = 0;g
                 //foreach (ExcelChart c in ws.Drawings)
                 //{
                 //    var svg = renderer.RenderDrawingToSvg(c);
@@ -220,6 +220,20 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\datalabelsSvgLeaderLinesBg.svg", svg);
+            }
+        }
+
+        [TestMethod]
+        public void GenerateSimpleLineChart()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("defChartLine3Points.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\defChartLine3Points.svg", svg);
             }
         }
     }

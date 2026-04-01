@@ -303,10 +303,10 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// Transparancy in percent from a solid fill. 
+        /// Transparency in percent from a solid fill. 
         /// This is the same as 100-Fill.Transform.Alpha
         /// </summary>
-        public int Transparancy
+        public int Transparency
         {
             get
             {

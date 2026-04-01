@@ -11,17 +11,22 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 
@@ -46,6 +51,47 @@ namespace EPPlusImageRenderer
             }
 
             throw new NotImplementedException("Image rendering for drawing type not implemented.");
+        }
+
+        public enum RenderItemClasses
+        {
+            Rect,
+            TextBox,
+            Shape
+        }
+
+        public Dictionary<string, object> GetItemProperties(RenderItemClasses item)
+        {
+            switch (item)
+            {
+                case RenderItemClasses.Rect:
+                    return new Dictionary<string, object> { { "Top", 10d }, { "Left", 10d }, { "Width", 10d }, { "Height", 10d }, {"Opacity", 0.8 }, {"Fill", Color.Goldenrod } };
+                case RenderItemClasses.TextBox:
+                default:
+                    throw new NotImplementedException("This class has not been implemented as an option yet");
+            }
+        }
+
+        /// <summary>
+        /// For Testing the specific renderItem class
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public string RenderIndividualClass(RenderItemClasses item, Dictionary<string, object> itemProperties, double width, double height)
+        {
+            var svgCanvas = new DrawingItemForTesting(new BoundingBox(width.PixelToPoint(), height.PixelToPoint()));
+
+            var renderItem = GenerateFromClasses(item, svgCanvas, itemProperties);
+
+            svgCanvas.RenderItems.Add(renderItem);
+
+            var sb = new StringBuilder();
+
+            svgCanvas.Render(sb);
+
+            return sb.ToString();
         }
 
         public enum RenderPresets
@@ -172,6 +218,52 @@ namespace EPPlusImageRenderer
                     return rotatingContainer();
             }
             return "";
+        }
+
+        private RenderItem GenerateRect(DrawingBase baseItem, Dictionary<string, object> itemProperties)
+        {
+            var rectItem = new SvgRenderRectItem(baseItem, baseItem.Bounds);
+
+            if (itemProperties.ContainsKey("Top"))
+            {
+                rectItem.Top = (double)itemProperties["Top"];
+            }
+            if (itemProperties.ContainsKey("Left"))
+            {
+                rectItem.Left = (double)itemProperties["Left"];
+            }
+            if (itemProperties.ContainsKey("Width"))
+            {
+                rectItem.Width = (double)itemProperties["Width"];
+            }
+            if (itemProperties.ContainsKey("Height"))
+            {
+                rectItem.Height = (double)itemProperties["Height"];
+            }
+            if (itemProperties.ContainsKey("Opacity"))
+            {
+                rectItem.FillOpacity = (double)itemProperties["Opacity"];
+            }
+            if (itemProperties.ContainsKey("Fill"))
+            {
+                rectItem.FillColor = "#" + ((Color)itemProperties["Fill"]).ToColorString();
+            }
+
+            return rectItem;
+        }
+
+        private RenderItem GenerateFromClasses(RenderItemClasses preset, DrawingBase baseItem, Dictionary<string, object> itemProperties)
+        {
+            switch (preset)
+            {
+                case RenderItemClasses.Rect:
+                    return GenerateRect(baseItem, itemProperties);
+                case RenderItemClasses.TextBox:
+
+
+                default:
+                    throw new NotImplementedException("This class has not been implemented as an option yet");
+            }
         }
 
         //public string RenderTestCanvas(double widthPixel, double heightPixel, Color bgColor)

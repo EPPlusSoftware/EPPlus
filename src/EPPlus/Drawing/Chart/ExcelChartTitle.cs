@@ -386,6 +386,12 @@ namespace OfficeOpenXml.Drawing.Chart
             if (Font.Kerning == 0) Font.Kerning = 12;
             Font.Bold = Font.Bold; //Must be set
 
+            //Textbody cannot exist without a paragraph node
+            if(TextBody.Paragraphs.Count == 0)
+            {
+                TextBody.Paragraphs.Add("Title");
+            }
+
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
     }

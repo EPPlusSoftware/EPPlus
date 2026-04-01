@@ -76,7 +76,7 @@ namespace EPPlusImageRenderer.Svg
             if(VerticalAxis != null)
             {
                 PlaceVerticalAxis(sc, VerticalAxis);
-                VerticalAxis.AddTickmarksAndValues();
+                VerticalAxis.AddTickmarksAndValues(DefItems);
             }
 
             if (HorizontalAxis!=null && HorizontalAxis.Rectangle != null)
@@ -93,19 +93,19 @@ namespace EPPlusImageRenderer.Svg
                     HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
                 }
 
-                HorizontalAxis.AddTickmarksAndValues();
+                HorizontalAxis.AddTickmarksAndValues(DefItems);
             }
 
             if (SecondVerticalAxis!=null)
             {
                 PlaceVerticalAxis(sc, SecondVerticalAxis);
-                SecondVerticalAxis.AddTickmarksAndValues();
+                SecondVerticalAxis.AddTickmarksAndValues(DefItems);
             }
 
             if (SecondHorizontalAxis != null && SecondHorizontalAxis.Rectangle != null)
             {
                 PlaceHorizontalAxis(sc, SecondHorizontalAxis);
-                SecondHorizontalAxis.AddTickmarksAndValues();
+                SecondHorizontalAxis.AddTickmarksAndValues(DefItems);
             }
         }
 
