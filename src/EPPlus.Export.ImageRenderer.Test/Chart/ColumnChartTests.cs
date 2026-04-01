@@ -55,7 +55,5 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
-
-
     }
 }
