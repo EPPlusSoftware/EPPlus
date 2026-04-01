@@ -482,7 +482,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["B4"].Value = 3;
                 s.Cells["B6"].Value = 4;
 
-                s.Cells["C1"].Formula = "=GROUPBY(A1:A6, B1:B6,HSTACK(_xleta.COUNT, LAMBDA(x,SUM(x *2/3))  , _xleta.PERCENTOF),3)";
+                s.Cells["C1"].Formula = "GROUPBY(A1:A6, B1:B6,HSTACK(_xleta.COUNT, LAMBDA(x,SUM(x *2/3))  , _xleta.PERCENTOF),3)";
                 //  LAMBDA(x, SUM(x*4/2)) LAMBDA(x,SUM(x *2/3))
                 s.Calculate();
 

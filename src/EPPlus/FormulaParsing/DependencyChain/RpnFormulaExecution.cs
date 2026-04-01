@@ -1144,7 +1144,11 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 s.Push(f._expressions[f._tokenIndex]);
                             }
-                            else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0 && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
+                            else if(
+                                f._expressionStack.Peek() is LambdaCalculationExpression lce2 && lce2.ArgumentCollectionStarted &&
+                                cr.DataType != DataType.LambdaVariableDeclaration 
+                                && f.LambdaSettings.LambdaArgsAdded.Count > 0 
+                                && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
                             {
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType, cr.Address);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
@@ -1735,6 +1739,10 @@ namespace OfficeOpenXml.FormulaParsing
                     if (si.ExpressionType != ExpressionType.Empty)
                     {
                         si.Status |= ExpressionStatus.FunctionArgument;
+                    }
+                    if(si is FunctionExpression fe1)
+                    {
+                        fe1.SetRpnFormula(f);
                     }
                     var cr = si.Compile();
                     list.Insert(0, cr);
