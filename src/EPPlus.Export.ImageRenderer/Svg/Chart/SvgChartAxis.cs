@@ -764,7 +764,7 @@ namespace EPPlusImageRenderer.Svg
                 case eAxisPosition.Top:
                 case eAxisPosition.Bottom:
                     id = "yGridLine";
-                    x1 = (float)points.Last().Left;
+                    x1 = (float)points[0].Left;
                     x2 = x1;
                     y1 = (float)pa.Rectangle.Top;
                     y2 = (float)pa.Rectangle.Bottom;
@@ -784,7 +784,7 @@ namespace EPPlusImageRenderer.Svg
 
             tms.Add(tm);
 
-            var distX = points[0].Left - (float)points.Last().Left;
+            var distX = (float)points.Last().Left - points[0].Left;
             var distY = points[0].Top - (float)points.Last().Top;
 
             var offsetX = distX / (points.Count-1);
