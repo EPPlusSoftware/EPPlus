@@ -836,14 +836,21 @@ namespace EPPlusImageRenderer.Svg
             return axisStyle;
         }
 
-        internal double GetPositionInPlotarea(double val)
+        internal double GetPositionInPlotarea(double val, bool startValue=false)
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
-                    return (majorHeight * val + (majorHeight / 2));
+                    if(startValue)
+                    {
+                        return majorHeight * val;
+                    }
+                    else
+                    {
+                        return majorHeight * val + (majorHeight / 2);
+                    }
                 }
                 else
                 {
@@ -857,13 +864,20 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
-                    return (majorWidth * val + (majorWidth / 2));
+                    if (startValue)
+                    {
+                        return majorWidth * val;
+                    }
+                    else
+                    {
+                        return majorWidth * val + (majorWidth / 2);
+                    }
                 }
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min+1;
-                    return (((val-Min) / diff * SvgChart.Plotarea.Rectangle.Width));
+                    var diff = Max - Min + 1;
+                    return (((val - Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
         }
@@ -886,11 +900,11 @@ namespace EPPlusImageRenderer.Svg
             if (ax.AxisType == eAxisType.Cat &&
                 isCount == false)
             {
-                min = 0;
-                max = values.Count;
-                majorUnit = 1;
-                dateUnit = null;
-                orientation = eTextOrientation.Horizontal;
+                //min = 0;
+                //max = values.Count / Chart.Series.Count;
+                //majorUnit = 1;
+                //dateUnit = null;
+                //orientation = eTextOrientation.Horizontal;
                 var res = CategoryAxisScaleCalculator.CalculateByWidth(ref values, SvgChart.TextMeasurer, options);
                 
                 min = res.Min;

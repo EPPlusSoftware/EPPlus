@@ -42,7 +42,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         MajorInterval = interval,
                         MinorInterval = 1,
                         Min = 1,
-                        Max = values.Count,
+                        Max = displayValues.Count,
                         TextOrientation = eTextOrientation.Horizontal
                     };
                 }
@@ -53,7 +53,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         MajorInterval = interval,
                         MinorInterval = 1,
                         Min = 1,
-                        Max = values.Count,
+                        Max = displayValues.Count,
                         TextOrientation = eTextOrientation.Diagonal
                     };
                 }
@@ -78,7 +78,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MajorInterval = interval,
                 MinorInterval = 1,
                 Min = 1,
-                Max = values.Count,
+                Max = displayValues.Count,
                 TextOrientation = eTextOrientation.Vertical
             };
 

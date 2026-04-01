@@ -123,7 +123,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[1];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 0;
+                //var ix = 3;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
