@@ -161,9 +161,11 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void ReadPrintAreas()
         {
-            using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
+            //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
             PdfCatalog catlog = new PdfCatalog(pageSettings, ws);
         }
     }

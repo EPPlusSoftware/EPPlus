@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
-    internal class PdfCell
+    internal struct PdfCell
     {
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;
@@ -15,10 +15,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
 
 
-        double x, y, width, height;
-        bool isMerged;
-        string address;
-        int row, col;
+        //double x, y, width, height;
+        //bool isMerged;
+        //string address;
+        //int row, col;
         //Fill
         //Text
         //Picute

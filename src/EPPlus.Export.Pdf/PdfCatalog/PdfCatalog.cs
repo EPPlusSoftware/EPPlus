@@ -21,22 +21,23 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             PdfWorksheet pdfSheet = new PdfWorksheet();
             pdfSheet.Ranges = new List<PdfRange>[1];
-            if (pageSettings.CommentsAndNotes == CommentsAndNotes.AtEndOfSheet)
-                pdfSheet.CommentsAndNotesCollections = new Dictionary<string, PdfCommentsAndNotes>();
             pdfSheet.Worksheet = range.Worksheet;
             pdfSheet.Ranges[0].Add(new PdfRange(range, true));
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+            GetCommentsAndNotes(pageSettings, pdfSheet);
         }
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
             PdfWorksheet pdfSheet = new PdfWorksheet();
             pdfSheet.Ranges = new List<PdfRange>[1];
-            if (pageSettings.CommentsAndNotes == CommentsAndNotes.AtEndOfSheet)
-                pdfSheet.CommentsAndNotesCollections = new Dictionary<string, PdfCommentsAndNotes>();
             pdfSheet.Worksheet = worksheet;
             pdfSheet.Ranges[0] = GetRanges(pdfSheet.Worksheet);
+            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+            GetCommentsAndNotes(pageSettings, pdfSheet);
+
+            //Do shaping now, but first fix multiple worksheets and stuff and add A-Z and 1-9 before subsetting and shaping.
         }
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
@@ -56,20 +57,18 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
-            PdfWorksheet pdfSheet = new PdfWorksheet();
-            pdfSheet.Ranges = new List<PdfRange>[worksheets.Length];
-            for (int i = 0; i < worksheets.Length; i++)
-            {
-                if (pageSettings.CommentsAndNotes == CommentsAndNotes.AtEndOfSheet)
-                    pdfSheet.CommentsAndNotesCollections =  new Dictionary<string, PdfCommentsAndNotes>();
-                pdfSheet.Worksheet = worksheets[i];
-                pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pdfSheet.Worksheet.HeaderFooter);
-                pdfSheet.Ranges[i] = GetRanges(pdfSheet.Worksheet);
-            }
-            foreach (var range in pdfSheet.Ranges)
-            {
-                GetMaps(pageSettings, pdfSheet, range);
-            }
+            //PdfWorksheet[] pdfSheets = new PdfWorksheet[worksheets.Length];
+            //pdfSheet.Ranges = new List<PdfRange>[worksheets.Length];
+            //for (int i = 0; i < worksheets.Length; i++)
+            //{
+            //    pdfSheets[i].Worksheet = worksheets[i];
+            //    pdfSheets[i].HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
+            //    pdfSheets[i].Ranges[i] = GetRanges(pdfSheets[i].Worksheet);
+            //}
+            //foreach (var range in pdfSheet.Ranges)
+            //{
+            //    GetMaps(pageSettings, pdfSheet, range);
+            //}
         }
 
         private List<PdfRange> GetRanges(ExcelWorksheet worksheet)
@@ -101,9 +100,27 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             for (int i = 0; i < ranges.Count; i++)
             {
-                var temp = ranges[i];
-                temp.Map = PdfTextMap.SetTextMap(pageSettings, Dictionaries, pdfSheet, ranges[i]);
-                ranges[i] = temp;
+                ranges[i] = GetMaps(pageSettings, pdfSheet, ranges[i]);
+            }
+        }
+
+        private PdfRange GetMaps(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range)
+        {
+            var temp = range;
+            temp.Map = PdfTextMap.SetTextMap(pageSettings, Dictionaries, pdfSheet, range);
+            range = temp;
+            return range;
+        }
+
+        private void GetCommentsAndNotes(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            if (pageSettings.CommentsAndNotes == CommentsAndNotes.AtEndOfSheet && pdfSheet.CommentsAndNotesCollections.Count > 0)
+            {
+                var cnPageSettings = new PdfPageSettings();
+                cnPageSettings.CommentsAndNotes = CommentsAndNotes.None;
+                pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);
+                pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
+                pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
             }
         }
 

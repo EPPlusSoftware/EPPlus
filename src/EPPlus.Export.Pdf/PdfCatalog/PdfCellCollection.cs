@@ -8,7 +8,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal class PdfCellCollection
     {
-        internal PdfCell[,] Cells;
+        private PdfCell[,] Cells;
 
         private readonly int fromRow;
         private readonly int fromColumn;
