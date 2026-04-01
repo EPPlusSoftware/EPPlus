@@ -760,7 +760,7 @@ namespace EPPlusImageRenderer.Svg
                 case eAxisPosition.Left:
                 case eAxisPosition.Right:
                     id = "xGridLine";
-                    y1 = 0;
+                    y1 = (float)points.Last().Top;
                     y2 = y1;
                     x1 = (float)pa.Rectangle.Right;
                     x2 = (float)pa.Rectangle.Left;
@@ -768,7 +768,7 @@ namespace EPPlusImageRenderer.Svg
                 case eAxisPosition.Top:
                 case eAxisPosition.Bottom:
                     id = "yGridLine";
-                    x1 = 0;
+                    x1 = (float)points.Last().Left;
                     x2 = x1;
                     y1 = (float)pa.Rectangle.Top;
                     y2 = (float)pa.Rectangle.Bottom;
@@ -791,20 +791,20 @@ namespace EPPlusImageRenderer.Svg
             var distY = points[0].Top - (float)points.Last().Top;
             var distX = points[0].Left - (float)points.Last().Left;
 
-            var offsetX = points[0].Top / (points.Count);
-            var offsetY = points[0].Left / (points.Count);
+            var offsetX = distX / (points.Count-1);
+            var offsetY = distY / (points.Count-1);
 
             for(int i = 0; i < points.Count; i++)
             {
                 var refItem = new SvgUseRefItem(SvgChart, SvgChart.Bounds, id);
                 if(id == "xGridLine")
                 {
-                    refItem.Y = offsetY * (i+1);
+                    refItem.Y = offsetY*i;
                     refItem.X = 0f;
                 }
                 else if(id == "yGridLine")
                 {
-                    refItem.X = offsetX * (i + 1);
+                    refItem.X = offsetX*i;
                     refItem.Y = 0f;
                 }
                 tms.Add(refItem);

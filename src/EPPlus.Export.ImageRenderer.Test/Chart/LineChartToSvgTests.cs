@@ -25,7 +25,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                var ix = 0;
+                var ix = 1;
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
