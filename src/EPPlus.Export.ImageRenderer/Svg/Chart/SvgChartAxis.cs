@@ -500,16 +500,26 @@ namespace EPPlusImageRenderer.Svg
                     //Between tickmarks
                     var majorWidth = Rectangle.Width / AxisValues.Count;
                     var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
-                    var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
+                    //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
                     return majorTickStartingPosition;
                 }
                 else
                 {
-                    var min = ConvertUtil.GetValueDouble(Values[0]);
-                    var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var v = ConvertUtil.GetValueDouble(Values[i]);
-                    var majorWidth = Rectangle.Width * (v-Min)/(Max-Min);
-                    return Rectangle.Left + majorWidth;
+                    if(Axis.AxisType == eAxisType.Cat)
+                    {
+                        var majorWidth = Rectangle.Width / AxisValues.Count;
+                        var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                        //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
+                        return majorTickStartingPosition;
+                    }
+                    else
+                    {
+                        var min = ConvertUtil.GetValueDouble(Values[0]);
+                        var max = ConvertUtil.GetValueDouble(Values.Last());
+                        var v = ConvertUtil.GetValueDouble(Values[i]);
+                        var majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                        return Rectangle.Left + majorWidth;
+                    }
                 }
             }
         }
@@ -768,7 +778,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min+1;
+                    var diff = Max - Min;
                     return (((Max-val) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
