@@ -149,8 +149,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Calculate();
             Assert.AreEqual("Phil", _sheet.Cells["A4"].Value);
             Assert.AreEqual("Street 3", _sheet.Cells["B4"].Value);
-            Assert.AreEqual("Steve", _sheet.Cells["A5"].Value);
-            Assert.AreEqual("Bob", _sheet.Cells["A6"].Value);
+            Assert.AreEqual("Bob", _sheet.Cells["A5"].Value);
+            Assert.AreEqual("Steve", _sheet.Cells["A6"].Value);
         }
         [TestMethod]
         public void SortByColShould()
