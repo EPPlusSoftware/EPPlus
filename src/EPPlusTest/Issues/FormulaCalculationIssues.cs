@@ -1528,6 +1528,21 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(-11150d, s.Cells["A1"].Value);
             }
         }
+        [TestMethod]
+        public void s1029()
+        {
+            using var p = OpenTemplatePackage("AR Aging Analysis.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets["Filtered data"];
+            wb.FullCalcOnLoad = false;
+            wb.CalcMode = ExcelCalcMode.Manual;
+            ws.Cells["Q2"].Calculate();
+            Assert.AreEqual("365" ,ws.Cells["Q2"].Value);
+            Assert.AreEqual("181-365", ws.Cells["Q45"].Value);
+            Assert.AreEqual("90", ws.Cells["Q55"].Value);
+            Assert.AreEqual(6D, ws.Cells["A34"].Value);
+            SaveAndCleanup(p);
+        }
     }
 }
 
