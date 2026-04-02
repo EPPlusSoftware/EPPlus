@@ -523,6 +523,33 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("CUSTOM2", s.Cells["E1"].Value);
             }
         }
+
+
+        [TestMethod]
+        public void GroupByMultipleFunctionsCustomLambda3()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+
+                s.Cells["A1"].Value = "Rubrik";
+                s.Cells["A2"].Value = "B";
+                s.Cells["A3"].Value = "A";
+                s.Cells["A4"].Value = "B";
+                s.Cells["A5"].Value = "A";
+                s.Cells["A6"].Value = "C";
+
+                s.Cells["B1"].Value = "Siffor";
+                s.Cells["B2"].Value = 1;
+                s.Cells["B4"].Value = 3;
+                s.Cells["B6"].Value = 4;
+
+                s.Cells["C1"].Formula = "HSTACK(LAMBDA(x,x), _xleta.COUNT, LAMBDA(x,x))";
+                //  LAMBDA(x, SUM(x*4/2)) LAMBDA(x,SUM(x *2/3))
+                s.Calculate();
+            }
+        }
+
         // TESTA SKICKA IN LAMBDA SÅ ATT VI KAN SE ATT CUSTOM funktionerna FÅR RÄTT HEADERS "CUSTOM1, CUSTOM2..."
         // NOTE: Verkar vara nåt som blir knasigt med headers. Dem skrivs ut på fel ställe i rangen, ex: rubrik på fel ställe ovan
     }
