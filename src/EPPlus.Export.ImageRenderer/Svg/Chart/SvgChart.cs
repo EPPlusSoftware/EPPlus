@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
@@ -65,7 +66,7 @@ namespace EPPlusImageRenderer.Svg
 
             Plotarea = new SvgChartPlotarea(this);
 
-            //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea
+            //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea(this);
 
             Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
@@ -171,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
                 verticalAxis.Title.InitTextBox();
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2);// + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
@@ -195,6 +196,7 @@ namespace EPPlusImageRenderer.Svg
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
                     }
                 }
+                verticalAxis.Title.TextBox.TextAnchor = eTextAnchor.Middle;
             }
         }
 

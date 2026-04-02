@@ -106,8 +106,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double barWidth;
             barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
-            //barWidth = barWidth * overlapPercent;
-            //var xl = barWidth / 2;            
+
             double yAxisStart;
             if (yAxis.Axis.Crosses==eCrosses.AutoZero)
             {

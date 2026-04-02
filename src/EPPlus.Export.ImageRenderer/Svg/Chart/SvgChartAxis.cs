@@ -84,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
                             }
-                            Rectangle.Left = Title == null ? ll : Title.Rectangle.Right;
+                            Rectangle.Left = Title == null ? ll : Title.TextBox.GetActualRight();
                         }
                         else
                         {
@@ -94,7 +94,7 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
                             }
-                            Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width-LeftMargin;
+                            Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width - LeftMargin;
                         }
                     }
                     else

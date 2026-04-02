@@ -10,6 +10,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
@@ -119,6 +120,38 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 Rectangle.Bounds.Rotation = value;
             }
+        }
+        /// <summary>
+        /// Gets the actual width of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        internal double GetActualWidth()
+        {
+            return Width * Math.Abs(Math.Cos(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Sin(MathHelper.Radians(Rotation)));
+        }
+        /// <summary>
+        /// Gets the actual right position of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        internal double GetActualRight()
+        {
+            return Left+GetActualRight();
+        }
+        /// <summary>
+        /// Gets the actual height of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        internal double GetActualHeight()
+        {
+            return Width * Math.Abs(Math.Sin(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Cos(MathHelper.Radians(Rotation)));
+        }
+        /// <summary>
+        /// Gets the actual right position of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        internal double GetActualBottom()
+        {
+            return Top + GetActualHeight();
         }
         /// <summary>
         /// How the text is anchored.
