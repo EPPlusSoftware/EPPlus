@@ -10,15 +10,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
     {
         private PdfCell[,] Cells;
 
-        private readonly int fromRow;
-        private readonly int fromColumn;
+        public readonly int FromRow;
+        public readonly int FromColumn;
+        public readonly int ToRow;
+        public readonly int ToColumn;
 
         public PdfCellCollection(int fromRow, int toRow, int fromColumn, int toColumn)
         {
             if(fromRow > toRow) throw new ArgumentOutOfRangeException("Invalid row range. toRow must be equal or greater than fromRow");
             if(fromColumn > toColumn) throw new ArgumentOutOfRangeException("Invalid column range. toColumn must be equal or greater than fromColumn");
-            this.fromRow = fromRow;
-            this.fromColumn = fromColumn;
+            FromRow = fromRow;
+            FromColumn = fromColumn;
+            ToRow = toRow;
+            ToColumn = toColumn;
             int x = toRow - fromRow + 1;
             int y = toColumn - fromColumn + 1;
 
@@ -29,11 +33,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             get
             {
-                return Cells[row - fromRow, column - fromColumn];
+                return Cells[row - FromRow, column - FromColumn];
             }
             set
             {
-                Cells[row - fromRow, column - fromColumn] = value;
+                Cells[row - FromRow, column - FromColumn] = value;
             }
         }
 

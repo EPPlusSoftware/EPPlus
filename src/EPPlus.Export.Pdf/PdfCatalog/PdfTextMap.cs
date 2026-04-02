@@ -225,7 +225,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     textFormat.SubFamily = FontSubFamily.Italic;
                 }
                 textFormats.Add(textFormat);
-                dictionaries.AddFont(pageSettings, textFormat.FontName, textFormat.SubFamily, textFormat.Text);
+                dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
             }
             return textFormats;
         }
@@ -278,7 +278,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         break;
                     case ExcelHeaderFooterFormattingCodes.NumberOfPages:
                     case ExcelHeaderFooterFormattingCodes.PageNumber:
-                        textFormat.Text += "###";
+                        textFormat.Text += "000";
                         containsPageNumber = true;
                         break;
                     case ExcelHeaderFooterFormattingCodes.CurrentTime:
@@ -292,7 +292,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         break;
                 }
                 textFormats.Add(textFormat);
-                dictionaries.AddFont(pageSettings, textFormat.FontName, textFormat.SubFamily, textFormat.Text);
+                dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
+                if(containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
             }
             return new PdfHeaderFooter(textFormats, containsPageNumber, type, alignment, section);
         }

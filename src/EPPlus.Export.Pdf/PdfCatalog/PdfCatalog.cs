@@ -1,43 +1,24 @@
-﻿using EPPlus.Export.Pdf.PdfLayout;
-using EPPlus.Export.Pdf.PdfResources;
+﻿using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal class PdfCatalog
     {
         internal PdfDictionaries Dictionaries = new PdfDictionaries();
+        private bool AddTextForHeadings = true;
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase range) 
+        //Constructors
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
-            PdfWorksheet pdfSheet = new PdfWorksheet();
-            pdfSheet.Ranges = new List<PdfRange>[1];
-            pdfSheet.Worksheet = range.Worksheet;
-            pdfSheet.Ranges[0].Add(new PdfRange(range, true));
-            GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
-            GetCommentsAndNotes(pageSettings, pdfSheet);
-        }
-
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
-        {
-            PdfWorksheet pdfSheet = new PdfWorksheet();
-            pdfSheet.Ranges = new List<PdfRange>[1];
-            pdfSheet.Worksheet = worksheet;
-            pdfSheet.Ranges[0] = GetRanges(pdfSheet.Worksheet);
-            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
-            GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
-            GetCommentsAndNotes(pageSettings, pdfSheet);
-
-            //Do shaping now, but first fix multiple worksheets and stuff and add A-Z and 1-9 before subsetting and shaping.
+            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray());
         }
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
@@ -50,25 +31,112 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             HandleWorksheetCollection(pageSettings, worksheets.ToArray());
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
-            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray());
+            Stopwatch sw = Stopwatch.StartNew();
+
+            //Collecto Text
+            PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
+            sw.Stop();
+            var CollectTextTime = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
+            //Shape Text
+            ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+            sw.Stop();
+            var ShapeTextTime = sw.ElapsedMilliseconds;
+            sw.Reset();
+
+            //Create Layout
+            sw.Stop();
+            var CreateLayoutTime = sw.ElapsedMilliseconds;
+            sw.Reset();
         }
 
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase range)
+        {
+            PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
+            ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+        }
+
+        //Private Methods
+        //Create Layout Methods
+
+
+        //Shape Text Methods
+        private void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            foreach (var range in pdfSheet.Ranges)
+            {
+                for (int i = range.Map.FromRow; i < range.Map.ToRow; i++)
+                {
+                    for (int j = range.Map.FromColumn; j < range.Map.ToColumn; j++)
+                    {
+                        var cell = range.Map[i, j];
+                        PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
+                    }
+                }
+            }
+            for (int i = pdfSheet.CommentsAndNotes.Map.FromRow; i < pdfSheet.CommentsAndNotes.Map.ToRow; i++)
+            {
+                for (int j = pdfSheet.CommentsAndNotes.Map.FromColumn; j < pdfSheet.CommentsAndNotes.Map.ToColumn; j++)
+                {
+                    var cell = pdfSheet.CommentsAndNotes.Map[i, j];
+                    PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
+                }
+            }
+            foreach (var hf in pdfSheet.HeaderFooters.PdfHeaderFooterEntries)
+            {
+                PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, hf.Content);
+            }
+        }
+
+        //Collect Text Methods
         private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
-            //PdfWorksheet[] pdfSheets = new PdfWorksheet[worksheets.Length];
-            //pdfSheet.Ranges = new List<PdfRange>[worksheets.Length];
-            //for (int i = 0; i < worksheets.Length; i++)
-            //{
-            //    pdfSheets[i].Worksheet = worksheets[i];
-            //    pdfSheets[i].HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
-            //    pdfSheets[i].Ranges[i] = GetRanges(pdfSheets[i].Worksheet);
-            //}
-            //foreach (var range in pdfSheet.Ranges)
-            //{
-            //    GetMaps(pageSettings, pdfSheet, range);
-            //}
+            var pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
+            foreach (var pdfSheet in pdfSheets)
+            {
+                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+            }
+        }
+
+        private PdfWorksheet[] GetPdfWorksheets(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
+        {
+            PdfWorksheet[] pdfSheets = new PdfWorksheet[worksheets.Length];
+            for (int i = 0; i < pdfSheets.Length; i++)
+            {
+                pdfSheets[i] = GetPdfWorksheet(pageSettings, worksheets[i]);
+            }
+            return pdfSheets;
+        }
+
+        private PdfWorksheet GetPdfWorksheet(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        {
+            PdfWorksheet pdfSheet = new PdfWorksheet();
+            pdfSheet.Ranges = new List<PdfRange>();
+            pdfSheet.Worksheet = worksheet;
+            pdfSheet.Ranges = GetRanges(pdfSheet.Worksheet);
+            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
+            if(pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+            AddTextForHeadings = false;
+            GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
+            GetCommentsAndNotes(pageSettings, pdfSheet);
+            return pdfSheet;
+        }
+
+        private PdfWorksheet GetPdfWorksheet(PdfPageSettings pageSettings, ExcelRangeBase excelRange)
+        {
+            PdfWorksheet pdfSheet = new PdfWorksheet();
+            pdfSheet.Ranges = new List<PdfRange>();
+            pdfSheet.Worksheet = excelRange.Worksheet;
+            pdfSheet.Ranges.Add(new PdfRange(excelRange, true));
+            if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+            AddTextForHeadings = false;
+            GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+            GetCommentsAndNotes(pageSettings, pdfSheet);
+            return pdfSheet;
         }
 
         private List<PdfRange> GetRanges(ExcelWorksheet worksheet)
@@ -87,13 +155,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 var range = worksheet.Dimension;
                 ranges.Add(new PdfRange(range, true));
             }
-            
             return ranges;
-        }
-
-        private void GetHeaderFooter(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
-        {
-
         }
 
         private void GetMaps(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, List<PdfRange> ranges)
@@ -122,15 +184,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
                 pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
             }
-        }
-
-        private void HandleMapCollection()
-        {
-            //foreach var map in maps
-                //shape
-                //Layout
-                //Pages
-                //return transform to ExcelPdf!
         }
     }
 }

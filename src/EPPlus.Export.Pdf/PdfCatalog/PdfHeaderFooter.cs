@@ -29,12 +29,12 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public HeaderFooterAlignment Alignment;
         public HeaderFooterSection Section;
 
-        public List<PdfTextFormat> TextFormats = null;
+        public PdfCell Content;
         public bool ContainsPageNumber { get; set; }
 
         public PdfHeaderFooter(List<PdfTextFormat> textFormats, bool containsPageNumber, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
-            TextFormats = textFormats;
+            Content.TextFormats = textFormats;
             ContainsPageNumber = containsPageNumber;
             PageType = type;
             Alignment = alignment;
