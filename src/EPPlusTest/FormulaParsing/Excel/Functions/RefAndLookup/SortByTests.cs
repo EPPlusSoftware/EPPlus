@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -131,7 +127,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual("Street 1", _sheet.Cells["B4"].Value);
             Assert.AreEqual("Phil", _sheet.Cells["A5"].Value);
             Assert.AreEqual("Steve", _sheet.Cells["A6"].Value);
-            
+
         }
 
         [TestMethod]
@@ -155,7 +151,31 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual("Street 3", _sheet.Cells["B4"].Value);
             Assert.AreEqual("Steve", _sheet.Cells["A5"].Value);
             Assert.AreEqual("Bob", _sheet.Cells["A6"].Value);
+        }
+        [TestMethod]
+        public void SortByColShould()
+        {
+            _sheet.Cells["A1"].Value = "Bob";
+            _sheet.Cells["B1"].Value = "Street 2";
+            _sheet.Cells["A2"].Value = "Bob";
+            _sheet.Cells["B2"].Value = "Street 1";
+            _sheet.Cells["A3"].Value = "Steve";
+            _sheet.Cells["B3"].Value = "Street 3";
+            _sheet.Cells["A4"].Value = "Bob";
+            _sheet.Cells["B4"].Value = "Street 3";
+            _sheet.Cells["A5"].Value = "Steve";
+            _sheet.Cells["B5"].Value = "Street 4";
+            _sheet.Cells["A6"].Value = "Bob";
+            _sheet.Cells["B6"].Value = "Street 0";
 
+            _sheet.Cells["A7"].Formula = "SORTBY(A1:B6,A1:A6)";
+            _sheet.Calculate();
+            Assert.AreEqual("Street 2", _sheet.Cells["B7"].Value);
+            Assert.AreEqual("Street 1", _sheet.Cells["B8"].Value);
+            Assert.AreEqual("Street 3", _sheet.Cells["B9"].Value);
+            Assert.AreEqual("Street 0", _sheet.Cells["B10"].Value);
+            Assert.AreEqual("Street 3", _sheet.Cells["B11"].Value);
+            Assert.AreEqual("Street 4", _sheet.Cells["B12"].Value);
         }
     }
 }

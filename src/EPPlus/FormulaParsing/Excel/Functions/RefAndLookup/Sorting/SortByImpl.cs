@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
@@ -100,6 +101,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 {
                     cols.CompareData.Add(_byRanges[byRange].GetOffset(row, 0));
                 }
+                cols.CompareData.Add(row); //Sort by original row order as last criteria to ensure same order as Excel.
                 rows.Add(cols);
             }
             rows.Sort((a, b) =>
@@ -136,6 +138,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 {
                     rows.CompareData.Add(_byRanges[byRange].GetOffset(0, col));
                 }
+                rows.CompareData.Add(col); //Sort by original row order as last criteria to ensure same order as Excel.
                 cols.Add(rows);
             }
             cols.Sort((a, b) =>
