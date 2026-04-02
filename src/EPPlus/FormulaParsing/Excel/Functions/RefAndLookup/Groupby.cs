@@ -167,9 +167,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             int totalRows = resultDataRows + subtotalRows
                           + (showHeaders ? 1 : 0)
-                          + grandTotalRows;
+                          + grandTotalRows
+                          + (addFunctionHeaders && args.FunctionLayout == FunctionLayout.Horizontal ? 1 : 0);
 
-            var result = new InMemoryRange(totalRows, (short)nCols);
+            var result = new InMemoryRange(totalRows, (short)nCols); // denna är ett för lite. TODO
             int r = 0;
 
             if(addFunctionHeaders)

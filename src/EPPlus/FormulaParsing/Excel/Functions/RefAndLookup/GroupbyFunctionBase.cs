@@ -86,7 +86,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         protected List<string> ResolveFunctionHeaders(GroupByBaseArgs args)
         {
             var names = args.Functions
-                .Select(f => f.EtaFunction.Name)
+                .Select(f => f.EtaFunction != null ? f.EtaFunction.Name : "CUSTOM")
                 .ToList();
 
             int customCount = names.Count(n => n == "CUSTOM");
@@ -107,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         // -------------------------------------------------------
         protected bool TryParseBaseArgs(
             IList<FunctionArgument> arguments,
-            out GroupByBaseArgs args,
+            out GroupByBaseArgs args,   
             out CompileResult error)
         {
             args = new GroupByBaseArgs();

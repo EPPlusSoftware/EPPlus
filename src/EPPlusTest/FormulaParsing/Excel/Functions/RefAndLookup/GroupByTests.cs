@@ -482,16 +482,48 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["B4"].Value = 3;
                 s.Cells["B6"].Value = 4;
 
-                s.Cells["C1"].Formula = "GROUPBY(A1:A6, B1:B6,HSTACK(_xleta.COUNT, LAMBDA(x,SUM(x *2/3))  , _xleta.PERCENTOF),3)";
+                s.Cells["C1"].Formula = "GROUPBY(A1:A6, B1:B6,HSTACK(_xleta.COUNT, LAMBDA(x,SUM(x *2/3)), LAMBDA(x,SUM(x *2)) ),3)";
                 //  LAMBDA(x, SUM(x*4/2)) LAMBDA(x,SUM(x *2/3))
                 s.Calculate();
 
-                Assert.AreEqual("COUNT", s.Cells["D2"].Value);
-                Assert.AreEqual("CUSTOM", s.Cells["D3"].Value);
-                Assert.AreEqual("PERCENTOF", s.Cells["D4"].Value);
+                Assert.AreEqual("COUNT", s.Cells["D1"].Value);
+                Assert.AreEqual("CUSTOM1", s.Cells["E1"].Value);
+                Assert.AreEqual("CUSTOM2", s.Cells["F1"].Value);               
             }
         }
 
+
+        [TestMethod]
+        public void GroupByMultipleFunctionsCustomLambda2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+
+                s.Cells["A1"].Value = "Rubrik";
+                s.Cells["A2"].Value = "B";
+                s.Cells["A3"].Value = "A";
+                s.Cells["A4"].Value = "B";
+                s.Cells["A5"].Value = "A";
+                s.Cells["A6"].Value = "C";
+
+                s.Cells["B1"].Value = "Siffor";
+                s.Cells["B2"].Value = 1;
+                s.Cells["B4"].Value = 3;
+                s.Cells["B6"].Value = 4;
+
+                s.Cells["C1"].Formula = "GROUPBY(A1:A6, B1:B6,HSTACK(LAMBDA(x,SUM(x *2/3)), _xleta.COUNT, LAMBDA(x,SUM(x *2)) ) )";
+                //  LAMBDA(x, SUM(x*4/2)) LAMBDA(x,SUM(x *2/3))
+                s.Calculate();
+
+                Assert.AreEqual(null, s.Cells["C1"].Value);
+                Assert.AreEqual("COUNT", s.Cells["D1"].Value);
+                Assert.AreEqual("CUSTOM1", s.Cells["E1"].Value);
+                Assert.AreEqual("PERCENTOF", s.Cells["F1"].Value);
+                Assert.AreEqual("CUSTOM2", s.Cells["E1"].Value);
+            }
+        }
         // TESTA SKICKA IN LAMBDA SÅ ATT VI KAN SE ATT CUSTOM funktionerna FÅR RÄTT HEADERS "CUSTOM1, CUSTOM2..."
+        // NOTE: Verkar vara nåt som blir knasigt med headers. Dem skrivs ut på fel ställe i rangen, ex: rubrik på fel ställe ovan
     }
 }
