@@ -149,10 +149,10 @@ namespace EPPlusImageRenderer.RenderItems
             if(Suffix == "%")
             {
                 sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
-                X1 + Suffix,
-                Y1 + Suffix,
-                X2 + Suffix,
-                Y2 + Suffix);
+                X1.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Y1.ToString(CultureInfo.InvariantCulture) + Suffix,
+                X2.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Y2.ToString(CultureInfo.InvariantCulture) + Suffix);
             }
             else
             {

@@ -14,7 +14,9 @@ using EPPlus.Export.ImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.Drawing.Theme;
 using System.Collections.Generic;
+using System.Drawing;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
+using System;
 
 namespace EPPlusImageRenderer.RenderItems
 {
@@ -30,6 +32,16 @@ namespace EPPlusImageRenderer.RenderItems
             }
 
         }
+
+        public DrawGradientFill(List<Color> colors, List<double> stops)
+        {
+            for (int i = 0; i < stops.Count; i++)
+            {
+                var c = new GradientFillColor(stops[i], colors[i]);
+                Colors.Add(c);
+            }
+        }
+
         public ExcelDrawingGradientFill Settings { get; set; }
         public List<GradientFillColor> Colors { get; set; } = new List<GradientFillColor>();
     }

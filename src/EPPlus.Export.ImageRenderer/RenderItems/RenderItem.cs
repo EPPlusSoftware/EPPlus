@@ -84,6 +84,11 @@ namespace EPPlusImageRenderer.RenderItems
             item.FillColorSource = FillColorSource;
         }
 
+        internal void SetPatternFill()
+        {
+
+        }
+
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
         {
             switch (fill.Style)

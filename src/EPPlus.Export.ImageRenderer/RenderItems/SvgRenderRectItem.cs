@@ -51,13 +51,26 @@ namespace EPPlusImageRenderer.RenderItems
             //groupItem.RenderEndGroup(sb);
         }
 
+        internal string Suffix = "px";
+
         internal void RenderRect(StringBuilder sb)
         {
-            sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
+            if (Suffix == "%")
+            {
+                sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
+                Left.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Top.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Width.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Height.ToString(CultureInfo.InvariantCulture) + Suffix);
+            }
+            else
+            {
+                sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
                 Left.PointToPixelString(),
                 Top.PointToPixelString(),
                 Width.PointToPixelString(),
                 Height.PointToPixelString());
+            }
             base.Render(sb);
             sb.AppendFormat("/>");
         }

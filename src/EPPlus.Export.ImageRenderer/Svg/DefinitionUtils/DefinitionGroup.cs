@@ -1,4 +1,5 @@
-﻿using EPPlusImageRenderer.RenderItems;
+﻿using EPPlusImageRenderer;
+using EPPlusImageRenderer.RenderItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,13 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
 {
-    internal class DefinitionGroup : RenderItemBase
+    internal class DefinitionGroup : RenderItem
     {
-        internal List<RenderItem> Items;
+        internal List<RenderItem> Items = new List<RenderItem>();
+
+        public DefinitionGroup(DrawingBase renderer) : base(renderer)
+        {
+        }
 
         public override RenderItemType Type => RenderItemType.Group;
 

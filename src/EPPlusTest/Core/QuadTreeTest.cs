@@ -72,7 +72,7 @@ namespace EPPlusTest.Core
             sw.Start();
             var items = AddRangeItems(rows, cols, qt, 50, 50);
             sw.Stop();
-            Debug.WriteLine($"Added {items} items  in {sw.ElapsedMilliseconds} ms");
+            Debug.WriteLine($"Added {items} _items  in {sw.ElapsedMilliseconds} ms");
             sw.Restart();
             
             var r1 = new QuadRange(5000, 200, 10000, 300);
@@ -85,7 +85,7 @@ namespace EPPlusTest.Core
                 }
             }
             sw.Stop();
-            Debug.WriteLine($"Queried {ir1.Count} items in {sw.ElapsedMilliseconds} ms");
+            Debug.WriteLine($"Queried {ir1.Count} _items in {sw.ElapsedMilliseconds} ms");
         }
         [TestMethod]
         public void QuadTree_InsertRows_Inside()

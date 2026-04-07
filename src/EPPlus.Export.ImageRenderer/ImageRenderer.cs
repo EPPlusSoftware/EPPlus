@@ -11,9 +11,12 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
+using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Export.ImageRenderer.Svg.DefinitionUtils;
+using EPPlus.Export.ImageRenderer.Svg.DefinitionUtils.UtillNodes;
 using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Fonts.OpenType.Utils;
@@ -57,7 +60,7 @@ namespace EPPlusImageRenderer
         {
             Rect,
             TextBox,
-            Shape
+            Shape,
         }
 
         public Dictionary<string, object> GetItemProperties(RenderItemClasses item)
@@ -97,7 +100,8 @@ namespace EPPlusImageRenderer
         public enum RenderPresets
         {
             ContainerMargins,
-            RotatingContainer
+            RotatingContainer,
+            PatternFill,
         }
 
         public string RenderTest(RenderPresets preset)
@@ -208,6 +212,73 @@ namespace EPPlusImageRenderer
             return sb.ToString();
         }
 
+        internal string pattern()
+        {
+            var baseBB = new BoundingBox();
+
+            baseBB.Width = 400;
+            baseBB.Height = 400;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+
+            var linePattern = new LinePattern(baseItem, "testLines", LinePatternType.Vertical);
+            linePattern.SetNumberOfLines(3);
+
+            var defItem = new DefinitionGroup(baseItem);
+            defItem.Items.Add(linePattern);
+
+            var rectItem = new SvgRenderRectItem(baseItem, baseItem.Bounds);
+
+            rectItem.FillColor = $"url(#{"testLines"})";
+
+            rectItem.Width = 200;
+            rectItem.Height = 200;
+
+            baseItem.RenderItems.Add(defItem);
+            baseItem.RenderItems.Add(rectItem);
+            var useItem = new SvgUseRefItem(baseItem,baseItem.Bounds,"testLines");
+
+            baseItem.RenderItems.Add(useItem);
+
+            var sb = new StringBuilder();
+
+            baseItem.Render(sb);
+
+            return sb.ToString();
+        }
+
+        internal string pattern2()
+        {
+            var baseBB = new BoundingBox();
+
+            baseBB.Width = 400;
+            baseBB.Height = 400;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+            string refId = "grid";
+
+            var defItem = new DefinitionGroup(baseItem);
+
+            var dynaGrid = new DynamicGridDefGroup(baseItem, refId, 7, 5);
+            defItem.Items.Add(dynaGrid);
+
+            baseItem.RenderItems.Add(defItem);
+
+            var useItem = new SvgUseRefItem(baseItem, baseItem.Bounds, refId);
+            useItem.Bounds.Width = 300;
+            useItem.Bounds.Height = 200;
+
+            baseItem.RenderItems.Add(useItem);
+
+            var sb = new StringBuilder();
+
+            baseItem.Render(sb);
+
+            return sb.ToString();
+        }
+
         private string GenerateFromPreset(RenderPresets preset)
         {
             switch (preset)
@@ -216,6 +287,8 @@ namespace EPPlusImageRenderer
                     return containerMargins();
                 case RenderPresets.RotatingContainer:
                     return rotatingContainer();
+                case RenderPresets.PatternFill:
+                    return pattern2();
             }
             return "";
         }

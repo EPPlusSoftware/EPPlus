@@ -41,13 +41,13 @@ namespace EPPlusImageRenderer.Utils
             var wb = svgDrawing.Drawing._drawings.Worksheet.Workbook;
             _theme = wb.ThemeManager.GetOrCreateTheme();
         }
-        internal void WriteSvgDefs(StringBuilder sb, List<SvgRenderItem> renderItems)
+        internal void WriteSvgDefs(StringBuilder sb, List<RenderItem> renderItems)
         {
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();
             var ix = 1;
 
-            foreach (SvgRenderItem item in renderItems)
+            foreach (RenderItem item in renderItems)
             {
                 string filter = "";
                 if (item.GradientFill != null)
@@ -133,7 +133,7 @@ namespace EPPlusImageRenderer.Utils
             return $"item{ix}Filter";
         }
 
-        private string WriteBlip(string namePrefix, StringBuilder defSb, HashSet<string> hs, SvgRenderItem item, ref string filter)
+        private string WriteBlip(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderItem item, ref string filter)
         {
             //, item.BlipFill, item.FillColorSource
             var name = $"{namePrefix}";
@@ -494,10 +494,10 @@ namespace EPPlusImageRenderer.Utils
 
         private string GetOpacity(ExcelDrawingColorManager c)
         {
-            var opacetyTransform = c.Transforms?.FirstOrDefault(x => x.Type == OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType.Alpha);
-            if (opacetyTransform == null) return "";
+            var opacityTransform = c.Transforms?.FirstOrDefault(x => x.Type == OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType.Alpha);
+            if (opacityTransform == null) return "";
 
-            return $"stop-opacity=\"{opacetyTransform.Value.ToString("0")}%\"";
+            return $"stop-opacity=\"{opacityTransform.Value.ToString("0")}%\"";
         }
 
         private string SetStretchTileProps(ExcelDrawingBlipFill blipFill)

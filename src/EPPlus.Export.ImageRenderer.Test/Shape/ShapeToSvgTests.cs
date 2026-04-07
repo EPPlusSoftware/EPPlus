@@ -32,6 +32,25 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void AddShapeWithPatternFill()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ShapeWithPattern.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var myShape = ws.Drawings[0].As.Shape;
+
+                var ir = new EPPlusImageRenderer.ImageRenderer();
+                var svg = ir.RenderDrawingToSvg(myShape);
+                SaveTextFileToWorkbook("ShapeWithPattern.svg", svg);
+                SaveAndCleanup(p);
+            }
+        }
+
+
         [TestMethod]
         public void RoundRect()
         {
@@ -642,6 +661,5 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 SaveAndCleanup(p);
             }
         }
-
     }
 }

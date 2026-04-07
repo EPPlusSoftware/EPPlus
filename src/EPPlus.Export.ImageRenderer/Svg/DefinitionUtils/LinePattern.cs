@@ -4,6 +4,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,7 +33,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
             LineItem.BorderWidth = 2;
             LineItem.Suffix = "%";
 
-            LineItem.BorderColor = "#" + Color.DarkGray.To6CharHexString();
+            LineItem.BorderColor = "#" + Color.DarkGoldenrod.ToColorString();
 
             switch (type)
             {
@@ -54,13 +55,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
         /// </summary>
         internal void SetNumberOfLines(int numberOfLines)
         {
+            var percentOf = 100d / (double)numberOfLines;
             switch (type)
             {
                 case LinePatternType.Vertical:
-                    widthPercent = (double)numberOfLines / 100d;
+                    widthPercent = percentOf;
                     break;
                   case LinePatternType.Horizontal:
-                    heightPercent = (double)numberOfLines / 100d;
+                    heightPercent = percentOf;
                     break;
             }
         }
