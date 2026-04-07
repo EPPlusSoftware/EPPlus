@@ -29,8 +29,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
         public override void Render(StringBuilder sb)
         {
             sb.Append($"<symbol id=\"{_id}\" " +
-                $"x=\"{Bounds.Left.PointToPixelString()}\" " +
-                $"y=\"{Bounds.Top.PointToPixelString()}%\" " +
                 $"viewBox=\"0 0 100% 100%\" ");
 
             if(string.IsNullOrEmpty(Mask) == false)

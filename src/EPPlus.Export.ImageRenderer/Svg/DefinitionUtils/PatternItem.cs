@@ -27,7 +27,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
 
         public override void Render(StringBuilder sb)
         {
-            sb.Append($"<pattern id=\"{_id}\" x=\"{Bounds.Left.PointToPixelString()}\" y=\"{Bounds.Top.PointToPixelString()}%\" width=\"{widthPercent.ToString(CultureInfo.InvariantCulture)}%\" height=\"{heightPercent.ToString(CultureInfo.InvariantCulture)}%\">");
+            sb.Append($"<pattern id=\"{_id}\" width=\"{widthPercent.ToString(CultureInfo.InvariantCulture)}%\" height=\"{heightPercent.ToString(CultureInfo.InvariantCulture)}%\">");
 
             foreach (var item in _items)
             {

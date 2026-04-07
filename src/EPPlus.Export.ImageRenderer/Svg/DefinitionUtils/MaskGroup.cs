@@ -24,7 +24,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
 
         public override void Render(StringBuilder sb)
         {
-            sb.Append($"<mask id=\"{_id}\" x=\"{Bounds.Left.PointToPixelString()}\" y=\"{Bounds.Top.PointToPixelString()}%\" width=\"{100.ToString(CultureInfo.InvariantCulture)}%\" height=\"{100.ToString(CultureInfo.InvariantCulture)}%\">");
+            sb.Append($"<mask id=\"{_id}\" " +
+                $"maskUnits=\"objectBoundingBox\" " +
+                $"maskContentUnits=\"objectBoundingBox\" " +
+                $">");
 
             foreach (var item in _items)
             {

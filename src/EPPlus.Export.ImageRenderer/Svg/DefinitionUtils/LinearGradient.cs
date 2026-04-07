@@ -38,7 +38,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.DefinitionUtils
 
         public override void Render(StringBuilder sb)
         {
-            sb.Append($"<linearGradient id=\"{_id}\" x1=\"0%\" y1=\"100%\" x2=\"0%\" y2=\"0%\" gradientUnits=\"userSpaceOnUse\">");
+            sb.Append($"<linearGradient id=\"{_id}\" y1=\"1\" x2=\"0\" gradientUnits=\"userSpaceOnUse\">");
             SetStopColors(sb, GradientFillExtra, PathFillMode.Norm);
             sb.Append("</linearGradient>");
         }
