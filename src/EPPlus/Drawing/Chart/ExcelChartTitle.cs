@@ -443,6 +443,44 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
+        /// The text adjusted for the Capitalization property.
+        /// </summary>
+        public string DisplayedText
+        {
+            get
+            {
+                if (LinkedCell == null)
+                {
+                    return RichText.DisplayedText;
+                }
+                else
+                {
+                    if (LinkedCell.IsSingleCell == false)
+                    {
+                        string combinedString = "";
+                        string separator = " ";
+                        foreach (var address in LinkedCell)
+                        {
+                            combinedString += address.Text + separator;
+                        }
+                    }
+                    return LinkedCell.Text;
+                }
+            }
+            set
+            {
+                if (RichText == null)
+                {
+                    LinkedCell = null;
+                    CreateRichText();
+                }
+                var applyStyle = (RichText.Count == 0);
+                RichText.Text = value;
+                _font = null;
+                if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+            }
+        }
+        /// <summary>
         /// A reference to a cell used as the title text
         /// </summary>
         public ExcelRangeBase LinkedCell

@@ -132,7 +132,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 horizontalAxis.Title.Rectangle.Height = sc.Bounds.Height / 4;
                 horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? sc.Plotarea.Rectangle.Width;
-                horizontalAxis.Title.InitTextBox();
+                //horizontalAxis.Title.InitTextBox();
                 if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
                 {
                     horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom;
@@ -167,22 +167,22 @@ namespace EPPlusImageRenderer.Svg
 
             if (verticalAxis.Title != null)
             {
-                verticalAxis.Title.Rectangle.Height = Plotarea.Rectangle.Height;
-                verticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
-                verticalAxis.Title.InitTextBox();
+                //verticalAxis.Title.Rectangle.Height = Plotarea.Rectangle.Height;
+                //verticalAxis.Title.Rectangle.Width = sc.Bounds.Width / 4;
+                //verticalAxis.Title.InitTextBox();
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2);// + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
                     if (verticalAxis.Rectangle == null)
                     {
-                        verticalAxis.Title.TextBox.Left = sc.ChartArea.LeftMargin;
+                        verticalAxis.Title.TextBox.Left = sc.Plotarea.Rectangle.Left - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
                     }
                     else
                     {
-                        verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Left - verticalAxis.Title.TextBox.Width;
+                        verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Left - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
                     }
                 }
                 else 
@@ -196,7 +196,7 @@ namespace EPPlusImageRenderer.Svg
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
                     }
                 }
-                verticalAxis.Title.TextBox.TextAnchor = eTextAnchor.Middle;
+                //verticalAxis.Title.TextBox.TextAnchor = eTextAnchor.Middle;
             }
         }
 

@@ -77,21 +77,28 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var rightWidth = rightAxis.Title?.TextBox.GetActualWidth() ?? 0D + rightAxis.Rectangle?.Width ?? 0D;
+                var rightWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
                 return left - rightWidth - rect.Left;
             }
         }
         private double GetPlotAreaLeft(SvgChart sc)
         {
+            var left = LeftMargin;
+            if(sc.Chart.Legend?.Position == eLegendPosition.Left)
+            {
+                left += sc.Legend.Bounds.Width + sc.Legend.RightMargin;
+            }
+
             var leftAxis = GetAxisByPosition(sc, eAxisPosition.Left);
-            if (leftAxis == null || (leftAxis.Rectangle==null && leftAxis.Title?.Rectangle==null))
+            if (leftAxis != null)
             {
-                return sc.Chart.Legend?.Position == eLegendPosition.Left ? sc.Legend.Bounds.Right + LeftMargin : LeftMargin;
+                if(leftAxis.Title!=null)
+                {
+                    left += leftAxis.Title.TextBox.GetActualWidth();
+                }
+                left += leftAxis.Rectangle.Width + 1.5;
             }
-            else
-            {
-                return leftAxis.Rectangle == null ? leftAxis.Title.TextBox.GetActualWidth(): leftAxis.Rectangle.GlobalRight;
-            }
+            return left;
         }
 
         private double GetPlotAreaTop(SvgChart sc)

@@ -409,9 +409,9 @@ namespace OfficeOpenXml.Drawing
             get
             {
                 var v = GetXmlNodeString(_capPath);
-                if(v==null)
+                if(string.IsNullOrEmpty(v))
                 {
-                    return _dtr.Capitalization;
+                    return _dtr?.Capitalization ?? eTextCapsType.None;
                 }
                 else
                 {
