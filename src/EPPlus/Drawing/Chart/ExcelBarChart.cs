@@ -240,7 +240,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return _chartXmlHelper.GetXmlNodeInt(_overlapPath);
+                return _chartXmlHelper.GetXmlNodeInt(_overlapPath, 0);
             }
             set
             {

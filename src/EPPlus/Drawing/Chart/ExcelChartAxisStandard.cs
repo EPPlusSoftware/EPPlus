@@ -798,14 +798,9 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
-            List<object> dl;
-            if(AxisType==eAxisType.Cat)
+            var dl = values.SelectMany(x => x).Distinct().ToList();
+            if (AxisType!=eAxisType.Cat)
             {
-                dl = values.SelectMany(x => x).Distinct().ToList();
-            }
-            else
-            {
-                dl = values.SelectMany(x => x).Distinct().ToList();
                 dl.Sort();
             }
             if (Orientation == eAxisOrientation.MaxMin)
@@ -836,7 +831,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress.Address, serie.GetHeaderText(ix) });
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
                         }
                     }
                     else

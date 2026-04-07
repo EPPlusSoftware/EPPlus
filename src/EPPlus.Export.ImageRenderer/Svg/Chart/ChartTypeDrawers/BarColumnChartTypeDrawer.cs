@@ -106,15 +106,27 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double barWidth;
             barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
-            //barWidth = barWidth * overlapPercent;
-            //var xl = barWidth / 2;            
-            var yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min);
-            for (var i = 0;     i < yValues.Count; i++)
+
+            double yAxisStart;
+            if (yAxis.Axis.Crosses==eCrosses.AutoZero)
+            {
+                yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min<=0 ? 0D : yAxis.Min, true);
+            }
+            else if(yAxis.Axis.Crosses == eCrosses.Min)
+            {
+                yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min, true);
+            }
+            else
+            {
+                yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Max, true);
+            }
+                
+            for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
-                if (xValues == null || xAxis.Axis.AxisType==eAxisType.Cat)
+                if (xValues == null || xAxis.Axis.AxisType == eAxisType.Cat)
                 {
-                    x = (double)position + i;
+                    x = (double)i;
                 }
                 else
                 {
@@ -129,15 +141,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 else
                 {
-                    xPos = xAxis.GetPositionInPlotarea(x) + halfGap + position * barWidth * step;
+                    xPos = xAxis.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
                 }
                 var yPos = yAxis.GetPositionInPlotarea(y);
 
                 var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
                 rect.Left = xPos;
                 rect.Width = barWidth;
-                rect.Top = yPos;
-                rect.Height = yAxisStart - yPos;
+                if(y<0)
+                {
+                    rect.Top = yAxisStart;
+                    rect.Height = yPos - yAxisStart;
+                }
+                else
+                {
+                    rect.Top = yPos;
+                    rect.Height = yAxisStart - yPos;
+                }
                 rect.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
                 rect.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
                 rect.SetDrawingPropertiesEffects(serie.Effect);

@@ -41,7 +41,7 @@ namespace EPPlusImageRenderer.Svg
             Axis = ax;
             SetMargins(ax.TextBody);
 
-            if (sc.Chart.Series.Count == 0 || (ax.Deleted == true && ax.HasTitle==false))
+            if (sc.Chart.Series.Count == 0)
             {
                 return;
             }
@@ -55,65 +55,63 @@ namespace EPPlusImageRenderer.Svg
                 Title = null;
             }
 
-            if (ax.Deleted == false || ax.HasMajorGridlines || ax.HasMinorGridlines)
+            Values = GetAxisValue(ax, sc.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
+            AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
+
+            Min = min ?? 0D;
+            Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
+            MajorUnit = majorUnit ?? 1;
+            MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+            MajorDateUnit = dateUnit;
+            LabelOrientation = orientation;
+
+            if (ax.Deleted == false)
             {
-                Values = GetAxisValue(ax, sc.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
-                AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
-                
-                Min = min ?? 0D;
-                Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
-                MajorUnit = majorUnit ?? 1;
-                MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
-                MajorDateUnit = dateUnit;
-                LabelOrientation = orientation;
-                if (ax.Deleted == false)
+                if (ax.Layout.HasLayout)
                 {
-                    if (ax.Layout.HasLayout)
+                    Rectangle = GetRectFromManualLayout(sc, ax.Layout);
+                }
+                else
+                {
+                    Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
+                    if (ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right)
                     {
-                        Rectangle = GetRectFromManualLayout(sc, ax.Layout);
-                    }
-                    else
-                    {
-                        Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
-                        if (ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right)
+                        if (ax.AxisPosition == eAxisPosition.Left)
                         {
-                            if (ax.AxisPosition == eAxisPosition.Left)
+                            Rectangle.Width = GetTextWidest(sc, ax) + LeftMargin;
+                            var ll = 8D;
+                            if (sc.Chart.HasLegend  && sc.Chart.Legend.Position == eLegendPosition.Left)
                             {
-                                Rectangle.Width = GetTextWidest(sc, ax) + LeftMargin;
-                                var ll = 8D;
-                                if (sc.Chart.HasLegend  && sc.Chart.Legend.Position == eLegendPosition.Left)
-                                {
-                                    ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
-                                }
-                                Rectangle.Left = Title == null ? ll : Title.Rectangle.Right;
+                                ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
                             }
-                            else
-                            {
-                                Rectangle.Width = GetTextWidest(sc, ax) + RightMargin;
-                                var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
-                                if (sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right)
-                                {
-                                    lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
-                                }
-                                Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width-LeftMargin;
-                            }
+                            Rectangle.Left = Title == null ? ll : Title.TextBox.GetActualRight();
                         }
                         else
                         {
-                            Rectangle.Height = GetTextHeight(sc, ax);
-                            //TODO:Fix
-                            Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
+                            Rectangle.Width = GetTextWidest(sc, ax) + RightMargin;
+                            var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
+                            if (sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right)
+                            {
+                                lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
+                            }
+                            Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width - LeftMargin;
                         }
                     }
-
-                    Rectangle.FillColor = "none";
-
-                    Line = new SvgRenderLineItem(sc, Rectangle.Bounds);
-                    Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
-                    if(Line.BorderWidth < 1)
+                    else
                     {
-                        Line.BorderWidth = 1;
+                        Rectangle.Height = GetTextHeight(sc, ax);
+                        //TODO:Fix
+                        Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                     }
+                }
+
+                Rectangle.FillColor = "none";
+
+                Line = new SvgRenderLineItem(sc, Rectangle.Bounds);
+                Line.SetDrawingPropertiesBorder(ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
+                if(Line.BorderWidth < 1)
+                {
+                    Line.BorderWidth = 1;
                 }
             }
         }
@@ -506,16 +504,26 @@ namespace EPPlusImageRenderer.Svg
                     //Between tickmarks
                     var majorWidth = Rectangle.Width / AxisValues.Count;
                     var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
-                    var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
+                    //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
                     return majorTickStartingPosition;
                 }
                 else
                 {
-                    var min = ConvertUtil.GetValueDouble(Values[0]);
-                    var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var v = ConvertUtil.GetValueDouble(Values[i]);
-                    var majorWidth = Rectangle.Width * (v-Min)/(Max-Min);
-                    return Rectangle.Left + majorWidth;
+                    if(Axis.AxisType == eAxisType.Cat)
+                    {
+                        var majorWidth = Rectangle.Width / AxisValues.Count;
+                        var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                        //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
+                        return majorTickStartingPosition;
+                    }
+                    else
+                    {
+                        var min = ConvertUtil.GetValueDouble(Values[0]);
+                        var max = ConvertUtil.GetValueDouble(Values.Last());
+                        var v = ConvertUtil.GetValueDouble(Values[i]);
+                        var majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                        return Rectangle.Left + majorWidth;
+                    }
                 }
             }
         }
@@ -829,19 +837,26 @@ namespace EPPlusImageRenderer.Svg
             return axisStyle;
         }
 
-        internal double GetPositionInPlotarea(double val)
+        internal double GetPositionInPlotarea(double val, bool startValue=false)
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorHeight = SvgChart.Plotarea.Rectangle.Height / Max;
-                    return (majorHeight * val + (majorHeight / 2));
+                    if(startValue)
+                    {
+                        return majorHeight * val;
+                    }
+                    else
+                    {
+                        return majorHeight * val + (majorHeight / 2);
+                    }
                 }
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min+1;
+                    var diff = Max - Min;
                     return (((Max-val) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
@@ -850,13 +865,20 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     var majorWidth = SvgChart.Plotarea.Rectangle.Width / Max;
-                    return (majorWidth * val + (majorWidth / 2));
+                    if (startValue)
+                    {
+                        return majorWidth * val;
+                    }
+                    else
+                    {
+                        return majorWidth * val + (majorWidth / 2);
+                    }
                 }
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min+1;
-                    return (((val-Min) / diff * SvgChart.Plotarea.Rectangle.Width));
+                    var diff = Max - Min + 1;
+                    return (((val - Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
         }
@@ -879,11 +901,11 @@ namespace EPPlusImageRenderer.Svg
             if (ax.AxisType == eAxisType.Cat &&
                 isCount == false)
             {
-                min = 0;
-                max = values.Count;
-                majorUnit = 1;
-                dateUnit = null;
-                orientation = eTextOrientation.Horizontal;
+                //min = 0;
+                //max = values.Count / Chart.Series.Count;
+                //majorUnit = 1;
+                //dateUnit = null;
+                //orientation = eTextOrientation.Horizontal;
                 var res = CategoryAxisScaleCalculator.CalculateByWidth(ref values, SvgChart.TextMeasurer, options);
                 
                 min = res.Min;

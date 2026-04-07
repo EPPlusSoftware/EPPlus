@@ -55,7 +55,7 @@ namespace EPPlusImageRenderer.Svg
             double vaHeight = 0, vaTitleHeight = 0;
             if (bottomAxis!=null)
             {
-                 vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.Rectangle?.Height ?? 0D);
+                 vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
             if (sc.Chart.Legend?.Position == eLegendPosition.Bottom)
             {
@@ -77,20 +77,20 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var rightWidth = rightAxis.Title?.Rectangle?.Width??0D + rightAxis.Rectangle?.Width??0D;
+                var rightWidth = rightAxis.Title?.TextBox.GetActualWidth() ?? 0D + rightAxis.Rectangle?.Width ?? 0D;
                 return left - rightWidth - rect.Left;
             }
         }
         private double GetPlotAreaLeft(SvgChart sc)
         {
             var leftAxis = GetAxisByPosition(sc, eAxisPosition.Left);
-            if (leftAxis == null)
+            if (leftAxis == null || (leftAxis.Rectangle==null && leftAxis.Title?.Rectangle==null))
             {
                 return sc.Chart.Legend?.Position == eLegendPosition.Left ? sc.Legend.Bounds.Right + LeftMargin : LeftMargin;
             }
             else
             {
-                return leftAxis.Rectangle == null ? leftAxis.Title.Rectangle.GlobalRight: leftAxis.Rectangle.GlobalRight;
+                return leftAxis.Rectangle == null ? leftAxis.Title.TextBox.GetActualWidth(): leftAxis.Rectangle.GlobalRight;
             }
         }
 
@@ -109,7 +109,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topAxis.Title?.Rectangle?.Height ?? 0D);
+                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
 
             return (sc.Chart.Legend?.Position == eLegendPosition.Top ? sc.Legend.Bounds.Bottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
