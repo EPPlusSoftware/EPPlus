@@ -59,52 +59,43 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (string.IsNullOrEmpty(t.Text) == false)
+                if (string.IsNullOrEmpty(t.DisplayedText) == false)
                 {
-                    _titleText = t.Text;
+                    _titleText = t.DisplayedText;
                 }
                 else
                 {
-                    _titleText = defaultText;
+                    _titleText = t.Font.GetCapitalizedText(defaultText);
                 }
             }
-           
+
             if (t.Layout.HasLayout) //Only for the main chart title, axis titles don't support manual layout in Excel.
             {
-                Rectangle = GetRectFromManualLayout(sc, t.Layout);
-                var top = Rectangle.Top;
-                var left = Rectangle.Left;
-                Rectangle.Width = (float)maxWidth;
-                Rectangle.Height = (float)maxHeight;
 
-                InitTextBox();
-                TextBox.Top = top;
-                TextBox.Left = left;
+                InitTextBox(maxWidth, maxHeight);
+                var mr = GetRectFromManualLayout(sc, t.Layout);
+                TextBox.Top = mr.Top;
+                TextBox.Left = mr.Left;
             }
             else
             {
-                Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
-                if (axis==null)
+                if (axis == null)
                 {
-                    Rectangle.Width = (float)maxWidth;
-                    Rectangle.Height = (float)maxHeight;
-
-                    InitTextBox();
+                    InitTextBox(maxWidth, maxHeight);
                     TextBox.Top = (float)6;                                       //6 point for the chart title standard offset.
                     TextBox.Left = (float)(sc.Bounds.Width - TextBox.Width) / 2;
                 }
                 else
                 {
                     var isVertical = axis.Axis.IsVertical;
-                    Rectangle.Width = sc.Bounds.Width * (isVertical ? 0.2 : 0.8);   //Max Width.
-                    Rectangle.Height = sc.Bounds.Height * (isVertical ? 0.8 : 0.2); //Max Height.
+                    maxWidth = sc.Bounds.Width * (isVertical ? 0.2 : 0.8);   //Max Width.
+                    maxHeight = sc.Bounds.Height * (isVertical ? 0.8 : 0.2); //Max Height.
 
-                    InitTextBox();
-                    Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
+                    InitTextBox(maxWidth, maxHeight);
                     SetAxisTitleRect(sc, axis);
                 }
             }
-
+            Bounds = Rectangle.Bounds;
             Rectangle.SetDrawingPropertiesFill(t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
@@ -152,9 +143,9 @@ namespace EPPlusImageRenderer.Svg
 
         private static string GetDefaultChartTitleText(SvgChart sc, ExcelChartTitleStandard t, string defaultText)
         {
-            if (string.IsNullOrEmpty(t.Text) == false)
+            if (string.IsNullOrEmpty(t.DisplayedText) == false)
             {
-                defaultText = t.Text;
+                defaultText = t.DisplayedText;
             }
             else if (sc.Chart.PlotArea.ChartTypes.Count == 1 && sc.Chart.Series.Count == 1)
             {
@@ -183,9 +174,9 @@ namespace EPPlusImageRenderer.Svg
             return defaultText;
         }
 
-        internal void InitTextBox()
+        internal void InitTextBox(double maxWidth, double maxHeight)
         {
-            TextBox = new SvgTextBox(_svgChart, _svgChart.ChartArea.Bounds, Rectangle.Width, Rectangle.Height);
+            TextBox = new SvgTextBox(_svgChart, _svgChart.ChartArea.Bounds, maxWidth, maxHeight);
             if(_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
@@ -196,9 +187,8 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var text = string.IsNullOrEmpty(_title.Text) ? _titleText : _title.Text;
                 var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();                
-                TextBox.ImportParagraph(p, 0, text);                
+                TextBox.ImportParagraph(p, 0, _titleText);                
             }
 
             TextBox.LeftMargin = LeftMargin;

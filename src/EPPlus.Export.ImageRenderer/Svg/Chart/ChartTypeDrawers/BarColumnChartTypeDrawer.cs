@@ -135,14 +135,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(yValues[i], false, true);
                 double xPos;
-                if (yValues.Count == 1)
-                {
-                    xPos = xAxis.GetPositionInPlotarea(x) - barWidth / 2;
-                }
-                else
-                {
+                //if (yValues.Count == 1)
+                //{
+                //    xPos = xAxis.GetPositionInPlotarea(x) - barWidth / 2;
+                //}
+                //else
+                //{
                     xPos = xAxis.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
-                }
+                //}
                 var yPos = yAxis.GetPositionInPlotarea(y);
 
                 var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);

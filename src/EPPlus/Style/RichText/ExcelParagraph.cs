@@ -70,14 +70,34 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return _textRun.Text;
+               return _textRun.Text;
             }
             set
             {
                 _textRun.Text = value;
             }
         }
-        
+        /// <summary>
+        /// Text, adjusted for the Capitalization property
+        /// </summary>
+        public string DisplayedText
+        {
+            get
+            {
+                switch (_textRun.Capitalization)
+                {
+
+                    case eTextCapsType.All:
+                        return _textRun.Text.ToUpper();
+                    case eTextCapsType.Small:
+                        return _textRun.Text.ToLower();
+                    default:
+                        return _textRun.Text;
+
+                }
+            }
+        }
+
         /// <summary>
         /// If the paragraph is the first in the collection
         /// </summary>

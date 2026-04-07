@@ -258,6 +258,36 @@ namespace OfficeOpenXml.Style
                 }
             }
         }
+        /// <summary>
+        /// The displayed test adjusted for capitalization.
+        /// </summary>
+        public string DisplayedText
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var item in _list)
+                {
+                    if (item.IsLastInParagraph)
+                    {
+                        sb.AppendLine(item.DisplayedText);
+                    }
+                    else
+                    {
+                        sb.Append(item.DisplayedText);
+                    }
+                }
+
+                var ret = sb.ToString();
+                if (ret.EndsWith(Environment.NewLine))
+                {
+                    //Remove last NewLine
+                    return ret.Substring(0, ret.Length - Environment.NewLine.Length);
+                }
+
+                return ret;
+            }
+        }
         #region IEnumerable<ExcelRichText> Members
 
         IEnumerator<ExcelParagraph> IEnumerable<ExcelParagraph>.GetEnumerator()

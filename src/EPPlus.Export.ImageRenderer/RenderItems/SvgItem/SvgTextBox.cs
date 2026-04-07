@@ -30,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _rectangle = new SvgRenderRectItem(DrawingRenderer, Parent);
             TextBody = new SvgTextBodyItem(renderer, Rectangle.Bounds, true);
             TextBody.MaxWidth = maxWidth;
-            TextBody.MaxHeight = maxHeight;
+            TextBody.MaxHeight = maxHeight;            
         }
 
         internal SvgTextBox(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer)
@@ -58,22 +58,25 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             get
             {
-                return TextBody.Bounds.Left - LeftMargin;
+                return Rectangle.Bounds.Left; //TextBody.Bounds.Left - LeftMargin;
+
             }
             set
             {
-                TextBody.Bounds.Left = value + LeftMargin;
+                //TextBody.Bounds.Left = value + LeftMargin;
+                Rectangle.Bounds.Left = value;
             }
         }
         public double Top 
         { 
             get
             {
-                return TextBody.Bounds.Top - TopMargin;
+                return Rectangle.Bounds.Top;  //TextBody.Bounds.Top - TopMargin;
             }
             set
             {
-                TextBody.Bounds.Top = value + TopMargin;
+                //TextBody.Bounds.Top = value + TopMargin;
+                Rectangle.Bounds.Top = value;
             } 
         }
         public double Width
@@ -135,7 +138,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// <returns></returns>
         internal double GetActualRight()
         {
-            return Left+GetActualRight();
+            return Left+GetActualWidth();
         }
         /// <summary>
         /// Gets the actual height of the rotated textbox.
@@ -185,11 +188,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var rect = Rectangle;
 
-            //if (rect.FillColor == null)
-            //{
-            //    rect.FillColor = "transparent";
-            //}
-
             SvgGroupItem groupItem;
             if (Rotation == 0)
             {
@@ -215,7 +213,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 rect.Bounds.Left = -rect.Bounds.Width;
             }
-
+            rect.Bounds.Left = 0;
+            rect.Bounds.Top = 0;
             renderItems.Add(titleItem);
             renderItems.Add(rect);
 
