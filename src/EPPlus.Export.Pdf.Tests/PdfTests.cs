@@ -20,6 +20,7 @@ using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using Mono.Cecil.Cil;
+using OfficeOpenXml;
 
 namespace EPPlusTest.PDF
 {
@@ -167,6 +168,25 @@ namespace EPPlusTest.PDF
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
             PdfCatalog catlog = new PdfCatalog(pageSettings, ws);
+        }
+
+
+        [TestMethod]
+        public void CalculatePages()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.ShowHeadings = true;
+            PdfWorksheet pws = new PdfWorksheet();
+            pws.Worksheet = ws;
+            pws.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(ws);
+            pws.ToRow = 256;
+            PdfRange range = new PdfRange();
+            range.TotalWidth = 800;
+            range.TotalHeight = 1600;
+
+            var result = PdfLayout.GetNumberOfPages(pageSettings, pws, range);
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
@@ -19,24 +22,36 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol);
             var worksheet = Range.Range.Worksheet;
+            var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet);
+            pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
+            bool firstColumnRun = true;
+            double totalHeight = 0;
+            double totalWidth = 0;
             List<string> checkedMergedCells = new List<string>();
             //int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(worksheet) : 0;
             for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
             {
                 if (worksheet.Row(row).Hidden) continue;
-                //var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(row).Height);
+                var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(row).Height);
+                Range.TotalHeight += height;
+                Range.RowHeights.Add(height);
                 //x = 0d;
                 for (int col = Range.Range._fromCol; col <= Range.Range._toCol /*+ addedColumns*/; col++)
                 {
                     if (worksheet.Column(col).Hidden) continue;
-                    //var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
+                    var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
+                    if (firstColumnRun)
+                    {
+                        Range.TotalWidth += width;
+                        Range.ColWidths.Add(width);
+                    }
                     var cell = worksheet.Cells[row, col];
                     //if (cell.Merge)
                     //{
-
+                            //calculate merged cell width and height
                     //}
                     var tempMap = Map[row, col];
-
+                    tempMap.Width = width;
                     tempMap.CellStyle = GetFontStyle(cell);
                     tempMap.ContentAligmnet = GetContentAlignment(cell);
                     if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
@@ -76,6 +91,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     //totalWidth = System.Math.Max(x, totalWidth);
 
                 }
+                firstColumnRun = false;
                 //y -= height;
             }
             //HandleDrawings(worksheet);

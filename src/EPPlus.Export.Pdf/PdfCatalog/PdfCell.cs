@@ -12,6 +12,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;
         public List<PdfTextFormat> TextFormats;
+        public double Width { get; set; }
         public TextLayoutEngine TextLayoutEngine { get; set; }
 
 

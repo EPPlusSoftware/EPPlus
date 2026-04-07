@@ -1,9 +1,7 @@
 ﻿using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Graphics;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.Interfaces.Fonts;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -31,6 +29,15 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             HandleWorksheetCollection(pageSettings, worksheets.ToArray());
         }
 
+        private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
+        {
+            var pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
+            foreach (var pdfSheet in pdfSheets)
+            {
+                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+            }
+        }
+
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
             Stopwatch sw = Stopwatch.StartNew();
@@ -49,6 +56,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             sw.Reset();
 
             //Create Layout
+
             sw.Stop();
             var CreateLayoutTime = sw.ElapsedMilliseconds;
             sw.Reset();
@@ -62,7 +70,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         //Private Methods
         //Create Layout Methods
-
+        private Transform GetLayout()
+        {
+            return null;
+        }
 
         //Shape Text Methods
         private void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
@@ -93,15 +104,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         }
 
         //Collect Text Methods
-        private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
-        {
-            var pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
-            foreach (var pdfSheet in pdfSheets)
-            {
-                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-            }
-        }
-
         private PdfWorksheet[] GetPdfWorksheets(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
             PdfWorksheet[] pdfSheets = new PdfWorksheet[worksheets.Length];
