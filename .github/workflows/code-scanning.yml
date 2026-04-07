@@ -1,0 +1,76 @@
+name: "Code Scanning"
+
+on:
+  push:
+    branches: [ develop*, release/**, beta/** ]
+  pull_request:
+    branches: [ develop* ]
+  schedule:
+    - cron: '34 8 * * 2'
+  workflow_dispatch:
+
+jobs:
+  codeql:
+    name: CodeQL
+    runs-on: windows-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x.x
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Build
+      run: dotnet build EPPlus.sln --configuration Release
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
+  security-code-scan:
+    name: Security Code Scan
+    runs-on: windows-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x.x
+
+    - name: Install Security Code Scan
+      run: dotnet tool install --global security-scan
+
+    - name: Build
+      run: dotnet build EPPlus.sln --configuration Release
+
+    - name: Run Security Code Scan
+      run: security-scan EPPlus.sln --export=scs-results.sarif
+
+    - name: Upload Security Code Scan results
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: scs-results.sarif
+        category: security-code-scan
