@@ -38,7 +38,7 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Build
-      run: dotnet build EPPlus.sln --configuration Release
+      run: dotnet build src/EPPlus.sln --configuration Release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
@@ -64,10 +64,10 @@ jobs:
       run: dotnet tool install --global security-scan
 
     - name: Build
-      run: dotnet build EPPlus.sln --configuration Release
+      run: dotnet build src/EPPlus.sln --configuration Release
 
     - name: Run Security Code Scan
-      run: security-scan EPPlus.sln --export=scs-results.sarif
+      run: security-scan src/EPPlus.sln --export=scs-results.sarif
 
     - name: Upload Security Code Scan results
       uses: github/codeql-action/upload-sarif@v3
