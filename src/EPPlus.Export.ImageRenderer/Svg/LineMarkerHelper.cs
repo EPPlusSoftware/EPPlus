@@ -11,7 +11,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
 {
     internal class LineMarkerHelper
     {
-        internal static RenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, double x, double y, bool isLegend)
+        internal static SvgRenderItem GetMarkerItem(SvgChart sc, ExcelLineChartSerie ls, double x, double y, bool isLegend)
         {
             SvgRenderItem item;
             var m = ls.Marker;
@@ -156,7 +156,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
             }
             return item;
         }
-        internal static RenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls,  double x, double y, bool isLegend)
+        internal static SvgRenderItem GetMarkerBackground(SvgChart sc, ExcelLineChartSerie ls,  double x, double y, bool isLegend)
         {
             SvgRenderItem item;
             var m = ls.Marker;

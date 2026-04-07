@@ -142,13 +142,26 @@ namespace EPPlusImageRenderer.RenderItems
             sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
         }
 
+        internal string Suffix = "px";
+
         private void RenderLineItem(StringBuilder sb, double? borderWidth, string color, string filter)
         {
-            sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
+            if(Suffix == "%")
+            {
+                sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
+                X1 + Suffix,
+                Y1 + Suffix,
+                X2 + Suffix,
+                Y2 + Suffix);
+            }
+            else
+            {
+                sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
                 X1.PointToPixelString(),
                 Y1.PointToPixelString(),
                 X2.PointToPixelString(),
                 Y2.PointToPixelString());
+            }
             
             RenderCompoundItems(sb, borderWidth, color, filter);
         }
