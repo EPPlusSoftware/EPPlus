@@ -84,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
                             }
-                            Rectangle.Left = Title == null ? ll : Title.TextBox.GetActualRight();
+                            Rectangle.Left = Title == null ? ll : Title.Rectangle.Left + Title.TextBox.GetActualWidth();
                         }
                         else
                         {

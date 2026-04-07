@@ -135,7 +135,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// <returns></returns>
         internal double GetActualRight()
         {
-            return Left+GetActualRight();
+            return Left+GetActualWidth();
         }
         /// <summary>
         /// Gets the actual height of the rotated textbox.
