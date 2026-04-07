@@ -2,6 +2,7 @@
  [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
 [![Build status](https://ci.appveyor.com/api/projects/status/qw2hvjk7yfxv7vrv?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus8)
 [![Code Scanning](https://github.com/EPPlusSoftware/EPPlus/actions/workflows/code-scanning.yml/badge.svg)](https://github.com/EPPlusSoftware/EPPlus/actions/workflows/code-scanning.yml)
+[![Vulnerability Scan](https://github.com/EPPlusSoftware/EPPlus/actions/workflows/vulnerability-scan.yml/badge.svg)](https://github.com/EPPlusSoftware/EPPlus/actions/workflows/vulnerability-scan.yml)
 # EPPlus 8
 
 ## License
