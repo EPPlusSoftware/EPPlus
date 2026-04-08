@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -85,7 +86,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             string text,
             List<string> fontFolders)
         {
-            var font = OpenTypeFonts.GetFontData(fontFolders, fontName, FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(text);
             return subset.Serialize();
         }
@@ -98,7 +99,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             char[] chars,
             List<string> fontFolders)
         {
-            var font = OpenTypeFonts.GetFontData(fontFolders, fontName, FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(chars);
             return subset.Serialize();
         }
@@ -115,13 +116,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             string text,
             List<string> fontFolders)
         {
-            var font = OpenTypeFonts.GetFontData(fontFolders, fontName, FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(text);
             var bytes = subset.Serialize();
 
-            var parsed = new OpenTypeFont(
-                bytes,
-                font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             AssertFontValid(parsed);
 
@@ -136,13 +135,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             char[] chars,
             List<string> fontFolders)
         {
-            var font = OpenTypeFonts.GetFontData(fontFolders, fontName, FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(chars);
             var bytes = subset.Serialize();
 
-            var parsed = new OpenTypeFont(
-                bytes,
-                font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             AssertFontValid(parsed);
 

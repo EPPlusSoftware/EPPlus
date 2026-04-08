@@ -15,7 +15,7 @@ namespace EPPlus.Graphics
         internal BoundingBox(double width, double height) : base(0, 0, width, height)
         {
         }
-        internal BoundingBox(double left, double top, double width, double height) : base(left,top, width, height)
+        internal BoundingBox(double left, double top, double width, double height) : base(left, top, width, height)
         {
         }
 
@@ -59,8 +59,8 @@ namespace EPPlus.Graphics
                 //Recalculate Right position correctly
                 //if (tmpWidth != 0)
                 //{
-                    //Right = Left + tmpWidth;
-                    //Width = tmpWidth;
+                //Right = Left + tmpWidth;
+                //Width = tmpWidth;
                 //}
                 LocalPosition = new Vector2(value, LocalPosition.Y);
             }
@@ -87,7 +87,7 @@ namespace EPPlus.Graphics
                 return LocalPosition.X + Size.X;
             }
         }
-        internal virtual double Width 
+        internal virtual double Width
         {
             get
             {
@@ -95,8 +95,8 @@ namespace EPPlus.Graphics
             }
             set
             {
-                Size=new Vector2(value,Size.Y);
-            }        
+                Size = new Vector2(value, Size.Y);
+            }
         }
 
         internal virtual double Height
@@ -124,5 +124,23 @@ namespace EPPlus.Graphics
                 return Position.Y;
             }
         }
+
+        //Quick-access to underlying transform
+
+        ///// <summary>
+        ///// Local position X
+        ///// X-position from parent transform position
+        ///// </summary>
+        //internal override double X { get { return Left; } set { Left = value; } }
+
+        ///// <summary>
+        ///// Local position Y
+        ///// Y-position from parent transform position
+        ///// </summary>
+        //internal override double Y { get { return Top; } set { Top = value; } }
+
+        //Gets global position x and y
+        internal double GlobalX { get { return Position.X; } }
+        internal double GlobalY { get { return Position.Y; } }
     }
 }

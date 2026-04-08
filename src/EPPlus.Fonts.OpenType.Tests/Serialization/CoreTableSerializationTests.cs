@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("head");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var headBytes = font?.HeadTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, headBytes?.Length);
@@ -31,7 +32,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("maxp");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var maxpBytes = font?.MaxpTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, maxpBytes?.Length);
@@ -44,7 +45,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("hhea");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var hheaBytes = font?.HheaTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, hheaBytes?.Length);
@@ -57,7 +58,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolders, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("post");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var postBytes = font?.PostTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, postBytes?.Length);
@@ -70,7 +71,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("name");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false, true);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var nameBytes = font?.NameTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, nameBytes?.Length);
@@ -87,7 +88,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, fontName, subFamily);
             var originalBytes = ffi.GetTableBytes("OS/2");
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, fontName, subFamily, false, true);
+            var font = OpenTypeFonts.LoadFont(fontName, subFamily);
             var os2Bytes = font?.Os2Table.Serialize(font);
 
             Assert.AreEqual(expectedLength, os2Bytes?.Length);

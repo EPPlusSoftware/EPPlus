@@ -11,13 +11,14 @@
   01/15/2025         EPPlus Software AB           Initial implementation
   01/19/2026         EPPlus Software AB           Added Single Adjustment support (GPOS Type 1)
   02/05/2026         EPPlus Software AB           Added IFontProvider support for fallback fonts
+  03/20/2026         EPPlus Software AB           ResetFontTracking made private, called automatically
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping.Contextual;
 using EPPlus.Fonts.OpenType.TextShaping.Kerning;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
 using EPPlus.Fonts.OpenType.TextShaping.Positioning;
 using EPPlus.Fonts.OpenType.TextShaping.Substitutions;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 
@@ -54,6 +55,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Creates a TextShaper with automatic emoji fallback (DefaultFontProvider).
+        /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
+        /// instances directly. It provides a thread-local cached instance and avoids
+        /// duplicate caches across the codebase.
         /// </summary>
         public TextShaper(OpenTypeFont font)
             : this(new DefaultFontProvider(font))
@@ -62,6 +66,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Creates a TextShaper with custom font provider.
+        /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
+        /// instances directly. It provides a thread-local cached instance and avoids
+        /// duplicate caches across the codebase.
         /// </summary>
         public TextShaper(IFontProvider fontProvider)
         {
@@ -96,10 +103,10 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         /// <summary>
-        /// Clears font tracking between different texts.
-        /// Call this if you're reusing the same TextShaper for multiple unrelated texts.
+        /// Resets font tracking state. Called automatically at the start of each
+        /// shaping operation — Shape(), ExtractCharWidths(), ShapeLight().
         /// </summary>
-        public void ResetFontTracking()
+        private void ResetFontTracking()
         {
             _usedFonts.Clear();
             _fontToIdMap.Clear();
@@ -147,6 +154,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <returns>Shaped text with positioned glyphs</returns>
         public ShapedText Shape(string text, ShapingOptions options)
         {
+            ResetFontTracking();
+
             if (string.IsNullOrEmpty(text))
             {
                 return new ShapedText
@@ -177,10 +186,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             // Phase 4: Build result
+            var fontUnitsPerEm = BuildFontUnitsPerEm();
+            var fontLineHeights = BuildFontLineHeights();
             return new ShapedText
             {
                 OriginalText = text,
-                Glyphs = glyphs.ToArray()
+                Glyphs = glyphs.ToArray(),
+                FontUnitsPerEm = fontUnitsPerEm,
+                FontLineHeights = fontLineHeights
             };
         }
 
@@ -230,10 +243,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Core implementation that extracts char widths into provided buffer.
         /// OPTIMIZED: Avoids creating ShapedText object and copying glyphs to array.
-        /// Works directly with List<ShapedGlyph> for better memory efficiency.
+        /// Works directly with List&lt;ShapedGlyph&gt; for better memory efficiency.
         /// </summary>
         private void ExtractCharWidthsCore(string text, float fontSize, ShapingOptions options, double[] targetArray)
         {
+            ResetFontTracking();
+
             // Clear only the portion we will use
             Array.Clear(targetArray, 0, text.Length);
 
@@ -539,22 +554,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         #region Utilities
 
         /// <summary>
-        /// Measures the width of text in font units.
-        /// </summary>
-        public int MeasureText(string text, ShapingOptions options = null)
-        {
-            var shaped = Shape(text, options);
-            return shaped.TotalAdvanceWidth;
-        }
-
-        /// <summary>
         /// Measures the width of text in PDF points.
         /// </summary>
         public float MeasureTextInPoints(string text, float fontSize, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-            return shaped.GetWidthInPoints(fontSize, unitsPerEm);
+            return shaped.GetWidthInPoints(fontSize);
         }
 
         /// <summary>
@@ -563,8 +568,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public float MeasureTextInPixels(string text, float fontSize, float dpi, ShapingOptions options = null)
         {
             var shaped = Shape(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
-            return shaped.GetWidthInPixels(fontSize, dpi, unitsPerEm);
+            return shaped.GetWidthInPixels(fontSize, dpi);
         }
 
         #endregion
@@ -599,12 +603,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public MultiLineMetrics MeasureLines(string text, float fontSize, ShapingOptions options = null)
         {
             var shapedLines = ShapeLines(text, options);
-            float unitsPerEm = _primaryFont.HeadTable.UnitsPerEm;
 
             float maxWidth = 0;
             foreach (var line in shapedLines)
             {
-                float lineWidth = line.GetWidthInPoints(fontSize, unitsPerEm);
+                float lineWidth = line.GetWidthInPoints(fontSize);
                 maxWidth = Math.Max(maxWidth, lineWidth);
             }
 
@@ -629,17 +632,21 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Shapes text into lightweight GlyphWidth structs optimized for text measurement.
         /// </summary>
-        public GlyphWidth[] ShapeLight(string text, ShapingOptions options = null)
+        public ShapedLightText ShapeLight(string text, ShapingOptions options = null)
         {
+            ResetFontTracking();
+
             if (string.IsNullOrEmpty(text))
             {
-                return new GlyphWidth[0];
+                return new ShapedLightText
+                {
+                    Glyphs = new GlyphWidth[0],
+                    FontUnitsPerEm = new ushort[] { _primaryFont.HeadTable.UnitsPerEm }
+                };
             }
 
             if (options == null)
-            {
                 options = ShapingOptions.Default;
-            }
 
             var glyphs = MapToGlyphs(text);
 
@@ -653,7 +660,20 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ApplyKerningOnly(glyphs);
             }
 
-            return ExtractGlyphWidths(glyphs);
+            return new ShapedLightText
+            {
+                Glyphs = ExtractGlyphWidths(glyphs),
+                FontUnitsPerEm = BuildFontUnitsPerEm()
+            };
+        }
+
+        /// <summary>
+        /// Gets the UnitsPerEm for each font used in the last shaping operation.
+        /// Indexed by FontId. Must be called after Shape/ShapeLight and before ResetFontTracking.
+        /// </summary>
+        public ushort[] GetFontUnitsPerEm()
+        {
+            return BuildFontUnitsPerEm();
         }
 
         private void ApplyKerningOnly(List<ShapedGlyph> glyphs)
@@ -689,7 +709,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 {
                     XAdvance = (ushort)g.XAdvance,
                     ClusterIndex = g.ClusterIndex,
-                    CharCount = g.CharCount
+                    CharCount = g.CharCount,
+                    FontId = g.FontId
                 };
             }
 
@@ -761,5 +782,60 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         #endregion
+
+        /// <summary>
+        /// Builds a UnitsPerEm lookup array indexed by FontId.
+        /// Must be called after shaping when _usedFonts is populated.
+        /// </summary>
+        private ushort[] BuildFontUnitsPerEm()
+        {
+            if (_usedFonts.Count == 0)
+                return new ushort[] { _primaryFont.HeadTable.UnitsPerEm };
+
+            var result = new ushort[_usedFonts.Count];
+            for (int i = 0; i < _usedFonts.Count; i++)
+            {
+                result[i] = _usedFonts[i].HeadTable.UnitsPerEm;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Builds a line height lookup array (in design units) indexed by FontId.
+        /// Uses the same metric selection logic as GetLineHeightInPoints:
+        /// if USE_TYPO_METRICS is set, uses sTypoAscender - sTypoDescender + sTypoLineGap;
+        /// otherwise uses usWinAscent + usWinDescent.
+        /// </summary>
+        private int[] BuildFontLineHeights()
+        {
+            if (_usedFonts.Count == 0)
+                return new int[] { GetLineHeightDesignUnits(_primaryFont) };
+
+            var result = new int[_usedFonts.Count];
+            for (int i = 0; i < _usedFonts.Count; i++)
+            {
+                result[i] = GetLineHeightDesignUnits(_usedFonts[i]);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the line height in design units for a font, using the same
+        /// metric selection as GetLineHeightInPoints.
+        /// </summary>
+        private static int GetLineHeightDesignUnits(OpenTypeFont font)
+        {
+            if (font.Os2Table.UseTypoMetrics)
+            {
+                return font.Os2Table.sTypoAscender
+                     - font.Os2Table.sTypoDescender
+                     + font.Os2Table.sTypoLineGap;
+            }
+            else
+            {
+                return font.Os2Table.usWinAscent
+                     + font.Os2Table.usWinDescent;
+            }
+        }
     }
 }

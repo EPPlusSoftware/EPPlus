@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontLocalization;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;

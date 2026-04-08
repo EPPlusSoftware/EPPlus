@@ -23,9 +23,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     internal abstract class TextBodyItem : DrawingObject
     {
         public TextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize) : base(renderer, parent)
+        public TextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize) : base(renderer, parent)
         {
             Bounds.Name = "TxtBody";
             Bounds.Parent = parent;
+            AutoSize = autoSize;
             AutoSize = autoSize;
         }
         public TextBodyItem(DrawingBase renderer, BoundingBox parent, double maxWidth, double maxHeight) : base(renderer, parent)
@@ -35,7 +37,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
             AutoSize = false;
+            AutoSize = false;
         }
+        internal bool AutoSize { get; set; }
         internal bool AutoSize { get; set; }
         internal double MaxWidth { get; set; }
         internal double MaxHeight { get; set; }
@@ -240,6 +244,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     alignmentY = Bounds.Top;
                     break;
                     //Center means center of a Shape's ENTIRE bounding box height.
+                    //Not center of the Inset GetRectangle
                     //Not center of the Inset GetRectangle
                 case eTextAnchoringType.Center:
                     alignmentY = (MaxHeight - Bounds.Height)/2 + Bounds.Top;

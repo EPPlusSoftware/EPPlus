@@ -215,6 +215,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
         internal SvgChartObject ChartArea { get; set; }
+        internal SvgChartObject ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
         internal SvgChartTitle Title { get; set; }
         internal SvgChartPlotarea Plotarea { get; set; }
@@ -228,6 +229,12 @@ namespace EPPlusImageRenderer.Svg
 
         private void SetChartArea()
         {
+            var item = new SvgChartArea(this);
+            item.Rectangle.Width = Bounds.Width;
+            item.Rectangle.Height = Bounds.Height;
+            item.Rectangle.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
+            item.Rectangle.SetDrawingPropertiesBorder(Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
+            item.AppendRenderItems(RenderItems);
             var item = new SvgChartArea(this);
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
@@ -256,10 +263,17 @@ namespace EPPlusImageRenderer.Svg
                 {
                     drawer.AppendRenderItems(RenderItems);
                 }
+            if (Plotarea != null)
+            {
+                foreach (var drawer in Plotarea?.ChartTypeDrawers)
+                {
+                    drawer.AppendRenderItems(RenderItems);
+                }
             }
             Legend?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
 
+            sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
             sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);

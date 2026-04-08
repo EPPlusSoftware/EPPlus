@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  02/24/2026         EPPlus Software AB           Dynamic fallback chain with lazy loading
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,14 @@ using System.Collections.Generic;
 namespace EPPlus.Fonts.OpenType
 {
     /// <summary>
-    /// Default font provider with automatic Noto Emoji fallback.
+    /// Default font provider with automatic embedded fallback fonts.
+    /// Fallback fonts are lazy-loaded on first use (thread-safe).
+    /// Default chain: Primary → Noto Emoji → Noto Sans Math.
     /// </summary>
     public class DefaultFontProvider : IFontProvider
     {
         private readonly OpenTypeFont _primaryFont;
-        private OpenTypeFont _emojiFont;
+        private readonly List<LazyFallbackFont> _fallbackFonts;
         private readonly object _lock = new object();
 
         public OpenTypeFont PrimaryFont
@@ -30,7 +33,8 @@ namespace EPPlus.Fonts.OpenType
         }
 
         /// <summary>
-        /// Creates a font provider with automatic emoji fallback.
+        /// Creates a font provider with automatic embedded fallbacks.
+        /// Default fallback chain: Noto Emoji → Noto Sans Math.
         /// </summary>
         /// <param name="primaryFont">The user's primary font</param>
         public DefaultFontProvider(OpenTypeFont primaryFont)
@@ -39,25 +43,11 @@ namespace EPPlus.Fonts.OpenType
                 throw new ArgumentNullException("primaryFont");
 
             _primaryFont = primaryFont;
-        }
-
-        /// <summary>
-        /// Gets the emoji font, loading it on first access (lazy loading).
-        /// Thread-safe for .NET 3.5 compatibility.
-        /// </summary>
-        private OpenTypeFont GetEmojiFontLazy()
-        {
-            if (_emojiFont == null)
+            _fallbackFonts = new List<LazyFallbackFont>
             {
-                lock (_lock)
-                {
-                    if (_emojiFont == null)
-                    {
-                        _emojiFont = EmbeddedFonts.LoadNotoEmoji();
-                    }
-                }
-            }
-            return _emojiFont;
+                new LazyFallbackFont(EmbeddedFonts.LoadNotoEmoji),
+                new LazyFallbackFont(EmbeddedFonts.LoadNotoMath)
+            };
         }
 
         public bool TryGetGlyphFont(uint codePoint, out OpenTypeFont font, out ushort glyphId)
@@ -69,12 +59,18 @@ namespace EPPlus.Fonts.OpenType
                 return true;
             }
 
-            // Fallback to embedded Noto Emoji (lazy-loaded)
-            var emojiFont = GetEmojiFontLazy();
-            if (emojiFont.CmapTable.TryGetGlyphId(codePoint, out glyphId))
+            // Try fallback fonts in order (lazy-loaded)
+            lock (_lock)
             {
-                font = emojiFont;
-                return true;
+                foreach (var fallback in _fallbackFonts)
+                {
+                    var fallbackFont = fallback.Font;
+                    if (fallbackFont.CmapTable.TryGetGlyphId(codePoint, out glyphId))
+                    {
+                        font = fallbackFont;
+                        return true;
+                    }
+                }
             }
 
             // Not found - return primary with .notdef
@@ -87,10 +83,59 @@ namespace EPPlus.Fonts.OpenType
         {
             yield return _primaryFont;
 
-            // Only include emoji font if it was actually loaded
-            if (_emojiFont != null)
+            lock (_lock)
             {
-                yield return _emojiFont;
+                foreach (var fallback in _fallbackFonts)
+                {
+                    if (fallback.IsLoaded)
+                    {
+                        yield return fallback.Font;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Wraps a font loader delegate with lazy, thread-safe initialization.
+        /// </summary>
+        private class LazyFallbackFont
+        {
+            private readonly Func<OpenTypeFont> _loader;
+            private OpenTypeFont _font;
+            private readonly object _lock = new object();
+
+            internal LazyFallbackFont(Func<OpenTypeFont> loader)
+            {
+                _loader = loader;
+            }
+
+            /// <summary>
+            /// Gets whether the font has been loaded yet.
+            /// </summary>
+            internal bool IsLoaded
+            {
+                get { return _font != null; }
+            }
+
+            /// <summary>
+            /// Gets the font, loading it on first access.
+            /// </summary>
+            internal OpenTypeFont Font
+            {
+                get
+                {
+                    if (_font == null)
+                    {
+                        lock (_lock)
+                        {
+                            if (_font == null)
+                            {
+                                _font = _loader();
+                            }
+                        }
+                    }
+                    return _font;
+                }
             }
         }
     }

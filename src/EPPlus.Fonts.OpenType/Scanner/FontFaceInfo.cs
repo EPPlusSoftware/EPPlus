@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Interfaces.Fonts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -55,6 +56,8 @@ namespace EPPlus.Fonts.OpenType.Scanner
         public FontSubFamily Subfamily { get; internal set; }
 
         public ushort FsSelection { get; internal set; }
+
+        public bool IsExactMatch {  get; internal set; }
 
         /// <summary>
         /// Table directory for this face.

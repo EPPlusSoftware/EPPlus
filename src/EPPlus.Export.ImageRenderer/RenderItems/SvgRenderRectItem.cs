@@ -19,6 +19,7 @@ using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Theme;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlusImageRenderer.RenderItems
 {

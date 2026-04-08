@@ -25,6 +25,49 @@ namespace EPPlus.Export.Pdf.PdfSettings
         public double CenterFooterX;
         public double RightFooterX;
 
+        private double _top;
+        private double _bottom;
+        private double _left;
+        private double _right;
+        private double _height;
+        private double _width;
+
+        internal override double Top
+        {
+            get { return _top; }
+            set { _top = value; }
+        }
+
+        internal override double Bottom
+        {
+            get { return _bottom; }
+            set { _bottom = value; }
+        }
+
+        internal override double Left
+        {
+            get { return _left; }
+            set { _left = value; }
+        }
+
+        internal override double Right
+        {
+            get { return _right; }
+            set { _right = value; }
+        }
+
+        internal override double Width
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
+
+        internal override double Height
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
+
         public PdfContentBounds(PdfMargins margins, PdfPageSize pageSize)
         {
             CalculateBounds(margins, pageSize);

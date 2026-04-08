@@ -13,7 +13,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Lightweight glyph representation optimized for text measurement and wrapping.
@@ -46,8 +46,11 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// </summary>
         public byte CharCount;
 
-        // 3 bytes padding to align to 8 bytes total
+        /// <summary>
+        /// Which font produced this glyph (0 = first used font, 1+ = fallbacks).
+        /// Needed for correct point conversion when fonts have different UnitsPerEm.
+        /// </summary>
+        public byte FontId;
 
-        // Total size: 8 bytes (perfectly aligned for 64-bit systems)
     }
 }

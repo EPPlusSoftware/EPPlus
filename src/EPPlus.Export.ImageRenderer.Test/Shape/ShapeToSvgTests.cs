@@ -1,7 +1,9 @@
 ﻿using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Drawing;
@@ -366,7 +368,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets[0];
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
-                //d.Textbox = "GetRectangle GetRectangle GetRectangle GetRectangle";
+                //d.Textbox = "GetGetRectangle GetGetRectangle GetGetRectangle GetGetRectangle";
                 //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -523,6 +525,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 }
             }
         }
+
         [TestMethod]
         public void OpenRightAligned()
         {
@@ -537,6 +540,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             }
         }
         [TestMethod]
+        public void GenerateSvgForLineCharts()
         public void TestStyling()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

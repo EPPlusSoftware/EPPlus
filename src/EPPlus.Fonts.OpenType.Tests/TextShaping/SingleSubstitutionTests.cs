@@ -14,7 +14,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using EPPlus.Fonts.OpenType.TextShaping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 try
                 {
-                    var font = OpenTypeFonts.GetFontData(FontFolders, fontName, FontSubFamily.Regular);
+                    var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
 
                     // Verify font has smcp feature with Type 1 lookup
                     if (font == null || !font.FullName.Contains(fontName) || font.GsubTable == null)
@@ -123,7 +123,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 try
                 {
-                    var font = OpenTypeFonts.GetFontData(FontFolders, fontName, FontSubFamily.Regular);
+                    var font = OpenTypeFonts.LoadFont(fontName);
 
                     if (font == null || !font.FullName  .Contains(fontName) || font.GsubTable == null)
                         continue;

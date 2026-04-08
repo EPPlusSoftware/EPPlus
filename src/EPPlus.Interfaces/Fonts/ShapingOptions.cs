@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Options for controlling text shaping behavior.

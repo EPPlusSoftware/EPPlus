@@ -16,12 +16,21 @@ using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    /// <summary>
+    /// Represents the content area for a page in the pdf document.
+    /// </summary>
     internal class PdfContentLayout : Transform
     {
         public PdfContentLayout(double x, double y, PdfContentBounds bounds)
         {
             Position = new Vector2(x, y);
             Size = new Vector2(bounds.Width, bounds.Height);
+        }
+
+        public PdfContentLayout(double x, double y, double width, double height)
+        {
+            Position = new Vector2(x, y);
+            Size = new Vector2(width, height);
         }
     }
 }

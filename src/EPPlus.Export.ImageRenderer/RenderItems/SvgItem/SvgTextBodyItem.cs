@@ -18,6 +18,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     internal class SvgTextBodyItem : TextBodyItem
     {
         public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderer, parent, autoSize)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderer, parent, autoSize)
         {
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;

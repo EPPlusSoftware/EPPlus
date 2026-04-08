@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Interfaces.Fonts;
 
 /// <summary>
 /// Benchmarks for repeated cache clearing scenarios
@@ -28,10 +29,10 @@ public class FontCacheClearingBenchmarks
     {
         // Simulates pattern where cache is cleared between operations
         OpenTypeFonts.ClearFontCache();
-        var font1 = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+        var font1 = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
         OpenTypeFonts.ClearFontCache();
-        var font2 = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+        var font2 = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
         return font2;
     }
@@ -40,8 +41,8 @@ public class FontCacheClearingBenchmarks
     public OpenTypeFont Load_Reuse_Pattern()
     {
         // Simulates pattern where cache is NOT cleared (optimal)
-        var font1 = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
-        var font2 = OpenTypeFonts.GetFontData(_fontFolders, "Roboto", FontSubFamily.Regular);
+        var font1 = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+        var font2 = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
         return font2;
     }

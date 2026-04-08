@@ -309,6 +309,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
         private List<SvgTextBox> GetAxisValueTextBoxes()
+        private List<SvgTextBox> GetAxisValueTextBoxes()
         {
             var ret = new List<SvgTextBox>();
             if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
@@ -319,6 +320,7 @@ namespace EPPlusImageRenderer.Svg
             double maxWidth, maxHeight;
             if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
+                maxWidth = SvgChart.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
                 maxWidth = SvgChart.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
                 maxHeight = Rectangle.Height / AxisValues.Count;
             }

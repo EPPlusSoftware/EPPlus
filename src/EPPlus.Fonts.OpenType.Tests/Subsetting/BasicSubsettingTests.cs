@@ -28,19 +28,15 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Abc_RoundtripValidation()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
-            // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
-            // Save for inspection
             SaveFontForCurrentTest(parsedFont);
 
-            // Assert: Check table presence
             Assert.AreEqual(12, parsedFont.TableRecords.Count);
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
@@ -55,14 +51,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("GSUB"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("GPOS"));
 
-            // Validate all tables
             FontTestHelper.AssertFontValid(parsedFont);
 
-            // ✅ FIXED: abc should have NO ligatures
             int ligatureCount = FontTestHelper.CountLigatures(parsedFont);
             Assert.AreEqual(0, ligatureCount, "abc should have NO ligatures");
 
-            // Verify glyph count (approximately)
             int expectedGlyphs = 3;      // a, b, c
             expectedGlyphs += 1;         // + space (U+0020)
             expectedGlyphs += 1;         // + .notdef (GID 0)
@@ -71,39 +64,33 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             Assert.AreEqual((ushort)expectedGlyphs, parsedFont.MaxpTable.numGlyphs);
             Assert.AreEqual((ushort)expectedGlyphs, parsedFont.HheaTable.numberOfHMetrics);
 
-            // Verify space exists in cmap
             Assert.IsTrue(parsedFont.CmapTable.ContainsChar(32));
         }
 
         [TestMethod]
         public void Subset_Fiffig_WithFullValidation()
         {
-            // Arrange
-            var fontName = "Roboto";
-            var font = OpenTypeFonts.GetFontData(FontFolders, fontName, FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subsetFont = font.CreateSubset("fiffig");
 
-            // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
-            // Save for inspection
-            SaveFontForCurrentTest( parsedFont);
+            SaveFontForCurrentTest(parsedFont);
 
-            // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
         }
 
         [TestMethod]
         public void Subset_SingleChar_ShouldWork()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Mulish", FontSubFamily.Regular, false);
+            var font = OpenTypeFonts.LoadFont("Mulish");
             var subsetFont = font.CreateSubset(new[] { 'a' });
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsedFont);
 
@@ -113,7 +100,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_MultipleChars_ShouldWork()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var subsetFont = font.CreateSubset(new[] {
                 'F', 'l', 'y', 'g', 'a', 'n', 'd', 'e', 'b', 'ä', 'c', 'k', 's', 'i', 'r', 'ö', 'h', 'w', 'p', 'å',
                 'm', 'j', 'u', 't', 'v', 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
@@ -121,7 +108,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsedFont);
 
@@ -131,7 +118,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_RoundtripHelper_ShouldWork()
         {
-            // Using FontTestHelper.RoundtripSubset
             var parsedFont = FontTestHelper.RoundtripSubset("Roboto", "test", FontFolders);
 
             SaveFontForCurrentTest(parsedFont);
@@ -143,9 +129,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Check_Original_Roboto_Ligatures()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Get glyph IDs in ORIGINAL
             font.CmapTable.TryGetGlyphId('f', out ushort fGlyph);
             font.CmapTable.TryGetGlyphId('i', out ushort iGlyph);
             font.CmapTable.TryGetGlyphId('o', out ushort oGlyph);
@@ -183,9 +168,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Ligatures_ShouldStillWork()
         {
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
+            var font = OpenTypeFonts.LoadFont("Roboto");
 
-            // Check ORIGINAL first
             Debug.WriteLine("=== ORIGINAL ROBOTO ===");
             if (font.GsubTable != null)
             {
@@ -216,13 +200,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                 Debug.WriteLine($"Feature[{i}]: '{feat.FeatureTag.Value}'");
             }
 
-            // Create subset
             Debug.WriteLine("\n=== CREATING SUBSET ===");
             var subsetFont = font.CreateSubset("fiffigoffice");
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsedFont);
 
@@ -234,7 +217,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             Debug.WriteLine($"'f' = glyph {subsetF}");
             Debug.WriteLine($"'i' = glyph {subsetI}");
 
-            // Check GSUB
             Assert.IsNotNull(parsedFont.GsubTable, "GSUB should be present");
 
             Debug.WriteLine($"\n=== GSUB FEATURES (DETAILED) ===");
@@ -253,7 +235,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             Assert.IsTrue(ligLookups.Count > 0, "Should have ligature lookups");
 
-            // Check what ligatures exist
             foreach (var lookup in ligLookups)
             {
                 foreach (var subtable in lookup.SubTables)
@@ -293,7 +274,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
                     var scriptTable = scriptRecord.ScriptTable;
 
-                    // Check DefaultLangSys
                     if (scriptTable.DefaultLangSys != null)
                     {
                         var defLang = scriptTable.DefaultLangSys;
@@ -301,7 +281,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                         Debug.WriteLine($"    RequiredFeatureIndex: {defLang.RequiredFeatureIndex}");
                         Debug.WriteLine($"    FeatureIndices: [{string.Join(", ", defLang.FeatureIndices.Select(i => i.ToString()).ToArray())}]");
 
-                        // Show what features these indices point to
                         foreach (var featIdx in defLang.FeatureIndices)
                         {
                             if (featIdx < parsedFont.GsubTable.FeatureList.FeatureRecords.Count)
@@ -313,21 +292,16 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                     }
                 }
             }
+
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
         }
-
-
 
         [TestMethod]
         public void Subset_WithGposKerning_ShouldPreservePositioning()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
-
-            // Use characters that ACTUALLY have kerning in Roboto
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var chars = new[] { 'f', 'e', 'c', 'd', 'g', 'E', 'a', 'b', ' ' };
 
-            // Check ORIGINAL font - test f-e pair
             bool foundF_Original = font.CmapTable.TryGetGlyphId('f', out ushort fGlyphOrig);
             bool foundE_Original = font.CmapTable.TryGetGlyphId('e', out ushort eGlyphOrig);
 
@@ -337,7 +311,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             Assert.IsTrue(foundF_Original && foundE_Original, "Should find f and e in original");
 
-            // Verify kerning exists in original
             bool hasOriginalKerning = false;
             if (font.GposTable != null)
             {
@@ -356,17 +329,15 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             Assert.IsTrue(hasOriginalKerning, "f-e should have kerning in original font");
 
-            // Create subset
             Debug.WriteLine($"\n=== CREATING SUBSET ===");
             var subsetFont = font.CreateSubset(chars);
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
             SaveFontForCurrentTest(parsedFont);
 
-            // Check SUBSET font
             bool foundF = parsedFont.CmapTable.TryGetGlyphId('f', out ushort fGlyph);
             bool foundE = parsedFont.CmapTable.TryGetGlyphId('e', out ushort eGlyph);
 
@@ -379,7 +350,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             var kernLookups = parsedFont.GposTable.LookupList.Lookups.Where(l => l.LookupType == 2).ToList();
             Assert.IsTrue(kernLookups.Count > 0, "Should have at least one kerning lookup");
 
-            // Verify f-e kerning is preserved
             bool hasKerning = false;
             foreach (var lookup in kernLookups)
             {
@@ -402,29 +372,22 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_WithGposSingleAdjustment_ShouldPreserve()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
-
-            // Include various characters that might have single adjustments
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var chars = new[] {
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-        'A', 'B', 'C', 'D', 'E', ' '
-    };
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                'A', 'B', 'C', 'D', 'E', ' '
+            };
 
             var subsetFont = font.CreateSubset(chars);
 
-            // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
-            // Save for inspection
             SaveFontForCurrentTest(parsedFont);
 
-            // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
 
-            // Check if SinglePos lookups exist
             if (parsedFont.GposTable != null)
             {
                 var singlePosLookups = parsedFont.GposTable.LookupList.Lookups
@@ -432,43 +395,32 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                     .ToList();
 
                 if (singlePosLookups.Count > 0)
-                {
                     System.Diagnostics.Debug.WriteLine($"✅ Subset has {singlePosLookups.Count} SinglePos lookup(s)");
-                }
                 else
-                {
                     System.Diagnostics.Debug.WriteLine("ℹ️ No SinglePos lookups in subset (may not be present in Roboto)");
-                }
             }
         }
 
         [TestMethod]
         public void Subset_WithGposMarkToBase_ShouldPreserveAccents()
         {
-            // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
-
-            // Include base characters and their accented versions
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var chars = new[] {
-        'e', 'a', 'o', 'u', 'i', 'n',
-        'é', 'à', 'ö', 'ü', 'ñ', ' ',
-        'E', 'A', 'O', 'U'
-    };
+                'e', 'a', 'o', 'u', 'i', 'n',
+                'é', 'à', 'ö', 'ü', 'ñ', ' ',
+                'E', 'A', 'O', 'U'
+            };
 
             var subsetFont = font.CreateSubset(chars);
 
-            // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
-            // Save for inspection
             SaveFontForCurrentTest(parsedFont);
 
-            // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
 
-            // Check if MarkToBase lookups exist
             if (parsedFont.GposTable != null)
             {
                 var markToBaseLookups = parsedFont.GposTable.LookupList.Lookups
@@ -479,7 +431,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
                 {
                     System.Diagnostics.Debug.WriteLine($"✅ Subset has {markToBaseLookups.Count} MarkToBase lookup(s)");
 
-                    // Try to verify a specific attachment
                     var subtable = markToBaseLookups[0].SubTables.FirstOrDefault() as MarkToBaseSubTableFormat1;
                     if (subtable != null)
                     {
@@ -498,28 +449,18 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_CompleteGposTest_AllThreeLookupTypes()
         {
-            // Arrange - Kitchen sink test with all GPOS features
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular, false);
-
-            // Characters covering:
-            // - Kerning pairs (A-V, T-o, etc.)
-            // - Potential single adjustments
-            // - Accented characters for MarkToBase
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var text = "AVTO Wave Typography TEST café résumé ñoño 123";
             var subsetFont = font.CreateSubset(text);
 
-            // Act
             var serializer = new OpenTypeFontSerializer(subsetFont);
             var bytes = serializer.Serialize();
-            var parsedFont = new OpenTypeFont(bytes, font.Format);
+            var parsedFont = new OpenTypeFont(bytes);
 
-            // Save for inspection
             SaveFontForCurrentTest(parsedFont);
 
-            // Assert
             FontTestHelper.AssertFontValid(parsedFont, FontValidationSeverity.Warning);
 
-            // Comprehensive GPOS check
             if (parsedFont.GposTable != null)
             {
                 System.Diagnostics.Debug.WriteLine("=== GPOS Subsetting Results ===");

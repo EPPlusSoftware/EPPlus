@@ -32,6 +32,7 @@ using EPPlus.Fonts.OpenType.Tables.Vmtx;
 using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EPPlus.Fonts.OpenType
@@ -39,6 +40,7 @@ namespace EPPlus.Fonts.OpenType
     /// <summary>
     /// Base class for open-type fonts
     /// </summary>
+    [DebuggerDisplay("{FullName}, IsSubset: {IsSubset}")]
     public class OpenTypeFont
     {
         internal TableCache _localTableCache;
@@ -60,14 +62,18 @@ namespace EPPlus.Fonts.OpenType
         }
 
 
-        internal OpenTypeFont(byte[] fontBytes, FontFormat format)
-            : this(fontBytes, -1, format)
+        internal OpenTypeFont(byte[] fontBytes)
+            : this(fontBytes, -1)
         {
         }
 
-        internal OpenTypeFont(byte[] fontBytes, long startOffset, FontFormat format)
+        internal OpenTypeFont(byte[] fontBytes, long startOffset)
         {
-            Format = format;
+            if (fontBytes == null || fontBytes.Length < 4)
+                throw new ArgumentException("Invalid font data: too short to contain a valid SFNT header.", nameof(fontBytes));
+
+            Format = DetectFormat(fontBytes, startOffset > -1 ? startOffset : 0);
+
             _fontBytes = fontBytes;
             var tableReaderFactory = new FontTableReaderFactory(fontBytes);
             using var reader = tableReaderFactory.CreateReader(startOffset);
@@ -118,6 +124,40 @@ namespace EPPlus.Fonts.OpenType
             _vmtxTableLoader = TableRecords.ContainsKey(TableNames.Vmtx)
                ? TableLoaders.GetVmtxTableLoader(_tblSettings)
                : null;
+        }
+
+        /// <summary>
+        /// Detects the font format from the SFNT version field in the header.
+        /// </summary>
+        /// <param name="fontBytes">Raw font bytes</param>
+        /// <param name="offset">Offset to the start of the SFNT header</param>
+        /// <returns>Detected FontFormat</returns>
+        /// <exception cref="ArgumentException">Thrown if the header contains an unrecognized SFNT version</exception>
+        private static FontFormat DetectFormat(byte[] fontBytes, long offset)
+        {
+            // sfntVersion is a big-endian UInt32 at the start of the SFNT header
+            uint sfntVersion =
+                ((uint)fontBytes[offset + 0] << 24) |
+                ((uint)fontBytes[offset + 1] << 16) |
+                ((uint)fontBytes[offset + 2] << 8) |
+                ((uint)fontBytes[offset + 3]);
+
+            switch (sfntVersion)
+            {
+                case 0x00010000: // TrueType
+                case 0x74727565: // 'true' — Apple TrueType
+                    return FontFormat.Ttf;
+
+                case 0x4F54544F: // 'OTTO' — OpenType/CFF
+                case 0x74797031: // 'typ1' — PostScript Type 1
+                    return FontFormat.Otf;
+
+                default:
+                    throw new ArgumentException(
+                        $"Unrecognized SFNT version 0x{sfntVersion:X8}. " +
+                        "The data does not appear to be a valid TTF or OTF font.",
+                        "fontBytes");
+            }
         }
 
         Os2TableLoader _os2TableLoader;
@@ -606,21 +646,25 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
+            // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
-            var charArray = usedChars.ToArray();
-            if (charArray.Length == 0)
+
+            if (!usedChars.Any())
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
-            var codePoints = CharacterUtil.ExtractCodePointsFromChars(charArray);
 
-            // Använd "this" direkt — IsReadOnly-skyddet på AddOrReplaceTable 
-            // garanterar att denna instans aldrig modifieras av subsetting.
+            // Extract Unicode code points, correctly handling surrogate pairs.
+            // A string like "Hello 😀" contains 7 chars but 6 code points,
+            // because 😀 (U+1F600) is encoded as two UTF-16 surrogates.
+            var codePoints = CodePointUtil.ExtractCodePoints(usedChars);
+
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
 
             var postProcessor = new SubsetPostProcessor();
             postProcessor.PostProcessSubset(newFont);
+
             return newFont;
         }
 

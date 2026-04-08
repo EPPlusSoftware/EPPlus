@@ -11,7 +11,9 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {
@@ -31,6 +33,15 @@ namespace EPPlus.Export.Pdf.PdfObjects
             return $"<< /Type /Pages\n" +
                    $"   /Kids [ {kids} ]\n" +
                    $"   /Count {pageObjectNumbers.Count} >>";
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n} 0 R").ToArray());
+            StringBuilder sb = new StringBuilder();
+            WriteAscii(bw, $"<< /Type /Pages\n" +
+                           $"   /Kids [ {kids} ]\n" +
+                           $"   /Count {pageObjectNumbers.Count} >>");
         }
     }
 }

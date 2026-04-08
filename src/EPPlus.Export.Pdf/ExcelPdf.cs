@@ -16,14 +16,13 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml;
 using EPPlus.Graphics;
-using System.Drawing;
-using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using OfficeOpenXml.Style;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Export.Pdf
 {
@@ -87,28 +86,6 @@ namespace EPPlus.Export.Pdf
             //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
         }
 
-        //Get font label //need to update this one too for same reasons as AddFontData
-        internal PdfFontResource GetFontResource(string fontName, FontSubFamily subFamily, double fontSize)
-        {
-            if (!Dictionaries.Fonts.ContainsKey(fontName))
-            {
-                int label = 1;
-                if (Dictionaries.Fonts.Count > 0)
-                {
-                    label = Dictionaries.Fonts.Last().Value.labelNumber + 1;
-                }
-                PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
-                if (fontName != "Courier New")
-                {
-                    Document.Add(fr.GetFontDescriptorObject(Document.Count + 1));
-                    Document.Add(fr.GetWidthsObject(Document.Count + 1));
-                }
-                Document.Add(fr.GetFontObject(Document.Count + 1));
-                Dictionaries.Fonts.Add(fontName, fr);
-            }
-            return Dictionaries.Fonts[fontName];
-        }
-
         //Get the label to use for pattern.
         internal string GetPatternLabel(PdfCellLayout layout)
         {
@@ -123,17 +100,32 @@ namespace EPPlus.Export.Pdf
             return null;
         }
 
-        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new?
+        //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
         {
-            foreach (var font in Dictionaries.Fonts)
+            if (PageSettings.EmbeddFonts)
             {
-                if (font.Key != "Courier New")
+                foreach (var font in Dictionaries.Fonts)
+                {
+                    //font.Value.CreateGidsAndCharMaps();
+                    var CidSet = font.Value.GetCidSet(Document.Count + 1);
+                    if (CidSet != null) Document.Add(CidSet);
+                    Document.Add(font.Value.GetEmbeddedFontStreamObject(Document.Count + 1));
+                    Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
+                    Document.Add(font.Value.GetCIDFontObject(Document.Count + 1));
+                    Document.Add(font.Value.GetUnicodeCmapObject(Document.Count + 1));
+                    Document.Add(font.Value.GetType0FontDictObject(Document.Count + 1));
+                    font.Value.GetFontObject(Document.Count);
+                }
+            }
+            else
+            {
+                foreach (var font in Dictionaries.Fonts)
                 {
                     Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
                     Document.Add(font.Value.GetWidthsObject(Document.Count + 1));
+                    Document.Add(font.Value.GetFontObject(Document.Count + 1));
                 }
-                Document.Add(font.Value.GetFontObject(Document.Count + 1));
             }
         }
 
@@ -167,6 +159,7 @@ namespace EPPlus.Export.Pdf
             Document.Add(page);
             return page;
         }
+
         //Create Pages
         private PdfPages AddPages()
         {
@@ -174,6 +167,7 @@ namespace EPPlus.Export.Pdf
             Document.Add(pages);
             return pages;
         }
+
         //Create Catalog
         private PdfCatalog AddCatalog(int pagesObjectNumber)
         {
@@ -187,13 +181,14 @@ namespace EPPlus.Export.Pdf
         {
             var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             var contentStream = new PdfContentStream(Document.Count + 1);
+            contentStream.AddCommand($"% {pageLayout.Name} start");
+            //Add clipping rectangle around page content.
+            contentStream.AddCommand("q");
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
-            //Add clipping rectangle around page content.
-            contentStream.AddCommand("q");
-            contentStream.AddMarginClipping(pageLayout, PageSettings.ContentBounds);
             foreach (var cell in cells)
             {
                 foreach (var cellPart in cell)
@@ -223,6 +218,7 @@ namespace EPPlus.Export.Pdf
             AddHeaderFooter(contentStream, pageLayout, page);
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
+            contentStream.AddCommand($"% {pageLayout.Name} end");
         }
 
         //Add Header Footer
@@ -236,6 +232,7 @@ namespace EPPlus.Export.Pdf
             }
         }
 
+        //Add Info
         private PdfInfoObject AddInfoObject()
         {
             var info = new PdfInfoObject(Document.Count + 1, _workheets[0].Workbook._package.File.Name);
@@ -285,7 +282,7 @@ namespace EPPlus.Export.Pdf
                     foreach (var pdfobj in Document)
                     {
                         crossRefTable.AddPosition(fs.Position);
-                        bw.Write(pdfobj.ToPdfBytes());
+                        pdfobj.ToPdfBytes(bw);
                         debugString += pdfobj.ToPdfString();
                     }
                     //Write CrossReference
@@ -308,59 +305,5 @@ namespace EPPlus.Export.Pdf
                 }
             }
         }
-
-        #region DEBUG
-        //These methods need to be rewritten if they should be used.
-
-        //internal void DrawMarginAndHeaderLines(PdfContentBounds bounds, PdfPage page)
-        //{
-        //    var content = new PdfContentStream(Document.Count + 1);
-        //    //Bottom line
-        //    DrawLine(content, Color.Black, 0, bounds.Bottom, PageSettings.PageSize.WidthPu, bounds.Bottom);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.X, bounds.Bottom, bounds.X + bounds.Width, bounds.Bottom);
-        //    //Top line
-        //    DrawLine(content, Color.Black, 0, bounds.Top, PageSettings.PageSize.WidthPu, bounds.Top);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.X, bounds.Top, bounds.X + bounds.Width, bounds.Top);
-        //    //Left line
-        //    DrawLine(content, Color.Black, bounds.Left, 0, bounds.Left, 0);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.Left, bounds.Y + bounds.Height, bounds.Left, bounds.Y + bounds.Height);
-        //    //Right line
-        //    DrawLine(content, Color.Black, bounds.Right, 0, bounds.Right, 0);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.Right, bounds.Y + bounds.Height, bounds.Right, bounds.Y + bounds.Height);
-        //    //Header line
-        //    DrawLine(content, new Color(1, 0, 1), bounds.Right, bounds.HeaderY, bounds.Left, bounds.HeaderY);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.CenterHeaderX, bounds.Top, bounds.CenterHeaderX, bounds.Top);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.RightHeaderX, bounds.Top, bounds.RightHeaderX, bounds.Top);
-        //    //Footer line
-        //    DrawLine(content, new Color(1, 0, 1), bounds.Right, bounds.FooterY, bounds.Left, bounds.FooterY);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.CenterFooterX, bounds.Bottom, bounds.CenterFooterX, bounds.Bottom);
-        //    DrawLine(content, new Color(1, 0, 1), bounds.RightFooterX, bounds.Bottom, bounds.RightFooterX, bounds.Bottom);
-        //    Document.Add(content);
-        //    page.contentObjectNumbers.Add(content.objectNumber);
-        //}
-
-        //internal void DrawLine(PdfContentStream content, Color color, double x1, double y1, double x2, double y2)
-        //{
-        //    content.AddCommand(color.ToStrokeCommand());
-        //    content.AddCommand($"{x1.ToPdfString()} {y1.ToPdfString()} m");
-        //    content.AddCommand($"{x2.ToPdfString()} {y2.ToPdfString()} l");
-        //    content.AddCommand("S");
-        //}
-
-        //internal void DrawCrossHair(Color color, double x, double y, double size = 2)
-        //{
-        //    var half = size / 2d;
-        //    var content = new PdfContentStream(Document.Count + 1);
-        //    content.AddCommand(color.ToStrokeCommand());
-        //    content.AddCommand($"{x.ToPdfString()} {(y - half).ToPdfString()} m");
-        //    content.AddCommand($"{x.ToPdfString()} {(y + half).ToPdfString()} l");
-        //    content.AddCommand($"{(x - half).ToPdfString()}   {y.ToPdfString()} m");
-        //    content.AddCommand($"{(x + half).ToPdfString()}   {y.ToPdfString()} l");
-        //    content.AddCommand("S");
-        //    Document.Add(content);
-        //}
-
-
-        #endregion
     }
 }

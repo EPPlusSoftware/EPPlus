@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlusImageRenderer.Svg;

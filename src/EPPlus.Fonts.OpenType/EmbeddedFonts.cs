@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Scanner;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +32,23 @@ namespace EPPlus.Fonts.OpenType
             return LoadCached("NotoSansMath-Regular.ttf");
         }
 
+        internal static OpenTypeFont LoadArchivoNarrow(FontSubFamily subFamily)
+        {
+            if (subFamily == FontSubFamily.Italic)
+            {
+                return LoadCached("ArchivoNarrow-Italic.ttf");
+            }
+            else if (subFamily == FontSubFamily.Bold)
+            {
+                return LoadCached("ArchivoNarrow-Bold.ttf");
+            }
+            else if(subFamily == FontSubFamily.BoldItalic)
+            {
+                return LoadCached("ArchivoNarrow-BoldItalic.ttf");
+            }
+            return LoadCached("ArchivoNarrow-Regular.ttf");
+        }
+
         private static OpenTypeFont LoadCached(string resourceName)
         {
             lock (_lock)
@@ -50,7 +68,7 @@ namespace EPPlus.Fonts.OpenType
                             "This is a bug in EPPlus.Fonts.OpenType - please report it.");
                     }
 
-                    font = OpenTypeFonts.GetFromBytes(bytes: ReadStreamFully(stream), FontFormat.Ttf);
+                    font = OpenTypeFonts.GetFromBytes(bytes: ReadStreamFully(stream));
                     _cache[resourceName] = font;
                     return font;
                 }

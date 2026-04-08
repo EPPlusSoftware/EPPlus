@@ -34,7 +34,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_CjkText_ReturnsOneGlyphPerCharacter()
         {
             // Arrange - BIZ UDGothic has vmtx and is a CJK font
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -49,7 +49,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_CjkText_GlyphsHavePositiveYAdvance()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -67,7 +67,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_CjkText_TotalAdvanceHeightIsPositive()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -82,7 +82,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_EmptyString_ReturnsEmptyGlyphArray()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -98,7 +98,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_ClusterIndexMatchesCharacterPosition()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
             var text = "ABC";
 
@@ -122,7 +122,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeLightVertical_CjkText_ReturnsOneEntryPerCharacter()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -137,7 +137,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeLightVertical_CjkText_YAdvanceMatchesShapeVertical()
         {
             // Arrange - ShapeLightVertical should produce identical YAdvance values to ShapeVertical
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
             var text = "東京";
 
@@ -158,7 +158,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeLightVertical_EmptyString_ReturnsEmptyArray()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -178,7 +178,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_FontWithoutVmtx_FallsBackToHmtxAdvanceWidth()
         {
             // Arrange - Calibri has no vmtx table, fallback to hmtx should kick in
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
             Assert.IsNull(font.VmtxTable, "Roboto should not have a vmtx table");
 
@@ -200,7 +200,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_FontWithoutVmtx_YAdvanceMatchesHmtxAdvanceWidth()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
 
             // Act
@@ -221,7 +221,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_OriginalTextIsPreserved()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
             var text = "日本語テスト";
 
@@ -236,7 +236,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_PrimaryFontGlyphs_HaveFontIdZero()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -258,7 +258,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_SurrogatePair_ProducesOneGlyphWithCharCountTwo()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // U+20B9F 𠺟 - a CJK unified ideograph extension B character (surrogate pair in UTF-16)
@@ -281,7 +281,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeLightVertical_SurrogatePair_ProducesOneEntryWithCharCountTwo()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
             var text = "\uD842\uDF9F";
 
@@ -303,7 +303,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_CjkText_GlyphsHavePositiveAdvanceWidth()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -322,7 +322,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         {
             // Arrange - AdvanceWidth on VerticalShapedGlyph must equal hmtx advanceWidth
             // since centering calculations depend on this value being accurate
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "BIZ UDGothic", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(font);
 
             // Act
@@ -343,7 +343,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         {
             // Arrange - Roboto has no vmtx table, both YAdvance and AdvanceWidth
             // should fall back to hmtx and be equal to each other
-            var font = OpenTypeFonts.GetFontDataOpen(FontFolders, "Roboto", FontSubFamily.Regular, true);
+            var font = OpenTypeFonts.LoadFont("Roboto");
             var shaper = new TextShaper(font);
             Assert.IsNull(font.VmtxTable, "Roboto should not have a vmtx table");
 

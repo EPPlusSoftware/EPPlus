@@ -11,34 +11,30 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Pdfhelpers;
-using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
 using OfficeOpenXml;
-using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
-using System.Drawing;
+using System.Diagnostics;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Border: {Name}")]
     internal class PdfCellBorderLayout : Transform , IBorderLayout
     {
         public PdfCellBordersData BorderData;
         public bool IsMerged = false;
+        public ExcelRangeBase cell;
 
         public string range;
 
-        internal PdfCellStyleOverride TableStyle;
+        internal PdfCellStyle TableStyle;
 
         public PdfCellBorderLayout() { }
 
-        public PdfCellBorderLayout(ExcelRangeBase cell, PdfCellStyleOverride tableStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellBorderLayout(ExcelRangeBase cell, PdfCellStyle tableStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
@@ -178,6 +174,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
              Last Total Cell
         */
 
+
+
+        /*
+         * Following methods needs to be refactored into 1 method.
+         * Less code is more good.
+         */
         public static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
         {
             var range = table.Range;

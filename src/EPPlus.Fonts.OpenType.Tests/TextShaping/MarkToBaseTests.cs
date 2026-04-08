@@ -1,5 +1,7 @@
-﻿using EPPlus.Fonts.OpenType.TextShaping;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+﻿using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
+using EPPlus.Fonts.OpenType.TextShaping;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,35 +16,28 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
     {
         public override TestContext? TestContext { get; set; }
 
+        [TestInitialize]
+        public void TestSetup()
+        {
+            OpenTypeFonts.ClearFontCache();
+            
+        }
+
         [TestMethod]
         public void MarkToBaseTest()
         {
-            var font = OpenTypeFonts.GetFontData(null, "Roboto", FontSubFamily.Regular, true, true);
-            Debug.WriteLine("=== MarkToBaseTest ===");
-            Debug.WriteLine($"Font instance: {font.GetHashCode()}");
-            Debug.WriteLine($"CmapTable instance: {font.CmapTable.GetHashCode()}");
-            Debug.WriteLine($"SubTables count: {font.CmapTable.SubTables.Count}");
-            for (int i = 0; i < font.CmapTable.SubTables.Count; i++)
-                Debug.WriteLine($"  SubTable[{i}]: Format={font.CmapTable.SubTables[i].Format} HashCode={font.CmapTable.SubTables[i].GetHashCode()}");
+            var resolver = new DefaultFontResolver(FontFolders, false);
+            OpenTypeFonts.Configure(x => x.SetFontResolver(resolver));
+            var font = OpenTypeFonts.LoadFont("EB Garamond", FontSubFamily.Regular, ignoreCache: true);
+
             var shaper = new TextShaper(font);
+            string test = "e\u0301"; // e + combining acute
 
-            string test = "A\u0302\u0309";
-            // Lägg till lite synchronization för att verifiera
-            lock (typeof(MarkToBaseTests))
-            {
-                var shaped = shaper.Shape(test, ShapingOptions.Full);
+            var shaped = shaper.Shape(test, ShapingOptions.Full);
 
-                foreach (var g in shaped.Glyphs)
-                {
-                    Debug.WriteLine($"GID={g.GlyphId,-4} XAdv={g.XAdvance,-5} YOff={g.YOffset,-4}");
-                }
-
-                Debug.WriteLine($"GPOS null? {font.GposTable == null}");
-                Debug.WriteLine($"FullyLoaded? {font.FullyLoaded}"); //
-
-                Assert.IsTrue(shaped.Glyphs.Any(x => x.YOffset > 0),
-                    $"Expected YOffset > 0. Got: {string.Join(", ", shaped.Glyphs.Select(g => $"Y={g.YOffset}"))}");
-            }
+            Assert.IsTrue(shaped.Glyphs.Any(x => x.XOffset != 0),
+                $"Expected XOffset != 0. Got: {string.Join(", ", shaped.Glyphs.Select(g => $"X={g.XOffset}"))}");
         }
+       
     }
 }

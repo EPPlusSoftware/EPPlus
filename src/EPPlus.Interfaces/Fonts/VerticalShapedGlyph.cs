@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using System.Diagnostics;
 
-namespace OfficeOpenXml.Interfaces.Drawing.Text
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Represents a shaped glyph with vertical positioning information.

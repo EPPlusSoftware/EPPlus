@@ -14,6 +14,8 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
@@ -46,7 +48,10 @@ namespace EPPlusImageRenderer.Svg
         {
             _svgChart = sc;
 
+
             //These are hard coded margins for the title box.
+            LeftMargin = RightMargin = 3; //4px
+            TopMargin = BottomMargin = 1.5; //2px
             LeftMargin = RightMargin = 3; //4px
             TopMargin = BottomMargin = 1.5; //2px
 
@@ -100,6 +105,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
+        private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
         private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
         {
             var margin = 8F;
@@ -180,6 +186,7 @@ namespace EPPlusImageRenderer.Svg
             if(_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
+                TextBox.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
@@ -197,8 +204,16 @@ namespace EPPlusImageRenderer.Svg
             TextBox.BottomMargin = BottomMargin;
             TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
             Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
+
+            TextBox.LeftMargin = LeftMargin;
+            TextBox.RightMargin = RightMargin;
+            TextBox.TopMargin = TopMargin;
+            TextBox.BottomMargin = BottomMargin;
+            TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
+            Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
         }
 
+        public SvgTextBox TextBox
         public SvgTextBox TextBox
         {
             get; private set;

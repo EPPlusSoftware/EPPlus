@@ -14,10 +14,12 @@
   02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utilities;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq;
 using System.Text;
 
@@ -128,10 +130,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             var shaper = GetShaperForFont(fragment.Font);
             var options = fragment.Options ?? ShapingOptions.Default;
-
             int len = fragment.Text.Length;
-
             var charWidths = GetCharWidthBuffer(len);
+            Array.Clear(charWidths, 0, len);
 
             //options.ApplySubstitutions = false;
             //options.ApplyPositioning = false;
@@ -187,6 +188,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 if (c == ' ')
                 {
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
+                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
 
                 if (state.CurrentLineWidth > maxWidthPoints)
@@ -235,12 +237,17 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 _lineListBuffer.Add(lineBuilder.ToString());
                 state.CurrentTextLine.Text = lineBuilder.ToString();
+                state.CurrentTextLine.Text = lineBuilder.ToString();
             }
             else if (state.CurrentLineWidth > 0)
             {
                 _lineListBuffer.Add(string.Empty);
                 state.CurrentTextLine.Text = string.Empty;
+                state.CurrentTextLine.Text = string.Empty;
             }
+
+            state.CurrentTextLine.Width = state.CurrentLineWidth;
+            state.EndCurrentTextLineAndIntializeNext(0);
 
             state.CurrentTextLine.Width = state.CurrentLineWidth;
             state.EndCurrentTextLineAndIntializeNext(0);
@@ -257,6 +264,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             i++;
         }
 
+        private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints, double advanceWidth)
         private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints, double advanceWidth)
         {
             int fragIdxAtBreak = state.CurrentFragmentIdx;
@@ -283,12 +291,29 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //Because of word-wrap we may have richTextFragments on the current line that is no longer part of it after wrap.
                 state.AdjustLineFragmentsForNextLine();
 
+                //handle line data
+                state.CurrentTextLine.Width = state.CurrentLineWidth - state.CurrentWordWidth;
+                state.CurrentTextLine.Text = line;
+
+                fragIdxAtBreak = state.GetFragIdxAtWordStart();
+                //Because of word-wrap we may have richTextFragments on the current line that is no longer part of it after wrap.
+                state.AdjustLineFragmentsForNextLine();
+
                 state.CurrentLineWidth = state.CurrentWordWidth;
                 state.LineStart = state.WordStart;
             }
             else
             {
                 var lastChar = lineBuilder[lineBuilder.Length - 1];
+                var line = lineBuilder.ToString(0, lineBuilder.Length - 1);
+                // No valid space found - wrap entire line
+                _lineListBuffer.Add(line);
+
+                //handle line data
+                state.CurrentTextLine.Width = state.CurrentLineWidth - advanceWidth;
+                state.CurrentTextLine.Text = line;
+
+                //Add the char that went over max to the next line
                 var line = lineBuilder.ToString(0, lineBuilder.Length - 1);
                 // No valid space found - wrap entire line
                 _lineListBuffer.Add(line);

@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
@@ -45,14 +46,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             //      Discovery and Rewrite phases
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("ffi");
 
             SaveFont("regression_ffi_circular.ttf", subset);
 
-            // Should create valid font with ffi ligature
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
             Assert.IsNotNull(parsed.GsubTable);
 
@@ -73,16 +73,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             //      exist in the subset
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
             SaveFont("regression_abc_glyphs.ttf", subset);
 
-            // Should have ~10 glyphs (abc + space + .notdef + variants), NOT 28
             Assert.IsTrue(subset.MaxpTable.numGlyphs >= 5 && subset.MaxpTable.numGlyphs <= 15,
                 $"Expected 5-15 glyphs for abc, got {subset.MaxpTable.numGlyphs}");
 
-            // Should have NO ligatures
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.AreEqual(0, ligCount, "abc should have no ligatures");
         }
@@ -95,16 +93,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Corrected logic to only check base components (GID < 400)
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
             SaveFont("regression_fiffig_ligatures.ttf", subset);
 
-            // Should have exactly 3 ligatures: fi, ff, ffi
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.AreEqual(3, ligCount, "fiffig should have fi, ff, ffi ligatures");
 
-            // Verify font is valid
             FontTestHelper.AssertFontValid(subset);
         }
 
@@ -116,12 +112,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: FeatureListTable.Rewrite now uses lookupMap to remap indices
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
             SaveFont("regression_feature_lookup.ttf", subset);
 
-            // Verify all features point to valid lookups
             if (subset.GsubTable?.FeatureList?.FeatureRecords != null)
             {
                 int lookupCount = subset.GsubTable.LookupList?.Lookups?.Count ?? 0;
@@ -149,16 +144,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Properly lookup each component in OldToNewGlyphId dictionary
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fi");
 
             SaveFont("regression_ligature_components.ttf", subset);
 
-            // Serialize and re-parse to verify components are correct
             var bytes = subset.Serialize();
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
 
-            // Should have fi ligature with correctly remapped components
             int ligCount = FontTestHelper.CountLigatures(parsed);
             Assert.IsTrue(ligCount >= 1, "Should have fi ligature");
 
@@ -174,12 +167,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Check if RawData is null before accessing, skip checksum validation for in-memory fonts
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("f");
 
             SaveFont("regression_validation_rawdata.ttf", subset);
 
-            // Should not crash during validation
             FontTestHelper.AssertFontValid(subset);
 
             Assert.IsNotNull(subset);
@@ -194,12 +186,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Calculate fileLength from TableRecords if FileLength property is <= 0
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fl");
 
             SaveFont("regression_validation_filelength.ttf", subset);
 
-            // Should not fail with file length error
             FontTestHelper.AssertFontValid(subset);
 
             Assert.IsNotNull(subset);
@@ -214,18 +205,16 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Initialize Coverage.SubstFormat = 1 and newSubTable.SubstFormat = 1
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("office");
 
             SaveFont("regression_coverage_init.ttf", subset);
 
-            // Should serialize successfully
             var bytes = subset.Serialize();
             Assert.IsNotNull(bytes);
             Assert.IsTrue(bytes.Length > 0);
 
-            // Should parse successfully
-            var parsed = new OpenTypeFont(bytes, font.Format);
+            var parsed = new OpenTypeFont(bytes);
             Assert.IsNotNull(parsed);
 
             FontTestHelper.AssertFontValid(parsed);
@@ -239,7 +228,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Added validation to throw ArgumentException if usedChars is empty
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
 
             Assert.ThrowsException<ArgumentException>(() => font.CreateSubset(""));
             Assert.ThrowsException<ArgumentNullException>(() => font.CreateSubset((char[])null));
@@ -257,16 +246,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // RESULT: Simplified component lists (ffi = [f, f, i] instead of [f, i, fi])
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Roboto", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
             SaveFont("regression_compound_components.ttf", subset);
 
-            // Should have 3 ligatures: ff, fi, ffi
             int ligCount = FontTestHelper.CountLigatures(subset);
             Assert.AreEqual(3, ligCount);
 
-            // Verify in FontDrop or similar tool that ligatures render correctly
             FontTestHelper.AssertFontValid(subset);
         }
 
@@ -283,7 +270,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             var ttTextMeasurer = new FontMeasurerTrueType();
             ttTextMeasurer.SetFont(boldItalic);
 
-            var cachedFont = OpenTypeFontCache.GetFromCache("Aptos Narrow", FontSubFamily.BoldItalic);
+            var cacheKey = OpenTypeFonts.BuildCacheKey("Aptos Narrow", FontSubFamily.BoldItalic, Enumerable.Empty<string>(), searchSystemDirectories: true);
+            var cachedFont = OpenTypeFontCache.GetFromCache(cacheKey);
             Assert.IsNotNull(cachedFont);
         }
     }

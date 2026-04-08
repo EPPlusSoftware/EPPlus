@@ -10,6 +10,8 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using System.IO;
+
 namespace EPPlus.Export.Pdf.PdfObjects
 {
     internal class PdfCatalog : PdfObject
@@ -26,6 +28,12 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             return $"<< /Type /Catalog\n" +
                    $"   /Pages {pagesObjectNumber} 0 R >>";
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            WriteAscii(bw, $"<< /Type /Catalog\n" +
+                           $"   /Pages {pagesObjectNumber} 0 R >>");
         }
     }
 }

@@ -10,33 +10,29 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
-using System.Drawing;
-using EPPlus.Export.Pdf.PdfResources;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Merged: {Name}")]
     internal class PdfMergedCellLayout : PdfCellLayout
     {
+        public ExcelAddressBase address;
 
-
-        public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfMergedCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(dictionaries, cell, CellStyle, x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             this.cell = cell;
-            var fill = cell.Style.Fill;
-            if(!fill.HasGradient && fill.PatternType == ExcelFillStyle.None)
-            {
-                CellFillData.BackgroundColor = Color.White;
-                CellFillData.PatternStyle = ExcelFillStyle.Solid;
-                CellFillData.enhanceGridLine = true;
-            }
-
         }
 
+        //Slightly shift position for cleaner result after gridlines are created.
         public new void AdjustForGridLines()
         {
             if (CellFillData.BackgroundColor.Equals(Color.White) && CellFillData.PatternStyle == ExcelFillStyle.Solid)

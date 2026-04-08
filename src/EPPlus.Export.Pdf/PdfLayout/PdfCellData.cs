@@ -12,11 +12,16 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.Drawing;
 
+/*
+ * This file could probably be trimmed a lot and remove unnessacry stuff. 
+ */
 namespace EPPlus.Export.Pdf.PdfLayout
 {
     public enum PdfWritingMode
@@ -192,7 +197,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
     internal class PdfCellWord
     {
-        public List<PdfCellTextItem> Characters = new List<PdfCellTextItem>();
+        public List<PdfTextFormat> Characters = new List<PdfTextFormat>();
         private string _text = null;
         public string Text
         {
@@ -257,8 +262,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
     }
 
-    internal struct PdfCellTextItem
+    internal struct PdfTextFormat
     {
+        public IFontProvider FontProvider;
+        //sometimes a font can have other fonts for certain characters. Key as the glyph id, Value is the font label.
+        //public Dictionary<byte, string> FontIDLabel;
+        public Dictionary<byte, string> FontIdMap;
+        public List<OpenTypeFont> UsedFonts;
+        public ShapedText ShapedText;
+
         public string FontName;
         public int FontFamily;
         public FontSubFamily SubFamily;
@@ -273,16 +285,27 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public string Text;
         public Color FontColor;
         public double TextLength;
+        public double TextHeight;
         public double LineHeight;
         public double FontHeight;
         public Rect GlyphBox;
         public double characterOffset;
         public List<GlyphPosition> GlyphPositions;
         public string FullFontName
-        { get { return FontName + " " + SubFamily; } }
+        {
+            get
+            {
+                string subfam = " " + SubFamily.ToString();
+                if (SubFamily == FontSubFamily.Regular)
+                    subfam = "";
+                else if (SubFamily == FontSubFamily.BoldItalic)
+                    subfam = " Bold Italic";
+                return FontName + subfam;
+            }
+        }
 
         //Compares stylings.
-        public bool Equals(PdfCellTextItem other)
+        public bool Equals(PdfTextFormat other)
         {
             if (!string.Equals(FontName, other.FontName))
                 return false;

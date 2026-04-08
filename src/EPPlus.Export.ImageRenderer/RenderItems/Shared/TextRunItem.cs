@@ -182,5 +182,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ir = Bounds.Right;
             ib = Bounds.Bottom;
         }
+        }
     }
 }

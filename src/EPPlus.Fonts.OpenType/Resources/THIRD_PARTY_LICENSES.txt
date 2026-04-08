@@ -18,3 +18,13 @@ This license is available with a FAQ at: https://openfontlicense.org
 
 The font and its source code are available at:
 https://github.com/notofonts/math
+
+Archivo Narrow Font
+Copyright 2011 The Archivo Project Authors (https://github.com/Omnibus-Type/ArchivoNarrow)
+Licensed under the SIL Open Font License, Version 1.1
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is available with a FAQ at: https://openfontlicense.org
+
+The font and its source code are available at:
+https://github.com/Omnibus-Type/ArchivoNarrow

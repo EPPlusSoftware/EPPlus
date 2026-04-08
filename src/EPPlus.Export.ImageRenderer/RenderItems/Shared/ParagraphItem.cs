@@ -1,6 +1,8 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
+using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
@@ -17,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
@@ -28,6 +29,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         double _leftMargin;
         double _rightMargin;        
+        double _rightMargin;        
 
         eDrawingTextLineSpacing _lsType;
         double _lineSpacingAscendantOnly;
@@ -37,6 +39,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected List<string> _textRunDisplayText = new List<string>();
 
         TextFragmentCollection _textFragments;
+        List<EPPlus.Fonts.OpenType.Integration.TextFragment> _newTextFragments;
         List<EPPlus.Fonts.OpenType.Integration.TextFragment> _newTextFragments;
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
@@ -110,6 +113,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _rightMargin = _rightMargin.PixelToPoint();
 
             HorizontalAlignment = p.HorizontalAlignment;
+            _leftMargin = _leftMargin.PixelToPoint();
+            _rightMargin = _rightMargin.PixelToPoint();
+
+            HorizontalAlignment = p.HorizontalAlignment;
 
             if (ParentTextBody.AutoSize == false)
             {
@@ -142,6 +149,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, _measurer);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, _measurer);
 
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
@@ -152,13 +160,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
         private double GetParagraphLineSpacingInPoints(double spacingValue, ITextMeasurerWrap fmExact)
+        private double GetParagraphLineSpacingInPoints(double spacingValue, ITextMeasurerWrap fmExact)
         {
             if (_lsType == eDrawingTextLineSpacing.Exactly)
             {
                 if (IsFirstParagraph)
                 {
                     _lineSpacingAscendantOnly = spacingValue;
+                    _lineSpacingAscendantOnly = spacingValue;
                 }
+                return spacingValue;
                 return spacingValue;
             }
             else
@@ -168,7 +179,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 if (IsFirstParagraph)
                 {
                     _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine();
+                    _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine();
                 }
+                return multiplier * fmExact.GetSingleLineSpacing();
                 return multiplier * fmExact.GetSingleLineSpacing();
             }
         }
@@ -238,12 +251,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             List<string> runContents = new List<string>();
             List<float> fontSizes = new List<float>();
             List<MeasurementFont> fonts = new List<MeasurementFont>();
+            List<MeasurementFont> fonts = new List<MeasurementFont>();
             
             for (int i = 0; i < runs.Count(); i++)
             {
                 var txtRun = runs[i];
                 var runFont = txtRun.GetMeasurementFont();
 
+                fonts.Add(runFont);
                 fonts.Add(runFont);
                 runContents.Add(txtRun.Text);
                 fontSizes.Add(runFont.Size);
@@ -468,6 +483,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     }
             }
             Bounds.Height = runLineSpacing + lastDescent;
+            Bounds.Width = greatestWidth;
             Bounds.Width = greatestWidth;
         }
 

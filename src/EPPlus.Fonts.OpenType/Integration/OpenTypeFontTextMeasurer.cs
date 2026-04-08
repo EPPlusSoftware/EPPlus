@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -83,7 +84,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             var shaped = _shaper.Shape(text, _shapingOptions);
 
             // Convert from design units to points
-            float width = shaped.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
+            float width = shaped.GetWidthInPoints(fontSize);
             float lineHeight = (float)_shaper.GetLineHeightInPoints(fontSize);
             float fontHeight = (float)_shaper.GetFontHeightInPoints(fontSize);
 
@@ -105,7 +106,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             float maxWidth = 0;
             foreach (var line in shapedLines)
             {
-                float lineWidth = line.GetWidthInPoints(fontSize, _shaper.UnitsPerEm);
+                float lineWidth = line.GetWidthInPoints(fontSize);
                 maxWidth = Math.Max(maxWidth, lineWidth);
             }
 

@@ -18,11 +18,13 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
+
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -40,7 +42,34 @@ namespace EPPlus.Fonts.OpenType
 
         internal static OpenTypeFont GetFontData(string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.GetFontData(FontDirectories, fontName, subFamily, SearchSystemDirectories);
+            return OpenTypeFonts.LoadFont(fontName, subFamily, FontDirectories, SearchSystemDirectories);
+        }
+
+        internal static TextLayoutEngine GetTextLayoutEngine(MeasurementFont mFont)
+        {
+            var startFont = TextData.GetFontData(mFont.FontFamily, GetFontSubType(mFont.Style));
+            var shaper = new TextShaper(startFont);
+            var layout = new TextLayoutEngine(shaper);
+            return layout;
+        }
+
+
+        private static FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+        {
+            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
         }
 
         internal static TextLayoutEngine GetTextLayoutEngine(MeasurementFont mFont)
@@ -1481,16 +1510,5 @@ namespace EPPlus.Fonts.OpenType
 
             return outputTextLines;
         }
-    }
-}
-
-namespace EPPlus.Fonts.OpenType
-{
-    public enum FontSubFamily
-    {
-        Regular,
-        Bold,
-        Italic,
-        BoldItalic
     }
 }

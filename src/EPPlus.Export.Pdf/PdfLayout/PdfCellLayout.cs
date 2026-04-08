@@ -10,29 +10,36 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
-using System.Drawing;
+using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
-using EPPlus.Export.Pdf.Pdfhelpers;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    [DebuggerDisplay("Cell: {Name}")]
     internal class PdfCellLayout : Transform, IShadingLayout
     {
+        public ExcelRangeBase cell;
         public PdfCellFillData CellFillData;
-        public PdfCellStyleOverride CellStyle;
+        public PdfCellStyle CellStyle;
+        public double LeftTextSpillLength = 0d;
+        public double RightTextSpillLength = 0d;
+        public bool delete = false;
 
-        public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyleOverride CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             if (cell != null)
             {
+                this.cell = cell;
                 this.CellStyle = CellStyle;
                 var xfFill = CellStyle.xfFill;
                 var dxfFill = CellStyle.dxfFill;

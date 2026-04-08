@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType
 {

@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.TextShaping;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 [MemoryDiagnoser]
 [SimpleJob(warmupCount: 1, iterationCount: 3)]
@@ -17,7 +17,7 @@ public class ExtractCharWidthsBenchmark
     public void Setup()
     {
         var fontFolders = new List<string> { /* your font paths */ };
-        var font = OpenTypeFonts.GetFontData(fontFolders, "Calibri", FontSubFamily.Regular);
+        var font = OpenTypeFonts.LoadFont("Calibri");
         _shaper = new TextShaper(font);
         _options = ShapingOptions.Default;
 
