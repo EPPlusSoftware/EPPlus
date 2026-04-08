@@ -13,10 +13,13 @@
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
@@ -81,8 +84,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, ZeroCharWidth);
             int columnsToAdd = 0;
-            FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
+
             MeasurementFont font = new MeasurementFont();
+            var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(font);
+            OpenTypeFontTextMeasurer fontMeasurerTrueType = new OpenTypeFontTextMeasurer(shaper);
+
             double textLength = 0;
             for (int row = 1; row <= ws.Dimension._toRow; row++)
             {
@@ -424,12 +430,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Get the width of the character 0 from the current themes default font style. It's used to calculate width of cells.
         private double GetThemeFont0Width(ExcelWorksheet ws)
         {
-            FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
             MeasurementFont font = new MeasurementFont();
             var ns = ws.Workbook.Styles.GetNormalStyle();
             font.FontFamily = ns.Style.Font.Name;
             font.Size = ns.Style.Font.Size;
             font.Style = MeasurementFontStyles.Regular;
+
+            var shaper = OpenTypeFonts.GetShaperForFont(font);
+            OpenTypeFontTextMeasurer fontMeasurerTrueType = new OpenTypeFontTextMeasurer(shaper);
             var result = fontMeasurerTrueType.MeasureText("0", font);
             return result.Width;
         }

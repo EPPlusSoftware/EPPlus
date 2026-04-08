@@ -115,9 +115,9 @@ namespace EPPlus.Fonts.OpenType.Tests
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
             var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font1);
 
-            var textFragments = new TextFragmentCollection(lstOfRichText);
+            var textFragments = new TextFragmentCollectionSimple(fonts, lstOfRichText);
 
-            var wrappedLines = ttMeasurer.WrapRichTextLines(fonts, maxSizePoints);
+            var wrappedLines = ttMeasurer.WrapRichTextLines(textFragments, maxSizePoints);
 
             var line1 = wrappedLines[0];
 
@@ -221,11 +221,11 @@ namespace EPPlus.Fonts.OpenType.Tests
             List<MeasurementFont> fonts = new() {font2, font3, font4, font5, font6 };
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var ttMeasurer = new FontMeasurerTrueType(font2);
+            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font2);
 
-            var textFragments = new TextFragmentCollection(lstOfRichText);
+            var textFragments = new TextFragmentCollectionSimple(fonts, lstOfRichText);
 
-            var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
+            var wrappedLines = ttMeasurer.WrapRichTextLines(textFragments, maxSizePoints);
 
             var pixels1 = Math.Round(wrappedLines[0].RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixels2 = Math.Round(wrappedLines[0].RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
@@ -273,20 +273,20 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
-            var ttMeasurer = new FontMeasurerTrueType(defaultFont);
+            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
 
             var txt = "This is my text";
 
             //This should be small enough to put each word on a new row.
             var maxWidth = 21.5d;
 
-            var txtLines = ttMeasurer.MeasureAndWrapTextLines(txt, defaultFont, maxWidth);
+            var txtLines = ttMeasurer.WrapText(txt, 11f, maxWidth);
 
             Assert.AreEqual(4, txtLines.Count);
-            Assert.AreEqual("This", txtLines[0].Text);
-            Assert.AreEqual("is", txtLines[1].Text);
-            Assert.AreEqual("my", txtLines[2].Text);
-            Assert.AreEqual("text", txtLines[3].Text);
+            Assert.AreEqual("This", txtLines[0]);
+            Assert.AreEqual("is", txtLines[1]);
+            Assert.AreEqual("my", txtLines[2]);
+            Assert.AreEqual("text", txtLines[3]);
         }
     }
 }

@@ -214,24 +214,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             return OpenTypeFonts.GetShaperForFont(font, _fontDirectories, _searchSystemDirectories);
         }
 
-        private FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
-        {
-            if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==
-                (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
-            {
-                return FontSubFamily.BoldItalic;
-            }
-            else if ((style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
-            {
-                return FontSubFamily.Bold;
-            }
-            else if ((style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
-            {
-                return FontSubFamily.Italic;
-            }
-
-            return FontSubFamily.Regular;
-        }
 
         #region IDisposable Implementation
 

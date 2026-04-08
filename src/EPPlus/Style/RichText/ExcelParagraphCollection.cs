@@ -338,28 +338,5 @@ namespace OfficeOpenXml.Style
         //        }
         //    }
         //}
-        private MeasurementFontStyles GetFontStyle(ExcelParagraph r)
-        {
-            MeasurementFontStyles ret = MeasurementFontStyles.Regular;
-            if (r.Bold)
-            {
-                ret |= MeasurementFontStyles.Bold;
-            }
-            if (r.Italic)
-            {
-                ret |= MeasurementFontStyles.Italic;
-            }
-            if(r.UnderLine!=eUnderLineType.None)
-            {
-                ret |= MeasurementFontStyles.Underline;
-            }
-            return ret;
-        }
-
-        internal double GetTotalParagraphHeight(ITextMeasurerWrap textMeasurer)
-        {
-            return 0;
-            //return _textBody.Paragraphs.GetHeightInPixels(out float w, out float h, textMeasurer, _defaultFontSize, _defaultFont.GetFontName(_drawing), GetFontStyle);
-        }
     }
 }

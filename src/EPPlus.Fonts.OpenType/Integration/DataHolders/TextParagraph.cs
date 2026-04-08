@@ -1,83 +1,83 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
-using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Interfaces.Fonts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//using EPPlus.Fonts.OpenType.Tables.Cmap;
+//using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
+//using OfficeOpenXml.Interfaces.Drawing.Text;
+//using OfficeOpenXml.Interfaces.Fonts;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Integration
-{
-    public class TextParagraph
-    {
-        //prevent creating multiple OpenTypeFonts via cache/indexing
-        internal Dictionary<double, OpenTypeFont> FontIndexDict = new();
-        internal Dictionary<double, GlyphMappings> GlyphMappings = new();
-        internal int TotalLength = 0;
+//namespace EPPlus.Fonts.OpenType.Integration
+//{
+//    public class TextParagraph
+//    {
+//        //prevent creating multiple OpenTypeFonts via cache/indexing
+//        internal Dictionary<double, OpenTypeFont> FontIndexDict = new();
+//        internal Dictionary<double, GlyphMappings> GlyphMappings = new();
+//        internal int TotalLength = 0;
 
-        internal List<double> FontSizes = new();
+//        internal List<double> FontSizes = new();
 
-        internal TextFragmentCollection Fragments;
+//        internal TextFragmentCollection Fragments;
 
-        public TextParagraph(TextFragmentCollection fragments, List<MeasurementFont> fonts)
-        {
-            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
-            FontSizes = new List<double>();
-            Fragments = fragments;
+//        public TextParagraph(TextFragmentCollection fragments, List<MeasurementFont> fonts)
+//        {
+//            List<OpenTypeFont> openTypeFonts = new List<OpenTypeFont>();
+//            FontSizes = new List<double>();
+//            Fragments = fragments;
 
-            var distinctFonts = fonts.Distinct().ToArray();
+//            var distinctFonts = fonts.Distinct().ToArray();
 
-            //Collect fonts that are actually distinct
-            foreach (var distinctFont in distinctFonts)
-            {
-                var subFont = GetFontSubType(distinctFont.Style);
-                var font = GetFont(distinctFont.FontFamily, subFont);
-                openTypeFonts.Add(font);
-            }
+//            //Collect fonts that are actually distinct
+//            foreach (var distinctFont in distinctFonts)
+//            {
+//                var subFont = GetFontSubType(distinctFont.Style);
+//                var font = GetFont(distinctFont.FontFamily, subFont);
+//                openTypeFonts.Add(font);
+//            }
 
-            //Setup lookup for different properties
-            for (int i = 0; i < fonts.Count; i++)
-            {
-                for (int j = 0; j < distinctFonts.Count(); j++)
-                {
-                    if (fonts[i] == distinctFonts[j])
-                    {
-                        FontIndexDict.Add(i, openTypeFonts[j]);
-                        GlyphMappings.Add(i, openTypeFonts[j].CmapTable.GetPreferredSubtable().GetGlyphMappings());
-                    }
-                }
-                FontSizes.Add(fonts[i].Size);
-            }
-        }
+//            //Setup lookup for different properties
+//            for (int i = 0; i < fonts.Count; i++)
+//            {
+//                for (int j = 0; j < distinctFonts.Count(); j++)
+//                {
+//                    if (fonts[i] == distinctFonts[j])
+//                    {
+//                        FontIndexDict.Add(i, openTypeFonts[j]);
+//                        GlyphMappings.Add(i, openTypeFonts[j].CmapTable.GetPreferredSubtable().GetGlyphMappings());
+//                    }
+//                }
+//                FontSizes.Add(fonts[i].Size);
+//            }
+//        }
 
-        public TextParagraph(List<string> textFragment, List<double> fontSizes, Dictionary<double, OpenTypeFont> fontIndexDict) 
-        { 
+//        public TextParagraph(List<string> textFragment, List<double> fontSizes, Dictionary<double, OpenTypeFont> fontIndexDict) 
+//        { 
 
-        }
+//        }
 
-        OpenTypeFont GetFont(string fontName, FontSubFamily subFamily)
-        {
-            return TextData.GetFontData(fontName, subFamily);
-        }
+//        OpenTypeFont GetFont(string fontName, FontSubFamily subFamily)
+//        {
+//            return OpenTypeFonts.LoadFont(fontName, subFamily);
+//        }
 
-        private FontSubFamily GetFontSubType(MeasurementFontStyles Style)
-        {
-            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
-            {
-                return FontSubFamily.BoldItalic;
-            }
-            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
-            {
-                return FontSubFamily.Bold;
-            }
-            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
-            {
-                return FontSubFamily.Italic;
-            }
+//        private FontSubFamily GetFontSubType(MeasurementFontStyles Style)
+//        {
+//            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+//            {
+//                return FontSubFamily.BoldItalic;
+//            }
+//            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+//            {
+//                return FontSubFamily.Bold;
+//            }
+//            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+//            {
+//                return FontSubFamily.Italic;
+//            }
 
-            return FontSubFamily.Regular;
-        }
-    }
-}
+//            return FontSubFamily.Regular;
+//        }
+//    }
+//}

@@ -267,8 +267,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
                 Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
             };
 
-            var ttTextMeasurer = new FontMeasurerTrueType();
-            ttTextMeasurer.SetFont(boldItalic);
+            var ttTextMeasurer = OpenTypeFonts.LoadFont(boldItalic.FontFamily, FontSubFamily.BoldItalic);
 
             var cacheKey = OpenTypeFonts.BuildCacheKey("Aptos Narrow", FontSubFamily.BoldItalic, Enumerable.Empty<string>(), searchSystemDirectories: true);
             var cachedFont = OpenTypeFontCache.GetFromCache(cacheKey);
