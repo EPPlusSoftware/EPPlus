@@ -256,35 +256,27 @@ namespace EPPlusImageRenderer.Svg
                 {
                     drawer.AppendRenderItems(RenderItems);
                 }
-                if (Plotarea != null)
-                {
-                    foreach (var drawer in Plotarea?.ChartTypeDrawers)
-                    {
-                        drawer.AppendRenderItems(RenderItems);
-                    }
-                }
+            }
 
             HorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
 
-                Title?.AppendRenderItems(RenderItems);
+            Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
 
-                sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
-                sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
-                //Write defs used for gradient colors
-                var writer = new SvgDrawingWriter(this);
-                writer.WriteSvgDefs(sb, RenderItems);
+            sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
+            //Write defs used for gradient colors
+            var writer = new SvgDrawingWriter(this);
+            writer.WriteSvgDefs(sb, RenderItems);
 
-                foreach (var item in RenderItems)
-                {
-                    item.Render(sb);
-                }
-
-                sb.Append("</svg>");
+            foreach (var item in RenderItems)
+            {
+                item.Render(sb);
             }
+
+            sb.Append("</svg>");
         }
 
         internal double GetPlotAreaTop()
