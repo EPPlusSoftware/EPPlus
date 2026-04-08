@@ -226,17 +226,12 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 _lineListBuffer.Add(lineBuilder.ToString());
                 state.CurrentTextLine.Text = lineBuilder.ToString();
-                state.CurrentTextLine.Text = lineBuilder.ToString();
             }
             else if (state.CurrentLineWidth > 0)
             {
                 _lineListBuffer.Add(string.Empty);
                 state.CurrentTextLine.Text = string.Empty;
-                state.CurrentTextLine.Text = string.Empty;
             }
-
-            state.CurrentTextLine.Width = state.CurrentLineWidth;
-            state.EndCurrentTextLineAndIntializeNext(0);
 
             state.CurrentTextLine.Width = state.CurrentLineWidth;
             state.EndCurrentTextLineAndIntializeNext(0);
@@ -269,14 +264,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 string line = lineStringWithTrail.TrimEnd();
                 _lineListBuffer.Add(line);
                 lineBuilder.Remove(0, state.WordStart + 1);
-
-                //handle line data
-                state.CurrentTextLine.Width = state.CurrentLineWidth - state.CurrentWordWidth;
-                state.CurrentTextLine.Text = line;
-
-                fragIdxAtBreak = state.GetFragIdxAtWordStart();
-                //Because of word-wrap we may have richTextFragments on the current line that is no longer part of it after wrap.
-                state.AdjustLineFragmentsForNextLine();
 
                 //handle line data
                 state.CurrentTextLine.Width = state.CurrentLineWidth - state.CurrentWordWidth;
