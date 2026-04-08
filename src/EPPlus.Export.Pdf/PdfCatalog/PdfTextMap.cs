@@ -18,32 +18,31 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal class PdfTextMap
     {
-        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, PdfRange Range)
+        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
         {
+            var Range = pdfRange;
             var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol);
             var worksheet = Range.Range.Worksheet;
             var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet);
             pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
             bool firstColumnRun = true;
-            double totalHeight = 0;
-            double totalWidth = 0;
             List<string> checkedMergedCells = new List<string>();
             //int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(worksheet) : 0;
             for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
             {
-                if (worksheet.Row(row).Hidden) continue;
+                var hiddenRow = worksheet.Row(row).Hidden;
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(row).Height);
-                Range.TotalHeight += height;
-                Range.RowHeights.Add(height);
+                Range.TotalHeight += hiddenRow ? 0d : height;
+                Range.RowHeights.Add(hiddenRow ? 0d : height);
                 //x = 0d;
                 for (int col = Range.Range._fromCol; col <= Range.Range._toCol /*+ addedColumns*/; col++)
                 {
-                    if (worksheet.Column(col).Hidden) continue;
+                    var hiddenCol = worksheet.Column(col).Hidden;
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
                     if (firstColumnRun)
                     {
-                        Range.TotalWidth += width;
-                        Range.ColWidths.Add(width);
+                        Range.TotalWidth += hiddenCol ? 0d : width;
+                        Range.ColWidths.Add(hiddenCol ? 0d : width);
                     }
                     var cell = worksheet.Cells[row, col];
                     //if (cell.Merge)
@@ -51,13 +50,15 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             //calculate merged cell width and height
                     //}
                     var tempMap = Map[row, col];
-                    tempMap.Width = width;
+                    tempMap.Hidden = hiddenRow || hiddenCol;
+                    tempMap.Width = hiddenCol ? 0d : width;
                     tempMap.CellStyle = GetFontStyle(cell);
                     tempMap.ContentAligmnet = GetContentAlignment(cell);
                     if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
                     tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, Map[row, col].CellStyle);
 
                     Map[row, col] = tempMap;
+                    //if cell is hidden maybe we skip adding comment to comment collection.
                     if (pageSettings.CommentsAndNotes != CommentsAndNotes.None)
                     {
                         if (cell.Comment != null && cell.ThreadedComment == null)
@@ -96,6 +97,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
             //HandleDrawings(worksheet);
             //Size = new Vector2(totalWidth, Math.Abs(y));
+            pdfRange = Range;
             return Map;
         }
 

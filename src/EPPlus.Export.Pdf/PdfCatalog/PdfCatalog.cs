@@ -56,6 +56,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             sw.Reset();
 
             //Create Layout
+            GetLayout(pageSettings, pdfSheet);
 
             sw.Stop();
             var CreateLayoutTime = sw.ElapsedMilliseconds;
@@ -70,8 +71,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         //Private Methods
         //Create Layout Methods
-        private Transform GetLayout()
+        private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
+            PdfWorksheet[] pdfSheets = new PdfWorksheet[1]{ pdfSheet };
+            PdfLayout.GetLayout(pageSettings, pdfSheets);
             return null;
         }
 
@@ -171,7 +174,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         private PdfRange GetMaps(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range)
         {
             var temp = range;
-            temp.Map = PdfTextMap.SetTextMap(pageSettings, Dictionaries, pdfSheet, range);
+            temp.Map = PdfTextMap.SetTextMap(pageSettings, Dictionaries, pdfSheet, ref temp);
             range = temp;
             return range;
         }

@@ -12,6 +12,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public List<double> ColWidths = new List<double>();
         public double TotalHeight;
         public double TotalWidth;
+        public double AdditionalHeight;
+        public double AdditionalWidth;
 
         public PdfRange(ExcelRangeBase range, bool extendColumns)
         {

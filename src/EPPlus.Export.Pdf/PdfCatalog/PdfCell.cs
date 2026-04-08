@@ -9,6 +9,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal struct PdfCell
     {
+        public bool Hidden;
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;
         public List<PdfTextFormat> TextFormats;
