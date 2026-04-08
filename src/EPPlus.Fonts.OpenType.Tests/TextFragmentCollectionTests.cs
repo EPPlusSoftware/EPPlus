@@ -37,8 +37,8 @@ namespace EPPlus.Fonts.OpenType.Tests
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var measurer = OpenTypeFonts.GetShaperForFont(font2);
-
             var widthInPoints = measurer.GetDescentInPoints(font2.Size);
+
             var inPixels = Math.Round(widthInPoints.PointToPixel(),0,MidpointRounding.AwayFromZero);
 
             Assert.AreEqual(54, inPixels);
@@ -54,11 +54,9 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
-            var text = "Goudy size";
+            var measurer = OpenTypeFonts.GetShaperForFont(font5);
+            var widthInPoints = measurer.GetDescentInPoints(font5.Size);
 
-            var ttMeasurer = new FontMeasurerTrueType(font5);
-
-            var widthInPoints = ttMeasurer.MeasureTextWidth(text);
             var inPixels = Math.Round(widthInPoints.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
             Assert.AreEqual(237, inPixels);
@@ -115,11 +113,11 @@ namespace EPPlus.Fonts.OpenType.Tests
             List<MeasurementFont> fonts = new() { font1, font2, font3, font4, font5, font6 };
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var ttMeasurer = new FontMeasurerTrueType(font1);
+            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font1);
 
             var textFragments = new TextFragmentCollection(lstOfRichText);
 
-            var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
+            var wrappedLines = ttMeasurer.WrapRichTextLines(fonts, maxSizePoints);
 
             var line1 = wrappedLines[0];
 
