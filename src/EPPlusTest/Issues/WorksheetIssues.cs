@@ -1130,5 +1130,16 @@ namespace EPPlusTest.Issues
             sheet.InsertColumn(5, 1);
         }
 
+        [TestMethod]
+        public void Issue2325()
+        {
+            var ex = Assert.ThrowsExactly<NotSupportedException>(() =>
+            {
+                var package = OpenTemplatePackage("StrictOpenXml.xlsx");
+                var ws = package.Workbook.Worksheets.First();
+            });
+            Assert.IsTrue(ex.Message.Contains("Strict Open XML"));
+        }
+
     }
 }
