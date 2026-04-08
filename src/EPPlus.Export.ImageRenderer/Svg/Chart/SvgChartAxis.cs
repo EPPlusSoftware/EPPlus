@@ -67,6 +67,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (ax.Deleted == false)
             {
+                Textboxes = new SvgAxisTextBoxes(sc);
                 if (ax.Layout.HasLayout)
                 {
                     Rectangle = GetRectFromManualLayout(sc, ax.Layout);
@@ -206,12 +207,7 @@ namespace EPPlusImageRenderer.Svg
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
         public List<RenderItem> MajorGridlinePositions { get; private set; }
         public List<RenderItem> MinorGridlinePositions { get; private set; }
-        public List<SvgTextBox> AxisValuesTextBoxes
-        {
-            get;
-            private set;
-        }
-
+        public SvgAxisTextBoxes  Textboxes{get; private set;}
         public SvgChartTitle Title { get; set; }
         public double Min { get; set; }
         public double Max { get; set; }
@@ -256,15 +252,8 @@ namespace EPPlusImageRenderer.Svg
                     renderItems.Add(tm);
                 }
             }
-
-            if (AxisValuesTextBoxes != null && AxisValuesTextBoxes.Count > 0)
-            {
-                foreach (var tb in AxisValuesTextBoxes)
-                {
-                    tb.AppendRenderItems(renderItems);
-                }
-            }
             
+            //The axis text boxes is rendered later as they have a higher Z-order.
         }
 
 
@@ -304,7 +293,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
-                AxisValuesTextBoxes = GetAxisValueTextBoxes();
+                Textboxes.TextBoxes = GetAxisValueTextBoxes();
             }
         }
 

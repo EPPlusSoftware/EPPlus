@@ -122,9 +122,16 @@ internal class ValueAxisScaleCalculator
                 else
                 {
                     axisMin = dataMin - (dataRange * 0.05);
-                    if (axisOptions.IsStacked100 && axisMin < -1)
+                    if (axisOptions.IsStacked100)
                     {
-                        axisMin = -1;
+                        if (axisMin < -1)
+                        {
+                            axisMin = -1;
+                        }
+                        else if(axisMin>0)
+                        {
+                            axisMin = 0;
+                        }
                     }
                     //Normalize to zero if all data is positive or negative
                     if (axisMin < 0 && isAllPositive)

@@ -263,8 +263,14 @@ namespace EPPlusImageRenderer.Svg
                         drawer.AppendRenderItems(RenderItems);
                     }
                 }
-                Legend?.AppendRenderItems(RenderItems);
+
+            HorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
+            VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
+            SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
+            SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
+
                 Title?.AppendRenderItems(RenderItems);
+            Legend?.AppendRenderItems(RenderItems);
 
                 sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
                 sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
