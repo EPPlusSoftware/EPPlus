@@ -540,7 +540,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             }
         }
         [TestMethod]
-        public void GenerateSvgForLineCharts()
         public void TestStyling()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

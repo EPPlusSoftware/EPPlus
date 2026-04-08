@@ -492,11 +492,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         {
             List<string> comparatorLst = new() { "Strike", "Goudy size"};
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Aptos Narrow", FontSubFamily.Regular, FontFolders);
             var shaper = new TextShaper(font);
             var points1 = shaper.MeasureTextInPoints(comparatorLst[0], 11);
 
-            var font2 = OpenTypeFonts.GetFontData(FontFolders, "Goudy Stout", FontSubFamily.Regular);
+            var font2 = OpenTypeFonts.LoadFont("Goudy Stout", FontSubFamily.Regular, FontFolders);
             var otherShaper = new TextShaper(font2);
 
             var points2 = otherShaper.MeasureTextInPoints(comparatorLst[1], 16);
@@ -525,8 +525,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             comparatorFragments.Add(frag1);
             comparatorFragments.Add(frag2);
 
-            var startFont = OpenTypeFonts.GetFontData(FontFolders, font11.FontFamily, GetFontSubType(font11.Style));
-            var goudyFont = OpenTypeFonts.GetFontData(FontFolders, font22.FontFamily, GetFontSubType(font22.Style));
+            var startFont = OpenTypeFonts.LoadFont(font11.FontFamily, GetFontSubType(font11.Style), FontFolders);
+            var goudyFont = OpenTypeFonts.LoadFont(font22.FontFamily, GetFontSubType(font22.Style), FontFolders);
 
             ITextShaper shaper2 = new TextShaper(font);
             using var layoutEngine = new TextLayoutEngine(shaper);
@@ -542,11 +542,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         {
             List<string> comparatorLst = new() { "Strike", "Goudy size " };
 
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Aptos Narrow", FontSubFamily.Regular, FontFolders);
             var shaper = new TextShaper(font);
             var points1 = shaper.MeasureTextInPoints(comparatorLst[0], 11);
 
-            var font2 = OpenTypeFonts.GetFontData(FontFolders, "Goudy Stout", FontSubFamily.Regular);
+            var font2 = OpenTypeFonts.LoadFont("Goudy Stout", FontSubFamily.Regular, FontFolders);
             var otherShaper = new TextShaper(font2);
 
             var points2 = otherShaper.MeasureTextInPoints(comparatorLst[1], 16);
@@ -575,8 +575,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             comparatorFragments.Add(frag1);
             comparatorFragments.Add(frag2);
 
-            var startFont = OpenTypeFonts.GetFontData(FontFolders, font11.FontFamily, GetFontSubType(font11.Style));
-            var goudyFont = OpenTypeFonts.GetFontData(FontFolders, font22.FontFamily, GetFontSubType(font22.Style));
+            var startFont = OpenTypeFonts.LoadFont(font11.FontFamily, GetFontSubType(font11.Style), FontFolders);
+            var goudyFont = OpenTypeFonts.LoadFont(font22.FontFamily, GetFontSubType(font22.Style), FontFolders);
 
             ITextShaper shaper2 = new TextShaper(font);
             using var layoutEngine = new TextLayoutEngine(shaper);
@@ -675,201 +675,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Size = 11,
                 Style = MeasurementFontStyles.Regular
             };
-
-            var font2 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Bold
-            };
-
-            var font3 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Underline
-            };
-
-            var font4 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Strikeout
-            };
-
-            var font5 = new MeasurementFont()
-            {
-                FontFamily = "Goudy Stout",
-                Size = 16,
-                Style = MeasurementFontStyles.Regular
-            };
-
-
-            var font6 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 24,
-                Style = MeasurementFontStyles.Regular
-            };
-
-            List<MeasurementFont> fonts = new() { font1, font2, font3, font4, font5, font6 };
-            var fragments = new List<TextFragment>();
-
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
-
-            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var startFont = TextData.GetFontData(font1.FontFamily, GetFontSubType(font1.Style));
-
-            var shaper = new TextShaper(startFont);
-            var layout = new TextLayoutEngine(shaper);
-
-            var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
-
-            var measurer = new FontMeasurerTrueType(font1);
-
-            TextFragmentCollection collection = new TextFragmentCollection(lstOfRichText);
-            var simpleLines = measurer.WrapMultipleTextFragmentsToTextLines(collection, fonts, maxSizePoints);
-
-            Assert.AreEqual("TextBox", wrappedLines[0].Text);
-            Assert.AreEqual("a", wrappedLines[1].Text);
-            Assert.AreEqual("TextBox2ra underlineLa", wrappedLines[2].Text);
-            Assert.AreEqual("StrikeGoudy size", wrappedLines[3].Text);
-            Assert.AreEqual("16SvgSize 24", wrappedLines[4].Text);
-
-            Assert.AreEqual(simpleLines[0].Text, wrappedLines[0].Text);
-            Assert.AreEqual(simpleLines[1].Text, wrappedLines[1].Text);
-            Assert.AreEqual(simpleLines[2].Text, wrappedLines[2].Text);
-            Assert.AreEqual(simpleLines[3].Text, wrappedLines[3].Text);
-            Assert.AreEqual(simpleLines[4].Text, wrappedLines[4].Text);
-
-            //Rather large epsilon but the char widths are each individually more correct now
-            var epsilon = 0.1d;
-
-            Assert.AreEqual(simpleLines[0].Width, wrappedLines[0].Width, epsilon);
-            Assert.AreEqual(simpleLines[1].Width, wrappedLines[1].Width, epsilon);
-            Assert.AreEqual(simpleLines[2].Width, wrappedLines[2].Width, epsilon);
-            Assert.AreEqual(simpleLines[3].Width, wrappedLines[3].Width, epsilon);
-            Assert.AreEqual(simpleLines[4].Width, wrappedLines[4].Width, epsilon);
-
-            var line1FragmentsOld = simpleLines[0].RtFragments;
-            var line1FragmentsNew = wrappedLines[0].LineFragments;
-            Assert.AreEqual(line1FragmentsOld[0].Width, line1FragmentsNew[0].Width, epsilon);
-
-            var line2FragmentsOld = simpleLines[1].RtFragments;
-            var line2FragmentsNew = wrappedLines[1].LineFragments;
-
-            Assert.AreEqual(line2FragmentsOld[0].Width, line2FragmentsNew[0].Width, epsilon);
-
-            var line3FragmentsOld = simpleLines[2].RtFragments;
-            var line3FragmentsNew = wrappedLines[2].LineFragments;
-
-            Assert.AreEqual(line3FragmentsOld[0].Width, line3FragmentsNew[0].Width, epsilon);
-            Assert.AreEqual(line3FragmentsOld[1].Width, line3FragmentsNew[1].Width, epsilon);
-            Assert.AreEqual(line3FragmentsOld[2].Width, line3FragmentsNew[2].Width, epsilon);
-
-
-            var line4FragmentsOld = simpleLines[3].RtFragments;
-            var line4FragmentsNew = wrappedLines[3].LineFragments;
-
-            Assert.AreEqual(line4FragmentsOld[0].Width, line4FragmentsNew[0].Width, epsilon);
-            Assert.AreEqual(line4FragmentsOld[1].Width, line4FragmentsNew[1].Width, epsilon);
-
-            var line5FragmentsOld = simpleLines[4].RtFragments;
-            var line5FragmentsNew = wrappedLines[4].LineFragments;
-
-            Assert.AreEqual(line5FragmentsOld[0].Width, line5FragmentsNew[0].Width, epsilon);
-            Assert.AreEqual(line5FragmentsOld[1].Width, line5FragmentsNew[1].Width, epsilon);
-        }
-
-        [TestMethod]
-        public void EnsureLineFragmentsAreMeasuredCorrectlyWhenWrapping()
-        {
-            List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16"};
-            var font2 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Bold
-            };
-
-            var font3 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Underline
-            };
-
-            var font4 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Strikeout
-            };
-
-            var font5 = new MeasurementFont()
-            {
-                FontFamily = "Goudy Stout",
-                Size = 16,
-                Style = MeasurementFontStyles.Regular
-            };
-
-
-            List<MeasurementFont> fonts = new() { font2, font3, font4, font5};
-            var fragments = new List<TextFragment>();
-
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
-
-            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var startFont = TextData.GetFontData(font2.FontFamily, GetFontSubType(font2.Style));
-
-            var shaper = new TextShaper(startFont);
-            var layout = new TextLayoutEngine(shaper);
-
-            var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
-
-
-            Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
-
-            List<string> smallestTextFragments = new List<string>();
-
-            //Ensure each linefragment can get correct text
-            foreach(var line in wrappedLines)
-            {
-                foreach(var lf in line.LineFragments)
-                {
-                    var text = line.GetLineFragmentText(lf);
-                    smallestTextFragments.Add(text);
-                }
-            }
-
-            Assert.AreEqual(6, smallestTextFragments.Count);
-            Assert.AreEqual("TextBox2", smallestTextFragments[0]);
-            Assert.AreEqual("ra underline", smallestTextFragments[1]);
-            Assert.AreEqual("La", smallestTextFragments[2]);
-            Assert.AreEqual("Strike", smallestTextFragments[3]);
-            Assert.AreEqual("Goudy size", smallestTextFragments[4]);
-            Assert.AreEqual("16", smallestTextFragments[5]);
-        }
-
-        [TestMethod]
-        public void WrapRichTextDifficultCaseCompare()
-        {
-            List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
-
-            var font1 = new MeasurementFont()
-            {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Regular
-            }; ;
 
             var font2 = new MeasurementFont()
             {
@@ -1160,7 +965,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void WrapRichText_MeasureCorrectly()
         {
             // Arrange
-            var font = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("Aptos Narrow", FontSubFamily.Regular, FontFolders);
             var shaper = new TextShaper(font);
             var layout = new TextLayoutEngine(shaper);
 
@@ -1195,7 +1000,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             };
 
             var maxWidthPt = 31.8125234375d;
-            var gottenFont = OpenTypeFonts.GetFontData(FontFolders, "Aptos Narrow", FontSubFamily.Regular);
+            var gottenFont = OpenTypeFonts.LoadFont("Aptos Narrow", FontSubFamily.Regular, FontFolders);
             var shaper = new TextShaper(gottenFont);
             var layout = new TextLayoutEngine(shaper);
 

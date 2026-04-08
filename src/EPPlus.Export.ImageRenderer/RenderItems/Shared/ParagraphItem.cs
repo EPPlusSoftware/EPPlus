@@ -27,8 +27,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     {
         ITextMeasurerWrap _measurer;
 
-        double _leftMargin;
-        double _rightMargin;        
+        double _leftMargin;       
         double _rightMargin;        
 
         eDrawingTextLineSpacing _lsType;
@@ -39,7 +38,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected List<string> _textRunDisplayText = new List<string>();
 
         TextFragmentCollection _textFragments;
-        List<EPPlus.Fonts.OpenType.Integration.TextFragment> _newTextFragments;
         List<EPPlus.Fonts.OpenType.Integration.TextFragment> _newTextFragments;
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
@@ -149,7 +147,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, _measurer);
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, _measurer);
 
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
@@ -159,7 +156,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             AddLinesAndTextRuns(p, textIfEmpty);
         }
 
-        private double GetParagraphLineSpacingInPoints(double spacingValue, ITextMeasurerWrap fmExact)
         private double GetParagraphLineSpacingInPoints(double spacingValue, ITextMeasurerWrap fmExact)
         {
             if (_lsType == eDrawingTextLineSpacing.Exactly)
@@ -250,7 +246,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             List<string> runContents = new List<string>();
             List<float> fontSizes = new List<float>();
-            List<MeasurementFont> fonts = new List<MeasurementFont>();
             List<MeasurementFont> fonts = new List<MeasurementFont>();
             
             for (int i = 0; i < runs.Count(); i++)

@@ -1,5 +1,4 @@
 ﻿using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 {
     internal class WrapStateRichText : WrapStateBase
     {
-        internal LineFragment LineFrag = null;
-
         internal LineFragment LineFrag = null;
 
         public WrapStateRichText(double lineWidth) 

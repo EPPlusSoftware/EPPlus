@@ -264,7 +264,6 @@ namespace EPPlusImageRenderer.Svg
         }
 
         SvgTextBodyItem CreateTextBodyItem(ExcelTextBody bodyOrig)
-        SvgTextBodyItem CreateTextBodyItem(ExcelTextBody bodyOrig)
         {
             if (InsetTextBox == null)
             {

@@ -106,7 +106,6 @@ namespace EPPlusImageRenderer.Svg
         }
 
         private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
-        private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
         {
             var margin = 8F;
             switch (axis.Axis.AxisPosition)
@@ -213,7 +212,6 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
         }
 
-        public SvgTextBox TextBox
         public SvgTextBox TextBox
         {
             get; private set;

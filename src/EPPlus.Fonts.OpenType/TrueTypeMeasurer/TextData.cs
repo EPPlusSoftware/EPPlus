@@ -72,33 +72,6 @@ namespace EPPlus.Fonts.OpenType
             return FontSubFamily.Regular;
         }
 
-        internal static TextLayoutEngine GetTextLayoutEngine(MeasurementFont mFont)
-        {
-            var startFont = TextData.GetFontData(mFont.FontFamily, GetFontSubType(mFont.Style));
-            var shaper = new TextShaper(startFont);
-            var layout = new TextLayoutEngine(shaper);
-            return layout;
-        }
-
-
-        private static FontSubFamily GetFontSubType(MeasurementFontStyles Style)
-        {
-            if ((Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) == (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
-            {
-                return FontSubFamily.BoldItalic;
-            }
-            else if ((Style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
-            {
-                return FontSubFamily.Bold;
-            }
-            else if ((Style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
-            {
-                return FontSubFamily.Italic;
-            }
-
-            return FontSubFamily.Regular;
-        }
-
         /// <summary>
         /// Get difference between winAscent and typoAscent in points
         /// </summary>
