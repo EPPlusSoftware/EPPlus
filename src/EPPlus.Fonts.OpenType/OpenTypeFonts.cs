@@ -17,6 +17,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -147,6 +148,18 @@ namespace EPPlus.Fonts.OpenType
             }
 
             return shaper;
+        }
+
+        public static TextLayoutEngine GetTextLayoutEngine(string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular,
+            IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            var shaper = GetTextShaper(fontName, subFamily, fontDirectories, searchSystemDirectories);
+            //TODO: Create layoutEngineCache in the style of shaperCache
+            var layoutEngine = new TextLayoutEngine(shaper);
+
+            return layoutEngine;
         }
 
         /// <summary>

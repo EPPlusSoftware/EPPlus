@@ -34,7 +34,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         private readonly ITextShaper _shaper;
         private readonly List<string> _fontDirectories;
         private readonly bool _searchSystemDirectories;
-        private readonly Dictionary<string, ITextShaper> _shaperCache;
 
         // Space width cache - avoids repeated Shape(" ") calls
         private readonly Dictionary<float, double> _spaceWidthCache;
@@ -60,7 +59,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             _shaper = shaper ?? throw new ArgumentNullException(nameof(shaper));
             _fontDirectories = fontDirectories ?? new List<string>();
             _searchSystemDirectories = searchSystemDirectories;
-            _shaperCache = new Dictionary<string, ITextShaper>();
             _spaceWidthCache = new Dictionary<float, double>();
         }
 
@@ -213,24 +211,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private ITextShaper GetShaperForFont(MeasurementFont font)
         {
-            string cacheKey = string.Format("{0}_{1}", font.FontFamily, GetFontSubFamily(font.Style));
-
-            if (_shaperCache.TryGetValue(cacheKey, out var cachedShaper))
-            {
-                return cachedShaper;
-            }
-
-            var openTypeFont = OpenTypeFonts.LoadFont(
-                fontName: font.FontFamily,
-                subFamily: GetFontSubFamily(font.Style),
-                fontDirectories: _fontDirectories,
-                searchSystemDirectories: _searchSystemDirectories
-            );
-
-            var shaper = new TextShaper(openTypeFont);
-            _shaperCache[cacheKey] = shaper;
-
-            return shaper;
+            return OpenTypeFonts.GetShaperForFont(font, _fontDirectories, _searchSystemDirectories);
         }
 
         private FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
@@ -275,16 +256,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     // Clear StringBuilder to release string references (.NET 3.5 compatible)
                     _lineBuilder.Length = 0;
-
-                    // Dispose cached shapers
-                    foreach (var shaper in _shaperCache.Values)
-                    {
-                        if (shaper is IDisposable disposable)
-                        {
-                            disposable.Dispose();
-                        }
-                    }
-                    _shaperCache.Clear();
 
                     // Clear space width cache
                     _spaceWidthCache.Clear();

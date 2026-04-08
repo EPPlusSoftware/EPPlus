@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
+namespace EPPlus.Fonts.OpenType.Integration
 {
     public class TextLineSimple
     {

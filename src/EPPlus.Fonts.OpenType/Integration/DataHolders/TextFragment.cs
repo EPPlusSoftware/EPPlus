@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
+namespace EPPlus.Fonts.OpenType.Integration
 {
     //TextFragment is a portion of a longer string
     //the fragment itself may contain line-breaks

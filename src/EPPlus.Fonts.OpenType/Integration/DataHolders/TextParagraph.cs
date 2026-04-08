@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
+namespace EPPlus.Fonts.OpenType.Integration
 {
     public class TextParagraph
     {
@@ -59,7 +59,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
 
         OpenTypeFont GetFont(string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.LoadFont(fontName, subFamily);
+            return TextData.GetFontData(fontName, subFamily);
         }
 
         private FontSubFamily GetFontSubType(MeasurementFontStyles Style)

@@ -1,13 +1,8 @@
-﻿using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+﻿using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
-using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Adapter;
-using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Tests
 {
@@ -17,18 +12,10 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void EnsureTextFragmentsAndWrapperWorkCorrectlyForLongParagraphs()
         {
-            List<string> longString = new List<string> { "Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n" };
-            List<float> fontsizes = new List<float> { 28f };
+            var shaper = OpenTypeFonts.GetTextShaper("Aptos Narrow", FontSubFamily.Regular);
+            var layout = new TextLayoutEngine(shaper);
 
-            var textFragments = new TextFragmentCollection(longString, fontsizes);
-
-            var ttMeasurer = new FontMeasurerTrueType();
-            List<MeasurementFont> fonts = new List<MeasurementFont>() { new MeasurementFont() { 
-            FontFamily = "Aptos Narrow",
-            Size = 28,
-            Style = MeasurementFontStyles.Regular } };
-
-            var outputLines = ttMeasurer.WrapMultipleTextFragments(textFragments, fonts, 225);
+            var outputLines = layout.WrapText("Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n", 28f, 225);
 
             Assert.AreEqual("Hello World! a b c d", outputLines[0]);
             Assert.AreEqual("e f g h i j k l m n o p q", outputLines[1]);
@@ -48,11 +35,10 @@ namespace EPPlus.Fonts.OpenType.Tests
             string test = "TextBox2";
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var ttMeasurer = new FontMeasurerTrueType(font2);
 
-            ttMeasurer.SetFont(font2);
+            var measurer = OpenTypeFonts.GetShaperForFont(font2);
 
-            var widthInPoints = ttMeasurer.MeasureTextWidth(test);
+            var widthInPoints = measurer.GetDescentInPoints(font2.Size);
             var inPixels = Math.Round(widthInPoints.PointToPixel(),0,MidpointRounding.AwayFromZero);
 
             Assert.AreEqual(54, inPixels);
