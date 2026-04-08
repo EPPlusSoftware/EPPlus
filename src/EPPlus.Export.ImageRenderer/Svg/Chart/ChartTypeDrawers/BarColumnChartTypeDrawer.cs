@@ -100,13 +100,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var gapPercent = chartType.GapWidth / 100D;     //Gap width between bars/columns in percent
             var overlapPercent = chartType.Overlap / 100D;  //Overlap  between bars/columns in percent
-            var slotWidth = _svgChart.Plotarea.Rectangle.Width / (slotSize);
+            var slotWidth = _svgChart.Plotarea.Rectangle.Width / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
             var step = 1 - overlapPercent;
             double barWidth;
             barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
-
+            //var seriesPos = _svgChart.Plotarea.Rectangle.Width * position/seriesCount;
             double yAxisStart;
             if (yAxis.Axis.Crosses==eCrosses.AutoZero)
             {

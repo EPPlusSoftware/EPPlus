@@ -96,11 +96,13 @@ namespace EPPlusImageRenderer.Svg
                 {
                     left += leftAxis.Title.TextBox.GetActualWidth();
                 }
-                left += leftAxis.Rectangle.Width + 1.5;
+                if (leftAxis.Rectangle != null)
+                {
+                    left += leftAxis.Rectangle.Width + 1.5;
+                }
             }
             return left;
         }
-
         private double GetPlotAreaTop(SvgChart sc)
         {
             double haHeight = 0;
