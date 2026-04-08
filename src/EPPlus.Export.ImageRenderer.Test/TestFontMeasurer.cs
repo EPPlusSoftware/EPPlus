@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml.Interfaces.Drawing.Text;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using EPPlus.Fonts.OpenType.TextShaping.DataHolders;
 
 namespace TestProject1
 {

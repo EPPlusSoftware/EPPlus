@@ -1,7 +1,7 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.TextShaping.DataHolders;
 using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;

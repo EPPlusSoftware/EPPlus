@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
+namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
 {
     public class TextLine
     {

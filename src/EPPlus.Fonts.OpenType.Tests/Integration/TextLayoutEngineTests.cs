@@ -1,6 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+using EPPlus.Fonts.OpenType.TextShaping.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;

@@ -85,27 +85,6 @@ namespace OfficeOpenXml
                 return new GenericFontMetricsTextMeasurer();
             }
         }
-        ITextMeasurerWrap _textMeasurerTrueType = null;
-        /// <summary>
-        /// Returns an instace of the TrueType text measurer. This measurer requires the fonts to be present in the default font folders or custom configured paths.
-        /// </summary>
-        public ITextMeasurerWrap GenericTextMeasurerTrueType
-        {
-            get
-            {
-                if (_textMeasurerTrueType == null)
-                {
-                    var ns = _package.Workbook.Styles.GetNormalStyle();
-                    var mf = ns.Style.Font.GetMeasureFont();
-                    _textMeasurerTrueType = new FontMeasurerTrueType(mf);
-                }
-                return _textMeasurerTrueType;
-            }
-            set
-            {
-                _textMeasurerTrueType = value;
-            }
-        }
         /// <summary>
         /// Measures a text with default settings when there is no other option left...
         /// </summary>

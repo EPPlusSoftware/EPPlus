@@ -3,7 +3,6 @@ using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
@@ -20,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
+using EPPlus.Fonts.OpenType.TextShaping.DataHolders;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {

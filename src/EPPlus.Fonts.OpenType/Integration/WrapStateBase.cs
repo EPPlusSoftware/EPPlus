@@ -1,4 +1,4 @@
-﻿using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
+﻿using EPPlus.Fonts.OpenType.TextShaping.DataHolders;
 using System;
 using System.Collections.Generic;
 using System.Linq;

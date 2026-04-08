@@ -13,15 +13,13 @@
   01/23/2025         EPPlus Software AB           Fixed lastSpaceIndex bug in multi-fragment wrapping
   02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq;
 using System.Text;
+using EPPlus.Fonts.OpenType.TextShaping.DataHolders;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {

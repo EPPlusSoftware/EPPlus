@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
+namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
 {
     public class TextFragmentCollection
     {

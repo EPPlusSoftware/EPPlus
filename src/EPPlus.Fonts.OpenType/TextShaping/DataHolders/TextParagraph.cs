@@ -1,6 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.Tables.Cmap.Mappings;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -9,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
+namespace EPPlus.Fonts.OpenType.TextShaping.DataHolders
 {
     public class TextParagraph
     {
@@ -60,7 +59,7 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer
 
         OpenTypeFont GetFont(string fontName, FontSubFamily subFamily)
         {
-            return TextData.GetFontData(fontName, subFamily);
+            return OpenTypeFonts.LoadFont(fontName, subFamily);
         }
 
         private FontSubFamily GetFontSubType(MeasurementFontStyles Style)
