@@ -249,5 +249,212 @@ namespace EPPlusTest.Drawing.Chart
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        //TODO: This test is one instance of a larger problem
+        //Many datalabels have different allowed positions depending on chart type
+        //Going against it will often create corrupt files.
+        //See microsoft offical documentation:
+        //"MS-OE376" page 659 2.1.1475 Part 4 Section 5.7.2.48, dLblPos (Data Label Position) for details.
+        public void TopIsDisallowedOnBarDataLabels()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("DataLabelSheet");
+
+                ws.Cells["A1"].Value = "Week";
+                ws.Cells["B1"].Value = "Income";
+
+                ws.Cells["A2:A10"].Formula = $"\"Week \"&(ROW()-1)";
+                ws.Cells["B2:B10"].Formula = $"(ROW()-1)*7";
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddBarChart("columnChart", eBarChartType.ColumnClustered);
+                chart.Series.Add(ws.Cells["B2:B10"], ws.Cells["A2:A10"]);
+
+                var SeriesDataLabel = chart.Series[0].DataLabel;
+
+                Assert.Throws<InvalidOperationException>(() => SeriesDataLabel.Position = eLabelPosition.Top);
+            }
+        }
+
+        [TestMethod]
+        public void CreateFileWithDataLabelsManualAndGeneral()
+        {
+            using (var p = OpenPackage("dlblMissMatchTest.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("DataLabelSheet");
+
+                ws.Cells["A1"].Value = "Week";
+                ws.Cells["B1"].Value = "Income";
+
+                ws.Cells["A2:A10"].Formula = $"\"Week \"&(ROW()-1)";
+                ws.Cells["B2:B10"].Formula = $"(ROW()-1)*7";
+                ws.Cells["C2:C10"].Formula = $"\"Comment \"&(ROW()-1)";
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddBarChart("columnChart", eBarChartType.ColumnClustered);
+
+                var barSerie = chart.Series.Add(ws.Cells["B2:B10"], ws.Cells["A2:A10"]);
+                var sDlbl = barSerie.DataLabel;
+
+                sDlbl.Separator = ",";
+                sDlbl.ShowValue = true;
+                sDlbl.ShowCategory = true;
+                sDlbl.Position = eLabelPosition.OutEnd;
+
+                sDlbl.SetValueFromCellsRange(ws.Cells["C2:C10"]);
+                Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
+
+                Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
+
+                SaveAndCleanup(p);
+            }
+
+            //Ensure data is read correctly after write
+            using (var p = OpenPackage("dlblMissMatchTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var chart = ws.Drawings[0].As.Chart.BarChart;
+
+                var barSerie = chart.Series[0];
+                Assert.AreEqual(ws.Cells["C2:C10"], barSerie.DataLabel.DataLabelRange);
+
+                Assert.AreEqual("C7", chart.Series[0].DataLabel.DataLabels[5].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("Comment 6", ws.Cells["C7"].Text);
+            }
+        }
+
+        [TestMethod]
+        public void ReadSimpleFile()
+        {
+            using (var package = OpenTemplatePackage("editedDataLabel.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var myChart = ws.Drawings[0].As.Chart.BarChart;
+
+                var lbl = myChart.Series[0].DataLabel.DataLabels[0];
+
+                var lblTxtBody = myChart.Series[0].DataLabel.DataLabels[0].TextBody;
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ReadFile()
+        {
+            using (var package = OpenTemplatePackage("S1008_NoComment.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var chart = ws.Drawings[0].As.Chart.LineChart;
+
+                chart.Series[0].DataLabel.Separator = " ";
+
+                //Select comment range
+                chart.Series[0].DataLabel.SetValueFromCellsRange(ws.Cells["E1:E53"]);
+
+                //Set the relevant labels to not show value
+                chart.Series[0].DataLabel.DataLabels[21].ShowValue = false;
+                chart.Series[0].DataLabel.DataLabels[26].ShowValue = false;
+
+                Assert.AreEqual("E22", chart.Series[0].DataLabel.DataLabels[21].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual("First comment", ws.Cells["E22"].Text);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void TestAddCommentRangeToExistingFile()
+        {
+            using (var package = OpenTemplatePackage("S1008_NoComment.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var commentText = "Added Comment";
+
+                ws.Cells["E30"].Value = commentText;
+
+                var chart = ws.Drawings[0].As.Chart.LineChart;
+                chart.Series[0].DataLabel.Separator = " ";
+
+                //Select comment range
+                chart.Series[0].DataLabel.SetValueFromCellsRange(ws.Cells["E2:E53"]);
+
+                //Note that since we start on E2 the datalabel idx becomes 20 for row 22 etc.
+                var label1 = chart.Series[0].DataLabel.DataLabels[20];
+                var label2 = chart.Series[0].DataLabel.DataLabels[25];
+                var label3 = chart.Series[0].DataLabel.DataLabels[28];
+
+                //Set the relevant labels to not show value as we only want them to show comments
+                label1.ShowValue = false;
+                label2.ShowValue = false;
+                label3.ShowValue = false;
+
+                Assert.AreEqual("E30", chart.Series[0].DataLabel.DataLabels[28].SingleCellAddressFromSeries.Address);
+                Assert.AreEqual(commentText, ws.Cells["E30"].Text);
+
+                //XforSave is set soley on labels that are not truly neccesary
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DatalabelRangeLiterals()
+        {
+            string item1 = "one";
+            string item2 = "two";
+            string item3 = "three";
+
+            using (var p = OpenPackage("dlblRangeLiterals.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("DataLabelSheet");
+
+                ws.Cells["A1"].Value = "Week";
+                ws.Cells["B1"].Value = "Income";
+
+                ws.Cells["A2:A10"].Formula = $"\"Week \"&(ROW()-1)";
+                ws.Cells["B2:B10"].Formula = $"(ROW()-1)*7";
+                ws.Cells["C2:C10"].Formula = $"\"Comment \"&(ROW()-1)";
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddBarChart("columnChart", eBarChartType.ColumnClustered);
+
+                var barSerie = chart.Series.Add(ws.Cells["B2:B10"], ws.Cells["A2:A10"]);
+                var sDlbl = barSerie.DataLabel;
+
+                sDlbl.ShowValue = true;
+                sDlbl.Position = eLabelPosition.OutEnd;
+             
+                sDlbl.ValueFromCellsRange = $"{{\"{item1}\",\"{item2}\",\"{item3}\"}}";
+
+                var dlblLitterals = barSerie.GetDataLabelLiterals();
+
+                Assert.AreEqual(item1, dlblLitterals[0]);
+                Assert.AreEqual(item2, dlblLitterals[1]);
+                Assert.AreEqual(item3, dlblLitterals[2]);
+
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage("dlblRangeLiterals.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var chart = ws.Drawings[0].As.Chart.BarChart;
+
+                var barSerie = chart.Series[0];
+
+                var cache = barSerie.GetDataLabelLiterals();
+
+                Assert.AreEqual(item1, cache[0]);
+                Assert.AreEqual(item2, cache[1]);
+                Assert.AreEqual(item3, cache[2]);
+            }
+        }
     }
 }

@@ -1526,5 +1526,163 @@ namespace EPPlusTest.Core.Range.Insert
                 SaveAndCleanup(p);
             }
         }
+
+        #region NamedRange insert Max row/col tests
+        [TestMethod]
+        public void InsertRowRangeMaxRelativeMultipleLines()
+        {
+            using (var p = OpenPackage("namedRangeMaxRelativeLargerRange.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ANamedRange");
+
+                string rangeString = "A1048570:A1048576";
+
+                //Add relative reference to max row
+                var namedRange = ws.Names.Add("EndNamedRangeA", ws.Cells[rangeString], true);
+
+                //Insert row somewhere above max row
+                ws.InsertRow(347, 1, 346);
+
+                //address should remain unchanged
+                Assert.AreEqual(rangeString, namedRange.Address);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRowRangeMaxAbsoluteMultipleLines()
+        {
+            using (var p = OpenPackage("namedRangeMaxAbsoluteLargerRange.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ANamedRange");
+
+                //Add absolute reference to max row
+                var namedRange = ws.Names.Add("EndNamedRangeA", ws.Cells["A1048570:A1048576"]);
+
+                //Insert row somewhere above max row
+                ws.InsertRow(347, 1, 346);
+
+                //from row should be added to by one
+                Assert.AreEqual("$A$1048571:$A$1048576", namedRange.Address);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRowNamedRangeMaxAbsolute()
+        {
+            using (var p = OpenPackage("namedRangeMaxAbsolute.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ANamedRange");
+
+                //Add absolute reference to max row
+                var namedRange = ws.Names.Add("EndNamedRangeA", ws.Cells["A1048576"]);
+
+                //Insert row somewhere above max row
+                ws.InsertRow(347, 1, 346);
+
+                Assert.AreEqual($"ANamedRange!{ExcelErrorValue.Values.Ref}", namedRange.Address);
+                Assert.AreEqual(null, namedRange.Value);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRowNamedRangeMaxRelative()
+        {
+            using (var p = OpenPackage("namedRangeMaxRelative.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ANamedRange");
+
+                var relativeRange = ws.Names.Add("EndNamedRangeB", ws.Cells["B1048576"], true);
+
+                //Insert row somewhere above max row
+                ws.InsertRow(347, 1, 346);
+
+                Assert.AreEqual("B1048576", relativeRange.Address);
+                SaveAndCleanup(p);
+            }
+        }
+
+        //Column tests start
+
+        [TestMethod]
+        public void InsertColNamedRangeMaxAbsolute()
+        {
+            using (var p = OpenPackage("namedRangeMaxColAbsolute.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("colNamedRange");
+
+                var maxCols = ExcelPackage.MaxColumns;
+
+                //Add absolute reference to max col
+                var namedRange = ws.Names.Add("EndNamedRangeMaxCols", ws.Cells[3, maxCols]);
+
+                //Insert col somewhere left of max col
+                ws.InsertColumn(347, 1, 346);
+
+                Assert.AreEqual($"colNamedRange!{ExcelErrorValue.Values.Ref}", namedRange.Address);
+                Assert.AreEqual(null, namedRange.Value);
+            }
+        }
+
+        [TestMethod]
+        public void InsertColNamedRangeMaxRelative()
+        {
+            using (var p = OpenPackage("namedRangeMaxColRelative.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("colNamedRange");
+
+                var maxCols = ExcelPackage.MaxColumns;
+
+                //Add absolute reference to max col
+                var namedRange = ws.Names.Add("EndNamedRangeMaxCols", ws.Cells[3, maxCols], true);
+
+                //Insert col somewhere left of max col
+                ws.InsertColumn(347, 1, 346);
+
+                Assert.AreEqual("XFD3", namedRange.Address);
+            }
+        }
+
+        [TestMethod]
+        public void InsertColRangeMaxRelativeMultipleLines()
+        {
+            using (var p = OpenPackage("namedRangeMaxColRelativeLargerRange.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ANamedRange");
+
+                string rangeString = "XFB3:XFD3";
+
+                //Add relative reference to max row
+                var namedRange = ws.Names.Add("EndNamedRangeA", ws.Cells[rangeString], true);
+
+                //Insert col somewhere left of max col
+                ws.InsertColumn(347, 1, 346);
+
+                //address should remain unchanged
+                Assert.AreEqual(rangeString, namedRange.Address);
+            }
+        }
+
+        [TestMethod]
+        public void InsertColRangeMaxAbsoluteMultipleLines()
+        {
+            using (var p = OpenPackage("namedRangeMaxColAbsoluteLargerRange.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ANamedRange");
+
+                string rangeString = "XFB3:XFD3";
+
+                //Add relative reference to max row
+                var namedRange = ws.Names.Add("EndNamedRangeA", ws.Cells[rangeString]);
+
+                //Insert col somewhere left of max col
+                ws.InsertColumn(347, 1, 346);
+
+                //address should remain unchanged
+                Assert.AreEqual("$XFC$3:$XFD$3", namedRange.Address);
+            }
+        }
+        #endregion
     }
 }

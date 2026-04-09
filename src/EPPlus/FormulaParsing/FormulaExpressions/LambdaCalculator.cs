@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     /// <summary>
     /// Stores the Lambda tokens and can be called multiple times with different parameters. 
     /// For each time the tokens are converted RPN tokens and runs through the calculation 
-    /// via the new <see cref="RpnFormulaExecution.ExecutePartialFormula(RpnOptimizedDependencyChain, RpnFormula, ExcelCalculationOption, bool, VariableStorageScope)"/> method.
+    /// via the new <see cref="RpnFormulaExecution.ExecutePartialFormula(RpnOptimizedDependencyChain, RpnFormula, ExcelCalculationOption, bool)"/> method.
     /// </summary>
     internal class LambdaCalculator
     {

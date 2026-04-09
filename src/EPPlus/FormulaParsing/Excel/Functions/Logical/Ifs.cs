@@ -56,6 +56,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
         public override bool ReturnsReference => true;
         public override bool IsVolatile => true;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            var ixArray = new int[127];
+            for (var ix = 0; ix < 254; ix += 2)
+            {
+                ixArray[ix / 2] = ix;
+            }
+            config.SetArrayParameterIndexes(ixArray);
+        }
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex % 2 == 0)

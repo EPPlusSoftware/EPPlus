@@ -5,6 +5,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Style.Interfaces
 {
+    /// <summary>
+    /// An interface for number formats.
+    /// </summary>
     public interface IExcelNumberFormat
     {        
         /// <summary>

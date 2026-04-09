@@ -10,13 +10,10 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
@@ -32,8 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         public static List<double?> FlattenRange(IRangeInfo r1, bool addNullifEmpty = true)
         {
             var result = new List<double?>();
+            int rows = RangeHelper.GetPhysicalRows(r1);
 
-            for (var row = 0; row < r1.Size.NumberOfRows; row++)
+            for (var row = 0; row < rows; row++)
             {
                 for (var column = 0; column < r1.Size.NumberOfCols; column++)
                 {
@@ -67,7 +65,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             return result;
         }
         /// <summary>
-        /// Produces two lists based on the supplied ranges. The lists will contain all data from positions where both ranges has numeric values. 
+        /// Produces two lists based on the supplied ranges.
+        /// The lists will contain all data from positions where both ranges has numeric values. 
         /// </summary>
         /// <param name="r1">range 1</param>
         /// <param name="r2">range 2</param>

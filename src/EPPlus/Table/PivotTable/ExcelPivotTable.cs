@@ -411,11 +411,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 return;
             }
 
-            if (!IsCalculated)
-            {
-                refreshCache = true;
-            }
-
             if (refreshCache || CacheDefinition._cacheReference.Records == null || CacheDefinition._cacheReference.Records.RecordCount == 0)
             {
                 CacheDefinition.Refresh();
@@ -594,13 +589,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 return ErrorValues.RefError;
             }
 
-            if (CalculatedItems[dfIx] != null)
-            {
-                foreach (var k in CalculatedItems[dfIx].Index)
-                {
-                    var val = CalculatedItems[dfIx][k.Key];
-                }
-            }
+            //if (CalculatedItems[dfIx] != null)
+            //{
+            //    foreach (var k in CalculatedItems[dfIx].Index)
+            //    {
+            //        var val = CalculatedItems[dfIx][k.Key];
+            //    }
+            //}
 
             if (function == eSubTotalFunctions.None)
             {

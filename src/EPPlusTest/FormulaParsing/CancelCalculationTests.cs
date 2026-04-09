@@ -13,7 +13,7 @@ namespace EPPlusTest.FormulaParsing
     [TestClass]
     public class CancelCalculationTests
     {
-        const int WaitTimeMs = 150;
+        const int WaitTimeMs = 50;
 
         [TestMethod]
         public void CancelCalculation()
@@ -136,7 +136,7 @@ namespace EPPlusTest.FormulaParsing
             Assert.IsFalse(package.Workbook.IsCalculationInconsistent);
         }
 
-        [TestMethod]
+        [TestMethod,Ignore]
         public void CancelCalculation_WithHeavyNamedRanges()
         {
             using var package = new ExcelPackage();

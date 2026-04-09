@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         internal ExcelChart _chart;
         internal string _nodeName;
-        private string _nsPrefix;
+        internal string NsPrefix { private set; get; }
         private readonly string _formatPath;
         private readonly string _sourceLinkedPath;
 
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Chart
        {
             _nodeName = nodeName;
             _chart = chart;
-            _nsPrefix = nsPrefix;
+            NsPrefix = nsPrefix;
             _formatPath = $"{nsPrefix}:numFmt/@formatCode";
             _sourceLinkedPath = $"{nsPrefix}:numFmt/@sourceLinked";
         }
@@ -157,7 +157,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_fill == null)
                {
-                   _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
+                   _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:spPr", SchemaNodeOrder);
                }
                return _fill;
            }
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_border == null)
                {
-                   _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
+                   _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:spPr/a:ln", SchemaNodeOrder);
                }
                return _border;
            }
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -202,7 +202,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{NsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_font == null)
                {
-                   _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
+                   _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
                }
                return _font;
            }
@@ -233,7 +233,7 @@ namespace OfficeOpenXml.Drawing.Chart
 			{
 				if (_textSettings == null)
 				{
-					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+					_textSettings = new ExcelDrawingTextSettings(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
 				}
 				return _textSettings;
 			}
@@ -245,14 +245,14 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private void CreateDefaultText()
         {
-            if (TopNode.SelectSingleNode($"{_nsPrefix}:txPr", NameSpaceManager) == null)
+            if (TopNode.SelectSingleNode($"{NsPrefix}:txPr", NameSpaceManager) == null)
             {
-                if (!ExistsNode($"{_nsPrefix}:spPr"))
+                if (!ExistsNode($"{NsPrefix}:spPr"))
                 {
-                    var spNode = CreateNode($"{_nsPrefix}:spPr");
+                    var spNode = CreateNode($"{NsPrefix}:spPr");
                     spNode.InnerXml = "<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/>";
                 }
-                var node = CreateNode($"{_nsPrefix}:txPr");
+                var node = CreateNode($"{NsPrefix}:txPr");
                 node.InnerXml = "<a:bodyPr anchorCtr=\"1\" anchor=\"ctr\" bIns=\"19050\" rIns=\"38100\" tIns=\"19050\" lIns=\"38100\" wrap=\"square\" vert=\"horz\" vertOverflow=\"ellipsis\" spcFirstLastPara=\"1\" rot=\"0\"><a:spAutoFit/></a:bodyPr><a:lstStyle/>";
             }
             
@@ -268,7 +268,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, Font.CreateTopNode);
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, Font.CreateTopNode);
                 }
                 return _textBody;
             }

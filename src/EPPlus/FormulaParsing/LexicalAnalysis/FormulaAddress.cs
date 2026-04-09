@@ -708,16 +708,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         /// <param name="package">The <see cref="ExcelPackage"/> that contains the address</param>
         /// <returns></returns>
+
         public bool HasFormulas(ExcelPackage package)
         {
             if (_hasFormulas.HasValue) return _hasFormulas.Value;
-
             if (package == null || WorksheetIx < 0)
             {
                 _hasFormulas = false;
                 return false;
             }
-
             var ws = package.Workbook.GetWorksheetByIndexInList(WorksheetIx);
             if (ws == null)
             {
@@ -725,10 +724,30 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return false;
             }
 
-            // Check if range contains formulas
-            for (var row = FromRow; row <= ToRow; row++)
+            // Clamp to worksheet dimension to avoid iterating 1M rows
+            // for full column references
+            var dim = ws.Dimension;
+            var fromRow = FromRow;
+            var toRow = ToRow;
+            var fromCol = FromCol;
+            var toCol = ToCol;
+            if (dim != null)
             {
-                for (var col = FromCol; col <= ToCol; col++)
+                fromRow = Math.Max(fromRow, dim._fromRow);
+                toRow = Math.Min(toRow, dim._toRow);
+                fromCol = Math.Max(fromCol, dim._fromCol);
+                toCol = Math.Min(toCol, dim._toCol);
+            }
+            else
+            {
+                // No dimension means no data, hence no formulas
+                _hasFormulas = false;
+                return false;
+            }
+
+            for (var row = fromRow; row <= toRow; row++)
+            {
+                for (var col = fromCol; col <= toCol; col++)
                 {
                     if (ws._formulas.GetValue(row, col) != null)
                     {
@@ -737,7 +756,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                 }
             }
-
             _hasFormulas = false;
             return false;
         }

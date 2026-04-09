@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,7 @@ namespace OfficeOpenXml.Style
 
         }
         const string TextPath = "../a:t";
+        const string FldPath = "../a:fld";
         /// <summary>
         /// Text
         /// </summary>
