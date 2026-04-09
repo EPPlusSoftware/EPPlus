@@ -1,5 +1,16 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  19/3/2026         EPPlus Software AB           EPPlus v8.6
+ *************************************************************************************************/
+
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -7,81 +18,16 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions
 {
-    internal abstract class GroupbyFunctionBase : ExcelFunction
+    internal abstract class GroupByFunctionBase : ExcelFunction
     {
         protected readonly LookupComparerBase _comparer = new SortByComparer();
 
-        // -------------------------------------------------------
-        // Enums & Constants
-        // -------------------------------------------------------
-        protected enum FieldHeaders
-        {
-            Missing = -1,
-            No = 0,
-            YesAndDontShow = 1,
-            NoButGenerate = 2,
-            YesAndShow = 3
-        }
-
         protected const int TotalDepthNoTotals = 0;
         protected const int TotalDepthGrandOnly = 1;
-
-        protected enum FieldRelationship
-        {
-            Hierarchy = 0,
-            Table = 1
-        }
-        protected enum FunctionLayout
-        {
-            Single,
-            Horizontal, // HSTACK - results are added as columns
-            Vertical    // VSTACK - results are added as rows
-        }
-        // -------------------------------------------------------
-        // Shared argument container
-        // -------------------------------------------------------
-        protected class GroupByBaseArgs
-        {
-            public IRangeInfo RowFields { get; set; }
-            public IRangeInfo Values { get; set; }
-            public LambdaCalculator Function { get; set; }
-            public List<LambdaCalculator> Functions { get; set; } = new List<LambdaCalculator>();
-            public FunctionLayout FunctionLayout { get; set; } = FunctionLayout.Single;
-            public FieldHeaders Headers { get; set; } = FieldHeaders.Missing;
-            public int TotalDepth { get; set; } = 1;
-            public int[] SortOrders {  get; set; } = new [] { 1 };
-            public IRangeInfo FilterArray { get; set; } = null;
-            public FieldRelationship FieldRelationship { get; set; } = FieldRelationship.Hierarchy;
-            public List<object[]> AllValuesInOrder { get; set; } = new List<object[]>(); 
-        }
-
-        // -------------------------------------------------------
-        // Shared data structures
-        // -------------------------------------------------------
-        protected class GroupLevel
-        {
-            public object Key { get; set; }
-            public List<GroupLevel> Children { get; set; } = new List<GroupLevel>();
-            public Dictionary<string, GroupLevel> ChildDict { get; set; } = null;
-            public List<string> ChildOrder { get; set; } = null;
-            public List<GroupRow> Rows { get; set; } = new List<GroupRow>();
-            public object SubtotalValue { get; set; }
-            public List<object[]> SubtotalValues { get; set; } = new List<object[]>(); // [function][valueCol]
-            public bool IsLeaf => Children.Count == 0;
-        }
-
-        protected class GroupRow
-        {
-            public object[] KeyParts { get; set; }
-            public List<object[]> Values { get; set; } = new List<object[]>();
-            public object AggregatedValue { get; set; }
-            public List<object[]> AggregatedValues { get; set; } = new List<object[]>(); // [function][valueCol]
-        }
 
         protected List<string> ResolveFunctionHeaders(GroupByBaseArgs args)
         {

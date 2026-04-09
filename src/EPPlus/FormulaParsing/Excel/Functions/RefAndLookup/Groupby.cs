@@ -12,25 +12,21 @@
  *************************************************************************************************/
 
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "",
+        EPPlusVersion = "8.6",
         Description = "Allows you to create a summary of your data via a formula. Supports grouping along one axis and aggregating the associated values.")]
 
-    internal class Groupby : GroupbyFunctionBase
+    internal class GroupBy : GroupByFunctionBase
     {
         public override string NamespacePrefix => "_xlfn.";
         public override bool ExecutesLambda => true;
