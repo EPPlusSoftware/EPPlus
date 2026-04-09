@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.Pdf.PdfSettings;
+﻿using EPPlus.Export.Pdf.PdfLayout;
+using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using OfficeOpenXml;
 using System;
@@ -16,6 +17,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public int ToColumn;
 
         public bool HasPrintTitle;
+
+        public PdfCellCollection Map;
     }
 
     internal struct Pages
@@ -35,26 +38,58 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public static Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
         {
+            // Add in comments and notes!
+            var PagesCollection = GetPages(pageSettings, pdfSheets);
+            var Catalog = GetCatalog(pageSettings, PagesCollection);
+            return Catalog;
+        }
+
+        internal static Transform GetCatalog(PdfPageSettings pageSettings, List<Pages> pdfPages)
+        {
+            Transform Catalog = new Transform(0d, 0d, 0d, 0d);
+            for (int i = 0; i < pdfPages.Count; i++)
+            {
+                PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
+                PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
+                var page = pdfPages[i].Page;
+                for (int j = 0; j < page.Length; j++)
+                {
+                    //create cells
+                    //  Text
+                    //  Fill
+                    //  Border
+                    //Add HeaderFooter
+                    //  Uppdate page number texts and shape them
+                    //Gridlines
+                    //Headings
+                    //Print titles
+                }
+
+
+                Catalog.AddChild(pageLayout);
+            }
+            return Catalog;
+        }
+
+        internal static List<Pages> GetPages(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
+        {
             List<Pages> PagesCollection = new List<Pages>();
-            //calculate number of pages
             foreach (var pdfSheet in pdfSheets)
             {
                 foreach (var range in pdfSheet.Ranges)
                 {
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, range);
-                    AssignRangeToPages(pageSettings, range, pages);
+                    pages = AssignRangeToPages(pageSettings, range, pages);
+                    pages = MapPage(range, pages);
+                    PagesCollection.Add(pages);
                 }
-                //add together all pages, assign page number/total page numbers
-                //add cells to each page first as an array for gridlines then as transforms
-                //create gridlines
-                //shape headerfooter text again if it contains page numbers/total pages number.
             }
-            return null;
+            return PagesCollection;
         }
 
         internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet,  PdfRange range)
         {
-            //calculte pages needed for this range, add int col headings for width, row headings for height. THis is where we also add print headings later on. Autofit on row here too later on.
+            //calculte pages needed for this range, add in col headings for width, row headings for height. THis is where we also add print headings later on. Autofit on row here too later on.
             var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.ContentBounds.Width));
             var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.ContentBounds.Height));
 
@@ -84,7 +119,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 if (pdfSheet.Worksheet.Row(i).PageBreak)
                     yPages++;
             }
-            //might need to place ranges into pages before checking out titles since what page titles start showing on might diff. Maybe page is
             //if (HasPrintTitles Row)
             //if (HasPrintTitles Column)
 
@@ -99,69 +133,134 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             var pages = pdfPages;
             var worksheet = range.Range.Worksheet;
-            pages.Page = new Page[pages.Count];
-            int col = 0, row = 0;
-            int fromCol = range.Map.FromColumn;
-            int fromRow = range.Map.FromRow;
-            var addedWidth = range.AdditionalWidth / pages.Width;
-            var addedHeight = range.AdditionalHeight / pages.Height;
-            for (int i = 0; i < pages.Count; i++)
+            var addedWidth = pages.Width > 0 ? range.AdditionalWidth / pages.Width : 0d;
+            var addedHeight = pages.Height > 0 ? range.AdditionalHeight / pages.Height : 0d;
+
+            var colSegments = GetColumnSegments(pageSettings, range, worksheet, addedWidth);
+            var rowSegments = GetRowSegments(pageSettings, range, worksheet, addedHeight);
+
+            pages.Page = new Page[colSegments.Count * rowSegments.Count];
+            int i = 0;
+
+            if (pageSettings.PageOrders == PageOrders.DownThenOver)
             {
-                var page = pages.Page[i];
-                double width = 0d, height = 0d;
-                while (col < range.ColWidths.Count)
+                foreach (var colSeg in colSegments)
+                    foreach (var rowSeg in rowSegments)
+                        pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
+            }
+            else //if (pageSettings.PageOrders == PageOrders.OverThenDown)
+            {
+                foreach (var rowSeg in rowSegments)
+                    foreach (var colSeg in colSegments)
+                        pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
+            }
+
+            pdfPages = pages;
+            return pdfPages;
+        }
+
+        private struct PageSegment
+        {
+            public int From;
+            public int To;
+            public PageSegment(int from, int to) { From = from; To = to; }
+        }
+
+        private static List<PageSegment> GetColumnSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedWidth)
+        {
+            var segments = new List<PageSegment>();
+            int segStartIdx = 0;
+            double width = 0d;
+
+            for (int col = 0; col < range.ColWidths.Count; col++)
+            {
+                int actualCol = range.Range._fromCol + col;
+
+                // Content-bounds overflow: col doesn't fit, end segment before it and reprocess.
+                if (width + range.ColWidths[col] + addedWidth >= pageSettings.ContentBounds.Width)
                 {
-                    int actualCol = range.Range._fromCol + col;
-                    if (width + range.ColWidths[col] + addedWidth >= pageSettings.ContentBounds.Width)
+                    segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col - 1));
+                    segStartIdx = col;
+                    width = 0d;
+                    col--; // reprocess this col as the first col of the next segment
+                    continue;
+                }
+
+                width += range.ColWidths[col];
+
+                // Explicit page break: col is included on this page, next segment starts after it.
+                if (worksheet.Column(actualCol).PageBreak)
+                {
+                    segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col));
+                    segStartIdx = col + 1;
+                    width = 0d;
+                }
+            }
+
+            // Remaining cols form the last segment.
+            if (segStartIdx < range.ColWidths.Count)
+                segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + range.ColWidths.Count - 1));
+
+            return segments;
+        }
+
+        private static List<PageSegment> GetRowSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedHeight)
+        {
+            var segments = new List<PageSegment>();
+            int segStartIdx = 0;
+            double height = 0d;
+
+            for (int row = 0; row < range.RowHeights.Count; row++)
+            {
+                int actualRow = range.Range._fromRow + row;
+
+                // Content-bounds overflow: row doesn't fit, end segment before it and reprocess.
+                if (height + range.RowHeights[row] + addedHeight >= pageSettings.ContentBounds.Height)
+                {
+                    segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row - 1));
+                    segStartIdx = row;
+                    height = 0d;
+                    row--; // reprocess this row as the first row of the next segment
+                    continue;
+                }
+
+                height += range.RowHeights[row];
+
+                // Explicit page break: row is included on this page, next segment starts after it.
+                if (worksheet.Row(actualRow).PageBreak)
+                {
+                    segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row));
+                    segStartIdx = row + 1;
+                    height = 0d;
+                }
+            }
+
+            // Remaining rows form the last segment.
+            if (segStartIdx < range.RowHeights.Count)
+                segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + range.RowHeights.Count - 1));
+
+            return segments;
+        }
+
+        internal static Pages MapPage(PdfRange range, Pages pdfPages)
+        {
+            var pages = pdfPages;
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+            {
+                var page = pdfPages.Page[i];
+                page.Map = new PdfCellCollection(page.FromRow, page.ToRow, page.FromColumn, page.ToColumn);
+                for (int row = page.FromRow; row <= page.ToRow; row++)
+                {
+                    for (int col = page.FromColumn; col <= page.ToColumn; col++)
                     {
-                        page.FromColumn = fromCol;
-                        page.ToColumn = fromCol + col;
-                        fromCol += col;
-                        break;
-                    }
-                    width += range.ColWidths[col];
-                    col++;
-                    if (worksheet.Column(actualCol).PageBreak)
-                    {
-                        page.FromColumn = fromCol;
-                        page.ToColumn = fromCol + col - 1;
-                        fromCol += col;
-                        width = 0d;
-                        break;
+                        page.Map[row, col] = range.Map[row, col];
                     }
                 }
-                while (row < range.RowHeights.Count)
-                {
-                    int actualRow = range.Range._fromRow + row;
-                    if (height + range.RowHeights[row] + addedHeight >= pageSettings.ContentBounds.Height)
-                    {
-                        page.FromRow = fromRow;
-                        page.ToRow = fromRow + row;
-                        fromRow += row;
-                        break;
-                    }
-                    height += range.RowHeights[row];
-                    row++;
-                    if (worksheet.Row(actualRow).PageBreak)
-                    {
-                        page.FromColumn = fromCol;
-                        page.ToColumn = fromCol + col - 1;
-                        fromCol += col;
-                        width = 0d;
-                        break;
-                    }
-                }
-                if (i == pages.Count - 1)
-                {
-                    page.FromColumn = fromCol;
-                    page.ToColumn = fromCol + col;
-                    page.FromRow = fromRow;
-                    page.ToRow = fromRow + row;
-                }
-                pages.Page[i] = page;
+                pdfPages.Page[i] = page;
             }
             pdfPages = pages;
             return pdfPages;
         }
+
     }
 }
