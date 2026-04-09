@@ -66,10 +66,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Calculate();
                 Assert.AreEqual("Anna", s.Cells["C1"].Value);
                 Assert.AreEqual("Bertil", s.Cells["C2"].Value);
-                Assert.AreEqual("Joe", s.Cells["C3"].Value);
-                //Assert.AreEqual(1.33333333333333d, s.Cells["D1"].Value);
+                Assert.AreEqual("Joe", s.Cells["C3"].Value);                
                 Assert.AreEqual(2d, s.Cells["D2"].Value);
-                Assert.AreEqual(0.6667d, s.Cells["D3"].Value);
+                Assert.AreEqual(0.6667d, System.Math.Round((double)s.Cells["D3"].Value, 4));
                 Assert.AreEqual("Total", s.Cells["C4"].Value);
                 Assert.AreEqual(4d, s.Cells["D4"].Value);
             }
@@ -82,10 +81,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 var s = package.Workbook.Worksheets.Add("test");
                 s.Cells["A1"].Value = "A";
-                s.Cells["A2"].Value = "B";
+                s.Cells["A2"].Value = "B"; 
                 s.Cells["A3"].Value = "A";
                 s.Cells["A4"].Value = "A";
                 s.Cells["A5"].Value = "B";
+
                 s.Cells["B1"].Value = "X";
                 s.Cells["B2"].Value = "X";
                 s.Cells["B3"].Value = "Y";
@@ -183,7 +183,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(20d, s.Cells["E2"].Value);
                 Assert.AreEqual("Mar", s.Cells["C3"].Value);
                 Assert.AreEqual(108d, s.Cells["E3"].Value);
-                // Det ska inte gå att ha med subtotaler, subtotals are not supported
             }
         }
 
@@ -214,7 +213,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("Mar", s.Cells["C3"].Value);
                 Assert.AreEqual(108d, s.Cells["D3"].Value);
             }
-            // Det ska inte gå att ha med subtotaler, subtotals are not supported
         }
         [TestMethod]
         public void GroupBy_NoTotals_ShouldNotIncludeTotalRow()
@@ -231,7 +229,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["B3"].Value = 3;
                 s.Cells["B4"].Value = 0;
 
-                // fieldSettings = 0 stänger av totalsraden
                 s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.SUM,, 0)";
                 s.Calculate();
 
@@ -242,7 +239,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(3d, s.Cells["D2"].Value);
                 Assert.AreEqual(1d, s.Cells["D3"].Value);
 
-                // C4 ska vara tom – ingen totalsrad när fieldSettings = 0
                 Assert.AreNotEqual(s.Cells["C4"].Value, "Total");
                 Assert.AreNotEqual(s.Cells["D4"].Value, 0d);
             }
@@ -339,22 +335,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
                 Assert.AreEqual("Total", s.Cells["C4"].Value);
                 Assert.AreEqual(2.5d, s.Cells["D4"].Value);
-            }
-        }
-
-        [TestMethod]
-        public void GroupByTextFunction2()
-        {
-            // REMINDER: ARRAYTOTEXT verkar inte fungera som den ska. Kan inte hantera singel cell adress till funktionen, vilket den kan i excel.
-            using (var package = new ExcelPackage())
-            {
-                var s = package.Workbook.Worksheets.Add("test");
-                s.Cells["B4"].Value = "Gick";
-
-                s.Cells["C1"].Formula = "ARRAYTOTEXT(B4)";
-                s.Calculate();
-
-                //Assert.AreEqual("Gick", s.Cells["C1"].Value);
             }
         }
 
@@ -492,7 +472,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-
         [TestMethod]
         public void GroupByMultipleFunctionsCustomLambda2()
         {
@@ -512,41 +491,42 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["B4"].Value = 3;
                 s.Cells["B6"].Value = 4;
 
-                s.Cells["C1"].Formula = "GROUPBY(A1:A6, B1:B6,HSTACK(LAMBDA(x,SUM(x *2/3)), _xleta.COUNT, LAMBDA(x,SUM(x *2)) ) )";
+                s.Cells["C1"].Formula = "GROUPBY(A1:A6, B1:B6,HSTACK(_xleta.COUNT, LAMBDA(x,SUM(x *2/3)), _xleta.PERCENTOF, LAMBDA(x,SUM(x *2)) ) )";
                 //  LAMBDA(x, SUM(x*4/2)) LAMBDA(x,SUM(x *2/3))
                 s.Calculate();
 
-                Assert.AreEqual(null, s.Cells["C1"].Value);
                 Assert.AreEqual("COUNT", s.Cells["D1"].Value);
                 Assert.AreEqual("CUSTOM1", s.Cells["E1"].Value);
                 Assert.AreEqual("PERCENTOF", s.Cells["F1"].Value);
-                Assert.AreEqual("CUSTOM2", s.Cells["E1"].Value);
+                Assert.AreEqual("CUSTOM2", s.Cells["G1"].Value);
             }
         }
 
-
         [TestMethod]
-        public void GroupByMultipleFunctionsCustomLambda3()
+        public void GroupBySortByArrayInput()
         {
             using (var package = new ExcelPackage())
             {
                 var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B2"].Value = "C";
+                s.Cells["B3"].Value = "A";
+                s.Cells["C2"].Value = "A";
+                s.Cells["C3"].Value = "B";
+                s.Cells["D2"].Value = "C";
+                s.Cells["D3"].Value = "A";
 
-                s.Cells["A1"].Value = "Rubrik";
-                s.Cells["A2"].Value = "B";
-                s.Cells["A3"].Value = "A";
-                s.Cells["A4"].Value = "B";
-                s.Cells["A5"].Value = "A";
-                s.Cells["A6"].Value = "C";
-
-                s.Cells["B1"].Value = "Siffor";
-                s.Cells["B2"].Value = 1;
-                s.Cells["B4"].Value = 3;
-                s.Cells["B6"].Value = 4;
-
-                s.Cells["C1"].Formula = "HSTACK(LAMBDA(x,x), _xleta.COUNT, LAMBDA(x,x))";
-                //  LAMBDA(x, SUM(x*4/2)) LAMBDA(x,SUM(x *2/3))
+                s.Cells["E2"].Value = 4;
+                s.Cells["E3"].Value = 2;
+                s.Cells["F2"].Value = 6;
+                s.Cells["F3"].Value = 5;
+                s.Cells["F6"].Formula = "GROUPBY(A2:D3,E2:F3,_xleta.SUM,,,{-1,2,3})";
                 s.Calculate();
+
+                Assert.AreEqual(s.Cells["F6"].Value, "B");
+                Assert.AreEqual(s.Cells["J8"].Value, 6d);
+                Assert.AreEqual(s.Cells["K8"].Value, 11d);
             }
         }
 

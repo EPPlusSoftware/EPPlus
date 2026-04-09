@@ -54,10 +54,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public FunctionLayout FunctionLayout { get; set; } = FunctionLayout.Single;
             public FieldHeaders Headers { get; set; } = FieldHeaders.Missing;
             public int TotalDepth { get; set; } = 1;
-            public int SortOrder { get; set; } = 1;
+            public int[] SortOrders {  get; set; } = new [] { 1 };
             public IRangeInfo FilterArray { get; set; } = null;
             public FieldRelationship FieldRelationship { get; set; } = FieldRelationship.Hierarchy;
-            public List<object[]> AllValuesInOrder { get; set; } = new List<object[]>();
+            public List<object[]> AllValuesInOrder { get; set; } = new List<object[]>(); 
         }
 
         // -------------------------------------------------------
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public List<string> ChildOrder { get; set; } = null;
             public List<GroupRow> Rows { get; set; } = new List<GroupRow>();
             public object SubtotalValue { get; set; }
-            public List<object> SubtotalValues { get; set; }
+            public List<object[]> SubtotalValues { get; set; } = new List<object[]>(); // [function][valueCol]
             public bool IsLeaf => Children.Count == 0;
         }
 
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             public object[] KeyParts { get; set; }
             public List<object[]> Values { get; set; } = new List<object[]>();
             public object AggregatedValue { get; set; }
-            public List<object> AggregatedValues { get; set; } = new List<object>(); // All function results
+            public List<object[]> AggregatedValues { get; set; } = new List<object[]>(); // [function][valueCol]
         }
 
         protected List<string> ResolveFunctionHeaders(GroupByBaseArgs args)
@@ -103,7 +103,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         // -------------------------------------------------------
-        // Argument parsing (shared arguments 1-8)
+        // Argument parsing 
         // -------------------------------------------------------
         protected bool TryParseBaseArgs(
             IList<FunctionArgument> arguments,
@@ -150,7 +150,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     else
                         return Fail(eErrorType.Value, out error);
                 }
-                args.Function = args.Functions[0];
+                args.Function = args.Functions[0];                
             }
             else
             {
@@ -166,7 +166,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var v = Convert.ToInt32(arguments[3].Value);
                 if (!Enum.IsDefined(typeof(FieldHeaders), v))
                     return Fail(eErrorType.Value, out error);
-                args.Headers = (FieldHeaders)v;
+                args.Headers = (FieldHeaders)v;                
+            }
+            else if(args.Functions.Count > 1) // In excel, if multiple functions are included, headers are by default displayed.
+            {
+                args.Headers = FieldHeaders.YesAndShow;
             }
 
             // total_depth (optional)
@@ -180,7 +184,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             // sort_order (optional)
             if (arguments.Count > 5 && arguments[5].Value != null)
-                args.SortOrder = Convert.ToInt32(arguments[5].Value);
+            {
+                if (arguments[5].IsExcelRange)
+                {
+                    var range = arguments[5].ValueAsRangeInfo;
+                    bool isHorizontal = range.Size.NumberOfRows == 1;
+                    int count = isHorizontal ? range.Size.NumberOfCols : range.Size.NumberOfRows;
+                    args.SortOrders = new int[count];
+                    for (int i = 0; i < count; i++)
+                        args.SortOrders[i] = Convert.ToInt32(isHorizontal
+                            ? range.GetOffset(0, i)
+                            : range.GetOffset(i, 0));
+                }
+                else
+                {
+                    args.SortOrders = new[] { Convert.ToInt32(arguments[5].Value) };
+                }
+            }
 
             // filter_array (optional)
             if (arguments.Count > 6 && arguments[6].IsExcelRange)
@@ -238,9 +258,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                            || resolvedHeaders == FieldHeaders.YesAndDontShow;
             bool multipleFunctions = args.Functions.Count > 1;
             int startRow = hasHeaders ? 1 : 0;
-            //int startRow = 0;
-            //if (hasHeaders) startRow++;
-            //if (multipleFunctions) startRow++;
+
             int nKeyCols = args.RowFields.Size.NumberOfCols;
             int nValCols = args.Values.Size.NumberOfCols;
 
@@ -278,7 +296,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         currentOrder.Add(keyStr);
                     }
 
-                    if (depth < nKeyCols - 1)
+                    if (depth < nKeyCols - 1) // If there are more cols after the current, add child.
                     {
                         if (currentLevel.ChildDict == null)
                         {
@@ -327,30 +345,60 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     foreach (var row in level.Rows)
                     {
-                        row.AggregatedValues = args.Functions
-                            .Select(f => Aggregate(f, row.Values, context,
-                                f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null))
-                            .ToList();
-                        row.AggregatedValue = row.AggregatedValues[0];
+                        row.AggregatedValues = args.Functions.Select(f =>
+                        {
+                            int nValCols = row.Values[0].Length;
+                            var result = new object[nValCols];
+                            for (int col = 0; col < nValCols; col++)
+                            {
+                                var colValues = row.Values
+                                    .Select(v => new object[] { v[col] })
+                                    .ToList();
+                                result[col] = Aggregate(f, colValues, context,
+                                    f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                            }
+                            return result;
+                        }).ToList();
+                        row.AggregatedValue = row.AggregatedValues[0][0];
                     }
 
                     var allVals = level.Rows.SelectMany(r => r.Values).ToList();
-                    level.SubtotalValues = args.Functions
-                        .Select(f => Aggregate(f, allVals, context,
-                            f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null))
-                        .ToList();
-                    level.SubtotalValue = level.SubtotalValues[0];
+                    level.SubtotalValues = args.Functions.Select(f =>
+                    {
+                        int nValCols = allVals[0].Length;
+                        var result = new object[nValCols];
+                        for (int col = 0; col < nValCols; col++)
+                        {
+                            var colValues = allVals
+                                .Select(v => new object[] { v[col] })
+                                .ToList();
+                            result[col] = Aggregate(f, colValues, context,
+                                f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        }
+                        return result;
+                    }).ToList();
+                    level.SubtotalValue = level.SubtotalValues[0][0];
                 }
                 else
                 {
                     AggregateTree(level.Children, args, context);
 
                     var allVals = level.Children.SelectMany(c => GetAllValues(c)).ToList();
-                    level.SubtotalValues = args.Functions
-                        .Select(f => Aggregate(f, allVals, context,
-                            f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null))
-                        .ToList();
-                    level.SubtotalValue = level.SubtotalValues[0];
+                    level.SubtotalValues = args.Functions.Select(f =>
+                    {
+                        int nValCols = allVals[0].Length;
+                        var result = new object[nValCols];
+                        for (int col = 0; col < nValCols; col++)
+                        {
+                            var colValues = allVals
+                                .Select(v => new object[] { v[col] })
+                                .ToList();
+                            result[col] = Aggregate(f, colValues, context,
+                                f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        }
+                        return result;
+                    }).ToList();
+                    level.SubtotalValue = level.SubtotalValues[0][0];
                 }
             }
         }
@@ -377,7 +425,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if(calculator.NumberOfVariables > 1 && allValues != null)
             {
-                // Special case with PERCENTOF where we have to handle two arguments with no input.
                 int allRows = allValues.Count;
                 int allCols = allValues.Count > 0 ? allValues[0].Length : 1;
                 var allRange = new InMemoryRange(allRows, (short)allCols);
@@ -388,6 +435,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return calculator.Execute(context).ResultValue;
         }
-
     }
 }
