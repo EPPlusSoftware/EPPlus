@@ -84,13 +84,10 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
             fonts.Add(mf2);
 
-            var txtMeasurer = new FontMeasurerTrueType();
-
-            txtMeasurer.SetFont(mf);
-
+            var txtMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf2);
             var maxWidth = 114d;
 
-            var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(txtRuns, fonts, maxWidth.PixelToPoint());
+            var wrappedFragments = txtMeasurer.WrapRichText(txtRuns, fonts, maxWidth.PixelToPoint());
 
             Assert.AreEqual(2, wrappedFragments.Count);
             Assert.AreEqual("HIJKLM", wrappedFragments[0]);
@@ -134,13 +131,11 @@ namespace EPPlusTest.Drawing.TextMeasuring
             fonts.Add(mf2);
             fonts.Add(mf2);
 
-            var txtMeasurer = new FontMeasurerTrueType();
-
-            txtMeasurer.SetFont(mf);
+            var txtMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var maxWidth = 114d;
 
-            var wrappedFragments = txtMeasurer.WrapMultipleTextFragments(txtRuns, fonts, maxWidth.PixelToPoint());
+            var wrappedFragments = txtMeasurer.WrapRichText(txtRuns, fonts, maxWidth.PixelToPoint());
 
             Assert.AreEqual(2, wrappedFragments.Count);
             Assert.AreEqual("HIJKLMpqrst", wrappedFragments[0]);

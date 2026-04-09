@@ -13,6 +13,8 @@
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
@@ -41,7 +43,10 @@ namespace EPPlusImageRenderer.Svg
         double _maxWidth, _maxHeight;
         internal SvgChartLegend(SvgChart sc, bool isDataLabelLegend = false) : base(sc)
         {
-            _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var mf = sc.Chart.Font.GetMeasureFont();
+            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
+
             if (sc.Chart.HasLegend == false && isDataLabelLegend == false || sc.Chart.Series.Count == 0)
             {
                 return;
