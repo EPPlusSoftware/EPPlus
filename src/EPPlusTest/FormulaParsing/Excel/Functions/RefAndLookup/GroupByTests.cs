@@ -18,7 +18,7 @@ using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversion
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [TestClass]
-    public class GroupByTests
+    public class GroupByTests : TestBase
     {
 
         [TestMethod]
@@ -296,6 +296,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             using (var package = new ExcelPackage())
             {
+                SwitchToCulture();
                 var s = package.Workbook.Worksheets.Add("test");
                 s.Cells["A1"].Value = "Kalle";
                 s.Cells["A2"].Value = "Alice";
@@ -309,8 +310,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
                 s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.ARRAYTOTEXT)";
                 s.Calculate();
-
                 Assert.AreEqual("Hoppade; Sprang; Hoppade; Gick", s.Cells["D4"].Value);
+                SwitchBackToCurrentCulture();
             }
         }
 
