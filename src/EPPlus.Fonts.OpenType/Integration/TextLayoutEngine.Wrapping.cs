@@ -16,6 +16,7 @@ using EPPlus.Fonts.OpenType.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -34,10 +35,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             double totalWidth = state.CurrentLineWidth + state.CurrentWordWidth;
 
-            if (state.LineStart < state.WordStart)
-            {
-                totalWidth += state.SpaceWidth;
-            }
+            totalWidth += state.SpaceWidth;
 
             if (totalWidth <= maxWidth || state.LineStart == state.WordStart)
             {
@@ -50,6 +48,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 // Word doesn't fit - start new line
                 _lineBuilder.FlushToList(_lineListBuffer);
+                _lineListBuffer[_lineListBuffer.Count-1] += " ";
 
                 state.LineStart = state.WordStart;
                 state.CurrentLineWidth = state.CurrentWordWidth;
@@ -102,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.CurrentWordWidth += charWidths[currentPos];
 
             // CASE 1: Line has content and word grows too large
-            if (state.CurrentWordWidth > maxWidth &&
+            if ((state.CurrentWordWidth + state.CurrentLineWidth) > maxWidth &&
                 state.LineStart < state.WordStart &&
                 state.CurrentLineWidth > 0)
             {
