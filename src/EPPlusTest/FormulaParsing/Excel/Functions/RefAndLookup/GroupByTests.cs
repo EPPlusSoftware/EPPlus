@@ -310,7 +310,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
                 s.Cells["C1"].Formula = "GROUPBY(A1:A4, B1:B4, _xleta.ARRAYTOTEXT)";
                 s.Calculate();
-                Assert.AreEqual("Hoppade; Sprang; Hoppade; Gick", s.Cells["D4"].Value);
+                Assert.AreEqual("Hoppade, Sprang, Hoppade, Gick", s.Cells["D4"].Value);
                 SwitchBackToCurrentCulture();
             }
         }
