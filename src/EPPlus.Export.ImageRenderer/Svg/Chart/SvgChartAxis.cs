@@ -67,7 +67,6 @@ namespace EPPlusImageRenderer.Svg
 
             if (ax.Deleted == false)
             {
-                Textboxes = new SvgAxisTextBoxes(sc);
                 if (ax.Layout.HasLayout)
                 {
                     Rectangle = GetRectFromManualLayout(sc, ax.Layout);
@@ -259,6 +258,8 @@ namespace EPPlusImageRenderer.Svg
 
         internal void AddTickmarksAndValues(List<RenderItem> DefItems)
         {
+            if (Axis.Deleted == true) return;
+
             if (Axis.MajorTickMark != eAxisTickMark.None)
             {
                 MajorAxisPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
@@ -293,6 +294,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
+                Textboxes = new SvgAxisTextBoxes(SvgChart);
                 Textboxes.TextBoxes = GetAxisValueTextBoxes();
             }
         }
@@ -308,7 +310,6 @@ namespace EPPlusImageRenderer.Svg
             double maxWidth, maxHeight;
             if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                maxWidth = SvgChart.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
                 maxWidth = SvgChart.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
                 maxHeight = Rectangle.Height / AxisValues.Count;
             }
@@ -333,7 +334,6 @@ namespace EPPlusImageRenderer.Svg
             double widest=0;
             for (var i = 0; i < AxisValues.Count; i++)
             {
-
                 var v = AxisValues[i];
                 var m = tm.MeasureText(v, mf);
                 var ticMarkX = GetAxisItemLeft(i, m);
@@ -570,7 +570,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var majorHeight = Rectangle.Height / (AxisValues.Count-1);
+                var majorHeight = Rectangle.Height / (AxisValues.Count);
                 if (Axis.AxisType == eAxisType.Cat)
                 {
                     return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) + (majorHeight / 2) - m.Height / 2;
@@ -627,8 +627,8 @@ namespace EPPlusImageRenderer.Svg
                         case eAxisPosition.Left:
                             y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
                             y2 = y1;                            
-                            x1 = (float)Rectangle.Right - tickMarkWidthInside;
-                            x2 = (float)Rectangle.Right + tickMarkWidthOutside;
+                            x1 = (float)Rectangle.Right - tickMarkWidthOutside;
+                            x2 = (float)Rectangle.Right + tickMarkWidthInside;
                             break;
                         case eAxisPosition.Right:
                             y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
@@ -882,7 +882,7 @@ namespace EPPlusImageRenderer.Svg
                 LockedMax = ax.MaxValue,
                 LockedInterval = ax.MajorUnit,
                 LockedIntervalUnit = ax.MajorTimeUnit,
-                AddPadding = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right,
+                AddPadding = ax.AxisType!=eAxisType.Cat,//(ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right),
                 Axis = ax,
                 IsStacked100 = Chart.IsTypePercentStacked(),
                 ChartSize = rect

@@ -634,7 +634,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>True if the chart is of type column</returns>
         protected internal bool IsTypeColumn()
         {
-            return ChartType == eChartType.BarClustered ||
+            return ChartType == eChartType.ColumnClustered ||
                            ChartType == eChartType.ColumnStacked ||
                            ChartType == eChartType.ColumnStacked100 ||
                            ChartType == eChartType.ColumnClustered3D ||

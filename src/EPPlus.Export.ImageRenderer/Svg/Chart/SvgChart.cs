@@ -34,18 +34,6 @@ namespace EPPlusImageRenderer.Svg
         public SvgChart(ExcelChart chart) : base(chart)
         {
 
-            //chart.Fill.
-            //chart.Fill
-            //chart.Fill.
-            ////chart.StyleManager.Style.ChartArea.
-            ////_styleCache.GetOrCreateId(chart.Fill.)
-            ////var cssExporter = new CssChartExporterSync(chart);
-            ////var css = cssExporter.GetCssString();
-
-            //chart.Fill
-            //var cssExporter = new CssChartExporterSync(chart);
-            //var css = cssExporter.GetCssString();
-
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)
@@ -66,16 +54,13 @@ namespace EPPlusImageRenderer.Svg
                 Legend = null;
             }
 
-            VerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.YAxis);
-            HorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.XAxis);
-            if (chart.Axis.Length > 3)
+            HorizontalAxis = GetAxis(false);
+            VerticalAxis = GetAxis(true);
+
+            if(chart.Axis.Length > 2)
             {
-                SecondVerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
-                SecondHorizontalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[3]);
-            }
-            else if(chart.Axis.Length > 2)
-            {
-                SecondVerticalAxis = new SvgChartAxis(this, (ExcelChartAxisStandard)chart.Axis[2]);
+                SecondVerticalAxis = GetAxis(true, 2);
+                SecondHorizontalAxis = GetAxis(false, 2);
             }
 
             Plotarea = new SvgChartPlotarea(this);
@@ -84,6 +69,24 @@ namespace EPPlusImageRenderer.Svg
             SetAxisPositionsFromPlotarea(this);
 
             Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+        }
+
+        private SvgChartAxis GetAxis(bool vertical, int offset=0)
+        {
+            var axis = (ExcelChartAxisStandard)Chart.Axis[offset];
+            if(axis.IsVertical==vertical)
+            {
+                return new SvgChartAxis(this, axis);
+            }
+            else if(Chart.Axis.Length > offset + 1)
+            {
+                axis = (ExcelChartAxisStandard)Chart.Axis[offset + 1];
+                if(axis.IsVertical==vertical)
+                {
+                    return new SvgChartAxis(this, axis);
+                }
+            }
+            return null;
         }
 
         private void  SetAxisPositionsFromPlotarea(SvgChart sc)
