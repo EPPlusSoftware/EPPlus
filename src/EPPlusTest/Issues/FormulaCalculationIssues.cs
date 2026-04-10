@@ -1543,6 +1543,23 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(6D, ws.Cells["A34"].Value);
             SaveAndCleanup(p);
         }
+
+        [TestMethod]
+        public void s1031()
+        {
+            using var p = OpenTemplatePackage("Aico_CN02_FBL3N_TPU_2026-03.xlsx");
+            var calcWs = p.Workbook.Worksheets["calculation"];
+            var aicoWs = p.Workbook.Worksheets["Aico data"];
+            //calcWs.Cells["A1"].Calculate();
+            //var a1 = calcWs.Cells["A1"].Value;
+            //var a2 = calcWs.Cells["A2"].Value;
+            //var b2 = calcWs.Cells["B2"].Value;
+            //var c2 = calcWs.Cells["c2"].Value;
+            //var a_e22_f = aicoWs.Cells["E22"].Formula;
+            aicoWs.Cells["G33"].Calculate();
+            //p.Workbook.Calculate();
+            var v = aicoWs.Cells["G33"].Value;
+        }
     }
 }
 

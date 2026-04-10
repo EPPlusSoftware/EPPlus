@@ -25,26 +25,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         EPPlusVersion = "7",
         Description = "Combines arrays horizontally into a single array.",
         SupportsArrays = true)]
-    internal class Hstack : ExcelFunction
+    internal class Hstack : StackFunctionBase
     {
-        public override string NamespacePrefix => "_xlfn.";
-
-        public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var ranges = new List<IRangeInfo>();
-            foreach (var arg in arguments)
+            var ranges = GetRanges(arguments, out ExcelErrorValue err);
+            if (err != null)
             {
-                if (!arg.IsExcelRange)
-                {
-                    var rng = new InMemoryRange(1, 1);
-                    rng.SetValue(0, 0, arg.Value);
-                    ranges.Add(rng);
-                }
-                else
-                {
-                    ranges.Add(arg.ValueAsRangeInfo);
-                }
+                return CreateDynamicArrayResult(err, DataType.ExcelError);
             }
             var nRows = ranges.Max(x => x.Size.NumberOfRows);
             var nCols = Convert.ToInt16(ranges.Sum(x => x.Size.NumberOfCols));
