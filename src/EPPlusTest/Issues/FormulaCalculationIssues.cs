@@ -1556,9 +1556,11 @@ namespace EPPlusTest.Issues
             //var b2 = calcWs.Cells["B2"].Value;
             //var c2 = calcWs.Cells["c2"].Value;
             //var a_e22_f = aicoWs.Cells["E22"].Formula;
-            aicoWs.Cells["G33"].Calculate();
+            aicoWs.Cells["M4"].Formula = "G33";
+            aicoWs.Cells["M4"].Calculate();
             //p.Workbook.Calculate();
             var v = aicoWs.Cells["G33"].Value;
+            var v2 = aicoWs.Cells["M4"].Value;
         }
     }
 }
