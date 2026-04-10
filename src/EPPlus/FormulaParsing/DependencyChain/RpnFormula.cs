@@ -130,6 +130,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int GetNumberOfLambdaVariables()
         {
             if (_lambdaSettings == null || _lambdaSettings.NumberOfLambdaVariables == null || _lambdaSettings.NumberOfLambdaVariables.Count == 0) return 0;
+            if (_lambdaSettings.CurrentLambdaExpressions.Peek().Expression.ArgumentCollectionStarted == false) return 0;
             return _lambdaSettings.NumberOfLambdaVariables.Peek();
         }
 
