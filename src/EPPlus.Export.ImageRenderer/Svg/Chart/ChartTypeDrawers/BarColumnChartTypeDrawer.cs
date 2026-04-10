@@ -66,14 +66,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var dataPoints = new List<BoundingBox>();
 
-                if (chartType.IsTypeColumn())
-                {
-                    AddColumn(chartType, serie, catValues, valValues, dataPoints, count, i);
-                }
-                else
-                {
-                    AddBar(chartType, serie, catValues, valValues, dataPoints, count, i);
-                }
+                //Add the bar or column.
+                AddBar(chartType, serie, catValues, valValues, dataPoints, count, i);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -122,23 +116,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
             var step = 1 - overlapPercent;
-            double barWidth;
-            barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
+            var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
 
             double yAxisStart;
-
             if (yAxis.Axis.Crosses == eCrosses.AutoZero)
             {
-                yAxisStart = valAx.GetPositionInPlotarea(yAxis.Min <= 0 ? 0D : yAxis.Min, true);
+                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : yAxis.Min, true);
             }
             else if (yAxis.Axis.Crosses == eCrosses.Min)
             {
-                yAxisStart = valAx.GetPositionInPlotarea(yAxis.Min, true);
+                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min, true);
             }
             else
             {
-                yAxisStart = valAx.GetPositionInPlotarea(yAxis.Max, true);
+                yAxisStart = valAx.GetPositionInPlotarea(valAx.Max, true);
             }
 
             var isStacked = chartType.IsTypeStacked();
@@ -224,7 +216,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         if (y < 0)
                         {
-                            rect.Left = yAxisStart;
+                            rect.Left = yPos;
                             rect.Width = yAxisStart - yPos;
                         }
                         else

@@ -353,7 +353,14 @@ namespace EPPlusImageRenderer.Svg
                         if(Axis.IsVertical)
                         {
                             x = ticMarkX;
-                            y = ticMarkY - height / 2;
+                            if (SvgChart.Chart.IsTypeBar())
+                            {
+                                y = ticMarkY;
+                            }
+                            else
+                            {
+                                y = ticMarkY - height / 2;
+                            }
                         }
                         else
                         {
@@ -415,7 +422,7 @@ namespace EPPlusImageRenderer.Svg
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
-                if (p.HorizontalAlignment != eTextAlignment.Center && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType!=eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
                 {
                     //Horizontal axises are always center aligned visually
                     //Should be broken out as input to ImportParagraph instead of changing the base item
@@ -452,7 +459,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            else if(LabelOrientation==eTextOrientation.Horizontal) //Only apples when labels are horizontally aligned
+            else if(LabelOrientation==eTextOrientation.Horizontal && Axis.AxisType==eAxisType.Cat) //Only apples when labels are horizontally aligned
             {
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
@@ -571,7 +578,7 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var majorHeight = Rectangle.Height / (AxisValues.Count);
-                if (Axis.AxisType == eAxisType.Cat)
+                if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
                 {
                     return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) + (majorHeight / 2) - m.Height / 2;
                 }
@@ -846,7 +853,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min;
+                    var diff = Max - Min + 1;
                     return (((Max-val) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
             }
@@ -882,7 +889,7 @@ namespace EPPlusImageRenderer.Svg
                 LockedMax = ax.MaxValue,
                 LockedInterval = ax.MajorUnit,
                 LockedIntervalUnit = ax.MajorTimeUnit,
-                AddPadding = ax.AxisType!=eAxisType.Cat,//(ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right),
+                AddPadding = ax.AxisType==eAxisType.Val,//(ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right),
                 Axis = ax,
                 IsStacked100 = Chart.IsTypePercentStacked(),
                 ChartSize = rect
@@ -951,7 +958,8 @@ namespace EPPlusImageRenderer.Svg
                 AxisScale res;
                 if (ax.IsVertical)
                 {
-                    res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                    //res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
+                    res = DateAxisScaleCalculator.CalculateByHeight(min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
                 }
                 else
                 {
