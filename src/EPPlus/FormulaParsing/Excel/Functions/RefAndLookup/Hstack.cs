@@ -27,6 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class Hstack : StackFunctionBase
     {
+        public override bool ExecutesLambda => true;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var ranges = GetRanges(arguments, out ExcelErrorValue err);
