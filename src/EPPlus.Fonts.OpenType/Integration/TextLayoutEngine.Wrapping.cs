@@ -43,7 +43,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             if (totalWidth <= maxWidth || state.LineStart == state.WordStart)
             {
                 // Word fits on current line
-                _lineBuilder.AppendSpaceIfNotEmpty();
+                if(_lineBuilder.LastChar() != ' ')
+                {
+                    _lineBuilder.AppendSpaceIfNotEmpty();
+                }
                 _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
                 state.CurrentLineWidth = totalWidth;
             }
@@ -85,8 +88,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             if (totalWidth <= maxWidth)
             {
-                // Space fits on current line
-                _lineBuilder.AppendSpaceIfNotEmpty();
+                _lineBuilder.Append(" ");
                 _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
                 state.CurrentLineWidth = totalWidth;
             }

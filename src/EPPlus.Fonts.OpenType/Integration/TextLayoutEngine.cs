@@ -137,11 +137,11 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var paragraphs = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
-            ////paragraphs that have endline symbols should keep trailing spaces
-            ////others should not. Add an extra space as the trailing space is always trimmed
+            //paragraphs that have endline symbols should keep trailing spaces
+            //others should not. Add an extra space as the trailing space is always trimmed
             //if (paragraphs.Length > 1)
             //{
-            //    for (int i = 0; i < paragraphs.Length - 1; i++)
+            //    for (int i = 1; i < paragraphs.Length - 1; i++)
             //    {
             //        paragraphs[i] = paragraphs[i] + " ";
             //    }
