@@ -16,6 +16,7 @@ using EPPlus.Fonts.OpenType.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -34,7 +35,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             double totalWidth = state.CurrentLineWidth + state.CurrentWordWidth;
 
-            if (state.LineStart < state.WordStart)
+            if (currentPos != text.Length && text[currentPos] == ' ')
             {
                 totalWidth += state.SpaceWidth;
             }
@@ -42,19 +43,35 @@ namespace EPPlus.Fonts.OpenType.Integration
             if (totalWidth <= maxWidth || state.LineStart == state.WordStart)
             {
                 // Word fits on current line
-                _lineBuilder.AppendSpaceIfNotEmpty();
+                if(_lineBuilder.LastChar() != ' ')
+                {
+                    _lineBuilder.AppendSpaceIfNotEmpty();
+                }
                 _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
                 state.CurrentLineWidth = totalWidth;
             }
             else
             {
-                // Word doesn't fit - start new line
-                _lineBuilder.FlushToList(_lineListBuffer);
+        
+                if(totalWidth - state.SpaceWidth <= maxWidth)
+                {
+                    // Word doesn't fit - but does fit without space width
+                    //we discard the space
+                    _lineBuilder.AppendSpaceIfNotEmpty();
+                    _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
+                    state.CurrentLineWidth = totalWidth;
+                }
+                else
+                {
+                    // Word doesn't fit - start new line
+                    _lineBuilder.FlushToList(_lineListBuffer);
+                    _lineListBuffer[_lineListBuffer.Count - 1] += " ";
 
-                state.LineStart = state.WordStart;
-                state.CurrentLineWidth = state.CurrentWordWidth;
+                    state.LineStart = state.WordStart;
+                    state.CurrentLineWidth = state.CurrentWordWidth;
 
-                _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
+                    _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
+                }
             }
 
             state.WordStart = currentPos + 1;
@@ -71,8 +88,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             if (totalWidth <= maxWidth)
             {
-                // Space fits on current line
-                _lineBuilder.AppendSpaceIfNotEmpty();
+                _lineBuilder.Append(" ");
                 _lineBuilder.AppendSubstring(text, state.WordStart, currentPos - state.WordStart);
                 state.CurrentLineWidth = totalWidth;
             }
@@ -102,7 +118,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.CurrentWordWidth += charWidths[currentPos];
 
             // CASE 1: Line has content and word grows too large
-            if (state.CurrentWordWidth > maxWidth &&
+            if ((state.CurrentWordWidth + state.CurrentLineWidth) > maxWidth &&
                 state.LineStart < state.WordStart &&
                 state.CurrentLineWidth > 0)
             {

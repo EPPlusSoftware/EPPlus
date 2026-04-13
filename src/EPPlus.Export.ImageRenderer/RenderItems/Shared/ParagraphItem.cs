@@ -379,9 +379,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
-                var measurer = new FontMeasurerTrueType();
+                var font = p.DefaultRunProperties.GetMeasureFont();
+                var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(font);
                 var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
-                lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
+               
+                lines = measurer.WrapRichTextLines(textIfEmpty, font, maxWidth);
 
                 //Bounds.Width = maxWidth;
                 if (HorizontalAlignment != eTextAlignment.Center)
@@ -485,13 +487,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p)
         {
-            var ttMeasurer = (FontMeasurerTrueType)_layout;
-
             if (_newTextFragments.Count > 0)
             {
-                ttMeasurer.SetFont(_newTextFragments[0].Font);
+                if(_layout == null)
+                {
+                    _layout = OpenTypeFonts.GetTextLayoutEngineForFont((_newTextFragments[0].Font));
+                }
+
                 var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
-                return ttMeasurer.WrapMultipleTextFragmentsToTextLines_New(_newTextFragments, maxWidthPoints);
+                return _layout.WrapRichTextLines(_newTextFragments, maxWidthPoints);
             }
             return new List<TextLineSimple>();
         }

@@ -14,6 +14,7 @@
   01/23/2025         EPPlus Software AB           Added space width cache
   01/24/2025         EPPlus Software AB           Added StringBuilder pooling (.NET 3.5 compatible)
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -136,6 +137,16 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var paragraphs = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
+            //paragraphs that have endline symbols should keep trailing spaces
+            //others should not. Add an extra space as the trailing space is always trimmed
+            //if (paragraphs.Length > 1)
+            //{
+            //    for (int i = 1; i < paragraphs.Length - 1; i++)
+            //    {
+            //        paragraphs[i] = paragraphs[i] + " ";
+            //    }
+            //}
+
             bool isFirstLine = true;
             foreach (var paragraph in paragraphs)
             {
@@ -191,6 +202,18 @@ namespace EPPlus.Fonts.OpenType.Integration
                 else if (charType == CharacterType.Regular)
                 {
                     ProcessCharacterInWord(text, charWidths, state, i, maxWidthPoints);
+                }
+                else
+                {
+                    if (text[i-1] == ' ')
+                    {   //Add extra to avoid trimming
+                        _lineBuilder.Append("  ");
+                        //if (_lineBuilder.LastChar() == ' ')
+                        //{
+                        //    //Add extra to avoid trimming
+                        //    _lineBuilder.Append(" ");
+                        //}
+                    }
                 }
             }
 

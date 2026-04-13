@@ -14,6 +14,7 @@
   02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Utilities;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,21 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             return new List<string>(_lineListBuffer);
         }
+        public List<string> WrapRichText(
+               List<string> textFragments, List<MeasurementFont> fonts,
+               double maxWidthPoints)
+        {
+            TextFragmentCollectionSimple fragmentCollection = new TextFragmentCollectionSimple(fonts, textFragments);
+            return WrapRichText(fragmentCollection, maxWidthPoints);
+        }
+
+        public List<TextLineSimple> WrapRichTextLines(
+            string text, MeasurementFont font,
+            double maxWidthPoints)
+        {
+            var tCollection = new TextFragmentCollectionSimple(new List<MeasurementFont>() { font }, new List<string> { text });
+            return WrapRichTextLines(tCollection, maxWidthPoints);
+        }
 
         public List<TextLineSimple> WrapRichTextLines(
             List<TextFragment> fragments,
@@ -100,7 +116,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 double largestAscent = 0;
                 double largestDescent = 0;
-                foreach(var lineFragment in line.LineFragments)
+                foreach (var lineFragment in line.LineFragments)
                 {
                     var frag = fragments[lineFragment.RtFragIdx];
                     if (frag == null) continue;
@@ -184,7 +200,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 i++;
             }
 
-            if(state.LineFrag.Width > 0)
+            if (state.LineFrag.Width > 0)
             {
                 state.CurrentTextLine.LineFragments.Add(state.LineFrag);
             }
@@ -253,8 +269,8 @@ namespace EPPlus.Fonts.OpenType.Integration
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
-                var lineStringWithTrail = lineBuilder.ToString(0, state.WordStart+1);//+1 was just added and should be here but everything else is sorta based on it being gone...
-                if (lineStringWithTrail[lineStringWithTrail.Length-1] == ' ')
+                var lineStringWithTrail = lineBuilder.ToString(0, state.WordStart + 1);//+1 was just added and should be here but everything else is sorta based on it being gone...
+                if (lineStringWithTrail[lineStringWithTrail.Length - 1] == ' ')
                 {
                     state.CurrentTextLine.WasWrappedOnSpace = true;
                 }

@@ -13,6 +13,8 @@
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
@@ -41,7 +43,10 @@ namespace EPPlusImageRenderer.Svg
         double _maxWidth, _maxHeight;
         internal SvgChartLegend(SvgChart sc, bool isDataLabelLegend = false) : base(sc)
         {
-            _ttMeasurer = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var mf = sc.Chart.Font.GetMeasureFont();
+            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
+
             if (sc.Chart.HasLegend == false && isDataLabelLegend == false || sc.Chart.Series.Count == 0)
             {
                 return;
@@ -98,16 +103,24 @@ namespace EPPlusImageRenderer.Svg
                     var text = s.GetHeaderText(index);
                     var entry = l.Entries.FirstOrDefault(x => x.Index == index);
                     ExcelTextFont font;
+                    MeasurementFont mf;
                     if(entry==null || entry.Font.IsEmpty)
                     {
                         font = l.Font;
+                        mf = l.Font.GetMeasureFont();
                     }
                     else
                     {
                         font = entry.Font;
+                        mf = entry.Font.GetMeasureFont();
                     }
 
-                    var tm = _ttMeasurer.MeasureText(text, font.GetMeasureFont());
+                    if(_ttMeasurer == null)
+                    {
+                        _ttMeasurer = new OpenTypeFontTextMeasurer(OpenTypeFonts.GetShaperForFont(mf));
+                    }
+
+                    var tm = _ttMeasurer.MeasureText(text, mf);
                     _seriesHeadersMeasure.Add(tm);
 
                     if(tm.Width > widest)

@@ -37,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var measurer = OpenTypeFonts.GetShaperForFont(font2);
-            var widthInPoints = measurer.GetDescentInPoints(font2.Size);
+            var widthInPoints = measurer.ShapeLight(test).GetWidthInPoints(font2.Size);
 
             var inPixels = Math.Round(widthInPoints.PointToPixel(),0,MidpointRounding.AwayFromZero);
 
@@ -54,8 +54,10 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
+            var text = "Goudy size";
+
             var measurer = OpenTypeFonts.GetShaperForFont(font5);
-            var widthInPoints = measurer.GetDescentInPoints(font5.Size);
+            var widthInPoints = measurer.ShapeLight(text).GetWidthInPoints(16f);
 
             var inPixels = Math.Round(widthInPoints.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
@@ -121,7 +123,7 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var line1 = wrappedLines[0];
 
-            var pixels11 = Math.Round(line1.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels11 = Math.Round(line1.LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeline1 = Math.Round(line1.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
             Assert.AreEqual(44, pixels11);
@@ -129,7 +131,7 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var line2 = wrappedLines[1];
 
-            var pixels21 = Math.Round(line2.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels21 = Math.Round(line2.LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeline2 = Math.Round(line2.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
             Assert.AreEqual(7, pixels21);
@@ -137,9 +139,9 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var line3 = wrappedLines[2];
 
-            var pixels31 = Math.Round(line3.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels32 = Math.Round(line3.RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels33 = Math.Round(line3.RtFragments[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels31 = Math.Round(line3.LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels32 = Math.Round(line3.LineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels33 = Math.Round(line3.LineFragments[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeLine3 = Math.Round(line3.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
             //~54 px
@@ -154,8 +156,8 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var line4 = wrappedLines[3];
 
-            var pixels41 = Math.Round(line4.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels42 = Math.Round(line4.RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels41 = Math.Round(line4.LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels42 = Math.Round(line4.LineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeLine4 = Math.Round(line4.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             //~34 px
             Assert.AreEqual(33, pixels41);
@@ -166,8 +168,8 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var line5 = wrappedLines[4];
 
-            var pixels51 = Math.Round(line5.RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels52 = Math.Round(line5.RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels51 = Math.Round(line5.LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels52 = Math.Round(line5.LineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeLine5 = Math.Round(line5.Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             Assert.AreEqual(35, pixels51);
             //This line does NOT contain a space at the end
@@ -227,9 +229,9 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var wrappedLines = ttMeasurer.WrapRichTextLines(textFragments, maxSizePoints);
 
-            var pixels1 = Math.Round(wrappedLines[0].RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels2 = Math.Round(wrappedLines[0].RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels3 = Math.Round(wrappedLines[0].RtFragments[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels1 = Math.Round(wrappedLines[0].LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels2 = Math.Round(wrappedLines[0].LineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels3 = Math.Round(wrappedLines[0].LineFragments[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeLine = Math.Round(wrappedLines[0].Width.PointToPixel(),0, MidpointRounding.AwayFromZero);
 
             //~54 px
@@ -242,8 +244,8 @@ namespace EPPlus.Fonts.OpenType.Tests
             //Total Width: ~140
             Assert.AreEqual(140d, pixelsWholeLine);
 
-            var pixels21 = Math.Round(wrappedLines[1].RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels22 = Math.Round(wrappedLines[1].RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels21 = Math.Round(wrappedLines[1].LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels22 = Math.Round(wrappedLines[1].LineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeLine2 = Math.Round(wrappedLines[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             //~34 px
             Assert.AreEqual(33, pixels21);
@@ -252,8 +254,8 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             Assert.AreEqual(281, pixelsWholeLine2);
 
-            var pixels31 = Math.Round(wrappedLines[2].RtFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixels32 = Math.Round(wrappedLines[2].RtFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels31 = Math.Round(wrappedLines[2].LineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
+            var pixels32 = Math.Round(wrappedLines[2].LineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixelsWholeLine3 = Math.Round(wrappedLines[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             Assert.AreEqual(35, pixels31);
             //This line does NOT contain a space at the end

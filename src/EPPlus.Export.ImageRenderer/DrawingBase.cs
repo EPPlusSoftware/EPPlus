@@ -37,10 +37,8 @@ namespace EPPlusImageRenderer
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
 
-            //Theme.FontScheme.MajorFont[0].Typeface
-            //var shaper = OpenTypeFonts.GetTextShaper(
-            //Theme.FontScheme.MajorFont[0].Typeface, Theme.FontScheme.MinorFont[0].Typeface)
-            TextMeasurer = new OpenTypeFontTextMeasurer();
+            var shaper = OpenTypeFonts.GetTextShaper(Theme.FontScheme.MajorFont[0].Typeface);
+            TextMeasurer = new OpenTypeFontTextMeasurer(shaper);
         }
 
 

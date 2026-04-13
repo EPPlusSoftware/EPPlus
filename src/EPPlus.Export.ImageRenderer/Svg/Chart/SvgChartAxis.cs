@@ -14,6 +14,8 @@ using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
@@ -180,10 +182,12 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetTextWidest(SvgChart sc, ExcelChartAxisStandard ax)
         {
-            var tm = sc.Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            var mf = ax.Font.GetMeasureFont();
+            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var tm = new OpenTypeFontTextMeasurer(shaper);
             
             var widest = 0f;
-            var mf = ax.Font.GetMeasureFont();
+
             foreach(var s in AxisValues)
             {
                 var m= tm.MeasureText(s, mf);
@@ -304,8 +308,11 @@ namespace EPPlusImageRenderer.Svg
             var ret = new List<SvgTextBox>();
             if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
 
-            var tm = Chart.WorkSheet._package.Settings.TextSettings.GenericTextMeasurerTrueType;
             var mf = Axis.Font.GetMeasureFont();
+
+            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var tm = new OpenTypeFontTextMeasurer(shaper);
+
             var axisStyle = GetAxisStyleEntry();
             double maxWidth, maxHeight;
             if(Axis.AxisPosition==eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
