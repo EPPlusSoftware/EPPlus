@@ -1,0 +1,30 @@
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EPPlus.Export.ImageRenderer.Tests.Chart
+{
+    internal class PieChartTests : TestBase
+    {
+        [TestMethod]
+        public void GenerateSvgForColumnCharts1()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("BasicPieChart.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                }
+            }
+        }
+    }
+}
