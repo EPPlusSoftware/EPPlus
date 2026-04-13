@@ -1,14 +1,8 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
-using System.Collections.Generic;
-using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -387,7 +381,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             lap = sw.ElapsedMilliseconds;
 
-            var startFont = TextData.GetFontData(font1.FontFamily, GetFontSubType(font1.Style));
+            var startFont = OpenTypeFonts.LoadFont(font1.FontFamily, GetFontSubType(font1.Style));
 
             lap = sw.ElapsedMilliseconds;
 
@@ -434,10 +428,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             List<MeasurementFont> fonts = new() { regFont, goudyFont };
 
-            var startFont = TextData.GetFontData(regFont.FontFamily, GetFontSubType(regFont.Style));
-
-            var shaper = new TextShaper(startFont);
-            var layout = new TextLayoutEngine(shaper);
+            var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(regFont);
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(regFont);
 
             var maxSizeInPoints = 225d;
 
@@ -453,7 +445,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             ////var secondTest = "TextBox2ra underlineLa StrikeGoudy".ToArray();
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizeInPoints);
-
 
             var txtWidthsingle = shaper.MeasureTextInPixels("E", 16, 96, ShapingOptions.Full);
             var txtWidth = shaper.MeasureTextInPixels("EEEEEEEEEE", 16, 96, ShapingOptions.Full);
@@ -633,7 +624,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             }
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var startFont = TextData.GetFontData(font2.FontFamily, GetFontSubType(font2.Style));
+            var startFont = OpenTypeFonts.LoadFont(font2.FontFamily, GetFontSubType(font2.Style));
 
             var shaper = new TextShaper(startFont);
             var layout = new TextLayoutEngine(shaper);
@@ -722,17 +713,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             }
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var startFont = TextData.GetFontData(font1.FontFamily, GetFontSubType(font1.Style));
+            var startFont = OpenTypeFonts.LoadFont(font1.FontFamily, GetFontSubType(font1.Style));
 
             var shaper = new TextShaper(startFont);
             var layout = new TextLayoutEngine(shaper);
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
-
-            var measurer = new FontMeasurerTrueType(font1);
-
-            TextFragmentCollection collection = new TextFragmentCollection(lstOfRichText);
-            var simpleLines = measurer.WrapMultipleTextFragmentsToTextLines(collection, fonts, maxSizePoints);
+            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(font1);
 
             Assert.AreEqual("TextBox", wrappedLines[0].Text);
             Assert.AreEqual("a", wrappedLines[1].Text);
@@ -740,49 +727,37 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("StrikeGoudy size", wrappedLines[3].Text);
             Assert.AreEqual("16SvgSize 24", wrappedLines[4].Text);
 
-            Assert.AreEqual(simpleLines[0].Text, wrappedLines[0].Text);
-            Assert.AreEqual(simpleLines[1].Text, wrappedLines[1].Text);
-            Assert.AreEqual(simpleLines[2].Text, wrappedLines[2].Text);
-            Assert.AreEqual(simpleLines[3].Text, wrappedLines[3].Text);
-            Assert.AreEqual(simpleLines[4].Text, wrappedLines[4].Text);
-
             //Rather large epsilon but the char widths are each individually more correct now
             var epsilon = 0.1d;
 
-            Assert.AreEqual(simpleLines[0].Width, wrappedLines[0].Width, epsilon);
-            Assert.AreEqual(simpleLines[1].Width, wrappedLines[1].Width, epsilon);
-            Assert.AreEqual(simpleLines[2].Width, wrappedLines[2].Width, epsilon);
-            Assert.AreEqual(simpleLines[3].Width, wrappedLines[3].Width, epsilon);
-            Assert.AreEqual(simpleLines[4].Width, wrappedLines[4].Width, epsilon);
+            Assert.AreEqual(32.87646484375d, wrappedLines[0].Width, epsilon);
+            Assert.AreEqual(5.30126953125d, wrappedLines[1].Width, epsilon);
+            Assert.AreEqual(104.9453125d, wrappedLines[2].Width, epsilon);
+            Assert.AreEqual(210.890625d, wrappedLines[3].Width, epsilon);
+            Assert.AreEqual(127.04296875d, wrappedLines[4].Width, epsilon);
 
-            var line1FragmentsOld = simpleLines[0].RtFragments;
             var line1FragmentsNew = wrappedLines[0].LineFragments;
-            Assert.AreEqual(line1FragmentsOld[0].Width, line1FragmentsNew[0].Width, epsilon);
+            Assert.AreEqual(32.87646484375d, line1FragmentsNew[0].Width, epsilon);
 
-            var line2FragmentsOld = simpleLines[1].RtFragments;
             var line2FragmentsNew = wrappedLines[1].LineFragments;
 
-            Assert.AreEqual(line2FragmentsOld[0].Width, line2FragmentsNew[0].Width, epsilon);
+            Assert.AreEqual(5.30126953125d, line2FragmentsNew[0].Width, epsilon);
 
-            var line3FragmentsOld = simpleLines[2].RtFragments;
             var line3FragmentsNew = wrappedLines[2].LineFragments;
 
-            Assert.AreEqual(line3FragmentsOld[0].Width, line3FragmentsNew[0].Width, epsilon);
-            Assert.AreEqual(line3FragmentsOld[1].Width, line3FragmentsNew[1].Width, epsilon);
-            Assert.AreEqual(line3FragmentsOld[2].Width, line3FragmentsNew[2].Width, epsilon);
+            Assert.AreEqual(40.21875d, line3FragmentsNew[0].Width, epsilon);
+            Assert.AreEqual(52.16943359375d, line3FragmentsNew[1].Width, epsilon);
+            Assert.AreEqual(12.55712890625d, line3FragmentsNew[2].Width, epsilon);
 
-
-            var line4FragmentsOld = simpleLines[3].RtFragments;
             var line4FragmentsNew = wrappedLines[3].LineFragments;
 
-            Assert.AreEqual(line4FragmentsOld[0].Width, line4FragmentsNew[0].Width, epsilon);
-            Assert.AreEqual(line4FragmentsOld[1].Width, line4FragmentsNew[1].Width, epsilon);
+            Assert.AreEqual(24.86328125d, line4FragmentsNew[0].Width, epsilon);
+            Assert.AreEqual(186.02734375d, line4FragmentsNew[1].Width, epsilon);
 
-            var line5FragmentsOld = simpleLines[4].RtFragments;
             var line5FragmentsNew = wrappedLines[4].LineFragments;
 
-            Assert.AreEqual(line5FragmentsOld[0].Width, line5FragmentsNew[0].Width, epsilon);
-            Assert.AreEqual(line5FragmentsOld[1].Width, line5FragmentsNew[1].Width, epsilon);
+            Assert.AreEqual(26.390625d, line5FragmentsNew[0].Width, epsilon);
+            Assert.AreEqual(100.65234375d, line5FragmentsNew[1].Width, epsilon);
         }
 
         [TestMethod]

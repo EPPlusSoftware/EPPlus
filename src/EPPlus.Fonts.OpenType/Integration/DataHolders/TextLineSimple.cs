@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
+namespace EPPlus.Fonts.OpenType.Integration
 {
     public class TextLineSimple
     {
-        public List<RichTextFragmentSimple> RtFragments { get; private set; } = new List<RichTextFragmentSimple>();
-
         public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
 
         public string Text { get; internal set; }
@@ -68,44 +66,12 @@ namespace EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders
         {
         }
 
-        public TextLineSimple(List<RichTextFragmentSimple> rtFragments, string text, double largestFontSize, double largestAscent, double largestDescent)
+        public TextLineSimple(string text, double largestFontSize, double largestAscent, double largestDescent)
         {
-            RtFragments = rtFragments;
             Text = text;
             LargestFontSize = largestFontSize;
             LargestAscent = largestAscent;
             LargestDescent = largestDescent;
-        }
-
-        /// <summary>
-        /// Get the text of one of the fragments in this line
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        public string GetFragmentText(RichTextFragmentSimple rtFragment)
-        {
-            if(RtFragments.Contains(rtFragment) == false)
-            {
-                throw new InvalidOperationException($"GetFragmentText failed. Cannot retrieve {rtFragment} since it is not part of this textLine: {this}");
-            }
-
-            if(string.IsNullOrEmpty(Text))
-            {
-                return Text;
-            }
-
-            var startIdx = rtFragment.charStarIdxWithinCurrentLine;
-
-            var idxInLst = RtFragments.FindIndex(x => x ==  rtFragment);
-            if(idxInLst == RtFragments.Count -1)
-            {
-                return Text.Substring(startIdx, Text.Length - startIdx);
-            }
-            else
-            {
-                var endIdx = RtFragments[idxInLst + 1].charStarIdxWithinCurrentLine;
-                return Text.Substring(startIdx, endIdx - startIdx);
-            }
         }
 
         public string GetLineFragmentText(LineFragment rtFragment)

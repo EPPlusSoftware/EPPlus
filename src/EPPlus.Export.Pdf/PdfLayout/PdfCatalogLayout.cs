@@ -349,7 +349,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Font handling, Text shaping and layouting wrapped text
-        //Font handling, Text shaping and layouting wrapped text
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
             var totalTextLength = 0d;

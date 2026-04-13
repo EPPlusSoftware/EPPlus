@@ -7,6 +7,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
@@ -174,7 +175,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             Bounds.Top = GetAlignmentVertical();
         }
-        private double GetParagraphAscendantSpacingInPixels(eDrawingTextLineSpacing lineSpacingType, double spacingValue, ITextMeasurerWrap fmExact, out double multiplier)
+
+        private double GetParagraphAscendantSpacingInPixels(eDrawingTextLineSpacing lineSpacingType, double spacingValue, ITextShaper fmExact, float fontSize, out double multiplier)
         {
             if (lineSpacingType == eDrawingTextLineSpacing.Exactly)
             {
@@ -184,7 +186,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             else
             {
                 multiplier = (spacingValue / 100);
-                return multiplier * fmExact.GetBaseLine().PointToPixel();
+                return multiplier * fmExact.GetAscentInPoints(fontSize).PointToPixel();
             }
         }
 

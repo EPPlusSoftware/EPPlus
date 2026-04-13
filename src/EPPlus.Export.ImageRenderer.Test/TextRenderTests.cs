@@ -1,8 +1,7 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
@@ -59,48 +58,44 @@ namespace EPPlus.Export.ImageRenderer.Tests
             }
         }
 
-        TextFragmentCollection GenerateTextFragments(ExcelDrawingTextRunCollection runs)
-        {
-            List<string> runContents = new List<string>();
-            List<float> fontSizes = new List<float>();
+        //TextFragmentCollectionSimple GenerateTextFragments(ExcelDrawingTextRunCollection runs)
+        //{
+        //    List<string> runContents = new List<string>();
+        //    List<float> fontSizes = new List<float>();
+        //    List<MeasurementFont> fonts = new List<MeasurementFont>();
 
-            for (int i = 0; i < runs.Count(); i++)
-            {
-                var txtRun = runs[i];
-                var runFont = txtRun.GetMeasurementFont();
+        //    for (int i = 0; i < runs.Count(); i++)
+        //    {
+        //        var txtRun = runs[i];
+        //        var runFont = txtRun.GetMeasurementFont();
 
-                runContents.Add(txtRun.Text);
-                fontSizes.Add(runFont.Size);
-            }
+        //        fonts.Add(runFont);
 
-            return new TextFragmentCollection(runContents, fontSizes);
-        }
+        //        runContents.Add(txtRun.Text);
+        //        fontSizes.Add(runFont.Size);
+        //    }
 
-        List<TextLineSimple> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollection fragments)
-        {
-            FontMeasurerTrueType ttMeasurer = new();
-            List<MeasurementFont> fonts = new List<MeasurementFont>();
+           
+        //    return new TextFragmentCollectionSimple(fonts, runContents);
+        //}
 
-            for (int i = 0; i < runs.Count(); i++)
-            {
-                var txtRun = runs[i];
-                var runFont = txtRun.GetMeasurementFont();
-                fonts.Add(runFont);
-            }
+        //List<TextLineSimple> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollectionSimple fragments)
+        //{
+            
+        //    List<MeasurementFont> fonts = new List<MeasurementFont>();
 
-            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            return ttMeasurer.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxSizePoints);
-        }
+        //    for (int i = 0; i < runs.Count(); i++)
+        //    {
+        //        var txtRun = runs[i];
+        //        var runFont = txtRun.GetMeasurementFont();
+        //        fonts.Add(runFont);
+        //    }
 
-        [TestMethod]
-        public void TextFragmentHandlesEndLines()
-        {
-            string strWEndLines = "TextBodySvg\r\na";
+        //    var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+        //    TextHandler handler = new TextHandler(fonts[0]);
 
-            List<string> inputFrags = new List<string>() { strWEndLines };
-            var textFragments = new TextFragmentCollection(inputFrags);
-
-        }
+        //    return handler.WrapMultipleTextFragmentsToTextLines(fragments, fonts, maxSizePoints);
+        //}
 
         [TestMethod]
         public void MeasureWrappedWidths()
@@ -153,11 +148,11 @@ namespace EPPlus.Export.ImageRenderer.Tests
             List<MeasurementFont> fonts = new() { /*font1,*/ font2, font3, font4, font5, font6};
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var ttMeasurer = new FontMeasurerTrueType(font2);
+            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font2);
 
-            var textFragments = new TextFragmentCollection(lstOfRichText);
+            var textFragments = new TextFragmentCollectionSimple(fonts, lstOfRichText);
 
-            var wrappedLines = ttMeasurer.WrapMultipleTextFragmentsToTextLines(textFragments, fonts, maxSizePoints);
+            var wrappedLines = ttMeasurer.WrapRichTextLines(textFragments, maxSizePoints);
 
             //Assert.AreEqual(wrappedLines[0].r)
 

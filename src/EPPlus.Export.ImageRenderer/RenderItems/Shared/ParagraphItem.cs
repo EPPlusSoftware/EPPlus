@@ -1,9 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
@@ -25,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     internal abstract class ParagraphItem : RenderItem
     {
-        ITextMeasurerWrap _measurer;
+        TextLayoutEngine _layout;
 
         double _leftMargin;       
         double _rightMargin;        
@@ -37,7 +34,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         List<string> _paragraphLines = new List<string>();
         protected List<string> _textRunDisplayText = new List<string>();
 
-        TextFragmentCollection _textFragments;
+        TextFragmentCollectionSimple _textFragments;
         List<EPPlus.Fonts.OpenType.Integration.TextFragment> _newTextFragments;
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
@@ -56,8 +53,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
 
-            _measurer = new FontMeasurerTrueType(defaultFont);
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, _measurer);
+            _layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
         }
 
         public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
@@ -140,32 +137,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Bounds.Width = parent.Width - _rightMargin - _leftMargin;
             }
 
+            //---Initialize / calculate lines and runs---
+            //measurer must be set before AddLinesAndRichText
+            _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
+
             //---Get measurer---
-            _measurer = p._prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
+            _layout = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
 
             //---Calculate linespacing---
             int numLines = _paragraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, _measurer);
-
-            //---Initialize / calculate lines and runs---
-            //measurer must be set before AddLinesAndRichText
-            _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
-            _measurer.SetFont(_paragraphFont);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, 
+                (TextShaper) OpenTypeFonts.GetShaperForFont(_paragraphFont), 
+                _paragraphFont.Size);
 
             AddLinesAndTextRuns(p, textIfEmpty);
         }
 
-        private double GetParagraphLineSpacingInPoints(double spacingValue, ITextMeasurerWrap fmExact)
+        private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
         {
             if (_lsType == eDrawingTextLineSpacing.Exactly)
             {
                 if (IsFirstParagraph)
                 {
                     _lineSpacingAscendantOnly = spacingValue;
-                    _lineSpacingAscendantOnly = spacingValue;
                 }
-                return spacingValue;
                 return spacingValue;
             }
             else
@@ -174,11 +170,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 _lsMultiplier = multiplier;
                 if (IsFirstParagraph)
                 {
-                    _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine();
-                    _lineSpacingAscendantOnly = multiplier * fmExact.GetBaseLine();
+                    _lineSpacingAscendantOnly = multiplier * fmExact.GetAscentInPoints(fontSize);
                 }
-                return multiplier * fmExact.GetSingleLineSpacing();
-                return multiplier * fmExact.GetSingleLineSpacing();
+                return multiplier * fmExact.GetLineHeightInPoints(fontSize);
             }
         }
 
@@ -201,8 +195,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
         public void AddText(string text, ExcelTextFont font, bool isOld)
         {
-            var measurer = new FontMeasurerTrueType();
-            var displayText = measurer.MeasureAndWrapText(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
+            var mf = font.GetMeasureFont();
+            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var displayText = measurer.WrapText(text, mf.Size, ParentTextBody.MaxWidth);
             var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
             //container.BaseLineSpacing = _lineSpacingAscendantOnly;
             //container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
@@ -214,7 +209,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public void AddText(string text, ExcelTextFont font, double prevWidth)
         {
-            var measurer = new FontMeasurerTrueType();
+            var mf = font.GetMeasureFont();
+            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
             //var displayText = measurer.MeasureAndWrapTextLines(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
 
             var container = CreateTextRun(text, font, Bounds, text);
@@ -278,9 +274,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             GenerateTextFragments(textIfEmpty);
             var lines = new List<TextLineSimple>();
 
-            var measurer = new FontMeasurerTrueType();
+            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
             var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
-            lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, _paragraphFont, maxWidth);
+
+            List<TextFragment> textFragments = new List<TextFragment>();
+            var fragment = new TextFragment() { Font = _paragraphFont, Text = textIfEmpty };
+            textFragments.Add(fragment);
+
+            lines = measurer.WrapRichTextLines(textFragments, maxWidth);
             bool lineSpacingIsExact = _lsMultiplier.HasValue == false;
             double runLineSpacing = 0;
             double greatestWidth = 0;
@@ -378,9 +379,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
-                var measurer = new FontMeasurerTrueType();
+                var font = p.DefaultRunProperties.GetMeasureFont();
+                var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(font);
                 var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
-                lines = measurer.MeasureAndWrapTextLines_New(textIfEmpty, p.DefaultRunProperties.GetMeasureFont(), maxWidth);
+               
+                lines = measurer.WrapRichTextLines(textIfEmpty, font, maxWidth);
 
                 //Bounds.Width = maxWidth;
                 if (HorizontalAlignment != eTextAlignment.Center)
@@ -484,13 +487,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p)
         {
-            var ttMeasurer = (FontMeasurerTrueType)_measurer;
-
             if (_newTextFragments.Count > 0)
             {
-                ttMeasurer.SetFont(_newTextFragments[0].Font);
+                if(_layout == null)
+                {
+                    _layout = OpenTypeFonts.GetTextLayoutEngineForFont((_newTextFragments[0].Font));
+                }
+
                 var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
-                return ttMeasurer.WrapMultipleTextFragmentsToTextLines_New(_newTextFragments, maxWidthPoints);
+                return _layout.WrapRichTextLines(_newTextFragments, maxWidthPoints);
             }
             return new List<TextLineSimple>();
         }
