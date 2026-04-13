@@ -34,6 +34,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public PdfHeaderFooter(List<PdfTextFormat> textFormats, bool containsPageNumber, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
+            Content = new PdfCell();
             Content.TextFormats = textFormats;
             ContainsPageNumber = containsPageNumber;
             PageType = type;

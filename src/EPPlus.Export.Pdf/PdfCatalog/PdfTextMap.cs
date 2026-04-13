@@ -12,13 +12,12 @@ using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal class PdfTextMap
     {
-        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
+        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange )
         {
             var Range = pdfRange;
             var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol);
@@ -27,7 +26,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
             bool firstColumnRun = true;
             List<string> checkedMergedCells = new List<string>();
-            //int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(worksheet) : 0;
+            int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(worksheet, pdfSheet) : 0;
             for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
             {
                 var hiddenRow = worksheet.Row(row).Hidden;
@@ -35,7 +34,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 Range.TotalHeight += hiddenRow ? 0d : height;
                 Range.RowHeights.Add(hiddenRow ? 0d : height);
                 //x = 0d;
-                for (int col = Range.Range._fromCol; col <= Range.Range._toCol /*+ addedColumns*/; col++)
+                for (int col = Range.Range._fromCol; col <= Range.Range._toCol + addedColumns; col++)
                 {
                     var hiddenCol = worksheet.Column(col).Hidden;
                     var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
@@ -44,18 +43,26 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         Range.TotalWidth += hiddenCol ? 0d : width;
                         Range.ColWidths.Add(hiddenCol ? 0d : width);
                     }
-                    var cell = worksheet.Cells[row, col];
-                    //if (cell.Merge)
-                    //{
-                            //calculate merged cell width and height
-                    //}
-                    var tempMap = Map[row, col];
+                    var tempMap = new PdfCell();
                     tempMap.Hidden = hiddenRow || hiddenCol;
+
                     tempMap.Width = hiddenCol ? 0d : width;
-                    tempMap.CellStyle = GetFontStyle(cell);
+
+                    var cell = worksheet.Cells[row, col];
+                    if (cell.Merge)
+                    {
+                        HandleMergedCell(cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
+                    }
+
+                    var cellStyle = new PdfCellStyle();
+                    GetFillStyles(cell, cellStyle);
+                    GetBorderStyles(cell, cellStyle);
+                    GetFontStyle(cell, cellStyle);
+                    tempMap.CellStyle = cellStyle;
+
                     tempMap.ContentAligmnet = GetContentAlignment(cell);
                     if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                    tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, Map[row, col].CellStyle);
+                    tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
 
                     Map[row, col] = tempMap;
                     //if cell is hidden maybe we skip adding comment to comment collection.
@@ -73,21 +80,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
 
 
-
-                    //var cellStyle = new PdfCellStyle();
-                    //GetFillStyles(cell, cellStyle);
-                    //GetBorderStyles(cell, cellStyle);
-                    //GetFontStyles(cell, cellStyle);
-                    //PdfCellBorderLayout border = HandleEdgeBorders(cell, cellStyle, cell.Address, x, y, width, height);
-                    //if (cell.Merge)
-                    //{
-                    //    HandleMergedCell(worksheet, pageSettings, dictionaries, cell, cellStyle, checkedMergedCells, x, y);
-                    //}
-                    //else
-                    //{
-                    //    HandleCell(pageSettings, dictionaries, cell, x, y, width, height, cellStyle);
-                    //}
-                    //if (border != null) border.InitEdgeBorders(cell);
                     //x += width;
                     //totalWidth = System.Math.Max(x, totalWidth);
 
@@ -96,14 +88,140 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 //y -= height;
             }
             //HandleDrawings(worksheet);
-            //Size = new Vector2(totalWidth, Math.Abs(y));
             pdfRange = Range;
             return Map;
         }
 
-        private static PdfCellStyle GetFontStyle(ExcelRangeBase cell)
+        private static void HandleMergedCell(ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth)
         {
-            var cellStyle = new PdfCellStyle();
+            var worksheet = cell.Worksheet;
+            string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
+            ExcelAddressBase address = new ExcelAddressBase(mergeAddress);
+            if (!checkedMergedCells.Contains(mergeAddress))
+            {
+                double height = 0, width = 0;
+                for (int k = address._fromRow; k <= address._toRow; k++)
+                {
+                    height += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
+                }
+                for (int l = address._fromCol; l <= address._toCol; l++)
+                {
+                    width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
+                }
+                checkedMergedCells.Add(mergeAddress);
+                tempMap.Width = width;
+                tempMap.Height = height;
+                tempMap.Main = null;
+            }
+            else
+            {
+                tempMap.Main = map[address._fromRow, address._fromCol];
+            }
+            tempMap.Merged = true;
+        }
+
+        private static void GetFillStyles(ExcelRangeBase cell, PdfCellStyle cellStyle)
+        {
+            if (cell.Style.Fill.IsEmpty())
+            {
+                //Conditional Formating
+
+                //Table
+                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                if (tables.Count > 0)
+                {
+                    var table = tables[0].Value;
+                    var range = table.Range;
+
+                    int tableRow = 0;
+                    int tableCol = 0;
+                    ExcelTableNamedStyle tableStyle;
+                    if (table.TableStyle == TableStyles.Custom)
+                    {
+                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                    }
+                    else
+                    {
+                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                    }
+                    tableRow = cell._fromRow - range._fromRow;
+                    tableCol = cell._fromCol - range._fromCol;
+                    if (table.ShowHeader && tableRow == 0)
+                    {
+                        cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
+                    }
+                    else if (table.ShowTotal && range._toRow == cell._fromRow)
+                    {
+                        cellStyle.dxfFill = tableStyle.TotalRow.Style.Fill;
+                    }
+                    else if (table.ShowFirstColumn && tableCol == 0)
+                    {
+                        cellStyle.dxfFill = tableStyle.FirstColumn.Style.Fill;
+                    }
+                    else if (table.ShowLastColumn && range._toCol == cell._fromCol)
+                    {
+                        cellStyle.dxfFill = tableStyle.LastColumn.Style.Fill;
+                    }
+                    else if (table.ShowRowStripes)
+                    {
+                        cellStyle.dxfFill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
+                    }
+                    else if (table.ShowColumnStripes)
+                    {
+                        cellStyle.dxfFill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
+                    }
+                    else
+                    {
+                        cellStyle.dxfFill = tableStyle.WholeTable.Style.Fill;
+                    }
+                }
+            }
+            cellStyle.xfFill = cell.Style.Fill;
+        }
+
+        private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle)
+        {
+
+            /* Kika på varje del av border top bottom left right
+             * om cell har top använd den
+             * om cell inte har border, gå igenom prio ordning på tabell borders och använd WholeTable om null.
+             * om cellein i tabellen är i mitten av tabellen använd horizontal och vertical border istället.
+             * I fallet top så ska om vi är i header row eller om cell fromrow är samma som table fromrow så ska top border vara top border. annar är det horizontal som gäller
+             * Glöm ej vertical border om fromcol är samma som tabell fromcol.
+             */
+            if (cell != null)
+            {
+                cellStyle.xfTop = cell.Style.Border.Top;
+                cellStyle.xfBottom = cell.Style.Border.Bottom;
+                cellStyle.xfLeft = cell.Style.Border.Left;
+                cellStyle.xfRight = cell.Style.Border.Right;
+                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                if (tables.Count > 0)
+                {
+                    var table = tables[0].Value;
+                    ExcelTableNamedStyle tableStyle;
+                    if (table.TableStyle == TableStyles.Custom)
+                    {
+                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                    }
+                    else
+                    {
+                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
+                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                    }
+                    cellStyle.dxfTop = PdfCellBorderLayout.GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
+                    cellStyle.dxfBottom = PdfCellBorderLayout.GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle);
+                    cellStyle.dxfLeft = PdfCellBorderLayout.GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle);
+                    cellStyle.dxfRight = PdfCellBorderLayout.GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle);
+                }
+            }
+        }
+
+        private static PdfCellStyle GetFontStyle(ExcelRangeBase cell, PdfCellStyle cellStyle)
+        {
             var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
             if (tables.Count > 0)
             {
@@ -314,6 +432,71 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 if(containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
             }
             return new PdfHeaderFooter(textFormats, containsPageNumber, type, alignment, section);
+        }
+
+
+        /// <summary>
+        /// Check if we need to add additional columns to accomodate text that is not wrapped and overlaps other cell.s
+        /// </summary>
+        /// <param name="ws">The worksheet to check.</param>
+        /// <returns>The number of columns to add.</returns>
+        public static int AddColumnsForNonWrappedText(ExcelWorksheet ws, PdfWorksheet pdfSheet)
+        {
+            double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, pdfSheet.ZeroCharWidth);
+            int columnsToAdd = 0;
+            FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
+            MeasurementFont font = new MeasurementFont();
+            double textLength = 0;
+            for (int row = 1; row <= ws.Dimension._toRow; row++)
+            {
+                var cell = ws.Cells[row, ws.Dimension._toCol];
+                if ((!string.IsNullOrEmpty(cell.Text) || cell.RichText.Count > 0) && !cell.Style.WrapText && !cell.Merge)
+                {
+                    if (cell.IsRichText)
+                    {
+                        foreach (var rt in cell.RichText)
+                        {
+                            font.FontFamily = rt.FontName;
+                            font.Size = (float)rt.Size;
+                            font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                                          (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                                          (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                                          (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                                          switch
+                            {
+                                0 => MeasurementFontStyles.Regular,
+                                var s => s
+                            };
+                            var result = fontMeasurerTrueType.MeasureText(rt.Text, font);
+                            textLength += result.Width;
+                        }
+                    }
+                    else
+                    {
+                        font.FontFamily = cell.Style.Font.Name;
+                        font.Size = (float)cell.Style.Font.Size;
+                        font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
+                                      (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
+                                      (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
+                                      (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
+                                      switch
+                        {
+                            0 => MeasurementFontStyles.Regular,
+                            var s => s
+                        };
+                        var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
+                        textLength += result.Width;
+                    }
+                    //loop next col width until text is included
+                    //increase columns to add
+                    while (textLength > columnWidth)
+                    {
+                        columnsToAdd++;
+                        columnWidth += UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol + columnsToAdd).Width, pdfSheet.ZeroCharWidth);
+                    }
+                }
+            }
+            return columnsToAdd;
         }
     }
 }

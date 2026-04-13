@@ -158,7 +158,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             else
             {
                 var range = worksheet.Dimension;
-                ranges.Add(new PdfRange(range, true));
+                var pdfRange = new PdfRange(range, true);
+                pdfRange.ExtendColumns = true;
+                ranges.Add(pdfRange);
             }
             return ranges;
         }

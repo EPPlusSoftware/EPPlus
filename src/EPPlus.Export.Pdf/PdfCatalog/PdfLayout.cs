@@ -54,14 +54,22 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 var page = pdfPages[i].Page;
                 for (int j = 0; j < page.Length; j++)
                 {
-                    //create cells
-                    //  Text
-                    //  Fill
-                    //  Border
+                    //create cells & headings if exsists
+                    for (int y = page[j].FromRow; y < page[j].ToRow; y++)
+                    {
+                        for (int x = page[j].FromColumn; x < page[j].ToColumn; x++)
+                        {
+                            //  Text
+                            //  Fill
+                            //  Border
+                            page[j].Map[x, y]
+                        }
+                    }
+                    
+
                     //Add HeaderFooter
                     //  Uppdate page number texts and shape them
                     //Gridlines
-                    //Headings
                     //Print titles
                 }
 
