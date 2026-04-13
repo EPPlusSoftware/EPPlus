@@ -516,7 +516,7 @@ namespace OfficeOpenXml.FormulaParsing
                     cr = f._expressionStack.Pop().Compile();
                 }
 
-                if (cr != null && (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
+                if (cr != null && f.IsLambda == false &&  (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
                     SetValueToWorkbook(depChain, f, rd, cr, options, ref depChainPos);
                 }
@@ -526,7 +526,7 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._parsingContext.Parser.Logger.Log($"Set value in Cell\t{f.GetAddress()}\t{cr.ResultValue}\t{cr.DataType}");
                 }
 
-                if (depChain._formulaStack.Count > 0)
+                if (depChain._formulaStack.Count > f._lambdaFormulaStackCount)
                 {
                     f = depChain._formulaStack.Pop();
                     if (f._formulaEnumerator == null)
