@@ -20,7 +20,7 @@ namespace EPPlusImageRenderer.RenderItems
         VerticalLine = 3,
         CubicBézier = 4,
         QuadraticBézier = 5,
-        Arc=6,
+        Arc = 6,
         End = 0xFF
     }
 
