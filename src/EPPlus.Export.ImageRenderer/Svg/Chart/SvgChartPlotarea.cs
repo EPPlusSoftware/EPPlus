@@ -53,16 +53,16 @@ namespace EPPlusImageRenderer.Svg
         private double GetPlotAreaHeight(SvgChart sc, SvgRenderRectItem rect)
         {
             var bottomAxis = GetAxisByPosition(sc, eAxisPosition.Bottom);
-            double vaHeight = 0, vaTitleHeight = 0;
+            double vaHeight = 0;
             if (bottomAxis!=null)
             {
                  vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
             if (sc.Chart.Legend?.Position == eLegendPosition.Bottom)
             {
-                vaHeight += sc.Legend.Rectangle.Height;
+                vaHeight += sc.Legend.Rectangle.Height + sc.Legend.TopMargin;
             }
-            return sc.Bounds.Height - rect.GlobalTop - vaHeight - vaTitleHeight - BottomMargin;
+            return sc.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
         }
 
         private double GetPlotAreaWidth(SvgChart sc, SvgRenderRectItem rect)
@@ -72,6 +72,7 @@ namespace EPPlusImageRenderer.Svg
             var left = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ?
                         sc.Legend.Bounds.GlobalLeft - RightMargin :
                         sc.ChartArea.Rectangle.Width - RightMargin);
+
             if (rightAxis == null)
             {
                 return left - rect.GlobalLeft;

@@ -486,5 +486,43 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 
             }
         }
+
+        internal static AxisScale CalculateByHeight(double min, double max, ITextMeasurer tm, AxisOptions options)
+        {
+            var ax = options.Axis;
+            var plotAreaHeight = options.ChartSize.Bounds.Height;
+            var mf = ax.Font.GetMeasureFont();
+            int interval;
+            eTimeUnit unit;
+            var minString = DateTime.FromOADate(min).ToString(options.NumberFormat);
+            var res = tm.MeasureText(minString, mf);
+            if (options.LockedInterval.HasValue)
+            {
+                interval = (int)options.LockedInterval.Value;
+                unit = options.LockedIntervalUnit ?? eTimeUnit.Days;
+            }
+            else
+            {
+                interval = 1;
+                unit = eTimeUnit.Days;
+                //Get interval for maximum width with vertical text.
+                while(FitAsVerticalDiagonalText(min, max, interval, unit, res.Height, res.Height * 0.3, plotAreaHeight) == false)
+                {
+                    AddIntervall(ref interval, ref unit);
+                }
+            }
+
+            return new AxisScale()
+            {
+                MajorInterval = interval,
+                MinorInterval = 1,
+                MinorDateUnit = unit,
+                MajorDateUnit = unit,
+                Min = min,
+                Max = max,
+                TextOrientation = eTextOrientation.Horizontal
+            };
+
+        }
     }
 }

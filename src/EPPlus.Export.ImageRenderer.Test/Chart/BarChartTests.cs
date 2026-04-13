@@ -1,21 +1,16 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlus.Export.ImageRenderer.Tests.Chart
 {
     [TestClass]
-    public class ColumnChartTests : TestBase
+    public class BarChartTests : TestBase
     {
         [TestMethod]
-        public void GenerateSvgForColumnCharts1()
+        public void GenerateSvgForBarCharts1()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ColumnChartForSvg.xlsx"))
+            using (var p = OpenTemplatePackage("BarChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -29,15 +24,15 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ColumnChartForSvg_sheet1_{ix++}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet1_{ix++}.svg", svg);
                 }
             }
         }
         [TestMethod]
-        public void GenerateSvgForColumnCharts2()
+        public void GenerateSvgForBarCharts2()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ColumnChartForSvg.xlsx"))
+            using (var p = OpenTemplatePackage("BarChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -51,7 +46,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ColumnChartForSvg_sheet2_{ix++}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet2_{ix++}.svg", svg);
                 }
             }
         }

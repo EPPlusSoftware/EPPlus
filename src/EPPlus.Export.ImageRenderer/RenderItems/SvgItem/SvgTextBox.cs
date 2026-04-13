@@ -213,7 +213,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 rect.Bounds.Left = -rect.Bounds.Width;
             }
-            rect.Bounds.Left = 0;
+            else
+            {
+                rect.Bounds.Left = 0;
+            }
             rect.Bounds.Top = 0;
             renderItems.Add(titleItem);
             renderItems.Add(rect);

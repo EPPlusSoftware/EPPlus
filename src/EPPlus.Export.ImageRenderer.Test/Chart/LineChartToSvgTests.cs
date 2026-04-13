@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 1;
+                //var ix = 2;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
@@ -123,16 +123,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[1];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 3;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet2_SecAxis{ix++}.svg", svg);
-                }
+                var ix = 2;
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet2_SecAxis{ix++}.svg", svg);
+                //}
             }
         }
         [TestMethod]

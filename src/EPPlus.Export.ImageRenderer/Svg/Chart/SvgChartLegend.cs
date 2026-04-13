@@ -171,7 +171,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else 
                     {
-                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height - MiddleMargin;
+                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -432,7 +432,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 if (pSls == null)
                 {
-                    y = Rectangle.Top + TopMargin;
+                    y = Rectangle.Top + TopMargin + tm.Height / 2;
                 }
                 else
                 {
@@ -445,7 +445,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (pSls == null)
                 {
-                    y = TopMargin;// + tm.Height / 2 + MarginExtra;
+                    y = TopMargin + tm.Height / 2;
                 }
                 else
                 {

@@ -105,6 +105,11 @@ internal class ValueAxisScaleCalculator
                 dataMax = axisOptions.LockedMax.Value;
             }
 
+            if (axisOptions.LockedMin.HasValue==false && dataMin / dataMax > 0.666666)
+            {
+                dataMin = 0;
+            }
+
             double dataRange = dataMax - dataMin;
 
             double axisMin;
@@ -122,9 +127,16 @@ internal class ValueAxisScaleCalculator
                 else
                 {
                     axisMin = dataMin - (dataRange * 0.05);
-                    if (axisOptions.IsStacked100 && axisMin < -1)
+                    if (axisOptions.IsStacked100)
                     {
-                        axisMin = -1;
+                        if (axisMin < -1)
+                        {
+                            axisMin = -1;
+                        }
+                        else if(axisMin>0)
+                        {
+                            axisMin = 0;
+                        }
                     }
                     //Normalize to zero if all data is positive or negative
                     if (axisMin < 0 && isAllPositive)
@@ -160,11 +172,19 @@ internal class ValueAxisScaleCalculator
             }
             else
             {
-                // Calculate interval
                 roughInterval = (dataMax - dataMin) / desiredTicks;
                 scaleInterval = GetScaleNumber(roughInterval, true);
+                if (dataMin / dataMax >= 0.666666666)
+                {
+                    axisMin = 0;
+                }
+                else
+                {
+                    axisMin = Math.Floor(dataMin / scaleInterval) * scaleInterval;
+                }
 
-                axisMin = dataMin;
+                // Calculate interval
+
                 axisMax = dataMax;
             }
 

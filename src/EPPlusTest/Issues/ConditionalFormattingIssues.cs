@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Compatibility.System.Drawing;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Style;
 using System.Globalization;
 using System.Threading;
@@ -74,6 +76,34 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
             Thread.CurrentThread.CurrentCulture = currentCulture;
+        }
+        [TestMethod]
+        public void s1025()
+        {
+            using var package = OpenTemplatePackage("s1025.xlsx"); //attached template, ExampleWB.xlsx
+            ExcelWorksheet ws = package.Workbook.Worksheets[0];
+
+            IExcelConditionalFormattingBetween condGreen = ws.ConditionalFormatting.AddBetween(ws.Cells[5, 2, 25, 2]);
+            condGreen.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            condGreen.Style.Fill.BackgroundColor.Color = ColorTranslator.FromHtml("#A9D08E");
+            condGreen.Formula = ws.Cells[6, 8].FullAddressAbsolute.ToString();
+            condGreen.Formula2 = ws.Cells[6, 9].FullAddressAbsolute.ToString();
+            condGreen.Priority = 104;
+
+            IExcelConditionalFormattingBetween condYellow = ws.ConditionalFormatting.AddBetween(ws.Cells[5, 2, 25, 2]);
+            condYellow.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            condYellow.Style.Fill.BackgroundColor.Color = ColorTranslator.FromHtml("#FFE699");
+            condYellow.Formula = ws.Cells[7, 8].FullAddressAbsolute.ToString();
+            condYellow.Formula2 = ws.Cells[7, 9].FullAddressAbsolute.ToString();
+            condYellow.Priority = 105;
+
+            IExcelConditionalFormattingGreaterThan condRed = ws.ConditionalFormatting.AddGreaterThan(ws.Cells[5, 2, 25, 2]);
+            condRed.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            condRed.Style.Fill.BackgroundColor.Color = ColorTranslator.FromHtml("#FF7979");
+            condRed.Formula = ws.Cells[9, 8].FullAddressAbsolute.ToString();
+            condRed.Priority = 106;
+
+            SaveAndCleanup(package);
         }
     }
 }
