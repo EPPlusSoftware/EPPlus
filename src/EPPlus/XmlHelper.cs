@@ -25,6 +25,7 @@ using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Drawing;
+using System.Xml.XPath;
 
 namespace OfficeOpenXml
 {
@@ -596,6 +597,38 @@ namespace OfficeOpenXml
         {
             return TopNode.SelectSingleNode(path, NameSpaceManager);
         }
+
+        /// <summary>
+        /// If Get Node doesn't work. 
+        /// Simplified way of applying the default node prefix to empty args.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal XmlNode GetDefaultNode(string path)
+        {
+            var retNode = GetNode(path);
+
+            if (retNode == null)
+            {
+                var defaultPrefix = NameSpaceManager.LookupPrefix(NameSpaceManager.DefaultNamespace);
+
+                var splitArgs = path.Split('/');
+
+                for (int i = 0; i < splitArgs.Length; i++)
+                {
+                    if (splitArgs[i].Contains(":") == false)
+                    {
+                        //No prefix add default prefix
+                        splitArgs[i] = splitArgs[i].Insert(0, defaultPrefix + ":");
+                    }
+                }
+                var alteredExp = string.Join("/", splitArgs.ToArray());
+                retNode = GetNode(alteredExp);
+            }
+
+            return retNode;
+        }
+
         internal XmlNodeList GetNodes(string path)
         {
             return TopNode.SelectNodes(path, NameSpaceManager);

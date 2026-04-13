@@ -637,7 +637,7 @@ namespace OfficeOpenXml.Drawing.Controls
                         {
                             fill.Color = color;
                         }
-                        fill.Transparancy = (int)c.Fill.Opacity - 100;
+                        fill.Transparency = (int)c.Fill.Opacity - 100;
                     }
                 }
             }

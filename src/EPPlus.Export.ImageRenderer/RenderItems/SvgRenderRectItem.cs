@@ -19,6 +19,7 @@ using EPPlus.Graphics;
 using EPPlus.Export.ImageRenderer.Utils;
 using OfficeOpenXml.Drawing.Theme;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlusImageRenderer.RenderItems
 {
@@ -28,6 +29,7 @@ namespace EPPlusImageRenderer.RenderItems
         {
 
         }
+
         public double Left { get { return Bounds.Left; } set { Bounds.Left = value; } }
         public double Top { get { return Bounds.Top; } set { Bounds.Top = value; } }
         public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
@@ -50,13 +52,26 @@ namespace EPPlusImageRenderer.RenderItems
             //groupItem.RenderEndGroup(sb);
         }
 
+        internal string Suffix = "px";
+
         internal void RenderRect(StringBuilder sb)
         {
-            sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
+            if (Suffix == "%")
+            {
+                sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
+                Left.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Top.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Width.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Height.ToString(CultureInfo.InvariantCulture) + Suffix);
+            }
+            else
+            {
+                sb.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
                 Left.PointToPixelString(),
                 Top.PointToPixelString(),
                 Width.PointToPixelString(),
                 Height.PointToPixelString());
+            }
             base.Render(sb);
             sb.AppendFormat("/>");
         }

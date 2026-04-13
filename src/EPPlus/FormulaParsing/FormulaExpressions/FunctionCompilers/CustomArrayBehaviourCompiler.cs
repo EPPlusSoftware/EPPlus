@@ -40,18 +40,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         public override CompileResult Compile(IEnumerable<CompileResult> children, ParsingContext context)
         {
             var args = new List<FunctionArgument>();
-            
+
             if (!children.Any()) return new CompileResult(eErrorType.Value);
 
             var rangeArgs = new Dictionary<int, IRangeInfo>();
             var otherArgs = new Dictionary<int, CompileResult>();
-            for(var ix = 0; ix < children.Count(); ix++)
+            for (var ix = 0; ix < children.Count(); ix++)
             {
                 var cr = children.ElementAt(ix);
-                if(cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix) && (cr.Result is IRangeInfo || cr.Result is FormulaRangeAddress))
+                if (cr.DataType == DataType.ExcelRange && Function.ArrayBehaviourConfig.CanBeArrayArg(ix) && (cr.Result is IRangeInfo || cr.Result is FormulaRangeAddress))
                 {
                     var range = cr.Result as IRangeInfo;
-                    if(range == null && cr.Result is FormulaRangeAddress fra)
+                    if (range == null && cr.Result is FormulaRangeAddress fra)
                     {
                         range = new RangeInfo(fra);
                     }
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 }
                 else
                 {
-                    if(cr.DataType == DataType.ExcelRange)
+                    if (cr.DataType == DataType.ExcelRange)
                     {
                         cr = CompileResultFactory.Create(cr.Result);
                     }
@@ -79,55 +79,78 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 }
             }
 
-            if(rangeArgs.Count == 0)
+            if (rangeArgs.Count == 0)
             {
                 var defaultCompiler = new DefaultCompiler(Function);
                 return defaultCompiler.Compile(children, context);
             }
 
             short maxWidth = 0;
-            var maxHeight = 0;
-            foreach(var rangeArg in rangeArgs.Values)
+            var maxPhysicalHeight = 0;
+            var maxLogicalHeight = 0;
+            foreach (var rangeArg in rangeArgs.Values)
             {
-                if(rangeArg.Size.NumberOfCols > maxWidth)
+                if (rangeArg.Size.NumberOfCols > maxWidth)
                 {
                     maxWidth = rangeArg.Size.NumberOfCols;
                 }
-                if(rangeArg.Size.NumberOfRows > maxHeight) 
+
+                int physical = RangeHelper.GetPhysicalRows(rangeArg);
+                if (physical > maxPhysicalHeight)
                 {
-                    maxHeight= rangeArg.Size.NumberOfRows;
+                    maxPhysicalHeight = physical;
+                }
+                if (rangeArg.Size.NumberOfRows > maxLogicalHeight)
+                {
+                    maxLogicalHeight = rangeArg.Size.NumberOfRows;
                 }
             }
 
-            var resultRangeDef = new RangeDefinition(maxHeight, maxWidth);
             InMemoryRange resultRange;
-            if(rangeArgs.Count==1)
+            if (maxPhysicalHeight < maxLogicalHeight)
             {
-                resultRange = new InMemoryRange(rangeArgs.First().Value.Address, resultRangeDef);
+                var physicalDef = new RangeDefinition(maxPhysicalHeight, maxWidth);
+                if (rangeArgs.Count == 1)
+                {
+                    resultRange = new InMemoryRange(rangeArgs.First().Value.Address, physicalDef, maxLogicalHeight);
+                }
+                else
+                {
+                    resultRange = new InMemoryRange(physicalDef, maxLogicalHeight);
+                }
             }
             else
             {
-               resultRange = new InMemoryRange(resultRangeDef);
+                var rangeDef = new RangeDefinition(maxLogicalHeight, maxWidth);
+                if (rangeArgs.Count == 1)
+                {
+                    resultRange = new InMemoryRange(rangeArgs.First().Value.Address, rangeDef);
+                }
+                else
+                {
+                    resultRange = new InMemoryRange(rangeDef);
+                }
             }
+
             var nArgs = children.Count();
-            for(var row = 0; row < resultRange.Size.NumberOfRows; row++)
+            for (var row = 0; row < resultRange.PhysicalRows; row++)
             {
-                for(var col = 0; col < resultRange.Size.NumberOfCols; col++)
+                for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
                     bool isError = false;
                     var argList = new List<FunctionArgument>();
-                    for(var argIx = 0; argIx < nArgs; argIx++)
+                    for (var argIx = 0; argIx < nArgs; argIx++)
                     {
-                        if(rangeArgs.ContainsKey(argIx))
+                        if (rangeArgs.ContainsKey(argIx))
                         {
                             var range = rangeArgs[argIx];
                             var r = row;
                             var c = col;
-                            if(range.Size.NumberOfCols == 1 && range.Size.NumberOfRows == resultRange.Size.NumberOfRows)
+                            if (range.Size.NumberOfCols == 1 && range.Size.NumberOfRows == resultRange.Size.NumberOfRows)
                             {
                                 c = 0;
                             }
-                            if(range.Size.NumberOfRows == 1 && range.Size.NumberOfCols == resultRange.Size.NumberOfCols)
+                            if (range.Size.NumberOfRows == 1 && range.Size.NumberOfCols == resultRange.Size.NumberOfCols)
                             {
                                 r = 0;
                             }
@@ -149,12 +172,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                                     continue;
                                 }
                             }
-                            
+
                         }
                         else
                         {
                             var arg = otherArgs[argIx];
-                            if(arg.DataType == DataType.LambdaCalculation)
+                            if (arg.DataType == DataType.LambdaCalculation)
                             {
                                 var calculator = arg.ResultValue as LambdaCalculator;
                                 calculator.BeginCalculation();

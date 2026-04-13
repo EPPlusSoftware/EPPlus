@@ -17,6 +17,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -148,6 +149,59 @@ namespace EPPlus.Fonts.OpenType
 
             return shaper;
         }
+
+        public static TextLayoutEngine GetTextLayoutEngine(string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular,
+            IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            var shaper = GetTextShaper(fontName, subFamily, fontDirectories, searchSystemDirectories);
+            //TODO: Create layoutEngineCache in the style of shaperCache
+            var layoutEngine = new TextLayoutEngine(shaper);
+
+            return layoutEngine;
+        }
+
+
+        public static TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font, IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            var shaper = GetShaperForFont(font, fontDirectories, searchSystemDirectories);
+            //TODO: Create layoutEngineCache in the style of shaperCache
+            var layoutEngine = new TextLayoutEngine(shaper);
+
+            return layoutEngine;
+        }
+
+        public static ITextShaper GetShaperForFont(MeasurementFont font, IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            return GetTextShaper(
+                font.FontFamily,
+                GetFontSubFamily(font.Style),
+                fontDirectories,
+                searchSystemDirectories);
+        }
+
+        public static FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
+        {
+            if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==
+                (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
+            {
+                return FontSubFamily.BoldItalic;
+            }
+            else if ((style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
+            {
+                return FontSubFamily.Bold;
+            }
+            else if ((style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
+            {
+                return FontSubFamily.Italic;
+            }
+
+            return FontSubFamily.Regular;
+        }
+
 
         /// <summary>
         /// Clears all cached fonts, font locks and thread-local TextShaper cache.

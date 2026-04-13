@@ -17,12 +17,14 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
+
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -104,7 +106,7 @@ namespace OfficeOpenXml.Drawing.Chart
             return false;
         }
         internal abstract void AddAxis();
-        bool _secondaryAxis = false;
+        bool? _secondaryAxis = null;
         /// <summary>
         /// If true the charttype will use the secondary axis.
         /// The chart must contain a least one other charttype that uses the primary axis.
@@ -113,7 +115,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return _secondaryAxis;
+                if (_secondaryAxis.HasValue == false)
+                {
+                    _secondaryAxis = Array.FindIndex(Axis, x => ((ExcelChartAxis)x).Id == YAxis.Id) > 1;
+                }
+                return _secondaryAxis.Value;
             }
             set
             {
@@ -587,7 +593,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Returns true if the chart is of type clustered
         /// </summary>
         /// <returns>True if the chart is of type clustered</returns>
-        protected bool IsTypeClustered()
+        protected internal bool IsTypeClustered()
         {
             return ChartType == eChartType.BarClustered ||
                            ChartType == eChartType.BarClustered3D ||
@@ -599,6 +605,50 @@ namespace OfficeOpenXml.Drawing.Chart
                            ChartType == eChartType.CylinderColClustered ||
                            ChartType == eChartType.PyramidBarClustered ||
                            ChartType == eChartType.PyramidColClustered;
+        }
+        /// <summary>
+        /// Returns true if the chart is of type bar chart
+        /// </summary>
+        /// <returns>True if the chart is of type bar</returns>
+        protected internal bool IsTypeBar()
+        {
+            return ChartType == eChartType.BarClustered ||
+                           ChartType == eChartType.BarStacked ||
+                           ChartType == eChartType.BarStacked100 ||
+                           ChartType == eChartType.BarClustered3D ||
+                           ChartType == eChartType.BarStacked3D ||
+                           ChartType == eChartType.BarStacked1003D ||
+                           ChartType == eChartType.ConeBarClustered ||
+                           ChartType == eChartType.ConeBarStacked ||
+                           ChartType == eChartType.ConeBarStacked100 ||
+                           ChartType == eChartType.CylinderBarClustered ||
+                           ChartType == eChartType.CylinderBarStacked ||
+                           ChartType == eChartType.CylinderBarStacked100 ||
+                           ChartType == eChartType.PyramidBarClustered ||
+                           ChartType == eChartType.PyramidBarStacked ||
+                           ChartType == eChartType.PyramidBarStacked100;
+        }
+        /// <summary>
+        /// Returns true if the chart is of type column chart
+        /// </summary>
+        /// <returns>True if the chart is of type column</returns>
+        protected internal bool IsTypeColumn()
+        {
+            return ChartType == eChartType.ColumnClustered ||
+                           ChartType == eChartType.ColumnStacked ||
+                           ChartType == eChartType.ColumnStacked100 ||
+                           ChartType == eChartType.ColumnClustered3D ||
+                           ChartType == eChartType.ColumnStacked3D ||
+                           ChartType == eChartType.ColumnStacked1003D ||
+                           ChartType == eChartType.ConeColClustered ||
+                           ChartType == eChartType.ConeColStacked ||
+                           ChartType == eChartType.ConeColStacked100 ||
+                           ChartType == eChartType.CylinderColClustered ||
+                           ChartType == eChartType.CylinderColStacked ||
+                           ChartType == eChartType.CylinderColStacked100 ||
+                           ChartType == eChartType.PyramidColClustered ||
+                           ChartType == eChartType.PyramidColStacked ||
+                           ChartType == eChartType.PyramidColStacked100;
         }
         /// <summary>
         /// Returns true if the chart is a pie or Doughnut chart

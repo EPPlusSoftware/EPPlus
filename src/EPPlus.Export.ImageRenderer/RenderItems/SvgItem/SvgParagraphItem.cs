@@ -5,6 +5,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Globalization;
 using System.Text;
@@ -17,6 +18,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(textBody, renderer, parent)
         {
+        }
+
+        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, string text) : base(textBody, renderer, parent)
+        {
+            AddLinesAndTextRuns(text);
         }
 
         public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(textBody, renderer, parent, p, textIfEmpty)
@@ -51,9 +57,26 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var fontSize = _paragraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
-            sb.AppendLine($"<g transform=\"translate({Bounds.GlobalLeft.PointToPixelString()},{Bounds.GlobalTop.PointToPixelString()})\" >");
+            sb.AppendLine($"<g transform=\"translate({Bounds.Left.PointToPixelString()},{Bounds.Top.PointToPixelString()})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
+
+            if(DisplayBounds)
+            {
+                sb.AppendLine($"<g>");
+                sb.AppendLine("<title>Bounding-Box: Paragraph</title> ");
+                SvgRenderRectItem visualBoundingBox = new SvgRenderRectItem(DrawingRenderer, ParentTextBody.Bounds);
+
+                //Left/Top handled by transform
+                visualBoundingBox.Bounds.Width = Bounds.Width;
+                visualBoundingBox.Bounds.Height = Bounds.Height;
+
+                visualBoundingBox.FillOpacity = 0.3;
+                visualBoundingBox.FillColor = "red";
+                visualBoundingBox.Render(sb);
+                sb.AppendLine($"</g>");
+
+            }
 
             //var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
             ////The bb is affected by the Transform so set pos to zero
@@ -135,6 +158,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
+        }
+
+        internal override TextRunItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
+        {
+            return new SvgTextRunItem(DrawingRenderer, parent, font, displayText);
         }
     }
 }

@@ -55,6 +55,8 @@ namespace OfficeOpenXml.RichData.RichValues
 
         public ExcelRichValueAsType As { get; private set; }
 
+        public bool IsCellImage => _structureType == RichDataStructureTypes.WebImage || _structureType == RichDataStructureTypes.LocalImage;
+
         public IndexedSubsetCollection<ExcelRichValueValue> Values { get; private set; }
 
         private Dictionary<string, IndexRelation> _relations = new Dictionary<string, IndexRelation>();

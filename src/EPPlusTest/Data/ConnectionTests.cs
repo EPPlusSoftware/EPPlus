@@ -3,7 +3,9 @@ using OfficeOpenXml;
 using OfficeOpenXml.Data.Connection;
 using System;
 using System.Data.Common;
+using System.Globalization;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace EPPlusTest.Data
@@ -193,10 +195,26 @@ namespace EPPlusTest.Data
                 SaveAndCleanup(p);
             }
         }
+        
         [TestMethod]
-        public void AddPivotTableWithConnection()
+        public void GetValueAsText_DateTime_ShouldUseInvariantCulture()
         {
+            var cc = Thread.CurrentThread.CurrentCulture;
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("fi-FI");
+                var entry = new ExcelPowerQueryMetaDataEntry("FillLastUpdated",
+                    new DateTime(2026, 2, 19, 8, 15, 36, DateTimeKind.Utc));
+                var result = entry.GetValueAsText(CultureInfo.GetCultureInfo("fi-FI"));
+                Assert.IsTrue(result.Contains(":"),
+                    $"Expected colon as time separator but got: {result}");
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = cc;
+            }
         }
+
         [ClassCleanup]
         public static void Cleanup()
         {

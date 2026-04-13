@@ -216,8 +216,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
-            var strings = fontMeasurer.MeasureAndWrapText(testStr, mf, MaxPixelWidth);
+            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello the", strings[0]);
             Assert.AreEqual("most", strings[1]);
@@ -238,8 +238,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
-            var strings = fontMeasurer.MeasureAndWrapText(testStr, mf, MaxPixelWidth);
+            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello", strings[0]);
             Assert.AreEqual(" the", strings[1]);

@@ -242,19 +242,19 @@ namespace EPPlusTest.Drawing
         {
             //Setup
             var expected = 45;
-            var ws = _pck.Workbook.Worksheets.Add("Transparancy");
+            var ws = _pck.Workbook.Worksheets.Add("Transparency");
 
             var shape = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
             shape.SetPosition(1, 0, 5, 0);
 
             //Act
             shape.Fill.Color = Color.Red;
-            shape.Fill.Transparancy = expected;
+            shape.Fill.Transparency = expected;
 
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
             Assert.IsInstanceOfType(shape.Fill.SolidFill.Color.RgbColor, typeof(ExcelDrawingRgbColor));
-            Assert.AreEqual(expected, shape.Fill.Transparancy);
+            Assert.AreEqual(expected, shape.Fill.Transparency);
             Assert.AreEqual(100 - expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }
         [TestMethod]
@@ -274,7 +274,7 @@ namespace EPPlusTest.Drawing
             //Assert
             Assert.AreEqual(eFillStyle.SolidFill, shape.Fill.Style);
             Assert.IsInstanceOfType(shape.Fill.SolidFill.Color.RgbColor, typeof(ExcelDrawingRgbColor));
-            Assert.AreEqual(100 - expected, shape.Fill.Transparancy);
+            Assert.AreEqual(100 - expected, shape.Fill.Transparency);
             Assert.AreEqual(eColorTransformType.Alpha, shape.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(expected, shape.Fill.SolidFill.Color.Transforms[0].Value);
         }

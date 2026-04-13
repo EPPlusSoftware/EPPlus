@@ -13,11 +13,14 @@
 
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
 using System.Text;
@@ -33,7 +36,22 @@ namespace EPPlusImageRenderer
 
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
+
+            var shaper = OpenTypeFonts.GetTextShaper(Theme.FontScheme.MajorFont[0].Typeface);
+            TextMeasurer = new OpenTypeFontTextMeasurer(shaper);
         }
+
+
+        internal DrawingBase()
+        {
+            //Drawing = drawing;
+            //Bounds = drawing.GetBoundingBox();
+
+            //var wb = drawing._drawings.Worksheet.Workbook;
+            //Theme = wb.ThemeManager.GetOrCreateTheme();
+        }
+
+        internal readonly StyleCache _styleCache = new StyleCache();
         public ExcelDrawing Drawing { get; }
         public ExcelTheme Theme { get;}
         public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;

@@ -36,19 +36,16 @@ namespace OfficeOpenXml.Drawing
         /// <param name="topNode"></param>
         /// <param name="path"></param>
         /// <param name="schemaNodeOrder"></param>
-        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null) :
+        /// <param name="initXml"></param>
+        internal ExcelTextBody(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder=null, Action initXml=null) :
             base(ns, topNode)   
         {
             _pictureRelationDocument = pictureRelationDocument;
             _path = path;
 
-            _initXml = null;
+            _initXml = initXml;
 			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
-
-        string ctTextBodyPath;
-
-
         /// <summary>
         /// The anchoring position within the shape
         /// </summary>
@@ -431,7 +428,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        //Excel default values for Top/Bottom and Right/Left in EMU
+        //Excel default values for Top/Bottom and Right/Left translated to points
         //They are equivalent to 0.25cm and 0.13cm
         internal const double DefaultTopBot = 45720d / ExcelDrawing.EMU_PER_POINT;
         internal const double DefaultRightLeft = 91440d / ExcelDrawing.EMU_PER_POINT;
@@ -439,16 +436,24 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Get Insets in points
         /// </summary>
-        /// <param name="Left"></param>
-        /// <param name="Top"></param>
-        /// <param name="Right"></param>
-        /// <param name="Bottom"></param>
-        internal void GetInsetsOrDefaults(out double Left, out double Top, out double Right, out double Bottom)
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        internal void GetInsetsOrDefaults(out double left, out double top, out double right, out double bottom)
         {
-            Left = LeftInsert ?? DefaultRightLeft;
-            Top = TopInsert ?? DefaultRightLeft;
-            Right = RightInsert ?? DefaultTopBot;
-            Bottom = BottomInsert ?? DefaultTopBot;
+            left = LeftInsert ?? DefaultRightLeft;
+            top = TopInsert ?? DefaultRightLeft;
+            right = RightInsert ?? DefaultTopBot;
+            bottom = BottomInsert ?? DefaultTopBot;
+        }
+
+        internal void GetInsetsInPoints(out double left, out double top, out double right, out double bottom)
+        {
+            left = (LeftInsert ?? 0);
+            top = (TopInsert ?? 0);
+            right = (RightInsert ?? 0);
+            bottom = (BottomInsert ?? 0);
         }
 
         ExcelDrawingParagraphCollection _paragraphs = null;

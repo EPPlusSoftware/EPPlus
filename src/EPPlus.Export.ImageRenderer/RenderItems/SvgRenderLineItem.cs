@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using EPPlusImageRenderer.Svg;
@@ -24,6 +25,7 @@ namespace EPPlusImageRenderer.RenderItems
 {
     internal class SvgRenderLineItem : SvgRenderItem
     {
+
         public SvgRenderLineItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
 
@@ -92,17 +94,77 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ", 
-                X1.PointToPixelString(), 
-                Y1.PointToPixelString(), 
-                X2.PointToPixelString(), 
-                Y2.PointToPixelString());
-            base.Render(sb);
-            if(LineCap!=eLineCap.Flat)
+            //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
+            switch (CompoundLineStyle)
             {
-                sb.AppendFormat(" stroke-linecap=\"{0}\"", LineCap == eLineCap.Round ? "round" : "square");
+                case eCompoundLineStyle.Double:
+                    LineCap = eLineCap.Flat;
+                    var name = $"double-stroke-{Guid.NewGuid().ToString()}";
+                    sb.Append($"<defs><mask id=\"{name}\">");
+
+                    RenderLineItem(sb, BorderWidth, "white", null);
+                    RenderLineItem(sb, BorderWidth * (3D / 7D), "black", null);
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+                    break;
+                case eCompoundLineStyle.DoubleThickThin:
+                    WriteThickThin(sb, "double-thick-thin-stroke-{0}", (BorderWidth ?? 1D) * 1D / 7D);
+                    break;
+                case eCompoundLineStyle.DoubleThinThick:
+                    WriteThickThin(sb, "double-thin-thick-stroke-{0}", ((BorderWidth ?? 1D) * 1D / 7D) * -1);
+                    break;
+                case eCompoundLineStyle.TripleThinThickThin:
+                    var guid= Guid.NewGuid().ToString();
+                    var gapOffset = 5 * BorderWidth.Value / 16;
+                    name = $"triple-stroke-{guid}";
+                    sb.Append($"<defs>");
+                    sb.Append($"<filter id=\"gap-left-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\" filterUnits=\"userSpaceOnUse\"><feOffset dx=\"0\" dy=\"-{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>"); 
+                    sb.Append($"<filter id=\"gap-right-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\" filterUnits=\"userSpaceOnUse\"><feOffset dx=\"0\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");
+                    sb.Append($"<mask id=\"{name}\">");
+                    RenderLineItem(sb, BorderWidth, "white", null);
+                    RenderLineItem(sb, BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-left-{guid})\"");
+                    RenderLineItem(sb, BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-right-{guid})\"");
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+                    break;
+                default:
+                    RenderLineItem(sb, null, null, null);
+                    break;
             }
-            sb.AppendFormat("/>");
+        }
+        private void WriteThickThin(StringBuilder sb, string name, double gapOffset)
+        {
+            var guid = Guid.NewGuid().ToString();
+            name = string.Format(name, guid);
+            string gapFilterName = $"f-gap-shift-{guid}";
+            sb.Append("<defs>");
+            sb.Append($"<filter id=\"{gapFilterName}\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\" filterUnits=\"userSpaceOnUse\"><feOffset in=\"SourceGraphic\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\"/></filter>");
+            sb.Append($"<mask id=\"{name}\">");
+            RenderLineItem(sb, BorderWidth, "white", null);
+            RenderLineItem(sb, BorderWidth * (1D / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
+            sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{BorderColor}\" mask=\"url(#{name})\" />");
+        }
+
+        internal string Suffix = "px";
+
+        private void RenderLineItem(StringBuilder sb, double? borderWidth, string color, string filter)
+        {
+            if(Suffix == "%")
+            {
+                sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
+                X1.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Y1.ToString(CultureInfo.InvariantCulture) + Suffix,
+                X2.ToString(CultureInfo.InvariantCulture) + Suffix,
+                Y2.ToString(CultureInfo.InvariantCulture) + Suffix);
+            }
+            else
+            {
+                sb.AppendFormat("<line x1=\"{0}\" y1=\"{1}\" x2=\"{2}\" y2=\"{3}\" ",
+                X1.PointToPixelString(),
+                Y1.PointToPixelString(),
+                X2.PointToPixelString(),
+                Y2.PointToPixelString());
+            }
+            
+            RenderCompoundItems(sb, borderWidth, color, filter);
         }
 
         internal override SvgRenderItem Clone(SvgShape svgDocument)
@@ -111,6 +173,18 @@ namespace EPPlusImageRenderer.RenderItems
             CloneBase(clone);
             return clone;
         }
+
+        internal SvgRenderLineItem Clone(DrawingBase baseItem)
+        {
+            var clone = new SvgRenderLineItem(baseItem, baseItem.Bounds);
+            clone.X1 = X1;
+            clone.Y1 = Y1;
+            clone.X2 = X2;
+            clone.Y2 = Y2;
+            CloneBase(clone);
+            return clone;
+        }
+
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = X1;

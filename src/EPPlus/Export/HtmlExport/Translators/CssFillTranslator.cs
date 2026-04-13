@@ -24,10 +24,20 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
     {
         ExcelTheme _theme;
         IFill _fill;
+        bool _usePresentationName = false;
 
-        internal CssFillTranslator(IFill fill)
+        string presentationName = "fill";
+
+        string bgName = "background-color";
+
+        internal CssFillTranslator(IFill fill, bool usePresentationName = false)
         {
             _fill = fill;
+            _usePresentationName = usePresentationName;
+            if(usePresentationName)
+            {
+                bgName = presentationName;
+            }
         }
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
@@ -47,7 +57,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 					var bc = _fill.GetBackgroundColor(_theme) ?? "#0";
 					if (string.IsNullOrEmpty(bc) == false)
                     {
-                        AddDeclaration("background-color", bc);
+                        AddDeclaration(bgName, bc);
                     }
                 }
                 else if(_fill.PatternType == ExcelFillStyle.None)
@@ -55,7 +65,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                     var fc = _fill.GetPatternColor(_theme);
                     if (string.IsNullOrEmpty(fc) == false)
                     {
-                        AddDeclaration("background-color", fc);
+                        AddDeclaration(bgName, fc);
                     }
 				}
                 else

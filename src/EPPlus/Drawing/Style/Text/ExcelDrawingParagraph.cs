@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Drawing
             _initXml = initXml;
             _prd = prd;
 
-            if(_paragraphs.FirstDefaultRunProperties == null)
+            if (_paragraphs.FirstDefaultRunProperties == null)
             {
                 DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             }
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Drawing
 
             //////Previously new paragraphs used the first DefaultRunProperties
             //////Uncertain if we should keep this behaviour at least as an option. TODO: Decide if breaking change or legacy setting (or keep only previous paragraph's settings?)
-            bool legacyDefaultRunPropertySetting = true;
+            bool legacyDefaultRunPropertySetting = false;
 
             if (paragraphs.Count == 0)
             {
@@ -127,6 +127,9 @@ namespace OfficeOpenXml.Drawing
                 return sb.ToString();
             }
         }
+
+
+        internal eTextAlignment defaultAlignment = eTextAlignment.Left;
         /// <summary>
         /// Horizontal Alignment
         /// </summary>
@@ -134,7 +137,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString("a:pPr/@algn").ToEnum(eTextAlignment.Left, new Dictionary<string, eTextAlignment>
+                return GetXmlNodeString("a:pPr/@algn").ToEnum(defaultAlignment, new Dictionary<string, eTextAlignment>
                 {
                     ["r"] = eTextAlignment.Right,
                     ["ctr"] = eTextAlignment.Center,
@@ -369,233 +372,6 @@ namespace OfficeOpenXml.Drawing
                 }
                 return _tabStops;
             }
-        }
-
-        /// <summary>
-        /// Vertical alignment for characters in the paragraph.
-        /// </summary>
-        public eTextFontAlingmentType FontAlignment
-        {
-            get
-            {
-                return GetXmlNodeString("a:pPr/@fontAlgn").ToEnum(eTextFontAlingmentType.Automatic,
-                    new Dictionary<string, eTextFontAlingmentType>
-                    {
-                        ["t"] = eTextFontAlingmentType.Top,
-                        ["b"] = eTextFontAlingmentType.Bottom,
-                        ["base"] = eTextFontAlingmentType.Baseline,
-                        ["ctr"] = eTextFontAlingmentType.Center,
-                        ["auto"] = eTextFontAlingmentType.Automatic
-                    });
-            }
-            set
-            {
-                string v = value.ToEnumString(new Dictionary<Enum, string>
-                {
-                    [eTextFontAlingmentType.Top] = "t",
-                    [eTextFontAlingmentType.Bottom] = "b",
-                    [eTextFontAlingmentType.Baseline] = "base",
-                    [eTextFontAlingmentType.Center] = "ctr",
-                    [eTextFontAlingmentType.Automatic] = "auto",
-                });
-
-                SetXmlNodeString("a:pPr/@fontAlgn", v);
-            }
-        }
-        /// <summary>
-        /// Get paragraph lineSpacing in points
-        /// </summary>
-        /// <param name="measurer"></param>
-        /// <param name="isFirstLine">The first line in a paragraph collection has special lineHeight</param>
-        /// <returns></returns>
-        private double GetParagraphLineSpacing(ITextMeasurerWrap measurer, bool isFirstLine)
-        {
-            if (LineSpacing.LineSpacingType == eDrawingTextLineSpacing.Exactly)
-            {
-                return LineSpacing.Value;
-            }
-            else
-            {
-                var multiplier = LineSpacing.Value / 100;
-                if (isFirstLine && this == _paragraphs[0])
-                {
-                    return multiplier * measurer.GetBaseLine();
-                }
-
-                return multiplier * measurer.GetSingleLineSpacing();
-            }
-        }
-
-        /// <summary>
-        /// Returns paragraph height in points
-        /// </summary>
-        /// <param name="measurer">The wrapping textMeasurer to use</param>
-        /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
-        /// <returns></returns>
-        internal double GetParagraphHeight(ITextMeasurerWrap measurer, double maxWidth = 0)
-        {
-            double paragraphHeight = 0;
-
-            bool isFirstLine = true;
-
-            foreach (var txtRun in TextRuns)
-            {
-                //Split textrun text into line-breaks
-                var lines = txtRun.SplitIntoLines();
-                //For each line in each linebreak
-                foreach (var line in lines)
-                {
-                    //Despite new textrun it could still be on the same line as previous textrun
-                    if (line != lines[0] | txtRun.IsFirstInParagraph)
-                    {
-                        var measurementFont = txtRun.GetMeasurementFont();
-                        //Get the length/height of the line via the font of the textRun
-                        var measurement = measurer.MeasureText(line, measurementFont);
-
-                        //If text wrapping is on each of the broken lines could potentially be wrapped
-                        List<string> finalLines = new List<string>();
-                        if (maxWidth != 0)
-                        {
-                            var maxWidthInPixels = (maxWidth / 72d) * 96d;
-                            finalLines = measurer.MeasureAndWrapText(line, measurementFont, maxWidthInPixels);
-                        }
-                        else
-                        {
-                            finalLines.Add(line);
-                        }
-
-                        //Could be just one line or mutliple lines.
-                        //Re-use same collection to avoid code repetition.
-                        //Line-spacing should be applied for each line
-                        foreach (var fLine in finalLines)
-                        {
-                            //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
-                            var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
-                            paragraphHeight += lineSpacing;
-                            isFirstLine = false;
-                        }
-                    }
-                }
-            }
-
-            if(TextRuns.Count <= 0)
-            {
-                var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
-                paragraphHeight += lineSpacing;
-            }
-
-            return paragraphHeight;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="measurer"></param>
-        /// <param name="maxWidth">must be entered in points</param>
-        /// <returns></returns>
-        internal double GetParagraphHeightInPixels(ITextMeasurerWrap measurer, double maxWidth = 0)
-        {
-            var pointHeight = GetParagraphHeight(measurer, maxWidth);
-            var pixelHeight = (pointHeight / 72d) * 96d;
-
-            return pixelHeight;
-        }
-
-        /// <summary>
-        /// Returns paragraph height in points
-        /// </summary>
-        /// <param name="maxWidth">MaxWidth/Wrapping width in points. A value of 0 implies no wrapping.</param>
-        /// <returns></returns>
-        internal RectBase GetParagraphSize(double maxWidth = 0, double maxHeight = 0, bool isFirstLine=true)
-        {
-            double paragraphHeight = 0;
-            double paragraphWidth = 0;
-            double lineWidth = 0, lineHeight = 0; ;
-            var measurer = _prd.Package.Settings.TextSettings.GenericTextMeasurerTrueType;
-            var maxWidthInPixels = (maxWidth / 72d) * 96d;
-            
-            foreach (var txtRun in TextRuns)
-            {   
-                //Split textrun text into line-breaks
-                var lines = txtRun.SplitIntoLines();
-                lineHeight = 0;
-                //For each line in each linebreak
-                for (int x = 0;x < lines.Count;x++)
-                {
-                    var line = lines[x];
-                    if (x > 0)
-                    {
-                        lineWidth = 0;
-                    }
-                    var measurementFont = txtRun.GetMeasureFont();
-                    //Get the length/height of the line via the font of the textRun
-
-                    var measurement = measurer.MeasureText(line, measurementFont);
-
-                    //If text wrapping is on each of the broken lines could potentially be wrapped
-                    List<string> finalLines = new List<string>();
-                    if (maxWidth != 0)
-                    {
-                        finalLines = measurer.MeasureAndWrapText(line, txtRun.GetMeasureFont(), maxWidthInPixels);
-                    }
-                    else
-                    {
-                        finalLines.Add(line);
-                    }
-                    lineWidth += measurement.Width;
-                    if (lineWidth > paragraphWidth) paragraphWidth = lineWidth;
-                    //Could be just one line or mutliple lines.
-                    //Re-use same collection to avoid code repetition.
-                    //Line-spacing should be applied for each line
-                    //int i = 0;
-                    //foreach (var fLine in finalLines)
-                    //{
-                    //    //MeasureText sets the font allowing for getting the font-specific line-spacing for the text-run if it is of multiple type.
-                    //    var lineSpacing = GetParagraphLineSpacing(measurer, isFirstLine);
-                    //    if(i==0)
-                    //    {
-                    //        if(lineSpacing>paragraphHeight)
-                    //        {
-                    //            paragraphHeight = lineSpacing;
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        paragraphHeight += lineSpacing;
-                    //    }
-                    //    isFirstLine = false;
-                    //}
-                    //if(finalLines.Count>1)
-                    //{
-                    //    paragraphHeight = 0;
-                    //}
-                    lineHeight += measurement.Height;
-                }
-                if(lineHeight>paragraphHeight)
-                {
-                    paragraphHeight = lineHeight;
-                }
-            }
-
-            return new RectBase(paragraphWidth, paragraphHeight);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="maxWidth">must be entered in points</param>
-        /// <returns></returns>
-        internal RectBase GetParagraphSizeInPixels(double maxWidth = 0, double maxHeight = 0, bool isFirstLine=true)
-        {
-            var pointHeight = GetParagraphSize(maxWidth, maxHeight, isFirstLine);
-            return new RectBase((pointHeight.Width / 72d) * 96d, (pointHeight.Height / 72d) * 96d);
-        }
-
-        internal object GetMeasurementFont()
-        {
-            if (_paragraphs.Count > 0)
-            {
-                return _paragraphs[0].DefaultRunProperties.GetMeasureFont();
-            }
-            return DefaultRunProperties.GetMeasureFont();
         }
     }
 }

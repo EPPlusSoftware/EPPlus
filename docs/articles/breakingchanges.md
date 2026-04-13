@@ -216,3 +216,9 @@ Renaming worksheet's will now change the formula correctly to include single quo
 
 ### 8.0.2
 * Removed base class from ExcelVmlDrawingPosition and with that the Load, UpdateXml methods and the RowOff and ColOff properties as they were duplicates.
+### 8.5.0
+* Setting dataLabelPosition.Top on BarCharts corrupted the excel file when saved. Trying to set this now throws an error instead. 
+* NumberFormatToTextArgs.NumberFormat now returns the interface IExcelNumberFormat rather than the ExcelNumberFormatXml class. All public variables remain the same and it can be safely cast to ´ExcelNumberFormatXml´ as long as ´Package.Workbook.NumberFormatToTextHandler´ is null.
+
+### 9.0.0
+The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.

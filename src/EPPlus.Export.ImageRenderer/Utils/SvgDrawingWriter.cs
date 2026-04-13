@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.Constants;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
@@ -44,17 +46,18 @@ namespace EPPlusImageRenderer.Utils
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();
             var ix = 1;
+
             foreach (RenderItem item in renderItems)
             {
                 string filter = "";
                 if (item.GradientFill != null)
                 {
-                    string name = WriteGradient("Gradient", defSb, hs, item.GradientFill, item.FillColorSource, true);
+                    string name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource, true);
                     item.FillColor = $"Url(#{name})";
                 }
                 else if (item.PatternFill != null)
                 {
-                    string name = WritePattern($"Pattern{item.PatternFill.PatternType}", defSb, hs, item.PatternFill, item.FillColorSource);
+                    string name = WritePattern($"Pattern{item.PatternFill.PatternType}{ix}", defSb, hs, item.PatternFill, item.FillColorSource);
                     item.FillColor = $"Url(#{name})";
                 }
                 else if (item.BlipFill != null)
@@ -69,7 +72,7 @@ namespace EPPlusImageRenderer.Utils
                 }
                 if (item.BorderGradientFill != null)
                 {
-                    string name = WriteGradient("StrokeGradient", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
+                    string name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
                     item.BorderColor = $"Url(#{name})";
                 }
                 if(item.GlowColor!=null)
@@ -86,9 +89,31 @@ namespace EPPlusImageRenderer.Utils
                     $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
                     $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
                 }
+                if(item.OuterShadowEffect != null)
+                {
+                    if (string.IsNullOrEmpty(item.FilterName))
+                    {
+                        var filterName = GetFilterName(ix);
+                        item.FilterName = $"Url(#{filterName})";
+                        filter = $"<filter id=\"{filterName}\" >";
+                    }
+                    item.GetOuterShadowColor(out string shadowColor, out double opacity);
+                    var dx = Math.Round(item.OuterShadowEffect.Distance * Math.Cos(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
+                    var dy = Math.Round(item.OuterShadowEffect.Distance * Math.Sin(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
+                    var blurRadius = item.OuterShadowEffect.BlurRadius??0D / 2;
+                    filter += $"<feDropShadow dx=\"{dx.PointToPixelString()}\" dy=\"{dy.PointToPixelString()}\" stdDeviation=\"{blurRadius.PointToPixelString()}\" flood-color=\"{shadowColor}\" flood-opacity=\"{opacity.ToString("N2", CultureInfo.InvariantCulture)}\" />";
+                }
                 if(string.IsNullOrEmpty(filter)==false)
                 {
                     defSb.Append(filter+"</filter>");
+                }
+
+                if(item is SvgRenderItem svgItem)
+                {
+                    if(string.IsNullOrEmpty(svgItem.DefId) == false)
+                    {
+                        svgItem.Render(defSb);
+                    }
                 }
                 ix++;
             }
@@ -98,6 +123,9 @@ namespace EPPlusImageRenderer.Utils
                 sb.Append(defSb);
                 sb.Append("</defs>");
             }
+
+            //Remove all items that have already been rendered
+            renderItems.RemoveAll(x => x is SvgRenderItem svgX && string.IsNullOrEmpty(svgX.DefId) == false);
         }
 
         private static string GetFilterName(int ix)
@@ -416,7 +444,12 @@ namespace EPPlusImageRenderer.Utils
         private void SetStopColors(StringBuilder defSb, DrawGradientFill gradientFill, PathFillMode fillMode)
         {
             int ix = 0;
-            foreach (var c in gradientFill.Colors)
+
+            //Svg requires starting at 0 and moving towards 100% Excel sometimes starts at 100
+            //Sort to get around that
+            var sortedGradientColors = gradientFill.Colors.OrderBy(x => x.Position);
+
+            foreach (var c in sortedGradientColors)
             {
                 var color = ColorUtils.GetAdjustedColor(fillMode, c.Color);
                 // TODO: check if ix should be increased...?
@@ -454,17 +487,17 @@ namespace EPPlusImageRenderer.Utils
                     x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
                 }
 
-                return $" x1=\"{x1.ToString("0.00", CultureInfo.InvariantCulture)}\" x2=\"{x2.ToString("0.00", CultureInfo.InvariantCulture)}\" y1=\"{y1.ToString("0.00", CultureInfo.InvariantCulture)}\" y2=\"{y2.ToString("0.00", CultureInfo.InvariantCulture)}\"";
+                return $" x1=\"{(x1).ToString("0.00%", CultureInfo.InvariantCulture)}\" x2=\"{(x2).ToString("0.00%", CultureInfo.InvariantCulture)}\" y1=\"{y1.ToString("0.00%", CultureInfo.InvariantCulture)}\" y2=\"{y2.ToString("0.00%", CultureInfo.InvariantCulture)}\"";
             }
             return "";
         }
 
         private string GetOpacity(ExcelDrawingColorManager c)
         {
-            var opacetyTransform = c.Transforms?.FirstOrDefault(x => x.Type == OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType.Alpha);
-            if (opacetyTransform == null) return "";
+            var opacityTransform = c.Transforms?.FirstOrDefault(x => x.Type == OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType.Alpha);
+            if (opacityTransform == null) return "";
 
-            return $"stop-opacity=\"{opacetyTransform.Value.ToString("0")}%\"";
+            return $"stop-opacity=\"{opacityTransform.Value.ToString("0")}%\"";
         }
 
         private string SetStretchTileProps(ExcelDrawingBlipFill blipFill)

@@ -1,4 +1,4 @@
-﻿//using EPPlus.Fonts.OpenType.Integration;
+//using EPPlus.Fonts.OpenType.Integration;
 //using EPPlus.Fonts.OpenType.TextShaping;
 //using EPPlus.Fonts.OpenType.TrueTypeMeasurer;
 //using EPPlus.Fonts.OpenType.Utils;

@@ -120,10 +120,13 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (this is ExcelChartExLegend) return new List<ExcelChartLegendEntry>(); //Legend entries are not applicable for extended charts.
             var entries = new List<ExcelChartLegendEntry>();
-            var nodes = GetNodes("c:legendEntry");
-            foreach(XmlNode n in nodes)
+            if (TopNode != null)
             {
-                entries.Add(new ExcelChartLegendEntry(NameSpaceManager, n, (ExcelChartStandard)_chart));
+                var nodes = GetNodes("c:legendEntry");
+                foreach (XmlNode n in nodes)
+                {
+                    entries.Add(new ExcelChartLegendEntry(NameSpaceManager, n, (ExcelChartStandard)_chart));
+                }
             }
             return entries;
         }

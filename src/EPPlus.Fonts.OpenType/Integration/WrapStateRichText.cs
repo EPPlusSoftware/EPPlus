@@ -1,6 +1,4 @@
-﻿using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -31,7 +29,9 @@ namespace EPPlus.Fonts.OpenType.Integration
             if (_fragmentsForNextLine == null)
             {
                 EndCurrentTextLine();
+                var spcWidthTemp = LineFrag.SpaceWidth;
                 LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment);
+                LineFrag.SpaceWidth = spcWidthTemp;
             }
             else
             {

@@ -65,5 +65,26 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("2021-12-31", cell);
             }
         }
+        [TestMethod]
+        public void i2276()
+        {
+            using (var package = OpenTemplatePackage("CurrencyTest2.xlsx"))
+            {
+                SwitchToCulture("nl-NL");
+                ExcelWorkbook workbook = package.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[0];
+
+                Assert.AreEqual("€ 12 347", worksheet.Cells["A1"].Text);
+                Assert.AreEqual("[$€-2]\\ #,##0", worksheet.Cells["A1"].Style.Numberformat.Format);
+                Assert.AreEqual("€ 12 346,78", worksheet.Cells["D1"].Text);
+                Assert.AreEqual("[$€-2]\\ #,##0.00", worksheet.Cells["D1"].Style.Numberformat.Format);
+
+                Assert.AreEqual("€ 12.347", worksheet.Cells["A2"].Text);
+                Assert.AreEqual("\"€\"\\ #,##0", worksheet.Cells["A2"].Style.Numberformat.Format);
+                Assert.AreEqual("€ 12.346,78", worksheet.Cells["D2"].Text);
+                Assert.AreEqual("\"€\"\\ #,##0.00", worksheet.Cells["D2"].Style.Numberformat.Format);
+                SwitchBackToCurrentCulture();
+            }
+        }
     }
 }

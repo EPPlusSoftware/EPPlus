@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Xml;
 using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 namespace OfficeOpenXml.Drawing.Chart
@@ -387,6 +388,57 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(_ticLblPos_Path, v);
             }
         }
+        const string _label_alignment_path = "c:lblAlgn/@val";
+        /// <summary>
+        /// Set the alingment for the axis labels within the major tickmarks.
+        /// </summary>
+        public eAxisLabelAlignment LabelAlignment
+        {
+            get
+            {
+                switch(GetXmlNodeString(_label_alignment_path))
+                {
+                    case "l":
+                        return eAxisLabelAlignment.Left;
+                    case "r":
+                        return eAxisLabelAlignment.Right;
+                    default:
+                        return eAxisLabelAlignment.Center;
+                }
+            }
+            set
+            {
+                string v;
+                switch (value)
+                {
+                    case eAxisLabelAlignment.Left:
+                        v = "l";
+                        break;
+                    case eAxisLabelAlignment.Right:
+                        v = "r";
+                        break;
+                    default:
+                        v = "ctr";
+                        break;
+                }
+                SetXmlNodeString(_label_alignment_path, v);
+            }
+        }
+        const string _label_offset_path = "c:lblOffset/@val";
+        /// <summary>
+        /// Set the offset in whole percent between the labels and the axis.
+        /// </summary>
+        public int LabelOffset
+        {
+            get
+            {
+                return GetXmlNodeInt(_label_offset_path, 100);
+            }
+            set
+            {
+                SetXmlNodeInt(_label_offset_path, value, null, false);
+            }
+        }
         const string _displayUnitPath = "c:dispUnits/c:builtInUnit/@val";
         const string _custUnitPath = "c:dispUnits/c:custUnit/@val";
         /// <summary>
@@ -742,17 +794,20 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
         }
-        internal override object[] GetAxisValues(out bool isCount)
+        internal override List<object> GetAxisValues(out bool isCount)
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
             var dl = values.SelectMany(x => x).Distinct().ToList();
-            dl.Sort();
+            if (AxisType!=eAxisType.Cat)
+            {
+                dl.Sort();
+            }
             if (Orientation == eAxisOrientation.MaxMin)
             {
                 dl.Reverse();
             }
-            return dl.ToArray();
+            return dl;
         }
 
         internal void GetSeriesValues(out bool isCount, out List<List<object>> values)
@@ -760,9 +815,10 @@ namespace OfficeOpenXml.Drawing.Chart
             values = new List<List<object>>();
             isCount = false;
             List<object> pl = new List<object>();
+            int ix = 0;
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
-                foreach (var serie in _chart.Series)
+                foreach (var serie in ct.Series)
                 {
                     var l = new List<object>();
                     values.Add(l);
@@ -775,21 +831,22 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true);
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
                         }
                     }
                     else
                     {
-                        if (ct.YAxis == this)
+                        if (ct.YAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, pl);
+                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
                         }
-                        else if (ct.XAxis == this)
+                        else if (ct.XAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false);
+                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false, null);
                         }
                     }
                     pl = l;
+                    ix++;
                 }
             }
             if (_chart.IsTypePercentStacked() && IsYAxis)
@@ -849,7 +906,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, List<object> prevList=null)
+        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, string[] headerInfo, List<object> prevList=null)
         {
             var isStacked = _chart.IsTypeStacked() && prevList != null;
             if (numberLiterals?.Length > 0)
@@ -879,14 +936,21 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     var range = ws.Cells[a.Address];
                     var i = 0;
-                    for(var r=0;r<range.Rows;r++)
+                    for(var r=0;r < range.Rows;r++)
                     {
                         for (var c = 0; c < range.Columns; c++)
                         {
                             var v = range.Offset(r, c, 1, 1);
                             if (useText)
                             {
-                                list.Add(v.Text);
+                                if (headerInfo == null)
+                                {
+                                    list.Add(v.Text);
+                                }
+                                else
+                                {
+                                    list.Add(new string[] { v.Text, a.Address, headerInfo[1] });
+                                }
                             }
                             else
                             {

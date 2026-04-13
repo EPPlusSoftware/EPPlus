@@ -46,6 +46,9 @@ namespace OfficeOpenXml.FormulaParsing
             var depChain = new RpnOptimizedDependencyChain(wb, options);
             foreach (var ws in wb.Worksheets)
             {
+#if !NET35
+                options.CancellationToken.ThrowIfCancellationRequested();
+#endif
                 if (ws.IsChartSheet == false)
                 {
                     ExecuteChain(depChain, ws.Cells, options, true);
@@ -118,9 +121,15 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var ws = range.Worksheet;
             RpnFormula f = null;
+#if !NET35
+            var ct = options.CancellationToken; // Cache locally — avoids property lookup in hot loop
+#endif
             var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
             while (fs.Next())
             {
+#if !NET35
+                ct.ThrowIfCancellationRequested(); // P0 – per cell
+#endif
                 if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
                 var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                 if (depChain.processedCells.Contains(id) == false)
@@ -132,6 +141,12 @@ namespace OfficeOpenXml.FormulaParsing
                             CalculateFormulaChain(depChain, f, options, writeToCell);
                         }
                     }
+#if !NET35
+                    catch (OperationCanceledException)
+                    {
+                        throw; // Must propagate — do not swallow
+                    }
+#endif
                     catch (CircularReferenceException)
                     {
                         throw;
@@ -240,6 +255,12 @@ namespace OfficeOpenXml.FormulaParsing
                     ExecuteName(depChain, name, options, writeToCell);
                 }
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -289,6 +310,12 @@ namespace OfficeOpenXml.FormulaParsing
                 f.SetFormula(formula, depChain);
                 return CalculateFormulaChain(depChain, f, options, writeToCell).Result;
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -309,6 +336,12 @@ namespace OfficeOpenXml.FormulaParsing
                 f._row = -1;
                 return CalculateFormulaChain(depChain, f, options, writeToCell).Result;
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -419,6 +452,9 @@ namespace OfficeOpenXml.FormulaParsing
         ExecuteFormula:
             try
             {
+#if !NET35
+                options.CancellationToken.ThrowIfCancellationRequested(); // P0 – per dependency step
+#endif
                 SetCurrentCell(depChain, f);
                 var ws = f._ws;
                 if (f._tokenIndex < f._tokens.Count)
@@ -568,6 +604,12 @@ namespace OfficeOpenXml.FormulaParsing
 
                 goto ExecuteFormula;
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -1562,7 +1604,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     args = CompileFunctionArguments(f, funcExp);
                     funcExp.Status = ExpressionStatus.CanCompile;
-                    return funcExp.SetArguments(args);
+                    return funcExp.SetArguments(args, depChain._parsingContext);
                 }
                 else
                 {
@@ -1577,7 +1619,7 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 args = CompileFunctionArguments(f, funcExp);
-                return funcExp.SetArguments(args);
+                return funcExp.SetArguments(args, depChain._parsingContext);
             }
             return false;
         }

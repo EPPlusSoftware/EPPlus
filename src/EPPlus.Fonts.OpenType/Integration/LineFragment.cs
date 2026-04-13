@@ -14,6 +14,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double Width { get; set; }
         public int RtFragIdx { get; set; }
 
+        public double SpaceWidth { get; internal set; }
+
         //public double AscentInPoints { get; private set; }
         //public double DescentInPoints { get; private set; }
 

@@ -95,7 +95,7 @@ namespace EPPlusTest
             pic.Border.Fill.Color = Color.DarkCyan;
             pic.Fill.Style = eFillStyle.SolidFill;
             pic.Fill.Color = Color.White;
-            pic.Fill.Transparancy = 50;
+            pic.Fill.Transparency = 50;
 
             pic = ws.Drawings.AddPicture("Pic3", Resources.Test1);
             pic.SetPosition(400, 200);
@@ -328,7 +328,7 @@ namespace EPPlusTest
 
             chrt.Title.Fill.Style = eFillStyle.SolidFill;
             chrt.Title.Fill.Color = Color.LightBlue;
-            chrt.Title.Fill.Transparancy = 50;
+            chrt.Title.Fill.Transparency = 50;
             chrt.VaryColors = true;
             ExcelScatterChartSerie ser = chrt.Series[0] as ExcelScatterChartSerie;
             ser.DataLabel.Position = eLabelPosition.Center;
@@ -664,7 +664,7 @@ namespace EPPlusTest
 
             (ws.Drawings["shape5"] as ExcelShape).Fill.Style = eFillStyle.SolidFill;
             (ws.Drawings["shape5"] as ExcelShape).Fill.Color = Color.Red;
-            (ws.Drawings["shape5"] as ExcelShape).Fill.Transparancy = 50;
+            (ws.Drawings["shape5"] as ExcelShape).Fill.Transparency = 50;
 
             (ws.Drawings["shape6"] as ExcelShape).Fill.Style = eFillStyle.NoFill;
             (ws.Drawings["shape6"] as ExcelShape).Font.Fill.Color = Color.Black;
@@ -674,7 +674,7 @@ namespace EPPlusTest
             (ws.Drawings["shape7"] as ExcelShape).Fill.Color = Color.Gray;
             (ws.Drawings["shape7"] as ExcelShape).Border.Fill.Style = eFillStyle.SolidFill;
             (ws.Drawings["shape7"] as ExcelShape).Border.Fill.Color = Color.Black;
-            (ws.Drawings["shape7"] as ExcelShape).Border.Fill.Transparancy = 43;
+            (ws.Drawings["shape7"] as ExcelShape).Border.Fill.Transparency = 43;
             (ws.Drawings["shape7"] as ExcelShape).Border.LineCap = eLineCap.Round;
             (ws.Drawings["shape7"] as ExcelShape).Border.LineStyle = eLineStyle.LongDash;
             (ws.Drawings["shape7"] as ExcelShape).Font.UnderLineColor = Color.Blue;

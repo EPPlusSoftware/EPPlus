@@ -10,17 +10,18 @@
  *************************************************************************************************
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Filter;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -37,7 +38,14 @@ namespace OfficeOpenXml.FormulaParsing
             var rows = sf.EndRow - sf.StartRow + 1;
             var cols = sf.EndCol - sf.StartCol + 1;
             var wsIx = ws.IndexInList;
-            for (int r = 0; r < rows; r++)
+
+            // Determine physical boundary and default value for virtual rows
+            var virtualImr = array as InMemoryRange;
+            var hasVirtual = virtualImr != null && virtualImr.HasVirtualRows;
+            var physicalRowLimit = hasVirtual ? Math.Min(rows, virtualImr.PhysicalRows) : rows;
+
+            // Phase 1: Physical rows - read actual cell values via GetOffset
+            for (int r = 0; r < physicalRowLimit; r++)
             {
                 for (int c = 0; c < cols; c++)
                 {
@@ -46,9 +54,8 @@ namespace OfficeOpenXml.FormulaParsing
                     if (r < nr && c < nc)
                     {
                         var val = array.GetOffset(r, c);
-                        if(ConvertUtil.IsNumeric(val) && val is double dbl &&  dbl == 0d)
+                        if (ConvertUtil.IsNumeric(val) && val is double dbl && dbl == 0d)
                         {
-                            // avoid -0
                             val = 0d;
                         }
                         ws.SetValueInner(row, col, val ?? 0D);
@@ -58,7 +65,35 @@ namespace OfficeOpenXml.FormulaParsing
                         ws.SetValueInner(row, col, ErrorValues.NAError);
                     }
                     var id = ExcelCellBase.GetCellId(wsIx, row, col);
-                    depChain.processedCells.Add(id);    
+                    depChain.processedCells.Add(id);
+                }
+            }
+
+            // Phase 2: Virtual rows - write pre-computed default value directly
+            if (hasVirtual && physicalRowLimit < rows)
+            {
+                var defaultVal = virtualImr.VirtualDefaultValue ?? 0D;
+                if (ConvertUtil.IsNumeric(defaultVal) && defaultVal is double dblDefault && dblDefault == 0d)
+                {
+                    defaultVal = 0d;
+                }
+                for (int r = physicalRowLimit; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        var row = sr + r;
+                        var col = sc + c;
+                        if (r < nr && c < nc)
+                        {
+                            ws.SetValueInner(row, col, defaultVal);
+                        }
+                        else
+                        {
+                            ws.SetValueInner(row, col, ErrorValues.NAError);
+                        }
+                        var id = ExcelCellBase.GetCellId(wsIx, row, col);
+                        depChain.processedCells.Add(id);
+                    }
                 }
             }
 
@@ -74,7 +109,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if (r == startRow && c == startColumn) continue;
                     object f = -1;
-                    if (fIx!=-1 && ws._formulas.Exists(r, c, ref f) && f != null)
+                    if (fIx != -1 && ws._formulas.Exists(r, c, ref f) && f != null)
                     {
                         if (f is int intfIx && intfIx == fIx)
                         {
@@ -87,7 +122,7 @@ namespace OfficeOpenXml.FormulaParsing
                     else
                     {
                         var v = ws.GetValueInner(r, c);
-                        if(v!=null)
+                        if (v != null)
                         {
                             rowOff = r - startRow;
                             colOff = c - startColumn;
@@ -98,7 +133,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             rowOff = colOff = 0;
             return false;
-        }   
+        }
         internal static SimpleAddress[] FillDynamicArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
         {
             var nr = array.Size.NumberOfRows;
@@ -107,13 +142,13 @@ namespace OfficeOpenXml.FormulaParsing
             var startRow = f._row;
             var startCol = f._column;
             var wsIx = ws.IndexInList;
-            
+
             f._flags |= FormulaFlags.IsDynamic;
             var md = depChain._parsingContext.Package.Workbook.Metadata;
             //d.GetDynamicArrayIndex(out int cm);
             md.GetDynamicArrayId(out uint cm);
             var metaData = f._ws._metadataStore.GetValue(startRow, startCol);
-            metaData.cm= cm;
+            metaData.cm = cm;
 
             f._ws._metadataStore.SetValue(f._row, f._column, metaData);
 
@@ -134,7 +169,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
             SimpleAddress[] dirtyRange;
-            if(f._arrayIndex==-1)
+            if (f._arrayIndex == -1)
             {
                 var endRow = startRow + array.Size.NumberOfRows - 1;
                 var endCol = f._column + array.Size.NumberOfCols - 1;
@@ -151,7 +186,7 @@ namespace OfficeOpenXml.FormulaParsing
                 CleanupSharedFormulaValues(f, ws, sf, endRow, endCol);
                 sf.EndRow = endRow;
                 sf.EndCol = endCol;
-                
+
             }
             FillArrayFromRangeInfo(f, array, rd, depChain);
             return dirtyRange;
@@ -212,10 +247,10 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
-        private static SimpleAddress[] GetDirtyRange(int fromRow, int fromCol, int toRow, int toCol, int prevToRow=0, int prevToCol=0)
+        private static SimpleAddress[] GetDirtyRange(int fromRow, int fromCol, int toRow, int toCol, int prevToRow = 0, int prevToCol = 0)
         {
-            if(prevToRow == 0) prevToRow = fromRow;
-            if(prevToCol == 0) prevToCol = fromCol;
+            if (prevToRow == 0) prevToRow = fromRow;
+            if (prevToCol == 0) prevToCol = fromCol;
             if (prevToRow == toRow && prevToCol == toCol)
             {
                 return new SimpleAddress[0];
@@ -226,15 +261,15 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol+1), Math.Min(prevToRow, toRow), Math.Max(prevToCol, toCol)),
                     new SimpleAddress(Math.Min(prevToRow + 1, toRow + 1), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol))
-                };            
+                };
             }
-            else if(prevToRow != toRow)
+            else if (prevToRow != toRow)
             {
-                return new SimpleAddress[] { new SimpleAddress(Math.Min(prevToRow+1, toRow), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol,toCol)) };
-            }            
+                return new SimpleAddress[] { new SimpleAddress(Math.Min(prevToRow + 1, toRow), fromCol, Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol)) };
+            }
             else
             {
-                return new SimpleAddress[] { new SimpleAddress(fromRow, Math.Min(prevToCol+1, toCol), Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol)) };
+                return new SimpleAddress[] { new SimpleAddress(fromRow, Math.Min(prevToCol + 1, toCol), Math.Max(prevToRow, toRow), Math.Max(prevToCol, toCol)) };
             }
         }
 

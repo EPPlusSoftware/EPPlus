@@ -13,8 +13,8 @@
   01/23/2025         EPPlus Software AB           Fixed lastSpaceIndex bug in multi-fragment wrapping
   02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.TrueTypeMeasurer.DataHolders;
 using EPPlus.Fonts.OpenType.Utilities;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
@@ -55,7 +55,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
-            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
             state.EndCurrentTextLine();
 
 
@@ -65,6 +65,21 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             return new List<string>(_lineListBuffer);
+        }
+        public List<string> WrapRichText(
+               List<string> textFragments, List<MeasurementFont> fonts,
+               double maxWidthPoints)
+        {
+            TextFragmentCollectionSimple fragmentCollection = new TextFragmentCollectionSimple(fonts, textFragments);
+            return WrapRichText(fragmentCollection, maxWidthPoints);
+        }
+
+        public List<TextLineSimple> WrapRichTextLines(
+            string text, MeasurementFont font,
+            double maxWidthPoints)
+        {
+            var tCollection = new TextFragmentCollectionSimple(new List<MeasurementFont>() { font }, new List<string> { text });
+            return WrapRichTextLines(tCollection, maxWidthPoints);
         }
 
         public List<TextLineSimple> WrapRichTextLines(
@@ -90,7 +105,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
-            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart);
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
             state.CurrentTextLine.Width = state.CurrentLineWidth;
             state.CurrentTextLine.Text = lineBuilder.ToString();
             state.EndCurrentTextLine();
@@ -101,7 +116,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 double largestAscent = 0;
                 double largestDescent = 0;
-                foreach(var lineFragment in line.LineFragments)
+                foreach (var lineFragment in line.LineFragments)
                 {
                     var frag = fragments[lineFragment.RtFragIdx];
                     if (frag == null) continue;
@@ -142,7 +157,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
+            var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size);
+
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length);
+            state.LineFrag.SpaceWidth = spaceWidth;
             state.LineFrag.StartIdx = lineBuilder.Length;
             state.LineFrag.RtFragIdx = state.CurrentFragmentIdx;
 
@@ -155,6 +173,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     HandleLineBreak(lineBuilder, state);
                     SkipLineBreakChars(fragment.Text, ref i);
+
                     state.CurrentLineWidth = 0;
                     state.CurrentWordWidth = 0;
                     state.WordStart = -1;
@@ -165,10 +184,12 @@ namespace EPPlus.Fonts.OpenType.Integration
                 state.CurrentLineWidth += charWidths[i];
                 state.CurrentWordWidth += charWidths[i];
                 state.LineFrag.Width += charWidths[i];
+
                 lineBuilder.Append(c);
 
                 if (c == ' ')
                 {
+                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
 
@@ -176,7 +197,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     WrapCurrentLine(lineBuilder, state, maxWidthPoints, charWidths[i]);
                 }
-
                 i++;
             }
 
@@ -240,15 +260,21 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
             i++;
         }
-
         private void WrapCurrentLine(StringBuilder lineBuilder, WrapStateRichText state, double maxWidthPoints, double advanceWidth)
         {
             int fragIdxAtBreak = state.CurrentFragmentIdx;
 
+            int adjustmentForLineBuilderLength = 0;
+
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
             {
-                string line = lineBuilder.ToString(0, state.WordStart).TrimEnd();
+                var lineStringWithTrail = lineBuilder.ToString(0, state.WordStart + 1);//+1 was just added and should be here but everything else is sorta based on it being gone...
+                if (lineStringWithTrail[lineStringWithTrail.Length - 1] == ' ')
+                {
+                    state.CurrentTextLine.WasWrappedOnSpace = true;
+                }
+                string line = lineStringWithTrail.TrimEnd();
                 _lineListBuffer.Add(line);
                 lineBuilder.Remove(0, state.WordStart + 1);
 
@@ -282,27 +308,34 @@ namespace EPPlus.Fonts.OpenType.Integration
                 if (lastChar != ' ')
                 {
                     lineBuilder.Append(lastChar);
+                    //Since we appended we should remove it from line builder length when end current and initialize next happens
+                    adjustmentForLineBuilderLength = 1;
 
                     //The char that made us move past maxWidth
                     //must be added to the new line
                     state.CurrentWordWidth = advanceWidth;
                     state.CurrentLineWidth = advanceWidth;
                 }
+                else
+                {
+                    state.CurrentTextLine.WasWrappedOnSpace = true;
+                }
             }
 
-            state.EndCurrentTextLineAndIntializeNext(lineBuilder.Length);
+            state.EndCurrentTextLineAndIntializeNext(lineBuilder.Length - adjustmentForLineBuilderLength);
             state.CurrentWordWidth = state.CurrentLineWidth;
 
             state.WordStart = -1;
             state.LineStart = -1;
         }
 
-        private void FinalizeCurrentLine(StringBuilder lineBuilder, double lineWidth, int lastSpaceIndex)
+        private void FinalizeCurrentLine(StringBuilder lineBuilder, double lineWidth, int lastSpaceIndex, TextLineSimple currentLine)
         {
             if (lineBuilder.Length > 0)
             {
                 if (lineBuilder[lineBuilder.Length - 1] == ' ')
                 {
+                    currentLine.WasWrappedOnSpace = true;
                     lineBuilder.Length--;
                 }
                 if (lineBuilder.Length > 0)

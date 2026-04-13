@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
@@ -189,7 +190,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             return _title;
         }
 
-        internal override object[] GetAxisValues(out bool isCount)
+        internal override List<object> GetAxisValues(out bool isCount)
         {
             throw new NotImplementedException();
         }

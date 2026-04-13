@@ -102,6 +102,17 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             CreatespPrNode();
         }
+
+        internal bool HasValue()
+        {
+            if(_threeD != null | _effect != null | _fill != null | _border != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Removes the item
         /// </summary>

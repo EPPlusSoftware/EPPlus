@@ -19,11 +19,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderer, parent, autoSize)
         {
-            //Bounds.ClampedToParent = clampedToParent;
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
-        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false) : base(renderer, parent, false)
+        public SvgTextBodyItem(DrawingBase renderer, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderer, parent, autoSize)
         {
             Bounds.Left = left;
             Bounds.Top = top;
@@ -31,8 +30,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Bounds.Height = maxHeight;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
-            //Bounds.ClampedToParent = clampedToParent;
         }
+
         internal override List<ParagraphItem> Paragraphs { get; set; } = new List<ParagraphItem>();
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
@@ -46,6 +45,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
             }
+            
+            if (FontColorString != null)
+            {
+                groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
+            }
+
             renderItems.Add(groupItem);
             foreach (SvgParagraphItem item in Paragraphs)
             {
@@ -62,6 +67,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal override ParagraphItem CreateParagraph(TextBodyItem textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
         {
             return new SvgParagraphItem(this, DrawingRenderer, parent, paragraph, textIfEmpty);
+        }
+
+        internal override ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "")
+        {
+            return new SvgParagraphItem(this, DrawingRenderer, parent, textIfEmpty);
         }
     }
 }

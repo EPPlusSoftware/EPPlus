@@ -10,22 +10,23 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Style.Interfaces;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using OfficeOpenXml.Utils;
-using System.Runtime.InteropServices;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace OfficeOpenXml.Style.XmlAccess
 {
     /// <summary>
     /// Xml access class for number customFormats
     /// </summary>
-    public sealed class ExcelNumberFormatXml : StyleXmlHelper
+    public sealed class ExcelNumberFormatXml : StyleXmlHelper, IExcelNumberFormat
     {
 
         internal ExcelNumberFormatXml(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)

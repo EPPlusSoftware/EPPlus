@@ -10,17 +10,18 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Linq;
 using OfficeOpenXml.Core.CellStore;
-using System.Globalization;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -249,8 +250,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal string GetHeaderText()
+        internal string GetHeaderText(int index)
         {
+            var ret = "";
             if(string.IsNullOrEmpty(Header) == false)
             {
                 return Header;
@@ -268,9 +270,9 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
                     }
-                }
+                }                
             }
-            return "";
+            return $"Series{index + 1}";
         }
     }
 }

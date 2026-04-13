@@ -10,15 +10,16 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using OfficeOpenXml.Drawing;
 using System.Drawing;
-using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
 namespace OfficeOpenXml.Style
 {
     /// <summary>
@@ -32,7 +33,7 @@ namespace OfficeOpenXml.Style
         private readonly float _defaultFontSize;
         private readonly ExcelTextFont _defaultFont;
         private readonly ExcelTextBody _textBody;
-        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11) :
+        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11, eTextAlignment defaultAlignment = eTextAlignment.Left) :
             base(ns, topNode)
         {
             _drawing = drawing;
@@ -66,8 +67,9 @@ namespace OfficeOpenXml.Style
             //_defaultFont = tfXml;
 
             _path = path;
-            foreach(var p in tb.Paragraphs)
+            foreach (var p in tb.Paragraphs)
             {
+                p.defaultAlignment = defaultAlignment;
                 foreach(var tr in p.TextRuns)
                 {
                     _list.Add(new ExcelParagraph(tr));
@@ -256,6 +258,36 @@ namespace OfficeOpenXml.Style
                 }
             }
         }
+        /// <summary>
+        /// The displayed test adjusted for capitalization.
+        /// </summary>
+        public string DisplayedText
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var item in _list)
+                {
+                    if (item.IsLastInParagraph)
+                    {
+                        sb.AppendLine(item.DisplayedText);
+                    }
+                    else
+                    {
+                        sb.Append(item.DisplayedText);
+                    }
+                }
+
+                var ret = sb.ToString();
+                if (ret.EndsWith(Environment.NewLine))
+                {
+                    //Remove last NewLine
+                    return ret.Substring(0, ret.Length - Environment.NewLine.Length);
+                }
+
+                return ret;
+            }
+        }
         #region IEnumerable<ExcelRichText> Members
 
         IEnumerator<ExcelParagraph> IEnumerable<ExcelParagraph>.GetEnumerator()
@@ -306,28 +338,5 @@ namespace OfficeOpenXml.Style
         //        }
         //    }
         //}
-        private MeasurementFontStyles GetFontStyle(ExcelParagraph r)
-        {
-            MeasurementFontStyles ret = MeasurementFontStyles.Regular;
-            if (r.Bold)
-            {
-                ret |= MeasurementFontStyles.Bold;
-            }
-            if (r.Italic)
-            {
-                ret |= MeasurementFontStyles.Italic;
-            }
-            if(r.UnderLine!=eUnderLineType.None)
-            {
-                ret |= MeasurementFontStyles.Underline;
-            }
-            return ret;
-        }
-
-        internal double GetTotalParagraphHeight(ITextMeasurerWrap textMeasurer)
-        {
-            return 0;
-            //return _textBody.Paragraphs.GetHeightInPixels(out float w, out float h, textMeasurer, _defaultFontSize, _defaultFont.GetFontName(_drawing), GetFontStyle);
-        }
     }
 }

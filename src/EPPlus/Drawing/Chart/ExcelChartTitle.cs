@@ -18,6 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using System.Text;
 using System.Xml;
 
@@ -56,7 +57,6 @@ namespace OfficeOpenXml.Drawing.Chart
                     chart.ApplyStyleOnPart(this, chart.StyleManager?.Style?.Title, true);
                 }
             }
-
         }
 
         private void CreateTopNode()
@@ -148,7 +148,11 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
+                    //var defBody = DefaultTextBody;
+                    //var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:bodyPr/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
+                    //_textBody.Paragraphs.FirstDefaultRunProperties = firstDefaultRunProperties;
+                    //_textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties();
                 }
                 return _textBody;
             }
@@ -245,7 +249,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
             var tb = TextBody;
-            _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont);
+            _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont, eTextAlignment.Center);
         }
 
         private ExcelChartStyleEntry GetStylePart()
@@ -340,7 +344,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                var i=GetXmlNodeInt($"{_fontPropertiesPath}/a:bodyPr/@rot");
+                var i=GetXmlNodeInt($"{_fontPropertiesPath}/a:bodyPr/@rot", 0);
                 if (i < 0)
                 {
                     return 360 + (i / 60000);
@@ -382,6 +386,12 @@ namespace OfficeOpenXml.Drawing.Chart
             if (Font.Kerning == 0) Font.Kerning = 12;
             Font.Bold = Font.Bold; //Must be set
 
+            //Textbody cannot exist without a paragraph node
+            if(TextBody.Paragraphs.Count == 0)
+            {
+                TextBody.Paragraphs.Add("Title");
+            }
+
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
     }
@@ -406,12 +416,60 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else
                 {
+                    if(LinkedCell.IsSingleCell == false)
+                    {
+                        string combinedString = "";
+                        string separator = " ";
+                        foreach(var address in LinkedCell)
+                        {
+                            combinedString += address.Text + separator;
+                        }
+                        return combinedString;
+                    }
                     return LinkedCell.Text;
                 }
             }
             set
             {
                 if(RichText == null)
+                {
+                    LinkedCell = null;
+                    CreateRichText();
+                }
+                var applyStyle = (RichText.Count == 0);
+                RichText.Text = value;
+                _font = null;
+                if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+            }
+        }
+        /// <summary>
+        /// The text adjusted for the Capitalization property.
+        /// </summary>
+        public string DisplayedText
+        {
+            get
+            {
+                if (LinkedCell == null)
+                {
+                    return RichText.DisplayedText;
+                }
+                else
+                {
+                    if (LinkedCell.IsSingleCell == false)
+                    {
+                        string combinedString = "";
+                        string separator = " ";
+                        foreach (var address in LinkedCell)
+                        {
+                            combinedString += address.Text + separator;
+                        }
+                    }
+                    return LinkedCell.Text;
+                }
+            }
+            set
+            {
+                if (RichText == null)
                 {
                     LinkedCell = null;
                     CreateRichText();
