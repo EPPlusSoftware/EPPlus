@@ -292,10 +292,11 @@ namespace EPPlusImageRenderer.Svg
             {
 
             }
+
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
                 Textboxes = new SvgAxisTextBoxes(SvgChart);
-                Textboxes.TextBoxes = GetAxisValueTextBoxes();
+                Textboxes.TextBoxes = GetAxisValueTextBoxes();  
             }
         }
 
@@ -343,7 +344,7 @@ namespace EPPlusImageRenderer.Svg
                 double x, y;
                 if(LabelOrientation==eTextOrientation.Horizontal)
                 {
-                    if (Axis.AxisType == eAxisType.Cat)
+                    if (Axis.AxisType == eAxisType.Cat || Axis.AxisType==eAxisType.Date)
                     {
                         x = ticMarkX;
                         y = ticMarkY;
@@ -364,7 +365,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else
                         {
-                            x = ticMarkX; // - width / 2;
+                            x = ticMarkX  - width / 2;
                             y = ticMarkY;
                         }
                     }
@@ -485,31 +486,35 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAxisItemLeft(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
-            if (Axis.AxisPosition == eAxisPosition.Left)
+            if (Axis.IsVertical)
             {
                 return Rectangle.Left;
             }
-            else if (Axis.AxisPosition == eAxisPosition.Right)
-            {
+            //else if (Axis.AxisPosition == eAxisPosition.Right)
+            //{
 
-                return Rectangle.Left;
-            }
+            //    return Rectangle.Left;
+            //}
             else
             {
-                if ((Axis.AxisType == eAxisType.Cat || Axis.IsVertical==false) && LabelOrientation==eTextOrientation.Horizontal)
-                {
-                    //Between tickmarks
-                    var majorWidth = Rectangle.Width / AxisValues.Count;
-                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
-                    //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
-                    return majorTickStartingPosition;
-                }
-                else
-                {
-                    if(Axis.AxisType == eAxisType.Cat)
+                //if ((Axis.AxisType == eAxisType.Cat || Axis.IsVertical==false) && LabelOrientation==eTextOrientation.Horizontal)
+                //{
+                //    //Between tickmarks
+                //    var majorWidth = Rectangle.Width / (AxisValues.Count);
+                //    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                //    //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
+                //    return majorTickStartingPosition;
+                //}
+                //else
+                //{
+                    if(Axis.AxisType == eAxisType.Cat || Axis.AxisType==eAxisType.Date)
                     {
                         var majorWidth = Rectangle.Width / AxisValues.Count;
                         var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                        if(Axis.AxisType == eAxisType.Date)
+                        {
+                            return majorTickStartingPosition + majorWidth / 2 - m.Width / 2;
+                        }
                         //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
                         return majorTickStartingPosition;
                     }
@@ -521,7 +526,7 @@ namespace EPPlusImageRenderer.Svg
                         var majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
                         return Rectangle.Left + majorWidth;
                     }
-                }
+                //}
             }
         }
 
@@ -577,15 +582,15 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var majorHeight = Rectangle.Height / (AxisValues.Count);
+                var majorHeight = Rectangle.Height / (AxisValues.Count - 1);
                 if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
                 {
                     return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) + (majorHeight / 2) - m.Height / 2;
                 }
                 else
-                {
-                    //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) - m.Height / 2;
+                { 
                     return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
+                    //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
                 }
             }
 
@@ -854,7 +859,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
-                    return (((Max-val) / diff * SvgChart.Plotarea.Rectangle.Height));
+                    return (Max - val) / diff * SvgChart.Plotarea.Rectangle.Height;
                 }
             }
             else

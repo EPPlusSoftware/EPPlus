@@ -122,7 +122,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double yAxisStart;
             if (yAxis.Axis.Crosses == eCrosses.AutoZero)
             {
-                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : yAxis.Min, true);
+                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
             }
             else if (yAxis.Axis.Crosses == eCrosses.Min)
             {
@@ -149,18 +149,20 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
                 
-                var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
 
-                var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
                 if (isColumn)
                 {
+                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
                     rect.Left = xPos;
                     rect.Width = barWidth;
                 }
                 else
                 {
-                    rect.Top = yWidth - xPos - barWidth;
+                    //var xPos = catAx.GetPositionInPlotarea(x, true) - halfGap - (position + 1) * barWidth * step;
+                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                    rect.Top = xPos;
                     rect.Height = barWidth;
                 }
 
