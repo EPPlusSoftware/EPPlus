@@ -1,18 +1,6 @@
-﻿using FakeItEasy.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
