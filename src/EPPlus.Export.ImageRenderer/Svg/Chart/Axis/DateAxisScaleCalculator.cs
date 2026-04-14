@@ -298,7 +298,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             };
         }
 
-        internal static AxisScale CalculateByWidth(double min, double max, ITextMeasurer tm, AxisOptions options)
+        internal static AxisScale CalculateByWidthAllowDiagonal(double min, double max, ITextMeasurer tm, AxisOptions options)
         {
             var ax = options.Axis;
             var plotAreaWidth = options.ChartSize.Bounds.Width;
@@ -337,7 +337,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                             MajorDateUnit = unit,
                             Min = min,
                             Max = max,
-                            TextOrientation = eTextOrientation.Horizontal
+                            TextOrientation = eTextOrientation.Horizontal,
                         };
                     }
                     else
@@ -350,7 +350,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                             MajorDateUnit = unit,
                             Min = min,
                             Max = max,
-                            TextOrientation = eTextOrientation.Diagonal
+                            TextOrientation = eTextOrientation.Diagonal,
                         };
                     }
                 }
@@ -365,7 +365,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MajorDateUnit = unit,
                 Min = min,
                 Max = max,
-                TextOrientation = ax.TextBody.VerticalText==OfficeOpenXml.Drawing.eTextVerticalType.Horizontal ? eTextOrientation.Horizontal : eTextOrientation.Vertical
+                TextOrientation = ax.TextBody.VerticalText==OfficeOpenXml.Drawing.eTextVerticalType.Horizontal ? eTextOrientation.Horizontal : eTextOrientation.Vertical,
             };
         }
 
@@ -487,10 +487,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
         }
 
-        internal static AxisScale CalculateByHeight(double min, double max, ITextMeasurer tm, AxisOptions options)
+        internal static AxisScale CalculateByWidthHeight(double widthOrHeight, double min, double max, ITextMeasurer tm, AxisOptions options)
         {
             var ax = options.Axis;
-            var plotAreaHeight = options.ChartSize.Bounds.Height;
             var mf = ax.Font.GetMeasureFont();
             int interval;
             eTimeUnit unit;
@@ -505,11 +504,45 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             {
                 interval = 1;
                 unit = eTimeUnit.Days;
+                var range = max - min;
+
+                double axis_min, axis_max;
+                if (options.AddPadding)
+                {
+                    axis_min = options.LockedMin ?? Math.Floor((min - 0.5 * range) / interval) * interval;
+                    axis_max = options.LockedMax ?? Math.Ceiling((max + 0.2 * range) / interval) * interval;
+                }
+                else
+                {
+                    axis_min = min;
+                    axis_max = max;
+                }
                 //Get interval for maximum width with vertical text.
-                while(FitAsVerticalDiagonalText(min, max, interval, unit, res.Height, res.Height * 0.3, plotAreaHeight) == false)
+                while (FitAsVerticalDiagonalText(axis_min, axis_max, interval, unit, res.Height, res.Height * 0.3, widthOrHeight) == false)
                 {
                     AddIntervall(ref interval, ref unit);
+                    double days;
+                    switch (unit)
+                    {
+                        case eTimeUnit.Months:
+                            days = 30 * interval;
+                            break;
+                        case eTimeUnit.Years:
+                            days = 365 * interval;
+                            break;
+                        default:
+                            days = interval;
+                            break;
+                    }
+
+                    if (options.AddPadding)
+                    {
+                        axis_min = options.LockedMin ?? Math.Floor((min - 0.5 * range) / days) * days;
+                        axis_max = options.LockedMax ?? Math.Ceiling((max + 0.2 * range) / days) * days;
+                    }
                 }
+                min = axis_min;
+                max = axis_max;
             }
 
             return new AxisScale()

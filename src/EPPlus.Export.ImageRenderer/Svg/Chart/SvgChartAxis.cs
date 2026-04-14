@@ -22,8 +22,10 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
@@ -218,6 +220,12 @@ namespace EPPlusImageRenderer.Svg
         public double MinorUnit { get; set; }
         public eTimeUnit? MajorDateUnit { get; set; }
         public eTextOrientation LabelOrientation { get; set; }
+        public bool IsDateScale
+        {
+            get;
+            private set;
+        } = false;
+
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             Title?.AppendRenderItems(renderItems);
@@ -277,15 +285,11 @@ namespace EPPlusImageRenderer.Svg
             if(Axis.HasMajorGridlines)
             {
                 MajorGridlinePositions = AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style.GridlineMajor);
-                //DefItems.Add(MajorGridlinePositions[0]);
-                //MajorGridlinePositions.RemoveAt(0);
             }
 
             if ((Axis.HasMinorGridlines))
             {
                 MinorGridlinePositions = AddGridlines(MinorUnit, MajorUnit, Axis.MinorGridlines, Chart.StyleManager.Style.GridlineMinor);
-                //DefItems.Add(MinorGridlinePositions[0]);
-                //MinorGridlinePositions.RemoveAt(0);
             }
 
             if (Axis.CrossBetween == eCrossBetween.MidCat)
@@ -497,42 +501,22 @@ namespace EPPlusImageRenderer.Svg
             {
                 return Rectangle.Left;
             }
-            //else if (Axis.AxisPosition == eAxisPosition.Right)
-            //{
-
-            //    return Rectangle.Left;
-            //}
             else
             {
-                //if ((Axis.AxisType == eAxisType.Cat || Axis.IsVertical==false) && LabelOrientation==eTextOrientation.Horizontal)
-                //{
-                //    //Between tickmarks
-                //    var majorWidth = Rectangle.Width / (AxisValues.Count);
-                //    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
-                //    //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
-                //    return majorTickStartingPosition;
-                //}
-                //else
-                //{
-                    if(Axis.AxisType == eAxisType.Cat || Axis.AxisType==eAxisType.Date)
-                    {
-                        var majorWidth = Rectangle.Width / AxisValues.Count;
-                        var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
-                        if(Axis.AxisType == eAxisType.Date)
-                        {
-                            return majorTickStartingPosition + majorWidth / 2 - m.Width / 2;
-                        }
-                        //var middleOfBounds = majorTickStartingPosition + (majorWidth / 2);
-                        return majorTickStartingPosition;
-                    }
-                    else
-                    {
-                        var min = ConvertUtil.GetValueDouble(Values[0]);
-                        var max = ConvertUtil.GetValueDouble(Values.Last());
-                        var v = ConvertUtil.GetValueDouble(Values[i]);
-                        var majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
-                        return Rectangle.Left + majorWidth;
-                    }
+                if (Axis.AxisType == eAxisType.Cat || (Axis.AxisType == eAxisType.Date && IsDateScale == false))
+                {
+                    var majorWidth = Rectangle.Width / AxisValues.Count;
+                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                    return majorTickStartingPosition + majorWidth / 2 - m.Width / 2;
+                }
+                else
+                {
+                    var min = ConvertUtil.GetValueDouble(Values[0]);
+                    var max = ConvertUtil.GetValueDouble(Values.Last());
+                    var v = ConvertUtil.GetValueDouble(Values[i]);
+                    var majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                    return Rectangle.Left + majorWidth;
+                }
                 //}
             }
         }
@@ -865,7 +849,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min + 1;
+                    var diff = Max - Min;
                     return (Max - val) / diff * SvgChart.Plotarea.Rectangle.Height;
                 }
             }
@@ -886,7 +870,7 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
-                    var diff = Max - Min + 1;
+                    var diff = Max - Min;
                     return (((val - Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
             }
@@ -894,20 +878,20 @@ namespace EPPlusImageRenderer.Svg
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount);
-
+            var isNumeric = values.Any(x => x == null || x.IsNumeric());
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,
                 LockedMax = ax.MaxValue,
                 LockedInterval = ax.MajorUnit,
                 LockedIntervalUnit = ax.MajorTimeUnit,
-                AddPadding = ax.AxisType==eAxisType.Val,//(ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right),
+                AddPadding = ShouldHavePadding(),
                 Axis = ax,
                 IsStacked100 = Chart.IsTypePercentStacked(),
                 ChartSize = rect
             };
 
-            if (ax.AxisType == eAxisType.Cat &&
+            if ((ax.AxisType == eAxisType.Cat || (ax.IsDate && isNumeric==false)) &&
                 isCount == false)
             {
                 //min = 0;
@@ -970,17 +954,25 @@ namespace EPPlusImageRenderer.Svg
                 AxisScale res;
                 if (ax.IsVertical)
                 {
-                    //res = DateAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
-                    res = DateAxisScaleCalculator.CalculateByHeight(min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
+                    res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Bounds.Height, min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
                 }
                 else
                 {
-                    res = DateAxisScaleCalculator.CalculateByWidth(min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
+                    if (Chart.IsTypeBar())
+                    {
+                        res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Bounds.Width, min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
+                    }
+                    else
+                    {
+                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
+                    }
                 }
                 orientation = res.TextOrientation;
                 dateUnit = res.MajorDateUnit;
+                majorUnit = res.MajorInterval;
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
+                IsDateScale = (dateUnit != eTimeUnit.Days || majorUnit > 1) && values.Count > 31;
                 while (dt <= maxDt)
                 {
                     l.Add(dt);
@@ -1000,7 +992,6 @@ namespace EPPlusImageRenderer.Svg
 
                 min = res.Min;
                 max = res.Max;
-                majorUnit = res.MajorInterval;
             }
             else
             {
@@ -1018,6 +1009,11 @@ namespace EPPlusImageRenderer.Svg
             }
 
             return l;
+        }
+
+        private bool ShouldHavePadding()
+        {
+            return Axis.AxisType == eAxisType.Val || (Chart.IsTypeLine() && Axis.AxisType == eAxisType.Date);
         }
     }
 }
