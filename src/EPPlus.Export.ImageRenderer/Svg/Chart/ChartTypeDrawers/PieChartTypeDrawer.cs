@@ -88,7 +88,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             var slice = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
-            
 
             slice.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
             slice.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
