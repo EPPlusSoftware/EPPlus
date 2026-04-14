@@ -478,11 +478,11 @@ namespace EPPlusImageRenderer.Svg
             renderItems.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {
-                renderItems.Add(s.SeriesIcon);
+                if(s.SeriesIcon != null) renderItems.Add(s.SeriesIcon);
                 if(s.MarkerBackground != null) renderItems.Add(s.MarkerBackground);
                 if (s.MarkerIcon != null) renderItems.Add(s.MarkerIcon);
                 //renderItems.Add(s.Textbox);
-                s.Textbox.AppendRenderItems(renderItems);
+                if(s.Textbox != null) s.Textbox.AppendRenderItems(renderItems);
             }
             renderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
         }

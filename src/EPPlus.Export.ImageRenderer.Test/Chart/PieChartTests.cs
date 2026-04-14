@@ -7,10 +7,11 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests.Chart
 {
-    internal class PieChartTests : TestBase
+    [TestClass]
+    public class PieChartTests : TestBase
     {
         [TestMethod]
-        public void GenerateSvgForColumnCharts1()
+        public void GenerateSvgForPieChart()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("BasicPieChart.xlsx"))
@@ -22,7 +23,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\PieChartForSvg{ix++}.svg", svg);
                 }
             }
         }

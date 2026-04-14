@@ -54,8 +54,11 @@ namespace EPPlusImageRenderer.Svg
                 Legend = null;
             }
 
-            HorizontalAxis = GetAxis(false);
-            VerticalAxis = GetAxis(true);
+            if(Chart.Axis.Length != 0)
+            {
+                HorizontalAxis = GetAxis(false);
+                VerticalAxis = GetAxis(true);
+            }
 
             if(chart.Axis.Length > 2)
             {
