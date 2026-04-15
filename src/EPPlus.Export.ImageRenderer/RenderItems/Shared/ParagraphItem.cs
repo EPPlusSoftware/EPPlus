@@ -481,7 +481,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             Bounds.Height = runLineSpacing + lastDescent;
             Bounds.Width = greatestWidth;
-            Bounds.Width = greatestWidth;
         }
 
         List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p)
