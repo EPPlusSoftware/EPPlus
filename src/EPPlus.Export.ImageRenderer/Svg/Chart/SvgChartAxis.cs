@@ -471,7 +471,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            else if(LabelOrientation==eTextOrientation.Horizontal && Axis.AxisType==eAxisType.Cat) //Only apples when labels are horizontally aligned
+            else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx()) //Only apples when labels are horizontally aligned
             {
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
@@ -495,6 +495,11 @@ namespace EPPlusImageRenderer.Svg
             return ret;
         }
 
+        private bool IsCatAx()
+        {
+            return Axis.AxisType == eAxisType.Cat || (Axis.AxisType == eAxisType.Date && IsDateScale==false);
+        }
+
         private double GetAxisItemLeft(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
             if (Axis.IsVertical)
@@ -503,11 +508,11 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (Axis.AxisType == eAxisType.Cat || (Axis.AxisType == eAxisType.Date && IsDateScale == false))
+                if (IsCatAx())
                 {
                     var majorWidth = Rectangle.Width / AxisValues.Count;
                     var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
-                    return majorTickStartingPosition + majorWidth / 2 - m.Width / 2;
+                    return majorTickStartingPosition;
                 }
                 else
                 {
@@ -573,13 +578,14 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var majorHeight = Rectangle.Height / (AxisValues.Count - 1);
                 if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
                 {
-                    return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1) + (majorHeight / 2) - m.Height / 2;
+                    var majorHeight = Rectangle.Height / (AxisValues.Count);
+                    return Rectangle.Top + majorHeight * (AxisValues.Count - i) - ((majorHeight / 2) + m.Height / 2);
                 }
                 else
-                { 
+                {
+                    var majorHeight = Rectangle.Height / (AxisValues.Count-1);
                     return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
                     //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
                 }
@@ -846,6 +852,12 @@ namespace EPPlusImageRenderer.Svg
                         return majorHeight * val + (majorHeight / 2);
                     }
                 }
+                else if (Axis.AxisType == eAxisType.Date && IsDateScale == false)
+                {
+                    if (val < Min || val > Max) return double.NaN;
+                    var diff = Max - Min + 1;
+                    return (((val - Min) / diff * SvgChart.Plotarea.Rectangle.Height));
+                }
                 else
                 {
                     if (val < Min || val > Max) return double.NaN;
@@ -866,6 +878,12 @@ namespace EPPlusImageRenderer.Svg
                     {
                         return majorWidth * val + (majorWidth / 2);
                     }
+                }
+                else if(Axis.AxisType == eAxisType.Date && IsDateScale==false)
+                {
+                    if (val < Min || val > Max) return double.NaN;
+                    var diff = Max - Min + 1;
+                    return (((val - Min) / diff * SvgChart.Plotarea.Rectangle.Width));
                 }
                 else
                 {
@@ -967,12 +985,14 @@ namespace EPPlusImageRenderer.Svg
                         res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
                     }
                 }
+
                 orientation = res.TextOrientation;
                 dateUnit = res.MajorDateUnit;
                 majorUnit = res.MajorInterval;
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
                 IsDateScale = (dateUnit != eTimeUnit.Days || majorUnit > 1) && values.Count > 31;
+
                 while (dt <= maxDt)
                 {
                     l.Add(dt);

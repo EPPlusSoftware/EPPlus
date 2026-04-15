@@ -28,16 +28,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {
                 List<object> valValue,catValue;
-                //if (chartType.IsTypeColumn())
-                //{
-                    valValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                    catValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                //}
-                //else
-                //{
-                //    catValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                //    valValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                //}
+                valValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                catValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
 
                 catValues.Add(catValue);
                 valValues.Add(valValue);
@@ -79,6 +71,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //    }
                 //}
             }
+
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
 
             foreach (var dataLabel in serieDataLabels)
