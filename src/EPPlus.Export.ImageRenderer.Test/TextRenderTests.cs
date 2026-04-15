@@ -325,6 +325,8 @@ namespace EPPlus.Export.ImageRenderer.Tests
             var svgShape = new SvgShape(shape);
             SvgTextBodyItem tbItem = svgShape.TextBodySvg;
 
+            //EPPlusImageRenderer.ImageRenderer.RenderDrawingToSvg(shape);
+
             //Appears off by 1-2 px bc of border width
             Assert.AreEqual(190d, tbItem.Bounds.GlobalTop.PointToPixel(),1.0);
         }

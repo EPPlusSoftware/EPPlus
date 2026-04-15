@@ -250,7 +250,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var runFont = txtRun.GetMeasurementFont();
 
                 fonts.Add(runFont);
-                fonts.Add(runFont);
                 runContents.Add(txtRun.Text);
                 fontSizes.Add(runFont.Size);
             }

@@ -190,7 +190,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 if (c == ' ')
                 {
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
-                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
 
                 if (state.CurrentLineWidth > maxWidthPoints)

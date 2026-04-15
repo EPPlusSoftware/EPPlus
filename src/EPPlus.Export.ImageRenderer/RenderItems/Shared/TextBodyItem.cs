@@ -152,14 +152,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             VerticalAlignment = body.Anchor;
 
             //We already apply bounds top via the parent Transform
-            double paragraphStartY = 0;
+            double currentHeight = 0;
             double largestWidth = double.MinValue;
 
             foreach (var paragraph in body.Paragraphs)
             {
-                ImportParagraph(paragraph, paragraphStartY);
+                ImportParagraph(paragraph, currentHeight);
                 var addedPara = Paragraphs.Last();
-                paragraphStartY = addedPara.Bounds.Bottom;
+                currentHeight = addedPara.Bounds.Bottom;
                 largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
 
@@ -170,7 +170,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (Paragraphs != null && Paragraphs.Count() > 0)
             {
-                Bounds.Height = paragraphStartY;
+                Bounds.Height = currentHeight;
             }
 
             Bounds.Top = GetAlignmentVertical();

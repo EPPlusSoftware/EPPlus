@@ -23,7 +23,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\PieChartForSvg{ix++}.svg", svg);
+                    SaveTextFileToWorkbook($"svg\\PieChartForSvg2{ix++}.svg", svg);
                 }
             }
         }

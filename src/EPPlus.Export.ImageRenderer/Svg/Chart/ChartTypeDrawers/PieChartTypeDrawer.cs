@@ -118,15 +118,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             var lineToEndPoint = new PathCommands(PathCommandType.Line, slice, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height);
 
-            //var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { startPoint.X / _svgChart.Bounds.Width, startPoint.Y / _svgChart.Bounds.Height, 0, 0, 1, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height });
+            var w = _svgChart.Plotarea.Rectangle.Bounds.Width.PointToPixel();
+            var h = _svgChart.Plotarea.Rectangle.Bounds.Height.PointToPixel();
+
+            var radX = radius.PointToPixel() / w;
+            var radY = radius.PointToPixel() / h;
+
+            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, 0, 1, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height });
 
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);
-         
-            slice.Commands.Add(moveCenter);
-            slice.Commands.Add(lineToEndPoint);
 
-            if(position == 0)
+            if (position == 0)
             {
                 serie.Fill.Color = Color.Red;
                 serie.Border.Fill.Color = Color.DarkOrange;
@@ -141,7 +144,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 serie.Fill.Color = Color.Blue;
                 serie.Border.Fill.Color = Color.DarkBlue;
             }
-            //slice.Commands.Add(arcCommand);
+            slice.Commands.Add(arcCommand);
+
+            //slice.Commands.Add(moveCenter);
+            //slice.Commands.Add(lineToEndPoint);
 
             slice.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
             slice.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
