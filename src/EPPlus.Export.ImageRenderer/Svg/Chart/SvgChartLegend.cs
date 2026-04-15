@@ -407,7 +407,7 @@ namespace EPPlusImageRenderer.Svg
             var item = new SvgRenderRectItem(sc, Rectangle.Bounds);
             item.SetDrawingPropertiesFill(cStandardSerie.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(cStandardSerie.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            var iconHeight = GetIconLenght(sc, tm.Height);
+            var iconHeight = GetIconLenght(sc, entryHeight);
             var icon = pSls?.SeriesIcon as SvgRenderRectItem;
 
             GetItemPosition(sc, pTm, tm, pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
@@ -458,7 +458,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (pSls == null)
                 {
-                    y = TopMargin + tm.Height / 2;
+                    y = TopMargin;
                 }
                 else
                 {

@@ -28,16 +28,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {
                 List<object> valValue,catValue;
-                //if (chartType.IsTypeColumn())
-                //{
-                    valValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                    catValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                //}
-                //else
-                //{
-                //    catValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                //    valValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-                //}
+                valValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                catValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
 
                 catValues.Add(catValue);
                 valValues.Add(valValue);
@@ -79,6 +71,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //    }
                 //}
             }
+
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
 
             foreach (var dataLabel in serieDataLabels)
@@ -122,7 +115,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double yAxisStart;
             if (yAxis.Axis.Crosses == eCrosses.AutoZero)
             {
-                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : yAxis.Min, true);
+                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
             }
             else if (yAxis.Axis.Crosses == eCrosses.Min)
             {
@@ -149,18 +142,20 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
                 
-                var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
 
-                var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
                 if (isColumn)
                 {
+                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
                     rect.Left = xPos;
                     rect.Width = barWidth;
                 }
                 else
                 {
-                    rect.Top = yWidth - xPos - barWidth;
+                    //var xPos = catAx.GetPositionInPlotarea(x, true) - halfGap - (position + 1) * barWidth * step;
+                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                    rect.Top = xPos;
                     rect.Height = barWidth;
                 }
 
