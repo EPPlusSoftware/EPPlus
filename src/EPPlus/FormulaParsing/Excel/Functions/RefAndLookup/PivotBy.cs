@@ -14,6 +14,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +39,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             BuildPivotData(args, context, out var rowLevels, out var colLevels, out var pivotMap);
             rowLevels = ApplySort(rowLevels, args);
             colLevels = ApplySort(colLevels, args);
+            var result = RenderPivot(rowLevels, colLevels, pivotMap, args, context);
 
-            throw new NotImplementedException();
+            return CreateDynamicArrayResult(result, DataType.ExcelRange);            
         }
 
-        // 2. Bygg radgrupperingar  → List<GroupLevel> rowLevels  (återanvänd BuildGroups)
-        // 3. Bygg kolumngrupperingar → List<GroupLevel> colLevels  (återanvänd BuildGroups på col_fields)
-        // 4. Bygg aggregeringskartan: Dictionary<(rowKey, colKey), object> pivotMap
-        // 5. Applicera sortering på båda axlarna (återanvänd ApplySort)
         // 6. Räkna ut dimensioner: nRows, nCols
         // 7. Skriv kolumnhuvuden (ett pass)
         // 8. Skriv datarader rad för rad, slå upp pivotMap[(rowKey, colKey)] per kolumn
@@ -166,15 +164,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 for (int c = 0; c < nValCols; c++)
                     vals[c] = args.Values.GetOffset(r, c);
 
-                // Bygg radträd
-                InsertIntoTree(rowDict, rowOrder, rowKeyParts);
+                // Bygg radträd och hämta lövet
+                var rowLeaf = InsertIntoTree(rowDict, rowOrder, rowKeyParts);
+
+                // Lägg till värden på lövet (precis som BuildGroups gör)
+                var leafKey = MakePivotKey(rowKeyParts);
+                var row = rowLeaf.Rows.FirstOrDefault(rw => MakePivotKey(rw.KeyParts) == leafKey);
+                if (row == null)
+                {
+                    row = new GroupRow { KeyParts = rowKeyParts };
+                    rowLeaf.Rows.Add(row);
+                }
+                row.Values.Add(vals);
 
                 // Bygg kolumnträd
                 InsertIntoTree(colDict, colOrder, colKeyParts);
 
                 // Bygg pivotkartan – sammansatt nyckel per axel för snabb uppslagning
                 string rowKey = MakePivotKey(rowKeyParts);
-                string colKey = MakePivotKey(colKeyParts);
+
+                var colLeaf = InsertIntoTree(colDict, colOrder, colKeyParts);
+
+                // Lägg till värden på kolumnlövet
+                var colKey = MakePivotKey(colKeyParts);
+                var colRow = colLeaf.Rows.FirstOrDefault(rw => MakePivotKey(rw.KeyParts) == colKey);
+                if (colRow == null)
+                {
+                    colRow = new GroupRow { KeyParts = colKeyParts };
+                    colLeaf.Rows.Add(colRow);
+                }
+                colRow.Values.Add(vals);
 
                 if (!pivotMap.TryGetValue(rowKey, out var colMap))
                 {
@@ -193,8 +212,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             rowLevels = BuildOrderedTree(rowDict, rowOrder);
             colLevels = BuildOrderedTree(colDict, colOrder);
 
-            // Aggregera subtotaler i radträdet (återanvänder AggregateTree från basklassen)
+            // Aggregera subtotaler i radträdet och colträdet.
             AggregateTree(rowLevels, args, context);
+            AggregateTree(colLevels, args, context);
         }
 
 
@@ -202,7 +222,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         /// Infogar en rad med sammansatt nyckel i ett träd.
         /// Extraherad hjälpmetod – identisk logik som i BuildGroups, delad av GROUPBY och PIVOTBY.
         /// </summary>
-        protected void InsertIntoTree(
+        protected GroupLevel InsertIntoTree(
             Dictionary<string, GroupLevel> rootDict,
             List<string> rootOrder,
             object[] keyParts)
@@ -232,9 +252,156 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     currentOrder = currentLevel.ChildOrder;
                 }
             }
+            return currentLevel; // <-- returnera lövet
         }
 
         private static string MakePivotKey(object[] parts) =>
             string.Join("\u001F", parts.Select(p => p?.ToString()?.ToLowerInvariant() ?? string.Empty).ToArray());
+
+        private InMemoryRange RenderPivot(
+    List<GroupLevel> rowLevels,
+    List<GroupLevel> colLevels,
+    Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+    PivotByArgs args,
+    ParsingContext context)
+        {
+            var rowLeaves = CollectLeavesWithPath(rowLevels, new object[0]);
+            var colLeaves = CollectLeavesWithPath(colLevels, new object[0]);
+
+            int nRowKeyCols = args.RowFields.Size.NumberOfCols;
+            int nColLeaves = colLeaves.Count;
+            int nRowLeaves = rowLeaves.Count;
+            int nValCols = args.Values.Size.NumberOfCols;
+
+            bool showRowTotal = args.RowTotalDepth != TotalDepthNoTotals;
+            bool showColTotal = args.ColTotalDepth != TotalDepthNoTotals;
+            bool rowTotalAtTop = args.RowTotalDepth < 0;
+            bool colTotalAtLeft = args.ColTotalDepth < 0;
+
+            // Dimensioner
+            int dataRows = nRowLeaves;
+            int dataCols = nColLeaves;
+            int totalRows = 1 + dataRows + (showRowTotal ? 1 : 0);  // rubrik + data + ev. grand total-rad
+            int totalCols = nRowKeyCols + dataCols + (showColTotal ? 1 : 0); // radnycklar + data + ev. grand total-kolumn
+
+            var result = new InMemoryRange(totalRows, (short)totalCols);
+
+            // Kolumnindex för grand total-kolumnen
+            int grandTotalCol = colTotalAtLeft ? nRowKeyCols : nRowKeyCols + dataCols;
+            // Radindex för grand total-raden
+            int grandTotalRow = rowTotalAtTop ? 1 : 1 + dataRows;
+
+            // --- Rubrikrad (rad 0) ---
+            int colOffset = colTotalAtLeft ? 1 : 0;
+            for (int ci = 0; ci < nColLeaves; ci++)
+            {
+                var colPath = colLeaves[ci].Path;
+                result.SetValue(0, nRowKeyCols + colOffset + ci, colPath[colPath.Length - 1]);
+            }
+            if (showColTotal)
+                result.SetValue(0, grandTotalCol, "Total");
+
+            // --- Datarader ---
+            int dataRowStart = rowTotalAtTop ? 2 : 1; // hoppa över grand total-raden om den är överst
+            for (int ri = 0; ri < nRowLeaves; ri++)
+            {
+                int outputRow = dataRowStart + ri;
+                var rowPath = rowLeaves[ri].Path;
+                var rowLeaf = rowLeaves[ri].Leaf;
+
+                // Radnycklar
+                for (int k = 0; k < rowPath.Length; k++)
+                    result.SetValue(outputRow, k, rowPath[k]);
+
+                string rowKey = MakePivotKey(rowPath);
+
+                // Datavärden per kolumnlöv
+                int colIdx = colTotalAtLeft ? nRowKeyCols + 1 : nRowKeyCols;
+                for (int ci = 0; ci < nColLeaves; ci++)
+                {
+                    string colKey = MakePivotKey(colLeaves[ci].Path);
+
+                    object aggregated = null;
+                    if (pivotMap.TryGetValue(rowKey, out var colMap) &&
+                        colMap.TryGetValue(colKey, out var cellVals))
+                    {
+                        aggregated = Aggregate(args.Function, cellVals, context,
+                            args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                    }
+                    result.SetValue(outputRow, colIdx + ci, aggregated);
+                }
+
+                // Grand total-kolumn: SubtotalValues för detta radlöv
+                if (showColTotal)
+                {
+                    var grandTotalVal = rowLeaf.SubtotalValues != null && rowLeaf.SubtotalValues.Count > 0
+                        ? rowLeaf.SubtotalValues[0][0]
+                        : null;
+                    result.SetValue(outputRow, grandTotalCol, grandTotalVal);
+                }
+            }
+
+            // --- Grand total-rad ---
+            if (showRowTotal)
+            {
+                result.SetValue(grandTotalRow, 0, "Total");
+                for (int c = 1; c < nRowKeyCols; c++)
+                    result.SetValue(grandTotalRow, c, string.Empty);
+
+                int colIdx = colTotalAtLeft ? nRowKeyCols + 1 : nRowKeyCols;
+                for (int ci = 0; ci < nColLeaves; ci++)
+                {
+                    var colLeaf = colLeaves[ci].Leaf;
+                    var grandTotalVal = colLeaf.SubtotalValues != null && colLeaf.SubtotalValues.Count > 0
+                        ? colLeaf.SubtotalValues[0][0]
+                        : null;
+                    result.SetValue(grandTotalRow, colIdx + ci, grandTotalVal);
+                }
+
+                // Hörncellen: aggregera hela AllValuesInOrder
+                if (showColTotal)
+                {
+                    var colValues = args.AllValuesInOrder
+                        .Select(v => new object[] { v[0] })
+                        .ToList();
+                    var cornerVal = Aggregate(args.Function, colValues, context,
+                        args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                    result.SetValue(grandTotalRow, grandTotalCol, cornerVal);
+                }
+            }
+
+            return result;
+        }
+
+        private List<LeafWithPath> CollectLeavesWithPath(List<GroupLevel> levels, object[] parentPath)
+        {
+            var result = new List<LeafWithPath>();
+            foreach (var level in levels)
+            {
+                var path = new object[parentPath.Length + 1];
+                for (int i = 0; i < parentPath.Length; i++)
+                    path[i] = parentPath[i];
+                path[parentPath.Length] = level.Key;
+
+                if (level.IsLeaf)
+                    result.Add(new LeafWithPath(level, path));
+                else
+                    result.AddRange(CollectLeavesWithPath(level.Children, path));
+            }
+            return result;
+        }
+
+        private class LeafWithPath
+        {
+            public GroupLevel Leaf { get; private set; }
+            public object[] Path { get; private set; }
+
+            public LeafWithPath(GroupLevel leaf, object[] path)
+            {
+                Leaf = leaf;
+                Path = path;
+            }
+        }
+
     }
 }
