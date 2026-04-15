@@ -38,8 +38,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet, string fileName)
         {
+            pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+
             Stopwatch sw = Stopwatch.StartNew();
 
             //Collecto Text
@@ -54,12 +56,20 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             sw.Stop();
             var ShapeTextTime = sw.ElapsedMilliseconds;
             sw.Reset();
+            sw.Start();
 
             //Create Layout
-            GetLayout(pageSettings, pdfSheet);
-
+            var Layout = GetLayout(pageSettings, pdfSheet);
             sw.Stop();
             var CreateLayoutTime = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
+            //Create Pdf
+            ExcelPdf excelPdf = new ExcelPdf();
+            excelPdf.CreatePdf(pageSettings, Dictionaries, Layout, fileName);
+            sw.Stop();
+            var CreatePdfTime = sw.ElapsedMilliseconds;
             sw.Reset();
         }
 
@@ -74,8 +84,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             PdfWorksheet[] pdfSheets = new PdfWorksheet[1]{ pdfSheet };
-            PdfLayout.GetLayout(pageSettings, pdfSheets);
-            return null;
+            var Layout = PdfLayout.GetLayout(pageSettings, Dictionaries, pdfSheets);
+            return Layout;
         }
 
         //Shape Text Methods

@@ -46,7 +46,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var tempMap = new PdfCell();
                     tempMap.Hidden = hiddenRow || hiddenCol;
 
-                    tempMap.Width = hiddenCol ? 0d : width;
+                    tempMap.ColumnWidth = hiddenCol ? 0d : width;
 
                     var cell = worksheet.Cells[row, col];
                     if (cell.Merge)
@@ -54,15 +54,21 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         HandleMergedCell(cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
                     }
 
-                    var cellStyle = new PdfCellStyle();
-                    GetFillStyles(cell, cellStyle);
-                    GetBorderStyles(cell, cellStyle);
-                    GetFontStyle(cell, cellStyle);
-                    tempMap.CellStyle = cellStyle;
+                    if (tempMap.Main == null)
+                    {
+                        var cellStyle = new PdfCellStyle();
+                        GetFillStyles(cell, cellStyle);
+                        GetBorderStyles(cell, cellStyle);
+                        GetFontStyle(cell, cellStyle);
+                        tempMap.CellStyle = cellStyle;
 
-                    tempMap.ContentAligmnet = GetContentAlignment(cell);
-                    if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                    tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
+                        tempMap.ContentAligmnet = GetContentAlignment(cell);
+                        if (!string.IsNullOrEmpty(cell.Text))
+                        {
+                            if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
+                            tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
+                        }
+                    }
 
                     Map[row, col] = tempMap;
                     //if cell is hidden maybe we skip adding comment to comment collection.
@@ -99,24 +105,31 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             ExcelAddressBase address = new ExcelAddressBase(mergeAddress);
             if (!checkedMergedCells.Contains(mergeAddress))
             {
-                double height = 0, width = 0;
+                tempMap.mergedCellHeights = new List<double>();
+                tempMap.mergedCellWidths = new List<double>();
+                double height = 0, width = 0, totalWidth = 0, totalHeight = 0;
                 for (int k = address._fromRow; k <= address._toRow; k++)
                 {
-                    height += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
+                    height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
+                    tempMap.mergedCellHeights.Add(height);
+                    totalHeight += height;
                 }
                 for (int l = address._fromCol; l <= address._toCol; l++)
                 {
-                    width += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
+                    width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
+                    tempMap.mergedCellWidths.Add(width);
+                    totalWidth += width;
                 }
                 checkedMergedCells.Add(mergeAddress);
-                tempMap.Width = width;
-                tempMap.Height = height;
+                tempMap.Width = totalWidth;
+                tempMap.Height = totalHeight;
                 tempMap.Main = null;
             }
             else
             {
                 tempMap.Main = map[address._fromRow, address._fromCol];
             }
+            tempMap.MergedAddress = address;
             tempMap.Merged = true;
         }
 

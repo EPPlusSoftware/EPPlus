@@ -1,10 +1,13 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
+using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
@@ -36,47 +39,124 @@ namespace EPPlus.Export.Pdf.PdfCatalog
     {
         private const double rowHeadingWith1CharWidth = 23.25d;
 
-        public static Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
+        public static Transform GetLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
         {
-            // Add in comments and notes!
             var PagesCollection = GetPages(pageSettings, pdfSheets);
-            var Catalog = GetCatalog(pageSettings, PagesCollection);
+            var Catalog = GetCatalog(pageSettings, dictionaries, PagesCollection);
             return Catalog;
         }
 
-        internal static Transform GetCatalog(PdfPageSettings pageSettings, List<Pages> pdfPages)
+        internal static Transform GetCatalog(PdfPageSettings pageSettings, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
             Transform Catalog = new Transform(0d, 0d, 0d, 0d);
+            int totalPages = GetTotalPages(pdfPages);
             for (int i = 0; i < pdfPages.Count; i++)
             {
-                PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
-                PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
-                var page = pdfPages[i].Page;
-                for (int j = 0; j < page.Length; j++)
+
+                var pages = pdfPages[i].Page;
+                int pageNumber = pageSettings.FirstPageNumber;
+
+                for (int j = 0; j < pages.Length; j++)
                 {
+                    PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
+                    List<ExcelAddressBase> checkedMergedCells = new List<ExcelAddressBase>();
+                    //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
+                    //pageLayout.AddChild(contentLayout);
+                    double y = pageSettings.ContentBounds.Top;
+                    double x = pageSettings.ContentBounds.Left;
                     //create cells & headings if exsists
-                    for (int y = page[j].FromRow; y < page[j].ToRow; y++)
+                    for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
                     {
-                        for (int x = page[j].FromColumn; x < page[j].ToColumn; x++)
+                        for (int col = pages[j].FromColumn; col <= pages[j].ToColumn; col++)
                         {
-                            //  Text
+                            var map = pages[j].Map[row, col];
+
+
                             //  Fill
+                            if (map.Merged)
+                            {
+                                if (map.Main == null)
+                                {
+                                    var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.Width, map.Height);
+                                    fill.UpdateShadingPositionMatrix(pageSettings); //this hsould be done in a separate step later?
+                                    pageLayout.AddChild(fill);
+                                    checkedMergedCells.Add(map.MergedAddress);
+                                    map.X = x;
+                                    map.Y = y;
+                                }
+                                else
+                                {
+                                    if (!checkedMergedCells.Contains(map.MergedAddress))
+                                    {
+                                        double xOffset = x;
+                                        double yOffset = y;
+                                        if (map.Main.X > x)
+                                        {
+                                            int fromCol = map.MergedAddress._fromCol;
+                                            int thisCol = col;
+                                            double w = 0d;
+                                            for (int k = fromCol; k < thisCol; k++)
+                                                w += map.Main.mergedCellWidths[k - fromCol];
+                                            xOffset = x - w;
+                                        }
+
+                                        if (map.Main.Y < y)
+                                        {
+                                            int fromRow = map.MergedAddress._fromRow;
+                                            int thisRow = row;
+                                            double w = 0d;
+                                            for (int k = fromRow; k < thisRow; k++)
+                                                w += map.Main.mergedCellHeights[k - fromRow];
+                                            yOffset = y + w;
+                                        }
+
+                                        var fill = new PdfCellLayout(dictionaries, map.Main.CellStyle, xOffset, yOffset, map.Main.Width, map.Main.Height);
+                                        fill.UpdateShadingPositionMatrix(pageSettings); //this hsould be done in a separate step later?
+                                        pageLayout.AddChild(fill);
+                                        checkedMergedCells.Add(map.MergedAddress);
+                                    }
+                                }
+                            }
+                            if (map.CellStyle != null)
+                            {
+                                var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, 15);
+                                fill.UpdateShadingPositionMatrix(pageSettings); //this hsould be done in a separate step later?
+                                pageLayout.AddChild(fill);
+                            }
+
+
+
+                            //  Text
                             //  Border
-                            page[j].Map[x, y]
+                            x += map.ColumnWidth;
                         }
+                        y -= 15;
+                        x = pageSettings.ContentBounds.Left;
                     }
-                    
+
 
                     //Add HeaderFooter
+
                     //  Uppdate page number texts and shape them
-                    //Gridlines
+                    //Gridlines (calculate text spill here)
                     //Print titles
+                    pageNumber++;
+                    Catalog.AddChild(pageLayout);
                 }
-
-
-                Catalog.AddChild(pageLayout);
             }
             return Catalog;
+        }
+
+
+        // TODO Count total pages when creating them isntead of looping them here.
+        private static int GetTotalPages(List<Pages> pdfPages)
+        {
+            int totalPages = 0;
+            for (int i = 0; i < pdfPages.Count; i++)
+            {
+                totalPages += pdfPages[i].Page.Length;
+            }
+            return totalPages;
         }
 
         internal static List<Pages> GetPages(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
@@ -89,6 +169,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, range);
                     pages = AssignRangeToPages(pageSettings, range, pages);
                     pages = MapPage(range, pages);
+                    PagesCollection.Add(pages);
+                }
+                if (pdfSheet.CommentsAndNotes.Range != null)
+                {
+                    var pages = GetNumberOfPages(pageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
+                    pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
+                    pages = MapPage(pdfSheet.CommentsAndNotes, pages);
                     PagesCollection.Add(pages);
                 }
             }

@@ -21,6 +21,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             var totalTextLength = 0d;
             var maxLineHeight = 0d;
+            if (Cell.TextFormats == null) return;
             for (int i = 0; i < Cell.TextFormats.Count; i++)
             {
                 var fd = Cell.TextFormats[i];

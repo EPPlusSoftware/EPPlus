@@ -167,7 +167,9 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-            PdfCatalog catlog = new PdfCatalog(pageSettings, ws);
+            pageSettings.Debug = true;
+            pageSettings.PrintAsText = true;
+            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "c:\\epplustest\\pdf\\FullPageTest51.pdf");
         }
 
 

@@ -65,6 +65,11 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// </summary>
         public CommentsAndNotes CommentsAndNotes = CommentsAndNotes.None;
 
+        /// <summary>
+        /// Set the starting page number.
+        /// </summary>
+        public int FirstPageNumber = 1;
+
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
         /// Set the size of pages.

@@ -10,19 +10,20 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml;
-using EPPlus.Graphics;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfObjects;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
-using OfficeOpenXml.Style;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Graphics;
+using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Style;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace EPPlus.Export.Pdf
 {
@@ -37,6 +38,9 @@ namespace EPPlus.Export.Pdf
         internal List<PdfObject> Document = new List<PdfObject>();
         internal string header = "%PDF-1.7\n";
         internal PdfDictionaries Dictionaries = new PdfDictionaries();
+        public ExcelPdf()
+        {
+        }
 
         /// <summary>
         /// Create a PDF Document from the worksheet and settings.
@@ -184,7 +188,7 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            //contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
@@ -233,12 +237,77 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Info
-        private PdfInfoObject AddInfoObject()
+        private PdfInfoObject AddInfoObject(string workBookName = "")
         {
-            var info = new PdfInfoObject(Document.Count + 1, _workheets[0].Workbook._package.File.Name);
+            var info = new PdfInfoObject(Document.Count + 1, workBookName);
             Document.Add(info);
             return info;
         }
+
+
+        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
+        {
+            PageSettings = pageSettings;
+            Dictionaries = dictionaries;
+
+            var catalog = AddCatalog(2);
+            //Create Pages
+            var pagesLayout = layout.ChildObjects[0];
+            var pages = AddPages();
+            //Create Fonts
+            AddFontData();
+            //Create Patterns
+            AddPatternData();
+            //Create Shadings
+            AddShadingsData(dictionaries);
+            //Create Page and Content
+            for (int i = 0; i < layout.ChildObjects.Count; i++)
+            {
+                var pageLayout = layout.ChildObjects[i];
+                var page = AddPage(2, new List<int>(), PageSettings);
+                AddContent(pageLayout, page);
+                pages.pageObjectNumbers.Add(page.objectNumber);
+            }
+            var info = AddInfoObject();
+            string debugString = "";
+            //write to pdf
+            PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
+            //start wring pdf binary
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            {
+                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+                {
+                    //Write header
+                    bw.Write(Encoding.ASCII.GetBytes(header));
+                    debugString += header;
+                    //Write body
+                    foreach (var pdfobj in Document)
+                    {
+                        crossRefTable.AddPosition(fs.Position);
+                        pdfobj.ToPdfBytes(bw);
+                        debugString += pdfobj.ToPdfString();
+                    }
+                    //Write CrossReference
+                    crossRefTable.Write(bw, fs.Position, Document.Count);
+                    debugString += crossRefTable.WriteString(Document.Count);
+                    // Write trailer
+                    PdfTrailer.Write(bw, Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                    debugString += PdfTrailer.WriteString(Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                }
+            }
+            //Write pdf as txt for debug.
+            if (PageSettings.Debug && PageSettings.PrintAsText)
+            {
+                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
+                {
+                    using (var wr = new StreamWriter(fs))
+                    {
+                        wr.Write(debugString);
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// Create the pdf from the supplied worksheet.
@@ -266,7 +335,7 @@ namespace EPPlus.Export.Pdf
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
-            var info = AddInfoObject();
+            var info = AddInfoObject(_workheets[0].Workbook._package.File.Name);
             string debugString = "";
             //write to pdf
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();

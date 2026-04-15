@@ -1,9 +1,8 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Fonts.OpenType.Integration;
-using System;
+using EPPlus.Graphics;
+using OfficeOpenXml;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -13,6 +12,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;
         public List<PdfTextFormat> TextFormats { get; set; }
+        public double ColumnWidth { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
 
@@ -20,7 +20,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public bool Merged;
         public PdfCell Main;
-
+        public ExcelAddressBase MergedAddress;
+        public double X;
+        public double Y;
+        public List<double> mergedCellWidths;
+        public List<double> mergedCellHeights;
 
 
 
