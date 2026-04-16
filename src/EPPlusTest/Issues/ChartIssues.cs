@@ -399,9 +399,9 @@ namespace EPPlusTest.Issues
 			SaveAndCleanup(package);
 		}
 
-        [TestMethod]
-        public void CreateStringLiterals()
-        {
+		[TestMethod]
+		public void CreateStringLiterals()
+		{
 			using (var package = OpenPackage("LiteralsSetting.xlsx", true))
 			{
 				var wb = package.Workbook;
@@ -411,23 +411,32 @@ namespace EPPlusTest.Issues
 
 				var serie = numLitChart.Series.Add("{10,20,50}");
 				serie.XSeries = "{'col1','col2','col3'}";
-                SaveAndCleanup(package);
-            }
-        }
-        [TestMethod]
-        public void s981()
-        {
-            using (var package = OpenTemplatePackage("s981.xlsx"))
-            {
-                var wb = package.Workbook;
-                var ws = wb.Worksheets["Summary"];
+				SaveAndCleanup(package);
+			}
+		}
+		[TestMethod]
+		public void s981()
+		{
+			using (var package = OpenTemplatePackage("s981.xlsx"))
+			{
+				var wb = package.Workbook;
+				var ws = wb.Worksheets["Summary"];
 
 				var chart = ws.Drawings[0].As.Chart.ScatterChart;
 
-                chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.ScatterChartStyle3);
+				chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.ScatterChartStyle3);
 
-                SaveAndCleanup(package);
-            }
-        }
-    }
+				SaveAndCleanup(package);
+			}
+		}
+
+		[TestMethod]
+		public void s1037()
+		{
+			using (var package = OpenTemplatePackage("s1037.xlsx"))
+			{
+				SaveAndCleanup(package);
+			}
+		}
+	}
 }

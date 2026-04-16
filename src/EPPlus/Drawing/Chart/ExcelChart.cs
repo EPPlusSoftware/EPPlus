@@ -762,7 +762,16 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
-            XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
+            XmlNode chartDrawingNode;
+            if (node.Name == "mc:AlternateContent")
+            {
+                chartDrawingNode = node.SelectSingleNode("mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
+            }
+            else
+            {
+                chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
+            }
+
             if (chartDrawingNode != null)
             {
                 var drawingRelation = drawings.Part.GetRelationship(chartDrawingNode.Attributes["r:id"].Value);
