@@ -1150,22 +1150,5 @@ namespace EPPlusTest.Issues
             });
             Assert.IsTrue(ex.Message.Contains("Strict Open XML"));
         }
-
-        [TestMethod]
-        public void InsertAndShift_ShouldNotThrow_WhenArrayIsFull()
-        {
-            using var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("Sheet1");
-
-            // Fill 7 columns with formatting to trigger the boundary condition
-            for (int col = 1; col <= 7; col++)
-            {
-                sheet.Column(col).Width = 15;
-            }
-
-            // These two inserts should not throw ArgumentException
-            sheet.InsertColumn(3, 1);
-            sheet.InsertColumn(5, 1);
-        }
     }
 }

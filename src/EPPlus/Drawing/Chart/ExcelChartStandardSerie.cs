@@ -730,7 +730,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 var node = GetTopNode(DataLabelSerie, extPath);
                 DataLabelRangeSource.CreateCache(node);
             }
-            }
         }
         internal void CreateCache(string address, XmlNode node)
         {
