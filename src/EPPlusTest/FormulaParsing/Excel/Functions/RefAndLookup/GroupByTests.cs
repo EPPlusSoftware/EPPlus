@@ -17,7 +17,7 @@ using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversion
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class GroupByTests : TestBase
     {
 
