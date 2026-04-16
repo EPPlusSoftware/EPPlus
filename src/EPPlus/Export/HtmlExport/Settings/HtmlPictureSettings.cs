@@ -23,8 +23,6 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         }
 
-        public bool EmbedImagesInHtml = false;
-
         /// <summary>
         /// If picture drawings should be included in the html. Default is <see cref="ePictureInclude.Exclude"/>
         /// </summary>

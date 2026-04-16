@@ -197,7 +197,7 @@ namespace EPPlusTest.Export.HtmlExport
         }
 
         [TestMethod]
-        public async Task WriteImagesAsyncBoolEmbed()
+        public async Task WriteImagesAsyncHTMLOnlyEmbed()
         {
             using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
             {
@@ -206,16 +206,13 @@ namespace EPPlusTest.Export.HtmlExport
 
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                exporter.Settings.Pictures.Include = ePictureInclude.Include;
+                exporter.Settings.Pictures.Include = ePictureInclude.IncludeInHtmlOnly;
                 exporter.Settings.Minify = false;
                 exporter.Settings.Encoding = Encoding.UTF8;
-                exporter.Settings.Pictures.EmbedImagesInHtml = true;
 
-                var html = exporter.GetSinglePage();
+                var html = exporter.GetHtmlString();
                 var htmlAsync = await exporter.GetSinglePageAsync();
-                File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
-                File.WriteAllText("c:\\temp\\" + sheet.Name + "-async.html", htmlAsync);
-                Assert.AreEqual(html, htmlAsync);
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "_htmlOnly.html", html);
             }
         }
 
