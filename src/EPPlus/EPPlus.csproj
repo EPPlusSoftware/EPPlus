@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.5.2.0</AssemblyVersion>
-		<FileVersion>8.5.2.0</FileVersion>
-		<Version>8.5.2</Version>
+		<AssemblyVersion>8.5.3.0</AssemblyVersion>
+		<FileVersion>8.5.3.0</FileVersion>
+		<Version>8.5.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,16 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.5.2
+			EPPlus 8.5.3
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+			## Version 8.5.3
+			* Downgraded .NET 8 references incorrectly update to 9.x to 8.x.
 
 			## Version 8.5.2
 			* Updated System.Security.Cryptography.XML to address a vulnerability.
@@ -563,8 +566,9 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			8.5.3			20260416 Updated .NET 8 references incorrectly update to 9.x to 8.x.
 			8.5.2			20260416 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			8.5.1			20260330 Minor bug fixes. 
+			8.5.1			20260330 Minor bug fixes.
 			8.5.0			20260306 Minor features and bug fixes.
 			8.4.2			20260204 Minor bug fixes.
 			8.4.1			20260112 Minor bug fixes.

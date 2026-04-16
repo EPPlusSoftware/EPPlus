@@ -1,4 +1,7 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.5.3
+* Downgraded references incorrectly update to 9.x to 8.x in version 8.5.2.
+
 ## Version 8.5.2
 ### Security
 * Updated System.Security.Cryptography.Xml to 10.0.6 to address a security vulnerability (CVE-2026-26171 and CVE-2026-33116).
