@@ -57,6 +57,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var text = "Goudy size";
 
             var measurer = OpenTypeFonts.GetShaperForFont(font5);
+
             var widthInPoints = measurer.ShapeLight(text).GetWidthInPoints(16f);
 
             var inPixels = Math.Round(widthInPoints.PointToPixel(), 0, MidpointRounding.AwayFromZero);

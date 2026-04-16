@@ -57,21 +57,17 @@
 		<Reference Include="System.Security" />
 		<Reference Include="System.Xml" />
 		<Reference Include="System.Threading.Tasks" />
-		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Xml" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
-		<PackageReference Include="System.Text.Encoding.CodePages" />
-		<PackageReference Include="System.Security.Cryptography.Xml" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="9.0.15" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 	</ItemGroup>

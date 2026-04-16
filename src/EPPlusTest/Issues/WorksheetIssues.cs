@@ -1149,6 +1149,5 @@ namespace EPPlusTest.Issues
             });
             Assert.IsTrue(ex.Message.Contains("Strict Open XML"));
         }
-
     }
 }

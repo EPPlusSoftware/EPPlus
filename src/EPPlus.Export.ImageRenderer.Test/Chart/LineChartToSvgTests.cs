@@ -20,17 +20,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 2;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                var ix = 1;
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
+                //var ix = 0;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                //}
             }
         }
 
@@ -75,6 +75,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
         [TestMethod]
+        public void GenerateSvgForComboCharts_sheet4()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[3];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Combo_Sheet4{ix++}.svg", svg);
+                }
+            }
+        }
+        [TestMethod]
         public void GenerateSvgForLineCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -82,16 +102,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
                 var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = renderer.RenderDrawingToSvg(c);
-                    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
-                }
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
+                //}
             }
         }
 
