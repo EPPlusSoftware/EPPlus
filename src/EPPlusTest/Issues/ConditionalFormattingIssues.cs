@@ -7,6 +7,7 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
 using System.Threading;
+using ColorTranslator = System.Drawing.ColorTranslator;
 
 namespace EPPlusTest.Issues
 {
