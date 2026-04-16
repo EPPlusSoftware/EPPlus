@@ -21,6 +21,7 @@ using EPPlus.Export.ImageRenderer.Svg.NodeAttributes;
 using EPPlus.Export.ImageRenderer.Svg.Writer;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Math;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
@@ -72,7 +73,7 @@ namespace EPPlusImageRenderer
                 case RenderItemClasses.Rect:
                     return new Dictionary<string, object> { { "Top", 10d }, { "Left", 10d }, { "Width", 10d }, { "Height", 10d }, {"Opacity", 0.8 }, {"Fill", Color.Goldenrod } };
                 case RenderItemClasses.CircleSegment:
-                    return new Dictionary<string, object> { { "angle", 25d }, { "radius", 10d }, { "cx", 20d }, { "cy", 20d } };
+                    return new Dictionary<string, object> { { "angle", 90d }, { "radius", 144d }, { "cx", 144d }, { "cy", 144d } };
                 case RenderItemClasses.TextBox:
                 default:
                     throw new NotImplementedException("This class has not been implemented as an option yet");
@@ -85,9 +86,21 @@ namespace EPPlusImageRenderer
             return RenderCircleSegment((double)itemProperties["angle"], (double)itemProperties["radius"], (double)itemProperties["cx"], (double)itemProperties["cy"]);
         }
 
-        string RenderCircleSegment(double angle, double radius, double cx, double cy)
+        string RenderCircleSegment(double degree, double radius, double cx, double cy)
         {
-            var angleRadians = angle * (Math.PI / 180.0d);
+            degree = degree % 360;
+
+            if(degree < 0)
+            {
+                degree = 360 - degree;
+            }
+
+            //Adjust by -90 so it starts from the top
+            var angleRadians = (degree-90d) * (Math.PI / 180.0d);
+
+            //radius = radius.PixelToPoint();
+            //cx = radius.PixelToPoint();
+            //cy = radius.PixelToPoint();
 
             var xPoint = cx + (radius * Math.Cos(angleRadians));
             var yPoint = cy + (radius * Math.Sin(angleRadians));
@@ -97,21 +110,25 @@ namespace EPPlusImageRenderer
             var baseBB = new BoundingBox();
 
             //96x96 px
-            baseBB.Width = 72;
-            baseBB.Height = 72;
+            baseBB.Width = 72*4;
+            baseBB.Height = 72*4;
 
             var baseItem = new DrawingItemForTesting(baseBB);
 
             BoundingBox parent = new BoundingBox();
 
+            //Transform rotationPoint = new Transform();
+            //rotationPoint.SetLocalPositionWithWorldCoordinates(new Vector2(cx, cy));
+            //var item = new SvgGroupItemNew(baseItem, parent, -45d, rotationPoint);
+
             var slice = new SvgRenderPathItem(baseItem, baseItem.Bounds);
 
-            var startPoint = new Coordinate(cx, 0);
+            //item.AddChildItem(slice);
+
+            var startPoint = new Coordinate(cx, cy-radius);
 
             var moveCenter = new PathCommands(PathCommandType.Move, slice, cx / baseItem.Bounds.Width, cy / baseItem.Bounds.Height);
             var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X / baseItem.Bounds.Width, startPoint.Y / baseItem.Bounds.Height);
-
-
 
             var w = baseItem.Bounds.Width.PointToPixel();
             var h = baseItem.Bounds.Height.PointToPixel();
@@ -119,7 +136,7 @@ namespace EPPlusImageRenderer
             var radX = radius.PointToPixel() / w;
             var radY = radius.PointToPixel() / h;
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, 0, 1, endPoint.X / baseItem.Bounds.Width, endPoint.Y / baseItem.Bounds.Height });
+            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, degree > 180 ? 1 : 0, 1, endPoint.X / baseItem.Bounds.Width, endPoint.Y / baseItem.Bounds.Height });
 
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);
@@ -150,7 +167,16 @@ namespace EPPlusImageRenderer
         {
             var svgCanvas = new DrawingItemForTesting(new BoundingBox(width.PixelToPoint(), height.PixelToPoint()));
 
-            var renderItem = GenerateFromClasses(item, svgCanvas, itemProperties);
+            RenderItem renderItem;
+
+            if (item == RenderItemClasses.CircleSegment)
+            {
+                return GenerateFromCircle(item, svgCanvas, itemProperties);
+            }
+            else
+            {
+                renderItem = GenerateFromClasses(item, svgCanvas, itemProperties);
+            }
 
             svgCanvas.RenderItems.Add(renderItem);
 
