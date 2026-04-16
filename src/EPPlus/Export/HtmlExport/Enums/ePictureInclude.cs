@@ -29,6 +29,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Include the images in the html export.
         /// </summary>
-        Include
+        Include,
     }
 }

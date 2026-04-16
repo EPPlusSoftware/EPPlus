@@ -195,6 +195,30 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.AreEqual(html, htmlAsync);
             }
         }
+
+        [TestMethod]
+        public async Task WriteImagesAsyncBoolEmbed()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Pictures.Include = ePictureInclude.Include;
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                exporter.Settings.Pictures.EmbedImagesInHtml = true;
+
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+                File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "-async.html", htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
         [TestMethod]
         public void ExportMultipleRanges()
         {

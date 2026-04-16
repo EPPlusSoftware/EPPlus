@@ -11,10 +11,12 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
+using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.String;
@@ -381,6 +383,24 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
         }
 
+
+        private object GetContentType(ePictureType type)
+        {
+            switch (type)
+            {
+                case ePictureType.Ico:
+                    return "image/vnd.microsoft.icon";
+                case ePictureType.Jpg:
+                    return "image/jpeg";
+                case ePictureType.Svg:
+                    return "image/svg+xml";
+                case ePictureType.Tif:
+                    return "image/tiff";
+                default:
+                    return $"image/{type}";
+            }
+        }
+
         protected void AddImage(HTMLElement parent, HtmlExportSettings settings, HtmlImage image, object value)
         {
             if (image != null)
@@ -393,7 +413,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 {
                     child.AddAttribute("id", imageName);
                 }
-                child.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+
+                if(settings.Pictures.EmbedImagesInHtml)
+                {
+                    ePictureType? type;
+                    var _encodedImage = ImageEncoder.EncodeImage(image, out type);
+
+                    child.AddAttribute("src", $"data:{GetContentType(type.Value)};base64,{_encodedImage}");
+                }
+                else
+                {
+                    child.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+                }
                 parent._childElements.Add(child);
             }
         }
