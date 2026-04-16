@@ -1,4 +1,16 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.5.2
+### Security
+* Updated System.Security.Cryptography.Xml to 10.0.6 to address a security vulnerability (CVE-2026-26171 and CVE-2026-33116).
+###Bug Fixes
+* ´ExcelRange.LoadFromCollection´: ´DisplayAttribute.Name´ was used directly instead of ´DisplayAttribute.GetName()´, causing resource keys to appear as column headers instead of localized values when ResourceType was set.
+* ´ExcelRange.LoadFromCollection´: ´EpplusTableColumnAttribute.Order´ was ignored when ´DisplayAttribute´ was also present.
+* Fixed various issues with the LAMBDA function and variable expressions.
+* Fixed an issue with the VSTACK and HSTACK functions when the argument is a single-cell range.
+* The IFS function did not handle arrays in the condition arguments.
+* The SORTBY function now preserves the original order of rows/columns when the sort key is not unique.
+* EPPlus will now throw a ´NotSupportedException´ if opening workbooks saved in the Strict OpenXML format.
+
 ## Version 8.5.1
 * Negation of numeric string values now returns the negated number instead of a #VALUE! error in the formula calculation.
 * ´ExcelPackage.Configure´ now sets ´IConfiguration´ for license info.
