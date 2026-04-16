@@ -15,6 +15,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -73,15 +74,39 @@ namespace EPPlusImageRenderer.Svg
                         sc.Legend.Bounds.GlobalLeft - RightMargin :
                         sc.ChartArea.Rectangle.Width - RightMargin);
 
+
+            double rightWidth;
             if (rightAxis == null)
             {
-                return left - rect.GlobalLeft;
+                rightWidth =  0;
             }
             else
             {
-                var rightWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
-                return left - rightWidth - rect.Left;
+                rightWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
+                               
+                //return left - rightWidth - rect.GlobalLeft;
             }
+
+            var width = left - rightWidth;
+            //Reserve space for the last label that will be on the tick label instead of Middle of the category.
+            if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            {
+                var minusPA = width / sc.HorizontalAxis.AxisValues.Count / 2;
+                if (minusPA > rightWidth)
+                {
+                    rightWidth = minusPA;
+                }
+            }
+            if (sc.SecondHorizontalAxis != null && sc.SecondHorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            {
+                var minusSA = width / sc.SecondHorizontalAxis.AxisValues.Count / 2;
+                if (minusSA > rightWidth)
+                {
+                    rightWidth = minusSA;
+                }
+            }
+
+            return left - rightWidth-rect.GlobalLeft;
         }
         private double GetPlotAreaLeft(SvgChart sc)
         {

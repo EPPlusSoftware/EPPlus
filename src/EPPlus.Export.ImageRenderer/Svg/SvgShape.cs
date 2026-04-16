@@ -258,7 +258,7 @@ namespace EPPlusImageRenderer.Svg
             //    gItemTest.RenderEndGroup(sb);
             //}
 
-            RenderDebugTextBox(sb);
+            //RenderDebugTextBox(sb);
             sb.AppendLine("</svg>");
         }
 

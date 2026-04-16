@@ -345,7 +345,8 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             var ir = new EPPlusImageRenderer.ImageRenderer();
             var svg = ir.RenderDrawingToSvg(shape);
-
+            SaveTextFileToWorkbook("bottom.svg", svg);
+            SaveWorkbook("vaBottom.xlsx", p);
             //Appears off by ~2 px because of border width
             Assert.AreEqual(278d, tbItem.Bounds.GlobalTop.PointToPixel(), 1.0);
         }

@@ -476,18 +476,38 @@ namespace EPPlusImageRenderer.Svg
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
                 var majorWidth = Rectangle.Width / AxisValues.Count;
-                foreach (var tb in ret)
+                if (Axis.CrossBetween == eCrossBetween.Between)
                 {
-                    switch (lblAlignment)
+                    foreach (var tb in ret)
                     {
-                        case OfficeOpenXml.eAxisLabelAlignment.Left:
-                            break;
-                        case OfficeOpenXml.eAxisLabelAlignment.Center:
-                            tb.Left += majorWidth / 2 - tb.Width / 2;
-                            break;
-                        case OfficeOpenXml.eAxisLabelAlignment.Right:
-                            tb.Left += majorWidth - tb.Width;
-                            break;
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                tb.Left -= tb.Width;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                               tb.Left -= tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var tb in ret)
+                    {
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left += majorWidth / 2 - tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += majorWidth - tb.Width;
+                                break;
+                        }
                     }
                 }
             }
@@ -510,7 +530,15 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (IsCatAx())
                 {
-                    var majorWidth = Rectangle.Width / AxisValues.Count;
+                    double majorWidth;
+                    if (Axis.CrossBetween == eCrossBetween.Between)
+                    {
+                        majorWidth = Rectangle.Width / (AxisValues.Count - 1);
+                    }
+                    else
+                    {
+                        majorWidth = Rectangle.Width / AxisValues.Count;
+                    }
                     var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
                     return majorTickStartingPosition;
                 }
@@ -607,7 +635,14 @@ namespace EPPlusImageRenderer.Svg
             if (Axis.AxisType == eAxisType.Cat)
             {
                 min = 1;
-                max = AxisValues.Count;
+                if(Axis.CrossBetween == eCrossBetween.Between)
+                {
+                    max = AxisValues.Count-1;
+                }
+                else
+                {
+                    max = AxisValues.Count;
+                }
             }
             else
             {
@@ -849,7 +884,15 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        return majorHeight * val + (majorHeight / 2);
+                        if (Axis.CrossBetween == eCrossBetween.Between)
+                        {
+                            majorHeight = SvgChart.Plotarea.Rectangle.Height / (Max - 1);
+                            return majorHeight * val;
+                        }
+                        else
+                        {
+                            return majorHeight * val + (majorHeight / 2);
+                        }
                     }
                 }
                 else if (Axis.AxisType == eAxisType.Date && IsDateScale == false)
@@ -876,7 +919,15 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        return majorWidth * val + (majorWidth / 2);
+                        if(Axis.CrossBetween==eCrossBetween.Between)
+                        {
+                            majorWidth = SvgChart.Plotarea.Rectangle.Width / (Max - 1);
+                            return majorWidth * val;
+                        }
+                        else
+                        {
+                            return majorWidth * val + (majorWidth / 2);
+                        }
                     }
                 }
                 else if(Axis.AxisType == eAxisType.Date && IsDateScale==false)
