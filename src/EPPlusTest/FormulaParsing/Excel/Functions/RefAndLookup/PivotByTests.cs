@@ -67,7 +67,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["D1"].Value = 34543;
                 s.Cells["D2"].Value = 43265;
                 s.Cells["D3"].Value = 75461;
-                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3, _xleta.SUM,,,,2,-1)";
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3, _xleta.SUM)";
                 s.Calculate();
             }
         }
