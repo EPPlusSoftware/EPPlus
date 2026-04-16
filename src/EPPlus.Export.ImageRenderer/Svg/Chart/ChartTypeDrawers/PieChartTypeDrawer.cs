@@ -111,12 +111,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
             else
             {
-                startPoint = new Coordinate(cx, 0);
+                startPoint = new Coordinate(cx, cy - radius - 20);
             }
 
             var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X / _svgChart.Bounds.Width, startPoint.Y / _svgChart.Bounds.Height);
 
-            var lineToEndPoint = new PathCommands(PathCommandType.Line, slice, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height);
+            //var lineToEndPoint = new PathCommands(PathCommandType.Line, slice, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height);
 
             var w = _svgChart.Plotarea.Rectangle.Bounds.Width.PointToPixel();
             var h = _svgChart.Plotarea.Rectangle.Bounds.Height.PointToPixel();
@@ -124,7 +124,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var radX = radius.PointToPixel() / w;
             var radY = radius.PointToPixel() / h;
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, 0, 1, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height });
+            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, circleSectorAngle[position] > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height });
 
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);
