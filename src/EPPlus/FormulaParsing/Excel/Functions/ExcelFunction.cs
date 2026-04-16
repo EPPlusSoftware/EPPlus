@@ -128,6 +128,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             
         }
+
+        public virtual string Name
+        { 
+            get 
+            {
+                return GetType().Name.ToUpper();
+            }
+        }
         /// <summary>
         /// Indicates that the function is an ErrorHandlingFunction.
         /// </summary>
@@ -895,10 +903,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 				return true;
 			}
 		}
-		/// <summary>
-		/// Provides information about the functions parameters.
-		/// </summary>
-		public virtual ExcelFunctionParametersInfo ParametersInfo
+        /// <summary>
+        /// The function is allowed...
+        /// </summary>
+        public virtual bool IsAllowedAsLambdaWithMultipleArguments
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Provides information about the functions parameters.
+        /// </summary>
+        public virtual ExcelFunctionParametersInfo ParametersInfo
         {
             get;
         } = ExcelFunctionParametersInfo.Default;

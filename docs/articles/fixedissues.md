@@ -1,11 +1,34 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.5.3
+* Downgraded references incorrectly update to 9.x to 8.x in version 8.5.2.
+
+## Version 8.5.2
+### Security
+* Updated System.Security.Cryptography.Xml to 10.0.6 to address a security vulnerability (CVE-2026-26171 and CVE-2026-33116).
+###Bug Fixes
+* ´ExcelRange.LoadFromCollection´: ´DisplayAttribute.Name´ was used directly instead of ´DisplayAttribute.GetName()´, causing resource keys to appear as column headers instead of localized values when ResourceType was set.
+* ´ExcelRange.LoadFromCollection´: ´EpplusTableColumnAttribute.Order´ was ignored when ´DisplayAttribute´ was also present.
+* Fixed various issues with the LAMBDA function and variable expressions.
+* Fixed an issue with the VSTACK and HSTACK functions when the argument is a single-cell range.
+* The IFS function did not handle arrays in the condition arguments.
+* The SORTBY function now preserves the original order of rows/columns when the sort key is not unique.
+* EPPlus will now throw a ´NotSupportedException´ if opening workbooks saved in the Strict OpenXML format.
+
+## Version 8.5.1
+* Negation of numeric string values now returns the negated number instead of a #VALUE! error in the formula calculation.
+* ´ExcelPackage.Configure´ now sets ´IConfiguration´ for license info.
+* The WEEKDAY function now handles optional return-types 12-17 correctly.
+* Conditional formatting priority now remains correct after loading workbook with conditional formatting rules and add new.
+* Inserting rows or columns when a named range is on the maximum row is now handled as correctly. Absolute referenced defined names become #REF! when pushed outside the maximum. 
+* NUMBERVALUE function now parses decimal and group separators for numbers correctly. 
+
 ## Version 8.5.0
 ### Minor Features
 * Added ´CancellationToken´ to Calculate - see [Cancelling a calculation](https://github.com/EPPlusSoftware/EPPlus/wiki/Cancelling-a-calculation).
 * Added property ´ValueFromCellsRange´ and the ´SetValueFromCellsRange´ method to data labels on chart series.
 * Improved performance for SUMIFS, AVERAGEIFS, COUNTIFS.
 * Improved performance for formula calculation with full column references (e.g. A:A, $B:$B).
-### Fixed issues
+### Fixed issues	
 * Deleting pictures in cells, caused a corrupt workbook in rare cases.
 * Fixed several formatting issues when reading and writing tables with checkboxes in them.
 * Fixed several issues when using a custom ExcelPackage.Workbook.NumberFormatToTextHandler:

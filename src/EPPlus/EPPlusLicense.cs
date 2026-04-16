@@ -1,4 +1,7 @@
-﻿using OfficeOpenXml.Configuration;
+﻿#if(Core)
+using Microsoft.Extensions.Configuration;
+#endif
+using OfficeOpenXml.Configuration;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -16,7 +19,7 @@ namespace OfficeOpenXml
     {
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         static bool _licenseSet = false;
-        internal const string _versionDate = "2025-12-12";
+        internal const string _versionDate = "2026-03-06";
         /// <summary>
         /// The license key used for a commercial license.
         /// </summary>
@@ -45,6 +48,13 @@ namespace OfficeOpenXml
         /// If your subscription has expired past the <see cref="EPPlusLicenseInfo.LicenseValidTo"/> date, you can set this flag to get a 15 additional days to renew the license.
         /// </summary>
         public bool ExtendUnderRenewal { get; set; }
+
+#if(Core)
+        internal static void SetConfiguration(IConfiguration config)
+        {
+            _configuration.Configuration = config;
+        }
+#endif
 
         internal bool IsLicenseSet(List<ExcelInitializationError> initErrors)
         {

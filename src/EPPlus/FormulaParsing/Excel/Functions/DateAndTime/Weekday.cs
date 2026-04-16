@@ -72,6 +72,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime
                     return _oneBasedStartOnMonday[dayIx];
                 case 3:
                     return _zeroBasedStartOnSunday[dayIx];
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                    var dayIxForArr0 = returnType - 11;
+
+                    //Calculate distance/index from expected 0
+                    var idx = dayIx - dayIxForArr0;
+
+                    //If index is negative count backwards from end of array
+                    if (idx < 0)
+                    {
+                        idx = _oneBasedStartOnMonday.Count + idx;
+                    }
+
+                    return _oneBasedStartOnMonday[idx];
                 default:
                     throw new ExcelErrorValueException(eErrorType.Num);
             }

@@ -61,6 +61,11 @@
 		<Compile Update="Filter\ValueFilterTest.cs" />
 		<Compile Update="Filter\DynamicFilterTest.cs" />
 		<Compile Update="Filter\AutoFilterReadWriteTest.cs" />
+		<Compile Update="LoadFunctions\AttributesTestClasses\LoadFromCollResources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>LoadFromCollResources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="App.config">
@@ -261,6 +266,9 @@
 		<None Update="Workbooks\SignedWorkbook1.xlsm">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Workbooks\StrictOpenXml.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Workbooks\SubtotalFilters.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -279,6 +287,12 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Style\XmlAccess\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="LoadFunctions\AttributesTestClasses\LoadFromCollResources.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>LoadFromCollResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<PropertyGroup>
 		<SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>

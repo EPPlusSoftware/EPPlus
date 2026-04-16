@@ -1333,8 +1333,9 @@ namespace OfficeOpenXml
             var toCol = GetColumn((setFixed && _toColFixed ? _toCol : _toCol + cols), setRefOnMinMax);
             if (col <= _fromCol)
             {
-                var fromCol = GetColumn((setFixed && _fromColFixed ? _fromCol : _fromCol + cols), setRefOnMinMax);
-                return new ExcelAddressBase(_fromRow, fromCol, _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                var fromCol = setFixed && _fromColFixed ? _fromCol : _fromCol + cols;
+                if (fromCol > ExcelPackage.MaxColumns) return null;
+                return new ExcelAddressBase(_fromRow, GetColumn(fromCol, setRefOnMinMax), _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
             {

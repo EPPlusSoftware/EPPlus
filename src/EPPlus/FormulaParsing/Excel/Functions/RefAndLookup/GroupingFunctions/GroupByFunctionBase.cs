@@ -1,0 +1,385 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  19/3/2026         EPPlus Software AB           EPPlus v8.6
+ *************************************************************************************************/
+
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions
+{
+    internal abstract class GroupByFunctionBase : ExcelFunction
+    {
+        protected readonly LookupComparerBase _comparer = new SortByComparer();
+
+        protected const int TotalDepthNoTotals = 0;
+        protected const int TotalDepthGrandOnly = 1;
+
+        protected List<string> ResolveFunctionHeaders(GroupByBaseArgs args)
+        {
+            var names = args.Functions
+                .Select(f => f.EtaFunction != null ? f.EtaFunction.Name : "CUSTOM")
+                .ToList();
+
+            int customCount = names.Count(n => n == "CUSTOM");
+
+            if (customCount > 1)
+            {
+                int counter = 1;
+                for (int i = 0; i < names.Count; i++)
+                    if (names[i] == "CUSTOM")
+                        names[i] = $"CUSTOM{counter++}";
+            }
+
+            return names;
+        }
+
+        // -------------------------------------------------------
+        // Argument parsing 
+        // -------------------------------------------------------
+        protected bool TryParseBaseArgs(
+            IList<FunctionArgument> arguments,
+            out GroupByBaseArgs args,   
+            out CompileResult error)
+        {
+            args = new GroupByBaseArgs();
+            error = null;
+
+            if (!arguments[0].IsExcelRange)
+                return Fail(eErrorType.Value, out error);
+            args.RowFields = arguments[0].ValueAsRangeInfo;
+
+            if (!arguments[1].IsExcelRange)
+                return Fail(eErrorType.Value, out error);
+            args.Values = arguments[1].ValueAsRangeInfo;
+
+            if (args.RowFields.Size.NumberOfRows != args.Values.Size.NumberOfRows)
+                return Fail(eErrorType.Value, out error);
+
+            if (arguments[2].DataType == DataType.LambdaCalculation)
+            {
+                // Single function
+                args.Function = arguments[2].Value as LambdaCalculator;
+                args.Functions.Add(args.Function);
+                args.FunctionLayout = FunctionLayout.Single;
+            }
+            else if (arguments[2].IsExcelRange)
+            {
+                // Multiple functions via HSTACK or VSTACK
+                var range = arguments[2].ValueAsRangeInfo;
+                bool isHorizontal = range.Size.NumberOfRows == 1;
+                args.FunctionLayout = isHorizontal ? FunctionLayout.Horizontal : FunctionLayout.Vertical;
+
+                int count = isHorizontal ? range.Size.NumberOfCols : range.Size.NumberOfRows;
+                for (int i = 0; i < count; i++)
+                {
+                    var cellVal = isHorizontal
+                        ? range.GetOffset(0, i)
+                        : range.GetOffset(i, 0);
+
+                    if (cellVal is LambdaCalculator lc)
+                        args.Functions.Add(lc);
+                    else
+                        return Fail(eErrorType.Value, out error);
+                }
+                args.Function = args.Functions[0];                
+            }
+            else
+            {
+                return Fail(eErrorType.Value, out error);
+            }
+
+            if (args.Functions.Count == 0)
+                return Fail(eErrorType.Value, out error);
+
+            // field_headers (optional)
+            if (arguments.Count > 3 && arguments[3].Value != null)
+            {
+                var v = Convert.ToInt32(arguments[3].Value);
+                if (!Enum.IsDefined(typeof(FieldHeaders), v))
+                    return Fail(eErrorType.Value, out error);
+                args.Headers = (FieldHeaders)v;                
+            }
+            else if(args.Functions.Count > 1) // In excel, if multiple functions are included, headers are by default displayed.
+            {
+                args.Headers = FieldHeaders.YesAndShow;
+            }
+
+            // total_depth (optional)
+            if (arguments.Count > 4 && arguments[4].Value != null)
+            {
+                var totalDepth = Convert.ToInt32(arguments[4].Value);
+                if (Math.Abs(totalDepth) > args.RowFields.Size.NumberOfCols)
+                    return Fail(eErrorType.Value, out error);
+                args.TotalDepth = totalDepth;
+            }
+
+            // sort_order (optional)
+            if (arguments.Count > 5 && arguments[5].Value != null)
+            {
+                if (arguments[5].IsExcelRange)
+                {
+                    var range = arguments[5].ValueAsRangeInfo;
+                    bool isHorizontal = range.Size.NumberOfRows == 1;
+                    int count = isHorizontal ? range.Size.NumberOfCols : range.Size.NumberOfRows;
+                    args.SortOrders = new int[count];
+                    for (int i = 0; i < count; i++)
+                        args.SortOrders[i] = Convert.ToInt32(isHorizontal
+                            ? range.GetOffset(0, i)
+                            : range.GetOffset(i, 0));
+                }
+                else
+                {
+                    args.SortOrders = new[] { Convert.ToInt32(arguments[5].Value) };
+                }
+            }
+
+            // filter_array (optional)
+            if (arguments.Count > 6 && arguments[6].IsExcelRange)
+                args.FilterArray = arguments[6].ValueAsRangeInfo;
+
+            // field_relationship (optional)
+            if (arguments.Count > 7 && arguments[7].Value != null)
+            {
+                var v = Convert.ToInt32(arguments[7].Value);
+                if (!Enum.IsDefined(typeof(FieldRelationship), v))
+                    return Fail(eErrorType.Value, out error);
+                if (v == (int)FieldRelationship.Table && Math.Abs(args.TotalDepth) > 1)
+                    return Fail(eErrorType.Value, out error);
+                args.FieldRelationship = (FieldRelationship)v;
+            }
+
+            return true;
+        }
+
+        protected bool Fail(eErrorType err, out CompileResult error)
+        {
+            error = CompileResult.GetErrorResult(err);
+            return false;
+        }
+
+        // -------------------------------------------------------
+        // Header resolution
+        // -------------------------------------------------------
+        protected FieldHeaders ResolveHeaders(GroupByBaseArgs args)
+        {
+            if (args.Headers != FieldHeaders.Missing)
+                return args.Headers;
+
+            if (args.Values.Size.NumberOfRows < 2)
+                return FieldHeaders.No;
+
+            var first = args.Values.GetValue(0, 0);
+            var second = args.Values.GetValue(1, 0);
+
+            bool firstIsText = first is string;
+            bool secondIsNumber = second is double || second is int || second is long || second is float;
+
+            return firstIsText && secondIsNumber
+                ? FieldHeaders.YesAndDontShow
+                : FieldHeaders.No;
+        }
+
+        // -------------------------------------------------------
+        // Grouping
+        // -------------------------------------------------------
+        protected List<GroupLevel> BuildGroups(GroupByBaseArgs args, ParsingContext context)
+        {
+            var resolvedHeaders = ResolveHeaders(args);
+            bool hasHeaders = resolvedHeaders == FieldHeaders.YesAndShow
+                           || resolvedHeaders == FieldHeaders.YesAndDontShow;
+            bool multipleFunctions = args.Functions.Count > 1;
+            int startRow = hasHeaders ? 1 : 0;
+
+            int nKeyCols = args.RowFields.Size.NumberOfCols;
+            int nValCols = args.Values.Size.NumberOfCols;
+
+            var rootDict = new Dictionary<string, GroupLevel>(StringComparer.OrdinalIgnoreCase);
+            var rootOrder = new List<string>();
+
+            for (int r = startRow; r < args.RowFields.Size.NumberOfRows; r++)
+            {
+                if (args.FilterArray != null)
+                {
+                    var filterVal = args.FilterArray.GetOffset(r, 0);
+                    if (filterVal is bool b && !b) continue;
+                    if (filterVal is int i && i == 0) continue;
+                }
+
+                var keyParts = new object[nKeyCols];
+                for (int c = 0; c < nKeyCols; c++)
+                    keyParts[c] = args.RowFields.GetOffset(r, c);
+
+                var rowVals = new object[nValCols];
+                for (int c = 0; c < nValCols; c++)
+                    rowVals[c] = args.Values.GetOffset(r, c);
+
+                var currentDict = rootDict;
+                var currentOrder = rootOrder;
+                GroupLevel currentLevel = null;
+
+                for (int depth = 0; depth < nKeyCols; depth++)
+                {
+                    var keyStr = (keyParts[depth]?.ToString() ?? string.Empty).ToLowerInvariant();
+                    if (!currentDict.TryGetValue(keyStr, out currentLevel))
+                    {
+                        currentLevel = new GroupLevel { Key = keyParts[depth] };
+                        currentDict[keyStr] = currentLevel;
+                        currentOrder.Add(keyStr);
+                    }
+
+                    if (depth < nKeyCols - 1) // If there are more cols after the current, add child.
+                    {
+                        if (currentLevel.ChildDict == null)
+                        {
+                            currentLevel.ChildDict = new Dictionary<string, GroupLevel>(StringComparer.OrdinalIgnoreCase);
+                            currentLevel.ChildOrder = new List<string>();
+                        }
+                        currentDict = currentLevel.ChildDict;
+                        currentOrder = currentLevel.ChildOrder;
+                    }
+                }
+
+                var leafKey = string.Join("|", keyParts.Select(k => k?.ToString().ToLowerInvariant() ?? string.Empty).ToArray());
+                var row = currentLevel.Rows.FirstOrDefault(rw =>
+                    string.Join("|", rw.KeyParts.Select(k => k?.ToString().ToLowerInvariant() ?? string.Empty).ToArray()) == leafKey);
+
+                if (row == null)
+                {
+                    row = new GroupRow { KeyParts = keyParts };
+                    currentLevel.Rows.Add(row);
+                }
+                row.Values.Add(rowVals);
+                args.AllValuesInOrder.Add(rowVals);
+            }
+
+            var levels = BuildOrderedTree(rootDict, rootOrder);
+            AggregateTree(levels, args, context);
+            return levels;
+        }
+
+        protected List<GroupLevel> BuildOrderedTree(
+            Dictionary<string, GroupLevel> dict,
+            List<string> order)
+        {
+            var levels = order.Select(k => dict[k]).ToList();
+            foreach (var level in levels)
+                if (level.ChildDict != null)
+                    level.Children = BuildOrderedTree(level.ChildDict, level.ChildOrder);
+            return levels;
+        }
+
+        protected void AggregateTree(List<GroupLevel> levels, GroupByBaseArgs args, ParsingContext context)
+        {
+            foreach (var level in levels)
+            {
+                if (level.IsLeaf)
+                {
+                    foreach (var row in level.Rows)
+                    {
+                        row.AggregatedValues = args.Functions.Select(f =>
+                        {
+                            int nValCols = row.Values[0].Length;
+                            var result = new object[nValCols];
+                            for (int col = 0; col < nValCols; col++)
+                            {
+                                var colValues = row.Values
+                                    .Select(v => new object[] { v[col] })
+                                    .ToList();
+                                result[col] = Aggregate(f, colValues, context,
+                                    f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                            }
+                            return result;
+                        }).ToList();
+                        row.AggregatedValue = row.AggregatedValues[0][0];
+                    }
+
+                    var allVals = level.Rows.SelectMany(r => r.Values).ToList();
+                    level.SubtotalValues = args.Functions.Select(f =>
+                    {
+                        int nValCols = allVals[0].Length;
+                        var result = new object[nValCols];
+                        for (int col = 0; col < nValCols; col++)
+                        {
+                            var colValues = allVals
+                                .Select(v => new object[] { v[col] })
+                                .ToList();
+                            result[col] = Aggregate(f, colValues, context,
+                                f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        }
+                        return result;
+                    }).ToList();
+                    level.SubtotalValue = level.SubtotalValues[0][0];
+                }
+                else
+                {
+                    AggregateTree(level.Children, args, context);
+
+                    var allVals = level.Children.SelectMany(c => GetAllValues(c)).ToList();
+                    level.SubtotalValues = args.Functions.Select(f =>
+                    {
+                        int nValCols = allVals[0].Length;
+                        var result = new object[nValCols];
+                        for (int col = 0; col < nValCols; col++)
+                        {
+                            var colValues = allVals
+                                .Select(v => new object[] { v[col] })
+                                .ToList();
+                            result[col] = Aggregate(f, colValues, context,
+                                f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        }
+                        return result;
+                    }).ToList();
+                    level.SubtotalValue = level.SubtotalValues[0][0];
+                }
+            }
+        }
+
+        protected List<object[]> GetAllValues(GroupLevel level)
+        {
+            if (level.IsLeaf)
+                return level.Rows.SelectMany(r => r.Values).ToList();
+            return level.Children.SelectMany(c => GetAllValues(c)).ToList();
+        }
+
+        protected object Aggregate(LambdaCalculator calculator, List<object[]> values, ParsingContext context, List<object[]> allValues = null)
+        {
+            int nRows = values.Count;
+            int nCols = values.Count > 0 ? values[0].Length : 1;
+
+            var range = new InMemoryRange(nRows, (short)nCols);
+            for (int row = 0; row < nRows; row++)
+                for (int col = 0; col < nCols; col++)
+                    range.SetValue(row, col, values[row][col]);
+
+            calculator.BeginCalculation();
+            calculator.SetVariableValue(0, range, DataType.ExcelRange, context);
+
+            if(calculator.NumberOfVariables > 1 && allValues != null)
+            {
+                int allRows = allValues.Count;
+                int allCols = allValues.Count > 0 ? allValues[0].Length : 1;
+                var allRange = new InMemoryRange(allRows, (short)allCols);
+                for (int row = 0; row < allRows; row++)
+                    for (int col = 0; col < allCols; col++)
+                        allRange.SetValue(row, col, allValues[row][col]);
+                calculator.SetVariableValue(1, allRange, DataType.ExcelRange, context);
+            }
+            return calculator.Execute(context).ResultValue;
+        }
+    }
+}
