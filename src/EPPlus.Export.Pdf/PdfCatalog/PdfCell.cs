@@ -21,10 +21,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public bool Merged;
         public PdfCell Main;
         public ExcelAddressBase MergedAddress;
-        public double X;
-        public double Y;
-        public List<double> mergedCellWidths;
-        public List<double> mergedCellHeights;
 
 
 

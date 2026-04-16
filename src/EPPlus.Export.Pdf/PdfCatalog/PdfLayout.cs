@@ -12,6 +12,15 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
+
+    internal struct MergedCellDrawInfo
+    {
+        public double X;
+        public double Y;
+        public double Width;
+        public double Height;
+    }
+
     internal struct Page
     {
         public int FromRow;
@@ -22,6 +31,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public bool HasPrintTitle;
 
         public PdfCellCollection Map;
+
+        public Dictionary<string, MergedCellDrawInfo> MergedCells;
     }
 
     internal struct Pages
@@ -59,7 +70,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 for (int j = 0; j < pages.Length; j++)
                 {
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
-                    List<ExcelAddressBase> checkedMergedCells = new List<ExcelAddressBase>();
+                    var drawnMergedCells = new HashSet<string>();
                     //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
                     //pageLayout.AddChild(contentLayout);
                     double y = pageSettings.ContentBounds.Top;
@@ -75,58 +86,36 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             //  Fill
                             if (map.Merged)
                             {
-                                if (map.Main == null)
+                                string key = map.MergedAddress.Address;
+                                if (!drawnMergedCells.Contains(key) &&
+                                    pages[j].MergedCells.TryGetValue(key, out var info))
                                 {
-                                    var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.Width, map.Height);
-                                    fill.UpdateShadingPositionMatrix(pageSettings); //this hsould be done in a separate step later?
+                                    var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
+                                    var fill = new PdfCellLayout(dictionaries, cellStyle,
+                                        info.X, info.Y, info.Width, info.Height);
+                                    fill.UpdateShadingPositionMatrix(pageSettings);
                                     pageLayout.AddChild(fill);
-                                    checkedMergedCells.Add(map.MergedAddress);
-                                    map.X = x;
-                                    map.Y = y;
-                                }
-                                else
-                                {
-                                    if (!checkedMergedCells.Contains(map.MergedAddress))
-                                    {
-                                        double xOffset = x;
-                                        double yOffset = y;
-                                        if (map.Main.X > x)
-                                        {
-                                            int fromCol = map.MergedAddress._fromCol;
-                                            int thisCol = col;
-                                            double w = 0d;
-                                            for (int k = fromCol; k < thisCol; k++)
-                                                w += map.Main.mergedCellWidths[k - fromCol];
-                                            xOffset = x - w;
-                                        }
-
-                                        if (map.Main.Y < y)
-                                        {
-                                            int fromRow = map.MergedAddress._fromRow;
-                                            int thisRow = row;
-                                            double w = 0d;
-                                            for (int k = fromRow; k < thisRow; k++)
-                                                w += map.Main.mergedCellHeights[k - fromRow];
-                                            yOffset = y + w;
-                                        }
-
-                                        var fill = new PdfCellLayout(dictionaries, map.Main.CellStyle, xOffset, yOffset, map.Main.Width, map.Main.Height);
-                                        fill.UpdateShadingPositionMatrix(pageSettings); //this hsould be done in a separate step later?
-                                        pageLayout.AddChild(fill);
-                                        checkedMergedCells.Add(map.MergedAddress);
-                                    }
+                                    drawnMergedCells.Add(key);
                                 }
                             }
-                            if (map.CellStyle != null)
+                            else if (map.CellStyle != null)
                             {
                                 var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, 15);
-                                fill.UpdateShadingPositionMatrix(pageSettings); //this hsould be done in a separate step later?
+                                fill.UpdateShadingPositionMatrix(pageSettings);
                                 pageLayout.AddChild(fill);
                             }
 
 
-
                             //  Text
+                            if (map.TextFormats != null && map.TextFormats.Count > 0)
+                            {
+                                var text = new PdfCellContentLayout(pageSettings, dictionaries,/*add textformats, textlayout*/ x, y, map.Width, 15);
+                            }
+
+
+
+
+
                             //  Border
                             x += map.ColumnWidth;
                         }
@@ -169,6 +158,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, range);
                     pages = AssignRangeToPages(pageSettings, range, pages);
                     pages = MapPage(range, pages);
+                    pages = PrecomputeMergedCells(pageSettings, range, pages);
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
@@ -180,6 +170,77 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 }
             }
             return PagesCollection;
+        }
+
+        internal static Pages PrecomputeMergedCells(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages)
+        {
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+                pdfPages.Page[i] = PrecomputePageMergedCells(pageSettings, range, pdfPages.Page[i]);
+            return pdfPages;
+        }
+
+        private static Page PrecomputePageMergedCells(PdfPageSettings pageSettings, PdfRange range, Page page)
+        {
+            page.MergedCells = new Dictionary<string, MergedCellDrawInfo>();
+            // Build a quick lookup: absolute x for each column index on this page.
+            // We read ColumnWidth from the first data row; widths are per-column, not per-cell.
+            var colX = BuildColumnXPositions(pageSettings, page);
+            for (int row = page.FromRow; row <= page.ToRow; row++)
+            {
+                for (int col = page.FromColumn; col <= page.ToColumn; col++)
+                {
+                    var cell = page.Map[row, col];
+                    if (cell == null || !cell.Merged) continue;
+                    string key = cell.MergedAddress.Address;
+                    if (page.MergedCells.ContainsKey(key)) continue;
+                    var addr = cell.MergedAddress;
+                    var mainCell = cell.Main ?? cell; // Main == null means this cell IS the top-left
+                    // --- X ---
+                    // Start from the current column and walk left to the merge origin.
+                    // Columns within the current page come from colX; columns that lie on
+                    // a preceding column-page come from range.ColWidths.
+                    double drawX = colX[col - page.FromColumn];
+                    for (int c = addr._fromCol; c < col; c++)
+                    {
+                        int rangeIdx = c - range.Range._fromCol;
+                        if (rangeIdx >= 0 && rangeIdx < range.ColWidths.Count)
+                            drawX -= range.ColWidths[rangeIdx];
+                    }
+                    // --- Y ---
+                    // y decreases as row increases (PDF coordinate origin at bottom-left).
+                    // Build the y for the current row, then add back the heights of rows
+                    // above it that belong to the merge (whether on this page or a prior one).
+                    double drawY = pageSettings.ContentBounds.Top - (row - page.FromRow) * 15d; // TODO: real row heights
+                    for (int r = addr._fromRow; r < row; r++)
+                    {
+                        int rangeIdx = r - range.Range._fromRow;
+                        if (rangeIdx >= 0 && rangeIdx < range.RowHeights.Count)
+                            drawY += range.RowHeights[rangeIdx];
+                    }
+                    page.MergedCells[key] = new MergedCellDrawInfo
+                    {
+                        X = drawX,
+                        Y = drawY,
+                        Width = mainCell.Width,
+                        Height = mainCell.Height
+                    };
+                }
+            }
+            return page;
+        }
+
+        private static double[] BuildColumnXPositions(PdfPageSettings pageSettings, Page page)
+        {
+            int colCount = page.ToColumn - page.FromColumn + 1;
+            var colX = new double[colCount];
+            double x = pageSettings.ContentBounds.Left;
+            for (int col = page.FromColumn; col <= page.ToColumn; col++)
+            {
+                colX[col - page.FromColumn] = x;
+                var cell = page.Map[page.FromRow, col];
+                x += cell?.ColumnWidth ?? 0d;
+            }
+            return colX;
         }
 
         internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet,  PdfRange range)

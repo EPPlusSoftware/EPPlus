@@ -4,11 +4,11 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -80,6 +80,44 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 Cell.TextFormats[i] = fd;
                 shaper.ResetFontTracking();
             }
+            if (Cell.ContentAligmnet.WrapText)
+            {
+                var textFragments = GetTextFragments(Cell.TextFormats);
+                var wrappedLines = Cell.TextLayoutEngine.WrapRichTextLines(textFragments, Cell.Width);
+
+            }
+        }
+
+        private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)
+        {
+            var fragments = new List<TextFragment>(textFormats.Count);
+
+            foreach (var tf in textFormats)
+            {
+                var fragment = new TextFragment
+                {
+                    Text = tf.Text,
+                    Font = new MeasurementFont
+                    {
+                        FontFamily = tf.FontName,
+                        Size = (float)tf.FontSize,
+                        Style = GetMeasurementFontStyle(tf)
+                    }
+                };
+                fragments.Add(fragment);
+            }
+
+            return fragments;
+        }
+
+        private static MeasurementFontStyles GetMeasurementFontStyle(PdfTextFormat tf)
+        {
+            var style = (tf.Bold ? MeasurementFontStyles.Bold : 0)
+                      | (tf.Italic ? MeasurementFontStyles.Italic : 0)
+                      | (tf.Strike ? MeasurementFontStyles.Strikeout : 0)
+                      | (tf.Underline ? MeasurementFontStyles.Underline : 0);
+
+            return style == 0 ? MeasurementFontStyles.Regular : (MeasurementFontStyles)style;
         }
     }
 }

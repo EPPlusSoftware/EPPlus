@@ -105,20 +105,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             ExcelAddressBase address = new ExcelAddressBase(mergeAddress);
             if (!checkedMergedCells.Contains(mergeAddress))
             {
-                tempMap.mergedCellHeights = new List<double>();
-                tempMap.mergedCellWidths = new List<double>();
-                double height = 0, width = 0, totalWidth = 0, totalHeight = 0;
+                double totalWidth = 0, totalHeight = 0;
                 for (int k = address._fromRow; k <= address._toRow; k++)
                 {
-                    height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
-                    tempMap.mergedCellHeights.Add(height);
-                    totalHeight += height;
+                    totalHeight += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
                 }
                 for (int l = address._fromCol; l <= address._toCol; l++)
                 {
-                    width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
-                    tempMap.mergedCellWidths.Add(width);
-                    totalWidth += width;
+                    totalWidth += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
                 checkedMergedCells.Add(mergeAddress);
                 tempMap.Width = totalWidth;

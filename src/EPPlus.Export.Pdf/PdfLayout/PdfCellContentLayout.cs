@@ -16,6 +16,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
@@ -52,6 +53,15 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double TextLength { get => textLength; set => textLength = value; }
         public double TextHeight { get => textHeight; set => textHeight = value; }
         public TextLayoutEngine TextLayoutEngine { get => textLayoutEngine; set => textLayoutEngine = value; }
+
+
+
+        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+            : base(x, y, width, height, scaleX, scaleY, rotation, parent)
+        {
+
+        }
+
 
         public PdfCellContentLayout(ExcelRangeBase cell, PdfCellStyle CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
