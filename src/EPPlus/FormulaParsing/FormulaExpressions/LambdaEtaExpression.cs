@@ -54,12 +54,26 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             var functionName = _tokenValue.Replace("_xleta.", string.Empty);
             var func = Context.Configuration.FunctionRepository.GetFunction(functionName);
-            if(func == null || func.ArgumentMinLength > 1)
+            if(func == null || (func.ArgumentMinLength > 1 && func.IsAllowedAsLambdaWithMultipleArguments==false))
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            var paramName = $"p{Guid.NewGuid().ToString("N")}";
-            var formula = $"LAMBDA({paramName}, {functionName}({paramName}))";
+            string paramNames;
+            if (func.IsAllowedAsLambdaWithMultipleArguments)
+            {
+                var argList = new StringBuilder();
+                for (int i = 0; i < func.ArgumentMinLength; i++)
+                {
+                    var paramName = $"p{Guid.NewGuid().ToString("N")},";
+                    argList.Append(paramName);
+                }
+                paramNames = argList.ToString(0, argList.Length - 1);                
+            }
+            else
+            {
+                paramNames = $"p{Guid.NewGuid().ToString("N")}";
+            }
+            var formula = $"LAMBDA({paramNames}, {functionName}({paramNames}))";
             var lambdaTokens = SourceCodeTokenizer.Default.Tokenize(formula);
             var rpnTokens = FormulaExecutor.CreateRPNTokens(lambdaTokens);
 
@@ -69,8 +83,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 ExpressionStack = _rpnFormula.ExpressionStack,
                 FunctionStack = _rpnFormula.FunctionStack
             };
+            rpnFormula._flags = _rpnFormula._flags | FormulaFlags.IsLambda;
+            rpnFormula._lambdaFormulaStackCount = Context.DependencyChain._formulaStack.Count;
             rpnFormula.SetTokens(rpnTokens, Context, _scope);
-            var result = RpnFormulaExecution.ExecutePartialFormula(Context.DependencyChain, rpnFormula, Context.CalcOption, false);
+            var result = RpnFormulaExecution.ExecutePartialFormula(Context.DependencyChain, rpnFormula, Context.CalcOption, true);
             if(result.DataType != DataType.LambdaCalculation)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);

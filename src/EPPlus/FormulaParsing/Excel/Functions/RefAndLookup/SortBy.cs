@@ -77,6 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 sortOrders.Add((short)sortOrder);
             }
+            sortOrders.Add((short)1); //row order as last sort criteria to ensure same order as Excel.
             var sortByImpl = new SortByImpl(range, byRanges, sortOrders, direction);
             var sortedRange = sortByImpl.Sort();
             return CreateDynamicArrayResult(sortedRange, DataType.ExcelRange);

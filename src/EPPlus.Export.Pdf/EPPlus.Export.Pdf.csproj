@@ -75,12 +75,8 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="9.0.3" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="9.0.3" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
-		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3" />
-		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3" />
 	</ItemGroup>
 
 </Project>
