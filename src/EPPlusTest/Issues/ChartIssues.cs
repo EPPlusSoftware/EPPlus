@@ -435,8 +435,25 @@ namespace EPPlusTest.Issues
 		{
 			using (var package = OpenTemplatePackage("s1037.xlsx"))
 			{
+				//Crashes on save (also accesssing)
 				SaveAndCleanup(package);
 			}
 		}
-	}
+
+        [TestMethod]
+        public void s1038()
+		{
+            using (var package = OpenTemplatePackage("s1038.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets["Tabelle1"];
+                var groupShape = worksheet.Drawings[0] as ExcelGroupShape;
+
+				//Crashes when accessesing
+                var drawingsWithinGroupShape = groupShape.Drawings;
+
+				SaveAndCleanup(package);
+            }
+        }
+
+    }
 }

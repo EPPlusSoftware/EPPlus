@@ -94,7 +94,15 @@ namespace OfficeOpenXml.Drawing
                 AdjustXPathsForGrouping(false);
                 CellAnchor = GetAnchorFromName(node.LocalName);
                 SetPositionProperties(drawings, node);
-                GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
+
+                if(collectionType == DrawingsCollectionType.Worksheet && From == null)
+                {
+                    //TODO: ENSURE THIS CASE IS HANDLED APPROPRIATELY
+                }
+                else
+                {
+                    GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
+                }
 
                 string relID = GetXmlNodeString(_hyperLinkPath + "/@r:id");
                 if (!string.IsNullOrEmpty(relID))
@@ -813,19 +821,22 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                var cache = _drawings.Worksheet.RowHeightCache;
-                for (int row = 0; row < From.Row; row++)
+                if (From != null)
                 {
-                    lock (cache)
+                    var cache = _drawings.Worksheet.RowHeightCache;
+                    for (int row = 0; row < From.Row; row++)
                     {
-                        if (!cache.ContainsKey(row))
+                        lock (cache)
                         {
-                            cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            if (!cache.ContainsKey(row))
+                            {
+                                cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            }
                         }
+                        pix += (int)(cache[row] / 0.75);
                     }
-                    pix += (int)(cache[row] / 0.75);
+                    pix += From.RowOff / EMU_PER_PIXEL;
                 }
-                pix += From.RowOff / EMU_PER_PIXEL;
             }
             return pix;
         }
