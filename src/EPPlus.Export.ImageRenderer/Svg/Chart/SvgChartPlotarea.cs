@@ -32,7 +32,6 @@ namespace EPPlusImageRenderer.Svg
         {
             var pa = sc.Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
-            TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
             var rect = new SvgRenderRectItem(sc, sc.Bounds);
             if (pa.Layout.HasLayout)
             {

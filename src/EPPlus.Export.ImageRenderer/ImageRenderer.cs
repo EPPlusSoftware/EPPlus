@@ -25,6 +25,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -61,6 +62,7 @@ namespace EPPlusImageRenderer
             Rect,
             TextBox,
             Shape,
+            CircleSegment
         }
 
         public Dictionary<string, object> GetItemProperties(RenderItemClasses item)
@@ -69,10 +71,72 @@ namespace EPPlusImageRenderer
             {
                 case RenderItemClasses.Rect:
                     return new Dictionary<string, object> { { "Top", 10d }, { "Left", 10d }, { "Width", 10d }, { "Height", 10d }, {"Opacity", 0.8 }, {"Fill", Color.Goldenrod } };
+                case RenderItemClasses.CircleSegment:
+                    return new Dictionary<string, object> { { "angle", 25d }, { "radius", 10d }, { "cx", 20d }, { "cy", 20d } };
                 case RenderItemClasses.TextBox:
                 default:
                     throw new NotImplementedException("This class has not been implemented as an option yet");
+                    
             }
+        }
+
+        private string RenderCircleSegment(DrawingBase baseItem, Dictionary<string, object> itemProperties)
+        {
+            return RenderCircleSegment((double)itemProperties["angle"], (double)itemProperties["radius"], (double)itemProperties["cx"], (double)itemProperties["cy"]);
+        }
+
+        string RenderCircleSegment(double angle, double radius, double cx, double cy)
+        {
+            var angleRadians = angle * (Math.PI / 180.0d);
+
+            var xPoint = cx + (radius * Math.Cos(angleRadians));
+            var yPoint = cy + (radius * Math.Sin(angleRadians));
+
+            Coordinate endPoint = new Coordinate(xPoint, yPoint);
+
+            var baseBB = new BoundingBox();
+
+            //96x96 px
+            baseBB.Width = 72;
+            baseBB.Height = 72;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+            BoundingBox parent = new BoundingBox();
+
+            var slice = new SvgRenderPathItem(baseItem, baseItem.Bounds);
+
+            var startPoint = new Coordinate(cx, 0);
+
+            var moveCenter = new PathCommands(PathCommandType.Move, slice, cx / baseItem.Bounds.Width, cy / baseItem.Bounds.Height);
+            var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X / baseItem.Bounds.Width, startPoint.Y / baseItem.Bounds.Height);
+
+
+
+            var w = baseItem.Bounds.Width.PointToPixel();
+            var h = baseItem.Bounds.Height.PointToPixel();
+
+            var radX = radius.PointToPixel() / w;
+            var radY = radius.PointToPixel() / h;
+
+            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, 0, 1, endPoint.X / baseItem.Bounds.Width, endPoint.Y / baseItem.Bounds.Height });
+
+            slice.Commands.Add(moveCenter);
+            slice.Commands.Add(lineToStart);
+            slice.Commands.Add(arcCommand);
+
+            slice.FillColor = "red";
+            slice.BorderColor = "green";
+
+            baseItem.RenderItems.Add(slice);
+
+            var sb = new StringBuilder();
+
+            baseItem.Render(sb);
+
+            return sb.ToString();
+
+            //return baseItem;
         }
 
         /// <summary>
@@ -325,12 +389,19 @@ namespace EPPlusImageRenderer
             return rectItem;
         }
 
+        private string GenerateFromCircle(RenderItemClasses preset, DrawingBase baseItem, Dictionary<string, object> itemProperties)
+        {
+            return RenderCircleSegment(baseItem, itemProperties);
+        }
+
         private RenderItem GenerateFromClasses(RenderItemClasses preset, DrawingBase baseItem, Dictionary<string, object> itemProperties)
         {
             switch (preset)
             {
                 case RenderItemClasses.Rect:
                     return GenerateRect(baseItem, itemProperties);
+                case RenderItemClasses.CircleSegment:
+                    //return RenderCircleSegment(baseItem, itemProperties);
                 case RenderItemClasses.TextBox:
 
 

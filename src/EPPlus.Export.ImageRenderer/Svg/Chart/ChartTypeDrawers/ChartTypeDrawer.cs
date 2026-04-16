@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.Utils;
+﻿using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
+using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
@@ -81,6 +82,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     case eChartType.BarStacked:
                     case eChartType.BarStacked100:
                         drawers.Add(new BarColumnChartTypeDrawer(svgChart, (ExcelBarChart)ct));
+                        break;
+                    case eChartType.Pie:
+                        drawers.Add(new PieChartTypeDrawer(svgChart, (ExcelPieChart)ct));
                         break;
                     default:
                         throw new NotImplementedException($"No Svg support for Chart type {ct} is implemented.");

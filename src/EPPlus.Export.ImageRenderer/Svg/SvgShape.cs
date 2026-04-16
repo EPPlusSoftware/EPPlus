@@ -221,7 +221,7 @@ namespace EPPlusImageRenderer.Svg
                         b = ib;
                     }
                 }
-                return $"{(Bounds.Left).ToString(CultureInfo.InvariantCulture)},{Bounds.Top.ToString(CultureInfo.InvariantCulture)},{Bounds.Right.ToString(CultureInfo.InvariantCulture)},{Bounds.Bottom.ToString(CultureInfo.InvariantCulture)}";
+                return $"{(Bounds.Left).PointToPixelString()},{Bounds.Top.PointToPixelString()},{Bounds.Right.PointToPixelString()},{Bounds.Bottom.PointToPixelString()}";
             }
         }
 

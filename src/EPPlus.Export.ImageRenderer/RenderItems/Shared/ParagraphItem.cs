@@ -250,7 +250,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var runFont = txtRun.GetMeasurementFont();
 
                 fonts.Add(runFont);
-                fonts.Add(runFont);
                 runContents.Add(txtRun.Text);
                 fontSizes.Add(runFont.Size);
             }
@@ -481,7 +480,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     }
             }
             Bounds.Height = runLineSpacing + lastDescent;
-            Bounds.Width = greatestWidth;
             Bounds.Width = greatestWidth;
         }
 

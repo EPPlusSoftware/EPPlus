@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.Xml;
 
 namespace EPPlusImageRenderer.ShapeDefinitions
 {
