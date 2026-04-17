@@ -785,25 +785,25 @@ namespace OfficeOpenXml.Drawing.Chart
                 var layoutId = chartNode.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[1]/@layoutId", drawings.NameSpaceManager);
                 if (layoutId == null)
                 {
-                    return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                 }
                 switch (layoutId.Value)
                 {
                     case "treemap":
-                        return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     case "sunburst":
-                        return new ExcelSunburstChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelSunburstChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     case "boxWhisker":
-                        return new ExcelBoxWhiskerChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelBoxWhiskerChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     case "clusteredColumn":
                     case "pareto":
-                        return new ExcelHistogramChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelHistogramChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     case "funnel":
-                        return new ExcelFunnelChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelFunnelChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     case "waterfall":
-                        return new ExcelWaterfallChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelWaterfallChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     case "regionMap":
-                        return new ExcelRegionMapChart(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelRegionMapChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     default:
                         throw new NotSupportedException($"Unsupported chart layout {layoutId.Value}");
                 }

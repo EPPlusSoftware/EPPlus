@@ -94,15 +94,7 @@ namespace OfficeOpenXml.Drawing
                 AdjustXPathsForGrouping(false);
                 CellAnchor = GetAnchorFromName(node.LocalName);
                 SetPositionProperties(drawings, node);
-
-                if(collectionType == DrawingsCollectionType.Worksheet && From == null)
-                {
-                    //TODO: ENSURE THIS CASE IS HANDLED APPROPRIATELY
-                }
-                else
-                {
-                    GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
-                }
+                GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
 
                 string relID = GetXmlNodeString(_hyperLinkPath + "/@r:id");
                 if (!string.IsNullOrEmpty(relID))
@@ -652,7 +644,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "", "");
+            return new ExcelDrawing(drawings, node, "", "",parent, DrawingsType);
         }
 
         private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
