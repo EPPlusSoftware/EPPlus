@@ -51,10 +51,13 @@ namespace OfficeOpenXml.Drawing
                 if (node.LocalName != "nvGrpSpPr" && node.LocalName != "grpSpPr")
                 {
                     var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent, _drawingsCollectionType);
-                    _groupDrawings.Add(grpDraw);
-                    if (_drawingNames.ContainsKey(grpDraw.Name) == false)
+                    if(grpDraw != null)
                     {
-                        _drawingNames.Add(grpDraw.Name, _groupDrawings.Count - 1);
+                        _groupDrawings.Add(grpDraw);
+                        if (_drawingNames.ContainsKey(grpDraw.Name) == false)
+                        {
+                            _drawingNames.Add(grpDraw.Name, _groupDrawings.Count - 1);
+                        }
                     }
                 }
             }

@@ -644,7 +644,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "", "");
+            return new ExcelDrawing(drawings, node, "", "",parent, DrawingsType);
         }
 
         private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
@@ -813,19 +813,22 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                var cache = _drawings.Worksheet.RowHeightCache;
-                for (int row = 0; row < From.Row; row++)
+                if (From != null)
                 {
-                    lock (cache)
+                    var cache = _drawings.Worksheet.RowHeightCache;
+                    for (int row = 0; row < From.Row; row++)
                     {
-                        if (!cache.ContainsKey(row))
+                        lock (cache)
                         {
-                            cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            if (!cache.ContainsKey(row))
+                            {
+                                cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            }
                         }
+                        pix += (int)(cache[row] / 0.75);
                     }
-                    pix += (int)(cache[row] / 0.75);
+                    pix += From.RowOff / EMU_PER_PIXEL;
                 }
-                pix += From.RowOff / EMU_PER_PIXEL;
             }
             return pix;
         }
