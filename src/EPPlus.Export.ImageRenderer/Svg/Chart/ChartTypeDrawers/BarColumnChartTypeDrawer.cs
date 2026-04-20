@@ -111,11 +111,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var halfGap = (barWidth * gapPercent) / 2;
 
             double yAxisStart;
-            if (yAxis.Axis.Crosses == eCrosses.AutoZero)
+            if (catAx.Axis.Crosses == eCrosses.AutoZero)
             {
                 yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
             }
-            else if (yAxis.Axis.Crosses == eCrosses.Min)
+            else if (catAx.Axis.Crosses == eCrosses.Min)
             {
                 yAxisStart = valAx.GetPositionInPlotarea(valAx.Min, true);
             }
