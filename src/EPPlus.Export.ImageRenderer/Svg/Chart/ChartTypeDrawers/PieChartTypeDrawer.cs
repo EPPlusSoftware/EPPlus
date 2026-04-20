@@ -93,6 +93,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 }
             }
 
+
+            //var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+
+            //circ.Bounds.Left = cx;
+            //circ.Bounds.Top = cy;
+
+            //circ.Rx = radius;
+            //circ.Ry = radius;
+
+            //circ.Cx = cx;
+            //circ.Cy = cy;
+
+            //circ.FillColor = "purple";
+            //circ.FillOpacity = 0.5d;
+
+            //RenderItems.Add(circ);
+
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
         }
 
@@ -100,51 +117,67 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             var slice = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
-            var cx = _svgChart.Plotarea.Rectangle.Bounds.Width / 2;
-            var cy = _svgChart.Plotarea.Rectangle.Bounds.Height / 2;
+            slice.BorderWidth = 2;
 
-            var moveCenter = new PathCommands(PathCommandType.Move, slice, cx/_svgChart.Bounds.Width, cy/_svgChart.Bounds.Height);
+            //Path commands are based on percent of the Pixel height and Width
+            //We must supply coords in a correct percentage of the Whole Chart
+
+            var w = _svgChart.Plotarea.Rectangle.Bounds.Width;
+            var h = _svgChart.Plotarea.Rectangle.Bounds.Height;
+
+            var cx = (w / 2);
+            var cy = (h / 2);
+
+            //var cxWholeChart = (cx / _svgChart.Bounds.Width;
+
+            var radX = radius / w;
+            var radY = radius / h;
+
+            var pixelWidth = _svgChart.Bounds.Width;
+            var pixelHeight = _svgChart.Bounds.Height;
+
+
+            var moveCenter = new PathCommands(PathCommandType.Move, slice, 0.5, 0.5);
+
             Coordinate startPoint;
+
             if(position != 0)
             {
-                startPoint = new Coordinate(endCoordOffsetFromCenterOfCircle[position - 1].X, endCoordOffsetFromCenterOfCircle[position - 1].Y);
+                var lastPosX = endCoordOffsetFromCenterOfCircle[position - 1].X / w;
+                var lastPosY = endCoordOffsetFromCenterOfCircle[position - 1].Y / h;
+                startPoint = new Coordinate(lastPosX, lastPosY);
             }
             else
             {
-                startPoint = new Coordinate(cx, cy - radius - 20);
+                startPoint = new Coordinate(0.5, (cy - radius) / h);
             }
 
-            var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X / _svgChart.Bounds.Width, startPoint.Y / _svgChart.Bounds.Height);
+            var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X, startPoint.Y);
 
-            //var lineToEndPoint = new PathCommands(PathCommandType.Line, slice, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height);
+            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, circleSectorAngle[position] > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / w, endCoordOffsetFromCenterOfCircle[position].Y / h });
 
-            var w = _svgChart.Plotarea.Rectangle.Bounds.Width.PointToPixel();
-            var h = _svgChart.Plotarea.Rectangle.Bounds.Height.PointToPixel();
-
-            var radX = radius.PointToPixel() / w;
-            var radY = radius.PointToPixel() / h;
-
-            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, circleSectorAngle[position] > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / _svgChart.Bounds.Width, endCoordOffsetFromCenterOfCircle[position].Y / _svgChart.Bounds.Height });
-
-            slice.Commands.Add(moveCenter);
-            slice.Commands.Add(lineToStart);
-
+            serie.Border.Fill.Color = Color.White;
             if (position == 0)
             {
                 serie.Fill.Color = Color.Red;
-                serie.Border.Fill.Color = Color.DarkOrange;
             }
-            else if(position == 1)
+            else if (position == 1)
             {
                 serie.Fill.Color = Color.Green;
-                serie.Border.Fill.Color = Color.DarkGreen;
             }
-            else if(position == 2)
+            else if (position == 2)
             {
                 serie.Fill.Color = Color.Blue;
-                serie.Border.Fill.Color = Color.DarkBlue;
             }
+
+            slice.Commands.Add(moveCenter);
+            slice.Commands.Add(lineToStart);
             slice.Commands.Add(arcCommand);
+
+            //if(position != 0)
+            //{
+            //    slice.
+            //}
 
             //slice.Commands.Add(moveCenter);
             //slice.Commands.Add(lineToEndPoint);
