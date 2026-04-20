@@ -30,6 +30,24 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
+        public void GeneratePieChartFirstAngle()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartSvgAngle.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PieChartSvgAngle{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
         public void GenerateSvgForPieChart()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

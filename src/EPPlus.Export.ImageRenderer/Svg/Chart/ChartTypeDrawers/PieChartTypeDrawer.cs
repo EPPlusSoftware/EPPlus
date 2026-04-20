@@ -25,6 +25,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         List<Coordinate> endCoordOffsetFromCenterOfCircle = new List<Coordinate>();
 
+        double _startAngle;
+
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
             groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
@@ -33,11 +35,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var yValues = new List<List<object>>();
             int serCounter = 0;
 
+            var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
+
+            groupItem.Rotation = angleOffset;
+
+            _startAngle = -90d;
+
             foreach (ExcelPieChartSerie serie in chartType.Series)
             {
                 valValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 catValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-
                 serCounter++;
             }
 
@@ -60,9 +67,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var cx = (_svgChart.Plotarea.Rectangle.Bounds.Width / 2);
             var cy = (_svgChart.Plotarea.Rectangle.Bounds.Height / 2);
 
+            groupItem.RotationPoint = new Graphics.Point(cx, cy);
+
             var radius = Math.Min(cx, cy);
 
-            var prevAngle = -90d;
+            var prevAngle = _startAngle;
 
             for (int i = 0; i < valValues.Count; i++)
             {
@@ -100,23 +109,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
 
 
-            var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            //var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
-            circ.Bounds.Left = cx;
-            circ.Bounds.Top = cy;
+            //circ.Bounds.Left = cx;
+            //circ.Bounds.Top = cy;
 
-            circ.Rx = radius;
-            circ.Ry = radius;
+            //circ.Rx = radius;
+            //circ.Ry = radius;
 
-            circ.Cx = cx;
-            circ.Cy = cy;
+            //circ.Cx = cx;
+            //circ.Cy = cy;
 
-            circ.FillColor = "transparent";
-            circ.FillOpacity = 0.3d;
-            circ.BorderColor = "purple";
-            circ.BorderWidth = 10;
+            //circ.FillColor = "transparent";
+            //circ.FillOpacity = 0.3d;
+            //circ.BorderColor = "purple";
+            //circ.BorderWidth = 10;
 
-            groupItem.AddChildItem(circ);
+            //groupItem.AddChildItem(circ);
             RenderItems.Add(groupItem);
         }
 
