@@ -1,4 +1,6 @@
-﻿using EPPlus.Fonts.OpenType.Utils;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -19,12 +21,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         List<double> valPercent = new List<double>();
         List<double> circleSectorAngle = new List<double>();
 
+        SvgGroupItemNew groupItem;
+
         List<Coordinate> endCoordOffsetFromCenterOfCircle = new List<Coordinate>();
 
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-            RenderItems.Add(groupItem);
+            groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
+
             var xValues = new List<List<object>>();
             var yValues = new List<List<object>>();
             int serCounter = 0;
@@ -48,13 +52,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 valTotal += valValuesDoubles[i];
             }
 
-            var cx = _svgChart.Plotarea.Rectangle.Bounds.Width / 2;
-            var cy = _svgChart.Plotarea.Rectangle.Bounds.Height / 2;
+            var cx = (_svgChart.Plotarea.Rectangle.Bounds.Width / 2);
+            var cy = (_svgChart.Plotarea.Rectangle.Bounds.Height / 2);
 
             var radius = Math.Min(cx, cy);
-
-            groupItem.Bounds.Left = radius;
-            groupItem.Bounds.Top = radius;
 
             var prevAngle = -90d;
 
@@ -94,23 +95,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
 
 
-            //var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
-            //circ.Bounds.Left = cx;
-            //circ.Bounds.Top = cy;
+            circ.Bounds.Left = cx;
+            circ.Bounds.Top = cy;
 
-            //circ.Rx = radius;
-            //circ.Ry = radius;
+            circ.Rx = radius;
+            circ.Ry = radius;
 
-            //circ.Cx = cx;
-            //circ.Cy = cy;
+            circ.Cx = cx;
+            circ.Cy = cy;
 
-            //circ.FillColor = "purple";
-            //circ.FillOpacity = 0.5d;
+            circ.FillColor = "transparent";
+            circ.FillOpacity = 0.3d;
+            circ.BorderColor = "purple";
+            circ.BorderWidth = 10;
 
-            //RenderItems.Add(circ);
-
-            RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
+            groupItem.AddChildItem(circ);
+            RenderItems.Add(groupItem);
         }
 
         private void AddSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, List<object> catSeries, List<object> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position, double radius)
@@ -128,16 +130,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var cx = (w / 2);
             var cy = (h / 2);
 
-            //var cxWholeChart = (cx / _svgChart.Bounds.Width;
-
             var radX = radius / w;
             var radY = radius / h;
 
-            var pixelWidth = _svgChart.Bounds.Width;
-            var pixelHeight = _svgChart.Bounds.Height;
+            var cxPercentOfTotal = (cx + groupItem.Position.Left) / _svgChart.Bounds.Width;
+            var cyPercentOfTotal = (cy + groupItem.Position.Top) / _svgChart.Bounds.Height;
 
-
-            var moveCenter = new PathCommands(PathCommandType.Move, slice, 0.5, 0.5);
+            var moveCenter = new PathCommands(PathCommandType.Move, slice, cxPercentOfTotal, cyPercentOfTotal);
 
             Coordinate startPoint;
 
@@ -149,43 +148,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
             else
             {
-                startPoint = new Coordinate(0.5, (cy - radius) / h);
+                startPoint = new Coordinate(cxPercentOfTotal, (cy - radius) / h);
             }
 
             var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X, startPoint.Y);
 
             var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, circleSectorAngle[position] > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / w, endCoordOffsetFromCenterOfCircle[position].Y / h });
 
-            serie.Border.Fill.Color = Color.White;
-            if (position == 0)
-            {
-                serie.Fill.Color = Color.Red;
-            }
-            else if (position == 1)
-            {
-                serie.Fill.Color = Color.Green;
-            }
-            else if (position == 2)
-            {
-                serie.Fill.Color = Color.Blue;
-            }
-
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);
             slice.Commands.Add(arcCommand);
 
-            //if(position != 0)
-            //{
-            //    slice.
-            //}
-
             //slice.Commands.Add(moveCenter);
             //slice.Commands.Add(lineToEndPoint);
 
-            slice.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
-            slice.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
-            slice.SetDrawingPropertiesEffects(serie.Effect);
-            RenderItems.Add(slice);
+            slice.SetDrawingPropertiesFill(serie.DataPoints[position].Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
+            slice.SetDrawingPropertiesBorder(serie.DataPoints[position].Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
+            slice.SetDrawingPropertiesEffects(serie.DataPoints[position].Effect);
+            groupItem.AddChildItem(slice);
         }
     }
 }
