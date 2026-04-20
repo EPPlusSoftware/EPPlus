@@ -80,12 +80,12 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 Cell.TextFormats[i] = fd;
                 shaper.ResetFontTracking();
             }
-            if (Cell.ContentAligmnet.WrapText)
-            {
-                var textFragments = GetTextFragments(Cell.TextFormats);
-                var wrappedLines = Cell.TextLayoutEngine.WrapRichTextLines(textFragments, Cell.Width);
+            //if (Cell.ContentAligmnet.WrapText)
+            //{
+            //    var textFragments = GetTextFragments(Cell.TextFormats);
+            //    var wrappedLines = Cell.TextLayoutEngine.WrapRichTextLines(textFragments, Cell.Width);
 
-            }
+            //}
         }
 
         private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)

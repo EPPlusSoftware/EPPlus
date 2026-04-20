@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using OfficeOpenXml.Style;
@@ -29,6 +30,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         private readonly double Y;
         private readonly string Name;
         private readonly bool IsMerged;
+        private readonly MergedCellDrawInfo info;
         private readonly double Width;
         private readonly double Height;
         private readonly double MergedDiagnoalWidth;
@@ -37,6 +39,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public PdfBorderRenderer(PdfCellBorderLayout cell)
         {
+            IsMerged = cell.IsMerged;
+            info = cell.MergedCellInfo;
             X = cell.LocalPosition.X;
             Y = cell.LocalPosition.Y;
             Width = cell.Size.X;
@@ -48,7 +52,6 @@ namespace EPPlus.Export.Pdf.PdfObjects
             Right = cell.BorderData.Right;
             DiagonalUp = cell.BorderData.DiagonalUp;
             DiagonalDown = cell.BorderData.DiagonalDown;
-            IsMerged = cell.IsMerged;
             //MergedDiagnoalWidth = DiagonalUp.MergedDiagonalWidth;
             //MergedDiagnoalHeight = DiagonalDown.MergedDiagonalHeight;
         }
@@ -98,16 +101,36 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     y2 = Y + Height;
                     break;
                 case LineType.DiagonalUp:
-                    x1 = X;
-                    y1 = Y;
-                    x2 = X + Width;
-                    y2 = Y + Height;
+                    if (IsMerged)
+                    {
+                        x1 = info.X;
+                        y1 = info.Y - info.Height;
+                        x2 = info.X + info.Width;
+                        y2 = info.Y;
+                    }
+                    else
+                    {
+                        x1 = X;
+                        y1 = Y;
+                        x2 = X + Width;
+                        y2 = Y + Height;
+                    }
                     break;
                 case LineType.DiagonalDown:
-                    x1 = X;
-                    y1 = Y + Height;
-                    x2 = X + Width;
-                    y2 = Y;
+                    if (IsMerged)
+                    {
+                        x1 = info.X;
+                        y1 = info.Y;
+                        x2 = info.X + info.Width;
+                        y2 = info.Y - info.Height;
+                    }
+                    else
+                    {
+                        x1 = X;
+                        y1 = Y + Height;
+                        x2 = X + Width;
+                        y2 = Y;
+                    }
                     break;
             }
             if (border.IsHeading)

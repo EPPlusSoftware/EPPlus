@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
@@ -56,9 +57,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
 
 
-        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell, MergedCellDrawInfo mergedCellInfo, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
+            //do text stuff
+            CellAlignmentData = cell.ContentAligmnet;
+            textFormats = cell.TextFormats;
 
         }
 

@@ -167,6 +167,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cellStyle.xfBottom = cell.Style.Border.Bottom;
                 cellStyle.xfLeft = cell.Style.Border.Left;
                 cellStyle.xfRight = cell.Style.Border.Right;
+                cellStyle.Diagonal= cell.Style.Border.Diagonal;
+                cellStyle.DiagonalUp = cell.Style.Border.DiagonalUp;
+                cellStyle.DiagonalDown = cell.Style.Border.DiagonalDown;
                 var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {

@@ -8,6 +8,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal class PdfCell
     {
+        public string Name { get; set; }
         public bool Hidden;
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;

@@ -49,18 +49,18 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     tempMap.ColumnWidth = hiddenCol ? 0d : width;
 
                     var cell = worksheet.Cells[row, col];
+                    tempMap.Name = cell.Address;
                     if (cell.Merge)
                     {
                         HandleMergedCell(cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
                     }
 
+                    var cellStyle = new PdfCellStyle();
+                    GetBorderStyles(cell, cellStyle, tempMap);
                     if (tempMap.Main == null)
                     {
-                        var cellStyle = new PdfCellStyle();
                         GetFillStyles(cell, cellStyle);
-                        GetBorderStyles(cell, cellStyle);
                         GetFontStyle(cell, cellStyle);
-                        tempMap.CellStyle = cellStyle;
 
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
                         if (!string.IsNullOrEmpty(cell.Text))
@@ -69,6 +69,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
                         }
                     }
+                    tempMap.CellStyle = cellStyle;
 
                     Map[row, col] = tempMap;
                     //if cell is hidden maybe we skip adding comment to comment collection.
@@ -124,6 +125,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 tempMap.Main = map[address._fromRow, address._fromCol];
             }
             tempMap.MergedAddress = address;
+            tempMap.Name = address.ToString();
             tempMap.Merged = true;
         }
 
@@ -188,7 +190,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             cellStyle.xfFill = cell.Style.Fill;
         }
 
-        private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle)
+        private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell)
         {
 
             /* Kika på varje del av border top bottom left right
@@ -204,7 +206,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 cellStyle.xfBottom = cell.Style.Border.Bottom;
                 cellStyle.xfLeft = cell.Style.Border.Left;
                 cellStyle.xfRight = cell.Style.Border.Right;
-                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                if (pcell.Main == null)
+                {
+                    cellStyle.Diagonal = cell.Style.Border.Diagonal;
+                    cellStyle.DiagonalUp = cell.Style.Border.DiagonalUp;
+                    cellStyle.DiagonalDown = cell.Style.Border.DiagonalDown;
+                }
+                else
+                {
+                    cellStyle.Diagonal = cell.Style.Border.Diagonal;
+                    cellStyle.DiagonalUp = false;
+                    cellStyle.DiagonalDown = false;
+                }
+                    var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {
                     var table = tables[0].Value;

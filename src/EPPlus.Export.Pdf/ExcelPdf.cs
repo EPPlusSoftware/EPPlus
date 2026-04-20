@@ -197,6 +197,7 @@ namespace EPPlus.Export.Pdf
             {
                 foreach (var cellPart in cell)
                 {
+                    contentStream.AddCommand($"% CELL : {cellPart.Name}");
                     switch (cellPart)
                     {
                         case PdfCellLayout layout:

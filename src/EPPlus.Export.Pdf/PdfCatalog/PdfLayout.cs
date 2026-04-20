@@ -2,13 +2,12 @@
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -81,42 +80,46 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         for (int col = pages[j].FromColumn; col <= pages[j].ToColumn; col++)
                         {
                             var map = pages[j].Map[row, col];
-
-
+                            MergedCellDrawInfo info = new MergedCellDrawInfo();
                             //  Fill
                             if (map.Merged)
                             {
                                 string key = map.MergedAddress.Address;
                                 if (!drawnMergedCells.Contains(key) &&
-                                    pages[j].MergedCells.TryGetValue(key, out var info))
+                                    pages[j].MergedCells.TryGetValue(key, out info))
                                 {
                                     var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
                                     var fill = new PdfCellLayout(dictionaries, cellStyle,
                                         info.X, info.Y, info.Width, info.Height);
+                                    fill.Name = map.Name;
                                     fill.UpdateShadingPositionMatrix(pageSettings);
                                     pageLayout.AddChild(fill);
                                     drawnMergedCells.Add(key);
                                 }
                             }
-                            else if (map.CellStyle != null)
+                            else
                             {
                                 var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, 15);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
+                                fill.Name = map.Name;
                                 pageLayout.AddChild(fill);
                             }
-
-
-                            //  Text
+                            //Text
                             if (map.TextFormats != null && map.TextFormats.Count > 0)
                             {
-                                var text = new PdfCellContentLayout(pageSettings, dictionaries,/*add textformats, textlayout*/ x, y, map.Width, 15);
+                                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.Width, 15);
+                                text.Name = map.Name;
+                                pageLayout.AddChild(text);
+                            }
+                            //Border
+                            if (HasBorder(map.CellStyle))
+                            {
+                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, info, x, y, map.ColumnWidth, 15);
+                                border.Name = map.Name;
+                                pageLayout.AddChild(border);
                             }
 
 
-
-
-
-                            //  Border
                             x += map.ColumnWidth;
                         }
                         y -= 15;
@@ -125,9 +128,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
 
                     //Add HeaderFooter
-
                     //  Uppdate page number texts and shape them
+
                     //Gridlines (calculate text spill here)
+
+
                     //Print titles
                     pageNumber++;
                     Catalog.AddChild(pageLayout);
@@ -136,6 +141,22 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return Catalog;
         }
 
+
+        private static bool HasBorder(PdfCellStyle cellStyle)
+        {
+            if(cellStyle == null) return false;
+            bool hasBorders =
+                cellStyle.xfTop.Style != ExcelBorderStyle.None ||
+                cellStyle.xfBottom.Style != ExcelBorderStyle.None ||
+                cellStyle.xfLeft.Style != ExcelBorderStyle.None ||
+                cellStyle.xfRight.Style != ExcelBorderStyle.None ||
+                (cellStyle.dxfTop?.HasValue ?? false) ||
+                (cellStyle.dxfBottom?.HasValue ?? false) ||
+                (cellStyle.dxfLeft?.HasValue ?? false) ||
+                (cellStyle.dxfRight?.HasValue ?? false) ||
+                (cellStyle.Diagonal != null && cellStyle.Diagonal.Style != ExcelBorderStyle.None);
+            return hasBorders;
+        }
 
         // TODO Count total pages when creating them isntead of looping them here.
         private static int GetTotalPages(List<Pages> pdfPages)

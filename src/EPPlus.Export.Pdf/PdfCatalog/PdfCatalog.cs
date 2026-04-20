@@ -93,18 +93,18 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             foreach (var range in pdfSheet.Ranges)
             {
-                for (int i = range.Map.FromRow; i < range.Map.ToRow; i++)
+                for (int i = range.Map.FromRow; i <= range.Map.ToRow; i++)
                 {
-                    for (int j = range.Map.FromColumn; j < range.Map.ToColumn; j++)
+                    for (int j = range.Map.FromColumn; j <= range.Map.ToColumn; j++)
                     {
                         var cell = range.Map[i, j];
                         PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
                     }
                 }
             }
-            for (int i = pdfSheet.CommentsAndNotes.Map.FromRow; i < pdfSheet.CommentsAndNotes.Map.ToRow; i++)
+            for (int i = pdfSheet.CommentsAndNotes.Map.FromRow; i <= pdfSheet.CommentsAndNotes.Map.ToRow; i++)
             {
-                for (int j = pdfSheet.CommentsAndNotes.Map.FromColumn; j < pdfSheet.CommentsAndNotes.Map.ToColumn; j++)
+                for (int j = pdfSheet.CommentsAndNotes.Map.FromColumn; j <= pdfSheet.CommentsAndNotes.Map.ToColumn; j++)
                 {
                     var cell = pdfSheet.CommentsAndNotes.Map[i, j];
                     PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
