@@ -48,7 +48,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (Position != null)
             {
-                positionStr = string.Format(transformTranslate, Position.Top.PointToPixelString(), Position.Left.PointToPixelString()) + " ";
+                positionStr = string.Format(transformTranslate, Position.Left.PointToPixelString(), Position.Top.PointToPixelString()) + " ";
             }
             
             return positionStr + rotationStr;
