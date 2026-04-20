@@ -389,7 +389,7 @@ namespace OfficeOpenXml.LoadFunctions
             var displayAttribute = member.GetFirstAttributeOfType<DisplayAttribute>();
             if (displayAttribute != null)
             {
-                return displayAttribute.Name;
+                return displayAttribute.GetName();
             }
 #endif
             return default;

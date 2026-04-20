@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     {       
         public override int ArgumentMinLength => 2;
         public override string NamespacePrefix => "_xlfn.";
-
+        public override bool IsAllowedAsLambdaWithMultipleArguments => true;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments.Count > 2)

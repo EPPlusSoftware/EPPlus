@@ -229,6 +229,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 key.Append(f._tokens[i].Value);
                             }
                         }
+                        else if(e.ExpressionType==ExpressionType.Variable || 
+                                e.ExpressionType==ExpressionType.LambdaVariableDeclaration ||
+                                e.ExpressionType == ExpressionType.LambdaCalculation ||
+                                e.ExpressionType == ExpressionType.LambdaInvoke)
+                        {
+                            return null;
+                        }
                         else
                         {
                             var fa = e.GetAddress();

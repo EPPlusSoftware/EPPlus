@@ -52,7 +52,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             {
                 sortOrder = entcAttr.Order;
             }
-            else if(member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr))
+            else if (member.HasAttributeOfType(out EpplusTableColumnAttribute etcAttr) && etcAttr.OrderIsSet)
             {
                 sortOrder = etcAttr.Order;
             }

@@ -34,6 +34,7 @@ namespace OfficeOpenXml.FormulaParsing
     {
         IsDynamic          = 1,
         IsAlwaysDynamic    = 2,
+        IsLambda           = 4,
     }
     internal class RpnFormula
     {
@@ -52,6 +53,9 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _arrayIndex = -1;
         internal FormulaFlags _flags = 0;
         internal FunctionExpression _currentFunction = null;
+        // saves the initial formula stack count when executing a lambda expression
+        // to avoid popping formulas pushed before the lambda expression was invoked.
+        internal int _lambdaFormulaStackCount = 0;
         private VariableStorageManager _variableStorage;
 
         public bool CanBeDynamicArray
@@ -59,6 +63,14 @@ namespace OfficeOpenXml.FormulaParsing
             get
             {
                 return _ws._flags.GetFlagValue(_row, _column, CellFlags.CanBeDynamicArray);
+            }
+        }
+
+        public bool IsLambda
+        {
+            get
+            {
+                return (_flags & FormulaFlags.IsLambda) == FormulaFlags.IsLambda;
             }
         }
 
@@ -130,6 +142,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int GetNumberOfLambdaVariables()
         {
             if (_lambdaSettings == null || _lambdaSettings.NumberOfLambdaVariables == null || _lambdaSettings.NumberOfLambdaVariables.Count == 0) return 0;
+            if (_lambdaSettings.CurrentLambdaExpressions.Peek().Expression.ArgumentCollectionStarted == false) return 0;
             return _lambdaSettings.NumberOfLambdaVariables.Peek();
         }
 

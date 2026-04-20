@@ -1127,6 +1127,22 @@ namespace OfficeOpenXml
             }
         }
 
+        private const string StrictSpreadsheetMainNamespace = "http://purl.oclc.org/ooxml/spreadsheetml/main";
+
+        // Call this when loading the workbook XML
+        private void ValidateWorkbookNamespace()
+        {
+            string defaultNamespace = _workbookXml.DocumentElement.NamespaceURI;
+            if (defaultNamespace == StrictSpreadsheetMainNamespace)
+            {
+                throw new NotSupportedException(
+                    "The workbook is saved in the \"Strict Open XML Spreadsheet\" format, " +
+                    "which is not supported by EPPlus. " +
+                    "Please re-save the workbook as a regular \"Excel Workbook (.xlsx)\" " +
+                    "in the Save As dialog and try again.");
+            }
+        }
+
 
         /// <summary>
         /// Create or read the XML for the workbook.
@@ -1134,7 +1150,10 @@ namespace OfficeOpenXml
         private void CreateWorkbookXml(XmlNamespaceManager namespaceManager)
         {
             if (_package.ZipPackage.PartExists(WorkbookUri))
+            {
                 _workbookXml = _package.GetXmlFromUri(WorkbookUri);
+                ValidateWorkbookNamespace();
+            }  
             else
             {
                 // create a new workbook part and add to the package

@@ -202,12 +202,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             formula.IgnoreCaching = true;
             formula.ExpressionStack = _formula.ExpressionStack;
             formula.FunctionStack = _formula.FunctionStack;
+            formula._flags = _formula._flags | FormulaFlags.IsLambda;
+            formula._lambdaFormulaStackCount = ctx.DependencyChain._formulaStack.Count;
             var rpnTokens = new RpnTokens { Tokens = _currentTokens, Scope = _scope };
             formula.SetTokens(rpnTokens, ctx, _scope);
             // SetTokens clears the variable storage...
             ctx.VariableStorage.Push(_scope);
             var chain = ctx.DependencyChain;
-            var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, false);
+            var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, true);
             return CompileResultFactory.CreateDynamicArrayResult(compileResult.Result, compileResult.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 

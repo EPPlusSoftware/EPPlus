@@ -13,10 +13,8 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -25,31 +23,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         EPPlusVersion = "7",
         Description = "Combines arrays vertically into a single array.",
         SupportsArrays = true)]
-    internal class Vstack : ExcelFunction
+    internal class Vstack : StackFunctionBase
     {
-        public override string NamespacePrefix => "_xlfn.";
-
-        public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var ranges = new List<IRangeInfo>();
-            foreach(var arg in arguments)
+            var ranges = GetRanges(arguments, out ExcelErrorValue err);
+            if (err != null)
             {
-                if(!arg.IsExcelRange)
-                {
-                    var rng = new InMemoryRange(1, 1);
-                    rng.SetValue(0, 0, arg.Value);
-                    ranges.Add(rng);
-                }
-                else
-                {
-                    var r = arg.ValueAsRangeInfo;
-                    if(r==null)
-                    {
-                        return CreateDynamicArrayResult(ErrorValues.ValueError, DataType.ExcelError);                            
-                    }
-                    ranges.Add(r);
-                }
+                return CreateDynamicArrayResult(err, DataType.ExcelError);
             }
             var nRows = ranges.Sum(x => x.Size.NumberOfRows);
             var nCols = ranges.Max(x => x.Size.NumberOfCols);

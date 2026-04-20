@@ -352,6 +352,46 @@ namespace EPPlusTest.Excel.Functions.Text
         }
 
         [TestMethod]
+        public void NumberValueDifferingFromCurrentCultureOrUsCultureShouldStillWork()
+        {
+            var currentCulture = CultureInfo.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            var input = $"1{"."}000{","}15";
+            var func = new NumberValue();
+
+            var args = FunctionsHelper.CreateArgs(input, ",",".");
+            var result2 = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1000.15d, result2.Result);
+            Thread.CurrentThread.CurrentCulture = currentCulture;
+        }
+
+        [TestMethod]
+        public void NumberValueInternalLogicCurrencyAndDoubleParse()
+        {
+            //This logic is used to make 
+            var cultureInfo = new CultureInfo("en-US", true);
+            cultureInfo.NumberFormat.NumberGroupSeparator = ".";
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
+
+            var input = $"1{"."}000{","}15";
+
+            //Using NumberStyles.Any will consider this as a currency and fail to parse
+            var successFirst = double.TryParse(input, NumberStyles.Any, cultureInfo, out double result);
+
+            Assert.IsFalse(successFirst);
+            Assert.AreNotEqual(1000.15, result);
+
+            cultureInfo.NumberFormat.CurrencyGroupSeparator = ".";
+            cultureInfo.NumberFormat.CurrencyDecimalSeparator = ",";
+
+            //Setting the currency causes it to work correctly
+            var successSecond = double.TryParse(input, NumberStyles.Any, cultureInfo, out double currencyResult);
+
+            Assert.IsTrue(successSecond);
+            Assert.AreEqual(1000.15, currencyResult);
+        }
+
+        [TestMethod]
         public void NumberValueShouldCastDecinalValueWithSeparators()
         {
             var input = $"1,000.15";

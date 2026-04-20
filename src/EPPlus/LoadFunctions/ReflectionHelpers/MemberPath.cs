@@ -114,7 +114,7 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
 #if !NET35
             else if (last.Member.HasAttributeOfType(out DisplayAttribute displayAttr))
             {
-                header = displayAttr.Name;
+                header = displayAttr.GetName();
             }
 #endif
             if (string.IsNullOrEmpty(header))
