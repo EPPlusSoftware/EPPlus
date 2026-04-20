@@ -9,7 +9,6 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class BarColumnChartTypeDrawer : ChartTypeDrawer
@@ -50,9 +49,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 ExcelChartAxisStandard.CalculateStacked100(valValues);
             }
-
+            var isBar = chartType.IsTypeBar();
             var count = Math.Min(catValues.Count, valValues.Count);
-            for (var i= 0; i < catValues.Count; i++)  
+            for (var i = 0; i < catValues.Count; i++)  
             {
                 var serie = (ExcelBarChartSerie)chartType.Series[i];
 
@@ -97,15 +96,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 valAx = xAxis;
             }
 
-
             var catValues = catSeries[position];
             var valValues = valSeries[position];
             
             var yWidth = (isColumn ? _svgChart.Plotarea.Rectangle.Width : _svgChart.Plotarea.Rectangle.Height);
 
             var slotSize = valValues.Count;
-            var gapPercent = chartType.GapWidth / 100D;     //Gap width between bars/columns in percent
-            var overlapPercent = chartType.Overlap / 100D;  //Overlap  between bars/columns in percent            
+            var gapPercent = chartType.GapWidth / 100D;     // Gap width between bars/columns in percent
+            var overlapPercent = chartType.Overlap / 100D;  // Overlap  between bars/columns in percent            
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
             var step = 1 - overlapPercent;
@@ -153,8 +151,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 else
                 {
-                    //var xPos = catAx.GetPositionInPlotarea(x, true) - halfGap - (position + 1) * barWidth * step;
-                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
                     rect.Top = xPos;
                     rect.Height = barWidth;
                 }
@@ -227,97 +224,97 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 RenderItems.Add(rect);
             }
         }
-        private void AddColumn(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> xSeries, List<List<object>> ySeries, List<BoundingBox> dataPoints, int seriesCount, int position)
-        {
-            SvgChartAxis yAxis, xAxis;
-            GetAxis(chartType, out yAxis, out xAxis);
+        //private void AddColumn(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> xSeries, List<List<object>> ySeries, List<BoundingBox> dataPoints, int seriesCount, int position)
+        //{
+        //    SvgChartAxis yAxis, xAxis;
+        //    GetAxis(chartType, out yAxis, out xAxis);
 
-            var xValues = xSeries[position];
-            var yValues = ySeries[position];
+        //    var xValues = xSeries[position];
+        //    var yValues = ySeries[position];
 
-            var slotSize = yValues.Count;
-            var gapPercent = chartType.GapWidth / 100D;     //Gap width between bars/columns in percent
-            var overlapPercent = chartType.Overlap / 100D;  //Overlap  between bars/columns in percent
-            var slotWidth = _svgChart.Plotarea.Rectangle.Width / slotSize;
-            var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
-            var step = 1 - overlapPercent;
-            double barWidth;
-            barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
-            var halfGap = (barWidth * gapPercent) / 2;
+        //    var slotSize = yValues.Count;
+        //    var gapPercent = chartType.GapWidth / 100D;     //Gap width between bars/columns in percent
+        //    var overlapPercent = chartType.Overlap / 100D;  //Overlap  between bars/columns in percent
+        //    var slotWidth = _svgChart.Plotarea.Rectangle.Width / slotSize;
+        //    var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
+        //    var step = 1 - overlapPercent;
+        //    double barWidth;
+        //    barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
+        //    var halfGap = (barWidth * gapPercent) / 2;
 
-            double yAxisStart;
+        //    double yAxisStart;
 
-            if (yAxis.Axis.Crosses == eCrosses.AutoZero)
-            {
-                yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min <= 0 ? 0D : yAxis.Min, true);
-            }
-            else if (yAxis.Axis.Crosses == eCrosses.Min)
-            {
-                yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min, true);
-            }
-            else
-            {
-                yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Max, true);
-            }
+        //    if (yAxis.Axis.Crosses == eCrosses.AutoZero)
+        //    {
+        //        yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min <= 0 ? 0D : yAxis.Min, true);
+        //    }
+        //    else if (yAxis.Axis.Crosses == eCrosses.Min)
+        //    {
+        //        yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Min, true);
+        //    }
+        //    else
+        //    {
+        //        yAxisStart = yAxis.GetPositionInPlotarea(yAxis.Max, true);
+        //    }
 
-            var isStacked = chartType.IsTypeStacked();
-            var isStacked100 = chartType.IsTypePercentStacked();
-            for (var i = 0; i < yValues.Count; i++)
-            {
-                double x;
-                if (xValues == null || xAxis.Axis.AxisType == eAxisType.Cat)
-                {
-                    x = (double)i;
-                }
-                else
-                {
-                    x = ConvertUtil.GetValueDouble(xValues[i], false, true);
-                }
+        //    var isStacked = chartType.IsTypeStacked();
+        //    var isStacked100 = chartType.IsTypePercentStacked();
+        //    for (var i = 0; i < yValues.Count; i++)
+        //    {
+        //        double x;
+        //        if (xValues == null || xAxis.Axis.AxisType == eAxisType.Cat)
+        //        {
+        //            x = (double)i;
+        //        }
+        //        else
+        //        {
+        //            x = ConvertUtil.GetValueDouble(xValues[i], false, true);
+        //        }
 
-                var y = ConvertUtil.GetValueDouble(yValues[i], false, true);
+        //        var y = ConvertUtil.GetValueDouble(yValues[i], false, true);
 
-                var xPos = xAxis.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
-                var yPos = yAxis.GetPositionInPlotarea(y);
+        //        var xPos = xAxis.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+        //        var yPos = yAxis.GetPositionInPlotarea(y);
 
-                var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-                rect.Left = xPos;
-                rect.Width = barWidth;
-                if (position > 0 && (isStacked || isStacked100))
-                {
-                    //Stacked
-                    var pYValues = ySeries[position - 1];
-                    var pAxisEnd = ConvertUtil.GetValueDouble(pYValues[i]);
-                    var yPrevPos = yAxis.GetPositionInPlotarea(pAxisEnd, false);
-                    if (y < 0)
-                    {
-                        rect.Top = yPrevPos;
-                        rect.Height = yPos - yPrevPos;
-                    }
-                    else
-                    {
-                        rect.Top = yPos;
-                        rect.Height = yPrevPos - yPos;
-                    }
-                }
-                else
-                {
-                    if (y < 0)
-                    {
-                        rect.Top = yAxisStart;
-                        rect.Height = yPos - yAxisStart;
-                    }
-                    else
-                    {
-                        rect.Top = yPos;
-                        rect.Height = yAxisStart - yPos;
-                    }
-                }
-                rect.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
-                rect.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
-                rect.SetDrawingPropertiesEffects(serie.Effect);
-                RenderItems.Add(rect);
-            }
-        }
+        //        var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+        //        rect.Left = xPos;
+        //        rect.Width = barWidth;
+        //        if (position > 0 && (isStacked || isStacked100))
+        //        {
+        //            //Stacked
+        //            var pYValues = ySeries[position - 1];
+        //            var pAxisEnd = ConvertUtil.GetValueDouble(pYValues[i]);
+        //            var yPrevPos = yAxis.GetPositionInPlotarea(pAxisEnd, false);
+        //            if (y < 0)
+        //            {
+        //                rect.Top = yPrevPos;
+        //                rect.Height = yPos - yPrevPos;
+        //            }
+        //            else
+        //            {
+        //                rect.Top = yPos;
+        //                rect.Height = yPrevPos - yPos;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (y < 0)
+        //            {
+        //                rect.Top = yAxisStart;
+        //                rect.Height = yPos - yAxisStart;
+        //            }
+        //            else
+        //            {
+        //                rect.Top = yPos;
+        //                rect.Height = yAxisStart - yPos;
+        //            }
+        //        }
+        //        rect.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
+        //        rect.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
+        //        rect.SetDrawingPropertiesEffects(serie.Effect);
+        //        RenderItems.Add(rect);
+        //    }
+        //}
 
         private void GetAxis(ExcelBarChart chartType, out SvgChartAxis yAxis, out SvgChartAxis xAxis)
         {
@@ -337,5 +334,4 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
     }
-
 }

@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -241,8 +242,20 @@ namespace EPPlusImageRenderer.Svg
             var pos = Chart.Legend.Position;
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
-                foreach (var s in ct.Series)
+                int ix, end;
+                if(ct.IsTypeBar())
                 {
+                    ix = ct.Series.Count-1;
+                    end = -1;
+                }
+                else
+                {
+                    ix = 0;
+                    end = ct.Series.Count;
+                }
+                while(ix != end)
+                {
+                    var s = ct.Series[ix];
                     var sls = new SvgLegendSerie();
                     switch (ct.ChartType)
                     {
@@ -266,7 +279,7 @@ namespace EPPlusImageRenderer.Svg
                             break;
                     }
                     if (sc.Chart.Legend.Position == eLegendPosition.Top ||
-                       sc.Chart.Legend.Position == eLegendPosition.Bottom)
+                        sc.Chart.Legend.Position == eLegendPosition.Bottom)
                     {
                         //if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
                         //{
@@ -283,6 +296,14 @@ namespace EPPlusImageRenderer.Svg
                     SeriesIcon.Add(sls);
                     pSls = sls;
                     index++;
+                    if(ix<end)
+                    {
+                        ix++;
+                    }
+                    else 
+                    {
+                        ix--;
+                    }
                 }
             }
         }
@@ -347,7 +368,7 @@ namespace EPPlusImageRenderer.Svg
             sls.SeriesIcon = si;
 
             var tbLeft = si.Right + MarginExtra;
-            var tbTop = si.Top - (tm.Height - si.Height) / 2; 
+            var tbTop = si.Top - (entryHeight - si.Height) / 2; 
             double tbWidth;
 
             tbWidth = Bounds.Width - tbLeft - RightMargin;
@@ -431,7 +452,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 if (pSls == null)
                 {
-                    y = Rectangle.Top + TopMargin + entryHeight / 2;
+                    y = Rectangle.Top + TopMargin;
                 }
                 else
                 {
