@@ -69,8 +69,100 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["D3"].Value = 75461;
                 s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3, _xleta.SUM)";
                 s.Calculate();
+
+                // Rubrikrad 1 (år)
+                Assert.AreEqual(2025, s.Cells["F1"].Value);
+                Assert.AreEqual(2026, s.Cells["G1"].Value);
+                Assert.AreEqual(2026, s.Cells["H1"].Value);
+                Assert.AreEqual("Total", s.Cells["I1"].Value);
+
+                // Rubrikrad 2 (kvartal)
+                Assert.AreEqual("Q2", s.Cells["F2"].Value);
+                Assert.AreEqual("Q1", s.Cells["G2"].Value);
+                Assert.AreEqual("Q2", s.Cells["H2"].Value);
+
+                // Linköping
+                Assert.AreEqual("Linköping", s.Cells["E3"].Value);
+                Assert.AreEqual(43265d, s.Cells["G3"].Value);
+                Assert.AreEqual(43265d, s.Cells["I3"].Value);
+
+                // Örebro
+                Assert.AreEqual("Örebro", s.Cells["E4"].Value);
+                Assert.AreEqual(75461d, s.Cells["F4"].Value);
+                Assert.AreEqual(75461d, s.Cells["I4"].Value);
+
+                // Stockholm
+                Assert.AreEqual("Stockholm", s.Cells["E5"].Value);
+                Assert.AreEqual(34543d, s.Cells["H5"].Value);
+                Assert.AreEqual(34543d, s.Cells["I5"].Value);
+
+                // Total-rad
+                Assert.AreEqual("Total", s.Cells["E6"].Value);
+                Assert.AreEqual(75461d, s.Cells["F6"].Value);
+                Assert.AreEqual(43265d, s.Cells["G6"].Value);
+                Assert.AreEqual(34543d, s.Cells["H6"].Value);
+                Assert.AreEqual(153269d, s.Cells["I6"].Value);
             }
         }
+
+        [TestMethod]
+        public void PivotBySortOrder()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "B";
+                s.Cells["A5"].Value = "C";
+                s.Cells["A6"].Value = "C";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["B4"].Value = "Y";
+                s.Cells["B5"].Value = "X";
+                s.Cells["B6"].Value = "Y";
+                s.Cells["C1"].Value = 2;
+                s.Cells["C2"].Value = 4;
+                s.Cells["C3"].Value = 1;
+                s.Cells["C4"].Value = 5;
+                s.Cells["C5"].Value = 7;
+                s.Cells["C6"].Value = 4;
+                s.Cells["D1"].Formula = "PIVOTBY(A1:A6,B1:B6,C1:C6,_xleta.SUM,,,-1,,-1)";
+                s.Calculate();
+
+                Assert.AreEqual("Y", s.Cells["E1"].Value);
+                Assert.AreEqual("X", s.Cells["F1"].Value);
+                Assert.AreEqual("Total", s.Cells["G1"].Value);
+
+                // C
+                Assert.AreEqual("C", s.Cells["D2"].Value);
+                Assert.AreEqual(4d, s.Cells["E2"].Value);
+                Assert.AreEqual(7d, s.Cells["F2"].Value);
+                Assert.AreEqual(11d, s.Cells["G2"].Value);
+
+                // B
+                Assert.AreEqual("B", s.Cells["D3"].Value);
+                Assert.AreEqual(5d, s.Cells["E3"].Value);
+                Assert.AreEqual(1d, s.Cells["F3"].Value);
+                Assert.AreEqual(6d, s.Cells["G3"].Value);
+
+                // A
+                Assert.AreEqual("A", s.Cells["D4"].Value);
+                Assert.AreEqual(4d, s.Cells["E4"].Value);
+                Assert.AreEqual(2d, s.Cells["F4"].Value);
+                Assert.AreEqual(6d, s.Cells["G4"].Value);
+
+                // Total
+                Assert.AreEqual("Total", s.Cells["D5"].Value);
+                Assert.AreEqual(13d, s.Cells["E5"].Value);
+                Assert.AreEqual(10d, s.Cells["F5"].Value);
+                Assert.AreEqual(23d, s.Cells["G5"].Value);
+            }
+        }
+
+        [TestMethod]
 
     }
 }
