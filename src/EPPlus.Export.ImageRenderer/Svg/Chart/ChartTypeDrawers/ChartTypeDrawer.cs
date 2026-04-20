@@ -5,6 +5,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -41,24 +42,68 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     return null;
                 }
                 var address = new ExcelAddressBase(serieAddress);
-                var wsName = address.WorkSheetName;
-                if (string.IsNullOrEmpty(wsName))
+                if(address.IsExternal )
                 {
-                    wsName = Chart.WorkSheet.Name;
-                }
-                if (Chart.WorkSheet.Workbook.Worksheets[wsName] != null)
-                {
-                    for (int r = address.Start.Row; r <= address.End.Row; r++)
+                    var wb = Chart.WorkSheet.Workbook;
+                    var extWb = wb.ExternalLinks[address.ExternalReferenceIndex-1] as ExcelExternalWorkbook;
+                    if(extWb!=null)
                     {
-                        for (int c = address.Start.Column; c <= address.End.Column; c++)
+                        var wsName = address.WorkSheetName;
+                        if (extWb.Package==null)
                         {
-                            values.Add(Chart.WorkSheet.Workbook.Worksheets[wsName].Cells[r, c].Value);
+                            var extWs = extWb.CachedWorksheets[wsName];
+                            FillExternalValues(extWs, address, ref values);
+                        }
+                        else
+                        {
+                            var ws = extWb.Package.Workbook.Worksheets[wsName];
+                            FillInternalValues(ws, address, ref values);
                         }
                     }
+                }
+                else
+                {
+                    var wsName = address.WorkSheetName;
+                    if (string.IsNullOrEmpty(wsName))
+                    {
+                        wsName = Chart.WorkSheet.Name;
+                    }
+                    var ws = Chart.WorkSheet.Workbook.Worksheets[wsName];
+                   FillInternalValues(ws, address, ref values);
                 }
             }
             return values; 
         }
+
+        protected void FillExternalValues(ExcelExternalWorksheet extWs, ExcelAddressBase address, ref List<object> values)
+        {
+            if (extWs != null)
+            {
+                for (int r = address.Start.Row; r <= address.End.Row; r++)
+                {
+                    for (int c = address.Start.Column; c <= address.End.Column; c++)
+                    {
+                        values.Add(extWs.CellValues[r, c].Value);
+                    }
+                }
+            }
+        }
+
+        private void FillInternalValues(ExcelWorksheet ws, ExcelAddressBase address, ref List<object> values)
+        {
+
+            if (ws != null)
+            {
+                for (int r = address.Start.Row; r <= address.End.Row; r++)
+                {
+                    for (int c = address.Start.Column; c <= address.End.Column; c++)
+                    {
+                        values.Add(ws.Cells[r, c].Value);
+                    }
+                }
+            }
+        }
+
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         internal static List<ChartTypeDrawer> Create(SvgChart svgChart)
         {
