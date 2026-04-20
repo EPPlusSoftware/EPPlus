@@ -48,6 +48,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             {
                 var origValue = valValues[i];
                 var dValue = ConvertUtil.GetValueDouble(origValue, false, true);
+                if(double.IsNaN(dValue))
+                {
+                    //Ignore values that are NAN. Possibly we should throw here but Excel simply seems to skip it.
+                    continue;
+                }
                 valValuesDoubles.Add(dValue);
                 valTotal += valValuesDoubles[i];
             }
