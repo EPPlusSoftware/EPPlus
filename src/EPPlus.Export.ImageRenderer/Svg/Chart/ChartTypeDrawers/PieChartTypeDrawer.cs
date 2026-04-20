@@ -153,7 +153,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X, startPoint.Y);
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, circleSectorAngle[position] > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / w, endCoordOffsetFromCenterOfCircle[position].Y / h });
+            var individualAngle = valPercent[position] * 360d;
+
+            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, individualAngle > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / w, endCoordOffsetFromCenterOfCircle[position].Y / h });
 
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);

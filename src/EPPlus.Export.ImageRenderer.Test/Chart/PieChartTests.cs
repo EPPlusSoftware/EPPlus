@@ -27,5 +27,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+        [TestMethod]
+        public void GenerateSvgForPieChartManySlices()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartManySlices.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PieChartManySlices{ix++}.svg", svg);
+                }
+            }
+        }
     }
 }
