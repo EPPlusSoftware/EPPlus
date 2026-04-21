@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                var ix = 1;
+                var ix = 6;
                 var c = ws.Drawings[ix];
                 var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);

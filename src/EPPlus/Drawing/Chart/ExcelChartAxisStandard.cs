@@ -13,6 +13,7 @@
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
@@ -348,6 +349,25 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     SetXmlNodeString(_crossesAtPath, ((double)value).ToString(CultureInfo.InvariantCulture));
                 }
+            }
+        }
+        ExcelChartAxisStandard _crossingAxis=null;
+        /// <summary>
+        /// The crossing axis for this axis. For a value axis, this is the category axis and for a category axis this is the value axis.
+        /// </summary>
+        internal ExcelChartAxisStandard CrossingAxis
+        {
+            get
+            {
+                if (_crossingAxis == null)
+                {
+                    var cAxId = GetXmlNodeString("c:crossAx/@val");
+                    if(string.IsNullOrEmpty(cAxId)==false)
+                    {
+                        _crossingAxis = _chart.Axis.Where(x => x.Id == cAxId).FirstOrDefault() as ExcelChartAxisStandard;
+                    }
+                }
+                return _crossingAxis;
             }
         }
         /// <summary>

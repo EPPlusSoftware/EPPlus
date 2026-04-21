@@ -69,43 +69,43 @@ namespace EPPlusImageRenderer.Svg
         {
             var rightAxis = GetAxisByPosition(sc, eAxisPosition.Right);
             var lp = sc.Chart.Legend?.Position;
-            var left = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ?
+            var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ?
                         sc.Legend.Bounds.GlobalLeft - RightMargin :
                         sc.ChartArea.Rectangle.Width - RightMargin);
 
 
-            double rightWidth;
+            double rightAxisWidth;
             if (rightAxis == null)
             {
-                rightWidth =  0;
+                rightAxisWidth =  0;
             }
             else
             {
-                rightWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
+                rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
                                
-                //return left - rightWidth - rect.GlobalLeft;
+                //return right - rightAxisWidth - rect.GlobalLeft;
             }
 
-            var width = left - rightWidth;
+            var width = right - rightAxisWidth - rect.GlobalLeft;
             //Reserve space for the last label that will be on the tick label instead of Middle of the category.
-            if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            if (sc.HorizontalAxis != null && sc.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
             {
                 var minusPA = width / sc.HorizontalAxis.AxisValues.Count / 2;
-                if (minusPA > rightWidth)
+                if (minusPA > rightAxisWidth)
                 {
-                    rightWidth = minusPA;
+                    rightAxisWidth = minusPA;
                 }
             }
-            if (sc.SecondHorizontalAxis != null && sc.SecondHorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            if (sc.SecondHorizontalAxis != null && sc.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
             {
                 var minusSA = width / sc.SecondHorizontalAxis.AxisValues.Count / 2;
-                if (minusSA > rightWidth)
+                if (minusSA > rightAxisWidth)
                 {
-                    rightWidth = minusSA;
+                    rightAxisWidth = minusSA;
                 }
             }
 
-            return left - rightWidth-rect.GlobalLeft;
+            return right - rightAxisWidth-rect.GlobalLeft;
         }
         private double GetPlotAreaLeft(SvgChart sc)
         {
