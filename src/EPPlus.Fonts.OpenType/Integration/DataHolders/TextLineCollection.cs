@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
+    [DebuggerDisplay("Lines = {Lines}")]
     public class TextLineCollection : List<TextLineSimple>, IEnumerable<TextLineSimple>
     {
 
@@ -37,6 +39,15 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         List<TextFragment> _originalFragments;
 
+        /// <summary>
+        /// The id of the orginal fragment may correspond to 
+        /// multiple lines with multiple different richtext fragments
+        /// So. fragIdLookup[fragId] returns dictionary of lines that contains the fragment
+        /// fragIdLookup[fragId][lineNum] returns list of output fragments that contain the font
+        /// fragIdLookup[fragId][lineNum][0] returns first richtextfragment within the line that contains the font.
+        /// </summary>
+        Dictionary<int, Dictionary<int, List<int>>> fragIdLookup = new Dictionary<int, Dictionary<int, List<int>>>();
+
         internal MeasurementFont GetFont(int fragIdx)
         {
             return _originalFragments[fragIdx].Font;
@@ -46,40 +57,17 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             _originalFragments = originalFragments;
 
-            //foreach (var line in lines)
-            //{
-            //    foreach (var lf in line.LineFragments)
-            //    {
-            //        var text = line.GetLineFragmentText(lf);
-            //        smallestTextFragments.Add(text);
-            //    }
-            //}
+            for(int i = 0; i < originalFragments.Count; i++)
+            {
+                fragIdLookup.Add(i, new Dictionary<int, List<int>>());
+            }
 
             for(int i = 0; i < lines.Count; i++)
             {
                 int lineNum = i;
-                Lines.Add(new TextLineVizualizer(this, lines[i], i));
-                //foreach (var lf in _lines[i].LineFragments)
-                //{
-                //    var text = _lines[i].GetLineFragmentText(lf);
-                //    var font = fonts[lf.RtFragIdx];
-                //    var details = _lines[i].LineFragments;
-                //    //smallestTextFragments.Add(text);
-                //}
-            }
 
-            //foreach (var line in _lines)
-            //{
-            //    //TextLineVizualizer visualizer = ne
-            //    foreach (var lf in line.LineFragments)
-            //    {
-            //        var text = line.GetLineFragmentText(lf);
-            //        var font = fonts[lf.RtFragIdx];
-            //        int lineNum 
-            //        //smallestTextFragments.Add(text);
-            //    }
-            //    //Lines.Add(new TextLineVizualizer(line));
-            //}
+                Lines.Add(new TextLineVizualizer(this, lines[i], i, ref fragIdLookup));
+            }
         }
 
         IEnumerator<TextLineSimple> IEnumerable<TextLineSimple>.GetEnumerator()
