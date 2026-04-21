@@ -37,8 +37,9 @@ namespace EPPlusImageRenderer.Svg
         
         List<TextMeasurement> _seriesHeadersMeasure = new List<TextMeasurement>();
         ITextMeasurer _ttMeasurer;
-        const float MarginExtra = 1.5f;
-        const float MiddleMargin = 7.5f;
+        const float MarginIconText = 1.5f;
+        const float MarginItemsWidth = 3f;
+        const float MarginHeight = 7.5f;
         const float LineLength = 21;
         const float MinBarLength = 4;
         double _maxWidth, _maxHeight;
@@ -137,15 +138,15 @@ namespace EPPlusImageRenderer.Svg
                     index++;
                 }
             }
-            var maxIconLenth = GetMaxIconLenght(sc.Chart, highest);
-            entryWidth = maxIconLenth + MarginExtra + widest;
+            var maxIconLength = GetMaxIconLenght(sc.Chart, highest);
+            entryWidth = maxIconLength + MarginIconText + widest;
             entryHeight = highest;
             //hight += BottomMargin;     //remove last margin and add bottom margin
             switch (l.Position)
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    var fullLength = LeftMargin + entryWidth * index + MarginExtra * (index - 1) + RightMargin;
+                    var fullLength = LeftMargin + entryWidth * index + MarginItemsWidth * (index - 1) + RightMargin;
                     if(fullLength > _maxWidth)
                     {
                         var height = entryHeight*0.25;
@@ -165,7 +166,7 @@ namespace EPPlusImageRenderer.Svg
                             }
                             else
                             {
-                                width += entryWidth + MarginExtra;
+                                width += entryWidth + MarginItemsWidth;
                             }
                         }
 
@@ -181,7 +182,7 @@ namespace EPPlusImageRenderer.Svg
                     rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = sc.Title.Rectangle.Bottom + MiddleMargin;
+                        rect.Top = sc.Title.Rectangle.Bottom + MarginHeight;
                     }
                     else 
                     {
@@ -192,7 +193,7 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.TopRight:
                 case eLegendPosition.Left:
                     rect.Width = LeftMargin + entryWidth + RightMargin; 
-                    rect.Height = (entryHeight * index) + ((index - 1) * MarginExtra) + entryHeight;
+                    rect.Height = (entryHeight * index) + ((index - 1) * MarginItemsWidth) + entryHeight;
 
                     if (rect.Height > _maxHeight)
                     {
@@ -330,7 +331,7 @@ namespace EPPlusImageRenderer.Svg
             var si = GetLineSeriesIcon(sc, ct, ls, pSls, entryWidth, entryHeight);
             sls.SeriesIcon = si;
 
-            var tbLeft = si.X1 + maxIconLength + MarginExtra;
+            var tbLeft = si.X1 + maxIconLength + MarginIconText;
             var tbTop = si.Y2 - entryHeight * 0.5;    //TODO:Should probably be font ascent 
             double tbWidth;
             if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
@@ -382,7 +383,7 @@ namespace EPPlusImageRenderer.Svg
             var si = GetBarSeriesIcon(sc, ct, bs, pSls, entryWidth, entryHeight);
             sls.SeriesIcon = si;
 
-            var tbLeft = si.Left + maxIconLength + MarginExtra;
+            var tbLeft = si.Left + maxIconLength + MarginIconText;
             var tbTop = si.Top - (entryHeight - si.Height) / 2; 
             double tbWidth;
 
@@ -390,7 +391,7 @@ namespace EPPlusImageRenderer.Svg
 
             var tbHeight = tm.Height;
             sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
-            //sls.Textbox.Bounds.Left = si.Bottom + MarginExtra;
+            //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
             var headerText = s.GetHeaderText(index);
@@ -463,7 +464,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        x = iconLeft + entryWidth + MarginExtra;
+                        x = iconLeft + entryWidth + MarginItemsWidth;
                     }
                 }
                 if (pSls == null)
