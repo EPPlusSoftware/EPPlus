@@ -63,8 +63,44 @@ namespace EPPlus.Export.Pdf.PdfLayout
             //do text stuff
             CellAlignmentData = cell.ContentAligmnet;
             textFormats = cell.TextFormats;
-
+            TextLayoutEngine = cell.TextLayoutEngine;
+            var textFragments = GetTextFragments(TextFormats);
+            var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
         }
+
+        private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)
+        {
+            var fragments = new List<TextFragment>(textFormats.Count);
+
+            foreach (var tf in textFormats)
+            {
+                var fragment = new TextFragment
+                {
+                    Text = tf.Text,
+                    Font = new MeasurementFont
+                    {
+                        FontFamily = tf.FontName,
+                        Size = (float)tf.FontSize,
+                        Style = GetMeasurementFontStyle(tf)
+                    }
+                };
+                fragments.Add(fragment);
+            }
+
+            return fragments;
+        }
+
+        private static MeasurementFontStyles GetMeasurementFontStyle(PdfTextFormat tf)
+        {
+            var style = (tf.Bold ? MeasurementFontStyles.Bold : 0)
+                      | (tf.Italic ? MeasurementFontStyles.Italic : 0)
+                      | (tf.Strike ? MeasurementFontStyles.Strikeout : 0)
+                      | (tf.Underline ? MeasurementFontStyles.Underline : 0);
+
+            return style == 0 ? MeasurementFontStyles.Regular : (MeasurementFontStyles)style;
+        }
+
+
 
 
         public PdfCellContentLayout(ExcelRangeBase cell, PdfCellStyle CellStyle, PdfPageSettings pageSettings, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null, PdfDictionaries dictionaries = null)
