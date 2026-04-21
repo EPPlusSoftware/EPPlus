@@ -22,7 +22,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal double Top
+        public double Top
         {
             get { return LocalPosition.Y; }
             set
@@ -45,7 +45,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal double Left
+        public double Left
         {
             get { return LocalPosition.X; }
             set
@@ -87,7 +87,7 @@ namespace EPPlus.Graphics
                 return LocalPosition.X + Size.X;
             }
         }
-        internal virtual double Width
+        public virtual double Width
         {
             get
             {
@@ -99,7 +99,7 @@ namespace EPPlus.Graphics
             }
         }
 
-        internal virtual double Height
+        public virtual double Height
         {
             get
             {
@@ -142,5 +142,14 @@ namespace EPPlus.Graphics
         //Gets global position x and y
         internal double GlobalX { get { return Position.X; } }
         internal double GlobalY { get { return Position.Y; } }
+
+        public void SetLeft(double x)
+        {
+            Left = x;
+        }
+        public double GetLeft()
+        {
+            return Left;
+        }
     }
 }
