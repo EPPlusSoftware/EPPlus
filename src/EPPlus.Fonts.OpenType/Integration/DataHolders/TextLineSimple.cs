@@ -1,11 +1,14 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
+    [DebuggerTypeProxy(typeof(TextLineSimpleVizualizer))]
     public class TextLineSimple
     {
         public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
@@ -43,9 +46,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var trailingSpaceCount = 0;
 
-            for(int i = Text.Count()-1; i > 0; i--)
+            for (int i = Text.Count() - 1; i > 0; i--)
             {
-                if(Text[i] != ' ')
+                if (Text[i] != ' ')
                 {
                     break;
                 }
@@ -53,7 +56,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 trailingSpaceCount++;
             }
 
-            if(WasWrappedOnSpace)
+            if (WasWrappedOnSpace)
             {
                 trailingSpaceCount++;
             }
@@ -68,7 +71,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public TextLineSimple(string text, double largestFontSize, double largestAscent, double largestDescent)
         {
-            Text = text;
+            LineFragments = new LineFragmentCollection(text);
             LargestFontSize = largestFontSize;
             LargestAscent = largestAscent;
             LargestDescent = largestDescent;
@@ -109,6 +112,49 @@ namespace EPPlus.Fonts.OpenType.Integration
             origLf.Width = widthAtSplit;
 
             return newLineFragment;
+        }
+    }
+
+    internal class TextLineSimpleVizualizer
+    {
+        public List<string> Display
+        {
+
+            get 
+            { 
+                List<int> startIndices = new List<int>();
+                List<string> lines = new List<string>();
+                
+                foreach(var fragment in _content.LineFragments )
+                {
+                    //startIndices.Add(fragment.StartIdx);
+                    lines.Add(_content.GetLineFragmentText(fragment)+$"   rtIdx:{fragment.RtFragIdx}");
+                }
+
+                //startIndices.Add(_content.Text.Length -1);
+
+                //List<string> lines = new List<string>();
+               
+
+                //for (int i = 0; i < startIndices.Count -1; i++)
+                //{
+                //    var startidx = startIndices[i + 1]+1;
+                //    var length = startidx - startIndices[i];
+                //    var substring = _content.Text.Substring(startIndices[i], length);
+                //    lines.Add(substring);
+                //}
+
+
+
+                return lines; 
+            }
+        }
+
+        private TextLineSimple _content;
+
+        public TextLineSimpleVizualizer(TextLineSimple content)
+        {
+            _content = content;
         }
     }
 }

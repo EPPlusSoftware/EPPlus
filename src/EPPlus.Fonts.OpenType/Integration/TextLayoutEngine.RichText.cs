@@ -132,6 +132,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                 _lineListBuffer.Add(string.Empty);
             }
 
+
+
             return state.Lines;
         }
 
