@@ -78,8 +78,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 fd.FontIdMap = fontIdMap;
                 fd.UsedFonts = usedFonts;
                 Cell.TextFormats[i] = fd;
-                shaper.ResetFontTracking();
             }
+            Cell.TotalTextLength = totalTextLength;
             //if (Cell.ContentAligmnet.WrapText)
             //{
             //    var textFragments = GetTextFragments(Cell.TextFormats);

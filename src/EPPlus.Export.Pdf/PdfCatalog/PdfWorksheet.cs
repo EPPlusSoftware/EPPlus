@@ -1,5 +1,6 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -49,14 +50,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public static double GetThemeFont0Width(ExcelWorksheet ws)
         {
-            FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
-            MeasurementFont font = new MeasurementFont();
             var ns = ws.Workbook.Styles.GetNormalStyle();
-            font.FontFamily = ns.Style.Font.Name;
-            font.Size = ns.Style.Font.Size;
-            font.Style = MeasurementFontStyles.Regular;
-            var result = fontMeasurerTrueType.MeasureText("0", font);
-            return result.Width;
+            TextShaper shaper = OpenTypeFonts.GetTextShaper(ns.Style.Font.Name, FontSubFamily.Regular);
+            var shapedText = shaper.ShapeLight("0");
+            return shapedText.GetWidthInPoints(ns.Style.Font.Size);
         }
     }
 }

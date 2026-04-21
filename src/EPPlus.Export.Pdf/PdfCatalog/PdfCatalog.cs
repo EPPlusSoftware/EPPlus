@@ -14,6 +14,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         private bool AddTextForHeadings = true;
 
         //Constructors
+        public PdfCatalog() { }
+
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
             HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray());
@@ -79,6 +81,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
         }
 
+        public PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
+        {
+            PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
+            ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+            return pdfSheet.Ranges[0].Map;
+        }
+
         //Private Methods
         //Create Layout Methods
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
@@ -102,17 +111,23 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
                 }
             }
-            for (int i = pdfSheet.CommentsAndNotes.Map.FromRow; i <= pdfSheet.CommentsAndNotes.Map.ToRow; i++)
+            if (pdfSheet.CommentsAndNotes.Map != null)
             {
-                for (int j = pdfSheet.CommentsAndNotes.Map.FromColumn; j <= pdfSheet.CommentsAndNotes.Map.ToColumn; j++)
+                for (int i = pdfSheet.CommentsAndNotes.Map.FromRow; i <= pdfSheet.CommentsAndNotes.Map.ToRow; i++)
                 {
-                    var cell = pdfSheet.CommentsAndNotes.Map[i, j];
-                    PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
+                    for (int j = pdfSheet.CommentsAndNotes.Map.FromColumn; j <= pdfSheet.CommentsAndNotes.Map.ToColumn; j++)
+                    {
+                        var cell = pdfSheet.CommentsAndNotes.Map[i, j];
+                        PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
+                    }
                 }
             }
-            foreach (var hf in pdfSheet.HeaderFooters.PdfHeaderFooterEntries)
+            if (pdfSheet.HeaderFooters != null)
             {
-                PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, hf.Content);
+                foreach (var hf in pdfSheet.HeaderFooters.PdfHeaderFooterEntries)
+                {
+                    PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, hf.Content);
+                }
             }
         }
 
@@ -146,10 +161,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             PdfWorksheet pdfSheet = new PdfWorksheet();
             pdfSheet.Ranges = new List<PdfRange>();
             pdfSheet.Worksheet = excelRange.Worksheet;
-            pdfSheet.Ranges.Add(new PdfRange(excelRange, true));
+            pdfSheet.Ranges.Add(new PdfRange(excelRange, false));
             if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
-            GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+            pdfSheet.Ranges[0] = GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             return pdfSheet;
         }

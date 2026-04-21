@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
+using EPPlus.Export.Pdf.PdfObjects.PdfFonts;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml;
@@ -13,6 +14,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;
         public List<PdfTextFormat> TextFormats { get; set; }
+        public double TotalTextLength { get; set; }
         public double ColumnWidth { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }

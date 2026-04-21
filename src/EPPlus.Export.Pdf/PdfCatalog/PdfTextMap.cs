@@ -20,13 +20,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange )
         {
             var Range = pdfRange;
-            var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol);
             var worksheet = Range.Range.Worksheet;
             var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet);
+            int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(pageSettings, worksheet, pdfSheet) : 0;
+            var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol + addedColumns);
             pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
             bool firstColumnRun = true;
             List<string> checkedMergedCells = new List<string>();
-            int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(worksheet, pdfSheet) : 0;
             for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
             {
                 var hiddenRow = worksheet.Row(row).Hidden;
@@ -461,61 +461,23 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         /// </summary>
         /// <param name="ws">The worksheet to check.</param>
         /// <returns>The number of columns to add.</returns>
-        public static int AddColumnsForNonWrappedText(ExcelWorksheet ws, PdfWorksheet pdfSheet)
+        public static int AddColumnsForNonWrappedText(PdfPageSettings pageSettings, ExcelWorksheet ws, PdfWorksheet pdfSheet)
         {
-            double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, pdfSheet.ZeroCharWidth);
             int columnsToAdd = 0;
-            FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
-            MeasurementFont font = new MeasurementFont();
+            var catalog = new PdfCatalog();
+            var lastColumn = ws.Dimension.End.Column;
+            ExcelRangeBase lastColumnRange = ws.Cells[1, lastColumn, ws.Dimension.End.Row, lastColumn];
+            var cc = catalog.GetCellCollectionFromRange(pageSettings, lastColumnRange);
             double textLength = 0;
-            for (int row = 1; row <= ws.Dimension._toRow; row++)
+            for (int i = cc.FromRow; i < cc.ToRow; i++)
             {
-                var cell = ws.Cells[row, ws.Dimension._toCol];
-                if ((!string.IsNullOrEmpty(cell.Text) || cell.RichText.Count > 0) && !cell.Style.WrapText && !cell.Merge)
-                {
-                    if (cell.IsRichText)
-                    {
-                        foreach (var rt in cell.RichText)
-                        {
-                            font.FontFamily = rt.FontName;
-                            font.Size = (float)rt.Size;
-                            font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                                          (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                                          (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                                          (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                                          switch
-                            {
-                                0 => MeasurementFontStyles.Regular,
-                                var s => s
-                            };
-                            var result = fontMeasurerTrueType.MeasureText(rt.Text, font);
-                            textLength += result.Width;
-                        }
-                    }
-                    else
-                    {
-                        font.FontFamily = cell.Style.Font.Name;
-                        font.Size = (float)cell.Style.Font.Size;
-                        font.Style = ((cell.Style.Font.Bold ? MeasurementFontStyles.Bold : 0) |
-                                      (cell.Style.Font.Italic ? MeasurementFontStyles.Italic : 0) |
-                                      (cell.Style.Font.Strike ? MeasurementFontStyles.Strikeout : 0) |
-                                      (cell.Style.Font.UnderLine ? MeasurementFontStyles.Underline : 0))
-                                      switch
-                        {
-                            0 => MeasurementFontStyles.Regular,
-                            var s => s
-                        };
-                        var result = fontMeasurerTrueType.MeasureText(cell.Text, font);
-                        textLength += result.Width;
-                    }
-                    //loop next col width until text is included
-                    //increase columns to add
-                    while (textLength > columnWidth)
-                    {
-                        columnsToAdd++;
-                        columnWidth += UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol + columnsToAdd).Width, pdfSheet.ZeroCharWidth);
-                    }
-                }
+                textLength = cc[i, cc.FromColumn].TotalTextLength > textLength ? cc[i, cc.FromColumn].TotalTextLength : textLength;
+            }
+            double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, pdfSheet.ZeroCharWidth);
+            while (textLength > columnWidth)
+            {
+                columnsToAdd++;
+                columnWidth += UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol + columnsToAdd).Width, pdfSheet.ZeroCharWidth);
             }
             return columnsToAdd;
         }
