@@ -37,8 +37,6 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-				
-
 				return GetId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();
             }
         }

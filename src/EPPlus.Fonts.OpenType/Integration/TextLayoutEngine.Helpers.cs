@@ -25,21 +25,10 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private double[] CalculateCharacterWidths(string text, float fontSize, ShapingOptions options)
         {
-            var glyphs = _shaper.ShapeLight(text, options);
+            var shaped = _shaper.ShapeLight(text, options);
             var charWidths = GetCharWidthBuffer(text.Length);
             Array.Clear(charWidths, 0, text.Length);
-
-            double scaleFactor = fontSize / _shaper.UnitsPerEm;
-
-            foreach (var glyph in glyphs)
-            {
-                int charIndex = glyph.ClusterIndex;
-                if (charIndex >= 0 && charIndex < text.Length)
-                {
-                    charWidths[charIndex] += glyph.XAdvance * scaleFactor;
-                }
-            }
-
+            shaped.FillCharWidths(fontSize, charWidths, text.Length);
             return charWidths;
         }
 

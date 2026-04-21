@@ -10,16 +10,11 @@
  *************************************************************************************************
   05/30/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
-using System.Globalization;
-using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
@@ -42,20 +37,32 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         internal static InMemoryRange Negate(IRangeInfo ri)
         {
             InMemoryRange imr;
-            if(ri.IsInMemoryRange==false)
+            if (ri.IsInMemoryRange == false)
             {
-                imr = new InMemoryRange(ri.Size);
+                var physicalRows = RangeHelper.GetPhysicalRows(ri);
+                var logicalRows = ri.Size.NumberOfRows;
+                if (physicalRows < logicalRows)
+                {
+                    imr = new InMemoryRange(
+                        new RangeDefinition(physicalRows, ri.Size.NumberOfCols),
+                        logicalRows);
+                }
+                else
+                {
+                    imr = new InMemoryRange(ri.Size);
+                }
             }
             else
             {
                 imr = (InMemoryRange)ri;
             }
 
+            int rows = imr.PhysicalRows;
             for (int c = 0; c < ri.Size.NumberOfCols; c++)
             {
-                for (int r = 0; r < ri.Size.NumberOfRows; r++)
+                for (int r = 0; r < rows; r++)
                 {
-                    var d = ConvertUtil.GetValueDouble(ri.GetOffset(r, c), true, true);
+                    var d = ConvertUtil.GetValueDouble(ri.GetOffset(r, c), false, true, true);
 
                     if (double.IsNaN(d))
                     {
@@ -67,20 +74,62 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                 }
             }
+
+            if (imr.HasVirtualRows)
+            {
+                // Compute the negation of an empty cell: -(0) = 0
+                // Use the upstream default if one exists, otherwise null (= 0)
+                var srcDefault = imr.VirtualDefaultValue;
+                if (srcDefault == null)
+                {
+                    srcDefault = 0d;
+                }
+                var d = ConvertUtil.GetValueDouble(srcDefault, false, false);
+                if (double.IsNaN(d))
+                {
+                    imr.VirtualDefaultValue = ErrorValues.ValueError;
+                }
+                else
+                {
+                    imr.VirtualDefaultValue = d == 0d ? 0d : -d;
+                }
+            }
+
             return imr;
         }
+
         private static InMemoryRange CreateRange(IRangeInfo l, IRangeInfo r, FormulaRangeAddress address)
         {
             var width = Math.Max(l.Size.NumberOfCols, r.Size.NumberOfCols);
-            var height = Math.Max(l.Size.NumberOfRows, r.Size.NumberOfRows);
-            var rangeDef = new RangeDefinition(height, width);
-            if(address != null)
+
+            int logicalHeight = Math.Max(l.Size.NumberOfRows, r.Size.NumberOfRows);
+            int physicalHeight = Math.Max(
+                RangeHelper.GetPhysicalRows(l),
+                RangeHelper.GetPhysicalRows(r));
+
+            if (physicalHeight >= logicalHeight)
             {
-                return new InMemoryRange(address, rangeDef);
+                // No virtual rows needed - existing behavior
+                var rangeDef = new RangeDefinition(logicalHeight, width);
+                if (address != null)
+                {
+                    return new InMemoryRange(address, rangeDef);
+                }
+                else
+                {
+                    return new InMemoryRange(rangeDef);
+                }
+            }
+
+            // Virtual range: small backing array, large logical size
+            var physicalDef = new RangeDefinition(physicalHeight, width);
+            if (address != null)
+            {
+                return new InMemoryRange(address, physicalDef, logicalHeight);
             }
             else
             {
-                return new InMemoryRange(rangeDef);
+                return new InMemoryRange(physicalDef, logicalHeight);
             }
         }
 
@@ -105,7 +154,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         {
             var res = ApplyOperator(leftVal, rightVal, op, out bool error, context);
             var resultValue = res.ResultValue;
-            if(!(resultValue is bool) && ConvertUtil.IsNumeric(resultValue) && res.ResultNumeric == 0d)
+            if (!(resultValue is bool) && ConvertUtil.IsNumeric(resultValue) && res.ResultNumeric == 0d)
             {
                 // avoid -0 results.
                 resultValue = 0d;
@@ -115,7 +164,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static bool ShouldUseSingleRow(RangeDefinition lSize, RangeDefinition rSize)
         {
-            if((lSize.NumberOfRows == 1 || rSize.NumberOfRows == 1) && lSize.NumberOfCols == rSize.NumberOfCols)
+            if ((lSize.NumberOfRows == 1 || rSize.NumberOfRows == 1) && lSize.NumberOfCols == rSize.NumberOfCols)
             {
                 return true;
             }
@@ -143,11 +192,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static bool AddressIsNotAvailable(RangeDefinition lSize, RangeDefinition rSize, int row, int col)
         {
-            if(row >= lSize.NumberOfRows || row >=rSize.NumberOfRows)
+            if (row >= lSize.NumberOfRows || row >= rSize.NumberOfRows)
             {
                 return true;
             }
-            else if(col >= lSize.NumberOfCols || col >= rSize.NumberOfCols)
+            else if (col >= lSize.NumberOfCols || col >= rSize.NumberOfCols)
             {
                 return true;
             }
@@ -193,22 +242,48 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             catch
             {
                 throw;
-            }           
+            }
         }
 
-        public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)
+        private static void SetVirtualDefault(
+            InMemoryRange resultRange,
+            CompileResult nullLeft,
+            CompileResult nullRight,
+            Operators op,
+            ParsingContext context)
+        {
+            if (!resultRange.HasVirtualRows) return;
+
+            var res = ApplyOperator(nullLeft, nullRight, op, out bool error, context);
+            if (error)
+            {
+                resultRange.VirtualDefaultValue = ExcelErrorValue.Create(eErrorType.Value);
+            }
+            else
+            {
+                var resultValue = res.ResultValue;
+                if (!(resultValue is bool) && ConvertUtil.IsNumeric(resultValue) && res.ResultNumeric == 0d)
+                {
+                    resultValue = 0d;
+                }
+                resultRange.VirtualDefaultValue = resultValue;
+            }
+        }
+
+        public static InMemoryRange ApplySingleValueRight(
+            CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var lr = left.Result as IRangeInfo;
-            if(lr == null && left.Result is FormulaRangeAddress fra)
+            if (lr == null && left.Result is FormulaRangeAddress fra)
             {
                 lr = context.ExcelDataProvider.GetRange(fra);
             }
-            else if(left.Address != null && left.Result is not InMemoryRange)
+            else if (left.Address != null && left.Result is not InMemoryRange)
             {
                 lr = context.ExcelDataProvider.GetRange(left.Address);
             }
             var resultRange = CreateRange(lr, InMemoryRange.Empty, lr.Address);
-            for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
+            for (var row = 0; row < resultRange.PhysicalRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
@@ -217,10 +292,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     SetValue(op, resultRange, row, col, lcr, right, context);
                 }
             }
+
+            // Compute default for virtual rows: null op scalar
+            SetVirtualDefault(resultRange,
+                CompileResultFactory.Create(null), right, op, context);
+
             return resultRange;
         }
 
-        public static InMemoryRange ApplySingleValueLeft(CompileResult left, CompileResult right, Operators op, ParsingContext context)
+        public static InMemoryRange ApplySingleValueLeft(
+            CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var rr = right.Result as IRangeInfo;
             if (rr == null && right.Result is FormulaRangeAddress fra)
@@ -232,7 +313,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 rr = context.ExcelDataProvider.GetRange(right.Address);
             }
             var resultRange = CreateRange(InMemoryRange.Empty, rr, rr.Address);
-            for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
+            for (var row = 0; row < resultRange.PhysicalRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
@@ -242,18 +323,83 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     SetValue(op, resultRange, row, col, left, rcr, context);
                 }
             }
+
+            // Compute default for virtual rows: scalar op null
+            SetVirtualDefault(resultRange,
+                left, CompileResultFactory.Create(null), op, context);
+
             return resultRange;
+        }
+
+        private static void SetVirtualDefaultForRanges(
+              InMemoryRange resultRange,
+              IRangeInfo lr,
+              IRangeInfo rr,
+              bool shouldUseSingleRow,
+              bool shouldUseSingleCell,
+              bool singleRowSingleCol,
+              Operators op,
+              ParsingContext context)
+        {
+            if (!resultRange.HasVirtualRows) return;
+
+            CompileResult virtualLeft, virtualRight;
+            if (shouldUseSingleRow)
+            {
+                if (lr.Size.NumberOfRows == 1)
+                {
+                    virtualLeft = CompileResultFactory.Create(GetCellValue(lr, 0, 0));
+                    virtualRight = CompileResultFactory.Create(null);
+                }
+                else
+                {
+                    virtualLeft = CompileResultFactory.Create(null);
+                    virtualRight = CompileResultFactory.Create(GetCellValue(rr, 0, 0));
+                }
+            }
+            else if (shouldUseSingleCell)
+            {
+                if (lr.Size.NumberOfCols == 1 && lr.Size.NumberOfRows == 1)
+                {
+                    virtualLeft = CompileResultFactory.Create(GetCellValue(lr, 0, 0));
+                    virtualRight = CompileResultFactory.Create(null);
+                }
+                else
+                {
+                    virtualLeft = CompileResultFactory.Create(null);
+                    virtualRight = CompileResultFactory.Create(GetCellValue(rr, 0, 0));
+                }
+            }
+            else if (singleRowSingleCol)
+            {
+                if (lr.Size.NumberOfRows == 1)
+                {
+                    virtualLeft = CompileResultFactory.Create(GetCellValue(lr, 0, 0));
+                    virtualRight = CompileResultFactory.Create(null);
+                }
+                else
+                {
+                    virtualLeft = CompileResultFactory.Create(null);
+                    virtualRight = CompileResultFactory.Create(GetCellValue(rr, 0, 0));
+                }
+            }
+            else
+            {
+                virtualLeft = CompileResultFactory.Create(null);
+                virtualRight = CompileResultFactory.Create(null);
+            }
+            SetVirtualDefault(resultRange, virtualLeft, virtualRight, op, context);
         }
 
         private static InMemoryRange ApplyRanges(CompileResult left, CompileResult right, Operators op, ParsingContext context, FormulaRangeAddress intersectAddress)
         {
             var lr = left.Result as IRangeInfo;
             var rr = right.Result as IRangeInfo;
-            if(lr == null && left.Result is FormulaRangeAddress fral)
+            if (lr == null && left.Result is FormulaRangeAddress fral)
             {
                 lr = new RangeInfo(fral);
             }
-            if(rr == null && right.Result is FormulaRangeAddress frar)
+            if (rr == null && right.Result is FormulaRangeAddress frar)
             {
                 rr = new RangeInfo(frar);
             }
@@ -263,7 +409,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             var shouldUseSingleRow = ShouldUseSingleRow(lr.Size, rr.Size);
             var shouldUseSingleCell = ShouldUseSingleCell(lr.Size, rr.Size);
             var singleRowSingleCol = SingleRowSingleCol(lr.Size, rr.Size);
-            for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
+            for (var row = 0; row < resultRange.PhysicalRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
@@ -339,6 +485,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                 }
             }
+
+            SetVirtualDefaultForRanges(resultRange, lr, rr,
+                shouldUseSingleRow, shouldUseSingleCell, singleRowSingleCol,
+                op, context);
 
             return resultRange;
         }

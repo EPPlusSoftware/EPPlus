@@ -402,6 +402,37 @@ namespace OfficeOpenXml
         }
 
 
+        #region Calculation cancellation (poison flag)
+
+        #if !NET35
+        internal bool IsCalculationCanceled { get; private set; }
+
+        internal void MarkCalculationCanceled()
+        {
+            IsCalculationCanceled = true;
+        }
+
+        internal void ThrowIfCalculationCanceled()
+        {
+            if (IsCalculationCanceled)
+            {
+                throw new InvalidOperationException(
+                    "This workbook has been left in an inconsistent state due to a canceled " +
+                    "calculation. The workbook must be disposed and cannot be used for further " +
+                    "operations. Reload the workbook from the source to continue.");
+            }
+        }
+
+        /// <summary>
+        /// Returns true if a calculation was canceled, leaving the workbook in an inconsistent state.
+        /// A workbook in this state must be disposed — saving or recalculating is not permitted.
+        /// </summary>
+        public bool IsCalculationInconsistent => IsCalculationCanceled;
+        #endif
+
+        #endregion
+
+
         internal void GetDefinedNames()
         {
             XmlNodeList nl = WorkbookXml.SelectNodes("//d:definedNames/d:definedName", NameSpaceManager);
@@ -1096,6 +1127,22 @@ namespace OfficeOpenXml
             }
         }
 
+        private const string StrictSpreadsheetMainNamespace = "http://purl.oclc.org/ooxml/spreadsheetml/main";
+
+        // Call this when loading the workbook XML
+        private void ValidateWorkbookNamespace()
+        {
+            string defaultNamespace = _workbookXml.DocumentElement.NamespaceURI;
+            if (defaultNamespace == StrictSpreadsheetMainNamespace)
+            {
+                throw new NotSupportedException(
+                    "The workbook is saved in the \"Strict Open XML Spreadsheet\" format, " +
+                    "which is not supported by EPPlus. " +
+                    "Please re-save the workbook as a regular \"Excel Workbook (.xlsx)\" " +
+                    "in the Save As dialog and try again.");
+            }
+        }
+
 
         /// <summary>
         /// Create or read the XML for the workbook.
@@ -1103,7 +1150,10 @@ namespace OfficeOpenXml
         private void CreateWorkbookXml(XmlNamespaceManager namespaceManager)
         {
             if (_package.ZipPackage.PartExists(WorkbookUri))
+            {
                 _workbookXml = _package.GetXmlFromUri(WorkbookUri);
+                ValidateWorkbookNamespace();
+            }  
             else
             {
                 // create a new workbook part and add to the package

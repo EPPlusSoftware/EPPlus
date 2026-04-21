@@ -293,7 +293,6 @@ namespace OfficeOpenXml.Drawing
                             var precision = br.ReadByte(); //Bits
                             height = GetUInt16BigEndian(br);
                             width = GetUInt16BigEndian(br);
-                            br.Close();
                             return true;
                         case 0xFFD9:
                             return height != 0 && width != 0;
@@ -320,7 +319,6 @@ namespace OfficeOpenXml.Drawing
             {
                 width = br.ReadUInt16();
                 height = br.ReadUInt16();
-                br.Close();
                 return true;
             }
             return false;
@@ -401,10 +399,8 @@ namespace OfficeOpenXml.Drawing
 
                 //    IsPng(br, ref width, ref height, offset+fileSize);
                 //}
-                br.Close();
                 return true;
             }
-            br.Close();
             return false;
         }
         internal static bool IsIco(BinaryReader br)
@@ -734,10 +730,8 @@ namespace OfficeOpenXml.Drawing
                                 verticalResolution /= M_TO_INCH;
                             }
 
-                            br.Close();
                             return true;
                         case "IEND":
-                            br.Close();
                             return width != 0 && height != 0;
                         default:
                             br.ReadBytes(length);
@@ -746,7 +740,6 @@ namespace OfficeOpenXml.Drawing
                     var crc = br.ReadInt32();
                 }
             }
-            br.Close();
             return width != 0 && height != 0;
         }
         private static bool IsPng(BinaryReader br)
@@ -784,7 +777,6 @@ namespace OfficeOpenXml.Drawing
                         var w = reader.GetAttribute("width");
                         var h = reader.GetAttribute("height");
                         var vb = reader.GetAttribute("viewBox");
-                        reader.Close();
                         if (w == null || h == null)
                         {
                             if (vb == null)

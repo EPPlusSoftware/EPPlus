@@ -74,7 +74,7 @@ namespace EPPlusTest
 
         private void printitems(CompoundDocumentItem item)
         {
-            File.AppendAllText(@"c:\temp\items.txt", item.Name+ "\t");            
+            File.AppendAllText(@"c:\temp\_items.txt", item.Name+ "\t");            
             foreach(var c in item.Children)
             {
                 printitems(c);

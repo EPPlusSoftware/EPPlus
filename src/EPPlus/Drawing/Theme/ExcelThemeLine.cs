@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Drawing.Theme
         /// <summary>
         /// The compound line type to be used for the underline stroke
         /// </summary>
-        public eCompundLineStyle CompoundLineStyle
+        public eCompoundLineStyle CompoundLineStyle
         {
             get
             {

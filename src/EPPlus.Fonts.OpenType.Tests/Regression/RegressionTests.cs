@@ -262,15 +262,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
         {
             MeasurementFont boldItalic = new MeasurementFont()
             {
-                FontFamily = "Aptos Narrow",
+                FontFamily = "Roboto",
                 Size = 11f,
                 Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
             };
 
-            var ttTextMeasurer = new FontMeasurerTrueType();
-            ttTextMeasurer.SetFont(boldItalic);
+            var ttTextMeasurer = OpenTypeFonts.LoadFont(boldItalic.FontFamily, FontSubFamily.BoldItalic);
 
-            var cacheKey = OpenTypeFonts.BuildCacheKey("Aptos Narrow", FontSubFamily.BoldItalic, Enumerable.Empty<string>(), searchSystemDirectories: true);
+            var cacheKey = OpenTypeFonts.BuildCacheKey("Roboto", FontSubFamily.BoldItalic, null, searchSystemDirectories: true);
             var cachedFont = OpenTypeFontCache.GetFromCache(cacheKey);
             Assert.IsNotNull(cachedFont);
         }

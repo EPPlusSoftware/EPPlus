@@ -11,15 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
-using EPPlus.Export.ImageRenderer.Utils;
-using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Utils.TypeConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlusImageRenderer
 {

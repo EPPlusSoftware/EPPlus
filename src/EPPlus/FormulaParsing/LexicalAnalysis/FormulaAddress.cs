@@ -697,6 +697,69 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return FromRow == ToRow && FromCol == ToCol;
             }
         }
+
+
+        private bool? _hasFormulas; // Nullable for lazy evaluation
+
+        /// <summary>
+        /// Returns true of the address contains formulas. 
+        /// This is used to determine if we can use cached flattened ranges or if we need to evaluate 
+        /// the formulas in the range to get the correct values. The result is cached for performance.
+        /// </summary>
+        /// <param name="package">The <see cref="ExcelPackage"/> that contains the address</param>
+        /// <returns></returns>
+
+        public bool HasFormulas(ExcelPackage package)
+        {
+            if (_hasFormulas.HasValue) return _hasFormulas.Value;
+            if (package == null || WorksheetIx < 0)
+            {
+                _hasFormulas = false;
+                return false;
+            }
+            var ws = package.Workbook.GetWorksheetByIndexInList(WorksheetIx);
+            if (ws == null)
+            {
+                _hasFormulas = false;
+                return false;
+            }
+
+            // Clamp to worksheet dimension to avoid iterating 1M rows
+            // for full column references
+            var dim = ws.Dimension;
+            var fromRow = FromRow;
+            var toRow = ToRow;
+            var fromCol = FromCol;
+            var toCol = ToCol;
+            if (dim != null)
+            {
+                fromRow = Math.Max(fromRow, dim._fromRow);
+                toRow = Math.Min(toRow, dim._toRow);
+                fromCol = Math.Max(fromCol, dim._fromCol);
+                toCol = Math.Min(toCol, dim._toCol);
+            }
+            else
+            {
+                // No dimension means no data, hence no formulas
+                _hasFormulas = false;
+                return false;
+            }
+
+            for (var row = fromRow; row <= toRow; row++)
+            {
+                for (var col = fromCol; col <= toCol; col++)
+                {
+                    if (ws._formulas.GetValue(row, col) != null)
+                    {
+                        _hasFormulas = true;
+                        return true;
+                    }
+                }
+            }
+            _hasFormulas = false;
+            return false;
+        }
+
         /// <summary>
         /// Empty
         /// </summary>

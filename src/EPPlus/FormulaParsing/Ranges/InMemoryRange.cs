@@ -25,6 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     [DebuggerDisplay("{Size}")]
     public class InMemoryRange : IRangeInfo
     {
+
         /// <summary>
         /// The constructor
         /// </summary>
@@ -32,24 +33,67 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public InMemoryRange(RangeDefinition rangeDef)
         {
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
+            _physicalRows = rangeDef.NumberOfRows;
             Size = rangeDef;
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = rangeDef.NumberOfRows - 1, ToCol = rangeDef.NumberOfCols - 1 };
         }
         /// <summary>
         /// The constructor
         /// </summary>
-        /// <param name="address">The worksheet address that should be used for this range. Will be used for implicit intersection.</param>
+        /// <param name="address">The worksheet address that should be used for this range.
+        /// Will be used for implicit intersection.</param>
         /// <param name="rangeDef">Defines the size of the range</param>
         public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef)
         {
-            if (address?._context != null)
+            if (address != null && address._context != null)
             {
                 _ws = address._context.Package.Workbook.GetWorksheetByIndexInList(address._context.CurrentCell.WorksheetIx);
             }
             _address = address;
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
+            _physicalRows = rangeDef.NumberOfRows;
             Size = rangeDef;
         }
+
+        /// <summary>
+        /// Constructor for a virtual range with a small physical backing array but large logical size.
+        /// Rows beyond <paramref name="physicalDef"/>.NumberOfRows are virtual and return null.
+        /// </summary>
+        /// <param name="address">The worksheet address for implicit intersection.</param>
+        /// <param name="physicalDef">Defines the physical (backed) size of the range.</param>
+        /// <param name="logicalRows">The full logical row count (e.g. 1048576 for a full column).</param>
+        internal InMemoryRange(FormulaRangeAddress address, RangeDefinition physicalDef, int logicalRows)
+        {
+            if (address != null && address._context != null)
+            {
+                _ws = address._context.Package.Workbook.GetWorksheetByIndexInList(address._context.CurrentCell.WorksheetIx);
+            }
+            _address = address;
+            _physicalRows = physicalDef.NumberOfRows;
+            _cells = new ICellInfo[physicalDef.NumberOfRows, physicalDef.NumberOfCols];
+            Size = new RangeDefinition(logicalRows, physicalDef.NumberOfCols);
+        }
+
+        /// <summary>
+        /// Constructor for a virtual range without an address.
+        /// Rows beyond <paramref name="physicalDef"/>.NumberOfRows are virtual and return null.
+        /// </summary>
+        /// <param name="physicalDef">Defines the physical (backed) size of the range.</param>
+        /// <param name="logicalRows">The full logical row count.</param>
+        internal InMemoryRange(RangeDefinition physicalDef, int logicalRows)
+        {
+            _physicalRows = physicalDef.NumberOfRows;
+            _cells = new ICellInfo[physicalDef.NumberOfRows, physicalDef.NumberOfCols];
+            Size = new RangeDefinition(logicalRows, physicalDef.NumberOfCols);
+            _address = new FormulaRangeAddress()
+            {
+                FromRow = 0,
+                FromCol = 0,
+                ToRow = logicalRows - 1,
+                ToCol = physicalDef.NumberOfCols - 1
+            };
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -57,6 +101,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public InMemoryRange(List<List<object>> range)
         {
             Size = new RangeDefinition(range.Count, (short)range[0].Count);
+            _physicalRows = Size.NumberOfRows;
             _cells = new ICellInfo[Size.NumberOfRows, Size.NumberOfCols];
             for (int c = 0; c < Size.NumberOfCols; c++)
             {
@@ -71,10 +116,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ri">Another <see cref="IRangeInfo"/> used as clone for this range. The address of the supplied range will not be copied.</param>
+        /// <param name="ri">Another <see cref="IRangeInfo"/> used as clone for this range.
+        /// The address of the supplied range will not be copied.</param>
         public InMemoryRange(IRangeInfo ri)
         {
             Size = ri.Size;
+            _physicalRows = Size.NumberOfRows;
             _cells = new ICellInfo[Size.NumberOfRows, Size.NumberOfCols];
             for (int c = 0; c < Size.NumberOfCols; c++)
             {
@@ -101,6 +148,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         private readonly ICellInfo[,] _cells;
         private int _colIx = -1;
         private int _rowIndex = 0;
+        private readonly int _physicalRows;
+        private object _virtualDefaultValue;  // null means "no default" (backward compat)
 
         private static InMemoryRange _empty = new InMemoryRange(new RangeDefinition(0, 0));
 
@@ -110,6 +159,35 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public static InMemoryRange Empty => _empty;
 
         /// <summary>
+        /// Number of rows backed by the physical cell array.
+        /// For non-virtual ranges this equals Size.NumberOfRows.
+        /// </summary>
+        internal int PhysicalRows
+        {
+            get { return _physicalRows; }
+        }
+
+
+        /// <summary>
+        /// The value returned for rows beyond PhysicalRows.
+        /// When null (default), virtual rows return null.
+        /// When set, virtual rows return this value instead.
+        /// </summary>
+        internal object VirtualDefaultValue
+        {
+            get { return _virtualDefaultValue; }
+            set { _virtualDefaultValue = value; }
+        }
+
+        /// <summary>
+        /// True if the range has virtual (unstored) rows beyond PhysicalRows.
+        /// </summary>
+        internal bool HasVirtualRows
+        {
+            get { return Size.NumberOfRows > _physicalRows; }
+        }
+
+        /// <summary>
         /// Sets the value for a cell.
         /// </summary>
         /// <param name="row">The row</param>
@@ -117,6 +195,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="val">The value to set</param>
         public void SetValue(int row, int col, object val)
         {
+            if (row >= _physicalRows) return;
             var c = new InMemoryCellInfo(val);
             _cells[row, col] = c;
         }
@@ -129,6 +208,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="cell">The cell</param>
         public void SetCell(int row, int col, ICellInfo cell)
         {
+            if (row >= _physicalRows) return;
             _cells[row, col] = cell;
         }
         /// <summary>
@@ -165,7 +245,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public FormulaRangeAddress Dimension
         {
             get
-            {        
+            {
                 return _address;
             }
         }
@@ -190,7 +270,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <summary>
         /// The addresses for the range, if more than one.
         /// </summary>
-        public FormulaRangeAddress[] Addresses => [_address];
+        public FormulaRangeAddress[] Addresses => new FormulaRangeAddress[] { _address };
 
         /// <summary>
         /// Dispose
@@ -226,12 +306,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <returns>The value of the cell</returns>
         public object GetOffset(int rowOffset, int colOffset)
         {
+            if (rowOffset >= _physicalRows)
+                return _virtualDefaultValue;  // was: return null;
             var c = _cells[rowOffset, colOffset];
-            if (c == null)
-            {
-                return null;
-            }
-            return c.Value;
+            return c == null ? null : c.Value;
         }
 
         /// <summary>
@@ -242,23 +320,43 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="rowOffsetEnd">The ending row offset from the top-left cell.</param>
         /// <param name="colOffsetStart">The ending column offset from the top-left cell</param>
         /// <returns>The value of the cell</returns>
-        public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
+        public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart,
+                             int rowOffsetEnd, int colOffsetEnd)
         {
-            var nRows = Math.Abs(rowOffsetEnd - rowOffsetStart);
-            var nCols = (short)Math.Abs(colOffsetEnd- colOffsetStart);
-            nRows++;
-            nCols++;
-            var rangeDef = new RangeDefinition(nRows, nCols);
-            var result = new InMemoryRange(rangeDef);
-            var rowIx = 0;
-            for(var row = rowOffsetStart; row <= rowOffsetEnd; row++)
+            var logicalRows = rowOffsetEnd - rowOffsetStart + 1;
+            var nCols = (short)(colOffsetEnd - colOffsetStart + 1);
+
+            if (rowOffsetStart >= _physicalRows)
+            {
+                var emptyRange = new InMemoryRange(new RangeDefinition(0, nCols), logicalRows);
+                emptyRange._virtualDefaultValue = _virtualDefaultValue;  // propagate
+                return emptyRange;
+            }
+
+            var physicalEnd = Math.Min(rowOffsetEnd, _physicalRows - 1);
+            var physicalRows = physicalEnd - rowOffsetStart + 1;
+
+            InMemoryRange result;
+            if (physicalRows < logicalRows)
+            {
+                result = new InMemoryRange(new RangeDefinition(physicalRows, nCols), logicalRows);
+                result._virtualDefaultValue = _virtualDefaultValue;  // propagate
+            }
+            else
+            {
+                result = new InMemoryRange(new RangeDefinition(physicalRows, nCols));
+            }
+
+            for (var row = rowOffsetStart; row <= physicalEnd; row++)
             {
                 var colIx = 0;
                 for (var col = colOffsetStart; col <= colOffsetEnd; col++)
                 {
-                    result.SetValue(rowIx, colIx++, _cells[row, col].Value);
+                    var cell = _cells[row, col];
+                    var val = cell != null ? cell.Value : null;
+                    result.SetValue(row - rowOffsetStart, colIx, val);
+                    colIx++;
                 }
-                rowIx++;
             }
             return result;
         }
@@ -280,20 +378,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <returns></returns>
         public object GetValue(int row, int col)
         {
-            if (_address == null)
-            { 
-                var c = _cells[row, col];
-                if (c == null) return null;
-                return c.Value;
-
-
-            }
-            else
-            {
-                var c = _cells[row-_address.FromRow, col-Address.FromCol];
-                if (c == null) return null;
-                return c.Value;
-            }
+            int r = _address == null ? row : row - _address.FromRow;
+            if (r >= _physicalRows) return _virtualDefaultValue;
+            int c = _address == null ? col : col - _address.FromCol;
+            var cell = _cells[r, c];
+            if (cell == null) return null;
+            return cell.Value;
         }
         /// <summary>
         /// Get cell
@@ -303,6 +393,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <returns></returns>
         public ICellInfo GetCell(int row, int col)
         {
+            if (row >= _physicalRows)
+            {
+                // Return a virtual cell with the default value if set
+                if (_virtualDefaultValue != null)
+                    return new InMemoryCellInfo(_virtualDefaultValue);
+                return null;
+            }
             var c = _cells[row, col];
             if (c == null) return null;
             return c;
@@ -320,7 +417,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             _colIx = 0;
             _rowIndex++;
-            if (_rowIndex >= Size.NumberOfRows) return false;
+            if (_rowIndex >= _physicalRows) return false;
             return true;
         }
         /// <summary>
@@ -341,15 +438,26 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
         internal static InMemoryRange CloneRange(IRangeInfo ri)
         {
-            var ret = new InMemoryRange(ri.Size);
-            for(int r=0;r < ri.Size.NumberOfRows;r++)
+            var isVirtual = ri is InMemoryRange && ((InMemoryRange)ri).HasVirtualRows;
+            int physRows = isVirtual ? ((InMemoryRange)ri).PhysicalRows : ri.Size.NumberOfRows;
+
+            var ret = isVirtual
+                ? new InMemoryRange(new RangeDefinition(physRows, ri.Size.NumberOfCols),
+                                    ri.Size.NumberOfRows)
+                : new InMemoryRange(ri.Size);
+
+            if (isVirtual)
             {
-                for (int c = 0; c < ri.Size.NumberOfCols;c++)
-                {
-                    ret.SetValue(r,c,ri.GetOffset(r,c));
-                }
+                ret._virtualDefaultValue = ((InMemoryRange)ri)._virtualDefaultValue;
             }
 
+            for (int r = 0; r < physRows; r++)
+            {
+                for (int c = 0; c < ri.Size.NumberOfCols; c++)
+                {
+                    ret.SetValue(r, c, ri.GetOffset(r, c));
+                }
+            }
             return ret;
         }
 
@@ -357,7 +465,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             var rows = values.GetUpperBound(0) + 1;
             var ir = new InMemoryRange(rows, 1);
-            for(int r=0;r < rows;r++)
+            for (int r = 0; r < rows; r++)
             {
                 ir.SetValue(r, 0, values[r]);
             }
@@ -365,12 +473,26 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         }
 
         /// <summary>
-        /// Get the address adjusted inside the dimension of the worksheet. Not applicable on InMemoryRange's, as no addresses us used.
+        /// Get the address adjusted inside the dimension of the worksheet.
+        /// Not applicable on InMemoryRange's, as no addresses us used.
         /// </summary>
         /// <param name="index">Not applicable on InMemoryRange's.</param>
         /// <returns>The address.</returns>
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
         {
+            if (index > 0) return null;
+
+            if (HasVirtualRows)
+            {
+                // Return address clamped to physical rows
+                return new FormulaRangeAddress()
+                {
+                    FromRow = _address.FromRow,
+                    FromCol = _address.FromCol,
+                    ToRow = _address.FromRow + _physicalRows - 1,
+                    ToCol = _address.ToCol
+                };
+            }
             return _address;
         }
 
@@ -378,7 +500,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             var sb = new StringBuilder();
             sb.Append("{");
-            for (var row = 0; row < Size.NumberOfRows; row++)
+            for (var row = 0; row < _physicalRows; row++)
             {
                 for (var col = 0; col < Size.NumberOfCols; col++)
                 {
@@ -389,7 +511,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                         sb.Append(",");
                     }
                 }
-                if(row < Size.NumberOfRows - 1)
+                if (row < _physicalRows - 1)
                 {
                     sb.Append(";");
                 }

@@ -14,6 +14,7 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml;
@@ -112,8 +113,11 @@ namespace EPPlus.Export.Pdf.PdfLayout
                                  0 => MeasurementFontStyles.Regular,
                                  var s => s
                              };
-                FontMeasurerTrueType fontMeasurerTrueType = new FontMeasurerTrueType();
-                var result = fontMeasurerTrueType.MeasureText(textFormat.Text, font);
+    
+                var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(font);
+                var measurer = new OpenTypeFontTextMeasurer(shaper);
+                
+                var result = measurer.MeasureText(textFormat.Text, font);
                 textFormat.TextLength = result.Width;
                 textLength += result.Width;
                 textFormat.TextHeight = result.Height;

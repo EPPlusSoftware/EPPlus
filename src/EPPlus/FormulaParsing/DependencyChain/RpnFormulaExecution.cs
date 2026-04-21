@@ -46,6 +46,9 @@ namespace OfficeOpenXml.FormulaParsing
             var depChain = new RpnOptimizedDependencyChain(wb, options);
             foreach (var ws in wb.Worksheets)
             {
+#if !NET35
+                options.CancellationToken.ThrowIfCancellationRequested();
+#endif
                 if (ws.IsChartSheet == false)
                 {
                     ExecuteChain(depChain, ws.Cells, options, true);
@@ -118,9 +121,15 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var ws = range.Worksheet;
             RpnFormula f = null;
+#if !NET35
+            var ct = options.CancellationToken; // Cache locally — avoids property lookup in hot loop
+#endif
             var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
             while (fs.Next())
             {
+#if !NET35
+                ct.ThrowIfCancellationRequested(); // P0 – per cell
+#endif
                 if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
                 var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                 if (depChain.processedCells.Contains(id) == false)
@@ -132,6 +141,12 @@ namespace OfficeOpenXml.FormulaParsing
                             CalculateFormulaChain(depChain, f, options, writeToCell);
                         }
                     }
+#if !NET35
+                    catch (OperationCanceledException)
+                    {
+                        throw; // Must propagate — do not swallow
+                    }
+#endif
                     catch (CircularReferenceException)
                     {
                         throw;
@@ -240,6 +255,12 @@ namespace OfficeOpenXml.FormulaParsing
                     ExecuteName(depChain, name, options, writeToCell);
                 }
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -289,6 +310,12 @@ namespace OfficeOpenXml.FormulaParsing
                 f.SetFormula(formula, depChain);
                 return CalculateFormulaChain(depChain, f, options, writeToCell).Result;
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -309,6 +336,12 @@ namespace OfficeOpenXml.FormulaParsing
                 f._row = -1;
                 return CalculateFormulaChain(depChain, f, options, writeToCell).Result;
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -419,6 +452,9 @@ namespace OfficeOpenXml.FormulaParsing
         ExecuteFormula:
             try
             {
+#if !NET35
+                options.CancellationToken.ThrowIfCancellationRequested(); // P0 – per dependency step
+#endif
                 SetCurrentCell(depChain, f);
                 var ws = f._ws;
                 if (f._tokenIndex < f._tokens.Count)
@@ -480,7 +516,7 @@ namespace OfficeOpenXml.FormulaParsing
                     cr = f._expressionStack.Pop().Compile();
                 }
 
-                if (cr != null && (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
+                if (cr != null && f.IsLambda == false &&  (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
                     SetValueToWorkbook(depChain, f, rd, cr, options, ref depChainPos);
                 }
@@ -490,7 +526,7 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._parsingContext.Parser.Logger.Log($"Set value in Cell\t{f.GetAddress()}\t{cr.ResultValue}\t{cr.DataType}");
                 }
 
-                if (depChain._formulaStack.Count > 0)
+                if (depChain._formulaStack.Count > f._lambdaFormulaStackCount)
                 {
                     f = depChain._formulaStack.Pop();
                     if (f._formulaEnumerator == null)
@@ -568,6 +604,12 @@ namespace OfficeOpenXml.FormulaParsing
 
                 goto ExecuteFormula;
             }
+#if !NET35
+            catch (OperationCanceledException)
+            {
+                throw; // Must propagate
+            }
+#endif
             catch (CircularReferenceException)
             {
                 throw;
@@ -1088,7 +1130,11 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
                             }
-                            
+                            if (t.TokenType == TokenType.EtaReducedLambda)
+                            {
+                                ((FunctionExpression)f._expressions[f._tokenIndex]).SetRpnFormula(f);
+                            }
+
                             var cr = exp.Compile();
                             if (cr.DataType == DataType.LambdaTokens)
                             {
@@ -1098,7 +1144,11 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 s.Push(f._expressions[f._tokenIndex]);
                             }
-                            else if (cr.DataType != DataType.LambdaVariableDeclaration && f.LambdaSettings.LambdaArgsAdded.Count > 0 && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
+                            else if(
+                                f._expressionStack.Peek() is LambdaCalculationExpression lce2 && lce2.ArgumentCollectionStarted &&
+                                cr.DataType != DataType.LambdaVariableDeclaration 
+                                && f.LambdaSettings.LambdaArgsAdded.Count > 0 
+                                && f.LambdaSettings.LambdaArgsAdded.Peek() < f.GetNumberOfLambdaVariables())
                             {
                                 leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType, cr.Address);
                                 var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
@@ -1113,10 +1163,7 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             s.Push(f._expressions[f._tokenIndex]);
                         }
-                        if(t.TokenType == TokenType.EtaReducedLambda)
-                        {
-                            ((FunctionExpression)f._expressions[f._tokenIndex]).SetRpnFormula(f);
-                        }
+                        
                         break;
                     case TokenType.Negator:
                         s.Push(s.Pop().Negate());
@@ -1562,7 +1609,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     args = CompileFunctionArguments(f, funcExp);
                     funcExp.Status = ExpressionStatus.CanCompile;
-                    return funcExp.SetArguments(args);
+                    return funcExp.SetArguments(args, depChain._parsingContext);
                 }
                 else
                 {
@@ -1577,7 +1624,7 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 args = CompileFunctionArguments(f, funcExp);
-                return funcExp.SetArguments(args);
+                return funcExp.SetArguments(args, depChain._parsingContext);
             }
             return false;
         }
@@ -1692,6 +1739,10 @@ namespace OfficeOpenXml.FormulaParsing
                     if (si.ExpressionType != ExpressionType.Empty)
                     {
                         si.Status |= ExpressionStatus.FunctionArgument;
+                    }
+                    if(si is FunctionExpression fe1)
+                    {
+                        fe1.SetRpnFormula(f);
                     }
                     var cr = si.Compile();
                     list.Insert(0, cr);

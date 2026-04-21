@@ -15,6 +15,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -38,33 +39,10 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var lp = sc.Chart.Legend?.Position;
-                rect.Top = (lp==eLegendPosition.Top ? sc.Legend.Rectangle.GlobalBottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + TopMargin;
-                if(sc.HorizontalAxis!=null && sc.Chart.XAxis.LabelPosition==eTickLabelPosition.High)
-                {
-                    rect.Top += sc.HorizontalAxis.Rectangle.Height;
-                }
-                rect.Left = lp == eLegendPosition.Left ? sc.Legend.Rectangle.GlobalRight + LeftMargin : LeftMargin;                
-                if(sc.VerticalAxis!=null)
-                {
-                    rect.Left = sc.VerticalAxis.Rectangle?.GlobalRight ?? sc.VerticalAxis.Title.Rectangle.GlobalRight;
-                }
-
-                rect.Width = (lp == eLegendPosition.Right || lp == eLegendPosition.TopRight ? 
-                        sc.Legend.Bounds.GlobalLeft - RightMargin : 
-                        sc.ChartArea.Rectangle.Width - RightMargin) 
-                  - rect.GlobalLeft;
-
-                double vaHeight=0, vaTitleHeight=0;
-                if(sc.HorizontalAxis != null)
-                {
-                    vaHeight = (sc.HorizontalAxis.Rectangle?.Height ?? 0D) + (sc.HorizontalAxis.Title?.Rectangle?.Height ?? 0D);
-                }
-                if(lp==eLegendPosition.Bottom)
-                {
-                    vaHeight += sc.Legend.Rectangle.Height;
-                }
-                rect.Height = sc.Bounds.Height - rect.GlobalTop - vaHeight - vaTitleHeight - BottomMargin;                
+                rect.Top = GetPlotAreaTop(sc);
+                rect.Left = GetPlotAreaLeft(sc);
+                rect.Width = GetPlotAreaWidth(sc, rect);
+                rect.Height = GetPlotAreaHeight(sc, rect);
             }
 
             rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);
@@ -72,10 +50,130 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
+        private double GetPlotAreaHeight(SvgChart sc, SvgRenderRectItem rect)
+        {
+            var bottomAxis = GetAxisByPosition(sc, eAxisPosition.Bottom);
+            double vaHeight = 0;
+            if (bottomAxis!=null)
+            {
+                 vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
+            }
+            if (sc.Chart.Legend?.Position == eLegendPosition.Bottom)
+            {
+                vaHeight += sc.Legend.Rectangle.Height + sc.Legend.TopMargin;
+            }
+            return sc.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
+        }
+
+        private double GetPlotAreaWidth(SvgChart sc, SvgRenderRectItem rect)
+        {
+            var rightAxis = GetAxisByPosition(sc, eAxisPosition.Right);
+            var lp = sc.Chart.Legend?.Position;
+            var left = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ?
+                        sc.Legend.Bounds.GlobalLeft - RightMargin :
+                        sc.ChartArea.Rectangle.Width - RightMargin);
+
+
+            double rightWidth;
+            if (rightAxis == null)
+            {
+                rightWidth =  0;
+            }
+            else
+            {
+                rightWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
+                               
+                //return left - rightWidth - rect.GlobalLeft;
+            }
+
+            var width = left - rightWidth;
+            //Reserve space for the last label that will be on the tick label instead of Middle of the category.
+            if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            {
+                var minusPA = width / sc.HorizontalAxis.AxisValues.Count / 2;
+                if (minusPA > rightWidth)
+                {
+                    rightWidth = minusPA;
+                }
+            }
+            if (sc.SecondHorizontalAxis != null && sc.SecondHorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            {
+                var minusSA = width / sc.SecondHorizontalAxis.AxisValues.Count / 2;
+                if (minusSA > rightWidth)
+                {
+                    rightWidth = minusSA;
+                }
+            }
+
+            return left - rightWidth-rect.GlobalLeft;
+        }
+        private double GetPlotAreaLeft(SvgChart sc)
+        {
+            var left = LeftMargin;
+            if(sc.Chart.Legend?.Position == eLegendPosition.Left)
+            {
+                left += sc.Legend.Bounds.Width + sc.Legend.RightMargin;
+            }
+
+            var leftAxis = GetAxisByPosition(sc, eAxisPosition.Left);
+            if (leftAxis != null)
+            {
+                if(leftAxis.Title!=null)
+                {
+                    left += leftAxis.Title.TextBox.GetActualWidth();
+                }
+                if (leftAxis.Rectangle != null)
+                {
+                    left += leftAxis.Rectangle.Width + 1.5;
+                }
+            }
+            return left;
+        }
+        private double GetPlotAreaTop(SvgChart sc)
+        {
+            double haHeight = 0;
+            var topAxis = GetAxisByPosition(sc, eAxisPosition.Top);
+            if (topAxis == null)
+            {
+                //var bottomAxis = GetAxisByPosition(sc, eAxisPosition.Bottom);
+                //if (bottomAxis != null && sc.Chart.XAxis.LabelPosition == eTickLabelPosition.High)
+                //{
+                //    top += bottomAxis.Rectangle.Height;
+                //}
+                //return top;
+            }
+            else
+            {
+                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
+            }
+
+            return (sc.Chart.Legend?.Position == eLegendPosition.Top ? sc.Legend.Bounds.Bottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
+        }
+
+        private SvgChartAxis GetAxisByPosition(SvgChart sc, eAxisPosition pos)
+        {
+            if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.AxisPosition == pos)
+            {
+                return sc.HorizontalAxis;
+            }
+            else if (sc.VerticalAxis != null && sc.VerticalAxis.Axis.AxisPosition == pos)
+            {
+                return sc.VerticalAxis;
+            }
+            else if (sc.SecondHorizontalAxis != null && sc.SecondHorizontalAxis.Axis.AxisPosition == pos)
+            {
+                return sc.SecondHorizontalAxis;
+            }
+            else if (sc.SecondVerticalAxis != null && sc.SecondVerticalAxis.Axis.AxisPosition == pos)
+            {
+                return sc.SecondVerticalAxis;
+            }
+            return null;
+        }
+
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
         }
-
     }
 }

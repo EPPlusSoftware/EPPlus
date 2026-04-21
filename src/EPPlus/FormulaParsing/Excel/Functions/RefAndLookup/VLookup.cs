@@ -97,7 +97,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return CompileResultFactory.Create(lookupRange.GetOffset(index, lookupIndex - 1));            
         }
-        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             if (args.Count > 2)
             {

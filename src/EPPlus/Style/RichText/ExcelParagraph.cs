@@ -14,6 +14,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,7 @@ namespace OfficeOpenXml.Style
         {
         }
         const string AligPath = "../../a:pPr/@algn";
+        const string FldPath = "../a:fld";
         /// <summary>
         /// Text
         /// </summary>
@@ -68,14 +70,34 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return _textRun.Text;
+               return _textRun.Text;
             }
             set
             {
                 _textRun.Text = value;
             }
         }
-        
+        /// <summary>
+        /// Text, adjusted for the Capitalization property
+        /// </summary>
+        public string DisplayedText
+        {
+            get
+            {
+                switch (_textRun.Capitalization)
+                {
+
+                    case eTextCapsType.All:
+                        return _textRun.Text.ToUpper();
+                    case eTextCapsType.Small:
+                        return _textRun.Text.ToLower();
+                    default:
+                        return _textRun.Text;
+
+                }
+            }
+        }
+
         /// <summary>
         /// If the paragraph is the first in the collection
         /// </summary>

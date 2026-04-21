@@ -37,6 +37,12 @@ namespace OfficeOpenXml.CellPictures
             this.width = width;
         }
 
+        public WebPictureCacheKey(ExcelCellPicture pic)
+            : this(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null)
+        {
+            
+        }
+
         protected override string Build()
         {
             var sb = new StringBuilder();

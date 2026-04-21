@@ -15,11 +15,8 @@ using EPPlusImageRenderer.RenderItems;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgLegendSerie
+    internal class SvgLegendSerie : SvgLegendSeriesIcon
     {
-        internal RenderItem SeriesIcon { get; set; }
-        internal RenderItem MarkerIcon { get; set; }
-        internal RenderItem MarkerBackground { get; set; }
-        internal TextBodyItem Textbox { get; set;}
+        internal TextBodyItem Textbox { get; set; }
     }
 }

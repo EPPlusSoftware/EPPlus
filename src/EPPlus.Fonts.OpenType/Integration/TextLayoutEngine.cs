@@ -14,6 +14,7 @@
   01/23/2025         EPPlus Software AB           Added space width cache
   01/24/2025         EPPlus Software AB           Added StringBuilder pooling (.NET 3.5 compatible)
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -34,7 +35,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         private readonly ITextShaper _shaper;
         private readonly List<string> _fontDirectories;
         private readonly bool _searchSystemDirectories;
-        private readonly Dictionary<string, ITextShaper> _shaperCache;
 
         // Space width cache - avoids repeated Shape(" ") calls
         private readonly Dictionary<float, double> _spaceWidthCache;
@@ -60,7 +60,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             _shaper = shaper ?? throw new ArgumentNullException(nameof(shaper));
             _fontDirectories = fontDirectories ?? new List<string>();
             _searchSystemDirectories = searchSystemDirectories;
-            _shaperCache = new Dictionary<string, ITextShaper>();
             _spaceWidthCache = new Dictionary<float, double>();
         }
 
@@ -138,6 +137,16 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var paragraphs = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
+            //paragraphs that have endline symbols should keep trailing spaces
+            //others should not. Add an extra space as the trailing space is always trimmed
+            //if (paragraphs.Length > 1)
+            //{
+            //    for (int i = 1; i < paragraphs.Length - 1; i++)
+            //    {
+            //        paragraphs[i] = paragraphs[i] + " ";
+            //    }
+            //}
+
             bool isFirstLine = true;
             foreach (var paragraph in paragraphs)
             {
@@ -194,6 +203,18 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     ProcessCharacterInWord(text, charWidths, state, i, maxWidthPoints);
                 }
+                else
+                {
+                    if (text[i-1] == ' ')
+                    {   //Add extra to avoid trimming
+                        _lineBuilder.Append("  ");
+                        //if (_lineBuilder.LastChar() == ' ')
+                        //{
+                        //    //Add extra to avoid trimming
+                        //    _lineBuilder.Append(" ");
+                        //}
+                    }
+                }
             }
 
             return FinalizeWrapping();
@@ -213,44 +234,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private ITextShaper GetShaperForFont(MeasurementFont font)
         {
-            string cacheKey = string.Format("{0}_{1}", font.FontFamily, GetFontSubFamily(font.Style));
-
-            if (_shaperCache.TryGetValue(cacheKey, out var cachedShaper))
-            {
-                return cachedShaper;
-            }
-
-            var openTypeFont = OpenTypeFonts.LoadFont(
-                fontName: font.FontFamily,
-                subFamily: GetFontSubFamily(font.Style),
-                fontDirectories: _fontDirectories,
-                searchSystemDirectories: _searchSystemDirectories
-            );
-
-            var shaper = new TextShaper(openTypeFont);
-            _shaperCache[cacheKey] = shaper;
-
-            return shaper;
+            return OpenTypeFonts.GetShaperForFont(font, _fontDirectories, _searchSystemDirectories);
         }
 
-        private FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
-        {
-            if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==
-                (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
-            {
-                return FontSubFamily.BoldItalic;
-            }
-            else if ((style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
-            {
-                return FontSubFamily.Bold;
-            }
-            else if ((style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
-            {
-                return FontSubFamily.Italic;
-            }
-
-            return FontSubFamily.Regular;
-        }
 
         #region IDisposable Implementation
 
@@ -275,16 +261,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     // Clear StringBuilder to release string references (.NET 3.5 compatible)
                     _lineBuilder.Length = 0;
-
-                    // Dispose cached shapers
-                    foreach (var shaper in _shaperCache.Values)
-                    {
-                        if (shaper is IDisposable disposable)
-                        {
-                            disposable.Dispose();
-                        }
-                    }
-                    _shaperCache.Clear();
 
                     // Clear space width cache
                     _spaceWidthCache.Clear();

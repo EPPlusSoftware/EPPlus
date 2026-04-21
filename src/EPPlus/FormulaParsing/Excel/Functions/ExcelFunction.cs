@@ -122,10 +122,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="args">The function arguments that will be supplied to the execute method.</param>
         /// <param name="index">The index of the argument that should be adjusted.</param>
+        /// <param name="ctx">The parsing context</param>
         /// <param name="addresses">A queue of addresses that will be calculated before calling the Execute function.</param>
-        public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        public virtual void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             
+        }
+
+        public virtual string Name
+        { 
+            get 
+            {
+                return GetType().Name.ToUpper();
+            }
         }
         /// <summary>
         /// Indicates that the function is an ErrorHandlingFunction.
@@ -894,10 +903,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 				return true;
 			}
 		}
-		/// <summary>
-		/// Provides information about the functions parameters.
-		/// </summary>
-		public virtual ExcelFunctionParametersInfo ParametersInfo
+        /// <summary>
+        /// The function is allowed...
+        /// </summary>
+        public virtual bool IsAllowedAsLambdaWithMultipleArguments
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Provides information about the functions parameters.
+        /// </summary>
+        public virtual ExcelFunctionParametersInfo ParametersInfo
         {
             get;
         } = ExcelFunctionParametersInfo.Default;

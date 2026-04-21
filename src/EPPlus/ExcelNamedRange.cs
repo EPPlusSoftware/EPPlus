@@ -38,6 +38,7 @@ namespace OfficeOpenXml
             /// </summary>
             RelativeTableAddress = 2
         }
+
         ExcelWorksheet _sheet;
         /// <summary>
         /// A named range

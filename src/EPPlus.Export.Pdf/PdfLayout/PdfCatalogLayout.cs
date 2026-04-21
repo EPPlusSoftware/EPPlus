@@ -571,7 +571,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 fd.FontIdMap = fontIdMap;
                 fd.UsedFonts = usedFonts;
                 text.TextFormats[i] = fd;
-                shaper.ResetFontTracking();
             }
             if (text is PdfCellContentLayout ccl)
             {

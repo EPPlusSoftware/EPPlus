@@ -165,9 +165,37 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
         }
 
+        [TestMethod]
+        public void ReadAllTestTTFFontsAndVerifyUseIsOkay()
+        {
+            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, false, Scanner.FontFormat.Ttf);
+
+            List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
+
+            for (int i = 0; i < allFontsList.Count; i++)
+            {
+                LicenseDataHolder dataHolderItem = new LicenseDataHolder()
+                {
+                    FontName = allFontsList[i].FullName,
+                    LicenseType = allFontsList[i].Os2Table.fsType,
+                    LTypeString = GetFsString(allFontsList[i].Os2Table.fsType)
+                };
+
+                dataHolder.Add(dataHolderItem);
+                Assert.AreEqual(Scanner.FontFormat.Ttf, allFontsList[i].Format);
+            }
+
+            //Ensure all fonts in the font folder are free to install/use
+            var fontsThatAreInstallableEmbedded = dataHolder.Where(x => x.LicenseType == 0);
+
+            Assert.AreEqual(fontsThatAreInstallableEmbedded.Count(), dataHolder.Count());
+        }
+
         [TestMethod, Ignore]
         public void ReadAllTTFFonts()
         {
+            UseSystemFonts();
+
             List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Ttf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
@@ -216,8 +244,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
-            var strings = fontMeasurer.MeasureAndWrapText(testStr, mf, MaxPixelWidth);
+            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello the", strings[0]);
             Assert.AreEqual("most", strings[1]);
@@ -238,8 +266,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            FontMeasurerTrueType fontMeasurer = new FontMeasurerTrueType(fontSize, fontName);
-            var strings = fontMeasurer.MeasureAndWrapText(testStr, mf, MaxPixelWidth);
+            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello", strings[0]);
             Assert.AreEqual(" the", strings[1]);

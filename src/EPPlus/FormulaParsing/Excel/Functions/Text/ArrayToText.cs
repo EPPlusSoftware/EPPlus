@@ -35,12 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
+            var format = ConciceFormat;
             if (!arguments.First().IsExcelRange)
             {
-                return CompileResult.GetErrorResult(eErrorType.Value);
-            }
-            var range = arguments.First().ValueAsRangeInfo;
-            var format = ConciceFormat;
+                return CreateResult(GetStringVal(arguments.First().Value, format), DataType.String);
+            }            
+            var range = arguments.First().ValueAsRangeInfo;            
             if (arguments.Count > 1)
             {
                 format = ArgToInt(arguments, 1, out ExcelErrorValue e1);

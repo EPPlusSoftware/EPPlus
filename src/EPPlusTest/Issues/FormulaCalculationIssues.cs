@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
@@ -1470,6 +1471,77 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(27535.48, ws2.Cells["D47"].Value);
 
             SaveAndCleanup(package);
+        }
+
+        [TestMethod]
+        public void s1018()
+        {
+            SwitchToCulture("fi-FI");
+            using (var package = OpenPackage("testValueAndNumberValue.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("Calculation");
+                ws.Cells["A2"].Value = "-9.388.757,91";
+                ws.Cells["C2"].Formula = "NUMBERVALUE(A2,\",\",\".\")";
+
+                package.Workbook.CalcMode = ExcelCalcMode.Automatic;
+                var options = new OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+                {
+                    PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel,
+                    AllowCircularReferences = true,
+                    EnableUnicodeAwareStringOperations = true
+
+                };
+                package.Workbook.Calculate(options);
+
+                Assert.AreEqual(-9388757.91, ws.Cells["C2"].Value);
+            }
+            SwitchBackToCurrentCulture();
+        }
+
+        [TestMethod]
+        public void s1023()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("s1023");
+                s.Cells["A1"].Formula = "IF(LEFT(B1,1) = \"1\", -D1, D1)";
+                s.Cells["B1"].Value = 111;
+                s.Cells["C1"].Value = 50;
+                s.Cells["D1"].Formula = "UNIQUE(FILTER(B: B & C:C, B: B & C:C<>\"\"))";
+                s.Workbook.Calculate();
+
+                Assert.AreEqual(-11150d, s.Cells["A1"].Value);
+                Assert.AreEqual("11150", s.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void s1023NegNumericString()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("s1023");
+                s.Cells["A1"].Formula = "-D1";
+                s.Cells["D1"].Value = "11150";
+                s.Cells["A1"].Calculate();
+
+                Assert.AreEqual(-11150d, s.Cells["A1"].Value);
+            }
+        }
+        [TestMethod]
+        public void s1029()
+        {
+            using var p = OpenTemplatePackage("AR Aging Analysis.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets["Filtered data"];
+            wb.FullCalcOnLoad = false;
+            wb.CalcMode = ExcelCalcMode.Manual;
+            ws.Cells["Q2"].Calculate();
+            Assert.AreEqual("365" ,ws.Cells["Q2"].Value);
+            Assert.AreEqual("181-365", ws.Cells["Q45"].Value);
+            Assert.AreEqual("90", ws.Cells["Q55"].Value);
+            Assert.AreEqual(6D, ws.Cells["A34"].Value);
+            SaveAndCleanup(p);
         }
     }
 }

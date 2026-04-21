@@ -13,12 +13,14 @@
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Font;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using OfficeOpenXml.Utils;
 using System.Xml;
 
 namespace OfficeOpenXml.Style
@@ -330,7 +332,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                switch (_xml.GetXmlNodeString($"{_path}/@cap"))
+                switch (_xml.GetXmlNodeString($"@cap"))
                 {
                     case "all":
                         return eTextCapsType.All;
@@ -343,7 +345,7 @@ namespace OfficeOpenXml.Style
             set
             {
                 CreateTopNode();
-                _xml.SetXmlNodeString($"{_path}/@cap", value.ToEnumString());
+                _xml.SetXmlNodeString($"@cap", value.ToEnumString());
             }
         }
 
@@ -354,12 +356,12 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return _xml.GetXmlNodeDouble($"{_path}/@baseline", 0);
+                return _xml.GetXmlNodeDouble($"@baseline", 0);
             }
             set
             {
                 CreateTopNode();
-                _xml.SetXmlNodePercentage($"{_path}/@baseline", value);
+                _xml.SetXmlNodePercentage($"@baseline", value);
             }
         }
 
@@ -785,6 +787,7 @@ namespace OfficeOpenXml.Style
         {                        
             return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, Size, GetFontStyle(), _pictureRelationDocument.Package);
         }
+
         private MeasurementFontStyles GetFontStyle()
         {
             MeasurementFontStyles ret = MeasurementFontStyles.Regular;
@@ -801,6 +804,26 @@ namespace OfficeOpenXml.Style
                 ret |= MeasurementFontStyles.Underline;
             }
             return ret;
+        }
+        /// <summary>
+        /// Returns the text according to the capitalization settings. 
+        /// </summary>
+        /// <param name="text">The text</param>
+        /// <returns>If Capitalization is None, the original text is returned. If Capitalization is All, the text is converted to upper case. If Capitalization is Small, the text is converted to lower case.</returns>
+        internal string GetCapitalizedText(string text)
+        {
+            if (Capitalization == eTextCapsType.All)
+            {
+                return text.ToUpper(CultureInfo.InvariantCulture);
+            }
+            else if (Capitalization == eTextCapsType.Small)
+            {
+                return text.ToLower(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                return text;
+            }
         }
 
         internal abstract bool IsEmpty

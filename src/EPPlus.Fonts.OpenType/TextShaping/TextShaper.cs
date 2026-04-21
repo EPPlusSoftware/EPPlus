@@ -11,6 +11,7 @@
   01/15/2025         EPPlus Software AB           Initial implementation
   01/19/2026         EPPlus Software AB           Added Single Adjustment support (GPOS Type 1)
   02/05/2026         EPPlus Software AB           Added IFontProvider support for fallback fonts
+  03/20/2026         EPPlus Software AB           ResetFontTracking made private, called automatically
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping.Contextual;
 using EPPlus.Fonts.OpenType.TextShaping.Kerning;
@@ -54,6 +55,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Creates a TextShaper with automatic emoji fallback (DefaultFontProvider).
+        /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
+        /// instances directly. It provides a thread-local cached instance and avoids
+        /// duplicate caches across the codebase.
         /// </summary>
         public TextShaper(OpenTypeFont font)
             : this(new DefaultFontProvider(font))
@@ -62,6 +66,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         /// <summary>
         /// Creates a TextShaper with custom font provider.
+        /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
+        /// instances directly. It provides a thread-local cached instance and avoids
+        /// duplicate caches across the codebase.
         /// </summary>
         public TextShaper(IFontProvider fontProvider)
         {
@@ -96,10 +103,10 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         /// <summary>
-        /// Clears font tracking between different texts.
-        /// Call this if you're reusing the same TextShaper for multiple unrelated texts.
+        /// Resets font tracking state. Called automatically at the start of each
+        /// shaping operation — Shape(), ExtractCharWidths(), ShapeLight().
         /// </summary>
-        public void ResetFontTracking()
+        private void ResetFontTracking()
         {
             _usedFonts.Clear();
             _fontToIdMap.Clear();
@@ -147,6 +154,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <returns>Shaped text with positioned glyphs</returns>
         public ShapedText Shape(string text, ShapingOptions options)
         {
+            ResetFontTracking();
+
             if (string.IsNullOrEmpty(text))
             {
                 return new ShapedText
@@ -234,10 +243,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Core implementation that extracts char widths into provided buffer.
         /// OPTIMIZED: Avoids creating ShapedText object and copying glyphs to array.
-        /// Works directly with List<ShapedGlyph> for better memory efficiency.
+        /// Works directly with List&lt;ShapedGlyph&gt; for better memory efficiency.
         /// </summary>
         private void ExtractCharWidthsCore(string text, float fontSize, ShapingOptions options, double[] targetArray)
         {
+            ResetFontTracking();
+
             // Clear only the portion we will use
             Array.Clear(targetArray, 0, text.Length);
 
@@ -621,17 +632,21 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Shapes text into lightweight GlyphWidth structs optimized for text measurement.
         /// </summary>
-        public GlyphWidth[] ShapeLight(string text, ShapingOptions options = null)
+        public ShapedLightText ShapeLight(string text, ShapingOptions options = null)
         {
+            ResetFontTracking();
+
             if (string.IsNullOrEmpty(text))
             {
-                return new GlyphWidth[0];
+                return new ShapedLightText
+                {
+                    Glyphs = new GlyphWidth[0],
+                    FontUnitsPerEm = new ushort[] { _primaryFont.HeadTable.UnitsPerEm }
+                };
             }
 
             if (options == null)
-            {
                 options = ShapingOptions.Default;
-            }
 
             var glyphs = MapToGlyphs(text);
 
@@ -645,7 +660,20 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ApplyKerningOnly(glyphs);
             }
 
-            return ExtractGlyphWidths(glyphs);
+            return new ShapedLightText
+            {
+                Glyphs = ExtractGlyphWidths(glyphs),
+                FontUnitsPerEm = BuildFontUnitsPerEm()
+            };
+        }
+
+        /// <summary>
+        /// Gets the UnitsPerEm for each font used in the last shaping operation.
+        /// Indexed by FontId. Must be called after Shape/ShapeLight and before ResetFontTracking.
+        /// </summary>
+        public ushort[] GetFontUnitsPerEm()
+        {
+            return BuildFontUnitsPerEm();
         }
 
         private void ApplyKerningOnly(List<ShapedGlyph> glyphs)
@@ -681,7 +709,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 {
                     XAdvance = (ushort)g.XAdvance,
                     ClusterIndex = g.ClusterIndex,
-                    CharCount = g.CharCount
+                    CharCount = g.CharCount,
+                    FontId = g.FontId
                 };
             }
 

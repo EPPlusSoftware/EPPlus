@@ -37,7 +37,20 @@ namespace EPPlusImageRenderer.RenderItems
     {
         public override RenderItemType Type => RenderItemType.Group;
 
+        public string TextAnchor { get; set; }
+
         public string GroupTransform = "";
+
+        //internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds)
+
+        internal SvgGroupItem(DrawingBase renderer) : base(renderer)
+        {
+        }
+
+        internal SvgGroupItem(DrawingBase renderer, double xPos, double yPos) : base(renderer)
+        {
+           GroupTransform = $"transform=\"translate({xPos.PointToPixelString()}, {yPos.PointToPixelString()})\"";
+        }
 
         internal SvgGroupItem(DrawingBase renderer, BoundingBox bounds) : base(renderer)
         {
@@ -58,16 +71,7 @@ namespace EPPlusImageRenderer.RenderItems
             }
             if(rotation!=0)
             {
-                var cx = parent.Width / 2;
-                var cy = parent.Height / 2;
-                if (cx == 0 && cy == 0)
-                {
-                    rot = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)}))";
-                }
-                else
-                {
-                    rot = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)}, {cx.ToString(CultureInfo.InvariantCulture)}, {cy.ToString(CultureInfo.InvariantCulture)})";
-                }
+                rot = $"rotate({rotation.ToString(CultureInfo.InvariantCulture)})";
             }
 
             if(string.IsNullOrEmpty(bounds)==false && string.IsNullOrEmpty(rot)==false)
@@ -86,14 +90,16 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            if(string.IsNullOrEmpty(GroupTransform))
+            sb.Append($"<g");
+            if (string.IsNullOrEmpty(GroupTransform)==false)
             {
-                sb.Append($"<g>");
+                sb.Append($" {GroupTransform}");
             }
-            else
+            if (string.IsNullOrEmpty(TextAnchor) == false)
             {
-                sb.Append($"<g {GroupTransform}>");
+                sb.Append($" text-anchor=\"{TextAnchor}\"");
             }
+            sb.Append(">");
         }
 
         internal override void GetBounds(out double il, out double it, out double ir, out double ib)

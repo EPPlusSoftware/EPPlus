@@ -529,5 +529,18 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             Assert.AreEqual(1000d, range.GetValue(0, 0));
             Assert.AreEqual(32d, range.GetValue(1, 0));
         }
+
+        [TestMethod]
+        public void ShouldHandleDoubleMinus()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Test");
+            sheet.Cells["A1"].Formula = "TRUE()";
+            sheet.Cells["A2"].Formula = "FALSE()";
+            sheet.Cells["B1"].Formula = "--A1:A2";
+            sheet.Calculate();
+            Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+            Assert.AreEqual(0d, sheet.Cells["B2"].Value);
+        }
     }
 }

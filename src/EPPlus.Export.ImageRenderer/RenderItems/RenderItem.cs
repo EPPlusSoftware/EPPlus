@@ -59,6 +59,8 @@ namespace EPPlusImageRenderer.RenderItems
         public ExcelDrawingBlipFill BlipFill { get; private set; }
         public double? BorderWidth { get; set; }
         public double[] BorderDashArray { get; set; }
+        public int StrokeMiterLimit { get; set; } = 4;
+        public eCompoundLineStyle CompoundLineStyle { get; set; } = eCompoundLineStyle.Single;
         public double? BorderDashOffset { get; set; }
         public eLineCap LineCap { get; set; } = eLineCap.Flat;
         public SvgLineJoin LineJoin { get; set; } = SvgLineJoin.Miter;
@@ -67,7 +69,7 @@ namespace EPPlusImageRenderer.RenderItems
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
         public double? GlowRadius { get; private set; }
         public string GlowColor { get; private set; }
-
+        public ExcelDrawingOuterShadowEffect OuterShadowEffect { get; private set; } = null;
         protected void CloneBase(RenderItem item)
         {
             item.FillColor = FillColor;
@@ -80,6 +82,11 @@ namespace EPPlusImageRenderer.RenderItems
             item.LineJoin = LineJoin;
             item.LineCap = LineCap;
             item.FillColorSource = FillColorSource;
+        }
+
+        internal void SetPatternFill()
+        {
+
         }
 
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFill fill, ExcelDrawingColorManager color)
@@ -100,12 +107,13 @@ namespace EPPlusImageRenderer.RenderItems
         }
         internal virtual void SetDrawingPropertiesFill(ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
         {
+            double? opacity=null;
             switch (fill.Style)
             {
                 case eFillStyle.NoFill:
                     if (fill.IsEmpty)
                     {
-                        FillColor = GetFillColor(fill, color, FillColorSource);
+                        FillColor = GetFillColor(fill, color, FillColorSource, out opacity);
                     }
                     else
                     {
@@ -113,22 +121,27 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     break;
                 case eFillStyle.SolidFill:
-                    FillColor = GetFillColor(fill, color, FillColorSource);
+                    FillColor = GetFillColor(fill, color, FillColorSource, out opacity);
                     break;
                 case eFillStyle.GradientFill:
                     GradientFill = new DrawGradientFill(DrawingRenderer.Theme, fill.GradientFill);
                     FillColor = null;
                     break;
             }
+            if (opacity.HasValue)
+            {
+                FillOpacity = opacity;
+            }
         }
         internal virtual void SetDrawingPropertiesBorder(ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, double defaultWidth=1.5)
         {
+            double? opacity = null;
             switch (border.Fill.Style)
             {
                 case eFillStyle.NoFill:
                     if(border.Fill.IsEmpty)
                     {
-                        BorderColor = GetFillColor(border.Fill, color, BorderColorSource);
+                        BorderColor = GetFillColor(border.Fill, color, BorderColorSource, out opacity);
                     }
                     else
                     {
@@ -136,13 +149,18 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     break;
                 case eFillStyle.SolidFill:
-                    BorderColor = GetFillColor(border.Fill, color, BorderColorSource);
+                    BorderColor = GetFillColor(border.Fill, color, BorderColorSource, out opacity);
                     BorderGradientFill = null;
                     break;
                 case eFillStyle.GradientFill:
                     BorderGradientFill = new DrawGradientFill(DrawingRenderer.Theme, border.Fill.GradientFill);
                     BorderColor = null;
                     break;
+            }
+
+            if (opacity.HasValue)
+            {
+                BorderOpacity = opacity;
             }
 
             if (hasBorder && BorderColorSource != PathFillMode.None)
@@ -152,8 +170,9 @@ namespace EPPlusImageRenderer.RenderItems
                 {
                     BorderDashArray = GetDashArray(border);
                 }
-                if(border.CompoundLineStyle!=eCompundLineStyle.Single)
+                if(border.CompoundLineStyle!=eCompoundLineStyle.Single)
                 {
+                    CompoundLineStyle = border.CompoundLineStyle;
                     //TODO:Add support double compound borders.
                 }
             }
@@ -165,6 +184,10 @@ namespace EPPlusImageRenderer.RenderItems
                 GlowRadius = effect.Glow.Radius;
                 var gc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, effect.Glow.Color);
                 GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
+            }
+            if(effect.HasOuterShadow)
+            {
+                OuterShadowEffect = effect.OuterShadow;
             }
         }
 
@@ -197,8 +220,9 @@ namespace EPPlusImageRenderer.RenderItems
             return null;
         }
 
-        private string GetFillColor(ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource)
+        private string GetFillColor(ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource, out double? opacity)
         {
+            opacity = null;
             if (fillColorSource == PathFillMode.None)
             {
                 return "none";
@@ -226,14 +250,83 @@ namespace EPPlusImageRenderer.RenderItems
             }
 
             fc = ColorUtils.GetAdjustedColor(fillColorSource, fc);
+            if(fc.A<255 && fc!=Color.Empty)
+            {
+                opacity = fc.A/255D;
+            }
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
 
-        //internal void SetTheme(ExcelTheme theme)
-        //{
-        //    theme = theme;
-        //}
+        internal void GetOuterShadowColor(out string shadowColor, out double opacity)
+        {
+            if (OuterShadowEffect == null)
+            {
+                shadowColor = null;
+                opacity = 0;
+
+            }
+            else
+            {
+                var tc=EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme, OuterShadowEffect.Color);
+                if (tc.A < 255 && tc != Color.Empty)
+                {
+                    opacity = tc.A / 255D;
+                }
+                else
+                {
+                    opacity = 1;
+                }
+                shadowColor = "#" + tc.ToArgb().ToString("x8").Substring(2);
+            }
+        }
     }
+
+    internal abstract class RenderItemIndependent : RenderItemBase
+    {
+        public string FillColor { get; set; }
+        public string FilterName { get; set; }
+        public SvgFillType FillType { get; set; }
+        public double? FillOpacity { get; set; }
+        public string BorderColor { get; set; }
+        public double? BorderWidth { get; set; }
+        public double[] BorderDashArray { get; set; }
+        public double? BorderDashOffset { get; set; }
+        public eLineCap LineCap { get; set; } = eLineCap.Flat;
+        public SvgLineJoin LineJoin { get; set; } = SvgLineJoin.Miter;
+        public double? BorderOpacity { get; set; }
+        public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
+        public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
+        public double? GlowRadius { get; private set; }
+        public string GlowColor { get; private set; }
+
+        protected void CloneBase(RenderItem item)
+        {
+            item.FillColor = FillColor;
+            item.FillOpacity = FillOpacity;
+            item.BorderWidth = BorderWidth;
+            item.BorderColor = BorderColor;
+            item.BorderDashArray = BorderDashArray;
+            item.BorderDashOffset = BorderDashOffset;
+            item.BorderOpacity = BorderOpacity;
+            item.LineJoin = LineJoin;
+            item.LineCap = LineCap;
+            item.FillColorSource = FillColorSource;
+        }
+
+        
+        internal string SetFillColor(Color color)
+        {
+            FillColor = GetAdjustedColor(color);
+            return FillColor;
+        }
+
+        private string GetAdjustedColor(Color color)
+        {
+            var fc = ColorUtils.GetAdjustedColor(FillColorSource, color);
+            return "#" + fc.ToArgb().ToString("x8").Substring(2);
+        }
+    }
+
     /// <summary>
     /// Base class for any item rendered.
     /// </summary>

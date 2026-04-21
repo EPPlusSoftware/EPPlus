@@ -34,7 +34,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     {
         List<ExcelConditionalFormattingRule> _rules = new List<ExcelConditionalFormattingRule>();
         ExcelWorksheet _ws;
-        int LastPriority = 1;
+        int _nextPriority = 1;
         //A dict for those conditionalFormattings that are Ext, have been read in locally but not yet read in their ExtLst parts.
         internal Dictionary<string, ExcelConditionalFormattingRule> localAndExtDict = new Dictionary<string, ExcelConditionalFormattingRule>();
         internal QuadTree<IExcelConditionalFormattingRule> CfIndex { get; set; }
@@ -98,11 +98,13 @@ namespace OfficeOpenXml.ConditionalFormatting
 						{
 							AddToList(cf);
 						}
-					}
+                        _nextPriority = cf.Priority > _nextPriority ? cf.Priority : _nextPriority;
+                    }
                     while ((xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule") && xr.NodeType == XmlNodeType.EndElement) xr.Read();
                 }
                 while (xr.LocalName == "conditionalFormatting" || xr.LocalName == "cfRule");
             }
+            _nextPriority += 1;
         }
 
         /// <summary>
@@ -681,7 +683,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             var cfRule = ExcelConditionalFormattingRuleFactory.Create(
               type,
               address,
-              LastPriority++,
+              _nextPriority++,
               _ws);
 
             // Add the newly created rule to the list

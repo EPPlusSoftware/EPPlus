@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -49,9 +50,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 return CreateResult(ExcelErrorValue.Values.Value, DataType.ExcelError);
             }
             var cultureInfo = new CultureInfo("en-US", true);
-            cultureInfo.NumberFormat.NumberDecimalSeparator = _decimalSeparator;
             cultureInfo.NumberFormat.NumberGroupSeparator = _groupSeparator;
-            if(double.TryParse(_arg, NumberStyles.Any, cultureInfo, out double result))
+            cultureInfo.NumberFormat.NumberDecimalSeparator = _decimalSeparator;
+
+            //These are required. double.TryParse with NumberStyles.Any considers the input string a currency
+            //See s1018
+            cultureInfo.NumberFormat.CurrencyDecimalSeparator = _decimalSeparator;
+            cultureInfo.NumberFormat.CurrencyGroupSeparator = _groupSeparator;
+
+
+            if (double.TryParse(_arg, NumberStyles.Any, cultureInfo, out double result))
             {
                 if(_nPercentage > 0)
                 {

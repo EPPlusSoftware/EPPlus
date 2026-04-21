@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Reflection.Emit;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -240,7 +241,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     //TODO: CreateTopNode of ExcelTextFontXML on init here somehow
                     //Note: txPR is a CT_Textbody node. The only difference between txPr and TextBody
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder/*, ((ExcelTextFontXml)Font).CreateTopNode*/);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
                 }
                 return _textBody;
             }
@@ -599,6 +600,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract object[] GetAxisValues(out bool isCount);
+        internal abstract List<object> GetAxisValues(out bool isCount);
     }
 }

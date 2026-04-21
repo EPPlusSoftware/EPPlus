@@ -118,8 +118,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_WithKerning_ReducesWidth()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             var withKerning = shaper.Shape("WAVE", ShapingOptions.Default);
@@ -177,8 +176,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_AVPair_HasNegativeKerning()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             var withKerning = shaper.Shape("AV");
@@ -197,8 +195,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_FastOption_StillAppliesKerning()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             var fast = shaper.Shape("WAVE", ShapingOptions.Fast);
@@ -440,8 +437,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetLineHeightInPoints_ReturnsPositiveValue()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             float lineHeight = shaper.GetLineHeightInPoints(12);
@@ -456,8 +452,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetFontHeightInPoints_ReturnsPositiveValue()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             float fontHeight = shaper.GetFontHeightInPoints(12);
@@ -472,8 +467,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetLineHeight_IsGreaterThanFontHeight()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             float lineHeight = shaper.GetLineHeightInPoints(12);
@@ -488,8 +482,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetLineHeight_ScalesWithFontSize()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             float height12 = shaper.GetLineHeightInPoints(12);
@@ -642,8 +635,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_DecomposedUnicode_PositionsAccent()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             // U+0065 = 'e', U+0301 = combining acute accent
@@ -671,8 +663,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_PrecomposedVsDecomposed_SimilarWidth()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular, FontFolders);
 
             // Act
             var precomposed = shaper.Shape("\u00e9");  // é (single codepoint)
@@ -695,8 +686,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_SourceSans3_SingleMark_PositionsCorrectly()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("SourceSans3");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("SourceSans3", fontDirectories: FontFolders);
 
             // Act - Single combining mark
             var result = shaper.Shape("e\u0301");  // e + combining acute (é)
@@ -724,8 +714,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_Cafe_HandlesDecomposed()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("SourceSans3");
-            var shaper = new TextShaper(font);
+            var shaper = OpenTypeFonts.GetTextShaper("SourceSans3", fontDirectories: FontFolders);
 
             // Act - "café" with decomposed é
             var result = shaper.Shape("cafe\u0301");
@@ -745,7 +734,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Debug_OpenSans_MarkFeature()
         {
-            var font = OpenTypeFonts.LoadFont("OpenSans", FontSubFamily.Regular);
+            var font = OpenTypeFonts.LoadFont("OpenSans", FontSubFamily.Regular, FontFolders);
 
             foreach (var featureRecord in font.GposTable.FeatureList.FeatureRecords)
             {

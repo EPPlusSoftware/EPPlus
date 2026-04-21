@@ -11,10 +11,12 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
 using OfficeOpenXml.Export.HtmlExport.Determinator;
 using OfficeOpenXml.Export.HtmlExport.Settings;
@@ -26,10 +28,9 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
-using System.Data;
 using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
