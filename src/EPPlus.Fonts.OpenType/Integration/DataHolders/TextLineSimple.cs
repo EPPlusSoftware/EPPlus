@@ -12,7 +12,7 @@ namespace EPPlus.Fonts.OpenType.Integration
     [DebuggerDisplay("{Text}")]
     public class TextLineSimple
     {
-        public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
+        internal List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
 
         public string Text { get; internal set; }
         /// <summary>
@@ -43,7 +43,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public double GetWidthWithoutTrailingSpaces()
         {
-            lastFontSpaceWidth = LineFragments.Last().SpaceWidth;
+            lastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
 
             var trailingSpaceCount = 0;
 
@@ -72,7 +72,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public TextLineSimple(string text, double largestFontSize, double largestAscent, double largestDescent)
         {
-            LineFragments = new LineFragmentCollection(text);
+            InternalLineFragments = new LineFragmentCollection(text);
             LargestFontSize = largestFontSize;
             LargestAscent = largestAscent;
             LargestDescent = largestDescent;
@@ -83,7 +83,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         internal void CreateFinalizedSubstringsInLineFragments()
         {
-            foreach (var lineFragment in LineFragments)
+            foreach (var lineFragment in InternalLineFragments)
             {
                 var text = GetLineFragmentText(lineFragment);
                 lineFragment.SetFinalizedText(text);
@@ -92,7 +92,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public string GetLineFragmentText(LineFragment rtFragment)
         {
-            if (LineFragments.Contains(rtFragment) == false)
+            if (InternalLineFragments.Contains(rtFragment) == false)
             {
                 throw new InvalidOperationException($"GetFragmentText failed. Cannot retrieve {rtFragment} since it is not part of this textLine: {this}");
             }
@@ -104,14 +104,14 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var startIdx = rtFragment.StartIdx;
 
-            var idxInLst = LineFragments.FindIndex(x => x == rtFragment);
-            if (idxInLst == LineFragments.Count - 1)
+            var idxInLst = InternalLineFragments.FindIndex(x => x == rtFragment);
+            if (idxInLst == InternalLineFragments.Count - 1)
             {
                 return Text.Substring(startIdx, Text.Length - startIdx);
             }
             else
             {
-                var endIdx = LineFragments[idxInLst + 1].StartIdx;
+                var endIdx = InternalLineFragments[idxInLst + 1].StartIdx;
                 return Text.Substring(startIdx, endIdx - startIdx);
             }
         }

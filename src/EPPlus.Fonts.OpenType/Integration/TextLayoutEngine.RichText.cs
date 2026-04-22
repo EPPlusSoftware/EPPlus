@@ -125,7 +125,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 double largestAscent = 0;
                 double largestDescent = 0;
-                foreach (var lineFragment in line.LineFragments)
+                foreach (var lineFragment in line.InternalLineFragments)
                 {
                     var frag = fragments[lineFragment.FragmentIndex];
                     if (frag == null) continue;
@@ -213,7 +213,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             if (state.LineFrag.Width > 0)
             {
-                state.CurrentTextLine.LineFragments.Add(state.LineFrag);
+                state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
             }
 
             state.CurrentFragmentIdx++;

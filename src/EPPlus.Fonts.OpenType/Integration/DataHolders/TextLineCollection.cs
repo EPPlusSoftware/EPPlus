@@ -59,7 +59,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     foreach(var lineFragment in fragIdLookup[idx][key])
                     {
-                        retFragments.Add(this[key].LineFragments[lineFragment]);
+                        retFragments.Add(this[key].InternalLineFragments[lineFragment]);
                     }
                 }
             }
@@ -136,7 +136,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 int lineNum = i;
                 int fragCount = 0;
 
-                foreach (var lf in lines[i].LineFragments)
+                foreach (var lf in lines[i].InternalLineFragments)
                 {
                     var idx = lf.FragmentIndex;
                     AddToDictionary(idx, lineNum, fragCount);
@@ -169,7 +169,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 lines[i].CreateFinalizedSubstringsInLineFragments();
 
-                foreach (var lf in lines[i].LineFragments)
+                foreach (var lf in lines[i].InternalLineFragments)
                 {
                     var idx = lf.FragmentIndex;
 

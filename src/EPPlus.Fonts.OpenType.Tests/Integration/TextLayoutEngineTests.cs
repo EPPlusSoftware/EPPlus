@@ -524,8 +524,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var wrappedLines = layoutEngine.WrapRichTextLines(comparatorFragments, 225d);
 
             Assert.AreEqual(pointsTotal, wrappedLines[0].Width);
-            Assert.AreEqual(points1, wrappedLines[0].LineFragments[0].Width);
-            Assert.AreEqual(points2, wrappedLines[0].LineFragments[1].Width);
+            Assert.AreEqual(points1, wrappedLines[0].InternalLineFragments[0].Width);
+            Assert.AreEqual(points2, wrappedLines[0].InternalLineFragments[1].Width);
         }
 
         [TestMethod]
@@ -574,8 +574,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var wrappedLines = layoutEngine.WrapRichTextLines(comparatorFragments, 225d);
 
             Assert.AreEqual(pointsTotal, wrappedLines[0].Width);
-            Assert.AreEqual(points1, wrappedLines[0].LineFragments[0].Width);
-            Assert.AreEqual(points2, wrappedLines[0].LineFragments[1].Width);
+            Assert.AreEqual(points1, wrappedLines[0].InternalLineFragments[0].Width);
+            Assert.AreEqual(points2, wrappedLines[0].InternalLineFragments[1].Width);
             var noSpaceWidth = wrappedLines[0].GetWidthWithoutTrailingSpaces();
             Assert.AreEqual(202.8916f, noSpaceWidth);
         }
@@ -631,7 +631,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
 
-            Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
+            Assert.AreEqual(12.55224609375d, wrappedLines[0].InternalLineFragments[2].Width);
             Assert.AreEqual(202.8916f, wrappedLines[1].GetWidthWithoutTrailingSpaces());
 
             List<string> smallestTextFragments = new List<string>();
@@ -639,7 +639,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             //Ensure each linefragment can get correct text
             foreach(var line in wrappedLines)
             {
-                foreach(var lf in line.LineFragments)
+                foreach(var lf in line.InternalLineFragments)
                 {
                     var text = line.GetLineFragmentText(lf);
                     smallestTextFragments.Add(text);
@@ -736,25 +736,25 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(210.890625d, wrappedLines[3].Width, epsilon);
             Assert.AreEqual(127.04296875d, wrappedLines[4].Width, epsilon);
 
-            var line1FragmentsNew = wrappedLines[0].LineFragments;
+            var line1FragmentsNew = wrappedLines[0].InternalLineFragments;
             Assert.AreEqual(32.87646484375d, line1FragmentsNew[0].Width, epsilon);
 
-            var line2FragmentsNew = wrappedLines[1].LineFragments;
+            var line2FragmentsNew = wrappedLines[1].InternalLineFragments;
 
             Assert.AreEqual(5.30126953125d, line2FragmentsNew[0].Width, epsilon);
 
-            var line3FragmentsNew = wrappedLines[2].LineFragments;
+            var line3FragmentsNew = wrappedLines[2].InternalLineFragments;
 
             Assert.AreEqual(40.21875d, line3FragmentsNew[0].Width, epsilon);
             Assert.AreEqual(52.16943359375d, line3FragmentsNew[1].Width, epsilon);
             Assert.AreEqual(12.55712890625d, line3FragmentsNew[2].Width, epsilon);
 
-            var line4FragmentsNew = wrappedLines[3].LineFragments;
+            var line4FragmentsNew = wrappedLines[3].InternalLineFragments;
 
             Assert.AreEqual(24.86328125d, line4FragmentsNew[0].Width, epsilon);
             Assert.AreEqual(186.02734375d, line4FragmentsNew[1].Width, epsilon);
 
-            var line5FragmentsNew = wrappedLines[4].LineFragments;
+            var line5FragmentsNew = wrappedLines[4].InternalLineFragments;
 
             Assert.AreEqual(26.390625d, line5FragmentsNew[0].Width, epsilon);
             Assert.AreEqual(100.65234375d, line5FragmentsNew[1].Width, epsilon);
@@ -983,7 +983,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxWidthPt);
 
-            Assert.AreEqual(0, wrappedLines[1].LineFragments[0].StartIdx);
+            Assert.AreEqual(0, wrappedLines[1].InternalLineFragments[0].StartIdx);
         }
     }
 }

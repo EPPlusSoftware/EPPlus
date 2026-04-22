@@ -45,7 +45,7 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             var lines = wrappedCollection.GetTextLinesThatUse(fragments[4]);
             var specificFragments = wrappedCollection.GetLineFragmentsThatUse(fragments[4]);
 
-            Assert.AreEqual(lines[0].LineFragments[1], specificFragments[0]);
+            Assert.AreEqual(lines[0].InternalLineFragments[1], specificFragments[0]);
             Assert.AreEqual(fragments[4], wrappedCollection.LineFragments[6].OriginalTextFragment);
             Assert.AreEqual(Color.DarkRed, wrappedCollection.LineFragments[6].OriginalTextFragment.RichTextOptions.FontColor);
         }

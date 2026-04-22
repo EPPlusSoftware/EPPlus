@@ -15,9 +15,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         internal void EndCurrentTextLine()
         {
-            if (CurrentTextLine.LineFragments.Contains(LineFrag) == false)
+            if (CurrentTextLine.InternalLineFragments.Contains(LineFrag) == false)
             {
-                CurrentTextLine.LineFragments.Add(LineFrag);
+                CurrentTextLine.InternalLineFragments.Add(LineFrag);
             }
             Lines.Add(CurrentTextLine);
         }
@@ -36,7 +36,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             else
             {
                 //_fragmentsForNextLine.Add(LineFrag);
-                nextLine.LineFragments = _fragmentsForNextLine;
+                nextLine.InternalLineFragments = _fragmentsForNextLine;
 
                 //LineFrag.StartIdx = ;
                 Lines.Add(CurrentTextLine);
@@ -57,15 +57,15 @@ namespace EPPlus.Fonts.OpenType.Integration
             _rtIdxAtWordStart = CurrentFragmentIdx;
             _lineFragWidthAtWordStart = LineFrag.Width;
 
-            if(CurrentTextLine.LineFragments.Count == 0)
+            if(CurrentTextLine.InternalLineFragments.Count == 0)
             {
                 _listIdxWithinLine = 0;
                 return;
             }
 
-            _listIdxWithinLine = CurrentTextLine.LineFragments.Count - 1;
+            _listIdxWithinLine = CurrentTextLine.InternalLineFragments.Count - 1;
 
-            if (CurrentTextLine.LineFragments[_listIdxWithinLine].FragmentIndex < _rtIdxAtWordStart)
+            if (CurrentTextLine.InternalLineFragments[_listIdxWithinLine].FragmentIndex < _rtIdxAtWordStart)
             {
                 //When the word begins we are on a fragment that has not yet been added to the list.
                 //It will be the next index when added
@@ -91,23 +91,23 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 //If we are On the fragment we have not added it yet
                 //Do so before splitting
-                CurrentTextLine.LineFragments.Add(LineFrag);
+                CurrentTextLine.InternalLineFragments.Add(LineFrag);
             }
 
-            var origFragment = CurrentTextLine.LineFragments[_listIdxWithinLine];
+            var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
             var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart);
-            CurrentTextLine.LineFragments[_listIdxWithinLine] = origFragment;
+            CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;
 
             _fragmentsForNextLine = new List<LineFragment>();
 
             //Iterate backwards from back of list until we hit fragment
-            for (int i = CurrentTextLine.LineFragments.Count()-1; i > _listIdxWithinLine; i--)
+            for (int i = CurrentTextLine.InternalLineFragments.Count()-1; i > _listIdxWithinLine; i--)
             {
                 //Add fragment to the new list
-                _fragmentsForNextLine.Insert(0, CurrentTextLine.LineFragments[i]);
+                _fragmentsForNextLine.Insert(0, CurrentTextLine.InternalLineFragments[i]);
                 //Remove it from the old
-                CurrentTextLine.LineFragments.RemoveAt(i);
+                CurrentTextLine.InternalLineFragments.RemoveAt(i);
             }
 
             if (_rtIdxAtWordStart != CurrentFragmentIdx)
