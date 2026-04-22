@@ -8,7 +8,6 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-    //[DebuggerTypeProxy(typeof(TextLineSimpleVizualizer))]
     [DebuggerDisplay("{Text}")]
     public class TextLineSimple
     {
@@ -78,26 +77,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
         }
 
-        public TextLineSimple(string text, double largestFontSize, double largestAscent, double largestDescent)
-        {
-            InternalLineFragments = new LineFragmentCollection(text);
-            LargestFontSize = largestFontSize;
-            LargestAscent = largestAscent;
-            LargestDescent = largestDescent;
-        }
-
-        ///// <summary>
-        ///// Inserts the relevant substrings directly into the line fragments
-        ///// </summary>
-        //internal void CreateFinalizedSubstringsInLineFragments()
-        //{
-        //    foreach (var lineFragment in InternalLineFragments)
-        //    {
-        //        var text = GetLineFragmentText(lineFragment);
-        //        lineFragment.SetFinalizedText(text);
-        //    }
-        //}
-
         internal void FinalizeLineFragments(List<TextFragment> originalFragments)
         {
             foreach (var lf in InternalLineFragments)
@@ -149,47 +128,4 @@ namespace EPPlus.Fonts.OpenType.Integration
             return newLineFragment;
         }
     }
-
-    //internal class TextLineSimpleVizualizer
-    //{
-    //    public List<string> Display
-    //    {
-
-    //        get 
-    //        { 
-    //            List<int> startIndices = new List<int>();
-    //            List<string> lines = new List<string>();
-                
-    //            foreach(var fragment in _content.LineFragments )
-    //            {
-    //                //startIndices.Add(fragment.StartIdx);
-    //                lines.Add(_content.GetLineFragmentText(fragment)+$"   rtIdx:{fragment.RtFragIdx}");
-    //            }
-
-    //            //startIndices.Add(_content.Text.Length -1);
-
-    //            //List<string> lines = new List<string>();
-               
-
-    //            //for (int i = 0; i < startIndices.Count -1; i++)
-    //            //{
-    //            //    var startidx = startIndices[i + 1]+1;
-    //            //    var length = startidx - startIndices[i];
-    //            //    var substring = _content.Text.Substring(startIndices[i], length);
-    //            //    lines.Add(substring);
-    //            //}
-
-
-
-    //            return lines; 
-    //        }
-    //    }
-
-    //    private TextLineSimple _content;
-
-    //    public TextLineSimpleVizualizer(TextLineSimple content)
-    //    {
-    //        _content = content;
-    //    }
-    //}
 }

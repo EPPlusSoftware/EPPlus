@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Fonts.OpenType.Integration
 {
+    //Leaving this for now. May be neccesary for vertical text
     internal class CharInfo
     {
         internal int Index;

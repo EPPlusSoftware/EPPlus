@@ -6,6 +6,9 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
+    /// <summary>
+    /// Finalized output which uses callbacks to get data but can never have data set.
+    /// </summary>
     [DebuggerDisplay("{Text}")]
     public class LineFragmentOutput
     {

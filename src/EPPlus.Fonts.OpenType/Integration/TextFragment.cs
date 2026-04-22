@@ -38,6 +38,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double DescentPoints { get; set; }
     }
 
+    /// <summary>
+    /// Simple class to provide some kind of fallback/defaults
+    /// </summary>
     public class RichTextDefaults : IRichTextInfoBase
     {
         internal RichTextDefaults()

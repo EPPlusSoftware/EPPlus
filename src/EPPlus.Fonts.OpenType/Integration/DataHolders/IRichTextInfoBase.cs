@@ -8,6 +8,9 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
+    /// <summary>
+    /// Interface for pdf/svg/future richtext users to unify richtext styling
+    /// </summary>
     public interface IRichTextInfoBase
     {
 
