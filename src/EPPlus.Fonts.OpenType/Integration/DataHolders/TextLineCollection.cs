@@ -16,10 +16,12 @@ namespace EPPlus.Fonts.OpenType.Integration
         public MeasurementFont font;
     }
 
+    [DebuggerDisplay("{this[2].LineFragments[1]} {LineFragments[3]}")]
     public class TextLineCollection : List<TextLineSimple>, IEnumerable<TextLineSimple>
     {
         public ezFrag[] ezFrags;
         public List<TextFragment> individualFragments;
+        public List<LineFragmentData> LineFragments = new List<LineFragmentData>();
 
         public List<TextFragment> GetFragments()
         {
@@ -84,17 +86,25 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 int lineNum = i;
                 int fragCount = 0;
+
+                lines[i].CreateFinalizedSubstringsInLineFragments();
+
                 foreach (var lf in lines[i].LineFragments)
                 {
-                    //lineFragmentText.Add(line.GetLineFragmentText(lf));
-                    //fragIds.Add(lf.RtFragIdx);
+                    var idx = lf.FragmentIndex;
 
-                    //if (fragmentLookup[lf.RtFragIdx].ContainsKey(lineNum) == false)
-                    //{
-                    //    fragmentLookup[lf.RtFragIdx].Add(lineNum, new List<int>());
-                    //}
+                    if (fragIdLookup[idx].ContainsKey(lineNum) == false)
+                    {
+                        fragIdLookup[idx].Add(lineNum, new List<int>());
+                    }
 
-                    //fragmentLookup[lf.RtFragIdx][lineNum].Add(fragCount);
+                    fragIdLookup[idx][lineNum].Add(fragCount);
+
+                    LineFragmentData data = new LineFragmentData(
+                        () => { return _originalFragments[idx]; },
+                        () => { return lf.Width; },
+                        lines[i].GetLineFragmentText(lf));
+                    LineFragments.Add(data);
 
                     fragCount++;
                 }

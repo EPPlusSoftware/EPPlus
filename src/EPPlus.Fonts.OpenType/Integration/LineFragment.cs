@@ -21,7 +21,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public double Width { get; set; }
         /// <summary>
-        /// Index of the orginal TextFragment this line fragment came from
+        /// Index of original TextFragment
         /// </summary>
         public int FragmentIndex { get; set; }
 
