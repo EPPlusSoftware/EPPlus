@@ -30,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
        Description = "Allows you to create a summary of your data via a formula. It supports grouping along two axis and aggregating the associated values.")]
     internal class PivotBy : GroupByFunctionBase
     {
-        public override int ArgumentMinLength => 3; // kanske ska vara 4
+        public override int ArgumentMinLength => 3; // kan
+                                                    // ske ska vara 4
         public override string NamespacePrefix => "_xlfn.";
         public override bool ExecutesLambda => true;
 
@@ -318,11 +319,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             string.Join("\u001F", parts.Select(p => p?.ToString()?.ToLowerInvariant() ?? string.Empty).ToArray());
 
         private InMemoryRange RenderPivot(
-    List<LeafWithPath> rowLeaves,
-    List<LeafWithPath> colLeaves,
-    Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-    PivotByArgs args,
-    ParsingContext context)
+     List<LeafWithPath> rowLeaves,
+     List<LeafWithPath> colLeaves,
+     Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+     PivotByArgs args,
+     ParsingContext context)
         {
             int nRowKeyCols = args.RowFields.Size.NumberOfCols;
             int nColKeyRows = args.ColFields.Size.NumberOfCols;
@@ -334,37 +335,60 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             bool showColTotal = args.ColTotalDepth != TotalDepthNoTotals;
             bool rowTotalAtTop = args.RowTotalDepth < 0;
             bool colTotalAtLeft = args.ColTotalDepth < 0;
+            int colSubtotalDepth = Math.Abs(args.ColTotalDepth);
+            bool showColSubtotals = colSubtotalDepth > 1;
 
-            int dataRows = nRowLeaves;
-            int dataCols = nColLeaves;
-            int totalRows = nColKeyRows + dataRows + (showRowTotal ? 1 : 0);
-            int totalCols = nRowKeyCols + dataCols + (showColTotal ? 1 : 0);
+            // Gruppera kolumnlöv per översta nyckelgrupp (nivå 0)
+            var colGroups = colLeaves
+                .GroupBy(l => l.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty)
+                .ToList();
+
+            // Bygg ordnad lista av kolumner – löv först, subtotal sist i varje grupp
+            var colEntries = new List<ColEntry>();
+            foreach (var group in colGroups)
+            {
+                var groupLeaves = group.ToList();
+                foreach (var leaf in groupLeaves)
+                    colEntries.Add(new ColEntry { IsSubtotal = false, Leaf = leaf });
+                if (showColSubtotals)
+                    colEntries.Add(new ColEntry { IsSubtotal = true, GroupKey = group.Key, GroupLeaves = groupLeaves });
+            }
+
+            int nDataCols = colEntries.Count;
+            int totalRows = nColKeyRows + nRowLeaves + (showRowTotal ? 1 : 0);
+            int totalCols = nRowKeyCols + nDataCols + (showColTotal ? 1 : 0);
 
             var result = new InMemoryRange(totalRows, (short)totalCols);
 
-            int grandTotalCol = colTotalAtLeft ? nRowKeyCols : nRowKeyCols + dataCols;
-            int grandTotalRow = rowTotalAtTop ? nColKeyRows : nColKeyRows + dataRows;
+            int grandTotalCol = colTotalAtLeft ? nRowKeyCols : nRowKeyCols + nDataCols;
+            int grandTotalRow = rowTotalAtTop ? nColKeyRows : nColKeyRows + nRowLeaves;
             int dataRowStart = nColKeyRows + (rowTotalAtTop ? 1 : 0);
             int colOffset = colTotalAtLeft ? 1 : 0;
 
-            // --- Rubrikrader (en per kolumnnivå) ---
+            // --- Rubrikrader ---
             for (int level = 0; level < nColKeyRows; level++)
             {
-                for (int ci = 0; ci < nColLeaves; ci++)
+                int col = nRowKeyCols + colOffset;
+                foreach (var entry in colEntries)
                 {
-                    var colPath = colLeaves[ci].Path;
-                    var val = level < colPath.Length ? colPath[level] : null;
-                    result.SetValue(level, nRowKeyCols + colOffset + ci, val);
+                    if (entry.IsSubtotal)
+                        result.SetValue(level, col, level == 0 ? entry.GroupLeaves[0].Path[0] : (object)string.Empty);
+                    else
+                    {
+                        var val = level < entry.Leaf.Path.Length ? entry.Leaf.Path[level] : null;
+                        result.SetValue(level, col, val);
+                    }
+                    col++;
                 }
 
                 if (showColTotal)
-                    result.SetValue(level, grandTotalCol, level == 0 ? (object)"Total" : string.Empty);
+                    result.SetValue(level, grandTotalCol, level == 0 ? (object)"Grand Total" : string.Empty);
             }
 
             // --- Grand total-rad överst ---
             if (rowTotalAtTop && showRowTotal)
-                WriteGrandTotalRow(result, nColKeyRows, colLeaves, pivotMap, args, context,
-                                   nRowKeyCols, nColLeaves, colOffset, grandTotalCol, showColTotal);
+                WriteGrandTotalRow(result, nColKeyRows, colEntries, pivotMap, args, context,
+                                   nRowKeyCols, colOffset, grandTotalCol, showColTotal);
 
             // --- Datarader ---
             for (int ri = 0; ri < nRowLeaves; ri++)
@@ -378,18 +402,40 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
                 string rowKey = MakePivotKey(rowPath);
 
-                for (int ci = 0; ci < nColLeaves; ci++)
+                int col = nRowKeyCols + colOffset;
+                foreach (var entry in colEntries)
                 {
-                    string colKey = MakePivotKey(colLeaves[ci].Path);
-
-                    object aggregated = null;
-                    if (pivotMap.TryGetValue(rowKey, out var colMap) &&
-                        colMap.TryGetValue(colKey, out var cellVals))
+                    if (entry.IsSubtotal)
                     {
-                        aggregated = Aggregate(args.Function, cellVals, context,
-                            args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        var groupVals = entry.GroupLeaves
+                            .SelectMany(l =>
+                            {
+                                var ck = MakePivotKey(l.Path);
+                                if (pivotMap.TryGetValue(rowKey, out var cm) && cm.TryGetValue(ck, out var cv))
+                                    return cv;
+                                return Enumerable.Empty<object[]>();
+                            })
+                            .ToList();
+
+                        object subtotalVal = null;
+                        if (groupVals.Count > 0)
+                            subtotalVal = Aggregate(args.Function, groupVals, context,
+                                args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        result.SetValue(outputRow, col, subtotalVal);
                     }
-                    result.SetValue(outputRow, nRowKeyCols + colOffset + ci, aggregated);
+                    else
+                    {
+                        string colKey = MakePivotKey(entry.Leaf.Path);
+                        object aggregated = null;
+                        if (pivotMap.TryGetValue(rowKey, out var colMap) &&
+                            colMap.TryGetValue(colKey, out var cellVals))
+                        {
+                            aggregated = Aggregate(args.Function, cellVals, context,
+                                args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                        }
+                        result.SetValue(outputRow, col, aggregated);
+                    }
+                    col++;
                 }
 
                 if (showColTotal)
@@ -403,8 +449,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             // --- Grand total-rad nederst ---
             if (!rowTotalAtTop && showRowTotal)
-                WriteGrandTotalRow(result, grandTotalRow, colLeaves, pivotMap, args, context,
-                                   nRowKeyCols, nColLeaves, colOffset, grandTotalCol, showColTotal);
+                WriteGrandTotalRow(result, grandTotalRow, colEntries, pivotMap, args, context,
+                                   nRowKeyCols, colOffset, grandTotalCol, showColTotal);
 
             return result;
         }
@@ -412,12 +458,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         private void WriteGrandTotalRow(
             InMemoryRange result,
             int r,
-            List<LeafWithPath> colLeaves,
+            List<ColEntry> colEntries,
             Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
             PivotByArgs args,
             ParsingContext context,
             int nRowKeyCols,
-            int nColLeaves,
             int colOffset,
             int grandTotalCol,
             bool showColTotal)
@@ -426,26 +471,46 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             for (int c = 1; c < nRowKeyCols; c++)
                 result.SetValue(r, c, string.Empty);
 
-            for (int ci = 0; ci < nColLeaves; ci++)
+            int col = nRowKeyCols + colOffset;
+            foreach (var entry in colEntries)
             {
-                string colKey = MakePivotKey(colLeaves[ci].Path);
-
-                var allValsForCol = pivotMap.Values
-                    .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
-                        ? cv
-                        : Enumerable.Empty<object[]>())
-                    .ToList();
-
-                object grandVal = null;
-                if (allValsForCol.Count > 0)
+                if (entry.IsSubtotal)
                 {
-                    grandVal = Aggregate(args.Function, allValsForCol, context,
-                        args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                    var groupVals = entry.GroupLeaves
+                        .SelectMany(l =>
+                        {
+                            var ck = MakePivotKey(l.Path);
+                            return pivotMap.Values
+                                .SelectMany(cm => cm.TryGetValue(ck, out var cv)
+                                    ? cv
+                                    : Enumerable.Empty<object[]>());
+                        })
+                        .ToList();
+
+                    object subtotalVal = null;
+                    if (groupVals.Count > 0)
+                        subtotalVal = Aggregate(args.Function, groupVals, context,
+                            args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                    result.SetValue(r, col, subtotalVal);
                 }
-                result.SetValue(r, nRowKeyCols + colOffset + ci, grandVal);
+                else
+                {
+                    string colKey = MakePivotKey(entry.Leaf.Path);
+                    var allValsForCol = pivotMap.Values
+                        .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+                            ? cv
+                            : Enumerable.Empty<object[]>())
+                        .ToList();
+
+                    object grandVal = null;
+                    if (allValsForCol.Count > 0)
+                        grandVal = Aggregate(args.Function, allValsForCol, context,
+                            args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                    result.SetValue(r, col, grandVal);
+                }
+                col++;
             }
 
-            // Hörncellen: aggregera hela AllValuesInOrder
             if (showColTotal)
             {
                 var colValues = args.AllValuesInOrder
@@ -455,6 +520,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                 result.SetValue(r, grandTotalCol, cornerVal);
             }
+        }
+
+        private class ColEntry
+        {
+            public bool IsSubtotal { get; set; }
+            public string GroupKey { get; set; }
+            public List<LeafWithPath> GroupLeaves { get; set; }
+            public LeafWithPath Leaf { get; set; }
         }
 
         private List<LeafWithPath> CollectLeavesWithPath(List<GroupLevel> levels, object[] parentPath)

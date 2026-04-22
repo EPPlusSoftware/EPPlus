@@ -163,6 +163,62 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
+        public void PivotBySubTotalsIncluded()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3,_xleta.SUM,,,,2)";
+                s.Calculate();
 
+                // Rubrikrad 1
+                Assert.AreEqual("X", s.Cells["F1"].Value);
+                Assert.AreEqual("X", s.Cells["G1"].Value);
+                Assert.AreEqual("X", s.Cells["H1"].Value);
+                Assert.AreEqual("Y", s.Cells["I1"].Value);
+                Assert.AreEqual("Y", s.Cells["J1"].Value);
+                Assert.AreEqual("Grand Total", s.Cells["K1"].Value);
+
+                // Rubrikrad 2
+                Assert.AreEqual("I", s.Cells["H2"].Value);
+                Assert.AreEqual("O", s.Cells["I2"].Value);
+                Assert.AreEqual("I", s.Cells["K2"].Value);
+
+                // A
+                Assert.AreEqual("A", s.Cells["E3"].Value);
+                Assert.AreEqual(2d, s.Cells["G3"].Value);
+                Assert.AreEqual(2d, s.Cells["H3"].Value);
+                Assert.AreEqual(4d, s.Cells["I3"].Value);
+                Assert.AreEqual(4d, s.Cells["J3"].Value);
+                Assert.AreEqual(6d, s.Cells["K3"].Value);
+
+                // B
+                Assert.AreEqual("B", s.Cells["E4"].Value);
+                Assert.AreEqual(1d, s.Cells["F4"].Value);
+                Assert.AreEqual(1d, s.Cells["H4"].Value);
+                Assert.AreEqual(1d, s.Cells["K4"].Value);
+
+                // Total
+                Assert.AreEqual("Total", s.Cells["E5"].Value);
+                Assert.AreEqual(1d, s.Cells["F5"].Value);
+                Assert.AreEqual(2d, s.Cells["G5"].Value);
+                Assert.AreEqual(3d, s.Cells["H5"].Value);
+                Assert.AreEqual(4d, s.Cells["I5"].Value);
+                Assert.AreEqual(4d, s.Cells["J5"].Value);
+                Assert.AreEqual(7d, s.Cells["K5"].Value);
+            }
+        }
     }
 }
