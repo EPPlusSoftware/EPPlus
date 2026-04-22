@@ -20,7 +20,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// External output data for reading
         /// </summary>
-        public List<LineFragmentData> LineFragments { get; internal set; } = new List<LineFragmentData>();
+        public List<LineFragmentOutput> LineFragments { get; internal set; } = new List<LineFragmentOutput>();
 
         public string Text { get; internal set; }
         /// <summary>
@@ -102,11 +102,12 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             foreach (var lf in InternalLineFragments)
             {
-                LineFragmentData data = new LineFragmentData(
+                LineFragmentOutput data = new LineFragmentOutput(
                     () => { return originalFragments[lf.FragmentIndex]; },
                     () => { return lf.Width; },
-                    GetLineFragmentText(lf),
-                    lf.StartIdx);
+                    () => { return lf.StartIdx; },
+                    GetLineFragmentText(lf)
+                    );
                 LineFragments.Add(data);
             }
         }

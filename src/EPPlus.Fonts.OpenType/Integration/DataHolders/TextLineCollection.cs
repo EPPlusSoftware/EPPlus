@@ -13,8 +13,29 @@ namespace EPPlus.Fonts.OpenType.Integration
 
     public class TextLineCollection : List<TextLineSimple>, IEnumerable<TextLineSimple>
     {
-        public List<LineFragmentData> LineFragments = new List<LineFragmentData>();
+        /// <summary>
+        /// Array of the line numbers where fragment occurs
+        /// </summary>
+        public List<LineFragmentOutput> LineFragments = new List<LineFragmentOutput>();
         List<TextFragment> _originalFragments;
+
+        public int[] GetLineNumbersThatUse(TextFragment fragment)
+        {
+            var idx = _originalFragments.IndexOf(fragment);
+            List<int> result = new List<int>();
+            if (idx != -1)
+            {
+                foreach (var key in fragIdLookup[idx].Keys)
+                {
+                    result.Add(key);
+                }
+                return result.ToArray();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Returns null if fragment is not found in any lines
@@ -45,7 +66,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         /// <param name="fragment"></param>
         /// <returns></returns>
-        public List<LineFragment> GetLineFragmentsThatUse(TextFragment fragment)
+        public List<LineFragment> GetInternalLineFragmentsThatUse(TextFragment fragment)
         {
             var idx = _originalFragments.IndexOf(fragment);
 
@@ -67,32 +88,32 @@ namespace EPPlus.Fonts.OpenType.Integration
             return retFragments;
         }
 
-        ///// <summary>
-        ///// Returns null if fragment is not found in any linefragments
-        ///// </summary>
-        ///// <param name="fragment"></param>
-        ///// <returns></returns>
-        //public List<LineFragment> GetLineFragmentDataThatUses(TextFragment fragment)
-        //{
-        //    var idx = _originalFragments.IndexOf(fragment);
+        /// <summary>
+        /// Returns null if fragment is not found in any linefragments
+        /// </summary>
+        /// <param name="fragment"></param>
+        /// <returns></returns>
+        public List<LineFragmentOutput> GetLineFragmentsThatUse(TextFragment fragment)
+        {
+            var idx = _originalFragments.IndexOf(fragment);
 
-        //    List<LineFragmentData> retFragments = null;
+            List<LineFragmentOutput> retFragments = null;
 
-        //    if (idx != -1)
-        //    {
-        //        retFragments = new List<LineFragmentData>();
+            if (idx != -1)
+            {
+                retFragments = new List<LineFragmentOutput>();
 
-        //        foreach (var key in fragIdLookup[idx].Keys)
-        //        {
-        //            foreach (var lineFragment in fragIdLookup[idx][key])
-        //            {
-        //                retFragments.Add(this[key].LineFragments[lineFragment]);
-        //            }
-        //        }
-        //    }
+                foreach (var key in fragIdLookup[idx].Keys)
+                {
+                    foreach (var lineFragment in fragIdLookup[idx][key])
+                    {
+                        retFragments.Add(this[key].LineFragments[lineFragment]);
+                    }
+                }
+            }
 
-        //    return retFragments;
-        //}
+            return retFragments;
+        }
 
         /// <summary>
         /// The id of the orginal fragment may correspond to 
@@ -108,6 +129,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             return _originalFragments[fragIdx].Font;
         }
 
+        /// <summary>
+        /// If using this MUST call FinalizeTextLineData to finish the information gathering
+        /// </summary>
+        /// <param name="fragmentCollection"></param>
         public TextLineCollection(TextFragmentCollectionSimple fragmentCollection)
         {
             _originalFragments = fragmentCollection;
@@ -140,12 +165,22 @@ namespace EPPlus.Fonts.OpenType.Integration
                 {
                     var idx = lf.FragmentIndex;
                     AddToDictionary(idx, lineNum, fragCount);
+                    LineFragmentOutput data;
+                    if (lines[i].LineFragments == null || lines[i].LineFragments.Count != lines[i].InternalLineFragments.Count)
+                    {
+                        data = new LineFragmentOutput(
+                           () => { return _originalFragments[idx]; },
+                           () => { return lf.Width; },
+                           () => { return lf.StartIdx; },
+                           lines[i].GetLineFragmentText(lf)
+                           );
+                    }
+                    else
+                    {
+                        //If already calculate don't duplicate just use the data
+                        data = lines[i].LineFragments[fragCount];
+                    }
 
-                    LineFragmentData data = new LineFragmentData(
-                        () => { return _originalFragments[idx]; },
-                        () => { return lf.Width; },
-                        lines[i].GetLineFragmentText(lf),
-                        lf.StartIdx);
                     LineFragments.Add(data);
 
                     fragCount++;
@@ -163,35 +198,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 fragIdLookup.Add(i, new Dictionary<int, List<int>>());
             }
 
-            for(int i = 0; i < lines.Count; i++)
-            {
-                int lineNum = i;
-                int fragCount = 0;
-
-                //lines[i].CreateFinalizedSubstringsInLineFragments();
-
-                foreach (var lf in lines[i].InternalLineFragments)
-                {
-                    var idx = lf.FragmentIndex;
-
-                    if (fragIdLookup[idx].ContainsKey(lineNum) == false)
-                    {
-                        fragIdLookup[idx].Add(lineNum, new List<int>());
-                    }
-
-                    fragIdLookup[idx][lineNum].Add(fragCount);
-
-                    LineFragmentData data = new LineFragmentData(
-                        () => { return _originalFragments[idx]; },
-                        () => { return lf.Width; },
-                        lines[i].GetLineFragmentText(lf),
-                        lf.StartIdx);
-                    LineFragments.Add(data);
-
-                    fragCount++;
-                }
-                Add(lines[i]);
-            }
+            FinalizeTextLineData(lines);
         }
     }
 }

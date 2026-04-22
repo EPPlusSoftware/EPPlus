@@ -17,7 +17,6 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
         [TestMethod]
         public void TestLineFragmentAbstraction()
         {
-
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var fragments = GetTextFragments();
@@ -26,13 +25,12 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
 
-            var line1 = wrappedLines[0];
+
         }
 
         [TestMethod]
         public void TestLineFragmentSeeWhatLinesUseWhatRichText()
         {
-
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var fragments = GetTextFragments();
@@ -46,10 +44,14 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
             var lines = wrappedCollection.GetTextLinesThatUse(fragments[4]);
             var specificFragments = wrappedCollection.GetLineFragmentsThatUse(fragments[4]);
+            var lineIndicies = wrappedCollection.GetLineNumbersThatUse(fragments[4]);
 
-            Assert.AreEqual(lines[0].InternalLineFragments[1], specificFragments[0]);
+            Assert.AreEqual(lines[0].LineFragments[1], specificFragments[0]);
             Assert.AreEqual(fragments[4], wrappedCollection.LineFragments[6].OriginalTextFragment);
             Assert.AreEqual(Color.DarkRed, wrappedCollection.LineFragments[6].OriginalTextFragment.RichTextOptions.FontColor);
+
+            var expectedArr = new int[] { 3, 4 };
+            expectedArr.SequenceCompareTo(lineIndicies);
         }
 
         List<TextFragment> GetTextFragments()
