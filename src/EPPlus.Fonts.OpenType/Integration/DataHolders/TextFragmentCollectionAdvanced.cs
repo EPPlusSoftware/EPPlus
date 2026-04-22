@@ -103,7 +103,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             foreach (var idx in currFragments)
             {
-                var fragment = new LineFragment(lineStartCharIndex, idx);
+                var fragment = new LineFragment(idx, lineStartCharIndex);
             }
 
             _lines.Add(lastLine);

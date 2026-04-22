@@ -12,7 +12,6 @@ namespace EPPlus.Fonts.OpenType.Integration
     public class TextLineVizualizer
     {
         TextLineCollection _parentCollection;
-        internal TextLineSimple TextLineDetails;
         int _lineNum;
 
         internal List<string> lineFragmentText = new List<string>();
@@ -25,27 +24,25 @@ namespace EPPlus.Fonts.OpenType.Integration
         //    } 
         //}
 
-        public TextLineVizualizer(TextLineCollection parentCollection, TextLineSimple line, int lineNum, 
+        public TextLineVizualizer(List<LineFragment> fragments, int lineNum, 
             ref Dictionary<int, Dictionary<int, List<int>>> fragmentLookup)
         {
-            _lineNum = lineNum;
-            TextLineDetails = line;
-            _parentCollection = parentCollection;
-            int fragCount = 0;
-            foreach(var lf in line.LineFragments)
-            {
-                lineFragmentText.Add(line.GetLineFragmentText(lf));
-                fragIds.Add(lf.RtFragIdx);
+            //_lineNum = lineNum;
+            //int fragCount = 0;
+            //foreach(var lf in fragments)
+            //{
+            //    lineFragmentText.Add(line.GetLineFragmentText(lf));
+            //    fragIds.Add(lf.RtFragIdx);
 
-                if (fragmentLookup[lf.RtFragIdx].ContainsKey(lineNum)== false)
-                {
-                    fragmentLookup[lf.RtFragIdx].Add(lineNum, new List<int>());
-                }
+            //    if (fragmentLookup[lf.RtFragIdx].ContainsKey(lineNum)== false)
+            //    {
+            //        fragmentLookup[lf.RtFragIdx].Add(lineNum, new List<int>());
+            //    }
 
-                fragmentLookup[lf.RtFragIdx][lineNum].Add(fragCount);
+            //    fragmentLookup[lf.RtFragIdx][lineNum].Add(fragCount);
 
-                fragCount++;
-            }
+            //    fragCount++;
+            //}
             //var text = _lines[i].GetLineFragmentText(lf);
             //var font = fonts[lf.RtFragIdx];
             //var details = _lines[i].LineFragments;

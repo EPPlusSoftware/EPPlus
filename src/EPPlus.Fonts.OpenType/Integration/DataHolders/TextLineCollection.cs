@@ -10,9 +10,16 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-    [DebuggerDisplay("Lines = {Lines}")]
+    public struct ezFrag()
+    {
+        public string text;
+        public MeasurementFont font;
+    }
+
     public class TextLineCollection : List<TextLineSimple>, IEnumerable<TextLineSimple>
     {
+        public ezFrag[] ezFrags;
+        public List<TextFragment> individualFragments;
 
         public List<TextFragment> GetFragments()
         {
@@ -23,13 +30,24 @@ namespace EPPlus.Fonts.OpenType.Integration
                 var line = Lines[i];
                 for (int j = 0; j< line.lineFragmentText.Count; j++)
                 {
-                    var fragment = new TextFragment() 
-                    { 
+                    var fragment = new TextFragment()
+                    {
                         Text = line.lineFragmentText[j],
                         Font = GetFont(line.fragIds[j]),
+                        AscentPoints = _originalFragments[j].AscentPoints,
+                        DescentPoints = _originalFragments[j].DescentPoints
                     };
                     fragments.Add(fragment);
                 }
+            }
+
+            ezFrags = new ezFrag[fragments.Count];
+
+            individualFragments = fragments;
+
+            for (int i = 0; i < Lines.Count; i++)
+            {
+                ezFrags[i] = new ezFrag() { text = fragments[i].Text, font = fragments[i].Font };
             }
 
             return fragments;
@@ -65,22 +83,24 @@ namespace EPPlus.Fonts.OpenType.Integration
             for(int i = 0; i < lines.Count; i++)
             {
                 int lineNum = i;
+                int fragCount = 0;
+                foreach (var lf in lines[i].LineFragments)
+                {
+                    //lineFragmentText.Add(line.GetLineFragmentText(lf));
+                    //fragIds.Add(lf.RtFragIdx);
 
-                Lines.Add(new TextLineVizualizer(this, lines[i], i, ref fragIdLookup));
+                    //if (fragmentLookup[lf.RtFragIdx].ContainsKey(lineNum) == false)
+                    //{
+                    //    fragmentLookup[lf.RtFragIdx].Add(lineNum, new List<int>());
+                    //}
+
+                    //fragmentLookup[lf.RtFragIdx][lineNum].Add(fragCount);
+
+                    fragCount++;
+                }
+                Add(lines[i]);
             }
-        }
-
-        IEnumerator<TextLineSimple> IEnumerable<TextLineSimple>.GetEnumerator()
-        {
-            for (int i = 0; i < Lines.Count; i++)
-            {
-                yield return Lines[i].TextLineDetails;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Lines.GetEnumerator();
+            GetFragments();
         }
     }
 }

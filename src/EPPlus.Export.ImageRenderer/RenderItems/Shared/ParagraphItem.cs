@@ -468,7 +468,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             }
                             else
                             {
-                                AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText, prevWidth);
+                                AddRenderItemTextRun(p.TextRuns[lineFragment.FragmentIndex], displayText, prevWidth);
                             }
 
                             TextRunItem runItem = Runs.Last();

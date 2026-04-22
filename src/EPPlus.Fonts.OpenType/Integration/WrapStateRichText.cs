@@ -65,7 +65,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             _listIdxWithinLine = CurrentTextLine.LineFragments.Count - 1;
 
-            if (CurrentTextLine.LineFragments[_listIdxWithinLine].RtFragIdx < _rtIdxAtWordStart)
+            if (CurrentTextLine.LineFragments[_listIdxWithinLine].FragmentIndex < _rtIdxAtWordStart)
             {
                 //When the word begins we are on a fragment that has not yet been added to the list.
                 //It will be the next index when added

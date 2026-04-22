@@ -118,13 +118,15 @@ namespace EPPlus.Fonts.OpenType.Integration
                 double largestDescent = 0;
                 foreach (var lineFragment in line.LineFragments)
                 {
-                    var frag = fragments[lineFragment.RtFragIdx];
+                    var frag = fragments[lineFragment.FragmentIndex];
                     if (frag == null) continue;
                     largestAscent = Math.Max(frag.AscentPoints, largestAscent);
                     largestDescent = Math.Max(frag.DescentPoints, largestDescent);
                 }
                 line.LargestAscent = largestAscent;
                 line.LargestDescent = largestDescent;
+
+                line.CreateFinalizedSubstringsInLineFragments();
             }
 
             if (_lineListBuffer.Count == 0)
@@ -161,10 +163,12 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size);
 
-            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length);
-            state.LineFrag.SpaceWidth = spaceWidth;
-            state.LineFrag.StartIdx = lineBuilder.Length;
-            state.LineFrag.RtFragIdx = state.CurrentFragmentIdx;
+            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length)
+            {
+                SpaceWidth = spaceWidth,
+                StartIdx = lineBuilder.Length,
+                FragmentIndex = state.CurrentFragmentIdx
+            };
 
             int i = 0;
             while (i < len)

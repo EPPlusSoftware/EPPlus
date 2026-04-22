@@ -8,7 +8,8 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-    [DebuggerTypeProxy(typeof(TextLineSimpleVizualizer))]
+    //[DebuggerTypeProxy(typeof(TextLineSimpleVizualizer))]
+    [DebuggerDisplay("{Text}")]
     public class TextLineSimple
     {
         public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
@@ -77,6 +78,18 @@ namespace EPPlus.Fonts.OpenType.Integration
             LargestDescent = largestDescent;
         }
 
+        /// <summary>
+        /// Inserts the relevant substrings directly into the line fragments
+        /// </summary>
+        internal void CreateFinalizedSubstringsInLineFragments()
+        {
+            foreach (var lineFragment in LineFragments)
+            {
+                var text = GetLineFragmentText(lineFragment);
+                lineFragment.SetFinalizedText(text);
+            }
+        }
+
         public string GetLineFragmentText(LineFragment rtFragment)
         {
             if (LineFragments.Contains(rtFragment) == false)
@@ -106,7 +119,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit)
         {
             //If we are splitting a fragment its position in the new line should be 0
-            var newLineFragment = new LineFragment(origLf.RtFragIdx, 0);
+            var newLineFragment = new LineFragment(origLf.FragmentIndex, 0);
             newLineFragment.Width = origLf.Width - widthAtSplit;
 
             origLf.Width = widthAtSplit;
@@ -115,46 +128,46 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
     }
 
-    internal class TextLineSimpleVizualizer
-    {
-        public List<string> Display
-        {
+    //internal class TextLineSimpleVizualizer
+    //{
+    //    public List<string> Display
+    //    {
 
-            get 
-            { 
-                List<int> startIndices = new List<int>();
-                List<string> lines = new List<string>();
+    //        get 
+    //        { 
+    //            List<int> startIndices = new List<int>();
+    //            List<string> lines = new List<string>();
                 
-                foreach(var fragment in _content.LineFragments )
-                {
-                    //startIndices.Add(fragment.StartIdx);
-                    lines.Add(_content.GetLineFragmentText(fragment)+$"   rtIdx:{fragment.RtFragIdx}");
-                }
+    //            foreach(var fragment in _content.LineFragments )
+    //            {
+    //                //startIndices.Add(fragment.StartIdx);
+    //                lines.Add(_content.GetLineFragmentText(fragment)+$"   rtIdx:{fragment.RtFragIdx}");
+    //            }
 
-                //startIndices.Add(_content.Text.Length -1);
+    //            //startIndices.Add(_content.Text.Length -1);
 
-                //List<string> lines = new List<string>();
+    //            //List<string> lines = new List<string>();
                
 
-                //for (int i = 0; i < startIndices.Count -1; i++)
-                //{
-                //    var startidx = startIndices[i + 1]+1;
-                //    var length = startidx - startIndices[i];
-                //    var substring = _content.Text.Substring(startIndices[i], length);
-                //    lines.Add(substring);
-                //}
+    //            //for (int i = 0; i < startIndices.Count -1; i++)
+    //            //{
+    //            //    var startidx = startIndices[i + 1]+1;
+    //            //    var length = startidx - startIndices[i];
+    //            //    var substring = _content.Text.Substring(startIndices[i], length);
+    //            //    lines.Add(substring);
+    //            //}
 
 
 
-                return lines; 
-            }
-        }
+    //            return lines; 
+    //        }
+    //    }
 
-        private TextLineSimple _content;
+    //    private TextLineSimple _content;
 
-        public TextLineSimpleVizualizer(TextLineSimple content)
-        {
-            _content = content;
-        }
-    }
+    //    public TextLineSimpleVizualizer(TextLineSimple content)
+    //    {
+    //        _content = content;
+    //    }
+    //}
 }

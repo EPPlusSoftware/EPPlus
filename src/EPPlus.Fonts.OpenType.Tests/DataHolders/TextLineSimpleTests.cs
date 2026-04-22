@@ -24,6 +24,10 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
 
+            var collection = new TextLineCollection(wrappedLines, fragments);
+
+            var frags = collection.ezFrags;
+
             var line1 = wrappedLines[0];
         }
 
