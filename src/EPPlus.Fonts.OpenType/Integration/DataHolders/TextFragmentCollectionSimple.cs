@@ -16,7 +16,5 @@ namespace EPPlus.Fonts.OpenType.Integration
                 Add(new TextFragment() { Font = fonts[i], Text = texts[i] });
             }
         }
-
-
     }
 }

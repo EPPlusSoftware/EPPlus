@@ -82,6 +82,15 @@ namespace EPPlus.Fonts.OpenType.Integration
             return WrapRichTextLines(tCollection, maxWidthPoints);
         }
 
+        public TextLineCollection WrapRichTextLineCollection(
+            List<TextFragment> fragments,
+            double maxWidthPoints)
+        {
+            var innerLines = WrapRichTextLines(fragments, maxWidthPoints);
+            var collection = new TextLineCollection(innerLines, fragments);
+            return collection;
+        }
+
         public List<TextLineSimple> WrapRichTextLines(
             List<TextFragment> fragments,
             double maxWidthPoints)
@@ -125,16 +134,12 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 line.LargestAscent = largestAscent;
                 line.LargestDescent = largestDescent;
-
-                line.CreateFinalizedSubstringsInLineFragments();
             }
 
             if (_lineListBuffer.Count == 0)
             {
                 _lineListBuffer.Add(string.Empty);
             }
-
-
 
             return state.Lines;
         }

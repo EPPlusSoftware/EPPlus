@@ -10,54 +10,89 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-    public struct ezFrag()
-    {
-        public string text;
-        public MeasurementFont font;
-    }
 
-    [DebuggerDisplay("{this[2].LineFragments[1]} {LineFragments[3]}")]
     public class TextLineCollection : List<TextLineSimple>, IEnumerable<TextLineSimple>
     {
-        public ezFrag[] ezFrags;
-        public List<TextFragment> individualFragments;
         public List<LineFragmentData> LineFragments = new List<LineFragmentData>();
+        List<TextFragment> _originalFragments;
 
-        public List<TextFragment> GetFragments()
+        /// <summary>
+        /// Returns null if fragment is not found in any lines
+        /// </summary>
+        /// <param name="fragment"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public List<TextLineSimple> GetTextLinesThatUse(TextFragment fragment)
         {
-            List<TextFragment> fragments = new List<TextFragment>();
+            var idx = _originalFragments.IndexOf(fragment);
 
-            for (int i = 0; i< Lines.Count; i++)
+            if(idx != -1)
             {
-                var line = Lines[i];
-                for (int j = 0; j< line.lineFragmentText.Count; j++)
+                List<TextLineSimple> retLines = new List<TextLineSimple>();
+                foreach (var key in fragIdLookup[idx].Keys)
                 {
-                    var fragment = new TextFragment()
+                    retLines.Add(this[key]);
+                }
+                return retLines;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Returns null if fragment is not found in any linefragments
+        /// </summary>
+        /// <param name="fragment"></param>
+        /// <returns></returns>
+        public List<LineFragment> GetLineFragmentsThatUse(TextFragment fragment)
+        {
+            var idx = _originalFragments.IndexOf(fragment);
+
+            List<LineFragment> retFragments = null;
+
+            if (idx != -1)
+            {
+                retFragments = new List<LineFragment>();
+
+                foreach (var key in fragIdLookup[idx].Keys)
+                {
+                    foreach(var lineFragment in fragIdLookup[idx][key])
                     {
-                        Text = line.lineFragmentText[j],
-                        Font = GetFont(line.fragIds[j]),
-                        AscentPoints = _originalFragments[j].AscentPoints,
-                        DescentPoints = _originalFragments[j].DescentPoints
-                    };
-                    fragments.Add(fragment);
+                        retFragments.Add(this[key].LineFragments[lineFragment]);
+                    }
                 }
             }
 
-            ezFrags = new ezFrag[fragments.Count];
-
-            individualFragments = fragments;
-
-            for (int i = 0; i < Lines.Count; i++)
-            {
-                ezFrags[i] = new ezFrag() { text = fragments[i].Text, font = fragments[i].Font };
-            }
-
-            return fragments;
+            return retFragments;
         }
 
-        internal List<TextLineVizualizer> Lines = new List<TextLineVizualizer>();
+        ///// <summary>
+        ///// Returns null if fragment is not found in any linefragments
+        ///// </summary>
+        ///// <param name="fragment"></param>
+        ///// <returns></returns>
+        //public List<LineFragment> GetLineFragmentDataThatUses(TextFragment fragment)
+        //{
+        //    var idx = _originalFragments.IndexOf(fragment);
 
-        List<TextFragment> _originalFragments;
+        //    List<LineFragmentData> retFragments = null;
+
+        //    if (idx != -1)
+        //    {
+        //        retFragments = new List<LineFragmentData>();
+
+        //        foreach (var key in fragIdLookup[idx].Keys)
+        //        {
+        //            foreach (var lineFragment in fragIdLookup[idx][key])
+        //            {
+        //                retFragments.Add(this[key].LineFragments[lineFragment]);
+        //            }
+        //        }
+        //    }
+
+        //    return retFragments;
+        //}
 
         /// <summary>
         /// The id of the orginal fragment may correspond to 
@@ -71,6 +106,51 @@ namespace EPPlus.Fonts.OpenType.Integration
         internal MeasurementFont GetFont(int fragIdx)
         {
             return _originalFragments[fragIdx].Font;
+        }
+
+        public TextLineCollection(TextFragmentCollectionSimple fragmentCollection)
+        {
+            _originalFragments = fragmentCollection;
+
+            for (int i = 0; i < fragmentCollection.Count; i++)
+            {
+                fragIdLookup.Add(i, new Dictionary<int, List<int>>());
+            }
+        }
+
+        private void AddToDictionary(int idx, int lineNum, int fragPosInline)
+        {
+
+            if (fragIdLookup[idx].ContainsKey(lineNum) == false)
+            {
+                fragIdLookup[idx].Add(lineNum, new List<int>());
+            }
+
+            fragIdLookup[idx][lineNum].Add(fragPosInline);
+        }
+
+        internal void FinalizeTextLineData(List<TextLineSimple> lines)
+        {
+            for (int i = 0; i < lines.Count; i++)
+            {
+                int lineNum = i;
+                int fragCount = 0;
+
+                foreach (var lf in lines[i].LineFragments)
+                {
+                    var idx = lf.FragmentIndex;
+                    AddToDictionary(idx, lineNum, fragCount);
+
+                    LineFragmentData data = new LineFragmentData(
+                        () => { return _originalFragments[idx]; },
+                        () => { return lf.Width; },
+                        lines[i].GetLineFragmentText(lf));
+                    LineFragments.Add(data);
+
+                    fragCount++;
+                }
+                Add(lines[i]);
+            }
         }
 
         public TextLineCollection(List<TextLineSimple> lines, List<TextFragment> originalFragments)
@@ -110,7 +190,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 Add(lines[i]);
             }
-            GetFragments();
         }
     }
 }

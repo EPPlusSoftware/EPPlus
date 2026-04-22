@@ -4,6 +4,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,30 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
-
-            var collection = new TextLineCollection(wrappedLines, fragments);
-
-            var frags = collection.ezFrags;
+            var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
 
             var line1 = wrappedLines[0];
+        }
+
+        [TestMethod]
+        public void TestLineFragmentSeeWhatLinesUseWhatRichText()
+        {
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+
+            var fragments = GetTextFragments();
+
+            fragments[4].RichTextOptions.FontColor = Color.DarkRed;
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
+            var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
+
+            var lines = wrappedCollection.GetTextLinesThatUse(fragments[4]);
+            var specificFragments = wrappedCollection.GetLineFragmentsThatUse(fragments[4]);
+
+            Assert.AreEqual(lines[0].LineFragments[1], specificFragments[0]);
+            Assert.AreEqual(fragments[4], wrappedCollection.LineFragments[6].OriginalTextFragment);
+            Assert.AreEqual(Color.DarkRed, wrappedCollection.LineFragments[6].OriginalTextFragment.RichTextOptions.FontColor);
         }
 
         List<TextFragment> GetTextFragments()

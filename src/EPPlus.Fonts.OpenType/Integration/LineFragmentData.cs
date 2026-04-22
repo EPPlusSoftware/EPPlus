@@ -25,8 +25,11 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public TextFragment OriginalTextFragment { get { return _getTextFragment(); } }
 
+
+        #region Callbacks
         Func<TextFragment> _getTextFragment;
         Func<double> _getWidth;
+        #endregion
 
         internal LineFragmentData(Func<TextFragment> getTextFragment, Func<double> getWidth, string text)
         {
