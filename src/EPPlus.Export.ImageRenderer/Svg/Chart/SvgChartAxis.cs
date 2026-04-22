@@ -954,20 +954,23 @@ namespace EPPlusImageRenderer.Svg
             if ((ax.AxisType == eAxisType.Cat || (ax.IsDate && isNumeric==false)) &&
                 isCount == false)
             {
-                //min = 0;
-                //max = values.Count / Chart.Series.Count;
-                //majorUnit = 1;
-                //dateUnit = null;
-                //orientation = eTextOrientation.Horizontal;
-                var res = CategoryAxisScaleCalculator.CalculateByWidth(ref values, SvgChart.TextMeasurer, options);
-                
+                AxisScale res;
+                if (ax.IsVertical)
+                {
+                    res = CategoryAxisScaleCalculator.CalculateVerticalAxisByHeight(ref values, SvgChart.TextMeasurer, options);
+                }
+                else
+                {
+                    res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref values, SvgChart.TextMeasurer, options);
+                }
+
                 min = res.Min;
                 max = res.Max;
                 majorUnit = res.MajorInterval;
                 dateUnit = null;
-                orientation = res.TextOrientation;
+                orientation = res.TextOrientation;                
 
-                return values.ToList();
+                return res.DisplayValues;
             }
 
             var l = new List<object>();
@@ -999,7 +1002,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     l.Add(i);
                 }
-                var res = CategoryAxisScaleCalculator.CalculateByWidth(ref l, SvgChart.TextMeasurer, options);
+                var res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref l, SvgChart.TextMeasurer, options);
 
                 min = res.Min;
                 max = res.Max;

@@ -1,5 +1,6 @@
 ﻿using EPPlus.Export.ImageRenderer;
 using OfficeOpenXml.Drawing.Chart;
+using System.Collections.Generic;
 
 internal class AxisScale
 {
@@ -11,4 +12,5 @@ internal class AxisScale
     public eTimeUnit? MajorDateUnit { get; set; }
     public eTimeUnit? MinorDateUnit { get; set; }
     public eTextOrientation TextOrientation { get; set; }
+    public List<object> DisplayValues { get; set; }
 }
