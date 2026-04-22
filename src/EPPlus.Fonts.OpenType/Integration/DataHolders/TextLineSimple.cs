@@ -12,7 +12,15 @@ namespace EPPlus.Fonts.OpenType.Integration
     [DebuggerDisplay("{Text}")]
     public class TextLineSimple
     {
+        /// <summary>
+        /// Internal data for making operations
+        /// </summary>
         internal List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
+
+        /// <summary>
+        /// External output data for reading
+        /// </summary>
+        public List<LineFragmentData> LineFragments { get; internal set; } = new List<LineFragmentData>();
 
         public string Text { get; internal set; }
         /// <summary>
@@ -78,15 +86,28 @@ namespace EPPlus.Fonts.OpenType.Integration
             LargestDescent = largestDescent;
         }
 
-        /// <summary>
-        /// Inserts the relevant substrings directly into the line fragments
-        /// </summary>
-        internal void CreateFinalizedSubstringsInLineFragments()
+        ///// <summary>
+        ///// Inserts the relevant substrings directly into the line fragments
+        ///// </summary>
+        //internal void CreateFinalizedSubstringsInLineFragments()
+        //{
+        //    foreach (var lineFragment in InternalLineFragments)
+        //    {
+        //        var text = GetLineFragmentText(lineFragment);
+        //        lineFragment.SetFinalizedText(text);
+        //    }
+        //}
+
+        internal void FinalizeLineFragments(List<TextFragment> originalFragments)
         {
-            foreach (var lineFragment in InternalLineFragments)
+            foreach (var lf in InternalLineFragments)
             {
-                var text = GetLineFragmentText(lineFragment);
-                lineFragment.SetFinalizedText(text);
+                LineFragmentData data = new LineFragmentData(
+                    () => { return originalFragments[lf.FragmentIndex]; },
+                    () => { return lf.Width; },
+                    GetLineFragmentText(lf),
+                    lf.StartIdx);
+                LineFragments.Add(data);
             }
         }
 

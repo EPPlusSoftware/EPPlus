@@ -345,7 +345,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                     foreach (var lineFragment in line.LineFragments)
                     {
-                        var displayText = line.GetLineFragmentText(lineFragment);
+                        var displayText = lineFragment.Text;
 
                         if (string.IsNullOrEmpty(textIfEmpty) == false)
                         {
@@ -460,7 +460,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                         foreach (var lineFragment in line.LineFragments)
                         {
-                            var displayText = line.GetLineFragmentText(lineFragment);
+                            var displayText = lineFragment.Text;
 
                             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
                             {
@@ -468,7 +468,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             }
                             else
                             {
-                                AddRenderItemTextRun(p.TextRuns[lineFragment.FragmentIndex], displayText, prevWidth);
+                                var idx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
+                                AddRenderItemTextRun(p.TextRuns[idx], displayText, prevWidth);
                             }
 
                             TextRunItem runItem = Runs.Last();

@@ -40,6 +40,8 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             fragments[4].RichTextOptions.FontColor = Color.DarkRed;
 
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
+
+            var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
 
             var lines = wrappedCollection.GetTextLinesThatUse(fragments[4]);

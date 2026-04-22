@@ -9,7 +9,10 @@ namespace EPPlus.Fonts.OpenType.Integration
     [DebuggerDisplay("{Text}")]
     public class LineFragmentData
     {
-        
+        /// <summary>
+        /// Char idx within the line
+        /// </summary>
+        public int StartIdx { get; }
         /// <summary>
         /// Width of this fragment
         /// </summary>
@@ -31,11 +34,12 @@ namespace EPPlus.Fonts.OpenType.Integration
         Func<double> _getWidth;
         #endregion
 
-        internal LineFragmentData(Func<TextFragment> getTextFragment, Func<double> getWidth, string text)
+        internal LineFragmentData(Func<TextFragment> getTextFragment, Func<double> getWidth, string text, int startidx)
         {
             _getTextFragment = getTextFragment;
             _getWidth = getWidth;
             Text = text;
+            StartIdx = startidx;
         }
     }
 }

@@ -134,6 +134,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 line.LargestAscent = largestAscent;
                 line.LargestDescent = largestDescent;
+
+                line.FinalizeLineFragments(fragments);
             }
 
             if (_lineListBuffer.Count == 0)

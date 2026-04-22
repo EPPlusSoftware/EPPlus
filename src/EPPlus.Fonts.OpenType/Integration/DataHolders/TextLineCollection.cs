@@ -144,7 +144,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                     LineFragmentData data = new LineFragmentData(
                         () => { return _originalFragments[idx]; },
                         () => { return lf.Width; },
-                        lines[i].GetLineFragmentText(lf));
+                        lines[i].GetLineFragmentText(lf),
+                        lf.StartIdx);
                     LineFragments.Add(data);
 
                     fragCount++;
@@ -167,7 +168,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 int lineNum = i;
                 int fragCount = 0;
 
-                lines[i].CreateFinalizedSubstringsInLineFragments();
+                //lines[i].CreateFinalizedSubstringsInLineFragments();
 
                 foreach (var lf in lines[i].InternalLineFragments)
                 {
@@ -183,7 +184,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                     LineFragmentData data = new LineFragmentData(
                         () => { return _originalFragments[idx]; },
                         () => { return lf.Width; },
-                        lines[i].GetLineFragmentText(lf));
+                        lines[i].GetLineFragmentText(lf),
+                        lf.StartIdx);
                     LineFragments.Add(data);
 
                     fragCount++;
