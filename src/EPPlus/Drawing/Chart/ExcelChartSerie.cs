@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
@@ -259,20 +260,52 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else if (HeaderAddress != null)
             {
+                return GetAddressValue(HeaderAddress);
+            }
+            return $"Series{index + 1}";
+        }
+
+        private string GetAddressValue(ExcelAddressBase address)
+        {
+            if (address.IsExternal)
+            {
+                var wb = _chart.WorkSheet.Workbook;
+                if (wb.ExternalLinks.Count < address.ExternalReferenceIndex) return ExcelErrorValue.Values.Ref;
+                var extWb = wb.ExternalLinks[address.ExternalReferenceIndex - 1] as ExcelExternalWorkbook;
+                if(extWb!=null)
+                {
+                    if (extWb.Package == null)
+                    {
+                        var ws = extWb.CachedWorksheets[address.WorkSheetName];
+                        return ws.CellValues[address._fromRow, address._fromCol].Value.ToString();
+                    }
+                    else
+                    {
+                        var ws = extWb.Package.Workbook.Worksheets[HeaderAddress.WorkSheetName];
+                        if (ws != null)
+                        {
+                            return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ExcelWorksheet ws;
                 if (string.IsNullOrEmpty(HeaderAddress.WorkSheetName))
                 {
-                    return _chart.WorkSheet.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                    ws = _chart.WorkSheet;
                 }
                 else
                 {
-                    var ws = _chart.WorkSheet.Workbook.Worksheets[HeaderAddress.WorkSheetName];
-                    if (ws != null)
-                    {
-                        return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
-                    }
-                }                
+                    ws = _chart.WorkSheet.Workbook.Worksheets[HeaderAddress.WorkSheetName];
+                }
+                if (ws != null)
+                {
+                    return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                }
             }
-            return $"Series{index + 1}";
+            return ExcelErrorValue.Values.Ref;
         }
     }
 }

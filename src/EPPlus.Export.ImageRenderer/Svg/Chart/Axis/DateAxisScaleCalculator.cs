@@ -18,7 +18,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         /// <summary>
         /// Calculate automatic axis settings for date data
         /// </summary>
-        internal static AxisScale Calculate(double dataMin, double dataMax, double chartHeightPixels, AxisOptions axisOptions = null)
+        internal static AxisScale Calculate(double dataMin, double dataMax, AxisOptions axisOptions = null)
         {
 
             ComputeAutoAxis(DateTime.FromOADate(dataMin), DateTime.FromOADate(dataMax), axisOptions.AddPadding);

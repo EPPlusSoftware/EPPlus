@@ -26,7 +26,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 float x = 0;
                 if (pSls == null)
                 {
-                    x = (float)Rectangle.Left + (float)leftMargin;// + MarginExtra;
+                    x = (float)Rectangle.Left + (float)leftMargin;// + MarginIconText;
                 }
                 else
                 {
@@ -74,15 +74,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         //    if (sc.Chart.Legend.Position == eLegendPosition.Top ||
         //       sc.Chart.Legend.Position == eLegendPosition.Bottom)
         //    {
-        //        float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + MarginExtra;
+        //        float y = (float)Rectangle.Top + (float)TopMargin + tm.Height / 2 + MarginIconText;
         //        float x = 0;
         //        if (pSls == null)
         //        {
-        //            x = (float)Rectangle.Left + (float)LeftMargin;// + MarginExtra;
+        //            x = (float)Rectangle.Left + (float)LeftMargin;// + MarginIconText;
         //        }
         //        else
         //        {
-        //            x = (float)pSls.Textbox.Bounds.Right + MiddleMargin;
+        //            x = (float)pSls.Textbox.Bounds.Right + MarginHeight;
         //        }
 
         //        item.X1 = x;
@@ -96,12 +96,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         //        double y;
         //        if (pSls == null)
         //        {
-        //            y = TopMargin + tm.Height / 2 + MarginExtra;
+        //            y = TopMargin + tm.Height / 2 + MarginIconText;
         //        }
         //        else
         //        {
         //            var pTm = sHM;
-        //            y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + MiddleMargin;
+        //            y = ((SvgRenderLineItem)pSls.SeriesIcon).Y1 + pTm.Height / 2 + tm.Height / 2 + MarginHeight;
         //        }
 
         //        item.X1 = (float)LeftMargin; //4

@@ -125,7 +125,7 @@ namespace EPPlusImageRenderer.Svg
             return majorUnit / 5;
         }
 
-        internal ExcelChartAxis Axis { get; }
+        internal ExcelChartAxisStandard Axis { get; }
         internal SvgChart SvgChart { get; }
         internal SvgRenderLineItem Line { get; set; }
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
@@ -290,15 +290,6 @@ namespace EPPlusImageRenderer.Svg
             if ((Axis.HasMinorGridlines))
             {
                 MinorGridlinePositions = AddGridlines(MinorUnit, MajorUnit, Axis.MinorGridlines, Chart.StyleManager.Style.GridlineMinor);
-            }
-
-            if (Axis.CrossBetween == eCrossBetween.MidCat)
-            {
-                //TODO: Adjust for Crossbetween 
-            }
-            else
-            {
-
             }
 
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
@@ -476,7 +467,7 @@ namespace EPPlusImageRenderer.Svg
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
                 var majorWidth = Rectangle.Width / AxisValues.Count;
-                if (Axis.CrossBetween == eCrossBetween.Between)
+                if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat)
                 {
                     foreach (var tb in ret)
                     {
@@ -531,13 +522,13 @@ namespace EPPlusImageRenderer.Svg
                 if (IsCatAx())
                 {
                     double majorWidth;
-                    if (Axis.CrossBetween == eCrossBetween.Between)
+                    if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
-                        majorWidth = Rectangle.Width / (AxisValues.Count - 1);
+                        majorWidth = Rectangle.Width / AxisValues.Count;
                     }
                     else
                     {
-                        majorWidth = Rectangle.Width / AxisValues.Count;
+                        majorWidth = Rectangle.Width / (AxisValues.Count - 1);
                     }
                     var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
                     return majorTickStartingPosition;
@@ -635,13 +626,13 @@ namespace EPPlusImageRenderer.Svg
             if (Axis.AxisType == eAxisType.Cat)
             {
                 min = 1;
-                if(Axis.CrossBetween == eCrossBetween.Between)
+                if (Axis.CrossingAxis==null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                 {
-                    max = AxisValues.Count-1;
+                    max = AxisValues.Count;
                 }
                 else
                 {
-                    max = AxisValues.Count;
+                    max = AxisValues.Count - 1;
                 }
             }
             else
@@ -884,7 +875,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (Axis.CrossBetween == eCrossBetween.Between)
+                        if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                         {
                             majorHeight = SvgChart.Plotarea.Rectangle.Height / (Max - 1);
                             return majorHeight * val;
@@ -919,14 +910,14 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if(Axis.CrossBetween==eCrossBetween.Between)
+                        if(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween==eCrossBetween.Between)
                         {
-                            majorWidth = SvgChart.Plotarea.Rectangle.Width / (Max - 1);
-                            return majorWidth * val;
+                            return majorWidth * val + (majorWidth / 2);
                         }
                         else
                         {
-                            return majorWidth * val + (majorWidth / 2);
+                            majorWidth = SvgChart.Plotarea.Rectangle.Width / (Max - 1);
+                            return majorWidth * val;
                         }
                     }
                 }
@@ -963,20 +954,23 @@ namespace EPPlusImageRenderer.Svg
             if ((ax.AxisType == eAxisType.Cat || (ax.IsDate && isNumeric==false)) &&
                 isCount == false)
             {
-                //min = 0;
-                //max = values.Count / Chart.Series.Count;
-                //majorUnit = 1;
-                //dateUnit = null;
-                //orientation = eTextOrientation.Horizontal;
-                var res = CategoryAxisScaleCalculator.CalculateByWidth(ref values, SvgChart.TextMeasurer, options);
-                
+                AxisScale res;
+                if (ax.IsVertical)
+                {
+                    res = CategoryAxisScaleCalculator.CalculateVerticalAxisByHeight(ref values, SvgChart.TextMeasurer, options);
+                }
+                else
+                {
+                    res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref values, SvgChart.TextMeasurer, options);
+                }
+
                 min = res.Min;
                 max = res.Max;
                 majorUnit = res.MajorInterval;
                 dateUnit = null;
-                orientation = res.TextOrientation;
+                orientation = res.TextOrientation;                
 
-                return values.ToList();
+                return res.DisplayValues;
             }
 
             var l = new List<object>();
@@ -1008,7 +1002,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     l.Add(i);
                 }
-                var res = CategoryAxisScaleCalculator.CalculateByWidth(ref l, SvgChart.TextMeasurer, options);
+                var res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref l, SvgChart.TextMeasurer, options);
 
                 min = res.Min;
                 max = res.Max;
@@ -1027,9 +1021,9 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    if (Chart.IsTypeBar())
+                    if (ax.AxisType==eAxisType.Val)
                     {
-                        res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Bounds.Width, min ?? 0D, max ?? 0D, SvgChart.TextMeasurer, options);
+                        res = DateAxisScaleCalculator.Calculate(min ?? 0D, max ?? 0D, options);
                     }
                     else
                     {

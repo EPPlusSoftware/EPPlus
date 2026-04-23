@@ -131,7 +131,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 double x;
                 if (catValues == null || catAx.Axis.AxisType == eAxisType.Cat)
                 {
-                    x = (double)i;
+                    if (isColumn)
+                    {
+                        x = (double)i;
+                    }
+                    else
+                    {
+                        x = valValues.Count - i - 1;
+                    }
                 }
                 else
                 {

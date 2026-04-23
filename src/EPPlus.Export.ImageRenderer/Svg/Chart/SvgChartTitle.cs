@@ -165,7 +165,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         defaultText = s.StringLiteralsX[0];
                     }
-                    else
+                    else if(s.HeaderAddress!=null)
                     {
                         defaultText = s.GetHeaderText(0);
                     }
