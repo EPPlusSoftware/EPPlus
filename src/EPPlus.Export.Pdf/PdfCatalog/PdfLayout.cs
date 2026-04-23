@@ -109,12 +109,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             {
                                 var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.Width, 15);
                                 text.Name = map.Name;
+                                text.GidsAndCharMap(dictionaries);
                                 pageLayout.AddChild(text);
                             }
                             //Border
                             if (HasBorder(map.CellStyle))
                             {
-                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, info, x, y, map.ColumnWidth, 15);
+                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, 15);
                                 border.Name = map.Name;
                                 pageLayout.AddChild(border);
                             }
@@ -141,6 +142,26 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return Catalog;
         }
 
+
+        static MergedCellCorners GetCorners(ExcelAddressBase addr, int row, int col)
+        {
+            if (addr == null) return MergedCellCorners.All;
+            MergedCellCorners result = MergedCellCorners.None;
+
+            if (row == addr.Start.Row && col == addr.Start.Column)
+                result |= MergedCellCorners.TopLeft;
+
+            if (row == addr.Start.Row && col == addr.End.Column)
+                result |= MergedCellCorners.TopRight;
+
+            if (row == addr.End.Row && col == addr.Start.Column)
+                result |= MergedCellCorners.BottomLeft;
+
+            if (row == addr.End.Row && col == addr.End.Column)
+                result |= MergedCellCorners.BottomRight;
+
+            return result;
+        }
 
         private static bool HasBorder(PdfCellStyle cellStyle)
         {

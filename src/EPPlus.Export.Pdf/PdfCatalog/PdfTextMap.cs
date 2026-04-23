@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     tempMap.Name = cell.Address;
                     if (cell.Merge)
                     {
-                        HandleMergedCell(cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
+                        HandleMergedCell(pageSettings, dictionaries, cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
                     }
 
                     var cellStyle = new PdfCellStyle();
@@ -99,7 +99,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return Map;
         }
 
-        private static void HandleMergedCell(ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth)
+        private static void HandleMergedCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth)
         {
             var worksheet = cell.Worksheet;
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
@@ -123,9 +123,27 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             else
             {
                 tempMap.Main = map[address._fromRow, address._fromCol];
+                if (tempMap.Main == null)
+                {
+                    var main = worksheet.Cells[address._fromRow, address._fromCol];
+                    PdfCell mainCell = new PdfCell();
+                    var cellStyle = new PdfCellStyle();
+                    GetBorderStyles(main, cellStyle, mainCell);
+                    GetFillStyles(main, cellStyle);
+                    GetFontStyle(main, cellStyle);
+
+                    mainCell.ContentAligmnet = GetContentAlignment(main);
+                    if (!string.IsNullOrEmpty(main.Text))
+                    {
+                        if (!main.IsRichText) main._rtc = new ExcelRichTextCollection(main.Text, cell);
+                        mainCell.TextFormats = GetTextFormats(pageSettings, dictionaries, main._rtc, cellStyle);
+                    }
+                    mainCell.CellStyle = cellStyle;
+                    tempMap.Main = mainCell;
+                }
             }
             tempMap.MergedAddress = address;
-            tempMap.Name = address.ToString();
+            tempMap.Name = tempMap.Name + " ; " + address.ToString();
             tempMap.Merged = true;
         }
 

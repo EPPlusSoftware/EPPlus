@@ -163,7 +163,8 @@ namespace EPPlusTest.PDF
         public void ReadPrintAreas()
         {
             //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest.xlsx");
+            using var p = OpenTemplatePackage("DoubleBorder.xlsx");
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;

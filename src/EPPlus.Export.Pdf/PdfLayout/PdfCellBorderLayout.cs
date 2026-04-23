@@ -29,6 +29,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellBordersData BorderData;
         public bool IsMerged = false;
         public MergedCellDrawInfo MergedCellInfo;
+        public MergedCellCorners Corners;
         public ExcelRangeBase cell;
 
         public string range;
@@ -37,11 +38,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         public PdfCellBorderLayout() { }
 
-        public PdfCellBorderLayout(PdfCellStyle style, bool isMerged, MergedCellDrawInfo info, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
-            : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
+        public PdfCellBorderLayout(PdfCellStyle style, bool isMerged, MergedCellCorners corners, MergedCellDrawInfo info, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+            : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)
         {
             IsMerged = isMerged;
             MergedCellInfo = info;
+            Corners = corners;
 
             BorderData = new PdfCellBordersData();
 

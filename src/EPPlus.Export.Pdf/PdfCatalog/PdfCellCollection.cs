@@ -33,7 +33,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             get
             {
-                return Cells[row - FromRow, column - FromColumn];
+                var r = row - FromRow;
+                var c = column - FromColumn;
+                if (r < 0 || c < 0 || r >= Cells.GetLength(0) || c >= Cells.GetLength(1))
+                {
+                    return null;
+                }
+                return Cells[r, c];
             }
             set
             {

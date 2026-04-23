@@ -31,6 +31,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         private readonly string Name;
         private readonly bool IsMerged;
         private readonly MergedCellDrawInfo info;
+        private readonly MergedCellCorners corners;
         private readonly double Width;
         private readonly double Height;
         private readonly double MergedDiagnoalWidth;
@@ -40,6 +41,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         public PdfBorderRenderer(PdfCellBorderLayout cell)
         {
             IsMerged = cell.IsMerged;
+            corners = cell.Corners;
             info = cell.MergedCellInfo;
             X = cell.LocalPosition.X;
             Y = cell.LocalPosition.Y;
