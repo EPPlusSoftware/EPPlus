@@ -218,6 +218,29 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(4d, s.Cells["I5"].Value);
                 Assert.AreEqual(4d, s.Cells["J5"].Value);
                 Assert.AreEqual(7d, s.Cells["K5"].Value);
+                //Fixa detta test det är förskjutet en rad fel
+            }
+        }
+        [TestMethod]
+        public void PivotByRelativeTo()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");                
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3,_xleta.PERCENTOF,,,,,,,3)";
+                s.Calculate();
             }
         }
     }
