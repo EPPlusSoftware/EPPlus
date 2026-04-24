@@ -4,6 +4,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -12,7 +13,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
-
+        internal override bool SupportsTrendlines => true;
+        internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
         internal LineChartTypeDrawer(SvgChart svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
             var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
@@ -52,7 +54,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var xSerie = xValues[i];
                 var ySerie = yValues[i];
-                var serie = (ExcelLineChartSerie)chartType.Series[i];
+                var serie = chartType.Series[i];
 
                 var dataPoints = new List<BoundingBox>();
 
@@ -67,6 +69,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         serieDataLabels[i].SetParentPoint(dataPoints[j], j);
                     }
                 }
+                if (serie.TrendLines.Count > 0)
+                {
+                    foreach (var trendline in serie.TrendLines)
+                    {
+                        var tr = new SvgTrendline(trendline, xSerie, ySerie);
+                        Trendlines.Add(tr);
+                    }
+                }
+
             }
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
 
@@ -75,6 +86,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 dataLabel.AppendRenderItems(RenderItems);
             }
         }
+
+        private void AddTrendline(List<object> xSerie, List<object> ySerie, ExcelChartTrendline trendline)
+        {
+
+        }
+
         private void SumSeries(List<List<object>> series)
         {
             for(var i=1;i < series.Count;i++)

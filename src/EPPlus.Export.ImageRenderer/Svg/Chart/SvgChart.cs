@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgChart : DrawingChart
     {
-        public SvgChart(ExcelChart chart) : base(chart)
+        public SvgChart(ExcelChart chart/*, IChartRenderer renderer*/) : base(chart)
         {
 
             SetChartArea();
@@ -322,5 +322,15 @@ namespace EPPlusImageRenderer.Svg
 
             return item;
         }
+    }
+
+    internal interface IChartRenderer
+    {
+        DrawingObject ChartAreaRenderer { get; }
+        DrawingObject TitleRenderer { get; }
+        DrawingObject LegendRenderer { get; }
+        DrawingObject AxisRenderer { get; }
+        DrawingObject AxisTextboxRenderer { get; }
+        DrawingObject PlotareaRenderer { get; }
     }
 }

@@ -4,6 +4,8 @@
 	<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>ImageRenderer.snk</AssemblyOriginatorKeyFile>
+	<NeutralLanguage />
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
