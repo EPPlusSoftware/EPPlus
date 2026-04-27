@@ -49,15 +49,24 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             item.ExternalRenderItemsNoBounds.Add(txtBoxNotMaxed);
 
-            //Assert.AreEqual(36d, txtBox.TextBody.Width);
-            Assert.AreEqual(37.5d, txtBox.Width, 0.5);
-            Assert.AreNotEqual(36d, txtBoxNotMaxed.Width);
-            Assert.AreEqual(16.29052734375d, txtBoxNotMaxed.Width);
-
             var sb = new StringBuilder();
 
             item.Render(sb);
             var svgString = sb.ToString();
+
+            //before we assumed we consider the space widths
+            var widthWithSpace = txtBox.TextBody.Paragraphs[0].SpaceWidthsPerLine[0] + txtBox.Width;
+
+
+            //Assert.AreEqual(36d, txtBox.TextBody.Width);
+            Assert.AreEqual(37.5d, widthWithSpace, 0.5);
+            Assert.AreNotEqual(36d, txtBoxNotMaxed.Width);
+            Assert.AreEqual(16.29052734375d, txtBoxNotMaxed.Width);
+
+            //var sb = new StringBuilder();
+
+            //item.Render(sb);
+            //var svgString = sb.ToString();
 
             SaveTextFileToWorkbook($"svg\\StandAloneTextBox.svg", svgString);
         }

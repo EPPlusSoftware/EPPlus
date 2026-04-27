@@ -104,6 +104,11 @@ namespace EPPlus.Fonts.OpenType.Integration
             //Iterate backwards from back of list until we hit fragment
             for (int i = CurrentTextLine.InternalLineFragments.Count()-1; i > _listIdxWithinLine; i--)
             {
+                //The current fragment's startidx is affected by the split if it is not the first in new line
+                if (CurrentTextLine.InternalLineFragments[i].StartIdx != 0)
+                {
+                    CurrentTextLine.InternalLineFragments[i].StartIdx -= WordStart + 1;
+                }
                 //Add fragment to the new list
                 _fragmentsForNextLine.Insert(0, CurrentTextLine.InternalLineFragments[i]);
                 //Remove it from the old
@@ -112,8 +117,12 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             if (_rtIdxAtWordStart != CurrentFragmentIdx)
             {
-                //We also insert the fragment we've split out
-                _fragmentsForNextLine.Insert(0, resultingFragment);
+                if (resultingFragment.Width != 0)
+                {
+                    //We also insert the fragment we've split out
+                    //Unless the leftover is an empty fragment (this happens when we wrap on a space that had to be trimmed)
+                    _fragmentsForNextLine.Insert(0, resultingFragment);
+                }
                 //The current fragment's startidx is affected by the split if it is not the first in new line
                 if (LineFrag.StartIdx != 0)
                 {

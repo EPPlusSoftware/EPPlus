@@ -123,6 +123,8 @@ namespace EPPlus.Fonts.OpenType.Integration
             var newLineFragment = new LineFragment(origLf.FragmentIndex, 0);
             newLineFragment.Width = origLf.Width - widthAtSplit;
 
+            newLineFragment.SpaceWidth = origLf.SpaceWidth;
+
             origLf.Width = widthAtSplit;
 
             return newLineFragment;
