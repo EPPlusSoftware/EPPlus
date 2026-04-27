@@ -193,7 +193,25 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
 
+            var pointExplosion = serie.DataPoints[position].Explosion == int.MinValue ? 0 : serie.DataPoints[position].Explosion;
 
+            var translationInPoints =  radius * (pointExplosion/100d);
+
+
+
+            //EPPlus.Graphics.Math.Vector2 vectorOuterSlicePoint = new Graphics.Math.Vector2(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y);
+
+            //Pie cannot be translated beyond chart bounds.
+            //no matter the point explosion percent
+            //the translation is Capped at the chart max.
+            var maxTranslationX = _svgChart.Bounds.Width - innerGroup.TransformOrigin.X;
+            var translationLeft = Math.Min(translationInPoints, maxTranslationX);
+
+            var maxTranslationY = _svgChart.Bounds.Width - innerGroup.TransformOrigin.Y;
+            var translationTop = Math.Min(translationInPoints, maxTranslationY);
+
+            //innerGroup.Position.Left = translationLeft;
+            //innerGroup.Position.Top = translationTop;
 
             if (position != 0)
             {

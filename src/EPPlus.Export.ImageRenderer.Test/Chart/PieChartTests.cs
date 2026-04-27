@@ -102,6 +102,24 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
 
 
         [TestMethod]
+        public void PointExplosionTest()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieExplosion30Point57.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PieExplosion30Point57.xlsx_{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
         public void ReadAndGenerateExcelPieChartExplosion95()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
