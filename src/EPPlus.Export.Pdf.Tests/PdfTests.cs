@@ -12,9 +12,14 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.PdfCatalog;
+using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 
 namespace EPPlusTest.PDF
 {
@@ -184,7 +189,10 @@ namespace EPPlusTest.PDF
             range.TotalHeight = 1600;
 
             var result = PdfLayout.GetNumberOfPages(pageSettings, pws, range);
-        public void WritePrintAreas()
+        }
+
+        [TestMethod]
+        public void TestWrapText()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var cell = p.Workbook.Worksheets[0].Cells["P118"];
@@ -195,15 +203,6 @@ namespace EPPlusTest.PDF
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[0].Font);
 
             var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
-            ////var ShapedTexts = new List<PdfShapedText>();
-            //for (int i = 0; i < TextFragments.Count; i++)
-            //{
-            //    var tf = TextFragments[i];
-            //    var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[i].Font);
-
-            //    var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
-            //}
-
         }
 
         private static List<TextFragment> GetTextFragments(ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
@@ -229,8 +228,8 @@ namespace EPPlusTest.PDF
                 textFrag.Font.FontFamily = rt.FontName;
                 textFrag.Font.Size = rt.Size;
 
-                textFrag.RichTextOptions.IsBold = rt.Bold || bold;
-                textFrag.RichTextOptions.IsItalic = rt.Italic || italic;
+                textFrag.RichTextOptions.Bold = rt.Bold || bold;
+                textFrag.RichTextOptions.Italic = rt.Italic || italic;
                 //underline
                 //none   : 12
                 //single : 13
@@ -244,8 +243,8 @@ namespace EPPlusTest.PDF
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                 textFrag.RichTextOptions.FontColor = rt.Color;
 
-                textFrag.Font.Style = (textFrag.RichTextOptions.IsBold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.IsItalic ? MeasurementFontStyles.Italic : 0) |
+                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
                                       (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
                                       (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
 
