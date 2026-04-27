@@ -34,6 +34,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+        internal Coordinate Scale = null;
+
 
         //Transform _rotationPoint;
 

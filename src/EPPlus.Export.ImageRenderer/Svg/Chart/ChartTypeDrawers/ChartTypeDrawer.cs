@@ -129,6 +129,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         drawers.Add(new BarColumnChartTypeDrawer(svgChart, (ExcelBarChart)ct));
                         break;
                     case eChartType.Pie:
+                    case eChartType.PieExploded:
                         drawers.Add(new PieChartTypeDrawer(svgChart, (ExcelPieChart)ct));
                         break;
                     default:

@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
@@ -82,6 +83,11 @@ namespace EPPlusImageRenderer.RenderItems
                 {
                     sb.Append($" stroke-opacity=\"{(Math.Round(BorderOpacity.Value * 100)).ToString(CultureInfo.InvariantCulture)}%\" ");
                 }
+            }
+
+            if (TransformOrigin != null)
+            {
+                sb.Append($" transform-origin=\"{TransformOrigin.X.ToString(CultureInfo.InvariantCulture)} {TransformOrigin.Y.ToString(CultureInfo.InvariantCulture)}\" ");
             }
 
             sb.Append($"stroke-miterlimit =\"{StrokeMiterLimit}\" ");

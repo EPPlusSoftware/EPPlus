@@ -102,10 +102,19 @@ namespace EPPlusImageRenderer
             //cx = radius.PixelToPoint();
             //cy = radius.PixelToPoint();
 
+            var halfAngle = degree / 2;
+
+            var halfAngleRadians = (halfAngle - 90d) * (Math.PI / 180.0d);
+
             var xPoint = cx + (radius * Math.Cos(angleRadians));
             var yPoint = cy + (radius * Math.Sin(angleRadians));
 
             Coordinate endPoint = new Coordinate(xPoint, yPoint);
+
+            var xPointHalf = cx + (radius * Math.Cos(halfAngleRadians));
+            var yPointHalf = cy + (radius * Math.Sin(halfAngleRadians));
+
+            Coordinate halfPoint = new Coordinate(xPointHalf, yPointHalf);
 
             var baseBB = new BoundingBox();
 
@@ -130,6 +139,10 @@ namespace EPPlusImageRenderer
             var moveCenter = new PathCommands(PathCommandType.Move, slice, cx / baseItem.Bounds.Width, cy / baseItem.Bounds.Height);
             var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X / baseItem.Bounds.Width, startPoint.Y / baseItem.Bounds.Height);
 
+            var lineToMidPoint = new PathCommands(PathCommandType.Line, slice, halfPoint.X / baseItem.Bounds.Width, halfPoint.Y / baseItem.Bounds.Height);
+
+            
+
             var w = baseItem.Bounds.Width.PointToPixel();
             var h = baseItem.Bounds.Height.PointToPixel();
 
@@ -141,9 +154,12 @@ namespace EPPlusImageRenderer
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);
             slice.Commands.Add(arcCommand);
+            slice.Commands.Add(moveCenter);
+            slice.Commands.Add(lineToMidPoint);
 
             slice.FillColor = "red";
             slice.BorderColor = "green";
+            slice.BorderWidth = 5;
 
             baseItem.RenderItems.Add(slice);
 

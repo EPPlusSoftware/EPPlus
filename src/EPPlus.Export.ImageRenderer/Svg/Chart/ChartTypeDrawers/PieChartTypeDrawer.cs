@@ -24,8 +24,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         SvgGroupItemNew groupItem;
 
         List<Coordinate> endCoordOffsetFromCenterOfCircle = new List<Coordinate>();
+        List<Coordinate> sliceTransformOrigin = new List<Coordinate>();
 
         double _startAngle;
+
+        double _sliceScaleFactor = 1.0;
 
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
@@ -40,11 +43,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             groupItem.Rotation = angleOffset;
 
             _startAngle = -90d;
+            int pieExplosionPercent = 0;
+
 
             foreach (ExcelPieChartSerie serie in chartType.Series)
             {
                 valValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 catValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+
+                //Pie explosion
+                pieExplosionPercent = serie.Explosion == int.MinValue ? 0 : serie.Explosion;
+
                 serCounter++;
             }
 
@@ -78,6 +87,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 valPercent.Add(valValuesDoubles[i] / valTotal);
 
                 var angle = valPercent[i] * 360d;
+                var halfAngle = angle / 2;
 
                 angle += prevAngle;
 
@@ -89,8 +99,20 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 var yPoint = cy + (radius * Math.Sin(angleRadians));
                 endCoordOffsetFromCenterOfCircle.Add(new Coordinate(xPoint, yPoint));
 
+                //Add prev at this point since we don't want to halve prev angle
+                halfAngle += prevAngle;
+
+                var halfAngleRadians = halfAngle * (Math.PI / 180.0d);
+
+                var xPointHalf = cx + (radius * Math.Cos(halfAngleRadians));
+                var yPointHalf = cy + (radius * Math.Sin(halfAngleRadians));
+
+                sliceTransformOrigin.Add(new Coordinate(xPointHalf, yPointHalf));
+
                 prevAngle = angle;
             }
+
+            _sliceScaleFactor = 100d / (pieExplosionPercent + 100d);
 
             var count = Math.Min(catValues.Count, valValues.Count);
 
@@ -131,6 +153,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         private void AddSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, List<object> catSeries, List<object> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position, double radius)
         {
+            var innerGroup = new SvgGroupItemNew(ChartRenderer, 0, 0);
+
             var slice = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
             slice.BorderWidth = 2;
@@ -154,7 +178,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             Coordinate startPoint;
 
-            if(position != 0)
+            var x1 = 1d;
+            var y1 = 1d;
+
+            var x2 = 78d;
+            var y2 = 400d;
+
+            var b = Math.Pow((y2 / y1), (1 / (x2 - x1)));
+            var a = y1 / Math.Pow(b, x1);
+
+            
+            var origin = sliceTransformOrigin[position];
+            innerGroup.TransformOrigin = sliceTransformOrigin[position];
+
+            innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
+
+
+
+            if (position != 0)
             {
                 var lastPosX = endCoordOffsetFromCenterOfCircle[position - 1].X / w;
                 var lastPosY = endCoordOffsetFromCenterOfCircle[position - 1].Y / h;
@@ -170,18 +211,32 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var individualAngle = valPercent[position] * 360d;
 
             var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, individualAngle > 180 ? 1 : 0, 1, endCoordOffsetFromCenterOfCircle[position].X / w, endCoordOffsetFromCenterOfCircle[position].Y / h });
+            var end = new PathCommands(PathCommandType.End, slice, endCoordOffsetFromCenterOfCircle[position].X / w, endCoordOffsetFromCenterOfCircle[position].Y / h);
 
             slice.Commands.Add(moveCenter);
             slice.Commands.Add(lineToStart);
             slice.Commands.Add(arcCommand);
-
-            //slice.Commands.Add(moveCenter);
-            //slice.Commands.Add(lineToEndPoint);
+            slice.Commands.Add(end);
 
             slice.SetDrawingPropertiesFill(serie.DataPoints[position].Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
             slice.SetDrawingPropertiesBorder(serie.DataPoints[position].Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
             slice.SetDrawingPropertiesEffects(serie.DataPoints[position].Effect);
-            groupItem.AddChildItem(slice);
+            innerGroup.AddChildItem(slice);
+
+            groupItem.AddChildItem(innerGroup);
+
+
+            //var LineItem = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+
+            //var midPointLine = new PathCommands(PathCommandType.Line, LineItem, origin.X / w, origin.Y / h);
+            //var moveCenterLine = new PathCommands(PathCommandType.Move, LineItem, cxPercentOfTotal, cyPercentOfTotal);
+            //LineItem.Commands.Add(moveCenterLine);
+            //LineItem.Commands.Add(midPointLine);
+
+            //LineItem.BorderColor = "purple";
+            //LineItem.BorderWidth = 3;
+
+            //groupItem.AddChildItem(LineItem);
         }
     }
 }
