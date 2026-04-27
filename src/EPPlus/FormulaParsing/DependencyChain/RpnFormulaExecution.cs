@@ -1198,7 +1198,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
                             }
                         }
-                        if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && IsInRecalculateDirtyCells == false)
+                        if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             if(f._tokenIndex + 1 < f._tokens.Count)
                             {
@@ -1226,12 +1226,12 @@ namespace OfficeOpenXml.FormulaParsing
                             var nameAddress = ne.GetAddress();
                             if (nameAddress == null)
                             {
-                                if (returnAddresses && string.IsNullOrEmpty(ne._name?.Formula) == false && IsInRecalculateDirtyCells == false)
+                                if (returnAddresses && string.IsNullOrEmpty(ne._name?.Formula) == false)
                                 {
                                     return null;
                                 }
                             }
-                            else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && IsInRecalculateDirtyCells == false)
+                            else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                             {
                                 if (IsSingleAddress(f))
                                 {
