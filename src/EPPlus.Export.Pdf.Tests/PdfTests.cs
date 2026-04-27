@@ -10,14 +10,19 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf;
+using EPPlus.Export.Pdf.PdfLayout;
+using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 
 namespace EPPlusTest.PDF
 {
@@ -124,6 +129,80 @@ namespace EPPlusTest.PDF
 
             ExcelPdf pedeef = new ExcelPdf(p.Workbook.Worksheets.First(), pageSettings);
             pedeef.CreatePdf("c:\\epplustest\\pdf\\EmojiTest.pdf");
+        }
+
+        [TestMethod]
+        public void WritePrintAreas()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var cell = p.Workbook.Worksheets[0].Cells["P118"];
+
+            List<TextFragment> TextFragments = GetTextFragments(cell.RichText);
+
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[0].Font);
+
+            var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
+            ////var ShapedTexts = new List<PdfShapedText>();
+            //for (int i = 0; i < TextFragments.Count; i++)
+            //{
+            //    var tf = TextFragments[i];
+            //    var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[i].Font);
+
+            //    var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
+            //}
+
+        }
+
+        private static List<TextFragment> GetTextFragments(ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
+        {
+            var textFragments = new List<TextFragment>();
+            bool bold = false, italic = false, underline = false, strike = false;
+            ExcelUnderLineType underLineType = ExcelUnderLineType.None;
+            if (cellStyle != null && cellStyle.dxfFont != null)
+            {
+                bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
+                italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
+                strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
+                underline = cellStyle.dxfFont.Underline != null;
+                underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
+            }
+            for (int i = 0; i < RichTextCollection.Count; i++)
+            {
+                var rt = RichTextCollection[i];
+                var textFrag = new TextFragment();
+                textFrag.Font = new MeasurementFont();
+                textFrag.Text = rt.Text;
+
+                textFrag.Font.FontFamily = rt.FontName;
+                textFrag.Font.Size = rt.Size;
+
+                textFrag.RichTextOptions.IsBold = rt.Bold || bold;
+                textFrag.RichTextOptions.IsItalic = rt.Italic || italic;
+                //underline
+                //none   : 12
+                //single : 13
+                //Double : 4
+                //accouting does not exsist
+                textFrag.RichTextOptions.UnderlineType = 12;
+                textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Single ? 13 : textFrag.RichTextOptions.UnderlineType;
+                textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Double ? 4 : textFrag.RichTextOptions.UnderlineType;
+                textFrag.RichTextOptions.StrikeType = rt.Strike || strike ? 2 : 1;
+                textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+                textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+                textFrag.RichTextOptions.FontColor = rt.Color;
+
+                textFrag.Font.Style = (textFrag.RichTextOptions.IsBold ? MeasurementFontStyles.Bold : 0) |
+                                      (textFrag.RichTextOptions.IsItalic ? MeasurementFontStyles.Italic : 0) |
+                                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+                                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+
+
+                textFragments.Add(textFrag);
+                OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
+            }
+
+            return textFragments;
         }
     }
 }

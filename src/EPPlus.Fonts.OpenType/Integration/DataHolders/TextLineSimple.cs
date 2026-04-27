@@ -122,6 +122,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             //If we are splitting a fragment its position in the new line should be 0
             var newLineFragment = new LineFragment(origLf.FragmentIndex, 0);
             newLineFragment.Width = origLf.Width - widthAtSplit;
+            newLineFragment.SpaceWidth = origLf.SpaceWidth;
 
             origLf.Width = widthAtSplit;
 
