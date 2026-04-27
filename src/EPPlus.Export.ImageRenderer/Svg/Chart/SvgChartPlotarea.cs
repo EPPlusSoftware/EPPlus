@@ -82,8 +82,6 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
-                               
-                //return right - rightAxisWidth - rect.GlobalLeft;
             }
 
             var width = right - rightAxisWidth - rect.GlobalLeft;

@@ -95,6 +95,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
         [TestMethod]
+        public void GenerateSvgForTrendlineCharts_sheet5()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[4];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                var ix = 1;
+                var c = ws.Drawings[ix];
+                var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\Trendline_sheet5_{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = renderer.RenderDrawingToSvg(c);
+                //    SaveTextFileToWorkbook($"svg\\Trendline_Sheet5{ix++}.svg", svg);
+                //}
+            }
+        }
+        [TestMethod]
         public void GenerateSvgForLineCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

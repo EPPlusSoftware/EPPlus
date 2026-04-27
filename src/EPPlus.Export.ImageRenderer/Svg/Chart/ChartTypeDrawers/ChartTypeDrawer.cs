@@ -19,6 +19,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         protected SvgChart _svgChart;
         protected ExcelChart _chartType;
+        internal virtual bool SupportsTrendlines { get { return false; } }
+        internal virtual bool SupportsErrorBars { get { return false; } }
+        internal virtual bool SupportsUpDownBars { get { return false; } }
+        internal virtual bool SupportsDataTable { get { return false; } }
         internal ChartTypeDrawer(SvgChart svgChart,  ExcelChart chartType) : base(svgChart)
         {
             _svgChart = svgChart;
