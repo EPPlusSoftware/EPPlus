@@ -34,9 +34,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         VerticalBtt, // bottom-to-top
     }
 
-
-
-    internal struct PdfTextFormat
+    internal struct PdfShapedText
     {
         public IFontProvider FontProvider;
         //sometimes a font can have other fonts for certain characters. Key as the glyph id, Value is the font label.
@@ -44,67 +42,80 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public Dictionary<byte, string> FontIdMap;
         public List<OpenTypeFont> UsedFonts;
         public ShapedText ShapedText;
-
-        public string FontName;
-        public int FontFamily;
-        public FontSubFamily SubFamily;
-        public double FontSize;
-        public bool Bold;
-        public bool Italic;
-        public bool Strike;
-        public bool SubScript;
-        public bool SuperScript;
-        public bool Underline;
-        public ExcelUnderLineType UnderlineType;
-        public string Text;
-        public Color FontColor;
-        public double TextLength;
-        public double TextHeight;
-        public string FullFontName
-        {
-            get
-            {
-                string subfam = " " + SubFamily.ToString();
-                if (SubFamily == FontSubFamily.Regular)
-                    subfam = "";
-                else if (SubFamily == FontSubFamily.BoldItalic)
-                    subfam = " Bold Italic";
-                return FontName + subfam;
-            }
-        }
-
-        //Compares stylings.
-        public bool Equals(PdfTextFormat other)
-        {
-            if (!string.Equals(FontName, other.FontName))
-                return false;
-
-            if (FontFamily != other.FontFamily)
-                return false;
-
-            if (SubFamily != other.SubFamily)
-                return false;
-
-            if (FontSize != other.FontSize)
-                return false;
-
-            if (Bold != other.Bold ||
-                Italic != other.Italic ||
-                Strike != other.Strike ||
-                SubScript != other.SubScript ||
-                SuperScript != other.SuperScript ||
-                Underline != other.Underline)
-                return false;
-
-            if (UnderlineType != other.UnderlineType)
-                return false;
-
-            if (!FontColor.Equals(other.FontColor))
-                return false;
-
-            return true;
-        }
     }
+
+    //internal struct PdfTextFormat
+    //{
+    //}
+    //internal struct PdfTextFormat
+    //{
+    //    public IFontProvider FontProvider;
+    //    //sometimes a font can have other fonts for certain characters. Key as the glyph id, Value is the font label.
+    //    //public Dictionary<byte, string> FontIDLabel;
+    //    public Dictionary<byte, string> FontIdMap;
+    //    public List<OpenTypeFont> UsedFonts;
+    //    public ShapedText ShapedText;
+
+    //    public string FontName;
+    //    public int FontFamily;
+    //    public FontSubFamily SubFamily;
+    //    public double FontSize;
+    //    public bool Bold;
+    //    public bool Italic;
+    //    public bool Strike;
+    //    public bool SubScript;
+    //    public bool SuperScript;
+    //    public bool Underline;
+    //    public ExcelUnderLineType UnderlineType;
+    //    public string Text;
+    //    public Color FontColor;
+    //    public double TextLength;
+    //    public double TextHeight;
+    //    public string FullFontName
+    //    {
+    //        get
+    //        {
+    //            string subfam = " " + SubFamily.ToString();
+    //            if (SubFamily == FontSubFamily.Regular)
+    //                subfam = "";
+    //            else if (SubFamily == FontSubFamily.BoldItalic)
+    //                subfam = " Bold Italic";
+    //            return FontName + subfam;
+    //        }
+    //    }
+
+    //    //Compares stylings.
+    //    public bool Equals(PdfTextFormat other)
+    //    {
+    //        if (!string.Equals(FontName, other.FontName))
+    //            return false;
+
+    //        if (FontFamily != other.FontFamily)
+    //            return false;
+
+    //        if (SubFamily != other.SubFamily)
+    //            return false;
+
+    //        if (FontSize != other.FontSize)
+    //            return false;
+
+    //        if (Bold != other.Bold ||
+    //            Italic != other.Italic ||
+    //            Strike != other.Strike ||
+    //            SubScript != other.SubScript ||
+    //            SuperScript != other.SuperScript ||
+    //            Underline != other.Underline)
+    //            return false;
+
+    //        if (UnderlineType != other.UnderlineType)
+    //            return false;
+
+    //        if (!FontColor.Equals(other.FontColor))
+    //            return false;
+
+    //        return true;
+    //    }
+    //}
 
     internal class GlyphPosition
     {

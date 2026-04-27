@@ -21,63 +21,72 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             var totalTextLength = 0d;
             var maxLineHeight = 0d;
-            if (Cell.TextFormats == null) return;
-            for (int i = 0; i < Cell.TextFormats.Count; i++)
+            if (Cell.TextFragments == null) return;
+            Cell.ShapedTexts = new List<PdfShapedText>();
+            for (int i = 0; i < Cell.TextFragments.Count; i++)
             {
-                var fd = Cell.TextFormats[i];
-                fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
+                var tf = Cell.TextFragments[i];
+                Cell.ShapedTexts.Add(new PdfShapedText());
+                var st = Cell.ShapedTexts[i];
+                st.FontProvider = dictionaries.Fonts[tf.Font.FontFamily].fontSubsetManager.CreateSubsettedProvider();
 
-                if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
+                if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
                 {
-                    shaper = new TextShaper(fd.FontProvider);
-                    shaperCache[fd.FontProvider] = shaper;
+                    shaper = new TextShaper(st.FontProvider);
+                    shaperCache[st.FontProvider] = shaper;
                 }
 
-                if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
+                if (!layoutEngineCache.TryGetValue(st.FontProvider, out var layoutEngine))
                 {
                     layoutEngine = new TextLayoutEngine(shaper);
-                    layoutEngineCache[fd.FontProvider] = layoutEngine;
+                    layoutEngineCache[st.FontProvider] = layoutEngine;
                 }
 
                 var options = ShapingOptions.Default;
                 options.ApplyPositioning = true;
                 options.ApplySubstitutions = true;
 
-                var shaped = shaper.Shape(fd.Text, options);
+                var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
 
-                var allProviderFonts = fd.FontProvider.GetAllFonts().ToList();
+                var allProviderFonts = st.FontProvider.GetAllFonts().ToList();
+
+                if (Cell.ContentAligmnet.WrapText)
+                    Cell.TextLines = layoutEngine.WrapRichTextLineCollection(Cell.TextFragments, Cell.ColumnWidth);
+                else
+                    Cell.TextLines = layoutEngine.WrapRichTextLineCollection(Cell.TextFragments, double.MaxValue);
 
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
-                {
-                    var font = usedFonts[fontId];
-
-                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
                     {
-                        int label = 1;
-                        if (dictionaries.Fonts.Count > 0)
+                        var font = usedFonts[fontId];
+
+                        if (!dictionaries.Fonts.ContainsKey(font.FullName))
                         {
-                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+                            int label = 1;
+                            if (dictionaries.Fonts.Count > 0)
+                            {
+                                label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+                            }
+                            var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+                            fontResource.fontData = font;
+                            dictionaries.Fonts.Add(font.FullName, fontResource);
                         }
-                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
-                        fontResource.fontData = font;
-                        dictionaries.Fonts.Add(font.FullName, fontResource);
+                        fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
                     }
-                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
-                }
 
                 Cell.TextLayoutEngine = layoutEngine;
-                fd.ShapedText = shaped;
-                var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
-                var textHeight = fd.ShapedText.GetLineHeightInPoints((float)fd.FontSize);
-                fd.TextLength = textWdith;
-                fd.TextHeight = textHeight;
+                st.ShapedText = shaped;
+                var textWdith = st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
+                var textHeight = st.ShapedText.GetLineHeightInPoints((float)tf.Font.Size);
+                //tf.TextLength = textWdith;
+                //tf.TextHeight = textHeight;
                 totalTextLength += textWdith;
                 maxLineHeight = Math.Max(textHeight, maxLineHeight);
-                fd.FontIdMap = fontIdMap;
-                fd.UsedFonts = usedFonts;
-                Cell.TextFormats[i] = fd;
+                st.FontIdMap = fontIdMap;
+                st.UsedFonts = usedFonts;
+                Cell.TextFragments[i] = tf;
+                Cell.ShapedTexts[i] = st;
             }
             Cell.TotalTextLength = totalTextLength;
             //if (Cell.ContentAligmnet.WrapText)
@@ -88,19 +97,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             //}
         }
 
-        private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)
+        private static List<TextFragment> GetTextFragments(List<TextFragment> textFragments)
         {
-            var fragments = new List<TextFragment>(textFormats.Count);
+            var fragments = new List<TextFragment>(textFragments.Count);
 
-            foreach (var tf in textFormats)
+            foreach (var tf in textFragments)
             {
                 var fragment = new TextFragment
                 {
                     Text = tf.Text,
                     Font = new MeasurementFont
                     {
-                        FontFamily = tf.FontName,
-                        Size = (float)tf.FontSize,
+                        FontFamily = tf.Font.FontFamily,
+                        Size = (float)tf.Font.Size,
                         Style = GetMeasurementFontStyle(tf)
                     }
                 };
@@ -110,12 +119,12 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return fragments;
         }
 
-        private static MeasurementFontStyles GetMeasurementFontStyle(PdfTextFormat tf)
+        private static MeasurementFontStyles GetMeasurementFontStyle(TextFragment tf)
         {
-            var style = (tf.Bold ? MeasurementFontStyles.Bold : 0)
-                      | (tf.Italic ? MeasurementFontStyles.Italic : 0)
-                      | (tf.Strike ? MeasurementFontStyles.Strikeout : 0)
-                      | (tf.Underline ? MeasurementFontStyles.Underline : 0);
+            var style = (tf.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0)
+                      | (tf.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0)
+                      | (tf.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0)
+                      | (tf.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0);
 
             return style == 0 ? MeasurementFontStyles.Regular : (MeasurementFontStyles)style;
         }

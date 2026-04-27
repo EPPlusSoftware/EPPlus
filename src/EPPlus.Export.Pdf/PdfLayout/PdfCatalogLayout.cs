@@ -338,7 +338,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 page.AddChild(child);
                 if (child is PdfCellContentLayout ccl)
                 {
-                    LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, ccl);
+                    //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, ccl);
                     ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
                 }
             }
@@ -370,7 +370,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var hfs = p.ChildObjects.Where(x => x is PdfHeaderFooterLayout).ToArray();
                 foreach (var hf in hfs)
                 {
-                    LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
+                    //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
                 }
                 if (p.isCommentsPage)
                 {
@@ -382,7 +382,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var contents = p.ChildObjects[0].ChildObjects.Where(x => x is PdfCellContentLayout).ToArray();
                 foreach (PdfCellContentLayout content in contents)
                 {
-                    LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, content);
+                    //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, content);
                     AdjustText(content.TextLength, content.TextHeight, content);
                 }
 
@@ -454,7 +454,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         if (fullIntersect)
                         {
                             page.AddCell(cellContent);
-                            LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, cellContent);
+                            //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, cellContent);
                             AdjustText(cellContent.TextLength, cellContent.TextHeight, cellContent);
                             break;
                         }
@@ -468,7 +468,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             copy.Name = cellContent.Name;
                             copy.Z = cellContent.Z;
                             page.ChildObjects[0].AddChild(copy);
-                            LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, copy);
+                            //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, copy);
                             AdjustText(cellContent.TextLength, cellContent.TextHeight, cellContent);
                         }
                     }
@@ -513,70 +513,70 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Font handling, Text shaping and layouting wrapped text
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
-            var totalTextLength = 0d;
-            var maxLineHeight = 0d;
-            for (int i = 0; i < text.TextFormats.Count; i++)
-            {
-                var fd = text.TextFormats[i];
-                fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
+            //var totalTextLength = 0d;
+            //var maxLineHeight = 0d;
+            //for (int i = 0; i < text.TextFormats.Count; i++)
+            //{
+            //    var fd = text.TextFormats[i];
+            //    fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
 
-                if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
-                {
-                    shaper = new TextShaper(fd.FontProvider);
-                    shaperCache[fd.FontProvider] = shaper;
-                }
+            //    if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
+            //    {
+            //        shaper = new TextShaper(fd.FontProvider);
+            //        shaperCache[fd.FontProvider] = shaper;
+            //    }
 
-                if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
-                {
-                    layoutEngine = new TextLayoutEngine(shaper);
-                    layoutEngineCache[fd.FontProvider] = layoutEngine;
-                }
+            //    if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
+            //    {
+            //        layoutEngine = new TextLayoutEngine(shaper);
+            //        layoutEngineCache[fd.FontProvider] = layoutEngine;
+            //    }
 
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
+            //    var options = ShapingOptions.Default;
+            //    options.ApplyPositioning = true;
+            //    options.ApplySubstitutions = true;
 
-                var shaped = shaper.Shape(fd.Text, options);
-                var usedFonts = shaper.GetUsedFonts().ToList();
-                var fontIdMap = new Dictionary<byte, string>();
+            //    var shaped = shaper.Shape(fd.Text, options);
+            //    var usedFonts = shaper.GetUsedFonts().ToList();
+            //    var fontIdMap = new Dictionary<byte, string>();
 
-                var allProviderFonts = fd.FontProvider.GetAllFonts().ToList();
+            //    var allProviderFonts = fd.FontProvider.GetAllFonts().ToList();
 
-                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
-                {
-                    var font = usedFonts[fontId];
+            //    for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
+            //    {
+            //        var font = usedFonts[fontId];
 
-                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
-                    {
-                        int label = 1;
-                        if (dictionaries.Fonts.Count > 0)
-                        {
-                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
-                        }
-                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
-                        fontResource.fontData = font;
-                        dictionaries.Fonts.Add(font.FullName, fontResource);
-                    }
-                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
-                }
+            //        if (!dictionaries.Fonts.ContainsKey(font.FullName))
+            //        {
+            //            int label = 1;
+            //            if (dictionaries.Fonts.Count > 0)
+            //            {
+            //                label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+            //            }
+            //            var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+            //            fontResource.fontData = font;
+            //            dictionaries.Fonts.Add(font.FullName, fontResource);
+            //        }
+            //        fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+            //    }
 
-                text.TextLayoutEngine = layoutEngine;
-                fd.ShapedText = shaped;
-                var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
-                var textHeight = fd.ShapedText.GetLineHeightInPoints((float)fd.FontSize);
-                fd.TextLength = textWdith;
-                fd.TextHeight = textHeight;
-                totalTextLength += textWdith;
-                maxLineHeight = Math.Max(textHeight, maxLineHeight);
-                fd.FontIdMap = fontIdMap;
-                fd.UsedFonts = usedFonts;
-                text.TextFormats[i] = fd;
-            }
-            if (text is PdfCellContentLayout ccl)
-            {
-                ccl.TextLength = totalTextLength;
-                ccl.TextHeight = maxLineHeight;
-            }
+            //    text.TextLayoutEngine = layoutEngine;
+            //    fd.ShapedText = shaped;
+            //    var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
+            //    var textHeight = fd.ShapedText.GetLineHeightInPoints((float)fd.FontSize);
+            //    fd.TextLength = textWdith;
+            //    fd.TextHeight = textHeight;
+            //    totalTextLength += textWdith;
+            //    maxLineHeight = Math.Max(textHeight, maxLineHeight);
+            //    fd.FontIdMap = fontIdMap;
+            //    fd.UsedFonts = usedFonts;
+            //    text.TextFormats[i] = fd;
+            //}
+            //if (text is PdfCellContentLayout ccl)
+            //{
+            //    ccl.TextLength = totalTextLength;
+            //    ccl.TextHeight = maxLineHeight;
+            //}
         }
 
         private static void AdjustText(double totalTextLength, double maxLineHeight, PdfCellContentLayout ccl)
@@ -957,7 +957,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         }
                         else if (child is PdfHeaderFooterLayout headerFooterLayout)
                         {
-                            headerFooterLayout.GidsAndCharMap(dictionaries);
+                            //headerFooterLayout.GidsAndCharMap(dictionaries);
                         }
                     }
                     continue;
@@ -979,7 +979,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     else if (child is PdfHeaderFooterLayout headerFooterLayout)
                     {
-                        headerFooterLayout.GidsAndCharMap(dictionaries);
+                        //headerFooterLayout.GidsAndCharMap(dictionaries);
                     }
                 }
                 //Sort by Z ascending and the by Name descending

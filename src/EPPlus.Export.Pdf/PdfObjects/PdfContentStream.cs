@@ -14,6 +14,7 @@ using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Math;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -119,105 +120,110 @@ namespace EPPlus.Export.Pdf.PdfObjects
             return Dictionaries.Fonts[fontName];
         }
 
-        public void AddText(ITextLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
             double advanceX = 0;
             double rotation = textRotation * System.Math.PI / 180.0;
-            for (int i = 0; i < cell.TextFormats.Count; i++)
+            for (int k = 0; k < cell.TextLines.Count; k++)
             {
-                var textFormat = cell.TextFormats[i];
-                var shapedText = textFormat.ShapedText;
-                var textLength = shapedText.GetWidthInPoints((float)textFormat.FontSize);
-                var color = textFormat.FontColor;
-                var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.FontSize);
-                double size = textFormat.FontSize;
-                double scale = textFormat.FontSize / fontResrouce.fontData.HeadTable.UnitsPerEm;
-                Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X, position.Y);
-                commands.Add("BT");
-                textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
-                if (textFormat.SuperScript)
+                var line = cell.TextLines[k];
+                for (int i = 0; i < line.LineFragments.Count; i++)
                 {
-                    var supOffX = fontResrouce.fontData.Os2Table.ySuperscriptXOffset * scale;
-                    var supOffY = fontResrouce.fontData.Os2Table.ySuperscriptYOffset * scale;
-                    var supSizeY = fontResrouce.fontData.Os2Table.ySuperscriptYSize * scale;
-                    textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
-                    size = supSizeY;
-                }
-                else if (textFormat.SubScript)
-                {
-                    var supOffX = fontResrouce.fontData.Os2Table.ySubscriptXOffset * scale;
-                    var supOffY = fontResrouce.fontData.Os2Table.ySubscriptYOffset * scale;
-                    var supSizeY = fontResrouce.fontData.Os2Table.ySubscriptYSize * scale;
-                    textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
-                    size = supSizeY;
-                }
-                if (textFormat.Underline)
-                {
-                    var underlinePos = fontResrouce.fontData.PostTable.underlinePosition * scale;
-                    var underlineWidth = fontResrouce.fontData.PostTable.underlineThickness * scale;
-                    var start = textMatrix.Transform(new Vector2(0, underlinePos));
-                    var end = textMatrix.Transform(new Vector2(textLength, underlinePos));
-                    commands.Add($"{underlineWidth.ToPdfString()} w");
-                    commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                    commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                    commands.Add($"S");
-                }
-                if (textFormat.Strike)
-                {
-                    var strikePos = fontResrouce.fontData.Os2Table.yStrikeoutPosition * scale;
-                    var strikeWidth = fontResrouce.fontData.Os2Table.yStrikeoutSize * scale;
-                    var start = textMatrix.Transform(new Vector2(0, strikePos));
-                    var end = textMatrix.Transform(new Vector2(textLength, strikePos));
-                    commands.Add($"{strikeWidth.ToPdfString()} w");
-                    commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-                    commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-                    commands.Add($"S");
-                }
-                commands.Add(color.ToFillCommand());
-                commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
-
-                // FIX: Always use fontIdMap to determine the initial font.
-                // FontId=0 does NOT always mean "primary font" — when the text starts
-                // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
-                // The fontIdMap correctly maps FontId → PDF font label in all cases.
-                byte currentFontId = shapedText.Glyphs.Length > 0 ? shapedText.Glyphs[0].FontId : (byte)0;
-                string currentFontLabel = textFormat.FontIdMap.ContainsKey(currentFontId)
-                    ? textFormat.FontIdMap[currentFontId]
-                    : fontResrouce.Label;
-                commands.Add($"/{currentFontLabel} {size.ToPdfString()} Tf");
-
-                var sb = new StringBuilder();
-                sb.Append("[");
-                for (int j = 0; j < shapedText.Glyphs.Length; j++)
-                {
-                    var glyph = shapedText.Glyphs[j];
-
-                    if (glyph.FontId != currentFontId)
+                    //var textFormat = cell.TextFormats[i];
+                    var textFormat = line.LineFragments[i];
+                    var shapedText = cell.ShapedTexts[i]; //textFormat.ShapedText;
+                    var textLength = shapedText.ShapedText.GetWidthInPoints((float)textFormat.OriginalTextFragment.Font.Size);
+                    var color = textFormat.OriginalTextFragment.RichTextOptions.FontColor;
+                    var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
+                    double size = textFormat.OriginalTextFragment.Font.Size;
+                    double scale = textFormat.OriginalTextFragment.Font.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
+                    Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X, position.Y);
+                    commands.Add("BT");
+                    textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
+                    if (textFormat.OriginalTextFragment.RichTextOptions.SuperScript)
                     {
-                        // Close TJ array, switch font, open new TJ array
-                        sb.Append("] TJ\n");
-                        sb.Append($"/{textFormat.FontIdMap[glyph.FontId]} {size.ToPdfString()} Tf\n");
-                        sb.Append("[");
-                        currentFontId = glyph.FontId;
+                        var supOffX = fontResrouce.fontData.Os2Table.ySuperscriptXOffset * scale;
+                        var supOffY = fontResrouce.fontData.Os2Table.ySuperscriptYOffset * scale;
+                        var supSizeY = fontResrouce.fontData.Os2Table.ySuperscriptYSize * scale;
+                        textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
+                        size = supSizeY;
                     }
-
-                    sb.Append($"<{glyph.GlyphId:X4}>");
-                    int kerning = glyph.XAdvance - glyph.BaseAdvance;
-
-                    if (kerning != 0)
+                    else if (textFormat.OriginalTextFragment.RichTextOptions.SubScript)
                     {
-                        double adjustment = -(kerning * 1000.0 / 1000);
-                        sb.Append($" {adjustment.ToPdfStringF0()}");
+                        var supOffX = fontResrouce.fontData.Os2Table.ySubscriptXOffset * scale;
+                        var supOffY = fontResrouce.fontData.Os2Table.ySubscriptYOffset * scale;
+                        var supSizeY = fontResrouce.fontData.Os2Table.ySubscriptYSize * scale;
+                        textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
+                        size = supSizeY;
                     }
-
-                    if (j < shapedText.Glyphs.Length - 1)
+                    if (textFormat.OriginalTextFragment.RichTextOptions.UnderlineType != 12)
                     {
-                        sb.Append(" ");
+                        var underlinePos = fontResrouce.fontData.PostTable.underlinePosition * scale;
+                        var underlineWidth = fontResrouce.fontData.PostTable.underlineThickness * scale;
+                        var start = textMatrix.Transform(new Vector2(0, underlinePos));
+                        var end = textMatrix.Transform(new Vector2(textLength, underlinePos));
+                        commands.Add($"{underlineWidth.ToPdfString()} w");
+                        commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                        commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                        commands.Add($"S");
                     }
+                    if (textFormat.OriginalTextFragment.RichTextOptions.StrikeType > 1)
+                    {
+                        var strikePos = fontResrouce.fontData.Os2Table.yStrikeoutPosition * scale;
+                        var strikeWidth = fontResrouce.fontData.Os2Table.yStrikeoutSize * scale;
+                        var start = textMatrix.Transform(new Vector2(0, strikePos));
+                        var end = textMatrix.Transform(new Vector2(textLength, strikePos));
+                        commands.Add($"{strikeWidth.ToPdfString()} w");
+                        commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
+                        commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
+                        commands.Add($"S");
+                    }
+                    commands.Add(color.ToFillCommand());
+                    commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
+
+                    // FIX: Always use fontIdMap to determine the initial font.
+                    // FontId=0 does NOT always mean "primary font" — when the text starts
+                    // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
+                    // The fontIdMap correctly maps FontId → PDF font label in all cases.
+                    byte currentFontId = shapedText.ShapedText.Glyphs.Length > 0 ? shapedText.ShapedText.Glyphs[0].FontId : (byte)0;
+                    string currentFontLabel = shapedText.FontIdMap.ContainsKey(currentFontId)
+                        ? shapedText.FontIdMap[currentFontId]
+                        : fontResrouce.Label;
+                    commands.Add($"/{currentFontLabel} {size.ToPdfString()} Tf");
+
+                    var sb = new StringBuilder();
+                    sb.Append("[");
+                    for (int j = 0; j < shapedText.ShapedText.Glyphs.Length; j++)
+                    {
+                        var glyph = shapedText.ShapedText.Glyphs[j];
+
+                        if (glyph.FontId != currentFontId)
+                        {
+                            // Close TJ array, switch font, open new TJ array
+                            sb.Append("] TJ\n");
+                            sb.Append($"/{shapedText.FontIdMap[glyph.FontId]} {size.ToPdfString()} Tf\n");
+                            sb.Append("[");
+                            currentFontId = glyph.FontId;
+                        }
+
+                        sb.Append($"<{glyph.GlyphId:X4}>");
+                        int kerning = glyph.XAdvance - glyph.BaseAdvance;
+
+                        if (kerning != 0)
+                        {
+                            double adjustment = -(kerning * 1000.0 / 1000);
+                            sb.Append($" {adjustment.ToPdfStringF0()}");
+                        }
+
+                        if (j < shapedText.ShapedText.Glyphs.Length - 1)
+                        {
+                            sb.Append(" ");
+                        }
+                    }
+                    advanceX += textLength;
+                    commands.Add(sb.ToString() + "] TJ");
+                    commands.Add("ET");
                 }
-                advanceX += textLength;
-                commands.Add(sb.ToString() + "] TJ");
-                commands.Add("ET");
             }
         }
 
@@ -397,7 +403,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             commands.Add($"% HeaderFooter Start: {cell.Name}");
             commands.Add("q");
-            AddText(cell, cell.LocalPosition, 0, dictionaries, pageSettings);
+            //AddText(cell, cell.LocalPosition, 0, dictionaries, pageSettings);
             commands.Add("Q");
             commands.Add($"% HeaderFooter End: {cell.Name}");
         }

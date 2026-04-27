@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
+using EPPlus.Fonts.OpenType.Integration;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
@@ -32,10 +33,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfCell Content;
         public bool ContainsPageNumber { get; set; }
 
-        public PdfHeaderFooter(List<PdfTextFormat> textFormats, bool containsPageNumber, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
+        public PdfHeaderFooter(List<TextFragment> textFormats, bool containsPageNumber, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
             Content = new PdfCell();
-            Content.TextFormats = textFormats;
+            //Content.TextFormats = textFormats;
             ContainsPageNumber = containsPageNumber;
             PageType = type;
             Alignment = alignment;

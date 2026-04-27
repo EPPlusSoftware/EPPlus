@@ -148,7 +148,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             pdfSheet.Ranges = new List<PdfRange>();
             pdfSheet.Worksheet = worksheet;
             pdfSheet.Ranges = GetRanges(pdfSheet.Worksheet);
-            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
+            //pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
             if(pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);

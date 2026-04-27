@@ -105,7 +105,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                 pageLayout.AddChild(fill);
                             }
                             //Text
-                            if (map.TextFormats != null && map.TextFormats.Count > 0)
+                            if (map.TextLines != null && map.TextLines.Count > 0)
                             {
                                 var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.Width, 15);
                                 text.Name = map.Name;

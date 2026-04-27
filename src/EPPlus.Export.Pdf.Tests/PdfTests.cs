@@ -10,16 +10,10 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
-using Mono.Cecil.Cil;
 using OfficeOpenXml;
 
 namespace EPPlusTest.PDF
@@ -163,8 +157,8 @@ namespace EPPlusTest.PDF
         public void ReadPrintAreas()
         {
             //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
-            //using var p = OpenTemplatePackage("PDFTest.xlsx");
-            using var p = OpenTemplatePackage("DoubleBorder.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("DoubleBorder.xlsx");
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;

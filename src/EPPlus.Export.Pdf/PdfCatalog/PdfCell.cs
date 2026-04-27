@@ -13,7 +13,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public bool Hidden;
         public PdfCellStyle CellStyle;
         public PdfCellAlignmentData ContentAligmnet;
-        public List<PdfTextFormat> TextFormats { get; set; }
+        public List<TextFragment> TextFragments { get; set; }
+        public List<PdfShapedText> ShapedTexts { get; set; }
+        public TextLineCollection TextLines { get; set; }
+
+
         public double TotalTextLength { get; set; }
         public double ColumnWidth { get; set; }
         public double Width { get; set; }

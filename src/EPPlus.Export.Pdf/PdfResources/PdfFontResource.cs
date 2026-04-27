@@ -65,21 +65,21 @@ namespace EPPlus.Export.Pdf.PdfResources
         }
 
         //Get font data from fontResources. If font does not exsist, add it to fontResources.
-        internal static OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfTextFormat FontData)
-        {
-            if (!fontResources.ContainsKey(FontData.FullFontName))
-            {
-                int label = 1;
-                if (fontResources.Count > 0)
-                {
-                    label = fontResources.Last().Value.labelNumber + 1;
-                }
-                PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
-                fontResources.Add(FontData.FullFontName, fr);
-                fontResources.Last().Value.fontData = GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
-            }
-            return fontResources[FontData.FullFontName].fontData;
-        }
+        //internal static OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfTextFormat FontData)
+        //{
+        //    if (!fontResources.ContainsKey(FontData.FullFontName))
+        //    {
+        //        int label = 1;
+        //        if (fontResources.Count > 0)
+        //        {
+        //            label = fontResources.Last().Value.labelNumber + 1;
+        //        }
+        //        PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
+        //        fontResources.Add(FontData.FullFontName, fr);
+        //        fontResources.Last().Value.fontData = GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
+        //    }
+        //    return fontResources[FontData.FullFontName].fontData;
+        //}
 
         internal void CreateSubset()
         {
