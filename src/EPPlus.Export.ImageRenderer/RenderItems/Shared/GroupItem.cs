@@ -12,7 +12,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         internal double Rotation = double.NaN;
         /// <summary>
-        /// In points
+        /// The translated position of this item in points
+        /// Also the parent position of the group item 
+        /// (This may seem strange but it ensures the the translation is seen 
+        /// immediately in the global position of GroupItem without affecting local position)
         /// </summary>
         internal Point Position = null;
 

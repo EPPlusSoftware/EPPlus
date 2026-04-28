@@ -15,15 +15,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
     {
         List<object> catValues = new List<object>();
         List<object> valValues = new List<object>();
-        List<double> valPercent = new List<double>();
-        List<double> _sliceDegrees = new List<double>();
         List<double> _serieValuesAsDoubles = new List<double>();
         double _totalOfSerieValues = 0;
 
-        SvgGroupItemNew _groupItem;
+        List<SvgPieSlice> Slices = new List<SvgPieSlice>();
 
-        List<Coordinate> _endCoordOffsetFromLocalCenterOfCircle = new List<Coordinate>();
-        List<Coordinate> _sliceOuterMidpoint = new List<Coordinate>();
+        SvgGroupItemNew _groupItem;
 
         double _startDegrees = -90d;
         int _pieExplosionPercent = 0;
@@ -35,14 +32,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         /// Radius in points
         /// </summary>
         double _radius;
-        /// <summary>
-        /// Local center of circle/pie in x-axis
-        /// </summary>
-        double _localCx;
-        /// <summary>
-        /// Local center of circle/pie in y-axis
-        /// </summary>
-        double _localCy;
+
+        Point _circleCenter;
 
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
@@ -55,7 +46,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             LoadSeriesValues(chartType);
             CalculateLocalCenterAndRadius();
-            CalculateBaseValuesForEachSlice();
+            CreateIntialSlice();
 
             //How much to scale each slice due to pie explosion
             _sliceScaleFactor = 100d / (_pieExplosionPercent + 100d);
@@ -83,14 +74,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
-            circ.Bounds.Left = _localCx;
-            circ.Bounds.Top = _localCy;
+            circ.Bounds.Left = _circleCenter.Left;
+            circ.Bounds.Top = _circleCenter.Top;
 
             circ.Rx = _radius;
             circ.Ry = _radius;
 
-            circ.Cx = _localCx;
-            circ.Cy = _localCy;
+            circ.Cx = _circleCenter.Left;
+            circ.Cy = _circleCenter.Top;
 
             circ.FillColor = "transparent";
             circ.FillOpacity = 0.3d;
@@ -104,51 +95,38 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
 
-            var xPoint = _localCx + (_radius * Math.Cos(angleRadians));
-            var yPoint = _localCy + (_radius * Math.Sin(angleRadians));
+            var xPoint = _circleCenter.Left + (_radius * Math.Cos(angleRadians));
+            var yPoint = _circleCenter.Top + (_radius * Math.Sin(angleRadians));
 
             return new Coordinate(xPoint, yPoint);
         }
 
-        void CalculateBaseValuesForEachSlice()
+        void CreateIntialSlice()
         {
             //The angle of the previous slice
             //(or the 90 degree offset in the first slice)
             var prevDegrees = _startDegrees;
 
             for (int i = 0; i < valValues.Count; i++)
-            {
-                var startPoint = CalculateLocalPointOnCircle(prevDegrees);
-                //Calculate how many percent of the pie this slice is
-                valPercent.Add(_serieValuesAsDoubles[i] / _totalOfSerieValues);
-
-                //How many degrees that percentage is out of 360
-                var degrees = valPercent[i] * 360d;
-                //The degrees of the midpoint
-                var halfDegrees = degrees / 2;
-
-                var endPoint = CalculateLocalPointOnCircle(degrees + prevDegrees);
-                _sliceDegrees.Add(degrees + prevDegrees);
-
-                _endCoordOffsetFromLocalCenterOfCircle.Add(endPoint);
-
-                //We add prev at this point since we don't want to halve the previous angle only the current one
-                var midPoint = CalculateLocalPointOnCircle(halfDegrees + prevDegrees);
-                _sliceOuterMidpoint.Add(midPoint);
+            {   //Calculate how many percent of the pie this slice is
+                var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
+                //Create and add slice
+                SvgPieSlice slice = new SvgPieSlice(ChartRenderer, _groupItem.Bounds, _circleCenter, _radius, valPercent, prevDegrees);
+                Slices.Add(slice);
 
                 //Next slice will need to be calculated starting from the degrees of this slice
-                prevDegrees = degrees;
+                prevDegrees = slice.Degrees;
             }
         }
 
         void CalculateLocalCenterAndRadius()
         {
-            _localCx = (_svgChart.Plotarea.Rectangle.Bounds.Width / 2);
-            _localCy = (_svgChart.Plotarea.Rectangle.Bounds.Height / 2);
+            _circleCenter = new Point(_svgChart.Plotarea.Rectangle.Bounds.Width / 2, _svgChart.Plotarea.Rectangle.Bounds.Height / 2);
+            _circleCenter.Parent = _groupItem.Bounds;
 
-            _groupItem.RotationPoint = new Graphics.Point(_localCx, _localCy);
+            _groupItem.RotationPoint = _circleCenter;
 
-            var _radius = Math.Min(_localCx, _localCy);
+            var _radius = Math.Min(_circleCenter.Left, _circleCenter.Top);
         }
 
         void LoadSeriesValues(ExcelPieChart chartType)
@@ -186,158 +164,165 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         private void AddSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, List<object> catSeries, List<object> valSeries, int seriesCount, int position)
         {
-            var innerGroup = new SvgGroupItemNew(ChartRenderer, 0, 0);
+            var dataPoint = serie.DataPoints[position];
 
-            var slice = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            Slices[position].ImportPathData(
+                _svgChart.Plotarea.Rectangle.Bounds, _groupItem, _svgChart.Bounds, 
+                _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
 
-            slice.BorderWidth = 2;
+            Slices[position].ImportStlyeInfo(dataPoint, chartType);
+            //var innerGroup = new SvgGroupItemNew(ChartRenderer, 0, 0);
 
-            //Path commands are based on percent of the Pixel height and Width
-            //We must supply coords in a correct percentage of the Whole Chart
-            var w = _svgChart.Plotarea.Rectangle.Bounds.Width;
-            var h = _svgChart.Plotarea.Rectangle.Bounds.Height;
+            //var slice = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
 
-            var cx = (w / 2);
-            var cy = (h / 2);
+            //slice.BorderWidth = 2;
 
-            var radX = _radius / w;
-            var radY = _radius / h;
+            ////Path commands are based on percent of the Pixel height and Width
+            ////We must supply coords in a correct percentage of the Whole Chart
+            //var w = _svgChart.Plotarea.Rectangle.Bounds.Width;
+            //var h = _svgChart.Plotarea.Rectangle.Bounds.Height;
 
-            var cxPercentOfTotal = (cx + _groupItem.Position.Left) / _svgChart.Bounds.Width;
-            var cyPercentOfTotal = (cy + _groupItem.Position.Top) / _svgChart.Bounds.Height;
+            //var cx = (w / 2);
+            //var cy = (h / 2);
 
-            var moveCenter = new PathCommands(PathCommandType.Move, slice, cxPercentOfTotal, cyPercentOfTotal);
+            //var radX = _radius / w;
+            //var radY = _radius / h;
 
-            Coordinate startPoint;
+            //var cxPercentOfTotal = (cx + _groupItem.Position.Left) / _svgChart.Bounds.Width;
+            //var cyPercentOfTotal = (cy + _groupItem.Position.Top) / _svgChart.Bounds.Height;
 
-            var x1 = 1d;
-            var y1 = 1d;
+            //var moveCenter = new PathCommands(PathCommandType.Move, slice, cxPercentOfTotal, cyPercentOfTotal);
 
-            var x2 = 78d;
-            var y2 = 400d;
+            //Coordinate startPoint;
 
-            var b = Math.Pow((y2 / y1), (1 / (x2 - x1)));
-            var a = y1 / Math.Pow(b, x1);
+            //var x1 = 1d;
+            //var y1 = 1d;
+
+            //var x2 = 78d;
+            //var y2 = 400d;
+
+            //var b = Math.Pow((y2 / y1), (1 / (x2 - x1)));
+            //var a = y1 / Math.Pow(b, x1);
 
             
-            var origin = _sliceOuterMidpoint[position];
-            innerGroup.TransformOrigin = _sliceOuterMidpoint[position];
+            //var origin = _sliceOuterMidpoint[position];
+            //innerGroup.TransformOrigin = _sliceOuterMidpoint[position];
 
-            innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
+            //innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
 
-            var pointExplosion = serie.DataPoints[position].Explosion == int.MinValue ? 0 : serie.DataPoints[position].Explosion;
+            //var pointExplosion = serie.DataPoints[position].Explosion == int.MinValue ? 0 : serie.DataPoints[position].Explosion;
 
-            //Get directional vector
-            Graphics.Math.Vector2 pieDirection = (new Graphics.Math.Vector2(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y) - new Graphics.Math.Vector2((cx), (cy)));
-            //normalize the pieDirection vector
-            pieDirection = pieDirection / pieDirection.Length;
+            ////Get directional vector
+            //Graphics.Math.Vector2 pieDirection = (new Graphics.Math.Vector2(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y) - new Graphics.Math.Vector2((cx), (cy)));
+            ////normalize the pieDirection vector
+            //pieDirection = pieDirection / pieDirection.Length;
 
-            //If smaller than explosion direction is inward rather than outward
-            if (pointExplosion != 0 && pointExplosion < _pieExplosionPercent)
-            {
-                pieDirection = (pieDirection * -1);
-            }
-            else if (_pieExplosionPercent != 0 && pointExplosion > _pieExplosionPercent)
-            {
-                pointExplosion -= _pieExplosionPercent;
-            }
-            //Get distance/length to move along vector
-            Graphics.Math.Vector2 ScaledPieDirection = pieDirection * (_radius * (((double)pointExplosion / 100d)));
+            ////If smaller than explosion direction is inward rather than outward
+            //if (pointExplosion != 0 && pointExplosion < _pieExplosionPercent)
+            //{
+            //    pieDirection = (pieDirection * -1);
+            //}
+            //else if (_pieExplosionPercent != 0 && pointExplosion > _pieExplosionPercent)
+            //{
+            //    pointExplosion -= _pieExplosionPercent;
+            //}
+            ////Get distance/length to move along vector
+            //Graphics.Math.Vector2 ScaledPieDirection = pieDirection * (_radius * (((double)pointExplosion / 100d)));
 
-            var translateX = ScaledPieDirection.X;
-            var translateY = ScaledPieDirection.Y;
+            //var translateX = ScaledPieDirection.X;
+            //var translateY = ScaledPieDirection.Y;
 
-            var maxTranslationX = _svgChart.Bounds.Width - _sliceOuterMidpoint[position].X - _groupItem.Position.Left;
-            //The slices can move across whole of y 
-            var maxTranslationY = _svgChart.Bounds.Height - _sliceOuterMidpoint[position].Y;
+            //var maxTranslationX = _svgChart.Bounds.Width - _sliceOuterMidpoint[position].X - _groupItem.Position.Left;
+            ////The slices can move across whole of y 
+            //var maxTranslationY = _svgChart.Bounds.Height - _sliceOuterMidpoint[position].Y;
 
-            var minTranslationX = -_sliceOuterMidpoint[position].X -_groupItem.Position.Left;
-            var minTranslationY = -_sliceOuterMidpoint[position].Y - _groupItem.Position.Top;
+            //var minTranslationX = -_sliceOuterMidpoint[position].X -_groupItem.Position.Left;
+            //var minTranslationY = -_sliceOuterMidpoint[position].Y - _groupItem.Position.Top;
 
-            Graphics.Point lengthPoint = new Graphics.Point();
+            //Graphics.Point lengthPoint = new Graphics.Point();
 
-            if(ScaledPieDirection.X != 0)
-            {
-                if (ScaledPieDirection.X > 0 && ScaledPieDirection.X > maxTranslationX)
-                {
-                    lengthPoint.Left = maxTranslationX;
-                }
-                else if (ScaledPieDirection.X < minTranslationX)
-                {
-                    lengthPoint.Left = Math.Abs(minTranslationX);
-                }
-            }
+            //if(ScaledPieDirection.X != 0)
+            //{
+            //    if (ScaledPieDirection.X > 0 && ScaledPieDirection.X > maxTranslationX)
+            //    {
+            //        lengthPoint.Left = maxTranslationX;
+            //    }
+            //    else if (ScaledPieDirection.X < minTranslationX)
+            //    {
+            //        lengthPoint.Left = Math.Abs(minTranslationX);
+            //    }
+            //}
 
-            if (ScaledPieDirection.Y != 0)
-            {
-                if (ScaledPieDirection.Y > 0 && ScaledPieDirection.Y > maxTranslationY)
-                {
-                    lengthPoint.Top = maxTranslationY;
-                }
-                else if (ScaledPieDirection.Y < minTranslationY)
-                {
-                    lengthPoint.Top = Math.Abs(minTranslationY);
-                }
-            }
+            //if (ScaledPieDirection.Y != 0)
+            //{
+            //    if (ScaledPieDirection.Y > 0 && ScaledPieDirection.Y > maxTranslationY)
+            //    {
+            //        lengthPoint.Top = maxTranslationY;
+            //    }
+            //    else if (ScaledPieDirection.Y < minTranslationY)
+            //    {
+            //        lengthPoint.Top = Math.Abs(minTranslationY);
+            //    }
+            //}
 
-            var smallestLength = Math.Min(lengthPoint.Left, lengthPoint.Top);
-            if(smallestLength == 0)
-            {
-                smallestLength = Math.Max(lengthPoint.Left, lengthPoint.Top);
-            }
+            //var smallestLength = Math.Min(lengthPoint.Left, lengthPoint.Top);
+            //if(smallestLength == 0)
+            //{
+            //    smallestLength = Math.Max(lengthPoint.Left, lengthPoint.Top);
+            //}
 
-            double translationLeft;
-            double translationTop;
+            //double translationLeft;
+            //double translationTop;
 
-            if (smallestLength != 0 && smallestLength < ScaledPieDirection.Length)
-            {
-                var normalizedVector = ScaledPieDirection / ScaledPieDirection.Length;
-                var appliedVector = normalizedVector * smallestLength;
+            //if (smallestLength != 0 && smallestLength < ScaledPieDirection.Length)
+            //{
+            //    var normalizedVector = ScaledPieDirection / ScaledPieDirection.Length;
+            //    var appliedVector = normalizedVector * smallestLength;
 
-                translationLeft = appliedVector.X;
-                translationTop = appliedVector.Y;
-            }
-            else
-            {
-                translationLeft = Math.Min(translateX, maxTranslationX);
-                translationTop = Math.Min(translateY, maxTranslationY);
+            //    translationLeft = appliedVector.X;
+            //    translationTop = appliedVector.Y;
+            //}
+            //else
+            //{
+            //    translationLeft = Math.Min(translateX, maxTranslationX);
+            //    translationTop = Math.Min(translateY, maxTranslationY);
 
-                translationLeft = Math.Max(translationLeft, minTranslationX);
-                translationTop = Math.Max(translationTop, minTranslationY);
-            }
+            //    translationLeft = Math.Max(translationLeft, minTranslationX);
+            //    translationTop = Math.Max(translationTop, minTranslationY);
+            //}
 
-            innerGroup.Position.Left = translationLeft;
-            innerGroup.Position.Top = translationTop;
+            //innerGroup.Position.Left = translationLeft;
+            //innerGroup.Position.Top = translationTop;
 
-            if (position != 0)
-            {
-                var lastPosX = _endCoordOffsetFromLocalCenterOfCircle[position - 1].X / w;
-                var lastPosY = _endCoordOffsetFromLocalCenterOfCircle[position - 1].Y / h;
-                startPoint = new Coordinate(lastPosX, lastPosY);
-            }
-            else
-            {
-                startPoint = new Coordinate(cxPercentOfTotal, (cy - _radius) / h);
-            }
+            //if (position != 0)
+            //{
+            //    var lastPosX = _endCoordOffsetFromLocalCenterOfCircle[position - 1].X / w;
+            //    var lastPosY = _endCoordOffsetFromLocalCenterOfCircle[position - 1].Y / h;
+            //    startPoint = new Coordinate(lastPosX, lastPosY);
+            //}
+            //else
+            //{
+            //    startPoint = new Coordinate(cxPercentOfTotal, (cy - _radius) / h);
+            //}
 
-            var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X, startPoint.Y);
+            //var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X, startPoint.Y);
 
-            var individualAngle = valPercent[position] * 360d;
+            //var individualAngle = valPercent[position] * 360d;
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, individualAngle > 180 ? 1 : 0, 1, _endCoordOffsetFromLocalCenterOfCircle[position].X / w, _endCoordOffsetFromLocalCenterOfCircle[position].Y / h });
-            var end = new PathCommands(PathCommandType.End, slice, _endCoordOffsetFromLocalCenterOfCircle[position].X / w, _endCoordOffsetFromLocalCenterOfCircle[position].Y / h);
+            //var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, individualAngle > 180 ? 1 : 0, 1, _endCoordOffsetFromLocalCenterOfCircle[position].X / w, _endCoordOffsetFromLocalCenterOfCircle[position].Y / h });
+            //var end = new PathCommands(PathCommandType.End, slice, _endCoordOffsetFromLocalCenterOfCircle[position].X / w, _endCoordOffsetFromLocalCenterOfCircle[position].Y / h);
 
-            slice.Commands.Add(moveCenter);
-            slice.Commands.Add(lineToStart);
-            slice.Commands.Add(arcCommand);
-            slice.Commands.Add(end);
+            //slice.Commands.Add(moveCenter);
+            //slice.Commands.Add(lineToStart);
+            //slice.Commands.Add(arcCommand);
+            //slice.Commands.Add(end);
 
-            slice.SetDrawingPropertiesFill(serie.DataPoints[position].Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
-            slice.SetDrawingPropertiesBorder(serie.DataPoints[position].Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
-            slice.SetDrawingPropertiesEffects(serie.DataPoints[position].Effect);
-            innerGroup.AddChildItem(slice);
+            //slice.SetDrawingPropertiesFill(serie.DataPoints[position].Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
+            //slice.SetDrawingPropertiesBorder(serie.DataPoints[position].Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
+            //slice.SetDrawingPropertiesEffects(serie.DataPoints[position].Effect);
+            //innerGroup.AddChildItem(slice);
 
-            _groupItem.AddChildItem(innerGroup);
+            //_groupItem.AddChildItem(innerGroup);
 
 
             //var LineItem = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
