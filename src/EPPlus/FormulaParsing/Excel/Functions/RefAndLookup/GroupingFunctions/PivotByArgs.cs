@@ -9,9 +9,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
     internal class PivotByArgs : GroupByBaseArgs
     {
         public IRangeInfo ColFields { get; set; }
-        public int RowTotalDepth { get; set; } = 1;
+        public int RowTotalDepth { get; set; } = 0;
         public int[] RowSortOrders { get; set; } = new[] { 1 };
-        public int ColTotalDepth { get; set; } = 1;
+        public int ColTotalDepth { get; set; } = 0;
         public int[] ColSortOrders { get; set; } = new[] { 1 };
         public RelativeTo RelativeTo { get; set; } = RelativeTo.ColumnTotals; // Default
     }

@@ -243,5 +243,67 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Calculate();
             }
         }
+
+        [TestMethod]
+        public void PivotByRelativeTo2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Stockholm";
+                s.Cells["A2"].Value = "Linköping";
+                s.Cells["A3"].Value = "Örebro";
+                s.Cells["A4"].Value = "Stockholm";
+                s.Cells["A5"].Value = "Örebro";
+                s.Cells["A6"].Value = "Linköping";
+
+                s.Cells["B1"].Value = "2026";
+                s.Cells["B2"].Value = "2026";
+                s.Cells["B3"].Value = "2025";
+                s.Cells["B4"].Value = "2025";
+                s.Cells["B5"].Value = "2025";
+                s.Cells["B6"].Value = "2024";
+
+                s.Cells["C1"].Value = "Q2";
+                s.Cells["C2"].Value = "Q1";
+                s.Cells["C3"].Value = "Q2";
+                s.Cells["C4"].Value = "Q3";
+                s.Cells["C5"].Value = "Q4";
+                s.Cells["C6"].Value = "Q2";
+
+                s.Cells["D1"].Value = 34543;
+                s.Cells["D2"].Value = 43265;
+                s.Cells["D3"].Value = 75461;
+                s.Cells["D4"].Value = 4536;
+                s.Cells["D5"].Value = 64312;
+                s.Cells["D6"].Value = 64531;
+
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A6,B1:C6,D1:D6,_xleta.PERCENTOF,,,,,,,3)";
+                s.Calculate();
+            }
+        }
+
+        [TestMethod]
+        public void PivotByRelativeTo3()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3,_xleta.PERCENTOF,,,,,,,4)";
+                s.Calculate();
+            }
+        }
     }
 }
