@@ -39,8 +39,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
             _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
-            _groupItem.Bounds.Top = _svgChart.GetPlotAreaTop();
-            _groupItem.Bounds.Left = _svgChart.Plotarea.Rectangle.Left;
+            //_groupItem.Position.Left = _svgChart.Plotarea.Rectangle.Bounds.Left;
+            //_groupItem.Position.Top = _svgChart.Plotarea.Rectangle.Bounds.Top;
+            //_groupItem.Position.Parent = _svgChart.Plotarea;
 
             //Read and set Starting angle offset as a rotation on the container
             //This way no rotation messes with the other calculations
@@ -124,8 +125,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         void CalculateLocalCenterAndRadius()
         {
-            _circleCenter = new Point(_svgChart.Plotarea.Rectangle.Bounds.Width / 2, _svgChart.Plotarea.Rectangle.Bounds.Height / 2);
-            _circleCenter.Parent = _groupItem.Bounds;
+            _circleCenter = new Point();
+            _circleCenter.Parent = _groupItem.Position;
+            _circleCenter.Left = _svgChart.Plotarea.Rectangle.Bounds.Width / 2;
+            _circleCenter.Top = _svgChart.Plotarea.Rectangle.Bounds.Height / 2;
 
             _groupItem.RotationPoint = _circleCenter;
 
