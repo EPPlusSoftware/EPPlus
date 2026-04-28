@@ -10,28 +10,26 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
-using EPPlusImageRenderer;
-using OfficeOpenXml.Drawing;
+using EPPlusImageRenderer.RenderItems;
+using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class SvgTrendline
+    internal class SvgTrendline : SvgChartObject
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
         private List<object> _xSerie;
 
-        public SvgTrendline(ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie)
+        public SvgTrendline(SvgChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie) : base(svgChart)
         {
             _trendline = trendline;
             _xSerie = xSerie;
@@ -103,7 +101,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             //var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetLinearSerie(slope, intercept)), 2);
-            var r2 = CalculateRSquared(x => slope * x + intercept, _ySerie);
+            var r2 = CalculateRSquared(x => slope * x + intercept, _ySerie, _trendline.Intercept);
             Coefficients = [slope, intercept];
             Formula = $"y={slope:G5}x{(GetValueAndSignSuppressZero(intercept))}";
             RSquare = $"R²={r2:N4}";
@@ -140,7 +138,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     sumXLnY += Math.Log(_ySerie[i]) * (i + 1);
                 }
 
-                slope = (n * sumXLnY - _trendline.Intercept * sumLnY) / (n * sumX2 - sumX * sumX);
+                slope = (n * sumXLnY - sumX * sumLnY) / (n * sumX2 - sumX * sumX);
                 //Intercept 
                 intercept = Math.Pow(Math.E, (sumLnY - slope * sumX) / n);
             }
@@ -185,7 +183,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             Coefficients = [slope, intercept];
 
-            var r2 = CalculateRSquared(x => slope * Math.Log(x) + intercept, _ySerie);
+            var r2 = CalculateRSquared(x => slope * Math.Log(x) + intercept, _ySerie, _trendline.Intercept);
             Formula = $"y={slope:G5}ln(x)+{intercept:G5}";
             RSquare = $"R²={r2:N4}";
         }
@@ -200,49 +198,61 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
               ...
             */
 
-
+            var isForced = double.IsNaN(_trendline.Intercept) == false;
             int n = _ySerie.Length;            
             var order = Math.Min((int)_trendline.Order, n-1);
-            int coeffCount = order + 1;
+            int coeffCount = order + (isForced ? 0 : 1);
 
             // Step 1: Build sums
             double[] sumX = new double[2 * order + 1];
             double[] sumXY = new double[order + 1];
 
-            if (double.IsNaN(_trendline.Intercept))
+            if (isForced)
             {
+                //Todo:Add intercept to the formula and adjust the y values accordingly
                 var intercept = _trendline.Intercept;
                 double[] yAdj = new double[n];
                 for (int i = 0; i < n; i++)
                 {
                     yAdj[i] = _ySerie[i] - intercept;
                 }
+
+                for (int i = 0; i < n; i++)
+                {
+                    double xPow = 1.0;
+                    for (int k = 0; k <= 2 * order; k++)
+                    {
+                        sumX[k] += xPow;
+                        if (k <= order)
+                            sumXY[k] += xPow * yAdj[i];
+                        xPow *= i + 1;
+                    }
+                }
             }
             else
             {
-                //Todo:Add intercept to the formula and adjust the y values accordingly
-            }
-
-            for (int i = 0; i < n; i++)
-            {
-                double xPow = 1.0;
-                for (int k = 0; k <= 2 * order; k++)
+                for (int i = 0; i < n; i++)
                 {
-                    sumX[k] += xPow;
-                    if (k <= order)
-                        sumXY[k] += xPow * ConvertUtil.GetValueDouble(_ySerie[i]);
-                    xPow *= i + 1;
+                    double xPow = 1.0;
+                    for (int k = 0; k <= 2 * order; k++)
+                    {
+                        sumX[k] += xPow;
+                        if (k <= order)
+                            sumXY[k] += xPow * _ySerie[i];
+                        xPow *= i + 1;
+                    }
                 }
             }
 
             // Step 2: Build augmented matrix
             double[,] matrix = new double[coeffCount, coeffCount + 1];
 
+            int offset = isForced ? 2 : 0;
             for (int row = 0; row < coeffCount; row++)
             {
                 for (int col = 0; col < coeffCount; col++)
-                    matrix[row, col] = sumX[row + col];
-                matrix[row, coeffCount] = sumXY[row];
+                    matrix[row, col] = sumX[row + col + offset];
+                matrix[row, coeffCount] = sumXY[row + (offset / 2)];
             }
 
             // Step 3: Gaussian elimination with partial pivoting
@@ -283,19 +293,31 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             // Step 4: Extract coefficients
             // coefficients[0] = constant, [1] = x term, [2] = x² term, etc.
-            Coefficients = new double[coeffCount];
-            for (int i = 0; i < coeffCount; i++)
+            Coefficients = new double[order+1];
+            if (isForced)
             {
-                Coefficients[i] = matrix[i, coeffCount];
+                Coefficients[0] = _trendline.Intercept;
+                for (int i = 0; i < coeffCount; i++)
+                {
+                    Coefficients[i+1] = matrix[i, coeffCount];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < coeffCount; i++)
+                {
+                    Coefficients[i] = matrix[i, coeffCount];
+                }
             }
             Formula = "y=" + GetPolynormFormula();
-            RSquare = "R²=" + CalculateRSquared(x => PredictPolynomial(x), _ySerie);
+            var r2 = CalculateRSquared(x => PredictPolynomial(x), _ySerie, _trendline.Intercept);
+            RSquare = $"R²={r2:g4}";
         }
 
         private void CalculatePower()
         {
             var n = _xSerie.Count;
-            var lnSerie = _xSerie.Select(x => Math.Log(_xSerie.IndexOf(x) + 1));
+            var lnSerie = _xSerie.Select((x, i) => Math.Log(i + 1));
             var sumLnX = lnSerie.Sum(x => x);
             var sumLnX2 = lnSerie.Sum(x => x*x);
             var sumLnY = _ySerie.Sum(y => Math.Log(y));
@@ -310,9 +332,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var intercept = Math.Pow(Math.E, (sumLnY - slope  * sumLnX) / n);
             Coefficients = [slope, intercept];
 
-            Formula = $"y={intercept:G5}x|ss:{slope:G5}";
+            Formula = $"y={intercept:G5}x|ss:{slope:G3}";
             var ylogSerie = _ySerie.Select(y => Math.Log(y)).ToArray();
-            RSquare = "R²=" + CalculateRSquared(x => slope * x + Math.Log(intercept), ylogSerie);
+            RSquare = "R²=" + CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
         }
 
         private void CalculateMoveingAverage()
@@ -329,6 +351,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             Coefficients = result;
+
+            Formula = "";
+            RSquare = "";
         }
 
         private string GetPolynormFormula()
@@ -345,7 +370,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     sb.Insert(0, "-");
                 }
 
-                sb.Insert(0,$"{Math.Abs(Coefficients[i]):G5}x|ss:{i+1}|");
+                if(i < 2)
+                {
+                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x");
+                }
+                else
+                {
+                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x|ss:{i}|");
+                }                    
             }
             if (Coefficients[Coefficients.Length - 1] < 0)
             {
@@ -367,15 +399,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             return y;
         }
-        private IEnumerable<double> GetLinearSerie(double m, double b)
-        {
-            var l = new List<double>() { b };
-            for (var i = 1; i < _ySerie.Length; i++)
-            {
-                l.Add(b + m * i);
-            }
-            return l;
-        }
         private IEnumerable<double> GetExponentialSerie(double m, double b)
         {
             var l = new List<double>() { b };
@@ -385,44 +408,95 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             return l;
         }
-        private IEnumerable<double> GetPowerSerie(double m, double b)
-        {
-            var l = new List<double>() { b };
-            for (var i = 1; i < _xSerie.Count; i++)
-            {
-                l.Add(b * Math.Pow(Math.E, m * i));
-            }
-            return l;
-        }
-        //private IEnumerable<double> GetLogarithmicSerie(double m, double b)
-        //{
-        //    var l = new List<double>() { b };
-        //    for (var i = 1; i < _ySerie.Count; i++)
-        //    {
-        //        l.Add(m * Math.Log(i + 1) + b);
-        //    }
-        //    return l;
-        //}
-        public double CalculateRSquared(Func<double, double> predictFunc, double[] serieY)
+        public double CalculateRSquared(Func<double, double> predictFunc, double[] serieY, double forcedIntercept)
         {
             int n = serieY.Length;
-
-            double avgY = serieY.Sum(y => y) / n;
-
-            double ssRes = 0;
-            double ssTot = 0;
-
-            for (int i = 0; i < n; i++)
+            if (!double.IsNaN(forcedIntercept))
             {
-                var v = serieY[i];
-                double residual = v - predictFunc(i + 1);
-                double deviation = v - avgY;
+                // Forced intercept: use squared Pearson correlation
+                double meanY = serieY.Average();
+                double[] predicted = new double[n];
+                for (int i = 0; i < n; i++)
+                    predicted[i] = predictFunc(i + 1);
+                double meanP = predicted.Average();
 
-                ssRes += residual * residual;
-                ssTot += deviation * deviation;
+                double sumYP = 0, sumY2 = 0, sumP2 = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    double dy = serieY[i] - meanY;
+                    double dp = predicted[i] - meanP;
+                    sumYP += dy * dp;
+                    sumY2 += dy * dy;
+                    sumP2 += dp * dp;
+                }
+
+                double r = sumYP / Math.Sqrt(sumY2 * sumP2);
+                return r * r;
+            }
+            else
+            {
+                // Standard R²
+                double meanY = serieY.Average();
+                double ssRes = 0, ssTot = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    double residual = serieY[i] - predictFunc(i + 1);
+                    double deviation = serieY[i] - meanY;
+                    ssRes += residual * residual;
+                    ssTot += deviation * deviation;
+                }
+                return 1.0 - (ssRes / ssTot);
             }
 
-            return 1.0 - (ssRes / ssTot);
+            //int n = serieY.Length;
+
+            //double avgY = serieY.Sum(y => y) / n;
+
+            //double ssRes = 0;
+            //double ssTot = 0;
+
+            //for (int i = 0; i < n; i++)
+            //{
+            //    var v = serieY[i];
+            //    double residual = v - predictFunc(i + 1);   
+
+            //    ssRes += residual * residual;
+            //    if (forcedIntercept == 0)   
+            //    {
+            //        ssTot += v * v;
+            //    }
+            //    else
+            //    {
+            //        double deviation = v - avgY;
+            //        ssTot += deviation * deviation;
+            //    }
+
+            //}
+
+            //return 1.0 - (ssRes / ssTot);
+        }
+        public double CalculateRSquaredPearson(Func<double, double> predictFunc, double[] serieY)
+        {
+            int n = serieY.Length;
+            double meanA = serieY.Average();
+
+            double[] predicted = new double[n];
+            for (int i = 0; i < n; i++)
+                predicted[i] = predictFunc(i + 1);
+            double meanP = predicted.Average();
+
+            double sumAP = 0, sumA2 = 0, sumP2 = 0;
+            for (int i = 0; i < n; i++)
+            {
+                double da = serieY[i] - meanA;
+                double dp = predicted[i] - meanP;
+                sumAP += da * dp;
+                sumA2 += da * da;
+                sumP2 += dp * dp;
+            }
+
+            double r = sumAP / Math.Sqrt(sumA2 * sumP2);
+            return r * r;
         }
         public double[] Coefficients {get;set;}
         public string Formula { get; set; }
@@ -431,6 +505,42 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         public override string ToString()
         {
             return _trendline.Type + "," + Formula + "," + RSquare;
+        }
+
+        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            switch(_trendline.Type)
+            {
+                case eTrendLine.Linear:
+                    renderItems.Add(CreateLinearSvgPath());
+                    break;
+                case eTrendLine.Exponential:
+                    renderItems.Add(new SvgRenderExponentialTrendlineItem(ChartRenderer, this));
+                    break;
+                case eTrendLine.Logarithmic:
+                    renderItems.Add(new SvgRenderLogarithmicTrendlineItem(ChartRenderer, this));
+                    break;
+                case eTrendLine.Polynomial:
+                    renderItems.Add(new SvgRenderPolynomialTrendlineItem(ChartRenderer, this));
+                    break;
+                case eTrendLine.Power:
+                    renderItems.Add(new SvgRenderPowerTrendlineItem(ChartRenderer, this));
+                    break;
+                case eTrendLine.MovingAverage:
+                    renderItems.Add(new SvgRenderMovingAverageTrendlineItem(ChartRenderer, this));
+                    break;
+            }
+
+            //Display the label for the trendline with equation and R² value.
+            if ((_trendline.DisplayEquation || _trendline.DisplayRSquaredValue) && _trendline.Type!=eTrendLine.MovingAverage)
+            {
+
+            }
+        }
+
+        private RenderItem CreateLinearSvgPath()
+        {
+            
         }
     }
 }
