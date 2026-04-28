@@ -119,6 +119,44 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
 
+
+
+        [TestMethod]
+        public void PieAndPointBeyondMax()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PointExplosionBeyondMax.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PointExplosionBeyondMax.xlsx_{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void PieAndPoint()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieAndPointExplosion.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PieAndPointExplosion.xlsx_{ix++}.svg", svg);
+                }
+            }
+        }
+
         [TestMethod]
         public void ReadAndGenerateExcelPieChartExplosion95()
         {

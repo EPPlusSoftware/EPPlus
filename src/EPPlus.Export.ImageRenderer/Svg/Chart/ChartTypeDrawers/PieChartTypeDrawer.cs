@@ -11,6 +11,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO.Pipes;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
@@ -195,23 +196,63 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             var pointExplosion = serie.DataPoints[position].Explosion == int.MinValue ? 0 : serie.DataPoints[position].Explosion;
 
-            var translationInPoints =  radius * (pointExplosion/100d);
+            //Get directional vector
+            Graphics.Math.Vector2 pieDirection = (new Graphics.Math.Vector2(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y) - new Graphics.Math.Vector2((cx), (cy)));
+            //Get distance/length to move along vector
+            Graphics.Math.Vector2 ScaledPieDirection = pieDirection * (((double)pointExplosion / 100d));
 
+            Graphics.Point transformPoint = new Graphics.Point(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y);
 
+            var translateX = ScaledPieDirection.X;
+            var translateY = ScaledPieDirection.Y;
 
-            //EPPlus.Graphics.Math.Vector2 vectorOuterSlicePoint = new Graphics.Math.Vector2(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y);
+            var maxTranslationX = _svgChart.Bounds.Width - sliceTransformOrigin[position].X;
+            var maxTranslationY = _svgChart.Bounds.Height - sliceTransformOrigin[position].Y;
 
-            //Pie cannot be translated beyond chart bounds.
-            //no matter the point explosion percent
-            //the translation is Capped at the chart max.
-            var maxTranslationX = _svgChart.Bounds.Width - innerGroup.TransformOrigin.X;
-            var translationLeft = Math.Min(translationInPoints, maxTranslationX);
+            var minTranslationX = -sliceTransformOrigin[position].X;
+            var minTranslationY = -sliceTransformOrigin[position].Y;
 
-            var maxTranslationY = _svgChart.Bounds.Width - innerGroup.TransformOrigin.Y;
-            var translationTop = Math.Min(translationInPoints, maxTranslationY);
+            Graphics.Point lengthPoint = new Graphics.Point();
 
-            //innerGroup.Position.Left = translationLeft;
-            //innerGroup.Position.Top = translationTop;
+            if(ScaledPieDirection.X != 0)
+            {
+                if (ScaledPieDirection.X > 0 && ScaledPieDirection.X > maxTranslationX)
+                {
+                    lengthPoint.Left = maxTranslationX - sliceTransformOrigin[position].X;
+                }
+                else if (ScaledPieDirection.X < minTranslationX)
+                {
+                    lengthPoint.Left = Math.Abs(sliceTransformOrigin[position].X + minTranslationX);
+                }
+            }
+
+            if (ScaledPieDirection.Y != 0)
+            {
+                if (ScaledPieDirection.Y > 0 && ScaledPieDirection.Y > maxTranslationY)
+                {
+                    lengthPoint.Top = maxTranslationY - sliceTransformOrigin[position].Y;
+                }
+                else if (ScaledPieDirection.Y < minTranslationY)
+                {
+                    lengthPoint.Top = Math.Abs(sliceTransformOrigin[position].Y + minTranslationY);
+                }
+            }
+
+            var smallestLength = Math.Min(lengthPoint.Left, lengthPoint.Top);
+
+            //if(smallestLength != 0)
+            //{
+            //    transformPoint.Scale = 
+            //}
+
+            var translationLeft = Math.Min(translateX, maxTranslationX);
+            var translationTop = Math.Min(translateY, maxTranslationY);
+
+            translationLeft = Math.Max(translationLeft, minTranslationX);
+            translationTop = Math.Max(translationTop, minTranslationY);
+
+            innerGroup.Position.Left = translationLeft;
+            innerGroup.Position.Top = translationTop;
 
             if (position != 0)
             {
