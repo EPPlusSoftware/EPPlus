@@ -5,6 +5,7 @@ using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
@@ -47,7 +48,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var tempMap = new PdfCell();
                     tempMap.Hidden = hiddenRow || hiddenCol;
 
-                    tempMap.ColumnWidth = hiddenCol ? 0d : width;
+                    tempMap.ColumnWidth = tempMap.Width = hiddenCol ? 0d : width;
 
                     var cell = worksheet.Cells[row, col];
                     tempMap.Name = cell.Address;
@@ -66,6 +67,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
                         if (!string.IsNullOrEmpty(cell.Text))
                         {
+                            tempMap.Text = cell.Text;
                             if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
                             //tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell._rtc, cellStyle);
@@ -137,6 +139,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     mainCell.ContentAligmnet = GetContentAlignment(main);
                     if (!string.IsNullOrEmpty(main.Text))
                     {
+                        mainCell.Text = main.Text;
                         if (!main.IsRichText) main._rtc = new ExcelRichTextCollection(main.Text, cell);
                         //mainCell.TextFormats = GetTextFormats(pageSettings, dictionaries, main._rtc, cellStyle);
                         mainCell.TextFragments = GetTextFragments(pageSettings, dictionaries, main._rtc, cellStyle);

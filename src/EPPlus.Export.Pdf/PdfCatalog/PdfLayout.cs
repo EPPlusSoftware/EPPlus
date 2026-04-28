@@ -70,6 +70,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 {
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
                     var drawnMergedCells = new HashSet<string>();
+                    //var drawnMergedCellsText = new HashSet<string>();
                     //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
                     //pageLayout.AddChild(contentLayout);
                     double y = pageSettings.ContentBounds.Top;
@@ -94,6 +95,20 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                     fill.Name = map.Name;
                                     fill.UpdateShadingPositionMatrix(pageSettings);
                                     pageLayout.AddChild(fill);
+                                    if (map.TextLines != null && map.TextLines.Count > 0)
+                                    {
+                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, 15);
+                                        text.Name = map.Name;
+                                        text.GidsAndCharMap(dictionaries);
+                                        pageLayout.AddChild(text);
+                                    }
+                                    else if (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0)
+                                    {
+                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, map.Main, info, x, y, map.Main.ColumnWidth, 15);
+                                        text.Name = map.Main.Name;
+                                        text.GidsAndCharMap(dictionaries);
+                                        pageLayout.AddChild(text);
+                                    }
                                     drawnMergedCells.Add(key);
                                 }
                             }
@@ -107,7 +122,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             //Text
                             if (map.TextLines != null && map.TextLines.Count > 0)
                             {
-                                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.Width, 15);
+                                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, 15);
                                 text.Name = map.Name;
                                 text.GidsAndCharMap(dictionaries);
                                 pageLayout.AddChild(text);

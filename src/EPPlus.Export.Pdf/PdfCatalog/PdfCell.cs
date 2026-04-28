@@ -16,6 +16,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public List<TextFragment> TextFragments { get; set; }
         public List<PdfShapedText> ShapedTexts { get; set; }
         public TextLineCollection TextLines { get; set; }
+        public string Text { get; set; }
 
 
         public double TotalTextLength { get; set; }

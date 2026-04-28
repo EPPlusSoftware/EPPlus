@@ -13,12 +13,9 @@
 using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -26,7 +23,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Xml.Serialization;
 using Vector2 = EPPlus.Graphics.Math.Vector2;
 
 namespace EPPlus.Export.Pdf.PdfLayout
@@ -70,8 +66,67 @@ namespace EPPlus.Export.Pdf.PdfLayout
             ShapedTexts = cell.ShapedTexts;
 
             TextLayoutEngine = cell.TextLayoutEngine;
+
+            LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, x, y, cell.Width, height);
             //var textFragments = GetTextFragments(TextFormats);
             //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
+        }
+
+
+        private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double x, double y, double width, double height)
+        {
+            double newX = 0d;
+            double newY = 0d;
+
+            switch (CellAlignmentData.HorizontalAlignment)
+            {
+                case ExcelHorizontalAlignment.Fill:
+                case ExcelHorizontalAlignment.General:
+                    if (double.TryParse(text, out double value))
+                    {
+                        newX = x + (width - textLength) - rightMargin;
+                    }
+                    else
+                    {
+                        newX = x + rightMargin;
+                    }
+                    break;
+                case ExcelHorizontalAlignment.Left:
+                    newX = x + rightMargin;
+                    break;
+                case ExcelHorizontalAlignment.Center:
+                    newX = x + (width - textLength) / 2d;
+                    break;
+                case ExcelHorizontalAlignment.Right:
+                    newX = x + (width - textLength) - rightMargin;
+                    break;
+            }
+            switch (CellAlignmentData.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                    newY = (y + height) - (textHeight / 2d) - bottomMargin;
+                    break;
+                case ExcelVerticalAlignment.Center:
+                    newY = y + (height / 2d) - (textHeight / 4d); ;
+                    break;
+                case ExcelVerticalAlignment.Bottom:
+                    newY = y + bottomMargin;
+                    break;
+            }
+            if (CellAlignmentData.TextRotation < 0)
+            {
+                double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+                newX += textLength * (1 - System.Math.Cos(rot));
+                newY -= textLength * System.Math.Sin(rot);
+            }
+            else if (CellAlignmentData.TextRotation > 0)
+            {
+                double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+                newX += textLength * (1 - System.Math.Cos(rot));
+            }
+
+
+            return new Vector2(newX, newY);
         }
 
         //private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)

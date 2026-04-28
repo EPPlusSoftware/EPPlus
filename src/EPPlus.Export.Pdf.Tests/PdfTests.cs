@@ -170,6 +170,13 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
             PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "c:\\epplustest\\pdf\\FullPageTest51.pdf");
+
+            //line breaks
+            //wrap comments
+            //text placement
+            //alignment
+                //vertical
+            //Bold italic not working
         }
 
 
