@@ -1,19 +1,11 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -86,7 +78,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerGroup.TransformOrigin = GetMidPointLocal();
         }
 
-        internal void ImportPathData(BoundingBox plotAreaBounds, SvgGroupItemNew parentGroupItem, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
+        internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
         {
             _slicePath = new SvgRenderPathItem(DrawingRenderer, plotAreaBounds);
 
@@ -102,24 +94,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var radiusXAspectRatioPercent = _radius / w;
             var radiusYAspectRatioPercent = _radius / h;
 
-            var circleCenterWorld = _circleCenter.TransformPointToWorld(_circleCenter.LocalPosition);
+            var circleCenterWorld = _circleCenter.Position;
 
             var cxPercentOfTotal = circleCenterWorld.X / globalAreaBounds.Width;
             var cyPercentOfTotal = circleCenterWorld.Y / globalAreaBounds.Height;
 
             var moveCenter = new PathCommands(PathCommandType.Move, _slicePath, cxPercentOfTotal, cyPercentOfTotal);
 
-            Coordinate startPointGlobalPercentage;
-            if (position != 0)
-            {
-                var lastPosX = _startPoint.Left / w;
-                var lastPosY = _startPoint.Top / h;
-                startPointGlobalPercentage = new Coordinate(lastPosX, lastPosY);
-            }
-            else
-            {
-                startPointGlobalPercentage = new Coordinate(cxPercentOfTotal, (cy - _radius) / h);
-            }
+            var lastPosX = _startPoint.Position.X / globalAreaBounds.Width;
+            var lastPosY = _startPoint.Position.Y / globalAreaBounds.Height;
+            Coordinate startPointGlobalPercentage = new Coordinate(lastPosX, lastPosY);
 
             var lineToStart = new PathCommands(PathCommandType.Line, _slicePath, startPointGlobalPercentage.X, startPointGlobalPercentage.Y);
 
@@ -128,18 +112,20 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { radiusXAspectRatioPercent, radiusYAspectRatioPercent, 0, Degrees > 180 ? 1 : 0, 1, worldEnd.X / w, worldEnd.Y / h });
             var end = new PathCommands(PathCommandType.End, _slicePath, worldEnd.X / w, worldEnd.Y / h);
 
-            CalculatePointExplosion(explosionOfPoint, pieExplosion, globalAreaBounds, parentGroupItem, cx, cy);
+
+            //Get maximum local extreme values from global values
+            var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
+            var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
             #endregion
 
             //Scale the inner group to pie explosion
             _innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
+            CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
 
             _slicePath.Commands.Add(moveCenter);
             _slicePath.Commands.Add(lineToStart);
-            _slicePath.Commands.Add(arcCommand);
-            _slicePath.Commands.Add(end);
-
-            _innerGroup.AddChildItem(_slicePath);
+            //_slicePath.Commands.Add(arcCommand);
+            //_slicePath.Commands.Add(end);
         }
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
@@ -150,7 +136,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.BorderWidth = dp.Border.Width;
         }
 
-        Graphics.Math.Vector2 GetTranslationMax(double globalWidth, double globalHeight)
+        internal void AppendGroupItem(SvgGroupItemNew group)
+        {
+            _innerGroup.AddChildItem(_slicePath);
+            group.AddChildItem(_innerGroup);
+        }
+
+        Graphics.Math.Vector2 GetTranslationMaxLocal(double globalWidth, double globalHeight)
         {
             var worldPositionTransformOrigin = _midPoint.Position;
 
@@ -162,7 +154,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return _innerGroup.Position.TransformPointToLocal(worldMax.Position);
         }
 
-        Graphics.Math.Vector2 GetTranslationMin(double globalWidth, double globalHeight)
+        Graphics.Math.Vector2 GetTranslationMinLocal(double globalWidth, double globalHeight)
         {
             var worldPositionTransformOrigin = _midPoint.Position;
             //Calculate extremes 
@@ -172,7 +164,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return localMin;
         }
 
-        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, BoundingBox globalAreaBounds, SvgGroupItemNew parentGroupItem)
+        Graphics.Math.Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion)
         {
             //Get point explosion value
             var pointExplosion = explosionOfPoint == int.MinValue ? 0 : explosionOfPoint;
@@ -202,31 +194,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             //Get distance/length to move along vector
             Graphics.Math.Vector2 LocalTranslationVector = ptFactoredDirection * _radius;
+            return LocalTranslationVector;
+        }
 
-            var worldPositionTransformOrigin = _midPoint.Position;
-
-            //Calculate extremes 
-            Point worldMax = new Point(
-                globalAreaBounds.Width - worldPositionTransformOrigin.X,
-                globalAreaBounds.Height - worldPositionTransformOrigin.Y);
-
-            Point worldMin = new Point(-worldPositionTransformOrigin.X, -worldPositionTransformOrigin.Y);
-
-            var localMax = _innerGroup.Position.TransformPointToLocal(worldMax.Position);
-            var localMin = _innerGroup.Position.TransformPointToLocal(worldMin.Position);
-
-            Graphics.Point lengthPoint = new Graphics.Point();
+        Coordinate GetFinalLocalTranslation(Graphics.Math.Vector2 LocalTranslationVector, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin)
+        {
+            Coordinate lengthPoint = new Coordinate(0,0);
 
             //Check if local is above or below extremes in X axis
             if (LocalTranslationVector.X != 0)
             {
                 if (LocalTranslationVector.X > 0 && LocalTranslationVector.X > localMax.X)
                 {
-                    lengthPoint.Left = localMax.X;
+                    lengthPoint.X = localMax.X;
                 }
                 else if (LocalTranslationVector.X < localMin.X)
                 {
-                    lengthPoint.Left = Math.Abs(localMin.X);
+                    lengthPoint.X = Math.Abs(localMin.X);
                 }
             }
 
@@ -235,21 +219,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (LocalTranslationVector.Y > 0 && LocalTranslationVector.Y > localMax.Y)
                 {
-                    lengthPoint.Top = localMax.Y;
+                    lengthPoint.Y = localMax.Y;
                 }
                 else if (LocalTranslationVector.Y < localMin.Y)
                 {
-                    lengthPoint.Top = Math.Abs(localMin.Y);
+                    lengthPoint.Y = Math.Abs(localMin.Y);
                 }
             }
 
             //Find the smallest length of a vector that goes beyond the extremes
             //In case both do
-            var maxAllowedLength = Math.Min(lengthPoint.Left, lengthPoint.Top);
+            var maxAllowedLength = Math.Min(lengthPoint.X, lengthPoint.Y);
             if (maxAllowedLength == 0)
             {
                 //Avoid issues if one axis is 0 and the vector that goes over is positive
-                maxAllowedLength = Math.Max(lengthPoint.Left, lengthPoint.Top);
+                maxAllowedLength = Math.Max(lengthPoint.X, lengthPoint.Y);
             }
 
             double translationLeft;
@@ -277,22 +261,32 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //translationTop = Math.Max(translationTop, minTranslationYWorld);
             }
 
-            _innerGroup.Position.Left = translationLeft;
-            _innerGroup.Position.Top = translationTop;
+            return new Coordinate(translationLeft, translationTop);
+        }
+
+        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin)
+        {
+            //Get distance/length to move along vector
+            Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
+            var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax,localMin);
+            
+            _innerGroup.Position.Left = finalTranslation.X;
+            _innerGroup.Position.Top = finalTranslation.Y;
         }
 
         Point CalculateLocalPointOnCircle(double degrees)
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
 
-            //This is already offset by cx and cy because the circle midpoint will be the parent
-            var xPoint = _radius * Math.Cos(angleRadians);
-            var yPoint = _radius * Math.Sin(angleRadians);
+            var xPoint = _circleCenter.Left + ( _radius * Math.Cos(angleRadians));
+            var yPoint = _circleCenter.Top + (_radius * Math.Sin(angleRadians));
 
-            var point = new Point(xPoint, yPoint);
+            var point = new Point();
 
             //Ensure the cx/cy offset
-            point.Parent = _circleCenter;
+            point.Parent = _innerGroup.Bounds;
+            point.Left = xPoint;
+            point.Top = yPoint;
 
             return point;
         }

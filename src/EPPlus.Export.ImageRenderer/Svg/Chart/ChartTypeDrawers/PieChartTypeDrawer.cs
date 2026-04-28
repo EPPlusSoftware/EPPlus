@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
@@ -38,6 +39,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
             _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
+            _groupItem.Bounds.Top = _svgChart.GetPlotAreaTop();
+            _groupItem.Bounds.Left = _svgChart.Plotarea.Rectangle.Left;
 
             //Read and set Starting angle offset as a rotation on the container
             //This way no rotation messes with the other calculations
@@ -126,7 +129,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             _groupItem.RotationPoint = _circleCenter;
 
-            var _radius = Math.Min(_circleCenter.Left, _circleCenter.Top);
+            _radius = Math.Min(_circleCenter.Left, _circleCenter.Top);
         }
 
         void LoadSeriesValues(ExcelPieChart chartType)
@@ -167,10 +170,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var dataPoint = serie.DataPoints[position];
 
             Slices[position].ImportPathData(
-                _svgChart.Plotarea.Rectangle.Bounds, _groupItem, _svgChart.Bounds, 
+                _svgChart.Plotarea.Rectangle.Bounds, _svgChart.Bounds, 
                 _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
 
             Slices[position].ImportStlyeInfo(dataPoint, chartType);
+
+            Slices[position].AppendGroupItem(_groupItem);
             //var innerGroup = new SvgGroupItemNew(ChartRenderer, 0, 0);
 
             //var slice = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
