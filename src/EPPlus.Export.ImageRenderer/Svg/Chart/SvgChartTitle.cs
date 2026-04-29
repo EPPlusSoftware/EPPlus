@@ -134,11 +134,11 @@ namespace EPPlusImageRenderer.Svg
             var margin = 8F;
             if (sc.HorizontalAxis!=null)
             {
+                if(sc.HorizontalAxis.Axis.Deleted && sc.HorizontalAxis.Title != null && sc.HorizontalAxis.Title._title.Layout.HasLayout==false)
+                {
+                    return sc.HorizontalAxis.Title.Rectangle.Right;
+                }
                 return sc.HorizontalAxis.Rectangle.Right;
-            }
-            else if(sc.HorizontalAxisTitle != null)
-            {
-                return sc.HorizontalAxisTitle.Rectangle.Right;
             }
             else
             {

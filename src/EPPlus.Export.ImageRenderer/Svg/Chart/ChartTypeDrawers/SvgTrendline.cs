@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -28,13 +29,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
         private List<object> _xSerie;
-
-        public SvgTrendline(SvgChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie) : base(svgChart)
+        private SvgChart _svgChart;
+        private bool _useSecondaryAxis;
+        public SvgTrendline(SvgChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, bool useSecondaryAxis) : base(svgChart)
         {
+            _svgChart = svgChart;
             _trendline = trendline;
             _xSerie = xSerie;
             _ySerie = ySerie.Select(y => ConvertUtil.GetValueDouble(y)).ToArray();
-            switch(trendline.Type) 
+            _useSecondaryAxis = useSecondaryAxis;
+            switch (trendline.Type) 
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
@@ -58,17 +62,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     throw new NotImplementedException("Trendline type not implemented.");
             }
         }
-
-        private double[] GetXValues(List<object> xSerie)
-        {
-            var ret = new double[xSerie.Count];
-            for(int i=0;i<xSerie.Count;i++)
-            {
-                ret[i] = i-1;
-            }
-            return ret;
-        }
-
         private void CalculateLinear()
         {
             var n = _xSerie.Count;
@@ -292,7 +285,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             // Step 4: Extract coefficients
-            // coefficients[0] = constant, [1] = x term, [2] = x² term, etc.
             Coefficients = new double[order+1];
             if (isForced)
             {
@@ -310,7 +302,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
             Formula = "y=" + GetPolynormFormula();
-            var r2 = CalculateRSquared(x => PredictPolynomial(x), _ySerie, _trendline.Intercept);
+            var r2 = CalculateRSquared(x => PredictLinear(x), _ySerie, _trendline.Intercept);
             RSquare = $"R²={r2:g4}";
         }
 
@@ -388,7 +380,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
         // Predict a y value for a given x
-        public double PredictPolynomial(double x)
+        public double PredictLinear(double x)
         {
             double y = 0;
             double xPow = 1.0;
@@ -447,33 +439,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 return 1.0 - (ssRes / ssTot);
             }
-
-            //int n = serieY.Length;
-
-            //double avgY = serieY.Sum(y => y) / n;
-
-            //double ssRes = 0;
-            //double ssTot = 0;
-
-            //for (int i = 0; i < n; i++)
-            //{
-            //    var v = serieY[i];
-            //    double residual = v - predictFunc(i + 1);   
-
-            //    ssRes += residual * residual;
-            //    if (forcedIntercept == 0)   
-            //    {
-            //        ssTot += v * v;
-            //    }
-            //    else
-            //    {
-            //        double deviation = v - avgY;
-            //        ssTot += deviation * deviation;
-            //    }
-
-            //}
-
-            //return 1.0 - (ssRes / ssTot);
         }
         public double CalculateRSquaredPearson(Func<double, double> predictFunc, double[] serieY)
         {
@@ -515,19 +480,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     renderItems.Add(CreateLinearSvgPath());
                     break;
                 case eTrendLine.Exponential:
-                    renderItems.Add(new SvgRenderExponentialTrendlineItem(ChartRenderer, this));
                     break;
                 case eTrendLine.Logarithmic:
-                    renderItems.Add(new SvgRenderLogarithmicTrendlineItem(ChartRenderer, this));
                     break;
                 case eTrendLine.Polynomial:
-                    renderItems.Add(new SvgRenderPolynomialTrendlineItem(ChartRenderer, this));
                     break;
                 case eTrendLine.Power:
-                    renderItems.Add(new SvgRenderPowerTrendlineItem(ChartRenderer, this));
                     break;
                 case eTrendLine.MovingAverage:
-                    renderItems.Add(new SvgRenderMovingAverageTrendlineItem(ChartRenderer, this));
                     break;
             }
 
@@ -540,7 +500,25 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         private RenderItem CreateLinearSvgPath()
         {
-            
+            var pathItem = new SvgRenderPathItem(DrawingRenderer, DrawingRenderer.Bounds);
+            var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+            var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+
+            var x1 = xAxis.GetPositionInPlotarea(0);
+            var y1 = yAxis.GetPositionInPlotarea(PredictLinear(0));
+
+            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count);
+            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(PredictLinear(_xSerie.Count));
+
+            pathItem.Commands.Add(
+                new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
+                );
+
+            pathItem.SetDrawingPropertiesFill(_trendline.Fill, _svgChart.Chart.StyleManager.Style.Trendline.FillReference.Color);
+            pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
+
+            return pathItem;
         }
     }
 }

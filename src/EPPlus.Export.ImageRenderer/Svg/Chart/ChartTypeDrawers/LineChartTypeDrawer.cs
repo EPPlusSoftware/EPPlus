@@ -73,7 +73,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     foreach (var trendline in serie.TrendLines)
                     {
-                        var tr = new SvgTrendline(trendline, xSerie, ySerie);
+                        var tr = new SvgTrendline(svgChart, trendline, xSerie, ySerie, chartType.UseSecondaryAxis);
                         Trendlines.Add(tr);
                     }
                 }
@@ -85,11 +85,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 dataLabel.AppendRenderItems(RenderItems);
             }
-        }
-
-        private void AddTrendline(List<object> xSerie, List<object> ySerie, ExcelChartTrendline trendline)
-        {
-
         }
 
         private void SumSeries(List<List<object>> series)

@@ -228,10 +228,6 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartAxis HorizontalAxis { get; set; }
         internal SvgChartAxis SecondVerticalAxis { get; set; }
         internal SvgChartAxis SecondHorizontalAxis { get; set; }
-        internal SvgChartTitle VerticalAxisTitle { get; set; }
-        internal SvgChartTitle HorizontalAxisTitle { get; set; }
-        internal SvgChartTitle SecondVerticalAxisTitle { get; set; }
-
         private void SetChartArea()
         {
             var item = new SvgChartArea(this);
