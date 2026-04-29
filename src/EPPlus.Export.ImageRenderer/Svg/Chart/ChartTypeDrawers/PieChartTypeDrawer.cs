@@ -39,6 +39,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
             _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
+            _groupItem.Bounds.Parent = _groupItem.Position;
             //_groupItem.Position.Left = _svgChart.Plotarea.Rectangle.Bounds.Left;
             //_groupItem.Position.Top = _svgChart.Plotarea.Rectangle.Bounds.Top;
             //_groupItem.Position.Parent = _svgChart.Plotarea;
@@ -119,7 +120,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 Slices.Add(slice);
 
                 //Next slice will need to be calculated starting from the degrees of this slice
-                prevDegrees = slice.Degrees;
+                prevDegrees = slice.Degrees + prevDegrees;
             }
         }
 

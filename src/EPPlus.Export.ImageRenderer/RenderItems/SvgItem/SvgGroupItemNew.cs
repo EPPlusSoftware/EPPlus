@@ -7,6 +7,10 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
+    /// <summary>
+    /// Group item that ends itself
+    /// (writes its own ending node)
+    /// </summary>
     internal class SvgGroupItemNew : GroupItem
     {
         const string transformTranslate = "translate({0}, {1})";
