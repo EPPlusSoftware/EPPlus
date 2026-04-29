@@ -1,4 +1,6 @@
 # Features / Fixed issues - EPPlus 8
+## Version 9.0.0
+* Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
 ## Version 8.5.3
 * Downgraded references incorrectly update to 9.x to 8.x in version 8.5.2.
 

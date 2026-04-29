@@ -11,7 +11,9 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml;
 using System;
 using System.Globalization;
 using System.Text;
@@ -32,66 +34,31 @@ namespace EPPlusImageRenderer
         public SvgAdjustmentPoint AdjustmentPoint { get; set; }
         public int CommandIndex { get; set; }
 
-        public void Render(double width, double height, StringBuilder sb)
+        public void Render(/*double width, double height, */StringBuilder sb)
         {
             sb.Append(Type.AsCommandChar());
             for (int i = 0; i < Coordinates.Length; i++)
             {
-                var x = Coordinates[i];
-                if (Type == PathCommandType.Arc)
+                string s;
+                if (Type==PathCommandType.Arc && ((i & 7)==2 || (i & 7) == 3 || (i & 7) == 4)) // Arc flags are not coordinates, but should be rendered as integers
                 {
-                    switch(i)
-                    {
-                        case 0:                            
-                        case 5:
-                            x *= width;
-                            break;
-                        case 1:
-                        case 6:
-                            x *= height;
-                            break;
-                    }
+                    s = Coordinates[i].ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    if (i % 2 == 0)
-                    {
-                        x *= width;
-                    }
-                    else
-                    {
-                        x *= height;
-                    }
-                    //}
+                    s = Coordinates[i].PointToPixelString();
                 }
-                sb.AppendFormat("{0} ", x.ToString(CultureInfo.InvariantCulture));
+                sb.AppendFormat("{0} ", s);
             }
             if (Coordinates.Length > 0)
             {
                 sb.Remove(sb.Length - 1, 1);
             }
         }
-
-        private double AdjustWithPoint(int width, int height, int i, double x)
+        internal virtual bool InPoints(double x)
         {
-            var pt = AdjustmentPoint.Commands[CommandIndex].Coordinates[(short)i];
-            var defPoint = 1;
-            switch (pt.Type)
-            {
-                case AdjustmentPointType.Linear:
-                    x = (x - (float)defPoint) + (float)defPoint;
-                    break;
-            }
-            if (i % 2 == 0)
-            {
-                x *= width;
-            }
-            else
-            {
-                x *= height;
-            }
-            return x;
-        }
+            return true;
+        }      
         internal PathCommands Clone()
         {
             return new PathCommands(Type, RenderItem)

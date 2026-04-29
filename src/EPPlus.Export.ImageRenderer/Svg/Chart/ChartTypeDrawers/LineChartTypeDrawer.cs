@@ -79,12 +79,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
 
             }
+
+            //Trendlines and trendline labels
+            foreach (var tr in Trendlines)
+            {
+                tr.AppendRenderItems(RenderItems);
+            }
+
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
 
+            //Date series labels
             foreach (var dataLabel in serieDataLabels)
             {
                 dataLabel.AppendRenderItems(RenderItems);
             }
+
         }
 
         private void SumSeries(List<List<object>> series)
@@ -138,8 +147,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (double.IsNaN(yPos) == false)
                 {
-                    coords.Add(xPos / _svgChart.Plotarea.Rectangle.Bounds.Width);
-                    coords.Add(yPos / _svgChart.Plotarea.Rectangle.Bounds.Height);
+                    coords.Add(xPos);
+                    coords.Add(yPos);
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);

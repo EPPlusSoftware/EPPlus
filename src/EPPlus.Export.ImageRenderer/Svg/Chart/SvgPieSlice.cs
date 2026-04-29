@@ -94,29 +94,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var cx = (w / 2);
             var cy = (h / 2);
 
-            var radiusXAspectRatioPercent = _radius / w;
-            var radiusYAspectRatioPercent = _radius / h;
+            var radiusXAspectRatioPercent = _radius;
+            var radiusYAspectRatioPercent = _radius;
 
             var circleCenterWorld = _circleCenter.Position;
 
-            var cxPercentOfTotal = circleCenterWorld.X / globalAreaBounds.Width;
-            var cyPercentOfTotal = circleCenterWorld.Y / globalAreaBounds.Height;
+            var cxPercentOfTotal = circleCenterWorld.X;
+            var cyPercentOfTotal = circleCenterWorld.Y;
 
             var moveCenter = new PathCommands(PathCommandType.Move, _slicePath, cxPercentOfTotal, cyPercentOfTotal);
 
-            var lastPosX = _startPoint.Left / w;
-            var lastPosY = _startPoint.Top / h;
+            var lastPosX = _startPoint.Left;
+            var lastPosY = _startPoint.Top;
             Coordinate startPointGlobalPercentage = new Coordinate(lastPosX, lastPosY);
 
             var lineToStart = new PathCommands(PathCommandType.Line, _slicePath, startPointGlobalPercentage.X, startPointGlobalPercentage.Y);
-            var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left/ w, _midPoint.Top / h);
-            var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left / w, _endPoint.Top / h);
+            var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
+            var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
 
-            var plotEndX = _endPoint.Left/ w;
-            var plotEndY = _endPoint.Top/ h;
+            var plotEndX = _endPoint.Left;
+            var plotEndY = _endPoint.Top;
 
             var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { radiusXAspectRatioPercent, radiusYAspectRatioPercent, 0, Degrees > 180 ? 1 : 0, 1, plotEndX, plotEndY});
-            var end = new PathCommands(PathCommandType.End, _slicePath, plotEndX / w, plotEndY / h);
+            var end = new PathCommands(PathCommandType.End, _slicePath, plotEndX, plotEndY);
 
 
             ////Get maximum local extreme values from global values

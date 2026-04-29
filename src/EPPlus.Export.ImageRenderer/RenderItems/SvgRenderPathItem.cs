@@ -88,13 +88,13 @@ namespace EPPlusImageRenderer.RenderItems
 
         private void RenderPathItem(StringBuilder sb, double? borderWidth, string color, string filter)
         {
-            var width = Bounds.Width.PointToPixel();
-            var height = Bounds.Height.PointToPixel();
+            //var width = Bounds.Width.PointToPixel();
+            //var height = Bounds.Height.PointToPixel();
 
             sb.Append($"<path d=\"");
             for (int i = 0; i < Commands.Count; i++)
             {
-                Commands[i].Render(width, height, sb);
+                Commands[i].Render(/*width, height, */sb);
             }
             sb.Append("\" ");
             RenderCompoundItems(sb, borderWidth, color, filter);

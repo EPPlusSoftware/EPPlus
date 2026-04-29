@@ -138,6 +138,7 @@ namespace OfficeOpenXml.Drawing
         internal abstract PathsBase Clone();
         public abstract double EndX { get; }
         public abstract double EndY { get; }
+        public abstract void TranslateCoordiantesToPointsAndDegrees(double coordinateRatio, double angleRatio);
     }
     internal abstract class PathWithCoordinates : PathsBase
     {
@@ -185,6 +186,14 @@ namespace OfficeOpenXml.Drawing
             }
         }
         public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
+        public override void TranslateCoordiantesToPointsAndDegrees(double coordinateRatio, double angleRatio)
+        {
+            foreach(var c in Coordinates)
+            {
+                c.X /= coordinateRatio;
+                c.Y /= coordinateRatio;
+            }
+        }
         public override double EndX => Coordinates.Count > 0D ? Coordinates[Coordinates.Count-1].X.Value : 0D;
         public override double EndY => Coordinates.Count > 0D ? Coordinates[Coordinates.Count - 1].Y.Value : 0D;
     }
@@ -243,6 +252,9 @@ namespace OfficeOpenXml.Drawing
         }
         public override double EndX => double.MinValue;
         public override double EndY => double.MinValue;
+        public override void TranslateCoordiantesToPointsAndDegrees(double coordinateRatio, double angleRatio)
+        {
+        }  
     }
     internal class QuadBezerTo : PathWithCoordinates
     {
@@ -399,6 +411,15 @@ namespace OfficeOpenXml.Drawing
             _endX = x;
             _endY = y;
         }
+        public override void TranslateCoordiantesToPointsAndDegrees(double coordinateRatio, double angleRatio)
+        {
+            HeightRadius /= coordinateRatio;
+            WidthRadius /= coordinateRatio;
+            StartAngle /= angleRatio;
+            SwingAngle /= angleRatio;
+            _endX = _endX / coordinateRatio;
+            _endY = _endY / coordinateRatio;
+        }  
         public override double EndX => _endX;
         public override double EndY => _endY;
     }

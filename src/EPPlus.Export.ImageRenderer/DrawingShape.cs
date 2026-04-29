@@ -43,16 +43,16 @@ namespace EPPlusImageRenderer
         }
         protected static void AddArc(SvgRenderPathItem pi, DrawingPath path, List<double> coordinates, PathsBase pCmd, out double startPointX, out double startPointY, PathsBase p)
         {
-            var width = ((double)path.Width.Value / ExcelDrawing.EMU_PER_PIXEL);
-            var height = ((double)path.Height.Value / ExcelDrawing.EMU_PER_PIXEL);
+            //var width = ((double)path.Width.Value / ExcelDrawing.EMU_PER_PIXEL);
+            //var height = ((double)path.Height.Value / ExcelDrawing.EMU_PER_PIXEL);
             var arc = (ArcTo)p;
             PathCommands c = null;
             startPointX = pCmd.EndX;
             startPointY = pCmd.EndY;
-            if (startPointX != 0) startPointX /= ExcelDrawing.EMU_PER_PIXEL;
-            if (startPointY != 0) startPointY /= ExcelDrawing.EMU_PER_PIXEL;
-            var wR = arc.WidthRadius.Value / (float)ExcelDrawing.EMU_PER_PIXEL;
-            var hR = arc.HeightRadius.Value / (float)ExcelDrawing.EMU_PER_PIXEL;
+            if (startPointX != 0) startPointX /= ExcelDrawing.EMU_PER_POINT;
+            if (startPointY != 0) startPointY /= ExcelDrawing.EMU_PER_POINT;
+            var wR = arc.WidthRadius.Value / ExcelDrawing.EMU_PER_POINT;
+            var hR = arc.HeightRadius.Value / ExcelDrawing.EMU_PER_POINT;
             if (wR == 0 && hR == 0)
             {
                 return;
@@ -89,7 +89,7 @@ namespace EPPlusImageRenderer
                 var centerY = startPointY - (hR * Math.Sin(angleT));
                 var endX = (double)centerX + (wR * Math.Cos(angleTEnd));
                 var endY = (double)centerY + (hR * Math.Sin(angleTEnd));
-                c = new PathCommands(PathCommandType.Arc, pi, (float)wR / width, (float)hR / height, 0, 0, swA < 0 ? 0 : 1, endX / width, endY / height);
+                c = new PathCommands(PathCommandType.Arc, pi, wR, hR , 0, 0, swA < 0 ? 0 : 1, endX, endY);
                 pi.Commands.Add(c);
                 stA += aAdd;
                 swA -= aAdd;
@@ -101,7 +101,7 @@ namespace EPPlusImageRenderer
                 {
                     startPointY = endY;
                 }
-                ((ArcTo)p).SetEndCoordinates(endX * ExcelDrawing.EMU_PER_PIXEL, endY * ExcelDrawing.EMU_PER_PIXEL);
+                ((ArcTo)p).SetEndCoordinates(endX* ExcelDrawing.EMU_PER_POINT, endY* ExcelDrawing.EMU_PER_POINT);
             }
         }
 
@@ -125,8 +125,8 @@ namespace EPPlusImageRenderer
             var mt = (PathWithCoordinates)p;
             foreach (var c in mt.Coordinates)
             {
-                coordinates.Add(c.X.Value / path.Width.Value);
-                coordinates.Add(c.Y.Value / path.Height.Value);
+                coordinates.Add(c.X.Value / ExcelDrawing.EMU_PER_POINT);
+                coordinates.Add(c.Y.Value / ExcelDrawing.EMU_PER_POINT);
             }
         }
     }

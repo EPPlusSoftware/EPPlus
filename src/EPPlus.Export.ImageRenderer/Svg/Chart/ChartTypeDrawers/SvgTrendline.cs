@@ -494,21 +494,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Display the label for the trendline with equation and R² value.
             if ((_trendline.DisplayEquation || _trendline.DisplayRSquaredValue) && _trendline.Type!=eTrendLine.MovingAverage)
             {
-
+                if(_trendline.HasLbl)
+                {
+                    double x, y;
+                    if(_trendline.Label.Layout.HasLayout)
+                    { 
+                        
+                    }
+                }
             }
         }
 
         private RenderItem CreateLinearSvgPath()
         {
-            var pathItem = new SvgRenderPathItem(DrawingRenderer, DrawingRenderer.Bounds);
+            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
             var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
             var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+            var pa = _svgChart.Plotarea;
+            var x1 = xAxis.GetPositionInPlotarea(0) / pa.Rectangle.Width;
+            var y1 = yAxis.GetPositionInPlotarea(Coefficients[1] + Coefficients[0]) / pa.Rectangle.Height;
 
-            var x1 = xAxis.GetPositionInPlotarea(0);
-            var y1 = yAxis.GetPositionInPlotarea(PredictLinear(0));
-
-            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count);
-            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(PredictLinear(_xSerie.Count));
+            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count-1) / pa.Rectangle.Width;
+            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(Coefficients[1]+ Coefficients[0]*(_xSerie.Count)) / pa.Rectangle.Height;
 
             pathItem.Commands.Add(
                 new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
