@@ -61,6 +61,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Degrees = _percent * 360d;
 
             _innerGroup = new SvgGroupItemNew(renderer, parent, 0, circleCenter);
+            _innerGroup.Bounds.Parent = _innerGroup.Position;
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
@@ -82,9 +83,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             _slicePath = new SvgRenderPathItem(DrawingRenderer, plotAreaBounds);
 
+            _slicePath.BorderWidth = 5;
+
             #region calculate global variables
             //Path commands are based on percent of the Pixel height and Width
-            //We must supply coords in a correct percentage of the Whole Chart
+            //We must supply coords in a correct percentage of the parent plotAreaBounds
             var w = plotAreaBounds.Width;
             var h = plotAreaBounds.Height;
 
@@ -101,39 +104,47 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var moveCenter = new PathCommands(PathCommandType.Move, _slicePath, cxPercentOfTotal, cyPercentOfTotal);
 
-            var lastPosX = _startPoint.Position.X / globalAreaBounds.Width;
-            var lastPosY = _startPoint.Position.Y / globalAreaBounds.Height;
+            var lastPosX = _startPoint.Left / w;
+            var lastPosY = _startPoint.Top / h;
             Coordinate startPointGlobalPercentage = new Coordinate(lastPosX, lastPosY);
 
             var lineToStart = new PathCommands(PathCommandType.Line, _slicePath, startPointGlobalPercentage.X, startPointGlobalPercentage.Y);
+            var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left/ w, _midPoint.Top / h);
+            var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left / w, _endPoint.Top / h);
 
-            var worldEnd = _endPoint.TransformPointToWorld(_endPoint.LocalPosition);
+            var plotEndX = _endPoint.Left/ w;
+            var plotEndY = _endPoint.Top/ h;
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { radiusXAspectRatioPercent, radiusYAspectRatioPercent, 0, Degrees > 180 ? 1 : 0, 1, worldEnd.X / w, worldEnd.Y / h });
-            var end = new PathCommands(PathCommandType.End, _slicePath, worldEnd.X / w, worldEnd.Y / h);
+            var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { radiusXAspectRatioPercent, radiusYAspectRatioPercent, 0, Degrees > 180 ? 1 : 0, 1, plotEndX, plotEndY});
+            var end = new PathCommands(PathCommandType.End, _slicePath, plotEndX / w, plotEndY / h);
 
 
-            //Get maximum local extreme values from global values
-            var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
-            var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
+            ////Get maximum local extreme values from global values
+            //var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
+            //var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
             #endregion
 
-            //Scale the inner group to pie explosion
-            _innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
-            CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
+            ////Scale the inner group to pie explosion
+            //_innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
+            //CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
 
             _slicePath.Commands.Add(moveCenter);
             _slicePath.Commands.Add(lineToStart);
-            //_slicePath.Commands.Add(arcCommand);
-            //_slicePath.Commands.Add(end);
+            _slicePath.Commands.Add(arcCommand);
+            //_slicePath.Commands.Add(moveCenter);
+            //_slicePath.Commands.Add(lineToMidPoint);
+            //_slicePath.Commands.Add(moveCenter);
+            //_slicePath.Commands.Add(lineToEnd);
+            _slicePath.Commands.Add(end);
         }
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
         {
+            //_slicePath.FillColor = "red";
+            //_slicePath.BorderColor = "blue";
             _slicePath.SetDrawingPropertiesFill(dp.Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
             _slicePath.SetDrawingPropertiesBorder(dp.Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
             _slicePath.SetDrawingPropertiesEffects(dp.Effect);
-            _slicePath.BorderWidth = dp.Border.Width;
         }
 
         internal void AppendGroupItem(SvgGroupItemNew group)
@@ -284,7 +295,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var point = new Point();
 
             //Ensure the cx/cy offset
-            point.Parent = _innerGroup.Bounds;
+            point.Parent = _innerGroup.Position.Parent;
             point.Left = xPoint;
             point.Top = yPoint;
 
