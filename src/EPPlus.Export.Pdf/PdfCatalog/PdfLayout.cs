@@ -82,30 +82,26 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         {
                             var map = pages[j].Map[row, col];
                             MergedCellDrawInfo info = new MergedCellDrawInfo();
-                            //  Fill
+                            //Merged Cell
                             if (map.Merged)
                             {
                                 string key = map.MergedAddress.Address;
                                 if (!drawnMergedCells.Contains(key) &&
                                     pages[j].MergedCells.TryGetValue(key, out info))
                                 {
+                                    //Fill
                                     var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
                                     var fill = new PdfCellLayout(dictionaries, cellStyle,
                                         info.X, info.Y, info.Width, info.Height);
                                     fill.Name = map.Name;
                                     fill.UpdateShadingPositionMatrix(pageSettings);
                                     pageLayout.AddChild(fill);
-                                    if (map.TextLines != null && map.TextLines.Count > 0)
+                                    //Text
+                                    var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
+                                    if (sourceMap != null)
                                     {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, 15);
+                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, sourceMap.Width, 15);
                                         text.Name = map.Name;
-                                        text.GidsAndCharMap(dictionaries);
-                                        pageLayout.AddChild(text);
-                                    }
-                                    else if (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0)
-                                    {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, map.Main, info, x, y, map.Main.ColumnWidth, 15);
-                                        text.Name = map.Main.Name;
                                         text.GidsAndCharMap(dictionaries);
                                         pageLayout.AddChild(text);
                                     }
@@ -114,18 +110,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             }
                             else
                             {
+                                //Fill
                                 var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, 15);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
                                 pageLayout.AddChild(fill);
-                            }
-                            //Text
-                            if (map.TextLines != null && map.TextLines.Count > 0)
-                            {
-                                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, 15);
-                                text.Name = map.Name;
-                                text.GidsAndCharMap(dictionaries);
-                                pageLayout.AddChild(text);
+                                //Text
+                                if (map.TextLines != null && map.TextLines.Count > 0)
+                                {
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, 15);
+                                    text.Name = map.Name;
+                                    text.GidsAndCharMap(dictionaries);
+                                    pageLayout.AddChild(text);
+                                }
                             }
                             //Border
                             if (HasBorder(map.CellStyle))
@@ -134,8 +131,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                 border.Name = map.Name;
                                 pageLayout.AddChild(border);
                             }
-
-
                             x += map.ColumnWidth;
                         }
                         y -= 15;

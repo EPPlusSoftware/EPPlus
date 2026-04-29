@@ -28,7 +28,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 var tf = Cell.TextFragments[i];
                 Cell.ShapedTexts.Add(new PdfShapedText());
                 var st = Cell.ShapedTexts[i];
-                st.FontProvider = dictionaries.Fonts[tf.Font.FontFamily].fontSubsetManager.CreateSubsettedProvider();
+                st.FontProvider = dictionaries.Fonts[tf.FullFontName].fontSubsetManager.CreateSubsettedProvider();
 
                 if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
                 {

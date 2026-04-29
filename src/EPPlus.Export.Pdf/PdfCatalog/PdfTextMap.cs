@@ -409,7 +409,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
                 textFragments.Add(textFrag);
                 OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
-                dictionaries.AddFont(pageSettings, textFrag.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
+                dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
             }
 
             return textFragments;
