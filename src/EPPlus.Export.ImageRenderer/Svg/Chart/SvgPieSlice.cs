@@ -120,13 +120,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             ////Get maximum local extreme values from global values
-            //var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
-            //var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
+            var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
+            var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
             #endregion
 
             ////Scale the inner group to pie explosion
-            //_innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
-            //CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
+            _innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
+            CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin, sliceScaleFactor);
 
             _slicePath.Commands.Add(moveCenter);
             _slicePath.Commands.Add(lineToStart);
@@ -158,11 +158,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var worldPositionTransformOrigin = _midPoint.Position;
 
             //Calculate extremes 
-            Point worldMax = new Point(
+            Point localMax = new Point(
                 globalWidth - worldPositionTransformOrigin.X,
                 globalHeight - worldPositionTransformOrigin.Y);
 
-            return _innerGroup.Position.TransformPointToLocal(worldMax.Position);
+            return localMax.LocalPosition;
         }
 
         Graphics.Math.Vector2 GetTranslationMinLocal(double globalWidth, double globalHeight)
@@ -171,11 +171,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Calculate extremes 
             Point worldMin = new Point(-worldPositionTransformOrigin.X, -worldPositionTransformOrigin.Y);
 
-            var localMin = _innerGroup.Position.TransformPointToLocal(worldMin.Position);
-            return localMin;
+            //var localMin = _innerGroup.Position.Parent.TransformPointToLocal(worldMin.Position);
+            return worldMin.LocalPosition;
         }
 
-        Graphics.Math.Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion)
+        Graphics.Math.Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion, double scaleFactor)
         {
             //Get point explosion value
             var pointExplosion = explosionOfPoint == int.MinValue ? 0 : explosionOfPoint;
@@ -183,7 +183,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var transformOriginLocal = new Graphics.Math.Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
 
             //Get directional vector (in local coords but does not matter since we make it directional)
-            Graphics.Math.Vector2 pieDirection = transformOriginLocal - _circleCenter.Position;
+            Graphics.Math.Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
 
             //normalize the pieDirection vector so that it is percentual and with lenght == 1
             pieDirection = pieDirection / pieDirection.Length;
@@ -203,8 +203,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var ptExplodeFactor = (double)pointExplosion / 100d;
             var ptFactoredDirection = ptExplodeFactor * pieDirection;
 
-            //Get distance/length to move along vector
-            Graphics.Math.Vector2 LocalTranslationVector = ptFactoredDirection * _radius;
+            //Get distance/length to move along vector. We translate according to the scaled down radius
+            Graphics.Math.Vector2 LocalTranslationVector = ptFactoredDirection * (_radius * scaleFactor);
             return LocalTranslationVector;
         }
 
@@ -275,10 +275,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(translationLeft, translationTop);
         }
 
-        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin)
+        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin, double scaleFactor)
         {
             //Get distance/length to move along vector
-            Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
+            Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion, scaleFactor);
             var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax,localMin);
             
             _innerGroup.Position.Left = finalTranslation.X;

@@ -119,7 +119,59 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
 
+        [TestMethod]
+        public void PointExplosion()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PointExplosion50.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
 
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PointExplosion50.xlsx_{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void PointExplosionBeyondMaxAndMin()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PointExplosionBeyondMax400.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PointExplosionBeyondMax400.xlsx_{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void PieExplosionLarger()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieExplosion250.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\PieExplosion250.xlsx_{ix++}.svg", svg);
+                }
+            }
+        }
 
         [TestMethod]
         public void PieAndPointBeyondMax()

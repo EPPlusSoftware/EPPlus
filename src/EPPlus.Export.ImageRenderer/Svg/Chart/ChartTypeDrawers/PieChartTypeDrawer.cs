@@ -56,6 +56,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //How much to scale each slice due to pie explosion
             _sliceScaleFactor = 100d / (_pieExplosionPercent + 100d);
 
+            if(_sliceScaleFactor != 1)
+            {
+                //Small adjustment. Unsure why but closer results
+                //Could be Excel pixel rounding or 2px border buffer
+                _sliceScaleFactor += 0.02d;
+            }
+        
             var count = Math.Min(catValues.Count, valValues.Count);
 
             for(int i = 0; i < chartType.Series.Count; i++)
@@ -70,7 +77,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 }
             }
 
-            RenderDebugEllipse();
+            //RenderDebugEllipse();
 
             RenderItems.Add(_groupItem);
         }
