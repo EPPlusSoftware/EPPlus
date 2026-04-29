@@ -12,6 +12,7 @@
  *************************************************************************************************/
 
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
@@ -106,7 +107,7 @@ namespace EPPlusImageRenderer
 
         protected static double AngleToRadians(double angle)
         {
-            return angle * (Math.Round((double)System.Math.PI, 14) / 180);
+            return MConverter.DegreesToRadians(angle);
         }
         protected static void SetCmdCoordinats(PathCommands cmd, PathsBase p, List<double> coordinates)
         {
