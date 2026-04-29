@@ -70,7 +70,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             tempMap.Text = cell.Text;
                             if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
                             //tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
-                            tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell._rtc, cellStyle);
+                            tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cell._rtc, cellStyle);
                         }
                     }
                     tempMap.CellStyle = cellStyle;
@@ -142,7 +142,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         mainCell.Text = main.Text;
                         if (!main.IsRichText) main._rtc = new ExcelRichTextCollection(main.Text, cell);
                         //mainCell.TextFormats = GetTextFormats(pageSettings, dictionaries, main._rtc, cellStyle);
-                        mainCell.TextFragments = GetTextFragments(pageSettings, dictionaries, main._rtc, cellStyle);
+                        mainCell.TextFragments = GetTextFragments(pageSettings, dictionaries, main, main._rtc, cellStyle);
                     }
                     mainCell.CellStyle = cellStyle;
                     tempMap.Main = mainCell;
@@ -363,10 +363,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return contentAlignment;
         }
 
-        private static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
+        private static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
         {
             var textFragments = new List<TextFragment>();
             bool bold = false, italic = false, underline = false, strike = false;
+            string text = null;
             ExcelUnderLineType underLineType = ExcelUnderLineType.None;
             if (cellStyle != null && cellStyle.dxfFont != null)
             {
@@ -376,12 +377,32 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 underline = cellStyle.dxfFont.Underline != null;
                 underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
             }
+            if (ExcelErrorValue.IsErrorValue(cell.Text))
+            {
+                switch (pageSettings.CellErrors)
+                {
+                    case CellErrors.Blank:
+                        text = "";
+                        break;
+                    case CellErrors.Dashed:
+                        text = "--";
+                        break;
+                    case CellErrors.NA:
+                        text = "#N/A";
+                        break;
+                    case CellErrors.Displayed:
+                    default:
+                        text = null;
+                        break;
+
+                }
+            }
             for (int i = 0; i < RichTextCollection.Count; i++)
             {
                 var rt = RichTextCollection[i];
                 var textFrag = new TextFragment();
                 textFrag.Font = new MeasurementFont();
-                textFrag.Text = rt.Text;
+                textFrag.Text = text == null ? rt.Text : text;
 
                 textFrag.Font.FontFamily = rt.FontName;
                 textFrag.Font.Size = rt.Size;

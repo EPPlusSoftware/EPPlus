@@ -66,6 +66,11 @@ namespace EPPlus.Export.Pdf.PdfSettings
         public CommentsAndNotes CommentsAndNotes = CommentsAndNotes.None;
 
         /// <summary>
+        /// Sets how to display errors in cells.
+        /// </summary>
+        public CellErrors CellErrors = CellErrors.Displayed; 
+
+        /// <summary>
         /// Set the starting page number.
         /// </summary>
         public int FirstPageNumber = 1;
@@ -195,6 +200,26 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// Notes will be displayed on the sheet. (Comments will not be shown.)
         /// </summary>
         AsDisplayedOnSheet
+    }
+
+    public enum CellErrors
+    {
+        /// <summary>
+        /// Errors will be displayed
+        /// </summary>
+        Displayed,
+        /// <summary>
+        /// Errors will be not displayed
+        /// </summary>
+        Blank,
+        /// <summary>
+        /// Errors will be displayed as "--"
+        /// </summary>
+        Dashed,
+        /// <summary>
+        /// Errors will be displayed as #N/A
+        /// </summary>
+        NA,
     }
 }
 

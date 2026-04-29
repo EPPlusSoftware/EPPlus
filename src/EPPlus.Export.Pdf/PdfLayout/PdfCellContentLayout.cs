@@ -57,7 +57,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell, MergedCellDrawInfo mergedCellInfo, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
-            : base(x, y, width, height, scaleX, scaleY, rotation, parent)
+            : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             //do text stuff
             CellAlignmentData = cell.ContentAligmnet;
@@ -67,7 +67,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
             TextLayoutEngine = cell.TextLayoutEngine;
 
-            LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, x, y, cell.Width, height);
+            LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, LocalPosition.X, LocalPosition.Y, cell.Width, height);
             //var textFragments = GetTextFragments(TextFormats);
             //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
         }
