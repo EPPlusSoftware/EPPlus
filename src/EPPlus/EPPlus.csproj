@@ -777,12 +777,12 @@
 		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.15" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="10.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="10.0.7" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="10.0.6" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="10.0.7" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
-		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="10.0.6" />
-		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.6" />
+		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="10.0.7" />
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.7" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="LoadFunctions\HeaderReader.cs" />
