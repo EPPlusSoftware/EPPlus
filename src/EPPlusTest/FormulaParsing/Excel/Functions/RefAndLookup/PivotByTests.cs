@@ -192,9 +192,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("Grand Total", s.Cells["K1"].Value);
 
                 // Rubrikrad 2
-                Assert.AreEqual("I", s.Cells["H2"].Value);
-                Assert.AreEqual("O", s.Cells["I2"].Value);
-                Assert.AreEqual("I", s.Cells["K2"].Value);
+                Assert.AreEqual("I", s.Cells["F2"].Value);
+                Assert.AreEqual("O", s.Cells["G2"].Value);
+                Assert.AreEqual("I", s.Cells["I2"].Value);
 
                 // A
                 Assert.AreEqual("A", s.Cells["E3"].Value);
@@ -303,6 +303,52 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["D3"].Value = 1;
                 s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3,_xleta.PERCENTOF,,,,,,,4)";
                 s.Calculate();
+            }
+        }
+
+        [TestMethod]
+        public void PivotByHeaders()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:B3,D1:D3, _xleta.SUM, 3)";
+                s.Calculate();
+
+                Assert.AreEqual("X", s.Cells["F1"].Value);
+                Assert.AreEqual("A", s.Cells["E3"].Value);
+            }
+        }
+            [TestMethod]
+        public void PivotByCustomLambdaWithHstack()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:B3,D1:D3, HSTACK(_xleta.COUNT, LAMBDA(x, SUM(x *2/3)), LAMBDA(x, SUM(x *2)) ),3)";
+                s.Calculate();
+
             }
         }
     }

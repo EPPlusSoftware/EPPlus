@@ -74,7 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if (arguments.Count > 4 && arguments[4].Value != null)
             {
-                var v = Convert.ToInt32(arguments[3].Value);
+                var v = Convert.ToInt32(arguments[4].Value);
                 if (!Enum.IsDefined(typeof(FieldHeaders), v))
                     return Fail(eErrorType.Value, out error);
                 args.Headers = (FieldHeaders)v;
@@ -467,6 +467,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             bool rowTotalAtTop = args.RowTotalDepth < 0;
             bool colTotalAtLeft = args.ColTotalDepth < 0;
             int colSubtotalDepth = Math.Abs(args.ColTotalDepth);
+
+            var resolvedHeaders = ResolveHeaders(args.Headers, args.Values);
+            bool showHeaders = resolvedHeaders == FieldHeaders.YesAndShow
+                              || resolvedHeaders == FieldHeaders.NoButGenerate;
+            bool addFunctionHeaders = args.Functions.Count > 1;
+            int nFunctions = args.Functions.Count;
+
             bool showColSubtotals = colSubtotalDepth > 1;
 
             // Gruppera kolumnlöv per översta nyckelgrupp (nivå 0)
@@ -496,9 +503,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             int dataRowStart = nColKeyRows + (rowTotalAtTop ? 1 : 0);
             int colOffset = colTotalAtLeft ? 1 : 0;
 
+
+
+
             // --- Rubrikrader ---
             for (int level = 0; level < nColKeyRows; level++)
             {
+                if (addFunctionHeaders)
+                {
+                    var functionHeaders = ResolveFunctionHeaders(args);
+                    if (args.FunctionLayout == FunctionLayout.Horizontal)
+                    {
+
+                        for (int c = 0; c < nFunctions; c++)
+                            result.SetValue(level, c + 1, functionHeaders[c]);
+                        //r++;
+                    }
+                }
+
                 int col = nRowKeyCols + colOffset;
                 foreach (var entry in colEntries)
                 {
@@ -512,7 +534,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     col++;
                 }
 
-                string colTotalLabel = args.ColTotalDepth < 0 ?  "Grand Total" : "Total";
+                string colTotalLabel = Math.Abs(args.ColTotalDepth) > 1 ?  "Grand Total" : "Total";
                 if (showColTotal)
                     result.SetValue(level, grandTotalCol, level == 0 ? colTotalLabel : string.Empty);
             }
@@ -607,6 +629,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     int grandTotalCol,
     bool showColTotal)
         {
+            var rowTotalLabel = Math.Abs(args.RowTotalDepth) > 1 ? "Grand Total" : "Total";
             result.SetValue(r, 0, "Total");
             for (int c = 1; c < nRowKeyCols; c++)
                 result.SetValue(r, c, string.Empty);
