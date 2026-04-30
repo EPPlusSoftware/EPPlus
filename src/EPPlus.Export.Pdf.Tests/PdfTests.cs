@@ -30,7 +30,6 @@ namespace EPPlusTest.PDF
          * This should be turned into tickets on github..
          * 
          * FEATURES:
-         * Cells: Display errors option
          * Cells: Icons
          * Cells: Pictures in cells : Prio 3
          * Cells: Conditional Formatting
@@ -167,7 +166,7 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-            pageSettings.CellErrors = CellErrors.Dashed;
+            pageSettings.CellErrors = CellErrors.NA;
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
             PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "c:\\epplustest\\pdf\\FullPageTest51.pdf");

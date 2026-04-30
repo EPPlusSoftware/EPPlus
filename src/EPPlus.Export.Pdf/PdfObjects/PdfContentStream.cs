@@ -124,7 +124,6 @@ namespace EPPlus.Export.Pdf.PdfObjects
         {
             double advanceX = 0;
             double rotation = textRotation * System.Math.PI / 180.0;
-            int shapeTextIndex = 0;
             for (int k = 0; k < cell.TextLines.Count; k++)
             {
                 var line = cell.TextLines[k];
@@ -194,7 +193,6 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
                     var sb = new StringBuilder();
                     sb.Append("[");
-                    //for (int j = 0; j < textFormat.Text.Length; j++)
                     for (int j = 0; j < shapedText.ShapedText.Glyphs.Length; j++)
                     {
                         var glyph = shapedText.ShapedText.Glyphs[j];

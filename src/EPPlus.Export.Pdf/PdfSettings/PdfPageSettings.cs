@@ -148,6 +148,22 @@ namespace EPPlus.Export.Pdf.PdfSettings
             }
         }
 
+        private PdfScaling _scaling = PdfScaling.NoScaling;
+        /// <summary>
+        /// Set the scaling. NOT IMPLEMENTED
+        /// </summary>
+        public PdfScaling Scaling
+        {
+            get
+            {
+                return _scaling;
+            }
+            set
+            {
+                _scaling = value;
+            }
+        }
+
         internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
         internal string defaultFontName = "";
 
