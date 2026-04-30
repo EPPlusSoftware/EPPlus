@@ -14,7 +14,9 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -488,6 +490,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 case eTrendLine.Power:
                     break;
                 case eTrendLine.MovingAverage:
+                    renderItems.Add(CreateMonthlyAverageSvgPath());
                     break;
             }
 
@@ -511,11 +514,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
             var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
             var pa = _svgChart.Plotarea;
-            var x1 = xAxis.GetPositionInPlotarea(0) / pa.Rectangle.Width;
-            var y1 = yAxis.GetPositionInPlotarea(Coefficients[1] + Coefficients[0]) / pa.Rectangle.Height;
+            var x1 = xAxis.GetPositionInPlotarea(0);
+            var y1 = yAxis.GetPositionInPlotarea(GetLinearValueAtPosition(1));
 
-            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count-1) / pa.Rectangle.Width;
-            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(Coefficients[1]+ Coefficients[0]*(_xSerie.Count)) / pa.Rectangle.Height;
+            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count-1);
+            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(GetLinearValueAtPosition(_xSerie.Count));
 
             pathItem.Commands.Add(
                 new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
@@ -526,6 +529,59 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
 
             return pathItem;
+        }
+
+        private RenderItem CreateMonthlyAverageSvgPath()
+        {
+            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
+            var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+            var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+            var pa = _svgChart.Plotarea;
+            var x1 = xAxis.GetPositionInPlotarea(_trendline.Order-1);
+            var y1 = yAxis.GetPositionInPlotarea(GetMonthlyAverageAtPosition(_trendline.Order));
+
+            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count - 1);
+            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(GetMonthlyAverageAtPosition(_xSerie.Count));
+
+            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2]));
+
+            pathItem.SetDrawingPropertiesFill(_trendline.Fill, _svgChart.Chart.StyleManager.Style.Trendline.FillReference.Color);
+            pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
+
+            return pathItem;
+        }
+
+        List<double> _ma = null;
+        private double GetMonthlyAverageAtPosition(double x)
+        {
+            if (_ma == null)
+            {
+                CalcMa();
+            }
+
+            int ix = (int)(x - _trendline.Order);
+            return _ma[ix];
+        }
+
+        private void CalcMa()
+        {
+            _ma= new List<double>();
+            double sum = 0;
+            for (int i=0;i < _ySerie.Length;i++)
+            {
+                sum += _ySerie[i];
+                if (i >= _trendline.Order-1)
+                {
+                    
+                    _ma.Add(sum / _trendline.Order);
+                }
+            }
+        }
+
+        private double GetLinearValueAtPosition(int x)
+        {
+            return Coefficients[1] + Coefficients[0] * x;
         }
     }
 }
