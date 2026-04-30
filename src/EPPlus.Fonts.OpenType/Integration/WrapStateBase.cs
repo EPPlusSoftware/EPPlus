@@ -21,6 +21,8 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         internal int CurrentFragmentIdx = 0;
 
+        internal List<TextFragment> CurrentInnerFallbackFragments = new List<TextFragment>();
+
         public bool IsCompleteWordReady(CharacterType charType, int currentPosition)
         {
             return (charType == CharacterType.Space || charType == CharacterType.EndOfText)

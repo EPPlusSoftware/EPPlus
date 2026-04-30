@@ -152,7 +152,33 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             Assert.AreEqual(0, faultyStrings.Count);
         }
-        
+
+        [TestMethod]
+        public void WrapTextWithEmoji()
+        {
+            var fragments = new List<TextFragment>
+            {
+                new TextFragment
+                {
+                    Text = "🦀 Hello. It is \r\n🦀",
+                    Font = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11 }
+                },
+                new TextFragment
+                {
+                    Text = "CRAB TIME 🦀",
+                    Font = new MeasurementFont { FontFamily = "Abadi", Style = MeasurementFontStyles.Italic, Size = 11 }
+                }
+            };
+
+
+            //var font = OpenTypeFonts.LoadFont("Aptos Narrow", FontSubFamily.Regular, FontFolders);
+            //var shaper = OpenTypeFonts.GetShaperForFont(fragments[0].Font, FontFolders);
+            //var shaped = shaper.ShapeLight(fragments[0].Text);
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font, FontFolders);
+            var lines = layout.WrapRichTextLines(fragments, 48d);
+        }
+
         [TestMethod]
         public void WrapText_WithPreExistingWidth_AccountsForIt()
         {

@@ -13,6 +13,7 @@
   01/23/2025         EPPlus Software AB           Fixed lastSpaceIndex bug in multi-fragment wrapping
   02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -107,17 +108,31 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.WordStart = -1;
             state.LineStart = -1;
 
+            List<TextFragment> subFragments = new List<TextFragment>();
+
             foreach (var fragment in fragments)
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
                 ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
+
+
+                foreach(var subFragment in state.CurrentInnerFallbackFragments)
+                {
+                    subFragments.Add(subFragment);
+                }
+                state.CurrentInnerFallbackFragments.Clear();
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
             state.CurrentTextLine.Width = state.CurrentLineWidth;
             state.CurrentTextLine.Text = lineBuilder.ToString();
             state.EndCurrentTextLine();
+
+            if(subFragments.Count > 0)
+            {
+                fragments = subFragments;
+            }
 
             //Calculate ascent and descent so later application can handle line-spacing
             //This could be optimized by doing it during ProcessFragment but that is way bulkier/unclear
@@ -158,11 +173,62 @@ namespace EPPlus.Fonts.OpenType.Integration
             var charWidths = GetCharWidthBuffer(len);
             Array.Clear(charWidths, 0, len);
 
-            // ShapeLight applies only kerning (sufficient for line-breaking).
-            // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
-            // is ~250x slower and irrelevant for wrapping decisions.
+            //// ShapeLight applies only kerning (sufficient for line-breaking).
+            //// Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
+            //// is ~250x slower and irrelevant for wrapping decisions.
             var shaped = shaper.ShapeLight(fragment.Text, options);
             shaped.FillCharWidths(fragment.Font.Size, charWidths, len);
+
+            //if (shaped.FontUnitsPerEm != null & shaped.FontUnitsPerEm.Length > 1)
+            //{
+            //    state.CurrentInnerFallbackFragments.Clear();
+
+            //    var shaperTyped = (TextShaper)shaper;
+            //    var fonts = shaperTyped.GetUsedFonts();
+
+            //    List<MeasurementFont> mFonts = new List<MeasurementFont>();
+            //    foreach (var font in fonts)
+            //    {
+            //        mFonts.Add(new MeasurementFont {FontFamily= font.GetEnglishFontFamilyName(), Style = fragment.Font.Style ,Size = fragment.Font.Size, });
+            //    }
+
+            //    //List of places the font changes with int array: charidx, fontidx
+            //    //First char will always change to the first font
+            //    List<int[]> IndiciesWhereFontIsChanged = new List<int[]>()
+            //    {
+            //        new int[] { 0, 0 }
+            //    };
+
+            //    int currentFontId = 0;
+
+            //    for(int j = 1; j < shaped.Glyphs.Length + 1; j++)
+            //    {
+            //        if (j == shaped.Glyphs.Length || shaped.Glyphs[j].FontId != currentFontId)
+            //        {
+            //            //Create new subFragment
+            //            var subStringText = fragment.Text.Substring(IndiciesWhereFontIsChanged.Last()[0], j - IndiciesWhereFontIsChanged.Last()[0]);
+            //            TextFragment subFragment = new TextFragment() { Text = subStringText, Font = mFonts[IndiciesWhereFontIsChanged.Last()[1]] };
+            //            state.CurrentInnerFallbackFragments.Add(subFragment);
+
+            //            if(j != shaped.Glyphs.Length)
+            //            {
+            //                //Add to indicies
+            //                currentFontId = shaped.Glyphs[j].FontId;
+            //                IndiciesWhereFontIsChanged.Add(new int[] { j, currentFontId });
+            //            }
+            //        }
+            //    }
+
+            //    //Highly inneficent to do the shaping again but does avoid writing more workaround code for so-so approach for now.
+            //    if(state.CurrentInnerFallbackFragments.Count > 1)
+            //    {
+            //        foreach (var innerFragment in state.CurrentInnerFallbackFragments)
+            //        {
+            //            ProcessFragment(innerFragment, maxWidthPoints, lineBuilder, state);
+            //        }
+            //        return;
+            //    }
+            //}
 
             //Store for after everything is done
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
@@ -202,7 +268,6 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 if (c == ' ')
                 {
-                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
 
