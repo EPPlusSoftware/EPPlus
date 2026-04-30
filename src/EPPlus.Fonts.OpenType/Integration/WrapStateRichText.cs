@@ -7,6 +7,8 @@ namespace EPPlus.Fonts.OpenType.Integration
     internal class WrapStateRichText : WrapStateBase
     {
         internal LineFragment LineFrag = null;
+        internal int charsHandled = 0;
+
 
         public WrapStateRichText(double lineWidth) 
         {
@@ -30,7 +32,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 EndCurrentTextLine();
                 var spcWidthTemp = LineFrag.SpaceWidth;
-                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment);
+                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment, charsHandled);
                 LineFrag.SpaceWidth = spcWidthTemp;
             }
             else
@@ -96,7 +98,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
-            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart);
+            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, charsHandled);
             CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;
 
             _fragmentsForNextLine = new List<LineFragment>();

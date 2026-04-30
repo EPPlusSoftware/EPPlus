@@ -152,6 +152,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             StringBuilder lineBuilder,
             WrapStateRichText state)
         {
+            state.charsHandled = 0;
             var shaper = GetShaperForFont(fragment.Font);
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
@@ -169,8 +170,8 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
             var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size);
-
-            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length)
+            state.charsHandled = 0;
+            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.charsHandled)
             {
                 SpaceWidth = spaceWidth,
                 StartIdx = lineBuilder.Length,
@@ -211,6 +212,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     WrapCurrentLine(lineBuilder, state, maxWidthPoints, charWidths[i]);
                 }
                 i++;
+                state.charsHandled++;
             }
 
             if (state.LineFrag.Width > 0)

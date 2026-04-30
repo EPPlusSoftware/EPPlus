@@ -213,6 +213,32 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         #region Rich Text Wrapping Tests
 
         [TestMethod]
+        public void ImportingFromCells()
+        {
+
+        }
+
+        [TestMethod]
+        public void MyVeryGoodRichTextWrapper()
+        {
+            var font = OpenTypeFonts.LoadFont("Calibri", FontSubFamily.Regular, FontFolders);
+            var shaper = new TextShaper(font);
+
+            //Text containing emoji
+            var inputText = "My long and 😝😱 bothersome 😝😱 text";
+            var shapedText = (ShapedText)shaper.Shape(inputText);
+            var layout = new TextLayoutEngine(shaper);
+
+            var text = layout.WrapText(inputText, 12, 20);
+
+
+            //// Act
+            //var lines = layout.WrapRichText(fragments, 1000);
+
+            //var layout = new TextLayoutEngine(shaper);
+        }
+
+        [TestMethod]
         public void WrapRichText_SingleFragment_BehavesLikeSingleFont()
         {
             // Arrange

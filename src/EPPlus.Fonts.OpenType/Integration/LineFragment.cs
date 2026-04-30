@@ -11,6 +11,8 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// </summary>
     public class LineFragment
     {
+         public int StartIdxOriginal { get; internal set; }
+
         /// <summary>
         /// Start char position within TextLineSimple.Text
         /// </summary>
@@ -29,7 +31,10 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public double SpaceWidth { get; internal set; }
 
-        internal LineFragment(int rtFragmentIdx, int idxWithinLine)
+        //public double AscentInPoints { get; private set; }
+        //public double DescentInPoints { get; private set; }
+
+        internal LineFragment(int rtFragmentIdx, int idxWithinLine, int idxWithinTotal)
         {
             FragmentIndex = rtFragmentIdx;
             StartIdx = idxWithinLine;

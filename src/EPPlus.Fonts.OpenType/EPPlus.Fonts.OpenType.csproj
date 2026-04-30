@@ -95,4 +95,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\EPPlus\src\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Integration\RichText\" />
+	  <Folder Include="TypeSettingSystem\" />
+	</ItemGroup>
 </Project>
