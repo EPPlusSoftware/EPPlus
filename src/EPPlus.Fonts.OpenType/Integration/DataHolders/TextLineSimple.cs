@@ -85,6 +85,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     () => { return originalFragments[lf.FragmentIndex]; },
                     () => { return lf.Width; },
                     () => { return lf.StartIdx; },
+                    () => { return lf.StartIdxOriginal; },
                     GetLineFragmentText(lf)
                     );
                 LineFragments.Add(data);

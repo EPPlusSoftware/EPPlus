@@ -170,7 +170,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
             var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size);
-            state.charsHandled = 0;
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.charsHandled)
             {
                 SpaceWidth = spaceWidth,
