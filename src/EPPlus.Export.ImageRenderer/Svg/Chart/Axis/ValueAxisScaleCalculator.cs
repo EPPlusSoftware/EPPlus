@@ -105,7 +105,7 @@ internal class ValueAxisScaleCalculator
                 dataMax = axisOptions.LockedMax.Value;
             }
 
-            if (axisOptions.LockedMin.HasValue==false && dataMin / dataMax > 0.666666)
+            if (axisOptions.LockedMin.HasValue==false && dataMin / dataMax < 0.666666)
             {
                 dataMin = 0;
             }
@@ -161,10 +161,10 @@ internal class ValueAxisScaleCalculator
                     {
                         axisMax = 0;
                     }
-                    if (axisOptions.LockedMin.HasValue==false && axisMin > 0 && dataMin / dataMax >= 0.2)
-                    {
-                        axisMin = 0;
-                    }
+                    //if (axisOptions.LockedMin.HasValue==false && axisMin > 0 && dataMin / dataMax <= 0.2)
+                    //{
+                    //    axisMin = 0;
+                    //}
                 }
 
                 // Calculate interval

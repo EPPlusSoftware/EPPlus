@@ -888,13 +888,13 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else if (Axis.AxisType == eAxisType.Date && IsDateScale == false)
                 {
-                    if (val < Min || val > Max) return double.NaN;
+                    //if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
                     return (((val - Min) / diff * SvgChart.Plotarea.Rectangle.Height));
                 }
                 else
                 {
-                    if (val < Min || val > Max) return double.NaN;
+                    //if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min;
                     return (Max - val) / diff * SvgChart.Plotarea.Rectangle.Height;
                 }

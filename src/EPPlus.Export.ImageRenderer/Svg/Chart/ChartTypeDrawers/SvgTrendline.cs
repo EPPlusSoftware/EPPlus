@@ -10,18 +10,15 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -393,6 +390,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             return y;
         }
+        // Predict a y value for a given x
+        public double PredictPolynomial(double x)
+        {
+            double y = 0;
+            double xPow = 1.0;
+            for (int i = 0; i < Coefficients.Length; i++)
+            {
+                y += Coefficients[i] * xPow;
+                xPow *= x;
+            }
+            return y;
+        }
         private IEnumerable<double> GetExponentialSerie(double m, double b)
         {
             var l = new List<double>() { b };
@@ -476,18 +485,30 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
+            double m, b;
             switch(_trendline.Type)
             {
                 case eTrendLine.Linear:
                     renderItems.Add(CreateLinearSvgPath());
                     break;
                 case eTrendLine.Exponential:
+                    m = Coefficients[0];
+                    b = Coefficients[1];
+                    renderItems.Add(CreateDefaultSvgPath(x => b * Math.Exp(m * x)));
                     break;
                 case eTrendLine.Logarithmic:
+                    m = Coefficients[0];
+                    b = Coefficients[1];
+                    renderItems.Add(CreateDefaultSvgPath(x => m * Math.Log(x) + b));
                     break;
                 case eTrendLine.Polynomial:
+                    renderItems.Add(CreateDefaultSvgPath(x => PredictPolynomial(x)));
                     break;
                 case eTrendLine.Power:
+                    //intercept * Math.Pow(x, slope)
+                    m = Coefficients[0];
+                    b = Coefficients[1];
+                    renderItems.Add(CreateDefaultSvgPath(x => b * Math.Pow(x, m)));
                     break;
                 case eTrendLine.MovingAverage:
                     renderItems.Add(CreateMonthlyAverageSvgPath());
@@ -508,6 +529,50 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
+        private RenderItem CreateDefaultSvgPath(Func<double, double> predictPoint)
+        {
+            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
+            var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+            var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+            var pa = _svgChart.Plotarea;
+
+            var x1 = xAxis.GetPositionInPlotarea(0);
+            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count - 1);
+
+            //We aim for 1 line per point for the trendline.
+            var diff = (x2 - x1);
+            var inc = GetXInc(diff);
+
+            var coordinates = new List<double>();
+            double y;
+            for (double d = x1; d < x2; d+=inc)
+            {
+                var x = (_xSerie.Count-1) * (d - x1) / diff;
+                coordinates.Add(d);
+                y = yAxis.GetPositionInPlotarea(predictPoint(x+1));
+                coordinates.Add(y);
+            }
+
+            coordinates.Add(x2);
+            y = yAxis.GetPositionInPlotarea(predictPoint(_xSerie.Count));
+            coordinates.Add(y);
+
+            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, coordinates.ToArray()));
+            pathItem.FillColor = "none"; 
+            pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
+
+            return pathItem;
+        }
+
+        //Get the incremental x value for the trendline points based on the distance between the start and end point of the trendline. The goal is to have approximately 3 point per data point in the trendline.
+        private double GetXInc(double n)
+        {
+            int k = (int)Math.Round(Math.Log(n)/ Math.Log(3) - 1);
+            k = Math.Max(k, 0);
+            return n / Math.Pow(2, k);
+        }
+
         private RenderItem CreateLinearSvgPath()
         {
             var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
@@ -521,10 +586,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(GetLinearValueAtPosition(_xSerie.Count));
 
             pathItem.Commands.Add(
-                new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
+                new PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
                 );
 
-            pathItem.SetDrawingPropertiesFill(_trendline.Fill, _svgChart.Chart.StyleManager.Style.Trendline.FillReference.Color);
             pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
             pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
 
@@ -537,15 +601,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
             var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
             var pa = _svgChart.Plotarea;
-            var x1 = xAxis.GetPositionInPlotarea(_trendline.Order-1);
-            var y1 = yAxis.GetPositionInPlotarea(GetMonthlyAverageAtPosition(_trendline.Order));
+            var coordinates = new List<double>();
+            for(int i= ((int)_trendline.Period) - 1;i<_xSerie.Count;i++)
+            {
+                var x = xAxis.GetPositionInPlotarea(i);
+                coordinates.Add(x);
+                var y = yAxis.GetPositionInPlotarea(GetMonthlyAverageAtPosition(i));
+                coordinates.Add(y);
+            }
 
-            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count - 1);
-            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(GetMonthlyAverageAtPosition(_xSerie.Count));
+            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, coordinates.ToArray()));
 
-            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2]));
-
-            pathItem.SetDrawingPropertiesFill(_trendline.Fill, _svgChart.Chart.StyleManager.Style.Trendline.FillReference.Color);
             pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
             pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
 
@@ -560,7 +626,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 CalcMa();
             }
 
-            int ix = (int)(x - _trendline.Order);
+            int ix = (int)(x - _trendline.Period + 1);
             return _ma[ix];
         }
 
@@ -571,10 +637,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (int i=0;i < _ySerie.Length;i++)
             {
                 sum += _ySerie[i];
-                if (i >= _trendline.Order-1)
+                if (i >= _trendline.Period-1)
                 {
                     
-                    _ma.Add(sum / _trendline.Order);
+                    _ma.Add(sum / (i+1));
                 }
             }
         }
