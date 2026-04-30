@@ -85,63 +85,49 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             _slicePath.BorderWidth = 5;
 
-            #region calculate global variables
-            //Path commands are based on percent of the Pixel height and Width
-            //We must supply coords in a correct percentage of the parent plotAreaBounds
-            var w = plotAreaBounds.Width;
-            var h = plotAreaBounds.Height;
+            //Calculate path commands
+            var moveCenter = new PathCommands(PathCommandType.Move, _slicePath, _circleCenter.Left, _circleCenter.Top);
+            var lineToStart = new PathCommands(PathCommandType.Line, _slicePath, _startPoint.Left, _startPoint.Top);
 
-            var cx = (w / 2);
-            var cy = (h / 2);
+            var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top});
+            var end = new PathCommands(PathCommandType.End, _slicePath, _endPoint.Left, _endPoint.Top);
 
-            var radiusXAspectRatioPercent = _radius;
-            var radiusYAspectRatioPercent = _radius;
-
-            var circleCenterWorld = _circleCenter.Position;
-
-            var cxPercentOfTotal = circleCenterWorld.X;
-            var cyPercentOfTotal = circleCenterWorld.Y;
-
-            var moveCenter = new PathCommands(PathCommandType.Move, _slicePath, cxPercentOfTotal, cyPercentOfTotal);
-
-            var lastPosX = _startPoint.Left;
-            var lastPosY = _startPoint.Top;
-            Coordinate startPointGlobalPercentage = new Coordinate(lastPosX, lastPosY);
-
-            var lineToStart = new PathCommands(PathCommandType.Line, _slicePath, startPointGlobalPercentage.X, startPointGlobalPercentage.Y);
-            var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
-            var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
-
-            var plotEndX = _endPoint.Left;
-            var plotEndY = _endPoint.Top;
-
-            var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { radiusXAspectRatioPercent, radiusYAspectRatioPercent, 0, Degrees > 180 ? 1 : 0, 1, plotEndX, plotEndY});
-            var end = new PathCommands(PathCommandType.End, _slicePath, plotEndX, plotEndY);
-
-
-            ////Get maximum local extreme values from global values
+            //Get max and min values
             var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
             var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
-            #endregion
 
-            ////Scale the inner group to pie explosion
+            //Translate and scale path
             _innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin, sliceScaleFactor);
 
+            //Add the actual commands
             _slicePath.Commands.Add(moveCenter);
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
-            //_slicePath.Commands.Add(moveCenter);
-            //_slicePath.Commands.Add(lineToMidPoint);
-            //_slicePath.Commands.Add(moveCenter);
-            //_slicePath.Commands.Add(lineToEnd);
+
+            //Visualize all points
+            //AddDebugLines(moveCenter);
+
             _slicePath.Commands.Add(end);
+        }
+
+        /// <summary>
+        /// Adds line from center to outer mid point (transform-origin) and to end point
+        /// AKA line along scale/explosion vector
+        /// </summary>
+        /// <param name="moveCenter"></param>
+        private void AddDebugLines(PathCommands moveCenter)
+        {
+            var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
+            var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
+            _slicePath.Commands.Add(moveCenter);
+            _slicePath.Commands.Add(lineToMidPoint);
+            _slicePath.Commands.Add(moveCenter);
+            _slicePath.Commands.Add(lineToEnd);
         }
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
         {
-            //_slicePath.FillColor = "red";
-            //_slicePath.BorderColor = "blue";
             _slicePath.SetDrawingPropertiesFill(dp.Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
             _slicePath.SetDrawingPropertiesBorder(dp.Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
             _slicePath.SetDrawingPropertiesEffects(dp.Effect);
