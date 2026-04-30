@@ -28,9 +28,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _svgChart = svgChart;
             _chartType = chartType;
         }
-        protected List<object> LoadSeriesValues(string serieAddress, double[] numLiterals, string[] strLiterals)
+
+        protected List<object> LoadSeriesValues(string serieAddressInput, double[] numLiterals, string[] strLiterals)
         {
-            List<object> values=new List<object>();
+            string serieAddress = serieAddressInput;
+
+            //Some addresses are split and within parenthesis
+            if (serieAddressInput.StartsWith("("))
+            {
+                serieAddress = serieAddressInput.Trim('(', ')');
+            }
+
+            List<object> values = new List<object>();
             if (numLiterals != null)
             {
                 values.AddRange(numLiterals.Select(x => (object)x));
@@ -41,42 +50,60 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                if(string.IsNullOrEmpty(serieAddress))
+                if (string.IsNullOrEmpty(serieAddress))
                 {
                     return null;
                 }
                 var address = new ExcelAddressBase(serieAddress);
-                if(address.IsExternal )
+
+                if (address.Addresses != null && address.Addresses.Count > 1)
                 {
-                    var wb = Chart.WorkSheet.Workbook;
-                    var extWb = wb.ExternalLinks[address.ExternalReferenceIndex-1] as ExcelExternalWorkbook;
-                    if(extWb!=null)
+                    foreach (var splitAddress in address.Addresses)
                     {
-                        var wsName = address.WorkSheetName;
-                        if (extWb.Package==null)
-                        {
-                            var extWs = extWb.CachedWorksheets[wsName];
-                            FillExternalValues(extWs, address, ref values);
-                        }
-                        else
-                        {
-                            var ws = extWb.Package.Workbook.Worksheets[wsName];
-                            FillInternalValues(ws, address, ref values);
-                        }
+                        FillValuesFromAddress(splitAddress, ref values);
                     }
                 }
                 else
                 {
-                    var wsName = address.WorkSheetName;
-                    if (string.IsNullOrEmpty(wsName))
-                    {
-                        wsName = Chart.WorkSheet.Name;
-                    }
-                    var ws = Chart.WorkSheet.Workbook.Worksheets[wsName];
-                   FillInternalValues(ws, address, ref values);
+                    FillValuesFromAddress(address, ref values);
                 }
             }
-            return values; 
+            return values;
+        }
+
+        protected void FillValuesFromAddress(ExcelAddressBase address, ref List<object> values)
+        {
+            if (address.IsExternal)
+            {
+                var wb = Chart.WorkSheet.Workbook;
+                var extWb = wb.ExternalLinks[address.ExternalReferenceIndex - 1] as ExcelExternalWorkbook;
+                if (extWb != null)
+                {
+                    var wsName = address.WorkSheetName;
+                    if (extWb.Package == null)
+                    {
+                        var extWs = extWb.CachedWorksheets[wsName];
+                        FillExternalValues(extWs, address, ref values);
+                    }
+                    else
+                    {
+                        var ws = extWb.Package.Workbook.Worksheets[wsName];
+                        FillInternalValues(ws, address, ref values);
+                    }
+                }
+            }
+            else
+            {
+                var wsName = address.WorkSheetName;
+
+                if (string.IsNullOrEmpty(wsName))
+                {
+                    wsName = Chart.WorkSheet.Name;
+                }
+
+                var ws = Chart.WorkSheet.Workbook.Worksheets[wsName];
+                FillInternalValues(ws, address, ref values);
+            }
         }
 
         protected void FillExternalValues(ExcelExternalWorksheet extWs, ExcelAddressBase address, ref List<object> values)

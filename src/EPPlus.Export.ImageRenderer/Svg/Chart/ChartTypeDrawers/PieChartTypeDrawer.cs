@@ -40,9 +40,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
             _groupItem.Bounds.Parent = _groupItem.Position;
-            //_groupItem.Position.Left = _svgChart.Plotarea.Rectangle.Bounds.Left;
-            //_groupItem.Position.Top = _svgChart.Plotarea.Rectangle.Bounds.Top;
-            //_groupItem.Position.Parent = _svgChart.Plotarea;
 
             //Read and set Starting angle offset as a rotation on the container
             //This way no rotation messes with the other calculations
@@ -54,6 +51,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             CreateIntialSlice();
 
             //How much to scale each slice due to pie explosion
+            //Essentially we start at 100% (100/100)
+            //And then scale down by adding the pie explosionPercent (0-400)
+            // 100/200 -> 0.5, 100/400 -> 0.2 etc. 
             _sliceScaleFactor = 100d / (_pieExplosionPercent + 100d);
 
             if(_sliceScaleFactor != 1)
@@ -68,12 +68,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             for(int i = 0; i < chartType.Series.Count; i++)
             {
                 var serie = (ExcelPieChartSerie)chartType.Series[i];
-                for (var j = 0; j < catValues.Count; j++)
+                //Excel ignores series beyond the first for pie chart visualization
+                if(i == 0)
                 {
-                    var total = ConvertUtil.GetValueDouble(catValues[j], false, true);
+                    for (var j = 0; j < catValues.Count; j++)
+                    {
+                        var total = ConvertUtil.GetValueDouble(catValues[j], false, true);
 
-                    //Add the slice.
-                    AddSlice(chartType, serie, catValues, valValues, count, j);
+                        //Add the slice.
+                        AddSlice(chartType, serie, catValues, valValues, count, j);
+                    }
                 }
             }
 
@@ -148,11 +152,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //Load series values
             foreach (ExcelPieChartSerie serie in chartType.Series)
             {
-                valValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
-                catValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+                //Excel allows further series on a pie chart but ignores them for visualization
+                if(_serCounter == 0)
+                {
 
-                //Pie explosion
-                _pieExplosionPercent = serie.Explosion == int.MinValue ? 0 : serie.Explosion;
+                    valValues = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
+                    catValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+
+                    //Pie explosion
+                    _pieExplosionPercent = serie.Explosion == int.MinValue ? 0 : serie.Explosion;
+                }
 
                 _serCounter++;
             }
