@@ -120,7 +120,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit, int charsHandled)
         {
             //If we are splitting a fragment its position in the new line should be 0
-            var newLineFragment = new LineFragment(origLf.RtFragIdx, 0, charsHandled);
+            var newLineFragment = new LineFragment(origLf.FragmentIndex, 0, charsHandled);
             newLineFragment.Width = origLf.Width - widthAtSplit;
 
             newLineFragment.SpaceWidth = origLf.SpaceWidth;
