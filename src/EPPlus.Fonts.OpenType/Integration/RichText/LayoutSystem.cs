@@ -7,7 +7,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
     /// <summary>
     /// A list of rich-text fragments with relation to eachother is a paragraph
     /// </summary>
-    public class TextParagraph
+    public class LayoutSystem
     {
         /// <summary>
         /// The Unalatered input fragments
@@ -19,13 +19,13 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         List<CharInfo> AllChars = new List<CharInfo>();
         List<int> SeparatorIndicies = new List<int>();
         List<int> ParagraphSeparatorIndicies = new List<int>();
-        List<SubParagraph> SubParagraphs = new List<SubParagraph>();
+        List<Paragraph> SubParagraphs = new List<Paragraph>();
         List<StyleRun> StyleRuns = new List<StyleRun>();
         int FullTextLength = 0;
 
         TextLineCollection WrappedLineCollection;
 
-        public TextParagraph(List<TextFragment> fragments, IEnumerable<string> FontDirectories)
+        public LayoutSystem(List<TextFragment> fragments, IEnumerable<string> FontDirectories)
         {
             InputFragments = fragments;
             //Extract basic info about the entire paragraph
@@ -89,13 +89,13 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == category)
                 {
                     ParagraphSeparatorIndicies.Add(sepIdx);
-                    var section = new SubParagraph(lastParagraphIdx, sepIdx, GetFullText, GetSection);
+                    var section = new Paragraph(lastParagraphIdx, sepIdx, GetFullText, GetSection);
                     SubParagraphs.Add(section);
                     lastParagraphIdx = sepIdx;
                 }
             }
 
-            var lastSection = new SubParagraph(lastParagraphIdx, FullTextLength, GetFullText, GetSection);
+            var lastSection = new Paragraph(lastParagraphIdx, FullTextLength, GetFullText, GetSection);
             SubParagraphs.Add(lastSection);
         }
 

@@ -709,7 +709,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new TextParagraph(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments, FontFolders);
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
@@ -751,7 +751,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new TextParagraph(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments, FontFolders);
 
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
