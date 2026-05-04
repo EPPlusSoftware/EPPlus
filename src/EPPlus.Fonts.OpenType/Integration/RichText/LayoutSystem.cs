@@ -151,8 +151,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 if(shapeLight)
                 {
                     var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
-                    double[] charWidths = new double[styleRun.Length];
-                    shapedGlyphs.FillCharWidths(inputFrag.Font.Size, charWidths, styleRun.Length);
+                    double[] charWidths = new double[styleRun.Length + 1];
+                    shapedGlyphs.FillCharWidths(inputFrag.Font.Size, charWidths, styleRun.Length + 1);
                     var spaceWidth = shaper.Shape(" ").GetWidthInPoints(inputFrag.Font.Size);
                     styleRun.SetCharWidths(charWidths, spaceWidth);
                 }
@@ -164,10 +164,10 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
             var lastFragment = InputFragments[InputFragments.Count-1];
             var lastRun = StyleRuns[StyleRuns.Count-1];
-            var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font);
+            var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font, fontDirectories);
             var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
-            double[] lastCharWidths = new double[lastRun.Length];
-            lastShapedGlyphs.FillCharWidths(lastFragment.Font.Size, lastCharWidths, lastRun.Length);
+            double[] lastCharWidths = new double[lastRun.Length + 1];
+            lastShapedGlyphs.FillCharWidths(lastFragment.Font.Size, lastCharWidths, lastRun.Length + 1);
             var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints(lastFragment.Font.Size);
             lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
         }

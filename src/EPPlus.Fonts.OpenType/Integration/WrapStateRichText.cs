@@ -101,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
-            var lenAtBreak = CharIdxWithinOriginal - _totalCharsAtWordStart;
+            //var lenAtBreak = CharIdxWithinOriginal - _totalCharsAtWordStart;
 
             var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, CharIdxRt, CharIdxWithinOriginal);
             CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;
