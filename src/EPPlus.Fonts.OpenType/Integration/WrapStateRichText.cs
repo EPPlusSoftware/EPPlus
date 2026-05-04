@@ -49,6 +49,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         int _rtIdxAtWordStart = -1;
         int _listIdxWithinLine = -1;
+        int _totalCharsAtWordStart = -1;
         double _lineFragWidthAtWordStart = -1;
 
         internal void SetAndLogWordStartState(int wordStart)
@@ -73,6 +74,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //It will be the next index when added
                 _listIdxWithinLine += 1;
             }
+
+            _totalCharsAtWordStart = CharIdxWithinOriginal;
         }
 
         internal int GetFragIdxAtWordStart()
@@ -98,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
-            var lenAtBreak = CharIdxWithinOriginal - origFragment.StartOriginal;
+            var lenAtBreak = CharIdxWithinOriginal - _totalCharsAtWordStart;
 
             var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, CharIdxRt, CharIdxWithinOriginal);
             CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;

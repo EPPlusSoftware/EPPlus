@@ -13,6 +13,7 @@
   01/23/2025         EPPlus Software AB           Fixed lastSpaceIndex bug in multi-fragment wrapping
   02/23/2026         EPPlus Software AB           Performance fix: Shape() → ShapeLight() in ProcessFragment
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -147,6 +148,15 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             return state.Lines;
+        }
+
+        private void ProcessStyleRun(
+        StyleRun run,
+        double maxWidthPoints,
+        StringBuilder lineBuilder,
+        WrapStateRichText state)
+        {
+
         }
 
         private void ProcessFragment(

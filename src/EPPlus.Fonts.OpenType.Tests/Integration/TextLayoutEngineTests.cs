@@ -610,7 +610,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void EnsureLineFragmentsAreMeasuredCorrectlyWhenWrapping()
         {
             List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16"};
-            List<string> comparatorLst = new() { "Strike", "Goudy size"};
             var font2 = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -679,6 +678,58 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("Strike", smallestTextFragments[3]);
             Assert.AreEqual("Goudy size", smallestTextFragments[4]);
             Assert.AreEqual("16", smallestTextFragments[5]);
+        }
+
+        [TestMethod]
+        public void EnsureRTCharIdxBecomesCorrectWhenBreaking()
+        {
+            List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };
+            var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new List<MeasurementFont>() { font, font2 };
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
+            var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
+
+
+            List<int> inputFragment = new List<int>();
+            List<int> lstRtIdx = new List<int>();
+            List<char> charAtPos = new List<char>();
+            List<int> expectedStartRt = new List<int>();
+
+            var totalString = "MyparticularilyLongWordWithAbsolutelyNoSpacesAtAllJustToBeDifficult";
+
+
+            foreach (var line in wrappedLines)
+            {
+                foreach(LineFragment internalFragment in line.InternalLineFragments)
+                {
+                    var fragIdx = internalFragment.FragmentIndex;
+                    inputFragment.Add(fragIdx);
+                    lstRtIdx.Add(internalFragment.StartRt);
+                    charAtPos.Add(fragments[fragIdx].Text[internalFragment.StartRt]);
+                }
+            }
         }
 
         [TestMethod]
