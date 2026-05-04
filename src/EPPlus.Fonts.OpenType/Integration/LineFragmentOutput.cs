@@ -13,7 +13,12 @@ namespace EPPlus.Fonts.OpenType.Integration
     public class LineFragmentOutput
     {
         /// <summary>
-        /// Char idx within the whole input
+        /// Char index within the FULL TEXT of all input fragments
+        /// </summary>
+        public int StartFullTextIdx { get { return _getFullTextIdx(); } }
+
+        /// <summary>
+        /// Char idx within the input fragment
         /// </summary>
         public int StartRtIdx { get { return _getStartIdxRt(); } }
         /// <summary>
@@ -48,14 +53,16 @@ namespace EPPlus.Fonts.OpenType.Integration
         Func<double> _getWidth;
         Func<int> _getStartIdx;
         Func<int> _getStartIdxRt;
+        Func<int> _getFullTextIdx;
         #endregion
 
-        internal LineFragmentOutput(Func<TextFragment> getTextFragment, Func<double> getWidth, Func<int> startIdx, Func<int> startOrig, string text)
+        internal LineFragmentOutput(Func<TextFragment> getTextFragment, Func<double> getWidth, Func<int> startIdx, Func<int> startRt, Func<int> fullTextIdx, string text)
         {
             _getTextFragment = getTextFragment;
             _getWidth = getWidth;
             _getStartIdx = startIdx;
-            _getStartIdxRt = startOrig;
+            _getStartIdxRt = startRt;
+            _getFullTextIdx = fullTextIdx;
             Text = text;
         }
     }

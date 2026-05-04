@@ -171,8 +171,9 @@ namespace EPPlus.Fonts.OpenType.Integration
                         data = new LineFragmentOutput(
                            () => { return _originalFragments[idx]; },
                            () => { return lf.Width; },
-                           () => { return lf.StartIdx; }, 
-                           () => { return lf.StartRt;},
+                           () => { return lf.StartIdx; },
+                           () => { return lf.StartRt; },
+                           () => { return lf.StartOriginal; },
                            lines[i].GetLineFragmentText(lf)
                            );
                     }

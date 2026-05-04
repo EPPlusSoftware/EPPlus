@@ -721,7 +721,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var wrappedLinesPara = paragraph.Wrap(FontFolders, 225d);
 
-            wrappedLines.SequenceEqual(wrappedLinesPara);
+            Assert.AreEqual(wrappedLines.Count, wrappedLinesPara.Count);
+
+            for (int i = 0; i < wrappedLines.Count; i++)
+            {
+                Assert.AreEqual(wrappedLines[i].Text, wrappedLinesPara[i].Text);
+                Assert.AreEqual(wrappedLines[i].Width, wrappedLinesPara[i].Width);
+            }
         }
 
         [TestMethod]

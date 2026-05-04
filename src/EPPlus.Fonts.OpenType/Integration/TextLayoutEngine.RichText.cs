@@ -198,10 +198,8 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.LineFrag.SpaceWidth = run.SpaceWidth;
 
             int i = 0;
-            while (i < run.Length)
+            while (i < (run.Length+1))
             {
-                state.CharIdxRt = i;
-
                 char c = run.Text[i];
 
                 if (IsLineBreak(c))
@@ -215,6 +213,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                     state.LineStart = -1;
                     continue;
                 }
+
+                state.CharIdxRt = i;
 
                 var cWidth = run.GetCharWidthByIndex(i);
 
@@ -235,6 +235,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 i++;
                 state.CharIdxWithinOriginal++;
+                state.CharIdxRt = i;
             }
 
             if (state.LineFrag.Width > 0)
@@ -275,8 +276,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             int i = 0;
             while (i < len)
             {
-                state.CharIdxRt = i;
-
                 char c = fragment.Text[i];
 
                 if (IsLineBreak(c))
@@ -290,6 +289,8 @@ namespace EPPlus.Fonts.OpenType.Integration
                     state.LineStart = -1;
                     continue;
                 }
+
+                state.CharIdxRt = i;
 
                 state.CurrentLineWidth += charWidths[i];
                 state.CurrentWordWidth += charWidths[i];
@@ -409,6 +410,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //handle line data
                 state.CurrentTextLine.Width = state.CurrentLineWidth - advanceWidth;
                 state.CurrentTextLine.Text = line;
+                //state.CurrentTextLine.
 
                 //Add the char that went over max to the next line
                 state.CurrentLineWidth = 0;
