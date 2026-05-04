@@ -156,7 +156,58 @@ namespace EPPlus.Fonts.OpenType.Integration
         StringBuilder lineBuilder,
         WrapStateRichText state)
         {
+            state.CharIdxRt = 0;
+            state.CharIdxWithinOriginal = run.FullTextStart;
 
+            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
+            state.LineFrag.SpaceWidth = run.SpaceWidth;
+
+            int i = 0;
+            while (i < run.Length)
+            {
+                state.CharIdxRt = i;
+
+                char c = run.Text[i];
+
+                if (IsLineBreak(c))
+                {
+                    HandleLineBreak(lineBuilder, state);
+                    SkipLineBreakChars(run.Text, ref i);
+
+                    state.CurrentLineWidth = 0;
+                    state.CurrentWordWidth = 0;
+                    state.WordStart = -1;
+                    state.LineStart = -1;
+                    continue;
+                }
+
+                var cWidth = run.GetCharWidthByIndex(i);
+
+                state.CurrentLineWidth += cWidth;
+                state.CurrentWordWidth += cWidth;
+                state.LineFrag.Width += cWidth;
+
+                lineBuilder.Append(c);
+
+                if (c == ' ')
+                {
+                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
+                }
+
+                if (state.CurrentLineWidth > maxWidthPoints)
+                {
+                    WrapCurrentLine(lineBuilder, state, maxWidthPoints, cWidth);
+                }
+                i++;
+                state.CharIdxWithinOriginal++;
+            }
+
+            if (state.LineFrag.Width > 0)
+            {
+                state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
+            }
+
+            state.CurrentFragmentIdx++;
         }
 
         private void ProcessFragment(

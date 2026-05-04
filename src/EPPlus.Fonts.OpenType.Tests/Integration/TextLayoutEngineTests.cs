@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -681,6 +682,42 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        public void TestParagraphs()
+        {
+
+            List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };
+            var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new List<MeasurementFont>() { font, font2 };
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var paragraph = new TextParagraph(fragments, FontFolders);
+
+            var styleRuns = paragraph.GetTextOfAllTextRuns();
+
+            Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
+            Assert.AreEqual(lstOfRichText[1], styleRuns[1]);
+        }
+
+        [TestMethod]
         public void EnsureRTCharIdxBecomesCorrectWhenBreaking()
         {
             List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };
@@ -707,6 +744,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
+            var paragraph = new TextParagraph(fragments, FontFolders);
 
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);

@@ -7,7 +7,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
     /// <summary>
     /// A list of rich-text fragments with relation to eachother is a paragraph
     /// </summary>
-    internal class TextParagraph
+    public class TextParagraph
     {
         /// <summary>
         /// The Unalatered input fragments
@@ -16,7 +16,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         //The text of the entire paragraph
         //regardless of linebreaking or style runs
         string FullText;
-        List<CharInfo> AllChars;
+        List<CharInfo> AllChars = new List<CharInfo>();
         List<int> SeparatorIndicies = new List<int>();
         List<int> ParagraphSeparatorIndicies = new List<int>();
         List<SubParagraph> SubParagraphs = new List<SubParagraph>();
@@ -25,7 +25,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
         TextLineCollection WrappedLineCollection;
 
-        internal TextParagraph(List<TextFragment> fragments, IEnumerable<string> FontDirectories)
+        public TextParagraph(List<TextFragment> fragments, IEnumerable<string> FontDirectories)
         {
             InputFragments = fragments;
             //Extract basic info about the entire paragraph
@@ -60,7 +60,6 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 //var currShapedText = currentShaper.ShapeLight(fragment.Text);
 
                 int spanIndex = 0;
-                fragmentIdx++;
                 foreach (var c in fragment.Text)
                 {
                     var currCharInfo = new CharInfo(allCharIdx, fragmentIdx, spanIndex);
@@ -75,6 +74,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     allCharIdx++;
                 }
                 FullText += fragment.Text;
+                fragmentIdx++;
             }
             FullTextLength = allCharIdx;
         }
@@ -104,35 +104,37 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// </summary>
         void Itemization()
         {
-            var styleRunStartIdx = SubParagraphs[0].FullTextStart;
-            var currIdx = styleRunStartIdx;
+            var subParagraphStartIdx = SubParagraphs[0].FullTextStart;
+            var currIdx = subParagraphStartIdx;
             var currFragIdx = AllChars[0].Fragment;
+            var lastRunIdx = 0;
 
             for (int i = 0; i < SubParagraphs.Count; i++)
             {
-                styleRunStartIdx = SubParagraphs[i].FullTextStart;
-                currIdx = styleRunStartIdx;
+                subParagraphStartIdx = SubParagraphs[i].FullTextStart;
+                currIdx = subParagraphStartIdx;
                 currFragIdx = AllChars[i].Fragment;
 
                 for (int j = 0; j < SubParagraphs[i].Length; j++)
                 {
-                    currIdx += j;
+                    currIdx = subParagraphStartIdx + j;
                     if (AllChars[currIdx].Fragment != currFragIdx)
                     {
                         //We have moved one beyond the last char to apply the given style.
                         //Therefore -1 (unless it is on the very first idx)
-                        var styleRun = new StyleRun(currFragIdx, styleRunStartIdx, Math.Max(currIdx -1, 1), GetFullText, GetSection);
+                        var styleRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx -1, 1), GetFullText, GetSection);
                         StyleRuns.Add(styleRun);
                         //TODO: Technically this should not get its own list it should refer back here
                         SubParagraphs[i].AddStyleRun(styleRun);
-                        styleRunStartIdx = currIdx;
+                        currFragIdx = AllChars[currIdx].Fragment;
+                        lastRunIdx = currIdx;
                     }
                 }
             }
 
-            var LastRun = new StyleRun(currFragIdx, styleRunStartIdx, Math.Max(currIdx - 1, 1), GetFullText, GetSection);
+            var LastRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx, 1), GetFullText, GetSection);
             StyleRuns.Add(LastRun);
-            styleRunStartIdx = currIdx;
+            SubParagraphs[SubParagraphs.Count -1].AddStyleRun(LastRun);
         }
 
         /// <summary>
@@ -151,7 +153,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
                     double[] charWidths = new double[styleRun.Length];
                     shapedGlyphs.FillCharWidths(inputFrag.Font.Size, charWidths, styleRun.Length);
-                    styleRun.SetCharWidths(charWidths);
+                    var spaceWidth = shaper.Shape(" ").GetWidthInPoints(inputFrag.Font.Size);
+                    styleRun.SetCharWidths(charWidths, spaceWidth);
                 }
                 else
                 {
@@ -159,13 +162,14 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 }
             }
 
-            var lastFragment = InputFragments[InputFragments.Count];
-            var lastRun = StyleRuns[StyleRuns.Count];
+            var lastFragment = InputFragments[InputFragments.Count-1];
+            var lastRun = StyleRuns[StyleRuns.Count-1];
             var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font);
-            var lastShapedGlyphs = lastShaper.ShapeLight(StyleRuns[StyleRuns.Count].Text);
+            var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
             double[] lastCharWidths = new double[lastRun.Length];
             lastShapedGlyphs.FillCharWidths(lastFragment.Font.Size, lastCharWidths, lastRun.Length);
-            lastRun.SetCharWidths(lastCharWidths);
+            var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints(lastFragment.Font.Size);
+            lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
         }
         /// <summary>
         /// Wrapping/line breaking
@@ -190,6 +194,16 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         string GetFullText()
         {
             return FullText;
+        }
+
+        public List<string> GetTextOfAllTextRuns()
+        {
+            List<string> runs = new List<string>();
+            foreach (var run in StyleRuns)
+            {
+                runs.Add(run.Text);
+            }
+            return runs;
         }
 
         List<CharInfo> GetCharInfoOfStyleRun(StyleRun run)

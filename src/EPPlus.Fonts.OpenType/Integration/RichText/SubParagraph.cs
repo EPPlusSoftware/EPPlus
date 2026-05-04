@@ -7,7 +7,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
     internal class SubParagraph : TextSection
     {
-        private List<StyleRun> _styleRuns;
+        private List<StyleRun> _styleRuns = new List<StyleRun>();
         internal SubParagraph(int startIdx, int endIndex, Func<string> getFullText, Func<int, int, string> getText) : base(startIdx, endIndex, getFullText, getText)
         {
         }
