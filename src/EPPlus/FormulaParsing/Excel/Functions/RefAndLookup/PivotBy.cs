@@ -450,11 +450,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             string.Join("\u001F", parts.Select(p => p?.ToString()?.ToLowerInvariant() ?? string.Empty).ToArray());
 
         private InMemoryRange RenderPivot(
-     List<LeafWithPath> rowLeaves,
-     List<LeafWithPath> colLeaves,
-     Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-     PivotByArgs args,
-     ParsingContext context)
+    List<LeafWithPath> rowLeaves,
+    List<LeafWithPath> colLeaves,
+    Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+    PivotByArgs args,
+    ParsingContext context)
         {
             int nRowKeyCols = args.RowFields.Size.NumberOfCols;
             int nColKeyRows = args.ColFields.Size.NumberOfCols;
@@ -467,21 +467,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             bool rowTotalAtTop = args.RowTotalDepth < 0;
             bool colTotalAtLeft = args.ColTotalDepth < 0;
             int colSubtotalDepth = Math.Abs(args.ColTotalDepth);
+            bool showColSubtotals = colSubtotalDepth > 1;
 
             var resolvedHeaders = ResolveHeaders(args.Headers, args.Values);
-            bool showHeaders = resolvedHeaders == FieldHeaders.YesAndShow
-                              || resolvedHeaders == FieldHeaders.NoButGenerate;
-            bool addFunctionHeaders = args.Functions.Count > 1;
-            int nFunctions = args.Functions.Count;
-
-            bool showColSubtotals = colSubtotalDepth > 1;
+            bool showFieldHeaders = resolvedHeaders == FieldHeaders.YesAndShow;
+            int fieldHeaderRows = showFieldHeaders ? 1 : 0;
 
             // Gruppera kolumnlöv per översta nyckelgrupp (nivå 0)
             var colGroups = colLeaves
                 .GroupBy(l => l.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty)
                 .ToList();
 
-            // Bygg ordnad lista av kolumner – löv först, subtotal sist i varje grupp
+            // Bygg ordnad lista av kolumner
             var colEntries = new List<ColEntry>();
             foreach (var group in colGroups)
             {
@@ -493,63 +490,71 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
 
             int nDataCols = colEntries.Count;
-            int totalRows = nColKeyRows + nRowLeaves + (showRowTotal ? 1 : 0);
+            int totalRows = fieldHeaderRows + nColKeyRows + nRowLeaves + (showRowTotal ? 1 : 0);
             int totalCols = nRowKeyCols + nDataCols + (showColTotal ? 1 : 0);
 
             var result = new InMemoryRange(totalRows, (short)totalCols);
 
             int grandTotalCol = colTotalAtLeft ? nRowKeyCols : nRowKeyCols + nDataCols;
-            int grandTotalRow = rowTotalAtTop ? nColKeyRows : nColKeyRows + nRowLeaves;
-            int dataRowStart = nColKeyRows + (rowTotalAtTop ? 1 : 0);
+            int grandTotalRow = fieldHeaderRows + (rowTotalAtTop ? nColKeyRows : nColKeyRows + nRowLeaves);
+            int dataRowStart = fieldHeaderRows + nColKeyRows + (rowTotalAtTop ? 1 : 0);
             int colOffset = colTotalAtLeft ? 1 : 0;
 
-
-
-
             // --- Rubrikrader ---
+            if (showFieldHeaders)
+            {
+                var colFieldCols = args.RowFields.Size.NumberOfCols;
+                for (int i = 0; i < colFieldCols; i++)
+                {
+                    var rowFieldName = args.ColFields.GetOffset(0, i);
+                    result.SetValue(0, nRowKeyCols + colOffset + i, rowFieldName);
+                }                
+            }
             for (int level = 0; level < nColKeyRows; level++)
             {
-                if (addFunctionHeaders)
-                {
-                    var functionHeaders = ResolveFunctionHeaders(args);
-                    if (args.FunctionLayout == FunctionLayout.Horizontal)
-                    {
-
-                        for (int c = 0; c < nFunctions; c++)
-                            result.SetValue(level, c + 1, functionHeaders[c]);
-                        //r++;
-                    }
-                }
-
+                int outputLevel = fieldHeaderRows + level;
                 int col = nRowKeyCols + colOffset;
                 foreach (var entry in colEntries)
                 {
                     if (entry.IsSubtotal)
-                        result.SetValue(level, col, level == 0 ? entry.GroupLeaves[0].Path[0] : (object)string.Empty);
+                        result.SetValue(outputLevel, col, level == 0 ? entry.GroupLeaves[0].Path[0] : (object)string.Empty);
                     else
                     {
                         var val = level < entry.Leaf.Path.Length ? entry.Leaf.Path[level] : null;
-                        result.SetValue(level, col, val);
+                        result.SetValue(outputLevel, col, val);
                     }
                     col++;
                 }
 
-                string colTotalLabel = Math.Abs(args.ColTotalDepth) > 1 ?  "Grand Total" : "Total";
+                string colTotalLabel = Math.Abs(args.ColTotalDepth) > 1 ? "Grand Total" : "Total";
                 if (showColTotal)
-                    result.SetValue(level, grandTotalCol, level == 0 ? colTotalLabel : string.Empty);
+                    result.SetValue(outputLevel, grandTotalCol, level == 0 ? colTotalLabel : string.Empty);
             }
 
             // --- Grand total-rad överst ---
             if (rowTotalAtTop && showRowTotal)
-                WriteGrandTotalRow(result, nColKeyRows, colEntries, colLeaves, pivotMap, args, context,
+                WriteGrandTotalRow(result, fieldHeaderRows + nColKeyRows, colEntries, colLeaves, pivotMap, args, context,
                                    nRowKeyCols, colOffset, grandTotalCol, showColTotal);
 
             // --- Datarader ---
             for (int ri = 0; ri < nRowLeaves; ri++)
             {
+
                 int outputRow = dataRowStart + ri;
                 var rowPath = rowLeaves[ri].Path;
                 var rowLeaf = rowLeaves[ri].Leaf;
+
+                if (showFieldHeaders)
+                {
+                    var rowFieldCols = args.RowFields.Size.NumberOfCols;
+                    for (int i = 0; i < rowFieldCols; i++)
+                    {
+                        var rowFieldName = args.RowFields.GetOffset(0, i);
+                        result.SetValue(outputRow, i, rowFieldName);
+                    }
+                    outputRow++;
+                    // Sätt values på alla 
+                }
 
                 for (int k = 0; k < rowPath.Length; k++)
                     result.SetValue(outputRow, k, rowPath[k]);

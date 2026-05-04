@@ -324,11 +324,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:B3,D1:D3, _xleta.SUM, 3)";
                 s.Calculate();
 
-                Assert.AreEqual("X", s.Cells["F1"].Value);
+                Assert.AreEqual("X", s.Cells["F2"].Value);
                 Assert.AreEqual("A", s.Cells["E3"].Value);
+                Assert.AreEqual("A", s.Cells["E4"].Value);
             }
         }
-            [TestMethod]
+           
+        [TestMethod]
         public void PivotByCustomLambdaWithHstack()
         {
             using (var package = new ExcelPackage())
