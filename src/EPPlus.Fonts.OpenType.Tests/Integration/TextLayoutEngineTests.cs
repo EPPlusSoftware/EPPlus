@@ -710,11 +710,18 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             }
 
             var paragraph = new TextParagraph(fragments, FontFolders);
-
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
             Assert.AreEqual(lstOfRichText[1], styleRuns[1]);
+
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
+            var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
+
+            var wrappedLinesPara = paragraph.Wrap(FontFolders, 225d);
+
+            wrappedLines.SequenceEqual(wrappedLinesPara);
         }
 
         [TestMethod]

@@ -177,7 +177,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <param name="fontDirectories"></param>
         /// <param name="maxWidth"></param>
         /// <returns></returns>
-        internal TextLineCollection Wrap(IEnumerable<string> fontDirectories, double maxWidth)
+        public TextLineCollection Wrap(IEnumerable<string> fontDirectories, double maxWidth)
         {
             var layoutEngine = OpenTypeFonts.GetTextLayoutEngineForFont(InputFragments[0].Font, fontDirectories);
             var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
