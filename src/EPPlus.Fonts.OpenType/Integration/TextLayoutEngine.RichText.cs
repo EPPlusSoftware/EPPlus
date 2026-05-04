@@ -125,15 +125,18 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 double largestAscent = 0;
                 double largestDescent = 0;
+                double largestFontSize = 0;
                 foreach (var lineFragment in line.InternalLineFragments)
                 {
                     var frag = fragments[lineFragment.FragmentIndex];
                     if (frag == null) continue;
                     largestAscent = Math.Max(frag.AscentPoints, largestAscent);
                     largestDescent = Math.Max(frag.DescentPoints, largestDescent);
+                    largestFontSize = Math.Max(largestFontSize, frag.Font.Size);
                 }
                 line.LargestAscent = largestAscent;
                 line.LargestDescent = largestDescent;
+                line.LargestFontSize = largestFontSize;
 
                 line.FinalizeLineFragments(fragments);
             }
@@ -152,7 +155,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             StringBuilder lineBuilder,
             WrapStateRichText state)
         {
-            state.charsHandled = 0;
+            state.CharIdxRt = 0;
             var shaper = GetShaperForFont(fragment.Font);
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
@@ -170,16 +173,14 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
 
             var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size);
-            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.charsHandled)
-            {
-                SpaceWidth = spaceWidth,
-                StartIdx = lineBuilder.Length,
-                FragmentIndex = state.CurrentFragmentIdx
-            };
+            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
+            state.LineFrag.SpaceWidth = spaceWidth;
 
             int i = 0;
             while (i < len)
             {
+                state.CharIdxRt = i;
+
                 char c = fragment.Text[i];
 
                 if (IsLineBreak(c))
@@ -203,7 +204,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 if (c == ' ')
                 {
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
-                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
 
                 if (state.CurrentLineWidth > maxWidthPoints)
@@ -211,7 +211,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     WrapCurrentLine(lineBuilder, state, maxWidthPoints, charWidths[i]);
                 }
                 i++;
-                state.charsHandled++;
+                state.CharIdxWithinOriginal++;
             }
 
             if (state.LineFrag.Width > 0)

@@ -172,7 +172,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                            () => { return _originalFragments[idx]; },
                            () => { return lf.Width; },
                            () => { return lf.StartIdx; }, 
-                           () => { return lf.StartIdxOriginal;},
+                           () => { return lf.StartRt;},
                            lines[i].GetLineFragmentText(lf)
                            );
                     }

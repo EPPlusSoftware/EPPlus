@@ -15,7 +15,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// Char idx within the whole input
         /// </summary>
-        public int IdxWithinOriginal { get { return _getStartIdxOrig(); } }
+        public int StartRtIdx { get { return _getStartIdxRt(); } }
         /// <summary>
         /// Char idx within the line
         /// </summary>
@@ -47,7 +47,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         Func<TextFragment> _getTextFragment;
         Func<double> _getWidth;
         Func<int> _getStartIdx;
-        Func<int> _getStartIdxOrig;
+        Func<int> _getStartIdxRt;
         #endregion
 
         internal LineFragmentOutput(Func<TextFragment> getTextFragment, Func<double> getWidth, Func<int> startIdx, Func<int> startOrig, string text)
@@ -55,7 +55,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             _getTextFragment = getTextFragment;
             _getWidth = getWidth;
             _getStartIdx = startIdx;
-            _getStartIdxOrig = startOrig;
+            _getStartIdxRt = startOrig;
             Text = text;
         }
     }
