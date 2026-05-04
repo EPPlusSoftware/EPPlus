@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
-    internal class StyleRun : TextSection
+    public class StyleRun : TextSection
     {
         internal int FragmentIndex { get; private set; }
         internal double SpaceWidth { get; private set; }

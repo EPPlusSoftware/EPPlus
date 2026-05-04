@@ -180,7 +180,30 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         public TextLineCollection Wrap(IEnumerable<string> fontDirectories, double maxWidth)
         {
             var layoutEngine = OpenTypeFonts.GetTextLayoutEngineForFont(InputFragments[0].Font, fontDirectories);
-            var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
+            var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
+
+            //var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
+            //Calculate ascent and descent so later application can handle line-spacing
+            //This could be optimized by doing it during ProcessFragment but that is way bulkier/unclear
+            foreach (var line in wrappedLines)
+            {
+                double largestAscent = 0;
+                double largestDescent = 0;
+                double largestFontSize = 0;
+                foreach (var lineFragment in line.InternalLineFragments)
+                {
+                    var frag = InputFragments[lineFragment.FragmentIndex];
+                    if (frag == null) continue;
+                    largestAscent = Math.Max(frag.AscentPoints, largestAscent);
+                    largestDescent = Math.Max(frag.DescentPoints, largestDescent);
+                    largestFontSize = Math.Max(largestFontSize, frag.Font.Size);
+                }
+                line.LargestAscent = largestAscent;
+                line.LargestDescent = largestDescent;
+                line.LargestFontSize = largestFontSize;
+
+                line.FinalizeLineFragments(InputFragments);
+            }
             WrappedLineCollection = new TextLineCollection(wrappedLines, InputFragments);
             return WrappedLineCollection;
         }

@@ -150,6 +150,41 @@ namespace EPPlus.Fonts.OpenType.Integration
             return state.Lines;
         }
 
+        public List<TextLineSimple> WrapRichTextRuns(
+            List<StyleRun> fragments,
+            double maxWidthPoints)
+        {
+            if (fragments == null || fragments.Count == 0)
+            {
+                return new List<TextLineSimple>();
+            }
+
+            _lineListBuffer.Clear();
+
+            var lineBuilder = new StringBuilder(512);
+            var state = new WrapStateRichText(0);
+            state.WordStart = -1;
+            state.LineStart = -1;
+
+            foreach (var fragment in fragments)
+            {
+                if (string.IsNullOrEmpty(fragment.Text)) continue;
+
+                ProcessStyleRun(fragment, maxWidthPoints, lineBuilder, state);
+            }
+
+            FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
+            state.CurrentTextLine.Width = state.CurrentLineWidth;
+            state.CurrentTextLine.Text = lineBuilder.ToString();
+            state.EndCurrentTextLine();
+
+            if (_lineListBuffer.Count == 0)
+            {
+                _lineListBuffer.Add(string.Empty);
+            }
+
+            return state.Lines;
+        }
         private void ProcessStyleRun(
         StyleRun run,
         double maxWidthPoints,

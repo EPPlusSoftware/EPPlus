@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
-    internal class TextSection
+    public class TextSection
     {
         int _startIdx;
         int _endIdx;
