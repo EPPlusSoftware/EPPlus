@@ -210,7 +210,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void SetPositionBasic(BoundingBox point, eLabelPosition basicPosition)
         {
-            switch (_labelPosition)
+            switch (basicPosition)
             {
                 //case eLabelPosition.Center:
                 //    Bounds.Left = dataLabelCenter.X;

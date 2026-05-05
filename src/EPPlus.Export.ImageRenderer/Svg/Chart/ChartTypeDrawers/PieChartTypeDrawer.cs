@@ -102,7 +102,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             var slicePos = Slices[j].GetInnerGroupTransformOrigin();
                             BoundingBox dp = new BoundingBox(slicePos.X, slicePos.Y, 0, 0);
 
-                            serieDataLabels[i].SetParentShape(Slices[j].Bounds, dp, j);
+                            serieDataLabels[i].SetParentShape(Slices[j].ExtremePoints, dp, j);
                         }
                     }
                 }

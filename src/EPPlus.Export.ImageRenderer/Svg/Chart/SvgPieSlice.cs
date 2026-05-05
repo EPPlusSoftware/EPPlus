@@ -5,6 +5,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -53,8 +54,82 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         SvgRenderPathItem _slicePath;
 
-        void CalculateWidthHeight()
+        bool ExistWithinRange(double target, double min, double max)
         {
+            if(min < target && target < max)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal BoundingBox ExtremePoints { get; set; }
+
+        void CalculateWidthHeight(double prevSliceDegrees)
+        {
+            var endPointDegrees = prevSliceDegrees + Degrees;
+            if(endPointDegrees < 0)
+            {
+                endPointDegrees = 360 + endPointDegrees;
+            }
+
+            var startPointDegrees = prevSliceDegrees;
+            if(startPointDegrees < 0)
+            {
+                startPointDegrees = 360 + startPointDegrees;
+            }
+
+            var circleSectorDegrees = endPointDegrees - startPointDegrees;
+
+            double maxX;
+            double maxY;
+            double minY;
+            double minX;
+
+            if (ExistWithinRange(90, startPointDegrees, endPointDegrees))
+            {
+                maxY = _circleCenter.Top + _radius;
+            }
+            else
+            {
+                maxY = Math.Max(_startPoint.Top, _endPoint.Top);
+            }
+
+            if (ExistWithinRange(180, startPointDegrees, endPointDegrees))
+            {
+                minX = _circleCenter.Left - _radius;
+            }
+            else
+            {
+                minX = Math.Min(_startPoint.Left, _endPoint.Left);
+            }
+
+            if(ExistWithinRange(270, startPointDegrees, endPointDegrees))
+            {
+                minY = _circleCenter.Top - _radius;
+            }
+            else
+            {
+                minY = Math.Min(_startPoint.Top, _endPoint.Top);
+            }
+
+            if (ExistWithinRange(360, startPointDegrees, endPointDegrees) || ExistWithinRange(0, startPointDegrees, endPointDegrees))
+            {
+                maxX = _circleCenter.Left + _radius;
+            }
+            else
+            {
+                maxX = Math.Max(_startPoint.Left, _endPoint.Left);
+            }
+
+
+            ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
+            ExtremePoints.Parent = Bounds;
+            //if(Degrees > 0)
+            //{
+
+            //}
+            //if(Degrees)
             //double xMax = Math.Max(_startPoint.Left, _endPoint.Left);
             //xMax = Math.Max(xMax, _midPoint.Left);
 
@@ -90,7 +165,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //This is to ensure that point never leaves the parent container
             _innerGroup.TransformOrigin = GetMidPointLocal();
 
-
+            CalculateWidthHeight(prevSliceDegrees);
         }
 
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
@@ -119,10 +194,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
+
             //Visualize all points
             //AddDebugLines(moveCenter);
 
             _slicePath.Commands.Add(end);
+
         }
 
         /// <summary>
