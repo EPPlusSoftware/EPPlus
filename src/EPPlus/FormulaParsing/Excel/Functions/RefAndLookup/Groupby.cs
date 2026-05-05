@@ -165,7 +165,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if(addFunctionHeaders)
             {
-                var functionHeaders = ResolveFunctionHeaders(args);
+                var functionHeaders = ResolveFunctionHeaders(args.Functions);
                 if(args.FunctionLayout == FunctionLayout.Horizontal)
                 {
                     for (int c = 0; c < nFunctions; c++)
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     int depth)
         {
             var functionHeaders = args.FunctionLayout == FunctionLayout.Vertical
-                ? ResolveFunctionHeaders(args)
+                ? ResolveFunctionHeaders(args.Functions)
                 : null;
 
             foreach (var level in levels)
@@ -291,7 +291,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private int WriteSubtotal(InMemoryRange result, int r, GroupLevel level, int nKeyCols, int nValCols, GroupByBaseArgs args)
         {
-            var functionHeaders = ResolveFunctionHeaders(args);
+            var functionHeaders = ResolveFunctionHeaders(args.Functions);
             if (args.FunctionLayout == FunctionLayout.Vertical)
             {
                 for (int f = 0; f < args.Functions.Count; f++)
@@ -320,7 +320,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private int WriteGrandTotal(InMemoryRange result, int r, List<GroupLevel> levels, string label, int nKeyCols, int nValCols, GroupByBaseArgs args, ParsingContext context)
         {
-            var functionHeaders = ResolveFunctionHeaders(args);
+            var functionHeaders = ResolveFunctionHeaders(args.Functions);
             int nAllValCols = args.AllValuesInOrder.Count > 0 ? args.AllValuesInOrder[0].Length : 1;
 
             if (args.FunctionLayout == FunctionLayout.Vertical)

@@ -458,9 +458,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             int nRowKeyCols = args.RowFields.Size.NumberOfCols;
             int nColKeyRows = args.ColFields.Size.NumberOfCols;
-            int nColLeaves = colLeaves.Count;
             int nRowLeaves = rowLeaves.Count;
-            int nValCols = args.Values.Size.NumberOfCols;
+            int nFunctions = args.Functions.Count;
+            bool isVStack = args.FunctionLayout == FunctionLayout.Vertical;
+            bool isHStack = args.FunctionLayout == FunctionLayout.Horizontal;
+            bool multipleFunctions = isVStack || isHStack;
 
             bool showRowTotal = args.RowTotalDepth != TotalDepthNoTotals;
             bool showColTotal = args.ColTotalDepth != TotalDepthNoTotals;
@@ -472,13 +474,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var resolvedHeaders = ResolveHeaders(args.Headers, args.Values);
             bool showFieldHeaders = resolvedHeaders == FieldHeaders.YesAndShow;
             int fieldHeaderRows = showFieldHeaders ? 1 : 0;
+            int headerDataRows = showFieldHeaders ? 1 : 0; 
+            int functionHeaderRows = isHStack ? 1 : 0;
+            int functionNameCol = isVStack ? nRowKeyCols : -1; // extra kolumn för VSTACK
+            int functionColOffset = isVStack ? 1 : 0;
 
-            // Gruppera kolumnlöv per översta nyckelgrupp (nivå 0)
             var colGroups = colLeaves
                 .GroupBy(l => l.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty)
                 .ToList();
 
-            // Bygg ordnad lista av kolumner
             var colEntries = new List<ColEntry>();
             foreach (var group in colGroups)
             {
@@ -489,79 +493,290 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     colEntries.Add(new ColEntry { IsSubtotal = true, GroupKey = group.Key, GroupLeaves = groupLeaves });
             }
 
-            int nDataCols = colEntries.Count;
-            int totalRows = fieldHeaderRows + nColKeyRows + nRowLeaves + (showRowTotal ? 1 : 0);
-            int totalCols = nRowKeyCols + nDataCols + (showColTotal ? 1 : 0);
+            // Antal datakolumner per entry
+            int colsPerEntry = isHStack ? nFunctions : 1;
+            int nDataCols = colEntries.Count * colsPerEntry;
+            int nTotalCols = showColTotal ? colsPerEntry : 0;
+
+            // Totalt antal kolumner
+            int totalCols = nRowKeyCols + functionColOffset + nDataCols + nTotalCols;
+
+            // Totalt antal rader
+            int rowsPerLeaf = isVStack ? nFunctions : 1;
+            int rowsPerTotal = isVStack ? nFunctions : 1;
+            int totalRows = fieldHeaderRows + nColKeyRows + functionHeaderRows + headerDataRows
+                          + nRowLeaves * rowsPerLeaf
+                          + (showRowTotal ? rowsPerTotal : 0);
+
+            int dataRowStart = fieldHeaderRows + nColKeyRows + functionHeaderRows + headerDataRows
+                             + (rowTotalAtTop ? rowsPerTotal : 0);
+            int grandTotalRow = fieldHeaderRows + nColKeyRows + functionHeaderRows + headerDataRows
+                              + (rowTotalAtTop ? 0 : nRowLeaves * rowsPerLeaf);
 
             var result = new InMemoryRange(totalRows, (short)totalCols);
 
-            int grandTotalCol = colTotalAtLeft ? nRowKeyCols : nRowKeyCols + nDataCols;
-            int grandTotalRow = fieldHeaderRows + (rowTotalAtTop ? nColKeyRows : nColKeyRows + nRowLeaves);
-            int dataRowStart = fieldHeaderRows + nColKeyRows + (rowTotalAtTop ? 1 : 0);
-            int colOffset = colTotalAtLeft ? 1 : 0;
+            int dataColStart = nRowKeyCols + functionColOffset;
+            int grandTotalCol = colTotalAtLeft ? dataColStart : dataColStart + nDataCols;
+            int colOffset = colTotalAtLeft ? colsPerEntry : 0;
 
-            // --- Rubrikrader ---
+            // --- Fältnamnrad ---
             if (showFieldHeaders)
             {
-                var colFieldCols = args.RowFields.Size.NumberOfCols;
-                for (int i = 0; i < colFieldCols; i++)
-                {
-                    var rowFieldName = args.ColFields.GetOffset(0, i);
-                    result.SetValue(0, nRowKeyCols + colOffset + i, rowFieldName);
-                }                
+                for (int i = 0; i < args.ColFields.Size.NumberOfCols; i++)
+                    result.SetValue(0, dataColStart + colOffset + i, args.ColFields.GetOffset(0, i));
             }
+
+            // --- Rubrikrader ---
             for (int level = 0; level < nColKeyRows; level++)
             {
                 int outputLevel = fieldHeaderRows + level;
-                int col = nRowKeyCols + colOffset;
+                int col = dataColStart + colOffset;
                 foreach (var entry in colEntries)
                 {
-                    if (entry.IsSubtotal)
-                        result.SetValue(outputLevel, col, level == 0 ? entry.GroupLeaves[0].Path[0] : (object)string.Empty);
-                    else
+                    var val = entry.IsSubtotal
+                        ? (level == 0 ? entry.GroupLeaves[0].Path[0] : (object)string.Empty)
+                        : (level < entry.Leaf.Path.Length ? entry.Leaf.Path[level] : null);
+
+                    for (int f = 0; f < colsPerEntry; f++)
                     {
-                        var val = level < entry.Leaf.Path.Length ? entry.Leaf.Path[level] : null;
-                        result.SetValue(outputLevel, col, val);
+                        result.SetValue(outputLevel, col, f == 0 ? val : string.Empty);
+                        col++;
                     }
-                    col++;
                 }
 
-                string colTotalLabel = Math.Abs(args.ColTotalDepth) > 1 ? "Grand Total" : "Total";
                 if (showColTotal)
-                    result.SetValue(outputLevel, grandTotalCol, level == 0 ? colTotalLabel : string.Empty);
+                {
+                    string colTotalLabel = Math.Abs(args.ColTotalDepth) > 1 ? "Grand Total" : "Total";
+                    for (int f = 0; f < colsPerEntry; f++)
+                    {
+                        result.SetValue(outputLevel, col, f == 0 && level == 0 ? colTotalLabel : string.Empty);
+                        col++;
+                    }
+                }
+            }
+
+            // --- HSTACK: Funktionsnamnsrad ---
+            if (isHStack)
+            {
+                var functionNames = ResolveFunctionHeaders(args.Functions);
+                int functionHeaderRow = fieldHeaderRows + nColKeyRows;
+                int col = dataColStart + colOffset;
+                foreach (var entry in colEntries)
+                {
+                    foreach (var name in functionNames)
+                    {
+                        result.SetValue(functionHeaderRow, col, name);
+                        col++;
+                    }
+                }
+                if (showColTotal)
+                {
+                    foreach (var name in functionNames)
+                    {
+                        result.SetValue(functionHeaderRow, col, name);
+                        col++;
+                    }
+                }
+            }
+
+            // --- Header-datarad ---
+            if (showFieldHeaders)
+            {
+                int headerDataRow = fieldHeaderRows + nColKeyRows + functionHeaderRows;
+
+                for (int i = 0; i < nRowKeyCols; i++)
+                    result.SetValue(headerDataRow, i, args.RowFields.GetOffset(0, i));
+
+                var headerValue = args.Values.GetOffset(0, 0);
+                int col = dataColStart + colOffset;
+                foreach (var entry in colEntries)
+                {
+                    for (int fc = 0; fc < colsPerEntry; fc++)
+                    {
+                        if (!entry.IsSubtotal)
+                            result.SetValue(headerDataRow, col, headerValue);
+                        col++;
+                    }
+                }
+
+                if (showColTotal)
+                {
+                    for (int fc = 0; fc < colsPerEntry; fc++)
+                    {
+                        result.SetValue(headerDataRow, col, headerValue);
+                        col++;
+                    }
+                }
             }
 
             // --- Grand total-rad överst ---
             if (rowTotalAtTop && showRowTotal)
-                WriteGrandTotalRow(result, fieldHeaderRows + nColKeyRows, colEntries, colLeaves, pivotMap, args, context,
-                                   nRowKeyCols, colOffset, grandTotalCol, showColTotal);
+                WriteGrandTotalRow(result, fieldHeaderRows + nColKeyRows + functionHeaderRows + headerDataRows,
+                                   colEntries, colLeaves, pivotMap, args, context,
+                                   nRowKeyCols, functionNameCol, dataColStart, colOffset,
+                                   grandTotalCol, showColTotal, colsPerEntry, isVStack);
 
             // --- Datarader ---
             for (int ri = 0; ri < nRowLeaves; ri++)
             {
-
-                int outputRow = dataRowStart + ri;
                 var rowPath = rowLeaves[ri].Path;
                 var rowLeaf = rowLeaves[ri].Leaf;
-
-                if (showFieldHeaders)
-                {
-                    var rowFieldCols = args.RowFields.Size.NumberOfCols;
-                    for (int i = 0; i < rowFieldCols; i++)
-                    {
-                        var rowFieldName = args.RowFields.GetOffset(0, i);
-                        result.SetValue(outputRow, i, rowFieldName);
-                    }
-                    outputRow++;
-                    // Sätt values på alla 
-                }
-
-                for (int k = 0; k < rowPath.Length; k++)
-                    result.SetValue(outputRow, k, rowPath[k]);
-
                 string rowKey = MakePivotKey(rowPath);
+                var functionNames = ResolveFunctionHeaders(args.Functions);
 
-                int col = nRowKeyCols + colOffset;
+                for (int fi = 0; fi < nFunctions; fi++)
+                {
+                    int outputRow = dataRowStart + ri * rowsPerLeaf + fi;
+                    var f = args.Functions[fi];
+
+                    for (int k = 0; k < rowPath.Length; k++)
+                        result.SetValue(outputRow, k, rowPath[k]);
+
+                    if (isVStack)
+                        result.SetValue(outputRow, functionNameCol, functionNames[fi]);
+
+                    int col = dataColStart + colOffset;
+                    foreach (var entry in colEntries)
+                    {
+                        if (entry.IsSubtotal)
+                        {
+                            var groupVals = entry.GroupLeaves
+                                .SelectMany(l =>
+                                {
+                                    var ck = MakePivotKey(l.Path);
+                                    if (pivotMap.TryGetValue(rowKey, out var cm) && cm.TryGetValue(ck, out var cv))
+                                        return cv;
+                                    return Enumerable.Empty<object[]>();
+                                }).ToList();
+
+                            if (isHStack)
+                            {
+                                foreach (var func in args.Functions)
+                                {
+                                    object val = groupVals.Count > 0
+                                        ? Aggregate(func, groupVals, context,
+                                            func.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
+                                        : null;
+                                    result.SetValue(outputRow, col++, val);
+                                }
+                            }
+                            else
+                            {
+                                object val = groupVals.Count > 0
+                                    ? Aggregate(f, groupVals, context,
+                                        f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
+                                    : null;
+                                result.SetValue(outputRow, col++, val);
+                            }
+                        }
+                        else
+                        {
+                            string colKey = MakePivotKey(entry.Leaf.Path);
+
+                            if (isHStack)
+                            {
+                                foreach (var func in args.Functions)
+                                {
+                                    object aggregated = null;
+                                    if (pivotMap.TryGetValue(rowKey, out var colMap) &&
+                                        colMap.TryGetValue(colKey, out var cellVals))
+                                    {
+                                        var relativeToVals = func.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                            ? ResolveRelativeToValues(args.RelativeTo, entry.Leaf, colLeaves, rowKey, pivotMap, args)
+                                            : args.AllValuesInOrder;
+                                        aggregated = Aggregate(func, cellVals, context, relativeToVals);
+                                    }
+                                    result.SetValue(outputRow, col++, aggregated);
+                                }
+                            }
+                            else
+                            {
+                                object aggregated = null;
+                                if (pivotMap.TryGetValue(rowKey, out var colMap) &&
+                                    colMap.TryGetValue(colKey, out var cellVals))
+                                {
+                                    var relativeToVals = f.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                        ? ResolveRelativeToValues(args.RelativeTo, entry.Leaf, colLeaves, rowKey, pivotMap, args)
+                                        : args.AllValuesInOrder;
+                                    aggregated = Aggregate(f, cellVals, context, relativeToVals);
+                                }
+                                result.SetValue(outputRow, col++, aggregated);
+                            }
+                        }
+                    }
+
+                    if (showColTotal)
+                    {
+                        var rowAllVals = rowLeaf.Rows.SelectMany(r => r.Values).ToList();
+                        if (isHStack)
+                        {
+                            foreach (var func in args.Functions)
+                            {
+                                var relVals = func.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                    ? (args.RelativeTo == RelativeTo.GrandTotals || args.RelativeTo == RelativeTo.ParentRowTotal
+                                        ? args.AllValuesInOrder : rowAllVals)
+                                    : args.AllValuesInOrder;
+                                result.SetValue(outputRow, col++, Aggregate(func, rowAllVals, context, relVals));
+                            }
+                        }
+                        else
+                        {
+                            var relVals = f.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                ? (args.RelativeTo == RelativeTo.GrandTotals || args.RelativeTo == RelativeTo.ParentRowTotal
+                                    ? args.AllValuesInOrder : rowAllVals)
+                                : args.AllValuesInOrder;
+                            result.SetValue(outputRow, col++, Aggregate(f, rowAllVals, context, relVals));
+                        }
+                    }
+
+                    // För HSTACK — bryt efter första iterationen
+                    if (isHStack) break;
+                }
+            }
+
+            // --- Grand total-rad nederst ---
+            if (!rowTotalAtTop && showRowTotal)
+                WriteGrandTotalRow(result, grandTotalRow, colEntries, colLeaves, pivotMap, args, context,
+                                   nRowKeyCols, functionNameCol, dataColStart, colOffset,
+                                   grandTotalCol, showColTotal, colsPerEntry, isVStack);
+
+            return result;
+        }
+
+        private void WriteGrandTotalRow(
+            InMemoryRange result,
+            int startRow,
+            List<ColEntry> colEntries,
+            List<LeafWithPath> colLeaves,
+            Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+            PivotByArgs args,
+            ParsingContext context,
+            int nRowKeyCols,
+            int functionNameCol,
+            int dataColStart,
+            int colOffset,
+            int grandTotalCol,
+            bool showColTotal,
+            int colsPerEntry,
+            bool isVStack)
+        {
+            var functionNames = ResolveFunctionHeaders(args.Functions);
+            int nFunctions = args.Functions.Count;
+            int rowsPerTotal = isVStack ? nFunctions : 1;
+
+            for (int fi = 0; fi < rowsPerTotal; fi++)
+            {
+                int r = startRow + fi;
+                var f = args.Functions[fi];
+
+                result.SetValue(r, 0, "Total");
+                for (int c = 1; c < nRowKeyCols; c++)
+                    result.SetValue(r, c, string.Empty);
+
+                if (isVStack)
+                    result.SetValue(r, functionNameCol, functionNames[fi]);
+
+                int col = dataColStart + colOffset;
                 foreach (var entry in colEntries)
                 {
                     if (entry.IsSubtotal)
@@ -570,132 +785,171 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                             .SelectMany(l =>
                             {
                                 var ck = MakePivotKey(l.Path);
-                                if (pivotMap.TryGetValue(rowKey, out var cm) && cm.TryGetValue(ck, out var cv))
-                                    return cv;
-                                return Enumerable.Empty<object[]>();
-                            })
-                            .ToList();
+                                return pivotMap.Values
+                                    .SelectMany(cm => cm.TryGetValue(ck, out var cv)
+                                        ? cv : Enumerable.Empty<object[]>());
+                            }).ToList();
 
-                        object subtotalVal = null;
-                        if (groupVals.Count > 0)
-                            subtotalVal = Aggregate(args.Function, groupVals, context,
-                                args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
-                        result.SetValue(outputRow, col, subtotalVal);
+                        if (isVStack)
+                        {
+                            object val = groupVals.Count > 0
+                                ? Aggregate(f, groupVals, context,
+                                    f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
+                                : null;
+                            result.SetValue(r, col++, val);
+                        }
+                        else
+                        {
+                            foreach (var func in args.Functions)
+                            {
+                                object val = groupVals.Count > 0
+                                    ? Aggregate(func, groupVals, context,
+                                        func.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
+                                    : null;
+                                result.SetValue(r, col++, val);
+                            }
+                        }
                     }
                     else
                     {
                         string colKey = MakePivotKey(entry.Leaf.Path);
-                        object aggregated = null;
-                        if (pivotMap.TryGetValue(rowKey, out var colMap) &&
-                            colMap.TryGetValue(colKey, out var cellVals))
-                        {
-                            var relativeToVals = args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
-                                ? ResolveRelativeToValues(args.RelativeTo, entry.Leaf, colLeaves, rowKey, pivotMap, args)
-                                : args.AllValuesInOrder;
+                        var allValsForCol = pivotMap.Values
+                            .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+                                ? cv : Enumerable.Empty<object[]>())
+                            .ToList();
 
-                            aggregated = Aggregate(args.Function, cellVals, context, relativeToVals);
+                        if (isVStack)
+                        {
+                            object grandVal = null;
+                            if (allValsForCol.Count > 0)
+                            {
+                                var relativeToVals = f.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                    ? ResolveRelativeToValuesForTotal(args.RelativeTo, entry.Leaf, colLeaves, pivotMap, args)
+                                    : args.AllValuesInOrder;
+                                grandVal = Aggregate(f, allValsForCol, context, relativeToVals);
+                            }
+                            result.SetValue(r, col++, grandVal);
                         }
-                        result.SetValue(outputRow, col, aggregated);
+                        else
+                        {
+                            foreach (var func in args.Functions)
+                            {
+                                object grandVal = null;
+                                if (allValsForCol.Count > 0)
+                                {
+                                    var relativeToVals = func.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                        ? ResolveRelativeToValuesForTotal(args.RelativeTo, entry.Leaf, colLeaves, pivotMap, args)
+                                        : args.AllValuesInOrder;
+                                    grandVal = Aggregate(func, allValsForCol, context, relativeToVals);
+                                }
+                                result.SetValue(r, col++, grandVal);
+                            }
+                        }
                     }
-                    col++;
                 }
 
                 if (showColTotal)
                 {
-                    var rowAllVals = rowLeaf.Rows.SelectMany(r => r.Values).ToList();
-                    var relVals = args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
-                        ? (args.RelativeTo == RelativeTo.GrandTotals || args.RelativeTo == RelativeTo.ParentRowTotal
-                            ? args.AllValuesInOrder
-                            : rowAllVals)
-                        : args.AllValuesInOrder;
-                    var grandTotalVal = Aggregate(args.Function, rowAllVals, context, relVals);
-                    result.SetValue(outputRow, grandTotalCol, grandTotalVal);
-                }
-            }
-
-            // --- Grand total-rad nederst ---
-            if (!rowTotalAtTop && showRowTotal)
-                WriteGrandTotalRow(result, grandTotalRow, colEntries, colLeaves, pivotMap, args, context,
-                                   nRowKeyCols, colOffset, grandTotalCol, showColTotal);
-
-            return result;
-        }
-
-        private void WriteGrandTotalRow(
-    InMemoryRange result,
-    int r,
-    List<ColEntry> colEntries,
-    List<LeafWithPath> colLeaves,
-    Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-    PivotByArgs args,
-    ParsingContext context,
-    int nRowKeyCols,
-    int colOffset,
-    int grandTotalCol,
-    bool showColTotal)
-        {
-            var rowTotalLabel = Math.Abs(args.RowTotalDepth) > 1 ? "Grand Total" : "Total";
-            result.SetValue(r, 0, "Total");
-            for (int c = 1; c < nRowKeyCols; c++)
-                result.SetValue(r, c, string.Empty);
-
-            int col = nRowKeyCols + colOffset;
-            foreach (var entry in colEntries)
-            {
-                if (entry.IsSubtotal)
-                {
-                    var groupVals = entry.GroupLeaves
-                        .SelectMany(l =>
-
-                        {
-                            var ck = MakePivotKey(l.Path);
-                            return pivotMap.Values
-                                .SelectMany(cm => cm.TryGetValue(ck, out var cv)
-                                    ? cv
-                                    : Enumerable.Empty<object[]>());
-                        })
-                        .ToList();
-
-                    object subtotalVal = null;
-                    if (groupVals.Count > 0)
-                        subtotalVal = Aggregate(args.Function, groupVals, context,
-                            args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
-                    result.SetValue(r, col, subtotalVal);
-                }
-                else
-                {
-                    string colKey = MakePivotKey(entry.Leaf.Path);
-                    var allValsForCol = pivotMap.Values
-                        .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
-                            ? cv
-                            : Enumerable.Empty<object[]>())
-                        .ToList();
-
-                    object grandVal = null;
-                    if (allValsForCol.Count > 0)
+                    var allVals = args.AllValuesInOrder.Select(v => new object[] { v[0] }).ToList();
+                    if (isVStack)
                     {
-                        var relativeToVals = args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
-                            ? ResolveRelativeToValuesForTotal(args.RelativeTo, entry.Leaf, colLeaves, pivotMap, args)
-                            : args.AllValuesInOrder;
-
-                        grandVal = Aggregate(args.Function, allValsForCol, context, relativeToVals);
+                        var cornerVal = Aggregate(f, allVals, context,
+                            f.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                ? allVals : args.AllValuesInOrder);
+                        result.SetValue(r, col++, cornerVal);
                     }
-                    result.SetValue(r, col, grandVal);
+                    else
+                    {
+                        foreach (var func in args.Functions)
+                        {
+                            var cornerVal = Aggregate(func, allVals, context,
+                                func.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+                                    ? allVals : args.AllValuesInOrder);
+                            result.SetValue(r, col++, cornerVal);
+                        }
+                    }
                 }
-                col++;
-            }
 
-            if (showColTotal)
-            {
-                var allVals = args.AllValuesInOrder.Select(v => new object[] { v[0] }).ToList();
-                var cornerVal = Aggregate(args.Function, allVals, context,
-                    args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
-                        ? allVals  // dela med sig själv → 1
-                        : args.AllValuesInOrder);
-                result.SetValue(r, grandTotalCol, cornerVal);
+                // För HSTACK — bryt efter första iterationen
+                if (!isVStack) break;
             }
-
         }
+
+        //    private void WriteGrandTotalRow(
+        //InMemoryRange result,
+        //int r,
+        //List<ColEntry> colEntries,
+        //List<LeafWithPath> colLeaves,
+        //Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+        //PivotByArgs args,
+        //ParsingContext context,
+        //int nRowKeyCols,
+        //int colOffset,
+        //int grandTotalCol,
+        //bool showColTotal)
+        //    {
+        //        var rowTotalLabel = Math.Abs(args.RowTotalDepth) > 1 ? "Grand Total" : "Total";
+        //        result.SetValue(r, 0, "Total");
+        //        for (int c = 1; c < nRowKeyCols; c++)
+        //            result.SetValue(r, c, string.Empty);
+
+        //        int col = nRowKeyCols + colOffset;
+        //        foreach (var entry in colEntries)
+        //        {
+        //            if (entry.IsSubtotal)
+        //            {
+        //                var groupVals = entry.GroupLeaves
+        //                    .SelectMany(l =>
+
+        //                    {
+        //                        var ck = MakePivotKey(l.Path);
+        //                        return pivotMap.Values
+        //                            .SelectMany(cm => cm.TryGetValue(ck, out var cv)
+        //                                ? cv
+        //                                : Enumerable.Empty<object[]>());
+        //                    })
+        //                    .ToList();
+
+        //                object subtotalVal = null;
+        //                if (groupVals.Count > 0)
+        //                    subtotalVal = Aggregate(args.Function, groupVals, context,
+        //                        args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+        //                result.SetValue(r, col, subtotalVal);
+        //            }
+        //            else
+        //            {
+        //                string colKey = MakePivotKey(entry.Leaf.Path);
+        //                var allValsForCol = pivotMap.Values
+        //                    .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+        //                        ? cv
+        //                        : Enumerable.Empty<object[]>())
+        //                    .ToList();
+
+        //                object grandVal = null;
+        //                if (allValsForCol.Count > 0)
+        //                {
+        //                    var relativeToVals = args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+        //                        ? ResolveRelativeToValuesForTotal(args.RelativeTo, entry.Leaf, colLeaves, pivotMap, args)
+        //                        : args.AllValuesInOrder;
+
+        //                    grandVal = Aggregate(args.Function, allValsForCol, context, relativeToVals);
+        //                }
+        //                result.SetValue(r, col, grandVal);
+        //            }
+        //            col++;
+        //        }
+
+        //        if (showColTotal)
+        //        {
+        //            var allVals = args.AllValuesInOrder.Select(v => new object[] { v[0] }).ToList();
+        //            var cornerVal = Aggregate(args.Function, allVals, context,
+        //                args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
+        //                    ? allVals  // dela med sig själv → 1
+        //                    : args.AllValuesInOrder);
+        //            result.SetValue(r, grandTotalCol, cornerVal);
+        //        }
+
+        //    }
 
         private class ColEntry
         {

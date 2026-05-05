@@ -28,9 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
         protected const int TotalDepthNoTotals = 0;
         protected const int TotalDepthGrandOnly = 1;
 
-        protected List<string> ResolveFunctionHeaders(GroupByBaseArgs args)
+        protected List<string> ResolveFunctionHeaders(List<LambdaCalculator> functions)
         {
-            var names = args.Functions
+            var names = functions
                 .Select(f => f.EtaFunction != null ? f.EtaFunction.Name : "CUSTOM")
                 .ToList();
 

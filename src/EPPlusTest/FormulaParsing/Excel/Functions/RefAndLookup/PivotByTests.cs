@@ -353,5 +353,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             }
         }
+
+        [TestMethod]
+        public void PivotByCustomLambdaWithVstack()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:B3,D1:D3, VSTACK(_xleta.COUNT, LAMBDA(x, SUM(x *2/3)), LAMBDA(x, SUM(x *2)) ),3)";
+                s.Calculate();
+            }
+        }
     }
 }
