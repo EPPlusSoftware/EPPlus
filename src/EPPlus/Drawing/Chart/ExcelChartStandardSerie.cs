@@ -682,10 +682,30 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if (ExcelCellBase.IsValidAddress(Series))
+                string alteredSeries = Series;
+                //Some addresses are split and within parenthesis
+                if (Series.StartsWith("("))
                 {
-                    var a = new ExcelAddressBase(Series);
-                    return a.Rows;
+                    alteredSeries = alteredSeries.Trim('(', ')');
+                }
+
+                if (ExcelCellBase.IsValidAddress(alteredSeries))
+                {
+                    var a = new ExcelAddressBase(alteredSeries);
+                    if(a.Addresses == null)
+                    {
+                        return a.Rows;
+                    }
+                    else
+                    {
+                        //If the address is a split address
+                        int numItems = 0;
+                        foreach(var address in a.Addresses)
+                        {
+                            numItems += a.Rows;
+                        }
+                        return numItems;
+                    }
                 }
                 else
                 {

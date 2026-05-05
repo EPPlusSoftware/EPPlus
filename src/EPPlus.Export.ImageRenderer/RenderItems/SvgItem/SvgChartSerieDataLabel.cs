@@ -11,7 +11,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     {
         //positioning is handled by parent item via these
         internal List<SvgGroupItem> groupItems = new List<SvgGroupItem>();
-        private List<SvgChartDataLabelStandard> dataLabels = new List<SvgChartDataLabelStandard>();
+        private List<SvgDataLabelPoint> dataLabels = new List<SvgDataLabelPoint>();
 
         private RenderItem seriesIcon = null;
         private int _serieIndex = -1;
@@ -36,25 +36,28 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
-                if (xValues != null)
-                {
+                //if (xValues != null)
+                //{
                     for (int i = 0; i < serie.NumberOfItems; i++)
                     {
-                        AddDatalabel(chart, serie, dlblSerie, xValues[i], yValues[i], maxBounds);
+                        var yVal = yValues == null ? null : yValues[i];
+                        var xVal = xValues == null ? null : xValues[i];
+                        AddDatalabel(chart, serie, dlblSerie, xVal, yValues[i], maxBounds);
                     }
-                }
+                //}
             }
             else
             {
-                if (xValues != null)
-                {
+                //if (xValues != null)
+                //{
                     for (int i = 0; i < dlblSerie.DataLabels.Count; i++)
                     {
                         var dataLabel = dlblSerie.DataLabels[i];
-
-                        AddDatalabel(chart, serie, dataLabel, xValues[i], yValues[i], maxBounds);
+                        var yVal = yValues == null ? null : yValues[i];
+                        var xVal = xValues == null ? null : xValues[i];
+                        AddDatalabel(chart, serie, dataLabel, xVal, yVal, maxBounds);
                     }
-                }
+                //}
             }
         }
 
@@ -89,7 +92,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void AddDatalabel(SvgChart chart, ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
-            var newDataLabel = new SvgChartDataLabelStandard(chart, dataLabel);
+            var newDataLabel = new SvgDataLabelPoint(chart, dataLabel);
             newDataLabel.ImportDataLabel(chart, serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins);
 
             if(dataLabel.ShowLegendKey)
@@ -100,11 +103,27 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
+        BoundingBox _parentShapeBounds = null;
+
+        /// <summary>
+        /// Datapoints can have different shapes. 
+        /// Which gives different meaning to positions like'Center' and 'Inside' and 'Outside'
+        /// Therefore you have the option to provide the bounds of a shape and its endpoint
+        /// </summary>
+        /// <param name="parentBounds"></param>
+        /// <param name="parentPoint"></param>
+        /// <param name="index"></param>
+        internal void SetParentShape(BoundingBox parentBounds, BoundingBox shapeEndPoint, int index)
+        {
+            _parentShapeBounds = parentBounds;
+            SetParentPoint(shapeEndPoint, index);
+        }
+
         internal void SetParentPoint(BoundingBox parent, int index)
         {
             if (dataLabels.Count > index)
             {
-                dataLabels[index].SetParentPoint(parent);
+                dataLabels[index].SetParentPoint(parent, _parentShapeBounds);
             }
             //dataLabels[index].SetParentPoint(parent);
         }

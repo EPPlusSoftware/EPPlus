@@ -53,6 +53,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         SvgRenderPathItem _slicePath;
 
+        void CalculateWidthHeight()
+        {
+            //double xMax = Math.Max(_startPoint.Left, _endPoint.Left);
+            //xMax = Math.Max(xMax, _midPoint.Left);
+
+            //double yMax = Math.Max(_startPoint.Top, _endPoint.Top);
+            //yMax = Math.Max(yMax, _midPoint.Top);
+            //double yMax;
+            //double xMin;
+            //double yMin;
+        }
+
         public SvgPieSlice(DrawingBase renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer, parent)
         {
             _radius = radius;
@@ -77,6 +89,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //We must calculate transforms from the outer midpoint.
             //This is to ensure that point never leaves the parent container
             _innerGroup.TransformOrigin = GetMidPointLocal();
+
+
         }
 
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
@@ -286,6 +300,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             point.Top = yPoint;
 
             return point;
+        }
+
+        internal Coordinate GetInnerGroupTransformOrigin()
+        {
+            return new Coordinate(_innerGroup.Position.Left + _innerGroup.TransformOrigin.X, _innerGroup.Position.Top + _innerGroup.TransformOrigin.Y);
         }
 
         public override RenderItemType Type => RenderItemType.Group;
