@@ -170,6 +170,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeBool("c:trendlineLbl/c:numFmt/@sourceLinked", value, true);
             }
         }
+        ExcelLayout _layout = null;
         /// <summary>
         /// Gets the manual layout settings for the trendline label, allowing customization of its position and size
         /// within the chart area.
@@ -181,7 +182,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return new ExcelLayout(NameSpaceManager, TopNode, $"c:layout", "c:extLst/c:ext[1]/c15:layout", SchemaNodeOrder);
+                if (_layout == null)
+                {
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, $"c:trendlineLbl/c:layout", "c:extLst/c:ext[1]/c15:layout", SchemaNodeOrder);
+                }
+                return _layout;
             }
         }
     }

@@ -73,10 +73,10 @@ namespace OfficeOpenXml.Drawing
             var mf = new MeasurementFont()
             {   
                 FontFamily = _prd.Package.Workbook.ThemeManager.GetOrCreateTheme().GetFontByCode(string.IsNullOrEmpty(LatinFont) ? ComplexFont : LatinFont),
-                Size = FontSize,
+                Size = Baseline == 0 ? FontSize : (float)(FontSize * (1 - (Math.Abs(Baseline) / 100))),
                 Style = GetFontStyle()
             };
-            
+
             if (string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0 || float.IsNaN(mf.Size))
             {
                 var defaultMeasurementFont = _paragraph.DefaultRunProperties.GetMeasureFont();
@@ -440,7 +440,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                var v=GetXmlNodeDoubleNull(_baselinePath);
+                var v=GetXmlNodePercentage(_baselinePath);
                 if (v == null && _dtr != null)
                 {
                         return _dtr.Baseline;

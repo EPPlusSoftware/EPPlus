@@ -222,3 +222,4 @@ Renaming worksheet's will now change the formula correctly to include single quo
 
 ### 9.0.0
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
+The `Richtext.Baseline` property now always return that value in whole percent.

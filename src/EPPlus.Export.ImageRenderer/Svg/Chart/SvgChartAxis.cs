@@ -875,15 +875,15 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
-                        {
-                            majorHeight = SvgChart.Plotarea.Rectangle.Height / (Max - 1);
-                            return majorHeight * val;
-                        }
-                        else
-                        {
+                        //if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
+                        //{
+                        //    majorHeight = SvgChart.Plotarea.Rectangle.Height / (Max - 1);
+                        //    return majorHeight * val;
+                        //}
+                        //else
+                        //{
                             return majorHeight * val + (majorHeight / 2);
-                        }
+                        //}
                     }
                 }
                 else if (Axis.AxisType == eAxisType.Date && IsDateScale == false)
@@ -1012,6 +1012,10 @@ namespace EPPlusImageRenderer.Svg
 
                 return l.ToList();
             }
+            if(ax.AxisType==eAxisType.Val)
+            {
+                AdjustminMaxFromChartObjects(ref min, ref max);
+            }
             if (ax.IsDate)
             {
                 AxisScale res;
@@ -1059,7 +1063,7 @@ namespace EPPlusImageRenderer.Svg
                 max = res.Max;
             }
             else
-            {
+            {                
                 var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
                 for (var v = res.Min; v <= res.Max; v += res.MajorInterval)
                 {
@@ -1074,6 +1078,35 @@ namespace EPPlusImageRenderer.Svg
             }
 
             return l;
+        }
+
+        /// <summary>
+        /// Adjust the min and max values based on the values in the chart objects, such as trendlines. This is needed to make sure that the trendlines are visible in the chart and not cut off because the axis scale is based on the data series only.
+        /// </summary>
+        /// <param name="min">The min value to adjust.</param>
+        /// <param name="max">The max value to adjust.</param>
+        private void AdjustminMaxFromChartObjects(ref double? min, ref double? max)
+        {
+            foreach (var drawer in SvgChart.Plotarea.ChartTypeDrawers)
+            {
+                if (drawer.SupportsTrendlines)
+                {
+                    foreach (var tl in drawer.Trendlines)
+                    {
+                        foreach(var c in tl.Coordinates)
+                        {
+                            if (min > c.Y)
+                            {
+                                min = c.Y;
+                            }
+                            if (max < c.Y)
+                            {
+                                max = c.Y;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private bool ShouldHavePadding()

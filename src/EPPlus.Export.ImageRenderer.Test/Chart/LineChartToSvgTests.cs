@@ -102,7 +102,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[4];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
-                //var ix = 1;
+                //var ix = 4;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\Trendline_sheet5_{ix++}.svg", svg);
@@ -131,6 +131,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 {
                     var svg = renderer.RenderDrawingToSvg(c);
                     SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
+                }
+            }
+        }
+        [TestMethod]
+        public void GenerateSvgForLineCharts2()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("Superscript.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
+                var ix = 1;
+                foreach (var c in ws.Drawings)
+                {
+                    var svg = renderer.RenderDrawingToSvg(c);
+                    SaveTextFileToWorkbook($"svg\\ss{ix++}.svg", svg);
                 }
             }
         }

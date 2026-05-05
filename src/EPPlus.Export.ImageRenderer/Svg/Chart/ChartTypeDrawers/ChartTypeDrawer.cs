@@ -12,6 +12,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -19,6 +20,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         protected SvgChart _svgChart;
         protected ExcelChart _chartType;
+        internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
+
         internal virtual bool SupportsTrendlines { get { return false; } }
         internal virtual bool SupportsErrorBars { get { return false; } }
         internal virtual bool SupportsUpDownBars { get { return false; } }
@@ -28,7 +31,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _svgChart = svgChart;
             _chartType = chartType;
         }
-
+        internal abstract void DrawSeries();
         protected List<object> LoadSeriesValues(string serieAddressInput, double[] numLiterals, string[] strLiterals)
         {
             string serieAddress = serieAddressInput;
@@ -177,6 +180,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     series[i][j] = ConvertUtil.GetValueDouble(series[i][j]) + ConvertUtil.GetValueDouble(series[i - 1][j]);
                 }
+            }
+        }
+        protected void CreateTrendlines(ExcelChart chartType, List<List<object>> xValues, List<List<object>> yValues)
+        {
+            var serieIndex = 0;
+            foreach (ExcelChartSerie serie in chartType.Series)
+            {
+                for (var i = 0; i < xValues.Count; i++)
+                {
+                    var xSerie = xValues[i];
+                    var ySerie = yValues[i];
+
+                    if (serie.TrendLines.Count > 0)
+                    {
+                        foreach (var trendline in serie.TrendLines)
+                        {
+                            var tr = new SvgTrendline(_svgChart, trendline, xSerie, ySerie, _chartType, serieIndex);
+                            Trendlines.Add(tr);
+                        }
+                    }
+                }
+                serieIndex++;
             }
         }
 

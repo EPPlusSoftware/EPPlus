@@ -2,7 +2,9 @@
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -11,54 +13,61 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class LineChartTypeDrawer : ChartTypeDrawer
     {
+        List<List<object>> _xValues, _yValues;
+
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
-        internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
         internal LineChartTypeDrawer(SvgChart svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-            RenderItems.Add(groupItem);
             var isStacked = chartType.IsTypeStacked();
             var isPercentStacked = chartType.IsTypePercentStacked();
-            var xValues = new List<List<object>>();
-            var yValues = new List<List<object>>();
             int serCounter = 0;
-
+            _xValues = new List<List<object>>();
+            _yValues = new List<List<object>>();
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
                 var yValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 var xValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
 
-                xValues.Add(xValue);
-                yValues.Add(yValue);
+                _xValues.Add(xValue);
+                _yValues.Add(yValue);
 
-                if (serie.HasDataLabel)
-                {
-                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, xValue, yValue, serCounter);
-                    serieDataLabels.Add(datalabel);
-                }
                 serCounter++;
             }
 
             if (chartType.IsTypeStacked())
             {
-                SumSeries(yValues);
+                SumSeries(_yValues);
             }
             else if (chartType.IsTypePercentStacked())
             {
-                ExcelChartAxisStandard.CalculateStacked100(yValues);
+                ExcelChartAxisStandard.CalculateStacked100(_yValues);
             }
 
-            for(var i= 0; i < xValues.Count; i++)
+            CreateTrendlines(chartType, _xValues, _yValues);
+        }
+        internal override void DrawSeries()
+        {
+            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            RenderItems.Add(groupItem);
+
+            var lct = (ExcelLineChart)_chartType;
+            for (var i = 0; i < _xValues.Count; i++)
             {
-                var xSerie = xValues[i];
-                var ySerie = yValues[i];
-                var serie = chartType.Series[i];
+                var xSerie = _xValues[i];
+                var ySerie = _yValues[i];
+                var serie = lct.Series[i];
+
+                if (serie.HasDataLabel)
+                {
+                    var datalabel = new SvgChartSerieDataLabel(_svgChart, serie.DataLabel, _svgChart.Bounds, serie, xSerie, ySerie, i);
+                    serieDataLabels.Add(datalabel);
+                }
+
 
                 var dataPoints = new List<BoundingBox>();
-
-                AddLine(chartType, serie, xSerie, ySerie, dataPoints);
+                AddLine(_chartType, serie, xSerie, ySerie, dataPoints);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -69,16 +78,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         serieDataLabels[i].SetParentPoint(dataPoints[j], j);
                     }
                 }
-                if (serie.TrendLines.Count > 0)
-                {
-                    foreach (var trendline in serie.TrendLines)
-                    {
-                        var tr = new SvgTrendline(svgChart, trendline, xSerie, ySerie, chartType.UseSecondaryAxis);
-                        Trendlines.Add(tr);
-                    }
-                }
-
             }
+
 
             //Trendlines and trendline labels
             foreach (var tr in Trendlines)
@@ -93,9 +94,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 dataLabel.AppendRenderItems(RenderItems);
             }
-
         }
-
         private void SumSeries(List<List<object>> series)
         {
             for(var i=1;i < series.Count;i++)

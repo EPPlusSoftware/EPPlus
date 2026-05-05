@@ -14,6 +14,7 @@ using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,11 +25,10 @@ namespace EPPlusImageRenderer.Svg
         public SvgChartPlotarea(SvgChart sc) : base(sc)
         {
             SvgChart = sc;
-            Rectangle = GetPlotAreaRectangle(sc);
         }
         public SvgChart SvgChart { get; set; }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
-        internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
+        internal void SetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer.Svg
 
             rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);
             rect.SetDrawingPropertiesBorder(pa.Border, sc.Chart.StyleManager.Style.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            return rect;
+            Rectangle = rect;
         }
 
         private double GetPlotAreaHeight(SvgChart sc, SvgRenderRectItem rect)
@@ -172,6 +172,14 @@ namespace EPPlusImageRenderer.Svg
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
+        }
+
+        internal void DrawSeries()
+        {
+            foreach (var drawer in ChartTypeDrawers)
+            {
+                drawer.DrawSeries();
+            }
         }
     }
 }

@@ -362,5 +362,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             //groupItem.AddChildItem(LineItem);
         }
+
+        internal override void DrawSeries()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

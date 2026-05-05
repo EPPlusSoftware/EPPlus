@@ -45,6 +45,10 @@ namespace EPPlusImageRenderer.Svg
                 Title = null;
             }
 
+            //We need to create the plotarea before the legend and axes, as the trendlines can affect the value axis and should be rendererd in the legennd.
+            Plotarea = new SvgChartPlotarea(this);
+            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+
             if (chart.HasLegend)
             {
                 Legend = new SvgChartLegend(this);
@@ -54,7 +58,7 @@ namespace EPPlusImageRenderer.Svg
                 Legend = null;
             }
 
-            if(Chart.Axis.Length != 0)
+            if (Chart.Axis.Length != 0)
             {
                 HorizontalAxis = GetAxis(false);
                 VerticalAxis = GetAxis(true);
@@ -66,12 +70,12 @@ namespace EPPlusImageRenderer.Svg
                 SecondHorizontalAxis = GetAxis(false, 2);
             }
 
-            Plotarea = new SvgChartPlotarea(this);
+            Plotarea.SetPlotAreaRectangle(this);
 
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea(this);
-
-            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+            
+            Plotarea.DrawSeries();
         }
 
         private SvgChartAxis GetAxis(bool vertical, int offset=0)

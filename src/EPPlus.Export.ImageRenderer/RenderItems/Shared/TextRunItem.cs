@@ -7,10 +7,12 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     internal abstract class TextRunItem : RenderItem
@@ -32,6 +34,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal eUnderLineType _underLineType;
         protected internal eStrikeType _strikeType;
         protected internal Color _underlineColor;
+        protected internal double _baseline;
 
         internal double YPosition { get; set; }
         internal double ClippingHeight = double.NaN;
@@ -91,7 +94,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             //_fontStyles = _measurementFont.Style;
 
+            _baseline = font.Baseline;
+            if (_baseline != 0)
+            {
+                _measurementFont.Size *= (float)(1 - (Math.Abs(_baseline) / 100));
+            }
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+
             Bounds.Height = _measurementFont.Size;
             if (parent.Height < _measurementFont.Size)
             {
@@ -145,7 +154,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             //_fontStyles = _measurementFont.Style;
 
+            _baseline = run.Baseline;
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+
             Bounds.Height = _measurementFont.Size;
 
             //_horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
