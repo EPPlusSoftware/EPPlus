@@ -229,6 +229,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             return runs;
         }
 
+        public int GetParagraphSeparatorCount()
+        {
+            return ParagraphSeparatorIndicies.Count;
+        }
+
         List<CharInfo> GetCharInfoOfStyleRun(StyleRun run)
         {
             List<CharInfo> infoLst = new List<CharInfo>();
