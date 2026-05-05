@@ -797,25 +797,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
-
-            List<int> inputFragment = new List<int>();
-            List<int> lstRtIdx = new List<int>();
-            List<char> charAtPos = new List<char>();
-            List<int> expectedStartRt = new List<int>();
-
-            var totalString = "MyparticularilyLongWordWithAbsolutelyNoSpacesAtAllJustToBeDifficult";
-
-
-            foreach (var line in wrappedLines)
-            {
-                foreach(LineFragment internalFragment in line.InternalLineFragments)
-                {
-                    var fragIdx = internalFragment.FragmentIndex;
-                    inputFragment.Add(fragIdx);
-                    lstRtIdx.Add(internalFragment.StartRt);
-                    charAtPos.Add(fragments[fragIdx].Text[internalFragment.StartRt]);
-                }
-            }
+            Assert.AreEqual(5, wrappedLines[1].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(16, wrappedLines[2].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(28, wrappedLines[3].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(40, wrappedLines[4].LineFragments[0].StartRtIdx);
         }
 
         [TestMethod]
