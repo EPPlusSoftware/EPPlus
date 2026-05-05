@@ -33,7 +33,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             //Split into sub paragraphs
             Segmentation();
 
-            //TODO: Bi-directional analysis (level-runs) will need to be merged with style runs
+            //TODO: Bi-directional analysis (level-runs) these will need to be merged with style runs
 
             //Segmenting Style Runs (Itimization)
             Itemization();

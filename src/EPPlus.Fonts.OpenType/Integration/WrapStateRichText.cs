@@ -61,7 +61,12 @@ namespace EPPlus.Fonts.OpenType.Integration
             _rtIdxAtWordStart = CurrentFragmentIdx;
             _lineFragWidthAtWordStart = LineFrag.Width;
 
-            if(CurrentTextLine.InternalLineFragments.Count == 0)
+            //Since we don't want the space itself to be the start pos but the first letter of the word. Use +1
+            //TODO: Handle when no word after? Its never used if there isn't one so arguably we don't have to.
+            _totalCharsAtWordStart = CharIdxWithinOriginal + 1;
+            _charIdxRtAtWordStart = CharIdxRt + 1;
+
+            if (CurrentTextLine.InternalLineFragments.Count == 0)
             {
                 _listIdxWithinLine = 0;
                 return;
@@ -75,9 +80,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //It will be the next index when added
                 _listIdxWithinLine += 1;
             }
-
-            _totalCharsAtWordStart = CharIdxWithinOriginal;
-            _charIdxRtAtWordStart = CharIdxRt;
         }
 
         internal int GetFragIdxAtWordStart()
@@ -107,11 +109,13 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
-            var lenAtBreak = CharIdxWithinOriginal - _totalCharsAtWordStart;
-            var endIndexOfOrigFragment = CharIdxWithinOriginal - CharIdxRt;
+            //var wordStartPos = _totalCharsAtWordStart;
+            //var wordBreakPos2 = CharIdxWithinOriginal;
+            //var endIndexOfOrigFragment = _charIdxRtAtWordStart;
             //var startIdxNewFragment = endIndexOfOrigFragment - 
+            //var lnFragNewStartIdx = CharIdxWithinOriginal - _totalCharsAtWordStart;
 
-            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, CharIdxRt, CharIdxWithinOriginal);
+            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, _charIdxRtAtWordStart, _totalCharsAtWordStart);
             CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;
 
             _fragmentsForNextLine = new List<LineFragment>();

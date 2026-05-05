@@ -731,6 +731,41 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        public void EnsureCorrectTotalIndex()
+        {
+            List<string> lstOfRichText = new() { "aaaaaaaa aa aaaaaaaaaLa Strike", "Goudy size 16" };
+            var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new List<MeasurementFont>() { font, font2 };
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+
+            Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
+            Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartFullTextIdx);
+            Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartRtIdx);
+        }
+
+        [TestMethod]
         public void EnsureRTCharIdxBecomesCorrectWhenBreaking()
         {
             List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };

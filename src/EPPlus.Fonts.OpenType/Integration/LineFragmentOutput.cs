@@ -49,10 +49,15 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Looks up the data in the internal class LineFragment instead of making copies
         /// </summary>
         #region Callbacks
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<TextFragment> _getTextFragment;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<double> _getWidth;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<int> _getStartIdx;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<int> _getStartIdxRt;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<int> _getFullTextIdx;
         #endregion
 
