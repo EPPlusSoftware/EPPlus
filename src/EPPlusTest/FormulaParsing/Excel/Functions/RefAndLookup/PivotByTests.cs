@@ -376,5 +376,105 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Calculate();
             }
         }
+
+        [TestMethod]
+        public void PivotBySortOrderArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:B3,C1:C3,D1:D3, _xleta.SUM,,, {-1,-2})";
+                s.Calculate();
+
+                // Rubrikrad
+                Assert.AreEqual("I", s.Cells["G1"].Value);
+                Assert.AreEqual("O", s.Cells["H1"].Value);
+                Assert.AreEqual("Total", s.Cells["I1"].Value);
+
+                // B X
+                Assert.AreEqual("B", s.Cells["E2"].Value);
+                Assert.AreEqual("X", s.Cells["F2"].Value);
+                Assert.AreEqual(1d, s.Cells["G2"].Value);
+                Assert.AreEqual(1d, s.Cells["I2"].Value);
+
+                // A Y
+                Assert.AreEqual("A", s.Cells["E3"].Value);
+                Assert.AreEqual("Y", s.Cells["F3"].Value);
+                Assert.AreEqual(4d, s.Cells["G3"].Value);
+                Assert.AreEqual(4d, s.Cells["I3"].Value);
+
+                // A X
+                Assert.AreEqual("A", s.Cells["E4"].Value);
+                Assert.AreEqual("X", s.Cells["F4"].Value);
+                Assert.AreEqual(2d, s.Cells["H4"].Value);
+                Assert.AreEqual(2d, s.Cells["I4"].Value);
+
+                // Total
+                Assert.AreEqual("Total", s.Cells["E5"].Value);
+                Assert.AreEqual(5d, s.Cells["G5"].Value);
+                Assert.AreEqual(2d, s.Cells["H5"].Value);
+                Assert.AreEqual(7d, s.Cells["I5"].Value);
+            }
+        }
+
+        [TestMethod]
+        
+        public void PivotByTemplateTest()
+        {
+            using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[1];
+
+                sheet.Cells["B15"].Formula = "PIVOTBY('FCL V'!C6:C2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.SUM)";
+                sheet.Calculate();
+
+                Assert.AreEqual("Albania", sheet.Cells["C15"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void PivotByTemplateTest2()
+        {
+            using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[2];
+
+                sheet.Cells["B17"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.SUM)";
+                sheet.Calculate();
+
+                Assert.AreEqual("Albania", sheet.Cells["D17"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void PivotByTemplateTest3()
+        {
+            using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[3];
+
+                sheet.Cells["B26"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.PERCENTOF,,2,,,,,3)";
+                sheet.Calculate();
+
+                Assert.AreEqual("Albania", sheet.Cells["D26"].Value);
+                Assert.AreEqual(0.021928991, sheet.Cells["G27"].Value);
+
+                //SaveAndCleanup(package);
+            }
+        }
     }
 }

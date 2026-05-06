@@ -518,8 +518,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(s.Cells["K8"].Value, 11d);
             }
         }
-
-        // TESTA SKICKA IN LAMBDA SÅ ATT VI KAN SE ATT CUSTOM funktionerna FÅR RÄTT HEADERS "CUSTOM1, CUSTOM2..."
-        // NOTE: Verkar vara nåt som blir knasigt med headers. Dem skrivs ut på fel ställe i rangen, ex: rubrik på fel ställe ovan
+      
     }
 }
