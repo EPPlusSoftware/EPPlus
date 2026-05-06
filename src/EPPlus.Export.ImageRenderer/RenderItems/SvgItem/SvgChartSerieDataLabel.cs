@@ -104,7 +104,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         }
 
         BoundingBox _parentShapeBounds = null;
-
+        Graphics.Math.Vector2 _startToEndDir = Graphics.Math.Vector2.Zero;
         /// <summary>
         /// Datapoints can have different shapes. 
         /// Which gives different meaning to positions like'Center' and 'Inside' and 'Outside'
@@ -119,11 +119,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             SetParentPoint(shapeEndPoint, index);
         }
 
+        internal void SetParentVector(BoundingBox parentPoint, int index, Graphics.Math.Vector2 startToEndDir)
+        {
+            _startToEndDir = startToEndDir;
+            SetParentPoint(parentPoint, index);
+        }
+
         internal void SetParentPoint(BoundingBox parent, int index)
         {
             if (dataLabels.Count > index)
             {
-                dataLabels[index].SetParentPoint(parent, _parentShapeBounds);
+                dataLabels[index].SetParentPoint(parent, _parentShapeBounds, _startToEndDir);
             }
             //dataLabels[index].SetParentPoint(parent);
         }

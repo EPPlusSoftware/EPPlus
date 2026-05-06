@@ -7,6 +7,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
+using System.IO.Pipes;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -149,6 +150,27 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //double yMin;
         }
 
+        private double _sliceScaleFactor = 1d;
+        private double _scaledRadius { get{ return _radius * _sliceScaleFactor; } }
+
+        private void CalculateExplosionDir()
+        {
+            var transformOriginLocal = new Graphics.Math.Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
+
+            //Get directional vector (in local coords but does not matter since we make it directional)
+            Graphics.Math.Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
+
+            //normalize the pieDirection vector so that it is percentual and with lenght == 1
+            pieDirection = pieDirection / pieDirection.Length;
+
+            CtrToOuterMidDir = new Graphics.Math.Vector2(pieDirection.X, pieDirection.Y);
+        }
+
+        //internal Graphics.Math.Vector2 GetVectorCtrToEnd()
+        //{
+        //    //_circleCenter + _sc
+        //}
+
         public SvgPieSlice(DrawingBase renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer, parent)
         {
             _radius = radius;
@@ -174,6 +196,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //This is to ensure that point never leaves the parent container
             _innerGroup.TransformOrigin = GetMidPointLocal();
 
+            CalculateExplosionDir();
+
             CalculateWidthHeight(prevSliceDegrees);
         }
 
@@ -194,18 +218,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
             var localMin = GetTranslationMinLocal(globalAreaBounds.Width, globalAreaBounds.Height);
 
+            _sliceScaleFactor = sliceScaleFactor;
             //Translate and scale path
-            _innerGroup.Scale = new Coordinate(sliceScaleFactor, sliceScaleFactor);
-            CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin, sliceScaleFactor);
+            _innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
+            CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
 
             //Add the actual commands
             _slicePath.Commands.Add(moveCenter);
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
-
             //Visualize all points
-            AddDebugLines(moveCenter, plotAreaBounds);
+            //AddDebugLines(moveCenter, plotAreaBounds);
 
             _slicePath.Commands.Add(end);
 
@@ -230,16 +254,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _debugBoundsPath.BorderWidth = 3;
             var moveCenterDebug = new PathCommands(PathCommandType.Move, _debugBoundsPath, _circleCenter.Left, _circleCenter.Top);
             _debugBoundsPath.Commands.Add(moveCenterDebug);
+
+            //Draw extremes/bounds
             var lineToTopLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
             var lineToTopRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Top);
+
+            //var sliceCenter = GetSliceShapeCenterLocal();
+            //var lineToSliceCenter = new PathCommands(PathCommandType.Line, _debugBoundsPath, sliceCenter.Left, sliceCenter.Top);
+
             var lineToBottomRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Bottom);
             var lineToBottomLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Bottom);
             var end = new PathCommands(PathCommandType.End, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
             _debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(lineToTopRight);
+            //_debugBoundsPath.Commands.Add(lineToSliceCenter);
             _debugBoundsPath.Commands.Add(lineToBottomRight);
             _debugBoundsPath.Commands.Add(lineToBottomLeft);
-            _debugBoundsPath.Commands.Add(end);
+            //_debugBoundsPath.Commands.Add(end);
 
         }
 
@@ -253,7 +284,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal void AppendGroupItem(SvgGroupItemNew group)
         {
             _innerGroup.AddChildItem(_slicePath);
-            _innerGroup.AddChildItem(_debugBoundsPath);
+            //_innerGroup.AddChildItem(_debugBoundsPath);
             group.AddChildItem(_innerGroup);
         }
 
@@ -279,18 +310,60 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return worldMin.LocalPosition;
         }
 
-        Graphics.Math.Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion, double scaleFactor)
+        /// <summary>
+        /// The directional vector from center of circle to the outer midpoint of the pie slice
+        /// </summary>
+        internal Graphics.Math.Vector2 CtrToOuterMidDir { get; private set; }
+
+        /// <summary>
+        /// Gets the whole vector with length to the end
+        /// </summary>
+        /// <returns></returns>
+        internal Graphics.Math.Vector2 GetWholeVectorCenterToMid()
+        {
+            var translationVector = GetLocalTranslationVector(50);
+            var pt = translationVector;
+            return pt;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        internal Point GetSliceShapeCenterLocal()
+        {
+            var translationVector = GetLocalTranslationVector(50);
+            var pt = _circleCenter.LocalPosition + translationVector;
+            var SliceCenterLocal = new Point(pt.X, pt.Y);
+
+            return SliceCenterLocal;
+        }
+        /// <summary>
+        /// Input must be between 0 and 100
+        /// </summary>
+        /// <param name="percentTowardsEndPoint"></param>
+        /// <returns></returns>
+        Graphics.Math.Vector2 GetLocalTranslationVector(double percentTowardsEndPoint)
+        {
+            if(percentTowardsEndPoint < 0 || percentTowardsEndPoint > 100)
+            {
+                throw new InvalidOperationException($"input: '{percentTowardsEndPoint}' invalid. Must be between 0 and 100");
+            }
+
+            var moveFactor = (double)percentTowardsEndPoint / 100d;
+            var moveFactoredDirection = moveFactor * CtrToOuterMidDir;
+
+            //Get distance/length to move along vector. We translate according to the scaled down radius
+            Graphics.Math.Vector2 LocalTranslationVector = moveFactoredDirection * _scaledRadius;
+            return LocalTranslationVector;
+        }
+
+        Graphics.Math.Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion)
         {
             //Get point explosion value
             var pointExplosion = explosionOfPoint == int.MinValue ? 0 : explosionOfPoint;
 
-            var transformOriginLocal = new Graphics.Math.Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
-
-            //Get directional vector (in local coords but does not matter since we make it directional)
-            Graphics.Math.Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
-
-            //normalize the pieDirection vector so that it is percentual and with lenght == 1
-            pieDirection = pieDirection / pieDirection.Length;
+            var pieDirection = new Graphics.Math.Vector2(CtrToOuterMidDir.X, CtrToOuterMidDir.Y);
 
             if (pointExplosion != 0 && pointExplosion < pieExplosion)
             {
@@ -308,7 +381,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var ptFactoredDirection = ptExplodeFactor * pieDirection;
 
             //Get distance/length to move along vector. We translate according to the scaled down radius
-            Graphics.Math.Vector2 LocalTranslationVector = ptFactoredDirection * (_radius * scaleFactor);
+            Graphics.Math.Vector2 LocalTranslationVector = ptFactoredDirection * _scaledRadius;
             return LocalTranslationVector;
         }
 
@@ -379,11 +452,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(translationLeft, translationTop);
         }
 
-        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin, double scaleFactor)
+        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin)
         {
             //Get distance/length to move along vector
-            Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion, scaleFactor);
-            var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax,localMin);
+            Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
+            var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax, localMin);
             
             _innerGroup.Position.Left = finalTranslation.X;
             _innerGroup.Position.Top = finalTranslation.Y;

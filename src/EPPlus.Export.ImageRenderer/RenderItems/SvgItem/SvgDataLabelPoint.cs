@@ -123,9 +123,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.BottomMargin = defaultMargins.Height;
             }
 
-            //Txtbox is Broken. Workaround
-            txtBox.Left += txtBox.LeftMargin;
-            txtBox.Top += txtBox.TopMargin;
+            ////Txtbox is Broken. Workaround
+            //txtBox.Left += txtBox.LeftMargin;
+            //txtBox.Top += txtBox.TopMargin;
 
             //Center the textbox at the origin point
             Bounds.Left -= txtBox.Rectangle.Bounds.Width / 2;
@@ -234,7 +234,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape)
+        internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape, Graphics.Math.Vector2 startToEndDir)
         {
             Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
@@ -262,13 +262,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
             }
-            
+
+
+
+            if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
+            {
+                //Half and invert
+                dataLabelCenter = ((startToEndDir)*-1);
+            }
 
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-                    Bounds.Left += startPointDirection.X;
-                    Bounds.Top += startPointDirection.Y;
+                    Bounds.Left += dataLabelCenter.X;
+                    Bounds.Top += dataLabelCenter.Y;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(parentPoint, _labelPosition);
