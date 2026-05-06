@@ -799,5 +799,18 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(targetPackage);
             }
         }
+
+
+        [TestMethod]
+        public void CopyDrawingWithAbsolutePosition ()
+        {
+            using var p = OpenTemplatePackage("Test-file.xlsx");
+            var sourceSheet = p.Workbook.Worksheets[1];
+            using var destPackage = new ExcelPackage();
+            var destSheet = destPackage.Workbook.Worksheets.Add("Dest");
+            sourceSheet.Cells[1, 1, sourceSheet.Dimension.Rows, sourceSheet.Dimension.Columns].Copy(destSheet.Cells[1, 1], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+            //Assert.AreEqual(1, destSheet.Drawings.Count);
+            destPackage.SaveAs($"C:\\epplusTest\\Testoutput\\AbsoluteDrawingCopy.xlsx");
+        }
     }
 }

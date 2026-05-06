@@ -16,6 +16,7 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
@@ -731,8 +732,8 @@ namespace OfficeOpenXml.Drawing
         {
             if (CellAnchor == eEditAs.Absolute)
             {
-                GetToRowFromPixels(Position.Y, out fromRow, out fromRowOff);
-                GetToColumnFromPixels(Position.X, out fromCol, out fromColOff);
+                GetToRowFromPixels(Position.Y / (double)EMU_PER_PIXEL, out fromRow, out fromRowOff);
+                GetToColumnFromPixels(Position.X / (double)EMU_PER_PIXEL, out fromCol, out fromColOff);
             }
             else
             {
@@ -747,7 +748,7 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.Absolute)
             {
                 GetToRowFromPixels((Position.Y + Size.Height) / EMU_PER_PIXEL, out toRow, out toRowOff);
-                GetToColumnFromPixels(Position.X + Size.Width / EMU_PER_PIXEL, out toCol, out toColOff);
+                GetToColumnFromPixels((Position.X + Size.Width) / EMU_PER_PIXEL, out toCol, out toColOff);
             }
             else
             {
@@ -1033,6 +1034,26 @@ namespace OfficeOpenXml.Drawing
 
         internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow = -1, int fromRowOff = -1)
         {
+            if (From == null && this is not ExcelControl)
+            {
+                // Absolute anchor path
+                double remaining = pixels;
+                int currentRow = 1;
+
+                while (true)
+                {
+                    double rowPix = _drawings.Worksheet.GetRowHeight(currentRow) / 0.75;
+                    if (remaining < rowPix)
+                        break;
+
+                    remaining -= rowPix;
+                    currentRow++;
+                }
+
+                toRow = currentRow - 1;
+                rowOff = (int)(remaining);
+                return;
+            }
             if (fromRow < 0)
             {
                 fromRow = From.Row;
@@ -1087,7 +1108,27 @@ namespace OfficeOpenXml.Drawing
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             double mdw = ws.Workbook.MaxFontWidth;
-            if (fromColumn < 0)
+            if (From == null && this is not ExcelControl)
+            {
+                // Absolute anchor path
+                double remaining = pixels;
+                int currentCol = 1;
+
+                while (true)
+                {
+                    double colPix = (ws.GetColumnWidth(fromColumn) * mdw + 0.75d);
+                    if (remaining < colPix)
+                        break;
+
+                    remaining -= colPix;
+                    currentCol++;
+                }
+
+                col = currentCol-1;
+                colOff = (int)(remaining);
+                return;
+            }
+            if (From != null && fromColumn < 0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
