@@ -53,6 +53,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
         SvgRenderPathItem _slicePath;
+        SvgRenderPathItem _debugBoundsPath;
 
         bool ExistWithinRange(double target, double min, double max)
         {
@@ -95,6 +96,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 maxY = Math.Max(_startPoint.Top, _endPoint.Top);
             }
 
+            maxY = Math.Max(maxY, _circleCenter.Top);
+
             if (ExistWithinRange(180, startPointDegrees, endPointDegrees))
             {
                 minX = _circleCenter.Left - _radius;
@@ -103,6 +106,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 minX = Math.Min(_startPoint.Left, _endPoint.Left);
             }
+
+            minX = Math.Min(minX, _circleCenter.Left);
 
             if(ExistWithinRange(270, startPointDegrees, endPointDegrees))
             {
@@ -113,6 +118,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 minY = Math.Min(_startPoint.Top, _endPoint.Top);
             }
 
+            minY = Math.Min(minY, _circleCenter.Top);
+
             if (ExistWithinRange(360, startPointDegrees, endPointDegrees) || ExistWithinRange(0, startPointDegrees, endPointDegrees))
             {
                 maxX = _circleCenter.Left + _radius;
@@ -121,6 +128,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 maxX = Math.Max(_startPoint.Left, _endPoint.Left);
             }
+
+            maxX = Math.Max(_circleCenter.Left, maxX);
 
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
@@ -196,7 +205,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             //Visualize all points
-            //AddDebugLines(moveCenter);
+            AddDebugLines(moveCenter, plotAreaBounds);
 
             _slicePath.Commands.Add(end);
 
@@ -207,14 +216,31 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// AKA line along scale/explosion vector
         /// </summary>
         /// <param name="moveCenter"></param>
-        private void AddDebugLines(PathCommands moveCenter)
+        private void AddDebugLines(PathCommands moveCenter, BoundingBox bounds)
         {
-            var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
-            var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
-            _slicePath.Commands.Add(moveCenter);
-            _slicePath.Commands.Add(lineToMidPoint);
-            _slicePath.Commands.Add(moveCenter);
-            _slicePath.Commands.Add(lineToEnd);
+            //var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
+            //var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
+            //_slicePath.Commands.Add(moveCenter);
+            //_slicePath.Commands.Add(lineToMidPoint);
+            //_slicePath.Commands.Add(moveCenter);
+            //_slicePath.Commands.Add(lineToEnd);
+            _debugBoundsPath = new SvgRenderPathItem(DrawingRenderer, bounds);
+            _debugBoundsPath.BorderColor = "red";
+            _debugBoundsPath.FillColor = "transparent";
+            _debugBoundsPath.BorderWidth = 3;
+            var moveCenterDebug = new PathCommands(PathCommandType.Move, _debugBoundsPath, _circleCenter.Left, _circleCenter.Top);
+            _debugBoundsPath.Commands.Add(moveCenterDebug);
+            var lineToTopLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
+            var lineToTopRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Top);
+            var lineToBottomRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Bottom);
+            var lineToBottomLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Bottom);
+            var end = new PathCommands(PathCommandType.End, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
+            _debugBoundsPath.Commands.Add(lineToTopLeft);
+            _debugBoundsPath.Commands.Add(lineToTopRight);
+            _debugBoundsPath.Commands.Add(lineToBottomRight);
+            _debugBoundsPath.Commands.Add(lineToBottomLeft);
+            _debugBoundsPath.Commands.Add(end);
+
         }
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
@@ -227,6 +253,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal void AppendGroupItem(SvgGroupItemNew group)
         {
             _innerGroup.AddChildItem(_slicePath);
+            _innerGroup.AddChildItem(_debugBoundsPath);
             group.AddChildItem(_innerGroup);
         }
 
@@ -381,7 +408,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal Coordinate GetInnerGroupTransformOrigin()
         {
-            return new Coordinate(_innerGroup.Position.Left + _innerGroup.TransformOrigin.X, _innerGroup.Position.Top + _innerGroup.TransformOrigin.Y);
+            return new Coordinate(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
         }
 
         public override RenderItemType Type => RenderItemType.Group;

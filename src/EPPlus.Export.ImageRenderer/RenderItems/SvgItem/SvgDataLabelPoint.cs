@@ -241,17 +241,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _parentShapeBounds = parentShape;
 
             Graphics.Math.Vector2 dataLabelCenter;
-            Graphics.Math.Vector2 endPointDirection = Graphics.Math.Vector2.Zero;
+            Graphics.Math.Vector2 startPointDirection = Graphics.Math.Vector2.Zero;
 
             if (_parentShapeBounds != null)
             {
                 //shapeCenter
-                dataLabelCenter = new Graphics.Math.Vector2(_parentShapeBounds.Width / 2, _parentShapeBounds.Height / 2);
+                dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
 
                 //Get directional vector (in local coords but does not matter since we make it directional)
-                endPointDirection = parentPoint.LocalPosition - dataLabelCenter;
+                startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
                 //Divide by length to only get direction
-                endPointDirection = endPointDirection / endPointDirection.Length;
+                var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
+
+                //var lenX = Math.Abs()
+                //////Pythagoran theorem
+                var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
+                startPointDirection = startPointDirectionOnly * len;
             }
             else
             {
@@ -262,8 +267,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-                    Bounds.Left = dataLabelCenter.X;
-                    Bounds.Top = dataLabelCenter.Y;
+                    Bounds.Left += startPointDirection.X;
+                    Bounds.Top += startPointDirection.Y;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(parentPoint, _labelPosition);
@@ -279,7 +284,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     SetPositionBasic(parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InEnd:
-                    if(endPointDirection.X == 0 && endPointDirection.Y == 0)
+                    if(startPointDirection.X == 0 && startPointDirection.Y == 0)
                     {
                         throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
                             "Cannot be within End if EndPoint is undefined.");
@@ -289,10 +294,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
                     }
 
-                    if (endPointDirection.X != 0)
+                    if (startPointDirection.X != 0)
                     {
                         //If endPoint is to the right
-                        if (endPointDirection.X > 0)
+                        if (startPointDirection.X > 0)
                         {
                             //We must place to the left
                             SetPositionBasic(parentPoint, eLabelPosition.Left);
@@ -305,10 +310,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         }
                     }
 
-                    if (endPointDirection.Y != 0)
+                    if (startPointDirection.Y != 0)
                     {
                         //If endpoint is below
-                        if (endPointDirection.Y > 0)
+                        if (startPointDirection.Y > 0)
                         {
                             //We must place on Top
                             SetPositionBasic(parentPoint, eLabelPosition.Top);
@@ -340,7 +345,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //}
                     break;
                 case eLabelPosition.OutEnd:
-                    if (endPointDirection.X == 0 && endPointDirection.Y == 0)
+                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
                     {
                         throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
                             "Cannot be within End if EndPoint is undefined.");
@@ -350,10 +355,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
                     }
 
-                    if (endPointDirection.X != 0)
+                    if (startPointDirection.X != 0)
                     {
                         //If endPoint is to the left
-                        if (endPointDirection.X < 0)
+                        if (startPointDirection.X < 0)
                         {
                             //We must place to the left
                             SetPositionBasic(parentPoint, eLabelPosition.Left);
@@ -366,10 +371,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         }
                     }
 
-                    if (endPointDirection.Y != 0)
+                    if (startPointDirection.Y != 0)
                     {
                         //If endpoint is on Top
-                        if (endPointDirection.Y < 0)
+                        if (startPointDirection.Y < 0)
                         {
                             //We must place on Top
                             SetPositionBasic(parentPoint, eLabelPosition.Top);
