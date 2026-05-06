@@ -321,7 +321,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <returns></returns>
         internal Graphics.Math.Vector2 GetWholeVectorCenterToMid()
         {
-            var translationVector = GetLocalTranslationVector(50);
+            var translationVector = GetLocalTranslationVector(100);
             var pt = translationVector;
             return pt;
         }
@@ -354,7 +354,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var moveFactoredDirection = moveFactor * CtrToOuterMidDir;
 
             //Get distance/length to move along vector. We translate according to the scaled down radius
-            Graphics.Math.Vector2 LocalTranslationVector = moveFactoredDirection * _scaledRadius;
+            Graphics.Math.Vector2 LocalTranslationVector = moveFactoredDirection * _radius;
             return LocalTranslationVector;
         }
 

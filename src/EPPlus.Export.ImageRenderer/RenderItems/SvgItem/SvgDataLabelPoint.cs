@@ -240,40 +240,43 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _parentPoint = parentPoint;
             _parentShapeBounds = parentShape;
 
-            Graphics.Math.Vector2 dataLabelCenter;
+            var dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
             Graphics.Math.Vector2 startPointDirection = Graphics.Math.Vector2.Zero;
-
-            if (_parentShapeBounds != null)
-            {
-                //shapeCenter
-                dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
-
-                //Get directional vector (in local coords but does not matter since we make it directional)
-                startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
-                //Divide by length to only get direction
-                var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
-
-                //var lenX = Math.Abs()
-                //////Pythagoran theorem
-                var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
-                startPointDirection = startPointDirectionOnly * len;
-            }
-            else
-            {
-                dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
-            }
-
-
 
             if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
             {
-                //Half and invert
-                dataLabelCenter = ((startToEndDir)*-1);
+                startPointDirection = startToEndDir / startToEndDir.Length;
             }
 
-            switch (_labelPosition)
+                //if (_parentShapeBounds != null)
+                //{
+                //    //shapeCenter
+                //    dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
+
+                //    //Get directional vector (in local coords but does not matter since we make it directional)
+                //    startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
+                //    //Divide by length to only get direction
+                //    var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
+
+                //    //var lenX = Math.Abs()
+                //    //////Pythagoran theorem
+                //    var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
+                //    startPointDirection = startPointDirectionOnly * len;
+                //}
+                //else
+                //{
+                //    dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
+                //}
+
+                switch (_labelPosition)
             {
                 case eLabelPosition.Center:
+
+                    if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
+                    {
+                        //Half and invert
+                        dataLabelCenter = ((startToEndDir*0.5d) * -1d);
+                    }
                     Bounds.Left += dataLabelCenter.X;
                     Bounds.Top += dataLabelCenter.Y;
                     break;
@@ -291,16 +294,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     SetPositionBasic(parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InEnd:
-                    if(startPointDirection.X == 0 && startPointDirection.Y == 0)
+                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
                     {
                         throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
                             "Cannot be within End if EndPoint is undefined.");
                     }
-                    if(parentShape == null)
-                    {
-                        throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
-                    }
-
+                    //if(parentShape == null)
+                    //{
+                    //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
+                    //}
+                    startPointDirection = startPointDirection * -1;
                     if (startPointDirection.X != 0)
                     {
                         //If endPoint is to the right
@@ -357,10 +360,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
                             "Cannot be within End if EndPoint is undefined.");
                     }
-                    if (parentShape == null)
-                    {
-                        throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
-                    }
+                    //if (parentShape == null)
+                    //{
+                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
+                    //}
 
                     if (startPointDirection.X != 0)
                     {
