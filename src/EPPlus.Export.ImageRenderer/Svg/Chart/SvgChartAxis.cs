@@ -1014,7 +1014,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if(ax.AxisType==eAxisType.Val)
             {
-                AdjustminMaxFromChartObjects(ref min, ref max);
+                AdjustminMaxFromChartObjects(ax, ref min, ref max);
             }
             if (ax.IsDate)
             {
@@ -1085,23 +1085,26 @@ namespace EPPlusImageRenderer.Svg
         /// </summary>
         /// <param name="min">The min value to adjust.</param>
         /// <param name="max">The max value to adjust.</param>
-        private void AdjustminMaxFromChartObjects(ref double? min, ref double? max)
+        private void AdjustminMaxFromChartObjects(ExcelChartAxisStandard ax, ref double? min, ref double? max)
         {
             foreach (var drawer in SvgChart.Plotarea.ChartTypeDrawers)
             {
-                if (drawer.SupportsTrendlines)
+                if (drawer.IsOnAxis(ax))
                 {
-                    foreach (var tl in drawer.Trendlines)
+                    if (drawer.SupportsTrendlines)
                     {
-                        foreach(var c in tl.Coordinates)
+                        foreach (var tl in drawer.Trendlines)
                         {
-                            if (min > c.Y)
+                            foreach (var c in tl.Coordinates)
                             {
-                                min = c.Y;
-                            }
-                            if (max < c.Y)
-                            {
-                                max = c.Y;
+                                if (min > c.Y)
+                                {
+                                    min = c.Y;
+                                }
+                                if (max < c.Y)
+                                {
+                                    max = c.Y;
+                                }
                             }
                         }
                     }

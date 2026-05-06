@@ -19,7 +19,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     internal abstract class ChartTypeDrawer : SvgChartObject
     {
         protected SvgChart _svgChart;
-        protected ExcelChart _chartType;
+        internal protected ExcelChart _chartType;
         internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
 
         internal virtual bool SupportsTrendlines { get { return false; } }
@@ -208,6 +208,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(RenderItems);
+        }
+
+        internal bool IsOnAxis(ExcelChartAxisStandard ax)
+        {
+            return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
     }
 

@@ -104,8 +104,8 @@ internal class ValueAxisScaleCalculator
             {
                 dataMax = axisOptions.LockedMax.Value;
             }
-
-            if (axisOptions.LockedMin.HasValue==false && dataMin / dataMax < 0.666666)
+            var dataDiff = dataMax - dataMin;
+            if (axisOptions.LockedMin.HasValue==false && isAllPositive && dataDiff > 0 &&  dataMin / dataDiff < 5)
             {
                 dataMin = 0;
             }

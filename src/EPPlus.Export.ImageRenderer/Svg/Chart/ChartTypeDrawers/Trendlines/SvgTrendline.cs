@@ -334,7 +334,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             Formula = "y=" + GetPolynormFormula();
             var r2 = CalculateRSquared(x => PredictLinear(x), _ySerie, _trendline.Intercept);
-            RSquare = $"R²={r2:g4}";
+            RSquare = $"R²={r2:N4}";
         }
 
         private void CalculatePower()
@@ -357,7 +357,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             Formula = $"y={intercept:G5}x|ss:{slope:G3}|";
             var ylogSerie = _ySerie.Select(y => Math.Log(y)).ToArray();
-            RSquare = "R²=" + CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
+            var r2 = CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
+            RSquare = $"R²={r2:N4}";
         }
 
         private void CalculateMoveingAverage()
