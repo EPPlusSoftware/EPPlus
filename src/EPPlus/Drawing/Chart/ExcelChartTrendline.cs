@@ -279,6 +279,40 @@ namespace OfficeOpenXml.Drawing.Chart
             CreatespPrNode();
         }
 
+        internal string GetName(int index)
+        {
+            if(string.IsNullOrEmpty(Name))
+            {
+                var serieName = _serie.GetHeaderText(index);
+                var trendlineType = GetTypeName();
+
+                return $"{trendlineType} ({serieName})";
+            }
+            else
+            {
+                return Name;
+            }
+        }
+
+        private string GetTypeName()
+        {
+            switch(Type)
+            {
+                case eTrendLine.Exponential:
+                    return "Expon.";
+                case eTrendLine.Logarithmic:
+                    return "Log.";
+                case eTrendLine.Polynomial:
+                    return "Poly.";
+                case eTrendLine.MovingAverage:
+                    return $"{Period} per Mov. Avg.";
+                case eTrendLine.Power:
+                    return "Power";
+                default:
+                    return "Linear";
+            }
+        }
+
         ExcelChartTrendlineLabel _label =null;
         /// <summary>
         /// Trendline labels

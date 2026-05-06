@@ -10,17 +10,19 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class SvgTrendline : SvgChartObject
@@ -29,35 +31,65 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private double[] _ySerie;
         private List<object> _xSerie;
         private SvgChart _svgChart;
+        private ExcelChart _chartType;
         private bool _useSecondaryAxis;
-        public SvgTrendline(SvgChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, bool useSecondaryAxis) : base(svgChart)
+        private int _serieCount, _seriePos;
+        public SvgTrendline(SvgChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
         {
             _svgChart = svgChart;
+            _chartType = chartType;
             _trendline = trendline;
             _xSerie = xSerie;
             _ySerie = ySerie.Select(y => ConvertUtil.GetValueDouble(y)).ToArray();
-            _useSecondaryAxis = useSecondaryAxis;
+            _useSecondaryAxis = chartType.UseSecondaryAxis;
+            _serieCount = _chartType.Series.Count;
+            _seriePos = seriePos;
+            double m, b;
             switch (trendline.Type) 
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
+                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
+                    Coordinates.Add(new Coordinate(_xSerie.Count-1, GetLinearValueAtPosition(_xSerie.Count)));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();
+                    m = Coefficients[0];
+                    b = Coefficients[1];
+                    CreateCoordinates(x => b * Math.Exp(m * x));
                     break;
                 case eTrendLine.Logarithmic:
                     CalculateLogarithmic();
+                    m = Coefficients[0];
+                    b = Coefficients[1];
+                    CreateCoordinates(x => m * Math.Log(x) + b);
                     break;
                 case eTrendLine.Polynomial:
                     CalculatePolynomial();
+                    CreateCoordinates(x=> PredictPolynomial(x));
                     break;
                 case eTrendLine.Power:
                     CalculatePower();
+
+                    m = Coefficients[0];
+                    b = Coefficients[1];
+                    CreateCoordinates(x => b * Math.Pow(x, m));
                     break;
                 case eTrendLine.MovingAverage:
                     CalculateMoveingAverage();
+
+                    for (int i = ((int)_trendline.Period) - 1; i < _xSerie.Count; i++)
+                    {
+                        var x = i;
+                        var y = GetMonthlyAverageAtPosition(i);
+
+                        Coordinates.Add(new Coordinate(x, y));
+                    }
+
+
                     break;
                 default:
+                    //Should not happen unless new trendline types arrive.
                     throw new NotImplementedException("Trendline type not implemented.");
             }
         }
@@ -302,7 +334,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             Formula = "y=" + GetPolynormFormula();
             var r2 = CalculateRSquared(x => PredictLinear(x), _ySerie, _trendline.Intercept);
-            RSquare = $"R²={r2:g4}";
+            RSquare = $"R²={r2:N4}";
         }
 
         private void CalculatePower()
@@ -323,9 +355,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var intercept = Math.Pow(Math.E, (sumLnY - slope  * sumLnX) / n);
             Coefficients = [slope, intercept];
 
-            Formula = $"y={intercept:G5}x|ss:{slope:G3}";
+            Formula = $"y={intercept:G5}x|ss:{slope:G3}|";
             var ylogSerie = _ySerie.Select(y => Math.Log(y)).ToArray();
-            RSquare = "R²=" + CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
+            var r2 = CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
+            RSquare = $"R²={r2:N4}";
         }
 
         private void CalculateMoveingAverage()
@@ -477,85 +510,154 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         public double[] Coefficients {get;set;}
         public string Formula { get; set; }
         public string RSquare { get; set; }
-
+        public SvgTextBox DataLabel { get; set; }
         public override string ToString()
         {
             return _trendline.Type + "," + Formula + "," + RSquare;
         }
-
+        
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            double m, b;
-            switch(_trendline.Type)
-            {
-                case eTrendLine.Linear:
-                    renderItems.Add(CreateLinearSvgPath());
-                    break;
-                case eTrendLine.Exponential:
-                    m = Coefficients[0];
-                    b = Coefficients[1];
-                    renderItems.Add(CreateDefaultSvgPath(x => b * Math.Exp(m * x)));
-                    break;
-                case eTrendLine.Logarithmic:
-                    m = Coefficients[0];
-                    b = Coefficients[1];
-                    renderItems.Add(CreateDefaultSvgPath(x => m * Math.Log(x) + b));
-                    break;
-                case eTrendLine.Polynomial:
-                    renderItems.Add(CreateDefaultSvgPath(x => PredictPolynomial(x)));
-                    break;
-                case eTrendLine.Power:
-                    //intercept * Math.Pow(x, slope)
-                    m = Coefficients[0];
-                    b = Coefficients[1];
-                    renderItems.Add(CreateDefaultSvgPath(x => b * Math.Pow(x, m)));
-                    break;
-                case eTrendLine.MovingAverage:
-                    renderItems.Add(CreateMonthlyAverageSvgPath());
-                    break;
-            }
-
+            var trendLinePath = CreateDefaultSvgPath();
+            renderItems.Add(trendLinePath);
             //Display the label for the trendline with equation and R² value.
             if ((_trendline.DisplayEquation || _trendline.DisplayRSquaredValue) && _trendline.Type!=eTrendLine.MovingAverage)
             {
                 if(_trendline.HasLbl)
                 {
-                    double x, y;
+                    var lbl = _trendline.Label;
+                    var coord = trendLinePath.Commands[0].Coordinates;
+                    var x = coord[coord.Length - 2];
+                    var y = coord[coord.Length - 1];
+                    double width = 0, height=0;
+                    
                     if(_trendline.Label.Layout.HasLayout)
-                    { 
-                        
+                    {
+                        var mlRect = GetRectFromManualLayout(_svgChart, _trendline.Label.Layout);
+                        x += mlRect.Left;
+                        y += mlRect.Top;
+                        if(lbl.Layout.ManualLayout.Width.HasValue && lbl.Layout.ManualLayout.Height.HasValue)
+                        {
+                            width = mlRect.Width;
+                            height = mlRect.Height;
+                        }
                     }
+
+                    if (width > 0 && height > 0)
+                    {
+                        DataLabel = new SvgTextBox(_svgChart, _svgChart.Plotarea.Rectangle.Bounds, x, y, width, height);
+                        DataLabel.TextBody.AutoSize = false;
+                    }
+                    else
+                    {
+                        DataLabel = new SvgTextBox(_svgChart, _svgChart.Plotarea.Rectangle.Bounds, _svgChart.Plotarea.Rectangle.Bounds);
+                        if(x > 0)
+                        {
+                            DataLabel.Left = x;
+                        }
+                        if(y > 0)
+                        {
+                            DataLabel.Top = y;
+                        }
+                        DataLabel.TextBody.AutoSize = true;
+                    }
+                    DataLabel.ImportTextBody(lbl.TextBody);
+                    var labelText = "";
+                    if(_trendline.DisplayEquation)
+                    {
+                        labelText += Formula;
+                    }
+                    if(_trendline.DisplayRSquaredValue)
+                    {
+                        if(labelText.Length > 0)
+                        {
+                            labelText += Environment.NewLine;
+                        }
+                        labelText += RSquare;
+                    }
+                    DataLabel.AddText(0, labelText);
+                    DataLabel.Left -= DataLabel.Width - 3;
+                    DataLabel.Top -= DataLabel.Height / 2;
+                    DataLabel.Rectangle.SetDrawingPropertiesFill(_trendline.Label.Fill, _svgChart.Chart.StyleManager.Style.TrendlineLabel.FillReference.Color);
+                    DataLabel.Rectangle.SetDrawingPropertiesBorder(_trendline.Label.Border, _svgChart.Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
+                    DataLabel.Rectangle.SetDrawingPropertiesEffects(_trendline.Label.Effect);
+
+                    DataLabel.AppendRenderItems(renderItems);
                 }
             }
         }
 
-        private RenderItem CreateDefaultSvgPath(Func<double, double> predictPoint)
+        private void CreateCoordinates(Func<double, double> predictPoint)
         {
-            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
-            var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
-            var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
-            var pa = _svgChart.Plotarea;
-
-            var x1 = xAxis.GetPositionInPlotarea(0);
-            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count - 1);
+            var x1 = 0;
+            var x2 = _xSerie.Count - 1;
 
             //We aim for 1 line per point for the trendline.
             var diff = (x2 - x1);
-            var inc = GetXInc(diff);
-
-            var coordinates = new List<double>();
+            var inc = diff / GetXInc(_svgChart.Bounds.Width);
             double y;
-            for (double d = x1; d < x2; d+=inc)
+            for (double d = x1; d < x2; d += inc)
             {
-                var x = (_xSerie.Count-1) * (d - x1) / diff;
-                coordinates.Add(d);
-                y = yAxis.GetPositionInPlotarea(predictPoint(x+1));
-                coordinates.Add(y);
+                var x = (x2) * (d - x1) / diff;
+                y = predictPoint(x + 1);
+                Coordinates.Add(new Coordinate(x,y));
             }
 
-            coordinates.Add(x2);
-            y = yAxis.GetPositionInPlotarea(predictPoint(_xSerie.Count));
-            coordinates.Add(y);
+            y = predictPoint(x2 + 1);
+            Coordinates.Add(new Coordinate(x2, y));
+        }
+        private SvgRenderPathItem CreateDefaultSvgPath()
+        {
+            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
+            var isBar = _chartType.IsTypeBar();
+            var isLine = _chartType.IsTypeLine();
+            SvgChartAxis catAxis, valAxis;
+            if(isBar)
+            {
+                valAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+                catAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+            }
+            else
+            {
+                catAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+                valAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+            }
+
+            var pa = _svgChart.Plotarea;
+            var coordinates=new List<double>();
+            for (var i=0;i<Coordinates.Count;i++)
+            {
+                if(isLine)
+                {
+                    coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X));
+                    coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
+                }
+                else
+                {
+                    var count = (_xSerie.Count > _ySerie.Length ? _xSerie.Count: _ySerie.Length);
+                    var ct = (ExcelBarChart) _chartType;
+                    var yWidth = (isBar ? _svgChart.Plotarea.Rectangle.Height : _svgChart.Plotarea.Rectangle.Width);
+                    var slotSize = valAxis.Values.Count;
+                    var gapPercent = ct.GapWidth / 100D;     // Gap width between bars/columns in percent
+                    var overlapPercent = ct.Overlap / 100D;  // Overlap  between bars/columns in percent            
+                    var slotWidth = yWidth / slotSize;
+                    var clusterWidth = slotWidth * 100 / (100 + ct.GapWidth);
+                    var step = 1 - overlapPercent;
+                    var barWidth = slotWidth / (1 + (count - 1) * step + gapPercent);
+                    var halfGap = (barWidth * gapPercent) / 2;
+                    if (isBar)
+                    {
+
+                        coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
+                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[Coordinates.Count - 1].X - Coordinates[i].X) + halfGap + (_serieCount - _seriePos - 1) * barWidth * step);
+                    }
+                    else
+                    {
+                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X));
+                        coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
+                    }
+                }
+            }
 
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, coordinates.ToArray()));
             pathItem.FillColor = "none"; 
@@ -572,51 +674,52 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             k = Math.Max(k, 0);
             return n / Math.Pow(2, k);
         }
+        internal List<Coordinate> Coordinates { get; set; } = new List<Coordinate>();
+        //private RenderItem CreateLinearSvgPath()
+        //{
+        //    var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);            
+        //    var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+        //    var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+        //    var pa = _svgChart.Plotarea;
 
-        private RenderItem CreateLinearSvgPath()
-        {
-            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
-            var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
-            var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
-            var pa = _svgChart.Plotarea;
-            var x1 = xAxis.GetPositionInPlotarea(0);
-            var y1 = yAxis.GetPositionInPlotarea(GetLinearValueAtPosition(1));
+        //    var x1 = xAxis.GetPositionInPlotarea(Coordinates[0].X);
+        //    var y1 = yAxis.GetPositionInPlotarea(Coordinates[0].Y);
+        //    var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(Coordinates[1].X);
+        //    var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(Coordinates[1].Y);
 
-            var x2 = _svgChart.HorizontalAxis.GetPositionInPlotarea(_xSerie.Count-1);
-            var y2 = _svgChart.VerticalAxis.GetPositionInPlotarea(GetLinearValueAtPosition(_xSerie.Count));
+        //    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
+        //    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(_xSerie.Count)));
+        //    pathItem.Commands.Add(
+        //        new PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
+        //        );
 
-            pathItem.Commands.Add(
-                new PathCommands(PathCommandType.Move, pathItem, [x1, y1, x2, y2])
-                );
+        //    pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+        //    pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
 
-            pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
-            pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
+        //    return pathItem;
+        //}
 
-            return pathItem;
-        }
+        //private RenderItem CreateMonthlyAverageSvgPath()
+        //{
+        //    var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
+        //    var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
+        //    var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+        //    var pa = _svgChart.Plotarea;
+        //    for(int i= ((int)_trendline.Period) - 1;i<_xSerie.Count;i++)
+        //    {
+        //        var x = xAxis.GetPositionInPlotarea(Coordinates[i].X);
+        //        coordinates.Add(x);
+        //        var y = yAxis.GetPositionInPlotarea(Coordinates[i].Y));
+        //        coordinates.Add(y);
+        //    }
 
-        private RenderItem CreateMonthlyAverageSvgPath()
-        {
-            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
-            var xAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
-            var yAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
-            var pa = _svgChart.Plotarea;
-            var coordinates = new List<double>();
-            for(int i= ((int)_trendline.Period) - 1;i<_xSerie.Count;i++)
-            {
-                var x = xAxis.GetPositionInPlotarea(i);
-                coordinates.Add(x);
-                var y = yAxis.GetPositionInPlotarea(GetMonthlyAverageAtPosition(i));
-                coordinates.Add(y);
-            }
+        //    pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, coordinates.ToArray()));
 
-            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, coordinates.ToArray()));
+        //    pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+        //    pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
 
-            pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
-            pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
-
-            return pathItem;
-        }
+        //    return pathItem;
+        //}
 
         List<double> _ma = null;
         private double GetMonthlyAverageAtPosition(double x)

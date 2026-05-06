@@ -87,8 +87,10 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesFill(l.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(l.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
-            SetLegend(sc, entryWidth, entryHeight);
+            var pSls = SetLegendSeries(sc, entryWidth, entryHeight);
+            SetLegendTrendlines(sc, entryWidth, entryHeight, pSls);
         }
+
 
         private SvgRenderRectItem GetLegendRectangleAndEntrySize(SvgChart sc, ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
@@ -97,51 +99,38 @@ namespace EPPlusImageRenderer.Svg
             var widest = 0d;
             var highest = 0d;
             var index = 0;
+
             //Find the widest and hightest legend entry, and calculate the total width and hight of the legend based on the orientation. 
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
                 foreach (var s in ct.Series)
                 {
                     var text = s.GetHeaderText(index);
-                    var entry = l.Entries.FirstOrDefault(x => x.Index == index);
-                    ExcelTextFont font;
-                    MeasurementFont mf;
-                    if(entry==null || entry.Font.IsEmpty)
-                    {
-                        font = l.Font;
-                        mf = l.Font.GetMeasureFont();
-                    }
-                    else
-                    {
-                        font = entry.Font;
-                        mf = entry.Font.GetMeasureFont();
-                    }
-
-                    if(_ttMeasurer == null)
-                    {
-                        _ttMeasurer = new OpenTypeFontTextMeasurer(OpenTypeFonts.GetShaperForFont(mf));
-                    }
-
-                    var tm = _ttMeasurer.MeasureText(text, mf);
-                    _seriesHeadersMeasure.Add(tm);
-
-                    if(tm.Width > widest)
-                    {
-                        widest = tm.Width;
-                    }
-
-                    if(tm.Height> highest)
-                    {
-                        highest = tm.Height;
-                    }
-
+                    GetSerieSize(l, index, text, ref widest, ref highest);
                     index++;
                 }
             }
+
+            //Trendlines also get legend entries, but they should appear after the series name.
+            var trIndex = 0;
+            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
+            {
+                foreach (var s in ct.Series)
+                {
+                    foreach (var tl in s.TrendLines)
+                    {
+                        var text = tl.GetName(index);
+                        GetSerieSize(l, trIndex, text, ref widest, ref highest);
+                        trIndex++;
+                    }
+                }
+            }
+            index += trIndex;
+
             var maxIconLength = GetMaxIconLenght(sc.Chart, highest);
             entryWidth = maxIconLength + MarginIconText + widest;
             entryHeight = highest;
-            //hight += BottomMargin;     //remove last margin and add bottom margin
+
             switch (l.Position)
             {
                 case eLegendPosition.Top:
@@ -231,6 +220,41 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
+        private void GetSerieSize(ExcelChartLegend l, int index, string text, ref double widest, ref double highest)
+        {
+            var entry = l.Entries.FirstOrDefault(x => x.Index == index);
+            ExcelTextFont font;
+            MeasurementFont mf;
+            if (entry == null || entry.Font.IsEmpty)
+            {
+                font = l.Font;
+                mf = l.Font.GetMeasureFont();
+            }
+            else
+            {
+                font = entry.Font;
+                mf = entry.Font.GetMeasureFont();
+            }
+
+            if (_ttMeasurer == null)
+            {
+                _ttMeasurer = new OpenTypeFontTextMeasurer(OpenTypeFonts.GetShaperForFont(mf));
+            }
+
+            var tm = _ttMeasurer.MeasureText(text, mf);
+            _seriesHeadersMeasure.Add(tm);
+
+            if (tm.Width > widest)
+            {
+                widest = tm.Width;
+            }
+
+            if (tm.Height > highest)
+            {
+                highest = tm.Height;
+            }
+        }
+
         private double GetMaxIconLenght(ExcelChart ct, double heighestText)
         {
             var maxIconLength = 0D;
@@ -250,7 +274,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        internal void SetLegend(SvgChart sc, double entryWidth, double entryHeight)
+        internal SvgLegendSerie SetLegendSeries(SvgChart sc, double entryWidth, double entryHeight)
         {
             int index = 0;
             SvgLegendSerie pSls=null;
@@ -269,6 +293,7 @@ namespace EPPlusImageRenderer.Svg
                     ix = 0;
                     end = ct.Series.Count;
                 }
+
                 while(ix != end)
                 {
                     var s = ct.Series[ix];
@@ -322,7 +347,90 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
+            return pSls;
         }
+
+        private void SetLegendTrendlines(SvgChart sc, double entryWidth, double entryHeight, SvgLegendSerie pSls)
+        {
+            int index = SeriesIcon.Count;
+            var pos = Chart.Legend.Position;
+            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
+            {
+                int ix, end;
+                if (ct.IsTypeBar())
+                {
+                    ix = ct.Series.Count - 1;
+                    end = -1;
+                }
+                else
+                {
+                    ix = 0;
+                    end = ct.Series.Count;
+                }
+
+                while (ix != end)
+                {
+                    var s = ct.Series[ix];
+                    foreach (var tl in s.TrendLines)
+                    {
+                        var sls = new SvgLegendSerie();
+
+                        SetTrendlineLegend(sc, ct, ix, index, pSls, pos, tl, sls, entryWidth, entryHeight);
+
+                        if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
+                        {
+                            return;
+                        }
+
+                        SeriesIcon.Add(sls);
+                        pSls = sls;
+                        index++;
+
+                    }
+                    if (ix < end)
+                    {
+                        ix++;
+                    }
+                    else
+                    {
+                        ix--;
+                    }
+                }
+            }
+        }
+        private void SetTrendlineLegend(SvgChart sc, ExcelChart ct, int serieIndex, int entryIndex, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartTrendline tl, SvgLegendSerie sls, double entryWidth, double entryHeight)
+        {
+
+            var si = GetTrendLineSeriesIcon(sc, ct, tl, pSls, entryWidth, entryHeight);
+            sls.SeriesIcon = si;
+
+            var tbLeft = si.X1 + LineLength + MarginIconText;
+            var tbTop = si.Y2 - entryHeight * 0.5;    //TODO:Should probably be font ascent 
+            double tbWidth;
+            //if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
+            //{
+            //    tbWidth = Bounds.Width - tbLeft - RightMargin;
+            //}
+            //else
+            //{
+                tbWidth = Bounds.Width - tbLeft - RightMargin;
+            //}
+
+            var tbHeight = entryHeight;
+            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+
+            var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == entryIndex);
+            var headerText = tl.GetName(serieIndex);
+            if (entry == null || entry.Font.IsEmpty)
+            {
+                sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+            }
+            else
+            {
+                sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+            }
+        }
+
 
         private void SetLineLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
@@ -412,6 +520,23 @@ namespace EPPlusImageRenderer.Svg
             var line = new SvgRenderLineItem(sc, Rectangle.Bounds);
             line.SetDrawingPropertiesFill(cStandardSerie.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             line.SetDrawingPropertiesBorder(cStandardSerie.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            var icon = pSls?.SeriesIcon as SvgRenderLineItem;
+
+            GetItemPosition(sc, pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
+
+            line.X1 = x;
+            line.Y1 = y;
+            line.X2 = x + LineLength;
+            line.Y2 = y;
+            line.LineCap = eLineCap.Round;
+
+            return line;
+        }
+        private SvgRenderLineItem GetTrendLineSeriesIcon(SvgChart sc, ExcelChart ct, ExcelChartTrendline tl, SvgLegendSerie pSls, double entryWidth, double entryHeight)
+        {
+            var line = new SvgRenderLineItem(sc, Rectangle.Bounds);
+            line.SetDrawingPropertiesFill(tl.Fill, sc.Chart.StyleManager.Style.Trendline.FillReference.Color);
+            line.SetDrawingPropertiesBorder(tl.Border, sc.Chart.StyleManager.Style.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, 0.75);
             var icon = pSls?.SeriesIcon as SvgRenderLineItem;
 
             GetItemPosition(sc, pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);

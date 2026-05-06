@@ -236,5 +236,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             Slices[position].ImportStlyeInfo(dataPoint, chartType);
             Slices[position].AppendGroupItem(_groupItem);
         }
+
+        internal override void DrawSeries()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
