@@ -57,7 +57,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             ParentTextBody = textBody;
             Bounds.Name = "Paragraph";
-            var defaultFont = new MeasurementFont { FontFamily = "Archivo Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+            var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
 
             _layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
