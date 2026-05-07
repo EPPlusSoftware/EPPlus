@@ -46,6 +46,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private double? _centerAdjustment = null;
 
+        internal List<double> SpaceWidthsPerLine = new List<double>();
+
         public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
             ParentTextBody = textBody;
@@ -294,12 +296,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //START
                 var idxOfLargestLine = 0;
                 double widthOfLargestLine = lines[0].Width;
+                //SpaceWidthsPerLine.Add(lines[0].lastFontSpaceWidth);
+
 
                 for (int i = 1; i < lines.Count; i++)
                 {
                     if (lines[i].Width > widthOfLargestLine)
                     {
                         var ctrLineWidth = lines[i].GetWidthWithoutTrailingSpaces();
+                        SpaceWidthsPerLine.Add(lines[i].lastFontSpaceWidth);
+
                         widthOfLargestLine = ctrLineWidth;
                         idxOfLargestLine = i;
                     }
@@ -345,7 +351,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                     foreach (var lineFragment in line.LineFragments)
                     {
-                        var displayText = line.GetLineFragmentText(lineFragment);
+                        var displayText = lineFragment.Text;
 
                         if (string.IsNullOrEmpty(textIfEmpty) == false)
                         {
@@ -408,12 +414,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //START
                 var idxOfLargestLine = 0;
                 double widthOfLargestLine = lines[0].GetWidthWithoutTrailingSpaces();
+                //SpaceWidthsPerLine.Add(lines[0].lastFontSpaceWidth);
 
                 for (int i = 1; i < lines.Count; i++)
                 {
                     if (lines[i].Width > widthOfLargestLine)
                     {
                         var ctrLineWidth = lines[i].GetWidthWithoutTrailingSpaces();
+                        SpaceWidthsPerLine.Add(lines[i].lastFontSpaceWidth);
                         widthOfLargestLine = ctrLineWidth;
                         idxOfLargestLine = i;
                     }
@@ -460,7 +468,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                         foreach (var lineFragment in line.LineFragments)
                         {
-                            var displayText = line.GetLineFragmentText(lineFragment);
+                            var displayText = lineFragment.Text;
 
                             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
                             {
@@ -468,7 +476,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             }
                             else
                             {
-                                AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText, prevWidth);
+                                var idx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
+                                AddRenderItemTextRun(p.TextRuns[idx], displayText, prevWidth);
                             }
 
                             TextRunItem runItem = Runs.Last();
