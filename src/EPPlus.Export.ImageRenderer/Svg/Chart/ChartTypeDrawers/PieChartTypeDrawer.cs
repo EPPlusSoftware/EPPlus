@@ -5,18 +5,22 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
     internal class PieChartTypeDrawer : ChartTypeDrawer
     {
+        List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<object> catValues = new List<object>();
         List<object> valValues = new List<object>();
         List<double> _serieValuesAsDoubles = new List<double>();
+        List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         double _totalOfSerieValues = 0;
 
         List<SvgPieSlice> Slices = new List<SvgPieSlice>();
@@ -38,52 +42,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
-            _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds.Left, _svgChart.Plotarea.Rectangle.Bounds.Top);
-            _groupItem.Bounds.Parent = _groupItem.Position;
-
-            //Read and set Starting angle offset as a rotation on the container
-            //This way no rotation messes with the other calculations
-            var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
-            _groupItem.Rotation = angleOffset;
-
-            LoadSeriesValues(chartType);
-            CalculateLocalCenterAndRadius();
-            CreateIntialSlice();
-
-            //How much to scale each slice due to pie explosion
-            //Essentially we start at 100% (100/100)
-            //And then scale down by adding the pie explosionPercent (0-400)
-            // 100/200 -> 0.5, 100/400 -> 0.2 etc. 
-            _sliceScaleFactor = 100d / (_pieExplosionPercent + 100d);
-
-            if(_sliceScaleFactor != 1)
-            {
-                //Small adjustment. Unsure why but closer results
-                //Could be Excel pixel rounding or 2px border buffer
-                _sliceScaleFactor += 0.02d;
-            }
-        
-            var count = Math.Min(catValues.Count, valValues.Count);
-
-            for(int i = 0; i < chartType.Series.Count; i++)
-            {
-                var serie = (ExcelPieChartSerie)chartType.Series[i];
-                //Excel ignores series beyond the first for pie chart visualization
-                if(i == 0)
-                {
-                    for (var j = 0; j < catValues.Count; j++)
-                    {
-                        var total = ConvertUtil.GetValueDouble(catValues[j], false, true);
-
-                        //Add the slice.
-                        AddSlice(chartType, serie, catValues, valValues, count, j);
-                    }
-                }
-            }
-
-            //RenderDebugEllipse();
-
-            RenderItems.Add(_groupItem);
+            //Moved to draw series
         }
 
         void RenderDebugEllipse()
@@ -161,6 +120,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                     //Pie explosion
                     _pieExplosionPercent = serie.Explosion == int.MinValue ? 0 : serie.Explosion;
+
+                    //Add Datalabel
+                    if (serie.HasDataLabel)
+                    {
+                        var datalabel = new SvgChartSerieDataLabel(_svgChart, serie.DataLabel, _svgChart.Bounds, serie, catValues, valValues, _serCounter);
+                        serieDataLabels.Add(datalabel);
+                    }
                 }
 
                 _serCounter++;
@@ -185,7 +151,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
         }
 
-        private void AddSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, List<object> catSeries, List<object> valSeries, int seriesCount, int position)
+        private void AddSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, int seriesCount, int position)
         {
             var dataPoint = serie.DataPoints[position];
 
@@ -194,178 +160,89 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
 
             Slices[position].ImportStlyeInfo(dataPoint, chartType);
-
             Slices[position].AppendGroupItem(_groupItem);
-            //var innerGroup = new SvgGroupItemNew(ChartRenderer, 0, 0);
-
-            //var slice = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-
-            //slice.BorderWidth = 2;
-
-            ////Path commands are based on percent of the Pixel height and Width
-            ////We must supply coords in a correct percentage of the Whole Chart
-            //var w = _svgChart.Plotarea.Rectangle.Bounds.Width;
-            //var h = _svgChart.Plotarea.Rectangle.Bounds.Height;
-
-            //var cx = (w / 2);
-            //var cy = (h / 2);
-
-            //var radX = _radius / w;
-            //var radY = _radius / h;
-
-            //var cxPercentOfTotal = (cx + _groupItem.Position.Left) / _svgChart.Bounds.Width;
-            //var cyPercentOfTotal = (cy + _groupItem.Position.Top) / _svgChart.Bounds.Height;
-
-            //var moveCenter = new PathCommands(PathCommandType.Move, slice, cxPercentOfTotal, cyPercentOfTotal);
-
-            //Coordinate startPoint;
-
-            //var x1 = 1d;
-            //var y1 = 1d;
-
-            //var x2 = 78d;
-            //var y2 = 400d;
-
-            //var b = Math.Pow((y2 / y1), (1 / (x2 - x1)));
-            //var a = y1 / Math.Pow(b, x1);
-
-            
-            //var origin = _sliceOuterMidpoint[position];
-            //innerGroup.TransformOrigin = _sliceOuterMidpoint[position];
-
-            //innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
-
-            //var pointExplosion = serie.DataPoints[position].Explosion == int.MinValue ? 0 : serie.DataPoints[position].Explosion;
-
-            ////Get directional vector
-            //Graphics.Math.Vector2 pieDirection = (new Graphics.Math.Vector2(innerGroup.TransformOrigin.X, innerGroup.TransformOrigin.Y) - new Graphics.Math.Vector2((cx), (cy)));
-            ////normalize the pieDirection vector
-            //pieDirection = pieDirection / pieDirection.Length;
-
-            ////If smaller than explosion direction is inward rather than outward
-            //if (pointExplosion != 0 && pointExplosion < _pieExplosionPercent)
-            //{
-            //    pieDirection = (pieDirection * -1);
-            //}
-            //else if (_pieExplosionPercent != 0 && pointExplosion > _pieExplosionPercent)
-            //{
-            //    pointExplosion -= _pieExplosionPercent;
-            //}
-            ////Get distance/length to move along vector
-            //Graphics.Math.Vector2 ScaledPieDirection = pieDirection * (_radius * (((double)pointExplosion / 100d)));
-
-            //var translateX = ScaledPieDirection.X;
-            //var translateY = ScaledPieDirection.Y;
-
-            //var maxTranslationX = _svgChart.Bounds.Width - _sliceOuterMidpoint[position].X - _groupItem.Position.Left;
-            ////The slices can move across whole of y 
-            //var maxTranslationY = _svgChart.Bounds.Height - _sliceOuterMidpoint[position].Y;
-
-            //var minTranslationX = -_sliceOuterMidpoint[position].X -_groupItem.Position.Left;
-            //var minTranslationY = -_sliceOuterMidpoint[position].Y - _groupItem.Position.Top;
-
-            //Graphics.Point lengthPoint = new Graphics.Point();
-
-            //if(ScaledPieDirection.X != 0)
-            //{
-            //    if (ScaledPieDirection.X > 0 && ScaledPieDirection.X > maxTranslationX)
-            //    {
-            //        lengthPoint.Left = maxTranslationX;
-            //    }
-            //    else if (ScaledPieDirection.X < minTranslationX)
-            //    {
-            //        lengthPoint.Left = Math.Abs(minTranslationX);
-            //    }
-            //}
-
-            //if (ScaledPieDirection.Y != 0)
-            //{
-            //    if (ScaledPieDirection.Y > 0 && ScaledPieDirection.Y > maxTranslationY)
-            //    {
-            //        lengthPoint.Top = maxTranslationY;
-            //    }
-            //    else if (ScaledPieDirection.Y < minTranslationY)
-            //    {
-            //        lengthPoint.Top = Math.Abs(minTranslationY);
-            //    }
-            //}
-
-            //var smallestLength = Math.Min(lengthPoint.Left, lengthPoint.Top);
-            //if(smallestLength == 0)
-            //{
-            //    smallestLength = Math.Max(lengthPoint.Left, lengthPoint.Top);
-            //}
-
-            //double translationLeft;
-            //double translationTop;
-
-            //if (smallestLength != 0 && smallestLength < ScaledPieDirection.Length)
-            //{
-            //    var normalizedVector = ScaledPieDirection / ScaledPieDirection.Length;
-            //    var appliedVector = normalizedVector * smallestLength;
-
-            //    translationLeft = appliedVector.X;
-            //    translationTop = appliedVector.Y;
-            //}
-            //else
-            //{
-            //    translationLeft = Math.Min(translateX, maxTranslationX);
-            //    translationTop = Math.Min(translateY, maxTranslationY);
-
-            //    translationLeft = Math.Max(translationLeft, minTranslationX);
-            //    translationTop = Math.Max(translationTop, minTranslationY);
-            //}
-
-            //innerGroup.Position.Left = translationLeft;
-            //innerGroup.Position.Top = translationTop;
-
-            //if (position != 0)
-            //{
-            //    var lastPosX = _endCoordOffsetFromLocalCenterOfCircle[position - 1].X / w;
-            //    var lastPosY = _endCoordOffsetFromLocalCenterOfCircle[position - 1].Y / h;
-            //    startPoint = new Coordinate(lastPosX, lastPosY);
-            //}
-            //else
-            //{
-            //    startPoint = new Coordinate(cxPercentOfTotal, (cy - _radius) / h);
-            //}
-
-            //var lineToStart = new PathCommands(PathCommandType.Line, slice, startPoint.X, startPoint.Y);
-
-            //var individualAngle = valPercent[position] * 360d;
-
-            //var arcCommand = new PathCommands(PathCommandType.Arc, slice, new double[] { radX, radY, 0, individualAngle > 180 ? 1 : 0, 1, _endCoordOffsetFromLocalCenterOfCircle[position].X / w, _endCoordOffsetFromLocalCenterOfCircle[position].Y / h });
-            //var end = new PathCommands(PathCommandType.End, slice, _endCoordOffsetFromLocalCenterOfCircle[position].X / w, _endCoordOffsetFromLocalCenterOfCircle[position].Y / h);
-
-            //slice.Commands.Add(moveCenter);
-            //slice.Commands.Add(lineToStart);
-            //slice.Commands.Add(arcCommand);
-            //slice.Commands.Add(end);
-
-            //slice.SetDrawingPropertiesFill(serie.DataPoints[position].Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
-            //slice.SetDrawingPropertiesBorder(serie.DataPoints[position].Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
-            //slice.SetDrawingPropertiesEffects(serie.DataPoints[position].Effect);
-            //innerGroup.AddChildItem(slice);
-
-            //_groupItem.AddChildItem(innerGroup);
-
-
-            //var LineItem = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-
-            //var midPointLine = new PathCommands(PathCommandType.Line, LineItem, origin.X / w, origin.Y / h);
-            //var moveCenterLine = new PathCommands(PathCommandType.Move, LineItem, cxPercentOfTotal, cyPercentOfTotal);
-            //LineItem.Commands.Add(moveCenterLine);
-            //LineItem.Commands.Add(midPointLine);
-
-            //LineItem.BorderColor = "purple";
-            //LineItem.BorderWidth = 3;
-
-            //groupItem.AddChildItem(LineItem);
         }
 
         internal override void DrawSeries()
         {
-            throw new NotImplementedException();
+            _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Bounds.Left, _svgChart.Plotarea.Bounds.Top);
+            _groupItem.Bounds.Parent = _groupItem.Position;
+
+            var chartType = (ExcelPieChart)_chartType;
+
+            //Read and set Starting angle offset as a rotation on the container
+            //This way no rotation messes with the other calculations
+            var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
+            _groupItem.Rotation = angleOffset;
+
+            LoadSeriesValues(chartType);
+            CalculateLocalCenterAndRadius();
+            CreateIntialSlice();
+
+            //How much to scale each slice due to pie explosion
+            //Essentially we start at 100% (100/100)
+            //And then scale down by adding the pie explosionPercent (0-400)
+            // 100/200 -> 0.5, 100/400 -> 0.2 etc. 
+            _sliceScaleFactor = 100d / (_pieExplosionPercent + 100d);
+
+            if (_sliceScaleFactor != 1)
+            {
+                //Small adjustment. Unsure why but closer results
+                //Could be Excel pixel rounding or 2px border buffer
+                _sliceScaleFactor += 0.02d;
+            }
+
+            int count = 0;
+            if (catValues != null)
+            {
+                if (valValues != null)
+                {
+                    count = Math.Min(catValues.Count, valValues.Count);
+                }
+                else
+                {
+                    count = catValues.Count;
+                }
+            }
+            else
+            {
+                if (valValues != null)
+                {
+                    count = valValues.Count;
+                }
+            }
+
+            for (int i = 0; i < chartType.Series.Count; i++)
+            {
+                var serie = (ExcelPieChartSerie)chartType.Series[i];
+                //Excel ignores series beyond the first for pie chart visualization
+                if (i == 0)
+                {
+                    for (var j = 0; j < count; j++)
+                    {
+                        //Add the slice.
+                        AddSlice(chartType, serie, count, j);
+                        //Add datalabel to slice
+                        if (serie.HasDataLabel)
+                        {
+                            var slicePos = Slices[j].GetInnerGroupTransformOrigin();
+                            BoundingBox dp = new BoundingBox(slicePos.X, slicePos.Y, 0, 0);
+
+                            serieDataLabels[i].SetParentVector(dp, j, Slices[j].GetWholeVectorCenterToMid());
+                            //serieDataLabels[i].SetParentShape(Slices[j].ExtremePoints, dp, j);
+                        }
+                    }
+                }
+            }
+
+            //RenderDebugEllipse();
+
+            RenderItems.Add(_groupItem);
+            //Date series labels
+            foreach (var dataLabel in serieDataLabels)
+            {
+                dataLabel.AppendRenderItems(RenderItems);
+            }
         }
     }
 }

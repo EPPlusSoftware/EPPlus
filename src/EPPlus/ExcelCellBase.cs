@@ -781,6 +781,7 @@ namespace OfficeOpenXml
                 return false;
             }
 
+
             if (IsValidRangeAddress(address)==false) //TODO: update IsValidRangeAddress to use tokens instead;
             {
                 return IsValidTableAddress(address);
