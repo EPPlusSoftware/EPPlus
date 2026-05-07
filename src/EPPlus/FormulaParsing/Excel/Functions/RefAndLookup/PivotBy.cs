@@ -875,82 +875,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        //    private void WriteGrandTotalRow(
-        //InMemoryRange result,
-        //int r,
-        //List<ColEntry> colEntries,
-        //List<LeafWithPath> colLeaves,
-        //Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-        //PivotByArgs args,
-        //ParsingContext context,
-        //int nRowKeyCols,
-        //int colOffset,
-        //int grandTotalCol,
-        //bool showColTotal)
-        //    {
-        //        var rowTotalLabel = Math.Abs(args.RowTotalDepth) > 1 ? "Grand Total" : "Total";
-        //        result.SetValue(r, 0, "Total");
-        //        for (int c = 1; c < nRowKeyCols; c++)
-        //            result.SetValue(r, c, string.Empty);
-
-        //        int col = nRowKeyCols + colOffset;
-        //        foreach (var entry in colEntries)
-        //        {
-        //            if (entry.IsSubtotal)
-        //            {
-        //                var groupVals = entry.GroupLeaves
-        //                    .SelectMany(l =>
-
-        //                    {
-        //                        var ck = MakePivotKey(l.Path);
-        //                        return pivotMap.Values
-        //                            .SelectMany(cm => cm.TryGetValue(ck, out var cv)
-        //                                ? cv
-        //                                : Enumerable.Empty<object[]>());
-        //                    })
-        //                    .ToList();
-
-        //                object subtotalVal = null;
-        //                if (groupVals.Count > 0)
-        //                    subtotalVal = Aggregate(args.Function, groupVals, context,
-        //                        args.Function.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
-        //                result.SetValue(r, col, subtotalVal);
-        //            }
-        //            else
-        //            {
-        //                string colKey = MakePivotKey(entry.Leaf.Path);
-        //                var allValsForCol = pivotMap.Values
-        //                    .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
-        //                        ? cv
-        //                        : Enumerable.Empty<object[]>())
-        //                    .ToList();
-
-        //                object grandVal = null;
-        //                if (allValsForCol.Count > 0)
-        //                {
-        //                    var relativeToVals = args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
-        //                        ? ResolveRelativeToValuesForTotal(args.RelativeTo, entry.Leaf, colLeaves, pivotMap, args)
-        //                        : args.AllValuesInOrder;
-
-        //                    grandVal = Aggregate(args.Function, allValsForCol, context, relativeToVals);
-        //                }
-        //                result.SetValue(r, col, grandVal);
-        //            }
-        //            col++;
-        //        }
-
-        //        if (showColTotal)
-        //        {
-        //            var allVals = args.AllValuesInOrder.Select(v => new object[] { v[0] }).ToList();
-        //            var cornerVal = Aggregate(args.Function, allVals, context,
-        //                args.Function.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo != RelativeTo.ColumnTotals
-        //                    ? allVals  // dela med sig själv → 1
-        //                    : args.AllValuesInOrder);
-        //            result.SetValue(r, grandTotalCol, cornerVal);
-        //        }
-
-        //    }
-
         private class ColEntry
         {
             public bool IsSubtotal { get; set; }
@@ -968,8 +892,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 for (int i = 0; i < parentPath.Length; i++)
                     path[i] = parentPath[i];
                 path[parentPath.Length] = level.Key;
-
-                Debug.WriteLine($"Level key={level.Key}, IsLeaf={level.IsLeaf}, path.Length={path.Length}, path={string.Join("|", path.Select(p => p?.ToString()).ToArray())}");
 
                 if (level.IsLeaf)
                     result.Add(new LeafWithPath(level, path));

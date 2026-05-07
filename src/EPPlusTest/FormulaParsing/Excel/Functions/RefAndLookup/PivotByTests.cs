@@ -32,13 +32,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("Total", s.Cells["G1"].Value);
 
                 // Anna-rad
-                Assert.AreEqual("Anna", s.Cells["D2"].Value);                
+                Assert.AreEqual("Anna", s.Cells["D2"].Value);
                 Assert.AreEqual(2d, s.Cells["F2"].Value);
                 Assert.AreEqual(2d, s.Cells["G2"].Value);
 
                 // Joe-rad
                 Assert.AreEqual("Joe", s.Cells["D3"].Value);
-                Assert.AreEqual(1d, s.Cells["E3"].Value);                
+                Assert.AreEqual(1d, s.Cells["E3"].Value);
                 Assert.AreEqual(1d, s.Cells["G3"].Value);
 
                 // Total-rad
@@ -226,7 +226,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             using (var package = new ExcelPackage())
             {
-                var s = package.Workbook.Worksheets.Add("test");                
+                var s = package.Workbook.Worksheets.Add("test");
                 s.Cells["A1"].Value = "A";
                 s.Cells["A2"].Value = "A";
                 s.Cells["A3"].Value = "B";
@@ -329,7 +329,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("A", s.Cells["E4"].Value);
             }
         }
-           
+
         [TestMethod]
         public void PivotByCustomLambdaWithHstack()
         {
@@ -430,7 +430,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        
+
         public void PivotByTemplateTest()
         {
             using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
@@ -468,12 +468,59 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 var sheet = package.Workbook.Worksheets[3];
 
                 sheet.Cells["B26"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.PERCENTOF,,2,,,,,3)";
-                sheet.Calculate();
+                sheet.Cells["B26"].Calculate();
 
                 Assert.AreEqual("Albania", sheet.Cells["D26"].Value);
                 Assert.AreEqual(0.021928991, sheet.Cells["G27"].Value);
 
                 //SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void PivotByTemplateTest4()
+        {
+            using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[3];
+
+                sheet.Cells["B26"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.PERCENTOF,,2,,,,,)";
+                sheet.Cells["B26"].Calculate();
+
+                Assert.AreEqual("Albania", sheet.Cells["D26"].Value);
+                Assert.AreEqual(0.99237652, sheet.Cells["G27"].Value);
+
+                //SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void PivotBySortOrderPercentOf()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "B";
+                s.Cells["A5"].Value = "C";
+                s.Cells["A6"].Value = "C";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["B4"].Value = "Y";
+                s.Cells["B5"].Value = "X";
+                s.Cells["B6"].Value = "Y";
+                s.Cells["C1"].Value = 2;
+                s.Cells["C2"].Value = 4;
+                s.Cells["C3"].Value = 1;
+                s.Cells["C4"].Value = 5;
+                s.Cells["C5"].Value = 7;
+                s.Cells["C6"].Value = 4;
+                s.Cells["D1"].Formula = "PIVOTBY(A1:A6,B1:B6,C1:C6,_xleta.PERCENTOF)";
+                s.Calculate();
+                Assert.AreEqual(0.2, s.Cells["E2"].Value);
             }
         }
     }
