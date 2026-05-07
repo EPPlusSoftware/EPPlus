@@ -1,7 +1,7 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
@@ -12,6 +12,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests
@@ -325,10 +326,9 @@ namespace EPPlus.Export.ImageRenderer.Tests
             var svgShape = new SvgShape(shape);
             SvgTextBodyItem tbItem = svgShape.TextBodySvg;
 
-            //EPPlusImageRenderer.ImageRenderer.RenderDrawingToSvg(shape);
 
             //Appears off by 1-2 px bc of border width
-            Assert.AreEqual(190d, tbItem.Bounds.GlobalTop.PointToPixel(),1.0);
+            Assert.AreEqual(190d, tbItem.Bounds.GlobalTop.PointToPixel() , 1.0);
         }
 
 
@@ -351,6 +351,41 @@ namespace EPPlus.Export.ImageRenderer.Tests
             SaveWorkbook("vaBottom.xlsx", p);
             //Appears off by ~2 px because of border width
             Assert.AreEqual(278d, tbItem.Bounds.GlobalTop.PointToPixel(), 1.0);
+        }
+
+        [TestMethod]
+        public void AddTextPosition()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            using var p = new ExcelPackage();
+            var shape = GenerateTextShapeWithDifficultText(p);
+
+            shape.TextAnchoring = eTextAnchoringType.Center;
+
+            var svgShape = new SvgShape(shape);
+            SvgTextBodyItem tbItem = svgShape.TextBodySvg;
+
+
+            var sb = new StringBuilder();
+            var lastpara = tbItem.Paragraphs.Last();
+
+            MeasurementFont font = new MeasurementFont
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+
+            var trItem = new SvgTextRunItem(svgShape, lastpara.Bounds, font, "MyText");
+            lastpara.Runs.Add(trItem);
+            lastpara.AddText("The New Text", 0d);
+            svgShape.Render(sb);
+
+            var str = sb.ToString();
+            //var ir = new EPPlusImageRenderer.ImageRenderer();
+            //var svgString = ir.RenderDrawingToSvg(shape);
+
         }
     }
 }

@@ -354,7 +354,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var moveFactoredDirection = moveFactor * CtrToOuterMidDir;
 
             //Get distance/length to move along vector. We translate according to the scaled down radius
-            Graphics.Math.Vector2 LocalTranslationVector = moveFactoredDirection * _radius;
+            Graphics.Math.Vector2 LocalTranslationVector = moveFactoredDirection * _scaledRadius;
             return LocalTranslationVector;
         }
 

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
+
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     internal abstract class TextRunItem : RenderItem
