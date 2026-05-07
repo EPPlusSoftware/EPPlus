@@ -12,6 +12,16 @@ namespace EPPlus.Fonts.OpenType.Integration
     public class LineFragment
     {
         /// <summary>
+        /// Char idx within the TOTAL of the original input string regardless of what richtext/line
+        /// </summary>
+        public int StartOriginal { get; internal set; }
+
+        /// <summary>
+        /// Start char position within input richtext fragment
+        /// </summary>
+        public int StartRt { get; internal set; }
+
+        /// <summary>
         /// Start char position within TextLineSimple.Text
         /// </summary>
         public int StartIdx { get; set; }
@@ -29,10 +39,15 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public double SpaceWidth { get; internal set; }
 
-        internal LineFragment(int rtFragmentIdx, int idxWithinLine)
+        //public double AscentInPoints { get; private set; }
+        //public double DescentInPoints { get; private set; }
+
+        internal LineFragment(int rtFragmentIdx, int idxWithinLine, int startIdxRt, int idxOriginal)
         {
             FragmentIndex = rtFragmentIdx;
             StartIdx = idxWithinLine;
+            StartRt = startIdxRt;
+            StartOriginal = idxOriginal;
         }
     }
 }

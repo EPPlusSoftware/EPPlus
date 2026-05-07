@@ -7,6 +7,8 @@ namespace EPPlus.Fonts.OpenType.Integration
     internal class WrapStateRichText : WrapStateBase
     {
         internal LineFragment LineFrag = null;
+        internal int CharIdxRt = 0;
+        internal int CharIdxWithinOriginal = 0;
 
         public WrapStateRichText(double lineWidth) 
         {
@@ -30,7 +32,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 EndCurrentTextLine();
                 var spcWidthTemp = LineFrag.SpaceWidth;
-                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment);
+                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment, CharIdxRt, CharIdxWithinOriginal);
                 LineFrag.SpaceWidth = spcWidthTemp;
             }
             else
@@ -47,6 +49,8 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         int _rtIdxAtWordStart = -1;
         int _listIdxWithinLine = -1;
+        int _totalCharsAtWordStart = -1;
+        int _charIdxRtAtWordStart = -1;
         double _lineFragWidthAtWordStart = -1;
 
         internal void SetAndLogWordStartState(int wordStart)
@@ -57,7 +61,12 @@ namespace EPPlus.Fonts.OpenType.Integration
             _rtIdxAtWordStart = CurrentFragmentIdx;
             _lineFragWidthAtWordStart = LineFrag.Width;
 
-            if(CurrentTextLine.InternalLineFragments.Count == 0)
+            //Since we don't want the space itself to be the start pos but the first letter of the word. Use +1
+            //TODO: Handle when no word after? Its never used if there isn't one so arguably we don't have to.
+            _totalCharsAtWordStart = CharIdxWithinOriginal + 1;
+            _charIdxRtAtWordStart = CharIdxRt + 1;
+
+            if (CurrentTextLine.InternalLineFragments.Count == 0)
             {
                 _listIdxWithinLine = 0;
                 return;
@@ -93,10 +102,20 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //Do so before splitting
                 CurrentTextLine.InternalLineFragments.Add(LineFrag);
             }
+            else
+            {
+
+            }
 
             var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
-            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart);
+            //var wordStartPos = _totalCharsAtWordStart;
+            //var wordBreakPos2 = CharIdxWithinOriginal;
+            //var endIndexOfOrigFragment = _charIdxRtAtWordStart;
+            //var startIdxNewFragment = endIndexOfOrigFragment - 
+            //var lnFragNewStartIdx = CharIdxWithinOriginal - _totalCharsAtWordStart;
+
+            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, _charIdxRtAtWordStart, _totalCharsAtWordStart);
             CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;
 
             _fragmentsForNextLine = new List<LineFragment>();

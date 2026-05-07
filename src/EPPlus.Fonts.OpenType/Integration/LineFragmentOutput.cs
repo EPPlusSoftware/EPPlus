@@ -13,6 +13,15 @@ namespace EPPlus.Fonts.OpenType.Integration
     public class LineFragmentOutput
     {
         /// <summary>
+        /// Char index within the FULL TEXT of all input fragments
+        /// </summary>
+        public int StartFullTextIdx { get { return _getFullTextIdx(); } }
+
+        /// <summary>
+        /// Char idx within the input fragment
+        /// </summary>
+        public int StartRtIdx { get { return _getStartIdxRt(); } }
+        /// <summary>
         /// Char idx within the line
         /// </summary>
         public int StartIdx { get { return _getStartIdx(); } }
@@ -40,16 +49,25 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Looks up the data in the internal class LineFragment instead of making copies
         /// </summary>
         #region Callbacks
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<TextFragment> _getTextFragment;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<double> _getWidth;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<int> _getStartIdx;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        Func<int> _getStartIdxRt;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        Func<int> _getFullTextIdx;
         #endregion
 
-        internal LineFragmentOutput(Func<TextFragment> getTextFragment, Func<double> getWidth, Func<int> startIdx ,string text)
+        internal LineFragmentOutput(Func<TextFragment> getTextFragment, Func<double> getWidth, Func<int> startIdx, Func<int> startRt, Func<int> fullTextIdx, string text)
         {
             _getTextFragment = getTextFragment;
             _getWidth = getWidth;
             _getStartIdx = startIdx;
+            _getStartIdxRt = startRt;
+            _getFullTextIdx = fullTextIdx;
             Text = text;
         }
     }

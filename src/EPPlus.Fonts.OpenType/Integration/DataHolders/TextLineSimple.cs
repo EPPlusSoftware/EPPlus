@@ -50,8 +50,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public double GetWidthWithoutTrailingSpaces()
         {
-            lastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
-
             var trailingSpaceCount = 0;
 
             for (int i = Text.Count() - 1; i > 0; i--)
@@ -79,12 +77,16 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         internal void FinalizeLineFragments(List<TextFragment> originalFragments)
         {
+            lastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
+
             foreach (var lf in InternalLineFragments)
             {
                 LineFragmentOutput data = new LineFragmentOutput(
                     () => { return originalFragments[lf.FragmentIndex]; },
                     () => { return lf.Width; },
                     () => { return lf.StartIdx; },
+                    () => { return lf.StartRt; },
+                    () => { return lf.StartOriginal; },
                     GetLineFragmentText(lf)
                     );
                 LineFragments.Add(data);
@@ -117,10 +119,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
         }
 
-        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit)
+        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit, int charsRt, int charsTotal)
         {
             //If we are splitting a fragment its position in the new line should be 0
-            var newLineFragment = new LineFragment(origLf.FragmentIndex, 0);
+            var newLineFragment = new LineFragment(origLf.FragmentIndex, 0, charsRt, charsTotal);
             newLineFragment.Width = origLf.Width - widthAtSplit;
 
             newLineFragment.SpaceWidth = origLf.SpaceWidth;
