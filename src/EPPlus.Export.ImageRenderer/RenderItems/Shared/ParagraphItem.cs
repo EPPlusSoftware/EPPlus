@@ -353,7 +353,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         private void AddTextLinesAndSpacing(ExcelDrawingParagraph p, string textIfEmpty)
         {
             //Temp workaround
-            if(_p == null)
+            if (_p == null)
             {
                 _p = p;
             }
@@ -440,14 +440,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     {
                         var displayText = line.GetLineFragmentText(lineFragment);
 
-                       
+
                         if (p != null && p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
                         {
                             //Import fallback text with paragraph settings
                             AddText(displayText, p.DefaultRunProperties);
-                        }else if(p != null && p.TextRuns.Count != 0)
+                        }
+                        else if (p != null && p.TextRuns.Count != 0)
                         {
-                            if(lineFragment.RtFragIdx > p.TextRuns.Count-1)
+                            if (lineFragment.RtFragIdx > p.TextRuns.Count - 1)
                             {
                                 AddText(displayText, _newTextFragments[lineFragment.RtFragIdx].Font);
                             }
