@@ -79,33 +79,35 @@ namespace EPPlusImageRenderer.Svg
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
         internal SvgRenderRectItem Rectangle { get; set; }
-        protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout)
+        protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout, BoundingBox parent=null)
         {
-            var rect = new SvgRenderRectItem(sc, sc.ChartArea.Bounds);
+            var bounds = parent ?? sc.Bounds;
+            var rect = new SvgRenderRectItem(sc, sc.ChartArea.Rectangle.Bounds);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Left = sc.Bounds.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
+                rect.Left = bounds.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
             }
             else
             {
-                rect.Left = sc.Bounds.Width * (float)(ml.Left ?? 0D) / 100;
+                rect.Left = bounds.Width * (float)(ml.Left ?? 0D) / 100;
                 //TODO:Add factor from default position
             }
+
             //Width is always factor.
-            rect.Width = sc.Bounds.Width * ml.GetWidth() / 100;
+            rect.Width = bounds.Width * ml.GetWidth() / 100;
 
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Top = sc.Bounds.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
+                rect.Top = bounds.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
             }
             else
             {
-                rect.Top = sc.Bounds.Height * (float)(ml.Top ?? 0D) / 100;
+                rect.Top = bounds.Height * (float)(ml.Top ?? 0D) / 100;
                 //TODO:Add factor from default position
             }
             //Height is always factor.
-            rect.Height = sc.Bounds.Height * ml.GetHeight() / 100;
+            rect.Height = bounds.Height * ml.GetHeight() / 100;
             return rect;
         }
     }
