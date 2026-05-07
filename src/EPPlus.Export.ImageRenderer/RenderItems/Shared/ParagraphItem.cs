@@ -8,11 +8,13 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,6 +37,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected List<string> _textRunDisplayText = new List<string>();
 
         List<TextFragment> _newTextFragments;
+        int _manualFragmentsStartIndex = -1;
+        List<TextFragment> _manualFragments;
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
@@ -42,6 +46,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         internal bool DisplayBounds { get; set; } = false;
+
+        private List<TextLineSimple> _lines;
+
+        //Start temp workaround vars
+        string _textIfEmpty = null;
+        ExcelDrawingParagraph _p = null;
+        //end temp workaround vars
 
         private double? _centerAdjustment = null;
 
@@ -158,7 +169,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 (TextShaper) OpenTypeFonts.GetShaperForFont(_paragraphFont), 
                 _paragraphFont.Size);
 
-            AddLinesAndTextRuns(p, textIfEmpty);
+
+            ImportLinesAndTextRuns(p, textIfEmpty);
         }
 
         private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
@@ -183,50 +195,85 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        internal protected TextRunItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText, double startingX)
+        //public void AddOwnText(string text)
+        //{
+        //    var fragment = new TextFragment();
+        //    fragment.Text = text;
+        //    fragment.Font = _paragraphFont;
+        //    _manualFragments.Add(fragment);
+
+        //    //if(_newTextFragments == null)
+        //    //{
+        //    //    //This should probably never happen
+        //    //    throw new InvalidOperationException("Must GENERATE textfragments first in the constructor");
+        //    //    //GenerateTextFragments(text);
+        //    //}
+        //    //else
+        //    //{
+        //    //    var fragment = new TextFragment();
+        //    //    fragment.Text = text;
+        //    //    fragment.Font = _paragraphFont;
+        //    //    //_newTextFragments.Add(fragment);
+        //    //    _manualFragments.Add(fragment);
+        //    //}
+
+        //    //Redo whole thing for now.
+        //    //Import and wrapping really should be completely seperated but can't refactor all of it yet
+        //    //AddTextLinesAndSpacing(_p, _textIfEmpty);
+        //}
+
+        public void AddOwnText(TextFragment fragment)
+        {
+            //_manualFragments.Add(fragment);
+
+            if (_newTextFragments == null)
+            {
+                //This should probably never happen
+                throw new InvalidOperationException("Must GENERATE textfragments first in the constructor");
+                //GenerateTextFragments(text);
+            }
+            else
+            {
+                if(_manualFragmentsStartIndex == -1)
+                {
+                    _manualFragmentsStartIndex = _newTextFragments.Count;
+                }
+                //_newTextFragments.Add(fragment);
+                _newTextFragments.Add(fragment);
+            }
+
+
+            //Redo whole thing for now.
+            //Import and wrapping really should be completely seperated but can't refactor all of it yet
+            AddTextLinesAndSpacing(_p, _textIfEmpty);
+        }
+
+
+        internal protected TextRunItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
-            targetTxtRun.Bounds.Left = startingX;
 
             Runs.Add(targetTxtRun);
             return targetTxtRun;
         }
 
-        public void AddText(string text, double prevWidth)
+        private void AddText(string text, MeasurementFont font)
         {
-            var container = CreateTextRun(_paragraphFont, Bounds, text);
+            var container = CreateTextRun(font, Bounds, text);
             Runs.Add(container);
 
             container.Bounds.Name = $"Container{Runs.Count}";
-            container.Bounds.Left = prevWidth;
         }
-        public void AddText(string text, ExcelTextFont font, bool isOld)
+
+        private void AddText(string text, ExcelTextFont font)
         {
             var mf = font.GetMeasureFont();
             var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
-            var displayText = measurer.WrapText(text, mf.Size, ParentTextBody.MaxWidth);
-            var container = CreateTextRun(text, font, Bounds, string.Join("\r\n", displayText.ToArray()));
-            //container.BaseLineSpacing = _lineSpacingAscendantOnly;
-            //container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
-            Runs.Add(container);
-            Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
-            container.Bounds.Name = $"Container{Runs.Count}";
-        }
-
-
-        public void AddText(string text, ExcelTextFont font, double prevWidth)
-        {
-            var mf = font.GetMeasureFont();
-            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
-            //var displayText = measurer.MeasureAndWrapTextLines(text, font.GetMeasureFont(), ParentTextBody.MaxWidth);
 
             var container = CreateTextRun(text, font, Bounds, text);
-            //container.BaseLineSpacing = _lineSpacingAscendantOnly;
-            //container.LineSpacingPerNewLine = _lsMultiplier.Value * _measurer.GetSingleLineSpacing().PointToPixel(true);
             Runs.Add(container);
             //Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
             container.Bounds.Name = $"Container{Runs.Count}";
-            container.Bounds.Left = prevWidth;
         }
 
         void GenerateTextFragments(string text)
@@ -245,7 +292,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// So that we can easily know what textfragment is on what line and what size it has later
         /// </summary>
         /// <param name="runs"></param>
-        void GenerateTextFragments(ExcelDrawingTextRunCollection runs)
+        void GenerateTextFragments(ExcelDrawingTextRunCollection runs/*, string textIfEmpty*/)
         {
             List<string> runContents = new List<string>();
             List<float> fontSizes = new List<float>();
@@ -273,19 +320,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        internal void AddLinesAndTextRuns(string textIfEmpty)
+        internal void ImportLinesAndTextRunsDefault(string textIfEmpty)
         {
             GenerateTextFragments(textIfEmpty);
-            var lines = new List<TextLineSimple>();
-
-            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
-            var maxWidth = ParentTextBody.MaxWidth + 0.001; //TODO: fix for equal width issue;
-
-            List<TextFragment> textFragments = new List<TextFragment>();
-            var fragment = new TextFragment() { Font = _paragraphFont, Text = textIfEmpty };
-            textFragments.Add(fragment);
-
-            lines = measurer.WrapRichTextLines(textFragments, maxWidth);
 
             if (HorizontalAlignment != eTextAlignment.Center)
             {
@@ -297,42 +334,78 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
             }
 
-            AddTextLinesAndSpacing(lines, textIfEmpty, null);
+            AddTextLinesAndSpacing(null, textIfEmpty);
+        }
+        private void ImportLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
+        {
+            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+            {
+                ImportLinesAndTextRunsDefault(textIfEmpty);
+            }
+            else
+            {
+                //Log line positions and run sizes
+                GenerateTextFragments(p.TextRuns);
+                AddTextLinesAndSpacing(p, textIfEmpty);
+            }
         }
 
-        private void AddTextLinesAndSpacing(List<TextLineSimple> lines, string textIfEmpty, ExcelDrawingParagraph p)
+        private void AddTextLinesAndSpacing(ExcelDrawingParagraph p, string textIfEmpty)
         {
+            //Temp workaround
+            if(_p == null)
+            {
+                _p = p;
+            }
+            if (_textIfEmpty == null)
+            {
+                _textIfEmpty = textIfEmpty;
+            }
+
+            _lines = WrapFragmentsToLines();
+
             //In points
             double lastDescent = 0;
-            double runLineSpacing = 0;
+            double lineTop = 0;
             double greatestWidth = 0;
 
-            if (lines != null && lines.Count != 0)
+            if (_lines != null && _lines.Count != 0)
             {
                 //This could be moved into a textLines collection class
                 //START
                 var idxOfLargestLine = 0;
-                double widthOfLargestLine = lines[0].GetWidthWithoutTrailingSpaces();
+                double widthOfLargestLine = _lines[0].GetWidthWithoutTrailingSpaces();
 
-                for (int i = 1; i < lines.Count; i++)
+                for (int i = 1; i < _lines.Count; i++)
                 {
-                    if (lines[i].Width > widthOfLargestLine)
+                    if (_lines[i].Width > widthOfLargestLine)
                     {
-                        var ctrLineWidth = lines[i].GetWidthWithoutTrailingSpaces();
+                        var ctrLineWidth = _lines[i].GetWidthWithoutTrailingSpaces();
                         widthOfLargestLine = ctrLineWidth;
                         idxOfLargestLine = i;
                     }
                 }
                 //END
 
-                if (ParentTextBody.AutoSize)
+
+                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null)
                 {
                     //Bounds of the paragraph should be bounds of the text itself.
                     //Therefore we must know the starting point to set accurate left and offset from left.
+                    Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                }
+                else
+                {
                     Bounds.Left = 0;
                 }
+                //if (ParentTextBody.AutoSize)
+                //{
+                //    //Bounds of the paragraph should be bounds of the text itself.
+                //    //Therefore we must know the starting point to set accurate left and offset from left.
+                //    Bounds.Left = 0;
+                //}
 
-                foreach (var line in lines)
+                foreach (var line in _lines)
                 {
                     double prevWidth = 0;
 
@@ -352,93 +425,75 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
                     if (LinespacingIsExact == false)
                     {
-                        runLineSpacing += line.LargestAscent + lastDescent;
+                        lineTop += line.LargestAscent + lastDescent;
                     }
                     else
                     {
-                        runLineSpacing += ParagraphLineSpacing;
+                        lineTop += ParagraphLineSpacing;
                     }
                     if (line.GetWidthWithoutTrailingSpaces() > greatestWidth)
                     {
                         greatestWidth = line.GetWidthWithoutTrailingSpaces();
                     }
 
-                    if(p != null && p._paragraphs.Count > 0)
+                    foreach (var lineFragment in line.LineFragments)
                     {
-                        foreach (var lineFragment in line.LineFragments)
-                        {
-                            var displayText = line.GetLineFragmentText(lineFragment);
+                        var displayText = line.GetLineFragmentText(lineFragment);
 
-                            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+                       
+                        if (p != null && p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+                        {
+                            //Import fallback text with paragraph settings
+                            AddText(displayText, p.DefaultRunProperties);
+                        }else if(p != null && p.TextRuns.Count != 0)
+                        {
+                            if(lineFragment.RtFragIdx > p.TextRuns.Count-1)
                             {
-                                AddText(displayText, p.DefaultRunProperties, prevWidth);
+                                AddText(displayText, _newTextFragments[lineFragment.RtFragIdx].Font);
                             }
                             else
                             {
-                                AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText, prevWidth);
+                                //Import Paragraph text run
+                                AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText);
                             }
-
-                            TextRunItem runItem = Runs.Last();
-                            runItem.YPosition = runLineSpacing;
-
-                            runItem.Bounds.Width = lineFragment.Width;
-                            prevWidth += lineFragment.Width;
                         }
-                    }
-                    else
-                    {
-                        foreach (var lineFragment in line.LineFragments)
+                        else
                         {
-                            var displayText = line.GetLineFragmentText(lineFragment);
-
-                            if (string.IsNullOrEmpty(textIfEmpty) == false)
-                            {
-                                AddText(displayText, prevWidth);
-                            }
-
-                            TextRunItem runItem = Runs.Last();
-                            runItem.YPosition = runLineSpacing;
-
-                            runItem.Bounds.Width = lineFragment.Width;
-                            prevWidth += lineFragment.Width;
+                            //Import fallback with default settings from constructor
+                            AddText(displayText, _paragraphFont);
                         }
+                        TextRunItem runItem = Runs.Last();
+                        runItem.Bounds.Left = prevWidth;
+                        runItem.YPosition = lineTop;
+
+                        runItem.Bounds.Width = lineFragment.Width;
+                        prevWidth += lineFragment.Width;
                     }
                     lastDescent = line.LargestDescent;
                 }
             }
-            Bounds.Height = runLineSpacing + lastDescent;
+            Bounds.Height = lineTop + lastDescent;
             Bounds.Width = greatestWidth;
         }
 
-        private void AddLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
+        List<TextLineSimple> WrapFragmentsToLines(List<TextFragment> fragments = null)
         {
-            //Log line positions and run sizes
-            GenerateTextFragments(p.TextRuns);
-
-            var lines = new List<TextLineSimple>();
-
-            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
-            {   
-                AddLinesAndTextRuns(textIfEmpty);
-            }
-            else
+            if(fragments == null )
             {
-                lines = WrapToSimpleTextLines(p);
-                AddTextLinesAndSpacing(lines, textIfEmpty, p);
+                fragments = _newTextFragments;
             }
-        }
 
-        List<TextLineSimple> WrapToSimpleTextLines(ExcelDrawingParagraph p)
-        {
-            if (_newTextFragments.Count > 0)
+            if (fragments.Count > 0)
             {
                 if(_layout == null)
                 {
-                    _layout = OpenTypeFonts.GetTextLayoutEngineForFont((_newTextFragments[0].Font));
+                    _layout = OpenTypeFonts.GetTextLayoutEngineForFont((fragments[0].Font));
                 }
 
                 var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
-                return _layout.WrapRichTextLines(_newTextFragments, maxWidthPoints);
+
+                _lines = _layout.WrapRichTextLines(fragments, maxWidthPoints);
+                return _lines;
             }
             return new List<TextLineSimple>();
         }

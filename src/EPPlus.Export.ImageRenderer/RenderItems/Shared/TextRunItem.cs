@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -152,6 +153,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _measurementFont = run.GetMeasurementFont();
 
+            
             //_fontStyles = _measurementFont.Style;
 
             _baseline = run.Baseline;
@@ -170,6 +172,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             if( parent!= null && parent.Parent != null && parent.Parent.Parent != null)
             {
                ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
+            }
+
+            if (run.Fill.Style == eFillStyle.SolidFill)
+            {
+                FillColor = "#" + run.Fill.Color.To6CharHexString();
             }
 
             _isItalic = run.FontItalic;

@@ -377,15 +377,14 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 Style = MeasurementFontStyles.Bold
             };
 
-            var trItem = new SvgTextRunItem(svgShape, lastpara.Bounds, font, "MyText");
-            lastpara.Runs.Add(trItem);
-            lastpara.AddText("The New Text", 0d);
+            //var trItem = new SvgTextRunItem(svgShape, lastpara.Bounds, font, "MyText");
+            //lastpara.Runs.Add(trItem);
+            lastpara.AddOwnText(new TextFragment() {Text = "my new text", Font = font });
             svgShape.Render(sb);
 
             var str = sb.ToString();
-            //var ir = new EPPlusImageRenderer.ImageRenderer();
-            //var svgString = ir.RenderDrawingToSvg(shape);
 
+            SaveTextFileToWorkbook("InsertedTextTest.svg", str);
         }
     }
 }
