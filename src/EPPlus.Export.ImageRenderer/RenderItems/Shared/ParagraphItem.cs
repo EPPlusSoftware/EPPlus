@@ -384,6 +384,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     if (_lines[i].Width > widthOfLargestLine)
                     {
                         var ctrLineWidth = _lines[i].GetWidthWithoutTrailingSpaces();
+                        SpaceWidthsPerLine.Add(_lines[i].lastFontSpaceWidth);
                         widthOfLargestLine = ctrLineWidth;
                         idxOfLargestLine = i;
                     }
@@ -479,7 +480,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
             Bounds.Height = lineTop + lastDescent;
-            Bounds.Width = greatestWidth;
             Bounds.Width = greatestWidth;
         }
 
