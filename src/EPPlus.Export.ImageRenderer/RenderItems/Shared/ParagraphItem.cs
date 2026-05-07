@@ -56,6 +56,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         private double? _centerAdjustment = null;
 
+        internal List<double> SpaceWidthsPerLine = new List<double>();
+
         bool LinespacingIsExact 
         { 
             get
@@ -304,6 +306,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var runFont = txtRun.GetMeasurementFont();
 
                 fonts.Add(runFont);
+                fonts.Add(runFont);
                 runContents.Add(txtRun.Text);
                 fontSizes.Add(runFont.Size);
             }
@@ -436,9 +439,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         greatestWidth = line.GetWidthWithoutTrailingSpaces();
                     }
 
-                    foreach (var lineFragment in line.LineFragments)
-                    {
-                        var displayText = line.GetLineFragmentText(lineFragment);
+                        foreach (var lineFragment in line.LineFragments)
+                        {
+                            var displayText = lineFragment.Text;
 
 
                         if (p != null && p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
@@ -448,14 +451,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         }
                         else if (p != null && p.TextRuns.Count != 0)
                         {
-                            if (lineFragment.RtFragIdx > p.TextRuns.Count - 1)
+                            var rtIdx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
+                            if (_newTextFragments.IndexOf(lineFragment.OriginalTextFragment) > p.TextRuns.Count - 1)
                             {
-                                AddText(displayText, _newTextFragments[lineFragment.RtFragIdx].Font);
+                                AddText(displayText, _newTextFragments[rtIdx].Font);
                             }
                             else
                             {
                                 //Import Paragraph text run
-                                AddRenderItemTextRun(p.TextRuns[lineFragment.RtFragIdx], displayText);
+                                var idx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
+                                AddRenderItemTextRun(p.TextRuns[idx], displayText);
                             }
                         }
                         else
@@ -474,6 +479,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 }
             }
             Bounds.Height = lineTop + lastDescent;
+            Bounds.Width = greatestWidth;
             Bounds.Width = greatestWidth;
         }
 

@@ -1139,7 +1139,6 @@ namespace EPPlusTest.Issues
             sheet.InsertColumn(3, 1);
             sheet.InsertColumn(5, 1);
         }
-
         [TestMethod]
         public void Issue2325()
         {

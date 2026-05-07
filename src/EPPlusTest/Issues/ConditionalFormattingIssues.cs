@@ -1,11 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Compatibility.System.Drawing;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
 using System.Threading;
+using ColorTranslator = System.Drawing.ColorTranslator;
 
 namespace EPPlusTest.Issues
 {

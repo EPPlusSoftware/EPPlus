@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// For easiest use it is recommended to not change the modes of width or height.
     /// Left and Top are used to determine x and y position
     /// Width and Height to define the width and height of the element.
-    /// By default all elements originate from their default
+    /// By default all elements originate from their default position
     /// Use eLayoutMode.Edge to set origin to the edge of the chart for the relevant element.
     /// </summary>
     public class ExcelManualLayout : XmlHelper
