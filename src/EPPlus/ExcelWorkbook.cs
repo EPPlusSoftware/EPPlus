@@ -1151,12 +1151,23 @@ namespace OfficeOpenXml
                 wbElem.SetAttribute("xmlns:r", ExcelPackage.schemaRelationships);
 
                 _workbookXml.AppendChild(wbElem);
+                XmlElement fileVersion = _workbookXml.CreateElement("fileVersion", ExcelPackage.schemaMain);
+                fileVersion.SetAttribute("appName", "xl");
+                fileVersion.SetAttribute("lastEdited", "7");
+                fileVersion.SetAttribute("lowestEdited", "7");
+                wbElem.AppendChild(fileVersion);
 
                 // create the bookViews and workbooks element
                 XmlElement bookViews = _workbookXml.CreateElement("bookViews", ExcelPackage.schemaMain);
                 wbElem.AppendChild(bookViews);
                 XmlElement workbookView = _workbookXml.CreateElement("workbookView", ExcelPackage.schemaMain);
                 bookViews.AppendChild(workbookView);
+
+
+                XmlElement extLst = _workbookXml.CreateElement("extLst", ExcelPackage.schemaMain);
+                extLst.InnerXml = "<ext uri=\"{B58B0392-4F1F-4190-BB64-5DF3571DCE5F}\" xmlns:xcalcf=\"http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures\"><xcalcf:calcFeatures><xcalcf:feature name=\"microsoft.com:RD\"/><xcalcf:feature name=\"microsoft.com:Single\"/><xcalcf:feature name=\"microsoft.com:FV\"/><xcalcf:feature name=\"microsoft.com:CNMTM\"/><xcalcf:feature name=\"microsoft.com:LET_WF\"/><xcalcf:feature name=\"microsoft.com:LAMBDA_WF\"/><xcalcf:feature name=\"microsoft.com:ARRAYTEXT_WF\"/></xcalcf:calcFeatures></ext>";
+                wbElem.AppendChild(extLst);
+
 
                 // save it to the package
                 StreamWriter stream = new StreamWriter(partWorkbook.GetStream(FileMode.Create, FileAccess.Write));
@@ -1282,7 +1293,8 @@ namespace OfficeOpenXml
                         SetXmlNodeString(CALC_MODE_PATH, "autoNoTable");
                         break;
                     case ExcelCalcMode.Manual:
-                        SetXmlNodeString(CALC_MODE_PATH, "manual");
+                        SetXmlNodeString(CALC_MODE_PATH, "manual"); 
+                        SetXmlNodeString("d:calcPr/@calcId", "191029");
                         break;
                     default:
                         SetXmlNodeString(CALC_MODE_PATH, "auto");

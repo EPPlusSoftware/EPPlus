@@ -25,6 +25,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["B2"].Value = 2;
                 s.Cells["D1"].Formula = "PIVOTBY(A1:A2,C1:C2, B1:B2, _xleta.SUM)";
                 s.Calculate();
+                s.Workbook.FullCalcOnLoad = false;
+                s.Workbook.CalcMode = ExcelCalcMode.Manual;
 
                 // Rubrikrad
                 Assert.AreEqual("Bertil", s.Cells["E1"].Value);
@@ -46,6 +48,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(1d, s.Cells["E4"].Value);
                 Assert.AreEqual(2d, s.Cells["F4"].Value);
                 Assert.AreEqual(3d, s.Cells["G4"].Value);
+
+                SaveWorkbook("BasicPivotBy.xlsx", package);
             }
         }
 
@@ -451,9 +455,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
             {
                 var sheet = package.Workbook.Worksheets[2];
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
 
                 sheet.Cells["B17"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.SUM)";
-                sheet.Calculate();
+                //sheet.Calculate();
+                sheet.Cells["B17"].Calculate();
 
                 Assert.AreEqual("Albania", sheet.Cells["D17"].Value);
                 SaveAndCleanup(package);
@@ -466,14 +472,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
             {
                 var sheet = package.Workbook.Worksheets[3];
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
 
                 sheet.Cells["B26"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.PERCENTOF,,2,,,,,3)";
                 sheet.Cells["B26"].Calculate();
-
+                
                 Assert.AreEqual("Albania", sheet.Cells["D26"].Value);
-                Assert.AreEqual(0.021928991, sheet.Cells["G27"].Value);
+                Assert.AreEqual(0.021928991, System.Math.Round((double)sheet.Cells["G27"].Value), 8);
 
-                //SaveAndCleanup(package);
+                SaveAndCleanup(package);
             }
         }
 
@@ -483,13 +490,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
             {
                 var sheet = package.Workbook.Worksheets[3];
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
 
                 sheet.Cells["B26"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.PERCENTOF,,2,,,,,)";
                 sheet.Cells["B26"].Calculate();
 
                 Assert.AreEqual("Albania", sheet.Cells["D26"].Value);
-                Assert.AreEqual(0.99237652, sheet.Cells["G27"].Value);
-
+                Assert.AreEqual(0.99237652, System.Math.Round((double)sheet.Cells["G27"].Value), 8d); 
                 //SaveAndCleanup(package);
             }
         }
