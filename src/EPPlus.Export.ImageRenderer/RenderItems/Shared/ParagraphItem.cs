@@ -297,7 +297,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         void GenerateTextFragments(ExcelDrawingTextRunCollection runs/*, string textIfEmpty*/)
         {
             List<string> runContents = new List<string>();
-            List<float> fontSizes = new List<float>();
             List<MeasurementFont> fonts = new List<MeasurementFont>();
             
             for (int i = 0; i < runs.Count(); i++)
@@ -306,9 +305,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 var runFont = txtRun.GetMeasurementFont();
 
                 fonts.Add(runFont);
-                fonts.Add(runFont);
                 runContents.Add(txtRun.Text);
-                fontSizes.Add(runFont.Size);
             }
 
             _newTextFragments = new List<TextFragment>();
@@ -440,9 +437,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         greatestWidth = line.GetWidthWithoutTrailingSpaces();
                     }
 
-                        foreach (var lineFragment in line.LineFragments)
-                        {
-                            var displayText = lineFragment.Text;
+                    foreach (var lineFragment in line.LineFragments)
+                    {
+                        var displayText = lineFragment.Text;
 
 
                         if (p != null && p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
@@ -453,7 +450,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         else if (p != null && p.TextRuns.Count != 0)
                         {
                             var rtIdx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
-                            if (_newTextFragments.IndexOf(lineFragment.OriginalTextFragment) > p.TextRuns.Count - 1)
+                            if (rtIdx > p.TextRuns.Count - 1)
                             {
                                 AddText(displayText, _newTextFragments[rtIdx].Font);
                             }
