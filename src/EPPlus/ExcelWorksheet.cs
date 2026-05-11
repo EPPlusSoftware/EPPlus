@@ -1526,7 +1526,12 @@ namespace OfficeOpenXml
             }
             else
             {
-                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
+                object textValue = v._value;
+                if(textValue != null && typeof(ExcelRichTextCollection) == textValue.GetType())
+                {
+                    textValue = ((ExcelRichTextCollection)textValue).Text;
+                }
+                var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
                 if (string.IsNullOrEmpty(text))
                 {
                     var item = new ExcelRichTextCollection(Workbook, r);

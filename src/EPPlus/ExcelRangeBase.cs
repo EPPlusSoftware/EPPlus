@@ -1330,8 +1330,10 @@ namespace OfficeOpenXml
                 var isRt = _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
                 if (isRt)
                 {
-                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
-                    return _rtc.Count > 0;
+                    //Do not update _rtc. This is a boolean getter.
+                    //It should not set any values even if they diff.
+                    var couldBeEmptyRT = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    return couldBeEmptyRT.Count > 0;
                 }
                 return isRt;
             }
