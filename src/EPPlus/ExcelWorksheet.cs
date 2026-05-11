@@ -1533,7 +1533,7 @@ namespace OfficeOpenXml
                 }
 
                 var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
-                if (textValue.GetType() != typeof(string) || string.IsNullOrEmpty(text))
+                if (textValue == null || textValue.GetType() != typeof(string) || string.IsNullOrEmpty(text))
                 {
                     var item = new ExcelRichTextCollection(Workbook, r);
                     return item;

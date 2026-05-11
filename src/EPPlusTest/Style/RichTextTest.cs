@@ -386,14 +386,15 @@ namespace EPPlusTest.Style
 
             var test = r.Text;
             Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+            Assert.IsFalse(ws.Cells["A1"].IsRichText);
 
             //Assert that Setting the property does.
-            r.Text = "Hello";
+            string text = "Hello";
+            r.Text = text;
 
-            //var cf = ws.Cells["A1"].ConditionalFormatting;
-            //ws.Cells["A1"].Value = r;
-
+            Assert.IsTrue(ws.Cells["A1"].IsRichText);
             Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(ExcelRichTextCollection));
+            Assert.AreEqual(text, ((ExcelRichTextCollection)ws.Cells["A1"].Value).Text);
         }
     }
 }

@@ -10,19 +10,20 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Drawing;
-using System.Globalization;
-using OfficeOpenXml.Drawing.Style.Coloring;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Style
 {
@@ -217,12 +218,16 @@ namespace OfficeOpenXml.Style
                 //If just a note we cannot set rich text flag on the cell itself.
                 if (_isComment == false)
                 {
-                    //If not a note then we are a cell and can set the flag.
-                    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
-                    if(_cells.Value != this)
+                    //If the range value is not richtext it is now.
+                    //Must set value first in order to not overwrite flags after.
+                    if (_cells.Value != this)
                     {
+                        //var flags = _cells._worksheet._flags;
+                        _cells._worksheet._flags.GetFlagValue(_cells._fromRow, _cells._fromCol, CellFlags.RichText);
                         _cells.Value = this;
                     }
+                    //If not a note then we are a cell and can set the flag.
+                    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
                 }
             }
             _list.Insert(index, rt);
