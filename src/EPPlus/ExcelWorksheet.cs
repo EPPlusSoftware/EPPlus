@@ -1531,6 +1531,8 @@ namespace OfficeOpenXml
                 {
                     textValue = ((ExcelRichTextCollection)textValue).Text;
                 }
+
+
                 var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
                 if (string.IsNullOrEmpty(text))
                 {

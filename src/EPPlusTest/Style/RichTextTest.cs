@@ -370,5 +370,17 @@ namespace EPPlusTest.Style
             Assert.AreEqual("Arial", C4.RichText[1].FontName);
 
         }
+
+        [TestMethod]
+        public void issue2214()
+        {
+            var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 1D;
+
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+            var r = ws.Cells["A1"].RichText;
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+        }
     }
 }
