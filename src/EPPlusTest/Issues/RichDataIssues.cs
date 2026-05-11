@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml;
 
 namespace EPPlusTest.Issues
 {
@@ -89,7 +91,7 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void AddingRichTextToFormulasShouldOverwrite()
         {
-            using (var pck = OpenPackage("dirtyRT.xlsx"))
+            using (var pck = OpenPackage("dirtyRT.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("richText");
 
@@ -102,122 +104,23 @@ namespace EPPlusTest.Issues
                 var myFormula = ws.Cells["B1"].Formula;
 
                 Assert.IsTrue(string.IsNullOrEmpty(myFormula));
-
-                ////Set richtext on range that has a formula
-                ////This should Throw (or clear Formula)
-                //Assert.Throws<InvalidOperationException>(() => ws.Cells["B1"].RichText.Add("My favorite number is: 1001.1"));
-
-                ////This then Results in strange behaviour below when running calculate/IsRichText
-                //var cellRange = ws.Cells["B1"];
-                //var origRT = cellRange.RichText;
-
-                //ws.Calculate();
-                //var afterRt1 = cellRange.Text;
-                //var cellRich = ws.Cells["B1"].RichText.Text; //A FRESH reference to the cell, yielding: 1001,10000
-
-
-                //var OLDCellRich = cellRange.RichText.Text; //Dirty COPY of the cell and its values, yielding: 1001.1\n
-
-                ////This causes the richText of cellRange.RichText to update
-                //var myFormula = cellRange.IsRichText;
-                ////So does Just LOOKING at the cellRange variable properties In the debugger. It trigger their Getters.
-                ////This property changes the actual values of the range when observed in the debugger.
-                ////This makes debugging harder and highly confusing both to us and end-users as you may look at a value
-                ////See that it is innaccurate and then check it again only to see that it is correct for no discernable reason.
-
-                //var OLDCellRichAfterDebug = cellRange.RichText.Text;
-                //Assert.AreEqual(OLDCellRich, OLDCellRichAfterDebug);
             }
         }
 
         [TestMethod]
-        public void AddingRichTextToFormulasShouldThrow()
+        public void RtComment()
         {
-            using (var pck = OpenPackage("dirtyRT.xlsx"))
+            using(var p = OpenTemplatePackage("RtWithOldComment.xlsx"))
             {
-                var ws = pck.Workbook.Worksheets.Add("richText");
+                var ws = p.Workbook.Worksheets[0];
 
-                ws.Cells["A1"].Value = 1001.1d;
-                ws.Cells["C1"].Formula = "ROUND(A1, 1)";
-                ws.Cells["B1"].Formula = "\"My favorite number is: \"&TEXT(ROUND(A1,1),\"#,##0.00;(#,##0.00)\")";
+                var isRichtext = ws.Cells["B3"];
+                var text = ws.Cells["B3"].RichText;
+                var rtComment = ws.Cells["B3"].Comment;
+                var rtFromComment = rtComment.RichText;
 
-                //Set richtext on range that has a formula
-                //This should Throw (or clear Formula)
-                Assert.Throws<InvalidOperationException>(() => ws.Cells["B1"].RichText.Add("My favorite number is: 1001.1"));
-
-                ////This then Results in strange behaviour below when running calculate/IsRichText
-                //var cellRange = ws.Cells["B1"];
-                //var origRT = cellRange.RichText;
-
-                //ws.Calculate();
-                //var afterRt1 = cellRange.Text;
-                //var cellRich = ws.Cells["B1"].RichText.Text; //A FRESH reference to the cell, yielding: 1001,10000
-
-
-                //var OLDCellRich = cellRange.RichText.Text; //Dirty COPY of the cell and its values, yielding: 1001.1\n
-
-                ////This causes the richText of cellRange.RichText to update
-                //var myFormula = cellRange.IsRichText;
-                ////So does Just LOOKING at the cellRange variable properties In the debugger. It trigger their Getters.
-                ////This property changes the actual values of the range when observed in the debugger.
-                ////This makes debugging harder and highly confusing both to us and end-users as you may look at a value
-                ////See that it is innaccurate and then check it again only to see that it is correct for no discernable reason.
-
-                //var OLDCellRichAfterDebug = cellRange.RichText.Text;
-                //Assert.AreEqual(OLDCellRich, OLDCellRichAfterDebug);
+                Assert.AreNotEqual(text.Text, rtFromComment.Text);
             }
         }
-
-        [TestMethod]
-        public void RichTextShouldNotBecomeDirty()
-        {
-            using (var pck = OpenPackage("dirtyRT.xlsx"))
-            {
-                var ws = pck.Workbook.Worksheets.Add("richText");
-
-                ws.Cells["A1"].Value = 1001.1d;
-                ws.Cells["C1"].Formula = "ROUND(A1, 1)";
-                ws.Cells["B1"].Formula = "\"My favorite number is: \"&TEXT(ROUND(A1,1),\"#,##0.00;(#,##0.00)\")";
-
-                //Set richtext on range that has a formula
-                //This should clear Formula but does not
-                ws.Cells["B1"].RichText.Add("My favorite number is: 1001.1", true);
-
-
-                //This then Results in strange behaviour below when running calculate/IsRichText
-                var cellRange = ws.Cells["B1"];
-                var origRT = cellRange.RichText;
-
-                ws.Calculate();
-                var afterRt1 = cellRange.Text;
-                var cellRich = ws.Cells["B1"].RichText.Text; //A FRESH reference to the cell, yielding: 1001,10000
-
-
-                var OLDCellRich = cellRange.RichText.Text; //Dirty COPY of the cell and its values, yielding: 1001.1\n
-
-                //This causes the richText of cellRange.RichText to update
-                var myFormula = cellRange.IsRichText;
-                //So does Just LOOKING at the cellRange variable properties In the debugger. It trigger their Getters.
-                //This property changes the actual values of the range when observed in the debugger.
-                //This makes debugging harder and highly confusing both to us and end-users as you may look at a value
-                //See that it is innaccurate and then check it again only to see that it is correct for no discernable reason.
-
-                var OLDCellRichAfterDebug = cellRange.RichText.Text;
-
-                Assert.AreEqual(OLDCellRich, OLDCellRichAfterDebug);
-                Assert.AreNotEqual(cellRich, OLDCellRich);
-
-                var newerRef = ws.Cells["B1"].RichText;
-
-                var refreshedText = "This text should now appear in both pointers";
-
-                cellRange.RichText.Text = refreshedText;
-
-                Assert.AreEqual(refreshedText, newerRef.Text);
-                Assert.AreEqual(refreshedText, cellRange.RichText.Text);
-                Assert.AreEqual(refreshedText, ws.Cells["B1"].RichText.Text);
-            }
-        }
-
     }
 }

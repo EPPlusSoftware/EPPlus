@@ -129,28 +129,6 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        private void CheckFormulas()
-        {
-            List<string> addressesContainingFormulas = new List<string>();
-
-            foreach (var cell in _cells)
-            {
-                if (string.IsNullOrEmpty(cell.Formula) == false)
-                {
-                    addressesContainingFormulas.Add(cell.Address);
-                }
-            }
-
-            if (addressesContainingFormulas.Count > 0)
-            {
-                string errorAddresses = string.Join(System.Environment.NewLine, addressesContainingFormulas.ToArray());
-                throw new InvalidOperationException($"Could not add RichText to range: {_cells.Address}. \r\n" +
-                    $"The following addresses contain formulas:\r\n" +
-                    $"{errorAddresses}\r\n" +
-                    $"Adding richtext would over-write the formulas. Please clear formulas before adding rich text if this is intended.");
-            }
-        }
-
         /// <summary>
         /// Items in the list
         /// </summary>
@@ -184,7 +162,15 @@ namespace OfficeOpenXml.Style
         {
             CheckDeleted();
             if (text == null) throw new ArgumentException("Text can't be null", "text");
-            //CheckFormulas();
+
+            //If just a note we can't clear formulas on the cell itself.
+            if (_isComment == false)
+            {
+                //We MUST clear formulas before setting richtext
+                //To ensure calculate does not create missmatch between formula and richtext.
+                _cells.ClearFormulas();
+            }
+
             var rt = new ExcelRichText(text, this);
             rt.PreserveSpace = true;
             int prevIndex = 0;
@@ -227,8 +213,11 @@ namespace OfficeOpenXml.Style
                 {
                     rt.Color = Color.FromArgb(hex);
                 }
+
+                //If just a note we cannot set rich text flag on the cell itself.
                 if (_isComment == false)
                 {
+                    //If not a note then we are a cell and can set the flag.
                     _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
                 }
             }
