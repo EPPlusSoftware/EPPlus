@@ -232,12 +232,6 @@ namespace OfficeOpenXml.Style
         {
             CheckDeleted();
             _list.Clear();
-            ////Avoid on is comment since insert does??
-            //if (_isComment == false)
-            //{
-            //    //If we clear the cells then there is no flag value.
-            //    _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, false, CellFlags.RichText);
-            //}
         }
         /// <summary>
         /// Removes an item at the specific index
