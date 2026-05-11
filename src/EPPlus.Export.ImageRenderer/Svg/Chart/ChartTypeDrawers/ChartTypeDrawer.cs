@@ -187,18 +187,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var serieIndex = 0;
             foreach (ExcelChartSerie serie in chartType.Series)
             {
-                for (var i = 0; i < xValues.Count; i++)
+                if (serie.TrendLines.Count > 0)
                 {
-                    var xSerie = xValues[i];
-                    var ySerie = yValues[i];
-
-                    if (serie.TrendLines.Count > 0)
+                    var xSerie = xValues[serieIndex];
+                    var ySerie = yValues[serieIndex];
+                    foreach (var trendline in serie.TrendLines)
                     {
-                        foreach (var trendline in serie.TrendLines)
-                        {
-                            var tr = new SvgTrendline(_svgChart, trendline, xSerie, ySerie, _chartType, serieIndex);
-                            Trendlines.Add(tr);
-                        }
+                        var tr = new SvgTrendline(_svgChart, trendline, xSerie, ySerie, _chartType, serieIndex);
+                        Trendlines.Add(tr);
                     }
                 }
                 serieIndex++;

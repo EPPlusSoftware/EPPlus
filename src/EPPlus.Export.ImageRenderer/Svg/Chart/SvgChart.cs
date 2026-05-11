@@ -33,7 +33,6 @@ namespace EPPlusImageRenderer.Svg
     {
         public SvgChart(ExcelChart chart/*, IChartRenderer renderer*/) : base(chart)
         {
-
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)
@@ -45,7 +44,7 @@ namespace EPPlusImageRenderer.Svg
                 Title = null;
             }
 
-            //We need to create the plotarea before the legend and axes, as the trendlines can affect the value axis and should be rendererd in the legennd.
+            //We need to create the plotarea before the legend and axes, as the trendlines can affect the value axis and should be rendererd in the legend.
             Plotarea = new SvgChartPlotarea(this);
             Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
 

@@ -18,6 +18,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<List<object>> _catValues, _valValues;
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
+        internal override bool SupportsTrendlines => true;
 
         internal BarColumnChartTypeDrawer(SvgChart svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {
@@ -49,6 +50,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 ExcelChartAxisStandard.CalculateStacked100(_valValues);
             }
+
             CreateTrendlines(chartType, _catValues, _valValues);
         }
 
@@ -79,13 +81,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //}
             }
 
-            //Trendlines and trendline labels
+            ////Trendlines and trendline labels
+            //foreach (var tr in Trendlines)
+            //{
+            //    tr.AppendRenderItems(RenderItems);
+            //}
+            //Append Trendline render items.
             foreach (var tr in Trendlines)
             {
+                tr.CreateRenderCoordinatesAndDatalabel();
                 tr.AppendRenderItems(RenderItems);
             }
 
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
+
+            //Add data labels for trendlines after the trendline has been rendered, to ensure they are on top of the line.
+            foreach (var tr in Trendlines)
+            {
+                if (tr.DataLabel != null)
+                {
+                    tr.DataLabel.AppendRenderItems(RenderItems);
+                }
+            }
 
             foreach (var dataLabel in serieDataLabels)
             {
