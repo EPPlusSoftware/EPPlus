@@ -262,10 +262,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             drawX -= range.ColWidths[rangeIdx];
                     }
                     // --- Y ---
-                    // y decreases as row increases (PDF coordinate origin at bottom-left).
-                    // Build the y for the current row, then add back the heights of rows
-                    // above it that belong to the merge (whether on this page or a prior one).
-                    double drawY = pageSettings.ContentBounds.Top - (row - page.FromRow) * 15d; // TODO: real row heights
+                    // Replace the * 15d line with a sum of real row heights
+                    double drawY = pageSettings.ContentBounds.Top;
+                    for (int r = page.FromRow; r < row; r++)
+                    {
+                        drawY -= range.RowHeights[r - range.Range._fromRow].Height;
+                    }
+                    // Existing loop — just add .Height
                     for (int r = addr._fromRow; r < row; r++)
                     {
                         int rangeIdx = r - range.Range._fromRow;
