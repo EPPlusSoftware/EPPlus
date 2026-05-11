@@ -375,12 +375,25 @@ namespace EPPlusTest.Style
         public void issue2214()
         {
             var p = new ExcelPackage();
+
+            //Ensure that 'getting' any properties does not change type
             var ws = p.Workbook.Worksheets.Add("Sheet1");
             ws.Cells["A1"].Value = 1D;
 
             Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
             var r = ws.Cells["A1"].RichText;
             Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+
+            var test = r.Text;
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+
+            //Assert that Setting the property does.
+            r.Text = "Hello";
+
+            //var cf = ws.Cells["A1"].ConditionalFormatting;
+            //ws.Cells["A1"].Value = r;
+
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(ExcelRichTextCollection));
         }
     }
 }

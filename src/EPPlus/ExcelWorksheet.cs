@@ -1527,23 +1527,20 @@ namespace OfficeOpenXml
             else
             {
                 object textValue = v._value;
-                if(textValue != null && typeof(ExcelRichTextCollection) == textValue.GetType())
+                if (textValue != null && typeof(ExcelRichTextCollection) == textValue.GetType())
                 {
                     textValue = ((ExcelRichTextCollection)textValue).Text;
                 }
 
-
                 var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
-                if (string.IsNullOrEmpty(text))
+                if (textValue.GetType() != typeof(string) || string.IsNullOrEmpty(text))
                 {
                     var item = new ExcelRichTextCollection(Workbook, r);
-                    SetValue(row, col, item);
                     return item;
                 }
                 else
                 {
                     var item = new ExcelRichTextCollection(text, r);
-                    SetValue(row, col, item);
                     return item;
                 }
             }
@@ -2294,7 +2291,7 @@ namespace OfficeOpenXml
             var v = GetValueInner(Row, Column);
             if (v != null)
             {
-                if (_flags.GetFlagValue(Row, Column, CellFlags.RichText))
+                if (Cells[Row, Column].IsRichText)
                 {
                     return (object)Cells[Row, Column].RichText.Text;
                 }

@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Style
         {
             _wb = wb;
             _cells = cells;
-			_cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
+			//_cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
 		}
 
 		internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
@@ -219,6 +219,10 @@ namespace OfficeOpenXml.Style
                 {
                     //If not a note then we are a cell and can set the flag.
                     _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
+                    if(_cells.Value != this)
+                    {
+                        _cells.Value = this;
+                    }
                 }
             }
             _list.Insert(index, rt);
