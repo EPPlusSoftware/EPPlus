@@ -8,6 +8,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
@@ -35,9 +36,21 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
             {
                 var hiddenRow = worksheet.Row(row).Hidden;
-                var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(row).Height);
+
+                var r = (RowInternal)worksheet.GetValueInner(row, 0);
+                bool usesDefaultValue = false;
+                double height=0;
+                if (r == null || r.Height < 0)
+                {
+                    usesDefaultValue = true;
+                    height = worksheet.DefaultRowHeight;
+                }
+                else
+                {
+                    height = UnitConversion.ExcelRowHeightToPoints(r.Height);
+                }
                 Range.TotalHeight += hiddenRow ? 0d : height;
-                Range.RowHeights.Add(hiddenRow ? 0d : height);
+                Range.RowHeights.Add(new RowHeight { Height = hiddenRow ? 0d : height, UsesDefaultValue = usesDefaultValue });
                 //x = 0d;
                 for (int col = Range.Range._fromCol; col <= Range.Range._toCol + addedColumns; col++)
                 {

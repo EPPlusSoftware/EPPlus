@@ -131,7 +131,36 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 {
                     //var textFormat = cell.TextFormats[i];
                     var textFormat = line.LineFragments[i];
-                    var shapedText = cell.ShapedTexts[i]; //textFormat.ShapedText;
+
+                    // find which ShapedText owns this fragment
+                    int shapedTextIndex = 0;
+                    int shapedTextCharStart = 0;
+                    for (int s = 0; s < cell.ShapedTexts.Count; s++)
+                    {
+                        int shapedTextCharCount = cell.ShapedTexts[s].ShapedText.Glyphs.Sum(g => g.CharCount);
+                        if (textFormat.StartFullTextIdx < shapedTextCharStart + shapedTextCharCount)
+                        {
+                            shapedTextIndex = s;
+                            break;
+                        }
+                        shapedTextCharStart += shapedTextCharCount;
+                    }
+                    var shapedText = cell.ShapedTexts[shapedTextIndex];
+
+                    // find the starting glyph within that ShapedText using StartRtIdx
+                    int glyphStart = 0;
+                    int rtCharCount = 0;
+                    for (int g = 0; g < shapedText.ShapedText.Glyphs.Length; g++)
+                    {
+                        if (rtCharCount >= textFormat.StartRtIdx)
+                        {
+                            glyphStart = g;
+                            break;
+                        }
+                        rtCharCount += shapedText.ShapedText.Glyphs[g].CharCount;
+                    }
+
+
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)textFormat.OriginalTextFragment.Font.Size);
                     var color = textFormat.OriginalTextFragment.RichTextOptions.FontColor;
                     var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
@@ -191,10 +220,14 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         : fontResrouce.Label;
                     commands.Add($"/{currentFontLabel} {size.ToPdfString()} Tf");
 
+                    int fragmentCharCount = textFormat.Text.Length;
+                    int charsRendered = 0;
                     var sb = new StringBuilder();
                     sb.Append("[");
-                    for (int j = 0; j < shapedText.ShapedText.Glyphs.Length; j++)
+                    for (int j = glyphStart; j < shapedText.ShapedText.Glyphs.Length; j++)
                     {
+                        if (charsRendered >= fragmentCharCount)
+                            break;
                         var glyph = shapedText.ShapedText.Glyphs[j];
 
                         if (glyph.FontId != currentFontId)
@@ -219,6 +252,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         {
                             sb.Append(" ");
                         }
+                        charsRendered += glyph.CharCount;
                     }
                     advanceX += textLength;
                     commands.Add(sb.ToString() + "] TJ");

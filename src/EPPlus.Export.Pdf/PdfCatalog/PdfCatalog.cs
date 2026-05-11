@@ -46,7 +46,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            //Collecto Text
+            //Collect Text
             PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
             sw.Stop();
             var CollectTextTime = sw.ElapsedMilliseconds;
@@ -57,6 +57,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
             sw.Stop();
             var ShapeTextTime = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
+
+            //Auto-Fit Rows
+            PdfCalculateRowHeight.ResizeRowHeights(pdfSheet); //call a method that does this so we can use it for comments sheet aswell!
+            sw.Stop();
+            var AutoFitRowTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 

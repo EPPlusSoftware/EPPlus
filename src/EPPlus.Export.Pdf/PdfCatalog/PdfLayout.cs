@@ -32,6 +32,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfCellCollection Map;
 
         public Dictionary<string, MergedCellDrawInfo> MergedCells;
+
+        public double[] RowHeights;
     }
 
     internal struct Pages
@@ -78,6 +80,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     //create cells & headings if exsists
                     for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
                     {
+                        double rowHeight = pages[j].RowHeights[row - pages[j].FromRow];
                         for (int col = pages[j].FromColumn; col <= pages[j].ToColumn; col++)
                         {
                             var map = pages[j].Map[row, col];
@@ -100,7 +103,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                     var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
                                     if (sourceMap != null)
                                     {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, sourceMap.Width, 15);
+                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, sourceMap.Width, rowHeight);
                                         text.Name = map.Name;
                                         text.GidsAndCharMap(dictionaries);
                                         pageLayout.AddChild(text);
@@ -111,14 +114,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             else
                             {
                                 //Fill
-                                var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, 15);
+                                var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, rowHeight);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
                                 pageLayout.AddChild(fill);
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, 15);
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
                                     pageLayout.AddChild(text);
@@ -127,13 +130,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             //Border
                             if (HasBorder(map.CellStyle))
                             {
-                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, 15);
+                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
                                 border.Name = map.Name;
                                 pageLayout.AddChild(border);
                             }
                             x += map.ColumnWidth;
                         }
-                        y -= 15;
+                        y -= rowHeight;
                         x = pageSettings.ContentBounds.Left;
                     }
 
@@ -267,7 +270,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     {
                         int rangeIdx = r - range.Range._fromRow;
                         if (rangeIdx >= 0 && rangeIdx < range.RowHeights.Count)
-                            drawY += range.RowHeights[rangeIdx];
+                            drawY += range.RowHeights[rangeIdx].Height;
                     }
                     page.MergedCells[key] = new MergedCellDrawInfo
                     {
@@ -423,7 +426,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 int actualRow = range.Range._fromRow + row;
 
                 // Content-bounds overflow: row doesn't fit, end segment before it and reprocess.
-                if (height + range.RowHeights[row] + addedHeight >= pageSettings.ContentBounds.Height)
+                if (height + range.RowHeights[row].Height + addedHeight >= pageSettings.ContentBounds.Height)
                 {
                     segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row - 1));
                     segStartIdx = row;
@@ -432,7 +435,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     continue;
                 }
 
-                height += range.RowHeights[row];
+                height += range.RowHeights[row].Height;
 
                 // Explicit page break: row is included on this page, next segment starts after it.
                 if (worksheet.Row(actualRow).PageBreak)
@@ -457,8 +460,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 var page = pdfPages.Page[i];
                 page.Map = new PdfCellCollection(page.FromRow, page.ToRow, page.FromColumn, page.ToColumn);
+                page.RowHeights = new double[page.ToRow - page.FromRow + 1];
                 for (int row = page.FromRow; row <= page.ToRow; row++)
                 {
+                    int rangeIdx = row - range.Range._fromRow;
+                    page.RowHeights[row - page.FromRow] = range.RowHeights[rangeIdx].Height;
                     for (int col = page.FromColumn; col <= page.ToColumn; col++)
                     {
                         page.Map[row, col] = range.Map[row, col];

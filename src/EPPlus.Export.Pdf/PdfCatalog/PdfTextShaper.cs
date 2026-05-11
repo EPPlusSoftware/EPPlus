@@ -52,29 +52,23 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
                 var allProviderFonts = st.FontProvider.GetAllFonts().ToList();
 
-                if (Cell.ContentAligmnet.WrapText)
-                    Cell.TextLines = layoutEngine.WrapRichTextLineCollection(Cell.TextFragments, Cell.ColumnWidth);
-                else
-                    Cell.TextLines = layoutEngine.WrapRichTextLineCollection(Cell.TextFragments, double.MaxValue);
-
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
+                {
+                    var font = usedFonts[fontId];
+
+                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
                     {
-                        var font = usedFonts[fontId];
-
-                        if (!dictionaries.Fonts.ContainsKey(font.FullName))
+                        int label = 1;
+                        if (dictionaries.Fonts.Count > 0)
                         {
-                            int label = 1;
-                            if (dictionaries.Fonts.Count > 0)
-                            {
-                                label = dictionaries.Fonts.Last().Value.labelNumber + 1;
-                            }
-                            var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
-                            fontResource.fontData = font;
-                            dictionaries.Fonts.Add(font.FullName, fontResource);
+                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
                         }
-                        fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+                        fontResource.fontData = font;
+                        dictionaries.Fonts.Add(font.FullName, fontResource);
                     }
-
+                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+                }
                 Cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 var textWdith = st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
@@ -88,13 +82,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 Cell.TextFragments[i] = tf;
                 Cell.ShapedTexts[i] = st;
             }
+            if (Cell.TextLayoutEngine != null)
+            {
+                if (Cell.ContentAligmnet.WrapText)
+                    Cell.TextLines = Cell.TextLayoutEngine.WrapRichTextLineCollection(Cell.TextFragments, Cell.ColumnWidth);
+                else
+                    Cell.TextLines = Cell.TextLayoutEngine.WrapRichTextLineCollection(Cell.TextFragments, double.MaxValue);
+            }
             Cell.TotalTextLength = totalTextLength;
-            //if (Cell.ContentAligmnet.WrapText)
-            //{
-            //    var textFragments = GetTextFragments(Cell.TextFormats);
-            //    var wrappedLines = Cell.TextLayoutEngine.WrapRichTextLines(textFragments, Cell.Width);
-
-            //}
         }
 
         private static List<TextFragment> GetTextFragments(List<TextFragment> textFragments)
