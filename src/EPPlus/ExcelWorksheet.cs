@@ -2291,7 +2291,7 @@ namespace OfficeOpenXml
             var v = GetValueInner(Row, Column);
             if (v != null)
             {
-                if (Cells[Row, Column].IsRichText)
+                if (_flags.GetFlagValue(Row, Column, CellFlags.RichText) && Cells[Row, Column].IsRichText)
                 {
                     return (object)Cells[Row, Column].RichText.Text;
                 }
