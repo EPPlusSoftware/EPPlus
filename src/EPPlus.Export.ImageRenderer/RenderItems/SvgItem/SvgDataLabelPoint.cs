@@ -269,7 +269,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //}
 
                 switch (_labelPosition)
-            {
+                {
                 case eLabelPosition.Center:
 
                     if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
@@ -294,123 +294,88 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     SetPositionBasic(parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InEnd:
-                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    {
-                        throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
-                            "Cannot be within End if EndPoint is undefined.");
-                    }
-                    //if(parentShape == null)
+                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
                     //{
-                    //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
+                    //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
+                    //        "Cannot be within End if EndPoint is undefined.");
                     //}
-                    startPointDirection = startPointDirection * -1;
-                    if (startPointDirection.X != 0)
-                    {
-                        //If endPoint is to the right
-                        if (startPointDirection.X > 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(parentPoint, eLabelPosition.Left);
-                        }
-                        //if endpoint is to the left
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(parentPoint, eLabelPosition.Right);
-                        }
-                    }
+                    ////if(parentShape == null)
+                    ////{
+                    ////    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
+                    ////}
+                    //startPointDirection = startPointDirection * -1;
+                    //if (startPointDirection.X != 0)
+                    //{
+                    //    //If endPoint is to the right
+                    //    if (startPointDirection.X > 0)
+                    //    {
+                    //        //We must place to the left
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Left);
+                    //    }
+                    //    //if endpoint is to the left
+                    //    else
+                    //    {
+                    //        //We must place to the right
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Right);
+                    //    }
+                    //}
 
-                    if (startPointDirection.Y != 0)
-                    {
-                        //If endpoint is below
-                        if (startPointDirection.Y > 0)
-                        {
-                            //We must place on Top
-                            SetPositionBasic(parentPoint, eLabelPosition.Top);
-                        }
-                        else
-                        {
-                            //We must place on Bottom
-                            SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                        }
-                    }
-                    //Bounds.Left = 
-                    ////If beyond half put the label to the left. Else the right
-                    //if(parentPoint.Left > ChartRenderer.Bounds.Width / 2)
+                    //if (startPointDirection.Y != 0)
                     //{
-                    //    Bounds.Left -= _txtBox.Width + (parentPoint.Width / 2);
-                    //}
-                    //else
-                    //{
-                    //    Bounds.Left += _txtBox.Width / 2 + parentPoint.Width;
-                    //}
-                    ////If beyond half put the label to the top. Else bottom
-                    //if(parentPoint.Top > ChartRenderer.Bounds.Height / 2)
-                    //{
-                    //    Bounds.Top -= (parentPoint.Height + _txtBox.Height) / 2;
-                    //}
-                    //else
-                    //{
-                    //    Bounds.Top += (parentPoint.Height + _txtBox.Height) / 2;
+                    //    //If endpoint is below
+                    //    if (startPointDirection.Y > 0)
+                    //    {
+                    //        //We must place on Top
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Top);
+                    //    }
+                    //    else
+                    //    {
+                    //        //We must place on Bottom
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Bottom);
+                    //    }
                     //}
                     break;
                 case eLabelPosition.OutEnd:
-                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    {
-                        throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
-                            "Cannot be within End if EndPoint is undefined.");
-                    }
-                    //if (parentShape == null)
+                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
                     //{
-                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
+                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
+                    //        "Cannot be within End if EndPoint is undefined.");
+                    //}
+                    ////if (parentShape == null)
+                    ////{
+                    ////    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
+                    ////}
+
+                    //if (startPointDirection.X != 0)
+                    //{
+                    //    //If endPoint is to the left
+                    //    if (startPointDirection.X < 0)
+                    //    {
+                    //        //We must place to the left
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Left);
+                    //    }
+                    //    //if endpoint is to the right
+                    //    else
+                    //    {
+                    //        //We must place to the right
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Right);
+                    //    }
                     //}
 
-                    if (startPointDirection.X != 0)
-                    {
-                        //If endPoint is to the left
-                        if (startPointDirection.X < 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(parentPoint, eLabelPosition.Left);
-                        }
-                        //if endpoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(parentPoint, eLabelPosition.Right);
-                        }
-                    }
-
-                    if (startPointDirection.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (startPointDirection.Y < 0)
-                        {
-                            //We must place on Top
-                            SetPositionBasic(parentPoint, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on Bottom
-                            SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                        }
-                    }
-                    //if (parentPoint.Left < ChartRenderer.Bounds.Width / 2)
+                    //if (startPointDirection.Y != 0)
                     //{
-                    //    Bounds.Left -= _txtBox.Width + (parentPoint.Width / 2);
-                    //}
-                    //else
-                    //{
-                    //    Bounds.Left += _txtBox.Width / 2 + parentPoint.Width;
-                    //}
-                    //if (parentPoint.Top < ChartRenderer.Bounds.Height / 2)
-                    //{
-                    //    Bounds.Top -= (parentPoint.Height + _txtBox.Height) / 2;
-                    //}
-                    //else
-                    //{
-                    //    Bounds.Top += (parentPoint.Height + _txtBox.Height) / 2;
+                    //    //If endpoint is on Top
+                    //    if (startPointDirection.Y < 0)
+                    //    {
+                    //        //We must place on Top
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Top);
+                    //    }
+                    //    //If endpoint is on bottom
+                    //    else
+                    //    {
+                    //        //We must place on Bottom
+                    //        SetPositionBasic(parentPoint, eLabelPosition.Bottom);
+                    //    }
                     //}
                     break;
                 default:

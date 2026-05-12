@@ -10,7 +10,110 @@ namespace EPPlus.Export.ImageRenderer.Tests
     public class GroupItemNewTest : TestBase
     {
         [TestMethod]
-        public void TestGroupItemMovingTwoChildrenCorrectly()
+        public void GroupInGroupMoveCorrect2()
+        {
+            var baseBB = new BoundingBox();
+
+            //96x96 px
+            baseBB.Width = 72;
+            baseBB.Height = 72;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+            var groupItem = new SvgGroupItemNew(baseItem, 5, 15);
+
+            SvgRenderRectItem rectItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
+
+            groupItem.AddChildItem(rectItem);
+
+            rectItem.FillColor = "red";
+            rectItem.FillOpacity = 0.2d;
+
+            rectItem.Width = 20;
+            rectItem.Height = 20;
+
+            groupItem.TranslationOffset.Left = 5;
+            groupItem.TranslationOffset.Top = 6;
+
+            var leftGlobal = groupItem.TranslationOffset.Position.X;
+            var topGlobal = groupItem.TranslationOffset.Position.Y;
+            var leftGlobalUnder = groupItem.Bounds.Position.X;
+            var topGlobalUnder = groupItem.Bounds.Position.Y;
+
+            Assert.AreEqual(10, leftGlobalUnder);
+            Assert.AreEqual(21, topGlobalUnder);
+        }
+
+        [TestMethod]
+        public void GroupInGroupMoveCorrect()
+        {
+            var baseBB = new BoundingBox();
+
+            //96x96 px
+            baseBB.Width = 72;
+            baseBB.Height = 72;
+
+            var baseItem = new DrawingItemForTesting(baseBB);
+
+            var groupItem = new SvgGroupItemNew(baseItem, 9, 9);
+
+            var subItem = new SvgGroupItemNew(baseItem, 9, 9);
+            subItem.TranslationOffset.Parent = groupItem.TranslationOffset;
+            groupItem.AddChildItem(subItem);
+
+            SvgRenderRectItem rectItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
+
+            rectItem.FillColor = "red";
+            rectItem.FillOpacity = 0.2d;
+
+            rectItem.Width = 20;
+            rectItem.Height = 20;
+
+            subItem.AddChildItem(rectItem);
+
+            SvgRenderRectItem siblingItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
+            siblingItem.FillColor = "blue";
+            siblingItem.FillOpacity = 0.2d;
+
+            siblingItem.Width = 20;
+            siblingItem.Height = 20;
+
+            siblingItem.Bounds.Left = 20;
+            siblingItem.Bounds.Top = 20;
+
+            subItem.AddChildItem(siblingItem);
+
+            var worldCoordinatesRectBefore = rectItem.Bounds.GetWorldCoordinates();
+            Assert.AreEqual(18, worldCoordinatesRectBefore.X);
+            Assert.AreEqual(18, worldCoordinatesRectBefore.Y);
+
+            var worldCoordinatesSibBefore = siblingItem.Bounds.GetWorldCoordinates();
+            Assert.AreEqual(38, worldCoordinatesSibBefore.X);
+            Assert.AreEqual(38, worldCoordinatesSibBefore.Y);
+
+            subItem.TranslationOffset.Left = 9;
+            subItem.TranslationOffset.Top = 9;
+
+            var worldCoordinatesRect = rectItem.Bounds.GetWorldCoordinates();
+            Assert.AreEqual(27, worldCoordinatesRect.X);
+            Assert.AreEqual(27, worldCoordinatesRect.Y);
+
+            var worldCoordinatesSib = siblingItem.Bounds.GetWorldCoordinates();
+            Assert.AreEqual(47, worldCoordinatesSib.X);
+            Assert.AreEqual(47, worldCoordinatesSib.Y);
+
+            var sb = new StringBuilder();
+
+            baseItem.RenderItems.Add(groupItem);
+
+            baseItem.Render(sb);
+            var svgString = sb.ToString();
+
+            SaveTextFileToWorkbook($"svg\\subItemInSubItem.svg", svgString);
+        }
+
+        [TestMethod]
+        public void GrpPosTranslateChildren()
         {
             var baseBB = new BoundingBox();
 
@@ -53,8 +156,8 @@ namespace EPPlus.Export.ImageRenderer.Tests
             Assert.AreEqual(29, worldCoordinatesSibBefore.X);
             Assert.AreEqual(29, worldCoordinatesSibBefore.Y);
 
-            groupItem.Position.Left = 18;
-            groupItem.Position.Top = 18;
+            groupItem.TranslationOffset.Left = 9;
+            groupItem.TranslationOffset.Top = 9;
 
             var worldCoordinatesRect = rectItem.Bounds.GetWorldCoordinates();
             Assert.AreEqual(18, worldCoordinatesRect.X);
@@ -75,7 +178,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         }
 
         [TestMethod]
-        public void TestGroupItemRotatingTwoChildrenCorrectly()
+        public void RotateTwoChildren()
         {
             var baseBB = new BoundingBox();
 
@@ -89,8 +192,8 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             var groupItem = new SvgGroupItemNew(baseItem, parent, 45);
 
-            groupItem.Position.Left = 10;
-            groupItem.Position.Top = 10;
+            groupItem.TranslationOffset.Left = 10;
+            groupItem.TranslationOffset.Top = 10;
 
             SvgRenderRectItem rectItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
 

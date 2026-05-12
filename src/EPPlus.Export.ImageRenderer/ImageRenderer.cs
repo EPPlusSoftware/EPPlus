@@ -230,8 +230,8 @@ namespace EPPlusImageRenderer
 
             var groupItem = new SvgGroupItemNew(baseItem, parent, 45);
 
-            groupItem.Position.Left = 10;
-            groupItem.Position.Top = 10;
+            groupItem.TranslationOffset.Left = 10;
+            groupItem.TranslationOffset.Top = 10;
 
             SvgRenderRectItem rectItem = new SvgRenderRectItem(baseItem, groupItem.Bounds);
 

@@ -10,7 +10,7 @@ namespace EPPlus.Fonts.OpenType.Tests
     public class TextFragmentCollectionTests
     {
         [TestMethod]
-        public void EnsureTextFragmentsAndWrapperWorkCorrectlyForLongParagraphs()
+        public void WrappingLongParagraphs()
         {
             var shaper = OpenTypeFonts.GetTextShaper("Aptos Narrow", FontSubFamily.Regular);
             var layout = new TextLayoutEngine(shaper);

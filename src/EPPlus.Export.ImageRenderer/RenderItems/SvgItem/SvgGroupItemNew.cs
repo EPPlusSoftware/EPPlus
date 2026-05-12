@@ -40,7 +40,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             foreach (var item in _childItems)
             {
-                item.Render(sb);
+                if (item is SvgGroupItemNew)
+                {
+                    var subGroup = item as SvgGroupItemNew;
+                    subGroup.Render(sb);
+                }
+                else
+                {
+                    item.Render(sb);
+                }
             }
 
             sb.Append("</g>");
@@ -64,9 +72,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             string scalingStr = GetScalingStr();
 
 
-            if (Position != null && (Position.Left == 0 && Position.Top == 0) == false)
+            if (TranslationOffset != null && (TranslationOffset.Left == 0 && TranslationOffset.Top == 0) == false)
             {
-                positionStr = string.Format(transformTranslate, Position.Left.PointToPixelString(), Position.Top.PointToPixelString()) + " ";
+                positionStr = string.Format(transformTranslate, TranslationOffset.Left.PointToPixelString(), TranslationOffset.Top.PointToPixelString()) + " ";
             }
             
             return positionStr + rotationStr + scalingStr;
@@ -90,7 +98,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 string rot = Rotation.ToString(CultureInfo.InvariantCulture);
 
-                if(RotationPoint != null && RotationPoint != Position)
+                if(RotationPoint != null && RotationPoint != TranslationOffset)
                 {
                     rot += $", {RotationPoint.Left.PointToPixelString()}, {RotationPoint.Top.PointToPixelString()}" + " ";
                 }

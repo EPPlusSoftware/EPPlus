@@ -5,29 +5,24 @@ using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class GroupItem : RenderItem
+    internal abstract class OuterGroup : RenderItem
     {
+        InnerGroup _innerItems;
+
         /// <summary>
         /// In degrees
         /// </summary>
         internal double Rotation = double.NaN;
-        /// <summary>
-        /// The translated position of this item in points
-        /// Also the parent position of the group item 
-        /// (This may seem strange but it ensures the the translation is seen 
-        /// immediately in the global position of GroupItem without affecting local position)
-        /// </summary>
-        internal Point TranslationOffset = new Point(0,0);
 
-        Point _altRotationPoint = null;
+        BoundingBox _altRotationPoint = null;
 
-        internal Point RotationPoint 
+        internal BoundingBox RotationPoint
         {
             get
             {
                 if (_altRotationPoint == null)
                 {
-                    return TranslationOffset;
+                    return Bounds;
                 }
                 return _altRotationPoint;
             }
@@ -47,32 +42,33 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         internal protected List<RenderItem> _childItems = new List<RenderItem>();
 
-        public GroupItem(DrawingBase renderer) : base(renderer)
+        public OuterGroup(DrawingBase renderer) : base(renderer)
         {
-            Bounds.Parent = TranslationOffset;
+            _innerItems.Bounds.Parent = Bounds;
+            //Bounds.Parent = TranslationOffset;
             //_rotationPoint = Bounds;
         }
 
-        public GroupItem(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
+        public OuterGroup(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
         {
             Bounds.Left = localXPos;
             Bounds.Top = localYPos;
         }
 
 
-        public GroupItem(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
+        public OuterGroup(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
         {
-            TranslationOffset.Parent = parent;
+            Bounds.Parent = parent;
             Rotation = rotation;
             if (rotationPoint != null)
             {
-                RotationPoint = new Point(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
+                RotationPoint = new BoundingBox(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
             }
         }
 
         internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
         {
-            RotationPoint = new Point(Bounds.Width/2, Bounds.Height/2);
+            RotationPoint = new BoundingBox(Bounds.Width / 2, Bounds.Height / 2);
 
             if (double.IsNaN(rotation) == false)
             {

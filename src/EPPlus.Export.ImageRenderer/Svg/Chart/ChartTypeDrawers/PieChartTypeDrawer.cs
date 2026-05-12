@@ -76,7 +76,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             return new Coordinate(xPoint, yPoint);
         }
 
-        void CreateIntialSlice()
+        void InitializeSlices()
         {
             //The angle of the previous slice
             //(or the 90 degree offset in the first slice)
@@ -97,7 +97,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         void CalculateLocalCenterAndRadius()
         {
             _circleCenter = new Point();
-            _circleCenter.Parent = _groupItem.Position;
+            _circleCenter.Parent = _groupItem.TranslationOffset;
             _circleCenter.Left = _svgChart.Plotarea.Rectangle.Bounds.Width / 2;
             _circleCenter.Top = _svgChart.Plotarea.Rectangle.Bounds.Height / 2;
 
@@ -151,7 +151,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
         }
 
-        private void AddSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, int seriesCount, int position)
+        private void UpdateSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, int seriesCount, int position)
         {
             var dataPoint = serie.DataPoints[position];
 
@@ -165,8 +165,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         internal override void DrawSeries()
         {
-            _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Bounds.Left, _svgChart.Plotarea.Bounds.Top);
-            _groupItem.Bounds.Parent = _groupItem.Position;
+            _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Left, _svgChart.Plotarea.Rectangle.Top);
+            _groupItem.Bounds.Parent = _groupItem.TranslationOffset;
 
             var chartType = (ExcelPieChart)_chartType;
 
@@ -177,7 +177,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             LoadSeriesValues(chartType);
             CalculateLocalCenterAndRadius();
-            CreateIntialSlice();
+            InitializeSlices();
 
             //How much to scale each slice due to pie explosion
             //Essentially we start at 100% (100/100)
@@ -215,22 +215,53 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             for (int i = 0; i < chartType.Series.Count; i++)
             {
                 var serie = (ExcelPieChartSerie)chartType.Series[i];
+
+                List<BoundingBox> DataLabelGlobalOriginPoints = new();
+                List<EPPlus.Graphics.Math.Vector2> VectorsCenterToMidPointPerSlice = new();
+
                 //Excel ignores series beyond the first for pie chart visualization
                 if (i == 0)
                 {
                     for (var j = 0; j < count; j++)
                     {
-                        //Add the slice.
-                        AddSlice(chartType, serie, count, j);
-                        //Add datalabel to slice
-                        if (serie.HasDataLabel)
-                        {
-                            var slicePos = Slices[j].GetInnerGroupTransformOrigin();
-                            BoundingBox dp = new BoundingBox(slicePos.X, slicePos.Y, 0, 0);
+                        //Update the initialized slice with path, style and group data
+                        UpdateSlice(chartType, serie, count, j);
 
-                            serieDataLabels[i].SetParentVector(dp, j, Slices[j].GetWholeVectorCenterToMid());
-                            //serieDataLabels[i].SetParentShape(Slices[j].ExtremePoints, dp, j);
+                        if(serie.HasDataLabel)
+                        {
+                            //Get the inner item local coordinates
+                            var itemGroup = Slices[j].GetInnerItemGroup();
+                            var outer = Slices[j].GetOuterMidpointInGlobalCoords();
+                            ////Get the relevant point local coordinates (to the above)
+                            //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
+
+                            //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
+                            var dlblBounds = new BoundingBox(itemGroup.Bounds.GlobalLeft, itemGroup.Bounds.GlobalTop, Bounds.Width, Bounds.Height);
+                            ////Add the origin point position
+                            //dlblBounds.Left += slicePos.X;
+                            //dlblBounds.Top += slicePos.Y;
+
+                            ////we now have the start point of the slice in global coords without the translation
+                            ////Add the same translation
+                            //dlblBounds.Translate()
+
+                            //var vector = Slices[j].GetWholeVectorCenterToMid();
+                            serieDataLabels[i].SetParentPoint(dlblBounds, j);
                         }
+                        ////Add datalabel to slice
+                        //if (serie.HasDataLabel)
+                        //{
+                            
+                        //    //DataLabelGlobalOriginPoints.Add();
+                        //    //serieDataLabels[i].AppendRenderItems(Slices[j].);
+                        //    //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
+                        //    //var bounds = Slices[j].GetInnerGroupBounds();
+                        //    //BoundingBox dp = new BoundingBox(slicePos.X, slicePos.Y, 0, 0);
+
+                        //serieDataLabels[i].SetParentPoint(Slices[j].GetInnerGroupBounds(), j);
+                        //    //serieDataLabels[i].SetParentVector(Slices[j].GetInnerGroupBounds(), j, Slices[j].GetWholeVectorCenterToMid());
+                        //    //serieDataLabels[i].SetParentShape(Slices[j].ExtremePoints, dp, j);
+                        //}
                     }
                 }
             }

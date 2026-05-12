@@ -28,7 +28,7 @@ namespace EPPlus.Graphics
 
         internal Point()
         {
-
+            
         }
 
         internal Point(double x, double y)

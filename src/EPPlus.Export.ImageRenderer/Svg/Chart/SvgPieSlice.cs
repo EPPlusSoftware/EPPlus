@@ -14,7 +14,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     internal class SvgPieSlice : SvgRenderItem
     {
         double _radius;
+        /// <summary>
+        /// The holder of transform-origin/translations
+        /// </summary>
         SvgGroupItemNew _innerGroup;
+        /// <summary>
+        /// The holder of the actual items, AFTER origin/translations
+        /// </summary>
+        SvgGroupItemNew _innerItems;
         Point _circleCenter;
 
         /// <summary>
@@ -179,7 +186,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Degrees = _percent * 360d;
 
             _innerGroup = new SvgGroupItemNew(renderer, parent, 0, circleCenter);
-            _innerGroup.Bounds.Parent = _innerGroup.Position;
+            _innerGroup.Bounds.Parent = _innerGroup.TranslationOffset;
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
@@ -197,8 +204,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerGroup.TransformOrigin = GetMidPointLocal();
 
             CalculateExplosionDir();
-
             CalculateWidthHeight(prevSliceDegrees);
+
+
+            _innerItems = new SvgGroupItemNew(renderer, _innerGroup.Bounds, 0);
         }
 
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
@@ -283,8 +292,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal void AppendGroupItem(SvgGroupItemNew group)
         {
-            _innerGroup.AddChildItem(_slicePath);
+            //The slice items post transform operations
+            _innerItems.AddChildItem(_slicePath);
+            //The bounds and translations of the slice
+            _innerGroup.AddChildItem(_innerItems);
+
+            //adding the debug lines
             //_innerGroup.AddChildItem(_debugBoundsPath);
+
+            //The group containing all slices
             group.AddChildItem(_innerGroup);
         }
 
@@ -458,8 +474,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
             var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax, localMin);
             
-            _innerGroup.Position.Left = finalTranslation.X;
-            _innerGroup.Position.Top = finalTranslation.Y;
+            _innerGroup.TranslationOffset.Left = finalTranslation.X;
+            _innerGroup.TranslationOffset.Top = finalTranslation.Y;
         }
 
         Point CalculateLocalPointOnCircle(double degrees)
@@ -472,17 +488,36 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var point = new Point();
 
             //Ensure the cx/cy offset
-            point.Parent = _innerGroup.Position.Parent;
+            point.Parent = _innerGroup.TranslationOffset.Parent;
             point.Left = xPoint;
             point.Top = yPoint;
 
             return point;
         }
 
+        internal Coordinate GetOuterMidpointInGlobalCoords()
+        {
+            return new Coordinate(_midPoint.Position.X, _midPoint.Position.Y);
+        }
+
+        internal SvgGroupItemNew GetInnerItemGroup()
+        {
+            return _innerItems;
+        }
+
+        /// <summary>
+        /// Transform origin in local coordinates
+        /// </summary>
+        /// <returns></returns>
         internal Coordinate GetInnerGroupTransformOrigin()
         {
             return new Coordinate(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
         }
+
+        //internal BoundingBox GetInnerGroupBounds()
+        //{
+        //    return _innerGroup.Bounds;
+        //}
 
         public override RenderItemType Type => RenderItemType.Group;
 

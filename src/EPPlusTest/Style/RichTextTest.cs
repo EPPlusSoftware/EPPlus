@@ -368,7 +368,6 @@ namespace EPPlusTest.Style
             Assert.AreEqual(C4.Style.Font.Name, C4.RichText[0].FontName);
             Assert.AreEqual(C4.Style.Font.Size, C4.RichText[0].Size);
             Assert.AreEqual("Arial", C4.RichText[1].FontName);
-
         }
     }
 }
