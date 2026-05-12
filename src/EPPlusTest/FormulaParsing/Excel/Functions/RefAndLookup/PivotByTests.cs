@@ -222,7 +222,68 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(4d, s.Cells["I5"].Value);
                 Assert.AreEqual(4d, s.Cells["J5"].Value);
                 Assert.AreEqual(7d, s.Cells["K5"].Value);
-                //Fixa detta test det är förskjutet en rad fel
+            }
+        }
+        [TestMethod]
+        public void PivotByGrandTotalsRows()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["C1"].Value = "O";
+                s.Cells["C2"].Value = "I";
+                s.Cells["C3"].Value = "I";
+                s.Cells["D1"].Value = 2;
+                s.Cells["D2"].Value = 4;
+                s.Cells["D3"].Value = 1;
+                s.Cells["E1"].Formula = "PIVOTBY(A1:B3,C1:C3,D1:D3,_xleta.PERCENTOF,,2)";
+                s.Calculate();
+
+                // Rubrikrad
+                Assert.AreEqual("I", s.Cells["G1"].Value);
+                Assert.AreEqual("O", s.Cells["H1"].Value);
+                Assert.AreEqual("Total", s.Cells["I1"].Value);
+
+                // A | X
+                Assert.AreEqual("A", s.Cells["E2"].Value);
+                Assert.AreEqual("X", s.Cells["F2"].Value);
+                Assert.AreEqual(1d, s.Cells["H2"].Value);
+                Assert.AreEqual(0.28571429, System.Math.Round((double)s.Cells["I2"].Value, 8));
+
+                // A | Y
+                Assert.AreEqual("A", s.Cells["E3"].Value);
+                Assert.AreEqual("Y", s.Cells["F3"].Value);
+                Assert.AreEqual(0.8d, s.Cells["G3"].Value);
+                Assert.AreEqual(0.57142857, System.Math.Round((double)s.Cells["I3"].Value, 8));
+
+                // A subtotal
+                Assert.AreEqual("A", s.Cells["E4"].Value);
+                Assert.AreEqual(0.8d, s.Cells["G4"].Value);
+                Assert.AreEqual(1d, s.Cells["H4"].Value);
+                Assert.AreEqual(0.85714286, System.Math.Round((double)s.Cells["I4"].Value, 8));
+
+                // B | X
+                Assert.AreEqual("B", s.Cells["E5"].Value);
+                Assert.AreEqual("X", s.Cells["F5"].Value);
+                Assert.AreEqual(0.2d, s.Cells["G5"].Value);
+                Assert.AreEqual(0.14285714, System.Math.Round((double)s.Cells["I5"].Value, 8));
+
+                // B subtotal
+                Assert.AreEqual("B", s.Cells["E6"].Value);
+                Assert.AreEqual(0.2d, s.Cells["G6"].Value);
+                Assert.AreEqual(0.14285714, System.Math.Round((double)s.Cells["I6"].Value, 8));
+
+                // Grand Total
+                Assert.AreEqual("Grand Total", s.Cells["E7"].Value);
+                Assert.AreEqual(1d, s.Cells["G7"].Value);
+                Assert.AreEqual(1d, s.Cells["H7"].Value);
+                Assert.AreEqual(1d, s.Cells["I7"].Value);
             }
         }
         [TestMethod]
@@ -243,8 +304,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["D1"].Value = 2;
                 s.Cells["D2"].Value = 4;
                 s.Cells["D3"].Value = 1;
-                s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:C3,D1:D3,_xleta.PERCENTOF,,,,,,,3)";
+                s.Cells["E1"].Formula = "PIVOTBY(A1:B3,C1:C3,D1:D3,_xleta.PERCENTOF,,,,,,,3)";
                 s.Calculate();
+                
+                Assert.AreEqual(0.714285714d, System.Math.Round((double)s.Cells["G5"].Value, 9));
+                Assert.AreEqual(0.285714286d, System.Math.Round((double)s.Cells["H5"].Value, 9));
             }
         }
 
