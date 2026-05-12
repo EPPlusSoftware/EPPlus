@@ -16,6 +16,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
+using System.Linq;
 using OfficeOpenXml.VBA;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -26,7 +27,6 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Table;
-using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Constants;
@@ -319,6 +319,20 @@ namespace OfficeOpenXml
         internal int _nextDrawingId = 2;
         internal int _nextTableID = int.MinValue;
         internal int _nextPivotCacheId = 1;
+
+        bool _workbookCreatedInEPPlus;
+        // xcalcf:feature entries
+        string[] _calcFeatureStrings = {
+                    "microsoft.com:RD",
+                    "microsoft.com:Single",
+                    "microsoft.com:FV",
+                    "microsoft.com:CNMTM",
+                    "microsoft.com:LET_WF",
+                    "microsoft.com:LAMBDA_WF",
+                    "microsoft.com:ARRAYTEXT_WF"
+                };
+
+
         internal int GetNewPivotCacheId()
         {
             return _nextPivotCacheId++;
@@ -1156,6 +1170,7 @@ namespace OfficeOpenXml
             }
             else
             {
+                _workbookCreatedInEPPlus = true;
                 // create a new workbook part and add to the package
                 Packaging.ZipPackagePart partWorkbook = _package.ZipPackage.CreatePart(WorkbookUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", _package.Compression);
 
@@ -1172,9 +1187,7 @@ namespace OfficeOpenXml
                 _workbookXml.AppendChild(wbElem);
 
                 XmlElement fileVersion = _workbookXml.CreateElement("fileVersion", ExcelPackage.schemaMain);
-                fileVersion.SetAttribute("appName", "xl");
-                fileVersion.SetAttribute("lastEdited", "7");    //Set the last edited version to the latest known version. This will make sure that Excel does not downgrade the file and that new features are supported.
-                fileVersion.SetAttribute("lowestEdited", "7");  //Set the lowest edited version to the latest known version. This will make sure that Excel does not downgrade the file and that new features are supported.
+                UpdateFileVersionAttributes(fileVersion);
                 wbElem.AppendChild(fileVersion);
 
                 // create the bookViews and workbooks element
@@ -1185,11 +1198,10 @@ namespace OfficeOpenXml
 
                 XmlElement calcPr = _workbookXml.CreateElement("calcPr", ExcelPackage.schemaMain);
                 calcPr.SetAttribute("calcId", "191029"); //Set the version of the calc engine to the latest known version. This will make sure that Excel does not downgrade the calculation engine and that new functions are supported.
-                wbElem.AppendChild(bookViews);
+                wbElem.AppendChild(calcPr);
 
-                //Include the extLst with the calc features to make sure new functions are supported in Excel.
                 XmlElement extLst = _workbookXml.CreateElement("extLst", ExcelPackage.schemaMain);
-                extLst.InnerXml = $"<ext uri=\"{{B58B0392-4F1F-4190-BB64-5DF3571DCE5F}}\" xmlns=\"{ExcelPackage.schemaMain}\" xmlns:xcalcf=\"http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures\"><xcalcf:calcFeatures><xcalcf:feature name=\"microsoft.com:RD\"/><xcalcf:feature name=\"microsoft.com:Single\"/><xcalcf:feature name=\"microsoft.com:FV\"/><xcalcf:feature name=\"microsoft.com:CNMTM\"/><xcalcf:feature name=\"microsoft.com:LET_WF\"/><xcalcf:feature name=\"microsoft.com:LAMBDA_WF\"/><xcalcf:feature name=\"microsoft.com:ARRAYTEXT_WF\"/></xcalcf:calcFeatures></ext>";
+                AddCalculationFeatures(extLst);
                 wbElem.AppendChild(extLst);
 
                 // save it to the package
@@ -1197,6 +1209,77 @@ namespace OfficeOpenXml
                 _workbookXml.Save(stream);
                 //stream.Close();
                 _package.ZipPackage.Flush();
+            }
+        }
+
+        private void AddCalculationFeatures(XmlElement extLst)
+        {
+            //Include the extLst with the calc features to make sure new functions are supported in Excel.
+            XmlElement ext = _workbookXml.CreateElement("ext", ExcelPackage.schemaMain);
+            ext.SetAttribute("uri", "{B58B0392-4F1F-4190-BB64-5DF3571DCE5F}");
+            extLst.AppendChild(ext);
+
+            XmlElement calcFeatures = _workbookXml.CreateElement("xcalcf", "calcFeatures", Schemas.schemaCalcFeature);
+
+            foreach (string name in _calcFeatureStrings)
+            {
+                XmlElement feature = _workbookXml.CreateElement("xcalcf", "feature", Schemas.schemaCalcFeature);
+                feature.SetAttribute("name", name);
+                calcFeatures.AppendChild(feature);
+            }
+
+            ext.AppendChild(calcFeatures);
+        }
+ 
+        private static void UpdateFileVersionAttributes(XmlElement fileVersion)
+        {
+            fileVersion.SetAttribute("appName", "xl");      //We write "xl" here to ensure compatibility with Excel.
+            fileVersion.SetAttribute("lastEdited", "7");    //Set the last edited version to the latest known version. This will make sure that Excel does not downgrade the file and that new features are supported.
+            fileVersion.SetAttribute("lowestEdited", "7");  //Set the lowest edited version to the latest known version. This will make sure that Excel does not downgrade the file and that new features are supported.
+        }
+        /// <summary>
+        /// To support functions introduced in newer versions of Excel, we need to make sure that the file version and calculation engine version are set to the latest known version and that the calculation features are included in the file. 
+        /// This method ensures that this is the case. 
+        /// It is called when creating a new workbook and when loading a template. 
+        /// </summary>
+        internal void EnsureCalculationFeatures()
+        {
+            var fileVersion= (XmlElement)GetNode("d:fileVersion");
+            if(fileVersion == null)
+            {
+                fileVersion=CreateNode("d:fileVersion") as XmlElement;
+            }
+            UpdateFileVersionAttributes(fileVersion);
+
+            var calcPr = (XmlElement)CreateNode("d:calcPr");
+            calcPr.SetAttribute("calcId", "191029"); //Set the version of the calc engine to the latest known version. This will make sure that Excel does not downgrade the calculation engine and that new functions are supported.
+
+            var extLst = (XmlElement)GetNode("d:extLst");
+            if(extLst == null)
+            {
+                extLst = CreateNode("d:extLst") as XmlElement;
+                AddCalculationFeatures(extLst);
+            }
+            else
+            {
+                var calcFeatures = (XmlElement)GetNode("d:extLst/d:ext[@uri='{B58B0392-4F1F-4190-BB64-5DF3571DCE5F}']/xcalcf:calcFeatures");
+                if(calcFeatures==null)
+                {
+                    var extNode = (XmlElement)CreateNode("d:extLst/d:ext", false, true);
+                    extNode.SetAttribute("uri", "{B58B0392-4F1F-4190-BB64-5DF3571DCE5F}");
+                    calcFeatures = _workbookXml.CreateElement("xcalcf", "calcFeatures", Schemas.schemaCalcFeature);
+                    extNode.AppendChild(calcFeatures);
+                }
+
+                foreach (string name in _calcFeatureStrings)
+                {
+                    if (calcFeatures.SelectSingleNode($"xcalcf:feature[@name=\"{name}\"]", NameSpaceManager) == null)
+                    {
+                        XmlElement feature = _workbookXml.CreateElement("xcalcf", "feature", Schemas.schemaCalcFeature);
+                        feature.SetAttribute("name", name);
+                        calcFeatures.AppendChild(feature);
+                    }
+                }
             }
         }
         #endregion
@@ -1481,7 +1564,9 @@ namespace OfficeOpenXml
             DeleteCalcChain();
 
             SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
-
+            
+            if(_workbookCreatedInEPPlus == false) EnsureCalculationFeatures();    //Ensure that the calculation features are included in the file to make sure that new functions are supported.
+            
             if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
             {
                 if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
