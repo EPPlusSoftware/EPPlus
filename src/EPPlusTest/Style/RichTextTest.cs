@@ -393,8 +393,23 @@ namespace EPPlusTest.Style
             r.Text = text;
 
             Assert.IsTrue(ws.Cells["A1"].IsRichText);
-            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(ExcelRichTextCollection));
-            Assert.AreEqual(text, ((ExcelRichTextCollection)ws.Cells["A1"].Value).Text);
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(string));
+            Assert.AreEqual(text, (string)ws.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void ConvertCellToRichText()
+        {
+            var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 1D;
+
+            ws.Cells["A1"].ConvertToRichText();
+
+            Assert.IsTrue(ws.Cells["A1"].IsRichText);
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(string));
+            Assert.AreEqual("1", (string)ws.Cells["A1"].Value);
+            Assert.AreEqual("1", ws.Cells["A1"].RichText.Text);
         }
     }
 }

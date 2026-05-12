@@ -191,7 +191,7 @@ namespace EPPlusTest.Core.Range
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var t = ws.Cells["A1"].RichText.Text;
 
-                Assert.AreEqual(string.Empty, ws.Cells["A1"].Value);
+                Assert.AreEqual(null, ws.Cells["A1"].Value);
 			}
         }
 		[TestMethod]

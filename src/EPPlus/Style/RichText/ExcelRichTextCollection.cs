@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
@@ -241,6 +242,8 @@ namespace OfficeOpenXml.Style
         {
             CheckDeleted();
             _list.Clear();
+            _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, false, CellFlags.RichText);
+            _cells.Value = string.Empty;
         }
         /// <summary>
         /// Removes an item at the specific index

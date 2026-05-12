@@ -1515,10 +1515,12 @@ namespace OfficeOpenXml
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
 
-        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
+        internal ExcelRichTextCollection ConvertCellValueToRichText(int row, int col, ExcelRangeBase r = null)
         {
             var v = GetCoreValueInner(row, col);
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
+
+            //If it already is rt then no need to actually convert
             if (isRt && v._value is ExcelRichTextCollection rtc)
             {
                 if (rtc._cells == null) rtc._cells = r;
@@ -1533,16 +1535,35 @@ namespace OfficeOpenXml
                 }
 
                 var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
-                if (textValue == null || textValue.GetType() != typeof(string) || string.IsNullOrEmpty(text))
+                var item = new ExcelRichTextCollection(text, r);
+                SetValue(row, col, item);
+
+                return item;
+            }
+        }
+
+        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
+        {
+            var v = GetCoreValueInner(row, col);
+            var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
+            if (isRt && v._value is ExcelRichTextCollection rtc)
+            {
+                if (rtc._cells == null) rtc._cells = r;
+                return rtc;
+            }
+            else
+            {
+                object textValue = v._value;
+                if (textValue != null && typeof(ExcelRichTextCollection) == textValue.GetType())
                 {
-                    var item = new ExcelRichTextCollection(Workbook, r);
-                    return item;
+                    //This should only really happen if e.g. rich-text from a Note is Set to a cell value
+                    textValue = ((ExcelRichTextCollection)textValue).Text;
+                    var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
+                    var itemRt = new ExcelRichTextCollection(text, r);
+                    return itemRt;
                 }
-                else
-                {
-                    var item = new ExcelRichTextCollection(text, r);
-                    return item;
-                }
+                var item = new ExcelRichTextCollection(Workbook, r);
+                return item;
             }
         }
 
