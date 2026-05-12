@@ -138,7 +138,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             Assert.AreEqual(12, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Kerning);
             Assert.AreEqual(0, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Baseline);
             Assert.AreEqual(9, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Size);
-            Assert.AreEqual(eTextCapsType.None, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Capitalization);
+            Assert.AreEqual(eTextCapsType.All, chart.StyleManager.Style.CategoryAxis.DefaultTextRun.Capitalization);
             Assert.AreEqual(ePenAlignment.Center, chart.StyleManager.Style.CategoryAxis.Border.Alignment);
             Assert.AreEqual(eCompoundLineStyle.Single, chart.StyleManager.Style.CategoryAxis.Border.CompoundLineStyle);
             Assert.AreEqual(eLineCap.Flat, chart.StyleManager.Style.CategoryAxis.Border.LineCap);
