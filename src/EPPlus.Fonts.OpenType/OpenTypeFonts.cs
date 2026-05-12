@@ -14,6 +14,7 @@
   02/26/2026         EPPlus Software AB           Moved caching from DefaultFontResolver to here
   02/27/2026         EPPlus Software AB           Replaced Configure overloads with IEpplusFontConfiguration
   03/20/2026         EPPlus Software AB           Added thread-local TextShaper cache
+  05/06/2026         EPPlus Software AB           Transactional Configure; single resolver, single cache key
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
@@ -34,16 +35,15 @@ namespace EPPlus.Fonts.OpenType
         private static readonly object _syncRoot = new object();
         private static readonly Dictionary<string, object> _fontLocks = new Dictionary<string, object>();
 
-        // Active resolver — replaced on Reset() and SetFontResolver().
+        // Active resolver — replaced when Configure() runs.
         private static volatile IFontResolver _fontResolver;
-        private static volatile bool _hasCustomResolver;
 
-        // Singleton configuration instance. Internal events wired up in the static constructor.
+        // Singleton configuration instance, mutated transactionally inside Configure() callbacks.
         private static readonly EpplusFontConfiguration _configuration;
 
         // Thread-local TextShaper cache — each thread gets its own dictionary of shapers,
-        // one per unique (fontName, subFamily) combination. The underlying OpenTypeFont instances
-        // are shared via the global font cache, but TextShaper is not thread-safe to share.
+        // one per unique fontName+subFamily. The underlying OpenTypeFont instances are shared
+        // via the global font cache, but TextShaper is not thread-safe to share.
         // NOTE: [ThreadStatic] field initializers only run on the primary thread. All other
         // threads will see null here — the null-check in GetTextShaper() handles this.
         [ThreadStatic]
@@ -52,23 +52,7 @@ namespace EPPlus.Fonts.OpenType
         static OpenTypeFonts()
         {
             _configuration = new EpplusFontConfiguration();
-
-            _configuration.OnReset += () =>
-            {
-                _hasCustomResolver = false;
-                _fontResolver = new DefaultFontResolver();
-                ClearFontCache();
-            };
-
-            _configuration.OnSetFontResolver += resolver =>
-            {
-                _hasCustomResolver = true;
-                _fontResolver = resolver;
-                ClearFontCache();
-            };
-
-            // Default resolver — no fallback config yet.
-            _fontResolver = new DefaultFontResolver();
+            _fontResolver = new DefaultFontResolver(config: _configuration);
         }
 
         // -----------------------------------------------------------------------------------------
@@ -76,37 +60,67 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
-        /// The single entry point for configuring font behaviour.
-        /// Changes are global and persist for the lifetime of the application unless
-        /// <see cref="IEpplusFontConfiguration.Reset"/> is called inside the lambda.
+        /// The single entry point for configuring font behaviour. The callback is invoked once
+        /// as a transaction: all mutations are applied to the configuration, and when the callback
+        /// returns the resolver is rebuilt and all font caches are cleared.
+        /// Changes are global and persist for the lifetime of the application.
         /// </summary>
         /// <example>
-        /// // Simple fallback chain:
-        /// OpenTypeFonts.Configure(config =>
+        /// // Add additional font directories:
+        /// OpenTypeFonts.Configure(cfg =>
         /// {
-        ///     config.AddFallback("Arial", "Helvetica", "Roboto");
+        ///     cfg.FontDirectories.Add(@"C:\MyApp\Fonts");
         /// });
         ///
-        /// // Custom resolver (built-in Archivo Narrow fallback is bypassed):
-        /// OpenTypeFonts.Configure(config =>
+        /// // Add a font-name fallback chain:
+        /// OpenTypeFonts.Configure(cfg =>
         /// {
-        ///     config.SetFontResolver(new MyDatabaseFontResolver());
+        ///     cfg.FontFallbacks["Arial"] = new[] { "Helvetica", "Roboto" };
+        /// });
+        ///
+        /// // Install a custom resolver (bypasses built-in fallback chains):
+        /// OpenTypeFonts.Configure(cfg =>
+        /// {
+        ///     cfg.FontResolver = new MyDatabaseFontResolver();
         /// });
         ///
         /// // Reset to factory defaults:
-        /// OpenTypeFonts.Configure(config => config.Reset());
+        /// OpenTypeFonts.Configure(cfg => cfg.Reset());
         /// </example>
         public static void Configure(Action<IEpplusFontConfiguration> configure)
         {
             if (configure == null)
                 throw new ArgumentNullException("configure");
 
-            configure(_configuration);
+            lock (_syncRoot)
+            {
+                configure(_configuration);
 
-            // If the user did not install a custom resolver via SetFontResolver(), rebuild
-            // DefaultFontResolver so it picks up any newly added fallback chains.
-            if (!_hasCustomResolver)
-                _fontResolver = new DefaultFontResolver(config: _configuration);
+                // Snapshot the user's chosen resolver (if any) before we rebuild.
+                var userResolver = _configuration.FontResolver;
+                if (userResolver != null)
+                {
+                    _fontResolver = userResolver;
+                }
+                else
+                {
+                    _fontResolver = new DefaultFontResolver(
+                        fontDirectories: _configuration.FontDirectories,
+                        searchSystemDirectories: _configuration.SearchSystemDirectories,
+                        config: _configuration);
+                }
+
+                // Invalidate everything that may have been built against the previous resolver.
+                OpenTypeFontCache.Clear();
+                FontScannerCache.Clear();
+                FontDirectoryCache.Clear();
+                _fontLocks.Clear();
+            }
+
+            // Clear the calling thread's shaper cache. Other threads will lazily rebuild theirs
+            // when they next call GetTextShaper. See class-level comment on the limitations of
+            // this approach when Configure runs concurrently with active use on other threads.
+            _threadLocalShaperCache = null;
         }
 
         /// <summary>
@@ -115,15 +129,7 @@ namespace EPPlus.Fonts.OpenType
         /// TextShaper instance, ensuring thread safety without locking.
         /// Returns null if the font cannot be resolved.
         /// </summary>
-        /// <param name="fontName">Font family name</param>
-        /// <param name="subFamily">Font subfamily (Regular, Bold, Italic, etc.)</param>
-        /// <param name="fontDirectories">Additional directories to search. If null, uses globally configured resolver.</param>
-        /// <param name="searchSystemDirectories">Whether to search system font directories</param>
-        public static TextShaper GetTextShaper(
-            string fontName,
-            FontSubFamily subFamily = FontSubFamily.Regular,
-            IEnumerable<string> fontDirectories = null,
-            bool searchSystemDirectories = true)
+        public static TextShaper GetTextShaper(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
             if (fontName == null)
                 throw new ArgumentNullException("fontName");
@@ -132,14 +138,12 @@ namespace EPPlus.Fonts.OpenType
             if (_threadLocalShaperCache == null)
                 _threadLocalShaperCache = new Dictionary<string, TextShaper>();
 
-            // Use the same cache key logic as LoadFont to avoid collisions between
-            // calls with and without explicit font directories.
-            string key = BuildCacheKey(fontName, subFamily, fontDirectories, searchSystemDirectories);
+            string key = BuildCacheKey(fontName, subFamily);
 
             TextShaper shaper;
             if (!_threadLocalShaperCache.TryGetValue(key, out shaper))
             {
-                var font = LoadFont(fontName, subFamily, fontDirectories, searchSystemDirectories);
+                var font = LoadFont(fontName, subFamily);
                 if (font == null)
                     return null;
 
@@ -150,37 +154,23 @@ namespace EPPlus.Fonts.OpenType
             return shaper;
         }
 
-        public static TextLayoutEngine GetTextLayoutEngine(string fontName,
-            FontSubFamily subFamily = FontSubFamily.Regular,
-            IEnumerable<string> fontDirectories = null,
-            bool searchSystemDirectories = true)
+        public static TextLayoutEngine GetTextLayoutEngine(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
-            var shaper = GetTextShaper(fontName, subFamily, fontDirectories, searchSystemDirectories);
+            var shaper = GetTextShaper(fontName, subFamily);
             //TODO: Create layoutEngineCache in the style of shaperCache
-            var layoutEngine = new TextLayoutEngine(shaper);
-
-            return layoutEngine;
+            return new TextLayoutEngine(shaper);
         }
 
-
-        public static TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font, IEnumerable<string> fontDirectories = null,
-            bool searchSystemDirectories = true)
+        public static TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font)
         {
-            var shaper = GetShaperForFont(font, fontDirectories, searchSystemDirectories);
+            var shaper = GetShaperForFont(font);
             //TODO: Create layoutEngineCache in the style of shaperCache
-            var layoutEngine = new TextLayoutEngine(shaper);
-
-            return layoutEngine;
+            return new TextLayoutEngine(shaper);
         }
 
-        public static ITextShaper GetShaperForFont(MeasurementFont font, IEnumerable<string> fontDirectories = null,
-            bool searchSystemDirectories = true)
+        public static ITextShaper GetShaperForFont(MeasurementFont font)
         {
-            return GetTextShaper(
-                font.FontFamily,
-                GetFontSubFamily(font.Style),
-                fontDirectories,
-                searchSystemDirectories);
+            return GetTextShaper(font.FontFamily, GetFontSubFamily(font.Style));
         }
 
         public static FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
@@ -202,10 +192,9 @@ namespace EPPlus.Fonts.OpenType
             return FontSubFamily.Regular;
         }
 
-
         /// <summary>
-        /// Clears all cached fonts, font locks and thread-local TextShaper cache.
-        /// Thread-safe operation.
+        /// Clears all cached fonts, font locks, scanner caches and the calling thread's
+        /// thread-local TextShaper cache. Thread-safe operation.
         /// </summary>
         public static void ClearFontCache()
         {
@@ -213,6 +202,7 @@ namespace EPPlus.Fonts.OpenType
             {
                 OpenTypeFontCache.Clear();
                 FontScannerCache.Clear();
+                FontDirectoryCache.Clear();
                 _fontLocks.Clear();
             }
 
@@ -226,25 +216,19 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Loads a font by name and subfamily, with thread-safe caching.
-        /// When fontDirectories or searchSystemDirectories are specified, they take precedence
-        /// over the globally configured resolver for this call only — thread-safe.
+        /// Loads a font by name and subfamily, with thread-safe caching. Always uses the globally
+        /// configured resolver — there is one font world per process. To search additional
+        /// directories or install a custom resolver, use <see cref="Configure"/>.
         /// </summary>
         public static OpenTypeFont LoadFont(
             string fontName,
             FontSubFamily subFamily = FontSubFamily.Regular,
-            IEnumerable<string> fontDirectories = null,
-            bool searchSystemDirectories = true,
             bool ignoreCache = false)
         {
-            var resolver = fontDirectories != null
-                ? new DefaultFontResolver(fontDirectories, searchSystemDirectories)
-                : _fontResolver;
-
             if (ignoreCache)
-                return ResolveAndCreate(resolver, fontName, subFamily);
+                return ResolveAndCreate(_fontResolver, fontName, subFamily);
 
-            string lockKey = BuildCacheKey(fontName, subFamily, fontDirectories, searchSystemDirectories);
+            string lockKey = BuildCacheKey(fontName, subFamily);
             object fontLock;
             lock (_syncRoot)
             {
@@ -266,7 +250,7 @@ namespace EPPlus.Fonts.OpenType
 
                 OpenTypeFontCache.BeginCache(lockKey);
 
-                var font = ResolveAndCreate(resolver, fontName, subFamily);
+                var font = ResolveAndCreate(_fontResolver, fontName, subFamily);
                 if (font == null)
                     return null;
 
@@ -275,6 +259,22 @@ namespace EPPlus.Fonts.OpenType
                 OpenTypeFontCache.AddToCache(font, lockKey);
                 return font;
             }
+        }
+
+        /// <summary>
+        /// Overload preserved for source compatibility with callers that pass fontDirectories.
+        /// The directories argument is IGNORED — to add directories permanently, use Configure().
+        /// Marked obsolete to encourage migration.
+        /// </summary>
+        [Obsolete("Pass font directories through OpenTypeFonts.Configure(cfg => cfg.FontDirectories.Add(...)) instead. The directories argument is ignored.", false)]
+        public static OpenTypeFont LoadFont(
+            string fontName,
+            FontSubFamily subFamily,
+            IEnumerable<string> fontDirectories,
+            bool searchSystemDirectories = true,
+            bool ignoreCache = false)
+        {
+            return LoadFont(fontName, subFamily, ignoreCache);
         }
 
         /// <summary>
@@ -336,8 +336,6 @@ namespace EPPlus.Fonts.OpenType
         /// Creates an OpenTypeFont directly from raw font bytes.
         /// Font format (TTF/OTF) is detected automatically from the SFNT header.
         /// </summary>
-        /// <param name="bytes">Raw TTF/OTF font bytes.</param>
-        /// <returns>A fully loaded OpenTypeFont instance.</returns>
         public static OpenTypeFont GetFromBytes(byte[] bytes)
         {
             if (bytes == null)
@@ -352,17 +350,9 @@ namespace EPPlus.Fonts.OpenType
         // Internal helpers
         // -----------------------------------------------------------------------------------------
 
-        internal static string BuildCacheKey(
-            string fontName,
-            FontSubFamily subFamily,
-            IEnumerable<string> fontDirectories,
-            bool searchSystemDirectories)
+        internal static string BuildCacheKey(string fontName, FontSubFamily subFamily)
         {
-            if (fontDirectories == null)
-                return string.Format("{0}_{1}", fontName, subFamily);
-
-            var dirs = string.Join("|", fontDirectories.ToArray());
-            return string.Format("{0}_{1}_{2}_{3}", fontName, subFamily, dirs, searchSystemDirectories);
+            return string.Format("{0}_{1}", fontName, subFamily);
         }
 
         private static OpenTypeFont ResolveAndCreate(IFontResolver resolver, string fontName, FontSubFamily subFamily)

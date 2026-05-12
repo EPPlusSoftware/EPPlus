@@ -9,8 +9,8 @@
   Date               Author                       Change
  *************************************************************************************************
   12/21/2025         EPPlus Software AB           Test base class
+  05/06/2026         EPPlus Software AB           Use property-based Configure for font directories
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 
 namespace EPPlus.Fonts.OpenType.Tests
@@ -113,13 +113,33 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestInitialize]
         public void ClearAllCaches()
         {
-            OpenTypeFonts.ClearFontCache();
             ConfigureResolver();
         }
 
-        protected virtual void ConfigureResolver()
+        /// <summary>
+        /// Configures the global font system to use only the test font folders.
+        /// Configure() rebuilds the resolver and clears all caches as part of the same
+        /// transaction, so this is sufficient — no explicit cache clearing needed.
+        /// </summary>
+        protected virtual void ConfigureResolver(bool searchSystemDirectories = false)  
         {
-            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, false)));
+            OpenTypeFonts.Configure(cfg =>
+            {
+                cfg.Reset();
+                foreach (var dir in FontFolders)
+                {
+                    cfg.FontDirectories.Add(dir);
+                }
+                cfg.SearchSystemDirectories = searchSystemDirectories;
+            });
+        }
+
+        /// <summary>
+        /// Temporarily configures the font system to search only system font directories.
+        /// </summary>
+        protected void UseSystemFonts()
+        {
+            ConfigureResolver(true);
         }
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
@@ -129,17 +149,20 @@ namespace EPPlus.Fonts.OpenType.Tests
         }
 
         /// <summary>
-        /// Temporarily configures the font resolver for the duration of one test.
-        /// Restores the default test resolver automatically via [TestCleanup].
+        /// Temporarily configures the font system to search the given directories,
+        /// optionally also including system font directories.
         /// </summary>
-        protected static void UseSystemFonts()
-        {
-            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(null, true)));
-        }
-
         protected static void UseFontFolders(IEnumerable<string> directories, bool searchSystemDirectories = false)
         {
-            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(directories, searchSystemDirectories)));
+            OpenTypeFonts.Configure(cfg =>
+            {
+                cfg.Reset();
+                foreach (var dir in directories)
+                {
+                    cfg.FontDirectories.Add(dir);
+                }
+                cfg.SearchSystemDirectories = searchSystemDirectories;
+            });
         }
     }
 }

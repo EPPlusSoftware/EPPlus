@@ -18,11 +18,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
     {
         public override TestContext? TestContext { get; set; }
 
-        protected override void ConfigureResolver()
-        {
-            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, true)));
-        }
-
 
         [TestMethod]
         public void ReadGposTable_Roboto()

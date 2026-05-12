@@ -269,7 +269,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
 
             var ttTextMeasurer = OpenTypeFonts.LoadFont(boldItalic.FontFamily, FontSubFamily.BoldItalic);
 
-            var cacheKey = OpenTypeFonts.BuildCacheKey("Roboto", FontSubFamily.BoldItalic, null, searchSystemDirectories: true);
+            var cacheKey = OpenTypeFonts.BuildCacheKey("Roboto", FontSubFamily.BoldItalic);
             var cachedFont = OpenTypeFontCache.GetFromCache(cacheKey);
             Assert.IsNotNull(cachedFont);
         }

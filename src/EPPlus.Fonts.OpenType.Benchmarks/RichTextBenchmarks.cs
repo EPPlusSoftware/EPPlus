@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   01/23/2026         EPPlus Software AB           Debug NA benchmarks
+  05/06/2026         EPPlus Software AB           Use OpenTypeFonts.Configure for font directories
  *************************************************************************************************/
 using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
@@ -29,7 +30,6 @@ namespace EPPlus.Fonts.Benchmarks
         private const string LoremIpsum20Para = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pulvinar interdum imperdiet. Praesent ut auctor urna. Phasellus sollicitudin quam vitae est convallis, eu mattis lorem efficitur. Mauris nulla libero, tincidunt id ipsum non, lobortis tristique mauris. Donec ut enim sed enim fermentum molestie vel quis odio. Morbi a fermentum massa, sit amet ultrices est. Aenean ante mi, fermentum nec rhoncus et, vulputate vel sapien. Donec tempus, leo quis luctus rhoncus, augue odio pharetra libero, ac blandit urna turpis sed diam. Vivamus augue purus, eleifend et justo facilisis, imperdiet rhoncus sem. Quisque accumsan pellentesque elit, eget finibus massa accumsan in.\r\n\r\nFusce eu accumsan enim. Cras pulvinar enim vel tellus lacinia, consectetur euismod tortor consectetur. Praesent tincidunt pretium eros, ac auctor magna luctus sed. Ut porta lectus quam, non ornare mauris lacinia sit amet. Nullam egestas dolor quis magna porttitor, ac iaculis nisi hendrerit. Proin at mollis lacus, in porttitor nunc. Aliquam erat volutpat. Sed vel egestas risus, at aliquam arcu. Vestibulum quis lobortis nulla. Etiam pellentesque auctor nulla, eget tincidunt felis rhoncus id.";
 
         private TextLayoutEngine _layoutEngine;
-        private List<string> _fontFolders;
 
         private const double MaxPointWidth = 39d;
         private const float FontSize = 11f;
@@ -53,7 +53,14 @@ namespace EPPlus.Fonts.Benchmarks
                     string.Format("Fonts directory not found: {0}", fontsPath));
             }
 
-            _fontFolders = new List<string> { fontsPath };
+            // Configure the global font system to search the benchmark's local Fonts directory
+            // exclusively. Must happen before any LoadFont call.
+            OpenTypeFonts.Configure(cfg =>
+            {
+                cfg.Reset();
+                cfg.FontDirectories.Add(fontsPath);
+                cfg.SearchSystemDirectories = false;
+            });
 
             Console.WriteLine("\nAvailable Roboto fonts:");
             foreach (var file in Directory.GetFiles(fontsPath, "Roboto*.ttf"))
@@ -68,7 +75,7 @@ namespace EPPlus.Fonts.Benchmarks
                 font.FullName, font.SubFamily, font.GlyfTable.Glyphs.Count));
 
             var shaper = new TextShaper(font);
-            _layoutEngine = new TextLayoutEngine(shaper, _fontFolders, searchSystemDirectories: false);
+            _layoutEngine = new TextLayoutEngine(shaper);
 
             Console.WriteLine("\nPre-warming font cache (Regular, Bold, Italic)...");
             PrewarmFontCache();

@@ -7,19 +7,200 @@ using OfficeOpenXml.Interfaces.Fonts;
 namespace EPPlus.Fonts.OpenType.Tests
 {
     [TestClass]
-    public class TextFragmentCollectionTests
+    public class TextFragmentCollectionTests : FontTestBase
     {
+        public override TestContext? TestContext { get; set; }
+
+        protected override void ConfigureResolver(bool searchSystemDirectories = true)
+        {
+            base.ConfigureResolver(searchSystemDirectories);
+        }
+
+        // ============================================================================
+        // DIAGNOSTIC INSTRUMENTATION — paste this entire test method into your test
+        // class, replacing the existing EnsureTextFragmentsAndWrapperWorkCorrectlyForLongParagraphs.
+        //
+        // It does what the original test does, plus prints diagnostic snapshots before
+        // and after the shaper is created. The output goes to Debug.WriteLine — visible
+        // in the Test Explorer "Output" panel for the test, or in any attached debugger.
+        //
+        // HOW TO USE:
+        //   1. Paste this into your test file (replace the existing method).
+        //   2. Run the full test suite. The test will pass first time, fail second time.
+        //   3. After running the suite TWICE, look at the Output for the test in run 2.
+        //      Compare the diagnostic output between run 1 and run 2.
+        //   4. Copy/paste both outputs back to chat for analysis.
+        // ============================================================================
+
+
+
         [TestMethod]
         public void EnsureTextFragmentsAndWrapperWorkCorrectlyForLongParagraphs()
         {
+            DumpResolverState("BEFORE shaper creation");
+
             var shaper = OpenTypeFonts.GetTextShaper("Aptos Narrow", FontSubFamily.Regular);
+
+            DumpResolverState("AFTER shaper creation");
+            DumpShaperState("shaper", shaper);
+
+            // ----- DIAGNOSTIC: inspect the OpenTypeFont via OpenTypeFonts.LoadFont -----
+            // If LoadFont returns a cached instance, two runs see the same object —
+            // and any mutation of that object's tables will show up here.
+            DumpFontState("LoadFont Aptos Narrow Regular");
+
             var layout = new TextLayoutEngine(shaper);
 
-            var outputLines = layout.WrapText("Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n", 28f, 225);
+            var outputLines = layout.WrapText(
+                "Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n",
+                28f,
+                225);
+
+            System.Console.WriteLine("[DIAG] === Output lines: " + outputLines.Count + " ===");
+            for (int i = 0; i < outputLines.Count; i++)
+            {
+                System.Console.WriteLine(
+                    "[DIAG] line[" + i + "] (len=" + outputLines[i].Length + ") = \"" + outputLines[i] + "\"");
+            }
+            System.Console.WriteLine("[DIAG] === END ===");
 
             Assert.AreEqual("Hello World! a b c d", outputLines[0]);
             Assert.AreEqual("e f g h i j k l m n o p q", outputLines[1]);
             Assert.AreEqual("r s t u v w x y z ", outputLines[2]);
+        }
+
+        // ============================================================================
+        // Helpers — paste these into the same test class.
+        // ============================================================================
+
+        private static void DumpResolverState(string label)
+        {
+            System.Console.WriteLine("[DIAG] ----- " + label + " -----");
+
+            var resolver = new EPPlus.Fonts.OpenType.FontResolver.DefaultFontResolver();
+            var bytes = resolver.ResolveFont("Aptos Narrow", OfficeOpenXml.Interfaces.Fonts.FontSubFamily.Regular);
+
+            System.Console.WriteLine("[DIAG]   resolved bytes: length=" + bytes.Length
+                + " sha1=" + Sha1Short(bytes)
+                + " head=" + HexHead(bytes, 16));
+
+            try
+            {
+                var font = EPPlus.Fonts.OpenType.OpenTypeFonts.GetFromBytes(bytes);
+                System.Console.WriteLine("[DIAG]   parsed family=" + font.NameTable.GetFamilyName()
+                    + " subfamily=" + font.NameTable.GetSubfamilyEnum());
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine("[DIAG]   parse FAILED: " + ex.GetType().Name + ": " + ex.Message);
+            }
+
+            var scanner = new DefaultFontScanner();
+            var face = scanner.FindBestMatch(
+                new System.Collections.Generic.List<string>(),
+                "Aptos Narrow",
+                OfficeOpenXml.Interfaces.Fonts.FontSubFamily.Regular,
+                true);
+
+            if (face == null)
+                System.Console.WriteLine("[DIAG]   scanner.FindBestMatch returned null");
+            else
+                System.Console.WriteLine("[DIAG]   scanner.FindBestMatch:"
+                    + " family=" + face.FamilyName
+                    + " subfamily=" + face.Subfamily
+                    + " path=" + System.IO.Path.GetFileName(face.FilePath ?? "(null)")
+                    + " IsExactMatch=" + face.IsExactMatch);
+        }
+
+        private static void DumpFontState(string label)
+        {
+            System.Console.WriteLine("[DIAG] ----- " + label + " -----");
+
+            try
+            {
+                var font = EPPlus.Fonts.OpenType.OpenTypeFonts.LoadFont(
+                    "Aptos Narrow",
+                    OfficeOpenXml.Interfaces.Fonts.FontSubFamily.Regular);
+
+                // Identity — same instance across calls?
+                System.Console.WriteLine("[DIAG]   font instance hash=" + System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(font));
+                System.Console.WriteLine("[DIAG]   font.RawData length=" + (font.RawData == null ? -1 : font.RawData.Length));
+                if (font.RawData != null && font.RawData.Length > 0)
+                    System.Console.WriteLine("[DIAG]   font.RawData head=" + HexHead(font.RawData, 16));
+
+                // Glyph mapping for the characters that matter for the failing test.
+                // 'e' is the character that just barely fits / doesn't fit in line[0].
+                DumpGlyphAndWidth(font, 'H', "H");
+                DumpGlyphAndWidth(font, 'e', "e");
+                DumpGlyphAndWidth(font, 'l', "l");
+                DumpGlyphAndWidth(font, 'o', "o");
+                DumpGlyphAndWidth(font, ' ', "space");
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine("[DIAG]   FAILED: " + ex.GetType().Name + ": " + ex.Message);
+            }
+        }
+
+        private static void DumpGlyphAndWidth(EPPlus.Fonts.OpenType.OpenTypeFont font, char ch, string label)
+        {
+            try
+            {
+                ushort glyphId;
+                bool found = font.CmapTable.TryGetGlyphId((uint)ch, out glyphId);
+                if (!found)
+                {
+                    System.Console.WriteLine("[DIAG]   '" + label + "' (U+" + ((int)ch).ToString("X4") + "): no cmap entry");
+                    return;
+                }
+
+                // Try to read advance width from hmtx. If the property/method on your OpenTypeFont
+                // is named differently, adjust this call.
+                int advance = -1;
+                try
+                {
+                    advance = font.HmtxTable.GetAdvanceWidth(glyphId);
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine("[DIAG]   hmtx lookup failed for glyph " + glyphId + ": " + ex.GetType().Name);
+                }
+
+                System.Console.WriteLine("[DIAG]   '" + label + "' (U+" + ((int)ch).ToString("X4") + "): glyphId=" + glyphId + " advanceWidth=" + advance);
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine("[DIAG]   '" + label + "' FAILED: " + ex.GetType().Name + ": " + ex.Message);
+            }
+        }
+
+        private static void DumpShaperState(string label, object shaper)
+        {
+            System.Console.WriteLine("[DIAG] " + label + " type=" + (shaper == null ? "null" : shaper.GetType().Name));
+        }
+
+        private static string Sha1Short(byte[] bytes)
+        {
+            using (var sha = System.Security.Cryptography.SHA1.Create())
+            {
+                byte[] hash = sha.ComputeHash(bytes);
+                var sb = new System.Text.StringBuilder();
+                for (int i = 0; i < 8 && i < hash.Length; i++)
+                    sb.Append(hash[i].ToString("x2"));
+                return sb.ToString();
+            }
+        }
+
+        private static string HexHead(byte[] bytes, int count)
+        {
+            var sb = new System.Text.StringBuilder();
+            int n = System.Math.Min(count, bytes.Length);
+            for (int i = 0; i < n; i++)
+            {
+                if (i > 0) sb.Append(' ');
+                sb.Append(bytes[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
 
         //TODO: DOUBLE-CHECK BOLD+ITALIC for narrow later it seems innaccurate

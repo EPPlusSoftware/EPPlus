@@ -73,6 +73,12 @@ namespace EPPlus.Fonts.OpenType.FontCache
                 {
                     _cache[cacheKey].Font = font;
                     _cache[cacheKey].IsLoaded = true;
+
+                    System.Console.WriteLine(
+    "[CACHE] AddToCache key='" + cacheKey + "'"
+    + " IsSubset=" + font.IsSubset
+    + " RawDataLength=" + (font.RawData == null ? -1 : font.RawData.Length)
+    + " hash=" + System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(font));
                 }
                 else
                 {

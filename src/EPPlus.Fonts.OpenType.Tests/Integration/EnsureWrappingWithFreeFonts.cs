@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Style = MeasurementFontStyles.Regular
             };
 
-            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf, FontFolders);
+            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var resultStrings = tle.WrapText(TestText, mf.Size, MaxWidthInPoints);
             Assert.AreEqual(2, resultStrings.Count);
@@ -37,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Style = MeasurementFontStyles.Regular
             };
 
-            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf, FontFolders);
+            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var resultStrings = tle.WrapText(TestText, mf.Size, MaxWidthInPoints);
             Assert.AreEqual(2, resultStrings.Count);
@@ -55,7 +55,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Style = MeasurementFontStyles.Regular
             };
 
-            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf, FontFolders);
+            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var resultStrings = tle.WrapText(TestText, mf.Size, MaxWidthInPoints);
             Assert.AreEqual(1, resultStrings.Count);
@@ -72,7 +72,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Style = MeasurementFontStyles.Regular
             };
 
-            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf, FontFolders);
+            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var resultStrings = tle.WrapText(TestText, mf.Size, MaxWidthInPoints);
             Assert.AreEqual(3, resultStrings.Count);
@@ -94,7 +94,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             };
 
 
-            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf, FontFolders);
+            var tle = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var maxWidth = 54.1420d;
 
