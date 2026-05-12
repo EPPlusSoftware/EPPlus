@@ -181,8 +181,8 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.Right:
                 case eLegendPosition.TopRight:
                 case eLegendPosition.Left:
-                    rect.Width = LeftMargin + entryWidth + RightMargin; 
-                    rect.Height = (entryHeight * index) + ((index - 1) * MarginItemsWidth) + entryHeight;
+                    rect.Width = LeftMargin + entryWidth + RightMargin;
+                    rect.Height = (entryHeight * index) + ((index + 1) * entryHeight * 0.25); //use margin as 25% of the entry height and to the top and the bottom.;
 
                     if (rect.Height > _maxHeight)
                     {
@@ -249,7 +249,7 @@ namespace EPPlusImageRenderer.Svg
                 widest = tm.Width;
             }
 
-            if (tm.Height > highest)
+             if (tm.Height > highest)
             {
                 highest = tm.Height;
             }
@@ -495,7 +495,7 @@ namespace EPPlusImageRenderer.Svg
             var tbTop = si.Top - (entryHeight - si.Height) / 2; 
             double tbWidth;
 
-            tbWidth = Bounds.Width - tbLeft - RightMargin;
+            tbWidth = Bounds.Width - tbLeft;
 
             var tbHeight = tm.Height;
             sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
@@ -560,7 +560,15 @@ namespace EPPlusImageRenderer.Svg
 
             item.LineCap = eLineCap.Round;
             item.Left = x;
-            item.Top = y;
+            if(pSls !=null && (sc.Chart.Legend.Position == eLegendPosition.Left || sc.Chart.Legend.Position == eLegendPosition.Right))
+            {
+                item.Top = y + (entryHeight - iconHeight) / 2;
+            }
+            else
+            {
+                item.Top = y;
+            }
+            //item.Top = y;
             item.Width = iconHeight;
             item.Height = iconHeight;
 
