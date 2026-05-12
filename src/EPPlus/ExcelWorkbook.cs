@@ -1153,7 +1153,7 @@ namespace OfficeOpenXml
             {
                 _workbookXml = _package.GetXmlFromUri(WorkbookUri);
                 ValidateWorkbookNamespace();
-            }  
+            }
             else
             {
                 // create a new workbook part and add to the package
@@ -1171,11 +1171,26 @@ namespace OfficeOpenXml
 
                 _workbookXml.AppendChild(wbElem);
 
+                XmlElement fileVersion = _workbookXml.CreateElement("fileVersion", ExcelPackage.schemaMain);
+                fileVersion.SetAttribute("appName", "xl");
+                fileVersion.SetAttribute("lastEdited", "7");    //Set the last edited version to the latest known version. This will make sure that Excel does not downgrade the file and that new features are supported.
+                fileVersion.SetAttribute("lowestEdited", "7");  //Set the lowest edited version to the latest known version. This will make sure that Excel does not downgrade the file and that new features are supported.
+                wbElem.AppendChild(fileVersion);
+
                 // create the bookViews and workbooks element
                 XmlElement bookViews = _workbookXml.CreateElement("bookViews", ExcelPackage.schemaMain);
                 wbElem.AppendChild(bookViews);
                 XmlElement workbookView = _workbookXml.CreateElement("workbookView", ExcelPackage.schemaMain);
                 bookViews.AppendChild(workbookView);
+
+                XmlElement calcPr = _workbookXml.CreateElement("calcPr", ExcelPackage.schemaMain);
+                calcPr.SetAttribute("calcId", "191029"); //Set the version of the calc engine to the latest known version. This will make sure that Excel does not downgrade the calculation engine and that new functions are supported.
+                wbElem.AppendChild(bookViews);
+
+                //Include the extLst with the calc features to make sure new functions are supported in Excel.
+                XmlElement extLst = _workbookXml.CreateElement("extLst", ExcelPackage.schemaMain);
+                extLst.InnerXml = $"<ext uri=\"{{B58B0392-4F1F-4190-BB64-5DF3571DCE5F}}\" xmlns=\"{ExcelPackage.schemaMain}\" xmlns:xcalcf=\"http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures\"><xcalcf:calcFeatures><xcalcf:feature name=\"microsoft.com:RD\"/><xcalcf:feature name=\"microsoft.com:Single\"/><xcalcf:feature name=\"microsoft.com:FV\"/><xcalcf:feature name=\"microsoft.com:CNMTM\"/><xcalcf:feature name=\"microsoft.com:LET_WF\"/><xcalcf:feature name=\"microsoft.com:LAMBDA_WF\"/><xcalcf:feature name=\"microsoft.com:ARRAYTEXT_WF\"/></xcalcf:calcFeatures></ext>";
+                wbElem.AppendChild(extLst);
 
                 // save it to the package
                 StreamWriter stream = new StreamWriter(partWorkbook.GetStream(FileMode.Create, FileAccess.Write));

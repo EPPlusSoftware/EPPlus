@@ -196,6 +196,26 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s1045()
+        {
+            using var p = OpenTemplatePackage("s1045.xlsx");
+            var sourceSheet = p.Workbook.Worksheets[1];
+
+            using var destPackage = OpenPackage("s1045-copy.xlsx", true);
+            var destSheet = destPackage.Workbook.Worksheets.Add("Dest");
+
+
+
+            // This line will throw System.NullReferenceException in EPPlus
+
+            // at OfficeOpenXml.Drawing.ExcelDrawing.GetToRowFromPixels -> GetFromBounds -> GetAddress -> CopyDrawings -> Copy
+
+            sourceSheet.Cells.Copy(destSheet.Cells[1, 1], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+
+            Console.WriteLine("Done (no crash).");
+            SaveAndCleanup(destPackage);
+        }
     }
 }
 

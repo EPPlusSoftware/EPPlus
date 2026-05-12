@@ -771,31 +771,70 @@ namespace OfficeOpenXml
             }
             return v;
         }
-        private ExcelAddressBase GetAddressDim(ExcelRangeBase addr)
+        internal ExcelAddressBase GetAddressDimension()
         {
-            int fromRow, fromCol, toRow, toCol;
-            var d = _worksheet.Dimension;
-            fromRow = addr._fromRow < d._fromRow ? d._fromRow : addr._fromRow;
-            fromCol = addr._fromCol < d._fromCol ? d._fromCol : addr._fromCol;
-
-            toRow = addr._toRow > d._toRow ? d._toRow : addr._toRow;
-            toCol = addr._toCol > d._toCol ? d._toCol : addr._toCol;
-
-            if (addr._fromRow == fromRow && addr._fromCol == fromCol && addr._toRow == toRow && addr._toCol == _toCol)
+            GetAddressDimensionFullRowAndColumn(out int dimFromRow, out int dimFromCol, out int dimToRow, out int dimToCol);
+            //If the range is only full column or full row the dimension of the worksheet, return null.
+            if (dimFromCol==0 || dimFromRow>dimToCol || dimFromCol > dimToCol)
             {
-                return addr;
+                return null; 
             }
             else
             {
-                if (_fromRow > _toRow || _fromCol > _toCol)
+                return new ExcelAddressBase(dimFromRow, dimFromCol, dimToRow, dimToCol);
+            }
+        }
+        internal void GetAddressDimensionFullRowAndColumn(out int fromRow, out int fromCol, out int toRow, out int toCol)
+        {
+            var d = _worksheet.Dimension;
+            fromRow = toRow = fromCol = toCol = 0;
+            if (d == null)
+            {
+                if(_worksheet._values.ColumnCount==0)
                 {
-                    return null;
+                    return;
                 }
                 else
                 {
-                    return new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
+                    int row = 0, col = _worksheet._values.ColumnCount - 1;
+
+                    fromCol = _worksheet._values._columnIndex[0].Index;
+                    if(_worksheet._values.GetPrevCell(ref row, ref col, 0, 0, col))
+                    {
+                        var lastCol = _worksheet._values.GetValue(row, col)._value as ExcelColumn;
+                        toCol = lastCol.ColumnMax;
+                    }
+
+                    fromRow = ExcelPackage.MaxRows;
+                    toRow = 0;
+                    for (int c=0;c<_worksheet._values.ColumnCount;c++)
+                    {
+                        var pMin = _worksheet._values._columnIndex[c]._pages[0].MinIndex;
+                        if (pMin < fromRow)
+                        {
+                            fromRow = pMin;
+                        }
+                        var pMax = _worksheet._values._columnIndex[c]._pages[_worksheet._values._columnIndex[c].PageCount-1].MaxIndex;
+                        if (pMax > toRow)
+                        {
+                            toRow = pMax;
+                        }
+                    }
                 }
             }
+            else
+            {
+                fromRow = d._fromRow;
+                fromCol = d._fromCol;
+                toRow = d._toRow;
+                toCol = d._toCol;
+            }
+
+            if(fromRow > 0) fromRow = _fromRow < fromRow ? fromRow : _fromRow;
+            if(fromCol > 0) fromCol = _fromCol < fromCol ? fromCol : _fromCol;
+
+            if(toRow > 0) toRow = _toRow > toRow ? toRow : _toRow;
+            if(toCol > 0) toCol = _toCol > toCol ? toCol : _toCol;
         }
 
         private object GetSingleValue()
@@ -1503,6 +1542,20 @@ namespace OfficeOpenXml
             get
             {
                 return _worksheet;
+            }
+        }
+        public ExcelAddressBase DimensionAdjustedAddress
+        {
+            get 
+            { 
+                if (_worksheet.Dimension == null)
+                {
+                    return this;
+                }
+                else
+                {
+                    return GetAddressDimension();
+                }
             }
         }
         /// <summary>

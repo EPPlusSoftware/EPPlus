@@ -1422,10 +1422,20 @@ namespace OfficeOpenXml.Drawing
                 _height = GetPixelHeight();
             }
 
-            From.Row = Row;
-            From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
-            From.Column = Column;
-            From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetPixelHeightFromRow(Row, RowOffsetPixels, out int pixelHeight);
+
+                Position.Y = (int)(pixelHeight * EMU_PER_PIXEL);
+                Position.X = (int)(ColumnOffsetPixels * EMU_PER_PIXEL);
+            }
+            else
+            {
+                From.Row = Row;
+                From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
+                From.Column = Column;
+                From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            }
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _left = GetPixelLeft();
@@ -1437,6 +1447,36 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = false;
             UpdatePositionAndSizeXml();
         }
+        private void GetPixelWidthFromRow(int toCol, int colOffsetPixels, out int pixelWidth)
+        {
+            ExcelWorksheet ws = _drawings.Worksheet;
+            double mdw = ws.Workbook.MaxFontWidth;
+
+            pixelWidth = 0;
+            for (int col = 0; col < toCol; col++)
+            {
+                pixelWidth += ws.GetColumnWidthPixels(col, mdw);
+            }
+            pixelWidth += colOffsetPixels;
+        }
+        private void GetPixelHeightFromRow(int toRow, int rowOffsetPixels, out int pixelHeight)
+        {
+            pixelHeight = 0;
+            var cache = _drawings.Worksheet.RowHeightCache;
+            for (int row = 0; row < toRow; row++)
+            {
+                lock (cache)
+                {
+                    if (!cache.ContainsKey(row))
+                    {
+                        cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                    }
+                }
+                pixelHeight += (int)(cache[row] / 0.75);
+            }
+            pixelHeight += rowOffsetPixels;
+        }
+
         /// <summary>
         /// Set size in Percent.
         /// Note that resizing columns / rows after using this function will effect the size of the drawing
