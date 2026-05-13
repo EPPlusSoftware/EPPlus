@@ -1041,7 +1041,7 @@ namespace OfficeOpenXml.Drawing
                 double remaining = pixels;
                 int currentRow = 1;
 
-                while (true)
+                while (true && currentRow <= ExcelPackage.MaxRows)
                 {
                     double rowPix = PixelHelper.GetRowHeight(_drawings.Worksheet, currentRow);
                     if (remaining < rowPix)
@@ -1065,7 +1065,7 @@ namespace OfficeOpenXml.Drawing
             double prevPixOff = pixels;
             int row = fromRow + 1;
 
-            while (pixOff >= 0)
+            while (pixOff >= 0 && row < ExcelPackage.MaxRows)
             {
                 prevPixOff = pixOff;
                 pixOff -= PixelHelper.GetRowHeight(ws, ++row);
@@ -1114,7 +1114,7 @@ namespace OfficeOpenXml.Drawing
                 double remaining = pixels;
                 int currentCol = 1;
                 double colPix = PixelHelper.GetColumnWidth(ws, currentCol);
-                while (remaining >= colPix)
+                while (remaining >= colPix && currentCol < ExcelPackage.MaxColumns)
                 {
                     remaining -= colPix;
                     currentCol++;

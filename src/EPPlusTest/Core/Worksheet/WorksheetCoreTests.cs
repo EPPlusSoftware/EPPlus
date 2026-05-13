@@ -225,6 +225,33 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
         [TestMethod]
+        public void ValidateAdjustedDimensionTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A4:H10"].Style.Numberformat.Format = "0";
+                ws.Cells["B6:C7"].Value = 1;
+
+                var range = ws.Cells["A1:K100"];
+                Assert.AreEqual("A4:H10", range.DimensionAdjustedAddress.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateAdjustedDimensionEmptyTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Column(8).Width = 100;
+                ws.Row(2).Height = 100;
+
+                var range = ws.Cells["A1:K100"];
+                Assert.AreEqual("A4:H10", range.DimensionAdjustedAddress.Address);
+            }
+        }
+
+        [TestMethod]
         public void ValidateDimensionValue2Test()
         {
             using (var p = new ExcelPackage())
