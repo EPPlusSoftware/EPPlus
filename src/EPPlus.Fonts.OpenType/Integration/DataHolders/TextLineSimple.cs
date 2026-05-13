@@ -14,7 +14,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// Internal data for making operations
         /// </summary>
-        internal List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
+        public List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
 
         /// <summary>
         /// External output data for reading

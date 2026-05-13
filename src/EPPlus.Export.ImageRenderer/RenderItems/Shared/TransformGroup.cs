@@ -5,9 +5,11 @@ using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class OuterGroup : RenderItem
+    internal abstract class TransformGroup : RenderItem
     {
-        InnerGroup _innerItems;
+        protected InnerGroup _innerGroup;
+
+        Point PositionAfterTransform;
 
         /// <summary>
         /// In degrees
@@ -31,32 +33,35 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 _altRotationPoint = value;
             }
         }
+        Coordinate _scale = new Coordinate(1,1);
 
-        internal Coordinate Scale = null;
-
-
-        //Transform _rotationPoint;
-
-        /// <summary>
-        /// Items contained in this group
-        /// </summary>
-        internal protected List<RenderItem> _childItems = new List<RenderItem>();
-
-        public OuterGroup(DrawingBase renderer) : base(renderer)
+        internal Coordinate Scale
         {
-            _innerItems.Bounds.Parent = Bounds;
-            //Bounds.Parent = TranslationOffset;
-            //_rotationPoint = Bounds;
+            get 
+            {
+                return _scale;
+            } 
+            set
+            { 
+                Bounds.Parent.Scale = new Graphics.Math.Vector2(value.X, value.Y); 
+                _scale = value;
+            } 
         }
 
-        public OuterGroup(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
+        public TransformGroup(DrawingBase renderer) : base(renderer)
+        {
+            _innerGroup = CreateInnerGroup();
+            _innerGroup.Bounds.Parent = Bounds;
+        }
+
+        public TransformGroup(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
         {
             Bounds.Left = localXPos;
             Bounds.Top = localYPos;
         }
 
 
-        public OuterGroup(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
+        public TransformGroup(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
         {
             Bounds.Parent = parent;
             Rotation = rotation;
@@ -76,22 +81,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+        /// <summary>
+        /// Adds child item to the group under this group
+        /// </summary>
+        /// <param name="item"></param>
         internal void AddChildItem(RenderItem item)
         {
-            if (item is GroupItem)
-            {
-                var subGroup = (GroupItem)item;
-                subGroup.TranslationOffset.Parent = Bounds;
-            }
-            else
-            {
-                item.Bounds.Parent = Bounds;
-            }
-            _childItems.Add(item);
+            _innerGroup.AddChildItem(item);
 
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;
             Bounds.Height = item.Bounds.Bottom > Bounds.Height ? item.Bounds.Bottom : Bounds.Height;
         }
+
+        internal abstract InnerGroup CreateInnerGroup();
 
         public override RenderItemType Type => RenderItemType.Group;
     }

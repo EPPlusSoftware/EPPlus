@@ -379,7 +379,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
             //var trItem = new SvgTextRunItem(svgShape, lastpara.Bounds, font, "MyText");
             //lastpara.Runs.Add(trItem);
-            lastpara.AddOwnText(new TextFragment() {Text = "my new text", Font = font });
+            //lastpara.AddOwnText(new TextFragment() {Text = "my new text", Font = font });
             svgShape.Render(sb);
 
             var str = sb.ToString();

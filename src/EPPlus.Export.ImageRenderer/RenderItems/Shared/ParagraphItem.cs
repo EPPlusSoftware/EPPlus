@@ -389,7 +389,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //END
 
 
-                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null)
+                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && string.IsNullOrEmpty(textIfEmpty))
                 {
                     //Bounds of the paragraph should be bounds of the text itself.
                     //Therefore we must know the starting point to set accurate left and offset from left.

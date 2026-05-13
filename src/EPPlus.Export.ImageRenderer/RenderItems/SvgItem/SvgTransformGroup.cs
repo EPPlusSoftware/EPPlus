@@ -7,58 +7,30 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    /// <summary>
-    /// Group item that ends itself
-    /// (writes its own ending node)
-    /// </summary>
-    internal class SvgGroupItemNew : GroupItem
+
+    internal class SvgTransformGroup : TransformGroup
     {
         const string transformTranslate = "translate({0}, {1})";
         const string transformRotate = "rotate({0})";
         const string transformScale = "scale({0}, {1})";
 
-        public SvgGroupItemNew(DrawingBase renderer, double localXPos, double localYPos) : base(renderer, localXPos, localYPos)
+        public SvgTransformGroup(DrawingBase renderer) : base(renderer)
         {
         }
 
-        public SvgGroupItemNew(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : base(renderer, parent, rotation, rotationPoint)
+        public SvgTransformGroup(DrawingBase renderer, double localXPos, double localYPos) : base(renderer, localXPos, localYPos)
         {
         }
 
-        public override void Render(StringBuilder sb)
+        public SvgTransformGroup(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : base(renderer, parent, rotation, rotationPoint)
         {
-            string combinedTransform = GetCombinedTransformString();
-
-            if (string.IsNullOrEmpty(combinedTransform) == false)
-            {
-                sb.Append($"<g {GetTransformOrigin()} transform=\"{combinedTransform}\" >");
-            }
-            else
-            {
-                sb.Append($"<g>");
-            }
-
-            foreach (var item in _childItems)
-            {
-                if (item is SvgGroupItemNew)
-                {
-                    var subGroup = item as SvgGroupItemNew;
-                    subGroup.Render(sb);
-                }
-                else
-                {
-                    item.Render(sb);
-                }
-            }
-
-            sb.Append("</g>");
         }
 
         string GetTransformOrigin()
         {
             string tOrigin = string.Empty;
 
-            if(TransformOrigin != null && (TransformOrigin.X == 0 && TransformOrigin.Y == 0) == false)
+            if (TransformOrigin != null && (TransformOrigin.X == 0 && TransformOrigin.Y == 0) == false)
             {
                 tOrigin = $"transform-origin=\"{TransformOrigin.X.PointToPixelString()} {TransformOrigin.Y.PointToPixelString()}\"";
             }
@@ -72,11 +44,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             string scalingStr = GetScalingStr();
 
 
-            if (TranslationOffset != null && (TranslationOffset.Left == 0 && TranslationOffset.Top == 0) == false)
+            if ((Bounds.Left == 0 && Bounds.Top == 0) == false)
             {
-                positionStr = string.Format(transformTranslate, Bounds.Position.X.PointToPixelString(), Bounds.Position.Y.PointToPixelString()) + " ";
+                positionStr = string.Format(transformTranslate, Bounds.Left.PointToPixelString(), Bounds.Top.PointToPixelString()) + " ";
             }
-            
+
             return positionStr + rotationStr + scalingStr;
         }
 
@@ -98,7 +70,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 string rot = Rotation.ToString(CultureInfo.InvariantCulture);
 
-                if(RotationPoint != null && RotationPoint != TranslationOffset)
+                if (RotationPoint != null && RotationPoint != Bounds)
                 {
                     rot += $", {RotationPoint.Left.PointToPixelString()}, {RotationPoint.Top.PointToPixelString()}" + " ";
                 }
@@ -107,6 +79,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
 
             return string.Empty;
+        }
+
+        internal override InnerGroup CreateInnerGroup()
+        {
+            return new SvgInnerGroup(DrawingRenderer);
+        }
+
+        public override void Render(StringBuilder sb)
+        {
+            string combinedTransform = GetCombinedTransformString();
+
+            if (string.IsNullOrEmpty(combinedTransform) == false)
+            {
+                sb.Append($"<g {GetTransformOrigin()} transform=\"{combinedTransform}\" >");
+            }
+            else
+            {
+                sb.Append($"<g>");
+            }
+
+            _innerGroup.Render(sb);            
+
+            sb.Append("</g>");
         }
     }
 }
