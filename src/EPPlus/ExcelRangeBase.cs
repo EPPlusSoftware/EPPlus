@@ -31,8 +31,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.Cell;
-using static OfficeOpenXml.ExcelWorksheet;
-using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -50,8 +48,6 @@ namespace OfficeOpenXml
         private delegate void _setValue(ExcelRangeBase range, object value, int row, int col);
         private _changeProp _changePropMethod;
         private int _styleID;
-        private static SourceCodeTokenizer _tokenizer = new SourceCodeTokenizer(null, null, false, true);
-        private FunctionRepository _functions;
         private readonly ExcelRangePicture _rangePicture;
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
@@ -61,7 +57,6 @@ namespace OfficeOpenXml
             _workbook = _worksheet.Workbook;
             _rangePicture = new ExcelRangePicture(this);
             SetDelegate();
-            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
 
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
@@ -73,7 +68,6 @@ namespace OfficeOpenXml
             base.SetRCFromTable(_worksheet._package, null);
             if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
             SetDelegate();
-            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
         internal ExcelRangeBase(ExcelWorkbook wb, ExcelWorksheet xlWorksheet, string address, bool isName) :
             base(xlWorksheet == null ? "" : xlWorksheet.Name, address, isName)
@@ -87,7 +81,6 @@ namespace OfficeOpenXml
             }
             if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
             SetDelegate();
-            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
         #endregion
         private void Init(ExcelWorksheet xlWorksheet)
