@@ -43,7 +43,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
                         if (cell == null || cell.Hidden)
                             continue;
-                        if (cell.Merged && cell.Main != null)
+                        if (cell.Merged)
                             continue;
                         if (cell.ContentAligmnet.ShrinkToFit)
                             continue;

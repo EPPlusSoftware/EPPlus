@@ -103,7 +103,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                     var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
                                     if (sourceMap != null)
                                     {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, sourceMap.Width, rowHeight);
+                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, info.Width, info.Height);
                                         text.Name = map.Name;
                                         text.GidsAndCharMap(dictionaries);
                                         pageLayout.AddChild(text);
@@ -144,7 +144,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     //Add HeaderFooter
                     //  Uppdate page number texts and shape them
 
-                    //Gridlines (calculate text spill here)
+                    if (pageSettings.ShowGridLines)
+                        PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout);
+
 
 
                     //Print titles
@@ -154,6 +156,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
             return Catalog;
         }
+
+
+
 
 
         static MergedCellCorners GetCorners(ExcelAddressBase addr, int row, int col)
