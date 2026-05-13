@@ -1546,8 +1546,8 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Gets the range address adjusted within the worksheet dimension address. 
-        /// If the worksheet dimension is null, the current address will be returned. 
-        /// If the range is outside the worksheet dimension it will be adjusted to fit inside the dimension. 
+        /// If the worksheet dimension is null or the range is outside of the dimension, null will be returned. 
+        /// If the range is partly outside the worksheet dimension it will be adjusted to fit inside the dimension. 
         /// </summary>
         public ExcelAddressBase DimensionAdjustedAddress
         {
@@ -1555,7 +1555,7 @@ namespace OfficeOpenXml
             { 
                 if (_worksheet.Dimension == null)
                 {
-                    return this;
+                    return null;
                 }
                 else
                 {
