@@ -19,8 +19,6 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Style;
@@ -33,8 +31,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml
 {
