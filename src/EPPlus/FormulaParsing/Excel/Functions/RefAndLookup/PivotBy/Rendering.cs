@@ -133,12 +133,13 @@ PivotByArgs args)
             string.Join("\u001F", parts.Select(p => p?.ToString()?.ToLowerInvariant() ?? string.Empty).ToArray());
 
 
+
         private InMemoryRange RenderPivot(
-     List<LeafWithPath> rowLeaves,
-     List<LeafWithPath> colLeaves,
-     Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-     PivotByArgs args,
-     ParsingContext context)
+            List<LeafWithPath> rowLeaves,
+            List<LeafWithPath> colLeaves,
+            Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+            PivotByArgs args,
+            ParsingContext context)
         {
             int nRowKeyCols = args.RowFields.Size.NumberOfCols;
             int nColKeyRows = args.ColFields.Size.NumberOfCols;
@@ -177,6 +178,7 @@ PivotByArgs args)
                 if (showColSubtotals)
                     colEntries.Add(new ColEntry { IsSubtotal = true, GroupKey = group.Key, GroupLeaves = groupLeaves });
             }
+
             var rowGroups = rowLeaves
                 .GroupBy<LeafWithPath, string>(l => string.Join("\u001F",
                     l.Path.Take(rowSubtotalDepth - 1)
@@ -212,10 +214,8 @@ PivotByArgs args)
             // --- Fältnamnrad ---
             if (showFieldHeaders)
             {
-                // Fyll radnyckelkolumnerna med string.Empty
-                for (int i = 0; i < nRowKeyCols; i++)
+                for (int i = 0; i < nRowKeyCols + functionColOffset; i++)
                     result.SetValue(0, i, string.Empty);
-
                 for (int i = 0; i < args.ColFields.Size.NumberOfCols; i++)
                     result.SetValue(0, dataColStart + colOffset + i, args.ColFields.GetOffset(0, i));
             }
@@ -225,8 +225,7 @@ PivotByArgs args)
             {
                 int outputLevel = fieldHeaderRows + level;
 
-                // Fyll radnyckelkolumnerna med string.Empty
-                for (int i = 0; i < nRowKeyCols; i++)
+                for (int i = 0; i < nRowKeyCols + functionColOffset; i++)
                     result.SetValue(outputLevel, i, string.Empty);
 
                 int col = dataColStart + colOffset;
@@ -260,7 +259,6 @@ PivotByArgs args)
                 var functionNames = ResolveFunctionHeaders(args.Functions);
                 int functionHeaderRow = fieldHeaderRows + nColKeyRows;
 
-                // Fyll radnyckelkolumnerna med string.Empty
                 for (int i = 0; i < nRowKeyCols; i++)
                     result.SetValue(functionHeaderRow, i, string.Empty);
 
@@ -290,6 +288,8 @@ PivotByArgs args)
 
                 for (int i = 0; i < nRowKeyCols; i++)
                     result.SetValue(headerDataRow, i, args.RowFields.GetOffset(0, i));
+                if (functionColOffset > 0)
+                    result.SetValue(headerDataRow, nRowKeyCols, string.Empty);
 
                 var headerValue = args.Values.GetOffset(0, 0);
                 int col = dataColStart + colOffset;
@@ -317,7 +317,7 @@ PivotByArgs args)
                 WriteGrandTotalRow(result, fieldHeaderRows + nColKeyRows + functionHeaderRows + headerDataRows,
                                    colEntries, colLeaves, pivotMap, args, context,
                                    nRowKeyCols, functionNameCol, dataColStart, colOffset,
-                                   grandTotalCol, showColTotal, colsPerEntry, isVStack);
+                                   grandTotalCol, showColTotal, colsPerEntry, isVStack, functionColOffset);
 
             // --- Datarader ---
             var functionNames2 = ResolveFunctionHeaders(args.Functions);
@@ -338,8 +338,9 @@ PivotByArgs args)
                         int outputRow = currentOutputRow + fi;
                         var f = args.Functions[fi];
 
-                        for (int k = 0; k < rowPath.Length; k++)
-                            result.SetValue(outputRow, k, rowPath[k]);
+                        // Fyll alla radnyckelkolumner – även de som saknas i rowPath
+                        for (int k = 0; k < nRowKeyCols; k++)
+                            result.SetValue(outputRow, k, k < rowPath.Length ? rowPath[k] : string.Empty);
 
                         if (isVStack)
                             result.SetValue(outputRow, functionNameCol, functionNames2[fi]);
@@ -366,8 +367,7 @@ PivotByArgs args)
                                             ? Aggregate(func, groupVals, context,
                                                 func.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
                                             : null;
-                                        //if (val != null)
-                                            result.SetValue(outputRow, col, val ?? string.Empty);
+                                        result.SetValue(outputRow, col, val ?? string.Empty);
                                         col++;
                                     }
                                 }
@@ -377,8 +377,7 @@ PivotByArgs args)
                                         ? Aggregate(f, groupVals, context,
                                             f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
                                         : null;
-                                    //if (val != null)
-                                        result.SetValue(outputRow, col, val ?? string.Empty);
+                                    result.SetValue(outputRow, col, val ?? string.Empty);
                                     col++;
                                 }
                             }
@@ -402,8 +401,7 @@ PivotByArgs args)
                                                 : args.AllValuesInOrder;
                                             aggregated = Aggregate(func, cellVals, context, relativeToVals);
                                         }
-                                        //if (aggregated != null)
-                                            result.SetValue(outputRow, col, aggregated ?? string.Empty);
+                                        result.SetValue(outputRow, col, aggregated ?? string.Empty);
                                         col++;
                                     }
                                 }
@@ -421,8 +419,7 @@ PivotByArgs args)
                                             : args.AllValuesInOrder;
                                         aggregated = Aggregate(f, cellVals, context, relativeToVals);
                                     }
-                                    //if (aggregated != null)
-                                        result.SetValue(outputRow, col, aggregated ?? string.Empty);
+                                    result.SetValue(outputRow, col, aggregated ?? string.Empty);
                                     col++;
                                 }
                             }
@@ -446,8 +443,7 @@ PivotByArgs args)
                                             : rowAllVals;
                                     }
                                     var totalVal = Aggregate(func, rowAllVals, context, relVals);
-                                    if (totalVal != null)
-                                        result.SetValue(outputRow, col, totalVal ?? string.Empty);
+                                    result.SetValue(outputRow, col, totalVal ?? string.Empty);
                                     col++;
                                 }
                             }
@@ -464,8 +460,7 @@ PivotByArgs args)
                                         : rowAllVals;
                                 }
                                 var totalVal = Aggregate(f, rowAllVals, context, relVals);
-                                //if (totalVal != null)
-                                    result.SetValue(outputRow, col, totalVal ?? string.Empty);
+                                result.SetValue(outputRow, col, totalVal ?? string.Empty);
                                 col++;
                             }
                         }
@@ -500,29 +495,30 @@ PivotByArgs args)
             if (!rowTotalAtTop && showRowTotal)
                 WriteGrandTotalRow(result, grandTotalRow, colEntries, colLeaves, pivotMap, args, context,
                                    nRowKeyCols, functionNameCol, dataColStart, colOffset,
-                                   grandTotalCol, showColTotal, colsPerEntry, isVStack);
+                                   grandTotalCol, showColTotal, colsPerEntry, isVStack, functionColOffset);
 
             return result;
         }
 
+
         private void WriteRowSubtotalRow(
-            InMemoryRange result,
-            int outputRow,
-            object[] groupKeyParts,
-            List<LeafWithPath> groupLeaves,
-            List<ColEntry> colEntries,
-            List<LeafWithPath> colLeaves,
-            Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-            PivotByArgs args,
-            ParsingContext context,
-            int nRowKeyCols,
-            int functionNameCol,
-            int dataColStart,
-            int colOffset,
-            bool showColTotal,
-            bool isVStack,
-            LambdaCalculator f,
-            string functionName)
+     InMemoryRange result,
+     int outputRow,
+     object[] groupKeyParts,
+     List<LeafWithPath> groupLeaves,
+     List<ColEntry> colEntries,
+     List<LeafWithPath> colLeaves,
+     Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+     PivotByArgs args,
+     ParsingContext context,
+     int nRowKeyCols,
+     int functionNameCol,
+     int dataColStart,
+     int colOffset,
+     bool showColTotal,
+     bool isVStack,
+     LambdaCalculator f,
+     string functionName)
         {
             // Radnycklar: känd prefix + tomt för resten
             for (int k = 0; k < nRowKeyCols; k++)
@@ -568,8 +564,6 @@ PivotByArgs args)
                             ? RelativeTo.ParentRowTotal
                             : args.RelativeTo;
 
-                        // För subtotalraden: nämnare baseras på hela kolumnen (ParentRowTotal)
-                        // eller grand total, inte bara gruppen
                         relativeToVals = effectiveRelativeTo switch
                         {
                             RelativeTo.RowTotals =>
@@ -602,8 +596,11 @@ PivotByArgs args)
                     }
 
                     var val = Aggregate(f, cellVals, context, relativeToVals);
-                    //if (val != null)
-                        result.SetValue(outputRow, col, val ?? string.Empty);
+                    result.SetValue(outputRow, col, val ?? string.Empty);
+                }
+                else
+                {
+                    result.SetValue(outputRow, col, string.Empty);
                 }
                 col++;
             }
@@ -628,10 +625,10 @@ PivotByArgs args)
                 }
 
                 var totalVal = allGroupVals.Count > 0 ? Aggregate(f, allGroupVals, context, relVals) : null;
-                //if (totalVal != null)
-                    result.SetValue(outputRow, col, totalVal ?? string.Empty);
+                result.SetValue(outputRow, col, totalVal ?? string.Empty);
             }
         }
+
 
         private void WriteGrandTotalRow(
             InMemoryRange result,
@@ -648,7 +645,8 @@ PivotByArgs args)
             int grandTotalCol,
             bool showColTotal,
             int colsPerEntry,
-            bool isVStack)
+            bool isVStack,
+            int functionColOffset)
         {
             var functionNames = ResolveFunctionHeaders(args.Functions);
             int nFunctions = args.Functions.Count;
@@ -661,7 +659,7 @@ PivotByArgs args)
                 var f = args.Functions[fi];
 
                 result.SetValue(r, 0, rowTotalLabel);
-                for (int c = 1; c < nRowKeyCols; c++)
+                for (int c = 1; c < nRowKeyCols + functionColOffset; c++)
                     result.SetValue(r, c, string.Empty);
 
                 if (isVStack)
@@ -687,8 +685,7 @@ PivotByArgs args)
                                 ? Aggregate(f, groupVals, context,
                                     f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
                                 : null;
-                            //if (val != null)
-                                result.SetValue(r, col, val ?? string.Empty);
+                            result.SetValue(r, col, val ?? string.Empty);
                             col++;
                         }
                         else
@@ -699,8 +696,7 @@ PivotByArgs args)
                                     ? Aggregate(func, groupVals, context,
                                         func.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null)
                                     : null;
-                                //if (val != null)
-                                    result.SetValue(r, col, val ?? string.Empty);
+                                result.SetValue(r, col, val ?? string.Empty);
                                 col++;
                             }
                         }
@@ -726,8 +722,7 @@ PivotByArgs args)
                                     : args.AllValuesInOrder;
                                 grandVal = Aggregate(f, allValsForCol, context, relativeToVals);
                             }
-                            //if (grandVal != null)
-                                result.SetValue(r, col, grandVal ?? string.Empty);
+                            result.SetValue(r, col, grandVal ?? string.Empty);
                             col++;
                         }
                         else
@@ -745,8 +740,7 @@ PivotByArgs args)
                                         : args.AllValuesInOrder;
                                     grandVal = Aggregate(func, allValsForCol, context, relativeToVals);
                                 }
-                                //if (grandVal != null)
-                                    result.SetValue(r, col, grandVal ?? string.Empty);
+                                result.SetValue(r, col, grandVal ?? string.Empty);
                                 col++;
                             }
                         }
@@ -766,8 +760,7 @@ PivotByArgs args)
                                 ? allVals : args.AllValuesInOrder)
                             : args.AllValuesInOrder;
                         var cornerVal = Aggregate(f, allVals, context, cornerRelVals);
-                        //if (cornerVal != null)
-                            result.SetValue(r, col, cornerVal ?? string.Empty);
+                        result.SetValue(r, col, cornerVal ?? string.Empty);
                         col++;
                     }
                     else
@@ -782,8 +775,7 @@ PivotByArgs args)
                                     ? allVals : args.AllValuesInOrder)
                                 : args.AllValuesInOrder;
                             var cornerVal = Aggregate(func, allVals, context, cornerRelVals);
-                            //if (cornerVal != null)
-                                result.SetValue(r, col, cornerVal ?? string.Empty);
+                            result.SetValue(r, col, cornerVal ?? string.Empty);
                             col++;
                         }
                     }

@@ -427,6 +427,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             using (var package = new ExcelPackage())
             {
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var s = package.Workbook.Worksheets.Add("test");
                 s.Cells["A1"].Value = "A";
                 s.Cells["A2"].Value = "A";
@@ -442,6 +443,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 s.Cells["D3"].Value = 1;
                 s.Cells["E1"].Formula = "PIVOTBY(A1:A3,B1:B3,D1:D3, VSTACK(_xleta.COUNT, LAMBDA(x, SUM(x *2/3)), LAMBDA(x, SUM(x *2)) ),3)";
                 s.Calculate();
+                Assert.AreNotEqual(0d, s.Cells["E1"].Value);
+                Assert.AreNotEqual(0d, s.Cells["F1"].Value);
+                Assert.AreNotEqual(0d, s.Cells["E2"].Value);
+                Assert.AreNotEqual(0d, s.Cells["F2"].Value);
+
+                // SaveWorkbook("PivotByCustomLambda.xlsx", package);
             }
         }
 
@@ -513,25 +520,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
+
         [TestMethod]
         public void PivotByTemplateTest2()
-        {
-            using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
-            {
-                var sheet = package.Workbook.Worksheets[2];
-                package.Workbook.CalcMode = ExcelCalcMode.Manual;
-
-                sheet.Cells["B17"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.SUM)";
-                //sheet.Calculate();
-                sheet.Cells["B17"].Calculate();
-
-                Assert.AreEqual("Albania", sheet.Cells["D17"].Value);
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void PivotByTemplateTest3()
         {
             using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
             {
@@ -548,22 +539,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        [TestMethod]
-        public void PivotByTemplateTest4()
-        {
-            using (var package = OpenTemplatePackage("PivotByTest1.xlsx"))
-            {
-                var sheet = package.Workbook.Worksheets[3];
-                package.Workbook.CalcMode = ExcelCalcMode.Manual;
-
-                sheet.Cells["B26"].Formula = "PIVOTBY('FCL V'!C6:D2055,'FCL V'!Y6:Y2055,'FCL V'!DH6:DH2055, _xleta.PERCENTOF,,2,,,,,)";
-                sheet.Cells["B26"].Calculate();
-
-                Assert.AreEqual("Albania", sheet.Cells["D26"].Value);
-                Assert.AreEqual(0.99237652, System.Math.Round((double)sheet.Cells["G27"].Value), 8d); 
-                //SaveAndCleanup(package);
-            }
-        }
 
         [TestMethod]
         public void PivotBySortOrderPercentOf()

@@ -121,22 +121,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 
             return true;
         }
-
-        //private GroupLevel FindParentInTree(GroupLevel target, List<GroupLevel> levels)
-        //{
-        //    foreach (var level in levels)
-        //    {
-        //        if (!level.IsLeaf && level.Children.Contains(target))
-        //            return level;
-
-        //        if (!level.IsLeaf)
-        //        {
-        //            //var found = FindParentInTree(target, level.Children);
-        //            if (found != null) return found;
-        //        }
-        //    }
-        //    return null; // toppnivå, ingen förälder
-        //}
-      
     }
 }
