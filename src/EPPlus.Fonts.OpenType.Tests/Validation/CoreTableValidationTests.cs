@@ -22,7 +22,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void HeadTable_Validation_ShouldPass()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new HeadTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HeadTable, context);
@@ -33,7 +33,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void MaxpTable_Validation_ShouldPass()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new MaxpTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.MaxpTable, context);
@@ -43,7 +43,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void HheaTable_Validation_ShouldPass()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new HheaTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.HheaTable, context);
@@ -53,7 +53,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void NameTable_Validation_ShouldPass()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new NameTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.NameTable, context);
@@ -63,7 +63,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void Os2Table_Validation_ShouldPass()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new Os2TableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.Os2Table, context);
@@ -73,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [TestMethod]
         public void PostTable_Validation_ShouldPass()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var validator = new PostTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.PostTable, context);

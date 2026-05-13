@@ -16,6 +16,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Scanner;
 using OfficeOpenXml.Interfaces.Fonts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,7 +29,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
     /// metric-aware fallback chain for common Office and system fonts.
     /// TTC (TrueType Collection) files are handled transparently by the IFontFileReader.
     /// </summary>
-    internal class DefaultFontResolver : IFontResolver
+    internal class DefaultFontResolver : IFontResolver, IFontAvailabilityProvider
     {
         private readonly IEnumerable<string> _fontDirectories;
         private readonly bool _searchSystemDirectories;
@@ -48,6 +49,30 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             _config = config;
             _scanner = scanner ?? new DefaultFontScanner();
             _fileReader = fileReader ?? new DefaultFontFileReader();
+        }
+
+        public FontAvailability GetFontAvailability(string fontName, FontSubFamily subFamily)
+        {
+            if (string.IsNullOrEmpty(fontName))
+                return FontAvailability.NotFound;
+
+            var face = _scanner.FindBestMatch(
+                _fontDirectories,
+                fontName,
+                subFamily,
+                _searchSystemDirectories);
+
+            if (face == null)
+                return FontAvailability.NotFound;
+
+            // FindBestMatch may return a non-matching face when no real match exists.
+            // Verify the returned face actually belongs to the requested family.
+            if (!string.Equals(face.FamilyName, fontName, StringComparison.OrdinalIgnoreCase))
+                return FontAvailability.NotFound;
+
+            return face.IsExactMatch
+                ? FontAvailability.Exact
+                : FontAvailability.FamilyOnly;
         }
 
         public byte[] ResolveFont(string fontName, FontSubFamily subFamily)

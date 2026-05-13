@@ -46,7 +46,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             //      Discovery and Rewrite phases
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("ffi");
 
             SaveFont("regression_ffi_circular.ttf", subset);
@@ -73,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             //      exist in the subset
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
             SaveFont("regression_abc_glyphs.ttf", subset);
@@ -93,7 +93,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Corrected logic to only check base components (GID < 400)
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
             SaveFont("regression_fiffig_ligatures.ttf", subset);
@@ -112,7 +112,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: FeatureListTable.Rewrite now uses lookupMap to remap indices
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
             SaveFont("regression_feature_lookup.ttf", subset);
@@ -144,7 +144,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Properly lookup each component in OldToNewGlyphId dictionary
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fi");
 
             SaveFont("regression_ligature_components.ttf", subset);
@@ -167,7 +167,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Check if RawData is null before accessing, skip checksum validation for in-memory fonts
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("f");
 
             SaveFont("regression_validation_rawdata.ttf", subset);
@@ -186,7 +186,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Calculate fileLength from TableRecords if FileLength property is <= 0
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fl");
 
             SaveFont("regression_validation_filelength.ttf", subset);
@@ -205,7 +205,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Initialize Coverage.SubstFormat = 1 and newSubTable.SubstFormat = 1
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("office");
 
             SaveFont("regression_coverage_init.ttf", subset);
@@ -228,7 +228,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // FIX: Added validation to throw ArgumentException if usedChars is empty
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
 
             Assert.ThrowsException<ArgumentException>(() => font.CreateSubset(""));
             Assert.ThrowsException<ArgumentNullException>(() => font.CreateSubset((char[])null));
@@ -246,7 +246,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
             // RESULT: Simplified component lists (ffi = [f, f, i] instead of [f, i, fi])
             // DATE: 2025-12-22
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var subset = font.CreateSubset("fiffig");
 
             SaveFont("regression_compound_components.ttf", subset);
@@ -267,11 +267,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Regression
                 Style = MeasurementFontStyles.Bold | MeasurementFontStyles.Italic
             };
 
-            var ttTextMeasurer = OpenTypeFonts.LoadFont(boldItalic.FontFamily, FontSubFamily.BoldItalic);
+            var first = TestFolderEngine.LoadFont(boldItalic.FontFamily, FontSubFamily.BoldItalic);
+            var second = TestFolderEngine.LoadFont(boldItalic.FontFamily, FontSubFamily.BoldItalic);
 
-            var cacheKey = OpenTypeFonts.BuildCacheKey("Roboto", FontSubFamily.BoldItalic);
-            var cachedFont = OpenTypeFontCache.GetFromCache(cacheKey);
-            Assert.IsNotNull(cachedFont);
+            Assert.IsNotNull(first);
+            Assert.AreSame(first, second, "Second load should return the cached instance");
         }
     }
 }

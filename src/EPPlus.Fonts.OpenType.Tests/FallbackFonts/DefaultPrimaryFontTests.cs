@@ -39,7 +39,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
             var bytes = resolver.ResolveFont(UnknownFont, FontSubFamily.Regular);
 
             Assert.IsNotNull(bytes, "Should fall back to Archivo Narrow, not return null");
-            var font = OpenTypeFonts.GetFromBytes(bytes);
+            var font = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", font.NameTable.GetFamilyName());
             Assert.AreEqual(FontSubFamily.Regular, font.NameTable.GetSubfamilyEnum());
         }
@@ -51,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
             var bytes = resolver.ResolveFont(UnknownFont, FontSubFamily.Bold);
 
             Assert.IsNotNull(bytes, "Should fall back to Archivo Narrow Bold, not return null");
-            var font = OpenTypeFonts.GetFromBytes(bytes);
+            var font = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", font.NameTable.GetFamilyName());
             Assert.AreEqual(FontSubFamily.Bold, font.NameTable.GetSubfamilyEnum());
         }
@@ -63,7 +63,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
             var bytes = resolver.ResolveFont(UnknownFont, FontSubFamily.Italic);
 
             Assert.IsNotNull(bytes, "Should fall back to Archivo Narrow Italic, not return null");
-            var font = OpenTypeFonts.GetFromBytes(bytes);
+            var font = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", font.NameTable.GetFamilyName());
             Assert.AreEqual(FontSubFamily.Italic, font.NameTable.GetSubfamilyEnum());
         }
@@ -75,7 +75,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
             var bytes = resolver.ResolveFont(UnknownFont, FontSubFamily.BoldItalic);
 
             Assert.IsNotNull(bytes, "Should fall back to Archivo Narrow Bold Italic, not return null");
-            var font = OpenTypeFonts.GetFromBytes(bytes);
+            var font = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", font.NameTable.GetFamilyName());
             Assert.AreEqual(FontSubFamily.BoldItalic, font.NameTable.GetSubfamilyEnum());
         }

@@ -17,9 +17,5 @@
 	    <DeploymentEnabled>False</DeploymentEnabled>
 	    <ConsiderFixturesAsSpecialTests>False</ConsiderFixturesAsSpecialTests>
 		<OrderTestsByNameInClass>true</OrderTestsByNameInClass>
-		<Parallelize>
-			<Workers>2</Workers>
-			<Scope>MethodLevel</Scope>
-		</Parallelize>
     </MSTest>
 </RunSettings>

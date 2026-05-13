@@ -10,13 +10,20 @@
  *************************************************************************************************
   12/21/2025         EPPlus Software AB           Test base class
   05/06/2026         EPPlus Software AB           Use property-based Configure for font directories
+  05/13/2026         EPPlus Software AB           Per-engine isolation: expose two engines, remove
+                                                  global Configure mutations from test infrastructure
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tests.Helpers;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Tests
 {
     /// <summary>
-    /// Base class for all font tests
+    /// Base class for all font tests.
+    ///
+    /// Tests must use one of the exposed engines — TestFolderEngine (no system fonts) or
+    /// SystemFontsEngine (test folder + system fonts) — instead of the OpenTypeFonts static
+    /// facade. Going through the facade mutates global state and breaks parallel test execution.
     /// </summary>
     public abstract class FontTestBase
     {
@@ -39,6 +46,66 @@ namespace EPPlus.Fonts.OpenType.Tests
         /// Gets whether test output path is available (false in CI/CD)
         /// </summary>
         protected static bool IsTestOutputAvailable => FontDirectoriesTestHelper.IsTestOutputAvailable;
+
+        // -----------------------------------------------------------------------------------------
+        // Engines
+        // -----------------------------------------------------------------------------------------
+
+        private static readonly Lazy<OpenTypeFontEngine> _testFolderEngine =
+            new Lazy<OpenTypeFontEngine>(() => new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = false;
+            }));
+
+        private static readonly Lazy<OpenTypeFontEngine> _systemFontsEngine =
+            new Lazy<OpenTypeFontEngine>(() => new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = true;
+            }));
+
+        /// <summary>
+        /// Engine configured to search only the test font folder. Use this for tests that
+        /// can rely on the fonts bundled in the test font folder (BIZUDGothic, CrimsonText,
+        /// EBGaramond, Mulish, NotoEmoji, NotoSansMath, Oi, OpenSans, PinyonScript, Roboto,
+        /// SourceSans3, UnicaOne).
+        /// </summary>
+        protected static OpenTypeFontEngine TestFolderEngine => _testFolderEngine.Value;
+
+        /// <summary>
+        /// Engine configured to search both the test font folder and system directories.
+        /// Use this only in tests that require fonts not bundled with the test suite
+        /// (e.g. Aptos Narrow, Goudy Stout, Calibri). Tests using this engine should also
+        /// use <see cref="RequireFont"/> to mark themselves Inconclusive on machines that
+        /// lack the required system fonts.
+        /// </summary>
+        protected static OpenTypeFontEngine SystemFontsEngine => _systemFontsEngine.Value;
+
+        /// <summary>
+        /// Asserts that the specified font is available in the given engine with the requested
+        /// subfamily. If not, the test is marked Inconclusive — useful for tests depending on
+        /// system-installed fonts that may not be present on every machine.
+        /// </summary>
+        protected static void RequireFont(
+            OpenTypeFontEngine engine,
+            string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular)
+        {
+            var avail = engine.GetFontAvailability(fontName, subFamily);
+            if (avail != FontAvailability.Exact)
+            {
+                Assert.Inconclusive(
+                    "Test requires " + fontName + " " + subFamily +
+                    " which is not available (availability: " + avail + ").");
+            }
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // File output helpers
+        // -----------------------------------------------------------------------------------------
 
         /// <summary>
         /// Saves a font to the test output folder (c:\epplusTest\Fonts\).
@@ -77,7 +144,6 @@ namespace EPPlus.Fonts.OpenType.Tests
             return FontDirectoriesTestHelper.SaveFontToOutput(font, fileName);
         }
 
-
         /// <summary>
         /// Gets a FileInfo for an output file in a subdirectory.
         /// Creates subdirectory if needed.
@@ -110,59 +176,14 @@ namespace EPPlus.Fonts.OpenType.Tests
             FontDirectoriesTestHelper.DeleteOutputFont(fileName);
         }
 
-        [TestInitialize]
-        public void ClearAllCaches()
-        {
-            ConfigureResolver();
-        }
-
-        /// <summary>
-        /// Configures the global font system to use only the test font folders.
-        /// Configure() rebuilds the resolver and clears all caches as part of the same
-        /// transaction, so this is sufficient — no explicit cache clearing needed.
-        /// </summary>
-        protected virtual void ConfigureResolver(bool searchSystemDirectories = false)  
-        {
-            OpenTypeFonts.Configure(cfg =>
-            {
-                cfg.Reset();
-                foreach (var dir in FontFolders)
-                {
-                    cfg.FontDirectories.Add(dir);
-                }
-                cfg.SearchSystemDirectories = searchSystemDirectories;
-            });
-        }
-
-        /// <summary>
-        /// Temporarily configures the font system to search only system font directories.
-        /// </summary>
-        protected void UseSystemFonts()
-        {
-            ConfigureResolver(true);
-        }
+        // -----------------------------------------------------------------------------------------
+        // MSTest lifecycle
+        // -----------------------------------------------------------------------------------------
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void BaseClassInitialize(TestContext context)
         {
             FontDirectoriesTestHelper.ClassInitialize(context);
-        }
-
-        /// <summary>
-        /// Temporarily configures the font system to search the given directories,
-        /// optionally also including system font directories.
-        /// </summary>
-        protected static void UseFontFolders(IEnumerable<string> directories, bool searchSystemDirectories = false)
-        {
-            OpenTypeFonts.Configure(cfg =>
-            {
-                cfg.Reset();
-                foreach (var dir in directories)
-                {
-                    cfg.FontDirectories.Add(dir);
-                }
-                cfg.SearchSystemDirectories = searchSystemDirectories;
-            });
         }
     }
 }

@@ -22,7 +22,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_Roboto()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             Assert.IsNotNull(font.GposTable, "Roboto should have GPOS table");
 
@@ -37,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasKernFeature()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
@@ -54,7 +54,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasPairPosLookup()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
@@ -70,7 +70,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_PairPosFormat1()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var pairPosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 2);
@@ -89,7 +89,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_FindKerningPair_ActualPairs()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             if (!font.CmapTable.TryGetGlyphId('A', out ushort aGlyph))
             {
@@ -120,7 +120,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("cmap");
 
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var subtable = font.CmapTable.SubTables[0] as CmapSubtable4;
             Debug.WriteLine($"IdDelta[3] = {subtable.IdDelta[3]}");
@@ -137,7 +137,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MultipleKerningPairs()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var pairPosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 2);
@@ -177,7 +177,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasSinglePosLookup()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
@@ -200,7 +200,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_SinglePosFormat1()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var singlePosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 1);
@@ -234,7 +234,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_SinglePosFormat2()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var singlePosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 1);
@@ -270,7 +270,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_SinglePosTryGetAdjustment()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var singlePosLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 1);
@@ -321,7 +321,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_HasMarkToBaseLookup()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             Assert.IsNotNull(gpos, "GPOS table should exist");
@@ -344,7 +344,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MarkToBaseFormat1()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var markToBaseLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 4);
@@ -379,7 +379,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MarkToBaseTryGetAttachment()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var markToBaseLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 4);
@@ -432,7 +432,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGposTable_MarkToBaseWithAccentedCharacters()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular, ignoreCache: true);
 
             var gpos = font.GposTable;
             var markToBaseLookup = gpos.LookupList.Lookups.FirstOrDefault(l => l.LookupType == 4);

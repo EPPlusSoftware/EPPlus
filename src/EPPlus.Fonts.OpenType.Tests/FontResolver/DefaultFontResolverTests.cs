@@ -29,9 +29,9 @@ namespace EPPlus.Fonts.OpenType.Tests.FontResolver
     /// "exist" on the system, making behavior fully deterministic and platform-independent.
     /// </summary>
     [TestClass]
-    public class DefaultFontResolverTests
+    public class DefaultFontResolverTests : FontTestBase
     {
-        public TestContext TestContext { get; set; }
+        public override TestContext? TestContext { get; set; }
 
         #region Step 1 — Exact match
 
@@ -190,7 +190,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FontResolver
             Assert.IsNotNull(bytes);
             Assert.IsTrue(bytes.Length > 1000, "Archivo Narrow should be a real font file, much larger than any fake marker");
 
-            var parsedFont = OpenTypeFonts.GetFromBytes(bytes);
+            var parsedFont = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", parsedFont.NameTable.GetFamilyName());
             Assert.AreEqual(FontSubFamily.Regular, parsedFont.NameTable.GetSubfamilyEnum());
         }
@@ -209,7 +209,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FontResolver
             var bytes = resolver.ResolveFont("Calibri", FontSubFamily.Regular);
 
             // Assert
-            var parsedFont = OpenTypeFonts.GetFromBytes(bytes);
+            var parsedFont = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", parsedFont.NameTable.GetFamilyName());
         }
 
