@@ -28,10 +28,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             string combinedTransform = GetCombinedTransformString();
+            string name = string.Empty;
+            if(Bounds.Name != null)
+            {
+                name = $"class=\"{Bounds.Name}\"";
+            }
 
             if (string.IsNullOrEmpty(combinedTransform) == false)
             {
-                sb.Append($"<g {GetTransformOrigin()} transform=\"{combinedTransform}\" >");
+                sb.Append($"<g {name} {GetTransformOrigin()} transform=\"{combinedTransform}\" >");
             }
             else
             {
@@ -74,7 +79,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (TranslationOffset != null && (TranslationOffset.Left == 0 && TranslationOffset.Top == 0) == false)
             {
-                positionStr = string.Format(transformTranslate, Bounds.Position.X.PointToPixelString(), Bounds.Position.Y.PointToPixelString()) + " ";
+                positionStr = string.Format(transformTranslate, TranslationOffset.Left.PointToPixelString(), TranslationOffset.Top.PointToPixelString()) + " ";
             }
             
             return positionStr + rotationStr + scalingStr;
