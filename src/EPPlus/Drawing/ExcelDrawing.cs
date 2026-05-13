@@ -944,7 +944,7 @@ namespace OfficeOpenXml.Drawing
             double prevPix = 0;
             double pix = PixelHelper.GetRowHeight(ws, 1);
             int r = 2;
-            while (pix < pixels)
+            while (pix < pixels && r <= ExcelPackage.MaxRows)
             {
                 prevPix = pix;
                 pix += (int)PixelHelper.GetRowHeight(ws, r++);
@@ -994,7 +994,7 @@ namespace OfficeOpenXml.Drawing
             double pix = (int)PixelHelper.GetColumnWidth(ws, 1);
             int col = 2;
 
-            while (pix < pixels)
+            while (pix < pixels && col <= ExcelPackage.MaxColumns)
             {
                 prevPix = pix;
                 pix += (int)PixelHelper.GetColumnWidth(ws, col++);
