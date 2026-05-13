@@ -247,7 +247,7 @@ namespace EPPlusTest.Core.Worksheet
                 ws.Row(2).Height = 100;
 
                 var range = ws.Cells["A1:K100"];
-                Assert.AreEqual("A4:H10", range.DimensionAdjustedAddress.Address);
+                Assert.AreEqual("A1:K100", range.DimensionAdjustedAddress.Address); //If Dimension is null, the original address is returned.
             }
         }
 
