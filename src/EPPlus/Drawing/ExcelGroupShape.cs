@@ -47,7 +47,6 @@ namespace OfficeOpenXml.Drawing
             _groupDrawings = new List<ExcelDrawing>();
             foreach (XmlNode node in _topNode.ChildNodes)
             {
-
                 if (node.LocalName != "nvGrpSpPr" && node.LocalName != "grpSpPr")
                 {
                     var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent, _drawingsCollectionType);
@@ -645,6 +644,9 @@ namespace OfficeOpenXml.Drawing
 
             foreach (var d in Drawings)
             {
+                //Ensure position on underlying drawings are updated
+                d.AdjustPositionAndSize();
+                d.UpdatePositionAndSizeXml();
                 d.SaveDrawing(hasLoadedPivotTables);
             }
         }

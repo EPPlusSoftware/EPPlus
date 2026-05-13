@@ -21,7 +21,6 @@ using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.XML;
 using System;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -583,6 +582,9 @@ namespace OfficeOpenXml.Drawing
 
         internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet)
         {
+            string fallbackDrawingPath = "";
+            string fallbackNvPrPath = "";
+
             switch (drawNode.LocalName)
             {
                 case "sp":
@@ -591,10 +593,18 @@ namespace OfficeOpenXml.Drawing
                     var aPic = new ExcelPicture(drawings, node, parent, DrawingsType);
                     return aPic;
                 case "graphicFrame":
-                    var c= ExcelChart.GetChart(drawings, node, parent);
-                    if(c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
+                    var c = ExcelChart.GetChart(drawings, node, parent);
+                    if (c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
                     {
                         return c;
+                    }
+                    else
+                    {
+                        //While we do not know the exact type.
+                        //It's a standard drawing with a graphic frame
+                        //We assume the object has its name etc. in the same nodes as a chart
+                        fallbackDrawingPath = "xdr:graphicFrame";
+                        fallbackNvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr";
                     }
                     break;
                 case "grpSp":
@@ -644,7 +654,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "", "",parent, DrawingsType);
+            return new ExcelDrawing(drawings, node, fallbackDrawingPath, fallbackNvPrPath, parent, DrawingsType);
         }
 
         private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
