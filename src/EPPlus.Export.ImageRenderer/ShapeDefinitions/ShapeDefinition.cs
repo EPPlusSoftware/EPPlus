@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.ShapeDefinitions;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
@@ -21,7 +22,7 @@ using System.Linq;
 namespace EPPlusImageRenderer.ShapeDefinitions
 {
     [DebuggerDisplay("{Style}")]
-    internal class ShapeDefinition
+    public class ShapeDefinition
     {
         internal Dictionary<string, double> _calculatedValues = new Dictionary<string, double>();
 

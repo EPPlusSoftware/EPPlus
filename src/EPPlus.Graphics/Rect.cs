@@ -10,26 +10,26 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
 
 namespace EPPlus.Graphics
 {
     //REname and move class? Inherit from Transform? what do?
-    internal class Rect
+    public class Rect
     {
 
-        internal Rect()
+        public Rect()
         {
         }
 
-        internal Rect(double width, double height) : this()
+        public Rect(double width, double height) : this()
         {
             Left = 0;
             Top = 0;
             Right = width;
             Bottom = height;
         }
-        internal Rect(double left, double top, double right, double bottom) : this()
+        public Rect(double left, double top, double right, double bottom) : this()
         {
             Left = left;
             Top = top;
@@ -40,27 +40,27 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal virtual double Top { get; set; }
+        public virtual double Top { get; set; }
 
         /// <summary>
         /// Y pos (max)
         /// </summary>
-        internal virtual double Bottom { get; set; }
+        public virtual double Bottom { get; set; }
 
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal virtual double Left { get; set; }
+        public virtual double Left { get; set; }
 
         /// <summary>
         /// X pos (max)
         /// </summary>
-        internal virtual double Right { get; set; }
+        public virtual double Right { get; set; }
 
         /// <summary>
         /// Get or Set Width via the properties above
         /// </summary>
-        internal virtual double Width
+        public virtual double Width
         {
             get
             {
@@ -75,7 +75,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Gets or sets height via the properties above
         /// </summary>
-        internal virtual double Height
+        public virtual double Height
         {
             get
             {
@@ -91,12 +91,12 @@ namespace EPPlus.Graphics
         /// Local position X
         /// X-position from parent Transform position
         /// </summary>
-        internal double X;
+        public double X;
 
         /// <summary>
         /// Local position Y
         /// Y-position from parent Transform position
         /// </summary>
-        internal double Y;
+        public double Y;
     }
 }

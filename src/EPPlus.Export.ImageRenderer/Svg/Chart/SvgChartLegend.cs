@@ -96,7 +96,7 @@ namespace EPPlusImageRenderer.Svg
 
         private SvgRenderRectItem GetLegendRectangleAndEntrySize(SvgChart sc, ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
-            var rect = new SvgRenderRectItem(sc, sc.Bounds);
+            var rect = new SvgRenderRectItem(sc, Bounds);
             
             var widest = 0d;
             var highest = 0d;
@@ -114,19 +114,8 @@ namespace EPPlusImageRenderer.Svg
             }
 
             //Trendlines also get legend entries, but they should appear after the series name.
-            var trIndex = 0;
-            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
-            {
-                foreach (var s in ct.Series)
-                {
-                    foreach (var tl in s.TrendLines)
-                    {
-                        var text = tl.GetName(index);
-                        GetSerieSize(l, trIndex, text, ref widest, ref highest);
-                        trIndex++;
-                    }
-                }
-            }
+ 
+
             index += trIndex;
 
             var maxIconLength = GetMaxIconLenght(sc.Chart, highest);
@@ -684,8 +673,13 @@ namespace EPPlusImageRenderer.Svg
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, Bounds);
+            var groupItem = new SvgGroupItem(ChartRenderer, Rectangle.Bounds);
             renderItems.Add(groupItem);
+
+            //The rectangle is position using the group transform, so we need to set the rectangle position to 0,0
+            Rectangle.Bounds.Top = 0;
+            Rectangle.Bounds.Left = 0;
+
             renderItems.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {

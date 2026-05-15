@@ -1,4 +1,4 @@
-﻿using EPPlus.Graphics.Math;
+﻿using EPPlus.Graphics.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +6,16 @@ using System.Text;
 
 namespace EPPlus.Graphics
 {
-    internal class BoundingBox : Transform
+    public class BoundingBox : Transform
     {
-        internal BoundingBox() : base()
+        public BoundingBox() : base()
         {
         }
 
-        internal BoundingBox(double width, double height) : base(0, 0, width, height)
+        public BoundingBox(double width, double height) : base(0, 0, width, height)
         {
         }
-        internal BoundingBox(double left, double top, double width, double height) : base(left, top, width, height)
+        public BoundingBox(double left, double top, double width, double height) : base(left, top, width, height)
         {
         }
 
@@ -69,7 +69,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// If @ClampedToParent is true will not set value beyond parent
         /// </summary>
-        internal double Bottom
+        public double Bottom
         {
             get
             {
@@ -80,7 +80,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// If @ClampedToParent is true will not set value beyond parent
         /// </summary>
-        internal double Right
+        public double Right
         {
             get
             {
@@ -140,8 +140,8 @@ namespace EPPlus.Graphics
         //internal override double Y { get { return Top; } set { Top = value; } }
 
         //Gets global position x and y
-        internal double GlobalX { get { return Position.X; } }
-        internal double GlobalY { get { return Position.Y; } }
+        public double GlobalX { get { return Position.X; } }
+        public double GlobalY { get { return Position.Y; } }
 
         public void SetLeft(double x)
         {

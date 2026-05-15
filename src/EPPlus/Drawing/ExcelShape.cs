@@ -14,6 +14,7 @@ using System;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Renderer;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -90,6 +91,11 @@ namespace OfficeOpenXml.Drawing
             }
             base.DeleteMe();
         }
+        public string ToSvg()
+        {
+            var svg = new ShapeRenderer(this);
+            svg.Render(sb);
 
+        }
     }
 }

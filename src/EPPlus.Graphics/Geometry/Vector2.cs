@@ -10,7 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace EPPlus.Graphics.Math
+namespace EPPlus.Graphics.Geometry
 {
     /// <summary>
     /// This should REMAIN a struct
@@ -18,7 +18,7 @@ namespace EPPlus.Graphics.Math
     /// RELIES on that assumption. 
     /// As a class Zero and One can have x and y assigned to and this creates chaos as they should be constant
     /// </summary>
-    internal struct Vector2
+    public struct Vector2
     {
         public double X { get; set; } = 0;
         public double Y { get; set; } = 0;

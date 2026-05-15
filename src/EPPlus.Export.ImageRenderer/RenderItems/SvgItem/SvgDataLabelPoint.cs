@@ -24,13 +24,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         PointLines _connectionPointLines;
         eLabelPosition _labelPosition;
 
-        //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
+        //public SvgChartDataLabelStandard(ChartRenderer chart, string dataLabelText) : base(chart)
         //{
         //    var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
         //    txtBox.AddText(0, dataLabelText);
         //}
 
-        //public SvgChartDataLabelStandard(DrawingChart chart, ExcelChartDataLabelStandard standard, SvgTextBox txtBox) : base(chart)
+        //public SvgChartDataLabelStandard(ChartRenderer chart, ExcelChartDataLabelStandard standard, SvgTextBox txtBox) : base(chart)
         //{
         //    HasLegendKey = standard.ShowLegendKey;
         //    TxtBox = txtBox;

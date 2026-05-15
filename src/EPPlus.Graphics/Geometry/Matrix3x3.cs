@@ -10,14 +10,13 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 
-namespace EPPlus.Graphics.Math
+namespace EPPlus.Graphics.Geometry
 {
     /// <summary>
     /// Column Major Order 3x3 Matrix
     /// </summary>
-    internal class Matrix3x3
+    public class Matrix3x3
     {
         public double A = 0d;
         public double B = 0d;
