@@ -319,6 +319,10 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.BarStacked100:
                             SetBarLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
                             break;
+                        case eChartType.Pie:
+                        case eChartType.PieExploded:
+                            SetPieLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            break;
                         default:
                             break;
                     }
@@ -434,6 +438,60 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
+
+        private void SetPieLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        {
+            var ps = (ExcelPieChartSerie)s;
+
+            var si = GetLineSeriesIcon(sc, ct, ps, pSls, entryWidth, entryHeight);
+            sls.SeriesIcon = si;
+
+            var tbLeft = si.X1 + maxIconLength + MarginIconText;
+            var tbTop = si.Y2 - entryHeight * 0.5;
+            var tbWidth = Bounds.Width - tbLeft;
+
+            var tbHeight = entryHeight;
+            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+
+            //Cat values are the header text
+            //They create a rect marker for each slice
+
+            //var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+            //var catValues = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
+            //for (int i = 0; i< ps.NumberOfItems; i++)
+            //{
+               
+            //    var headerText = ps.XSeries
+            //}
+            //var headerText = s.GetHeaderText(index);
+            //if (entry == null || entry.Font.IsEmpty)
+            //{
+            //    sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+            //}
+            //else
+            //{
+            //    //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
+            //    sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+            //}
+
+            //if (ps.DataPoints != null && ps.DataPoints.Count != null /*&& ps.Marker.Style != eMarkerStyle.None*/)
+            //{
+            //    var l = sls.SeriesIcon as SvgRenderLineItem;
+            //    var x = l.X1 + (l.X2 - l.X1) / 2;
+            //    var y = l.Y1;
+
+            //    //sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(sc, ps, x, y, true);
+            //    if ((ps.Marker.Style == eMarkerStyle.Plus || ps.Marker.Style == eMarkerStyle.X || ps.Marker.Style == eMarkerStyle.Star) &&
+            //        ps.Marker.Fill.IsEmpty == false)
+            //    {
+            //        sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(sc, ps, x, y, true);
+            //    }
+            //    else
+            //    {
+            //        sls.MarkerBackground = null;
+            //    }
+            //}
+        }
 
         private void SetLineLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {

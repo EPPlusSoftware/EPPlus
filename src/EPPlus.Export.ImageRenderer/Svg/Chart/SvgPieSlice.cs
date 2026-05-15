@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
@@ -76,6 +77,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         void CalculateWidthHeight(double prevSliceDegrees)
         {
+
             var endPointDegrees = prevSliceDegrees + Degrees;
             if(endPointDegrees < 0)
             {
@@ -128,9 +130,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             minY = Math.Min(minY, _circleCenter.Top);
 
-            if (ExistWithinRange(360, startPointDegrees, endPointDegrees) || ExistWithinRange(0, startPointDegrees, endPointDegrees))
+            if (endPointDegrees < startPointDegrees || ExistWithinRange(0, startPointDegrees, endPointDegrees))
             {
-                maxX = _circleCenter.Left + _radius;
+                if(endPointDegrees > 270)
+                {
+                    maxX = _circleCenter.Left;
+                }
+                else
+                {
+                    maxX = _circleCenter.Left + _radius;
+                }
             }
             else
             {
@@ -187,6 +196,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             _innerGroup = new SvgGroupItemNew(renderer, parent, 0, circleCenter);
             _innerGroup.Bounds.Parent = _innerGroup.TranslationOffset;
+            _innerGroup.Bounds.Name = "InnerGroupChartDrawer";
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
@@ -237,8 +247,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
-            //Visualize all points
-            //AddDebugLines(moveCenter, plotAreaBounds);
+            if(position == -1)
+            {
+                //Visualize all points
+                AddDebugLines(moveCenter, plotAreaBounds);
+            }
 
             _slicePath.Commands.Add(end);
 
@@ -274,9 +287,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var lineToBottomRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Bottom);
             var lineToBottomLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Bottom);
             var end = new PathCommands(PathCommandType.End, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
+
             _debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(lineToTopRight);
-            //_debugBoundsPath.Commands.Add(lineToSliceCenter);
+            ////_debugBoundsPath.Commands.Add(lineToSliceCenter);
             _debugBoundsPath.Commands.Add(lineToBottomRight);
             _debugBoundsPath.Commands.Add(lineToBottomLeft);
             //_debugBoundsPath.Commands.Add(end);
@@ -297,8 +311,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //The bounds and translations of the slice
             _innerGroup.AddChildItem(_innerItems);
 
-            //adding the debug lines
-            //_innerGroup.AddChildItem(_debugBoundsPath);
+            if (_debugBoundsPath != null)
+            {
+                //adding the debug lines
+                _innerGroup.AddChildItem(_debugBoundsPath);
+            }
 
             //The group containing all slices
             group.AddChildItem(_innerGroup);

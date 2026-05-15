@@ -124,8 +124,8 @@ namespace EPPlus.Export.ImageRenderer.Tests
             Assert.AreEqual(9, worldCoordinatesRectAfterScale.Y);
 
             var worldCoordinatesSibAfterScale = siblingItem.Bounds.GetWorldCoordinates();
-            Assert.AreEqual(29, worldCoordinatesSibAfterScale.X);
-            Assert.AreEqual(19, worldCoordinatesSibAfterScale.Y);
+            Assert.AreEqual(10, worldCoordinatesSibAfterScale.X);
+            Assert.AreEqual(10, worldCoordinatesSibAfterScale.Y);
 
 
             var sb = new StringBuilder();

@@ -15,7 +15,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void ReadAndGenerateExcelPieChartSvgs()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("PieChartSvg.xlsx"))
+            using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
@@ -26,7 +26,29 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                     foreach (ExcelChart c in ws.Drawings)
                     {
                         var svg = renderer.RenderDrawingToSvg(c);
-                        SaveTextFileToWorkbook($"svg\\PieChartSvg\\s{i}_{ws.Name}_{c.Name}.svg", svg);
+                        SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\s{i}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+            }
+        }
+
+
+        [TestMethod]
+        public void ReadAndGenerateExcelPieChartPointExplosion()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PointExplosionStandAlone.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
+                {
+                    ws = p.Workbook.Worksheets[i];
+                    foreach (ExcelChart c in ws.Drawings)
+                    {
+                        var svg = renderer.RenderDrawingToSvg(c);
+                        SaveTextFileToWorkbook($"svg\\PointExplosionStandAlone\\s{i}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
             }

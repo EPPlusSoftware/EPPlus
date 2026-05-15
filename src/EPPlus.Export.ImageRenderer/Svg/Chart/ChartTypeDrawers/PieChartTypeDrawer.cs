@@ -165,8 +165,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         internal override void DrawSeries()
         {
-            _groupItem = new SvgGroupItemNew(ChartRenderer, _svgChart.Plotarea.Rectangle.Left, _svgChart.Plotarea.Rectangle.Top);
-            _groupItem.Bounds.Parent = _groupItem.TranslationOffset;
+            _groupItem = new SvgGroupItemNew(ChartRenderer, 0, 0);
+            _groupItem.TranslationOffset.Left = _svgChart.Plotarea.Rectangle.Left;
+            _groupItem.TranslationOffset.Top = _svgChart.Plotarea.Rectangle.Top;
+
+            Bounds.Name = "ChartDrawer";
+
+            _groupItem.Bounds.Name = "OuterGroupChartDrawer";
+
+            //_groupitem.bounds.parent = _groupitem.translationoffset;
 
             var chartType = (ExcelPieChart)_chartType;
 

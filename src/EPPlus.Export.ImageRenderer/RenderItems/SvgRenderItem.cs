@@ -44,6 +44,11 @@ namespace EPPlusImageRenderer.RenderItems
 
         private void RenderBase(StringBuilder sb)
         {
+            if(Bounds.Name != null)
+            {
+                sb.Append($" id=\"{Bounds.Name}\" ");
+            }
+
             if (string.IsNullOrEmpty(DefId) == false)
             {
                 sb.Append($"id=\"{DefId}\" ");
