@@ -184,7 +184,7 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.TopRight:
                 case eLegendPosition.Left:
                     rect.Width = LeftMargin + entryWidth + RightMargin;
-                    rect.Height = (entryHeight * index) + ((index + 1) * entryHeight * 0.25); //use margin as 25% of the entry height and to the top and the bottom.;
+                    rect.Height = (entryHeight * index) + ((index + 1) * entryHeight * 0.5); //use margin as 50% of the entry height and to the top and the bottom.;
 
                     if (rect.Height > _maxHeight)
                     {
@@ -203,7 +203,8 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Left ||
                         l.Position == eLegendPosition.Right)
                     {
-                        rect.Top = sc.ChartArea.Rectangle.Height / 2 - rect.Height / 2;
+                        //Will be set when the plotarea width is calculated.
+                        //rect.Top = sc.ChartArea.Rectangle.Height / 2 - rect.Height / 2;
                     }
                     else
                     {
@@ -442,7 +443,7 @@ namespace EPPlusImageRenderer.Svg
             sls.SeriesIcon = si;
 
             var tbLeft = si.X1 + maxIconLength + MarginIconText;
-            var tbTop = si.Y2 - entryHeight * 0.5; 
+            var tbTop = si.Y2 - entryHeight * 0.5;
             var tbWidth = Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
@@ -519,9 +520,9 @@ namespace EPPlusImageRenderer.Svg
             GetItemPosition(sc, pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
 
             line.X1 = x;
-            line.Y1 = y;
             line.X2 = x + LineLength;
-            line.Y2 = y;
+            line.Y1 = y + entryHeight * 0.5;
+            line.Y2 = y + entryHeight * 0.5;
             line.LineCap = eLineCap.Round;
 
             return line;
@@ -594,13 +595,14 @@ namespace EPPlusImageRenderer.Svg
                         x = iconLeft + entryWidth + _marginItemsWidth;
                     }
                 }
+
                 if (pSls == null)
                 {
-                    y = Rectangle.Top + (entryHeight * 1.50) / 2;
+                    y = + entryHeight / 4;
                 }
                 else
                 {
-                    y = iconTop + topOffset;
+                    y = iconTop + topOffset - (entryHeight / 2);
                 }
 
 
@@ -613,7 +615,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    y = pSls.Textbox.Bounds.Top + entryHeight * 1.25;
+                    y = pSls.Textbox.Bounds.Top + entryHeight * 1.50;
                 }
                 x = LeftMargin;
 

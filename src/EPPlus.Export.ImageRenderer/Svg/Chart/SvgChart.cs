@@ -97,6 +97,10 @@ namespace EPPlusImageRenderer.Svg
 
         private void  SetAxisPositionsFromPlotarea(SvgChart sc)
         {
+            if(Legend !=null && (sc.Chart.Legend.Position==eLegendPosition.Left || sc.Chart.Legend.Position == eLegendPosition.Right))
+            {
+                Legend.Rectangle.Top = sc.Plotarea.Rectangle.Top + (sc.Plotarea.Rectangle.Height / 2) - (Legend.Rectangle.Height / 2);
+            }
             if(VerticalAxis != null)
             {
                 PlaceVerticalAxis(sc, VerticalAxis);
