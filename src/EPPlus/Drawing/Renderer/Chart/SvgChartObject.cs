@@ -36,16 +36,6 @@ namespace EPPlusImageRenderer.Svg
         }
         internal abstract void AppendRenderItems(List<RenderItem> renderItems);
     }
-    internal abstract class DrawingObjectNoBounds
-    {
-        internal protected DrawingBase DrawingRenderer { get; }
-
-        protected DrawingObjectNoBounds(DrawingBase renderer)
-        {
-            DrawingRenderer = renderer;
-        }
-        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
-    }
     internal class SvgChartArea : SvgChartObject
     {
         public SvgChartArea(SvgChart sc) : base(sc)

@@ -94,8 +94,9 @@ namespace OfficeOpenXml.Drawing
         public string ToSvg()
         {
             var svg = new ShapeRenderer(this);
+            var sb = new StringBuilder();
             svg.Render(sb);
-
+            return sb.ToString();
         }
     }
 }

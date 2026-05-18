@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgParagraphItem : ParagraphItem
+    internal class SvgParagraphItem : RenderParagraph
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 
@@ -151,16 +151,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
         }
-        internal override TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
+        internal override Shared.RenderTextRun CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, run, displayText);
         }
-        internal override TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
+        internal override Shared.RenderTextRun CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
         }
 
-        internal override TextRunItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
+        internal override Shared.RenderTextRun CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, font, displayText);
         }

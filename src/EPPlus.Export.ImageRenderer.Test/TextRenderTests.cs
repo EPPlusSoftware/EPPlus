@@ -101,7 +101,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
         [TestMethod]
         public void MeasureWrappedWidths()
         {
-            List<string> lstOfRichText = new() { /*"TextBox\r\na",*/ "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
+            List<string> lstOfRichText = new() { /*"RenderTextbox\r\na",*/ "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
 
             //var font1 = new MeasurementFont()
             //{

@@ -212,7 +212,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
         }
 
-        public SvgTextBox TextBox
+        public DrawingTextBox TextBox
         {
             get; private set;
         }

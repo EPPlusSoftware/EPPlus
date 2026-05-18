@@ -1,29 +1,15 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Fonts.OpenType;
+﻿using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Style;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class ParagraphItem : RenderItem
+    public abstract class RenderParagraph
     {
         TextLayoutEngine _layout;
 
@@ -44,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
         internal eTextAlignment HorizontalAlignment { get; private set; }
-        internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
+        internal List<RenderTextRun> Runs { get; set; } = new List<RenderTextRun>();
 
         internal bool DisplayBounds { get; set; } = false;
 
@@ -67,7 +53,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             } 
         }
 
-        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public RenderParagraph(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
             ParentTextBody = textBody;
             Bounds.Name = "Paragraph";
@@ -78,7 +64,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
         }
 
-        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
+        public RenderParagraph(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
         {
             ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
@@ -252,7 +238,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
 
-        internal protected TextRunItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        internal protected RenderTextRun AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
 
@@ -467,7 +453,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                             //Import fallback with default settings from constructor
                             AddText(displayText, _paragraphFont);
                         }
-                        TextRunItem runItem = Runs.Last();
+                        RenderTextRun runItem = Runs.Last();
                         runItem.Bounds.Left = prevWidth;
                         runItem.YPosition = lineTop;
 
@@ -531,8 +517,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="parent"></param>
         /// <param name="DisplayString"></param>
         /// <returns></returns>
-        internal abstract TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
-        internal abstract TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
-        internal abstract TextRunItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText);
+        internal abstract RenderTextRun CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
+        internal abstract RenderTextRun CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
+        internal abstract RenderTextRun CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText);
     }
 }

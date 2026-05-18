@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlus.DrawingRenderer.RenderItems
 {
-    public class RenderDrawingBlipFill
+    public class RenderBlipFill
     {
     }
 }

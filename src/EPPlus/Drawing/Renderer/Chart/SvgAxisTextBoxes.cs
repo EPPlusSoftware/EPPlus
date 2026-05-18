@@ -22,11 +22,11 @@ namespace EPPlusImageRenderer.Svg
         {
         }
 
-        internal List<SvgTextBox> TextBoxes
+        internal List<DrawingTextBox> TextBoxes
         {
             get;
             set;
-        }=new List<SvgTextBox>();
+        }=new List<DrawingTextBox>();
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {

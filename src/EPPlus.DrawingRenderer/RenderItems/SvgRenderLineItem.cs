@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Fonts.OpenType.Utils;
@@ -23,7 +24,7 @@ using System.Globalization;
 using System.Text;
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal class SvgRenderLineItem : SvgRenderItem
+    internal class SvgRenderLineItem : EPPlusRenderItem
     {
 
         public SvgRenderLineItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
@@ -166,8 +167,42 @@ namespace EPPlusImageRenderer.RenderItems
             
             RenderCompoundItems(sb, borderWidth, color, filter);
         }
+        private protected void RenderCompoundItems(StringBuilder sb, double? borderWidth, string color, string filter)
+        {
+            var tmpBorderWidth = BorderWidth;
+            string tmpBorderColor = null;
+            BorderWidth = borderWidth ?? BorderWidth;
+            if (string.IsNullOrEmpty(color) == false)
+            {
+                tmpBorderColor = BorderColor;
+                BorderColor = color;
+            }
 
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
+            RenderBase(sb);
+            if (LineCap != eLineCap.Flat)
+            {
+                sb.AppendFormat(" stroke-linecap=\"{0}\"", LineCap == eLineCap.Round ? "round" : "square");
+            }
+            if (LineJoin != SvgLineJoin.Miter)
+            {
+                sb.AppendFormat(" stroke-linejoin=\"{0}\"", LineJoin);
+            }
+
+            if (string.IsNullOrEmpty(filter) == false)
+            {
+                sb.Append(" " + filter);
+            }
+
+            sb.AppendFormat("/>");
+
+            BorderWidth = tmpBorderWidth;
+            if (string.IsNullOrEmpty(color) == false)
+            {
+                BorderColor = tmpBorderColor;
+            }
+        }
+
+        internal override EPPlusRenderItem Clone(SvgShape svgDocument)
         {
             var clone = new SvgRenderLineItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);

@@ -110,46 +110,19 @@ namespace EPPlus.Graphics
                 Size = new Vector2(Size.X, value);
             }
         }
-        internal double GlobalLeft
+        public double GlobalLeft
         {
             get
             {
                 return Position.X;
             }
         }
-        internal double GlobalTop
+        public double GlobalTop
         {
             get
             {
                 return Position.Y;
             }
         }
-
-        //Quick-access to underlying transform
-
-        ///// <summary>
-        ///// Local position X
-        ///// X-position from parent transform position
-        ///// </summary>
-        //internal override double X { get { return Left; } set { Left = value; } }
-
-        ///// <summary>
-        ///// Local position Y
-        ///// Y-position from parent transform position
-        ///// </summary>
-        //internal override double Y { get { return Top; } set { Top = value; } }
-
-        //Gets global position x and y
-        public double GlobalX { get { return Position.X; } }
-        public double GlobalY { get { return Position.Y; } }
-
-        public void SetLeft(double x)
-        {
-            Left = x;
-        }
-        public double GetLeft()
-        {
-            return Left;
-        }
-    }
+   }
 }

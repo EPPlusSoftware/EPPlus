@@ -14,7 +14,7 @@ using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems
 {
-    internal class GradientFillColor
+    public class GradientFillColor
     {
         public GradientFillColor(double position, Color color)
         {

@@ -10,7 +10,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
     //internal class SvgRange
     //{
     //    List<RenderItem> renderItems = new List<RenderItem>();
-    //    //List<TextBox> textBoxes = new List<TextBox>();
+    //    //List<RenderTextbox> textBoxes = new List<RenderTextbox>();
 
     //    internal SvgRange(ExcelRange range, double totalWidth, double totalHeight)
     //    {
@@ -60,7 +60,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
 
     //                renderItems.Add(cellBB);
 
-    //                var cellTextBox = new TextBox(null, currentWidth, currentHeight, colWidth, height);
+    //                var cellTextBox = new RenderTextbox(null, currentWidth, currentHeight, colWidth, height);
     //                cellTextBox.AddCellTextRun(cell);
 
     //                var deltaHeight = (float)cellTextBox.Bounds.Height;

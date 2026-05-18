@@ -25,7 +25,7 @@ using System.Text;
 
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal class SvgRenderPathItem : SvgRenderItem
+    internal class SvgRenderPathItem : EPPlusRenderItem
     {
         public SvgRenderPathItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
@@ -101,7 +101,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         }
 
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
+        internal override EPPlusRenderItem Clone(SvgShape svgDocument)
         {
             var clone = new SvgRenderPathItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);

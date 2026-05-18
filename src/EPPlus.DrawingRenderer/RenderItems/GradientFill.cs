@@ -11,28 +11,16 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.RenderItems;
-using OfficeOpenXml.Drawing.Style.Fill;
-using OfficeOpenXml.Drawing.Theme;
-using System.Collections.Generic;
 using System.Drawing;
-using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
-using System;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
     public class RenderGradientFill
     {
-        public RenderGradientFill(ExcelTheme theme, ExcelDrawingGradientFill gradientFill)
+        public RenderGradientFill()
         {
-            this.Settings = gradientFill;
-            for (int i = 0; i < gradientFill.Colors.Count; i++)
-            {
-                var c = new GradientFillColor(gradientFill.Colors[i].Position, EPPlusColorConverter.GetThemeColor(theme, gradientFill.Colors[i].Color));
-                Colors.Add(c);
-            }
-
+            
         }
-
         public RenderGradientFill(List<Color> colors, List<double> stops)
         {
             for (int i = 0; i < stops.Count; i++)
@@ -42,7 +30,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
-        public ExcelDrawingGradientFill Settings { get; set; }
+        //public ExcelDrawingGradientFill Settings { get; set; }
         public List<GradientFillColor> Colors { get; set; } = new List<GradientFillColor>();
     }
 }

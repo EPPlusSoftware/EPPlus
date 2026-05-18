@@ -609,7 +609,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         public double[] Coefficients {get;set;}
         public string Formula { get; set; }
         public string RSquare { get; set; }
-        public SvgTextBox DataLabel { get; set; }
+        public DrawingTextBox DataLabel { get; set; }
         public override string ToString()
         {
             return _trendline.Type + "," + Formula + "," + RSquare;

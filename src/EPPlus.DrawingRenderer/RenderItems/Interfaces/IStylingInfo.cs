@@ -17,7 +17,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Interfaces
         int StrokeMiterLimit { get; set; }
         eCompoundLineStyle CompoundLineStyle { get; set; }
         eLineCap LineCap { get; set; }
-        //SvgLineJoin LineJoin { get; set; }
+        //eLineJoin LineJoin { get; set; }
         double? GlowRadius { get; }
         string GlowColor { get; }
         ExcelDrawingOuterShadowEffect OuterShadowEffect { get; }

@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// <summary>
         /// Textbox from memory
         /// </summary>
-        public TextBodyItem TextBody{ get; internal set; }
+        public DrawingTextBody TextBody{ get; internal set; }
 
         public ShapeRenderer(ExcelShape shape) : base(shape)
         {
@@ -257,12 +257,12 @@ namespace OfficeOpenXml.Drawing.Renderer
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
+                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
                 InsetTextBox.Bounds.Left = x.PixelToPoint();
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
+                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
             }
 
             double l, r, t, b;

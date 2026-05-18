@@ -299,9 +299,9 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private List<SvgTextBox> GetAxisValueTextBoxes()
+        private List<DrawingTextBox> GetAxisValueTextBoxes()
         {
-            var ret = new List<SvgTextBox>();
+            var ret = new List<DrawingTextBox>();
             if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
 
             var mf = Axis.Font.GetMeasureFont();

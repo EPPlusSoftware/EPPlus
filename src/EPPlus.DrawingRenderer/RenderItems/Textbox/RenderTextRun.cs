@@ -1,30 +1,22 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType.Utils;
+﻿using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Style;
-using System;
 using System.Globalization;
 using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgTextRunItem : TextRunItem
+    internal class RenderTextRun
     {
-        public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, MeasurementFont font, string displayText) : base(renderer, parent, font, displayText)
+        public RenderTextRun(BoundingBox parent, MeasurementFont font, string displayText)
         {
         }
 
-        public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(renderer,parent, run, displayText)
+        public RenderTextRun(BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "")
         {
         }
 
-        public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(renderer, parent, text, font, displayText)
+        public RenderTextRun(BoundingBox parent, string text, ExcelTextFont font, string displayText)
         {
                 
         }

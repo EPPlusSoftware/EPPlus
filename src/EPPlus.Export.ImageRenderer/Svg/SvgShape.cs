@@ -273,12 +273,12 @@ namespace EPPlusImageRenderer.Svg
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
+                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
                 InsetTextBox.Bounds.Left = x.PixelToPoint();
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
+                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
             }
 
             double l, r, t, b;

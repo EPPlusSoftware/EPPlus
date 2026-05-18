@@ -10,22 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.Drawing;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using EPPlus.Graphics;
-using EPPlus.Export.ImageRenderer.Utils;
-using OfficeOpenXml.Drawing.Theme;
 using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.DrawingRenderer;
 
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal class SvgRenderRectItem : SvgRenderItem
+    internal class SvgRenderRectItem : EPPlusRenderItem
     {
-        public SvgRenderRectItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public SvgRenderRectItem(BoundingBox parent) : base(parent)
         {
 
         }
@@ -71,7 +66,7 @@ namespace EPPlusImageRenderer.RenderItems
             sb.AppendFormat("/>");
         }
 
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
+        internal override EPPlusRenderItem Clone(SvgShape svgDocument)
         {
             var clone = new SvgRenderRectItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);

@@ -458,7 +458,7 @@ namespace EPPlus.Export.ImageRenderer.RenderTool
         ////            return GenerateRect(baseItem, itemProperties);
         ////        case RenderItemClasses.CircleSegment:
         ////        //return RenderCircleSegment(baseItem, itemProperties);
-        ////        case RenderItemClasses.TextBox:
+        ////        case RenderItemClasses.RenderTextbox:
 
 
         ////        default:

@@ -10,11 +10,13 @@
  *************************************************************************************************
   11/15/2021         EPPlus Software AB       Html export
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Coloring;
-using System.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using System;
+using System.Drawing;
+using TC = OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Utils.TypeConversion
 {
@@ -190,6 +192,26 @@ namespace OfficeOpenXml.Utils.TypeConversion
             var g = (int)Math.Min(255D, color.G * colorPercent + blendColor.G * percent);
             var b = (int)Math.Min(255D, color.B * colorPercent + blendColor.B * percent);
             return Color.FromArgb(0xff, r, g, b);
+        }
+        internal static Color GetAdjustedColor(PathFillMode fillColorSource, Color fc)
+        {
+            switch (fillColorSource)
+            {
+                case PathFillMode.Darken:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.Black, 0.4);
+                    break;
+                case PathFillMode.DarkenLess:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.Black, 50D / 255D);
+                    break;
+                case PathFillMode.LightenLess:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.White, 50D / 255D);
+                    break;
+                case PathFillMode.Lighten:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.White, 0.4);
+                    break;
+            }
+
+            return fc;
         }
 
     }

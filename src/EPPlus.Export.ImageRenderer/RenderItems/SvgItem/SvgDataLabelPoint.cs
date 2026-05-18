@@ -26,11 +26,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         //public SvgChartDataLabelStandard(ChartRenderer chart, string dataLabelText) : base(chart)
         //{
-        //    var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
+        //    var txtBox = new DrawingTextBox(chart, chart.Bounds, chart.Bounds);
         //    txtBox.AddText(0, dataLabelText);
         //}
 
-        //public SvgChartDataLabelStandard(ChartRenderer chart, ExcelChartDataLabelStandard standard, SvgTextBox txtBox) : base(chart)
+        //public SvgChartDataLabelStandard(ChartRenderer chart, ExcelChartDataLabelStandard standard, DrawingTextBox txtBox) : base(chart)
         //{
         //    HasLegendKey = standard.ShowLegendKey;
         //    TxtBox = txtBox;

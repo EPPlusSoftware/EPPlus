@@ -494,7 +494,7 @@ namespace EPPlusImageRenderer
         //public string RenderTextBox(ExcelDrawing someDrawing, BoundingBox parent, double maxHeight, double maxWidth)
         //{
         //    var sb = new StringBuilder();
-        //    var svgTextBox = new SvgTextBox(someDrawing, parent, maxWidth, maxHeight);
+        //    var svgTextBox = new DrawingTextBox(someDrawing, parent, maxWidth, maxHeight);
         //}
 
 
@@ -582,7 +582,7 @@ namespace EPPlusImageRenderer
 
         //    FontMeasurerTrueType measurer = new FontMeasurerTrueType(11, "Aptos Narrow", FontSubFamily.Regular);
 
-        //    var svgBody = new SvgTextBodyItem(doc, worldBounds, null);
+        //    var svgBody = new DrawingTextbody(doc, worldBounds, null);
         //    svgBody.ImportTextBody(body);
 
         //    svgBody.Render(sb);

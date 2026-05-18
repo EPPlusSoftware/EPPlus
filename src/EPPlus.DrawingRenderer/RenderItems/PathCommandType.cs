@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal enum PathCommandType : byte
+    public enum PathCommandType : byte
     {
         Move = 0,
         Line = 1,

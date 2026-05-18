@@ -223,7 +223,7 @@ namespace EPPlusImageRenderer.Svg
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
                     }
                 }
-                //verticalAxis.Title.TextBox.TextAnchor = eTextAnchor.Middle;
+                //verticalAxis.Title.RenderTextbox.TextAnchor = eTextAnchor.Middle;
             }
         }
 

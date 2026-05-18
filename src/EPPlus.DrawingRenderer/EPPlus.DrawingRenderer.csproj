@@ -28,8 +28,9 @@
     <Compile Include="RenderItems\Interfaces\IRender.cs" />
     <Compile Include="RenderItems\Interfaces\IStylingInfo.cs" />
     <Compile Include="RenderItems\Interfaces\IStylingInfoBase.cs" />
+    <Compile Include="RenderItems\PathCommands.cs" />
     <Compile Include="RenderItems\PathCommandType.cs" />
-    <Compile Include="RenderItems\RenderDrawingBlipFill.cs" />
+    <Compile Include="RenderItems\RenderBlipFill.cs" />
     <Compile Include="RenderItems\RenderItem.cs" />
     <Compile Include="RenderItems\RenderPatternFill.cs" />
     <Compile Include="RenderItems\RenderShadowEffect.cs" />
@@ -53,18 +54,22 @@
     <Compile Include="RenderItems\SvgItem\SvgGroupItemNew.cs" />
     <Compile Include="RenderItems\SvgItem\SvgInnerGroup.cs" />
     <Compile Include="RenderItems\SvgItem\SvgParagraphItem.cs" />
-    <Compile Include="RenderItems\SvgItem\SvgTextBodyItem.cs" />
-    <Compile Include="RenderItems\SvgItem\SvgTextBox.cs" />
-    <Compile Include="RenderItems\SvgItem\SvgTextRunItem.cs" />
+    <Compile Include="RenderItems\Textbox\RenderParagraph.cs" />
+    <Compile Include="RenderItems\Textbox\RenderTextBody.cs" />
+    <Compile Include="RenderItems\Textbox\TextBodyItem.cs" />
+    <Compile Include="RenderItems\Textbox\RenderTextbox.cs" />
+    <Compile Include="RenderItems\Textbox\RenderTextRun.cs" />
     <Compile Include="RenderItems\SvgItem\SvgTitleItem.cs" />
     <Compile Include="RenderItems\SvgItem\SvgTransformGroup.cs" />
     <Compile Include="RenderItems\SvgLineJoin.cs" />
     <Compile Include="RenderItems\SvgRenderEllipseItem.cs" />
-    <Compile Include="RenderItems\SvgRenderItem.cs" />
+    <Compile Include="RenderItems\EPPlusRenderItem.cs" />
     <Compile Include="RenderItems\SvgRenderLineItem.cs" />
     <Compile Include="RenderItems\SvgRenderPathItem.cs" />
     <Compile Include="RenderItems\SvgRenderRectItem.cs" />
     <Compile Include="RenderItems\SvgUseRefItem.cs" />
+    <Compile Include="RenderItems\Textbox\RenderTextRunCollection.cs" />
+    <Compile Include="RenderItems\Textbox\RenderTextRun_1.cs" />
   </ItemGroup>
 
   <ItemGroup>

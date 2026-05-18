@@ -28,7 +28,7 @@
 //            while (br.BaseStream.Position < br.BaseStream.Length)
 //            {
 //                var shapeStyle = (eShapeStyle)br.ReadByte();
-//                var list = new List<SvgRenderItem>();
+//                var list = new List<EPPlusRenderItem>();
 //                var adj = ShapeAdjustments.ContainsKey(shapeStyle) ? ShapeAdjustments[shapeStyle] : null;
 //                Shapes.Add(shapeStyle, list);
 //                var ix = 0;
@@ -174,7 +174,7 @@
 //            shapeAdjustments.Add(style, adjs);
 //        }
 
-//        internal static Dictionary<eShapeStyle, List<SvgRenderItem>> Shapes { get; } = new Dictionary<eShapeStyle, List<SvgRenderItem>>();
+//        internal static Dictionary<eShapeStyle, List<EPPlusRenderItem>> Shapes { get; } = new Dictionary<eShapeStyle, List<EPPlusRenderItem>>();
 //        internal static Dictionary<eShapeStyle, Dictionary<int, SvgAdjustmentPoint>> ShapeAdjustments { get; set; } = new Dictionary<eShapeStyle, Dictionary<int, SvgAdjustmentPoint>>();
 //    }
 

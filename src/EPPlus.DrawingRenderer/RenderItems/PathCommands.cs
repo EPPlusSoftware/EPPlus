@@ -10,12 +10,33 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System.Drawing;
 
-namespace EPPlus.DrawingRenderer.RenderItems
+using EPPlus.Fonts.OpenType.Utils;
+using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml;
+using System;
+using System.Globalization;
+using System.Text;
+
+namespace EPPlusImageRenderer
 {
-    public class RenderShadowEffect
+    public class PathCommands 
     {
-        public Color OuterShadowEffectColor { get; set; }
+        internal PathCommands(PathCommandType type, params double[] coordinates)
+        {
+            Type = type;
+            Coordinates = coordinates;
+        }
+        //public SvgRenderItem RenderItem{ get; set;}
+        public PathCommandType Type { get; }
+        public double[] Coordinates { get; set; }
+        public PathCommands Clone()
+        {
+            return new PathCommands(Type)
+            {
+                Coordinates = (double[])Coordinates.Clone(),
+            };
+        }
     }
+
 }

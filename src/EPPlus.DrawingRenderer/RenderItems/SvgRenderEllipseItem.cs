@@ -20,7 +20,7 @@ using System.Globalization;
 using System.Text;
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal class SvgRenderEllipseItem : SvgRenderItem
+    internal class SvgRenderEllipseItem : EPPlusRenderItem
     {
         public SvgRenderEllipseItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
         {
@@ -46,7 +46,7 @@ namespace EPPlusImageRenderer.RenderItems
             sb.AppendFormat("/>");
         }
 
-        internal override SvgRenderItem Clone(SvgShape svgDocument)
+        internal override EPPlusRenderItem Clone(SvgShape svgDocument)
         {
             var clone = new SvgRenderEllipseItem(svgDocument, svgDocument.Bounds);
             CloneBase(clone);

@@ -30,13 +30,14 @@ namespace EPPlusImageRenderer.RenderItems
         GradientFill,
         PatternFill
     }
-    internal abstract class SvgRenderItem : RenderItem
+    internal abstract class EPPlusRenderItem : RenderItem
     {
         //Refrence string if this is part of a definition
         internal string DefId = null;
 
-        internal SvgRenderItem(DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        internal EPPlusRenderItem(DrawingBase renderer, BoundingBox parent) : base(parent)
         {
+
         }
         public override void Render(StringBuilder sb)
         {
@@ -99,7 +100,7 @@ namespace EPPlusImageRenderer.RenderItems
             sb.Append($"stroke-miterlimit =\"{StrokeMiterLimit}\" ");
         }
 
-        internal abstract SvgRenderItem Clone(SvgShape svgDocument);
+        internal abstract EPPlusRenderItem Clone(SvgShape svgDocument);
         private protected void RenderCompoundItems(StringBuilder sb, double? borderWidth, string color, string filter)
         {
             var tmpBorderWidth = BorderWidth;
