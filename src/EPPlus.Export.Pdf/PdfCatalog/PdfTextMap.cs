@@ -18,6 +18,7 @@ using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -650,72 +651,134 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
-            return null;
-            //if (textCollection == null && textCollection.Count <= 0) return null;
+            if (textCollection == null && textCollection.Count <= 0) return null;
             //var textFormats = new List<PdfTextFormat>();
-            //bool containsPageNumber = false;
-            //for (int i = 1; i < textCollection.Count; i++)
-            //{
-            //    var text = textCollection[i];
-            //    var ns = ws.Workbook.Styles.GetNormalStyle();
-            //    PdfTextFormat textFormat = new PdfTextFormat();
-            //    textFormat.FontName = string.IsNullOrEmpty(text.FontName) ? ns.Style.Font.Name : text.FontName;
-            //    textFormat.FontSize = text.FontSize == null ? ns.Style.Font.Size : (double)text.FontSize;
-            //    textFormat.Bold = text.Bold;
-            //    textFormat.Italic = text.Italic;
-            //    textFormat.Strike = text.Striketrough;
-            //    textFormat.SubScript = text.SubScript;
-            //    textFormat.SuperScript = text.SuperScript;
-            //    textFormat.Underline = text.Underline;
-            //    textFormat.UnderlineType = textFormat.Underline ? ExcelUnderLineType.Single : ExcelUnderLineType.None;
-            //    if (text.DoubleUnderline) textFormat.Underline = true;
-            //    textFormat.UnderlineType = text.DoubleUnderline ? ExcelUnderLineType.Double : textFormat.UnderlineType;
-            //    textFormat.FontColor = text.Color;
-            //    textFormat.SubFamily = FontSubFamily.Regular;
-            //    if (textFormat.Bold)
-            //    {
-            //        textFormat.SubFamily = FontSubFamily.Bold;
-            //        if (textFormat.Italic)
-            //        {
-            //            textFormat.SubFamily = FontSubFamily.BoldItalic;
-            //        }
-            //    }
-            //    else if (textFormat.Italic)
-            //    {
-            //        textFormat.SubFamily = FontSubFamily.Italic;
-            //    }
+            var textFragments = new List<TextFragment>();
+            bool containsPageNumber = false;
+            for (int i = 1; i < textCollection.Count; i++)
+            {
+                var hf = textCollection[i];
+                var textFrag = new TextFragment();
+                textFrag.Font = new MeasurementFont();
 
-            //    switch (text.FormatCode)
-            //    {
-            //        case ExcelHeaderFooterFormattingCodes.SheetName:
-            //            textFormat.Text += ws.Name;
-            //            break;
-            //        case ExcelHeaderFooterFormattingCodes.CurrentDate:
-            //            textFormat.Text += DateTime.Now.ToString($"yyyy-MM-dd");
-            //            break;
-            //        case ExcelHeaderFooterFormattingCodes.FileName:
-            //            textFormat.Text += ws._package.File.Name;
-            //            break;
-            //        case ExcelHeaderFooterFormattingCodes.NumberOfPages:
-            //        case ExcelHeaderFooterFormattingCodes.PageNumber:
-            //            textFormat.Text += "000";
-            //            containsPageNumber = true;
-            //            break;
-            //        case ExcelHeaderFooterFormattingCodes.CurrentTime:
-            //            textFormat.Text += DateTime.Now.ToString("HH:mm");
-            //            break;
-            //        case ExcelHeaderFooterFormattingCodes.FilePath:
-            //            textFormat.Text += ws._package.File.Directory.FullName + "\\";
-            //            break;
-            //        default:
-            //            textFormat.Text += text.Text;
-            //            break;
-            //    }
-            //    textFormats.Add(textFormat);
-            //    dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
-            //    if(containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
-            //}
-            //return new PdfHeaderFooter(textFormats, containsPageNumber, type, alignment, section);
+                textFrag.Font.FontFamily = hf.FontName;
+                textFrag.Font.Size = (float)hf.FontSize;
+
+                textFrag.RichTextOptions.Bold = hf.Bold;
+                textFrag.RichTextOptions.Italic = hf.Italic;
+                //underline
+                //none   : 12
+                //single : 13
+                //Double : 4
+                //accouting does not exsist
+                textFrag.RichTextOptions.UnderlineType = 12;
+                textFrag.RichTextOptions.UnderlineType = hf.Underline ? 13 : textFrag.RichTextOptions.UnderlineType;
+                textFrag.RichTextOptions.UnderlineType = hf.DoubleUnderline ? 4 : textFrag.RichTextOptions.UnderlineType;
+                textFrag.RichTextOptions.StrikeType = hf.Striketrough ? 2 : 1;
+                textFrag.RichTextOptions.FontColor = hf.Color;
+
+                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
+                                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+                                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+
+                var text = string.Empty;
+                switch (hf.FormatCode)
+                {
+                    case ExcelHeaderFooterFormattingCodes.SheetName:
+                        text += ws.Name;
+                        break;
+                    case ExcelHeaderFooterFormattingCodes.CurrentDate:
+                        text += DateTime.Now.ToString($"yyyy-MM-dd");
+                        break;
+                    case ExcelHeaderFooterFormattingCodes.FileName:
+                        text += ws._package.File.Name;
+                        break;
+                    case ExcelHeaderFooterFormattingCodes.NumberOfPages:
+                    case ExcelHeaderFooterFormattingCodes.PageNumber:
+                        text += "000";
+                        containsPageNumber = true;
+                        break;
+                    case ExcelHeaderFooterFormattingCodes.CurrentTime:
+                        text += DateTime.Now.ToString("HH:mm");
+                        break;
+                    case ExcelHeaderFooterFormattingCodes.FilePath:
+                        text += ws._package.File.Directory.FullName + "\\";
+                        break;
+                    default:
+                        text += hf.Text;
+                        break;
+                }
+
+                textFrag.Text = text;
+
+                textFragments.Add(textFrag);
+                OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
+                dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
+                if (containsPageNumber) dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), "1234567890");
+
+
+
+
+                //var text = textCollection[i];
+                //var ns = ws.Workbook.Styles.GetNormalStyle();
+                //PdfTextFormat textFormat = new PdfTextFormat();
+                //textFormat.FontName = string.IsNullOrEmpty(text.FontName) ? ns.Style.Font.Name : text.FontName;
+                //textFormat.FontSize = text.FontSize == null ? ns.Style.Font.Size : (double)text.FontSize;
+                //textFormat.Bold = text.Bold;
+                //textFormat.Italic = text.Italic;
+                //textFormat.Strike = text.Striketrough;
+                //textFormat.SubScript = text.SubScript;
+                //textFormat.SuperScript = text.SuperScript;
+                //textFormat.Underline = text.Underline;
+                //textFormat.UnderlineType = textFormat.Underline ? ExcelUnderLineType.Single : ExcelUnderLineType.None;
+                //if (text.DoubleUnderline) textFormat.Underline = true;
+                //textFormat.UnderlineType = text.DoubleUnderline ? ExcelUnderLineType.Double : textFormat.UnderlineType;
+                //textFormat.FontColor = text.Color;
+                //textFormat.SubFamily = FontSubFamily.Regular;
+                //if (textFormat.Bold)
+                //{
+                //    textFormat.SubFamily = FontSubFamily.Bold;
+                //    if (textFormat.Italic)
+                //    {
+                //        textFormat.SubFamily = FontSubFamily.BoldItalic;
+                //    }
+                //}
+                //else if (textFormat.Italic)
+                //{
+                //    textFormat.SubFamily = FontSubFamily.Italic;
+                //}
+                //switch (text.FormatCode)
+                //{
+                //    case ExcelHeaderFooterFormattingCodes.SheetName:
+                //        textFormat.Text += ws.Name;
+                //        break;
+                //    case ExcelHeaderFooterFormattingCodes.CurrentDate:
+                //        textFormat.Text += DateTime.Now.ToString($"yyyy-MM-dd");
+                //        break;
+                //    case ExcelHeaderFooterFormattingCodes.FileName:
+                //        textFormat.Text += ws._package.File.Name;
+                //        break;
+                //    case ExcelHeaderFooterFormattingCodes.NumberOfPages:
+                //    case ExcelHeaderFooterFormattingCodes.PageNumber:
+                //        textFormat.Text += "000";
+                //        containsPageNumber = true;
+                //        break;
+                //    case ExcelHeaderFooterFormattingCodes.CurrentTime:
+                //        textFormat.Text += DateTime.Now.ToString("HH:mm");
+                //        break;
+                //    case ExcelHeaderFooterFormattingCodes.FilePath:
+                //        textFormat.Text += ws._package.File.Directory.FullName + "\\";
+                //        break;
+                //    default:
+                //        textFormat.Text += text.Text;
+                //        break;
+                //}
+                //textFormats.Add(textFormat);
+                //dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
+                //if (containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
+            }
+            return new PdfHeaderFooter(textFragments, containsPageNumber, type, alignment, section);
         }
 
 

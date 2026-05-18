@@ -172,6 +172,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
             pdfSheet.Ranges[0] = GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+            GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             return pdfSheet;
         }
@@ -211,6 +212,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             temp.Map = PdfTextMap.SetTextMap(pageSettings, Dictionaries, pdfSheet, ref temp);
             range = temp;
             return range;
+        }
+
+        private void GetHeaderFooter(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
         }
 
         private void GetCommentsAndNotes(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)

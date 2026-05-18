@@ -31,6 +31,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public PdfCellCollection Map;
 
+        public PdfHeaderFooterCollection HeaderFooters;
+
         public Dictionary<string, MergedCellDrawInfo> MergedCells;
 
         public double[] RowHeights;
@@ -58,6 +60,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return Catalog;
         }
 
+        /*Header and footer notes:
+         * First header/footer is only used on the first worksheets first page if it exsists
+         * Then we use each worksheets odd and even respectively. worksheet 1 has its set of odd and even we use and worksheet 2 has it's own set we will use
+         * Page number does not reset and total number of pages is across all worksheets pages
+         * starting page number does not affect if first header/footer is used or not.
+        */
+
         internal static Transform GetCatalog(PdfPageSettings pageSettings, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
             Transform Catalog = new Transform(0d, 0d, 0d, 0d);
@@ -70,6 +79,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
                 for (int j = 0; j < pages.Length; j++)
                 {
+                    var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
                     var drawnMergedCells = new HashSet<string>();
                     //var drawnMergedCellsText = new HashSet<string>();
@@ -142,7 +152,18 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
 
                     //Add HeaderFooter
-                    //  Uppdate page number texts and shape them
+                    /* check what header/footer to use
+                     * insert page number/ number of pages if applicalble
+                     * shape text in header/footer
+                     * place text at position from content bounds
+                     */
+                    if (j == 0)
+                    {
+                        page.HeaderFooters.PdfHeaderFooterEntries.
+                    }
+                    else
+                    {
+                    }
 
                     if (pageSettings.ShowGridLines)
                         PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout);
@@ -218,6 +239,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, range);
                     pages = AssignRangeToPages(pageSettings, range, pages);
                     pages = MapPage(range, pages);
+                    pages = GetHeaderFooter(range, pages, pdfSheet);
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
                     PagesCollection.Add(pages);
                 }
@@ -478,6 +500,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         page.Map[row, col] = range.Map[row, col];
                     }
                 }
+                pdfPages.Page[i] = page;
+            }
+            pdfPages = pages;
+            return pdfPages;
+        }
+
+        private static Pages GetHeaderFooter(PdfRange range, Pages pdfPages, PdfWorksheet pdfSheet)
+        {
+            var pages = pdfPages;
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+            {
+                var page = pdfPages.Page[i];
+                page.HeaderFooters = pdfSheet.HeaderFooters;
                 pdfPages.Page[i] = page;
             }
             pdfPages = pages;

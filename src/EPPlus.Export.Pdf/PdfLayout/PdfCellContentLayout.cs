@@ -67,7 +67,14 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
             TextLayoutEngine = cell.TextLayoutEngine;
 
-            LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, LocalPosition.X, LocalPosition.Y, cell.Width, height);
+            double totalTextHeight = 0d;
+            foreach (var line in TextLines)
+                totalTextHeight += line.LargestAscent + line.LargestDescent;
+
+            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight,
+                LocalPosition.X, LocalPosition.Y, cell.Width, height);
+
+            //LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, LocalPosition.X, LocalPosition.Y, cell.Width, height);
             //var textFragments = GetTextFragments(TextFormats);
             //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
         }
@@ -104,13 +111,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
-                    newY = (y + height) - (textHeight / 2d) - bottomMargin;
+                    newY = (y + height) /*- (textHeight / 2d)*/ - bottomMargin;
                     break;
                 case ExcelVerticalAlignment.Center:
-                    newY = y + (height / 2d) - (textHeight / 4d); ;
+                    newY = y + (height + textHeight) / 2d/*) - (textHeight / 4d)*/;
                     break;
                 case ExcelVerticalAlignment.Bottom:
-                    newY = y + bottomMargin;
+                    newY = y + bottomMargin + textHeight;
                     break;
             }
             if (CellAlignmentData.TextRotation < 0)
@@ -124,8 +131,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
                 newX += textLength * (1 - System.Math.Cos(rot));
             }
-
-
             return new Vector2(newX, newY);
         }
 
