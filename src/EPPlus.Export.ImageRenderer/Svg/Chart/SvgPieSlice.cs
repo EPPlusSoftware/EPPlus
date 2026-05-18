@@ -519,7 +519,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal SvgGroupItemNew GetInnerItemGroup()
         {
-            return _innerItems;
+            return _innerGroup;
         }
 
         /// <summary>

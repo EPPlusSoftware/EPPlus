@@ -243,7 +243,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
 
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(itemGroup.Bounds.GlobalLeft, itemGroup.Bounds.GlobalTop, Bounds.Width, Bounds.Height);
+                            var dlblBounds = new BoundingBox(itemGroup.TransformOrigin.X, itemGroup.TransformOrigin.Y, Bounds.Width, Bounds.Height);
+                            //var dlblBounds2 = new BoundingBox(outer.X, outer.Y);
                             ////Add the origin point position
                             //dlblBounds.Left += slicePos.X;
                             //dlblBounds.Top += slicePos.Y;
@@ -253,7 +254,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //dlblBounds.Translate()
 
                             //var vector = Slices[j].GetWholeVectorCenterToMid();
-                            serieDataLabels[i].SetParentPoint(dlblBounds, j);
+                            serieDataLabels[i].SetParentVector(dlblBounds, j, Slices[j].GetWholeVectorCenterToMid());
                         }
                         ////Add datalabel to slice
                         //if (serie.HasDataLabel)

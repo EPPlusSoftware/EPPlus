@@ -129,7 +129,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void Datalabels2()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("PieChartDlblsInsideEndOnly.xlsx"))
+            using (var p = OpenTemplatePackage("PieChartDlblsInside.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
