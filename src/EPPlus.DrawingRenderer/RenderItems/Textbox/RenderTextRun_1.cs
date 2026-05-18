@@ -127,6 +127,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected double YPosition { get; set; }
         protected double ClippingHeight = double.NaN;
+        public RenderTextRun(BoundingBox parent) : base(parent)
+        {
+            Bounds.Name = "TextRun";
+        }
 
         public RenderTextRun(BoundingBox parent, MeasurementFont font, string displayText) : base(parent)
         {

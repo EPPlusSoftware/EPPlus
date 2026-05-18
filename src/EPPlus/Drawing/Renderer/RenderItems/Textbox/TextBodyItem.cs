@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
-        internal abstract List<ParagraphItem> Paragraphs { get; set; }
+        internal abstract List<DrawingParagraph> Paragraphs { get; set; }
 
         public bool AllowOverflow;
 
@@ -261,14 +261,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphItem CreateParagraph(TextBodyItem textBody,  ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
+        internal abstract DrawingParagraph CreateParagraph(TextBodyItem textBody,  ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
 
-        internal abstract ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "");
+        internal abstract DrawingParagraph CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "");
 
         /// <summary>
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent);
+        internal abstract DrawingParagraph CreateParagraph(TextBodyItem textBody, BoundingBox parent);
     }
 }

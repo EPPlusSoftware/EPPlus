@@ -1,4 +1,5 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
@@ -23,7 +24,7 @@ using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    internal abstract class ParagraphItem : RenderItem
+    internal abstract class DrawingParagraph : RenderParagraph
     {
         TextLayoutEngine _layout;
 
@@ -44,7 +45,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
         internal eTextAlignment HorizontalAlignment { get; private set; }
-        internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         internal bool DisplayBounds { get; set; } = false;
 
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             } 
         }
 
-        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
+        public DrawingParagraph(TextBodyItem textBody, BoundingBox parent) : base(parent)
         {
             ParentTextBody = textBody;
             Bounds.Name = "Paragraph";
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
         }
 
-        public ParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
+        public DrawingParagraph(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
         {
             ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];

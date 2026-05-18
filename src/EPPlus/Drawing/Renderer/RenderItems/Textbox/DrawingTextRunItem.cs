@@ -120,7 +120,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             _originalText = run.Text;
 
-            Bounds.Name = "TextRun";
             _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();

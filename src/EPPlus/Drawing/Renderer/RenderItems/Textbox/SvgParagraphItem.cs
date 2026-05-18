@@ -13,7 +13,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    internal class SvgParagraphItem : ParagraphItem
+    internal class SvgParagraphItem : DrawingParagraph
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 

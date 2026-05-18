@@ -1,4 +1,5 @@
-﻿using EPPlus.Fonts.OpenType;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
@@ -9,7 +10,7 @@ using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    public abstract class RenderParagraph
+    public abstract class RenderParagraph : RenderItem
     {
         TextLayoutEngine _layout;
 
@@ -53,136 +54,136 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             } 
         }
 
-        public RenderParagraph(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(renderer, parent)
-        {
-            ParentTextBody = textBody;
-            Bounds.Name = "Paragraph";
-            var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
-            _paragraphFont = defaultFont;
+        //public RenderParagraph(TextBodyItem textBody, BoundingBox parent) : base(parent)
+        //{
+        //    ParentTextBody = textBody;
+        //    Bounds.Name = "Paragraph";
+        //    var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+        //    _paragraphFont = defaultFont;
 
-            _layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
-        }
+        //    _layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
+        //    ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
+        //}
 
-        public RenderParagraph(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
-        {
-            ParentTextBody = textBody;
-            IsFirstParagraph = p == p._paragraphs[0];
+        //public RenderParagraph(TextBodyItem textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
+        //{
+        //    ParentTextBody = textBody;
+        //    IsFirstParagraph = p == p._paragraphs[0];
 
-            if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
-            {
-                if (IsFirstParagraph)
-                {
-                    if (p.DefaultRunProperties.Fill != null)
-                    {
-                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
-                    }
-                }
-                else
-                {
-                    //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
-                    if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
-                    {
-                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
-                    }
-                    else
-                    {
-                        var fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Light1);
-                        fc = ColorUtils.GetAdjustedColor(PathFillMode.Norm, fc);
-                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
-                        //Use shape fill somehow
-                        //Maybe use a name property for fallback theme accent1 color?
-                    }
-                }
-            }
-            else
-            {
-                if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
-                {
-                    var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
-                    SetDrawingPropertiesFill(fill, null);
-                }
-            }
+        //    if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
+        //    {
+        //        if (IsFirstParagraph)
+        //        {
+        //            if (p.DefaultRunProperties.Fill != null)
+        //            {
+        //                SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
+        //            if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+        //            {
+        //                SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+        //            }
+        //            else
+        //            {
+        //                var fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Light1);
+        //                fc = ColorUtils.GetAdjustedColor(PathFillMode.Norm, fc);
+        //                FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
+        //                //Use shape fill somehow
+        //                //Maybe use a name property for fallback theme accent1 color?
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+        //        {
+        //            var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
+        //            SetDrawingPropertiesFill(fill, null);
+        //        }
+        //    }
 
-            //---Initialize Bounds / Margins-- -
-            Bounds.Name = "Paragraph";
+        //    //---Initialize Bounds / Margins-- -
+        //    Bounds.Name = "Paragraph";
 
-            var indent = 48 * p.IndentLevel;
-            _leftMargin = p.LeftMargin + p.Indent + indent;
-            _rightMargin = p.RightMargin;
+        //    var indent = 48 * p.IndentLevel;
+        //    _leftMargin = p.LeftMargin + p.Indent + indent;
+        //    _rightMargin = p.RightMargin;
 
-            _leftMargin = _leftMargin.PixelToPoint();
-            _rightMargin = _rightMargin.PixelToPoint();
+        //    _leftMargin = _leftMargin.PixelToPoint();
+        //    _rightMargin = _rightMargin.PixelToPoint();
 
-            HorizontalAlignment = p.HorizontalAlignment;
-            _leftMargin = _leftMargin.PixelToPoint();
-            _rightMargin = _rightMargin.PixelToPoint();
+        //    HorizontalAlignment = p.HorizontalAlignment;
+        //    _leftMargin = _leftMargin.PixelToPoint();
+        //    _rightMargin = _rightMargin.PixelToPoint();
 
-            HorizontalAlignment = p.HorizontalAlignment;
+        //    HorizontalAlignment = p.HorizontalAlignment;
 
-            if (ParentTextBody.AutoSize == false)
-            {
-                Bounds.Left = 0;
-                Bounds.Width = ParentTextBody.MaxWidth;
+        //    if (ParentTextBody.AutoSize == false)
+        //    {
+        //        Bounds.Left = 0;
+        //        Bounds.Width = ParentTextBody.MaxWidth;
 
-                //Left is equal to left Paragraph margin
-                //Textbody or Textbox are assumed to handle shape/chart margins
-                //Paragraph handles only indentations/margins that is applied ON TOP of those margins
-                //Paragraph left is the exact position where the text itself starts on the left
-                if (HorizontalAlignment != eTextAlignment.Center)
-                {
-                    Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-                }
-                else
-                {
-                    //Center is a bit strange the bounds really are the same as left or right aligned
-                    //It doesn't truly matter as only left min and right max play a role
-                    Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
-                    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+        //        //Left is equal to left Paragraph margin
+        //        //Textbody or Textbox are assumed to handle shape/chart margins
+        //        //Paragraph handles only indentations/margins that is applied ON TOP of those margins
+        //        //Paragraph left is the exact position where the text itself starts on the left
+        //        if (HorizontalAlignment != eTextAlignment.Center)
+        //        {
+        //            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+        //        }
+        //        else
+        //        {
+        //            //Center is a bit strange the bounds really are the same as left or right aligned
+        //            //It doesn't truly matter as only left min and right max play a role
+        //            Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
+        //            _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
 
-                }
-                Bounds.Width = parent.Width - _rightMargin - _leftMargin;
-            }
+        //        }
+        //        Bounds.Width = parent.Width - _rightMargin - _leftMargin;
+        //    }
 
-            //---Initialize / calculate lines and runs---
-            //measurer must be set before AddLinesAndRichText
-            _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
+        //    //---Initialize / calculate lines and runs---
+        //    //measurer must be set before AddLinesAndRichText
+        //    _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
 
-            //---Get measurer---
-            _layout = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
+        //    //---Get measurer---
+        //    _layout = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
 
-            //---Calculate linespacing---
-            int numLines = _paragraphLines.Count;
-            _lsType = p.LineSpacing.LineSpacingType;
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, 
-                (TextShaper) OpenTypeFonts.GetShaperForFont(_paragraphFont), 
-                _paragraphFont.Size);
+        //    //---Calculate linespacing---
+        //    int numLines = _paragraphLines.Count;
+        //    _lsType = p.LineSpacing.LineSpacingType;
+        //    ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, 
+        //        (TextShaper) OpenTypeFonts.GetShaperForFont(_paragraphFont), 
+        //        _paragraphFont.Size);
 
 
-            ImportLinesAndTextRuns(p, textIfEmpty);
-        }
+        //    ImportLinesAndTextRuns(p, textIfEmpty);
+        //}
 
-        private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
-        {
-            if (_lsType == eDrawingTextLineSpacing.Exactly)
-            {
-                if (IsFirstParagraph)
-                {
-                    _lineSpacingAscendantOnly = spacingValue;
-                }
-                return spacingValue;
-            }
-            else
-            {
-                var multiplier = (spacingValue / 100);
-                _lsMultiplier = multiplier;
-                if (IsFirstParagraph)
-                {
-                    _lineSpacingAscendantOnly = multiplier * fmExact.GetAscentInPoints(fontSize);
-                }
-                return multiplier * fmExact.GetLineHeightInPoints(fontSize);
-            }
-        }
+        //private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
+        //{
+        //    if (_lsType == eDrawingTextLineSpacing.Exactly)
+        //    {
+        //        if (IsFirstParagraph)
+        //        {
+        //            _lineSpacingAscendantOnly = spacingValue;
+        //        }
+        //        return spacingValue;
+        //    }
+        //    else
+        //    {
+        //        var multiplier = (spacingValue / 100);
+        //        _lsMultiplier = multiplier;
+        //        if (IsFirstParagraph)
+        //        {
+        //            _lineSpacingAscendantOnly = multiplier * fmExact.GetAscentInPoints(fontSize);
+        //        }
+        //        return multiplier * fmExact.GetLineHeightInPoints(fontSize);
+        //    }
+        //}
 
         //public void AddOwnText(string text)
         //{
