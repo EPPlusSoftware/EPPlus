@@ -121,6 +121,44 @@ namespace EPPlusTest.Drawing.Chart
                 var serie = lineChart.Series.Add("{\"Label1\",\"Label 2\",\"Something else\"}", "{120.3,14,5000.0005}");                
             }
         }
+
+        [TestMethod]
+        public void LegendChartSingleSeriesTest()
+        {
+            //Excel has strange behaviour when there is only a single series and datapoints exist
+            //The chart legend changes to reflect the data points rather than the Legend Entries. (If they exceed the legend entries)
+
+            using (var p = OpenTemplatePackage("CompBarCharts.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach(var chart in ws.Drawings)
+                {
+                    if(chart.Name == "cDataPointEdit")
+                    {
+                        var barChart = chart.As.Chart.BarChart;
+                        var legend = barChart.Legend;
+                    }
+                }
+            }
+        }
+        [TestMethod]
+        public void LegendChartSingleSeriesTestOther()
+        {
+            //Excel has strange behaviour when there is only a single series and datapoints exist
+            //The chart legend changes to reflect the data points rather than the Legend Entries. (If they exceed the legend entries)
+
+            using (var p = OpenTemplatePackage("BarChartSingleSerieDataPoints.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var bChart = ws.Drawings[0].As.Chart.BarChart;
+                var legend = bChart.Legend;
+                var entries = legend.Entries;
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 

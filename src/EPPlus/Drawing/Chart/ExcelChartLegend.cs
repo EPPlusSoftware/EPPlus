@@ -10,16 +10,18 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -55,20 +57,87 @@ namespace OfficeOpenXml.Drawing.Chart
             var e = LoadLegendEntries();
             foreach (var c in _chart.PlotArea.ChartTypes)
             {
-                for (int i = 0; i < _chart.Series.Count; i++)
+                if (_chart.Series.Count > 1)
                 {
-                    var ix = e.FindIndex(x => x.Index == i);
-                    if (ix >= 0)
+                    for (int i = 0; i < _chart.Series.Count; i++)
                     {
-                        _entries.Add(e[ix]);
+                        var ix = e.FindIndex(x => x.Index == i);
+                        if (ix >= 0)
+                        {
+                            _entries.Add(e[ix]);
+                        }
+                        else
+                        {
+                            AddNewEntry(_chart.Series[i]);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    //If e.g. single series has datapoints and legend entries have styling
+                    //The number of Legend entries will not max series count
+                    var serType = _chart.ChartType;
+
+                    var numItems = _chart.Series[0].NumberOfItems;
+
+                    var countItems = Math.Max(e.Count, numItems);
+
+
+                    //TODO: On a single series, assume that in the excel UI you have a legend with 3 data point entries.
+                    //Two have xml entries because a user changed the styling info in excel
+                    //If a user now wishes to add styling to the 3rd label. They can't.
+                    //Because there is no entry to load in. However the datapoint itself has styling.
+                    //This needs to be handled in some way here.
+                    //The relationship between DataPoint and Legend requires direct communication if it is a single series.
+
+                    //if(HasDataPoints())
+                    //{
+                    //    AddNewEntryDataPoint(_chart.Series[0]);
+                    //}
+                    //else
+                    //
+
+                    //Ensure we discover all actual pre-written ooxml entries.
+                    for (int i = 0; i < e.Count; i++)
                     {
-                        AddNewEntry(_chart.Series[i]);
+                        var ix = e.FindIndex(x => x.Index == i);
+                        if (ix >= 0)
+                        {
+                            _entries.Add(e[ix]);
+                        }
                     }
                 }
             }
 
+        }
+
+        internal bool HasDataPoints()
+        {
+
+            if (_chart.IsType3D())
+            {
+                return true;
+            }
+            else if (_chart.IsTypeLine() || _chart.IsTypeBar() ||
+                   (_chart.IsTypeScatter() && _chart.ChartType != eChartType.XYScatter) ||
+                   (_chart.IsTypeRadar() && _chart.ChartType != eChartType.RadarFilled))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        internal void AddNewEntryDataPoint(ExcelChartSerie serie)
+        {
+            var a = new ExcelAddressBase(serie.Series);
+            if (a.Rows < 1 || a.Columns < 1) return;
+            var seriesCount = (a.Rows > a.Columns ? a.Rows : a.Columns);
+            for (int i = 0; i < seriesCount; i++)
+            {
+                var entry = new ExcelChartLegendEntry(NameSpaceManager, TopNode, (ExcelChartStandard)_chart, _entries.Count);
+                _entries.Add(entry);
+            }
         }
 
         internal void AddNewEntry(ExcelChartSerie serie)
@@ -343,6 +412,8 @@ namespace OfficeOpenXml.Drawing.Chart
             TopNode = _chart.ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager);
             TopNode.InnerXml= "<c:legendPos val=\"r\" /><c:layout /><c:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/></c:spPr>";
         }
+
+
 
         void IStyleMandatoryProperties.SetMandatoryProperties()
         {

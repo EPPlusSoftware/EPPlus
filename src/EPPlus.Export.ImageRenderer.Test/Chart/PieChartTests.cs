@@ -63,6 +63,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ws = p.Workbook.Worksheets[0];
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 
+                var pChart = ws.Drawings[0].As.Chart.PieChart;
+
+                var ser = pChart.Series[0];
+
+                var legend = pChart.Legend;
+                var entry = pChart.Legend.Entries;
+                var pHeader = ser.Header;
+                var pHeaderAddress = ser.HeaderAddress;
+                var headerString = ser.GetHeaderString();
+
+
                 var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)
                 {
