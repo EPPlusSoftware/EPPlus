@@ -32,6 +32,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
 
+        [TestMethod]
+        public void ReadLegendIssue()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartSvgLegendIssue.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
+                {
+                    ws = p.Workbook.Worksheets[i];
+                    foreach (ExcelChart c in ws.Drawings)
+                    {
+                        var svg = renderer.RenderDrawingToSvg(c);
+                        SaveTextFileToWorkbook($"svg\\PieChartSvgLegendIssue\\s{i}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+            }
+        }
+
 
         [TestMethod]
         public void ReadAndGenerateExcelPieChartPointExplosion()
@@ -119,7 +140,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                     foreach (ExcelChart c in ws.Drawings)
                     {
                         var svg = renderer.RenderDrawingToSvg(c);
-                        SaveTextFileToWorkbook($"svg\\PieChartDlbls\\s{i}_{ws.Name}_{c.Name}.svg", svg);
+                        SaveTextFileToWorkbook($"svg\\PieChartDlbls2\\s{i}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
             }

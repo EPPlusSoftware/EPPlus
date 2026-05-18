@@ -99,15 +99,16 @@ namespace EPPlusImageRenderer.Svg
             //Find the widest and highest legend entry, and calculate the total width and hight of the legend based on the orientation. 
             foreach (var ct in sc.Chart.PlotArea.ChartTypes)
             {
-                foreach (var s in ct.Series)
+                if (ct.GetType() == typeof(ExcelPieChart))
                 {
-                    if(s.GetType() == typeof(ExcelPieChartSerie))
+                    //Pie chart cares only about first series
+                    if (ct.Series[0].GetType() == typeof(ExcelPieChartSerie))
                     {
-                        var ps = (ExcelPieChartSerie)s;
-                        var catValues = DrawingExtensions.LoadSeriesValues(ct, s.XSeries, s.NumberLiteralsX, s.StringLiteralsX);
+                        var ps = (ExcelPieChartSerie)ct.Series[0];
+                        var catValues = DrawingExtensions.LoadSeriesValues(ct, ps.XSeries, ps.NumberLiteralsX, ps.StringLiteralsX);
 
                         //Excel fallsback to index + 1 if no literals and no series 
-                        if(catValues == null)
+                        if (catValues == null)
                         {
                             catValues = new List<Object>();
                             foreach (var dp in ps.DataPoints)
@@ -115,14 +116,19 @@ namespace EPPlusImageRenderer.Svg
                                 catValues.Add($"{dp.Index + 1}");
                             }
                         }
-                        for(int i = 0; i < catValues.Count; i++)
+                        for (int i = 0; i < catValues.Count; i++)
                         {
                             var text = catValues[i].ToString();
                             GetSerieSize(l, index, text, ref widest, ref highest);
                             index++;
                         }
                     }
-                    else
+                    //Skip the rest
+                    break;
+                }
+                else
+                {
+                    foreach (var s in ct.Series)
                     {
                         var text = s.GetHeaderText(index);
                         GetSerieSize(l, index, text, ref widest, ref highest);
@@ -342,8 +348,8 @@ namespace EPPlusImageRenderer.Svg
                             if(ix == 0)
                             {
                                 SetPieLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
-                                pSls = null;
-                                sls = null;
+                                //pSls = null;
+                                //sls = null;
                             }
                             break;
                         default:
@@ -364,15 +370,16 @@ namespace EPPlusImageRenderer.Svg
                             break;
                         }
                     }
-                    if(sls != null)
-                    {
-                        SeriesIcon.Add(sls);
-                        pSls = sls;
-                    }
-                    else
-                    {
-                        pSls = null;
-                    }
+                    //if (sls != null)
+                    //{
+                    //    SeriesIcon.Add(sls);
+                    //}
+                    SeriesIcon.Add(sls);
+                    pSls = sls;
+                    //else
+                    //{
+                    //    pSls = null;
+                    //}
                     index++;
                     if(ix<end)
                     {
@@ -487,8 +494,9 @@ namespace EPPlusImageRenderer.Svg
                     catValues.Add($"{dp.Index + 1}");
                 }
             }
-            double lastTbWidth = 0;
-            //SvgLegendSerie sls;
+
+            //double lastWidth = 0d;
+
             for (int i = 0; i < catValues.Count; i++)
             {
 
@@ -497,15 +505,15 @@ namespace EPPlusImageRenderer.Svg
 
                 var si = GetPieSeriesIcon(sc, ct, ps, pSls, entryWidth, entryHeight, i);
                 sls = new SvgLegendSerie();
-                var tbLeft = si.Left + maxIconLength + MarginIconText /*+ lastTbWidth*/;
+                var tbLeft = si.Left + maxIconLength + MarginIconText;
                 var tbTop = si.Top - (entryHeight - si.Height) / 2;
                 double tbWidth;
 
                 tbWidth = Bounds.Width - tbLeft;
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new SvgTextBodyItem(ChartRenderer, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
-                //sls.Textbox.AutoSize = true;
+                sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                //var para = sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault();
                 sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
                 sls.SeriesIcon = si;
 
@@ -516,7 +524,6 @@ namespace EPPlusImageRenderer.Svg
                 sls.SeriesIcon.SetDrawingPropertiesEffects(dp.Effect);
 
                 SeriesIcon.Add(sls);
-                lastTbWidth = tm.Width + lastTbWidth;
                 pSls = sls;
             }
             pSls = null;
