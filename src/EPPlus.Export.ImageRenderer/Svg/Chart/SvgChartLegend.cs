@@ -103,7 +103,18 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if(s.GetType() == typeof(ExcelPieChartSerie))
                     {
+                        var ps = (ExcelPieChartSerie)s;
                         var catValues = DrawingExtensions.LoadSeriesValues(ct, s.XSeries, s.NumberLiteralsX, s.StringLiteralsX);
+
+                        //Excel fallsback to index + 1 if no literals and no series 
+                        if(catValues == null)
+                        {
+                            catValues = new List<Object>();
+                            foreach (var dp in ps.DataPoints)
+                            {
+                                catValues.Add($"{dp.Index + 1}");
+                            }
+                        }
                         for(int i = 0; i < catValues.Count; i++)
                         {
                             var text = catValues[i].ToString();
@@ -327,7 +338,13 @@ namespace EPPlusImageRenderer.Svg
                             break;
                         case eChartType.Pie:
                         case eChartType.PieExploded:
-                            SetPieLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            //Pie chart ignores everything except for first series
+                            if(ix == 0)
+                            {
+                                SetPieLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                                pSls = null;
+                                sls = null;
+                            }
                             break;
                         default:
                             break;
@@ -347,8 +364,15 @@ namespace EPPlusImageRenderer.Svg
                             break;
                         }
                     }
-                    SeriesIcon.Add(sls);
-                    pSls = sls;
+                    if(sls != null)
+                    {
+                        SeriesIcon.Add(sls);
+                        pSls = sls;
+                    }
+                    else
+                    {
+                        pSls = null;
+                    }
                     index++;
                     if(ix<end)
                     {
@@ -448,11 +472,21 @@ namespace EPPlusImageRenderer.Svg
         private void SetPieLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var ps = (ExcelPieChartSerie)s;
+            pSls = null;
 
             //Pie chart only cares about series 0
-            var series = Chart.Series[0];
+            var series = ct.Series[0];
             var catSeries = series.XSeries;
             var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, series.NumberLiteralsX, series.StringLiteralsX);
+            //Excel fallsback to index + 1 if no literals and no series 
+            if (catValues == null)
+            {
+                catValues = new List<Object>();
+                foreach (var dp in ps.DataPoints)
+                {
+                    catValues.Add($"{dp.Index + 1}");
+                }
+            }
             double lastTbWidth = 0;
             //SvgLegendSerie sls;
             for (int i = 0; i < catValues.Count; i++)
@@ -485,6 +519,8 @@ namespace EPPlusImageRenderer.Svg
                 lastTbWidth = tm.Width + lastTbWidth;
                 pSls = sls;
             }
+            pSls = null;
+            sls = null;
         }
 
         private void SetLineLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
