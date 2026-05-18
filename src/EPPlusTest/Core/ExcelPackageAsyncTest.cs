@@ -86,6 +86,22 @@ namespace EPPlusTest.Core
             }
         }
         [TestMethod]
+        public async Task LoadAsyncKeepsPackageZipStreamReadable()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                pck.Workbook.Worksheets.Add("AsyncLoad").Cells["A1"].Value = "Test";
+                var bytes = await pck.GetAsByteArrayAsync().ConfigureAwait(false);
+
+                using (var loadedPck = new ExcelPackage())
+                using (var stream = new MemoryStream(bytes))
+                {
+                    await loadedPck.LoadAsync(stream).ConfigureAwait(false);
+                    loadedPck.ZipPackage._zip.Position = 0;
+                }
+            }
+        }
+        [TestMethod]
         public async Task LoadAsyncEncryptedTest()
         {
             AssertIfNotExists("AsyncEncRead.xlsx");

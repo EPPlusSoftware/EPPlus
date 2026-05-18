@@ -159,10 +159,12 @@ namespace OfficeOpenXml
                     await StreamUtil.CopyStreamAsync(input, ms, cancellationToken).ConfigureAwait(false);
                 }
 
+				var packageOwnsStream = false;
 				try
 				{
 					_zipPackage = new Packaging.ZipPackage(false);
                     await _zipPackage.ReadStreamAsync(ms, cancellationToken);
+                    packageOwnsStream = true;
 				}
 				catch (Exception ex)
 				{
@@ -175,7 +177,10 @@ namespace OfficeOpenXml
 				}
                 finally
                 {
-                    ms.Dispose();
+                    if (!packageOwnsStream)
+                    {
+                        ms.Dispose();
+                    }
 				}
             }
             //Clear the workbook so that it gets reinitialized next time
