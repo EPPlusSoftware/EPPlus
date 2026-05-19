@@ -10,29 +10,27 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.Style;
-using System.Globalization;
-using System.Collections;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.ThreadedComments;
-using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.Sorting;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils.Cell;
-using static OfficeOpenXml.ExcelWorksheet;
-using System.Linq;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace OfficeOpenXml
 {
@@ -1330,8 +1328,10 @@ namespace OfficeOpenXml
                 var isRt = _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
                 if (isRt)
                 {
-                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
-                    return _rtc.Count > 0;
+                    //Do not update _rtc. This is a boolean getter.
+                    //It should not set any values even if they diff.
+                    var couldBeEmptyRT = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    return couldBeEmptyRT.Count > 0;
                 }
                 return isRt;
             }
@@ -1455,6 +1455,16 @@ namespace OfficeOpenXml
                 }
                 return _rtc;
             }
+        }
+
+        /// <summary>
+        /// Convert the contents of the top left cell of this range to a richtext string
+        /// And set the cell value as .RichText
+        /// </summary>
+        public ExcelRichTextCollection ConvertToRichText()
+        {
+            _rtc = _worksheet.ConvertCellValueToRichText(_fromRow, _fromCol, this);
+            return _rtc;
         }
 
         /// <summary>

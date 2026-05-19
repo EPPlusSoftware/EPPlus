@@ -454,8 +454,6 @@ namespace EPPlusTest.Issues
 				var firstDrawing = drawingsWithinGroupShape[0];
 
                 firstDrawing.SetPosition(500, 500);
-                //drawingsWithinGroupShape[0].Position.Y = 2000;
-
 
                 SaveAndCleanup(package);
             }

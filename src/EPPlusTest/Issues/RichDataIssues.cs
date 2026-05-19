@@ -1,8 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml;
 
 namespace EPPlusTest.Issues
@@ -83,6 +79,41 @@ namespace EPPlusTest.Issues
                 Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(ExcelErrorValue));
                 Assert.AreEqual(((ExcelErrorValue)ws.Cells["A1"].Value).Type, eErrorType.Calc);
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void AddingRichTextToFormulasShouldOverwrite()
+        {
+            using (var pck = OpenPackage("dirtyRT.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("richText");
+
+                ws.Cells["A1"].Value = 1001.1d;
+                ws.Cells["C1"].Formula = "ROUND(A1, 1)";
+                ws.Cells["B1"].Formula = "\"My favorite number is: \"&TEXT(ROUND(A1,1),\"#,##0.00;(#,##0.00)\")";
+
+                ws.Cells["B1"].RichText.Add("My favorite number is: 1001.1");
+
+                var myFormula = ws.Cells["B1"].Formula;
+
+                Assert.IsTrue(string.IsNullOrEmpty(myFormula));
+            }
+        }
+
+        [TestMethod]
+        public void RtComment()
+        {
+            using(var p = OpenTemplatePackage("RtWithOldComment.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var isRichtext = ws.Cells["B3"];
+                var text = ws.Cells["B3"].RichText;
+                var rtComment = ws.Cells["B3"].Comment;
+                var rtFromComment = rtComment.RichText;
+
+                Assert.AreNotEqual(text.Text, rtFromComment.Text);
             }
         }
     }
