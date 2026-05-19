@@ -20,5 +20,7 @@ namespace OfficeOpenXml.Constants
         internal const string schemaRichValueRel = "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel";
         internal const string schemaWebImage = "http://schemas.microsoft.com/office/spreadsheetml/2020/richdatawebimage";
         internal const string schemaDataMashup = "http://schemas.microsoft.com/DataMashup";
+
+        internal const string schemaCalcFeature = "http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures";
     }
 }

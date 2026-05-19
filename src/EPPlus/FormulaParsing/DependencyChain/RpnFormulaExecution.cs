@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
             ExecuteChain(depChain, wb.Names, options, true);
-
+            
             return depChain;
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)

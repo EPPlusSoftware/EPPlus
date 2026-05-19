@@ -225,6 +225,43 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
         [TestMethod]
+        public void ValidateAdjustedDimensionTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A4:H10"].Style.Numberformat.Format = "0";
+                ws.Cells["B6:C7"].Value = 1;
+
+                var range = ws.Cells["A1:K100"];
+                Assert.AreEqual("A4:H10", range.DimensionAdjustedAddress.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateAdjustedDimensionOutsideDimension()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["B6"].Value = 1;
+                var range = ws.Cells["D6"];
+                Assert.IsNull(range.DimensionAdjustedAddress); //If range is outside Dimension, null should be returned.
+            }
+        }
+        [TestMethod]
+        public void ValidateAdjustedDimensionEmptyTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var range = ws.Cells["A1:K100"];
+                Assert.IsNull(range.DimensionAdjustedAddress); //If Dimension is null, null should be returned.
+            }
+        }
+
+        [TestMethod]
         public void ValidateDimensionValue2Test()
         {
             using (var p = new ExcelPackage())
