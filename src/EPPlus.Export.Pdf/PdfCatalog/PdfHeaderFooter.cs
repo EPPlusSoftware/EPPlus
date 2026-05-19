@@ -32,12 +32,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public PdfCell Content;
         public bool ContainsPageNumber { get; set; }
+        public bool ContainsNumberOfPages { get; set; }
 
-        public PdfHeaderFooter(List<TextFragment> textFormats, bool containsPageNumber, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
+        public PdfHeaderFooter(List<TextFragment> textFormats, bool containsPageNumber, bool containsNumberOfPages, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
             Content = new PdfCell();
-            //Content.TextFormats = textFormats;
+            Content.TextFragments = textFormats;
             ContainsPageNumber = containsPageNumber;
+            ContainsNumberOfPages = containsNumberOfPages;
             PageType = type;
             Alignment = alignment;
             Section = section;

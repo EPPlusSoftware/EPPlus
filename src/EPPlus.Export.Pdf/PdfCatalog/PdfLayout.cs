@@ -150,6 +150,18 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         x = pageSettings.ContentBounds.Left;
                     }
 
+                    if (page.HeaderFooters != null)
+                    {
+                        bool isVeryFirstPage = (i == 0 && j == 0);
+                        var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
+                        var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                        var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
+                        var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
+                        var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                        var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
+                        var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
+
+                    }
 
                     //Add HeaderFooter
                     /* check what header/footer to use
@@ -159,7 +171,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                      */
                     if (j == 0)
                     {
-                        page.HeaderFooters.PdfHeaderFooterEntries.
+                        //page.HeaderFooters.PdfHeaderFooterEntries
                     }
                     else
                     {

@@ -7,10 +7,7 @@ using EPPlus.Graphics.Units;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Style.Table;
@@ -18,7 +15,6 @@ using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -651,18 +647,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
-            if (textCollection == null && textCollection.Count <= 0) return null;
-            //var textFormats = new List<PdfTextFormat>();
+            if (textCollection == null || textCollection.Count <= 0) return null;
+            var ns = ws.Workbook.Styles.GetNormalStyle();
             var textFragments = new List<TextFragment>();
             bool containsPageNumber = false;
+            bool containsNumberOfPages = false;
             for (int i = 1; i < textCollection.Count; i++)
             {
                 var hf = textCollection[i];
                 var textFrag = new TextFragment();
                 textFrag.Font = new MeasurementFont();
 
-                textFrag.Font.FontFamily = hf.FontName;
-                textFrag.Font.Size = (float)hf.FontSize;
+                textFrag.Font.FontFamily = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
+                textFrag.Font.Size = hf.FontSize == null ? ns.Style.Font.Size : (float)hf.FontSize;
 
                 textFrag.RichTextOptions.Bold = hf.Bold;
                 textFrag.RichTextOptions.Italic = hf.Italic;
@@ -695,6 +692,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         text += ws._package.File.Name;
                         break;
                     case ExcelHeaderFooterFormattingCodes.NumberOfPages:
+                        text += "000";
+                        containsNumberOfPages = true;
+                        break;
                     case ExcelHeaderFooterFormattingCodes.PageNumber:
                         text += "000";
                         containsPageNumber = true;
@@ -778,7 +778,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 //dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
                 //if (containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
             }
-            return new PdfHeaderFooter(textFragments, containsPageNumber, type, alignment, section);
+            return new PdfHeaderFooter(textFragments, containsPageNumber, containsNumberOfPages, type, alignment, section);
         }
 
 
