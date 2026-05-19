@@ -123,10 +123,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.BottomMargin = defaultMargins.Height;
             }
 
-            ////Txtbox is Broken. Workaround
-            //txtBox.Left += txtBox.LeftMargin;
-            //txtBox.Top += txtBox.TopMargin;
-
             //Center the textbox at the origin point
             Bounds.Left -= txtBox.Rectangle.Bounds.Width / 2;
             Bounds.Top -= txtBox.Rectangle.Bounds.Height / 2;

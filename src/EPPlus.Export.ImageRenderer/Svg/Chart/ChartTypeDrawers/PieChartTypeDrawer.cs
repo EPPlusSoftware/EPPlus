@@ -236,41 +236,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                         if(serie.HasDataLabel)
                         {
-                            //Get the inner item local coordinates
-                            //var itemGroup = Slices[j].GetInnerItemGroup();
-                            //var outer = Slices[j].GetOuterMidpointInGlobalCoords();
-                            //////Get the relevant point local coordinates (to the above)
-                            ////var slicePos = Slices[j].GetInnerGroupTransformOrigin();
-
                             var innerGroup = Slices[j].GetInnerGroupTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
                             var dlblBounds = new BoundingBox(innerGroup.X,innerGroup.Y, Bounds.Width, Bounds.Height);
-                            //var dlblBounds2 = new BoundingBox(outer.X, outer.Y);
-                            ////Add the origin point position
-                            //dlblBounds.Left += slicePos.X;
-                            //dlblBounds.Top += slicePos.Y;
 
-                            ////we now have the start point of the slice in global coords without the translation
-                            ////Add the same translation
-                            //dlblBounds.Translate()
-
-                            //var vector = Slices[j].GetWholeVectorCenterToMid();
                             serieDataLabels[i].SetParentVector(dlblBounds, j, Slices[j].GetWholeVectorCenterToMid());
                         }
-                        ////Add datalabel to slice
-                        //if (serie.HasDataLabel)
-                        //{
-                            
-                        //    //DataLabelGlobalOriginPoints.Add();
-                        //    //serieDataLabels[i].AppendRenderItems(Slices[j].);
-                        //    //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
-                        //    //var bounds = Slices[j].GetInnerGroupBounds();
-                        //    //BoundingBox dp = new BoundingBox(slicePos.X, slicePos.Y, 0, 0);
-
-                        //serieDataLabels[i].SetParentPoint(Slices[j].GetInnerGroupBounds(), j);
-                        //    //serieDataLabels[i].SetParentVector(Slices[j].GetInnerGroupBounds(), j, Slices[j].GetWholeVectorCenterToMid());
-                        //    //serieDataLabels[i].SetParentShape(Slices[j].ExtremePoints, dp, j);
-                        //}
                     }
                 }
             }
