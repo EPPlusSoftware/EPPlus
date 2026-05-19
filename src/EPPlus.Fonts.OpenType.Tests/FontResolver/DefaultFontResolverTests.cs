@@ -10,10 +10,13 @@
  *************************************************************************************************
   05/06/2026         EPPlus Software AB           DefaultFontResolver unit tests
   05/06/2026         EPPlus Software AB           Updated for property-based EpplusFontConfiguration
+  05/19/2026         EPPlus Software AB           Added case-insensitivity and self-reference tests
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontResolver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Interfaces.Fonts;
+using System;
+using System.Reflection;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Tests.FontResolver
@@ -211,6 +214,64 @@ namespace EPPlus.Fonts.OpenType.Tests.FontResolver
             // Assert
             var parsedFont = TestFolderEngine.GetFromBytes(bytes);
             Assert.AreEqual("Archivo Narrow", parsedFont.NameTable.GetFamilyName());
+        }
+
+        #endregion
+
+        #region Built-in chain integrity
+
+        [TestMethod]
+        public void BuiltinFallbackChains_LookupIsCaseInsensitive()
+        {
+            // Arrange — Calibri chain exists in the built-in table. Verify that lookup
+            // works regardless of how the caller casess the name (CALIBRI, calibri, CaLiBrI).
+            var scanner = new FakeFontScanner()
+                .Register("Carlito", FontSubFamily.Regular, "fake://Carlito.ttf");
+            var reader = new FakeFontFileReader()
+                .Register("fake://Carlito.ttf", "FAKE:Carlito");
+
+            var resolver = new DefaultFontResolver(scanner: scanner, fileReader: reader);
+
+            // Act & Assert — three different casings should all hit the Calibri chain
+            // and fall through to Carlito.
+            AssertMarker("FAKE:Carlito", resolver.ResolveFont("CALIBRI", FontSubFamily.Regular));
+            AssertMarker("FAKE:Carlito", resolver.ResolveFont("calibri", FontSubFamily.Regular));
+            AssertMarker("FAKE:Carlito", resolver.ResolveFont("CaLiBrI", FontSubFamily.Regular));
+        }
+
+        [TestMethod]
+        public void BuiltinFallbackChains_NoEntryReferencesItself()
+        {
+            // Arrange — defensive integrity check on the generated table. A self-reference
+            // (e.g. ["Carlito"] containing "Carlito" in its chain) would be a generator bug
+            // that wastes lookups and could cause confusing behavior. This test catches any
+            // such regression at compile/test time.
+            //
+            // We use reflection to access the internal BuildChains method so this test
+            // does not require us to expose the table publicly.
+            var type = typeof(BuiltinFontFallbackChains);
+            var buildMethod = type.GetMethod(
+                "BuildChains",
+                BindingFlags.NonPublic | BindingFlags.Static);
+
+            Assert.IsNotNull(buildMethod, "BuildChains method should exist on BuiltinFontFallbackChains");
+
+            var chains = buildMethod.Invoke(null, null) as System.Collections.Generic.Dictionary<string, string[]>;
+            Assert.IsNotNull(chains, "BuildChains should return a non-null dictionary");
+            Assert.IsTrue(chains.Count > 0, "Built-in chain table should not be empty");
+
+            // Act & Assert — verify no entry contains its own key as a fallback target.
+            foreach (var entry in chains)
+            {
+                string key = entry.Key;
+                foreach (string fallbackName in entry.Value)
+                {
+                    Assert.IsFalse(
+                        string.Equals(key, fallbackName, StringComparison.OrdinalIgnoreCase),
+                        "Built-in chain for '" + key + "' contains a self-reference. " +
+                        "This is a generator bug — a font cannot fall back to itself.");
+                }
+            }
         }
 
         #endregion
