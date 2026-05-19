@@ -10,9 +10,108 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics;
+
 namespace EPPlus.DrawingRenderer.RenderItems
 {
+    /// <summary>
+    /// Describes how to position two rectangles relative to each other
+    /// </summary>
+    public enum RectangleAlignment
+    {
+        /// <summary>
+        /// Bottom
+        /// </summary>
+        Bottom,
+        /// <summary>
+        /// Bottom Left
+        /// </summary>
+        BottomLeft,
+        /// <summary>
+        /// Bottom Right
+        /// </summary>
+        BottomRight,
+        /// <summary>
+        /// Center
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Left
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Right
+        /// </summary>
+        Right,
+        /// <summary>
+        /// Top
+        /// </summary>
+        Top,
+        /// <summary>
+        /// TopLeft
+        /// </summary>
+        TopLeft,
+        /// <summary>
+        /// TopRight
+        /// </summary>
+        TopRight
+    }
+    public enum TileFlipMode
+    {
+        /// <summary>
+        /// Tiles are not flipped
+        /// </summary>
+        None,
+        /// <summary>
+        /// Tiles are flipped horizontally.
+        /// </summary>
+        X,
+        /// <summary>
+        /// Tiles are flipped horizontally and Vertically
+        /// </summary>
+        XY,
+        /// <summary>
+        /// Tiles are flipped vertically.
+        /// </summary>
+        Y
+    }
+    public class FillTile
+    {
+        /// <summary>
+        /// The direction(s) in which to flip the image.
+        /// </summary>
+        public TileFlipMode? FlipMode { get; set; }
+        /// <summary>
+        /// Where to align the first tile with respect to the shape.
+        /// </summary>
+        public RectangleAlignment? Alignment { get; set; }
+        /// <summary>
+        /// The ratio for horizontally scale
+        /// </summary>
+        public double HorizontalRatio { get; set; }
+        /// <summary>
+        /// The ratio for vertically scale
+        /// </summary>
+        public double VerticalRatio { get; set; }
+        /// <summary>
+        /// The horizontal offset after alignment
+        /// </summary>
+        public double HorizontalOffset { get; set; }
+        /// <summary>
+        /// The vertical offset after alignment
+        /// </summary>
+        public double VerticalOffset { get; set; }
+    }
     public class RenderBlipFill
     {
-    }
+        public BoundingBox ImageBounds { get; set; } = new BoundingBox();
+        public string ContentType { get; set; }
+        public byte[] ImageBytes { get; set; }
+        /// <summary>
+        /// The image should be stretched to fill the target.
+        /// </summary>
+        public bool Stretch { get; set; } = false;
+        public OffsetRectangle StretchOffset{ get; set; }
+        public FillTile Tile{ get;set;}
+}
 }

@@ -4,13 +4,13 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public abstract class SvgBaseRenderer : BaseRenderer<StringBuilder>
+    public abstract class SvgBaseRenderer<T> : BaseRenderer<StringBuilder,T> where T : RenderItem
     {
         protected SvgBaseRenderer(StringBuilder outputStream) : base(outputStream)
         {
             
         }
-        protected void RenderBase(RenderItem item)
+        protected void RenderBase(T item)
         {
             var sb = OutputStream;
             if (item.Bounds.Name != null)
@@ -66,7 +66,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
             sb.Append($"stroke-miterlimit =\"{item.StrokeMiterLimit}\" ");
         }
-        protected void RenderCompoundItems(RenderItem li, double? borderWidth, string color, string filter)
+        protected void RenderCompoundItems(T li, double? borderWidth, string color, string filter)
         {
             var tmpBorderWidth = li.BorderWidth;
             string tmpBorderColor = null;

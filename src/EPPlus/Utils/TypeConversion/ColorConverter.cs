@@ -16,6 +16,7 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Drawing;
+using System.Linq;
 using TC = OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Utils.TypeConversion
@@ -214,5 +215,13 @@ namespace OfficeOpenXml.Utils.TypeConversion
             return fc;
         }
 
+        internal static double GetOpacity(ExcelDrawingColorManager color)
+        {
+            if(color.Transforms.Where(t=>t.Type==eColorTransformType.Alpha).FirstOrDefault() is IColorTransformItem alpha)
+            {
+                return alpha.Value / 100;
+            }
+            return 1D;
+        }
     }
 }

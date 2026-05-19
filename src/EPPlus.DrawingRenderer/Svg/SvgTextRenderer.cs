@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public class SvgTextRenderer : SvgBaseRenderer
+    public class SvgTextRenderer : SvgBaseRenderer<RenderItem>
     {
         public SvgTextRenderer(StringBuilder outputStream) : base(outputStream)
         {

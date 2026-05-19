@@ -4,22 +4,20 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public class SvgEllipseRenderer : SvgBaseRenderer
+    public class SvgEllipseRenderer : SvgBaseRenderer<EllipseRenderItem>
     {
         public SvgEllipseRenderer(StringBuilder outputStream) : base(outputStream)
         {
         }
-        public override void Render(RenderItem item)
+        public override void Render(EllipseRenderItem item)
         {
-            var re = (EllipseRenderItem)item;
-
             OutputStream.AppendFormat("<ellipse cx=\"{0}\" cy=\"{1}\" rx=\"{2}\" ry=\"{3}\" ",
-                re.Cx.PointToPixelString(),
-                re.Cy.PointToPixelString(),
-                re.Rx.PointToPixelString(),
-                re.Ry.PointToPixelString());
+                item.Cx.PointToPixelString(),
+                item.Cy.PointToPixelString(),
+                item.Rx.PointToPixelString(),
+                item.Ry.PointToPixelString());
 
-            RenderBase(re);
+            RenderBase(item);
 
             OutputStream.AppendFormat("/>");
         }

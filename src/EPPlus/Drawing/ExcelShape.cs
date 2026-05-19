@@ -13,6 +13,8 @@
 using System;
 using System.Text;
 using System.Xml;
+using EPPlus.DrawingRenderer.Svg;
+using EPPlus.Export.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Renderer;
 namespace OfficeOpenXml.Drawing
@@ -93,8 +95,8 @@ namespace OfficeOpenXml.Drawing
         }
         public string ToSvg()
         {
-            var svg = new ShapeRenderer(this);
             var sb = new StringBuilder();
+            var svg = new ShapeRenderer<StringBuilder>(this, new SvgShapeRenderer(this.GetBoundingBox(), sb));
             svg.Render(sb);
             return sb.ToString();
         }

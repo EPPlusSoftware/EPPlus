@@ -13,12 +13,16 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.ShapeDefinitions;
+using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +30,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer
 {
-    internal class ShapeRenderer : DrawingRenderer
+    internal class ShapeRenderer<T> : DrawingRenderer
     {
+        IShapeRenderer<T> _shapeRenderer;
         /// <summary>
         /// Calculated shape textbox
         /// </summary>
@@ -40,8 +45,9 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// </summary>
         public DrawingTextbody TextBody{ get; internal set; }
 
-        public ShapeRenderer(ExcelShape shape) : base(shape)
+        public ShapeRenderer(ExcelShape shape, IShapeRenderer<T> shapeRenderer) : base(shape)
         {
+            _shapeRenderer = shapeRenderer;
             var style = shape.Style;
 
             if (style==eShapeStyle.CustomShape)
@@ -62,15 +68,16 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     shapeDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
                 }
-
-                RenderItems.Add(new SvgGroupItem(this, shape.GetBoundingBox(), shape.Rotation));
+                var parentBounds = shape.GetBoundingBox();
+                var shapeGroup = new GroupRenderItem(parentBounds, shape.Rotation);
+                RenderItems.Add(shapeGroup);
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
                 {
                     if (path.Fill != PathFillMode.None)
                     {
-                        AddFromPaths(path, true, false);
+                        AddFromPaths(parentBounds, path, true, false);
                     }
                 }
 
@@ -79,17 +86,15 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     if (path.Stroke)
                     {
-                        AddFromPaths(path, false, true);
+                        AddFromPaths(parentBounds, path, false, true);
                     }
                 }
 
-                RenderItems.Add(new SvgEndGroupItem(this, Bounds));
-
-                if (_shape.Text != null)
+                if (shape.Text != null)
                 {
                     if (shapeDef.TextBoxRect != null)
                     {
-                        InsetTextBox = new SvgRenderRectItem(this, Bounds);
+                        InsetTextBox = new RectRenderItem(Bounds);
                         InsetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
                         InsetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
                         InsetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
@@ -118,7 +123,7 @@ namespace OfficeOpenXml.Drawing.Renderer
 
                     InsetTextBox.FillOpacity = 0.3d;
 
-                    TextBodySvg = CreateTextBodyItem(_shape.TextBody);
+                    TextBody = CreateTextBodyItem(shape.TextBody);
                 }
             }
         }
@@ -168,10 +173,12 @@ namespace OfficeOpenXml.Drawing.Renderer
             {
                 pi.Commands[pi.Commands.Count - 1].Coordinates = coordinates.ToArray();
             }
+            var shape = (ExcelShape)Drawing;
+            var theme = shape._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             if (drawFill)
             {
                 pi.FillColorSource = path.Fill;                
-                pi.SetDrawingPropertiesFill(_shape.Fill, _shape.ThemeStyles.FillReference.Color);
+                pi.SetDrawingPropertiesFill(theme, shape.Fill, shape.ThemeStyles.FillReference.Color);
             }
             else
             {
@@ -182,7 +189,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (drawBorder)
             {
                 pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(_shape.Border, _shape.ThemeStyles.BorderReference.Color, path.Stroke);
+                pi.SetDrawingPropertiesBorder(theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke);
             }
             else
             {
@@ -226,8 +233,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
-            var writer = new SvgDrawingWriter(this);
-            writer.WriteSvgDefs(sb, RenderItems);
+            _shapeRenderer.WriteSvgDefs(sb, RenderItems);
 
 
             //SvgGroupItem gItemTest = null;
@@ -258,12 +264,12 @@ namespace OfficeOpenXml.Drawing.Renderer
             sb.AppendLine("</svg>");
         }
 
-        SvgTextBodyItem CreateTextBodyItem(ExcelTextBody bodyOrig)
+        DrawingTextbody CreateTextBodyItem(ExcelTextBody bodyOrig)
         {
             if (InsetTextBox == null)
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
-                InsetTextBox = new SvgRenderRectItem(this, Bounds);
+                InsetTextBox = new RectRenderItem(Bounds);
                 InsetTextBox.Bounds.Left = x.PixelToPoint();
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
@@ -279,7 +285,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             double l, r, t, b;
             bodyOrig.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            MarginTextBox = new SvgRenderRectItem(this, this.Bounds);
+            MarginTextBox = new RectRenderItem(this, this.Bounds);
 
             MarginTextBox.Top = t + InsetTextBox.Top;
             MarginTextBox.Left = l + InsetTextBox.Left;
@@ -347,14 +353,14 @@ namespace OfficeOpenXml.Drawing.Renderer
                 switch (ri.Type)
                 {
                     case RenderItemType.Rect:
-                        var rectItem = (SvgRenderRectItem)ri;
+                        var rectItem = (RectRenderItem)ri;
                         x = rectItem.Left;
                         y = rectItem.Top;
                         width = rectItem.Width;
                         height = rectItem.Height;
                         break;
                     case RenderItemType.Path:
-                        var pathItem = (SvgRenderPathItem)ri;
+                        var pathItem = (PathRenderItem)ri;
                         foreach (var cmd in pathItem.Commands)
                         {
                             var cmdCoordinates = new List<Coordinate>();
@@ -453,6 +459,104 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (xe > xec || xe == double.MinValue)
             {
                 xe = xec;
+            }
+        }
+        protected static void AddCmd(PathRenderItem pi, DrawingPath path, List<double> coordinates, ref PathCommands cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
+        {
+            if (pp == null || pp.Type != p.Type)
+            {
+                SetCmdCoordinats(cmd, p, coordinates);
+                cmd = new PathCommands(commandType);
+                pi.Commands.Add(cmd);
+            }
+            AddToCoordinates(path, coordinates, p);
+        }
+        protected static void AddArc(PathRenderItem pi, DrawingPath path, List<double> coordinates, PathsBase pCmd, out double startPointX, out double startPointY, PathsBase p)
+        {
+            //var width = ((double)path.Width.Value / ExcelDrawing.EMU_PER_PIXEL);
+            //var height = ((double)path.Height.Value / ExcelDrawing.EMU_PER_PIXEL);
+            var arc = (ArcTo)p;
+            PathCommands c = null;
+            startPointX = pCmd.EndX;
+            startPointY = pCmd.EndY;
+            if (startPointX != 0) startPointX /= ExcelDrawing.EMU_PER_POINT;
+            if (startPointY != 0) startPointY /= ExcelDrawing.EMU_PER_POINT;
+            var wR = arc.WidthRadius.Value / ExcelDrawing.EMU_PER_POINT;
+            var hR = arc.HeightRadius.Value / ExcelDrawing.EMU_PER_POINT;
+            if (wR == 0 && hR == 0)
+            {
+                return;
+            }
+            var stA = arc.StartAngle.Value / 60000d;
+            var swA = arc.SwingAngle.Value / 60000d;
+
+            while (swA != 0)
+            {
+                var aAdd = swA < 0 ? Math.Max(swA, -180) : Math.Min(swA, 180);
+                var endAngle = AngleToRadians(stA + aAdd);
+
+                var stA_Adj = stA < 0 ? (stA + 360) % 360 : stA;
+                var adjRads = AngleToRadians(stA_Adj);
+
+                //Start and End angles are NOT the 't' angle of the equations we use.
+                //The angles we are given are DIRECTLY against the ellipse. Or point 'P' in a parametric form
+                //Therefore we have to use the angle we have to calculate the angles needed for our formulas.
+                var angleT = Math.Atan((wR * Math.Tan(adjRads)) / hR);
+                var angleTEnd = Math.Atan((wR * Math.Tan(endAngle)) / hR);
+
+                //Atan can only return values on positive x 90° to -90°
+                //So we must adjust by adding Pi (180°) if x of the angle is negative
+                if (Math.Cos(adjRads) < 0)
+                {
+                    angleT += (Math.Round((double)System.Math.PI, 14));
+                }
+                if (Math.Cos(endAngle) < 0)
+                {
+                    angleTEnd += (Math.Round((double)System.Math.PI, 14));
+                }
+
+                var centerX = startPointX - (wR * Math.Cos(angleT));
+                var centerY = startPointY - (hR * Math.Sin(angleT));
+                var endX = (double)centerX + (wR * Math.Cos(angleTEnd));
+                var endY = (double)centerY + (hR * Math.Sin(angleTEnd));
+                c = new PathCommands(PathCommandType.Arc, pi, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
+                pi.Commands.Add(c);
+                stA += aAdd;
+                swA -= aAdd;
+                if (wR != 0)
+                {
+                    startPointX = endX;
+                }
+                if (hR != 0)
+                {
+                    startPointY = endY;
+                }
+                ((ArcTo)p).SetEndCoordinates(endX * ExcelDrawing.EMU_PER_POINT, endY * ExcelDrawing.EMU_PER_POINT);
+            }
+        }
+
+        protected static double AngleToRadians(double angle)
+        {
+            return MConverter.DegreesToRadians(angle);
+        }
+        protected static void SetCmdCoordinats(PathCommands cmd, PathsBase p, List<double> coordinates)
+        {
+            if (cmd != null)
+            {
+                cmd.Coordinates = coordinates.ToArray();
+                if (cmd.Coordinates.Length > 0)
+                {
+                    coordinates.Clear();
+                }
+            }
+        }
+        private static void AddToCoordinates(DrawingPath path, List<double> coordinates, PathsBase p)
+        {
+            var mt = (PathWithCoordinates)p;
+            foreach (var c in mt.Coordinates)
+            {
+                coordinates.Add(c.X.Value / ExcelDrawing.EMU_PER_POINT);
+                coordinates.Add(c.Y.Value / ExcelDrawing.EMU_PER_POINT);
             }
         }
 

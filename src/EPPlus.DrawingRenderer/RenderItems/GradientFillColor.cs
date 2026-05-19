@@ -25,5 +25,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems
         public double Position { get; private set; }
 
         public Color Color { get; private set; }
+        public double Opacity { get; set; }
     }
 }

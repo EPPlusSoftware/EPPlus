@@ -10,11 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using static EPPlus.DrawingRenderer.RenderItems.LineRenderItem;
 namespace EPPlus.DrawingRenderer.RenderItems
@@ -92,6 +94,21 @@ namespace EPPlus.DrawingRenderer.RenderItems
         //public double GlobalTop => Bounds.GlobalTop;
         //public double GlobalRight => Bounds.GlobalLeft + Width;
         //public double GlobalBottom => Bounds.GlobalTop + Height;
+    }
+    public class GroupRenderItem : RenderItem
+    {
+        public GroupRenderItem(BoundingBox parent) : base(parent)
+        {
+        }
+        public GroupRenderItem(BoundingBox parent, double rotation) : base(parent)
+        {
+            Rotation = rotation;
+        }
+        public override RenderItemType Type => RenderItemType.Group;
+        public string TextAnchor { get; set; }
+        public double Rotation { get; set; }
+        public string GroupTransform = "";
+        public List<RenderItem> Children { get; } = new List<RenderItem>();
     }
     public class PathRenderItem : RenderItem
     {
@@ -197,7 +214,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             //DrawingRenderer = renderer; 
         }
         //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
-        internal virtual void GetBounds(out double il, out double it, out double ir, out double ib)
+        public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
         {
             il = Bounds.Left;
             it = Bounds.Top;
@@ -247,6 +264,28 @@ namespace EPPlus.DrawingRenderer.RenderItems
             item.LineJoin = LineJoin;
             item.LineCap = LineCap;
             item.FillColorSource = FillColorSource;
+        }
+        internal void GetOuterShadowColor(out string shadowColor, out double opacity)
+        {
+            if (OuterShadowEffect == null)
+            {
+                shadowColor = null;
+                opacity = 0;
+
+            }
+            else
+            {
+                var tc = OuterShadowEffect.OuterShadowEffectColor;
+                if (tc.A < 255 && tc != Color.Empty)
+                {
+                    opacity = tc.A / 255D;
+                }
+                else
+                {
+                    opacity = 1;
+                }
+                shadowColor = "#" + tc.ToArgb().ToString("x8").Substring(2);
+            }
         }
     }
     /// <summary>

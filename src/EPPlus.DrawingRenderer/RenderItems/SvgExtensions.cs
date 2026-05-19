@@ -14,9 +14,9 @@ using System;
 
 namespace EPPlusImageRenderer.RenderItems
 {
-    internal static class SvgExtensions
+    public static class SvgExtensions
     {
-        internal static char AsCommandChar(this PathCommandType type)
+        public static char AsCommandChar(this PathCommandType type)
         {
             switch (type)
             {

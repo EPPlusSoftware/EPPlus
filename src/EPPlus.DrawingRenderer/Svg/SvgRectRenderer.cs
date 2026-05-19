@@ -5,33 +5,32 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public class SvgRectRenderer : SvgBaseRenderer
+    public class SvgRectRenderer : SvgBaseRenderer<RectRenderItem> 
     {
         public SvgRectRenderer(StringBuilder outputStream) : base(outputStream)
         {
 
         }
         internal string Suffix = "px";
-        public override void Render(RenderItem item)
+        public override void Render(RectRenderItem item)
         {
-            var ri = (RectRenderItem)item;
             if (Suffix == "%")
             {
                 OutputStream.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
-                ri.Left.ToString(CultureInfo.InvariantCulture) + Suffix,
-                ri.Top.ToString(CultureInfo.InvariantCulture) + Suffix,
-                ri.Width.ToString(CultureInfo.InvariantCulture) + Suffix,
-                ri.Height.ToString(CultureInfo.InvariantCulture) + Suffix);
+                item.Left.ToString(CultureInfo.InvariantCulture) + Suffix,
+                item.Top.ToString(CultureInfo.InvariantCulture) + Suffix,
+                item.Width.ToString(CultureInfo.InvariantCulture) + Suffix,
+                item.Height.ToString(CultureInfo.InvariantCulture) + Suffix);
             }
             else
             {
                 OutputStream.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",
-                ri.Left.PointToPixelString(),
-                ri.Top.PointToPixelString(),
-                ri.Width.PointToPixelString(),
-                ri.Height.PointToPixelString());
+                item.Left.PointToPixelString(),
+                item.Top.PointToPixelString(),
+                item.Width.PointToPixelString(),
+                item.Height.PointToPixelString());
             }
-            RenderBase(ri);
+            RenderBase(item);
             OutputStream.AppendFormat("/>");
         }
     }

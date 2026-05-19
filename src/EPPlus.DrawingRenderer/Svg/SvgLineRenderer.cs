@@ -5,12 +5,12 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public class SvgLineRenderer : SvgBaseRenderer
+    public class SvgLineRenderer : SvgBaseRenderer<LineRenderItem>
     {
         public SvgLineRenderer(StringBuilder outputStream) : base(outputStream)
         {
         }
-        public override void Render(RenderItem item)
+        public override void Render(LineRenderItem item)
         {
             var li = (LineRenderItem)item;
             StringBuilder sb = OutputStream;

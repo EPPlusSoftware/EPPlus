@@ -7,14 +7,13 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public class SvgPathRenderer : SvgBaseRenderer
+    public class SvgPathRenderer : SvgBaseRenderer<PathRenderItem>
     {
         public SvgPathRenderer(StringBuilder outputStream) : base(outputStream)
         {
         }
-        public override void Render(RenderItem item)
+        public override void Render(PathRenderItem path)
         {
-            var path = (PathRenderItem)item;
             StringBuilder sb = OutputStream;
             //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
             switch (path.CompoundLineStyle)
@@ -38,7 +37,7 @@ namespace EPPlus.DrawingRenderer.Svg
                     break;
                 case CompoundLineStyle.TripleThinThickThin:
                     var guid = Guid.NewGuid().ToString();
-                    var gapOffset = 5 * path.BorderWidth.Value / 16;
+                    var gapOffset = 5 * (path.BorderWidth??1D) / 16;
                     name = $"triple-stroke-{guid}";
                     sb.Append($"<defs>");
                     sb.Append($"<filter id=\"gap-left-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\"><feOffset dx=\"0\" dy=\"-{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");

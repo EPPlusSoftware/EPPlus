@@ -27,7 +27,7 @@ namespace EPPlusImageRenderer
 
             _shape = shape;
         }
-        protected static void AddCmd(SvgRenderPathItem pi, DrawingPath path, List<double> coordinates, ref PathCommands cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
+        protected static void AddCmd(PathRenderItem pi, DrawingPath path, List<double> coordinates, ref PathCommands cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
         {
             if (pp == null || pp.Type != p.Type)
             {

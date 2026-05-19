@@ -10,5 +10,10 @@ namespace EPPlus.DrawingRenderer.Utils
         {
             return (angle / 180) * Math.PI;
         }
+
+        internal static double Radians(object value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

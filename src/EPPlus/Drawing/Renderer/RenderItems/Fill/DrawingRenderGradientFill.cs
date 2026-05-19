@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 using System;
+using EPPlus.Export.Utils;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
@@ -27,14 +28,21 @@ namespace EPPlus.DrawingRenderer.RenderItems
             //this.Settings = gradientFill;
             for (int i = 0; i < gradientFill.Colors.Count; i++)
             {
+                var opacity = EPPlusColorConverter.GetOpacity(gradientFill.Colors[i].Color);
                 var c = new GradientFillColor(gradientFill.Colors[i].Position, EPPlusColorConverter.GetThemeColor(theme, gradientFill.Colors[i].Color));
+                c.Opacity = opacity;
                 Colors.Add(c);
             }
-
+            FocusPoint = gradientFill.FocusPoint.AsOffsetRectangle();
+            TileRectangle = gradientFill.TileRectangle.AsOffsetRectangle();
+            ShadePath = (ShadePath)gradientFill.ShadePath;
+            LinearSettings.Angle = gradientFill.LinearSettings.Angle;
+            LinearSettings.Scaled = gradientFill.LinearSettings.Scaled;
         }
 
-        public DrawingRenderGradientFill(List<Color> colors, List<double> stops) : base(colors, stops)
-        {
-        }
+
+        //public DrawingRenderGradientFill(List<Color> colors, List<double> stops) : base(colors, stops)
+        //{
+        //}
     }
 }

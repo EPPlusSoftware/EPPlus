@@ -108,7 +108,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
             };
         }
         double _endX, _endY;
-        internal void SetEndCoordinates(double x, double y)
+        public void SetEndCoordinates(double x, double y)
         {
             _endX = x;
             _endY = y;

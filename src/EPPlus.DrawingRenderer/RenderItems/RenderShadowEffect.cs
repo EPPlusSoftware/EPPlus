@@ -17,5 +17,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
     public class RenderShadowEffect
     {
         public Color OuterShadowEffectColor { get; set; }
+        public double Distance { get; internal set; }
+        public double? BlurRadius { get; internal set; }
+        public double? Direction { get; internal set; }
     }
 }

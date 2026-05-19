@@ -22,7 +22,7 @@ namespace EPPlusImageRenderer
 {
     public class PathCommands 
     {
-        internal PathCommands(PathCommandType type, params double[] coordinates)
+        public PathCommands(PathCommandType type, params double[] coordinates)
         {
             Type = type;
             Coordinates = coordinates;
