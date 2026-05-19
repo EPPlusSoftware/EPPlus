@@ -6,6 +6,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
     /// <summary>
     /// A list of rich-text fragments with relation to eachother is a paragraph
+    /// This class keeps track of rich-text fragments and how they relate to eachother within a paragraph
     /// </summary>
     public class LayoutSystem
     {
@@ -22,12 +23,14 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         List<Paragraph> SubParagraphs = new List<Paragraph>();
         List<StyleRun> StyleRuns = new List<StyleRun>();
         int FullTextLength = 0;
+        IEnumerable<string> FontDirectories;
 
         TextLineCollection WrappedLineCollection;
 
-        public LayoutSystem(List<TextFragment> fragments, IEnumerable<string> FontDirectories)
+        public LayoutSystem(List<TextFragment> fragments, IEnumerable<string> fontDirectories)
         {
             InputFragments = fragments;
+            FontDirectories = fontDirectories;
             //Extract basic info about the entire paragraph
             InitalizeAllTextAndCharInfo();
             //Split into sub paragraphs
@@ -39,10 +42,10 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             Itemization();
 
             //Apply shaping (Scripting and Cluster) in simplest of terms Measure widths/heights of characters in runs
-            Shaping(FontDirectories);
+            Shaping();
 
-            ////Line-breaking
-            //Wrapping(FontDirectories, dou);
+            ////Line-breaking (done on command with max width)
+            //Wrap(FontDirectories, dou);
         }
 
         /// <summary>
@@ -142,12 +145,12 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// </summary>
         /// <param name="fontDirectories"></param>
         /// <param name="shapeLight">Set to false for slower more exact positioning (very rarely neccesary)</param>
-        void Shaping(IEnumerable<string> fontDirectories, bool shapeLight = true)
+        void Shaping(bool shapeLight = true)
         {
             foreach (var styleRun in StyleRuns)
             {
                 var inputFrag = InputFragments[styleRun.FragmentIndex];
-                var shaper = OpenTypeFonts.GetShaperForFont(inputFrag.Font, fontDirectories);
+                var shaper = OpenTypeFonts.GetShaperForFont(inputFrag.Font, FontDirectories);
                 if(shapeLight)
                 {
                     var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
@@ -164,7 +167,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
             var lastFragment = InputFragments[InputFragments.Count-1];
             var lastRun = StyleRuns[StyleRuns.Count-1];
-            var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font, fontDirectories);
+            var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font, FontDirectories);
             var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
             double[] lastCharWidths = new double[lastRun.Length + 1];
             lastShapedGlyphs.FillCharWidths(lastFragment.Font.Size, lastCharWidths, lastRun.Length + 1);
@@ -177,9 +180,9 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <param name="fontDirectories"></param>
         /// <param name="maxWidth"></param>
         /// <returns></returns>
-        public TextLineCollection Wrap(IEnumerable<string> fontDirectories, double maxWidth)
+        public TextLineCollection Wrap(double maxWidth)
         {
-            var layoutEngine = OpenTypeFonts.GetTextLayoutEngineForFont(InputFragments[0].Font, fontDirectories);
+            var layoutEngine = OpenTypeFonts.GetTextLayoutEngineForFont(InputFragments[0].Font, FontDirectories);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
             //var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
