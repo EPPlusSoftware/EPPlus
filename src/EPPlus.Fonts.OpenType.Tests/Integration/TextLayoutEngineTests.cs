@@ -766,7 +766,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
-            var wrappedLinesPara = paragraph.Wrap(FontFolders, 225d);
+            var wrappedLinesPara = paragraph.Wrap(225d);
 
             Assert.AreEqual(wrappedLines.Count, wrappedLinesPara.Count);
 
@@ -844,7 +844,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var paragraph = new LayoutSystem(fragments, FontFolders);
-            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+            var wrappedLines = paragraph.Wrap(225d);
 
             var line1 = wrappedLines[0];
         }
@@ -877,7 +877,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             }
 
             var paragraph = new LayoutSystem(fragments, FontFolders);
-            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+            var wrappedLines = paragraph.Wrap(225d);
 
             Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
             Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartFullTextIdx);

@@ -45,7 +45,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(lstOfRichText[1], styleRuns[1]);
 
 
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
             var wrappedLinesPara = paragraph.Wrap(225d);
@@ -193,9 +193,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var shaper = OpenTypeFonts.GetShaperForFont(font2, FontFolders, true);
+            var shaper = OpenTypeFonts.GetShaperForFont(font2);
             //var shapes = shaper.ShapeLight("WithAbsolutelyNoSpacesAtAllJustToBeDifficult");
-            var layout = new TextLayoutEngine(shaper, FontFolders, true);
+            var layout = new TextLayoutEngine(shaper);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
             var paragraph = new LayoutSystem(fragments, FontFolders);
