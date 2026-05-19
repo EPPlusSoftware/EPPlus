@@ -7,7 +7,7 @@ namespace OfficeOpenXml.Interfaces.Drawing.RichText
     /// <summary>
     /// Linestyle
     /// </summary>
-    public enum UnderLineType
+    public enum DrawingUnderlineStyle
     {
         /// <summary>
         /// Dashed

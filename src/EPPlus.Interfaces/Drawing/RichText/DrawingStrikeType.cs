@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Interfaces.Drawing.RichText
 {
-    public enum StrikeType
+    public enum DrawingStrikeType
     {
         /// <summary>
         /// Double-lined font strike

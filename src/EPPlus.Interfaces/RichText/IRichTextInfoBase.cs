@@ -27,13 +27,6 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// </summary>
         int StrikeType { get; set; }
 
-        #region potentially remove
-        /// <summary>
-        /// Represents OfficeOpenXml.Drawing.eTextCapsType
-        /// </summary>
-        int Capitalization { get; set; }
-        #endregion
-
         Color UnderlineColor { get; set; }
         public Color FontColor { get; set; }
     }

@@ -7,7 +7,7 @@ namespace OfficeOpenXml.Interfaces.Drawing.RichText
     /// <summary>
     /// For ln Outline
     /// </summary>
-    public enum TextCapsType
+    public enum DrawingTextCapsType
     {
         /// <summary>
         /// Apply all caps on the text. All lower case letters are converted to upper case, but stored without change.

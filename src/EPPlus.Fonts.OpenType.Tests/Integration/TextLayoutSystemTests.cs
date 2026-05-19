@@ -207,6 +207,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(17, wrappedLines[2].LineFragments[0].StartRtIdx);
             Assert.AreEqual(29, wrappedLines[3].LineFragments[0].StartRtIdx);
             Assert.AreEqual(41, wrappedLines[4].LineFragments[0].StartRtIdx);
+
+            Assert.AreEqual(5, wrappedLines2[1].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(17, wrappedLines2[2].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(29, wrappedLines2[3].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(41, wrappedLines2[4].LineFragments[0].StartRtIdx);
         }
 
 
