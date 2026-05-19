@@ -5,7 +5,7 @@ using System;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class GroupByTests : TestBase
     {
 

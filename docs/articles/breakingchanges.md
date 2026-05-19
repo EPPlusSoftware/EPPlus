@@ -216,3 +216,8 @@ Renaming worksheet's will now change the formula correctly to include single quo
 
 ### 8.0.2
 * Removed base class from ExcelVmlDrawingPosition and with that the Load, UpdateXml methods and the RowOff and ColOff properties as they were duplicates.
+
+### 8.5.5
+* `ws.Cells["A1"].RichText` no longer sets cells with `null` to `string.empty`
+* .RichText no longer sets the cell or contents to be RichText automatically.
+ This is instead done when properties such as; `.Text`, `.Add` or `.Insert` are set on the .RichText property.

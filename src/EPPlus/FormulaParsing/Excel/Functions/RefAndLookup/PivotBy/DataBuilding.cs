@@ -1,4 +1,17 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  13/4/2026         EPPlus Software AB           EPPlus v8.6
+ *************************************************************************************************/
+
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +83,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 }
                 existingRow.Values.Add(vals);
 
-                // Kolumnlöv
                 string colKey = MakePivotKey(colKeyParts);
                 if (!colLeafDict.ContainsKey(colKey))
                 {
@@ -79,7 +91,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     colLeafOrder.Add(colKey);
                 }
 
-                // Pivotkartan
                 if (!pivotMap.TryGetValue(rowKey, out var colMap))
                 {
                     colMap = new Dictionary<string, List<object[]>>(StringComparer.OrdinalIgnoreCase);
@@ -97,7 +108,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             rowLeaves = rowLeafOrder.Select(k => rowLeafDict[k]).ToList();
             colLeaves = colLeafOrder.Select(k => colLeafDict[k]).ToList();
 
-            // Aggregera SubtotalValues per radlöv (används för rad-totals)
             foreach (var rl in rowLeaves)
                 AggregateLeaf(rl.Leaf, args, context);
         }
@@ -152,7 +162,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         : ordered.ThenBy(keySelector, _comparer);
             }
 
-            // Bryt oavgjort med efterföljande nyckeldelar
             int maxDepth = leaves.Max(l => l.Path.Length);
             int sortedDepth = sortOrders.Max(s => Math.Abs(s));
             for (int col = sortedDepth; col < maxDepth; col++)

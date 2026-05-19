@@ -277,7 +277,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
                                 f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                         }
                         return result;
-                    }).ToList(); // Krash. Level.Row är null av någon anledning
+                    }).ToList(); 
                     level.SubtotalValue = level.SubtotalValues[0][0];
                 }
                 else

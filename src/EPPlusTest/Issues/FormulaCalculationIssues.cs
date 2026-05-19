@@ -1543,6 +1543,18 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(6D, ws.Cells["A34"].Value);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void s1042()
+        {
+            using var p = OpenTemplatePackage("s1042.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets["Aico data"];
+            wb.Calculate();
+            Assert.AreEqual(2116735.05, ws.Cells["D45"].Value);
+            Assert.AreEqual(-27679.13, ws.Cells["D46"].Value);
+            Assert.AreEqual(27679.13, ws.Cells["D47"].Value);
+            //SaveAndCleanup(p);
+        }
     }
 }
 

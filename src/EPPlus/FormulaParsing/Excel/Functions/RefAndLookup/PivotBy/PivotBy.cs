@@ -30,8 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
        Description = "Allows you to create a summary of your data via a formula. It supports grouping along two axis and aggregating the associated values.")]
     internal partial class PivotBy : GroupByFunctionBase
     {
-        public override int ArgumentMinLength => 3; // kan
-                                                    // ske ska vara 4
+        public override int ArgumentMinLength => 3; 
         public override string NamespacePrefix => "_xlfn.";
         public override bool ExecutesLambda => true;
 

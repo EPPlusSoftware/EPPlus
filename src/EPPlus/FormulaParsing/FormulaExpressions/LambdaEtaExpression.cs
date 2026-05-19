@@ -83,8 +83,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 ExpressionStack = _rpnFormula.ExpressionStack,
                 FunctionStack = _rpnFormula.FunctionStack
             };
+            rpnFormula._flags = _rpnFormula._flags | FormulaFlags.IsLambda;
+            rpnFormula._lambdaFormulaStackCount = Context.DependencyChain._formulaStack.Count;
             rpnFormula.SetTokens(rpnTokens, Context, _scope);
-            var result = RpnFormulaExecution.ExecutePartialFormula(Context.DependencyChain, rpnFormula, Context.CalcOption, false);
+            var result = RpnFormulaExecution.ExecutePartialFormula(Context.DependencyChain, rpnFormula, Context.CalcOption, true);
             if(result.DataType != DataType.LambdaCalculation)
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);

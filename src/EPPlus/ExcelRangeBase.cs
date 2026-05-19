@@ -10,29 +10,27 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.Style;
-using System.Globalization;
-using System.Collections;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.ThreadedComments;
-using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.Sorting;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils.Cell;
-using static OfficeOpenXml.ExcelWorksheet;
-using System.Linq;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace OfficeOpenXml
 {
@@ -771,31 +769,70 @@ namespace OfficeOpenXml
             }
             return v;
         }
-        private ExcelAddressBase GetAddressDim(ExcelRangeBase addr)
+        internal ExcelAddressBase GetAddressDimension()
         {
-            int fromRow, fromCol, toRow, toCol;
-            var d = _worksheet.Dimension;
-            fromRow = addr._fromRow < d._fromRow ? d._fromRow : addr._fromRow;
-            fromCol = addr._fromCol < d._fromCol ? d._fromCol : addr._fromCol;
-
-            toRow = addr._toRow > d._toRow ? d._toRow : addr._toRow;
-            toCol = addr._toCol > d._toCol ? d._toCol : addr._toCol;
-
-            if (addr._fromRow == fromRow && addr._fromCol == fromCol && addr._toRow == toRow && addr._toCol == _toCol)
+            GetAddressDimensionFullRowAndColumn(out int dimFromRow, out int dimFromCol, out int dimToRow, out int dimToCol);
+            //If the range is only full column or full row the dimension of the worksheet, return null.
+            if (dimFromCol==0 || dimFromRow>dimToCol || dimFromCol > dimToCol)
             {
-                return addr;
+                return null; 
             }
             else
             {
-                if (_fromRow > _toRow || _fromCol > _toCol)
+                return new ExcelAddressBase(dimFromRow, dimFromCol, dimToRow, dimToCol);
+            }
+        }
+        internal void GetAddressDimensionFullRowAndColumn(out int fromRow, out int fromCol, out int toRow, out int toCol)
+        {
+            var d = _worksheet.Dimension;
+            fromRow = toRow = fromCol = toCol = 0;
+            if (d == null)
+            {
+                if(_worksheet._values.ColumnCount==0)
                 {
-                    return null;
+                    return;
                 }
                 else
                 {
-                    return new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
+                    int row = 0, col = _worksheet._values.ColumnCount - 1;
+
+                    fromCol = _worksheet._values._columnIndex[0].Index;
+                    if(_worksheet._values.GetPrevCell(ref row, ref col, 0, 0, col))
+                    {
+                        var lastCol = _worksheet._values.GetValue(row, col)._value as ExcelColumn;
+                        toCol = lastCol.ColumnMax;
+                    }
+
+                    fromRow = ExcelPackage.MaxRows;
+                    toRow = 0;
+                    for (int c=0;c<_worksheet._values.ColumnCount;c++)
+                    {
+                        var pMin = _worksheet._values._columnIndex[c]._pages[0].MinIndex;
+                        if (pMin < fromRow)
+                        {
+                            fromRow = pMin;
+                        }
+                        var pMax = _worksheet._values._columnIndex[c]._pages[_worksheet._values._columnIndex[c].PageCount-1].MaxIndex;
+                        if (pMax > toRow)
+                        {
+                            toRow = pMax;
+                        }
+                    }
                 }
             }
+            else
+            {
+                fromRow = d._fromRow;
+                fromCol = d._fromCol;
+                toRow = d._toRow;
+                toCol = d._toCol;
+            }
+
+            if(fromRow > 0) fromRow = _fromRow < fromRow ? fromRow : _fromRow;
+            if(fromCol > 0) fromCol = _fromCol < fromCol ? fromCol : _fromCol;
+
+            if(toRow > 0) toRow = _toRow > toRow ? toRow : _toRow;
+            if(toCol > 0) toCol = _toCol > toCol ? toCol : _toCol;
         }
 
         private object GetSingleValue()
@@ -1330,8 +1367,10 @@ namespace OfficeOpenXml
                 var isRt = _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
                 if (isRt)
                 {
-                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
-                    return _rtc.Count > 0;
+                    //Do not update _rtc. This is a boolean getter.
+                    //It should not set any values even if they diff.
+                    var couldBeEmptyRT = _worksheet.GetRichText(_fromRow, _fromCol, this);
+                    return couldBeEmptyRT.Count > 0;
                 }
                 return isRt;
             }
@@ -1458,6 +1497,16 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Convert the contents of the top left cell of this range to a richtext string
+        /// And set the cell value as .RichText
+        /// </summary>
+        public ExcelRichTextCollection ConvertToRichText()
+        {
+            _rtc = _worksheet.ConvertCellValueToRichText(_fromRow, _fromCol, this);
+            return _rtc;
+        }
+
+        /// <summary>
         /// Returns the comment object of the first cell in the range
         /// </summary>
         public ExcelComment Comment
@@ -1503,6 +1552,25 @@ namespace OfficeOpenXml
             get
             {
                 return _worksheet;
+            }
+        }
+        /// <summary>
+        /// Gets the range address adjusted within the worksheet dimension address. 
+        /// If the worksheet dimension is null or the range is outside of the dimension, null will be returned. 
+        /// If the range is partly outside the worksheet dimension it will be adjusted to fit inside the dimension. 
+        /// </summary>
+        public ExcelAddressBase DimensionAdjustedAddress
+        {
+            get 
+            { 
+                if (_worksheet.Dimension == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return GetAddressDimension();
+                }
             }
         }
         /// <summary>

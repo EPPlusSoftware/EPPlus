@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
             ExecuteChain(depChain, wb.Names, options, true);
-
+            
             return depChain;
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
@@ -516,7 +516,7 @@ namespace OfficeOpenXml.FormulaParsing
                     cr = f._expressionStack.Pop().Compile();
                 }
 
-                if (cr != null && (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
+                if (cr != null && f.IsLambda == false &&  (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
                     SetValueToWorkbook(depChain, f, rd, cr, options, ref depChainPos);
                 }
@@ -526,7 +526,7 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._parsingContext.Parser.Logger.Log($"Set value in Cell\t{f.GetAddress()}\t{cr.ResultValue}\t{cr.DataType}");
                 }
 
-                if (depChain._formulaStack.Count > 0)
+                if (depChain._formulaStack.Count > f._lambdaFormulaStackCount)
                 {
                     f = depChain._formulaStack.Pop();
                     if (f._formulaEnumerator == null)
@@ -1198,7 +1198,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
                             }
                         }
-                        if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && IsInRecalculateDirtyCells == false)
+                        if (localReturnAddress && returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                         {
                             if(f._tokenIndex + 1 < f._tokens.Count)
                             {
@@ -1226,12 +1226,12 @@ namespace OfficeOpenXml.FormulaParsing
                             var nameAddress = ne.GetAddress();
                             if (nameAddress == null)
                             {
-                                if (returnAddresses && string.IsNullOrEmpty(ne._name?.Formula) == false && IsInRecalculateDirtyCells == false)
+                                if (returnAddresses && string.IsNullOrEmpty(ne._name?.Formula) == false)
                                 {
                                     return null;
                                 }
                             }
-                            else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && IsInRecalculateDirtyCells == false)
+                            else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                             {
                                 if (IsSingleAddress(f))
                                 {

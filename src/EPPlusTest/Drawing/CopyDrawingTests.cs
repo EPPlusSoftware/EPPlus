@@ -799,5 +799,157 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(targetPackage);
             }
         }
+
+
+        [TestMethod]
+        public void CopyDrawingWithAbsolutePosition ()
+        {
+            using var p = OpenTemplatePackage("Test-file.xlsx");
+            var sourceSheet = p.Workbook.Worksheets[1];
+            using var destPackage = new ExcelPackage();
+            var destSheet = destPackage.Workbook.Worksheets.Add("Dest");
+            sourceSheet.Cells[1, 1, sourceSheet.Dimension.Rows, sourceSheet.Dimension.Columns].Copy(destSheet.Cells[1, 1], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+            //Assert.AreEqual(1, destSheet.Drawings.Count);
+            SaveAndCleanup(destPackage);
+        }
+
+        [TestMethod]
+        public void GetFromAndToBounds_AbsoluteAnchor_FromCornerAndToRow_ResolveCorrectly()
+        {
+            // Reproduces the customer ticket where calling GetFromBounds /
+            // GetToBounds on an absolute-anchored drawing throws NRE because
+            // From is null after the workbook has been read from disk.
+            //
+            // This test verifies the From corner and the To row resolve to the
+            // correct cell coordinates. The To column is verified separately
+            // in GetFromAndToBounds_AbsoluteAnchor_ToColumn_ResolvesCorrectly.
+            //
+            // The drawing is positioned at (6 px, 136 px) with size (1375 px,
+            // 20 px). Column widths are explicit; row heights use the workbook
+            // default (15 pt = 20 px per row). MaxFontWidth is the default 7.
+            const string fileName = "AbsoluteAnchorBounds.xlsx";
+
+            // Build and save the workbook. Saving and reloading is required to
+            // produce the From == null state that triggers the customer's NRE.
+            using (var p = OpenPackage(fileName, delete: true))
+            {
+                var ws = p.Workbook.Worksheets.Add("AbsoluteAnchorTest");
+
+                ws.Column(1).Width = 10.6640625;
+                ws.Column(2).Width = 5.5546875;
+                ws.Column(3).Width = 5;
+                ws.Column(4).Width = 7;
+                ws.Column(5).Width = 8.109375;
+                ws.Column(6).Width = 9;
+                ws.Column(7).Width = 28;
+                ws.Column(8).Width = 8.88671875;
+                ws.Column(9).Width = 8.88671875;
+                ws.Column(10).Width = 8.33203125;
+                ws.Column(11).Width = 8.33203125;
+                ws.Column(12).Width = 27;
+                ws.Column(13).Width = 7.5546875;
+                ws.Column(14).Width = 8.33203125;
+                ws.Column(15).Width = 19.5546875;
+                ws.Column(16).Width = 9;
+                ws.Column(17).Width = 7.6640625;
+                ws.Column(18).Width = 6.109375;
+                // Column 19 keeps the default width.
+
+                var pic = ws.Drawings.AddPicture("AbsBar", GetResourceFile("EPPlus.png"));
+                pic.ChangeCellAnchor(eEditAs.Absolute, PixelTop: 136, PixelLeft: 6,
+                                                        width: 1375, height: 20);
+                p.Save();
+            }
+
+            using (var p = OpenPackage(fileName))
+            {
+                var ws = p.Workbook.Worksheets["AbsoluteAnchorTest"];
+                var pic = ws.Drawings[0];
+
+                Assert.AreEqual(eEditAs.Absolute, pic.CellAnchor);
+                Assert.IsNull(pic.From, "Reloaded absolute-anchored drawings should have null From.");
+                Assert.AreEqual(7, p.Workbook.MaxFontWidth, "Test assumes default MaxFontWidth = 7.");
+
+                pic.GetFromBounds(out int fromRow, out int fromRowOff,
+                                  out int fromCol, out int fromColOff);
+                pic.GetToBounds(out int toRow, out int toRowOff,
+                                out int toCol, out int toColOff);
+
+                // From corner at pixel (6, 136).
+                // Column: pixel 6 falls inside column 1 (0-indexed: 0), 6 px in.
+                // Row:    pixel 136 with row height 20 px; six full rows consume
+                //         120 px, leaving 16 px offset in row 7.
+                Assert.AreEqual(0, fromCol, "From column should be A (0-indexed).");
+                Assert.AreEqual(6, fromColOff, "From column offset should be 6 px.");
+                Assert.AreEqual(6, fromRow, "From row should be 7 (0-indexed).");
+                Assert.AreEqual(16, fromRowOff, "From row offset should be 16 px.");
+
+                // To corner at pixel (1381, 156).
+                // Row: pixel 156 falls inside row 8 (0-indexed: 7), 16 px in.
+                Assert.AreEqual(7, toRow, "To row should be 8 (0-indexed).");
+                Assert.AreEqual(16, toRowOff, "To row offset should be 16 px.");
+            }
+        }
+
+        [TestMethod]
+        public void GetFromAndToBounds_AbsoluteAnchor_ToColumn_ResolvesCorrectly()
+        {
+            // Companion test to GetFromAndToBounds_AbsoluteAnchor_FromCornerAndToRow_ResolveCorrectly.
+            //
+            // Verifies that the To column resolves correctly for an absolute-
+            // anchored drawing. This test currently FAILS due to a known bug
+            // in the absolute-anchor branch of GetToColumnFromPixels: the loop
+            // measures column width using the unset 'fromColumn' parameter
+            // (-1) instead of the iterating 'currentCol', so every iteration
+            // uses the workbook default column width and the result is wrong
+            // whenever the worksheet has columns of varying widths.
+            //
+            // Expected values are derived from walking the actual column
+            // widths set up in the workbook below: pixel 1381 lands in
+            // column 19 (0-indexed: 18) with a 30 px offset.
+            //
+            // Once the bug is fixed this test should pass.
+            const string fileName = "AbsoluteAnchorBounds.xlsx";
+
+            using (var p = OpenPackage(fileName, delete: true))
+            {
+                var ws = p.Workbook.Worksheets.Add("AbsoluteAnchorTest");
+
+                ws.Column(1).Width = 10.6640625;
+                ws.Column(2).Width = 5.5546875;
+                ws.Column(3).Width = 5;
+                ws.Column(4).Width = 7;
+                ws.Column(5).Width = 8.109375;
+                ws.Column(6).Width = 9;
+                ws.Column(7).Width = 28;
+                ws.Column(8).Width = 8.88671875;
+                ws.Column(9).Width = 8.88671875;
+                ws.Column(10).Width = 8.33203125;
+                ws.Column(11).Width = 8.33203125;
+                ws.Column(12).Width = 27;
+                ws.Column(13).Width = 7.5546875;
+                ws.Column(14).Width = 8.33203125;
+                ws.Column(15).Width = 19.5546875;
+                ws.Column(16).Width = 9;
+                ws.Column(17).Width = 7.6640625;
+                ws.Column(18).Width = 6.109375;
+
+                var pic = ws.Drawings.AddPicture("AbsBar", GetResourceFile("EPPlus.png"));
+                pic.ChangeCellAnchor(eEditAs.Absolute, PixelTop: 136, PixelLeft: 6,
+                                                        width: 1375, height: 20);
+                p.Save();
+            }
+
+            using (var p = OpenPackage(fileName))
+            {
+                var ws = p.Workbook.Worksheets["AbsoluteAnchorTest"];
+                var pic = ws.Drawings[0];
+
+                pic.GetToBounds(out _, out _, out int toCol, out int toColOff);
+
+                Assert.AreEqual(18, toCol, "To column should be S (0-indexed).");
+                Assert.AreEqual(30, toColOff, "To column offset should be ~30 px.");
+            }
+        }
     }
 }

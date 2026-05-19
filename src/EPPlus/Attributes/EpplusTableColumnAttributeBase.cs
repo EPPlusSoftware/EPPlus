@@ -24,14 +24,35 @@ namespace OfficeOpenXml.Attributes
     public abstract class EpplusTableColumnAttributeBase : Attribute
     {
 
+        private int _order = int.MaxValue;
+        private bool _orderIsSet = false;
+
         /// <summary>
         /// Order of the columns value, default value is 0
         /// </summary>
         public int Order
         {
-            get;
-            set;
-        } = int.MaxValue;
+            get
+            {
+                return _order;
+            }
+            set
+            {
+                _order = value;
+                _orderIsSet = true;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the Order property has been explicitly set.
+        /// </summary>
+        internal bool OrderIsSet
+        {
+            get
+            {
+                return _orderIsSet;
+            }
+        }
 
         /// <summary>
         /// Name shown in the header row, overriding the property name
