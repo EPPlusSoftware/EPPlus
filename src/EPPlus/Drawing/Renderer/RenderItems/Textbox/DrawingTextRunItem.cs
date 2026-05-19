@@ -65,8 +65,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _measurementFont = font.GetMeasureFont();
             //_measurer.SetFont(_measurementFont);
 
-            _isFirstInParagraph = true;
-
             //_fontStyles = _measurementFont.Style;
 
             _baseline = font.Baseline;
