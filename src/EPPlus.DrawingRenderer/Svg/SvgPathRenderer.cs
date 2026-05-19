@@ -83,9 +83,7 @@ namespace EPPlus.DrawingRenderer.Svg
                 OutputStream.Remove(OutputStream.Length - 1, 1);
             }
         }
-
-        }
-
+        
         private void WriteThickThin(PathRenderItem path, double gapOffset)
         {
             var guid = Guid.NewGuid().ToString();
@@ -98,4 +96,5 @@ namespace EPPlus.DrawingRenderer.Svg
             RenderPathItem(path, path.BorderWidth * (1 / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
             OutputStream.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{path.BorderColor}\" mask=\"url(#{name})\" />");
         }
-    }
+    } 
+}

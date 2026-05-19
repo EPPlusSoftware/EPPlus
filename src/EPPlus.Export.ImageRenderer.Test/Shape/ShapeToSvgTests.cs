@@ -369,7 +369,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
                 //d.Textbox = "GetGetRectangle GetGetRectangle GetGetRectangle GetGetRectangle";
-                //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
+                //d.TextAlignment = OfficeOpenXml.Drawing.TextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var renderer = new EPPlusImageRenderer.ImageRenderer();
 

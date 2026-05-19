@@ -26,33 +26,20 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     internal abstract class DrawingParagraph : RenderParagraph
     {
-        TextLayoutEngine _layout;
-
-        double _leftMargin;       
-        double _rightMargin;        
-
         eDrawingTextLineSpacing _lsType;
-        double _lineSpacingAscendantOnly;
         double? _lsMultiplier = null;
-        internal bool IsFirstParagraph { get; private set; }
-        List<string> _paragraphLines = new List<string>();
-        protected List<string> _textRunDisplayText = new List<string>();
-
         List<TextFragment> _newTextFragments;
         int _manualFragmentsStartIndex = -1;
         List<TextFragment> _manualFragments;
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
-        internal double ParagraphLineSpacing { get; private set; }
-        internal eTextAlignment HorizontalAlignment { get; private set; }
-
         internal bool DisplayBounds { get; set; } = false;
 
         private List<TextLineSimple> _lines;
 
         //Start temp workaround vars
         string _textIfEmpty = null;
-        ExcelDrawingParagraph _p = null;
+        ExcelDrawingParagraph Paragraph { get; set; } = null;
         //end temp workaround vars
 
         private double? _centerAdjustment = null;
@@ -74,65 +61,61 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             _paragraphFont = defaultFont;
 
-            _layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
+            Layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
         }
 
-        public DrawingParagraph(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(renderer, parent)
+        public DrawingParagraph(TextBodyItem textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent)
         {
             ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
 
-            if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
-            {
-                if (IsFirstParagraph)
-                {
-                    if (p.DefaultRunProperties.Fill != null)
-                    {
-                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
-                    }
-                }
-                else
-                {
-                    //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
-                    if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
-                    {
-                        SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
-                    }
-                    else
-                    {
-                        var fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Light1);
-                        fc = ColorUtils.GetAdjustedColor(PathFillMode.Norm, fc);
-                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
-                        //Use shape fill somehow
-                        //Maybe use a name property for fallback theme accent1 color?
-                    }
-                }
-            }
-            else
-            {
-                if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
-                {
-                    var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
-                    SetDrawingPropertiesFill(fill, null);
-                }
-            }
+            //if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
+            //{
+            //    if (IsFirstParagraph)
+            //    {
+            //        if (p.DefaultRunProperties.Fill != null)
+            //        {
+            //            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
+            //        if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+            //        {
+            //            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
+            //        }
+            //        else
+            //        {
+            //            var fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Light1);
+            //            fc = ColorUtils.GetAdjustedColor(PathFillMode.Norm, fc);
+            //            FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
+            //            //Use shape fill somehow
+            //            //Maybe use a name property for fallback theme accent1 color?
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+            //    {
+            //        var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
+            //        SetDrawingPropertiesFill(fill, null);
+            //    }
+            //}
 
             //---Initialize Bounds / Margins-- -
-            Bounds.Name = "Paragraph";
-
             var indent = 48 * p.IndentLevel;
-            _leftMargin = p.LeftMargin + p.Indent + indent;
-            _rightMargin = p.RightMargin;
+            LeftMargin = p.LeftMargin + p.Indent + indent;
+            RightMargin = p.RightMargin;
 
-            _leftMargin = _leftMargin.PixelToPoint();
-            _rightMargin = _rightMargin.PixelToPoint();
+            LeftMargin = LeftMargin.PixelToPoint();
+            RightMargin = RightMargin.PixelToPoint();
 
-            HorizontalAlignment = p.HorizontalAlignment;
-            _leftMargin = _leftMargin.PixelToPoint();
-            _rightMargin = _rightMargin.PixelToPoint();
-
-            HorizontalAlignment = p.HorizontalAlignment;
+            HorizontalAlignment = (TextAlignment)p.HorizontalAlignment;
+            LeftMargin = LeftMargin.PixelToPoint();
+            RightMargin = RightMargin.PixelToPoint();
 
             if (ParentTextBody.AutoSize == false)
             {
@@ -143,19 +126,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 //Textbody or Textbox are assumed to handle shape/chart margins
                 //Paragraph handles only indentations/margins that is applied ON TOP of those margins
                 //Paragraph left is the exact position where the text itself starts on the left
-                if (HorizontalAlignment != eTextAlignment.Center)
-                {
-                    Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-                }
-                else
+                Bounds.Left = GetAlignmentHorizontal(TextAlignment.Left);
+                if (HorizontalAlignment == TextAlignment.Center)
                 {
                     //Center is a bit strange the bounds really are the same as left or right aligned
                     //It doesn't truly matter as only left min and right max play a role
-                    Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
                     _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-
                 }
-                Bounds.Width = parent.Width - _rightMargin - _leftMargin;
+                Bounds.Width = parent.Width - RightMargin - LeftMargin;
             }
 
             //---Initialize / calculate lines and runs---
@@ -163,10 +141,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
 
             //---Get measurer---
-            _layout = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
+            Layout = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
 
             //---Calculate linespacing---
-            int numLines = _paragraphLines.Count;
+            int numLines = ParagraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, 
                 (TextShaper) OpenTypeFonts.GetShaperForFont(_paragraphFont), 
@@ -182,7 +160,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             {
                 if (IsFirstParagraph)
                 {
-                    _lineSpacingAscendantOnly = spacingValue;
+                    LineSpacingAscendantOnly = spacingValue;
                 }
                 return spacingValue;
             }
@@ -192,38 +170,38 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 _lsMultiplier = multiplier;
                 if (IsFirstParagraph)
                 {
-                    _lineSpacingAscendantOnly = multiplier * fmExact.GetAscentInPoints(fontSize);
+                    LineSpacingAscendantOnly = multiplier * fmExact.GetAscentInPoints(fontSize);
                 }
                 return multiplier * fmExact.GetLineHeightInPoints(fontSize);
             }
         }
 
-        //public void AddOwnText(string text)
-        //{
-        //    var fragment = new TextFragment();
-        //    fragment.Text = text;
-        //    fragment.Font = _paragraphFont;
-        //    _manualFragments.Add(fragment);
+        public void AddOwnText(string text)
+        {
+            var fragment = new TextFragment();
+            fragment.Text = text;
+            fragment.Font = _paragraphFont;
+            _manualFragments.Add(fragment);
 
-        //    //if(_newTextFragments == null)
-        //    //{
-        //    //    //This should probably never happen
-        //    //    throw new InvalidOperationException("Must GENERATE textfragments first in the constructor");
-        //    //    //GenerateTextFragments(text);
-        //    //}
-        //    //else
-        //    //{
-        //    //    var fragment = new TextFragment();
-        //    //    fragment.Text = text;
-        //    //    fragment.Font = _paragraphFont;
-        //    //    //_newTextFragments.Add(fragment);
-        //    //    _manualFragments.Add(fragment);
-        //    //}
+            //if(_newTextFragments == null)
+            //{
+            //    //This should probably never happen
+            //    throw new InvalidOperationException("Must GENERATE textfragments first in the constructor");
+            //    //GenerateTextFragments(text);
+            //}
+            //else
+            //{
+            //    var fragment = new TextFragment();
+            //    fragment.Text = text;
+            //    fragment.Font = _paragraphFont;
+            //    //_newTextFragments.Add(fragment);
+            //    _manualFragments.Add(fragment);
+            //}
 
-        //    //Redo whole thing for now.
-        //    //Import and wrapping really should be completely seperated but can't refactor all of it yet
-        //    //AddTextLinesAndSpacing(_p, _textIfEmpty);
-        //}
+            //Redo whole thing for now.
+            //Import and wrapping really should be completely seperated but can't refactor all of it yet
+            //AddTextLinesAndSpacing(Paragraph, _textIfEmpty);
+        }
 
         public void AddOwnText(TextFragment fragment)
         {
@@ -248,11 +226,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             //Redo whole thing for now.
             //Import and wrapping really should be completely seperated but can't refactor all of it yet
-            AddTextLinesAndSpacing(_p, _textIfEmpty);
+            AddTextLinesAndSpacing(Paragraph, _textIfEmpty);
         }
 
 
-        internal protected TextRunItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        internal protected DrawingTextRun AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
 
@@ -325,13 +303,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             GenerateTextFragments(textIfEmpty);
 
-            if (HorizontalAlignment != eTextAlignment.Center)
+            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+            if (HorizontalAlignment == TextAlignment.Center)
             {
-                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-            }
-            else
-            {
-                Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
                 _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
             }
 
@@ -354,11 +328,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         private void AddTextLinesAndSpacing(ExcelDrawingParagraph p, string textIfEmpty)
         {
             //Temp workaround
-            if (_p == null)
+            if (Paragraph == null)
             {
-                _p = p;
+                Paragraph = p;
             }
-            if (_textIfEmpty == null)
+            if (textIfEmpty == null)
             {
                 _textIfEmpty = textIfEmpty;
             }
@@ -390,7 +364,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 //END
 
 
-                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && string.IsNullOrEmpty(textIfEmpty))
+                if (HorizontalAlignment == TextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && string.IsNullOrEmpty(textIfEmpty))
                 {
                     //Bounds of the paragraph should be bounds of the text itself.
                     //Therefore we must know the starting point to set accurate left and offset from left.
@@ -411,13 +385,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 {
                     double prevWidth = 0;
 
-                    if (HorizontalAlignment == eTextAlignment.Center)
+                    if (HorizontalAlignment == TextAlignment.Center)
                     {
                         var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
                         //Calculate difference in widths and split to get offset between leftmost position and current line
                         prevWidth = (widthOfLargestLine - ctrLineWidth) / 2;
                     }
-                    else if (HorizontalAlignment == eTextAlignment.Right)
+                    else if (HorizontalAlignment == TextAlignment.Right)
                     {
                         //Note that the actual bounds with the space will be outside max bounds.
                         //This appears to be how excel does it
@@ -467,7 +441,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                             //Import fallback with default settings from constructor
                             AddText(displayText, _paragraphFont);
                         }
-                        TextRunItem runItem = Runs.Last();
+                        DrawingTextRun runItem = (DrawingTextRun)Runs.Last();
                         runItem.Bounds.Left = prevWidth;
                         runItem.YPosition = lineTop;
 
@@ -490,34 +464,34 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             if (fragments.Count > 0)
             {
-                if(_layout == null)
+                if(Layout == null)
                 {
-                    _layout = OpenTypeFonts.GetTextLayoutEngineForFont((fragments[0].Font));
+                    Layout = OpenTypeFonts.GetTextLayoutEngineForFont((fragments[0].Font));
                 }
 
                 var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
 
-                _lines = _layout.WrapRichTextLines(fragments, maxWidthPoints);
+                _lines = Layout.WrapRichTextLines(fragments, maxWidthPoints);
                 return _lines;
             }
             return new List<TextLineSimple>();
         }
 
-        internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
+        internal double GetAlignmentHorizontal(TextAlignment txAlignment)
        {
             var area = Bounds;
             double x = 0;
             switch (txAlignment)
             {
-                case eTextAlignment.Left:
+                case TextAlignment.Left:
                 default:
-                    x = area.Left + _leftMargin;
+                    x = area.Left + LeftMargin;
                     break;
-                case eTextAlignment.Center:
-                    x = (area.Right / 2) + _leftMargin - _rightMargin;
+                case TextAlignment.Center:
+                    x = (area.Right / 2) + LeftMargin - RightMargin;
                     break;
-                case eTextAlignment.Right:
-                    x = area.Right - _rightMargin;
+                case TextAlignment.Right:
+                    x = area.Right - RightMargin;
                     break;
             }
 
@@ -531,8 +505,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="parent"></param>
         /// <param name="DisplayString"></param>
         /// <returns></returns>
-        internal abstract TextRunItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
-        internal abstract TextRunItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
-        internal abstract TextRunItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText);
+        internal abstract DrawingTextRun CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
+        internal abstract DrawingTextRun CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
+        internal abstract DrawingTextRun CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText);
     }
 }

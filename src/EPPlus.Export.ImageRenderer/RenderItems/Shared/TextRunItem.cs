@@ -107,7 +107,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 parent.Height = _measurementFont.Size;
             }
-            //_horizontalTextAlignment = eTextAlignment.Center;
+            //_horizontalTextAlignment = TextAlignment.Center;
 
             if (font.Fill.Style == eFillStyle.SolidFill)
             {

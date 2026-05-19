@@ -3,25 +3,70 @@ using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Style;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
+    public enum DrawingTextLineSpacing
+    {
+        /// <summary>
+        /// Single line spacing
+        /// </summary>
+        Single,
+        /// <summary>
+        /// 1.5 lines
+        /// </summary>
+        OneAndAHalf,
+        /// <summary>
+        /// Double line spacing
+        /// </summary>
+        Double,
+        /// <summary>
+        /// Exact point spacing
+        /// </summary>
+        Exactly,
+        /// <summary>
+        /// Multiple line spacing
+        /// </summary>
+        Multiple
+    }
+    /// <summary>
+    /// Text alignment
+    /// </summary>
+    public enum TextAlignment
+    {
+        /// <summary>
+        /// Left alignment
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Center alignment
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Right alignment
+        /// </summary>
+        Right,
+        /// <summary>
+        /// Distributes the text words across an entire text line
+        /// </summary>
+        Distributed,
+        /// <summary>
+        /// Align text so that it is justified across the whole line.
+        /// </summary>
+        Justified,
+        /// <summary>
+        /// Aligns the text with an adjusted kashida length for Arabic text
+        /// </summary>
+        JustifiedLow,
+        /// <summary>
+        /// Distributes Thai text specially, specially, because each character is treated as a word
+        /// </summary>
+        ThaiDistributed
+    }
+
     internal abstract class ParagraphItem : RenderItem
     {
         TextLayoutEngine _layout;
@@ -29,7 +74,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         double _leftMargin;       
         double _rightMargin;        
 
-        eDrawingTextLineSpacing _lsType;
+        DrawingTextLineSpacing _lsType;
         double _lineSpacingAscendantOnly;
         double? _lsMultiplier = null;
         internal bool IsFirstParagraph { get; private set; }
@@ -42,7 +87,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         internal protected MeasurementFont _paragraphFont;
         internal TextBodyItem ParentTextBody { get; set; }
         internal double ParagraphLineSpacing { get; private set; }
-        internal eTextAlignment HorizontalAlignment { get; private set; }
+        internal TextAlignment HorizontalAlignment { get; private set; }
         internal List<TextRunItem> Runs { get; set; } = new List<TextRunItem>();
 
         internal bool DisplayBounds { get; set; } = false;
@@ -142,7 +187,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //Textbody or Textbox are assumed to handle shape/chart margins
                 //Paragraph handles only indentations/margins that is applied ON TOP of those margins
                 //Paragraph left is the exact position where the text itself starts on the left
-                if (HorizontalAlignment != eTextAlignment.Center)
+                if (HorizontalAlignment != TextAlignment.Center)
                 {
                     Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
                 }
@@ -150,7 +195,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 {
                     //Center is a bit strange the bounds really are the same as left or right aligned
                     //It doesn't truly matter as only left min and right max play a role
-                    Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
+                    Bounds.Left = GetAlignmentHorizontal(TextAlignment.Left);
                     _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
 
                 }
@@ -177,7 +222,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
         {
-            if (_lsType == eDrawingTextLineSpacing.Exactly)
+            if (_lsType == DrawingTextLineSpacing.Exactly)
             {
                 if (IsFirstParagraph)
                 {
@@ -324,13 +369,13 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             GenerateTextFragments(textIfEmpty);
 
-            if (HorizontalAlignment != eTextAlignment.Center)
+            if (HorizontalAlignment != TextAlignment.Center)
             {
                 Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
             }
             else
             {
-                Bounds.Left = GetAlignmentHorizontal(eTextAlignment.Left);
+                Bounds.Left = GetAlignmentHorizontal(TextAlignment.Left);
                 _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
             }
 
@@ -389,7 +434,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //END
 
 
-                if (HorizontalAlignment == eTextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && string.IsNullOrEmpty(textIfEmpty))
+                if (HorizontalAlignment == TextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && string.IsNullOrEmpty(textIfEmpty))
                 {
                     //Bounds of the paragraph should be bounds of the text itself.
                     //Therefore we must know the starting point to set accurate left and offset from left.
@@ -410,13 +455,13 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 {
                     double prevWidth = 0;
 
-                    if (HorizontalAlignment == eTextAlignment.Center)
+                    if (HorizontalAlignment == TextAlignment.Center)
                     {
                         var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
                         //Calculate difference in widths and split to get offset between leftmost position and current line
                         prevWidth = (widthOfLargestLine - ctrLineWidth) / 2;
                     }
-                    else if (HorizontalAlignment == eTextAlignment.Right)
+                    else if (HorizontalAlignment == TextAlignment.Right)
                     {
                         //Note that the actual bounds with the space will be outside max bounds.
                         //This appears to be how excel does it
@@ -502,20 +547,20 @@ namespace EPPlus.DrawingRenderer.RenderItems
             return new List<TextLineSimple>();
         }
 
-        internal double GetAlignmentHorizontal(eTextAlignment txAlignment)
+        internal double GetAlignmentHorizontal(TextAlignment txAlignment)
        {
             var area = Bounds;
             double x = 0;
             switch (txAlignment)
             {
-                case eTextAlignment.Left:
+                case TextAlignment.Left:
                 default:
                     x = area.Left + _leftMargin;
                     break;
-                case eTextAlignment.Center:
+                case TextAlignment.Center:
                     x = (area.Right / 2) + _leftMargin - _rightMargin;
                     break;
-                case eTextAlignment.Right:
+                case TextAlignment.Right:
                     x = area.Right - _rightMargin;
                     break;
             }

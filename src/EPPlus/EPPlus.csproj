@@ -712,7 +712,6 @@
 		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
 		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
-		<ProjectReference Include="..\EPPlus.SvgRenderer\EPPlus.DrawingRenderer.csproj" />
 	</ItemGroup>
 	
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

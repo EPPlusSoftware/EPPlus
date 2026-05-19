@@ -22,13 +22,15 @@ namespace EPPlus.DrawingRenderer.Svg
             RectangleRenderer = new SvgRectRenderer(outputStream);
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
-           // ImageRenderer = new SvgImageRenderer(outputStream);
+            PathRenderer = new SvgTextRenderer(outputStream);
+            // ImageRenderer = new SvgImageRenderer(outputStream);
         }
         public BaseRenderer<StringBuilder> RectangleRenderer { get; }
         public BaseRenderer<StringBuilder> EllipseRenderer { get; }
         public BaseRenderer<StringBuilder> PathRenderer { get; }
         //public BaseRenderer<StringBuilder> ImageRenderer { get; }
         public BaseRenderer<StringBuilder> LineRenderer { get; }
+        public BaseRenderer<StringBuilder> TextRenderer { get; }
     }
     public interface IBasicItemsRenderer<T>
     {        

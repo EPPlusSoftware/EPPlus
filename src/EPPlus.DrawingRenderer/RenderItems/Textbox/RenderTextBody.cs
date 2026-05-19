@@ -3,6 +3,33 @@ using EPPlus.Graphics;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
+    /// <summary>
+    /// Text anchoring
+    /// </summary>
+    public enum TextAnchoringType
+    {
+        /// <summary>
+        /// Anchor the text to the bottom
+        /// </summary>
+        Bottom,
+        /// <summary>
+        /// Anchor the text to the center
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Anchor the text so that it is distributed vertically.
+        /// </summary>
+        Distributed,
+        /// <summary>
+        /// Anchor the text so that it is justified vertically.
+        /// </summary>
+        Justify,
+        /// <summary>
+        /// Anchor the text to the top
+        /// </summary>
+        Top
+    }
+
     public class RenderTextBody
     {
         public RenderTextBody(BoundingBox parent, bool autoSize)
@@ -24,6 +51,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public List<RenderParagraph> Paragraphs { get; set; } = new List<RenderParagraph>();
         public BoundingBox Bounds { get; private set; } = new BoundingBox();
+        public TextAnchoringType VerticalAlignment = TextAnchoringType.Top;
+        public string Text { get; set; }
         public double MaxWidth { get; set; }
         public double MaxHeight { get; set; }
         public bool AutoSize { get; private set; }

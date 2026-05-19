@@ -18,7 +18,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    public class DrawingTextbody : EPPlus.Export.ImageRenderer.RenderItems.SvgItem.RenderTextBody
+    public class DrawingTextbody : RenderTextBody
     {
         protected ExcelDrawing _drawing;
         public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
@@ -42,11 +42,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
+            Text = text;
 
             var paragraph = CreateParagraph(this, item, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
             paragraph.Bounds.Top = startingY;
-            _text = text;
 
             if (AutoSize)
             {
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             var paragraph = CreateParagraph(this, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
             paragraph.Bounds.Top = startingY;
-            _text = text;
+            Text = text;
 
             if (AutoSize)
             {
@@ -101,19 +101,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             {
                 switch (p.HorizontalAlignment)
                 {
-                    case eTextAlignment.Left:
+                    case TextAlignment.Left:
                         p.Bounds.Left = 0;
                         break;
-                    case eTextAlignment.Center:
+                    case TextAlignment.Center:
                         p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
                         break;
-                    case eTextAlignment.Right:
+                    case TextAlignment.Right:
                         p.Bounds.Left = Bounds.Right - p.Bounds.Width;
                         break;
-                    case eTextAlignment.Distributed:
-                    case eTextAlignment.Justified:
-                    case eTextAlignment.JustifiedLow:
-                    case eTextAlignment.ThaiDistributed:
+                    case TextAlignment.Distributed:
+                    case TextAlignment.Justified:
+                    case TextAlignment.JustifiedLow:
+                    case TextAlignment.ThaiDistributed:
                         p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
                         break;
                 }
@@ -123,8 +123,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal virtual void ImportTextBody(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
-            _text = null;
-            VerticalAlignment = body.Anchor;
+            Text = null;
+            VerticalAlignment = (TextAnchoringType)body.Anchor;
 
             //We already apply bounds top via the parent Transform
             double currentHeight = 0;
@@ -149,6 +149,31 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             Bounds.Top = GetAlignmentVertical();
+        }
+        /// <summary>
+        /// Get the start of text space vertically
+        /// </summary>
+        /// <returns></returns>
+        private double GetAlignmentVertical()
+        {
+            double alignmentY = 0;
+
+            switch (VerticalAlignment)
+            {
+                case TextAnchoringType.Top:
+                    alignmentY = Bounds.Top;
+                    break;
+                //Center means center of a Shape's ENTIRE bounding box height.
+                //Not center of the Inset GetRectangle
+                case TextAnchoringType.Center:
+                    alignmentY = (MaxHeight - Bounds.Height) / 2 + Bounds.Top;
+                    break;
+                case TextAnchoringType.Bottom:
+                    alignmentY = MaxHeight - Bounds.Height;
+                    break;
+            }
+
+            return alignmentY;
         }
 
         //internal override void AppendRenderItems(List<RenderItem> renderItems)
@@ -176,10 +201,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         //}
 
-        //internal override ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent)
-        //{
-        //    return new SvgParagraphItem(this, DrawingRenderer, parent);
-        //}
+        internal override DrawingParagraph CreateParagraph(TextBodyItem textBody, BoundingBox parent)
+        {
+            return new DrawingParagraph(this, DrawingRenderer, parent);
+        }
 
         //internal override ParagraphItem CreateParagraph(TextBodyItem textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
         //{

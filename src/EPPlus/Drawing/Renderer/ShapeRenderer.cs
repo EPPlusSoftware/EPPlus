@@ -15,6 +15,7 @@ using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// <summary>
         /// Textbox from memory
         /// </summary>
-        public DrawingTextBody TextBody{ get; internal set; }
+        public DrawingTextbody TextBody{ get; internal set; }
 
         public ShapeRenderer(ExcelShape shape) : base(shape)
         {

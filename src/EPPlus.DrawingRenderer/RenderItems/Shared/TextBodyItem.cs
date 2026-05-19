@@ -126,19 +126,19 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 {
                     switch (p.HorizontalAlignment)
                     {
-                        case eTextAlignment.Left:
+                        case TextAlignment.Left:
                             p.Bounds.Left = 0;
                             break;
-                        case eTextAlignment.Center:
+                        case TextAlignment.Center:
                             p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
                             break;
-                        case eTextAlignment.Right:
+                        case TextAlignment.Right:
                             p.Bounds.Left = Bounds.Right - p.Bounds.Width;
                             break;
-                        case eTextAlignment.Distributed:
-                        case eTextAlignment.Justified:
-                        case eTextAlignment.JustifiedLow:
-                        case eTextAlignment.ThaiDistributed:
+                        case TextAlignment.Distributed:
+                        case TextAlignment.Justified:
+                        case TextAlignment.JustifiedLow:
+                        case TextAlignment.ThaiDistributed:
                             p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
                             break;
                     }
@@ -176,9 +176,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.Top = GetAlignmentVertical();
         }
 
-        private double GetParagraphAscendantSpacingInPixels(eDrawingTextLineSpacing lineSpacingType, double spacingValue, ITextShaper fmExact, float fontSize, out double multiplier)
+        private double GetParagraphAscendantSpacingInPixels(DrawingTextLineSpacing lineSpacingType, double spacingValue, ITextShaper fmExact, float fontSize, out double multiplier)
         {
-            if (lineSpacingType == eDrawingTextLineSpacing.Exactly)
+            if (lineSpacingType == DrawingTextLineSpacing.Exactly)
             {
                 multiplier = -1;
                 return spacingValue.PointToPixel();
