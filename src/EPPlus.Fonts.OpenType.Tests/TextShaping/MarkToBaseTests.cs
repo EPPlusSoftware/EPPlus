@@ -26,8 +26,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void MarkToBaseTest()
         {
-            var resolver = new DefaultFontResolver(FontFolders, false);
-            OpenTypeFonts.Configure(x => x.SetFontResolver(resolver));
             var font = OpenTypeFonts.LoadFont("EB Garamond", FontSubFamily.Regular, ignoreCache: true);
 
             var shaper = new TextShaper(font);

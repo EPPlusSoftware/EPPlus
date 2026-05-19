@@ -147,7 +147,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             foreach (var styleRun in StyleRuns)
             {
                 var inputFrag = InputFragments[styleRun.FragmentIndex];
-                var shaper = OpenTypeFonts.GetShaperForFont(inputFrag.Font, fontDirectories);
+                var shaper = OpenTypeFonts.GetShaperForFont(inputFrag.Font);
                 if(shapeLight)
                 {
                     var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
@@ -164,7 +164,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
             var lastFragment = InputFragments[InputFragments.Count-1];
             var lastRun = StyleRuns[StyleRuns.Count-1];
-            var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font, fontDirectories);
+            var lastShaper = OpenTypeFonts.GetShaperForFont(lastFragment.Font);
             var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
             double[] lastCharWidths = new double[lastRun.Length + 1];
             lastShapedGlyphs.FillCharWidths(lastFragment.Font.Size, lastCharWidths, lastRun.Length + 1);
@@ -179,7 +179,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <returns></returns>
         public TextLineCollection Wrap(IEnumerable<string> fontDirectories, double maxWidth)
         {
-            var layoutEngine = OpenTypeFonts.GetTextLayoutEngineForFont(InputFragments[0].Font, fontDirectories);
+            var layoutEngine = OpenTypeFonts.GetTextLayoutEngineForFont(InputFragments[0].Font);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
             //var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
