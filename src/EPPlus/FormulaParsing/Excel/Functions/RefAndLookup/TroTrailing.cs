@@ -24,55 +24,57 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private object TrimRangeTrailing(IRangeInfo range, out CompileResult error)
         {
-            var toRow = range.Size.NumberOfCols;
-            var tocol = range.Size.NumberOfRows;
+            int toRow = range.Size.NumberOfRows;
+            int toCol = range.Size.NumberOfCols;
             error = null;
 
-            for (int col = range.Size.NumberOfCols; col > 0; col--)
+            // Hitta sista kolumnen med ett värde (från höger)
+            for (int col = range.Size.NumberOfCols - 1; col >= 0; col--)
             {
-                bool lastColFound = false;
-                for (int row = range.Size.NumberOfRows; row > 0; row--)
+                bool colHasValue = false;
+                for (int row = 0; row < range.Size.NumberOfRows; row++)
                 {
-                    if (HasValue(range.GetOffset(row, col))) // Vi hittar en column med värde
+                    if (HasValue(range.GetOffset(row, col)))
                     {
-                        lastColFound = true;
+                        colHasValue = true;
                         break;
                     }
                 }
-                if (lastColFound)
+                if (colHasValue)
                     break;
-                tocol--;
+                toCol--;
             }
 
-            for (int row = range.Size.NumberOfRows; row > 0; row--)
+            // Hitta sista raden med ett värde (nerifrån)
+            for (int row = range.Size.NumberOfRows - 1; row >= 0; row--)
             {
-                bool lastRowFound = false;
-                for (int col = range.Size.NumberOfCols; col > 0; col--)
+                bool rowHasValue = false;
+                for (int col = 0; col < range.Size.NumberOfCols; col++)
                 {
-                    if (HasValue(range.GetOffset(row, col))) // Vi hittar en rad med värde
+                    if (HasValue(range.GetOffset(row, col)))
                     {
-                        lastRowFound = true;
+                        rowHasValue = true;
                         break;
                     }
                 }
-                if (lastRowFound)
+                if (rowHasValue)
                     break;
                 toRow--;
             }
 
-            if (toRow == 0 && tocol == 0) // range is empty
+            if (toRow == 0 || toCol == 0)
             {
                 error = CompileResult.GetErrorResult(eErrorType.Ref);
                 return new InMemoryRange(1, 1);
             }
 
-            var result = new InMemoryRange(toRow, (short)tocol);
+            var result = new InMemoryRange(toRow, (short)toCol);
             for (int r = 0; r < toRow; r++)
-                for (int c = 0; c < tocol; c++)
+                for (int c = 0; c < toCol; c++)
                     result.SetValue(r, c, range.GetOffset(r, c));
 
             return result;
-        }
+        }        
 
         private bool HasValue(object val)
         {

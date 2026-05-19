@@ -78,5 +78,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void TroTrailingEmpty()
+        {
+            using(var package = OpenTemplatePackage("TrimFunctions.xlsx"))
+            {
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
+                var sheet = package.Workbook.Worksheets[3];
+                sheet.Cells["B17"].Formula = "TROTRAILING(A18:G25)";
+                sheet.Cells["B17"].Calculate();
+                Assert.AreEqual(ErrorValues.RefError, sheet.Cells["B17"].Value);
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
