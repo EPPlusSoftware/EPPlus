@@ -1,5 +1,4 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

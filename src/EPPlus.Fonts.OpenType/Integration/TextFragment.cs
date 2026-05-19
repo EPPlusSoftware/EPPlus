@@ -10,9 +10,9 @@
  *************************************************************************************************
   01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration

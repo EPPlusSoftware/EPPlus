@@ -172,14 +172,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };
             var font = new MeasurementFont()
             {
-                FontFamily = "Aptos Narrow",
-                Size = 11,
-                Style = MeasurementFontStyles.Bold
+                FontFamily = "Archivo Narrow",
+                Size = 12,
+                Style = MeasurementFontStyles.Regular
             };
             var font2 = new MeasurementFont()
             {
-                FontFamily = "Goudy Stout",
-                Size = 16,
+                FontFamily = "Oi",
+                Size = 20,
                 Style = MeasurementFontStyles.Regular
             };
 
@@ -193,15 +193,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
+            var shaper = OpenTypeFonts.GetShaperForFont(font2, FontFolders, true);
+            //var shapes = shaper.ShapeLight("WithAbsolutelyNoSpacesAtAllJustToBeDifficult");
+            var layout = new TextLayoutEngine(shaper, FontFolders, true);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
+            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var wrappedLines2 = paragraph.Wrap(225d);
+            //var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
+            //var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
+
             Assert.AreEqual(5, wrappedLines[1].LineFragments[0].StartRtIdx);
-            Assert.AreEqual(16, wrappedLines[2].LineFragments[0].StartRtIdx);
-            Assert.AreEqual(28, wrappedLines[3].LineFragments[0].StartRtIdx);
-            Assert.AreEqual(40, wrappedLines[4].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(17, wrappedLines[2].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(29, wrappedLines[3].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(41, wrappedLines[4].LineFragments[0].StartRtIdx);
         }
 
 

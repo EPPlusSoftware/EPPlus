@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 
 
-namespace EPPlus.Fonts.OpenType.Integration.DataHolders
+namespace OfficeOpenXml.Interfaces.RichText
 {
     /// <summary>
     /// Interface for pdf/svg/future richtext users to unify richtext styling
     /// </summary>
     public interface IRichTextInfoBase
     {
-
         bool IsItalic { get; set; }
         bool IsBold { get; set; }
         bool SubScript { get; set; }
