@@ -1,4 +1,5 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -226,6 +227,32 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         #endregion
 
         #region Rich Text Wrapping Tests
+
+        [TestMethod]
+        public void ImportingFromCells()
+        {
+
+        }
+
+        [TestMethod]
+        public void MyVeryGoodRichTextWrapper()
+        {
+            var font = OpenTypeFonts.LoadFont("Calibri", FontSubFamily.Regular, FontFolders);
+            var shaper = new TextShaper(font);
+
+            //Text containing emoji
+            var inputText = "My long and 😝😱 bothersome 😝😱 text";
+            var shapedText = (ShapedText)shaper.Shape(inputText);
+            var layout = new TextLayoutEngine(shaper);
+
+            var text = layout.WrapText(inputText, 12, 20);
+
+
+            //// Act
+            //var lines = layout.WrapRichText(fragments, 1000);
+
+            //var layout = new TextLayoutEngine(shaper);
+        }
 
         [TestMethod]
         public void WrapRichText_SingleFragment_BehavesLikeSingleFont()
@@ -564,8 +591,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var wrappedLines = layoutEngine.WrapRichTextLines(comparatorFragments, 225d);
 
             Assert.AreEqual(pointsTotal, wrappedLines[0].Width);
-            Assert.AreEqual(points1, wrappedLines[0].LineFragments[0].Width);
-            Assert.AreEqual(points2, wrappedLines[0].LineFragments[1].Width);
+            Assert.AreEqual(points1, wrappedLines[0].InternalLineFragments[0].Width);
+            Assert.AreEqual(points2, wrappedLines[0].InternalLineFragments[1].Width);
         }
 
         [TestMethod]
@@ -617,8 +644,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var wrappedLines = layoutEngine.WrapRichTextLines(comparatorFragments, 225d);
 
             Assert.AreEqual(pointsTotal, wrappedLines[0].Width);
-            Assert.AreEqual(points1, wrappedLines[0].LineFragments[0].Width);
-            Assert.AreEqual(points2, wrappedLines[0].LineFragments[1].Width);
+            Assert.AreEqual(points1, wrappedLines[0].InternalLineFragments[0].Width);
+            Assert.AreEqual(points2, wrappedLines[0].InternalLineFragments[1].Width);
             var noSpaceWidth = wrappedLines[0].GetWidthWithoutTrailingSpaces();
             Assert.AreEqual(202.8916f, noSpaceWidth);
         }
@@ -631,7 +658,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
 
             List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16"};
-            List<string> comparatorLst = new() { "Strike", "Goudy size"};
             var font2 = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -678,7 +704,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
 
-            Assert.AreEqual(12.55224609375d, wrappedLines[0].LineFragments[2].Width);
+            Assert.AreEqual(12.55224609375d, wrappedLines[0].InternalLineFragments[2].Width);
             Assert.AreEqual(202.8916f, wrappedLines[1].GetWidthWithoutTrailingSpaces());
 
             List<string> smallestTextFragments = new List<string>();
@@ -686,7 +712,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             //Ensure each linefragment can get correct text
             foreach(var line in wrappedLines)
             {
-                foreach(var lf in line.LineFragments)
+                foreach(var lf in line.InternalLineFragments)
                 {
                     var text = line.GetLineFragmentText(lf);
                     smallestTextFragments.Add(text);
@@ -700,6 +726,200 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("Strike", smallestTextFragments[3]);
             Assert.AreEqual("Goudy size", smallestTextFragments[4]);
             Assert.AreEqual("16", smallestTextFragments[5]);
+        }
+
+        [TestMethod]
+        public void TestParagraphs()
+        {
+
+            List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };
+            var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new List<MeasurementFont>() { font, font2 };
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var styleRuns = paragraph.GetTextOfAllTextRuns();
+
+            Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
+            Assert.AreEqual(lstOfRichText[1], styleRuns[1]);
+
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
+            var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
+
+            var wrappedLinesPara = paragraph.Wrap(FontFolders, 225d);
+
+            Assert.AreEqual(wrappedLines.Count, wrappedLinesPara.Count);
+
+            for (int i = 0; i < wrappedLines.Count; i++)
+            {
+                Assert.AreEqual(wrappedLines[i].Text, wrappedLinesPara[i].Text);
+                Assert.AreEqual(wrappedLines[i].Width, wrappedLinesPara[i].Width);
+            }
+        }
+
+        [TestMethod]
+        public void TestLayoutSystemParagraphChars()
+        {
+            List<string> lstOfRichText = new() { "Here comes lorem ipsum\u2029 " +
+                "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum[d] exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? [D]Quis autem vel eum i[r]ure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?\u2029 " +
+                "At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem reru[d]um facilis est e[r]t expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellend[a]us. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.\u2029 " +
+                "Let's see if we can recognize unicode paragraph separators" };
+                var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var fragments = new List<TextFragment>()
+            {
+                new TextFragment() {Text = lstOfRichText[0], Font = font }
+            };
+
+            var layout = new LayoutSystem(fragments, FontFolders);
+            Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
+        }
+
+        [TestMethod]
+        public void TestParagraphs_DifficultCase()
+        {
+            List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16" };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+
+            var font3 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Underline
+            };
+
+            var font4 = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Strikeout
+            };
+
+            var font5 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+
+            List<MeasurementFont> fonts = new() { font2, font3, font4, font5 };
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
+
+            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+
+            var line1 = wrappedLines[0];
+        }
+
+        [TestMethod]
+        public void EnsureCorrectTotalIndex()
+        {
+            List<string> lstOfRichText = new() { "aaaaaaaa aa aaaaaaaaaLa Strike", "Goudy size 16" };
+            var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new List<MeasurementFont>() { font, font2 };
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+
+            Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
+            Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartFullTextIdx);
+            Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartRtIdx);
+        }
+
+        [TestMethod]
+        public void EnsureRTCharIdxBecomesCorrectWhenBreaking()
+        {
+            List<string> lstOfRichText = new() { "MyparticularilyLongWord", "WithAbsolutelyNoSpacesAtAllJustToBeDifficult" };
+            var font = new MeasurementFont()
+            {
+                FontFamily = "Aptos Narrow",
+                Size = 11,
+                Style = MeasurementFontStyles.Bold
+            };
+            var font2 = new MeasurementFont()
+            {
+                FontFamily = "Goudy Stout",
+                Size = 16,
+                Style = MeasurementFontStyles.Regular
+            };
+
+            List<MeasurementFont> fonts = new List<MeasurementFont>() { font, font2 };
+
+            var fragments = new List<TextFragment>();
+
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                fragments.Add(currentFrag);
+            }
+
+            var paragraph = new LayoutSystem(fragments, FontFolders);
+
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
+            var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
+
+            Assert.AreEqual(5, wrappedLines[1].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(16, wrappedLines[2].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(28, wrappedLines[3].LineFragments[0].StartRtIdx);
+            Assert.AreEqual(40, wrappedLines[4].LineFragments[0].StartRtIdx);
         }
 
         [TestMethod]
@@ -787,25 +1007,25 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(210.890625d, wrappedLines[3].Width, epsilon);
             Assert.AreEqual(127.04296875d, wrappedLines[4].Width, epsilon);
 
-            var line1FragmentsNew = wrappedLines[0].LineFragments;
+            var line1FragmentsNew = wrappedLines[0].InternalLineFragments;
             Assert.AreEqual(32.87646484375d, line1FragmentsNew[0].Width, epsilon);
 
-            var line2FragmentsNew = wrappedLines[1].LineFragments;
+            var line2FragmentsNew = wrappedLines[1].InternalLineFragments;
 
             Assert.AreEqual(5.30126953125d, line2FragmentsNew[0].Width, epsilon);
 
-            var line3FragmentsNew = wrappedLines[2].LineFragments;
+            var line3FragmentsNew = wrappedLines[2].InternalLineFragments;
 
             Assert.AreEqual(40.21875d, line3FragmentsNew[0].Width, epsilon);
             Assert.AreEqual(52.16943359375d, line3FragmentsNew[1].Width, epsilon);
             Assert.AreEqual(12.55712890625d, line3FragmentsNew[2].Width, epsilon);
 
-            var line4FragmentsNew = wrappedLines[3].LineFragments;
+            var line4FragmentsNew = wrappedLines[3].InternalLineFragments;
 
             Assert.AreEqual(24.86328125d, line4FragmentsNew[0].Width, epsilon);
             Assert.AreEqual(186.02734375d, line4FragmentsNew[1].Width, epsilon);
 
-            var line5FragmentsNew = wrappedLines[4].LineFragments;
+            var line5FragmentsNew = wrappedLines[4].InternalLineFragments;
 
             Assert.AreEqual(26.390625d, line5FragmentsNew[0].Width, epsilon);
             Assert.AreEqual(100.65234375d, line5FragmentsNew[1].Width, epsilon);
@@ -1050,7 +1270,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxWidthPt);
 
-            Assert.AreEqual(0, wrappedLines[1].LineFragments[0].StartIdx);
+            Assert.AreEqual(0, wrappedLines[1].InternalLineFragments[0].StartIdx);
         }
     }
 }

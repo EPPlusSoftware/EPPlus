@@ -7,6 +7,8 @@ namespace EPPlus.Fonts.OpenType.Integration
     internal class WrapStateRichText : WrapStateBase
     {
         internal LineFragment LineFrag = null;
+        internal int CharIdxRt = 0;
+        internal int CharIdxWithinOriginal = 0;
 
         public WrapStateRichText(double lineWidth) 
         {
@@ -15,9 +17,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         internal void EndCurrentTextLine()
         {
-            if (CurrentTextLine.LineFragments.Contains(LineFrag) == false)
+            if (CurrentTextLine.InternalLineFragments.Contains(LineFrag) == false)
             {
-                CurrentTextLine.LineFragments.Add(LineFrag);
+                CurrentTextLine.InternalLineFragments.Add(LineFrag);
             }
             Lines.Add(CurrentTextLine);
         }
@@ -30,13 +32,13 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 EndCurrentTextLine();
                 var spcWidthTemp = LineFrag.SpaceWidth;
-                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment);
+                LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment, CharIdxRt, CharIdxWithinOriginal);
                 LineFrag.SpaceWidth = spcWidthTemp;
             }
             else
             {
                 //_fragmentsForNextLine.Add(LineFrag);
-                nextLine.LineFragments = _fragmentsForNextLine;
+                nextLine.InternalLineFragments = _fragmentsForNextLine;
 
                 //LineFrag.StartIdx = ;
                 Lines.Add(CurrentTextLine);
@@ -47,6 +49,8 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         int _rtIdxAtWordStart = -1;
         int _listIdxWithinLine = -1;
+        int _totalCharsAtWordStart = -1;
+        int _charIdxRtAtWordStart = -1;
         double _lineFragWidthAtWordStart = -1;
 
         internal void SetAndLogWordStartState(int wordStart)
@@ -57,15 +61,20 @@ namespace EPPlus.Fonts.OpenType.Integration
             _rtIdxAtWordStart = CurrentFragmentIdx;
             _lineFragWidthAtWordStart = LineFrag.Width;
 
-            if(CurrentTextLine.LineFragments.Count == 0)
+            //Since we don't want the space itself to be the start pos but the first letter of the word. Use +1
+            //TODO: Handle when no word after? Its never used if there isn't one so arguably we don't have to.
+            _totalCharsAtWordStart = CharIdxWithinOriginal + 1;
+            _charIdxRtAtWordStart = CharIdxRt + 1;
+
+            if (CurrentTextLine.InternalLineFragments.Count == 0)
             {
                 _listIdxWithinLine = 0;
                 return;
             }
 
-            _listIdxWithinLine = CurrentTextLine.LineFragments.Count - 1;
+            _listIdxWithinLine = CurrentTextLine.InternalLineFragments.Count - 1;
 
-            if (CurrentTextLine.LineFragments[_listIdxWithinLine].RtFragIdx < _rtIdxAtWordStart)
+            if (CurrentTextLine.InternalLineFragments[_listIdxWithinLine].FragmentIndex < _rtIdxAtWordStart)
             {
                 //When the word begins we are on a fragment that has not yet been added to the list.
                 //It will be the next index when added
@@ -91,29 +100,48 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 //If we are On the fragment we have not added it yet
                 //Do so before splitting
-                CurrentTextLine.LineFragments.Add(LineFrag);
+                CurrentTextLine.InternalLineFragments.Add(LineFrag);
+            }
+            else
+            {
+
             }
 
-            var origFragment = CurrentTextLine.LineFragments[_listIdxWithinLine];
+            var origFragment = CurrentTextLine.InternalLineFragments[_listIdxWithinLine];
 
-            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart);
-            CurrentTextLine.LineFragments[_listIdxWithinLine] = origFragment;
+            //var wordStartPos = _totalCharsAtWordStart;
+            //var wordBreakPos2 = CharIdxWithinOriginal;
+            //var endIndexOfOrigFragment = _charIdxRtAtWordStart;
+            //var startIdxNewFragment = endIndexOfOrigFragment - 
+            //var lnFragNewStartIdx = CharIdxWithinOriginal - _totalCharsAtWordStart;
+
+            var resultingFragment = CurrentTextLine.SplitAndGetLeftoverLineFragment(ref origFragment, _lineFragWidthAtWordStart, _charIdxRtAtWordStart, _totalCharsAtWordStart);
+            CurrentTextLine.InternalLineFragments[_listIdxWithinLine] = origFragment;
 
             _fragmentsForNextLine = new List<LineFragment>();
 
             //Iterate backwards from back of list until we hit fragment
-            for (int i = CurrentTextLine.LineFragments.Count()-1; i > _listIdxWithinLine; i--)
+            for (int i = CurrentTextLine.InternalLineFragments.Count()-1; i > _listIdxWithinLine; i--)
             {
+                //The current fragment's startidx is affected by the split if it is not the first in new line
+                if (CurrentTextLine.InternalLineFragments[i].StartIdx != 0)
+                {
+                    CurrentTextLine.InternalLineFragments[i].StartIdx -= WordStart + 1;
+                }
                 //Add fragment to the new list
-                _fragmentsForNextLine.Insert(0, CurrentTextLine.LineFragments[i]);
+                _fragmentsForNextLine.Insert(0, CurrentTextLine.InternalLineFragments[i]);
                 //Remove it from the old
-                CurrentTextLine.LineFragments.RemoveAt(i);
+                CurrentTextLine.InternalLineFragments.RemoveAt(i);
             }
 
             if (_rtIdxAtWordStart != CurrentFragmentIdx)
             {
-                //We also insert the fragment we've split out
-                _fragmentsForNextLine.Insert(0, resultingFragment);
+                if (resultingFragment.Width != 0)
+                {
+                    //We also insert the fragment we've split out
+                    //Unless the leftover is an empty fragment (this happens when we wrap on a space that had to be trimmed)
+                    _fragmentsForNextLine.Insert(0, resultingFragment);
+                }
                 //The current fragment's startidx is affected by the split if it is not the first in new line
                 if (LineFrag.StartIdx != 0)
                 {

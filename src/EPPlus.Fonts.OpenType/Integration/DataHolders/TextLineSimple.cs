@@ -1,14 +1,25 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
+    [DebuggerDisplay("{Text}")]
     public class TextLineSimple
     {
-        public List<LineFragment> LineFragments { get; internal set; } = new List<LineFragment>();
+        /// <summary>
+        /// Internal data for making operations
+        /// </summary>
+        internal List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
+
+        /// <summary>
+        /// External output data for reading
+        /// </summary>
+        public List<LineFragmentOutput> LineFragments { get; internal set; } = new List<LineFragmentOutput>();
 
         public string Text { get; internal set; }
         /// <summary>
@@ -39,13 +50,11 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public double GetWidthWithoutTrailingSpaces()
         {
-            lastFontSpaceWidth = LineFragments.Last().SpaceWidth;
-
             var trailingSpaceCount = 0;
 
-            for(int i = Text.Count()-1; i > 0; i--)
+            for (int i = Text.Count() - 1; i > 0; i--)
             {
-                if(Text[i] != ' ')
+                if (Text[i] != ' ')
                 {
                     break;
                 }
@@ -53,7 +62,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 trailingSpaceCount++;
             }
 
-            if(WasWrappedOnSpace)
+            if (WasWrappedOnSpace)
             {
                 trailingSpaceCount++;
             }
@@ -66,17 +75,27 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
         }
 
-        public TextLineSimple(string text, double largestFontSize, double largestAscent, double largestDescent)
+        internal void FinalizeLineFragments(List<TextFragment> originalFragments)
         {
-            Text = text;
-            LargestFontSize = largestFontSize;
-            LargestAscent = largestAscent;
-            LargestDescent = largestDescent;
+            lastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
+
+            foreach (var lf in InternalLineFragments)
+            {
+                LineFragmentOutput data = new LineFragmentOutput(
+                    () => { return originalFragments[lf.FragmentIndex]; },
+                    () => { return lf.Width; },
+                    () => { return lf.StartIdx; },
+                    () => { return lf.StartRt; },
+                    () => { return lf.StartOriginal; },
+                    GetLineFragmentText(lf)
+                    );
+                LineFragments.Add(data);
+            }
         }
 
         public string GetLineFragmentText(LineFragment rtFragment)
         {
-            if (LineFragments.Contains(rtFragment) == false)
+            if (InternalLineFragments.Contains(rtFragment) == false)
             {
                 throw new InvalidOperationException($"GetFragmentText failed. Cannot retrieve {rtFragment} since it is not part of this textLine: {this}");
             }
@@ -88,23 +107,25 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var startIdx = rtFragment.StartIdx;
 
-            var idxInLst = LineFragments.FindIndex(x => x == rtFragment);
-            if (idxInLst == LineFragments.Count - 1)
+            var idxInLst = InternalLineFragments.FindIndex(x => x == rtFragment);
+            if (idxInLst == InternalLineFragments.Count - 1)
             {
                 return Text.Substring(startIdx, Text.Length - startIdx);
             }
             else
             {
-                var endIdx = LineFragments[idxInLst + 1].StartIdx;
+                var endIdx = InternalLineFragments[idxInLst + 1].StartIdx;
                 return Text.Substring(startIdx, endIdx - startIdx);
             }
         }
 
-        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit)
+        internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit, int charsRt, int charsTotal)
         {
             //If we are splitting a fragment its position in the new line should be 0
-            var newLineFragment = new LineFragment(origLf.RtFragIdx, 0);
+            var newLineFragment = new LineFragment(origLf.FragmentIndex, 0, charsRt, charsTotal);
             newLineFragment.Width = origLf.Width - widthAtSplit;
+
+            newLineFragment.SpaceWidth = origLf.SpaceWidth;
 
             origLf.Width = widthAtSplit;
 

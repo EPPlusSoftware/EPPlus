@@ -10,8 +10,10 @@
  *************************************************************************************************
   01/20/2025         EPPlus Software AB           TextLayoutEngine implementation
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
@@ -21,10 +23,45 @@ namespace EPPlus.Fonts.OpenType.Integration
     public class TextFragment
     {
         public string Text { get; set; }
+
         public MeasurementFont Font { get; set; }
         public ShapingOptions Options { get; set; }
 
+        /// <summary>
+        /// Store rich-text info.
+        /// Nothing is supposed to be done with this within OpenType
+        /// but we hold the data so users may more easily recognize what rich text this is in the output.
+        /// </summary>
+        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
+    }
+
+    /// <summary>
+    /// Simple class to provide some kind of fallback/defaults
+    /// </summary>
+    public class RichTextDefaults : IRichTextInfoBase
+    {
+        internal RichTextDefaults()
+        {
+        }
+        public bool IsItalic { get; set; } = false;
+
+        public bool IsBold { get; set; } = false;
+
+        public bool SubScript { get; set; } = false;
+
+        public bool SuperScript { get; set; } = false;
+
+        public int UnderlineType { get; set; } = -1;
+
+        public int StrikeType { get; set; } = -1;
+
+        public int Capitalization { get; set; } = -1;
+
+        public Color UnderlineColor { get; set; }
+
+        public Color FontColor { get; set; }
     }
 }
