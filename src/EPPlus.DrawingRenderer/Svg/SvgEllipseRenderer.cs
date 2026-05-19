@@ -11,7 +11,7 @@ namespace EPPlus.DrawingRenderer.Svg
         }
         public override void Render(RenderItem item)
         {
-            var re = (RenderEllipseItem)item;
+            var re = (EllipseRenderItem)item;
 
             OutputStream.AppendFormat("<ellipse cx=\"{0}\" cy=\"{1}\" rx=\"{2}\" ry=\"{3}\" ",
                 re.Cx.PointToPixelString(),

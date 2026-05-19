@@ -11,9 +11,12 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
+using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using System;
@@ -28,9 +31,9 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// <summary>
         /// Calculated shape textbox
         /// </summary>
-        RenderRectItem InsetTextBox;
+        RectRenderItem InsetTextBox;
 
-        RenderRectItem MarginTextBox;
+        RectRenderItem MarginTextBox;
 
         /// <summary>
         /// Textbox from memory
@@ -51,7 +54,14 @@ namespace OfficeOpenXml.Drawing.Renderer
             else
             {
                 var shapeDef = PresetShapeDefinitions.ShapeDefinitions[(ShapeStyle)style].Clone();
-                shapeDef.Calculate(shape);
+                if (shape.HasCustomAdjustmentPoints())
+                {
+                    shapeDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, shape.GetAdjustmentPointsNames().ToList(), shape.GetAdjustmentPointsList().ToList());
+                }
+                else
+                {
+                    shapeDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
+                }
 
                 RenderItems.Add(new SvgGroupItem(this, shape.GetBoundingBox(), shape.Rotation));
 
@@ -113,9 +123,9 @@ namespace OfficeOpenXml.Drawing.Renderer
             }
         }
 
-        protected void AddFromPaths(DrawingPath path, bool drawFill = true, bool drawBorder = true)
+        protected void AddFromPaths(BoundingBox parent, DrawingPath path, bool drawFill = true, bool drawBorder = true)
         {
-            var pi = new SvgRenderPathItem(this, _shape.GetBoundingBox());
+            var pi = new PathRenderItem(parent);
             var coordinates = new List<double>();
             PathCommands cmd = null;
             PathsBase pCmd = null;

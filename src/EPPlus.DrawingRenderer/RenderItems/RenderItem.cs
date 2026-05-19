@@ -16,7 +16,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using System.Drawing;
 using System.Text;
-using static EPPlus.DrawingRenderer.RenderItems.RenderLineItem;
+using static EPPlus.DrawingRenderer.RenderItems.LineRenderItem;
 namespace EPPlus.DrawingRenderer.RenderItems
 {
     public enum FillType
@@ -75,9 +75,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         MiterClip,
         Round
     }
-    public class RenderRectItem : RenderItem 
+    public class RectRenderItem : RenderItem 
     {
-        public RenderRectItem(BoundingBox parent) : base(parent)
+        public RectRenderItem(BoundingBox parent) : base(parent)
         {
 
         }
@@ -102,9 +102,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         }
         public List<PathCommands> Commands { get; } = new List<PathCommands>();
     }
-    public class RenderEllipseItem : RenderItem
+    public class EllipseRenderItem : RenderItem
     {
-        public RenderEllipseItem(BoundingBox parent) : base(parent)
+        public EllipseRenderItem(BoundingBox parent) : base(parent)
         {
 
         }
@@ -115,9 +115,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double Ry { get; set; }
 
     }
-    public class RenderLineItem : RenderItem
+    public class LineRenderItem : RenderItem
     {
-        public RenderLineItem(BoundingBox parent) : base(parent)
+        public LineRenderItem(BoundingBox parent) : base(parent)
         {
             
         }

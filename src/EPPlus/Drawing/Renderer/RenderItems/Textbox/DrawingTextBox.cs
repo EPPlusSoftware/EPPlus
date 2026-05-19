@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             Parent = parent;
             _drawing= drawing; 
-            _rectangle = new RenderRectItem(parent);
+            _rectangle = new RectRenderItem(parent);
             TextBody = new DrawingTextbody(drawing, Rectangle.Bounds, true);
             TextBody.MaxWidth = maxWidth;
             TextBody.MaxHeight = maxHeight;            
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                                             renderer, parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height, maxBounds.Width, maxBounds.Height)
         {
         }
-        RenderRectItem _rectangle =null;
+        RectRenderItem _rectangle =null;
         public EPPlusRenderItem Rectangle
         {
             get

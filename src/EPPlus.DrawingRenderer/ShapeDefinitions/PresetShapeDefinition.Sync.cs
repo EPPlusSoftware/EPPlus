@@ -14,10 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.DrawingRenderer.Utils;
 
-namespace EPPlusImageRenderer.ShapeDefinitions
+namespace EPPlus.DrawingRenderer.ShapeDefinitions
 {
     public partial class PresetShapeDefinitions
     {
@@ -63,7 +64,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
 
         public static bool LoadPresetShapeDefinitionFromXmlTriangle()
         {
-            _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinitionBase>();
+            _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
 
             var xmlFile = Directory.GetCurrentDirectory() + "\\resource\\triangleOnly.xml";
             var fs = new FileStream(xmlFile, FileMode.Open, FileAccess.Read);
@@ -95,11 +96,11 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             return true;
         }
 
-        private static ShapeDefinitionBase LoadPresetShapeDefinition(XmlReader xr)
+        private static ShapeDefinition LoadPresetShapeDefinition(XmlReader xr)
         {
             var style = xr.LocalName.ToEnum<ShapeStyle>();
             if (!style.HasValue) throw new InvalidOperationException();
-            var psd = new ShapeDefinitionBase
+            var psd = new ShapeDefinition
             {
                 Style = style.Value,
             };
@@ -107,7 +108,7 @@ namespace EPPlusImageRenderer.ShapeDefinitions
             return psd;
         }
 
-        private static void LoadFromXml(ShapeDefinitionBase psd, XmlReader xr)
+        private static void LoadFromXml(ShapeDefinition psd, XmlReader xr)
         {
             while (xr.Read())
             {

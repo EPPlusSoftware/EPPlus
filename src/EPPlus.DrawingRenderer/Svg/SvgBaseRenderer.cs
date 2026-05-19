@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public abstract class SvgBaseRenderer<T> : BaseRenderer<StringBuilder> where T : RenderItem
+    public abstract class SvgBaseRenderer : BaseRenderer<StringBuilder>
     {
         protected SvgBaseRenderer(StringBuilder outputStream) : base(outputStream)
         {

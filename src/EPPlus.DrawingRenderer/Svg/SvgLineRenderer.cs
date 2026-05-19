@@ -12,7 +12,7 @@ namespace EPPlus.DrawingRenderer.Svg
         }
         public override void Render(RenderItem item)
         {
-            var li = (RenderLineItem)item;
+            var li = (LineRenderItem)item;
             StringBuilder sb = OutputStream;
             //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
             switch (li.CompoundLineStyle)
@@ -50,7 +50,7 @@ namespace EPPlus.DrawingRenderer.Svg
                     break;
             }
         }
-        private void WriteThickThin(RenderLineItem li, string name, double gapOffset)
+        private void WriteThickThin(LineRenderItem li, string name, double gapOffset)
         {
             var sb = OutputStream;
             var guid = Guid.NewGuid().ToString();
@@ -65,7 +65,7 @@ namespace EPPlus.DrawingRenderer.Svg
         }
         internal string Suffix = "px";
 
-        private void RenderLineItem(RenderLineItem li, double? borderWidth, string color, string filter)
+        private void RenderLineItem(LineRenderItem li, double? borderWidth, string color, string filter)
         {
             var sb = OutputStream;
             if (Suffix == "%")

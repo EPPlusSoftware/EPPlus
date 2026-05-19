@@ -14,7 +14,7 @@ namespace EPPlus.DrawingRenderer.Svg
         internal string Suffix = "px";
         public override void Render(RenderItem item)
         {
-            var ri = (RenderRectItem)item;
+            var ri = (RectRenderItem)item;
             if (Suffix == "%")
             {
                 OutputStream.AppendFormat("<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\" ",

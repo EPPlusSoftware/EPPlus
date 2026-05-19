@@ -28,8 +28,8 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
     public partial class PresetShapeDefinitions
     {
         static object _syncRoot=new object();
-        static Dictionary<ShapeStyle, ShapeDefinitionBase> _shapeDefinitions=null;
-        public static Dictionary<ShapeStyle, ShapeDefinitionBase> ShapeDefinitions 
+        static Dictionary<ShapeStyle, ShapeDefinition> _shapeDefinitions=null;
+        public static Dictionary<ShapeStyle, ShapeDefinition> ShapeDefinitions 
         {
             get
             {
@@ -37,7 +37,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                 {
                     if (_shapeDefinitions == null)
                     {
-                        _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinitionBase>();
+                        _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
 #if NET35
                         LoadPresetShapeDefinitionFromXml();
 #else
@@ -85,7 +85,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
 
         public static async Task<bool> LoadPresetShapeDefinitionFromXmlAsyncTriangle()
         {
-            _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinitionBase>();
+            _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
 
             var xmlFile = Directory.GetCurrentDirectory() + "\\resource\\triangleOnly.xml";
             var fs = new FileStream(xmlFile, FileMode.Open, FileAccess.Read);
@@ -109,11 +109,11 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
             return true;
         }
 
-        private static async Task<ShapeDefinitionBase> LoadPresetShapeDefinitionAsync(XmlReader xr)
+        private static async Task<ShapeDefinition> LoadPresetShapeDefinitionAsync(XmlReader xr)
         {
             if (Enum.TryParse<ShapeStyle>(xr.LocalName, true, out var style))
             {
-                var psd = new ShapeDefinitionBase()
+                var psd = new ShapeDefinition()
                 {
                     Style = style
                 };
@@ -122,7 +122,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
             }
             throw new InvalidOperationException();
         }
-        private static async Task LoadFromXmlAsync(ShapeDefinitionBase psd, XmlReader xr)
+        private static async Task LoadFromXmlAsync(ShapeDefinition psd, XmlReader xr)
         {
             while (await xr.ReadAsync())
             {

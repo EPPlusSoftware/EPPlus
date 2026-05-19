@@ -18,7 +18,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public void Init(BoundingBox parent, double maxWidth, double maxHeight)
         {
             Parent = parent;
-            _rectangle = new RenderRectItem(Parent);
+            _rectangle = new RectRenderItem(Parent);
             //TextBody = new TextBody(Rectangle.Bounds, true);
             //TextBody.MaxWidth = maxWidth;
             //TextBody.MaxHeight = maxHeight;            
@@ -33,8 +33,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal RenderTextbox(BoundingBox parent, BoundingBox maxBounds) 
         {
         }
-        RenderRectItem _rectangle =null;
-        public RenderRectItem Rectangle
+        RectRenderItem _rectangle =null;
+        public RectRenderItem Rectangle
         {
             get
             {
