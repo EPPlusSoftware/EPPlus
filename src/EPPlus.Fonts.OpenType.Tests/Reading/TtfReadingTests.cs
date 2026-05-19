@@ -11,6 +11,7 @@
   12/22/2025         EPPlus Software AB           TTF reading tests
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -23,15 +24,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
     {
         public override TestContext? TestContext { get; set; }
 
-        protected override void ConfigureResolver()
-        {
-            OpenTypeFonts.Configure(x => x.SetFontResolver(new DefaultFontResolver(FontFolders, true)));
-        }
-
         [TestMethod]
         public void ReadRobotoRegularTtf()
         {
-            OpenTypeFont? font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            OpenTypeFont? font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             Assert.IsNotNull(font);
             var cmap = font.CmapTable;
             Assert.AreEqual("Roboto", font.FullName);
@@ -44,7 +40,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         {
             Stopwatch sw = Stopwatch.StartNew();
             sw.Start();
-            OpenTypeFont? font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Bold);
+            OpenTypeFont? font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Bold);
             sw.Stop();
             var ms = sw.ElapsedMilliseconds;
             Assert.IsNotNull(font);
@@ -55,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadSourceSans3Otf()
         {
-            OpenTypeFont? font = OpenTypeFonts.LoadFont("Source Sans 3", FontSubFamily.Regular);
+            OpenTypeFont? font = TestFolderEngine.LoadFont("Source Sans 3", FontSubFamily.Regular);
             Assert.IsNotNull(font);
             Assert.AreEqual("Source Sans 3", font.FullName);
             Assert.AreEqual("Regular", font.SubFamily);
@@ -95,7 +91,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadTccGothic()
         {
-            OpenTypeFont? font = OpenTypeFonts.LoadFont("BIZ UDGothic", FontSubFamily.Bold);
+            OpenTypeFont? font = TestFolderEngine.LoadFont("BIZ UDGothic", FontSubFamily.Bold);
 
             Assert.IsNotNull(font);
             Assert.AreEqual("BIZ UDGothic Bold", font.FullName);
@@ -105,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadGsubTable()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var gSub = font.GsubTable;
             Assert.IsNotNull(gSub);
         }
@@ -113,11 +109,15 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadSixFonts()
         {
-            OpenTypeFont? gothic = OpenTypeFonts.LoadFont("BIZ UDGothic", FontSubFamily.Bold, FontFolders, true, true);
-            OpenTypeFont? calibri = OpenTypeFonts.LoadFont("Calibri", FontSubFamily.Italic, FontFolders, true, true);
-            OpenTypeFont? aptos = OpenTypeFonts.LoadFont("Aptos Narrow", FontSubFamily.Bold, FontFolders, true, true);
-            OpenTypeFont? timesNewRoman = OpenTypeFonts.LoadFont("Times New Roman", FontSubFamily.Regular, FontFolders, true, true);
-            OpenTypeFont? SS3 = OpenTypeFonts.LoadFont("Source Sans 3", FontSubFamily.Bold, FontFolders, true, true);
+            RequireFont(SystemFontsEngine, "Aptos Narrow");
+            RequireFont(SystemFontsEngine, "Times New Roman");
+            RequireFont(SystemFontsEngine, "Calibri", FontSubFamily.Italic);
+
+            OpenTypeFont ? gothic = TestFolderEngine.LoadFont("BIZ UDGothic", FontSubFamily.Bold);
+            OpenTypeFont? calibri = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Italic);
+            OpenTypeFont? aptos = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Bold);
+            OpenTypeFont? timesNewRoman = SystemFontsEngine.LoadFont("Times New Roman", FontSubFamily.Regular);
+            OpenTypeFont? SS3 = TestFolderEngine.LoadFont("Source Sans 3", FontSubFamily.Bold);
 
             Assert.IsNotNull(gothic);
             Assert.AreEqual("BIZ UDGothic Bold", gothic.FullName);
@@ -191,11 +191,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             Assert.AreEqual(fontsThatAreInstallableEmbedded.Count(), dataHolder.Count());
         }
 
-        [TestMethod, Ignore]
+        [TestMethod, Ignore("This test takes a long time and should not run in quick regression tests")]
         public void ReadAllTTFFonts()
         {
-            UseSystemFonts();
-
             List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Ttf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
@@ -218,7 +216,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
         }
 
-        [TestMethod]
+        [TestMethod, Ignore("This test takes a long time and should not run in quick regression tests")]
         public void ReadAllFonts()
         {
             var sw = new Stopwatch();
@@ -259,6 +257,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             double fontSize = 11.0d;
             double MaxPixelWidth = 52d;
 
+            RequireFont(SystemFontsEngine, fontName);
+
             MeasurementFont mf = new MeasurementFont()
             {
                 FontFamily = fontName,
@@ -266,7 +266,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var fontMeasurer = SystemFontsEngine.GetTextLayoutEngineForFont(mf);
             var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello", strings[0]);

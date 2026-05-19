@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   02/27/2026         EPPlus Software AB           Replaces FontResolutionConfig
+  05/06/2026         EPPlus Software AB           Property-based transactional configuration
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -19,66 +20,46 @@ namespace EPPlus.Fonts.OpenType.FontResolver
     /// <summary>
     /// Concrete implementation of <see cref="IEpplusFontConfiguration"/>.
     /// Managed exclusively by <see cref="OpenTypeFonts"/> — not instantiated by user code.
+    /// Mutations are intended to happen inside an <c>OpenTypeFonts.Configure</c> callback,
+    /// after which <see cref="OpenTypeFonts"/> reads the resulting state as a snapshot and
+    /// rebuilds the resolver.
     /// </summary>
     internal class EpplusFontConfiguration : IEpplusFontConfiguration
     {
-        private readonly Dictionary<string, string[]> _fallbacks =
+        private readonly List<string> _fontDirectories = new List<string>();
+        private readonly Dictionary<string, string[]> _fontFallbacks =
             new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
 
-        // Internal events consumed by OpenTypeFonts in the same assembly.
-        internal event Action OnReset;
-        internal event Action<IFontResolver> OnSetFontResolver;
-
-        // -----------------------------------------------------------------------------------------
-        // IEpplusFontConfiguration
-        // -----------------------------------------------------------------------------------------
-
-        /// <inheritdoc/>
-        public IEpplusFontConfiguration AddFallback(string primaryFont, params string[] fallbacks)
+        public EpplusFontConfiguration()
         {
-            if (string.IsNullOrEmpty(primaryFont))
-                throw new ArgumentNullException("primaryFont");
-            if (fallbacks == null || fallbacks.Length == 0)
-                throw new ArgumentException("At least one fallback must be specified.", "fallbacks");
-
-            // Additive: merge with any existing fallbacks for this font.
-            string[] existing;
-            if (_fallbacks.TryGetValue(primaryFont, out existing))
-            {
-                var merged = new string[existing.Length + fallbacks.Length];
-                existing.CopyTo(merged, 0);
-                fallbacks.CopyTo(merged, existing.Length);
-                _fallbacks[primaryFont] = merged;
-            }
-            else
-            {
-                _fallbacks[primaryFont] = fallbacks;
-            }
-
-            return this;
+            SearchSystemDirectories = true;
         }
 
         /// <inheritdoc/>
-        public IEpplusFontConfiguration SetFontResolver(IFontResolver resolver)
+        public IList<string> FontDirectories
         {
-            if (resolver == null)
-                throw new ArgumentNullException("resolver");
-
-            if (OnSetFontResolver != null)
-                OnSetFontResolver(resolver);
-
-            return this;
+            get { return _fontDirectories; }
         }
 
         /// <inheritdoc/>
-        public IEpplusFontConfiguration Reset()
+        public bool SearchSystemDirectories { get; set; }
+
+        /// <inheritdoc/>
+        public IFontResolver FontResolver { get; set; }
+
+        /// <inheritdoc/>
+        public IDictionary<string, string[]> FontFallbacks
         {
-            _fallbacks.Clear();
+            get { return _fontFallbacks; }
+        }
 
-            if (OnReset != null)
-                OnReset();
-
-            return this;
+        /// <inheritdoc/>
+        public void Reset()
+        {
+            _fontDirectories.Clear();
+            SearchSystemDirectories = true;
+            FontResolver = null;
+            _fontFallbacks.Clear();
         }
 
         // -----------------------------------------------------------------------------------------
@@ -86,12 +67,13 @@ namespace EPPlus.Fonts.OpenType.FontResolver
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Returns the fallback chain for the given font name, or null if none is configured.
+        /// Returns the user-configured fallback chain for the given font name, or null if none
+        /// is configured. Case-insensitive lookup.
         /// </summary>
         internal string[] GetFallbacks(string fontName)
         {
             string[] result;
-            return _fallbacks.TryGetValue(fontName, out result) ? result : null;
+            return _fontFallbacks.TryGetValue(fontName, out result) ? result : null;
         }
     }
 }

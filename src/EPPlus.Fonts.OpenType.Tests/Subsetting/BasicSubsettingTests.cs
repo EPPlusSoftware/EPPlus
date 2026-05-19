@@ -28,7 +28,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Abc_RoundtripValidation()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subsetFont = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
@@ -70,7 +70,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Fiffig_WithFullValidation()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subsetFont = font.CreateSubset("fiffig");
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
@@ -85,7 +85,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_SingleChar_ShouldWork()
         {
-            var font = OpenTypeFonts.LoadFont("Mulish");
+            var font = TestFolderEngine.LoadFont("Mulish");
             var subsetFont = font.CreateSubset(new[] { 'a' });
 
             var serializer = new OpenTypeFontSerializer(subsetFont);
@@ -100,7 +100,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_MultipleChars_ShouldWork()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subsetFont = font.CreateSubset(new[] {
                 'F', 'l', 'y', 'g', 'a', 'n', 'd', 'e', 'b', 'ä', 'c', 'k', 's', 'i', 'r', 'ö', 'h', 'w', 'p', 'å',
                 'm', 'j', 'u', 't', 'v', 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
@@ -449,7 +449,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_CompleteGposTest_AllThreeLookupTypes()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var text = "AVTO Wave Typography TEST café résumé ñoño 123";
             var subsetFont = font.CreateSubset(text);
 

@@ -24,7 +24,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Roboto_With_ÅÄÖ_Should_Work()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             // Get the original å
             var ågId = font.CmapTable.MapCharToGlyph('å');
@@ -46,7 +46,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Mulish_With_ÅÄÖ_Should_Work()
         {
-            var font = OpenTypeFonts.LoadFont("Mulish", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("Mulish", FontSubFamily.Regular);
             var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
 
             // Save for inspection (CI/CD safe)
@@ -63,7 +63,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_BIZUDGothic_With_ÅÄÖ_Should_Work()
         {
-            var font = OpenTypeFonts.LoadFont("BIZUDGothic", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("BIZUDGothic", FontSubFamily.Regular);
             var subset = font.CreateSubset("Testar åäö ÅÄÖ och även é û č ć đ ł".Distinct());
 
             // Save for inspection (CI/CD safe)
