@@ -524,11 +524,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         /// <summary>
         /// Transform origin in local coordinates
+        /// Translated
         /// </summary>
         /// <returns></returns>
-        internal Coordinate GetInnerGroupTransformOrigin()
+        internal Coordinate GetInnerGroupTransformOriginTranslated()
         {
-            return new Coordinate(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
+            return new Coordinate(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
         }
 
         //internal BoundingBox GetInnerGroupBounds()

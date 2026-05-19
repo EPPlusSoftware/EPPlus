@@ -145,5 +145,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+
+
+        [TestMethod]
+        public void Datalabels3()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartDlblsOutside.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var renderer = new EPPlusImageRenderer.ImageRenderer();
+
+                for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
+                {
+                    ws = p.Workbook.Worksheets[i];
+                    foreach (ExcelChart c in ws.Drawings)
+                    {
+                        var svg = renderer.RenderDrawingToSvg(c);
+                        SaveTextFileToWorkbook($"svg\\PieChartDlbls3\\s{i}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+            }
+        }
     }
 }

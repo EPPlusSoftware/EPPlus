@@ -237,13 +237,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         if(serie.HasDataLabel)
                         {
                             //Get the inner item local coordinates
-                            var itemGroup = Slices[j].GetInnerItemGroup();
-                            var outer = Slices[j].GetOuterMidpointInGlobalCoords();
-                            ////Get the relevant point local coordinates (to the above)
-                            //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
+                            //var itemGroup = Slices[j].GetInnerItemGroup();
+                            //var outer = Slices[j].GetOuterMidpointInGlobalCoords();
+                            //////Get the relevant point local coordinates (to the above)
+                            ////var slicePos = Slices[j].GetInnerGroupTransformOrigin();
 
+                            var innerGroup = Slices[j].GetInnerGroupTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(itemGroup.TransformOrigin.X, itemGroup.TransformOrigin.Y, Bounds.Width, Bounds.Height);
+                            var dlblBounds = new BoundingBox(innerGroup.X,innerGroup.Y, Bounds.Width, Bounds.Height);
                             //var dlblBounds2 = new BoundingBox(outer.X, outer.Y);
                             ////Add the origin point position
                             //dlblBounds.Left += slicePos.X;
