@@ -9,14 +9,14 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
     /// <summary>
     /// See 'ExcelParagraphTextRunBase.cs' for all options this interface should support
     /// </summary>
-    internal interface IRichTextInfoDrawing : IRichTextInfoBase
+    public interface IRichTextInfoDrawing : IRichTextInfoBase
     {
         DrawingStrikeType DrawingStrike{ get; set; } /*{ get { return (DrawingStrikeType)StrikeType; } set { StrikeType = (int)value; } }*/
         DrawingUnderlineStyle UnderlineStyle { get; set; }
         DrawingTextCapsType Capitalization { get; set; }
         Color? HighLightColor { get; set; }
         /// <summary>
-        /// Char spacing
+        /// The spacing between characters within a text run.
         /// </summary>
         double Spacing { get; set; }
 
@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
         /// +Superscript or -Subscript offset in percent 
         /// (default 30% Super and -25% subscript)  
         /// </summary>
-        double Offset { get; set; }
+        public double Baseline { get; set; }
 
         //TODO: Advanced fills/Textoutline
         //TODO: Effects once implemented in Epplus

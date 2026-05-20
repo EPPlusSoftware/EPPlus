@@ -13,8 +13,8 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
     /// </summary>
     public interface IRichTextInfoBase
     {
-        bool IsItalic { get; set; }
-        bool IsBold { get; set; }
+        bool Italic { get; set; }
+        bool Bold { get; set; }
         bool SubScript { get; set; }
         bool SuperScript { get; set; }
 

@@ -177,8 +177,8 @@ namespace EPPlusTest.PDF
                 textFrag.Font.FontFamily = rt.FontName;
                 textFrag.Font.Size = rt.Size;
 
-                textFrag.RichTextOptions.IsBold = rt.Bold || bold;
-                textFrag.RichTextOptions.IsItalic = rt.Italic || italic;
+                textFrag.RichTextOptions.Bold = rt.Bold || bold;
+                textFrag.RichTextOptions.Italic = rt.Italic || italic;
                 //underline
                 //none   : 12
                 //single : 13
@@ -192,8 +192,8 @@ namespace EPPlusTest.PDF
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                 textFrag.RichTextOptions.FontColor = rt.Color;
 
-                textFrag.Font.Style = (textFrag.RichTextOptions.IsBold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.IsItalic ? MeasurementFontStyles.Italic : 0) |
+                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
                                       (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
                                       (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
 

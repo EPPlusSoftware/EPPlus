@@ -7,9 +7,11 @@ namespace OfficeOpenXml.Interfaces.RichText
 {
     internal class RichTextBase : IRichText
     {
-        internal RichTextBase(string text, string fontFamily = "") 
+        internal bool FirstInParagraph { get; private set; }
+        internal RichTextBase(string text, bool firstInParagraph, string fontFamily = "") 
         {
             Text = text;
+            FirstInParagraph = firstInParagraph;
             if (string.IsNullOrEmpty(fontFamily) == false)
             {
                 FontData.Family = fontFamily;

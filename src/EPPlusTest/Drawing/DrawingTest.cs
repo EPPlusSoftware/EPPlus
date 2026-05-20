@@ -1276,6 +1276,7 @@ namespace EPPlusTest
 
                 tb.TextBody.Paragraphs[1].TextRuns[0].Baseline = 10d;
                 tb.TextBody.Paragraphs[1].TextRuns[0].Fill.Color = Color.DarkViolet;
+                var test = tb.RichText[0];
 
                 tb.SetPosition(100, 100);
                 tb.SetSize(500, 200);

@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Style
 {
@@ -630,7 +631,7 @@ namespace OfficeOpenXml.Style
     /// <summary>
     /// Used by Rich-text and Paragraphs.
     /// </summary>
-    public abstract class ExcelTextFont 
+    public abstract class ExcelTextFont
     {
         private IPictureRelationDocument _pictureRelationDocument;
 

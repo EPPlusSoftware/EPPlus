@@ -6,11 +6,30 @@ using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
-    internal class RichTextCollectionBase : IRichTextCollection
+    public class RichTextCollectionBase : IRichTextCollection
     {
         List<IRichText> _list = new List<IRichText>();
-        public RichTextCollectionBase()
+
+        public IFontData DefaultFont;
+        public IRichTextInfoBase DefaultRichText;
+
+        /// <summary>
+        /// Initalizes using hard-coded defaults
+        /// </summary>
+        public RichTextCollectionBase() : this(new FontDataDefaults(), new RichTextDefaults())
         {
+
+        }
+
+        /// <summary>
+        /// Initializes with user supplied defaults
+        /// </summary>
+        /// <param name="defaultFont">Default Fallback Font Options</param>
+        /// <param name="defaultRichTextOptions">Default RichText Options</param>
+        public RichTextCollectionBase(IFontData defaultFont, IRichTextInfoBase defaultRichTextOptions)
+        {
+            DefaultFont = defaultFont;
+            DefaultRichText = defaultRichTextOptions;
         }
 
         public IRichText this[int index] => _list[index];
@@ -30,14 +49,26 @@ namespace OfficeOpenXml.Interfaces.RichText
 
         public int Count => _list.Count;
 
-        public IRichText Add(string Text, bool NewParagraph)
+        public void Add(IRichText rt)
         {
-            return Insert(_list.Count, Text);
+            Insert(_list.Count, rt);
+        }
+        public IRichText Insert(int index, IRichText rt)
+        {
+            _list.Insert(index, rt);
+            return rt;
         }
 
-        public IRichText Insert(int index, string Text)
+        public IRichText Add(string Text, bool NewParagraph = false)
         {
-            var rt = new RichTextBase(Text);
+            return Insert(_list.Count, Text, NewParagraph);
+        }
+
+        public IRichText Insert(int index, string Text, bool NewParagraph = false)
+        {
+            var rt = new RichTextBase(Text, NewParagraph);
+            rt.RichTextOptions = DefaultRichText;
+            rt.FontData = DefaultFont;
             _list.Insert(index, rt);
             return rt;
         }

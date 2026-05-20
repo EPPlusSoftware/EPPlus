@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
         /// <param name="index">The zero-based index at which rich text should be inserted.</param>
         /// <param name="text">The text to insert.</param>
         /// <returns></returns>
-        public IRichText Insert(int index, string Text);
+        public IRichText Insert(int index, string Text, bool NewParagraph);
 
         /// <summary>
         /// Clear the collection

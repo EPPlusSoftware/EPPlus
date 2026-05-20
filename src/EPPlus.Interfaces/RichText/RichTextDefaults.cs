@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
@@ -11,10 +12,46 @@ namespace OfficeOpenXml.Interfaces.RichText
         internal RichTextDefaults()
         {
         }
-        public bool IsItalic { get; set; } = false;
 
-        public bool IsBold { get; set; } = false;
+        public FontSubFamily SubFamily { get; set; }
 
+        public bool Italic 
+        { 
+            get { return (SubFamily & FontSubFamily.Italic) == FontSubFamily.Italic; } 
+            set 
+            {
+                if(value)
+                {
+                    //Set Flag
+                    SubFamily = SubFamily | FontSubFamily.Italic;
+                    
+                }
+                else
+                {
+                    //Unset Flag
+                    SubFamily &= ~FontSubFamily.Italic;
+                }
+            } 
+        }
+
+        public bool Bold
+        {
+            get { return (SubFamily & FontSubFamily.Bold) == FontSubFamily.Bold; }
+            set
+            {
+                if (value)
+                {
+                    //Set flag
+                    SubFamily = SubFamily | FontSubFamily.Bold;
+
+                }
+                else
+                {
+                    //Unset flag
+                    SubFamily &= ~FontSubFamily.Bold;
+                }
+            }
+        }
         public bool SubScript { get; set; } = false;
 
         public bool SuperScript { get; set; } = false;

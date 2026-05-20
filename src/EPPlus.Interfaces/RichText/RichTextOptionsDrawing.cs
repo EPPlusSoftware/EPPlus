@@ -9,7 +9,7 @@ namespace OfficeOpenXml.Interfaces.RichText
 {
     internal class RichTextOptionsDrawing : IRichTextInfoDrawing
     {
-        double _offset = 0d;
+        double _baseLine = 0d;
         public bool _subScript = false;
         public bool _superScript = false;
 
@@ -18,11 +18,11 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// +Superscript or -Subscript offset in percent 
         /// (default 30% Super and -25% subscript)  
         /// </summary>
-        public double Offset
+        public double Baseline
         {
             get
             {
-                return _offset;
+                return _baseLine;
             }
             set
             {
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Interfaces.RichText
                     _subScript = false;
                 }
 
-                _offset = value;
+                _baseLine = value;
             }
         }
         public bool SubScript
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Interfaces.RichText
                 if (value == true)
                 {
                     _superScript = false;
-                    Offset = -25d;
+                    Baseline = -25d;
                 }
                 _subScript = value;
             }
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Interfaces.RichText
                 if (value == true)
                 {
                     _subScript = false;
-                    Offset = 30d;
+                    Baseline = 30d;
                 }
                 _superScript = value;
             }
@@ -87,8 +87,8 @@ namespace OfficeOpenXml.Interfaces.RichText
         ///
         public DrawingTextCapsType Capitalization { get; set; } = DrawingTextCapsType.None;
         public Color? HighLightColor { get; set; } = null;
-        public bool IsItalic { get; set; } = false;
-        public bool IsBold { get; set; } = false;
+        public bool Italic { get; set; } = false;
+        public bool Bold { get; set; } = false;
         public int UnderlineType { get; set; } = (int)DrawingUnderlineStyle.None;
         public int StrikeType { get; set; } = (int)DrawingStrikeType.No;
         public Color UnderlineColor { get; set; }

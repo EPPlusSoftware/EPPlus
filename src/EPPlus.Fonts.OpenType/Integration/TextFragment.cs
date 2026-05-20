@@ -46,9 +46,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         internal RichTextDefaults()
         {
         }
-        public bool IsItalic { get; set; } = false;
+        public bool Italic { get; set; } = false;
 
-        public bool IsBold { get; set; } = false;
+        public bool Bold { get; set; } = false;
 
         public bool SubScript { get; set; } = false;
 

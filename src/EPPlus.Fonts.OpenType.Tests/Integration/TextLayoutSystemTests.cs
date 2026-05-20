@@ -2,6 +2,7 @@
 using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -248,6 +249,26 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("Tested for wrapping in", lines[3].Text);
             Assert.AreEqual("the case where only", lines[4].Text);
             Assert.AreEqual("one font exists", lines[5].Text);
+        }
+
+        [TestMethod]
+        public void TestSimpleRichText()
+        {
+            var rtCollection = new RichTextCollectionBase();
+            var someTextRt = rtCollection.Add("SomeText", true);
+            var richRt = rtCollection.Add("rich");
+            var richerRt = rtCollection.Add("richer");
+            var richestRt = rtCollection.Add("richest");
+            var wealthyRt = rtCollection.Add("Wealthy");
+
+            richRt.FontData.Family = "Roboto";
+            richRt.RichTextOptions.Italic = true;
+
+           
+
+            //someTextRt.FontData.Family = "Archivo Narrow";
+
+            //richRt
         }
     }
 }
