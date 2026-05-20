@@ -2,11 +2,11 @@
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal class RenderTextRunCollection : IEnumerable<RenderTextRun>
+    internal class RenderTextRunCollection : IEnumerable<TextRunRenderItem>
     {
-        private List<RenderTextRun> _textRunItems;
+        private List<TextRunRenderItem> _textRunItems;
 
-        public void Add(RenderTextRun item)
+        public void Add(TextRunRenderItem item)
         {
             _textRunItems.Add(item);
         }
@@ -21,7 +21,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 return _textRunItems.Count;
             }
         }
-        IEnumerator<RenderTextRun> IEnumerable<RenderTextRun>.GetEnumerator()
+        IEnumerator<TextRunRenderItem> IEnumerable<TextRunRenderItem>.GetEnumerator()
         {
             return _textRunItems.GetEnumerator();
         }
@@ -34,7 +34,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         /// <param name="PositionID">The position of the chart. 0-base</param>
         /// <returns></returns>
-        public RenderTextRun this[int PositionID]
+        public TextRunRenderItem this[int PositionID]
         {
             get
             {

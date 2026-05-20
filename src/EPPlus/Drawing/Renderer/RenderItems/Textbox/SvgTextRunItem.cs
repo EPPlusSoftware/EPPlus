@@ -14,7 +14,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    internal class SvgTextRunItem : RenderTextRun
+    internal class SvgTextRunItem : TextRunRenderItem
     {
         public SvgTextRunItem(DrawingBase renderer, BoundingBox parent, MeasurementFont font, string displayText) : base(renderer, parent, font, displayText)
         {

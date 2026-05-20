@@ -174,11 +174,10 @@ namespace OfficeOpenXml.Drawing.Renderer
                 pi.Commands[pi.Commands.Count - 1].Coordinates = coordinates.ToArray();
             }
             var shape = (ExcelShape)Drawing;
-            var theme = shape._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             if (drawFill)
             {
                 pi.FillColorSource = path.Fill;                
-                pi.SetDrawingPropertiesFill(theme, shape.Fill, shape.ThemeStyles.FillReference.Color);
+                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color);
             }
             else
             {
@@ -189,7 +188,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (drawBorder)
             {
                 pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke);
+                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke);
             }
             else
             {
@@ -230,38 +229,8 @@ namespace OfficeOpenXml.Drawing.Renderer
 
         public void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
-
             //Write defs used for gradient colors
-            _shapeRenderer.WriteSvgDefs(sb, RenderItems);
-
-
-            //SvgGroupItem gItemTest = null;
-            foreach (var item in RenderItems)
-            {
-                item.Render(sb);
-                //if(item.Type == RenderItemType.Group && gItemTest == null)
-                //{
-                //    gItemTest = (SvgGroupItem)item;
-                //}
-                //if (item.IsEndOfGroup && gItemTest != null)
-                //{
-                //    gItemTest.RenderEndGroup(sb);
-                //}
-            }
-            //if (!string.IsNullOrEmpty(_shape.Text))t
-            //if (!string.IsNullOrEmpty(_shape.Text))t
-            //{
-            //    //RenderText(sb);
-            //}
-
-            //if (gItemTest != null)
-            //{
-            //    gItemTest.RenderEndGroup(sb);
-            //}
-
-            //RenderDebugTextBox(sb);
-            sb.AppendLine("</svg>");
+            bool v = _shapeRenderer.Render(RenderItems);
         }
 
         DrawingTextbody CreateTextBodyItem(ExcelTextBody bodyOrig)
@@ -285,23 +254,23 @@ namespace OfficeOpenXml.Drawing.Renderer
             double l, r, t, b;
             bodyOrig.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            MarginTextBox = new RectRenderItem(this, this.Bounds);
+            MarginTextBox = new RectRenderItem(this.Bounds);
 
             MarginTextBox.Top = t + InsetTextBox.Top;
             MarginTextBox.Left = l + InsetTextBox.Left;
             MarginTextBox.Width = InsetTextBox.Width - r - l;
             MarginTextBox.Height = InsetTextBox.Height - b - t;
 
-            RenderItems.Add(new SvgGroupItem(this, MarginTextBox.Bounds));
+            var grp = new GroupRenderItem(MarginTextBox.Bounds);
+            RenderItems.Add(grp);
 
-            var txtBodyItem = new SvgTextBodyItem(this, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            var txtBodyItem = new DrawingTextbody(Drawing, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBody(bodyOrig);
 
-            txtBodyItem.AppendRenderItems(RenderItems);
+            txtBodyItem.AppendRenderItems(grp.Children);
 
-            RenderItems.Add(new SvgEndGroupItem(this, Bounds));
-            //txtBodyItem.Width = InsetTextBox.Width;
-
+            //RenderItems.Add(new SvgEndGroupItem(this, Bounds));
+            
             return txtBodyItem;
         }
 
@@ -311,36 +280,36 @@ namespace OfficeOpenXml.Drawing.Renderer
         //    textBody.Render(sb);
         //}
 
-        private void RenderDebugTextBox(StringBuilder sb)
-        {
-            InsetTextBox.FillOpacity = 0.3d;
-            InsetTextBox.FillColor = "green";
-            InsetTextBox.Render(sb);
+        //private void RenderDebugTextBox(StringBuilder sb)
+        //{
+        //    InsetTextBox.FillOpacity = 0.3d;
+        //    InsetTextBox.FillColor = "green";
+        //    InsetTextBox.Render(sb);
 
-            MarginTextBox.FillColor = "red";
-            MarginTextBox.FillOpacity = 0.3;
-            MarginTextBox.Render(sb);
-            //InsetTextBox.GetBounds(out double l, out double t, out double r, out double b);
+        //    MarginTextBox.FillColor = "red";
+        //    MarginTextBox.FillOpacity = 0.3;
+        //    MarginTextBox.Render(sb);
+        //    //InsetTextBox.GetBounds(out double l, out double t, out double r, out double b);
 
-            //var area = textBody.Bounds;
+        //    //var area = textBody.Bounds;
 
-            ////Temporarily set as child bounds
-            //insetTextBox.Bounds.Left = (float)area.Left + l;
-            //insetTextBox.Bounds.Top = (float)area.Top + t;
-            //insetTextBox.Bounds.Width = (float)area.Width;
-            //insetTextBox.Bounds.Height = (float)area.Height;
+        //    ////Temporarily set as child bounds
+        //    //insetTextBox.Bounds.Left = (float)area.Left + l;
+        //    //insetTextBox.Bounds.Top = (float)area.Top + t;
+        //    //insetTextBox.Bounds.Width = (float)area.Width;
+        //    //insetTextBox.Bounds.Height = (float)area.Height;
 
-            //insetTextBox.FillColor = "blue";
+        //    //insetTextBox.FillColor = "blue";
 
-            ////Render the inner area
-            //insetTextBox.Render(sb);
+        //    ////Render the inner area
+        //    //insetTextBox.Render(sb);
 
-            ////Reset variables so that the rendering of children later aren't affected
-            //insetTextBox.Bounds.Left = l;
-            //insetTextBox.Bounds.Top = t;
-            //insetTextBox.Bounds.Right = r;
-            //insetTextBox.Bounds.Bottom = b;
-        }
+        //    ////Reset variables so that the rendering of children later aren't affected
+        //    //insetTextBox.Bounds.Left = l;
+        //    //insetTextBox.Bounds.Top = t;
+        //    //insetTextBox.Bounds.Right = r;
+        //    //insetTextBox.Bounds.Bottom = b;
+        //}
 
         private void GetShapeInnerBound(out double x, out double y, out double width, out double height)
         {

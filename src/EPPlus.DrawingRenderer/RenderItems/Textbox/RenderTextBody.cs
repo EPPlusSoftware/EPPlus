@@ -30,7 +30,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         Top
     }
 
-    public class RenderTextBody
+    public class RenderTextBody : IRenderItemContainer
     {
         public RenderTextBody(BoundingBox parent, bool autoSize)
         {
@@ -49,7 +49,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             MaxHeight = maxHeight;
         }
 
-        public List<RenderParagraph> Paragraphs { get; set; } = new List<RenderParagraph>();
+        public List<ParagraphRenderItem> Paragraphs { get; set; } = new List<ParagraphRenderItem>();
         public BoundingBox Bounds { get; private set; } = new BoundingBox();
         public TextAnchoringType VerticalAlignment = TextAnchoringType.Top;
         public string Text { get; set; }
@@ -60,45 +60,29 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double BottomMargin { get; set; }
         public double RightMargin { get; set; }
         public double LeftMargin { get; set; }
+        public string FontColorString { get; set; }
+        public void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            GroupRenderItem groupItem;
+            if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
+            {
+                groupItem = new GroupRenderItem(Bounds, Bounds.Rotation);
+            }
+            else
+            {
+                groupItem = new GroupRenderItem(Bounds);
+            }
 
-        //internal override void AppendRenderItems(List<RenderItem> renderItems)
-        //{
-        //    SvgGroupItem groupItem;
-        //    if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
-        //    {
-        //        groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
-        //    }
-        //    else
-        //    {
-        //        groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
-        //    }
+            if (FontColorString != null)
+            {
+                groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
+            }
 
-        //    if (FontColorString != null)
-        //    {
-        //        groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
-        //    }
-
-        //    renderItems.Add(groupItem);
-        //    foreach (SvgParagraphItem item in Paragraphs)
-        //    {
-        //        renderItems.Add(item);
-        //    }
-        //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
-        //}
-
-        //internal override Paragraph CreateParagraph(TextBodyItem textBody, BoundingBox parent)
-        //{
-        //    return new SvgParagraphItem(this, DrawingRenderer, parent);
-        //}
-
-        //internal override Paragraph CreateParagraph(TextBodyItem textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
-        //{
-        //    return new SvgParagraphItem(this, DrawingRenderer, parent, paragraph, textIfEmpty);
-        //}
-
-        //internal override Paragraph CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "")
-        //{
-        //    return new SvgParagraphItem(this, DrawingRenderer, parent, textIfEmpty);
-        //}
+            renderItems.Add(groupItem);
+            foreach (var item in Paragraphs)
+            {
+                groupItem.Children.Add(item);
+            }
+        }
     }
 }

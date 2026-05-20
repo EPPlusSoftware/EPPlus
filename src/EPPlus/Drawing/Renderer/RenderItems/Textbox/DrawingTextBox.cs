@@ -31,18 +31,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             TextBody.MaxHeight = maxHeight;            
         }
 
-        internal DrawingTextBox(ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight)
+        internal DrawingTextBox(ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight) : base(parent, maxWidth, maxHeight)
         {
             Init(drawing, parent, maxWidth, maxHeight);
         }
 
-        //Simplified input
-        internal DrawingTextBox(DrawingBase renderer, BoundingBox parent, BoundingBox maxBounds) : this(
-                                            renderer, parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height, maxBounds.Width, maxBounds.Height)
-        {
-        }
+        ////Simplified input
+        //internal DrawingTextBox(BoundingBox parent, BoundingBox maxBounds) : this(
+        //                                    parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height, maxBounds.Width, maxBounds.Height)
+        //{
+        //}
         RectRenderItem _rectangle =null;
-        public EPPlusRenderItem Rectangle
+        public RectRenderItem Rectangle
         {
             get
             {

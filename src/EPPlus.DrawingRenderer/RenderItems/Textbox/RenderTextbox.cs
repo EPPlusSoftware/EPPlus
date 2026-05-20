@@ -1,12 +1,12 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 
-
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    public class RenderTextbox
+    public class RenderTextbox : IRenderItemContainer
     {
         public RenderTextbox(BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN) 
         {
@@ -24,13 +24,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //TextBody.MaxHeight = maxHeight;            
         }
 
-        internal RenderTextbox(BoundingBox parent, double maxWidth, double maxHeight)
+        public RenderTextbox(BoundingBox parent, double maxWidth, double maxHeight)
         {
             Init(parent, maxWidth, maxHeight);
         }
 
         //Simplified input
-        internal RenderTextbox(BoundingBox parent, BoundingBox maxBounds) 
+        public RenderTextbox(BoundingBox parent, BoundingBox maxBounds) 
         {
         }
         RectRenderItem _rectangle =null;
@@ -145,6 +145,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal double GetActualBottom()
         {
             return Top + GetActualHeight();
+        }
+        public void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            renderItems.Add(Rectangle);
+            TextBody.AppendRenderItems(renderItems);
         }
         /// <summary>
         /// How the text is anchored.

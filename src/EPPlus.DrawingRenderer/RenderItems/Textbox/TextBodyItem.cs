@@ -55,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal eTextAnchoringType VerticalAlignment = eTextAnchoringType.Top;
 
-        internal abstract List<RenderParagraph> Paragraphs { get; set; }
+        internal abstract List<ParagraphRenderItem> Paragraphs { get; set; }
 
         public bool AllowOverflow;
 
@@ -261,14 +261,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract RenderParagraph CreateParagraph(TextBodyItem textBody,  ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
+        internal abstract ParagraphRenderItem CreateParagraph(TextBodyItem textBody,  ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty="");
 
-        internal abstract RenderParagraph CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "");
+        internal abstract ParagraphRenderItem CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "");
 
         /// <summary>
         /// Each file format defines its own paragraph
         /// </summary>
         /// <returns></returns>
-        internal abstract RenderParagraph CreateParagraph(TextBodyItem textBody, BoundingBox parent);
+        internal abstract ParagraphRenderItem CreateParagraph(TextBodyItem textBody, BoundingBox parent);
     }
 }

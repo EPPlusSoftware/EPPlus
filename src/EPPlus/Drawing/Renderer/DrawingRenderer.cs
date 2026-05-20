@@ -14,6 +14,7 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;

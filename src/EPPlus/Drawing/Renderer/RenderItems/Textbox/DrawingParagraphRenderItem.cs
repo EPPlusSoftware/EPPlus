@@ -1,42 +1,31 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Utils;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    internal abstract class DrawingParagraph : RenderParagraph
+    internal class DrawingParagraphRenderItem : ParagraphRenderItem
     {
         eDrawingTextLineSpacing _lsType;
         double? _lsMultiplier = null;
         List<TextFragment> _newTextFragments;
         int _manualFragmentsStartIndex = -1;
         List<TextFragment> _manualFragments;
-        internal protected MeasurementFont _paragraphFont;
-        internal TextBodyItem ParentTextBody { get; set; }
+        internal DrawingTextbody ParentTextBody { get; set; }
         internal bool DisplayBounds { get; set; } = false;
-
         private List<TextLineSimple> _lines;
-
         //Start temp workaround vars
         string _textIfEmpty = null;
         ExcelDrawingParagraph Paragraph { get; set; } = null;
@@ -54,56 +43,58 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             } 
         }
 
-        public DrawingParagraph(TextBodyItem textBody, BoundingBox parent) : base(parent)
+        public override RenderItemType Type => RenderItemType.Paragraph;
+
+        public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent) : base(parent)
         {
             ParentTextBody = textBody;
             Bounds.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
-            _paragraphFont = defaultFont;
+            ParagraphFont = defaultFont;
 
             Layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
         }
 
-        public DrawingParagraph(TextBodyItem textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent)
+        public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent)
         {
             ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
 
-            //if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
-            //{
-            //    if (IsFirstParagraph)
-            //    {
-            //        if (p.DefaultRunProperties.Fill != null)
-            //        {
-            //            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
-            //        if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
-            //        {
-            //            SetDrawingPropertiesFill(p.DefaultRunProperties.Fill, null);
-            //        }
-            //        else
-            //        {
-            //            var fc = EPPlusColorConverter.GetThemeColor(DrawingRenderer.Theme.ColorScheme.Light1);
-            //            fc = ColorUtils.GetAdjustedColor(PathFillMode.Norm, fc);
-            //            FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
-            //            //Use shape fill somehow
-            //            //Maybe use a name property for fallback theme accent1 color?
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
-            //    {
-            //        var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
-            //        SetDrawingPropertiesFill(fill, null);
-            //    }
-            //}
+            if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
+            {
+                if (IsFirstParagraph)
+                {
+                    if (p.DefaultRunProperties.Fill != null)
+                    {
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null);
+                    }
+                }
+                else
+                {
+                    //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
+                    if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
+                    {
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null);
+                    }
+                    else
+                    {
+                        var fc = ColorConverter.GetThemeColor(textBody.Theme.ColorScheme.Light1);
+                        fc = ColorConverter.GetAdjustedColor(PathFillMode.Norm, fc);
+                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
+                        //Use shape fill somehow
+                        //Maybe use a name property for fallback theme accent1 color?
+                    }
+                }
+            }
+            else
+            {
+                if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+                {
+                    var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
+                    this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
+                }
+            }
 
             //---Initialize Bounds / Margins-- -
             var indent = 48 * p.IndentLevel;
@@ -138,17 +129,17 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
-            _paragraphFont = p.DefaultRunProperties.GetMeasureFont();
+            ParagraphFont = p.DefaultRunProperties.GetMeasureFont();
 
             //---Get measurer---
-            Layout = OpenTypeFonts.GetTextLayoutEngineForFont(_paragraphFont);
+            Layout = OpenTypeFonts.GetTextLayoutEngineForFont(ParagraphFont);
 
             //---Calculate linespacing---
             int numLines = ParagraphLines.Count;
             _lsType = p.LineSpacing.LineSpacingType;
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, 
-                (TextShaper) OpenTypeFonts.GetShaperForFont(_paragraphFont), 
-                _paragraphFont.Size);
+                (TextShaper) OpenTypeFonts.GetShaperForFont(ParagraphFont), 
+                ParagraphFont.Size);
 
 
             ImportLinesAndTextRuns(p, textIfEmpty);
@@ -180,7 +171,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             var fragment = new TextFragment();
             fragment.Text = text;
-            fragment.Font = _paragraphFont;
+            fragment.Font = ParagraphFont;
             _manualFragments.Add(fragment);
 
             //if(_newTextFragments == null)
@@ -193,7 +184,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //{
             //    var fragment = new TextFragment();
             //    fragment.Text = text;
-            //    fragment.Font = _paragraphFont;
+            //    fragment.Font = ParagraphFont;
             //    //_newTextFragments.Add(fragment);
             //    _manualFragments.Add(fragment);
             //}
@@ -230,7 +221,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         }
 
 
-        internal protected DrawingTextRun AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        internal protected TextRunRenderItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
 
@@ -263,7 +254,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             if (string.IsNullOrEmpty(text) == false)
             {
-                var currentFrag = new TextFragment() { Text = text, Font = _paragraphFont};
+                var currentFrag = new TextFragment() { Text = text, Font = ParagraphFont};
                 _newTextFragments.Add(currentFrag);
             }
         }
@@ -439,9 +430,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         else
                         {
                             //Import fallback with default settings from constructor
-                            AddText(displayText, _paragraphFont);
+                            AddText(displayText, ParagraphFont);
                         }
-                        DrawingTextRun runItem = (DrawingTextRun)Runs.Last();
+                        DrawingTextRunRenderItem runItem = (DrawingTextRunRenderItem)Runs.Last();
                         runItem.Bounds.Left = prevWidth;
                         runItem.YPosition = lineTop;
 
@@ -497,16 +488,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             return x;
         }
+        internal TextRunRenderItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
+        {
+            return new DrawingTextRunRenderItem(parent, run, displayText);
+        }
+        internal TextRunRenderItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
+        {
+            return new DrawingTextRunRenderItem(parent, text, font, displayText);
+        }
 
-        /// <summary>
-        /// Type of textrun defined by child type
-        /// </summary>
-        /// <param name="run"></param>
-        /// <param name="parent"></param>
-        /// <param name="DisplayString"></param>
-        /// <returns></returns>
-        internal abstract DrawingTextRun CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText);
-        internal abstract DrawingTextRun CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText);
-        internal abstract DrawingTextRun CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText);
+        internal TextRunRenderItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
+        {
+            return new DrawingTextRunRenderItem(parent, font, displayText);
+        }
+
     }
 }

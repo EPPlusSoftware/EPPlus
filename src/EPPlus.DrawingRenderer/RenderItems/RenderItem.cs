@@ -202,16 +202,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public abstract class RenderItem : RenderItemBase
     {
-        //internal protected EPPlus.DrawingRenderer DrawingRenderer { get; }
-        //internal RenderItem(DrawingB renderer)
-        //{
-        //    DrawingRenderer = renderer;
-        //}
-
         protected RenderItem(/*DrawingBase renderer,*/ BoundingBox parent)
         {
             Bounds.Parent = parent;
-            //DrawingRenderer = renderer; 
         }
         //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
         public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
@@ -295,6 +288,12 @@ namespace EPPlus.DrawingRenderer.RenderItems
     {
         public BoundingBox Bounds = new BoundingBox();
         public abstract RenderItemType Type { get; }
-        //public abstract void Render(StringBuilder sb);
+        public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
+        {
+            il = Bounds.Left; 
+            it = Bounds.Top; 
+            ir = Bounds.Right; 
+            ib = Bounds.Bottom;
+        }
     }
 }

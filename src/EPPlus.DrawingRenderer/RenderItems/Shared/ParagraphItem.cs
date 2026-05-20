@@ -246,7 +246,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         //{
         //    var fragment = new TextFragment();
         //    fragment.Text = text;
-        //    fragment.Font = _paragraphFont;
+        //    fragment.Font = ParagraphFont;
         //    _manualFragments.Add(fragment);
 
         //    //if(_newTextFragments == null)
@@ -259,7 +259,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         //    //{
         //    //    var fragment = new TextFragment();
         //    //    fragment.Text = text;
-        //    //    fragment.Font = _paragraphFont;
+        //    //    fragment.Font = ParagraphFont;
         //    //    //_newTextFragments.Add(fragment);
         //    //    _manualFragments.Add(fragment);
         //    //}

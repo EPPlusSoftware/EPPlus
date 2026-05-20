@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgParagraphItem : RenderParagraph
+    internal class SvgParagraphItem : ParagraphRenderItem
     {
         public override RenderItemType Type => RenderItemType.Paragraph;
 
@@ -55,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void Render(StringBuilder sb)
         {
-            var fontSize = _paragraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
+            var fontSize = ParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
             sb.AppendLine($"<g transform=\"translate({Bounds.Left.PointToPixelString()},{Bounds.Top.PointToPixelString()})\" >");
 
@@ -137,7 +137,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //Render(sb);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
-                $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
+                $"font-family=\"{ParagraphFont.FontFamily},{ParagraphFont.FontFamily}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
             if (Runs != null && Runs.Count > 0)
@@ -151,16 +151,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
         }
-        internal override Shared.RenderTextRun CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
+        internal override Shared.TextRunRenderItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, run, displayText);
         }
-        internal override Shared.RenderTextRun CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
+        internal override Shared.TextRunRenderItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
         }
 
-        internal override Shared.RenderTextRun CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
+        internal override Shared.TextRunRenderItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
         {
             return new SvgTextRunItem(DrawingRenderer, parent, font, displayText);
         }

@@ -1,68 +1,30 @@
-﻿using EPPlus.DrawingRenderer;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Graphics;
-using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Style;
 using System.Globalization;
 using System.Text;
 
-namespace OfficeOpenXml.Drawing.Renderer.TextBox
+namespace EPPlus.DrawingRenderer.Svg
 {
-    internal class SvgParagraphItem : DrawingParagraphRenderItem
+    public class SvgParagraphRenderer : SvgBaseRenderer<ParagraphRenderItem> 
     {
-        public override RenderItemType Type => RenderItemType.Paragraph;
-
-        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent) : base(textBody, renderer, parent)
+        public SvgParagraphRenderer(StringBuilder outputStream) : base(outputStream)
         {
+
         }
-
-        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, string text) : base(textBody, renderer, parent)
+        internal string Suffix = "px";
+        public override void Render(ParagraphRenderItem item)
         {
-            ImportLinesAndTextRunsDefault(text);
-        }
-
-        public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(textBody, renderer, parent, p, textIfEmpty)
-        {
-        }
-        //private string GetVerticalAlignAttribute(double textOrigY)
-        //{
-        //    string ret = "dominant-baseline=";
-
-        //    switch (VerticalAlignment)
-        //    {
-        //        case eTextAnchoringType.Top:
-        //            ret += $"\"text-top\" ";
-        //            break;
-        //        case eTextAnchoringType.Center:
-        //            ret += $"\"middle\" ";
-        //            break;
-        //        case eTextAnchoringType.Bottom:
-        //            ret += $"\"text-bottom\" ";
-        //            break;
-        //        default:
-        //            return "";
-        //    }
-
-        //    var yStrValue = textOrigY.ToString(CultureInfo.InvariantCulture);
-        //    ret += $" y=\"{yStrValue}\"";
-
-        //    return ret;
-        //}
-
-        public override void Render(StringBuilder sb)
-        {
-            var fontSize = ParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
+            var sb = OutputStream;
+            var fontSize = item.ParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
             sb.AppendLine($"<g transform=\"translate({Bounds.Left.PointToPixelString()},{Bounds.Top.PointToPixelString()})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            if(DisplayBounds)
+            if (DisplayBounds)
             {
                 sb.AppendLine($"<g>");
                 sb.AppendLine("<title>Bounding-Box: Paragraph</title> ");
@@ -138,7 +100,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //Render(sb);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
-                $"font-family=\"{ParagraphFont.FontFamily},{ParagraphFont.FontFamily}_MSFontService,sans-serif\" " +
+                $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
             if (Runs != null && Runs.Count > 0)
@@ -151,19 +113,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
-        }
-        internal override TextRunRenderItem CreateTextRun(ExcelParagraphTextRunBase run, BoundingBox parent, string displayText)
-        {
-            return new SvgTextRunItem(DrawingRenderer, parent, run, displayText);
-        }
-        internal override TextRunRenderItem CreateTextRun(string text, ExcelTextFont font, BoundingBox parent, string displayText)
-        {
-            return new SvgTextRunItem(DrawingRenderer, parent, text, font, displayText);
-        }
 
-        internal override TextRunRenderItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
-        {
-            return new SvgTextRunItem(DrawingRenderer, parent, font, displayText);
+            RenderBase(item);
+            OutputStream.AppendFormat("/>");
         }
     }
 }

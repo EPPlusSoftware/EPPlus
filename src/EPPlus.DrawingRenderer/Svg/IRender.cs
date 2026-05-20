@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPPlus.DrawingRenderer.Svg
+namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
@@ -35,6 +35,8 @@ namespace EPPlus.DrawingRenderer.Svg
 
         public bool Render(List<RenderItem> items)
         {
+            OutputStream.Clear();
+            OutputStream.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
             PreRender(items);
             foreach(var item in items)
             {
@@ -57,6 +59,7 @@ namespace EPPlus.DrawingRenderer.Svg
                         break;
                 }
             }
+            OutputStream.AppendLine("</svg>");
             return true;
         }
 
@@ -605,5 +608,9 @@ namespace EPPlus.DrawingRenderer.Svg
         }
         public T OutputStream { get; }
         public abstract void Render(RenderItem item);
+    }
+    public interface IRenderItemContainer
+    {
+        public void AppendRenderItems(List<RenderItem> renderItems);
     }
 }

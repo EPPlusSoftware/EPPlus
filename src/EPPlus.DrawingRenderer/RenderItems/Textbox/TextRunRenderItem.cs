@@ -104,7 +104,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         Single
     }
-    public abstract class RenderTextRun : RenderItem
+    public abstract class TextRunRenderItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Text;
 
@@ -125,23 +125,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal Color _underlineColor;
         protected internal double _baseline;
 
-        protected double YPosition { get; set; }
+        public double YPosition { get; set; }
         protected double ClippingHeight = double.NaN;
-        public RenderTextRun(BoundingBox parent) : base(parent)
+        public TextRunRenderItem(BoundingBox parent) : base(parent)
         {
             Bounds.Name = "TextRun";
         }
 
-        public RenderTextRun(BoundingBox parent, MeasurementFont font, string displayText) : base(parent)
+        public TextRunRenderItem(BoundingBox parent, MeasurementFont font, string displayText) : base(parent)
         {
             _originalText = displayText;
 
             Bounds.Name = "TextRun";
             _currentText = displayText;
 
-            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();    
-            
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
+
             _measurementFont = font;
+            _isFirstInParagraph = true;
 
             FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
             Bounds.Height = _measurementFont.Size;
@@ -155,6 +156,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 ClippingHeight = parent.Parent.Parent.Position.Y + parent.Parent.Parent.Size.Y;
             }
+
             if (Lines.Count == 1)
             {
                 //Bounds.Width = parent.Width;
@@ -165,21 +167,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //Measure text.
                 GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
             }
+
             _underLineType = UnderLineType.None;
         }
-        /// <summary>
-        /// Calculates right/bottom
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="it"></param>
-        /// <param name="ir"></param>
-        /// <param name="ib"></param>
-        internal override void GetBounds(out double il, out double it, out double ir, out double ib)
+        public TextRunRenderItem(BoundingBox parent, string text, MeasurementFont font, string displayText) : base(parent)
         {
-            il = Bounds.Left;
-            it = Bounds.Top;
-            ir = Bounds.Right;
-            ib = Bounds.Bottom;
+            _originalText = text;
+
+            Bounds.Name = "TextRun";
+            _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
+
+            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
+
+            _measurementFont = font;
+            _isFirstInParagraph = true;
         }
     }
 }

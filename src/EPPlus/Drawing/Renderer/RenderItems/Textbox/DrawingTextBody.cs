@@ -20,16 +20,21 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     public class DrawingTextbody : RenderTextBody
     {
-        protected ExcelDrawing _drawing;
+        internal ExcelDrawing _drawing;
+
+        internal ExcelTheme Theme { get; }
+
         public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
         {
             _drawing = drawing;
+            Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
         public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(parent, autoSize)
         {
             _drawing = drawing;
+            Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             Bounds.Left = left;
             Bounds.Top = top;
             Bounds.Width = maxWidth;
@@ -201,19 +206,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         //}
 
-        internal override DrawingParagraph CreateParagraph(TextBodyItem textBody, BoundingBox parent)
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, BoundingBox parent)
         {
-            return new DrawingParagraph(this, DrawingRenderer, parent);
+            return new DrawingParagraphRenderItem(textBody, parent);
         }
 
-        //internal override ParagraphItem CreateParagraph(TextBodyItem textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
-        //{
-        //    return new SvgParagraphItem(this, DrawingRenderer, parent, paragraph, textIfEmpty);
-        //}
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
+        {
+            return new DrawingParagraphRenderItem(textBody, parent, paragraph, textIfEmpty);
+        }
 
-        //internal override ParagraphItem CreateParagraph(TextBodyItem textBody, BoundingBox parent, string textIfEmpty = "")
-        //{
-        //    return new SvgParagraphItem(this, DrawingRenderer, parent, textIfEmpty);
-        //}
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, BoundingBox parent, string textIfEmpty = "")
+        {
+            return new DrawingParagraph(textBody, parent, textIfEmpty);
+        }
     }
 }
