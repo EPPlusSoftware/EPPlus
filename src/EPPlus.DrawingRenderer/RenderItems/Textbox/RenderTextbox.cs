@@ -6,7 +6,7 @@ using EPPlusImageRenderer.RenderItems;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    public class RenderTextbox : IRenderItemContainer
+    public class RenderTextbox : DrawingObject
     {
         public RenderTextbox(BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN) 
         {
@@ -146,7 +146,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             return Top + GetActualHeight();
         }
-        public void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
             TextBody.AppendRenderItems(renderItems);

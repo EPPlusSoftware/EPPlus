@@ -30,7 +30,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         Top
     }
 
-    public class RenderTextBody : IRenderItemContainer
+    public class RenderTextBody : DrawingObject
     {
         public RenderTextBody(BoundingBox parent, bool autoSize)
         {
@@ -55,13 +55,13 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public string Text { get; set; }
         public double MaxWidth { get; set; }
         public double MaxHeight { get; set; }
-        public bool AutoSize { get; private set; }
+        public bool AutoSize { get; set; }
         public double TopMargin { get; set; }
         public double BottomMargin { get; set; }
         public double RightMargin { get; set; }
         public double LeftMargin { get; set; }
         public string FontColorString { get; set; }
-        public void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             GroupRenderItem groupItem;
             if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.

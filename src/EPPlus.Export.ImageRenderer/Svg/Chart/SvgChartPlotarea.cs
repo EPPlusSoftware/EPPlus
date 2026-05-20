@@ -148,7 +148,7 @@ namespace EPPlusImageRenderer.Svg
             return (sc.Chart.Legend?.Position == eLegendPosition.Top ? sc.Legend.Bounds.Bottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
         }
 
-        private SvgChartAxis GetAxisByPosition(SvgChart sc, eAxisPosition pos)
+        private ChartAxisRenderer GetAxisByPosition(SvgChart sc, eAxisPosition pos)
         {
             if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.AxisPosition == pos)
             {

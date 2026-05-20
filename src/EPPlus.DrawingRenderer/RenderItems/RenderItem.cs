@@ -90,10 +90,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
         public double Right { get { return Bounds.Left + Width; } }
         public double Bottom { get { return Bounds.Top + Height; } }
-        //public double GlobalLeft => Bounds.GlobalLeft;
-        //public double GlobalTop => Bounds.GlobalTop;
-        //public double GlobalRight => Bounds.GlobalLeft + Width;
-        //public double GlobalBottom => Bounds.GlobalTop + Height;
+        public double GlobalLeft => Bounds.GlobalLeft;
+        public double GlobalTop => Bounds.GlobalTop;
+        public double GlobalRight => Bounds.GlobalLeft + Width;
+        public double GlobalBottom => Bounds.GlobalTop + Height;
     }
     public class GroupRenderItem : RenderItem
     {
@@ -200,9 +200,16 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public override RenderItemType Type => RenderItemType.Line;
     }
+    public abstract class DrawingObject
+    {
+        public abstract void AppendRenderItems(List<RenderItem> renderItems);
+    }
     public abstract class RenderItem : RenderItemBase
     {
-        protected RenderItem(/*DrawingBase renderer,*/ BoundingBox parent)
+        protected RenderItem()
+        {
+        }
+        protected RenderItem(BoundingBox parent)
         {
             Bounds.Parent = parent;
         }

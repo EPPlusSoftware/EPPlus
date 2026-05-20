@@ -32,7 +32,7 @@ using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChartTitle : SvgChartObject
+    internal class ChartTitleRenderer : DrawingChartObject
     {
         ExcelChartTitleStandard _title;
         string _titleText;
@@ -44,7 +44,7 @@ namespace EPPlusImageRenderer.Svg
         /// <param name="t"></param>
         /// <param name="defaultText"></param>
         /// <param name="axisPosition">If null, this is the main chart title.</param>
-        internal SvgChartTitle(SvgChart sc, ExcelChartTitleStandard t, string defaultText, SvgChartAxis axis=null) : base(sc)
+        internal ChartTitleRenderer(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText, ChartAxisRenderer axis=null) : base(sc)
         {
             _svgChart = sc;
 
@@ -105,7 +105,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
-        private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
+        private void SetAxisTitleRect(SvgChart sc, ChartAxisRenderer axis)
         {
             var margin = 8F;
             switch (axis.Axis.AxisPosition)
@@ -212,7 +212,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
         }
 
-        public DrawingTextBox TextBox
+        public SvgTextBox TextBox
         {
             get; private set;
         }

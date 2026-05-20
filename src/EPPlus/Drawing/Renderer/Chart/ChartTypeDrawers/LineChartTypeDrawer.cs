@@ -1,5 +1,7 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
@@ -18,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
-        internal LineChartTypeDrawer(SvgChart svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
+        internal LineChartTypeDrawer(ChartRenderer svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
             var isStacked = chartType.IsTypeStacked();
             var isPercentStacked = chartType.IsTypePercentStacked();
@@ -49,7 +51,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         internal override void DrawSeries()
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            var groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             RenderItems.Add(groupItem);
 
             var lct = (ExcelLineChart)_chartType;
@@ -88,8 +90,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 tr.AppendRenderItems(RenderItems);
             }
 
-            RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
-
             //Datalabels use the chart area as parent as they can be positioned on the entire chart.
 
             //Add data labels for trendlines after the trendline has been rendered, to ensure they are on top of the line.
@@ -122,19 +122,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SvgChartAxis yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
             {
-                yAxis = _svgChart.SecondVerticalAxis;
-                xAxis = _svgChart.SecondHorizontalAxis;
+                yAxis = ChartRenderer.SecondVerticalAxis;
+                xAxis = ChartRenderer.SecondHorizontalAxis;
                 if(xAxis.Axis.Deleted && xAxis.Values==null)
                 {
-                    xAxis = _svgChart.HorizontalAxis;
+                    xAxis = ChartRenderer.HorizontalAxis;
                 }
             }
             else
             {
-                yAxis = _svgChart.VerticalAxis;
-                xAxis = _svgChart.HorizontalAxis;
+                yAxis = ChartRenderer.VerticalAxis;
+                xAxis = ChartRenderer.HorizontalAxis;
             }
-            var linePath = new SvgRenderPathItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             var coords = new List<double>();
             var markerItems = new List<RenderItem>();
 
@@ -163,18 +163,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);
-                    pt.Parent = _svgChart.Plotarea.Bounds;
+                    pt.Parent = ChartRenderer.Plotarea.Rectangle.Bounds;
                 }
 
                 if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
                 {
                     float mx = (float)xPos;
                     float my = (float)yPos;
-                    var ls = LineMarkerHelper.GetMarkerItem(_svgChart, serie, mx, my, false);
+                    var ls = LineMarkerHelper.GetMarkerItem(ChartRenderer, serie, mx, my, false);
                     if ((serie.Marker.Style == eMarkerStyle.Plus || serie.Marker.Style == eMarkerStyle.X || serie.Marker.Style == eMarkerStyle.Star) &&
                         serie.Marker.Fill.IsEmpty == false)
                     {
-                        markerItems.Add(LineMarkerHelper.GetMarkerBackground(_svgChart, serie, mx, my, false));
+                        markerItems.Add(LineMarkerHelper.GetMarkerBackground(ChartRenderer, serie, mx, my, false));
                     }
                     markerItems.Add(ls);
 
@@ -198,12 +198,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
 
-            linePath.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, linePath, coords.ToArray()));
-            linePath.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
-            linePath.SetDrawingPropertiesEffects(serie.Effect);
+            linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
+            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
+            linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.FillColor = "none";    //No fill for line
             linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
-            linePath.LineJoin = SvgLineJoin.Round; 
+            linePath.LineJoin = LineJoin.Round; 
             RenderItems.Add(linePath);
             RenderItems.AddRange(markerItems);
         }

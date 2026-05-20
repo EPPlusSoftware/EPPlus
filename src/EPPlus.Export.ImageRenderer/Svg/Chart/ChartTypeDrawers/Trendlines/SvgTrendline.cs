@@ -652,7 +652,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var isBar = _chartType.IsTypeBar();
             var isLine = _chartType.IsTypeLine();
-            SvgChartAxis catAxis, valAxis;
+            ChartAxisRenderer catAxis, valAxis;
             if(isBar)
             {
                 valAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;

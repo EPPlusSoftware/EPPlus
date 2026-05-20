@@ -13,6 +13,7 @@
 using System;
 using System.Text;
 using System.Xml;
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.Utils;
 using OfficeOpenXml.Drawing.Interfaces;

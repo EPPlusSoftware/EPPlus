@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType.Utils;
@@ -26,12 +27,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
-
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChart : ChartRenderer
+    internal class DrawingChart : ChartRenderer
     {
-        public SvgChart(ExcelChart chart/*, IChartRenderer renderer*/) : base(chart)
+        public DrawingChart(ExcelChart chart/*, IChartRenderer renderer*/) : base(chart)
         {
             SetChartArea();
 
@@ -95,7 +95,7 @@ namespace EPPlusImageRenderer.Svg
             return null;
         }
 
-        private void  SetAxisPositionsFromPlotarea(SvgChart sc)
+        private void  SetAxisPositionsFromPlotarea(DrawingChart sc)
         {
             if(Legend !=null && (sc.Chart.Legend.Position==eLegendPosition.Left || sc.Chart.Legend.Position == eLegendPosition.Right))
             {
@@ -137,7 +137,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void PlaceHorizontalAxis(SvgChart sc, SvgChartAxis horizontalAxis)
+        private void PlaceHorizontalAxis(DrawingChart sc, SvgChartAxis horizontalAxis)
         {
             horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
             horizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
@@ -172,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void PlaceVerticalAxis(SvgChart sc, SvgChartAxis verticalAxis)
+        private void PlaceVerticalAxis(DrawingChart sc, SvgChartAxis verticalAxis)
         {
             if (verticalAxis.Rectangle != null)
             {
@@ -227,7 +227,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        internal SvgChartObject ChartArea { get; set; }
+        internal ChartDrawingObject ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
         internal SvgChartTitle Title { get; set; }
         internal SvgChartPlotarea Plotarea { get; set; }
@@ -237,11 +237,11 @@ namespace EPPlusImageRenderer.Svg
         internal SvgChartAxis SecondHorizontalAxis { get; set; }
         private void SetChartArea()
         {
-            var item = new SvgChartArea(this);
+            var item = new RenderChartArea(this);
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
-            item.Rectangle.SetDrawingPropertiesFill(Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
-            item.Rectangle.SetDrawingPropertiesBorder(Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
+            item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             item.AppendRenderItems(RenderItems);
             ChartArea = item;
         }
@@ -250,44 +250,6 @@ namespace EPPlusImageRenderer.Svg
         {
             DefItems.Add(item);
         }
-        public void Render(StringBuilder sb)
-        {
-            Plotarea?.AppendRenderItems(RenderItems);
-
-            HorizontalAxis?.AppendRenderItems(RenderItems);
-            VerticalAxis?.AppendRenderItems(RenderItems);
-            SecondHorizontalAxis?.AppendRenderItems(RenderItems);
-            SecondVerticalAxis?.AppendRenderItems(RenderItems);
-
-            if (Plotarea != null)
-            {
-                foreach (var drawer in Plotarea?.ChartTypeDrawers)
-                {
-                    drawer.AppendRenderItems(RenderItems);
-                }
-            }
-
-            HorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-            VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-            SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-            SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-
-            Title?.AppendRenderItems(RenderItems);
-            Legend?.AppendRenderItems(RenderItems);
-
-            sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
-            //Write defs used for gradient colors
-            var writer = new SvgDrawingWriter(this);
-            writer.WriteSvgDefs(sb, RenderItems);
-
-            foreach (var item in RenderItems)
-            {
-                item.Render(sb);
-            }
-
-            sb.Append("</svg>");
-        }
-
         internal double GetPlotAreaTop()
         {
             var margin = 14D;
@@ -306,14 +268,14 @@ namespace EPPlusImageRenderer.Svg
 
         }
 
-        internal SvgRenderLineItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
+        internal LineRenderItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
         {
             const float MarginExtra = 1.5f;
             const float LineLength = 21;
 
-            var item = new SvgRenderLineItem(this, parentItem);
-            item.SetDrawingPropertiesFill(s.Fill, this.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(s.Border, this.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            var item = new LineRenderItem(parentItem);
+            item.SetDrawingPropertiesFill(Theme, s.Fill, this.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, this.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;
@@ -321,19 +283,9 @@ namespace EPPlusImageRenderer.Svg
             item.Y1 = y;
             item.X2 = x + LineLength;
             item.Y2 = y;
-            item.LineCap = eLineCap.Round;
+            item.LineCap = LineCap.Round;
 
             return item;
         }
-    }
-
-    internal interface IChartRenderer
-    {
-        DrawingObject ChartAreaRenderer { get; }
-        DrawingObject TitleRenderer { get; }
-        DrawingObject LegendRenderer { get; }
-        DrawingObject AxisRenderer { get; }
-        DrawingObject AxisTextboxRenderer { get; }
-        DrawingObject PlotareaRenderer { get; }
     }
 }

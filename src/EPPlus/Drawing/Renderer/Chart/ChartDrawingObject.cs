@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
@@ -20,39 +22,23 @@ using System.Collections.Generic;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal abstract class DrawingObject
+    internal class ChartAreaRenderer : ChartDrawingObject
     {
-        internal protected DrawingBase DrawingRenderer { get; }
-        internal virtual BoundingBox Bounds { get; set; }
-
-        protected DrawingObject(DrawingBase renderer)
+        public ChartAreaRenderer(ChartRenderer sc) : base(sc)
         {
-            DrawingRenderer = renderer;
-        }
-        protected DrawingObject(DrawingBase renderer, BoundingBox parent)
-        {
-            DrawingRenderer = renderer;
-            Bounds = new BoundingBox() { Parent=parent};
-        }
-        internal abstract void AppendRenderItems(List<RenderItem> renderItems);
-    }
-    internal class SvgChartArea : SvgChartObject
-    {
-        public SvgChartArea(SvgChart sc) : base(sc)
-        {
-            Rectangle = new SvgRenderRectItem(sc, sc.Bounds);
+            Rectangle = new RectRenderItem(sc.Bounds);
         }
 
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
         }
     }
-    internal abstract class SvgChartObject : DrawingObject
+    internal abstract class ChartDrawingObject : DrawingObject
     {
         internal ChartRenderer ChartRenderer;
         internal ExcelChart Chart => (ExcelChart)ChartRenderer.Drawing;
-        internal SvgChartObject(ChartRenderer chart) : base(chart, chart.Bounds)
+        internal ChartDrawingObject(ChartRenderer chart)
         {
             ChartRenderer = chart;
         }
@@ -68,11 +54,11 @@ namespace EPPlusImageRenderer.Svg
         internal double RightMargin { get; set; }
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
-        internal SvgRenderRectItem Rectangle { get; set; }
-        protected static SvgRenderRectItem GetRectFromManualLayout(SvgChart sc, ExcelLayout layout, BoundingBox parent=null)
+        internal RectRenderItem Rectangle { get; set; }
+        protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
             var bounds = parent ?? sc.Bounds;
-            var rect = new SvgRenderRectItem(sc, sc.ChartArea.Rectangle.Bounds);
+            var rect = new RectRenderItem(sc.ChartArea.Rectangle.Bounds);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {

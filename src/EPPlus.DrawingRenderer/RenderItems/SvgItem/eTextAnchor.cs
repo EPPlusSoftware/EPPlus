@@ -3,7 +3,7 @@
     /// <summary>
     /// Matches the enum for an svg text anchor of a text element.    
     /// </summary>
-    internal enum eTextAnchor
+    public enum eTextAnchor
     {
         /// <summary>
         /// Text is anchored to the start of the text element.

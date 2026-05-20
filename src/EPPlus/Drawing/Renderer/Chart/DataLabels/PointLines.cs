@@ -1,19 +1,14 @@
-﻿using EPPlus.Graphics;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Graphics;
 using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class PointLines : DrawingObject
+    internal class PointLines : ChartDrawingObject
     {
-        internal List<SvgRenderLineItem> RenderLines = new List<SvgRenderLineItem>();
+        internal List<LineRenderItem> RenderLines = new List<LineRenderItem>();
 
         internal ConnectionPointsMiddle ConnectionPoints;
 
@@ -21,21 +16,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private BoundingBox parentBounds;
 
-        private PointLines(DrawingBase renderer) : base(renderer)
+        private PointLines(ChartRenderer cr) : base(cr)
         {
         }
 
-        internal PointLines(DrawingBase renderer, BoundingBox parent, ConnectionPointsMiddle connectionPoints) : this(renderer)
+        internal PointLines(ChartRenderer cr, BoundingBox parent, ConnectionPointsMiddle connectionPoints) : this(cr)
         {
             parentBounds = parent;
 
-            Bounds = new BoundingBox();
-
-            Bounds.Parent = parent;
-            //Bounds.Left = parent.Left;
-            //Bounds.Top = parent.Top;
-            //Bounds.Width = parent.Width;
-            //Bounds.Height = parent.Height;
+            Rectangle.Bounds.Parent = parent;
             ConnectionPoints = connectionPoints;
 
             UpdateLines();
@@ -48,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             for (int i = 0; i < ConnectionPoints.Points.Count; i++)
             {
                 var cPoint = ConnectionPoints.Points[i];
-                var cPointLine = new SvgRenderLineItem(DrawingRenderer, Bounds);
+                var cPointLine = new LineRenderItem(Rectangle.Bounds);
                 cPointLine.X1 = 0;
                 cPointLine.Y1 = 0;
                 cPointLine.X2 = cPoint.X;
@@ -60,16 +49,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            SvgGroupItem gItem = new SvgGroupItem(DrawingRenderer, Bounds);
+            GroupRenderItem gItem = new GroupRenderItem(Rectangle.Bounds);
             renderItems.Add(gItem);
             foreach (var line in RenderLines)
             {
-                renderItems.Add(line);
+                gItem.Children.Add(line);
             }
-            SvgEndGroupItem endGItem = new SvgEndGroupItem(DrawingRenderer, Bounds);
-            renderItems.Add(endGItem);
         }
     }
 }

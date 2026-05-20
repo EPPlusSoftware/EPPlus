@@ -36,10 +36,10 @@ using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChartAxis : SvgChartObject, IDrawingChartAxis
+    internal class SvgChartAxis : ChartDrawingObject, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
-        internal SvgChartAxis(SvgChart sc, ExcelChartAxisStandard ax) : base(sc)
+        internal SvgChartAxis(DrawingChart sc, ExcelChartAxisStandard ax) : base(sc)
         {
             SvgChart = sc;
             Axis = ax;
@@ -52,7 +52,7 @@ namespace EPPlusImageRenderer.Svg
 
             if(ax.HasTitle)
             {
-                Title = new SvgChartTitle(sc, ax.Title, "Axis Title", this);
+                Title = new ChartTitleRenderer(sc, ax.Title, "Axis Title", this);
             }
             else
             {
@@ -126,7 +126,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
         internal ExcelChartAxisStandard Axis { get; }
-        internal SvgChart SvgChart { get; }
+        internal DrawingChart SvgChart { get; }
         internal SvgRenderLineItem Line { get; set; }
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
         {
@@ -148,7 +148,7 @@ namespace EPPlusImageRenderer.Svg
             }
             return displayValues;
         }
-        private double GetTextHeight(SvgChart sc, ExcelChartAxisStandard ax)
+        private double GetTextHeight(DrawingChart sc, ExcelChartAxisStandard ax)
         {
             var tm = sc.TextMeasurer;
             var highest = 0D;
@@ -182,7 +182,7 @@ namespace EPPlusImageRenderer.Svg
             return highest.PointToPixel();
         }
 
-        private double GetTextWidest(SvgChart sc, ExcelChartAxisStandard ax)
+        private double GetTextWidest(DrawingChart sc, ExcelChartAxisStandard ax)
         {
             var mf = ax.Font.GetMeasureFont();
             var shaper = OpenTypeFonts.GetShaperForFont(mf);
@@ -212,8 +212,8 @@ namespace EPPlusImageRenderer.Svg
         public List<SvgRenderLineItem> MinorAxisPositions { get; private set; }
         public List<RenderItem> MajorGridlinePositions { get; private set; }
         public List<RenderItem> MinorGridlinePositions { get; private set; }
-        public SvgAxisTextBoxes  Textboxes{get; private set;}
-        public SvgChartTitle Title { get; set; }
+        public ChartAxisTextBoxes  Textboxes{get; private set;}
+        public ChartTitleRenderer Title { get; set; }
         public double Min { get; set; }
         public double Max { get; set; }
         public double MajorUnit { get; set; }
@@ -294,7 +294,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
-                Textboxes = new SvgAxisTextBoxes(SvgChart);
+                Textboxes = new ChartAxisTextBoxes(SvgChart);
                 Textboxes.TextBoxes = GetAxisValueTextBoxes();  
             }
         }
@@ -770,7 +770,7 @@ namespace EPPlusImageRenderer.Svg
                             throw new InvalidOperationException("Invalid axis position");
                     }
 
-                    //var tm = new SvgRenderLineItem(SvgChart, SvgChart.Bounds);
+                    //var tm = new SvgRenderLineItem(DrawingChart, DrawingChart.Bounds);
                     //tm.X1 = x1;
                     //tm.Y1 = y1;
                     //tm.X2 = x2;
@@ -877,7 +877,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         //if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                         //{
-                        //    majorHeight = SvgChart.Plotarea.Rectangle.Height / (Max - 1);
+                        //    majorHeight = DrawingChart.Plotarea.Rectangle.Height / (Max - 1);
                         //    return majorHeight * val;
                         //}
                         //else

@@ -60,9 +60,9 @@ namespace EPPlusImageRenderer.Svg
     }
     internal abstract class SvgChartObject : DrawingObject
     {
-        internal DrawingChart ChartRenderer;
+        internal EPPlusImageRenderer.DrawingChart ChartRenderer;
         internal ExcelChart Chart => (ExcelChart)ChartRenderer.Drawing;
-        internal SvgChartObject(DrawingChart chart) : base(chart, chart.Bounds)
+        internal SvgChartObject(EPPlusImageRenderer.DrawingChart chart) : base(chart, chart.Bounds)
         {
             ChartRenderer = chart;
         }

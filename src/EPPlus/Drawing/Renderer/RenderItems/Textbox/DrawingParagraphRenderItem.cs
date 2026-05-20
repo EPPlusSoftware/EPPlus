@@ -24,7 +24,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         int _manualFragmentsStartIndex = -1;
         List<TextFragment> _manualFragments;
         internal DrawingTextbody ParentTextBody { get; set; }
-        internal bool DisplayBounds { get; set; } = false;
         private List<TextLineSimple> _lines;
         //Start temp workaround vars
         string _textIfEmpty = null;
@@ -32,9 +31,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //end temp workaround vars
 
         private double? _centerAdjustment = null;
-
-        internal List<double> SpaceWidthsPerLine = new List<double>();
-
         bool LinespacingIsExact 
         { 
             get

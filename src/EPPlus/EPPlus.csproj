@@ -788,6 +788,7 @@
 		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.6" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Remove="Drawing\Renderer\Chart\DrawingChart.cs" />
 		<Compile Remove="LoadFunctions\HeaderReader.cs" />
 	</ItemGroup>
 

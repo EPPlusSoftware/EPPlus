@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
 
-        internal BarColumnChartTypeDrawer(SvgChart svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
+        internal BarColumnChartTypeDrawer(DrawingChart svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
@@ -37,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 //if (serie.HasDataLabel)
                 //{
-                //    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, catValue, valValue, serCounter);
+                //    var datalabel = new ChartSerieDataLabelRenderer(svgChart, serie.DataLabel, svgChart.Bounds, serie, catValue, valValue, serCounter);
                 //    serieDataLabels.Add(datalabel);
                 //}
             }

@@ -20,26 +20,26 @@ namespace EPPlus.DrawingRenderer.Svg
             var sb = OutputStream;
             var fontSize = item.ParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
-            sb.AppendLine($"<g transform=\"translate({Bounds.Left.PointToPixelString()},{Bounds.Top.PointToPixelString()})\" >");
+            sb.AppendLine($"<g transform=\"translate({item.Bounds.Left.PointToPixelString()},{item.Bounds.Top.PointToPixelString()})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
 
-            if (DisplayBounds)
-            {
-                sb.AppendLine($"<g>");
-                sb.AppendLine("<title>Bounding-Box: Paragraph</title> ");
-                SvgRenderRectItem visualBoundingBox = new SvgRenderRectItem(DrawingRenderer, ParentTextBody.Bounds);
+            //if (DisplayBounds)
+            //{
+            //    sb.AppendLine($"<g>");
+            //    sb.AppendLine("<title>Bounding-Box: Paragraph</title> ");
+            //    SvgRenderRectItem visualBoundingBox = new SvgRenderRectItem(DrawingRenderer, ParentTextBody.Bounds);
 
-                //Left/Top handled by transform
-                visualBoundingBox.Bounds.Width = Bounds.Width;
-                visualBoundingBox.Bounds.Height = Bounds.Height;
+            //    //Left/Top handled by transform
+            //    visualBoundingBox.Bounds.Width = item.Bounds.Width;
+            //    visualBoundingBox.Bounds.Height = itemBounds.Height;
 
-                visualBoundingBox.FillOpacity = 0.3;
-                visualBoundingBox.FillColor = "red";
-                visualBoundingBox.Render(sb);
-                sb.AppendLine($"</g>");
+            //    visualBoundingBox.FillOpacity = 0.3;
+            //    visualBoundingBox.FillColor = "red";
+            //    visualBoundingBox.Render(sb);
+            //    sb.AppendLine($"</g>");
 
-            }
+            //}
 
             //var bb = new SvgRenderRectItem(DrawingRenderer, Bounds);
             ////The bb is affected by the Transform so set pos to zero
@@ -96,11 +96,10 @@ namespace EPPlus.DrawingRenderer.Svg
             //}
 
             sb.Append("<text ");
-            SvgBaseRenderer.BaseRender(sb, this);
-            //Render(sb);
+            BaseRender(sb, this);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
-                $"font-family=\"{_paragraphFont.FontFamily},{_paragraphFont.FontFamily}_MSFontService,sans-serif\" " +
+                $"font-family=\"{item.ParagraphFont.FontFamily},{item.ParagraphFont.FontFamily}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
             if (Runs != null && Runs.Count > 0)

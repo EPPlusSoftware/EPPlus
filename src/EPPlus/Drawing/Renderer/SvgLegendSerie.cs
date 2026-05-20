@@ -10,13 +10,15 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class SvgLegendSerie : SvgLegendSeriesIcon
     {
-        internal TextBodyItem Textbox { get; set; }
+        internal DrawingTextbody Textbox { get; set; }
     }
 }

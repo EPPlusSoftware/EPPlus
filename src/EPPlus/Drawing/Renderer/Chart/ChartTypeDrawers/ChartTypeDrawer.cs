@@ -1,5 +1,7 @@
-﻿using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
@@ -16,19 +18,16 @@ using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal abstract class ChartTypeDrawer : SvgChartObject
+    internal abstract class ChartTypeDrawer : ChartDrawingObject
     {
-        protected SvgChart _svgChart;
         internal protected ExcelChart _chartType;
         internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
-
         internal virtual bool SupportsTrendlines { get { return false; } }
         internal virtual bool SupportsErrorBars { get { return false; } }
         internal virtual bool SupportsUpDownBars { get { return false; } }
         internal virtual bool SupportsDataTable { get { return false; } }
-        internal ChartTypeDrawer(SvgChart svgChart,  ExcelChart chartType) : base(svgChart)
+        internal ChartTypeDrawer(ChartRenderer svgChart,  ExcelChart chartType) : base(svgChart)
         {
-            _svgChart = svgChart;
             _chartType = chartType;
         }
         internal abstract void DrawSeries();
@@ -139,7 +138,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
-        internal static List<ChartTypeDrawer> Create(SvgChart svgChart)
+        internal static List<ChartTypeDrawer> Create(ChartRenderer svgChart)
         {
             var drawers = new List<ChartTypeDrawer>();
             foreach (var ct in svgChart.Chart.PlotArea.ChartTypes)

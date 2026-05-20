@@ -12,17 +12,12 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Graphics;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml.Drawing.Renderer;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Theme;
 using System;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 using System.Drawing;
 using OfficeOpenXml.Drawing.Renderer.RenderItems.Fill;
@@ -68,7 +63,7 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     break;
                 case eFillStyle.SolidFill:
-                    item.FillColor = GetFillColor(fill, color, item.FillColorSource, out opacity);
+                    item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
                     break;
                 case eFillStyle.GradientFill:
                     item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill);

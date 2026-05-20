@@ -12,20 +12,15 @@
  *************************************************************************************************/
 
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
-using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer
 {

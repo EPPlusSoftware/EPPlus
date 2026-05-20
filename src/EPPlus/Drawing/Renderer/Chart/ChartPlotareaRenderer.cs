@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
@@ -20,39 +21,37 @@ using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChartPlotarea : SvgChartObject
+    internal class ChartPlotareaRenderer : ChartDrawingObject
     {
-        public SvgChartPlotarea(SvgChart sc) : base(sc)
+        public ChartPlotareaRenderer(ChartRenderer sc) : base(sc)
         {
-            SvgChart = sc;
         }
-        public SvgChart SvgChart { get; set; }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
-        internal void SetPlotAreaRectangle(SvgChart sc)
+        internal void SetPlotAreaRectangle()
         {
-            var pa = sc.Chart.PlotArea;
+            var pa = Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
-            var rect = new SvgRenderRectItem(sc, sc.Bounds);
+            var rect = new RectRenderItem(ChartRenderer.Bounds);
             if (pa.Layout.HasLayout)
             {
-                rect = GetRectFromManualLayout(sc, pa.Layout);
+                rect = GetRectFromManualLayout(ChartRenderer, pa.Layout);
             }
             else
             {
-                rect.Top = GetPlotAreaTop(sc);
-                rect.Left = GetPlotAreaLeft(sc);
-                rect.Width = GetPlotAreaWidth(sc, rect);
-                rect.Height = GetPlotAreaHeight(sc, rect);
+                rect.Top = GetPlotAreaTop(ChartRenderer);
+                rect.Left = GetPlotAreaLeft(ChartRenderer);
+                rect.Width = GetPlotAreaWidth(ChartRenderer, rect);
+                rect.Height = GetPlotAreaHeight(ChartRenderer, rect);
             }
 
-            rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);
-            rect.SetDrawingPropertiesBorder(pa.Border, sc.Chart.StyleManager.Style.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            rect.SetDrawingPropertiesFill(pa.Fill, ChartRenderer.Chart.StyleManager.Style.PlotArea.FillReference.Color);
+            rect.SetDrawingPropertiesBorder(pa.Border, ChartRenderer.Chart.StyleManager.Style.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, 0.75);
             Rectangle = rect;
         }
 
-        private double GetPlotAreaHeight(SvgChart sc, SvgRenderRectItem rect)
+        private double GetPlotAreaHeight(SvgRenderRectItem rect)
         {
-            var bottomAxis = GetAxisByPosition(sc, eAxisPosition.Bottom);
+            var bottomAxis = GetAxisByPosition(eAxisPosition.Bottom);
             double vaHeight = 0;
             if (bottomAxis!=null)
             {
@@ -65,7 +64,7 @@ namespace EPPlusImageRenderer.Svg
             return sc.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
         }
 
-        private double GetPlotAreaWidth(SvgChart sc, SvgRenderRectItem rect)
+        private double GetPlotAreaWidth(DrawingChart sc, SvgRenderRectItem rect)
         {
             var rightAxis = GetAxisByPosition(sc, eAxisPosition.Right);
             var lp = sc.Chart.Legend?.Position;
@@ -105,7 +104,7 @@ namespace EPPlusImageRenderer.Svg
 
             return right - rightAxisWidth-rect.GlobalLeft;
         }
-        private double GetPlotAreaLeft(SvgChart sc)
+        private double GetPlotAreaLeft(DrawingChart sc)
         {
             var left = LeftMargin;
             if(sc.Chart.Legend?.Position == eLegendPosition.Left)
@@ -127,10 +126,10 @@ namespace EPPlusImageRenderer.Svg
             }
             return left;
         }
-        private double GetPlotAreaTop(SvgChart sc)
+        private double GetPlotAreaTop()
         {
             double haHeight = 0;
-            var topAxis = GetAxisByPosition(sc, eAxisPosition.Top);
+            var topAxis = GetAxisByPosition(eAxisPosition.Top);
             if (topAxis == null)
             {
                 //var bottomAxis = GetAxisByPosition(sc, eAxisPosition.Bottom);
@@ -145,31 +144,31 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
 
-            return (sc.Chart.Legend?.Position == eLegendPosition.Top ? sc.Legend.Bounds.Bottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
         }
 
-        private SvgChartAxis GetAxisByPosition(SvgChart sc, eAxisPosition pos)
+        private SvgChartAxis GetAxisByPosition(eAxisPosition pos)
         {
-            if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.AxisPosition == pos)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.AxisPosition == pos)
             {
-                return sc.HorizontalAxis;
+                return ChartRenderer.HorizontalAxis;
             }
-            else if (sc.VerticalAxis != null && sc.VerticalAxis.Axis.AxisPosition == pos)
+            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.AxisPosition == pos)
             {
-                return sc.VerticalAxis;
+                return ChartRenderer.VerticalAxis;
             }
-            else if (sc.SecondHorizontalAxis != null && sc.SecondHorizontalAxis.Axis.AxisPosition == pos)
+            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisPosition == pos)
             {
-                return sc.SecondHorizontalAxis;
+                return ChartRenderer.SecondHorizontalAxis;
             }
-            else if (sc.SecondVerticalAxis != null && sc.SecondVerticalAxis.Axis.AxisPosition == pos)
+            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisPosition == pos)
             {
-                return sc.SecondVerticalAxis;
+                return ChartRenderer.SecondVerticalAxis;
             }
             return null;
         }
 
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
         }

@@ -29,15 +29,15 @@ using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChart : DrawingChart
+    internal class SvgChart : EPPlusImageRenderer.DrawingChart
     {
-        public SvgChart(ExcelChart chart/*, IChartRenderer renderer*/) : base(chart)
+        public SvgChart(ExcelChart chart) : base(chart)
         {
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)
             {
-                Title = new SvgChartTitle(this, (ExcelChartTitleStandard)chart.Title, "Chart Title");
+                Title = new ChartTitleRenderer(this, (ExcelChartTitleStandard)chart.Title, "Chart Title");
             }
             else
             {
@@ -77,19 +77,19 @@ namespace EPPlusImageRenderer.Svg
             Plotarea.DrawSeries();
         }
 
-        private SvgChartAxis GetAxis(bool vertical, int offset=0)
+        private ChartAxisRenderer GetAxis(bool vertical, int offset=0)
         {
             var axis = (ExcelChartAxisStandard)Chart.Axis[offset];
             if(axis.IsVertical==vertical)
             {
-                return new SvgChartAxis(this, axis);
+                return new ChartAxisRenderer(this, axis);
             }
             else if(Chart.Axis.Length > offset + 1)
             {
                 axis = (ExcelChartAxisStandard)Chart.Axis[offset + 1];
                 if(axis.IsVertical==vertical)
                 {
-                    return new SvgChartAxis(this, axis);
+                    return new ChartAxisRenderer(this, axis);
                 }
             }
             return null;
@@ -137,7 +137,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void PlaceHorizontalAxis(SvgChart sc, SvgChartAxis horizontalAxis)
+        private void PlaceHorizontalAxis(SvgChart sc, ChartAxisRenderer horizontalAxis)
         {
             horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
             horizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
@@ -172,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void PlaceVerticalAxis(SvgChart sc, SvgChartAxis verticalAxis)
+        private void PlaceVerticalAxis(SvgChart sc, ChartAxisRenderer verticalAxis)
         {
             if (verticalAxis.Rectangle != null)
             {
@@ -229,12 +229,12 @@ namespace EPPlusImageRenderer.Svg
 
         internal SvgChartObject ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
-        internal SvgChartTitle Title { get; set; }
+        internal ChartTitleRenderer Title { get; set; }
         internal SvgChartPlotarea Plotarea { get; set; }
-        internal SvgChartAxis VerticalAxis { get; set; }
-        internal SvgChartAxis HorizontalAxis { get; set; }
-        internal SvgChartAxis SecondVerticalAxis { get; set; }
-        internal SvgChartAxis SecondHorizontalAxis { get; set; }
+        internal ChartAxisRenderer VerticalAxis { get; set; }
+        internal ChartAxisRenderer HorizontalAxis { get; set; }
+        internal ChartAxisRenderer SecondVerticalAxis { get; set; }
+        internal ChartAxisRenderer SecondHorizontalAxis { get; set; }
         private void SetChartArea()
         {
             var item = new SvgChartArea(this);

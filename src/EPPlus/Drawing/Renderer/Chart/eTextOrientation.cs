@@ -10,7 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-namespace EPPlus.Export.ImageRenderer
+namespace EPPlus.Export.Renderer
 {
     internal enum eTextOrientation
     {

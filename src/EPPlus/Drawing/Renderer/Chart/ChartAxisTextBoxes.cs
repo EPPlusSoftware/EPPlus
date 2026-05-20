@@ -10,15 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
 using System.Collections.Generic;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgAxisTextBoxes : SvgChartObject
+    internal class ChartAxisTextBoxes : ChartDrawingObject
     {
-        internal SvgAxisTextBoxes(ChartRenderer chart) : base(chart)
+        internal ChartAxisTextBoxes(ChartRenderer chart) : base(chart)
         {
         }
 
@@ -28,7 +30,7 @@ namespace EPPlusImageRenderer.Svg
             set;
         }=new List<DrawingTextBox>();
 
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             if (TextBoxes != null && TextBoxes.Count > 0)
             {

@@ -2,6 +2,7 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.DrawingRenderer.Utils;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
@@ -578,8 +579,9 @@ namespace EPPlus.DrawingRenderer
             RectangleRenderer = new SvgRectRenderer(outputStream);
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
-            TextRenderer = new SvgTextRenderer(outputStream);
-            GroupRenderer = new SvgTextRenderer(outputStream);
+            ParagraphRenderer = new SvgParagraphRenderer(outputStream);
+            GroupRenderer = new SvgGroupRenderer(outputStream);
+            TitleRenderer = new SvgTitleRenderer(outputStream);
             // ImageRenderer = new SvgImageRenderer(outputStream);
         }
         public BaseRenderer<StringBuilder, RenderItem> GroupRenderer { get; }
@@ -588,7 +590,8 @@ namespace EPPlus.DrawingRenderer
         public BaseRenderer<StringBuilder, PathRenderItem> PathRenderer { get; }
         //public BaseRenderer<StringBuilder> ImageRenderer { get; }
         public BaseRenderer<StringBuilder, LineRenderItem> LineRenderer { get; }
-        public BaseRenderer<StringBuilder, RenderItem> TextRenderer { get; }
+        public BaseRenderer<StringBuilder, TitleRenderItem> TitleRenderer { get; }
+        public BaseRenderer<StringBuilder, ParagraphRenderItem> ParagraphRenderer { get; }
     }
     public interface IBasicIShapesRenderer<T>
     {
@@ -598,7 +601,7 @@ namespace EPPlus.DrawingRenderer
         public BaseRenderer<T,PathRenderItem> PathRenderer { get; }
         //public BaseRenderer<T> ImageRenderer { get; }
         public BaseRenderer<T,LineRenderItem> LineRenderer { get; }
-        public BaseRenderer<T,RenderItem> TextRenderer { get; }
+        public BaseRenderer<T,ParagraphRenderItem> ParagraphRenderer { get; }
     }
     public abstract class BaseRenderer<T, T2>
     {
@@ -607,10 +610,6 @@ namespace EPPlus.DrawingRenderer
             OutputStream = outputStream;
         }
         public T OutputStream { get; }
-        public abstract void Render(RenderItem item);
-    }
-    public interface IRenderItemContainer
-    {
-        public void AppendRenderItems(List<RenderItem> renderItems);
+        public abstract void Render(T2 item);
     }
 }

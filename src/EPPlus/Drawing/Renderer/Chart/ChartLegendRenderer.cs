@@ -10,29 +10,23 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml;
-using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChartLegend : SvgChartObject
+    internal class ChartLegendRenderer : ChartDrawingObject
     {
         
         List<TextMeasurement> _seriesHeadersMeasure = new List<TextMeasurement>();
@@ -44,9 +38,9 @@ namespace EPPlusImageRenderer.Svg
         float _marginItemsWidth;
 
         double _maxWidth, _maxHeight;
-        internal SvgChartLegend(SvgChart sc, bool isDataLabelLegend = false) : base(sc)
+        internal ChartLegendRenderer(ChartRenderer sc, bool isDataLabelLegend = false) : base(sc)
         {
-            var mf = sc.Chart.Font.GetMeasureFont();
+            var mf = Chart.Font.GetMeasureFont();
             var shaper = OpenTypeFonts.GetShaperForFont(mf);
             var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
 
@@ -54,6 +48,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 return;
             }
+
             var l = ((ExcelChartStandard)sc.Chart).Legend;
 
             LeftMargin = RightMargin = 3; //4px
@@ -73,37 +68,37 @@ namespace EPPlusImageRenderer.Svg
             }
             double entryWidth, entryHeight;
 
-            Rectangle = GetLegendRectangleAndEntrySize(sc, l, out entryWidth, out entryHeight);
+            Rectangle = GetLegendRectangleAndEntrySize(l, out entryWidth, out entryHeight);
 
             if (l.Layout.HasLayout) //Manual layout will override the position and size of legend, but not the entry size which is used for calculating the position of legend entries.
             {
                 Rectangle = GetRectFromManualLayout(sc, l.Layout);
             }
 
-            Bounds.Left = Rectangle.Left;
-            Bounds.Top = Rectangle.Top;
-            Bounds.Width = Rectangle.Width;
-            Bounds.Height = Rectangle.Height;
-            Rectangle.Bounds.Left = Rectangle.Bounds.Top = 0;
+            //Bounds.Left = Rectangle.Left;
+            //Bounds.Top = Rectangle.Top;
+            //Bounds.Width = Rectangle.Width;
+            //Bounds.Height = Rectangle.Height;
+            //Rectangle.Bounds.Left = Rectangle.Bounds.Top = 0;
 
-            Rectangle.SetDrawingPropertiesFill(l.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(l.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
-            var pSls = SetLegendSeries(sc, entryWidth, entryHeight);
-            SetLegendTrendlines(sc, entryWidth, entryHeight, pSls);
+            var pSls = SetLegendSeries(entryWidth, entryHeight);
+            SetLegendTrendlines(entryWidth, entryHeight, pSls);
         }
 
 
-        private SvgRenderRectItem GetLegendRectangleAndEntrySize(SvgChart sc, ExcelChartLegend l, out double entryWidth, out double entryHeight)
+        private RectRenderItem GetLegendRectangleAndEntrySize(ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
-            var rect = new SvgRenderRectItem(sc, Bounds);
-            
+            //var rect = new RectRenderItem(RectanBounds);
+            var rect = Rectangle;
             var widest = 0d;
             var highest = 0d;
             var index = 0;
 
             //Find the widest and hightest legend entry, and calculate the total width and hight of the legend based on the orientation. 
-            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
+            foreach (var ct in Chart.PlotArea.ChartTypes)
             {
                 foreach (var s in ct.Series)
                 {
@@ -115,7 +110,7 @@ namespace EPPlusImageRenderer.Svg
 
             //Trendlines also get legend entries, but they should appear after the series name.
             var trIndex = 0;
-            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
+            foreach (var ct in Chart.PlotArea.ChartTypes)
             {
                 foreach (var s in ct.Series)
                 {
@@ -171,14 +166,14 @@ namespace EPPlusImageRenderer.Svg
                         rect.Width = fullLength;
                         rect.Height = entryHeight * 1.5;
                     }
-                    rect.Left = (sc.ChartArea.Rectangle.Width - rect.Width) / 2;
+                    rect.Left = (ChartRenderer.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = sc.Title.Rectangle.Bottom + MarginHeight;
+                        rect.Top = ChartRenderer.Title.Rectangle.Bottom + MarginHeight;
                     }
                     else 
                     {
-                        rect.Top = sc.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
+                        rect.Top = ChartRenderer.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -195,7 +190,7 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Right ||
                         l.Position == eLegendPosition.TopRight)
                     {
-                        rect.Left = sc.ChartArea.Rectangle.Width - rect.Width - TopMargin;
+                        rect.Left = ChartRenderer.ChartArea.Rectangle.Width - rect.Width - TopMargin;
                     }
                     else
                     {
@@ -209,13 +204,13 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (sc.Title == null)
+                        if (ChartRenderer.Title == null)
                         {
                             rect.Top = 8 + 8;
                         }
                         else
                         {
-                            rect.Top = sc.Title.Rectangle.Height + 8 + 8; //Height + Margin Top and Bottom Title
+                            rect.Top = ChartRenderer.Title.Rectangle.Height + 8 + 8; //Height + Margin Top and Bottom Title
                         }
                     }
                     break;
@@ -278,13 +273,13 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        internal SvgLegendSerie SetLegendSeries(SvgChart sc, double entryWidth, double entryHeight)
+        internal SvgLegendSerie SetLegendSeries(double entryWidth, double entryHeight)
         {
             int index = 0;
             SvgLegendSerie pSls=null;
             var pos = Chart.Legend.Position;
-            var maxIconLength = GetMaxIconLenght(sc.Chart, entryHeight);
-            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
+            var maxIconLength = GetMaxIconLenght(Chart, entryHeight);
+            foreach (var ct in Chart.PlotArea.ChartTypes)
             {
                 int ix, end;
                 if(ct.IsTypeBar())
@@ -310,7 +305,7 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.LineMarkersStacked100:
                         case eChartType.LineStacked:
                         case eChartType.LineStacked100:
-                            SetLineLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            SetLineLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
                             break;
                         case eChartType.ColumnClustered:
                         case eChartType.ColumnStacked:
@@ -318,17 +313,17 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.BarClustered:
                         case eChartType.BarStacked:
                         case eChartType.BarStacked100:
-                            SetBarLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            SetBarLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
                             break;
                         case eChartType.Pie:
                         case eChartType.PieExploded:
-                            SetPieLegend(sc, ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            SetPieLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
                             break;
                         default:
                             break;
                     }
-                    if (sc.Chart.Legend.Position == eLegendPosition.Top ||
-                        sc.Chart.Legend.Position == eLegendPosition.Bottom)
+                    if (Chart.Legend.Position == eLegendPosition.Top ||
+                        Chart.Legend.Position == eLegendPosition.Bottom)
                     {
                         //if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
                         //{
@@ -358,11 +353,11 @@ namespace EPPlusImageRenderer.Svg
             return pSls;
         }
 
-        private void SetLegendTrendlines(SvgChart sc, double entryWidth, double entryHeight, SvgLegendSerie pSls)
+        private void SetLegendTrendlines(double entryWidth, double entryHeight, SvgLegendSerie pSls)
         {
             int index = SeriesIcon.Count;
             var pos = Chart.Legend.Position;
-            foreach (var ct in sc.Chart.PlotArea.ChartTypes)
+            foreach (var ct in Chart.PlotArea.ChartTypes)
             {
                 int ix, end;
                 if (ct.IsTypeBar())
@@ -383,7 +378,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         var sls = new SvgLegendSerie();
 
-                        SetTrendlineLegend(sc, ct, ix, index, pSls, pos, tl, sls, entryWidth, entryHeight);
+                        SetTrendlineLegend(ct, ix, index, pSls, pos, tl, sls, entryWidth, entryHeight);
 
                         if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
                         {
@@ -406,10 +401,10 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
-        private void SetTrendlineLegend(SvgChart sc, ExcelChart ct, int serieIndex, int entryIndex, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartTrendline tl, SvgLegendSerie sls, double entryWidth, double entryHeight)
+        private void SetTrendlineLegend(ExcelChart ct, int serieIndex, int entryIndex, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartTrendline tl, SvgLegendSerie sls, double entryWidth, double entryHeight)
         {
 
-            var si = GetTrendLineSeriesIcon(sc, ct, tl, pSls, entryWidth, entryHeight);
+            var si = GetTrendLineSeriesIcon(ct, tl, pSls, entryWidth, entryHeight);
             sls.SeriesIcon = si;
 
             var tbLeft = si.X1 + LineLength + MarginIconText;
@@ -421,17 +416,17 @@ namespace EPPlusImageRenderer.Svg
             //}
             //else
             //{
-                tbWidth = Bounds.Width - tbLeft - RightMargin;
+                tbWidth = Rectangle.Bounds.Width - tbLeft - RightMargin;
             //}
 
             var tbHeight = entryHeight;
-            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextbody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == entryIndex);
             var headerText = tl.GetName(serieIndex);
             if (entry == null || entry.Font.IsEmpty)
             {
-                sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
             else
             {
@@ -440,19 +435,19 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        private void SetPieLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        private void SetPieLegend(ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var ps = (ExcelPieChartSerie)s;
 
-            var si = GetLineSeriesIcon(sc, ct, ps, pSls, entryWidth, entryHeight);
+            var si = GetLineSeriesIcon(ct, ps, pSls, entryWidth, entryHeight);
             sls.SeriesIcon = si;
 
             var tbLeft = si.X1 + maxIconLength + MarginIconText;
             var tbTop = si.Y2 - entryHeight * 0.5;
-            var tbWidth = Bounds.Width - tbLeft;
+            var tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextbody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             //Cat values are the header text
             //They create a rect marker for each slice
@@ -494,19 +489,19 @@ namespace EPPlusImageRenderer.Svg
             //}
         }
 
-        private void SetLineLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        private void SetLineLegend(ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var ls = (ExcelLineChartSerie)s;
 
-            var si = GetLineSeriesIcon(sc, ct, ls, pSls, entryWidth, entryHeight);
+            var si = GetLineSeriesIcon(ct, ls, pSls, entryWidth, entryHeight);
             sls.SeriesIcon = si;
 
             var tbLeft = si.X1 + maxIconLength + MarginIconText;
             var tbTop = si.Y2 - entryHeight * 0.5;
-            var tbWidth = Bounds.Width - tbLeft;
+            var tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextbody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
             var headerText = s.GetHeaderText(index);
@@ -522,7 +517,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
             {
-                var l = sls.SeriesIcon as SvgRenderLineItem;
+                var l = sls.SeriesIcon as LineRenderItem;
                 var x = l.X1 + (l.X2 - l.X1) / 2;
                 var y = l.Y1;
                 sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(sc, ls, x, y, true);
@@ -538,7 +533,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void SetBarLegend(SvgChart sc, ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        private void SetBarLegend(ExcelChart ct, int index, SvgLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, SvgLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
@@ -549,10 +544,10 @@ namespace EPPlusImageRenderer.Svg
             var tbTop = si.Top - (entryHeight - si.Height) / 2; 
             double tbWidth;
 
-            tbWidth = Bounds.Width - tbLeft;
+            tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = tm.Height;
-            sls.Textbox = new SvgTextBodyItem(ChartRenderer, Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextbody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -569,52 +564,52 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private SvgRenderLineItem GetLineSeriesIcon(SvgChart sc, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, SvgLegendSerie pSls, double entryWidth, double entryHeight)
+        private LineRenderItem GetLineSeriesIcon(ExcelChart ct, ExcelChartStandardSerie cStandardSerie, SvgLegendSerie pSls, double entryWidth, double entryHeight)
         {
-            var line = new SvgRenderLineItem(sc, Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(cStandardSerie.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            line.SetDrawingPropertiesBorder(cStandardSerie.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            var icon = pSls?.SeriesIcon as SvgRenderLineItem;
+            var line = new LineRenderItem(Rectangle.Bounds);
+            line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            var icon = pSls?.SeriesIcon as LineRenderItem;
 
-            GetItemPosition(sc, pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
 
             line.X1 = x;
             line.X2 = x + LineLength;
             line.Y1 = y + entryHeight * 0.5;
             line.Y2 = y + entryHeight * 0.5;
-            line.LineCap = eLineCap.Round;
+            line.LineCap = LineCap.Round;
 
             return line;
         }
-        private SvgRenderLineItem GetTrendLineSeriesIcon(SvgChart sc, ExcelChart ct, ExcelChartTrendline tl, SvgLegendSerie pSls, double entryWidth, double entryHeight)
+        private LineRenderItem GetTrendLineSeriesIcon(ExcelChart ct, ExcelChartTrendline tl, SvgLegendSerie pSls, double entryWidth, double entryHeight)
         {
-            var line = new SvgRenderLineItem(sc, Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(tl.Fill, sc.Chart.StyleManager.Style.Trendline.FillReference.Color);
-            line.SetDrawingPropertiesBorder(tl.Border, sc.Chart.StyleManager.Style.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            var icon = pSls?.SeriesIcon as SvgRenderLineItem;
+            var line = new LineRenderItem(Rectangle.Bounds);
+            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style.Trendline.FillReference.Color);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            var icon = pSls?.SeriesIcon as LineRenderItem;
 
-            GetItemPosition(sc, pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
 
             line.X1 = x;
             line.Y1 = y;
             line.X2 = x + LineLength;
             line.Y2 = y;
-            line.LineCap = eLineCap.Round;
+            line.LineCap = LineCap.Round;
 
             return line;
         }
 
-        private SvgRenderRectItem GetBarSeriesIcon(SvgChart sc, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, SvgLegendSerie pSls, double entryWidth, double entryHeight)
+        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelChartStandardSerie cStandardSerie, SvgLegendSerie pSls, double entryWidth, double entryHeight)
         {            
-            var item = new SvgRenderRectItem(sc, Rectangle.Bounds);
+            var item = new RectRenderItem(Rectangle.Bounds);
             var iconHeight = GetIconLenght(ct, entryHeight);
-            var icon = pSls?.SeriesIcon as SvgRenderRectItem;
+            var icon = pSls?.SeriesIcon as RectRenderItem;
 
-            GetItemPosition(sc, pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
 
-            item.LineCap = eLineCap.Round;
+            item.LineCap = LineCap.Round;
             item.Left = x;
-            if(pSls !=null && (sc.Chart.Legend.Position == eLegendPosition.Left || sc.Chart.Legend.Position == eLegendPosition.Right))
+            if(pSls !=null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
                 item.Top = y + (entryHeight - iconHeight) / 2;
             }
@@ -626,17 +621,17 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(cStandardSerie.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(cStandardSerie.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
             return item;
         }
 
-        private double GetItemPosition(SvgChart sc, SvgLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconTop, out double x, out double y)
+        private double GetItemPosition(SvgLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconTop, out double x, out double y)
         {
             var topOffset = 0D;
-            if (sc.Chart.Legend.Position == eLegendPosition.Top ||
-               sc.Chart.Legend.Position == eLegendPosition.Bottom)
+            if (Chart.Legend.Position == eLegendPosition.Top ||
+               Chart.Legend.Position == eLegendPosition.Bottom)
             {
                 if (pSls != null && pSls.Textbox.Bounds.Right + entryWidth + RightMargin > _maxWidth)
                 {
@@ -683,16 +678,16 @@ namespace EPPlusImageRenderer.Svg
             return topOffset;
         }
 
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, Rectangle.Bounds);
+            var groupItem = new GroupRenderItem(Rectangle.Bounds);
             renderItems.Add(groupItem);
 
             //The rectangle is position using the group transform, so we need to set the rectangle position to 0,0
             Rectangle.Bounds.Top = 0;
             Rectangle.Bounds.Left = 0;
 
-            renderItems.Add(Rectangle);
+            groupItem.Children.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {
                 if(s.SeriesIcon != null) renderItems.Add(s.SeriesIcon);
@@ -701,7 +696,6 @@ namespace EPPlusImageRenderer.Svg
                 //renderItems.Add(s.Textbox);
                 if(s.Textbox != null) s.Textbox.AppendRenderItems(renderItems);
             }
-            renderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
         }
 
         public List<SvgLegendSerie> SeriesIcon { get; } = new List<SvgLegendSerie>();

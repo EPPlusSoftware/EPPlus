@@ -36,7 +36,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         //    TxtBox = txtBox;
         //}
 
-        public SvgDataLabelPoint(DrawingChart chart, ExcelChartDataLabelStandard standard) : base(chart)
+        public SvgDataLabelPoint(EPPlusImageRenderer.DrawingChart chart, ExcelChartDataLabelStandard standard) : base(chart)
         {
             _labelPosition = standard.Position;
         }

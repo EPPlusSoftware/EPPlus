@@ -23,7 +23,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public TextAlignment HorizontalAlignment { get; protected set; }
         public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
         public List<TextLineSimple> Lines { get; set; }
-        internal List<double> SpaceWidthsPerLine = new List<double>();
+        public List<double> SpaceWidthsPerLine = new List<double>();
+        public bool DisplayBounds { get; set; } = false;
         public MeasurementFont ParagraphFont;
         //public ParagraphRenderItem(TextBodyItem textBody, BoundingBox parent) : base(parent)
         //{

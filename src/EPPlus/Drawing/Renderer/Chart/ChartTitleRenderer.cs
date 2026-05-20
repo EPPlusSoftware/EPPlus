@@ -29,25 +29,26 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
+using EPPlus.DrawingRenderer.RenderItems;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChartTitle : SvgChartObject
+    internal class ChartTitleRenderer : ChartDrawingObject
     {
         ExcelChartTitleStandard _title;
         string _titleText;
-        SvgChart _svgChart;
+        ChartRenderer _svgChart;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sc"></param>
         /// <param name="t"></param>
         /// <param name="defaultText"></param>
-        /// <param name="axisPosition">If null, this is the main chart title.</param>
-        internal SvgChartTitle(SvgChart sc, ExcelChartTitleStandard t, string defaultText, SvgChartAxis axis=null) : base(sc)
+        /// <param name="axis">If null, this is the main chart title.</param>
+        internal ChartTitleRenderer(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText, SvgChartAxis axis=null) : base(sc)
         {
             _svgChart = sc;
-
 
             //These are hard coded margins for the title box.
             LeftMargin = RightMargin = 3; //4px
@@ -100,12 +101,11 @@ namespace EPPlusImageRenderer.Svg
                     SetAxisTitleRect(sc, axis);
                 }
             }
-            Bounds = Rectangle.Bounds;
-            Rectangle.SetDrawingPropertiesFill(t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
-        private void SetAxisTitleRect(SvgChart sc, SvgChartAxis axis)
+        private void SetAxisTitleRect(ChartRenderer sc, SvgChartAxis axis)
         {
             var margin = 8F;
             switch (axis.Axis.AxisPosition)
@@ -129,7 +129,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private double GetHorizontalLeft(SvgChart sc)
+        private double GetHorizontalLeft(ChartRenderer sc)
         {
             var margin = 8F;
             if (sc.HorizontalAxis!=null)
@@ -146,7 +146,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private static string GetDefaultChartTitleText(SvgChart sc, ExcelChartTitleStandard t, string defaultText)
+        private static string GetDefaultChartTitleText(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText)
         {
             if (string.IsNullOrEmpty(t.DisplayedText) == false)
             {
@@ -181,7 +181,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox(double maxWidth, double maxHeight)
         {
-            TextBox = new SvgTextBox(_svgChart, _svgChart.ChartArea.Bounds, maxWidth, maxHeight);
+            TextBox = new DrawingTextBox(_svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
             if(_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
@@ -201,28 +201,28 @@ namespace EPPlusImageRenderer.Svg
             TextBox.RightMargin = RightMargin;
             TextBox.TopMargin = TopMargin;
             TextBox.BottomMargin = BottomMargin;
-            TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
-            Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
+            TextBox.TextBody.VerticalAlignment = TextAnchoringType.Top;
+            Rectangle = TextBox.Rectangle;
 
             TextBox.LeftMargin = LeftMargin;
             TextBox.RightMargin = RightMargin;
             TextBox.TopMargin = TopMargin;
             TextBox.BottomMargin = BottomMargin;
-            TextBox.TextBody.VerticalAlignment = eTextAnchoringType.Top;
-            Rectangle = (SvgRenderRectItem)TextBox.Rectangle;
+            TextBox.TextBody.VerticalAlignment = TextAnchoringType.Top;
+            Rectangle = TextBox.Rectangle;
         }
 
-        public SvgTextBox TextBox
+        public DrawingTextBox TextBox
         {
             get; private set;
         }
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();
             TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
+            TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme,_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
+            TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
             TextBox.AppendRenderItems(renderItems);
-            TextBox.Rectangle.SetDrawingPropertiesFill(_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
-            TextBox.Rectangle.SetDrawingPropertiesBorder(_title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
     }

@@ -40,7 +40,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         Point _circleCenter;
 
-        public PieChartTypeDrawer(SvgChart chart, ExcelPieChart chartType) : base(chart, chartType)
+        public PieChartTypeDrawer(DrawingChart chart, ExcelPieChart chartType) : base(chart, chartType)
         {
             //Moved to draw series
         }

@@ -14,7 +14,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         const float MiddleMargin = 7.5f;
         const float LineLength = 21;
 
-        public SvgChartLegendIcon(SvgChart sc, SvgRenderRectItem Rectangle, ExcelChartStandardSerie s, TextMeasurement tm, double topMargin, double leftMargin, TextMeasurement sHM, SvgLegendSerie pSls) : base(sc, Rectangle.Bounds)
+        public SvgChartLegendIcon(DrawingChart sc, SvgRenderRectItem Rectangle, ExcelChartStandardSerie s, TextMeasurement tm, double topMargin, double leftMargin, TextMeasurement sHM, SvgLegendSerie pSls) : base(sc, Rectangle.Bounds)
         {
             SetDrawingPropertiesFill(s.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             SetDrawingPropertiesBorder(s.Border, sc.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
@@ -65,7 +65,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         //    throw new NotImplementedException();
         //}
 
-        //private SvgRenderLineItem GetLineSeriesIcon(SvgChart sc, ExcelChartStandardSerie s, TextMeasurement sHM, TextMeasurement tm, SvgLegendSerie pSls)
+        //private SvgRenderLineItem GetLineSeriesIcon(DrawingChart sc, ExcelChartStandardSerie s, TextMeasurement sHM, TextMeasurement tm, SvgLegendSerie pSls)
         //{
         //    var item = new SvgRenderLineItem(sc, Rectangle.Bounds);
         //    item.SetDrawingPropertiesFill(s.Fill, sc.Chart.StyleManager.Style.SeriesLine.FillReference.Color);

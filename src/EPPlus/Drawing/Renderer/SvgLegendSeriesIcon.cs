@@ -1,8 +1,4 @@
-﻿using EPPlusImageRenderer.RenderItems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using EPPlus.DrawingRenderer.RenderItems;
 
 namespace EPPlusImageRenderer.Svg
 {

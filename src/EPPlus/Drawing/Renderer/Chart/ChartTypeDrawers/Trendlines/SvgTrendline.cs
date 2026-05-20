@@ -25,16 +25,16 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class SvgTrendline : SvgChartObject
+    internal class SvgTrendline : ChartDrawingObject
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
         private List<object> _xSerie;
-        private SvgChart _svgChart;
+        private DrawingChart _svgChart;
         private ExcelChart _chartType;
         private bool _useSecondaryAxis;
         private int _serieCount, _seriePos;
-        public SvgTrendline(SvgChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
+        public SvgTrendline(DrawingChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
         {
             _svgChart = svgChart;
             _chartType = chartType;

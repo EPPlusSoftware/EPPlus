@@ -1,20 +1,17 @@
-﻿using EPPlusImageRenderer;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Collections.Generic;
-
+﻿using EPPlus.DrawingRenderer;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class ConnectionPointsMiddle
+    public class ConnectionPointsMiddle
     {
-        internal Coordinate Left;
-        internal Coordinate Top;
-        internal Coordinate Right;
-        internal Coordinate Bottom;
+        public Coordinate Left;
+        public Coordinate Top;
+        public Coordinate Right;
+        public Coordinate Bottom;
 
-        internal Dictionary<int, Coordinate> Points = new Dictionary<int, Coordinate>();
+        public Dictionary<int, Coordinate> Points = new Dictionary<int, Coordinate>();
 
-        internal ConnectionPointsMiddle(double left, double top, double width, double height)
+        public ConnectionPointsMiddle(double left, double top, double width, double height)
         {
             var middleWidth = width / 2;
             var middleHeight = height / 2;

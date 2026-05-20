@@ -37,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 //if (serie.HasDataLabel)
                 //{
-                //    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, catValue, valValue, serCounter);
+                //    var datalabel = new ChartSerieDataLabelRenderer(svgChart, serie.DataLabel, svgChart.Bounds, serie, catValue, valValue, serCounter);
                 //    serieDataLabels.Add(datalabel);
                 //}
             }
@@ -113,7 +113,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position)
         {
             GetAxis(chartType, out var yAxis, out var xAxis);
-            SvgChartAxis valAx, catAx;
+            ChartAxisRenderer valAx, catAx;
 
             var isColumn = chartType.IsTypeColumn();
 
@@ -263,7 +263,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 RenderItems.Add(rect);
             }
         }
-        private void GetAxis(ExcelBarChart chartType, out SvgChartAxis yAxis, out SvgChartAxis xAxis)
+        private void GetAxis(ExcelBarChart chartType, out ChartAxisRenderer yAxis, out ChartAxisRenderer xAxis)
         {
             if (chartType.UseSecondaryAxis)
             {

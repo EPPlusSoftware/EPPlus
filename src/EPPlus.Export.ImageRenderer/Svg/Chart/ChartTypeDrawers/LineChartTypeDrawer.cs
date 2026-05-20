@@ -119,7 +119,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
         {            
-            SvgChartAxis yAxis, xAxis;
+            ChartAxisRenderer yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
             {
                 yAxis = _svgChart.SecondVerticalAxis;
