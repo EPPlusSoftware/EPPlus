@@ -645,13 +645,32 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         //    return textFormats;
         //}
 
+        public static PdfCellAlignmentData GetAlignmentData(PdfHeaderFooter headerFooter)
+        {
+            var contentAlignment = new PdfCellAlignmentData();
+            contentAlignment.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+            switch (headerFooter.Alignment)
+            {
+                case HeaderFooterAlignment.Left:
+                    contentAlignment.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    break;
+                case HeaderFooterAlignment.Center:
+                    contentAlignment.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    break;
+                case HeaderFooterAlignment.Right:
+                    contentAlignment.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                    break;
+            }
+            return contentAlignment;
+        }
+
         public static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
-            if (textCollection == null || textCollection.Count <= 0) return null;
+            if (textCollection == null || textCollection.Count <= 1) return null;
             var ns = ws.Workbook.Styles.GetNormalStyle();
             var textFragments = new List<TextFragment>();
-            bool containsPageNumber = false;
-            bool containsNumberOfPages = false;
+            List<int> NumberOfPagesIndexes = new List<int>();
+            List<int> PageNumberIndexes = new List<int>();
             for (int i = 1; i < textCollection.Count; i++)
             {
                 var hf = textCollection[i];
@@ -693,11 +712,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         break;
                     case ExcelHeaderFooterFormattingCodes.NumberOfPages:
                         text += "000";
-                        containsNumberOfPages = true;
+                        NumberOfPagesIndexes.Add(i);
                         break;
                     case ExcelHeaderFooterFormattingCodes.PageNumber:
                         text += "000";
-                        containsPageNumber = true;
+                        PageNumberIndexes.Add(i);
                         break;
                     case ExcelHeaderFooterFormattingCodes.CurrentTime:
                         text += DateTime.Now.ToString("HH:mm");
@@ -715,7 +734,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFragments.Add(textFrag);
                 OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
                 dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
-                if (containsPageNumber) dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), "1234567890");
+                if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), "1234567890");
 
 
 
@@ -778,7 +797,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 //dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
                 //if (containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
             }
-            return new PdfHeaderFooter(textFragments, containsPageNumber, containsNumberOfPages, type, alignment, section);
+            return new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
         }
 
 

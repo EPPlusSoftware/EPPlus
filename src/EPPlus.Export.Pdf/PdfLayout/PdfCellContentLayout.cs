@@ -79,6 +79,30 @@ namespace EPPlus.Export.Pdf.PdfLayout
             //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
         }
 
+        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+    : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)
+        {
+            //textFormats = cell.TextFormats;
+            TextLines = headerFooter.Content.TextLines;
+            ShapedTexts = headerFooter.Content.ShapedTexts;
+
+            TextLayoutEngine = headerFooter.Content.TextLayoutEngine;
+
+            CellAlignmentData = headerFooter.Content.ContentAligmnet;
+
+
+            double totalTextHeight = 0d;
+            foreach (var line in TextLines)
+                totalTextHeight += line.LargestAscent + line.LargestDescent;
+
+            LocalPosition = CalculateAlignment(TextLines.LineFragments[0].OriginalTextFragment.Text, TextLines.LineFragments[0].Width, totalTextHeight,
+                LocalPosition.X, LocalPosition.Y, 0, 0);
+
+            //LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, LocalPosition.X, LocalPosition.Y, cell.Width, height);
+            //var textFragments = GetTextFragments(TextFormats);
+            //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
+        }
+
 
         private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double x, double y, double width, double height)
         {

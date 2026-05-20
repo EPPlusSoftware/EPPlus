@@ -159,6 +159,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if(pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
+            GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             return pdfSheet;
         }

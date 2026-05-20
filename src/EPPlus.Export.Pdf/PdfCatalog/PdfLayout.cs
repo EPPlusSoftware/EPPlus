@@ -3,6 +3,7 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
@@ -155,12 +156,26 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         bool isVeryFirstPage = (i == 0 && j == 0);
                         var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-
+                        if (leftH != null)
+                        {
+                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, pageNumber, totalPages);
+                            x = pageSettings.Margins.LeftPu;
+                            y = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, x, y, 0, 0);
+                            text.Name = "LeftHeader";
+                            text.GidsAndCharMap(dictionaries);
+                            pageLayout.AddChild(text);
+                        }
+                        //var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
+                        //SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
+                        //var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
+                        //SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
+                        //var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                        //SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
+                        //var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
+                        //SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
+                        //var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
+                        //SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
                     }
 
                     //Add HeaderFooter
@@ -169,13 +184,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                      * shape text in header/footer
                      * place text at position from content bounds
                      */
-                    if (j == 0)
-                    {
-                        //page.HeaderFooters.PdfHeaderFooterEntries
-                    }
-                    else
-                    {
-                    }
 
                     if (pageSettings.ShowGridLines)
                         PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout);
@@ -529,6 +537,20 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
             pdfPages = pages;
             return pdfPages;
+        }
+
+        private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        {
+            if (hf == null || hf.PageNumberIndexes.Count > 0 || hf.NumberOfPagesIndexes.Count > 0) return;
+
+            foreach (var idx in hf.PageNumberIndexes)
+                hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+            foreach (var idx in hf.NumberOfPagesIndexes)
+                hf.Content.TextFragments[idx].Text = totalPages.ToString();
+
+            hf.Content.ShapedTexts = null;
+            hf.Content.TextLines = null;
+            PdfTextShaper.LayoutAndShapeText(pageSettings, dictionaries, hf.Content);
         }
 
     }

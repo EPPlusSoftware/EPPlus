@@ -31,15 +31,16 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public HeaderFooterSection Section;
 
         public PdfCell Content;
-        public bool ContainsPageNumber { get; set; }
-        public bool ContainsNumberOfPages { get; set; }
 
-        public PdfHeaderFooter(List<TextFragment> textFormats, bool containsPageNumber, bool containsNumberOfPages, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
+        public List<int> NumberOfPagesIndexes = new List<int>();
+        public List<int> PageNumberIndexes = new List<int>();
+
+        public PdfHeaderFooter(List<TextFragment> textFormats, List<int> pageNumberIndexes, List<int> numberOfPagesIndexes, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
             Content = new PdfCell();
             Content.TextFragments = textFormats;
-            ContainsPageNumber = containsPageNumber;
-            ContainsNumberOfPages = containsNumberOfPages;
+            PageNumberIndexes = pageNumberIndexes;
+            NumberOfPagesIndexes = numberOfPagesIndexes;
             PageType = type;
             Alignment = alignment;
             Section = section;
