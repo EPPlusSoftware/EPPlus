@@ -15,12 +15,12 @@ namespace OfficeOpenXml.Interfaces.RichText
         internal FontDataBasic() {}
         internal FontDataBasic(MeasurementFont font)
         {
-            Family = font.FontFamily;
+            FontFamily = font.FontFamily;
             SubFamily = GetFontSubFamily(font.Style);
             FontSize = font.Size;
         }
 
-        public string Family { get; set; }
+        public string FontFamily { get; set; }
         public FontSubFamily SubFamily { get; set; }
         public double FontSize { get; set; }
 

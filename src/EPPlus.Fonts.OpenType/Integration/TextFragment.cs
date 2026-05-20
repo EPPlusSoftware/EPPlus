@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Interfaces.RichText.Interfaces;
 using System.Drawing;
 
@@ -36,34 +37,5 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
-    }
-
-    /// <summary>
-    /// Simple class to provide some kind of fallback/defaults
-    /// </summary>
-    public class RichTextDefaults : IRichTextInfoBase
-    {
-        internal RichTextDefaults()
-        {
-        }
-        public bool Italic { get; set; } = false;
-
-        public bool Bold { get; set; } = false;
-
-        public bool SubScript { get; set; } = false;
-
-        public bool SuperScript { get; set; } = false;
-
-        public int UnderlineType { get; set; } = -1;
-
-        public int StrikeType { get; set; } = -1;
-
-        public int Capitalization { get; set; } = -1;
-
-        public Color UnderlineColor { get; set; }
-
-        public Color FontColor { get; set; }
-
-        //TODO Offset which is equal to 30% or -25% if Sub or Superscript are true?
     }
 }

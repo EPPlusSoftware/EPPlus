@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Interfaces.Drawing.RichText;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -93,5 +94,8 @@ namespace OfficeOpenXml.Interfaces.RichText
         public int StrikeType { get; set; } = (int)DrawingStrikeType.No;
         public Color UnderlineColor { get; set; }
         public Color FontColor { get; set; }
+        public string FontFamily { get; set; }
+        public FontSubFamily SubFamily { get; set; }
+        public double FontSize { get; set; }
     }
 }

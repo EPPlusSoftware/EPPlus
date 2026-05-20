@@ -10,7 +10,7 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
     /// </summary>
     public interface IFontData
     {
-        string Family {  get; set; }
+        string FontFamily {  get; set; }
         FontSubFamily SubFamily { get; set; }
         double FontSize { get; set; }
     }

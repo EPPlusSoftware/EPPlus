@@ -9,6 +9,5 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
         string Text { get; set; }
 
         IRichTextInfoBase RichTextOptions { get; set; }
-        IFontData FontData { get; set; }
     }
 }

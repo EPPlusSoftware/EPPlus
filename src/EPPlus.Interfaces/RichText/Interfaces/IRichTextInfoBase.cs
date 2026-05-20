@@ -11,9 +11,15 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
     /// <summary>
     /// Interface for pdf/svg/future richtext users to unify richtext styling
     /// </summary>
-    public interface IRichTextInfoBase
+    public interface IRichTextInfoBase : IFontData
     {
+        /// <summary>
+        /// This MUST interact with font data subfamily
+        /// </summary>
         bool Italic { get; set; }
+        /// <summary>
+        /// This MUST interact with font data subfamily
+        /// </summary>
         bool Bold { get; set; }
         bool SubScript { get; set; }
         bool SuperScript { get; set; }

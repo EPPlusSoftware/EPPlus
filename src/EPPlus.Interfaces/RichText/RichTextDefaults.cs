@@ -7,13 +7,14 @@ using OfficeOpenXml.Interfaces.Fonts;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
+    /// <summary>
+    /// Basic default richTextData including default font
+    /// </summary>
     public class RichTextDefaults : IRichTextInfoBase
     {
-        internal RichTextDefaults()
+        public RichTextDefaults()
         {
         }
-
-        public FontSubFamily SubFamily { get; set; }
 
         public bool Italic 
         { 
@@ -65,6 +66,10 @@ namespace OfficeOpenXml.Interfaces.RichText
         public Color UnderlineColor { get; set; }
 
         public Color FontColor { get; set; }
+
+        public string FontFamily { get; set; } = "Archivo Narrow";
+        public double FontSize { get; set; } = 11d;
+        public FontSubFamily SubFamily { get; set; } = FontSubFamily.Regular;
 
         //TODO Offset which is equal to 30% or -25% if Sub or Superscript are true?
     }
