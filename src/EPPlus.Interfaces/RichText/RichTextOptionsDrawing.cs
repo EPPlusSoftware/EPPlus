@@ -97,5 +97,12 @@ namespace OfficeOpenXml.Interfaces.RichText
         public string FontFamily { get; set; }
         public FontSubFamily SubFamily { get; set; }
         public double FontSize { get; set; }
+
+        public void SetFont(IFontData font)
+        {
+            FontFamily = font.FontFamily;
+            FontSize = font.FontSize;
+            SubFamily = font.SubFamily;
+        }
     }
 }

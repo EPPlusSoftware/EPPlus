@@ -6,7 +6,7 @@ using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
-    internal class FontDataDefaults : IFontData
+    public class FontDataDefaults : IFontData
     {
         public string FontFamily { get; set; } = "Archivo Narrow";
         public FontSubFamily SubFamily { get; set; } = FontSubFamily.Regular;

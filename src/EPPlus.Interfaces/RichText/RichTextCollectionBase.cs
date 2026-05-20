@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         {
             var rt = new RichTextBase(Text, NewParagraph);
             rt.RichTextOptions = DefaultRichText;
-            rt.FontData = DefaultFont;
+            rt.RichTextOptions.SetFont(DefaultFont);
             _list.Insert(index, rt);
             return rt;
         }

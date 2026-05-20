@@ -36,6 +36,12 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
         Color UnderlineColor { get; set; }
         public Color FontColor { get; set; }
 
+        /// <summary>
+        /// Sets the underlying data properties to be equal to the font
+        /// </summary>
+        /// <param name="font"></param>
+        public void SetFont(IFontData font);
+
         //TODO: ColorSettings independent from Epplus
     }
 }

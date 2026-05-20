@@ -10,10 +10,16 @@ namespace OfficeOpenXml.Interfaces.RichText
     /// <summary>
     /// Data holder for basic font data
     /// </summary>
-    internal class FontDataBasic : IFontData
+    public class FontDataBasic : IFontData
     {
-        internal FontDataBasic() {}
-        internal FontDataBasic(MeasurementFont font)
+        public FontDataBasic(string fontFamily, FontSubFamily subFamily, double fontSize) 
+        {
+            FontFamily = fontFamily;
+            SubFamily = subFamily;
+            FontSize = fontSize;
+        }
+        public FontDataBasic() {}
+        public FontDataBasic(MeasurementFont font)
         {
             FontFamily = font.FontFamily;
             SubFamily = GetFontSubFamily(font.Style);

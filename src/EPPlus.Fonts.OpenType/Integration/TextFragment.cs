@@ -38,4 +38,12 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
     }
+
+    public class AdvancedTextFragment
+    {
+        public IRichText RichText;
+        public ShapingOptions Options { get; set; }
+        public double AscentPoints { get; set; }
+        public double DescentPoints { get; set; }
+    }
 }

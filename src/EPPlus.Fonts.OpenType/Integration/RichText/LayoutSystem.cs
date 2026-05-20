@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfficeOpenXml.Interfaces.RichText;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -14,6 +16,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// The Unalatered input fragments
         /// </summary>
         List<TextFragment> InputFragments;
+        List<RtDataBasic> RTDataBasics;
         //The text of the entire paragraph
         //regardless of linebreaking or style runs
         string FullText;
@@ -26,6 +29,19 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         IEnumerable<string> FontDirectories;
 
         TextLineCollection WrappedLineCollection;
+
+        public LayoutSystem(List<string> textLst, List<RtDataBasic> rtBasics, IEnumerable<string> fontDirectories)
+        {
+            RTDataBasics = rtBasics;
+
+            InitalizeAllTextAndCharInfo(textLst);
+
+            Segmentation();
+
+            Itemization();
+
+            ShapingAlt();
+        }
 
         public LayoutSystem(List<TextFragment> fragments, IEnumerable<string> fontDirectories)
         {
@@ -48,6 +64,36 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             //Wrap(FontDirectories, dou);
         }
 
+        void InitalizeAllTextAndCharInfo(List<string> text)
+        {
+            List<int> fragmentStartIdx = new List<int>();
+            int allCharIdx = 0;
+            int fragmentIdx = 0;
+            foreach (var fragment in RTDataBasics)
+            {
+                //var currentShaper = OpenTypeFonts.GetShaperForFont(fragment.Font);
+
+                //var currShapedText = currentShaper.ShapeLight(fragment.Text);
+
+                int spanIndex = 0;
+                foreach (var c in fragment.Text)
+                {
+                    var currCharInfo = new CharInfo(allCharIdx, fragmentIdx, spanIndex);
+                    AllChars.Add(currCharInfo);
+                    if (char.IsSeparator(c))
+                    {
+                        currCharInfo.IsSeparator = true;
+                        SeparatorIndicies.Add(allCharIdx);
+                    }
+
+                    spanIndex++;
+                    allCharIdx++;
+                }
+                FullText += fragment.Text;
+                fragmentIdx++;
+            }
+            FullTextLength = allCharIdx;
+        }
         /// <summary>
         ///  Extract basic info about the entire paragraph
         /// </summary>
@@ -140,6 +186,35 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             SubParagraphs[SubParagraphs.Count -1].AddStyleRun(LastRun);
         }
 
+        void ShapingAlt(bool shapeLight = true)
+        {
+            foreach (var styleRun in StyleRuns)
+            {
+                var inputFrag = RTDataBasics[styleRun.FragmentIndex];
+                var shaper = OpenTypeFonts.GetTextShaper(inputFrag.FontFamily, inputFrag.SubFamily);
+                if (shapeLight)
+                {
+                    var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
+                    double[] charWidths = new double[styleRun.Length + 1];
+                    shapedGlyphs.FillCharWidths((float)inputFrag.FontSize, charWidths, styleRun.Length + 1);
+                    var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.FontSize);
+                    styleRun.SetCharWidths(charWidths, spaceWidth);
+                }
+                else
+                {
+                    throw new NotImplementedException("Proper shaping has not been implemented here yet");
+                }
+            }
+
+            var lastFragment = RTDataBasics[RTDataBasics.Count - 1];
+            var lastRun = StyleRuns[StyleRuns.Count - 1];
+            var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.FontFamily, lastFragment.SubFamily);
+            var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
+            double[] lastCharWidths = new double[lastRun.Length + 1];
+            lastShapedGlyphs.FillCharWidths((float)lastFragment.FontSize, lastCharWidths, lastRun.Length + 1);
+            var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.FontSize);
+            lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
+        }
         /// <summary>
         /// Shaping (calculating widths, heights etc.)
         /// </summary>
@@ -174,6 +249,51 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints(lastFragment.Font.Size);
             lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
         }
+        /// <summary>
+        /// Wrapping/line breaking
+        /// </summary>
+        /// <param name="fontDirectories"></param>
+        /// <param name="maxWidth"></param>
+        /// <returns></returns>
+        public TextLineCollection WrapAlt(double maxWidth)
+        {
+            var inputRt = RTDataBasics[0];
+            var shaper = OpenTypeFonts.GetTextShaper(inputRt.FontFamily, inputRt.SubFamily);
+            var layoutEngine = new TextLayoutEngine(shaper);
+            var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
+
+            List<TextFragment> dummyFrags = new List<TextFragment>();
+            dummyFrags.Capacity = RTDataBasics.Count;
+            foreach(var frag in RTDataBasics)
+            {
+                dummyFrags.Add(new TextFragment());
+            }
+
+            //var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
+            //Calculate ascent and descent so later application can handle line-spacing
+            //This could be optimized by doing it during ProcessFragment but that is way bulkier/unclear
+            foreach (var line in wrappedLines)
+            {
+                double largestAscent = 0;
+                double largestDescent = 0;
+                double largestFontSize = 0;
+                foreach (var lineFragment in line.InternalLineFragments)
+                {
+                    var frag = RTDataBasics[lineFragment.FragmentIndex];
+                    if (frag == null) continue;
+                    largestAscent = Math.Max(frag.AscentPoints, largestAscent);
+                    largestDescent = Math.Max(frag.DescentPoints, largestDescent);
+                    largestFontSize = Math.Max(largestFontSize, frag.FontSize);
+                }
+                line.LargestAscent = largestAscent;
+                line.LargestDescent = largestDescent;
+                line.LargestFontSize = largestFontSize;
+                line.FinalizeLineFragments(dummyFrags);
+            }
+            WrappedLineCollection = new TextLineCollection(wrappedLines, dummyFrags);
+            return WrappedLineCollection;
+        }
+
         /// <summary>
         /// Wrapping/line breaking
         /// </summary>

@@ -3,6 +3,9 @@ using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
+using OfficeOpenXml.Style;
+using System.Drawing;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -252,6 +255,32 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        public void EnsureWrappingRichTextAndGettingLineSpacing()
+        {
+            List<string> txtLst = new List<string>() { "Hi", "I am rich", "But I am Even Richer" };
+            var rt = new RtDataBasic(txtLst[0], "Roboto", 12d);
+            var rtSecond = new RtDataBasic(txtLst[1], "Archivo Narrow", 11d);
+            var rtThird = new RtDataBasic(txtLst[2], "Roboto", 18d);
+
+            rtThird.Italic = true;
+            rtThird.Bold = true;
+
+            List<RtDataBasic> rtLst = new List<RtDataBasic>() { rt, rtSecond, rtThird};
+
+            var paragraph = new LayoutSystem(txtLst, rtLst, FontFolders);
+
+            var lines = paragraph.WrapAlt(92.976377953d);
+
+            string stop = "stop!";
+            //Assert.AreEqual("Hi! I am a simple but", lines[0].Text);
+            //Assert.AreEqual("somewhat wordy text", lines[1].Text);
+            //Assert.AreEqual("string that is being", lines[2].Text);
+            //Assert.AreEqual("Tested for wrapping in", lines[3].Text);
+            //Assert.AreEqual("the case where only", lines[4].Text);
+            //Assert.AreEqual("one font exists", lines[5].Text);
+        }
+
+        [TestMethod]
         public void TestSimpleRichText()
         {
             var rtCollection = new RichTextCollectionBase();
@@ -261,10 +290,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var richestRt = rtCollection.Add("richest");
             var wealthyRt = rtCollection.Add("Wealthy");
 
-            richRt.FontData.Family = "Roboto";
+            richRt.RichTextOptions.FontFamily = "Roboto";
             richRt.RichTextOptions.Italic = true;
 
-           
+            richerRt.RichTextOptions.FontFamily = "Roboto";
+            richerRt.RichTextOptions.FontSize = 16;
+            richerRt.RichTextOptions.Italic = true;
+            richerRt.RichTextOptions.UnderlineType = (int)ExcelUnderLineType.Single;
+
+            richestRt.RichTextOptions.FontFamily = "Oi";
+            richestRt.RichTextOptions.FontColor = Color.BlueViolet;
+            richestRt.RichTextOptions.Bold = true;
+            richestRt.RichTextOptions.Italic = true;
+            richerRt.RichTextOptions.FontSize = 18;
+
 
             //someTextRt.FontData.Family = "Archivo Narrow";
 

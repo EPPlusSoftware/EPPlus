@@ -71,6 +71,13 @@ namespace OfficeOpenXml.Interfaces.RichText
         public double FontSize { get; set; } = 11d;
         public FontSubFamily SubFamily { get; set; } = FontSubFamily.Regular;
 
+        public void SetFont(IFontData font)
+        {
+            FontFamily = font.FontFamily;
+            FontSize = font.FontSize;
+            SubFamily = font.SubFamily;
+        }
+
         //TODO Offset which is equal to 30% or -25% if Sub or Superscript are true?
     }
 }
