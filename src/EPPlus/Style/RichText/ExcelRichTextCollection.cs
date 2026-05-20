@@ -18,6 +18,7 @@ using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.Utils.XML;
 using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Style
 {

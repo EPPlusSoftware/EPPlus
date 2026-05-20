@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Interfaces.Drawing.RichText;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -83,6 +84,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         public DrawingStrikeType DrawingStrike { get { return (DrawingStrikeType)StrikeType; } set { StrikeType = (int)value; } }
         public DrawingUnderlineStyle UnderlineStyle { get { return (DrawingUnderlineStyle)StrikeType; } set { StrikeType = (int)value; } }
         ///---
+        ///
         public DrawingTextCapsType Capitalization { get; set; } = DrawingTextCapsType.None;
         public Color? HighLightColor { get; set; } = null;
         public bool IsItalic { get; set; } = false;

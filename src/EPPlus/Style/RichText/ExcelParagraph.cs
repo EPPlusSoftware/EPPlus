@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Style
 {

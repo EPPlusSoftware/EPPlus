@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace OfficeOpenXml.Interfaces.RichText
+namespace OfficeOpenXml.Interfaces.RichText.Interfaces
 {
     /// <summary>
     /// Interface for pdf/svg/future richtext users to unify richtext styling

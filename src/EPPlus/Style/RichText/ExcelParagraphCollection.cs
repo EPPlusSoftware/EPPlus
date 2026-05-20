@@ -20,6 +20,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
+
 namespace OfficeOpenXml.Style
 {
     /// <summary>

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using OfficeOpenXml.Interfaces.Drawing.RichText;
 
-namespace OfficeOpenXml.Interfaces.RichText
+namespace OfficeOpenXml.Interfaces.RichText.Interfaces
 {
     /// <summary>
     /// See 'ExcelParagraphTextRunBase.cs' for all options this interface should support

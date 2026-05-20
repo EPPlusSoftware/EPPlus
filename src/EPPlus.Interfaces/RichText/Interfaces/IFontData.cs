@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.Interfaces.RichText
+namespace OfficeOpenXml.Interfaces.RichText.Interfaces
 {
     /// <summary>
     /// Collects size and font family names
     /// </summary>
-    internal interface IFontData
+    public interface IFontData
     {
         string Family {  get; set; }
         FontSubFamily SubFamily { get; set; }

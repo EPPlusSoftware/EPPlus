@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
-using OfficeOpenXml.Interfaces.RichText;
+using OfficeOpenXml.Interfaces.RichText.Interfaces;
 using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration

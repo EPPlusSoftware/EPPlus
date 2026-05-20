@@ -1280,7 +1280,6 @@ namespace EPPlusTest
                 tb.SetPosition(100, 100);
                 tb.SetSize(500, 200);
 
-
                 rtCollection.Add("Row number1\n");
                 rtCollection.Add("Row number2\n", true);
 
