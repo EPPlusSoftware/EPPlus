@@ -1254,6 +1254,47 @@ namespace EPPlusTest
                 Assert.AreEqual("Rad", d.TextBody.Paragraphs[0].TextRuns[0].Text);
                 Assert.AreEqual(" 1", d.TextBody.Paragraphs[0].TextRuns[1].Text);
             }
-        }        
+        }
+        [TestMethod]
+        public void RichTextCheck()
+        {
+            using (var p = OpenPackage("ShapeRt.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("rtSheet");
+                var tb = ws.Drawings.AddTextbox("myTxtBox", "Hello?");
+                var rt2 = tb.RichText.Add("Goodbye!");
+
+                rt2.SetFromFont("Goudy Stout", 16f, false, true, true);
+
+                rt2.UnderLineColor = Color.AliceBlue;
+                rt2.Fill.Color = Color.DarkRed;
+
+                tb.TextBody.WrapText = eTextWrappingType.None;
+                tb.TextBody.TextAutofit = eTextAutofit.NoAutofit;
+                var rtCollection = ws.Cells["A1"].RichText;
+                tb.RichText.Add("Hello, hello again", true);
+
+                tb.TextBody.Paragraphs[1].TextRuns[0].Baseline = 10d;
+                tb.TextBody.Paragraphs[1].TextRuns[0].Fill.Color = Color.DarkViolet;
+
+                tb.SetPosition(100, 100);
+                tb.SetSize(500, 200);
+
+
+                rtCollection.Add("Row number1\n");
+                rtCollection.Add("Row number2\n", true);
+
+                rtCollection[1].FontName = "Calibri";
+                rtCollection[1].Color = Color.DarkGreen;
+                rtCollection[1].Bold = true;
+                rtCollection[1].VerticalAlign = ExcelVerticalAlignmentFont.Subscript;
+                
+                //rtCollection[0]
+
+                //tb.TextBody.HorizontalTextOverflow = eTextHorizontalOverflow.Overflow;
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

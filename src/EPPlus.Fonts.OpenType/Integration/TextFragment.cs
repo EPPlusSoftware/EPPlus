@@ -63,5 +63,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         public Color UnderlineColor { get; set; }
 
         public Color FontColor { get; set; }
+
+        //TODO Offset which is equal to 30% or -25% if Sub or Superscript are true?
     }
 }

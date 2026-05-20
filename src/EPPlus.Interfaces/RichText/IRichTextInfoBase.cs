@@ -29,5 +29,7 @@ namespace OfficeOpenXml.Interfaces.RichText
 
         Color UnderlineColor { get; set; }
         public Color FontColor { get; set; }
+
+        //TODO: ColorSettings independent from Epplus
     }
 }
