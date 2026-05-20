@@ -118,6 +118,9 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
         }
 
+        //The final linespacing above this line
+        public double LineSpacingAbove { get; internal set; }
+
         internal LineFragment SplitAndGetLeftoverLineFragment(ref LineFragment origLf, double widthAtSplit, int charsRt, int charsTotal)
         {
             //If we are splitting a fragment its position in the new line should be 0

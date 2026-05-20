@@ -154,8 +154,13 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragIdLookup[idx][lineNum].Add(fragPosInline);
         }
 
+        //Combined descent of above line and descent of below line gives the linespacing per line
+        internal List<double> LinespacingPerLine = new List<double>();
+
         internal void FinalizeTextLineData(List<TextLineSimple> lines)
         {
+            double lastDescent = 0;
+
             for (int i = 0; i < lines.Count; i++)
             {
                 int lineNum = i;
@@ -184,9 +189,15 @@ namespace EPPlus.Fonts.OpenType.Integration
                     }
 
                     LineFragments.Add(data);
-
                     fragCount++;
                 }
+
+                //The linespacing above this line
+                var lineSpacing = lines[i].LargestAscent + lastDescent;
+                lines[i].LineSpacingAbove = lineSpacing;
+                LinespacingPerLine.Add(lineSpacing);
+
+                lastDescent = lines[i].LargestDescent;
                 Add(lines[i]);
             }
         }
