@@ -92,5 +92,60 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void TroAll3()
+        {
+            using (var package = OpenTemplatePackage("Trimfunctions.xlsx"))
+            {
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
+                var sheet = package.Workbook.Worksheets[3];
+                sheet.Cells["H12"].Formula = "TROALL(A1:F5)";
+                sheet.Cells["H12"].Calculate();
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void TrimRange()
+        {
+            using (var package = OpenTemplatePackage("TrimFunctions.xlsx"))
+            {
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
+                var sheet = package.Workbook.Worksheets[4];
+                sheet.Cells["I6"].Formula = "TRIMRANGE(A1:F5, 0, 0)";
+
+                sheet.Cells["I12"].Formula = "TRIMRANGE(A1:F5, 1, 1)";
+
+                sheet.Cells["I17"].Formula = "TRIMRANGE(A1:F5, 2, 2)"; 
+
+                sheet.Cells["I22"].Formula = "TRIMRANGE(A1:F5, 3, 3)";
+                sheet.Calculate();
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void TrimRange_WithArrayConstantAsRange_TrimsCorrectly()
+        {
+            using (var package = OpenTemplatePackage("TrimFunctions.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[5];
+
+                // Array-konstant med tomma celler i kanterna
+                sheet.Cells["G2"].Formula = "TRIMRANGE({\"\",\"\",\"\",\"\",1,2,\"\",3,4})";
+                sheet.Cells["G2"].Calculate();
+                   
+                // Förväntad output: 2x2-array med 1,2,3,4
+                SaveAndCleanup(package);
+                //Assert.AreEqual(1d, sheet.Cells["A5"].Value);
+                //Assert.AreEqual(2d, sheet.Cells["A6"].Value);
+                //Assert.AreEqual(3d, sheet.Cells["A8"].Value);
+                //Assert.AreEqual(4d, sheet.Cells["A9"].Value);
+            }
+        }
+
     }
 }

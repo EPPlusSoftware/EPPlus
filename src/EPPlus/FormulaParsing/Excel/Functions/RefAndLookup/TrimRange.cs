@@ -10,7 +10,6 @@
  *************************************************************************************************
   19/3/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
-
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Collections.Generic;
@@ -18,17 +17,51 @@ using System.Collections.Generic;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "8",
-        Description = "Trims all leading and trailing empty cells of a range or array",
-        SupportsArrays = true)]
-    internal class TroAll : TrimFunctionsBase
+    Category = ExcelFunctionCategory.LookupAndReference,
+    EPPlusVersion = "8",
+    Description = "",
+    SupportsArrays = true)]
+    internal class TrimRange : TrimFunctionsBase
     {
-        public override int ArgumentMinLength => 1;
 
+        public override int ArgumentMinLength => 1;
         public override string NamespacePrefix => "_xlfn.";
 
+        private enum TrimRows
+        {
+            None = 0,
+            TrimLeading = 1,
+            TrimTrailing = 2,
+            TrimAll = 3
+        }
+        private enum TrimCols
+        {
+            None = 0,
+            TrimLeading = 1,
+            TrimTrailing = 2,
+            TrimAll = 3
+        }
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-            => ExecuteTrim(arguments, TrimMode.Both, TrimMode.Both);              
+        {
+        var rowMode = TrimMode.Both;
+        var colMode = TrimMode.Both;
+
+        if (arguments.Count > 1)
+        {
+            var v = ArgToInt(arguments, 1, RoundingMethod.Convert);
+            if (v < 0 || v > 3) return CompileResult.GetErrorResult(eErrorType.Value);
+            rowMode = (TrimMode)v;
+        }
+
+        if (arguments.Count > 2)
+        {
+            var v = ArgToInt(arguments, 2, RoundingMethod.Convert);
+                if (v < 0 || v > 3) return CompileResult.GetErrorResult(eErrorType.Value);
+            colMode = (TrimMode)v;
+        }
+
+        return ExecuteTrim(arguments, rowMode, colMode);
+        }
     }
 }

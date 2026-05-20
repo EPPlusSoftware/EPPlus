@@ -352,6 +352,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["indirect"] = new Indirect();
             Functions["offset"] = new Offset();
             Functions["transpose"] = new Transpose();
+            Functions["trimrange"] = new TrimRange();
             Functions["troall"] = new TroAll();
             Functions["troleading"] = new TroLeading();
             Functions["trotrailing"] = new TroTrailing();
