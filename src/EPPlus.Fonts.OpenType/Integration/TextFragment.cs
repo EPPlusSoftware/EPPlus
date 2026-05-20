@@ -21,7 +21,7 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// <summary>
     /// Represents a text fragment with specific font properties.
     /// </summary>
-    public class TextFragment
+    public class TextFragment : ITextFragment
     {
         public string Text { get; set; }
 
@@ -33,13 +33,13 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Nothing is supposed to be done with this within OpenType
         /// but we hold the data so users may more easily recognize what rich text this is in the output.
         /// </summary>
-        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+        public IRichText RichTextOptions { get; set; }
 
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
     }
 
-    public class AdvancedTextFragment
+    public class AdvancedTextFragment : ITextFragment
     {
         public IRichText RichText;
         public ShapingOptions Options { get; set; }
