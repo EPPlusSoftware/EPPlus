@@ -231,6 +231,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
                     double[] charWidths = new double[styleRun.Length + 1];
                     shapedGlyphs.FillCharWidths(inputFrag.Font.Size, charWidths, styleRun.Length + 1);
+                    inputFrag.AscentPoints = shaper.GetAscentInPoints(inputFrag.Font.Size);
+                    inputFrag.DescentPoints = shaper.GetDescentInPoints(inputFrag.Font.Size);
                     var spaceWidth = shaper.Shape(" ").GetWidthInPoints(inputFrag.Font.Size);
                     styleRun.SetCharWidths(charWidths, spaceWidth);
                 }
