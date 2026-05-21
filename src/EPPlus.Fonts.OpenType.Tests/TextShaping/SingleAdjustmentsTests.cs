@@ -14,8 +14,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void SingleAdjustment_Roboto_DoesNotCrash()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             var result = shaper.Shape("Hello World");
 
@@ -27,8 +27,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void SingleAdjustment_WithZeroValues_DoesNotAffectOutput()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             var withPositioning = shaper.Shape("AV");
             var withoutPositioning = shaper.Shape("AV", ShapingOptions.None);
@@ -41,8 +41,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void SingleAdjustment_WithZeroValues_DoesNotAffectOutput2()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             var withPositioning = shaper.Shape("AV");
             var withoutPositioning = shaper.Shape("AV", ShapingOptions.None);
@@ -67,8 +67,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Kerning_IsApplied_ForAVPair()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             var optionsOnlyKern = new ShapingOptions
             {
@@ -91,13 +91,13 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             try
             {
-                var font = OpenTypeFonts.LoadFont("Verdana");
+                var font = SystemFontsEngine.LoadFont("Verdana");
                 if (font == null || font.FullName != "Verdana")
                 {
                     Assert.Inconclusive("Verdana font not found - test skipped");
                     return;
                 }
-                var shaper = new TextShaper(font);
+                var shaper = new TextShaper(SystemFontsEngine, font);
 
                 var withPositioning = shaper.Shape("Hello123");
                 var withoutPositioning = shaper.Shape("Hello123", ShapingOptions.None);
@@ -129,13 +129,13 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             try
             {
-                var font = OpenTypeFonts.LoadFont("Verdana");
+                var font = SystemFontsEngine.LoadFont("Verdana");
                 if (font == null || font.FullName != "Verdana")
                 {
                     Assert.Inconclusive("Verdana font not found - test skipped");
                     return;
                 }
-                var shaper = new TextShaper(font);
+                var shaper = new TextShaper(SystemFontsEngine, font);
 
                 var result = shaper.Shape("Test");
 
@@ -152,8 +152,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void SingleAdjustment_AppliedBeforeKerning()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             var result = shaper.Shape("Test");
 
@@ -164,8 +164,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void SingleAdjustment_NotAppliedWithNoneOptions()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             var result = shaper.Shape("Test", ShapingOptions.None);
 
@@ -182,8 +182,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void SingleAdjustmentProvider_HandlesNullFont()
         {
-            var font = OpenTypeFonts.LoadFont("SourceSans3");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("SourceSans3");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             var result = shaper.Shape("Test");
 

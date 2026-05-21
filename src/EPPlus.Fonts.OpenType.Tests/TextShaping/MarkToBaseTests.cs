@@ -26,9 +26,9 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void MarkToBaseTest()
         {
-            var font = OpenTypeFonts.LoadFont("EB Garamond", FontSubFamily.Regular, ignoreCache: true);
+            var font = TestFolderEngine.LoadFont("EB Garamond", FontSubFamily.Regular, ignoreCache: true);
 
-            var shaper = new TextShaper(font);
+            var shaper = new TextShaper(TestFolderEngine,font);
             string test = "e\u0301"; // e + combining acute
 
             var shaped = shaper.Shape(test, ShapingOptions.Full);

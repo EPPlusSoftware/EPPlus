@@ -10,6 +10,7 @@
  *************************************************************************************************
   02/27/2026         EPPlus Software AB           Initial implementation
   05/06/2026         EPPlus Software AB           Property-based transactional configuration
+  05/20/2026         EPPlus Software AB           Added per-script glyph fallback configuration
  *************************************************************************************************/
 using System.Collections.Generic;
 
@@ -53,12 +54,30 @@ namespace OfficeOpenXml.Interfaces.Fonts
         IDictionary<string, string[]> FontFallbacks { get; }
 
         /// <summary>
+        /// Replaces the per-script glyph fallback chain for the given Unicode script.
+        /// When the primary font (and any font-level fallbacks) lack a glyph for a character
+        /// that belongs to <paramref name="script"/>, EPPlus walks this chain in order and
+        /// uses the first font that contains the glyph.
+        ///
+        /// Setting a chain via this method fully replaces the built-in default for that script.
+        /// The caller becomes responsible for providing a complete chain — there is no merge
+        /// with the default. Pass an empty array to disable fallback for the script entirely.
+        ///
+        /// Note: Emoji and Math glyphs are always served by EPPlus's bundled Noto Emoji and
+        /// Noto Math fonts respectively, regardless of this configuration.
+        /// </summary>
+        /// <param name="script">The Unicode script to configure.</param>
+        /// <param name="fallbackFontNames">Ordered list of font names to try.</param>
+        void SetScriptFallback(UnicodeScript script, params string[] fallbackFontNames);
+
+        /// <summary>
         /// Restores all settings to factory defaults:
         /// <list type="bullet">
         ///   <item>Clears <see cref="FontDirectories"/>.</item>
         ///   <item>Sets <see cref="SearchSystemDirectories"/> to <c>true</c>.</item>
         ///   <item>Restores the default <see cref="FontResolver"/> (with Archivo Narrow built-in fallback).</item>
         ///   <item>Clears <see cref="FontFallbacks"/>.</item>
+        ///   <item>Restores the default per-script glyph fallback chains.</item>
         /// </list>
         /// </summary>
         void Reset();

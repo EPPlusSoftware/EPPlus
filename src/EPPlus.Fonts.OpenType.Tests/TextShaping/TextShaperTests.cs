@@ -31,8 +31,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_EmptyString_ReturnsEmptyResult()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var shaped = shaper.Shape("");
@@ -48,8 +48,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_NullString_ReturnsEmptyResult()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape(null);
@@ -64,8 +64,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_SingleCharacter_ReturnsOneGlyph()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("A");
@@ -82,8 +82,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_SimpleWord_ReturnsCorrectGlyphCount()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var shaped = shaper.Shape("Hello");
@@ -99,8 +99,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_WithSpace_IncludesSpaceGlyph()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var shaped = shaper.Shape("A B");
@@ -118,7 +118,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_WithKerning_ReducesWidth()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             var withKerning = shaper.Shape("WAVE", ShapingOptions.Default);
@@ -133,7 +133,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Debug_GposKerningFormat()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             Assert.IsNotNull(font.GposTable, "Should have GPOS");
 
@@ -176,7 +176,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_AVPair_HasNegativeKerning()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             var withKerning = shaper.Shape("AV");
@@ -195,7 +195,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_FastOption_StillAppliesKerning()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             var fast = shaper.Shape("WAVE", ShapingOptions.Fast);
@@ -214,8 +214,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MeasureTextInPoints_ReturnsReasonableValue()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             float width = shaper.MeasureTextInPoints("Hello", 12);
@@ -229,8 +229,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MeasureTextInPixels_ScalesWithDpi()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             float width72 = shaper.MeasureTextInPixels("Hello", 12, 72);
@@ -245,8 +245,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MeasureText_LargerFontSize_LargerWidth()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             float width12 = shaper.MeasureTextInPoints("Hello", 12);
@@ -265,8 +265,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_GlyphsHaveClusterIndices()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("ABC");
@@ -281,8 +281,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_GlyphsHaveCharCount()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("ABC");
@@ -298,8 +298,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_GlyphsHaveValidIds()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("Hello");
@@ -320,8 +320,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLines_SingleLine_ReturnsOneElement()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var lines = shaper.ShapeLines("Hello");
@@ -335,8 +335,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLines_TwoLinesWithLF_ReturnsTwoElements()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var lines = shaper.ShapeLines("Hello\nWorld");
@@ -351,8 +351,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLines_TwoLinesWithCRLF_ReturnsTwoElements()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var lines = shaper.ShapeLines("Hello\r\nWorld");
@@ -367,8 +367,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLines_EmptyLine_PreservesEmptyLine()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var lines = shaper.ShapeLines("Hello\n\nWorld");
@@ -384,8 +384,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MeasureLines_SingleLine_MatchesSingleMeasurement()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var metrics = shaper.MeasureLines("Hello", 12);
@@ -400,8 +400,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MeasureLines_TwoLines_WidthIsMaxOfBoth()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var metrics = shaper.MeasureLines("Hi\nHello", 12);
@@ -417,8 +417,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void MeasureLines_TwoLines_HeightIsDoubleLineHeight()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var metrics = shaper.MeasureLines("Hello\nWorld", 12);
@@ -437,7 +437,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetLineHeightInPoints_ReturnsPositiveValue()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             float lineHeight = shaper.GetLineHeightInPoints(12);
@@ -452,7 +452,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetFontHeightInPoints_ReturnsPositiveValue()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             float fontHeight = shaper.GetFontHeightInPoints(12);
@@ -467,7 +467,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetLineHeight_IsGreaterThanFontHeight()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             float lineHeight = shaper.GetLineHeightInPoints(12);
@@ -482,7 +482,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void GetLineHeight_ScalesWithFontSize()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             float height12 = shaper.GetLineHeightInPoints(12);
@@ -501,8 +501,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapedText_GetWidthInPoints_MatchesMeasureText()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("Hello");
@@ -517,8 +517,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapedText_GetWidthInPixels_MatchesMeasureText()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var shaped = shaper.Shape("Hello");
@@ -537,8 +537,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_OnlySpaces_ReturnsGlyphs()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("   ");
@@ -552,8 +552,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_SpecialCharacters_HandlesGracefully()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("@#$%");
@@ -567,8 +567,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_Numbers_ReturnsCorrectGlyphs()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("12345");
@@ -585,8 +585,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_FiLigature_CombinesTwoGlyphs()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var withLigatures = shaper.Shape("fi", ShapingOptions.Default);
@@ -601,8 +601,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_Office_HasFfiLigature()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var result = shaper.Shape("office");
@@ -616,8 +616,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_Ligature_PreservesClusterIndex()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var result = shaper.Shape("afi");
@@ -635,7 +635,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_DecomposedUnicode_PositionsAccent()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             // U+0065 = 'e', U+0301 = combining acute accent
@@ -663,7 +663,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_PrecomposedVsDecomposed_SimilarWidth()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("Roboto", FontSubFamily.Regular);
+            var shaper = TestFolderEngine.GetTextShaper("Roboto", FontSubFamily.Regular);
 
             // Act
             var precomposed = shaper.Shape("\u00e9");  // é (single codepoint)
@@ -686,7 +686,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_SourceSans3_SingleMark_PositionsCorrectly()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("SourceSans3");
+            var shaper = TestFolderEngine.GetTextShaper("SourceSans3");
 
             // Act - Single combining mark
             var result = shaper.Shape("e\u0301");  // e + combining acute (é)
@@ -714,7 +714,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void Shape_Cafe_HandlesDecomposed()
         {
             // Arrange
-            var shaper = OpenTypeFonts.GetTextShaper("SourceSans3");
+            var shaper = TestFolderEngine.GetTextShaper("SourceSans3");
 
             // Act - "café" with decomposed é
             var result = shaper.Shape("cafe\u0301");
@@ -734,7 +734,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Debug_OpenSans_MarkFeature()
         {
-            var font = OpenTypeFonts.LoadFont("OpenSans", FontSubFamily.Regular);
+            var font = TestFolderEngine.LoadFont("OpenSans", FontSubFamily.Regular);
 
             foreach (var featureRecord in font.GposTable.FeatureList.FeatureRecords)
             {

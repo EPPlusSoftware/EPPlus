@@ -55,12 +55,13 @@ namespace EPPlus.Fonts.Benchmarks
 
             // Configure the global font system to search the benchmark's local Fonts directory
             // exclusively. Must happen before any LoadFont call.
-            OpenTypeFonts.Configure(cfg =>
+            var fontEngine = new OpenTypeFontEngine(cfg =>
             {
                 cfg.Reset();
                 cfg.FontDirectories.Add(fontsPath);
                 cfg.SearchSystemDirectories = false;
             });
+
 
             Console.WriteLine("\nAvailable Roboto fonts:");
             foreach (var file in Directory.GetFiles(fontsPath, "Roboto*.ttf"))
@@ -74,7 +75,7 @@ namespace EPPlus.Fonts.Benchmarks
             Console.WriteLine(string.Format("Loaded: {0} {1} ({2} glyphs)",
                 font.FullName, font.SubFamily, font.GlyfTable.Glyphs.Count));
 
-            var shaper = new TextShaper(font);
+            var shaper = new TextShaper(fontEngine, font);
             _layoutEngine = new TextLayoutEngine(shaper);
 
             Console.WriteLine("\nPre-warming font cache (Regular, Bold, Italic)...");
