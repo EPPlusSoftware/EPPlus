@@ -1555,6 +1555,105 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(27679.13, ws.Cells["D47"].Value);
             //SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void s1048TestIsolated()
+        {
+            using (var p = OpenTemplatePackage("s1048Isolated.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet2"];
+                ws.Cells["B56"].ClearFormulaValues();
+                ws.Cells["B56"].Calculate();
+
+                Assert.AreEqual(-94d, ws.Cells["B56"].Value);
+            }
+        }
+
+        /// <summary>
+        /// Calculates correctly
+        /// </summary>
+        [TestMethod]
+        public void s1048Test()
+        {
+            using (var p = OpenTemplatePackage("s1048.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Individual Assets"];
+                ws.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+
+                var ws2 = p.Workbook.Worksheets["Summary"];
+                ws2.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        /// <summary>
+        /// THIS one returns CORRECT on the SumIf
+        /// </summary>
+        [TestMethod]
+        public void s1048Test2()
+        {
+            using (var p = OpenTemplatePackage("s1048.xlsx"))
+            {
+                var wsTable = p.Workbook.Worksheets["ANKA"];
+
+                wsTable.Calculate();
+
+                var ws = p.Workbook.Worksheets["Individual Assets"];
+                ws.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+
+                var ws2 = p.Workbook.Worksheets["Summary"];
+                ws2.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                SaveAndCleanup(p);
+            }
+        }
+
+
+        [TestMethod]
+        public void s1048()
+        {
+            using (var p = OpenTemplatePackage("s1048.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Summary"];
+                // Output from the logger will be written to the following file
+                var logfile = new FileInfo(@"c:\temp\logfileS1048.txt");
+                // Attach the logger before the calculation is performed.
+                p.Workbook.FormulaParserManager.AttachLogger(logfile);
+
+
+                //ws.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                p.Workbook.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                // The following method removes any logger attached to the workbook.
+                p.Workbook.FormulaParserManager.DetachLogger();
+
+                SaveAndCleanup(p);
+            }
+
+            //using (var p = OpenTemplatePackage("s1048PreCalc.xlsx"))
+            //{
+            //    var ws = p.Workbook.Worksheets[0];
+            //    // Output from the logger will be written to the following file
+            //    var logfile = new FileInfo(@"c:\temp\logfileS1048PreCalc.txt");
+            //    // Attach the logger before the calculation is performed.
+            //    p.Workbook.FormulaParserManager.AttachLogger(logfile);
+
+
+            //    p.Workbook.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+            //    // The following method removes any logger attached to the workbook.
+            //    p.Workbook.FormulaParserManager.DetachLogger();
+
+            //    SaveAndCleanup(p);
+            //}
+        }
     }
 }
 
