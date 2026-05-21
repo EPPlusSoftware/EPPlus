@@ -117,9 +117,69 @@ namespace EPPlus.DrawingRenderer.Svg
             OutputStream.AppendFormat("/>");
         }
 
+        //string GetFontStyleAttributes()
+        //{
+        //    string fontStyleAttributes = " ";
+
+        //    if (_isItalic)
+        //    {
+        //        fontStyleAttributes += "font-style=\"italic\" ";
+        //    }
+        //    if (_isBold)
+        //    {
+        //        fontStyleAttributes += "font-weight=\"bold\" ";
+        //    }
+        //    if (_underLineType != eUnderLineType.None | _strikeType != eStrikeType.No)
+        //    {
+
+        //        fontStyleAttributes += "text-decoration=\" ";
+        //        if (_underLineType != eUnderLineType.None)
+        //        {
+        //            switch (_underLineType)
+        //            {
+        //                case eUnderLineType.Single:
+        //                    fontStyleAttributes += "underline";
+        //                    break;
+        //                //These are all css only apparently
+        //                //case eUnderLineType.Double:
+        //                //    fontStyleAttributes += "double";
+        //                //    break;
+        //                //case eUnderLineType.Dotted:
+        //                //    fontStyleAttributes += "dotted";
+        //                //    break;
+        //                //case eUnderLineType.Dash:
+        //                //    fontStyleAttributes += "dashed";
+        //                //    break;
+        //                //case eUnderLineType.Wavy:
+        //                //    fontStyleAttributes += "wavy";
+        //                //    break;
+        //                default:
+        //                    fontStyleAttributes += "underline";
+        //                    break;
+        //                    //throw new NotImplementedException("Not implemented yet");
+        //            }
+        //        }
+
+        //        if (_strikeType == eStrikeType.Single)
+        //        {
+        //            //Has to check if Both underline and strike
+        //            if (_underLineType != eUnderLineType.None)
+        //            {
+        //                fontStyleAttributes += ",";
+        //            }
+        //            fontStyleAttributes += "line-through";
+        //        }
+
+        //        fontStyleAttributes += "\" ";
+        //    }
+
+        //    return fontStyleAttributes;
+        //}
+
         private void RenderTextRun(TextRunRenderItem textRun)
         {
-            throw new NotImplementedException();
+            SvgTextRunRenderer trRenderer = new SvgTextRunRenderer(OutputStream);
+            trRenderer.Render(textRun);
         }
     }
 }

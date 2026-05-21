@@ -109,12 +109,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public override RenderItemType Type => RenderItemType.Text;
 
         protected string _originalText;
-        protected string _currentText;
+        public string _currentText { get; protected set; }
 
-        protected MeasurementFont _measurementFont;
+        public MeasurementFont _measurementFont { get; internal protected set; }
         protected bool _isFirstInParagraph;
 
-        protected double FontSizeInPixels { get;  set; }
+        public double FontSizeInPixels { get;  protected set; }
 
         public List<string> Lines { get;  set; }
 
@@ -126,7 +126,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal double _baseline;
 
         public double YPosition { get; set; }
-        protected double ClippingHeight = double.NaN;
+        public double ClippingHeight { get; protected set; } = double.NaN;
         public TextRunRenderItem(BoundingBox parent) : base(parent)
         {
             Bounds.Name = "TextRun";

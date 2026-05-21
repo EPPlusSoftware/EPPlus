@@ -600,6 +600,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 _currentShape.GetSizeInPixels(out int testWidth, out int testHeight);
 
+
+                var svg = _currentShape.ToSvg();
+                SaveTextFileToWorkbook("svg\\centeredParagraph.svg", svg);
                 SaveAndCleanup(p);
             }
         }
