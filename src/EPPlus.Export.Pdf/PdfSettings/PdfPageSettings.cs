@@ -11,7 +11,9 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
+using EPPlus.Fonts.OpenType;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfSettings
 {
@@ -20,6 +22,34 @@ namespace EPPlus.Export.Pdf.PdfSettings
     /// </summary>
     public class PdfPageSettings
     {
+        private OpenTypeFontEngine _fontEngine;
+        public OpenTypeFontEngine FontEngine
+        {
+            get
+            {
+                if(_fontEngine == null)
+                {
+                    _fontEngine = new OpenTypeFontEngine(x =>
+                    {
+                        if(FontDirectories != null && FontDirectories.Any())
+                        {
+                            foreach(var dir in FontDirectories)
+                            {
+                                if (!System.IO.Directory.Exists(dir))
+                                {
+                                    throw new System.IO.DirectoryNotFoundException($"Font directory not found: {dir}");
+                                }
+                                x.FontDirectories.Add(dir);
+                            }
+                            x.SearchSystemDirectories = SearchSystemDirectories;
+
+                        }
+                        
+                    });
+                }
+                return _fontEngine;
+            }
+        }
         /// <summary>
         /// Add additional folders to search for fonts.
         /// </summary>

@@ -9,12 +9,18 @@ namespace EPPlus.Fonts.OpenType.Benchmarks
     public class TextShapingBenchmarks
     {
         private OpenTypeFont _roboto;
+        private OpenTypeFontEngine _engine;
         private TextShaper _shaper;
 
         [GlobalSetup]  // Runs once before all benchmarks
         public void Setup()
         {
             var fontsPath = Path.Combine(AppContext.BaseDirectory, "Fonts");
+            _engine = new OpenTypeFontEngine(x =>
+            {
+                x.FontDirectories.Add(fontsPath);
+                x.SearchSystemDirectories = false;
+            });
 
             if (!Directory.Exists(fontsPath))
             {
@@ -22,8 +28,8 @@ namespace EPPlus.Fonts.OpenType.Benchmarks
             }
 
             var fontFolders = new List<string> { fontsPath };
-            _roboto = OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
-            _shaper = new TextShaper(_roboto);
+            _roboto = _engine.LoadFont("Roboto", FontSubFamily.Regular);
+            _shaper = new TextShaper(_engine, _roboto);
         }
 
         [Benchmark]

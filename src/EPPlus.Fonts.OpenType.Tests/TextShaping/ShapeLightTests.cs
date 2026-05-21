@@ -28,8 +28,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_SimpleText_ReturnsSameGlyphCountAsShape()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var full = shaper.Shape("Hello");
@@ -44,8 +44,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_SimpleText_HasFontUnitsPerEm()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var result = shaper.ShapeLight("Hello");
@@ -60,8 +60,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_EmojiOnly_UsesFallbackFont()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var result = shaper.ShapeLight("😀😁😂");
@@ -69,12 +69,13 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             // Assert
             Assert.AreEqual(3, result.Glyphs.Length, "Should have 3 glyphs for 3 emojis");
             Assert.IsNotNull(result.FontUnitsPerEm);
-            Assert.IsTrue(result.FontUnitsPerEm.Length >= 1, "Should have at least one font");
+            Assert.IsTrue(result.FontUnitsPerEm.Length >= 2, "Should have at least primary + emoji fallback");
 
-            // All glyphs should have FontId 0 (the only used font is emoji fallback)
+            // Primary font is always registered at FontId 0. Emoji glyphs come from a fallback,
+            // so they should have FontId != 0.
             foreach (var glyph in result.Glyphs)
             {
-                Assert.AreEqual(0, glyph.FontId, "All emoji glyphs should be FontId 0");
+                Assert.AreNotEqual(0, glyph.FontId, "Emoji glyphs should come from fallback, not primary");
                 Assert.IsTrue(glyph.XAdvance > 0, "Emoji glyphs should have positive width");
             }
         }
@@ -83,8 +84,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_MixedTextAndEmoji_HasMultipleFonts()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var result = shaper.ShapeLight("Hi 😀 there");
@@ -105,8 +106,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_GetWidthInPoints_ConsistentWithShape()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
             float fontSize = 12f;
 
             // Act
@@ -125,8 +126,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_FillCharWidths_ProducesCorrectWidths()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
             string text = "ABC";
             float fontSize = 12f;
             var charWidths = new double[text.Length];
@@ -153,8 +154,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_FillCharWidths_MixedEmoji_CorrectPerGlyphScale()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
             string text = "A😀B";
             float fontSize = 12f;
             var charWidths = new double[text.Length];
@@ -182,8 +183,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_EmptyString_ReturnsEmptyResult()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var result = shaper.ShapeLight("");
@@ -199,8 +200,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ShapeLight_TextEmojiAndMath_UsesThreeFonts()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // U+1D400 = 𝐀 (Mathematical Bold Capital A) — not in Roboto or Noto Emoji,
             // should fall back to Noto Sans Math.

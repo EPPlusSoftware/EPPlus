@@ -38,7 +38,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 try
                 {
-                    var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
+                    var font = TestFolderEngine.LoadFont(fontName, FontSubFamily.Regular);
 
                     // Verify font has smcp feature with Type 1 lookup
                     if (font == null || !font.FullName.Contains(fontName) || font.GsubTable == null)
@@ -72,7 +72,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                     }
 
                     // Found a font with smcp using Type 1!
-                    var shaper = new TextShaper(font);
+                    var shaper = new TextShaper(TestFolderEngine, font);
 
                     // Act - lowercase letters should become small caps
                     var normal = shaper.Shape("hello", ShapingOptions.Default);
@@ -123,7 +123,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 try
                 {
-                    var font = OpenTypeFonts.LoadFont(fontName);
+                    var font = TestFolderEngine.LoadFont(fontName);
 
                     if (font == null || !font.FullName  .Contains(fontName) || font.GsubTable == null)
                         continue;
@@ -157,7 +157,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                     if (!hasSmcpWithType1 || !hasLiga)
                         continue;
 
-                    var shaper = new TextShaper(font);
+                    var shaper = new TextShaper(TestFolderEngine, font);
 
                     // Act - Apply both features (single substitution should happen first)
                     var bothFeatures = shaper.Shape("office", new ShapingOptions

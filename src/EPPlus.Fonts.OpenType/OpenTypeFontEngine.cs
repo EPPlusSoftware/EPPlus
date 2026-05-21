@@ -128,7 +128,7 @@ namespace EPPlus.Fonts.OpenType
                 if (font == null)
                     return null;
 
-                shaper = new TextShaper(font);
+                shaper = new TextShaper(this, font);
                 perEngineMap[key] = shaper;
             }
 
@@ -347,6 +347,16 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
         // Internal helpers
         // -----------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Returns the configured fallback chain for the given Unicode script, or null if
+        /// none is configured. An empty array means fallback is explicitly disabled for the
+        /// script. Used by DefaultFontProvider to look up script-level glyph fallbacks.
+        /// </summary>
+        internal string[] GetScriptFallback(UnicodeScript script)
+        {
+            return _configuration.GetScriptFallback(script);
+        }
 
         internal static string BuildCacheKey(string fontName, FontSubFamily subFamily)
         {
