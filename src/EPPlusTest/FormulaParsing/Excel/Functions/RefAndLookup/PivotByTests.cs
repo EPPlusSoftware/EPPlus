@@ -288,6 +288,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(1d, s.Cells["I7"].Value);
             }
         }
+
         [TestMethod]
         public void PivotByRelativeTo()
         {
