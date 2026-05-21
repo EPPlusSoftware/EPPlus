@@ -387,7 +387,7 @@ namespace OfficeOpenXml.Drawing.Chart
         public string ToSvg()
         {
             var sb = new StringBuilder();
-            var svg = new ChartRenderer<StringBuilder>(this);
+            var svg = new ChartRenderer(this, new SvgChartRenderer(sb));
         }
     }
 }

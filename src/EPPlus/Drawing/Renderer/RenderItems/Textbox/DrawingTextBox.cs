@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
-using OfficeOpenXml.Drawing.Renderer.;
-
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     public class DrawingTextBox : RenderTextbox
@@ -250,7 +248,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             renderItems.Add(groupItem);
 
             var textboxGroupItem = new GroupRenderItem(groupItem.Bounds);
-            groupItem.Children.Add(textboxGroupItem);
+            groupItem.RenderItems.Add(textboxGroupItem);
 
             var titleItem = new TitleRenderItem("TextBodySvg Rect");
             //The rect shound encapse the text element, so we need to set the left depending on the text anchor.
@@ -268,12 +266,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             rect.Bounds.Top = 0;
-            renderItems.Add(titleItem);
-            renderItems.Add(rect);
+            groupItem.RenderItems.Add(titleItem);
+            groupItem.RenderItems.Add(rect);
 
             TextBody.Bounds.Left = LeftMargin;
             TextBody.Bounds.Top = TopMargin;
-            TextBody.AppendRenderItems(renderItems);
+            TextBody.AppendRenderItems(groupItem.RenderItems);
         }
 
         internal void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)

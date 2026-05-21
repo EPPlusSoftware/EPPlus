@@ -15,7 +15,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// The translated position of this item in points
         /// Also the parent position of the group item 
         /// (This may seem strange but it ensures the the translation is seen 
-        /// immediately in the global position of GroupItem without affecting local position)
+        /// immediately in the global position of GroupRenderItemBaseNew without affecting local position)
         /// </summary>
         internal Point TranslationOffset = new Point(0,0);
 

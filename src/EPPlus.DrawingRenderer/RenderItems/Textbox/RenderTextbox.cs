@@ -1,9 +1,6 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.DrawingRenderer
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer.RenderItems;
-
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     public class RenderTextbox : DrawingObject

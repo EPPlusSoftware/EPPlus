@@ -185,10 +185,10 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                 //if (textAutofit != eTextAutofit.ShapeAutofit)
                 if (textAutofit == false)
                 {
-                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                    TextBoxRect.RightValue = GetValue(TextBoxRect.RightName) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                    TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)ExcelDrawing.EMU_PER_PIXEL;
-                    TextBoxRect.BottomValue = GetValue(TextBoxRect.BottomName) / (double)ExcelDrawing.EMU_PER_PIXEL;
+                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / Constants.EMU_PER_PIXEL;
+                    TextBoxRect.RightValue = GetValue(TextBoxRect.RightName) / Constants.EMU_PER_PIXEL;
+                    TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / Constants.EMU_PER_PIXEL;
+                    TextBoxRect.BottomValue = GetValue(TextBoxRect.BottomName) / Constants.EMU_PER_PIXEL;
                 }
                 else
                 {

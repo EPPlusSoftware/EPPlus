@@ -33,7 +33,7 @@ namespace EPPlus.DrawingRenderer
         public StringBuilder OutputStream { get; }
 
         public BoundingBox Bounds { get; }
-
+        public string ViewBox { get; set; }
         public bool Render(List<RenderItem> items)
         {
             OutputStream.Clear();
@@ -44,19 +44,22 @@ namespace EPPlus.DrawingRenderer
                 switch(item.Type)
                 {
                     case RenderItemType.Line:
-                        BasicShapesRenderer.LineRenderer.Render(item);
+                        BasicShapesRenderer.LineRenderer.Render((LineRenderItem)item);
                         break;
                     case RenderItemType.Rect:
-                        BasicShapesRenderer.RectangleRenderer.Render(item);
+                        BasicShapesRenderer.RectangleRenderer.Render((RectRenderItem)item);
                         break;
                     case RenderItemType.Ellipse:
-                        BasicShapesRenderer.EllipseRenderer.Render(item);
+                        BasicShapesRenderer.EllipseRenderer.Render((EllipseRenderItem)item);
                         break;
                     case RenderItemType.Path:
-                        BasicShapesRenderer.PathRenderer.Render(item);
+                        BasicShapesRenderer.PathRenderer.Render((PathRenderItem)item);
                         break;
                     case RenderItemType.Text:
-                        BasicShapesRenderer.TextRenderer.Render(item);
+                        BasicShapesRenderer.ParagraphRenderer.Render((ParagraphRenderItem)item);
+                        break;
+                    case RenderItemType.UseReference:
+                        BasicShapesRenderer.UseReferenceRenderer.Render((UseReferenceRenderItem)item);
                         break;
                 }
             }
@@ -569,8 +572,19 @@ namespace EPPlus.DrawingRenderer
         T OutputStream { get; }
         bool PreRender(List<RenderItem> items);
         BoundingBox Bounds { get; }
+        string ViewBox { get; set; }
         bool Render(List<RenderItem> items);
     }
+    public interface IChartRenderer<T>
+    {
+        IBasicIShapesRenderer<T> BasicShapesRenderer { get; }
+        T OutputStream { get; }
+        bool PreRender(List<RenderItem> items);
+        BoundingBox Bounds { get; }
+        string ViewBox { get; set; }
+        bool Render(List<RenderItem> items);
+    }
+
     public class SvgBasicShapesRenderer : IBasicIShapesRenderer<StringBuilder>
     {
         public SvgBasicShapesRenderer(StringBuilder outputStream)
@@ -580,11 +594,11 @@ namespace EPPlus.DrawingRenderer
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
             ParagraphRenderer = new SvgParagraphRenderer(outputStream);
-            GroupRenderer = new SvgGroupRenderer(outputStream);
+            GroupRenderer = new SvgGroupRenderer(this, outputStream);
             TitleRenderer = new SvgTitleRenderer(outputStream);
             // ImageRenderer = new SvgImageRenderer(outputStream);
         }
-        public BaseRenderer<StringBuilder, RenderItem> GroupRenderer { get; }
+        public BaseRenderer<StringBuilder, GroupRenderItem> GroupRenderer { get; }
         public BaseRenderer<StringBuilder, RectRenderItem> RectangleRenderer { get; }
         public BaseRenderer<StringBuilder, EllipseRenderItem> EllipseRenderer { get; }
         public BaseRenderer<StringBuilder, PathRenderItem> PathRenderer { get; }
@@ -592,16 +606,57 @@ namespace EPPlus.DrawingRenderer
         public BaseRenderer<StringBuilder, LineRenderItem> LineRenderer { get; }
         public BaseRenderer<StringBuilder, TitleRenderItem> TitleRenderer { get; }
         public BaseRenderer<StringBuilder, ParagraphRenderItem> ParagraphRenderer { get; }
+        public BaseRenderer<StringBuilder, UseReferenceRenderItem> UseReferenceRenderer { get; }
+
+        public void Render(RenderItem item)
+        {
+            switch(item.Type)
+            {
+                case RenderItemType.Group:
+                    GroupRenderer.Render((GroupRenderItem)item);
+                    break;
+                case RenderItemType.Line:
+                    LineRenderer.Render((LineRenderItem)item);
+                    break;
+                case RenderItemType.Rect:
+                    RectangleRenderer.Render((RectRenderItem)item);
+                    break;
+                case RenderItemType.Ellipse:
+                    EllipseRenderer.Render((EllipseRenderItem)item);
+                    break;
+                case RenderItemType.Path:
+                    PathRenderer.Render((PathRenderItem)item);
+                    break;
+                case RenderItemType.Text:
+                    throw new NotImplementedException();
+                    break;
+                case RenderItemType.CommentTitle:
+                    TitleRenderer.Render((TitleRenderItem)item);
+                    break;
+                case RenderItemType.Paragraph:
+                    ParagraphRenderer.Render((ParagraphRenderItem)item);
+                    break;
+                case RenderItemType.UseReference:
+                    UseReferenceRenderer.Render((UseReferenceRenderItem)item);
+                    break;
+                case RenderItemType.TSpan:
+                    throw new NotImplementedException();
+            }
+        }
     }
     public interface IBasicIShapesRenderer<T>
     {
-        public BaseRenderer<T, RenderItem> GroupRenderer { get; }
+        public BaseRenderer<T, GroupRenderItem> GroupRenderer { get; }
         public BaseRenderer<T, RectRenderItem> RectangleRenderer { get; }
         public BaseRenderer<T, EllipseRenderItem> EllipseRenderer { get; }
         public BaseRenderer<T,PathRenderItem> PathRenderer { get; }
         //public BaseRenderer<T> ImageRenderer { get; }
         public BaseRenderer<T,LineRenderItem> LineRenderer { get; }
+        public BaseRenderer<T, TitleRenderItem> TitleRenderer { get; }
         public BaseRenderer<T,ParagraphRenderItem> ParagraphRenderer { get; }
+        public BaseRenderer<T, UseReferenceRenderItem> UseReferenceRenderer { get; }
+
+        public void Render(RenderItem item);
     }
     public abstract class BaseRenderer<T, T2>
     {

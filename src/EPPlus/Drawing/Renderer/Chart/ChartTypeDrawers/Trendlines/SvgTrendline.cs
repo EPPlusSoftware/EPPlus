@@ -10,12 +10,15 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -30,13 +33,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
         private List<object> _xSerie;
-        private DrawingChart _svgChart;
         private ExcelChart _chartType;
         private bool _useSecondaryAxis;
         private int _serieCount, _seriePos;
-        public SvgTrendline(DrawingChart svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
+        public SvgTrendline(ChartRenderer svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
         {
-            _svgChart = svgChart;
             _chartType = chartType;
             _trendline = trendline;
             _xSerie = xSerie;
@@ -103,13 +104,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Display the label for the trendline with equation and R² value.
             var lbl = _trendline.Label;
             var coord = RenderCoordinates;
-            var x = _svgChart.Plotarea.Rectangle.Left + coord[coord.Length - 2];
-            var y = _svgChart.Plotarea.Rectangle.Top + coord[coord.Length - 1];
+            var x = ChartRenderer.Plotarea.Rectangle.Left + coord[coord.Length - 2];
+            var y = ChartRenderer.Plotarea.Rectangle.Top + coord[coord.Length - 1];
             double width = 0, height = 0;
 
             if (_trendline.Label.Layout.HasLayout)
             {
-                var mlRect = GetRectFromManualLayout(_svgChart, _trendline.Label.Layout);
+                var mlRect = GetRectFromManualLayout(ChartRenderer, _trendline.Label.Layout);
                 x += mlRect.Left;
                 y += mlRect.Top;
                 if (lbl.Layout.ManualLayout.Width.HasValue && lbl.Layout.ManualLayout.Height.HasValue)
@@ -121,12 +122,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (width > 0 && height > 0)
             {
-                DataLabel = new SvgTextBox(_svgChart, _svgChart.ChartArea.Rectangle.Bounds, x, y, width, height);
+                DataLabel = new DrawingTextBox(Chart, ChartRenderer.ChartArea.Rectangle.Bounds, x, y, width, height);
                 DataLabel.TextBody.AutoSize = false;
             }
             else
             {
-                DataLabel = new SvgTextBox(_svgChart, _svgChart.ChartArea.Rectangle.Bounds, _svgChart.ChartArea.Rectangle.Bounds);
+                DataLabel = new DrawingTextBox(Chart, ChartRenderer.ChartArea.Rectangle.Bounds, ChartRenderer.ChartArea.Rectangle.Bounds);
                 if (x > 0)
                 {
                     DataLabel.Left = x;
@@ -158,9 +159,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
             //Set datalabel position.
-            if(DataLabel.Left - (DataLabel.Width + 5) > _svgChart.Bounds.Right)
+            if(DataLabel.Left - (DataLabel.Width + 5) > ChartRenderer.Bounds.Right)
             {
-                DataLabel.Left = _svgChart.Bounds.Right - DataLabel.Width;
+                DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width;
             }
             else
             {
@@ -172,9 +173,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 DataLabel.Left = 0;
             }
 
-            if(DataLabel.Top - DataLabel.Height / 2 > _svgChart.Bounds.Bottom)
+            if(DataLabel.Top - DataLabel.Height / 2 > ChartRenderer.Bounds.Bottom)
             {
-                DataLabel.Top = _svgChart.Bounds.Bottom - DataLabel.Height / 2;
+                DataLabel.Top = ChartRenderer.Bounds.Bottom - DataLabel.Height / 2;
             }
             else
             {
@@ -187,9 +188,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(_trendline.Label.Fill, _svgChart.Chart.StyleManager.Style.TrendlineLabel.FillReference.Color);
-            DataLabel.Rectangle.SetDrawingPropertiesBorder(_trendline.Label.Border, _svgChart.Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
-            DataLabel.Rectangle.SetDrawingPropertiesEffects(_trendline.Label.Effect);
+            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color);
+            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
         private void CalculateLinear()
@@ -619,13 +620,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateRenderCoordinates();
             CreateDatalabel();
         }
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            var pathItem = new SvgRenderPathItem(_svgChart, _svgChart.Plotarea.Rectangle.Bounds);
-            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, pathItem, RenderCoordinates));
+            var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(_trendline.Border, _svgChart.Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
-            pathItem.SetDrawingPropertiesEffects(_trendline.Effect);
+            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
 
@@ -636,7 +637,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             //We aim for 1 line per point for the trendline.
             var diff = (x2 - x1);
-            var inc = diff / GetXInc(_svgChart.Bounds.Width);
+            var inc = diff / GetXInc(ChartRenderer.Bounds.Width);
             double y;
             for (double d = x1; d < x2; d += inc)
             {
@@ -655,16 +656,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SvgChartAxis catAxis, valAxis;
             if(isBar)
             {
-                valAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
-                catAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+                valAxis = _useSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
+                catAxis = _useSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
             }
             else
             {
-                catAxis = _useSecondaryAxis ? _svgChart.SecondHorizontalAxis : _svgChart.HorizontalAxis;
-                valAxis = _useSecondaryAxis ? _svgChart.SecondVerticalAxis : _svgChart.VerticalAxis;
+                catAxis = _useSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
+                valAxis = _useSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
             }
 
-            var pa = _svgChart.Plotarea;
+            var pa = ChartRenderer.Plotarea;
             var coordinates=new List<double>();
             for (var i=0;i<Coordinates.Count;i++)
             {
@@ -677,7 +678,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     var count = (_xSerie.Count > _ySerie.Length ? _xSerie.Count: _ySerie.Length);
                     var ct = (ExcelBarChart) _chartType;
-                    var yWidth = (isBar ? _svgChart.Plotarea.Rectangle.Height : _svgChart.Plotarea.Rectangle.Width);
+                    var yWidth = (isBar ? ChartRenderer.Plotarea.Rectangle.Height : ChartRenderer.Plotarea.Rectangle.Width);
                     var slotSize = valAxis.Values.Count;
                     var gapPercent = ct.GapWidth / 100D;     // Gap width between bars/columns in percent
                     var overlapPercent = ct.Overlap / 100D;  // Overlap  between bars/columns in percent            

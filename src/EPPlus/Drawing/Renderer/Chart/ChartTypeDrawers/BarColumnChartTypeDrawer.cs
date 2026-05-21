@@ -1,5 +1,7 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
+using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
@@ -16,11 +18,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     internal class BarColumnChartTypeDrawer : ChartTypeDrawer
     {
         List<List<object>> _catValues, _valValues;
-        List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
+        List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
 
-        internal BarColumnChartTypeDrawer(DrawingChart svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
+        internal BarColumnChartTypeDrawer(ChartRenderer svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
@@ -56,7 +58,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal override void DrawSeries()
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            var groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             RenderItems.Add(groupItem);
 
             var isBar = _chartType.IsTypeBar();
@@ -93,7 +95,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 tr.AppendRenderItems(RenderItems);
             }
 
-            RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
+            RenderItems.Add(new GroupRenderItem(null));
 
             //Add data labels for trendlines after the trendline has been rendered, to ensure they are on top of the line.
             foreach (var tr in Trendlines)
@@ -131,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var catValues = catSeries[position];
             var valValues = valSeries[position];
             
-            var yWidth = (isColumn ? _svgChart.Plotarea.Rectangle.Width : _svgChart.Plotarea.Rectangle.Height);
+            var yWidth = (isColumn ? ChartRenderer.Plotarea.Rectangle.Width : ChartRenderer.Plotarea.Rectangle.Height);
 
             var slotSize = valValues.Count;
             var gapPercent = chartType.GapWidth / 100D;     // Gap width between bars/columns in percent
@@ -179,7 +181,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
                 
-                var rect = new SvgRenderRectItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
 
                 if (isColumn)
@@ -257,9 +259,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         }
                     }
                 }
-                rect.SetDrawingPropertiesFill(serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
-                rect.SetDrawingPropertiesBorder(serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
-                rect.SetDrawingPropertiesEffects(serie.Effect);
+                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
+                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
+                rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
                 RenderItems.Add(rect);
             }
         }
@@ -267,17 +269,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             if (chartType.UseSecondaryAxis)
             {
-                yAxis = _svgChart.SecondVerticalAxis;
-                xAxis = _svgChart.SecondHorizontalAxis;
+                yAxis = ChartRenderer.SecondVerticalAxis;
+                xAxis = ChartRenderer.SecondHorizontalAxis;
                 if (xAxis.Axis.Deleted && xAxis.Values == null)
                 {
-                    xAxis = _svgChart.HorizontalAxis;
+                    xAxis = ChartRenderer.HorizontalAxis;
                 }
             }
             else
             {
-                yAxis = _svgChart.VerticalAxis;
-                xAxis = _svgChart.HorizontalAxis;
+                yAxis = ChartRenderer.VerticalAxis;
+                xAxis = ChartRenderer.HorizontalAxis;
             }
         }
     }

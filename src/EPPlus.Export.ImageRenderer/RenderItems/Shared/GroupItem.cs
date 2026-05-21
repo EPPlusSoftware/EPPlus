@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class GroupItem : RenderItem
+    internal abstract class PieGroupItemBase : RenderItem
     {
         /// <summary>
         /// In degrees
@@ -47,20 +47,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         internal protected List<RenderItem> _childItems = new List<RenderItem>();
 
-        public GroupItem(DrawingBase renderer) : base(renderer)
+        public PieGroupItemBase(DrawingBase renderer) : base(renderer)
         {
             Bounds.Parent = TranslationOffset;
             //_rotationPoint = Bounds;
         }
 
-        public GroupItem(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
+        public PieGroupItemBase(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
         {
             Bounds.Left = localXPos;
             Bounds.Top = localYPos;
         }
 
 
-        public GroupItem(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
+        public PieGroupItemBase(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
         {
             TranslationOffset.Parent = parent;
             Rotation = rotation;
@@ -82,9 +82,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal void AddChildItem(RenderItem item)
         {
-            if (item is GroupItem)
+            if (item is PieGroupItemBase)
             {
-                var subGroup = (GroupItem)item;
+                var subGroup = (PieGroupItemBase)item;
                 subGroup.TranslationOffset.Parent = Bounds;
             }
             else

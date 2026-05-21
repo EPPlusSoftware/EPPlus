@@ -239,7 +239,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape, Graphics.Math.Vector2 startToEndDir)
+        internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape, Vector2 startToEndDir)
         {
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
@@ -414,7 +414,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     {
                         //If Left or Right
                         //Add extra 7 px (5.25pt) line to the given side
-                        var extraLine = new LineRenderItem(ChartRenderer, ChartRenderer.Bounds);
+                        var extraLine = new LineRenderItem(ChartRenderer.Bounds);
 
                         xOffset += index == 0 ? -5.25d : 5.25d;
 
@@ -428,7 +428,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                         _leaderLines.Add(extraLine);
                     }
-                    var mainLine = new LineRenderItem(ChartRenderer, ChartRenderer.Bounds);
+                    var mainLine = new LineRenderItem(ChartRenderer.Bounds);
                     mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
                     mainLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
                     mainLine.X2 = offsetToParentPoint.X + LeftMargin;
@@ -463,18 +463,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(titleItemOrigin);
 
             var group = new GroupRenderItem(Rectangle.Bounds);
-            parentPointGroup.Children.Add(group);
+            parentPointGroup.RenderItems.Add(group);
 
             var titleItem = new TitleRenderItem("DataLabel size adjustment");
-            parentPointGroup.Children.Add(titleItem);
+            parentPointGroup.RenderItems.Add(titleItem);
 
-            _txtBox.AppendRenderItems(parentPointGroup.Children);
+            _txtBox.AppendRenderItems(parentPointGroup.RenderItems);
             
             if(_renderConnectionPointLines)
             {
                 if (_connectionPointLines != null)
                 {
-                    _connectionPointLines.AppendRenderItems(parentPointGroup.Children);
+                    _connectionPointLines.AppendRenderItems(parentPointGroup.RenderItems);
                 }
             }
 
@@ -487,15 +487,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
                 //Currently series icon always has a y1 y2 of 2
                 var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Bounds.Left, height / 2 - 2));
-                group.Children.Add(iconGrp);
-                iconGrp.Children.Add(_seriesIcon);
+                group.RenderItems.Add(iconGrp);
+                iconGrp.RenderItems.Add(_seriesIcon);
             }
 
             if (_leaderLines != null && _leaderLines.Count > 0)
             {
                 foreach (var line in _leaderLines)
                 {
-                    group.Children.Add(line);
+                    group.RenderItems.Add(line);
                 }
             }
         }

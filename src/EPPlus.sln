@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.2.11415.280 d18.0
+VisualStudioVersion = 18.2.11415.280
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus", "EPPlus\EPPlus.csproj", "{219F673E-6115-4858-9E07-E33D24E795FE}"
 EndProject
@@ -18,8 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus.System.Drawing", "EPPlus.System.Drawing\EPPlus.System.Drawing.csproj", "{A1AF6174-CC8C-4BFD-B0EC-928C22CC4361}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{493FDAEB-6437-4804-8AC4-752B8F6E0400}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Export.ImageRenderer", "EPPlus.Export.ImageRenderer\EPPlus.Export.ImageRenderer.csproj", "{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Fonts.OpenType", "EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj", "{B30FA06C-B8B9-4D4C-8D41-FABC117FEBE4}"
 EndProject
@@ -70,12 +68,6 @@ Global
 		{A1AF6174-CC8C-4BFD-B0EC-928C22CC4361}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
 		{A1AF6174-CC8C-4BFD-B0EC-928C22CC4361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1AF6174-CC8C-4BFD-B0EC-928C22CC4361}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}.Release 4.0|Any CPU.ActiveCfg = Release|Any CPU
-		{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
-		{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9DA7B06-46BE-4C56-AD6F-1A359594E63D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B30FA06C-B8B9-4D4C-8D41-FABC117FEBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B30FA06C-B8B9-4D4C-8D41-FABC117FEBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B30FA06C-B8B9-4D4C-8D41-FABC117FEBE4}.Release 4.0|Any CPU.ActiveCfg = Release|Any CPU

@@ -55,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(gItem);
             foreach (var line in RenderLines)
             {
-                gItem.Children.Add(line);
+                gItem.RenderItems.Add(line);
             }
         }
     }

@@ -77,6 +77,39 @@ namespace EPPlus.DrawingRenderer.RenderItems
         MiterClip,
         Round
     }
+    public class UseReferenceRenderItem : RenderItem
+    {
+        public UseReferenceRenderItem(BoundingBox parent, string hRef) : base(parent)
+        {
+            Href = hRef;
+        }
+        public string Href { get; private set; }
+
+        public override RenderItemType Type => RenderItemType.UseReference;
+
+        public double X
+        {
+            get
+            {
+                return Bounds.Left;
+            }
+            set
+            {
+                Bounds.Left = value;
+            }
+        }
+        public double Y
+        {
+            get
+            {
+                return Bounds.Top;
+            }
+            set
+            {
+                Bounds.Top = value;
+            }
+        }
+    }
     public class RectRenderItem : RenderItem 
     {
         public RectRenderItem(BoundingBox parent) : base(parent)
@@ -104,11 +137,72 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             Rotation = rotation;
         }
+
+        public GroupRenderItem() : base()
+        {
+            Bounds.Parent = Position;
+        }
+
+        public GroupRenderItem(double localXPos, double localYPos) : this()
+        {
+            Position = new Graphics.Point(localXPos, localYPos);
+        }
+
+
+        public GroupRenderItem(BoundingBox parent, double rotation, Transform rotationPoint = null) : this(0, 0)
+        {
+            Position.Parent = parent;
+            Rotation = rotation;
+            if (rotationPoint != null)
+            {
+                RotationPoint = new Graphics.Point(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
+            }
+        }
+
         public override RenderItemType Type => RenderItemType.Group;
         public string TextAnchor { get; set; }
         public double Rotation { get; set; }
         public string GroupTransform = "";
-        public List<RenderItem> Children { get; } = new List<RenderItem>();
+        public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
+        internal Graphics.Point Position = null;
+        Graphics.Point _altRotationPoint = null;
+        public Graphics.Point TranslationOffset = new Graphics.Point(0, 0);
+        public Graphics.Point RotationPoint
+        {
+            get
+            {
+                if (_altRotationPoint == null)
+                {
+                    return Position;
+                }
+                return _altRotationPoint;
+            }
+            set
+            {
+                _altRotationPoint = value;
+            }
+        }
+
+        public Coordinate Scale = null;
+
+        internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
+        {
+            RotationPoint = new Graphics.Point(Bounds.Width / 2, Bounds.Height / 2);
+
+            if (double.IsNaN(rotation) == false)
+            {
+                Rotation = rotation;
+            }
+        }
+
+        public void AddChildItem(RenderItem item)
+        {
+            item.Bounds.Parent = Position;
+            RenderItems.Add(item);
+
+            Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;
+            Bounds.Height = item.Bounds.Bottom > Bounds.Height ? item.Bounds.Bottom : Bounds.Height;
+        }
     }
     public class PathRenderItem : RenderItem
     {
@@ -221,7 +315,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             ir = Bounds.Right;
             ib = Bounds.Bottom;
         }
-        internal string DefId = null;
+        public string DefId { get; set; }
         //internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }

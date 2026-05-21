@@ -81,7 +81,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             renderItems.Add(groupItem);
             foreach (var item in Paragraphs)
             {
-                groupItem.Children.Add(item);
+                groupItem.RenderItems.Add(item);
             }
         }
     }

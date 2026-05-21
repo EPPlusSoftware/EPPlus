@@ -1,12 +1,16 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -16,16 +20,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
     internal class PieChartTypeDrawer : ChartTypeDrawer
     {
-        List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
+        List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<object> catValues = new List<object>();
         List<object> valValues = new List<object>();
         List<double> _serieValuesAsDoubles = new List<double>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         double _totalOfSerieValues = 0;
 
-        List<SvgPieSlice> Slices = new List<SvgPieSlice>();
+        List<PieSliceRenderItem> Slices = new List<PieSliceRenderItem>();
 
-        SvgGroupItemNew _groupItem;
+        GroupRenderItem _groupItem;
 
         double _startDegrees = -90d;
         int _pieExplosionPercent = 0;
@@ -40,14 +44,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         Point _circleCenter;
 
-        public PieChartTypeDrawer(DrawingChart chart, ExcelPieChart chartType) : base(chart, chartType)
+        public PieChartTypeDrawer(ChartRenderer chart, ExcelPieChart chartType) : base(chart, chartType)
         {
             //Moved to draw series
         }
 
         void RenderDebugEllipse()
         {
-            var circ = new SvgRenderEllipseItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            var circ = new EllipseRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
 
             circ.Bounds.Left = _circleCenter.Left;
             circ.Bounds.Top = _circleCenter.Top;
@@ -63,7 +67,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             circ.BorderColor = "purple";
             circ.BorderWidth = 10;
 
-            _groupItem.AddChildItem(circ);
+            _groupItem.RenderItems.Add(circ);
         }
 
         Coordinate CalculateLocalPointOnCircle(double degrees)
@@ -86,7 +90,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
                 //Create and add slice
-                SvgPieSlice slice = new SvgPieSlice(ChartRenderer, _groupItem.Bounds, _circleCenter, _radius, valPercent, prevDegrees);
+                PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem.Bounds, _circleCenter, _radius, valPercent, prevDegrees);
                 Slices.Add(slice);
 
                 //Next slice will need to be calculated starting from the degrees of this slice
@@ -98,8 +102,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             _circleCenter = new Point();
             _circleCenter.Parent = _groupItem.TranslationOffset;
-            _circleCenter.Left = _svgChart.Plotarea.Rectangle.Bounds.Width / 2;
-            _circleCenter.Top = _svgChart.Plotarea.Rectangle.Bounds.Height / 2;
+            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Bounds.Width / 2;
+            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Bounds.Height / 2;
 
             _groupItem.RotationPoint = _circleCenter;
 
@@ -124,7 +128,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     //Add Datalabel
                     if (serie.HasDataLabel)
                     {
-                        var datalabel = new SvgChartSerieDataLabel(_svgChart, serie.DataLabel, _svgChart.Bounds, serie, catValues, valValues, _serCounter);
+                        var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
                         serieDataLabels.Add(datalabel);
                     }
                 }
@@ -156,7 +160,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var dataPoint = serie.DataPoints[position];
 
             Slices[position].ImportPathData(
-                _svgChart.Plotarea.Rectangle.Bounds, _svgChart.Bounds, 
+                ChartRenderer.Plotarea.Rectangle.Bounds, Rectangle.Bounds, 
                 _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
 
             Slices[position].ImportStlyeInfo(dataPoint, chartType);
@@ -165,11 +169,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         internal override void DrawSeries()
         {
-            _groupItem = new SvgGroupItemNew(ChartRenderer, 0, 0);
-            _groupItem.TranslationOffset.Left = _svgChart.Plotarea.Rectangle.Left;
-            _groupItem.TranslationOffset.Top = _svgChart.Plotarea.Rectangle.Top;
+            _groupItem = new GroupRenderItem(0, 0);
+            _groupItem.TranslationOffset.Left = ChartRenderer.Plotarea.Rectangle.Left;
+            _groupItem.TranslationOffset.Top = ChartRenderer.Plotarea.Rectangle.Top;
 
-            Bounds.Name = "ChartDrawer";
+            Rectangle.Bounds.Name = "ChartDrawer";
 
             _groupItem.Bounds.Name = "OuterGroupChartDrawer";
 
@@ -224,7 +228,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 var serie = (ExcelPieChartSerie)chartType.Series[i];
 
                 List<BoundingBox> DataLabelGlobalOriginPoints = new();
-                List<EPPlus.Graphics.Math.Vector2> VectorsCenterToMidPointPerSlice = new();
+                List<Vector2> VectorsCenterToMidPointPerSlice = new();
 
                 //Excel ignores series beyond the first for pie chart visualization
                 if (i == 0)
@@ -243,7 +247,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
 
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(itemGroup.Bounds.GlobalLeft, itemGroup.Bounds.GlobalTop, Bounds.Width, Bounds.Height);
+                            var dlblBounds = new BoundingBox(itemGroup.Bounds.GlobalLeft, itemGroup.Bounds.GlobalTop, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
                             ////Add the origin point position
                             //dlblBounds.Left += slicePos.X;
                             //dlblBounds.Top += slicePos.Y;

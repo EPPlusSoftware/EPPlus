@@ -192,7 +192,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     var ySerie = yValues[serieIndex];
                     foreach (var trendline in serie.TrendLines)
                     {
-                        var tr = new SvgTrendline(_svgChart, trendline, xSerie, ySerie, _chartType, serieIndex);
+                        var tr = new SvgTrendline(ChartRenderer, trendline, xSerie, ySerie, _chartType, serieIndex);
                         Trendlines.Add(tr);
                     }
                 }

@@ -125,7 +125,7 @@ namespace EPPlusImageRenderer.Svg
 
             index += trIndex;
 
-            var maxIconLength = GetMaxIconLenght(sc.Chart, highest);
+            var maxIconLength = GetMaxIconLenght(Chart, highest);
             entryWidth = maxIconLength + MarginIconText + widest;
             entryHeight = highest;
 
@@ -507,7 +507,7 @@ namespace EPPlusImageRenderer.Svg
             var headerText = s.GetHeaderText(index);
             if (entry == null || entry.Font.IsEmpty)
             {
-                sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
             else
             {
@@ -520,11 +520,11 @@ namespace EPPlusImageRenderer.Svg
                 var l = sls.SeriesIcon as LineRenderItem;
                 var x = l.X1 + (l.X2 - l.X1) / 2;
                 var y = l.Y1;
-                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(sc, ls, x, y, true);
+                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(ChartRenderer, ls, x, y, true);
                 if ((ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
                     ls.Marker.Fill.IsEmpty == false)
                 {
-                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(sc, ls, x, y, true);
+                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(ChartRenderer, ls, x, y, true);
                 }
                 else
                 {
@@ -537,7 +537,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
-            var si = GetBarSeriesIcon(sc, ct, bs, pSls, entryWidth, entryHeight);
+            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight);
             sls.SeriesIcon = si;
 
             var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -555,7 +555,7 @@ namespace EPPlusImageRenderer.Svg
             if (entry == null || entry.Font.IsEmpty)
             {
                 //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
-                sls.Textbox.ImportParagraph(sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
             else
             {
@@ -687,7 +687,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.Bounds.Top = 0;
             Rectangle.Bounds.Left = 0;
 
-            groupItem.Children.Add(Rectangle);
+            groupItem.RenderItems.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {
                 if(s.SeriesIcon != null) renderItems.Add(s.SeriesIcon);

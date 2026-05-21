@@ -92,11 +92,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
             var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel);
-            newDataLabel.ImportDataLabel(chart, serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins);
+            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins);
 
             if(dataLabel.ShowLegendKey)
             {
-                newDataLabel.AddSeriesIcon(GetSeriesIcon(chart, serie, maxBounds));
+                newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds));
             }
 
             dataLabels.Add(newDataLabel);
@@ -146,7 +146,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(plotAreaGroup);
             for(int i = 0; i< dataLabels.Count; i++) 
             {
-                dataLabels[i].AppendRenderItems(plotAreaGroup.Children);
+                dataLabels[i].AppendRenderItems(plotAreaGroup.RenderItems);
             }
         }
     }

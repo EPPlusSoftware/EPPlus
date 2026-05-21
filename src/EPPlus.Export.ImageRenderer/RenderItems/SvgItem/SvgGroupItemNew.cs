@@ -11,7 +11,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
     /// Group item that ends itself
     /// (writes its own ending node)
     /// </summary>
-    internal class SvgGroupItemNew : GroupItem
+    internal class PieGroupRenderItem : PieGroupItemBase
     {
         const string transformTranslate = "translate({0}, {1})";
         const string transformRotate = "rotate({0})";

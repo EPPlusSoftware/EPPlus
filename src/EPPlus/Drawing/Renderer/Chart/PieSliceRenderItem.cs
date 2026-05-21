@@ -1,28 +1,32 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
+using System.Collections.Generic;
 using System.IO.Pipes;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class SvgPieSlice : SvgRenderItem
+    internal class PieSliceRenderItem : ChartDrawingObject
     {
         double _radius;
         /// <summary>
         /// The holder of transform-origin/translations
         /// </summary>
-        SvgGroupItemNew _innerGroup;
+        GroupRenderItem _innerGroup;
         /// <summary>
         /// The holder of the actual items, AFTER origin/translations
         /// </summary>
-        SvgGroupItemNew _innerItems;
+        GroupRenderItem _innerItems;
         Point _circleCenter;
 
         /// <summary>
@@ -35,6 +39,41 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         Point _startPoint;
         Point _midPoint;
         Point _endPoint;
+
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
+        {
+            Rectangle.Bounds.Parent = parent;
+            _radius = radius;
+            _percent = percentOfPie;
+            //How many degrees that percentage is out of 360
+            Degrees = _percent * 360d;
+
+            _innerGroup = new GroupRenderItem(parent, 0, circleCenter);
+            _innerGroup.Bounds.Parent = _innerGroup.TranslationOffset;
+            _innerGroup.Bounds.Name = "InnerGroupChartDrawer";
+
+            _circleCenter = circleCenter;
+
+            _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
+
+            //The degrees of the midpoint
+            var halfDegrees = Degrees / 2;
+
+            _endPoint = CalculateLocalPointOnCircle(Degrees + prevSliceDegrees);
+
+            //We add prev at this point since we don't want to halve the previous angle only the current one
+            _midPoint = CalculateLocalPointOnCircle(halfDegrees + prevSliceDegrees);
+
+            //We must calculate transforms from the outer midpoint.
+            //This is to ensure that point never leaves the parent container
+            _innerGroup.TransformOrigin = GetMidPointLocal();
+
+            CalculateExplosionDir();
+            CalculateWidthHeight(prevSliceDegrees);
+
+
+            _innerItems = new GroupRenderItem(_innerGroup.Bounds, 0);
+        }
 
         /// <summary>
         /// Get copy of start point of slice in local coordinates
@@ -61,8 +100,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(_endPoint.Left, _endPoint.Top);
         }
 
-        SvgRenderPathItem _slicePath;
-        SvgRenderPathItem _debugBoundsPath;
+        PathRenderItem _slicePath;
+        PathRenderItem _debugBoundsPath;
 
         bool ExistWithinRange(double target, double min, double max)
         {
@@ -150,7 +189,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
-            ExtremePoints.Parent = Bounds;
+            ExtremePoints.Parent = Rectangle.Bounds;
             //if(Degrees > 0)
             //{
 
@@ -171,67 +210,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         private void CalculateExplosionDir()
         {
-            var transformOriginLocal = new Graphics.Math.Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
+            var transformOriginLocal = new Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
 
             //Get directional vector (in local coords but does not matter since we make it directional)
-            Graphics.Math.Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
+            Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
 
             //normalize the pieDirection vector so that it is percentual and with lenght == 1
             pieDirection = pieDirection / pieDirection.Length;
 
-            CtrToOuterMidDir = new Graphics.Math.Vector2(pieDirection.X, pieDirection.Y);
-        }
-
-        //internal Graphics.Math.Vector2 GetVectorCtrToEnd()
-        //{
-        //    //_circleCenter + _sc
-        //}
-
-        public SvgPieSlice(DrawingBase renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer, parent)
-        {
-            _radius = radius;
-            _percent = percentOfPie;
-            //How many degrees that percentage is out of 360
-            Degrees = _percent * 360d;
-
-            _innerGroup = new SvgGroupItemNew(renderer, parent, 0, circleCenter);
-            _innerGroup.Bounds.Parent = _innerGroup.TranslationOffset;
-            _innerGroup.Bounds.Name = "InnerGroupChartDrawer";
-            _circleCenter = circleCenter;
-
-            _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
-
-            //The degrees of the midpoint
-            var halfDegrees = Degrees / 2;
-
-            _endPoint = CalculateLocalPointOnCircle(Degrees + prevSliceDegrees);
-
-            //We add prev at this point since we don't want to halve the previous angle only the current one
-            _midPoint = CalculateLocalPointOnCircle(halfDegrees + prevSliceDegrees);
-
-            //We must calculate transforms from the outer midpoint.
-            //This is to ensure that point never leaves the parent container
-            _innerGroup.TransformOrigin = GetMidPointLocal();
-
-            CalculateExplosionDir();
-            CalculateWidthHeight(prevSliceDegrees);
-
-
-            _innerItems = new SvgGroupItemNew(renderer, _innerGroup.Bounds, 0);
+            CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
         {
-            _slicePath = new SvgRenderPathItem(DrawingRenderer, plotAreaBounds);
+            _slicePath = new PathRenderItem(plotAreaBounds);
 
             _slicePath.BorderWidth = 5;
 
             //Calculate path commands
-            var moveCenter = new PathCommands(PathCommandType.Move, _slicePath, _circleCenter.Left, _circleCenter.Top);
-            var lineToStart = new PathCommands(PathCommandType.Line, _slicePath, _startPoint.Left, _startPoint.Top);
+            var moveCenter = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
+            var lineToStart = new PathCommands(PathCommandType.Line, _startPoint.Left, _startPoint.Top);
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, _slicePath, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top});
-            var end = new PathCommands(PathCommandType.End, _slicePath, _endPoint.Left, _endPoint.Top);
+            var arcCommand = new PathCommands(PathCommandType.Arc, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top});
+            var end = new PathCommands(PathCommandType.End, _endPoint.Left, _endPoint.Top);
 
             //Get max and min values
             var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
@@ -270,23 +271,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //_slicePath.Commands.Add(lineToMidPoint);
             //_slicePath.Commands.Add(moveCenter);
             //_slicePath.Commands.Add(lineToEnd);
-            _debugBoundsPath = new SvgRenderPathItem(DrawingRenderer, bounds);
+            _debugBoundsPath = new PathRenderItem(bounds);
             _debugBoundsPath.BorderColor = "red";
             _debugBoundsPath.FillColor = "transparent";
             _debugBoundsPath.BorderWidth = 3;
-            var moveCenterDebug = new PathCommands(PathCommandType.Move, _debugBoundsPath, _circleCenter.Left, _circleCenter.Top);
+            var moveCenterDebug = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
             _debugBoundsPath.Commands.Add(moveCenterDebug);
 
             //Draw extremes/bounds
-            var lineToTopLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
-            var lineToTopRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Top);
+            var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
+            var lineToTopRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Top);
 
             //var sliceCenter = GetSliceShapeCenterLocal();
             //var lineToSliceCenter = new PathCommands(PathCommandType.Line, _debugBoundsPath, sliceCenter.Left, sliceCenter.Top);
 
-            var lineToBottomRight = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Right, ExtremePoints.Bottom);
-            var lineToBottomLeft = new PathCommands(PathCommandType.Line, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Bottom);
-            var end = new PathCommands(PathCommandType.End, _debugBoundsPath, ExtremePoints.Left, ExtremePoints.Top);
+            var lineToBottomRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Bottom);
+            var lineToBottomLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Bottom);
+            var end = new PathCommands(PathCommandType.End, ExtremePoints.Left, ExtremePoints.Top);
 
             _debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(lineToTopRight);
@@ -299,12 +300,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
         {
-            _slicePath.SetDrawingPropertiesFill(dp.Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
-            _slicePath.SetDrawingPropertiesBorder(dp.Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
-            _slicePath.SetDrawingPropertiesEffects(dp.Effect);
+            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
+            _slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
+            _slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }
 
-        internal void AppendGroupItem(SvgGroupItemNew group)
+        internal void AppendGroupItem(GroupRenderItem group)
         {
             //The slice items post transform operations
             _innerItems.AddChildItem(_slicePath);
@@ -321,7 +322,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             group.AddChildItem(_innerGroup);
         }
 
-        Graphics.Math.Vector2 GetTranslationMaxLocal(double globalWidth, double globalHeight)
+        Vector2 GetTranslationMaxLocal(double globalWidth, double globalHeight)
         {
             var worldPositionTransformOrigin = _midPoint.Position;
 
@@ -333,7 +334,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return localMax.LocalPosition;
         }
 
-        Graphics.Math.Vector2 GetTranslationMinLocal(double globalWidth, double globalHeight)
+        Vector2 GetTranslationMinLocal(double globalWidth, double globalHeight)
         {
             var worldPositionTransformOrigin = _midPoint.Position;
             //Calculate extremes 
@@ -346,13 +347,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <summary>
         /// The directional vector from center of circle to the outer midpoint of the pie slice
         /// </summary>
-        internal Graphics.Math.Vector2 CtrToOuterMidDir { get; private set; }
+        internal Vector2 CtrToOuterMidDir { get; private set; }
 
         /// <summary>
         /// Gets the whole vector with length to the end
         /// </summary>
         /// <returns></returns>
-        internal Graphics.Math.Vector2 GetWholeVectorCenterToMid()
+        internal Vector2 GetWholeVectorCenterToMid()
         {
             var translationVector = GetLocalTranslationVector(100);
             var pt = translationVector;
@@ -376,7 +377,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// </summary>
         /// <param name="percentTowardsEndPoint"></param>
         /// <returns></returns>
-        Graphics.Math.Vector2 GetLocalTranslationVector(double percentTowardsEndPoint)
+        Vector2 GetLocalTranslationVector(double percentTowardsEndPoint)
         {
             if(percentTowardsEndPoint < 0 || percentTowardsEndPoint > 100)
             {
@@ -387,16 +388,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var moveFactoredDirection = moveFactor * CtrToOuterMidDir;
 
             //Get distance/length to move along vector. We translate according to the scaled down radius
-            Graphics.Math.Vector2 LocalTranslationVector = moveFactoredDirection * _scaledRadius;
+            Vector2 LocalTranslationVector = moveFactoredDirection * _scaledRadius;
             return LocalTranslationVector;
         }
 
-        Graphics.Math.Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion)
+        Vector2 GetLocalTranslationVector(double explosionOfPoint, double pieExplosion)
         {
             //Get point explosion value
             var pointExplosion = explosionOfPoint == int.MinValue ? 0 : explosionOfPoint;
 
-            var pieDirection = new Graphics.Math.Vector2(CtrToOuterMidDir.X, CtrToOuterMidDir.Y);
+            var pieDirection = new Vector2(CtrToOuterMidDir.X, CtrToOuterMidDir.Y);
 
             if (pointExplosion != 0 && pointExplosion < pieExplosion)
             {
@@ -414,11 +415,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var ptFactoredDirection = ptExplodeFactor * pieDirection;
 
             //Get distance/length to move along vector. We translate according to the scaled down radius
-            Graphics.Math.Vector2 LocalTranslationVector = ptFactoredDirection * _scaledRadius;
+            Vector2 LocalTranslationVector = ptFactoredDirection * _scaledRadius;
             return LocalTranslationVector;
         }
 
-        Coordinate GetFinalLocalTranslation(Graphics.Math.Vector2 LocalTranslationVector, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin)
+        Coordinate GetFinalLocalTranslation(Vector2 LocalTranslationVector, Vector2 localMax, Vector2 localMin)
         {
             Coordinate lengthPoint = new Coordinate(0,0);
 
@@ -485,10 +486,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(translationLeft, translationTop);
         }
 
-        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Graphics.Math.Vector2 localMax, Graphics.Math.Vector2 localMin)
+        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Vector2 localMax, Vector2 localMin)
         {
             //Get distance/length to move along vector
-            Graphics.Math.Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
+            Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
             var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax, localMin);
             
             _innerGroup.TranslationOffset.Left = finalTranslation.X;
@@ -517,7 +518,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(_midPoint.Position.X, _midPoint.Position.Y);
         }
 
-        internal SvgGroupItemNew GetInnerItemGroup()
+        internal GroupRenderItem GetInnerItemGroup()
         {
             return _innerItems;
         }
@@ -531,16 +532,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
         }
 
-        //internal BoundingBox GetInnerGroupBounds()
-        //{
-        //    return _innerGroup.Bounds;
-        //}
-
-        public override RenderItemType Type => RenderItemType.Group;
-
-        internal override SvgRenderItem Clone(ShapeRenderer svgDocument)
+        public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            throw new NotImplementedException();
+            renderItems.Add(_innerGroup);
         }
+
     }
 }

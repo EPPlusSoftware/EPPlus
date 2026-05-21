@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.Svg
 {
-    public class SvgRectRenderer : SvgBaseRenderer<RectRenderItem> 
+    public class SvgRectRenderer : SvgBaseRenderer<RectRenderItem>
     {
         public SvgRectRenderer(StringBuilder outputStream) : base(outputStream)
         {
@@ -32,6 +32,18 @@ namespace EPPlus.DrawingRenderer.Svg
             }
             RenderBase(item);
             OutputStream.AppendFormat("/>");
+        }
+    }
+    public class SvgUseReferenceRenderer : SvgBaseRenderer<UseReferenceRenderItem>
+    {
+        public SvgUseReferenceRenderer(StringBuilder outputStream) : base(outputStream)
+        {
+        }
+        internal string Suffix = "px";
+        public override void Render(UseReferenceRenderItem item)
+        {
+            string renderStr = $"<use x=\"{item.X.PointToPixelString()}\" y=\"{item.Y.PointToPixelString()}\" href=\"{item.Href}\"/>";
+            OutputStream.Append(renderStr);
         }
     }
 }

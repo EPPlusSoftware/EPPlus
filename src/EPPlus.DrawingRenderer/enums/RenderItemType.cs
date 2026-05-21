@@ -22,7 +22,7 @@ namespace EPPlus.DrawingRenderer
         Text = 5,
         TSpan = 6,
         Paragraph = 7,
-        CommentTitle = 8,
-        Reference = 9,
+        CommentTitle = 8,         
+        UseReference = 9,
     }
 }

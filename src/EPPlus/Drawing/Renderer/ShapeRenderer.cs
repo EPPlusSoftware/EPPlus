@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                             pi.Commands[pi.Commands.Count - 1].Coordinates = coordinates.ToArray();
                             coordinates.Clear();
                         }
-                        pi.Commands.Add(new PathCommands(PathCommandType.End, pi));
+                        pi.Commands.Add(new PathCommands(PathCommandType.End));
                         cmd = null;
                         break;
                 }
@@ -226,13 +226,6 @@ namespace OfficeOpenXml.Drawing.Renderer
                 return $"{(Bounds.Left).PointToPixelString()},{Bounds.Top.PointToPixelString()},{Bounds.Right.PointToPixelString()},{Bounds.Bottom.PointToPixelString()}";
             }
         }
-
-        public void Render(StringBuilder sb)
-        {
-            //Write defs used for gradient colors
-            bool v = _shapeRenderer.Render(RenderItems);
-        }
-
         DrawingTextbody CreateTextBodyItem(ExcelTextBody bodyOrig)
         {
             if (InsetTextBox == null)
@@ -267,7 +260,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             var txtBodyItem = new DrawingTextbody(Drawing, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBody(bodyOrig);
 
-            txtBodyItem.AppendRenderItems(grp.Children);
+            txtBodyItem.AppendRenderItems(grp.RenderItems);
 
             //RenderItems.Add(new SvgEndGroupItem(this, Bounds));
             
@@ -488,7 +481,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 var centerY = startPointY - (hR * Math.Sin(angleT));
                 var endX = (double)centerX + (wR * Math.Cos(angleTEnd));
                 var endY = (double)centerY + (hR * Math.Sin(angleTEnd));
-                c = new PathCommands(PathCommandType.Arc, pi, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
+                c = new PathCommands(PathCommandType.Arc, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
                 pi.Commands.Add(c);
                 stA += aAdd;
                 swA -= aAdd;
@@ -529,5 +522,10 @@ namespace OfficeOpenXml.Drawing.Renderer
             }
         }
 
+        internal void Render()
+        {
+            _shapeRenderer.Render(RenderItems);
+            return _shapeRenderer.OutputStream.ToString();
+        }
     }
 }

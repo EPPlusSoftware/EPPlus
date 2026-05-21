@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
-using EPPlusImageRenderer.ShapeDefinitions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
@@ -23,19 +22,19 @@ using EPPlus.DrawingRenderer;
 
 namespace OfficeOpenXml.Drawing.Renderer.Shape
 {
-    [DebuggerDisplay("{Style}")]
-    internal class ShapeDefinition : ShapeDefinitionBase
-    {
-        public ShapeDefinition() : base()
-        {
+    //[DebuggerDisplay("{Style}")]
+    //internal class ShapeDefinition : EPPlus.DrawingRenderer.ShapeDefinitions.ShapeDefinitionBase
+    //{
+    //    public ShapeDefinition() : base()
+    //    {
                 
-        }
-        /// <summary>
-        /// Clone constructor
-        /// </summary>
-        /// <param name="original">The original to clone from</param>
-        public ShapeDefinition(ShapeDefinition original) : base(original)
-        {
-        }
-    }
+    //    }
+    //    /// <summary>
+    //    /// Clone constructor
+    //    /// </summary>
+    //    /// <param name="original">The original to clone from</param>
+    //    public ShapeDefinition(ShapeDefinition original) : base(original)
+    //    {
+    //    }
+    //}
 }

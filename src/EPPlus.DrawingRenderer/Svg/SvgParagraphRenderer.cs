@@ -96,17 +96,17 @@ namespace EPPlus.DrawingRenderer.Svg
             //}
 
             sb.Append("<text ");
-            BaseRender(sb, this);
+            RenderBase(item);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
                 $"font-family=\"{item.ParagraphFont.FontFamily},{item.ParagraphFont.FontFamily}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
-            if (Runs != null && Runs.Count > 0)
+            if (item.Runs != null && item.Runs.Count > 0)
             {
-                foreach (var textRun in Runs)
+                foreach (var textRun in item.Runs)
                 {
-                    textRun.Render(sb);
+                    RenderTextRun(textRun);
                 }
             }
 
@@ -115,6 +115,11 @@ namespace EPPlus.DrawingRenderer.Svg
 
             RenderBase(item);
             OutputStream.AppendFormat("/>");
+        }
+
+        private void RenderTextRun(TextRunRenderItem textRun)
+        {
+            throw new NotImplementedException();
         }
     }
 }

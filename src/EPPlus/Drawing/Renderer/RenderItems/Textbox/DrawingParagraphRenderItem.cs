@@ -52,6 +52,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
         }
 
+        public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent, string text) : base(parent)
+        {
+            ParentTextBody = textBody;
+            ImportLinesAndTextRunsDefault(text);
+        }
+
         public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent)
         {
             ParentTextBody = textBody;

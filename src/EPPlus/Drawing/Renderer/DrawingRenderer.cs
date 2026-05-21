@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Drawing.Renderer
 {
-    internal abstract class DrawingRenderer
+    internal abstract class DrawingRenderer 
     {
         internal DrawingRenderer(ExcelDrawing drawing)
         {

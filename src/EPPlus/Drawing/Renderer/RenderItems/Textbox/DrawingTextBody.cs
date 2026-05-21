@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, BoundingBox parent, string textIfEmpty = "")
         {
-            return new DrawingParagraph(textBody, parent, textIfEmpty);
+            return new DrawingParagraphRenderItem(textBody, parent, textIfEmpty);
         }
     }
 }

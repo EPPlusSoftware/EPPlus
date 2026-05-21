@@ -17,7 +17,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         List<List<object>> _xValues, _yValues;
 
-        List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
+        List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
         internal LineChartTypeDrawer(ChartRenderer svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
@@ -63,7 +63,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel)
                 {
-                    var datalabel = new SvgChartSerieDataLabel(_svgChart, serie.DataLabel, _svgChart.Bounds, serie, xSerie, ySerie, i);
+                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, xSerie, ySerie, i);
                     serieDataLabels.Add(datalabel);
                 }
 
