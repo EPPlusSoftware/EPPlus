@@ -13,9 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Xml;
-using EPPlusImageRenderer;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Table.PivotTable;
 
@@ -383,11 +381,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
             return base.IsAxisTypeSupported(type, axis);
-        }
-        public string ToSvg()
-        {
-            var sb = new StringBuilder();
-            var svg = new ChartRenderer(this, new SvgChartRenderer(sb));
         }
     }
 }

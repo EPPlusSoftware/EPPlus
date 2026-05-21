@@ -49,7 +49,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
         /// That is the maxY and minY are equal.
         /// </summary>
         public object MaximumVerticalAdjustment { get; set; }
-        internal override ShapeAdjustHandleBase Clone()
+        public override ShapeAdjustHandleBase Clone()
         {
             return new ShapeAdjustHandleXY()
             {

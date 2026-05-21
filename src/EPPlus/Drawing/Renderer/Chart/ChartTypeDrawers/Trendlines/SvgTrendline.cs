@@ -127,7 +127,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                DataLabel = new DrawingTextBox(Chart, ChartRenderer.ChartArea.Rectangle.Bounds, ChartRenderer.ChartArea.Rectangle.Bounds);
+                DataLabel = new DrawingTextBox(Chart, ChartRenderer.Bounds, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
                 if (x > 0)
                 {
                     DataLabel.Left = x;

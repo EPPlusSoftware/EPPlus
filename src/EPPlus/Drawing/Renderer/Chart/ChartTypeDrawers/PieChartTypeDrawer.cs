@@ -247,7 +247,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //var slicePos = Slices[j].GetInnerGroupTransformOrigin();
 
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(itemGroup.Bounds.GlobalLeft, itemGroup.Bounds.GlobalTop, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
+                            var dlblBounds = new BoundingBox(itemGroup.Bounds.GlobalLeft, itemGroup.Bounds.GlobalTop, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
                             ////Add the origin point position
                             //dlblBounds.Left += slicePos.X;
                             //dlblBounds.Top += slicePos.Y;
@@ -278,7 +278,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
 
             //RenderDebugEllipse();
+        }
 
+        public override void AppendRenderItems(List<RenderItem> renderItems)
+        {
             RenderItems.Add(_groupItem);
             //Date series labels
             foreach (var dataLabel in serieDataLabels)

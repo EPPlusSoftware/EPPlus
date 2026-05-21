@@ -1,4 +1,5 @@
-﻿using EPPlusImageRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Chart;
 using System.Drawing;
 

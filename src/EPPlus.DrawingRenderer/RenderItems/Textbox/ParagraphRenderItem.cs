@@ -5,6 +5,40 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
+    /// <summary>
+    /// Text alignment
+    /// </summary>
+    public enum TextAlignment
+    {
+        /// <summary>
+        /// Left alignment
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Center alignment
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Right alignment
+        /// </summary>
+        Right,
+        /// <summary>
+        /// Distributes the text words across an entire text line
+        /// </summary>
+        Distributed,
+        /// <summary>
+        /// Align text so that it is justified across the whole line.
+        /// </summary>
+        Justified,
+        /// <summary>
+        /// Aligns the text with an adjusted kashida length for Arabic text
+        /// </summary>
+        JustifiedLow,
+        /// <summary>
+        /// Distributes Thai text specially, specially, because each character is treated as a word
+        /// </summary>
+        ThaiDistributed
+    }
     public abstract class ParagraphRenderItem : RenderItem
     {
         protected ParagraphRenderItem(BoundingBox parent) : base(parent)

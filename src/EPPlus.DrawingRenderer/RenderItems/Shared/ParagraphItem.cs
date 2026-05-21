@@ -5,7 +5,6 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using EPPlusColorConverter = OfficeOpenXml.Utils.TypeConversion.ColorConverter;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {

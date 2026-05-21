@@ -22,7 +22,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
         public object MaximumRadialAdjustment { get; set; }
         public object MinimumAngleAdjustment { get; set; }
         public object MinimumRadialAdjustment { get; set; }
-        internal override ShapeAdjustHandleBase Clone()
+        public override ShapeAdjustHandleBase Clone()
         {
             return new ShapeAdjustHandlePolar()
             {

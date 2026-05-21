@@ -43,6 +43,9 @@ namespace EPPlus.DrawingRenderer
             {
                 switch(item.Type)
                 {
+                    case RenderItemType.Group:
+                        BasicShapesRenderer.GroupRenderer.Render((GroupRenderItem)item);
+                        break;
                     case RenderItemType.Line:
                         BasicShapesRenderer.LineRenderer.Render((LineRenderItem)item);
                         break;
@@ -567,15 +570,6 @@ namespace EPPlus.DrawingRenderer
     }
 
     public interface IShapeRenderer<T>
-    {
-        IBasicIShapesRenderer<T> BasicShapesRenderer { get; }
-        T OutputStream { get; }
-        bool PreRender(List<RenderItem> items);
-        BoundingBox Bounds { get; }
-        string ViewBox { get; set; }
-        bool Render(List<RenderItem> items);
-    }
-    public interface IChartRenderer<T>
     {
         IBasicIShapesRenderer<T> BasicShapesRenderer { get; }
         T OutputStream { get; }

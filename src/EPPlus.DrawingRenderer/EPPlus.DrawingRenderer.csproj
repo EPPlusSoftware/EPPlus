@@ -12,6 +12,15 @@
 		<NeutralLanguage />
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="RenderItems\Shared\GroupItem.cs" />
+	  <Compile Remove="RenderItems\Shared\InnerGroup.cs" />
+	  <Compile Remove="RenderItems\Shared\ParagraphItem.cs" />
+	  <Compile Remove="RenderItems\Shared\TextBodyItem.cs" />
+	  <Compile Remove="RenderItems\Shared\TextRunCollection.cs" />
+	  <Compile Remove="RenderItems\Shared\TextRunItem.cs" />
+	  <Compile Remove="RenderItems\Shared\TransformGroup.cs" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
@@ -21,6 +30,10 @@
     <None Update="resource\presetShapeDefinitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="RenderItems\Shared\" />
   </ItemGroup>
 
 </Project>

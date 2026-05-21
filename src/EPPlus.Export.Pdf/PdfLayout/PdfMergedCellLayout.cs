@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Style;

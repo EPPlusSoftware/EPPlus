@@ -32,37 +32,37 @@ namespace EPPlus.Export.Pdf.PdfSettings
         private double _height;
         private double _width;
 
-        internal override double Top
+        public override double Top
         {
             get { return _top; }
             set { _top = value; }
         }
 
-        internal override double Bottom
+        public override double Bottom
         {
             get { return _bottom; }
             set { _bottom = value; }
         }
 
-        internal override double Left
+        public override double Left
         {
             get { return _left; }
             set { _left = value; }
         }
 
-        internal override double Right
+        public override double Right
         {
             get { return _right; }
             set { _right = value; }
         }
 
-        internal override double Width
+        public override double Width
         {
             get { return _width; }
             set { _width = value; }
         }
 
-        internal override double Height
+        public override double Height
         {
             get { return _height; }
             set { _height = value; }

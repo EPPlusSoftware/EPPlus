@@ -14,7 +14,7 @@ namespace EPPlus.DrawingRenderer.Svg
         IBasicIShapesRenderer<StringBuilder> _shapeRenderer;
         public SvgGroupRenderer(IBasicIShapesRenderer<StringBuilder> shapeRenderer, StringBuilder outputStream) : base(outputStream)
         {
-
+            _shapeRenderer = shapeRenderer;
         }
         internal string Suffix = "px";
         public override void Render(GroupRenderItem item)
@@ -77,7 +77,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
         string GetRotationStr(GroupRenderItem item)
         {
-            if (double.IsNaN(item.Rotation) == false)
+            if (double.IsNaN(item.Rotation) == false || item.Rotation!=0)
             {
                 string rot = item.Rotation.ToString(CultureInfo.InvariantCulture);
 

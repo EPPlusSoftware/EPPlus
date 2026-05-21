@@ -43,11 +43,11 @@ namespace EPPlusImageRenderer.RenderItems
                     item.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
                     break;
                 default:
-                    item.SetDrawingPropertiesFill(theme, fill, color);
+                    SetDrawingPropertiesFillBasic(item, theme, fill, color);
                     break;
             }
         }
-        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
+        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
         {
             double? opacity = null;
             switch (fill.Style)

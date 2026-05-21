@@ -70,7 +70,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 var legendItem = ChartRenderer.Legend;
                 var seriesIconOrig = (LineRenderItem)legendItem.SeriesIcon[_serieIndex].SeriesIcon;
-                var clonedIcon = seriesIconOrig.Clone(ChartRenderer);
+                var clonedIcon = seriesIconOrig.Clone();
 
                 clonedIcon.Y1 = 0;
                 clonedIcon.Y2 = 0;

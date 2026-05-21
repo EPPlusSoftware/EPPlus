@@ -1,4 +1,5 @@
-﻿using EPPlusImageRenderer.Svg;
+﻿using EPPlus.Export.Renderer;
+using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing.Chart;

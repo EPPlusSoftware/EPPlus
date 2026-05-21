@@ -1,6 +1,6 @@
 ﻿using EPPlus.Graphics;
 using EPPlus.Graphics.Units;
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
 using System.Drawing;
 
 namespace EPPlus.Graphics.Tests

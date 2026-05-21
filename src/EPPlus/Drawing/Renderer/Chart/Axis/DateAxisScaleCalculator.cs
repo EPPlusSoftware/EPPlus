@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using EPPlus.Export.Renderer;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;

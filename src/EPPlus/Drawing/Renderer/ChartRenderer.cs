@@ -15,8 +15,10 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -28,10 +30,8 @@ namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
     {
-        IChartRenderer<T> _chartRenderer;
-        public ChartRenderer(ExcelChart chart, IChartRenderer<T> chartRenderer) : base(chart) 
+        public ChartRenderer(ExcelChart chart) : base(chart) 
         {
-            _chartRenderer = chartRenderer;
             SetChartArea();
 
             if (chart.HasTitle && chart.Series.Count > 0)
@@ -249,7 +249,7 @@ namespace EPPlusImageRenderer
         {
             DefItems.Add(item);
         }
-        public bool Render()
+        public bool AppendItems()
         {
             Plotarea?.AppendRenderItems(RenderItems);
 
@@ -274,20 +274,7 @@ namespace EPPlusImageRenderer
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
 
-            _chartRenderer.PreRender(RenderItems);
-            _chartRenderer.Render(RenderItems);
             return true;
-            //sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" Overflow=\"Hidden\" >");
-            ////Write defs used for gradient colors
-            //var writer = new SvgDrawingWriter(this);
-            //writer.WriteSvgDefs(sb, RenderItems);
-
-            //foreach (var item in RenderItems)
-            //{
-            //    item.Render(sb);
-            //}
-
-            //sb.Append("</svg>");
         }
         internal double GetPlotAreaTop()
         {
@@ -305,6 +292,25 @@ namespace EPPlusImageRenderer
                 return margin;
             }
 
+        }
+        internal LineRenderItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
+        {
+            const float MarginExtra = 1.5f;
+            const float LineLength = 21;
+
+            var item = new LineRenderItem(parentItem);
+            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+
+            float y = (float)parentItem.Top + MarginExtra;
+            float x = 0;
+            item.X1 = x;
+            item.Y1 = y;
+            item.X2 = x + LineLength;
+            item.Y2 = y;
+            item.LineCap = LineCap.Round;
+
+            return item;
         }
 
     }

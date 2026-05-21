@@ -1,19 +1,14 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
-using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
-using System.IO.Pipes;
-
+using OfficeOpenXml.Utils.Drawing;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class PieSliceRenderItem : ChartDrawingObject

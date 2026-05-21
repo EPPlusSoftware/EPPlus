@@ -291,7 +291,17 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.Position = new Vector2(px, py);
             Bounds.Size = new Vector2(sizeX, sizeY);
         }
-
+        public LineRenderItem Clone()
+        {
+            var clone = new LineRenderItem((BoundingBox)Bounds.Parent);
+            CloneBase(clone);
+            clone._x1 = X1;
+            clone._y1 = Y1;
+            clone._x2 = X2;
+            clone._y2 = Y2;
+            clone.UpdateBounds();
+            return clone;
+        }
         public override RenderItemType Type => RenderItemType.Line;
     }
     public abstract class DrawingObject

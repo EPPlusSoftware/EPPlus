@@ -30,9 +30,8 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer
 {
-    internal class ShapeRenderer<T> : DrawingRenderer
+    internal class ShapeRenderer : DrawingRenderer
     {
-        IShapeRenderer<T> _shapeRenderer;
         /// <summary>
         /// Calculated shape textbox
         /// </summary>
@@ -45,16 +44,19 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// </summary>
         public DrawingTextbody TextBody{ get; internal set; }
 
-        public ShapeRenderer(ExcelShape shape, IShapeRenderer<T> shapeRenderer) : base(shape)
+        public ShapeRenderer(ExcelShape shape) : base(shape)
         {
-            _shapeRenderer = shapeRenderer;
             var style = shape.Style;
+
+            var parentBounds = shape.GetBoundingBox();
+            var shapeGroup = new GroupRenderItem(parentBounds, shape.Rotation);
+            RenderItems.Add(shapeGroup);
 
             if (style==eShapeStyle.CustomShape)
             {
                 foreach (var path in shape.CustomGeom.DrawingPaths)
                 {
-                    AddFromPaths(path);
+                    shapeGroup.RenderItems.Add(AddFromPaths(Bounds, path));
                 }
             }
             else
@@ -68,16 +70,13 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     shapeDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
                 }
-                var parentBounds = shape.GetBoundingBox();
-                var shapeGroup = new GroupRenderItem(parentBounds, shape.Rotation);
-                RenderItems.Add(shapeGroup);
 
                 //Draw Filled path's
                 foreach (var path in shapeDef.ShapePaths)
                 {
                     if (path.Fill != PathFillMode.None)
                     {
-                        AddFromPaths(parentBounds, path, true, false);
+                        shapeGroup.RenderItems.Add(AddFromPaths(parentBounds, path, true, false));
                     }
                 }
 
@@ -86,7 +85,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     if (path.Stroke)
                     {
-                        AddFromPaths(parentBounds, path, false, true);
+                        shapeGroup.RenderItems.Add(AddFromPaths(parentBounds, path, false, true));
                     }
                 }
 
@@ -128,7 +127,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             }
         }
 
-        protected void AddFromPaths(BoundingBox parent, DrawingPath path, bool drawFill = true, bool drawBorder = true)
+        protected RenderItem AddFromPaths(BoundingBox parent, DrawingPath path, bool drawFill = true, bool drawBorder = true)
         {
             var pi = new PathRenderItem(parent);
             var coordinates = new List<double>();
@@ -196,7 +195,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 pi.BorderColor = "none";
             }
 
-            RenderItems.Add(pi);
+            return pi;
         }
         public string ViewBox 
         { 
@@ -520,12 +519,6 @@ namespace OfficeOpenXml.Drawing.Renderer
                 coordinates.Add(c.X.Value / ExcelDrawing.EMU_PER_POINT);
                 coordinates.Add(c.Y.Value / ExcelDrawing.EMU_PER_POINT);
             }
-        }
-
-        internal void Render()
-        {
-            _shapeRenderer.Render(RenderItems);
-            return _shapeRenderer.OutputStream.ToString();
         }
     }
 }

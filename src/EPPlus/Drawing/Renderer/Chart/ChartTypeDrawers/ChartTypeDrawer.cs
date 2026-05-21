@@ -199,12 +199,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 serieIndex++;
             }
         }
-
-        internal override void AppendRenderItems(List<RenderItem> renderItems)
-        {
-            renderItems.AddRange(RenderItems);
-        }
-
         internal bool IsOnAxis(ExcelChartAxisStandard ax)
         {
             return _chartType.YAxis==ax || _chartType.XAxis==ax;

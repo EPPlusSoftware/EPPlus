@@ -282,5 +282,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 xAxis = ChartRenderer.HorizontalAxis;
             }
         }
+
+        public override void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            RenderItems.AddRange(renderItems);
+        }
     }
 }

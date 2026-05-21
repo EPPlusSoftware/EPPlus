@@ -10,7 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Collections.Generic;
+using EPPlus.DrawingRenderer;
+using EPPlus.Export.Utils;
+using EPPlusImageRenderer;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
@@ -22,15 +24,16 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -2405,5 +2408,26 @@ namespace OfficeOpenXml.Drawing
             //Individual drawings that require certain saving actions do so by overriding this
             
         }
+        public string ToSvg()
+        {
+            if (this.DrawingType == eDrawingType.Shape)
+            {
+                return ((ExcelShape)this).ToSvg();
+            }
+            else if (this.DrawingType == eDrawingType.Chart)
+            {
+                var cr = new ChartRenderer((ExcelChart)this);
+                cr.AppendItems();
+
+                var sb = new StringBuilder();
+
+                var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb);
+                shapeRenderer.Render(cr.RenderItems);
+
+                return sb.ToString();
+            }
+            throw new InvalidOperationException("Only line-, column-, bar- and pie charts and shapes can be rendered to svg");
+        }
+
     }
 }

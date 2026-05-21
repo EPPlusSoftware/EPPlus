@@ -10,14 +10,15 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Text;
-using System.Xml;
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Renderer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System;
+using System.Text;
+using System.Xml;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -96,9 +97,10 @@ namespace OfficeOpenXml.Drawing
         }
         public string ToSvg()
         {
+            var sr = new ShapeRenderer(this);           
             var sb = new StringBuilder();
-            var svg = new ShapeRenderer<StringBuilder>(this, new SvgShapeRenderer(this.GetBoundingBox(), sb));
-            svg.Render(sb);
+            var svg = new SvgShapeRenderer(this.GetBoundingBox(), sb);
+            svg.Render(sr.RenderItems);
             return sb.ToString();
         }
     }

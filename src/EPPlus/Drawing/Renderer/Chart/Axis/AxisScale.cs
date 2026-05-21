@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.ImageRenderer;
+using EPPlus.Export.Renderer;
 using OfficeOpenXml.Drawing.Chart;
 using System.Collections.Generic;
 

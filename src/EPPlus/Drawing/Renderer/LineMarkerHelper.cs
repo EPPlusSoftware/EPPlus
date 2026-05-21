@@ -127,7 +127,7 @@ namespace EPPlus.Export.ImageRenderer.Svg
             }
             else if (ls.Fill.IsEmpty)
             {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
+                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
             }
             else
             {

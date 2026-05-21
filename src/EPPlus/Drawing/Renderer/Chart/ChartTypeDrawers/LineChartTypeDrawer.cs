@@ -207,6 +207,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             RenderItems.Add(linePath);
             RenderItems.AddRange(markerItems);
         }
+
+        public override void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            RenderItems.AddRange(renderItems);
+        }
     }
 
 }

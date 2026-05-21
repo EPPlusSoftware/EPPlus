@@ -18,14 +18,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
 
                 for(int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
                     ws = p.Workbook.Worksheets[i];
                     foreach (ExcelChart c in ws.Drawings)
                     {
-                        var svg = renderer.RenderDrawingToSvg(c);
+                        var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\s{i}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
@@ -40,14 +39,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("PointExplosionStandAlone.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
                     ws = p.Workbook.Worksheets[i];
                     foreach (ExcelChart c in ws.Drawings)
                     {
-                        var svg = renderer.RenderDrawingToSvg(c);
+                        var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\PointExplosionStandAlone\\s{i}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
@@ -61,12 +59,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("BasicPieChart.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
 
                 var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(c);
+                    var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\BasicPieChart{ix++}.svg", svg);
                 }
             }
@@ -79,14 +76,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("PieChartDlblsOrig.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
                     ws = p.Workbook.Worksheets[i];
                     foreach (ExcelChart c in ws.Drawings)
                     {
-                        var svg = renderer.RenderDrawingToSvg(c);
+                        var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\PieChartDlbls\\s{i}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
@@ -100,14 +96,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("PieChartDlblsInsideEndOnly.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
                     ws = p.Workbook.Worksheets[i];
                     foreach (ExcelChart c in ws.Drawings)
                     {
-                        var svg = renderer.RenderDrawingToSvg(c);
+                        var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\PieChartDlbls\\s{i}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
