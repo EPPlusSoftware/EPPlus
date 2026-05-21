@@ -39,6 +39,15 @@ namespace EPPlus.Export.Pdf.PdfResources
             manger.AddText(Text);
         }
 
+        public PdfFontResource GetFont(string FontName)
+        {
+            if (!Fonts.ContainsKey(FontName))
+            {
+                return null;
+            }
+            return Fonts[FontName];
+        }
+
         //this should move and be on worksheet level.
         internal readonly Dictionary<string, PdfCommentsAndNotes> CommentsAndNotes = new Dictionary<string, PdfCommentsAndNotes>(); 
     }

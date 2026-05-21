@@ -648,7 +648,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public static PdfCellAlignmentData GetAlignmentData(PdfHeaderFooter headerFooter)
         {
             var contentAlignment = new PdfCellAlignmentData();
-            contentAlignment.VerticalAlignment = ExcelVerticalAlignment.Bottom;
             switch (headerFooter.Alignment)
             {
                 case HeaderFooterAlignment.Left:
@@ -712,11 +711,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         break;
                     case ExcelHeaderFooterFormattingCodes.NumberOfPages:
                         text += "000";
-                        NumberOfPagesIndexes.Add(i);
+                        NumberOfPagesIndexes.Add(i-1);
                         break;
                     case ExcelHeaderFooterFormattingCodes.PageNumber:
                         text += "000";
-                        PageNumberIndexes.Add(i);
+                        PageNumberIndexes.Add(i-1);
                         break;
                     case ExcelHeaderFooterFormattingCodes.CurrentTime:
                         text += DateTime.Now.ToString("HH:mm");

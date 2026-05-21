@@ -16,6 +16,7 @@ using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -59,91 +60,81 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell, MergedCellDrawInfo mergedCellInfo, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
-            //do text stuff
             CellAlignmentData = cell.ContentAligmnet;
-            //textFormats = cell.TextFormats;
             TextLines = cell.TextLines;
             ShapedTexts = cell.ShapedTexts;
-
             TextLayoutEngine = cell.TextLayoutEngine;
-
             double totalTextHeight = 0d;
             foreach (var line in TextLines)
-                totalTextHeight += line.LargestAscent + line.LargestDescent;
-
-            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight,
-                LocalPosition.X, LocalPosition.Y, cell.Width, height);
-
-            //LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, LocalPosition.X, LocalPosition.Y, cell.Width, height);
-            //var textFragments = GetTextFragments(TextFormats);
-            //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
+                { totalTextHeight += line.LargestAscent + line.LargestDescent; }
+            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, LocalPosition.X, LocalPosition.Y, cell.Width, height);
         }
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
-    : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)
+            : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
-            //textFormats = cell.TextFormats;
             TextLines = headerFooter.Content.TextLines;
             ShapedTexts = headerFooter.Content.ShapedTexts;
-
             TextLayoutEngine = headerFooter.Content.TextLayoutEngine;
-
             CellAlignmentData = headerFooter.Content.ContentAligmnet;
-
-
             double totalTextHeight = 0d;
             foreach (var line in TextLines)
-                totalTextHeight += line.LargestAscent + line.LargestDescent;
-
-            LocalPosition = CalculateAlignment(TextLines.LineFragments[0].OriginalTextFragment.Text, TextLines.LineFragments[0].Width, totalTextHeight,
-                LocalPosition.X, LocalPosition.Y, 0, 0);
-
-            //LocalPosition = CalculateAlignment(cell.Text,TextLines.LineFragments[0].Width, 0, LocalPosition.X, LocalPosition.Y, cell.Width, height);
-            //var textFragments = GetTextFragments(TextFormats);
-            //var wrapped = TextLayoutEngine.WrapRichTextLines(textFragments, 51);
+                { totalTextHeight += line.LargestAscent + line.LargestDescent; }
+            var newX = CalculateHorizontalAlignment(TextLines.LineFragments[0].OriginalTextFragment.Text, TextLines[0].Width, LocalPosition.X, width, 0);
+            LocalPosition = new Vector2 (newX, LocalPosition.Y);
         }
 
-
-        private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double x, double y, double width, double height)
+        private double CalculateVerticalAlignment(string text, double textHeight, double y, double height, double padding)
         {
-            double newX = 0d;
-            double newY = 0d;
+            double newY = y;
+            switch (CellAlignmentData.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                    newY = (y + height) /*- (textHeight / 2d)*/ - padding;
+                    break;
+                case ExcelVerticalAlignment.Center:
+                    newY = y + (height + textHeight) / 2d/*) - (textHeight / 4d)*/;
+                    break;
+                case ExcelVerticalAlignment.Bottom:
+                    newY = y + padding + textHeight;
+                    break;
+            }
+            return newY;
+        }
 
+        private double CalculateHorizontalAlignment(string text, double textLength, double x, double width, double padding)
+        {
+            double newX = x;
             switch (CellAlignmentData.HorizontalAlignment)
             {
                 case ExcelHorizontalAlignment.Fill:
                 case ExcelHorizontalAlignment.General:
                     if (double.TryParse(text, out double value))
                     {
-                        newX = x + (width - textLength) - rightMargin;
+                        newX = x + (width - textLength) - padding;
                     }
                     else
                     {
-                        newX = x + rightMargin;
+                        newX = x + padding;
                     }
                     break;
                 case ExcelHorizontalAlignment.Left:
-                    newX = x + rightMargin;
+                    newX = x + padding;
                     break;
                 case ExcelHorizontalAlignment.Center:
                     newX = x + (width - textLength) / 2d;
                     break;
                 case ExcelHorizontalAlignment.Right:
-                    newX = x + (width - textLength) - rightMargin;
+                    newX = x + (width - textLength) - padding;
                     break;
             }
-            switch (CellAlignmentData.VerticalAlignment)
-            {
-                case ExcelVerticalAlignment.Top:
-                    newY = (y + height) /*- (textHeight / 2d)*/ - bottomMargin;
-                    break;
-                case ExcelVerticalAlignment.Center:
-                    newY = y + (height + textHeight) / 2d/*) - (textHeight / 4d)*/;
-                    break;
-                case ExcelVerticalAlignment.Bottom:
-                    newY = y + bottomMargin + textHeight;
-                    break;
-            }
+            return newX;
+        }
+
+        private Vector2 CalculatePositionFromRotation(double textLength, double x, double y)
+        {
+            double newX = x;
+            double newY = y;
             if (CellAlignmentData.TextRotation < 0)
             {
                 double rot = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
@@ -156,6 +147,13 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 newX += textLength * (1 - System.Math.Cos(rot));
             }
             return new Vector2(newX, newY);
+        }
+
+        private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double x, double y, double width, double height)
+        {
+            double newX = CalculateHorizontalAlignment(text, textLength, x, width, rightMargin);
+            double newY = CalculateVerticalAlignment(text, textHeight, y, height, bottomMargin);
+            return CalculatePositionFromRotation(textLength, newX, newY);
         }
 
         //private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)

@@ -129,13 +129,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
                 }
             }
-            if (pdfSheet.HeaderFooters != null)
-            {
-                foreach (var hf in pdfSheet.HeaderFooters.PdfHeaderFooterEntries)
-                {
-                    PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, hf.Content);
-                }
-            }
+            //if (pdfSheet.HeaderFooters != null)
+            //{
+            //    foreach (var hf in pdfSheet.HeaderFooters.PdfHeaderFooterEntries)
+            //    {
+            //        PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, hf.Content);
+            //    }
+            //}
         }
 
         //Collect Text Methods

@@ -159,23 +159,78 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         if (leftH != null)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, leftH, pageNumber, totalPages);
-                            x = pageSettings.Margins.LeftPu;
-                            y = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, x, y, 0, 0);
+                            var ascent = leftH.Content.TextLines[0].LargestAscent;
+                            var hfx = pageSettings.Margins.LeftPu;
+                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
                             text.Name = "LeftHeader";
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
-                        //var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        //SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
-                        //var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        //SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
-                        //var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        //SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
-                        //var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        //SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
-                        //var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        //SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
+                        var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
+                        if(centerH != null)
+                        {
+                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
+                            var ascent = centerH.Content.TextLines[0].LargestAscent;
+                            var hfx = pageSettings.Margins.LeftPu;
+                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
+                            var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
+                            text.Name = "CenterHeader";
+                            text.GidsAndCharMap(dictionaries);
+                            pageLayout.AddChild(text);
+                        }
+                        var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
+                        if(rightH != null)
+                        {
+                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
+                            var ascent = rightH.Content.TextLines[0].LargestAscent;
+                            var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
+                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
+                            text.Name = "RightHeader";
+                            text.GidsAndCharMap(dictionaries);
+                            pageLayout.AddChild(text);
+                        }
+                        var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
+                        if(leftF != null)
+                        {
+                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
+                            int last = leftF.Content.TextLines.Count - 1;
+                            var descent = leftF.Content.TextLines[last].LargestDescent;
+                            var hfx = pageSettings.Margins.LeftPu;
+                            var hfy = pageSettings.Margins.FooterPu + descent;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
+                            text.Name = "LeftFooter";
+                            text.GidsAndCharMap(dictionaries);
+                            pageLayout.AddChild(text);
+                        }
+                        var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
+                        if(centerF != null)
+                        {
+                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
+                            int last = centerF.Content.TextLines.Count - 1;
+                            var descent = centerF.Content.TextLines[last].LargestDescent;
+                            var hfx = pageSettings.PageSize.WidthPu / 2d;
+                            var hfy = pageSettings.Margins.FooterPu + descent;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, 0, 0);
+                            text.Name = "CenterFooter";
+                            text.GidsAndCharMap(dictionaries);
+                            pageLayout.AddChild(text);
+                        }
+                        var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
+                        if(rightF != null)
+                        {
+                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
+                            int last = rightF.Content.TextLines.Count - 1;
+                            var descent = rightF.Content.TextLines[last].LargestDescent;
+                            var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
+                            var hfy = pageSettings.Margins.FooterPu + descent;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
+                            text.Name = "RightFooter";
+                            text.GidsAndCharMap(dictionaries);
+                            pageLayout.AddChild(text);
+                        }
                     }
 
                     //Add HeaderFooter
@@ -541,15 +596,17 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
         {
-            if (hf == null || hf.PageNumberIndexes.Count > 0 || hf.NumberOfPagesIndexes.Count > 0) return;
-
-            foreach (var idx in hf.PageNumberIndexes)
-                hf.Content.TextFragments[idx].Text = pageNumber.ToString();
-            foreach (var idx in hf.NumberOfPagesIndexes)
-                hf.Content.TextFragments[idx].Text = totalPages.ToString();
-
-            hf.Content.ShapedTexts = null;
-            hf.Content.TextLines = null;
+            if (hf == null) return;
+            if (hf.PageNumberIndexes.Count > 0)
+            {
+                foreach (var idx in hf.PageNumberIndexes)
+                    hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+            }
+            if (hf.NumberOfPagesIndexes.Count > 0)
+            {
+                foreach (var idx in hf.NumberOfPagesIndexes)
+                    hf.Content.TextFragments[idx].Text = totalPages.ToString();
+            }
             PdfTextShaper.LayoutAndShapeText(pageSettings, dictionaries, hf.Content);
         }
 
