@@ -14,38 +14,23 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
     [FunctionMetadata(
     Category = ExcelFunctionCategory.LookupAndReference,
     EPPlusVersion = "8",
     Description = "",
     SupportsArrays = true)]
-    internal class TrimRange : TrimFunctionsBase
+    internal partial class TrimRange : TrimFunctionsBase
     {
 
         public override int ArgumentMinLength => 1;
         public override string NamespacePrefix => "_xlfn.";
 
-        private enum TrimRows
-        {
-            None = 0,
-            TrimLeading = 1,
-            TrimTrailing = 2,
-            TrimAll = 3
-        }
-        private enum TrimCols
-        {
-            None = 0,
-            TrimLeading = 1,
-            TrimTrailing = 2,
-            TrimAll = 3
-        }
-
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
         var rowMode = TrimMode.Both;
-        var colMode = TrimMode.Both;
+        var colMode = TrimMode.Both;            
 
         if (arguments.Count > 1)
         {

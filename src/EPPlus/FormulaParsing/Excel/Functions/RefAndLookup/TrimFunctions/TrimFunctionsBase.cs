@@ -14,20 +14,12 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
-    internal abstract class TrimFunctionsBase :  ExcelFunction
+    internal abstract partial class TrimFunctionsBase :  ExcelFunction
     {
         public override int ArgumentMinLength => 1;
         public override string NamespacePrefix => "_xlfn.";
-
-        protected enum TrimMode
-        {
-            None = 0,
-            Leading = 1,
-            Trailing = 2,
-            Both = 3
-        }
 
         protected CompileResult ExecuteTrim(IList<FunctionArgument> arguments, TrimMode rowMode, TrimMode colMode)
         {
