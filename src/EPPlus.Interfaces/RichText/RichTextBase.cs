@@ -5,10 +5,10 @@ using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
-    internal class RichTextBase : IRichText
+    public class RichTextBase : IRichText
     {
         internal bool FirstInParagraph { get; private set; }
-        internal RichTextBase(string text, bool firstInParagraph, string fontFamily = "") 
+        public RichTextBase(string text, bool firstInParagraph, string fontFamily = "") 
         {
             Text = text;
             FirstInParagraph = firstInParagraph;

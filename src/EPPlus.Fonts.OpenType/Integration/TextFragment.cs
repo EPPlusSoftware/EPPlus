@@ -30,12 +30,16 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Nothing is supposed to be done with this within OpenType
         /// but we hold the data so users may more easily recognize what rich text this is in the output.
         /// </summary>
-        public IRichText RichText { get; }
+        public IRichText RichText { get; } = new RichTextBase("", true, "Archivo Narrow");
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
 
-        public MeasurementFont Font { get; set; }
+        /// <summary>
+        /// Below is to be refactored to only use RichText variable
+        /// </summary>
+        MeasurementFont _font { get; set; }
+        public MeasurementFont Font { get { return _font; } set { _font = value; RichText.Info.SetFont(new FontDataBasic(value)); } }
     }
 
     public class AdvancedTextFragment : ITextFragment
