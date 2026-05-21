@@ -23,12 +23,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
     internal partial class PivotBy
     {
         private List<object[]> ResolveRelativeToValues(
-RelativeTo relativeTo,
-LeafWithPath colLeaf,
-List<LeafWithPath> colLeaves,
-string rowKey,
-Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-PivotByArgs args)
+            RelativeTo relativeTo,
+            LeafWithPath colLeaf,
+            List<LeafWithPath> colLeaves,
+            string rowKey,
+            Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+            PivotByArgs args)
         {
             switch (relativeTo)
             {
@@ -86,11 +86,11 @@ PivotByArgs args)
             }
         }
         private List<object[]> ResolveRelativeToValuesForTotal(
-    RelativeTo relativeTo,
-    LeafWithPath colLeaf,
-    List<LeafWithPath> colLeaves,
-    Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-        PivotByArgs args)
+            RelativeTo relativeTo,
+            LeafWithPath colLeaf,
+            List<LeafWithPath> colLeaves,
+            Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+            PivotByArgs args)
         {
             switch (relativeTo)
             {
@@ -514,23 +514,23 @@ PivotByArgs args)
 
 
         private void WriteRowSubtotalRow(
-     InMemoryRange result,
-     int outputRow,
-     object[] groupKeyParts,
-     List<LeafWithPath> groupLeaves,
-     List<ColEntry> colEntries,
-     List<LeafWithPath> colLeaves,
-     Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
-     PivotByArgs args,
-     ParsingContext context,
-     int nRowKeyCols,
-     int functionNameCol,
-     int dataColStart,
-     int colOffset,
-     bool showColTotal,
-     bool isVStack,
-     LambdaCalculator f,
-     string functionName)
+             InMemoryRange result,
+             int outputRow,
+             object[] groupKeyParts,
+             List<LeafWithPath> groupLeaves,
+             List<ColEntry> colEntries,
+             List<LeafWithPath> colLeaves,
+             Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
+             PivotByArgs args,
+             ParsingContext context,
+             int nRowKeyCols,
+             int functionNameCol,
+             int dataColStart,
+             int colOffset,
+             bool showColTotal,
+             bool isVStack,
+             LambdaCalculator f,
+             string functionName)
         {
             // Radnycklar: känd prefix + tomt för resten
             for (int k = 0; k < nRowKeyCols; k++)

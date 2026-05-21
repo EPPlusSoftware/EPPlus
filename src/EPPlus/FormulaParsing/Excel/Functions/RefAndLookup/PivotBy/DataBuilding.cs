@@ -22,11 +22,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
     internal partial class PivotBy
     {
         private void BuildPivotData(
-      PivotByArgs args,
-      ParsingContext context,
-      out List<LeafWithPath> rowLeaves,
-      out List<LeafWithPath> colLeaves,
-      out Dictionary<string, Dictionary<string, List<object[]>>> pivotMap)
+          PivotByArgs args,
+          ParsingContext context,
+          out List<LeafWithPath> rowLeaves,
+          out List<LeafWithPath> colLeaves,
+          out Dictionary<string, Dictionary<string, List<object[]>>> pivotMap)
         {
             var resolvedHeaders = ResolveHeaders(args.Headers, args.Values);
             bool hasHeaders = resolvedHeaders == FieldHeaders.YesAndShow
