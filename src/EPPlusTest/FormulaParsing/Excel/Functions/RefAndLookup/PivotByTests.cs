@@ -58,6 +58,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             using (var package = new ExcelPackage())
             {
+                SwitchToCulture("en-US");
                 var s = package.Workbook.Worksheets.Add("test");
                 s.Cells["A1"].Value = "Stockholm";
                 s.Cells["A2"].Value = "Linköping";
@@ -106,6 +107,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(43265d, s.Cells["G6"].Value);
                 Assert.AreEqual(34543d, s.Cells["H6"].Value);
                 Assert.AreEqual(153269d, s.Cells["I6"].Value);
+                SwitchBackToCurrentCulture();
             }
         }
 
@@ -317,6 +319,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         {
             using (var package = new ExcelPackage())
             {
+                SwitchToCulture("en-US");
                 var s = package.Workbook.Worksheets.Add("test");
                 s.Cells["A1"].Value = "Stockholm";
                 s.Cells["A2"].Value = "Linköping";
@@ -348,6 +351,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
                 s.Cells["E1"].Formula = "PIVOTBY(A1:A6,B1:C6,D1:D6,_xleta.PERCENTOF,,,,,,,3)";
                 s.Calculate();
+                SwitchBackToCurrentCulture();
             }
         }
 
