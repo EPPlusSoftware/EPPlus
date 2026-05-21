@@ -11,6 +11,6 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
         /// <summary>
         /// RichText options including font data
         /// </summary>
-        IRichTextInfoBase RichTextOptions { get; set; }
+        IRichTextInfoBase Info { get; set; }
     }
 }

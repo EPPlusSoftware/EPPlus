@@ -8,8 +8,7 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
     public interface ITextFragment
     {
         string Text { get; set; }
-
-        IRichText RichTextOptions { get; set; }
+        IRichText RichText { get; }
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }

@@ -14,11 +14,11 @@ namespace OfficeOpenXml.Interfaces.RichText
             FirstInParagraph = firstInParagraph;
             if (string.IsNullOrEmpty(fontFamily) == false)
             {
-                RichTextOptions.FontFamily = fontFamily;
+                Info.FontFamily = fontFamily;
             }
         }
 
-        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+        public IRichTextInfoBase Info { get; set; } = new RichTextDefaults();
         public string Text { get; set; }
     }
 }

@@ -290,19 +290,19 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var richestRt = rtCollection.Add("richest");
             var wealthyRt = rtCollection.Add("Wealthy");
 
-            richRt.RichTextOptions.FontFamily = "Roboto";
-            richRt.RichTextOptions.Italic = true;
+            richRt.Info.FontFamily = "Roboto";
+            richRt.Info.Italic = true;
 
-            richerRt.RichTextOptions.FontFamily = "Roboto";
-            richerRt.RichTextOptions.FontSize = 16;
-            richerRt.RichTextOptions.Italic = true;
-            richerRt.RichTextOptions.UnderlineType = (int)ExcelUnderLineType.Single;
+            richerRt.Info.FontFamily = "Roboto";
+            richerRt.Info.FontSize = 16;
+            richerRt.Info.Italic = true;
+            richerRt.Info.UnderlineType = (int)ExcelUnderLineType.Single;
 
-            richestRt.RichTextOptions.FontFamily = "Oi";
-            richestRt.RichTextOptions.FontColor = Color.BlueViolet;
-            richestRt.RichTextOptions.Bold = true;
-            richestRt.RichTextOptions.Italic = true;
-            richerRt.RichTextOptions.FontSize = 18;
+            richestRt.Info.FontFamily = "Oi";
+            richestRt.Info.FontColor = Color.BlueViolet;
+            richestRt.Info.Bold = true;
+            richestRt.Info.Italic = true;
+            richerRt.Info.FontSize = 18;
 
 
             //someTextRt.FontData.Family = "Archivo Narrow";

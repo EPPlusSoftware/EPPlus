@@ -23,25 +23,29 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// </summary>
     public class TextFragment : ITextFragment
     {
-        public string Text { get; set; }
-
-        public MeasurementFont Font { get; set; }
-        public ShapingOptions Options { get; set; }
+        public string Text { get => RichText.Text; set => RichText.Text = value; }
 
         /// <summary>
         /// Store rich-text info.
         /// Nothing is supposed to be done with this within OpenType
         /// but we hold the data so users may more easily recognize what rich text this is in the output.
         /// </summary>
-        public IRichText RichTextOptions { get; set; }
-
+        public IRichText RichText { get; }
+        public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
+
+        public MeasurementFont Font { get; set; }
     }
 
     public class AdvancedTextFragment : ITextFragment
     {
-        public IRichText RichText;
+        public string Text { get => RichText.Text; set => RichText.Text = value; }
+        /// <summary>
+        /// Store rich-text info.
+        /// We must extract font info from this but nothing else is supposed to be done with this within opentype
+        /// </summary>
+        public IRichText RichText { get; }
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
