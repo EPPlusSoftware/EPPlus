@@ -140,18 +140,18 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public GroupRenderItem() : base()
         {
-            Bounds.Parent = Position;
+            Bounds.Parent = TranslationOffset;
         }
 
         public GroupRenderItem(double localXPos, double localYPos) : this()
         {
-            Position = new Graphics.Point(localXPos, localYPos);
+            TranslationOffset = new Graphics.Point(localXPos, localYPos);
         }
 
 
         public GroupRenderItem(BoundingBox parent, double rotation, Transform rotationPoint = null) : this(0, 0)
         {
-            Position.Parent = parent;
+            TranslationOffset.Parent = parent;
             Rotation = rotation;
             if (rotationPoint != null)
             {
@@ -164,7 +164,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double Rotation { get; set; }
         public string GroupTransform = "";
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
-        internal Graphics.Point Position = null;
+
         Graphics.Point _altRotationPoint = null;
         public Graphics.Point TranslationOffset = new Graphics.Point(0, 0);
         public Graphics.Point RotationPoint
@@ -173,7 +173,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             {
                 if (_altRotationPoint == null)
                 {
-                    return Position;
+                    return TranslationOffset;
                 }
                 return _altRotationPoint;
             }
@@ -197,7 +197,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public void AddChildItem(RenderItem item)
         {
-            item.Bounds.Parent = Position;
+            item.Bounds.Parent = TranslationOffset;
             RenderItems.Add(item);
 
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;

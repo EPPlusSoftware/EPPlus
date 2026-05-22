@@ -256,7 +256,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             var grp = new GroupRenderItem(MarginTextBox.Bounds);
             RenderItems.Add(grp);
 
-            var txtBodyItem = new DrawingTextbody(Drawing, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            var txtBodyItem = new DrawingTextbody(Drawing, MarginTextBox.Bounds, MarginTextBox.Left, MarginTextBox.Top, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBody(bodyOrig);
 
             txtBodyItem.AppendRenderItems(grp.RenderItems);

@@ -24,6 +24,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal ExcelTheme Theme { get; }
 
+        
+
         public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
         {
             _drawing = drawing;
@@ -45,7 +47,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)
         {
-            var measureFont = item.DefaultRunProperties.GetMeasureFont();
             bool isFirst = Paragraphs.Count == 0;
             Text = text;
 

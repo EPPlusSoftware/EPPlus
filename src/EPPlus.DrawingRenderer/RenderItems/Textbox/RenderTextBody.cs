@@ -30,7 +30,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         Top
     }
 
-    public class RenderTextBody : DrawingObject
+    public class RenderTextBody : GroupRenderItem
     {
         public RenderTextBody(BoundingBox parent, bool autoSize)
         {
@@ -38,6 +38,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             AutoSize = autoSize;
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
+            Bounds.Name = "Textbody";
         }
         public RenderTextBody(BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(parent, autoSize)
         {
@@ -47,10 +48,11 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.Height = maxHeight;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
+            Bounds.Name = "Textbody";
         }
 
         public List<ParagraphRenderItem> Paragraphs { get; set; } = new List<ParagraphRenderItem>();
-        public BoundingBox Bounds { get; private set; } = new BoundingBox();
+
         public TextAnchoringType VerticalAlignment = TextAnchoringType.Top;
         public string Text { get; set; }
         public double MaxWidth { get; set; }
@@ -71,27 +73,40 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double RightMargin { get; set; }
         public double LeftMargin { get; set; }
         public string FontColorString { get; set; }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+
+        
+        public void AppendRenderItems(List<RenderItem> renderItems)
         {
-            GroupRenderItem groupItem;
-            if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
-            {
-                groupItem = new GroupRenderItem(Bounds, Bounds.Rotation);
-            }
-            else
-            {
-                groupItem = new GroupRenderItem(Bounds);
-            }
+            //foreach(var item in Paragraphs)
+            //{
+            //    AddChildItem(item);
+            //}
+            //GroupRenderItem groupItem;
+            //if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
+            //{
+            //    groupItem = new GroupRenderItem(Bounds, Bounds.Rotation);
+            //}
+            //else
+            //{
+            //    groupItem = new GroupRenderItem(Bounds);
+            //}
 
-            if (FontColorString != null)
-            {
-                groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
-            }
+            //if (FontColorString != null)
+            //{
+            //    groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
+            //}
+            //renderItems.Add(groupItem);
 
-            renderItems.Add(groupItem);
+            //Set bounds position to be translation
+            //Posibly remove translationOffset and make it always be bounds?
+            //But then we will have an inaccurate bounding box if a child object has negative position.
+            TranslationOffset.Left = Bounds.Left;
+            TranslationOffset.Top = Bounds.Top;
+
+            renderItems.Add(this);
             foreach (var item in Paragraphs)
             {
-                groupItem.RenderItems.Add(item);
+                AddChildItem(item);
             }
         }
     }

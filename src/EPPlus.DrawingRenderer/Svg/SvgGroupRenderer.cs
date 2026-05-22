@@ -44,9 +44,9 @@ namespace EPPlus.DrawingRenderer.Svg
             string scalingStr = GetScalingStr(item);
 
 
-            if (item.Position != null && (item.Position.Left == 0 && item.Position.Top == 0) == false)
+            if (item.TranslationOffset != null && (item.TranslationOffset.Left == 0 && item.TranslationOffset.Top == 0) == false)
             {
-                positionStr = string.Format(transformTranslate, item.Position.Left.PointToPixelString(), item.Position.Top.PointToPixelString()) + " ";
+                positionStr = string.Format(transformTranslate, item.TranslationOffset.Left.PointToPixelString(), item.TranslationOffset.Top.PointToPixelString()) + " ";
             }
 
             return positionStr + rotationStr + scalingStr;
@@ -81,7 +81,7 @@ namespace EPPlus.DrawingRenderer.Svg
             {
                 string rot = item.Rotation.ToString(CultureInfo.InvariantCulture);
 
-                if (item.RotationPoint != null && item.RotationPoint != item.Position)
+                if (item.RotationPoint != null && item.RotationPoint != item.TranslationOffset)
                 {
                     rot += $", {item.RotationPoint.Left.PointToPixelString()}, {item.RotationPoint.Top.PointToPixelString()}" + " ";
                 }
