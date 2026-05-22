@@ -16,9 +16,7 @@ using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using System.Drawing;
-using System.Globalization;
-using System.Text;
-using static EPPlus.DrawingRenderer.RenderItems.LineRenderItem;
+
 namespace EPPlus.DrawingRenderer.RenderItems
 {
     public enum FillType
@@ -166,6 +164,12 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
 
         Graphics.Point _altRotationPoint = null;
+        /// <summary>
+        /// The translated position of this item in points
+        /// Also the parent position of the group item 
+        /// (This may seem strange but it ensures the the translation is seen 
+        /// immediately in the global position of GroupItem without affecting local position)
+        /// </summary>
         public Graphics.Point TranslationOffset = new Graphics.Point(0, 0);
         public Graphics.Point RotationPoint
         {
@@ -197,7 +201,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public void AddChildItem(RenderItem item)
         {
-            item.Bounds.Parent = TranslationOffset;
+            item.Bounds.Parent = TranslationOffset; 
             RenderItems.Add(item);
 
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;

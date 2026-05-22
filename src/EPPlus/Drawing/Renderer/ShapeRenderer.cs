@@ -44,6 +44,13 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// </summary>
         public DrawingTextbody TextBody{ get; internal set; }
 
+        //public ShapeRenderer(eShapeStyle style, double top, double left, double width, double height, eTextAutofit autofit) : base()
+        //{
+        //    var parentBounds = new BoundingBox(top, left, width, height);
+        //    var shapeGroup = new GroupRenderItem(parentBounds);
+
+        //}
+
         public ShapeRenderer(ExcelShape shape) : base(shape)
         {
             var style = shape.Style;
