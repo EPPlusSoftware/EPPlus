@@ -156,8 +156,14 @@ namespace EPPlus.Fonts.Benchmarks
         [Benchmark]
         public double[] OnlyExtractWidths()
         {
-            var font = OpenTypeFonts.LoadFont(FontFamily, FontSubFamily.Regular);
-            var shaper = new TextShaper(font);
+            var fontsPath = Path.Combine(AppContext.BaseDirectory, "Fonts");
+            var fontEngine = new OpenTypeFontEngine(x =>
+            {
+                x.FontDirectories.Add(fontsPath);
+                x.SearchSystemDirectories = false;
+            });
+            var font = fontEngine.LoadFont(FontFamily, FontSubFamily.Regular);
+            var shaper = new TextShaper(fontEngine, font);
             return shaper.ExtractCharWidths(LoremIpsum20Para, FontSize, ShapingOptions.Default);
         }
 

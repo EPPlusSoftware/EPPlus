@@ -1,5 +1,4 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -7,15 +6,22 @@ using OfficeOpenXml.Interfaces.Fonts;
 namespace EPPlus.Fonts.OpenType.Tests
 {
     [TestClass]
-    public class TextFragmentCollectionTests
+    public class TextFragmentCollectionTests : FontTestBase
     {
+        public override TestContext? TestContext { get; set; }
+
         [TestMethod]
         public void WrappingLongParagraphs()
         {
-            var shaper = OpenTypeFonts.GetTextShaper("Aptos Narrow", FontSubFamily.Regular);
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+
+            var shaper = SystemFontsEngine.GetTextShaper("Aptos Narrow", FontSubFamily.Regular);
             var layout = new TextLayoutEngine(shaper);
 
-            var outputLines = layout.WrapText("Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n", 28f, 225);
+            var outputLines = layout.WrapText(
+                "Hello World! a b c d e f g h i j k l m n o p q r s t u v w x y z \r\n",
+                28f,
+                225);
 
             Assert.AreEqual("Hello World! a b c d", outputLines[0]);
             Assert.AreEqual("e f g h i j k l m n o p q", outputLines[1]);
@@ -26,6 +32,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void MeasureBold()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Bold);
+
             var font2 = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -34,12 +42,10 @@ namespace EPPlus.Fonts.OpenType.Tests
             };
             string test = "TextBox2";
 
-            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-
-            var measurer = OpenTypeFonts.GetShaperForFont(font2);
+            var measurer = SystemFontsEngine.GetShaperForFont(font2);
             var widthInPoints = measurer.ShapeLight(test).GetWidthInPoints(font2.Size);
 
-            var inPixels = Math.Round(widthInPoints.PointToPixel(),0,MidpointRounding.AwayFromZero);
+            var inPixels = Math.Round(widthInPoints.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
             Assert.AreEqual(54, inPixels);
         }
@@ -47,6 +53,8 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void MeasureGoudy()
         {
+            RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
+
             var font5 = new MeasurementFont()
             {
                 FontFamily = "Goudy Stout",
@@ -56,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tests
 
             var text = "Goudy size";
 
-            var measurer = OpenTypeFonts.GetShaperForFont(font5);
+            var measurer = SystemFontsEngine.GetShaperForFont(font5);
 
             var widthInPoints = measurer.ShapeLight(text).GetWidthInPoints(16f);
 
@@ -68,6 +76,9 @@ namespace EPPlus.Fonts.OpenType.Tests
         [TestMethod]
         public void MeasureWrappedWidthsWithInternalLineBreaks()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Bold);
+            RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
+
             List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
 
             var font1 = new MeasurementFont()
@@ -75,7 +86,7 @@ namespace EPPlus.Fonts.OpenType.Tests
                 FontFamily = "Aptos Narrow",
                 Size = 11,
                 Style = MeasurementFontStyles.Regular
-            }; ;
+            };
 
             var font2 = new MeasurementFont()
             {
@@ -105,7 +116,6 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
-
             var font6 = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -116,7 +126,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             List<MeasurementFont> fonts = new() { font1, font2, font3, font4, font5, font6 };
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font1);
+            var ttMeasurer = SystemFontsEngine.GetTextLayoutEngineForFont(font1);
 
             var textFragments = new TextFragmentCollectionSimple(fonts, lstOfRichText);
 
@@ -176,13 +186,16 @@ namespace EPPlus.Fonts.OpenType.Tests
             //This line does NOT contain a space at the end
             Assert.AreEqual(134, pixels52);
 
-
             Assert.AreEqual(169, pixelsWholeLine5);
         }
 
         [TestMethod]
         public void MeasureWrappedWidths()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Bold);
+            RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
+
             List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
 
             var font2 = new MeasurementFont()
@@ -213,7 +226,6 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
-
             var font6 = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -221,10 +233,10 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
-            List<MeasurementFont> fonts = new() {font2, font3, font4, font5, font6 };
+            List<MeasurementFont> fonts = new() { font2, font3, font4, font5, font6 };
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
-            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font2);
+            var ttMeasurer = SystemFontsEngine.GetTextLayoutEngineForFont(font2);
 
             var textFragments = new TextFragmentCollectionSimple(fonts, lstOfRichText);
 
@@ -233,7 +245,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             var pixels1 = Math.Round(wrappedLines[0].InternalLineFragments[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixels2 = Math.Round(wrappedLines[0].InternalLineFragments[1].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
             var pixels3 = Math.Round(wrappedLines[0].InternalLineFragments[2].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
-            var pixelsWholeLine = Math.Round(wrappedLines[0].Width.PointToPixel(),0, MidpointRounding.AwayFromZero);
+            var pixelsWholeLine = Math.Round(wrappedLines[0].Width.PointToPixel(), 0, MidpointRounding.AwayFromZero);
 
             //~54 px
             Assert.AreEqual(54, pixels1);
@@ -262,13 +274,14 @@ namespace EPPlus.Fonts.OpenType.Tests
             //This line does NOT contain a space at the end
             Assert.AreEqual(134, pixels32);
 
-            
             Assert.AreEqual(169, pixelsWholeLine3);
         }
 
         [TestMethod]
         public void CorrectTextLinesAreReturnedWhenSmallMaxWidth()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+
             var defaultFont = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -276,7 +289,7 @@ namespace EPPlus.Fonts.OpenType.Tests
                 Style = MeasurementFontStyles.Regular
             };
 
-            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
+            var ttMeasurer = SystemFontsEngine.GetTextLayoutEngineForFont(defaultFont);
 
             var txt = "This is my text";
 

@@ -17,8 +17,12 @@ public class ExtractCharWidthsBenchmark
     public void Setup()
     {
         var fontFolders = new List<string> { /* your font paths */ };
-        var font = OpenTypeFonts.LoadFont("Calibri");
-        _shaper = new TextShaper(font);
+        var fontEngine = new OpenTypeFontEngine(x =>
+        {
+            x.SearchSystemDirectories = true;
+        });
+        var font = fontEngine.LoadFont("Calibri");
+        _shaper = new TextShaper(fontEngine, font);
         _options = ShapingOptions.Default;
 
         // Short: typical Excel cell

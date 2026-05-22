@@ -34,14 +34,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         /// <summary>
-        /// Convenience constructor that creates a TextShaper internally.
-        /// </summary>
-        public OpenTypeFontTextMeasurer(OpenTypeFont font, ShapingOptions options = null)
-            : this(new TextShaper(font), options)
-        {
-        }
-
-        /// <summary>
         /// Always valid - pure .NET implementation with no external dependencies.
         /// </summary>
         public bool ValidForEnvironment() => true;

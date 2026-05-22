@@ -13,6 +13,7 @@
   01/23/2025         EPPlus Software AB           Added ArrayPool optimization
   01/23/2025         EPPlus Software AB           Added space width cache
   01/24/2025         EPPlus Software AB           Added StringBuilder pooling (.NET 3.5 compatible)
+  05/06/2026         EPPlus Software AB           Removed per-instance font directories — uses global config
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Cmap;
 using EPPlus.Fonts.OpenType.TextShaping;
@@ -33,8 +34,6 @@ namespace EPPlus.Fonts.OpenType.Integration
     public partial class TextLayoutEngine : IDisposable
     {
         private readonly ITextShaper _shaper;
-        private readonly List<string> _fontDirectories;
-        private readonly bool _searchSystemDirectories;
 
         // Space width cache - avoids repeated Shape(" ") calls
         private readonly Dictionary<float, double> _spaceWidthCache;
@@ -51,15 +50,13 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         /// <summary>
         /// Creates a TextLayoutEngine for single-font text wrapping.
+        /// Font resolution for rich-text fragments uses the globally configured resolver — to
+        /// search additional directories or install a custom resolver, use
+        /// <see cref="OpenTypeFonts.Configure"/>.
         /// </summary>
-        public TextLayoutEngine(
-            ITextShaper shaper,
-            List<string> fontDirectories = null,
-            bool searchSystemDirectories = true)
+        public TextLayoutEngine(ITextShaper shaper)
         {
             _shaper = shaper ?? throw new ArgumentNullException(nameof(shaper));
-            _fontDirectories = fontDirectories ?? new List<string>();
-            _searchSystemDirectories = searchSystemDirectories;
             _spaceWidthCache = new Dictionary<float, double>();
         }
 
@@ -185,7 +182,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             var state = new WrapStateText(startingWidthPoints, GetCachedSpaceWidth(fontSize, options));
 
-           PrepareLineBuilder(text.Length);
+            PrepareLineBuilder(text.Length);
 
             for (int i = 0; i <= text.Length; i++)
             {
@@ -205,7 +202,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 else
                 {
-                    if (text[i-1] == ' ')
+                    if (text[i - 1] == ' ')
                     {   //Add extra to avoid trimming
                         _lineBuilder.Append("  ");
                         //if (_lineBuilder.LastChar() == ' ')
@@ -219,7 +216,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             return FinalizeWrapping();
         }
-       
+
 
         private double MeasureText(string text, float fontSize, ShapingOptions options)
         {
@@ -234,7 +231,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private ITextShaper GetShaperForFont(MeasurementFont font)
         {
-            return OpenTypeFonts.GetShaperForFont(font, _fontDirectories, _searchSystemDirectories);
+            return OpenTypeFonts.GetShaperForFont(font);
         }
 
 

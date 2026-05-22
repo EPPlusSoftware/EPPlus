@@ -59,10 +59,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// instances directly. It provides a thread-local cached instance and avoids
         /// duplicate caches across the codebase.
         /// </summary>
-        public TextShaper(OpenTypeFont font)
-            : this(new DefaultFontProvider(font))
-        {
-        }
+        public TextShaper(OpenTypeFontEngine engine, OpenTypeFont font)
+            : this(new DefaultFontProvider(engine, font)) { }
 
         /// <summary>
         /// Creates a TextShaper with custom font provider.
@@ -105,11 +103,22 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// <summary>
         /// Resets font tracking state. Called automatically at the start of each
         /// shaping operation — Shape(), ExtractCharWidths(), ShapeLight().
+        ///
+        /// The primary font is registered immediately with FontId 0, regardless of
+        /// whether it ends up contributing any glyphs. This preserves the invariant
+        /// that FontId 0 always refers to the primary font — without it, a string that
+        /// uses only fallback glyphs (e.g. pure CJK text against a Latin primary) would
+        /// leave the primary out of _usedFonts entirely, and the first fallback would
+        /// end up with FontId 0.
         /// </summary>
         private void ResetFontTracking()
         {
             _usedFonts.Clear();
             _fontToIdMap.Clear();
+
+            // Reserve FontId 0 for the primary font, even before any glyphs are mapped.
+            _usedFonts.Add(_primaryFont);
+            _fontToIdMap[_primaryFont] = 0;
         }
 
         /// <summary>

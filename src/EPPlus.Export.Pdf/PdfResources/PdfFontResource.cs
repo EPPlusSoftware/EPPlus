@@ -36,6 +36,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal int fontWidthObjectNumber = -1;
         internal int cidSetObjectNumber = -1;
         internal OpenTypeFont fontData;
+        private OpenTypeFontEngine _fontEngine;
         private int firstChar = 32;
         private int lastChar = 255;
         private CIDSystemInfo cidSystemInfo = null;
@@ -55,13 +56,14 @@ namespace EPPlus.Export.Pdf.PdfResources
             : base("F", labelNumber)
         {
             this.fontName = fontName;
-            fontData = OpenTypeFonts.LoadFont(fontName, subFamily, pageSettings.FontDirectories, pageSettings.SearchSystemDirectories);
-            fontSubsetManager = new FontSubsetManager(fontData);
+            _fontEngine = pageSettings.FontEngine;
+            fontData = _fontEngine.LoadFont(fontName, subFamily);
+            fontSubsetManager = new FontSubsetManager(pageSettings.FontEngine, fontData);
         }
 
         internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
-            return OpenTypeFonts.LoadFont(fontName,subFamily, pageSettings.FontDirectories, pageSettings.SearchSystemDirectories);
+            return pageSettings.FontEngine.LoadFont(fontName,subFamily);
         }
 
         //Get font data from fontResources. If font does not exsist, add it to fontResources.
@@ -79,12 +81,6 @@ namespace EPPlus.Export.Pdf.PdfResources
                 fontResources.Last().Value.fontData = GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
             }
             return fontResources[FontData.FullFontName].fontData;
-        }
-
-        internal void CreateSubset()
-        {
-            fontData = fontData.CreateSubset(Subset);
-            Shaper = new TextShaper(fontData);
         }
 
         //Get the Font Descriptor object to write in PDF.

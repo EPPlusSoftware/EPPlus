@@ -9,6 +9,8 @@
   Date               Author                       Change
  *************************************************************************************************
   02/27/2026         EPPlus Software AB           Replaces FontResolutionConfig
+  05/06/2026         EPPlus Software AB           Property-based transactional configuration
+  05/20/2026         EPPlus Software AB           Added per-script glyph fallback configuration
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -19,79 +21,148 @@ namespace EPPlus.Fonts.OpenType.FontResolver
     /// <summary>
     /// Concrete implementation of <see cref="IEpplusFontConfiguration"/>.
     /// Managed exclusively by <see cref="OpenTypeFonts"/> — not instantiated by user code.
+    /// Mutations are intended to happen inside an <c>OpenTypeFonts.Configure</c> callback,
+    /// after which <see cref="OpenTypeFonts"/> reads the resulting state as a snapshot and
+    /// rebuilds the resolver.
     /// </summary>
     internal class EpplusFontConfiguration : IEpplusFontConfiguration
     {
-        private readonly Dictionary<string, string[]> _fallbacks =
+        private readonly List<string> _fontDirectories = new List<string>();
+        private readonly Dictionary<string, string[]> _fontFallbacks =
             new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<UnicodeScript, string[]> _scriptFallbacks =
+            new Dictionary<UnicodeScript, string[]>();
 
-        // Internal events consumed by OpenTypeFonts in the same assembly.
-        internal event Action OnReset;
-        internal event Action<IFontResolver> OnSetFontResolver;
-
-        // -----------------------------------------------------------------------------------------
-        // IEpplusFontConfiguration
-        // -----------------------------------------------------------------------------------------
+        public EpplusFontConfiguration()
+        {
+            SearchSystemDirectories = true;
+            ApplyDefaultScriptFallbacks();
+        }
 
         /// <inheritdoc/>
-        public IEpplusFontConfiguration AddFallback(string primaryFont, params string[] fallbacks)
+        public IList<string> FontDirectories
         {
-            if (string.IsNullOrEmpty(primaryFont))
-                throw new ArgumentNullException("primaryFont");
-            if (fallbacks == null || fallbacks.Length == 0)
-                throw new ArgumentException("At least one fallback must be specified.", "fallbacks");
+            get { return _fontDirectories; }
+        }
 
-            // Additive: merge with any existing fallbacks for this font.
-            string[] existing;
-            if (_fallbacks.TryGetValue(primaryFont, out existing))
+        /// <inheritdoc/>
+        public bool SearchSystemDirectories { get; set; }
+
+        /// <inheritdoc/>
+        public IFontResolver FontResolver { get; set; }
+
+        /// <inheritdoc/>
+        public IDictionary<string, string[]> FontFallbacks
+        {
+            get { return _fontFallbacks; }
+        }
+
+        /// <inheritdoc/>
+        public void SetScriptFallback(UnicodeScript script, params string[] fallbackFontNames)
+        {
+            if (fallbackFontNames == null)
             {
-                var merged = new string[existing.Length + fallbacks.Length];
-                existing.CopyTo(merged, 0);
-                fallbacks.CopyTo(merged, existing.Length);
-                _fallbacks[primaryFont] = merged;
-            }
-            else
-            {
-                _fallbacks[primaryFont] = fallbacks;
+                _scriptFallbacks[script] = new string[0];
+                return;
             }
 
-            return this;
+            // Copy to insulate against caller mutating the array after the call.
+            var copy = new string[fallbackFontNames.Length];
+            Array.Copy(fallbackFontNames, copy, fallbackFontNames.Length);
+            _scriptFallbacks[script] = copy;
         }
 
         /// <inheritdoc/>
-        public IEpplusFontConfiguration SetFontResolver(IFontResolver resolver)
+        public void Reset()
         {
-            if (resolver == null)
-                throw new ArgumentNullException("resolver");
-
-            if (OnSetFontResolver != null)
-                OnSetFontResolver(resolver);
-
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IEpplusFontConfiguration Reset()
-        {
-            _fallbacks.Clear();
-
-            if (OnReset != null)
-                OnReset();
-
-            return this;
+            _fontDirectories.Clear();
+            SearchSystemDirectories = true;
+            FontResolver = null;
+            _fontFallbacks.Clear();
+            _scriptFallbacks.Clear();
+            ApplyDefaultScriptFallbacks();
         }
 
         // -----------------------------------------------------------------------------------------
-        // Internal API — consumed by DefaultFontResolver in the same assembly.
+        // Internal API — consumed by DefaultFontResolver and DefaultFontProvider
+        // in the same assembly.
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Returns the fallback chain for the given font name, or null if none is configured.
+        /// Returns the user-configured fallback chain for the given font name, or null if none
+        /// is configured. Case-insensitive lookup.
         /// </summary>
         internal string[] GetFallbacks(string fontName)
         {
             string[] result;
-            return _fallbacks.TryGetValue(fontName, out result) ? result : null;
+            return _fontFallbacks.TryGetValue(fontName, out result) ? result : null;
+        }
+
+        /// <summary>
+        /// Returns the configured fallback chain for the given Unicode script, or null if
+        /// none is configured. A returned empty array means fallback is explicitly disabled
+        /// for the script.
+        /// </summary>
+        internal string[] GetScriptFallback(UnicodeScript script)
+        {
+            string[] result;
+            return _scriptFallbacks.TryGetValue(script, out result) ? result : null;
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // Default per-script chains
+        //
+        // These cover the scripts most likely to appear in Office documents. Each chain prefers
+        // platform-native fonts first (Windows / macOS), then Noto as a Linux / open-source
+        // fallback. Chains stay within a single language family — falling back from Japanese
+        // to Chinese, or vice versa, would render incorrect glyph forms for shared CJK
+        // ideographs.
+        //
+        // Emoji and Math are intentionally NOT in this table. They are served by EPPlus's
+        // bundled Noto Emoji and Noto Math fonts and are routed before per-script lookup.
+        // -----------------------------------------------------------------------------------------
+
+        private void ApplyDefaultScriptFallbacks()
+        {
+            _scriptFallbacks[UnicodeScript.Han] = new[]
+            {
+                "Microsoft YaHei", "SimSun", "Noto Sans CJK SC", "PingFang SC"
+            };
+
+            _scriptFallbacks[UnicodeScript.Hiragana] = new[]
+            {
+                "Yu Gothic", "MS Gothic", "Meiryo", "Noto Sans CJK JP"
+            };
+
+            _scriptFallbacks[UnicodeScript.Katakana] = new[]
+            {
+                "Yu Gothic", "MS Gothic", "Meiryo", "Noto Sans CJK JP"
+            };
+
+            _scriptFallbacks[UnicodeScript.Hangul] = new[]
+            {
+                "Malgun Gothic", "Gulim", "Noto Sans CJK KR"
+            };
+
+            _scriptFallbacks[UnicodeScript.Arabic] = new[]
+            {
+                "Segoe UI", "Tahoma", "Arial", "Noto Sans Arabic"
+            };
+
+            _scriptFallbacks[UnicodeScript.Hebrew] = new[]
+            {
+                "Segoe UI", "Tahoma", "Arial", "Noto Sans Hebrew"
+            };
+
+            _scriptFallbacks[UnicodeScript.Thai] = new[]
+            {
+                "Tahoma", "Leelawadee UI", "Noto Sans Thai"
+            };
+
+            _scriptFallbacks[UnicodeScript.Devanagari] = new[]
+            {
+                "Mangal", "Nirmala UI", "Noto Sans Devanagari"
+            };
         }
     }
 }
