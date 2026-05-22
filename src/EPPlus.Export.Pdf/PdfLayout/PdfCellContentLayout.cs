@@ -66,8 +66,12 @@ namespace EPPlus.Export.Pdf.PdfLayout
             TextLayoutEngine = cell.TextLayoutEngine;
             double totalTextHeight = 0d;
             foreach (var line in TextLines)
-                { totalTextHeight += line.LargestAscent + line.LargestDescent; }
-            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, LocalPosition.X, LocalPosition.Y, cell.Width, height);
+            {
+                totalTextHeight += line.LargestAscent + line.LargestDescent;
+            }
+            double firstLineAscent = TextLines[0].LargestAscent;
+            double lastLineAscent = TextLines[TextLines.Count - 1].LargestAscent;
+            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, cell.Width, height);
         }
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
@@ -79,24 +83,26 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData = headerFooter.Content.ContentAligmnet;
             double totalTextHeight = 0d;
             foreach (var line in TextLines)
-                { totalTextHeight += line.LargestAscent + line.LargestDescent; }
+            {
+                totalTextHeight += line.LargestAscent + line.LargestDescent;
+            }
             var newX = CalculateHorizontalAlignment(TextLines.LineFragments[0].OriginalTextFragment.Text, TextLines[0].Width, LocalPosition.X, width, 0);
             LocalPosition = new Vector2 (newX, LocalPosition.Y);
         }
 
-        private double CalculateVerticalAlignment(string text, double textHeight, double y, double height, double padding)
+        private double CalculateVerticalAlignment(string text, double textHeight, double firstAscent, double lastAscent, double y, double height, double padding)
         {
             double newY = y;
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
-                    newY = (y + height) /*- (textHeight / 2d)*/ - padding;
+                    newY = (y + height) - padding - firstAscent;
                     break;
                 case ExcelVerticalAlignment.Center:
-                    newY = y + (height + textHeight) / 2d/*) - (textHeight / 4d)*/;
+                    newY = y + (height + textHeight - firstAscent - lastAscent) / 2d;
                     break;
                 case ExcelVerticalAlignment.Bottom:
-                    newY = y + padding + textHeight;
+                    newY = y + padding + textHeight - lastAscent;
                     break;
             }
             return newY;
@@ -149,10 +155,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
             return new Vector2(newX, newY);
         }
 
-        private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double x, double y, double width, double height)
+        private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double firstLineAscent, double lastLineAscent, double x, double y, double width, double height)
         {
             double newX = CalculateHorizontalAlignment(text, textLength, x, width, rightMargin);
-            double newY = CalculateVerticalAlignment(text, textHeight, y, height, bottomMargin);
+            double newY = CalculateVerticalAlignment(text, textHeight, firstLineAscent, lastLineAscent, y, height, 0d);
             return CalculatePositionFromRotation(textLength, newX, newY);
         }
 

@@ -139,6 +139,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                 }
                             }
                             //Border
+                            var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
                             if (HasBorder(map.CellStyle))
                             {
                                 var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
@@ -232,13 +233,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             pageLayout.AddChild(text);
                         }
                     }
-
-                    //Add HeaderFooter
-                    /* check what header/footer to use
-                     * insert page number/ number of pages if applicalble
-                     * shape text in header/footer
-                     * place text at position from content bounds
-                     */
 
                     if (pageSettings.ShowGridLines)
                         PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout);
