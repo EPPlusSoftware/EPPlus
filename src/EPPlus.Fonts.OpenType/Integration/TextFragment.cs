@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -36,6 +37,23 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
+    }
+
+    public class TextFragmentBase
+    {
+        public string Text { get => RichText.Text; set => RichText.Text = value; }
+
+        IRichTextFormatBase RichText;
+
+        public ShapingOptions Options { get; set; }
+
+        public double AscentPoints { get; set; }
+        public double DescentPoints { get; set; }
+
+        public TextFragmentBase(IRichTextFormatBase richText) 
+        {
+            RichText = richText;
+        }
     }
 
     /// <summary>

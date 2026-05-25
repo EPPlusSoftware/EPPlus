@@ -10,10 +10,12 @@
  *************************************************************************************************
   09/15/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.EnumUtils;
@@ -606,6 +608,16 @@ namespace OfficeOpenXml.Drawing
             {
                 return _paragraph.TextRuns.IndexOf(this) == _paragraph.TextRuns.Count-1;
             }
+        }
+
+        /// <summary>
+        /// Export to OpenTypeFormat
+        /// </summary>
+        /// <returns></returns>
+        internal IRichTextFormatBase ExportToOpenTypeFormat()
+        {
+            var rtBase = new OpenTypeRichTextBase(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
+            return rtBase;
         }
     }
 }
