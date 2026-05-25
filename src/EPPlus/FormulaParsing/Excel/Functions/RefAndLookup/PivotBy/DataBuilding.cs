@@ -50,8 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 if (args.FilterArray != null)
                 {
                     var fv = args.FilterArray.GetOffset(r, 0);
-                    if (fv is bool b && !b) continue;
-                    if (fv is int i && i == 0) continue;
+                    if (IsFilterFalsy(fv)) continue;
                 }
 
                 var rowKeyParts = new object[nRowKeyCols];
@@ -173,6 +172,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             }
 
             return ordered?.ToList() ?? leaves;
+        }
+
+        /// <summary>
+        /// Returns true if a filter-array cell should EXCLUDE its row.
+        /// A cell excludes its row when it is FALSE or numerically zero,
+        /// regardless of whether the zero arrived as int, double, long, etc.
+        /// Non-numeric, non-bool, and null values keep the row.
+        /// </summary>
+        private static bool IsFilterFalsy(object fv)
+        {
+            if (fv is bool b) return !b;
+            if (fv == null) return false;
+            try
+            {
+                return Convert.ToDouble(fv, System.Globalization.CultureInfo.InvariantCulture) == 0.0;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

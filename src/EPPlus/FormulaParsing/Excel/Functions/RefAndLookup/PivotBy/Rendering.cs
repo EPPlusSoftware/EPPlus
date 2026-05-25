@@ -27,11 +27,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             LeafWithPath colLeaf,
             List<LeafWithPath> colLeaves,
             string rowKey,
+            object[] rowPath,
+            List<LeafWithPath> rowLeaves,
             Dictionary<string, Dictionary<string, List<object[]>>> pivotMap,
             PivotByArgs args)
         {
             switch (relativeTo)
             {
+                case RelativeTo.ColumnTotals: // 0 — default
+                    {
+                        // Nämnare = alla rader för denna kolumn (kolumnens totalsumma)
+                        string colKey = MakePivotKey(colLeaf.Path);
+                        return pivotMap.Values
+                            .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+                                ? cv
+                                : Enumerable.Empty<object[]>())
+                            .ToList();
+                    }
                 case RelativeTo.RowTotals: // 1
                     {
                         if (!pivotMap.TryGetValue(rowKey, out var colMap))
@@ -60,10 +72,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                 .ToList();
                         }
 
-                        // Flernivå: nämnare = radens värden inom förälderns kolumngrupp
-                        var parentKey = colLeaf.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty;
+                        // Flernivå: nämnare = radens värden inom förälderns kolumngrupp.
+                        // Föräldergruppen är hela kolumnvägen UTOM sista nivån.
+                        var parentPrefix = GetParentPrefix(colLeaf.Path);
                         var siblingLeaves = colLeaves
-                            .Where(l => (l.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty) == parentKey)
+                            .Where(l => HasParentPrefix(l.Path, parentPrefix))
                             .ToList();
 
                         return siblingLeaves
@@ -73,10 +86,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     }
                 case RelativeTo.ParentRowTotal: // 4
                     {
-                        // Nämnare = alla raders värden för denna kolumn (kolumnens totalsumma)
+                        // Nämnare = sibling-radernas värden för denna kolumn,
+                        // där sibling = rader med samma föräldraprefix.
                         string colKey = MakePivotKey(colLeaf.Path);
-                        return pivotMap.Values
-                            .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+
+                        // En radnivå = ingen riktig föräldragrupp finns.
+                        // Faller tillbaka på hela kolumnen.
+                        if (rowPath == null || rowPath.Length <= 1)
+                        {
+                            return pivotMap.Values
+                                .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+                                    ? cv
+                                    : Enumerable.Empty<object[]>())
+                                .ToList();
+                        }
+
+                        var parentPrefix = GetParentPrefix(rowPath);
+                        return rowLeaves
+                            .Where(rl => HasParentPrefix(rl.Path, parentPrefix))
+                            .Select(rl => MakePivotKey(rl.Path))
+                            .Where(rk => pivotMap.ContainsKey(rk))
+                            .SelectMany(rk => pivotMap[rk].TryGetValue(colKey, out var cv)
                                 ? cv
                                 : Enumerable.Empty<object[]>())
                             .ToList();
@@ -85,6 +115,114 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     return null;
             }
         }
+
+        private static string[] GetParentPrefix(object[] path)
+        {
+            int parentDepth = path.Length - 1;
+            var prefix = new string[parentDepth];
+            for (int i = 0; i < parentDepth; i++)
+                prefix[i] = path[i]?.ToString()?.ToLowerInvariant() ?? string.Empty;
+            return prefix;
+        }
+
+        private static bool HasParentPrefix(object[] path, string[] parentPrefix)
+        {
+            if (path.Length < parentPrefix.Length) return false;
+            for (int i = 0; i < parentPrefix.Length; i++)
+            {
+                var pv = path[i]?.ToString()?.ToLowerInvariant() ?? string.Empty;
+                if (pv != parentPrefix[i]) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns the row parent group's values across ALL columns.
+        /// Used by PERCENTOF when RelativeTo=ParentRowTotal in the row-total cell:
+        /// the denominator is the parent group's whole-row total summed over every column.
+        /// Returns null when the row has no real parent (single row level), letting the caller
+        /// fall back to a sensible default.
+        /// </summary>
+        private static List<object[]> GetParentRowGroupAllValues(
+            object[] rowPath,
+            List<LeafWithPath> rowLeaves)
+        {
+            if (rowPath == null || rowPath.Length <= 1) return null;
+
+            var parentPrefix = GetParentPrefix(rowPath);
+            return rowLeaves
+                .Where(rl => HasParentPrefix(rl.Path, parentPrefix))
+                .SelectMany(rl => rl.Leaf.Rows.SelectMany(row => row.Values))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Resolves the PERCENTOF denominator for a row-subtotal cell when RelativeTo=ParentColTotal.
+        /// The denominator must be the row group's values restricted to the column's parent group -
+        /// NOT all values for the row group across every column.
+        ///
+        /// For a column subtotal entry (which IS a parent group already), we use any of its
+        /// GroupLeaves to derive the parent prefix. For a regular leaf entry we use its own path.
+        /// When there is only one column level, no real parent exists and we fall back to
+        /// summing every column for the row group.
+        /// </summary>
+        private static List<object[]> ResolveSubtotalParentColGroupValues(
+            ColEntry entry,
+            List<LeafWithPath> colLeaves,
+            List<string> groupRowKeys,
+            Dictionary<string, Dictionary<string, List<object[]>>> pivotMap)
+        {
+            var colPath = entry.IsSubtotal
+                ? entry.GroupLeaves[0].Path
+                : entry.Leaf.Path;
+
+            if (colPath.Length <= 1)
+            {
+                return groupRowKeys
+                    .SelectMany(rk => pivotMap.TryGetValue(rk, out var cm)
+                        ? cm.Values.SelectMany(v => v)
+                        : Enumerable.Empty<object[]>())
+                    .ToList();
+            }
+
+            var parentPrefix = GetParentPrefix(colPath);
+            var siblingColLeaves = colLeaves
+                .Where(cl => HasParentPrefix(cl.Path, parentPrefix))
+                .ToList();
+
+            return groupRowKeys
+                .SelectMany(rk => pivotMap.TryGetValue(rk, out var cm)
+                    ? siblingColLeaves
+                        .Where(cl => cm.ContainsKey(MakePivotKey(cl.Path)))
+                        .SelectMany(cl => cm[MakePivotKey(cl.Path)])
+                    : Enumerable.Empty<object[]>())
+                .ToList();
+        }
+
+        /// <summary>
+        /// Returns the denominator values list for PERCENTOF in the row-total cell of a data row.
+        /// - RowTotals / ParentColTotal: the row's own values (cell / row total = 1)
+        /// - ParentRowTotal: the row parent group's values across all columns
+        /// - ColumnTotals / GrandTotals (default): the whole dataset
+        /// </summary>
+        private static List<object[]> ResolveRowTotalCellRelativeToVals(
+            PivotByArgs args,
+            List<object[]> rowAllVals,
+            object[] rowPath,
+            List<LeafWithPath> rowLeaves)
+        {
+            switch (args.RelativeTo)
+            {
+                case RelativeTo.RowTotals:
+                case RelativeTo.ParentColTotal:
+                    return rowAllVals;
+                case RelativeTo.ParentRowTotal:
+                    return GetParentRowGroupAllValues(rowPath, rowLeaves) ?? args.AllValuesInOrder;
+                default: // ColumnTotals, GrandTotals
+                    return args.AllValuesInOrder;
+            }
+        }
+
         private List<object[]> ResolveRelativeToValuesForTotal(
             RelativeTo relativeTo,
             LeafWithPath colLeaf,
@@ -114,9 +252,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                 .ToList();
                         }
 
-                        var parentKey = colLeaf.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty;
+                        var parentPrefix = GetParentPrefix(colLeaf.Path);
                         var siblingLeaves = colLeaves
-                            .Where(l => (l.Path[0]?.ToString()?.ToLowerInvariant() ?? string.Empty) == parentKey)
+                            .Where(l => HasParentPrefix(l.Path, parentPrefix))
                             .ToList();
 
                         return pivotMap.Values
@@ -226,7 +364,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             // --- Fältnamnrad ---
             if (showFieldHeaders)
             {
-                for (int i = 0; i < nRowKeyCols + functionColOffset; i++)
+                for (int i = 0; i < totalCols; i++)
                     result.SetValue(0, i, string.Empty);
                 for (int i = 0; i < args.ColFields.Size.NumberOfCols; i++)
                     result.SetValue(0, dataColStart + colOffset + i, args.ColFields.GetOffset(0, i));
@@ -249,7 +387,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 
                     for (int f = 0; f < colsPerEntry; f++)
                     {
-                        result.SetValue(outputLevel, col, f == 0 ? val : string.Empty);
+                        if (isHStack)
+                            result.SetValue(outputLevel, col, /*f == 0 ?*/ val);                        
+                        else
+                            result.SetValue(outputLevel, col, f == 0 ? val : string.Empty);
                         col++;
                     }
                 }
@@ -257,10 +398,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 if (showColTotal)
                 {
                     string colTotalLabel = Math.Abs(args.ColTotalDepth) > 1 ? "Grand Total" : "Total";
+                    int totalCol = grandTotalCol;
                     for (int f = 0; f < colsPerEntry; f++)
                     {
-                        result.SetValue(outputLevel, col, f == 0 && level == 0 ? colTotalLabel : string.Empty);
-                        col++;
+                        if (isHStack)
+                            result.SetValue(outputLevel, totalCol, colTotalLabel);
+                        else
+                            result.SetValue(outputLevel, totalCol, f == 0 && level == 0 ? colTotalLabel : string.Empty); 
+                        totalCol++;
                     }
                 }
             }
@@ -285,10 +430,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 }
                 if (showColTotal)
                 {
+                    int totalCol = grandTotalCol;
                     foreach (var name in functionNames)
                     {
-                        result.SetValue(functionHeaderRow, col, name);
-                        col++;
+                        result.SetValue(functionHeaderRow, totalCol, name);
+                        totalCol++;
                     }
                 }
             }
@@ -316,10 +462,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 
                 if (showColTotal)
                 {
+                    int totalCol = grandTotalCol;
                     for (int fc = 0; fc < colsPerEntry; fc++)
                     {
-                        result.SetValue(headerDataRow, col, headerValue);
-                        col++;
+                        result.SetValue(headerDataRow, totalCol, headerValue);
+                        totalCol++;
                     }
                 }
             }
@@ -405,11 +552,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                         if (pivotMap.TryGetValue(rowKey, out var colMap) &&
                                             colMap.TryGetValue(colKey, out var cellVals))
                                         {
-                                            var effectiveRelativeTo = func.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo == RelativeTo.ColumnTotals
-                                                ? RelativeTo.ParentRowTotal
-                                                : args.RelativeTo;
                                             var relativeToVals = func.EtaFunction?.Name == "PERCENTOF"
-                                                ? ResolveRelativeToValues(effectiveRelativeTo, entry.Leaf, colLeaves, rowKey, pivotMap, args) ?? args.AllValuesInOrder
+                                                ? ResolveRelativeToValues(args.RelativeTo, entry.Leaf, colLeaves, rowKey, rowPath, rowLeaves, pivotMap, args) ?? args.AllValuesInOrder
                                                 : args.AllValuesInOrder;
                                             aggregated = Aggregate(func, cellVals, context, relativeToVals);
                                         }
@@ -423,11 +567,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                     if (pivotMap.TryGetValue(rowKey, out var colMap) &&
                                         colMap.TryGetValue(colKey, out var cellVals))
                                     {
-                                        var effectiveRelativeTo = f.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo == RelativeTo.ColumnTotals
-                                            ? RelativeTo.ParentRowTotal
-                                            : args.RelativeTo;
                                         var relativeToVals = f.EtaFunction?.Name == "PERCENTOF"
-                                            ? ResolveRelativeToValues(effectiveRelativeTo, entry.Leaf, colLeaves, rowKey, pivotMap, args) ?? args.AllValuesInOrder
+                                            ? ResolveRelativeToValues(args.RelativeTo, entry.Leaf, colLeaves, rowKey, rowPath, rowLeaves, pivotMap, args) ?? args.AllValuesInOrder
                                             : args.AllValuesInOrder;
                                         aggregated = Aggregate(f, cellVals, context, relativeToVals);
                                     }
@@ -440,40 +581,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         if (showColTotal)
                         {
                             var rowAllVals = rowLeaf.Rows.SelectMany(r => r.Values).ToList();
+                            int totalCol = grandTotalCol;
                             if (isHStack)
                             {
                                 foreach (var func in args.Functions)
                                 {
                                     var relVals = args.AllValuesInOrder;
                                     if (func.EtaFunction?.Name == "PERCENTOF")
-                                    {
-                                        var effectiveRelativeTo = args.RelativeTo == RelativeTo.ColumnTotals
-                                            ? RelativeTo.ParentRowTotal
-                                            : args.RelativeTo;
-                                        relVals = effectiveRelativeTo == RelativeTo.GrandTotals || effectiveRelativeTo == RelativeTo.ParentRowTotal
-                                            ? args.AllValuesInOrder
-                                            : rowAllVals;
-                                    }
+                                        relVals = ResolveRowTotalCellRelativeToVals(args, rowAllVals, rowPath, rowLeaves);
                                     var totalVal = Aggregate(func, rowAllVals, context, relVals);
-                                    result.SetValue(outputRow, col, totalVal ?? string.Empty);
-                                    col++;
+                                    result.SetValue(outputRow, totalCol, totalVal ?? string.Empty);
+                                    totalCol++;
                                 }
                             }
                             else
                             {
                                 var relVals = args.AllValuesInOrder;
                                 if (f.EtaFunction?.Name == "PERCENTOF")
-                                {
-                                    var effectiveRelativeTo = args.RelativeTo == RelativeTo.ColumnTotals
-                                        ? RelativeTo.ParentRowTotal
-                                        : args.RelativeTo;
-                                    relVals = effectiveRelativeTo == RelativeTo.GrandTotals || effectiveRelativeTo == RelativeTo.ParentRowTotal
-                                        ? args.AllValuesInOrder
-                                        : rowAllVals;
-                                }
+                                    relVals = ResolveRowTotalCellRelativeToVals(args, rowAllVals, rowPath, rowLeaves);
                                 var totalVal = Aggregate(f, rowAllVals, context, relVals);
-                                result.SetValue(outputRow, col, totalVal ?? string.Empty);
-                                col++;
+                                result.SetValue(outputRow, totalCol, totalVal ?? string.Empty);
                             }
                         }
 
@@ -496,6 +623,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                             pivotMap, args, context,
                             nRowKeyCols, functionNameCol,
                             dataColStart, colOffset,
+                            grandTotalCol,
                             showColTotal, isVStack,
                             args.Functions[fi], functionNames2[fi]);
                     }
@@ -527,6 +655,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
              int functionNameCol,
              int dataColStart,
              int colOffset,
+             int grandTotalCol,
              bool showColTotal,
              bool isVStack,
              LambdaCalculator f,
@@ -586,11 +715,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                     .ToList(),
                             RelativeTo.GrandTotals => args.AllValuesInOrder,
                             RelativeTo.ParentColTotal =>
-                                groupRowKeys
-                                    .SelectMany(rk => pivotMap.TryGetValue(rk, out var cm)
-                                        ? cm.Values.SelectMany(v => v)
-                                        : Enumerable.Empty<object[]>())
-                                    .ToList(),
+                                ResolveSubtotalParentColGroupValues(entry, colLeaves, groupRowKeys, pivotMap),
                             RelativeTo.ParentRowTotal =>
                                 entry.IsSubtotal
                                     ? entry.GroupLeaves
@@ -637,7 +762,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 }
 
                 var totalVal = allGroupVals.Count > 0 ? Aggregate(f, allGroupVals, context, relVals) : null;
-                result.SetValue(outputRow, col, totalVal ?? string.Empty);
+                result.SetValue(outputRow, grandTotalCol, totalVal ?? string.Empty);
             }
         }
 
@@ -762,6 +887,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 if (showColTotal)
                 {
                     var allVals = args.AllValuesInOrder.Select(v => new object[] { v[0] }).ToList();
+                    int totalCol = grandTotalCol;
                     if (isVStack)
                     {
                         var effectiveRelativeTo = f.EtaFunction?.Name == "PERCENTOF" && args.RelativeTo == RelativeTo.ColumnTotals
@@ -772,8 +898,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                 ? allVals : args.AllValuesInOrder)
                             : args.AllValuesInOrder;
                         var cornerVal = Aggregate(f, allVals, context, cornerRelVals);
-                        result.SetValue(r, col, cornerVal ?? string.Empty);
-                        col++;
+                        result.SetValue(r, totalCol, cornerVal ?? string.Empty);
                     }
                     else
                     {
@@ -787,8 +912,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                     ? allVals : args.AllValuesInOrder)
                                 : args.AllValuesInOrder;
                             var cornerVal = Aggregate(func, allVals, context, cornerRelVals);
-                            result.SetValue(r, col, cornerVal ?? string.Empty);
-                            col++;
+                            result.SetValue(r, totalCol, cornerVal ?? string.Empty);
+                            totalCol++;
                         }
                     }
                 }

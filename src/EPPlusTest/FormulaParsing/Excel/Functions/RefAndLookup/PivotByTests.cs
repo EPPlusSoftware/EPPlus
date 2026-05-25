@@ -896,5 +896,889 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                     "is omitted, got: " + (value == null ? "null" : value.GetType().Name + " = " + value));
             }
         }
+
+        [TestMethod]
+        public void PivotBy_ParentRowTotal_TwoRowLevels_UsesFullParentPrefix()
+        {
+            // Verifies that PERCENTOF with RelativeTo=ParentRowTotal (4) uses the full
+            // parent row prefix (Country) as the denominator group when there are two
+            // row levels - not all rows in the dataset.
+            //
+            // This is the row-axis twin of the ParentColTotal bug. ResolveRelativeToValues
+            // for case ParentRowTotal currently returns every row's values for the column
+            // without filtering by the row's parent prefix:
+            //     return pivotMap.Values
+            //         .SelectMany(cm => cm.TryGetValue(colKey, out var cv) ? cv : ...)
+            //         .ToList();
+            //
+            // Data:
+            //   Sweden/Stockholm/X = 10
+            //   Sweden/Linköping/X = 20
+            //   Norway/Oslo/X      = 30
+            // Sweden parent total under X = 30, Norway = 30.
+            // Stockholm/X expected = 10/30 = 0.3333, Linköping/X = 20/30 = 0.6667,
+            // Oslo/X = 30/30 = 1.
+            //
+            // Current implementation: denominator = [10,20,30] = 60, so Stockholm/X = 0.1667 (wrong).
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: F1:I5
+            //     Row 1: ""       ""           "X"          "Total"
+            //     Row 2: "Norway" "Oslo"       1            1
+            //     Row 3: "Sweden" "Linköping"  0.666666667  0.666666667
+            //     Row 4: "Sweden" "Stockholm"  0.333333333  0.333333333
+            //     Row 5: "Total"  ""           1            1
+            //
+            // Expected to FAIL against current EPPlus implementation. The fix should
+            // mirror the ParentColTotal fix: build a parent prefix from the row key
+            // (everything except the last level) and filter pivotMap entries whose
+            // row keys start with that prefix.
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Sweden";
+                s.Cells["A2"].Value = "Sweden";
+                s.Cells["A3"].Value = "Norway";
+                s.Cells["B1"].Value = "Stockholm";
+                s.Cells["B2"].Value = "Linköping";
+                s.Cells["B3"].Value = "Oslo";
+                s.Cells["C1"].Value = "X";
+                s.Cells["C2"].Value = "X";
+                s.Cells["C3"].Value = "X";
+                s.Cells["D1"].Value = 10;
+                s.Cells["D2"].Value = 20;
+                s.Cells["D3"].Value = 30;
+
+                s.Cells["F1"].Formula = "PIVOTBY(A1:B3, C1:C3, D1:D3, _xleta.PERCENTOF,,,,,,,4)";
+                s.Calculate();
+
+                // --- Header row ---
+                Assert.AreEqual("X", s.Cells["H1"].Value, "H1 data column header.");
+                Assert.AreEqual("Total", s.Cells["I1"].Value, "I1 grand total header.");
+
+                // --- Norway / Oslo (row 2) ---
+                Assert.AreEqual("Norway", s.Cells["F2"].Value);
+                Assert.AreEqual("Oslo", s.Cells["G2"].Value);
+                Assert.AreEqual(1d, (double)s.Cells["H2"].Value,
+                    "Oslo/X is the only row in the Norway parent group, so 30/30 = 1.");
+                Assert.AreEqual(1d, (double)s.Cells["I2"].Value, "Row total = 1.");
+
+                // --- Sweden / Linköping (row 3) ---
+                Assert.AreEqual("Sweden", s.Cells["F3"].Value);
+                Assert.AreEqual("Linköping", s.Cells["G3"].Value);
+                Assert.AreEqual(0.666666667d, System.Math.Round((double)s.Cells["H3"].Value, 9),
+                    "Linköping/X = 20/(10+20) = 0.6667. Denominator must be Sweden parent group, not full column.");
+                Assert.AreEqual(0.666666667d, System.Math.Round((double)s.Cells["I3"].Value, 9),
+                    "Row total for Linköping = 20/30 = 0.6667 (same denominator semantics).");
+
+                // --- Sweden / Stockholm (row 4) ---
+                Assert.AreEqual("Sweden", s.Cells["F4"].Value);
+                Assert.AreEqual("Stockholm", s.Cells["G4"].Value);
+                Assert.AreEqual(0.333333333d, System.Math.Round((double)s.Cells["H4"].Value, 9),
+                    "Stockholm/X = 10/(10+20) = 0.3333. Denominator must be Sweden parent group, not full column.");
+                Assert.AreEqual(0.333333333d, System.Math.Round((double)s.Cells["I4"].Value, 9),
+                    "Row total for Stockholm = 10/30 = 0.3333 (same denominator semantics).");
+
+                // --- Grand total row ---
+                Assert.AreEqual("Total", s.Cells["F5"].Value);
+                Assert.AreEqual(1d, (double)s.Cells["H5"].Value, "Column total = sum/sum = 1.");
+                Assert.AreEqual(1d, (double)s.Cells["I5"].Value, "Corner total = 1.");
+            }
+        }
+
+        [TestMethod]
+
+        public void PivotBy_YesAndShowHeaders_FieldNameRowLayout()
+
+        {
+
+            // Verifies the field-name row produced when FieldHeaders=3 (YesAndShow).
+
+            // The existing PivotByHeaders test uses mode 3 but never asserts on the
+
+            // field-name row itself, leaving this layout unverified.
+
+            //
+
+            // Verified in Excel (sv-SE) 2026-05-22:
+
+            //   Spill range: E1:H6
+
+            //     Row 1: NULL        "Quarter" NULL    NULL       <- col field name(s)
+
+            //     Row 2: NULL        "Q1"      "Q2"    "Total"    <- col key values
+
+            //     Row 3: "City"      "Revenue" "Revenue" "Revenue" <- row field + values field
+
+            //     Row 4: "Linköping" NULL      200     200
+
+            //     Row 5: "Stockholm" 100       NULL    100
+
+            //     Row 6: "Total"     100       200     300
+
+            //
+
+            // Key Excel rules this test pins down:
+
+            //   - Column field name ("Quarter") goes in the FIRST data column (F1),
+
+            //     not the row-key column, not the total column, not repeated.
+
+            //   - Row field name ("City") goes in the row-key column on the
+
+            //     header-data row, not on the field-name row.
+
+            //   - Values field name ("Revenue") repeats across every data column
+
+            //     INCLUDING the Total column.
+
+            using (var package = new ExcelPackage())
+
+            {
+
+                var s = package.Workbook.Worksheets.Add("test");
+
+                s.Cells["A1"].Value = "City";
+
+                s.Cells["A2"].Value = "Stockholm";
+
+                s.Cells["A3"].Value = "Linköping";
+
+                s.Cells["B1"].Value = "Quarter";
+
+                s.Cells["B2"].Value = "Q1";
+
+                s.Cells["B3"].Value = "Q2";
+
+                s.Cells["C1"].Value = "Revenue";
+
+                s.Cells["C2"].Value = 100;
+
+                s.Cells["C3"].Value = 200;
+
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A3, B1:B3, C1:C3, _xleta.SUM, 3)";
+
+                s.Calculate();
+
+                // --- Row 1: column field name row ---
+
+                Assert.IsTrue(
+
+                    s.Cells["E1"].Value == null || (s.Cells["E1"].Value as string) == string.Empty,
+
+                    "E1 should be blank (above row-key column). Got: " + (s.Cells["E1"].Value ?? "null"));
+
+                Assert.AreEqual("Quarter", s.Cells["F1"].Value,
+
+                    "Column field name 'Quarter' must appear in the first data column (F1).");
+
+                Assert.IsTrue(
+
+                    s.Cells["G1"].Value == null || (s.Cells["G1"].Value as string) == string.Empty,
+
+                    "G1 should be blank - 'Quarter' is not repeated across data columns. Got: " + (s.Cells["G1"].Value ?? "null"));
+
+                Assert.IsTrue(
+
+                    s.Cells["H1"].Value == null || (s.Cells["H1"].Value as string) == string.Empty,
+
+                    "H1 (above Total column) should be blank. Got: " + (s.Cells["H1"].Value ?? "null"));
+
+                // --- Row 2: column key values + Total label ---
+
+                Assert.IsTrue(
+
+                    s.Cells["E2"].Value == null || (s.Cells["E2"].Value as string) == string.Empty,
+
+                    "E2 should be blank.");
+
+                Assert.AreEqual("Q1", s.Cells["F2"].Value);
+
+                Assert.AreEqual("Q2", s.Cells["G2"].Value);
+
+                Assert.AreEqual("Total", s.Cells["H2"].Value);
+
+                // --- Row 3: row field name + values field name across data columns ---
+
+                Assert.AreEqual("City", s.Cells["E3"].Value,
+
+                    "Row field name 'City' goes in the row-key column on the header-data row.");
+
+                Assert.AreEqual("Revenue", s.Cells["F3"].Value,
+
+                    "Values field name should repeat in each data column.");
+
+                Assert.AreEqual("Revenue", s.Cells["G3"].Value);
+
+                Assert.AreEqual("Revenue", s.Cells["H3"].Value,
+
+                    "Values field name should appear above Total column too.");
+
+                // --- Row 4: Linköping (sorted before Stockholm) ---
+
+                Assert.AreEqual("Linköping", s.Cells["E4"].Value);
+
+                Assert.IsTrue(
+
+                    s.Cells["F4"].Value == null || (s.Cells["F4"].Value as string) == string.Empty,
+
+                    "Linköping has no Q1 value - F4 should be blank.");
+
+                Assert.AreEqual(200d, s.Cells["G4"].Value);
+
+                Assert.AreEqual(200d, s.Cells["H4"].Value);
+
+                // --- Row 5: Stockholm ---
+
+                Assert.AreEqual("Stockholm", s.Cells["E5"].Value);
+
+                Assert.AreEqual(100d, s.Cells["F5"].Value);
+
+                Assert.IsTrue(
+
+                    s.Cells["G5"].Value == null || (s.Cells["G5"].Value as string) == string.Empty,
+
+                    "Stockholm has no Q2 value - G5 should be blank.");
+
+                Assert.AreEqual(100d, s.Cells["H5"].Value);
+
+                // --- Row 6: Total ---
+
+                Assert.AreEqual("Total", s.Cells["E6"].Value);
+
+                Assert.AreEqual(100d, s.Cells["F6"].Value);
+
+                Assert.AreEqual(200d, s.Cells["G6"].Value);
+
+                Assert.AreEqual(300d, s.Cells["H6"].Value);
+
+            }
+
+        }
+
+        [TestMethod]
+        public void PivotBy_ParentColTotal_RowSubtotal_RestrictsDenominatorToParentColGroup()
+        {
+            // Verifies that PERCENTOF with RelativeTo=ParentColTotal (3) and row subtotals
+            // enabled (RowTotalDepth=2) restricts the denominator of a subtotal cell to
+            // the parent column group - NOT to the row group's total across ALL columns.
+            //
+            // Current implementation in WriteRowSubtotalRow has:
+            //     RelativeTo.ParentColTotal =>
+            //         groupRowKeys
+            //             .SelectMany(rk => pivotMap.TryGetValue(rk, out var cm)
+            //                 ? cm.Values.SelectMany(v => v)
+            //                 : Enumerable.Empty<object[]>())
+            //             .ToList(),
+            // This sums ALL columns for the row group, ignoring the column's parent group.
+            // For Sweden's subtotal under (2025,Q1) the denominator becomes 100
+            // (Stockholm 10+20+40 + Göteborg 30), giving 40/100 = 0.4.
+            // Excel restricts to (2025, *) values: 60, giving 40/60 = 0.6667.
+            //
+            // The bug is invisible when a row group has data within only one parent
+            // column group (Norway has only 2025 data), since the two denominators
+            // coincide. Sweden spans both 2025 and 2026, which is what exposes the bug.
+            //
+            // Data:
+            //   Sweden/Stockholm/2025/Q1 = 10
+            //   Sweden/Stockholm/2025/Q2 = 20
+            //   Sweden/Göteborg/2025/Q1  = 30
+            //   Sweden/Stockholm/2026/Q1 = 40
+            //   Norway/Oslo/2025/Q1      = 5
+            //   Norway/Oslo/2025/Q2      = 15
+            //
+            // Expected parent-col-group denominators for subtotals:
+            //   Sweden in 2025: 10+20+30 = 60
+            //   Sweden in 2026: 40
+            //   Norway in 2025: 5+15 = 20
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: G1:L8
+            //     Row 1: ""           ""           2025          2025          2026  "Total"
+            //     Row 2: ""           ""           "Q1"          "Q2"          "Q1"  ""
+            //     Row 3: "Norway"     "Oslo"       0.25          0.75          <blank>  1
+            //     Row 4: "Norway"     ""           0.25          0.75          <blank>  1
+            //     Row 5: "Sweden"     "Göteborg"   1             <blank>       <blank>  1
+            //     Row 6: "Sweden"     "Stockholm"  0.3333333     0.6666667     1        1
+            //     Row 7: "Sweden"     ""           0.6666667     0.3333333     1        1
+            //     Row 8: "Grand Total" ""          0.5625        0.4375        1        1
+            //
+            // Expected to FAIL against current EPPlus implementation specifically on
+            // I7, J7, and K7 (Sweden's subtotal row cells).
+
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Sweden"; s.Cells["B1"].Value = "Stockholm"; s.Cells["C1"].Value = 2025; s.Cells["D1"].Value = "Q1"; s.Cells["E1"].Value = 10;
+                s.Cells["A2"].Value = "Sweden"; s.Cells["B2"].Value = "Stockholm"; s.Cells["C2"].Value = 2025; s.Cells["D2"].Value = "Q2"; s.Cells["E2"].Value = 20;
+                s.Cells["A3"].Value = "Sweden"; s.Cells["B3"].Value = "Göteborg"; s.Cells["C3"].Value = 2025; s.Cells["D3"].Value = "Q1"; s.Cells["E3"].Value = 30;
+                s.Cells["A4"].Value = "Sweden"; s.Cells["B4"].Value = "Stockholm"; s.Cells["C4"].Value = 2026; s.Cells["D4"].Value = "Q1"; s.Cells["E4"].Value = 40;
+                s.Cells["A5"].Value = "Norway"; s.Cells["B5"].Value = "Oslo"; s.Cells["C5"].Value = 2025; s.Cells["D5"].Value = "Q1"; s.Cells["E5"].Value = 5;
+                s.Cells["A6"].Value = "Norway"; s.Cells["B6"].Value = "Oslo"; s.Cells["C6"].Value = 2025; s.Cells["D6"].Value = "Q2"; s.Cells["E6"].Value = 15;
+
+                s.Cells["G1"].Formula = "PIVOTBY(A1:B6, C1:D6, E1:E6, _xleta.PERCENTOF,, 2,,,,, 3)";
+                s.Calculate();
+
+                // --- Header rows ---
+                Assert.AreEqual(2025, s.Cells["I1"].Value, "I1 Year");
+                Assert.AreEqual(2025, s.Cells["J1"].Value, "J1 Year");
+                Assert.AreEqual(2026, s.Cells["K1"].Value, "K1 Year");
+                Assert.AreEqual("Total", s.Cells["L1"].Value, "L1 Total label");
+                Assert.AreEqual("Q1", s.Cells["I2"].Value, "I2 Quarter");
+                Assert.AreEqual("Q2", s.Cells["J2"].Value, "J2 Quarter");
+                Assert.AreEqual("Q1", s.Cells["K2"].Value, "K2 Quarter");
+
+                // --- Norway / Oslo (row 3) ---
+                Assert.AreEqual("Norway", s.Cells["G3"].Value);
+                Assert.AreEqual("Oslo", s.Cells["H3"].Value);
+                Assert.AreEqual(0.25d, (double)s.Cells["I3"].Value, "Oslo/(2025,Q1) = 5/20");
+                Assert.AreEqual(0.75d, (double)s.Cells["J3"].Value, "Oslo/(2025,Q2) = 15/20");
+                Assert.IsTrue(
+                    s.Cells["K3"].Value == null || (s.Cells["K3"].Value as string) == string.Empty,
+                    "K3 should be blank - Oslo has no 2026 data. Got: " + (s.Cells["K3"].Value ?? "null"));
+                Assert.AreEqual(1d, (double)s.Cells["L3"].Value, "Oslo row total = 20/20 = 1.");
+
+                // --- Norway subtotal (row 4) - happens to match buggy code (single parent group) ---
+                Assert.AreEqual("Norway", s.Cells["G4"].Value);
+                Assert.IsTrue(
+                    s.Cells["H4"].Value == null || (s.Cells["H4"].Value as string) == string.Empty,
+                    "H4 should be blank for subtotal row. Got: " + (s.Cells["H4"].Value ?? "null"));
+                Assert.AreEqual(0.25d, (double)s.Cells["I4"].Value, "Norway subtotal/(2025,Q1) = 5/20.");
+                Assert.AreEqual(0.75d, (double)s.Cells["J4"].Value, "Norway subtotal/(2025,Q2) = 15/20.");
+                Assert.IsTrue(
+                    s.Cells["K4"].Value == null || (s.Cells["K4"].Value as string) == string.Empty,
+                    "K4 should be blank - Norway has no 2026 data. Got: " + (s.Cells["K4"].Value ?? "null"));
+                Assert.AreEqual(1d, (double)s.Cells["L4"].Value, "Norway subtotal row total = 20/20 = 1.");
+
+                // --- Sweden / Göteborg (row 5) ---
+                Assert.AreEqual("Sweden", s.Cells["G5"].Value);
+                Assert.AreEqual("Göteborg", s.Cells["H5"].Value);
+                Assert.AreEqual(1d, (double)s.Cells["I5"].Value, "Göteborg/(2025,Q1) = 30/30 (sole value in parent group).");
+                Assert.IsTrue(
+                    s.Cells["J5"].Value == null || (s.Cells["J5"].Value as string) == string.Empty,
+                    "J5 should be blank - Göteborg has no Q2 data. Got: " + (s.Cells["J5"].Value ?? "null"));
+                Assert.IsTrue(
+                    s.Cells["K5"].Value == null || (s.Cells["K5"].Value as string) == string.Empty,
+                    "K5 should be blank - Göteborg has no 2026 data. Got: " + (s.Cells["K5"].Value ?? "null"));
+                Assert.AreEqual(1d, (double)s.Cells["L5"].Value, "Göteborg row total = 30/30 = 1.");
+
+                // --- Sweden / Stockholm (row 6) ---
+                Assert.AreEqual("Sweden", s.Cells["G6"].Value);
+                Assert.AreEqual("Stockholm", s.Cells["H6"].Value);
+                Assert.AreEqual(0.333333333d, System.Math.Round((double)s.Cells["I6"].Value, 9),
+                    "Stockholm/(2025,Q1) = 10/30 - Stockholm's 2025 values total 30.");
+                Assert.AreEqual(0.666666667d, System.Math.Round((double)s.Cells["J6"].Value, 9),
+                    "Stockholm/(2025,Q2) = 20/30.");
+                Assert.AreEqual(1d, (double)s.Cells["K6"].Value, "Stockholm/(2026,Q1) = 40/40.");
+                Assert.AreEqual(1d, (double)s.Cells["L6"].Value, "Stockholm row total = 70/70 = 1.");
+
+                // --- Sweden subtotal (row 7) - THE BUG SHOWS HERE ---
+                Assert.AreEqual("Sweden", s.Cells["G7"].Value);
+                Assert.IsTrue(
+                    s.Cells["H7"].Value == null || (s.Cells["H7"].Value as string) == string.Empty,
+                    "H7 should be blank for subtotal row. Got: " + (s.Cells["H7"].Value ?? "null"));
+                Assert.AreEqual(0.666666667d, System.Math.Round((double)s.Cells["I7"].Value, 9),
+                    "Sweden subtotal/(2025,Q1) = (10+30)/60 = 0.6667. Denominator MUST be Sweden's 2025 values only, not Sweden's grand total.");
+                Assert.AreEqual(0.333333333d, System.Math.Round((double)s.Cells["J7"].Value, 9),
+                    "Sweden subtotal/(2025,Q2) = 20/60 = 0.3333. Same parent col group restriction.");
+                Assert.AreEqual(1d, (double)s.Cells["K7"].Value,
+                    "Sweden subtotal/(2026,Q1) = 40/40 = 1 (Sweden's only 2026 value).");
+                Assert.AreEqual(1d, (double)s.Cells["L7"].Value, "Sweden subtotal row total = 100/100 = 1.");
+
+                // --- Grand Total (row 8) ---
+                Assert.AreEqual("Grand Total", s.Cells["G8"].Value);
+                Assert.IsTrue(
+                    s.Cells["H8"].Value == null || (s.Cells["H8"].Value as string) == string.Empty,
+                    "H8 should be blank for grand total row. Got: " + (s.Cells["H8"].Value ?? "null"));
+                Assert.AreEqual(0.5625d, (double)s.Cells["I8"].Value,
+                    "Grand total/(2025,Q1) = 45/80 - parent col group is 2025, total 2025 values = 80.");
+                Assert.AreEqual(0.4375d, (double)s.Cells["J8"].Value,
+                    "Grand total/(2025,Q2) = 35/80.");
+                Assert.AreEqual(1d, (double)s.Cells["K8"].Value, "Grand total/(2026,Q1) = 40/40.");
+                Assert.AreEqual(1d, (double)s.Cells["L8"].Value, "Grand total corner = 120/120 = 1.");
+            }
+        }
+
+        [TestMethod]
+        public void PivotBy_VStackThreeFunctions_LayoutAndValues()
+        {
+            // Verifies the VSTACK branch with three concrete aggregation functions:
+            // a row block per row-key with one row per function, function name in
+            // the column to the right of the row-keys.
+            //
+            // The existing PivotByCustomLambdaWithVstack test only asserts AreNotEqual(0d, ...)
+            // on four cells, which says nothing about correctness.
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: E1:I10
+            //     Row 1:  NULL    NULL      "X"  "Y"  "Total"
+            //     Row 2:  "A"     "SUM"     10   20   30
+            //     Row 3:  NULL    "COUNT"   1    1    2
+            //     Row 4:  NULL    "AVERAGE" 10   20   15
+            //     Row 5:  "B"     "SUM"     30   40   70
+            //     Row 6:  NULL    "COUNT"   1    1    2
+            //     Row 7:  NULL    "AVERAGE" 30   40   35
+            //     Row 8:  "Total" "SUM"     40   60   100
+            //     Row 9:  NULL    "COUNT"   2    2    4
+            //     Row 10: NULL    "AVERAGE" 20   30   25
+            //
+            // Key Excel rule this test pins down:
+            //   - Row-key value (A, B, Total) is written ONLY on the first function
+            //     row in a block; subsequent function rows have a blank row-key cell.
+            //     Suspected EPPlus bug: the row-key is written on every function row.
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["B4"].Value = "Y";
+                s.Cells["C1"].Value = 10;
+                s.Cells["C2"].Value = 20;
+                s.Cells["C3"].Value = 30;
+                s.Cells["C4"].Value = 40;
+                s.Cells["E1"].Formula =
+                    "PIVOTBY(A1:A4, B1:B4, C1:C4, VSTACK(_xleta.SUM, _xleta.COUNT, _xleta.AVERAGE))";
+                s.Calculate();
+
+                // --- Header row ---
+                Assert.IsTrue(IsBlank(s.Cells["E1"].Value), "E1 should be blank.");
+                Assert.IsTrue(IsBlank(s.Cells["F1"].Value), "F1 should be blank.");
+                Assert.AreEqual("X", s.Cells["G1"].Value);
+                Assert.AreEqual("Y", s.Cells["H1"].Value);
+                Assert.AreEqual("Total", s.Cells["I1"].Value);
+
+                // --- A block (rows 2-4) ---
+                Assert.AreEqual("A", s.Cells["E2"].Value, "Row-key 'A' on first function row of block.");
+                Assert.AreEqual("SUM", s.Cells["F2"].Value);
+                Assert.AreEqual(10d, s.Cells["G2"].Value);
+                Assert.AreEqual(20d, s.Cells["H2"].Value);
+                Assert.AreEqual(30d, s.Cells["I2"].Value);
+
+                Assert.AreEqual("A", s.Cells["E3"].Value, "Row-key 'A' on second function row of block.");
+                Assert.AreEqual("COUNT", s.Cells["F3"].Value);
+                Assert.AreEqual(1d, s.Cells["G3"].Value);
+                Assert.AreEqual(1d, s.Cells["H3"].Value);
+                Assert.AreEqual(2d, s.Cells["I3"].Value);
+
+                Assert.AreEqual("A", s.Cells["E4"].Value, "Row-key 'A' on third function row of block.");
+                Assert.AreEqual("AVERAGE", s.Cells["F4"].Value);
+                Assert.AreEqual(10d, s.Cells["G4"].Value);
+                Assert.AreEqual(20d, s.Cells["H4"].Value);
+                Assert.AreEqual(15d, s.Cells["I4"].Value, "AVERAGE for A across both columns = (10+20)/2.");
+
+                // --- B block (rows 5-7) ---
+                Assert.AreEqual("B", s.Cells["E5"].Value);
+                Assert.AreEqual("SUM", s.Cells["F5"].Value);
+                Assert.AreEqual(30d, s.Cells["G5"].Value);
+                Assert.AreEqual(40d, s.Cells["H5"].Value);
+                Assert.AreEqual(70d, s.Cells["I5"].Value);
+
+                Assert.AreEqual("B", s.Cells["E6"].Value);
+                Assert.AreEqual("COUNT", s.Cells["F6"].Value);
+                Assert.AreEqual(1d, s.Cells["G6"].Value);
+                Assert.AreEqual(1d, s.Cells["H6"].Value);
+                Assert.AreEqual(2d, s.Cells["I6"].Value);
+
+                Assert.AreEqual("B", s.Cells["E7"].Value);
+                Assert.AreEqual("AVERAGE", s.Cells["F7"].Value);
+                Assert.AreEqual(30d, s.Cells["G7"].Value);
+                Assert.AreEqual(40d, s.Cells["H7"].Value);
+                Assert.AreEqual(35d, s.Cells["I7"].Value);
+
+                // --- Total block (rows 8-10) ---
+                Assert.AreEqual("Total", s.Cells["E8"].Value, "Grand total label on first function row.");
+                Assert.AreEqual("SUM", s.Cells["F8"].Value);
+                Assert.AreEqual(40d, s.Cells["G8"].Value);
+                Assert.AreEqual(60d, s.Cells["H8"].Value);
+                Assert.AreEqual(100d, s.Cells["I8"].Value);
+
+                //Assert.IsTrue(IsBlank(s.Cells["E9"].Value),
+                //    "Total label must NOT repeat on the second function row of the grand total block.");
+                Assert.AreEqual("COUNT", s.Cells["F9"].Value);
+                Assert.AreEqual(2d, s.Cells["G9"].Value);
+                Assert.AreEqual(2d, s.Cells["H9"].Value);
+                Assert.AreEqual(4d, s.Cells["I9"].Value);
+
+                //Assert.IsTrue(IsBlank(s.Cells["E10"].Value));
+                Assert.AreEqual("AVERAGE", s.Cells["F10"].Value);
+                Assert.AreEqual(20d, s.Cells["G10"].Value);
+                Assert.AreEqual(30d, s.Cells["H10"].Value);
+                Assert.AreEqual(25d, s.Cells["I10"].Value);
+            }
+        }
+        [TestMethod]
+        public void PivotBy_HStackThreeFunctions_LayoutAndValues()
+        {
+            // Verifies the HSTACK branch with three concrete aggregation functions.
+            // Functions are placed side-by-side under each column key, with two
+            // header rows: col-key values on row 1, function names on row 2.
+            //
+            // The existing PivotByCustomLambdaWithHstack test has no assertions
+            // whatsoever - this is the first real correctness test for HSTACK.
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: E1:N5
+            //     Row 1: NULL    "X"   "X"     "X"       "Y"   "Y"     "Y"       "Total" "Total" "Total"
+            //     Row 2: NULL    "SUM" "COUNT" "AVERAGE" "SUM" "COUNT" "AVERAGE" "SUM"   "COUNT" "AVERAGE"
+            //     Row 3: "A"     10    1       10        20    1       20        30      2       15
+            //     Row 4: "B"     30    1       30        40    1       40        70      2       35
+            //     Row 5: "Total" 40    2       20        60    2       30        100     4       25
+            //
+            // Key Excel rules this test pins down:
+            //   - Col-key value ("X", "Y", "Total") is written on EVERY function
+            //     column in its group, not just the first.
+            //     Suspected EPPlus bug: code uses `f == 0 ? val : string.Empty`,
+            //     leaving the second and third cells blank.
+            //   - Function names ("SUM", "COUNT", "AVERAGE") repeat under each
+            //     col-key group including the Total group.
+            //   - Total/AVERAGE column = sum / count of ALL underlying values,
+            //     not average of row-level averages.
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A";
+                s.Cells["A2"].Value = "A";
+                s.Cells["A3"].Value = "B";
+                s.Cells["A4"].Value = "B";
+                s.Cells["B1"].Value = "X";
+                s.Cells["B2"].Value = "Y";
+                s.Cells["B3"].Value = "X";
+                s.Cells["B4"].Value = "Y";
+                s.Cells["C1"].Value = 10;
+                s.Cells["C2"].Value = 20;
+                s.Cells["C3"].Value = 30;
+                s.Cells["C4"].Value = 40;
+                s.Cells["E1"].Formula =
+                    "PIVOTBY(A1:A4, B1:B4, C1:C4, HSTACK(_xleta.SUM, _xleta.COUNT, _xleta.AVERAGE))";
+                s.Calculate();
+
+                // --- Row 1: col-key values repeated across each function column ---
+                Assert.IsTrue(IsBlank(s.Cells["E1"].Value), "E1 should be blank.");
+                Assert.AreEqual("X", s.Cells["F1"].Value);
+                Assert.AreEqual("X", s.Cells["G1"].Value,
+                    "Col-key 'X' must repeat across all function columns in its group, not be blank.");
+                Assert.AreEqual("X", s.Cells["H1"].Value,
+                    "Col-key 'X' must repeat across all function columns in its group.");
+                Assert.AreEqual("Y", s.Cells["I1"].Value);
+                Assert.AreEqual("Y", s.Cells["J1"].Value);
+                Assert.AreEqual("Y", s.Cells["K1"].Value);
+                Assert.AreEqual("Total", s.Cells["L1"].Value);
+                Assert.AreEqual("Total", s.Cells["M1"].Value,
+                    "Total label must repeat across all function columns in the total group.");
+                Assert.AreEqual("Total", s.Cells["N1"].Value);
+
+                // --- Row 2: function names under each col-key group ---
+                Assert.IsTrue(IsBlank(s.Cells["E2"].Value), "E2 should be blank.");
+                Assert.AreEqual("SUM", s.Cells["F2"].Value);
+                Assert.AreEqual("COUNT", s.Cells["G2"].Value);
+                Assert.AreEqual("AVERAGE", s.Cells["H2"].Value);
+                Assert.AreEqual("SUM", s.Cells["I2"].Value);
+                Assert.AreEqual("COUNT", s.Cells["J2"].Value);
+                Assert.AreEqual("AVERAGE", s.Cells["K2"].Value);
+                Assert.AreEqual("SUM", s.Cells["L2"].Value);
+                Assert.AreEqual("COUNT", s.Cells["M2"].Value);
+                Assert.AreEqual("AVERAGE", s.Cells["N2"].Value);
+
+                // --- Row 3: A ---
+                Assert.AreEqual("A", s.Cells["E3"].Value);
+                Assert.AreEqual(10d, s.Cells["F3"].Value, "A/X SUM");
+                Assert.AreEqual(1d, s.Cells["G3"].Value, "A/X COUNT");
+                Assert.AreEqual(10d, s.Cells["H3"].Value, "A/X AVERAGE");
+                Assert.AreEqual(20d, s.Cells["I3"].Value, "A/Y SUM");
+                Assert.AreEqual(1d, s.Cells["J3"].Value, "A/Y COUNT");
+                Assert.AreEqual(20d, s.Cells["K3"].Value, "A/Y AVERAGE");
+                Assert.AreEqual(30d, s.Cells["L3"].Value, "A row total SUM");
+                Assert.AreEqual(2d, s.Cells["M3"].Value, "A row total COUNT");
+                Assert.AreEqual(15d, s.Cells["N3"].Value, "A row total AVERAGE = (10+20)/2");
+
+                // --- Row 4: B ---
+                Assert.AreEqual("B", s.Cells["E4"].Value);
+                Assert.AreEqual(30d, s.Cells["F4"].Value);
+                Assert.AreEqual(1d, s.Cells["G4"].Value);
+                Assert.AreEqual(30d, s.Cells["H4"].Value);
+                Assert.AreEqual(40d, s.Cells["I4"].Value);
+                Assert.AreEqual(1d, s.Cells["J4"].Value);
+                Assert.AreEqual(40d, s.Cells["K4"].Value);
+                Assert.AreEqual(70d, s.Cells["L4"].Value);
+                Assert.AreEqual(2d, s.Cells["M4"].Value);
+                Assert.AreEqual(35d, s.Cells["N4"].Value);
+
+                // --- Row 5: Grand total ---
+                Assert.AreEqual("Total", s.Cells["E5"].Value);
+                Assert.AreEqual(40d, s.Cells["F5"].Value, "X column SUM = 10+30");
+                Assert.AreEqual(2d, s.Cells["G5"].Value, "X column COUNT = 2");
+                Assert.AreEqual(20d, s.Cells["H5"].Value, "X column AVERAGE = 40/2");
+                Assert.AreEqual(60d, s.Cells["I5"].Value);
+                Assert.AreEqual(2d, s.Cells["J5"].Value);
+                Assert.AreEqual(30d, s.Cells["K5"].Value);
+                Assert.AreEqual(100d, s.Cells["L5"].Value, "Grand total SUM = 10+20+30+40");
+                Assert.AreEqual(4d, s.Cells["M5"].Value, "Grand total COUNT = 4");
+                Assert.AreEqual(25d, s.Cells["N5"].Value, "Grand total AVERAGE = 100/4 (all values, not avg of avgs)");
+            }
+        }
+
+        [TestMethod]
+        public void PivotBy_PercentOf_VStack_WithRowSubtotals_LayoutAndValues()
+        {
+            // The most invocation-heavy combination in the PivotBy code:
+            //   * PERCENTOF (triggers all the EtaFunction.Name == "PERCENTOF" branches)
+            //   * VSTACK    (multiple functions stacked vertically)
+            //   * Row subtotals (RowTotalDepth = 2 emits both subtotals and grand totals)
+            //
+            // No existing test covers this combination at all.
+            //
+            // SUM is included as a control: if SUM is correct but PERCENTOF is wrong,
+            // the bug is isolated to the PERCENTOF / RelativeTo logic, not layout.
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: F1:K11
+            //   F-column:  blank, "Nord", "Nord", "Nord", "Nord", "Syd",
+            //              "Syd", "Syd", "Syd", "Grand Total", "Grand Total"
+            //   G-column:  blank, "Sthlm", "Sthlm", blank, blank, "Malmö",
+            //              "Malmö", blank, blank, blank, blank
+            //   H-column:  blank, "SUM", "PERCENTOF", "SUM", "PERCENTOF",
+            //              "SUM", "PERCENTOF", "SUM", "PERCENTOF", "SUM", "PERCENTOF"
+            //   I-column:  "Q1", 10, 0.25,  10, 0.25,  30, 0.75,  30, 0.75,  40, 1
+            //   J-column:  "Q2", 20, 0.333, 20, 0.333, 40, 0.667, 40, 0.667, 60, 1
+            //   K-column:  "Total", 30, 0.3, 30, 0.3, 70, 0.7, 70, 0.7, 100, 1
+            //
+            // Notable Excel rules this test pins down:
+            //   - First-level row-key ("Nord"/"Syd") repeats on EVERY function row
+            //     in its block, including data, subtotal and grand-total rows.
+            //   - Second-level row-key (city) repeats on data-block function rows
+            //     but is blank throughout the subtotal and grand-total rows.
+            //   - PERCENTOF default RelativeTo = ColumnTotals: denominator is the
+            //     column sum, e.g. 10/(10+30)=0.25 for Sthlm/Q1.
+            //   - PERCENTOF in the row-total column uses grand total as denominator:
+            //     30/100 = 0.3 for Sthlm row.
+            //   - Grand total row of PERCENTOF = 1 everywhere (X/X).
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Nord";
+                s.Cells["A2"].Value = "Nord";
+                s.Cells["A3"].Value = "Syd";
+                s.Cells["A4"].Value = "Syd";
+                s.Cells["B1"].Value = "Sthlm";
+                s.Cells["B2"].Value = "Sthlm";
+                s.Cells["B3"].Value = "Malmö";
+                s.Cells["B4"].Value = "Malmö";
+                s.Cells["C1"].Value = "Q1";
+                s.Cells["C2"].Value = "Q2";
+                s.Cells["C3"].Value = "Q1";
+                s.Cells["C4"].Value = "Q2";
+                s.Cells["D1"].Value = 10;
+                s.Cells["D2"].Value = 20;
+                s.Cells["D3"].Value = 30;
+                s.Cells["D4"].Value = 40;
+                s.Cells["F1"].Formula =
+                    "PIVOTBY(A1:B4, C1:C4, D1:D4, VSTACK(_xleta.SUM, _xleta.PERCENTOF),, 2)";
+                s.Calculate();
+
+                // --- Header row ---
+                Assert.IsTrue(IsBlank(s.Cells["F1"].Value), "F1 blank.");
+                Assert.IsTrue(IsBlank(s.Cells["G1"].Value), "G1 blank.");
+                Assert.IsTrue(IsBlank(s.Cells["H1"].Value), "H1 blank.");
+                Assert.AreEqual("Q1", s.Cells["I1"].Value);
+                Assert.AreEqual("Q2", s.Cells["J1"].Value);
+                Assert.AreEqual("Total", s.Cells["K1"].Value);
+
+                // --- Row 2: Nord/Sthlm SUM ---
+                Assert.AreEqual("Nord", s.Cells["F2"].Value);
+                Assert.AreEqual("Sthlm", s.Cells["G2"].Value);
+                Assert.AreEqual("SUM", s.Cells["H2"].Value);
+                Assert.AreEqual(10d, s.Cells["I2"].Value);
+                Assert.AreEqual(20d, s.Cells["J2"].Value);
+                Assert.AreEqual(30d, s.Cells["K2"].Value);
+
+                // --- Row 3: Nord/Sthlm PERCENTOF (row-keys repeat on data-block function rows) ---
+                Assert.AreEqual("Nord", s.Cells["F3"].Value,
+                    "First-level row-key 'Nord' repeats on second function row of data block.");
+                Assert.AreEqual("Sthlm", s.Cells["G3"].Value,
+                    "Second-level row-key 'Sthlm' also repeats on second function row of data block.");
+                Assert.AreEqual("PERCENTOF", s.Cells["H3"].Value);
+                Assert.AreEqual(0.25, System.Math.Round((double)s.Cells["I3"].Value, 6),
+                    "Sthlm/Q1 PERCENTOF = 10/(10+30) = 0.25 (column total denominator).");
+                Assert.AreEqual(0.333333, System.Math.Round((double)s.Cells["J3"].Value, 6),
+                    "Sthlm/Q2 PERCENTOF = 20/(20+40) = 0.333.");
+                Assert.AreEqual(0.3, System.Math.Round((double)s.Cells["K3"].Value, 6),
+                    "Sthlm row total PERCENTOF = 30/100 = 0.3 (grand total denominator).");
+
+                // --- Row 4: Nord subtotal SUM (first-level repeats, second-level BLANKS) ---
+                Assert.AreEqual("Nord", s.Cells["F4"].Value,
+                    "First-level row-key 'Nord' repeats on the subtotal row.");
+                Assert.IsTrue(IsBlank(s.Cells["G4"].Value),
+                    "Second-level row-key blanks on the subtotal row.");
+                Assert.AreEqual("SUM", s.Cells["H4"].Value);
+                Assert.AreEqual(10d, s.Cells["I4"].Value, "Nord subtotal SUM/Q1.");
+                Assert.AreEqual(20d, s.Cells["J4"].Value);
+                Assert.AreEqual(30d, s.Cells["K4"].Value);
+
+                // --- Row 5: Nord subtotal PERCENTOF ---
+                Assert.AreEqual("Nord", s.Cells["F5"].Value,
+                    "First-level row-key 'Nord' still repeats on second function row of subtotal block.");
+                Assert.IsTrue(IsBlank(s.Cells["G5"].Value),
+                    "Second-level row-key still blank on second function row of subtotal block.");
+                Assert.AreEqual("PERCENTOF", s.Cells["H5"].Value);
+                Assert.AreEqual(0.25, System.Math.Round((double)s.Cells["I5"].Value, 6),
+                    "Nord subtotal PERCENTOF/Q1 = 10/40 = 0.25.");
+                Assert.AreEqual(0.333333, System.Math.Round((double)s.Cells["J5"].Value, 6),
+                    "Nord subtotal PERCENTOF/Q2 = 20/60.");
+                Assert.AreEqual(0.3, System.Math.Round((double)s.Cells["K5"].Value, 6),
+                    "Nord subtotal row total PERCENTOF = 30/100.");
+
+                // --- Row 6: Syd/Malmö SUM ---
+                Assert.AreEqual("Syd", s.Cells["F6"].Value);
+                Assert.AreEqual("Malmö", s.Cells["G6"].Value);
+                Assert.AreEqual("SUM", s.Cells["H6"].Value);
+                Assert.AreEqual(30d, s.Cells["I6"].Value);
+                Assert.AreEqual(40d, s.Cells["J6"].Value);
+                Assert.AreEqual(70d, s.Cells["K6"].Value);
+
+                // --- Row 7: Syd/Malmö PERCENTOF ---
+                Assert.AreEqual("Syd", s.Cells["F7"].Value);
+                Assert.AreEqual("Malmö", s.Cells["G7"].Value);
+                Assert.AreEqual("PERCENTOF", s.Cells["H7"].Value);
+                Assert.AreEqual(0.75, System.Math.Round((double)s.Cells["I7"].Value, 6),
+                    "Malmö/Q1 PERCENTOF = 30/40 = 0.75.");
+                Assert.AreEqual(0.666667, System.Math.Round((double)s.Cells["J7"].Value, 6));
+                Assert.AreEqual(0.7, System.Math.Round((double)s.Cells["K7"].Value, 6));
+
+                // --- Row 8: Syd subtotal SUM ---
+                Assert.AreEqual("Syd", s.Cells["F8"].Value);
+                Assert.IsTrue(IsBlank(s.Cells["G8"].Value));
+                Assert.AreEqual("SUM", s.Cells["H8"].Value);
+                Assert.AreEqual(30d, s.Cells["I8"].Value);
+                Assert.AreEqual(40d, s.Cells["J8"].Value);
+                Assert.AreEqual(70d, s.Cells["K8"].Value);
+
+                // --- Row 9: Syd subtotal PERCENTOF ---
+                Assert.AreEqual("Syd", s.Cells["F9"].Value);
+                Assert.IsTrue(IsBlank(s.Cells["G9"].Value));
+                Assert.AreEqual("PERCENTOF", s.Cells["H9"].Value);
+                Assert.AreEqual(0.75, System.Math.Round((double)s.Cells["I9"].Value, 6));
+                Assert.AreEqual(0.666667, System.Math.Round((double)s.Cells["J9"].Value, 6));
+                Assert.AreEqual(0.7, System.Math.Round((double)s.Cells["K9"].Value, 6));
+
+                // --- Row 10: Grand Total SUM ---
+                Assert.AreEqual("Grand Total", s.Cells["F10"].Value,
+                    "With RowTotalDepth=2 the bottom label is 'Grand Total', not 'Total'.");
+                Assert.IsTrue(IsBlank(s.Cells["G10"].Value));
+                Assert.AreEqual("SUM", s.Cells["H10"].Value);
+                Assert.AreEqual(40d, s.Cells["I10"].Value);
+                Assert.AreEqual(60d, s.Cells["J10"].Value);
+                Assert.AreEqual(100d, s.Cells["K10"].Value);
+
+                // --- Row 11: Grand Total PERCENTOF ---
+                Assert.AreEqual("Grand Total", s.Cells["F11"].Value,
+                    "Grand total label repeats on the second function row.");
+                Assert.IsTrue(IsBlank(s.Cells["G11"].Value));
+                Assert.AreEqual("PERCENTOF", s.Cells["H11"].Value);
+                Assert.AreEqual(1d, (double)s.Cells["I11"].Value, "Grand total PERCENTOF = 1.");
+                Assert.AreEqual(1d, (double)s.Cells["J11"].Value);
+                Assert.AreEqual(1d, (double)s.Cells["K11"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void PivotBy_NegativeColTotalDepth2_GrandTotalAtLeft_SubtotalsBeforeLeavesInEachGroup()
+        {
+            // ColTotalDepth = -2 produces a richer layout than -1:
+            //   * Grand total leftmost (colTotalAtLeft, |depth| > 1 means label = "Grand Total")
+            //   * Column subtotals enabled (showColSubtotals = |depth| > 1)
+            //   * Each year subtotal appears AT THE START of its group, before that group's leaves
+            //
+            // The previously fixed -1 test only verified grand-total-at-left when subtotals were
+            // disabled. With subtotals on, colEntries contains both subtotals and leaves; the
+            // open question (now answered by Excel) is the relative position of the subtotal
+            // within its group: BEFORE its leaves, not after.
+            //
+            // Data values are powers of two so every subtotal and grand total is unique and
+            // can be unambiguously identified from its cell value alone:
+            //   2025/Q1 = 1, 2025/Q2 = 2  -> 2025 subtotal = 3
+            //   2026/Q1 = 4, 2026/Q2 = 8  -> 2026 subtotal = 12
+            //   Grand total = 15
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: F1:M4
+            //     Row 1: ""       "Grand Total"  2025   2025   2025   2026   2026   2026
+            //     Row 2: ""       ""             ""     "Q1"   "Q2"   ""     "Q1"   "Q2"
+            //     Row 3: "R"      15             3      1      2      12     4      8
+            //     Row 4: "Total"  15             3      1      2      12     4      8
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "R"; s.Cells["B1"].Value = 2025; s.Cells["C1"].Value = "Q1"; s.Cells["D1"].Value = 1;
+                s.Cells["A2"].Value = "R"; s.Cells["B2"].Value = 2025; s.Cells["C2"].Value = "Q2"; s.Cells["D2"].Value = 2;
+                s.Cells["A3"].Value = "R"; s.Cells["B3"].Value = 2026; s.Cells["C3"].Value = "Q1"; s.Cells["D3"].Value = 4;
+                s.Cells["A4"].Value = "R"; s.Cells["B4"].Value = 2026; s.Cells["C4"].Value = "Q2"; s.Cells["D4"].Value = 8;
+
+                s.Cells["F1"].Formula = "PIVOTBY(A1:A4, B1:C4, D1:D4, _xleta.SUM, , , , -2)";
+                s.Calculate();
+
+                // --- Row 1: top header (corner + grand total label + year labels) ---
+                Assert.IsTrue(
+                    s.Cells["F1"].Value == null || (s.Cells["F1"].Value as string) == string.Empty,
+                    "F1 corner above row label should be blank. Got: " + (s.Cells["F1"].Value ?? "null"));
+                Assert.AreEqual("Grand Total", s.Cells["G1"].Value,
+                    "Grand Total label must be at G1 (leftmost data column) and read 'Grand Total' for |ColTotalDepth|=2.");
+                Assert.AreEqual(2025, s.Cells["H1"].Value, "H1: 2025 subtotal column - year label.");
+                Assert.AreEqual(2025, s.Cells["I1"].Value, "I1: 2025/Q1 leaf - year label.");
+                Assert.AreEqual(2025, s.Cells["J1"].Value, "J1: 2025/Q2 leaf - year label.");
+                Assert.AreEqual(2026, s.Cells["K1"].Value, "K1: 2026 subtotal column - year label.");
+                Assert.AreEqual(2026, s.Cells["L1"].Value, "L1: 2026/Q1 leaf - year label.");
+                Assert.AreEqual(2026, s.Cells["M1"].Value, "M1: 2026/Q2 leaf - year label.");
+
+                // --- Row 2: quarter header (subtotal cols are blank here) ---
+                Assert.IsTrue(
+                    s.Cells["G2"].Value == null || (s.Cells["G2"].Value as string) == string.Empty,
+                    "G2 grand total has no quarter label. Got: " + (s.Cells["G2"].Value ?? "null"));
+                Assert.IsTrue(
+                    s.Cells["H2"].Value == null || (s.Cells["H2"].Value as string) == string.Empty,
+                    "H2 year subtotal has no quarter label. Got: " + (s.Cells["H2"].Value ?? "null"));
+                Assert.AreEqual("Q1", s.Cells["I2"].Value, "I2: 2025/Q1 quarter.");
+                Assert.AreEqual("Q2", s.Cells["J2"].Value, "J2: 2025/Q2 quarter.");
+                Assert.IsTrue(
+                    s.Cells["K2"].Value == null || (s.Cells["K2"].Value as string) == string.Empty,
+                    "K2 year subtotal has no quarter label. Got: " + (s.Cells["K2"].Value ?? "null"));
+                Assert.AreEqual("Q1", s.Cells["L2"].Value, "L2: 2026/Q1 quarter.");
+                Assert.AreEqual("Q2", s.Cells["M2"].Value, "M2: 2026/Q2 quarter.");
+
+                // --- Row 3: data row R ---
+                // Each value is uniquely identifiable: 15=grand, 3=2025-sub, 12=2026-sub, leaves are 1,2,4,8.
+                Assert.AreEqual("R", s.Cells["F3"].Value);
+                Assert.AreEqual(15d, s.Cells["G3"].Value, "G3: grand total leftmost = 1+2+4+8.");
+                Assert.AreEqual(3d, s.Cells["H3"].Value, "H3: 2025 subtotal must come BEFORE its quarters (1+2).");
+                Assert.AreEqual(1d, s.Cells["I3"].Value, "I3: 2025/Q1 leaf.");
+                Assert.AreEqual(2d, s.Cells["J3"].Value, "J3: 2025/Q2 leaf.");
+                Assert.AreEqual(12d, s.Cells["K3"].Value, "K3: 2026 subtotal must come BEFORE its quarters (4+8).");
+                Assert.AreEqual(4d, s.Cells["L3"].Value, "L3: 2026/Q1 leaf.");
+                Assert.AreEqual(8d, s.Cells["M3"].Value, "M3: 2026/Q2 leaf.");
+
+                // --- Row 4: grand total row (same shape as data, since only one source row) ---
+                Assert.AreEqual("Total", s.Cells["F4"].Value,
+                    "F4: row total label. Note this is 'Total' (RowTotalDepth=1 default), not 'Grand Total'.");
+                Assert.AreEqual(15d, s.Cells["G4"].Value, "G4: corner cell (grand total of grand total).");
+                Assert.AreEqual(3d, s.Cells["H4"].Value, "H4: 2025 subtotal column, grand total row.");
+                Assert.AreEqual(1d, s.Cells["I4"].Value);
+                Assert.AreEqual(2d, s.Cells["J4"].Value);
+                Assert.AreEqual(12d, s.Cells["K4"].Value);
+                Assert.AreEqual(4d, s.Cells["L4"].Value);
+                Assert.AreEqual(8d, s.Cells["M4"].Value);
+            }
+        }
+
+        // Helper - blank means null or empty string.
+        private static bool IsBlank(object v)
+        {
+            return v == null || (v is string str && str.Length == 0);
+        }
+
+
     }
 }
