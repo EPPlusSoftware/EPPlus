@@ -66,7 +66,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     CellFillData.GradientFillData.Bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
                     CellFillData.GradientFillData.Left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
                     CellFillData.GradientFillData.Right = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
-                    CellFillData.id = CellFillData.GradientFillData.ToString();
+                    CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
                     AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                 }
             }
@@ -104,7 +104,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     CellFillData.GradientFillData.Bottom = double.IsNaN(xfFill.Gradient.Bottom) ? 0 : xfFill.Gradient.Bottom;
                     CellFillData.GradientFillData.Left = double.IsNaN(xfFill.Gradient.Left) ? 0 : xfFill.Gradient.Left;
                     CellFillData.GradientFillData.Right = double.IsNaN(xfFill.Gradient.Right) ? 0 : xfFill.Gradient.Right;
-                    CellFillData.id = CellFillData.GradientFillData.ToString();
+                    CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
                     AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                 }
             }
@@ -146,7 +146,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         CellFillData.GradientFillData.Bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
                         CellFillData.GradientFillData.Left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
                         CellFillData.GradientFillData.Right = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
-                        CellFillData.id = CellFillData.GradientFillData.ToString();
+                        CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
                         AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                     }
                 }
@@ -184,7 +184,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         CellFillData.GradientFillData.Bottom = double.IsNaN(xfFill.Gradient.Bottom) ? 0 : xfFill.Gradient.Bottom;
                         CellFillData.GradientFillData.Left = double.IsNaN(xfFill.Gradient.Left) ? 0 : xfFill.Gradient.Left;
                         CellFillData.GradientFillData.Right = double.IsNaN(xfFill.Gradient.Right) ? 0 : xfFill.Gradient.Right;
-                        CellFillData.id = CellFillData.GradientFillData.ToString();
+                        CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
                         AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                     }
                 }
