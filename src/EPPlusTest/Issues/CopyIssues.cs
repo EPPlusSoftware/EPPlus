@@ -131,6 +131,22 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void i2350()
+        {
+            using (var p =OpenTemplatePackage("i2350.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                using(var p2 = OpenPackage("i2350Output.xlsx", true))
+                {
+                    p2.Workbook.Worksheets.Add("test", ws);
+                    SaveAndCleanup(p2);
+                }
+            }
+        }
+
         //One cell/range can be copied to multiple comma-separated ranges
         [TestMethod]
         public void i1656PasteSpecial_Formulas_OneToMany()
