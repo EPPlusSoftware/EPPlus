@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/20/2026         EPPlus Software AB           Initial implementation
   05/20/2026         EPPlus Software AB           Auto-sort ranges so source can stay grouped by script
+  05/25/2026         EPPlus Software AB           Added CJK Symbols/Punctuation and Halfwidth/Fullwidth Forms
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -133,9 +134,25 @@ namespace EPPlus.Fonts.OpenType
             new Range(0x2700, 0x27BF, UnicodeScript.Symbol),       // Dingbats
 
             // CJK Han (Unified Ideographs)
+            //
+            // Two extra ranges below are pragmatically classified as Han even though they are
+            // shared across Chinese, Japanese, and Korean writing:
+            //   * CJK Symbols and Punctuation (U+3000-U+303F) — covers the ideographic full
+            //     stop, ideographic comma, fullwidth space, brackets, etc.
+            //   * Halfwidth and Fullwidth Forms (U+FF00-U+FFEF) — covers the fullwidth comma,
+            //     fullwidth ASCII variants, halfwidth Katakana, halfwidth Hangul Jamo, etc.
+            // These ranges are shared CJK punctuation/forms, not specifically Han characters.
+            // In a single-language document a more accurate classification would route them
+            // to the document's primary script (Hiragana/Katakana for Japanese, Hangul for
+            // Korean, Han for Chinese). But without language detection we cannot do that.
+            // Routing them to Han is acceptable in practice because all major CJK fonts —
+            // Yu Gothic, Microsoft YaHei, Malgun Gothic, etc. — contain the same glyphs for
+            // these code points.
+            new Range(0x3000, 0x303F, UnicodeScript.Han),          // CJK Symbols and Punctuation
             new Range(0x3400, 0x4DBF, UnicodeScript.Han),          // CJK Unified Ideographs Extension A
             new Range(0x4E00, 0x9FFF, UnicodeScript.Han),          // CJK Unified Ideographs
             new Range(0xF900, 0xFAFF, UnicodeScript.Han),          // CJK Compatibility Ideographs
+            new Range(0xFF00, 0xFFEF, UnicodeScript.Han),          // Halfwidth and Fullwidth Forms
             new Range(0x20000, 0x2A6DF, UnicodeScript.Han),        // CJK Unified Ideographs Extension B
             new Range(0x2A700, 0x2B73F, UnicodeScript.Han),        // CJK Unified Ideographs Extension C
             new Range(0x2B740, 0x2B81F, UnicodeScript.Han),        // CJK Unified Ideographs Extension D

@@ -267,5 +267,126 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
             Assert.AreEqual((ushort)0, shaped.Glyphs[0].GlyphId,
                 "After Reset, the default Han chain should be active again; with no matching fonts installed, glyph is .notdef");
         }
+
+        [TestMethod]
+        public void DefaultFontProvider_ChineseTextWithPunctuationInAptosNarrow_AllGlyphsResolve()
+        {
+            // Reproduces a real-world bug found during PDF export: Chinese text with CJK
+            // punctuation rendered in Aptos Narrow shows .notdef glyphs for the punctuation
+            // marks. The Han ideographs route to the Han fallback chain correctly, but the
+            // fullwidth comma (U+FF0C) and ideographic full stop (U+3002) are classified as
+            // Unknown by UnicodeScriptClassifier and never reach any fallback font.
+            //
+            // After the classifier is fixed to include U+3000-U+303F and U+FF00-U+FFEF in
+            // the Han range, all 22 glyphs should resolve to non-zero glyph ids.
+
+            // Arrange
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+
+            var primary = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
+            var shaper = new TextShaper(SystemFontsEngine, primary);
+
+            string text = "我今天吃了太多饺子，现在我看起来像一个饺子。";
+
+            // Act
+            var shaped = shaper.Shape(text);
+
+            // Assert — every glyph in the shaped output must be a real glyph, not .notdef.
+            // Identify which (if any) failed so the diagnostic message points at the actual
+            // characters that landed on .notdef.
+            var notdefs = new System.Collections.Generic.List<string>();
+            for (int i = 0; i < shaped.Glyphs.Length; i++)
+            {
+                if (shaped.Glyphs[i].GlyphId == 0)
+                {
+                    int charIndex = shaped.Glyphs[i].ClusterIndex;
+                    char ch = text[charIndex];
+                    notdefs.Add(string.Format("index {0}: U+{1:X4} '{2}'", charIndex, (int)ch, ch));
+                }
+            }
+
+            Assert.AreEqual(0, notdefs.Count,
+                "All glyphs should resolve to real glyph ids. The following characters landed on .notdef: "
+                + string.Join(", ", notdefs));
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // CJK punctuation routing — reproduces a real-world bug found during PDF export of
+        // Chinese text rendered with Aptos Narrow. Fullwidth/CJK punctuation should route to the
+        // Han fallback chain, but currently lands on .notdef because these code-point ranges are
+        // missing from UnicodeScriptClassifier.
+        //
+        // These tests verify the bug first; the classifier fix follows in a separate change.
+        // -----------------------------------------------------------------------------------------
+
+        // U+6211 = 我 (Han ideograph)
+        private const string HanIdeograph = "\u6211";
+
+        // U+FF0C = ， (Fullwidth Comma — used as the CJK comma in Chinese / Japanese / Korean)
+        private const string CjkFullwidthComma = "\uFF0C";
+
+        // U+3002 = 。 (Ideographic Full Stop — used as the CJK period)
+        private const string CjkIdeographicFullStop = "\u3002";
+
+        [TestMethod]
+        public void DefaultFontProvider_HanIdeographInAptosNarrow_RoutesToHanFallback()
+        {
+            // Arrange — use the system engine because Aptos Narrow is a system font (not in the
+            // test font folder). Skip the test if Aptos Narrow is not available on this machine.
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+
+            var primary = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
+            var shaper = new TextShaper(SystemFontsEngine, primary);
+
+            // Act
+            var shaped = shaper.Shape(HanIdeograph);
+
+            // Assert — sanity check: a Han ideograph should route to the Han fallback chain.
+            // If this fails, the entire script routing for Han is broken, not just punctuation.
+            Assert.AreEqual(1, shaped.Glyphs.Length);
+            Assert.AreNotEqual((ushort)0, shaped.Glyphs[0].GlyphId,
+                "Han ideograph should not be .notdef — it should route to the Han fallback chain");
+        }
+
+        [TestMethod]
+        public void DefaultFontProvider_CjkFullwidthCommaInAptosNarrow_RoutesToHanFallback()
+        {
+            // Arrange
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+
+            var primary = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
+            var shaper = new TextShaper(SystemFontsEngine, primary);
+
+            // Act
+            var shaped = shaper.Shape(CjkFullwidthComma);
+
+            // Assert — the fullwidth comma is shared CJK punctuation. It should route to the
+            // Han fallback chain along with the rest of the CJK text it accompanies. Currently
+            // U+FF00–U+FFEF is missing from UnicodeScriptClassifier, so the comma is classified
+            // as Unknown and lands on .notdef.
+            Assert.AreEqual(1, shaped.Glyphs.Length);
+            Assert.AreNotEqual((ushort)0, shaped.Glyphs[0].GlyphId,
+                "CJK fullwidth comma (U+FF0C) should not be .notdef — it should route to the Han fallback chain");
+        }
+
+        [TestMethod]
+        public void DefaultFontProvider_CjkIdeographicFullStopInAptosNarrow_RoutesToHanFallback()
+        {
+            // Arrange
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+
+            var primary = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
+            var shaper = new TextShaper(SystemFontsEngine, primary);
+
+            // Act
+            var shaped = shaper.Shape(CjkIdeographicFullStop);
+
+            // Assert — the ideographic full stop is shared CJK punctuation. Currently
+            // U+3000–U+303F is missing from UnicodeScriptClassifier, so the period is
+            // classified as Unknown and lands on .notdef.
+            Assert.AreEqual(1, shaped.Glyphs.Length);
+            Assert.AreNotEqual((ushort)0, shaped.Glyphs[0].GlyphId,
+                "CJK ideographic full stop (U+3002) should not be .notdef — it should route to the Han fallback chain");
+        }
     }
 }
