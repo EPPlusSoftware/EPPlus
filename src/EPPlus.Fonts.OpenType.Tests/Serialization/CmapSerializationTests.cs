@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
             var ffi = FontScannerV2.FindBestMatch(FontFolder, "Roboto", FontSubFamily.Regular);
             var originalBytes = ffi.GetTableBytes("cmap");
 
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var cmapBytes = font.CmapTable.Serialize(font);
 
             Assert.AreEqual(originalBytes.Length, cmapBytes?.Length);
@@ -29,7 +29,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeCmapTable_Format12()
         {
-            var font = OpenTypeFonts.LoadFont("Noto Emoji");
+            var font = TestFolderEngine.LoadFont("Noto Emoji");
 
             // Ta unique chars from the originalfonts cmap (format 4 + 12)
             var allCodePoints = new HashSet<uint>();

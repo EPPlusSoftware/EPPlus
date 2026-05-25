@@ -15,7 +15,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void TestVerticalMetrics_Vhea()
         {
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             Assert.IsNotNull(font);
             var vhea = font.VheaTable;
             Assert.IsNotNull(vhea, "vhea table should be present in a CJK font.");
@@ -30,7 +30,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void TestVerticalMetrics_Vmtx()
         {
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             Assert.IsNotNull(font);
 
             var vhea = font.VheaTable;

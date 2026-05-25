@@ -25,7 +25,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Abc_ShouldHaveNoLigatures()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset(new[] { 'a', 'b', 'c' });
 
             SaveFontForCurrentTest(subset);
@@ -37,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Fiffig_ShouldHaveThreeLigatures()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("fiffig");
 
             SaveFontForCurrentTest(subset);
@@ -49,7 +49,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Fi_ShouldHaveFiLigature()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("fi");
 
             SaveFontForCurrentTest(subset);
@@ -61,7 +61,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Ff_ShouldHaveFfLigature()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("ff");
 
             SaveFontForCurrentTest(subset);
@@ -77,7 +77,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [DataRow("fl")]
         public void Subset_CommonLigatures_ShouldWork(string text)
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset(text);
 
             SaveFontForCurrentTest(subset, text);
@@ -92,7 +92,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_OnlyF_ShouldNotCrash()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("f");
 
             SaveFontForCurrentTest(subset);
@@ -105,7 +105,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Office_ShouldHaveFfiLigature()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("office");
 
             SaveFontForCurrentTest(subset);
@@ -117,7 +117,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_HasLigatureLookupType()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("fi");
 
             bool hasLigatures = FontTestHelper.HasGsubLookupType(subset, 4);

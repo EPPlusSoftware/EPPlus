@@ -14,7 +14,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         private OpenTypeFont LoadTestFont()
         {
             // Adjust path to a font available in your test environment
-            return OpenTypeFonts.LoadFont("Roboto");
+            return TestFolderEngine.LoadFont("Roboto");
         }
 
         [TestMethod]
@@ -22,7 +22,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             // Arrange
             var font = LoadTestFont();
-            var manager = new FontSubsetManager(font);
+            var manager = new FontSubsetManager(TestFolderEngine, font);
 
             // Act
             manager.AddText("Hello World");
@@ -49,7 +49,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             // Arrange
             var font = LoadTestFont();
-            var provider = new DefaultFontProvider(font);
+            var provider = new DefaultFontProvider(TestFolderEngine, font);
             var manager = new FontSubsetManager(provider);
 
             // Act - Add text with emoji (U+1F600 = 😀, handled by Noto Emoji fallback)
@@ -77,7 +77,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             // Arrange
             var font = LoadTestFont();
-            var manager = new FontSubsetManager(font);
+            var manager = new FontSubsetManager(TestFolderEngine, font);
 
             // Act - Add text in multiple calls (simulates scanning multiple cells)
             manager.AddText("ABC");
@@ -101,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             // Arrange - DefaultFontProvider has Noto Emoji + Noto Math as fallbacks
             var font = LoadTestFont();
-            var provider = new DefaultFontProvider(font);
+            var provider = new DefaultFontProvider(TestFolderEngine, font);
             var manager = new FontSubsetManager(provider);
 
             // Act - Only ASCII text, no emoji or math symbols
@@ -119,7 +119,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         {
             // Arrange
             var font = LoadTestFont();
-            var manager = new FontSubsetManager(font);
+            var manager = new FontSubsetManager(TestFolderEngine, font);
 
             // Act & Assert - Should handle gracefully
             manager.AddText(null);

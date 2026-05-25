@@ -28,8 +28,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_Office()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var result = shaper.Shape("office");
@@ -43,8 +43,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_AtStart()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act - ffi at the beginning of text (no backtrack context)
             var result = shaper.Shape("fficer");
@@ -58,8 +58,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_AtEnd()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act - ffi at the end of text (no lookahead context)
             var result = shaper.Shape("offi");
@@ -73,8 +73,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_MultipleFfiLigatures()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act - Multiple ffi sequences in same text
             var result = shaper.Shape("office officer");
@@ -93,9 +93,9 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_Type6BeforeType4_CorrectOrder()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var subset = font.CreateSubset("office fit");
-            var shaper = new TextShaper(subset);
+            var shaper = new TextShaper(TestFolderEngine,subset);
 
             // Act - Text with both ffi (Type 6) and fi (Type 4) ligatures
             var result = shaper.Shape("office fit");
@@ -114,8 +114,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         public void ChainingContextual_Roboto_FfiLigature_HasCorrectMetrics()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("Roboto");
-            var shaper = new TextShaper(font);
+            var font = TestFolderEngine.LoadFont("Roboto");
+            var shaper = new TextShaper(TestFolderEngine,font);
 
             // Act
             var result = shaper.Shape("ffi");

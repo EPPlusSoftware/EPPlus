@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_SubsetContainsVheaTable()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             Assert.IsNotNull(font.VheaTable, "BIZ UDGothic should have a vhea table");
 
             // Act
@@ -50,7 +50,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_SubsetContainsVmtxTable()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             Assert.IsNotNull(font.VmtxTable, "BIZ UDGothic should have a vmtx table");
 
             // Act
@@ -68,7 +68,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_FontWithoutVmtx_SubsetDoesNotContainVmtxTable()
         {
             // Arrange - Roboto has no vmtx/vhea
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             Assert.IsNull(font.VmtxTable, "Roboto should not have a vmtx table");
 
             // Act
@@ -88,7 +88,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_VheaNumberOfVMetricsMatchesGlyphCount()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
 
             // Act
             var subset = font.CreateSubset("日本語");
@@ -112,7 +112,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_VmtxAdvanceHeightPreservedForSubsettedGlyphs()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             var text = "日";
 
             // Get original glyph ID and advance height before subsetting
@@ -141,7 +141,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_VmtxEntryCountMatchesGlyphCount()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
 
             // Act
             var subset = font.CreateSubset("東京");
@@ -161,7 +161,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         public void Subset_CjkFont_PassesValidationAfterSubsetting()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
 
             // Act
             var subset = font.CreateSubset("日本語テスト");

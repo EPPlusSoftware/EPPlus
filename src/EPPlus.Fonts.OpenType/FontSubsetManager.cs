@@ -44,8 +44,8 @@ namespace EPPlus.Fonts.OpenType
             _sourceProvider = sourceProvider;
         }
 
-        public FontSubsetManager(OpenTypeFont font)
-            : this(new DefaultFontProvider(font))
+        public FontSubsetManager(OpenTypeFontEngine engine, OpenTypeFont font)
+            : this(new DefaultFontProvider(engine, font))
         {
             
         }
