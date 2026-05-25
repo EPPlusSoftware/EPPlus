@@ -8,18 +8,15 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  19/3/2026         EPPlus Software AB           EPPlus v8.6
+  25/5/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
-    internal partial class TrimRange
+    internal enum TrimCols
     {
-        private enum TrimCols
-        {
-            None = 0,
-            TrimLeading = 1,
-            TrimTrailing = 2,
-            TrimAll = 3
-        }
-    }
+        None = 0,
+        TrimLeading = 1,
+        TrimTrailing = 2,
+        TrimAll = 3
+    }    
 }

@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  19/3/2026         EPPlus Software AB           EPPlus v8.6
+  25/5/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
-    internal abstract partial class TrimFunctionsBase :  ExcelFunction
+    internal abstract class TrimFunctionsBase :  ExcelFunction
     {
         public override int ArgumentMinLength => 1;
         public override string NamespacePrefix => "_xlfn.";

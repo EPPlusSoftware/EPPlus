@@ -8,18 +8,15 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  19/3/2026         EPPlus Software AB           EPPlus v8.6
+  25/5/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
-    internal abstract partial class TrimFunctionsBase
+    internal enum TrimMode
     {
-        protected enum TrimMode
-        {
-            None = 0,
-            Leading = 1,
-            Trailing = 2,
-            Both = 3
-        }
+        None = 0,
+        Leading = 1,
+        Trailing = 2,
+        Both = 3
     }
 }

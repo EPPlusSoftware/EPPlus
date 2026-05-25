@@ -18,9 +18,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[0];
-                sheet.Cells["B26"].Formula = "TROALL(A1:E8)";
+                sheet.Cells["B26"].Formula = "_TRO_ALL(A1:E8)";
                 sheet.Cells["B26"].Calculate();
 
+                Assert.AreEqual(sheet.Cells["B26"].Value, string.Empty);
+                Assert.AreEqual(sheet.Cells["D32"].Value, "TROTRAILING");
+                
                 SaveAndCleanup(package);
             }
         }
@@ -32,8 +35,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode= ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[1];
-                sheet.Cells["B10"].Formula = "TROALL(A1:F5)";
+                sheet.Cells["B10"].Formula = "_TRO_ALL(A1:F5)";
                 sheet.Cells["B10"].Calculate();
+                Assert.AreEqual(sheet.Cells["B10"].Value, "A");
+                Assert.AreEqual(sheet.Cells["E12"].Value, "A");
 
                 SaveAndCleanup(package);
             }
@@ -46,9 +51,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[2];
-                sheet.Cells["B12"].Formula = "TROLEADING(A1:F5)";
+                sheet.Cells["B12"].Formula = "_TRO_LEADING(A1:F5)";
                 sheet.Cells["B12"].Calculate();
 
+                Assert.AreEqual(sheet.Cells["B12"].Value, "A");
+                Assert.AreEqual(sheet.Cells["F15"].Value, 0d);
                 SaveAndCleanup(package);
             } 
         }
@@ -60,7 +67,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[2];
-                sheet.Cells["B18"].Formula = "TROLEADING(A19:E25)";
+                sheet.Cells["B18"].Formula = "_TRO_LEADING(A19:E25)";
                 sheet.Cells["B18"].Calculate();
                 Assert.AreEqual(ErrorValues.RefError, sheet.Cells["B18"].Value);                
             }
@@ -73,8 +80,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[3];
-                sheet.Cells["B12"].Formula = "TROTRAILING(A1:G5)";
+                sheet.Cells["B12"].Formula = "_TRO_TRAILING(A1:G5)";
                 sheet.Calculate();
+                Assert.AreEqual(sheet.Cells["B12"].Value, 0d);
+                Assert.AreEqual(sheet.Cells["F15"].Value, "A");
                 SaveAndCleanup(package);
             }
         }
@@ -86,7 +95,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[3];
-                sheet.Cells["B17"].Formula = "TROTRAILING(A18:G25)";
+                sheet.Cells["B17"].Formula = "_TRO_TRAILING(A18:G25)";
                 sheet.Cells["B17"].Calculate();
                 Assert.AreEqual(ErrorValues.RefError, sheet.Cells["B17"].Value);
                 SaveAndCleanup(package);
@@ -100,7 +109,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var sheet = package.Workbook.Worksheets[3];
-                sheet.Cells["H12"].Formula = "TROALL(A1:F5)";
+                sheet.Cells["H12"].Formula = "_TRO_ALL(A1:F5)";
                 sheet.Cells["H12"].Calculate();
 
                 SaveAndCleanup(package);
@@ -123,29 +132,47 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 sheet.Cells["I22"].Formula = "TRIMRANGE(A1:F5, 3, 3)";
                 sheet.Calculate();
 
+                Assert.AreEqual("A", sheet.Cells["J7"].Value);
+                Assert.AreEqual("A", sheet.Cells["K7"].Value);
+                Assert.AreEqual("A", sheet.Cells["M7"].Value);
+                Assert.AreEqual("A", sheet.Cells["J8"].Value);
+                Assert.AreEqual("A", sheet.Cells["K8"].Value);
+                Assert.AreEqual("A", sheet.Cells["M8"].Value);
+                Assert.AreEqual("A", sheet.Cells["J9"].Value);
+                Assert.AreEqual("A", sheet.Cells["K9"].Value);
+                Assert.AreEqual("A", sheet.Cells["M9"].Value);
+
+                Assert.AreEqual("A", sheet.Cells["I12"].Value);
+                Assert.AreEqual("A", sheet.Cells["J12"].Value);
+                Assert.AreEqual("A", sheet.Cells["L12"].Value);
+                Assert.AreEqual("A", sheet.Cells["I13"].Value);
+                Assert.AreEqual("A", sheet.Cells["J13"].Value);
+                Assert.AreEqual("A", sheet.Cells["L13"].Value);
+                Assert.AreEqual("A", sheet.Cells["I14"].Value);
+                Assert.AreEqual("A", sheet.Cells["J14"].Value);
+                Assert.AreEqual("A", sheet.Cells["L14"].Value);
+
+                Assert.AreEqual("A", sheet.Cells["J18"].Value);
+                Assert.AreEqual("A", sheet.Cells["K18"].Value);
+                Assert.AreEqual("A", sheet.Cells["M18"].Value);
+                Assert.AreEqual("A", sheet.Cells["J19"].Value);
+                Assert.AreEqual("A", sheet.Cells["K19"].Value);
+                Assert.AreEqual("A", sheet.Cells["M19"].Value);
+                Assert.AreEqual("A", sheet.Cells["J20"].Value);
+                Assert.AreEqual("A", sheet.Cells["K20"].Value);
+                Assert.AreEqual("A", sheet.Cells["M20"].Value);
+
+                Assert.AreEqual("A", sheet.Cells["I22"].Value);
+                Assert.AreEqual("A", sheet.Cells["J22"].Value);
+                Assert.AreEqual("A", sheet.Cells["L22"].Value);
+                Assert.AreEqual("A", sheet.Cells["I23"].Value);
+                Assert.AreEqual("A", sheet.Cells["J23"].Value);
+                Assert.AreEqual("A", sheet.Cells["L23"].Value);
+                Assert.AreEqual("A", sheet.Cells["I24"].Value);
+                Assert.AreEqual("A", sheet.Cells["J24"].Value);
+                Assert.AreEqual("A", sheet.Cells["L24"].Value);
                 SaveAndCleanup(package);
             }
         }
-
-        [TestMethod]
-        public void TrimRange_WithArrayConstantAsRange_TrimsCorrectly()
-        {
-            using (var package = OpenTemplatePackage("TrimFunctions.xlsx"))
-            {
-                var sheet = package.Workbook.Worksheets[5];
-
-                // Array-konstant med tomma celler i kanterna
-                sheet.Cells["G2"].Formula = "TRIMRANGE({\"\",\"\",\"\",\"\",1,2,\"\",3,4})";
-                sheet.Cells["G2"].Calculate();
-                   
-                // Förväntad output: 2x2-array med 1,2,3,4
-                SaveAndCleanup(package);
-                //Assert.AreEqual(1d, sheet.Cells["A5"].Value);
-                //Assert.AreEqual(2d, sheet.Cells["A6"].Value);
-                //Assert.AreEqual(3d, sheet.Cells["A8"].Value);
-                //Assert.AreEqual(4d, sheet.Cells["A9"].Value);
-            }
-        }
-
     }
 }

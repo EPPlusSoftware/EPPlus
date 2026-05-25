@@ -8,27 +8,28 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  19/3/2026         EPPlus Software AB           EPPlus v8.6
+  25/5/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
 
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "8",
-        Description = "Trims all leading and trailing empty cells of a range or array",
-        SupportsArrays = true)]
-    internal class TroAll : TrimFunctionsBase
+        Description = "Trims all leading empty cells in a given range")]
+
+    internal class TroLeading : TrimFunctionsBase
     {
         public override int ArgumentMinLength => 1;
 
         public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-            => ExecuteTrim(arguments, TrimMode.Both, TrimMode.Both);              
+    => ExecuteTrim(arguments, TrimMode.Leading, TrimMode.Leading); 
     }
 }

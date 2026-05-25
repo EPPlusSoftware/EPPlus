@@ -353,9 +353,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["offset"] = new Offset();
             Functions["transpose"] = new Transpose();
             Functions["trimrange"] = new TrimRange();
-            Functions["troall"] = new TroAll();
-            Functions["troleading"] = new TroLeading();
-            Functions["trotrailing"] = new TroTrailing();
+            Functions["_tro_all"] = new TroAll();
+            Functions["_tro_leading"] = new TroLeading();
+            Functions["_tro_trailing"] = new TroTrailing();
             Functions["filter"] = new FilterFunction();
             Functions["sort"] = new SortFunction();
             Functions["sortby"] = new SortBy();
