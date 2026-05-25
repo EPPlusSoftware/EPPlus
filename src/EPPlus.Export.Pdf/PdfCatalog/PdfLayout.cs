@@ -119,6 +119,29 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                         text.GidsAndCharMap(dictionaries);
                                         pageLayout.AddChild(text);
                                     }
+                                    if (map.Main != null) // map.Main != null → this is NOT the top-left cell
+                                    {
+                                        var mergeMainStyle = map.Main.CellStyle;
+                                        if (HasDiagonalBorder(mergeMainStyle))
+                                        {
+                                            var diagBorder = new PdfCellBorderLayout(
+                                                mergeMainStyle,
+                                                isMerged: false,            // use X/Y/W/H path in renderer, not info.*
+                                                corners: MergedCellCorners.All,
+                                                info: info,
+                                                x: info.X,           // virtual full-merge top-left X
+                                                y: info.Y,           // virtual full-merge top Y
+                                                width: info.Width,       // full merge width
+                                                height: info.Height);     // full merge height
+                                            diagBorder.Name = map.Name;
+                                            // Suppress edge borders — this layout exists only for the diagonal
+                                            diagBorder.BorderData.Top.BorderStyle = ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Bottom.BorderStyle = ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Left.BorderStyle = ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Right.BorderStyle = ExcelBorderStyle.None;
+                                            pageLayout.AddChild(diagBorder);
+                                        }
+                                    }
                                     drawnMergedCells.Add(key);
                                 }
                             }
@@ -286,6 +309,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 (cellStyle.Diagonal != null && cellStyle.Diagonal.Style != ExcelBorderStyle.None);
             return hasBorders;
         }
+
+        private static bool HasDiagonalBorder(PdfCellStyle style) => style?.Diagonal != null && style.Diagonal.Style != ExcelBorderStyle.None;
 
         // TODO Count total pages when creating them isntead of looping them here.
         private static int GetTotalPages(List<Pages> pdfPages)
