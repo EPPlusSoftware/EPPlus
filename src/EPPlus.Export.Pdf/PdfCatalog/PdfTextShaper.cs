@@ -85,9 +85,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (Cell.TextLayoutEngine != null)
             {
                 if (Cell.ContentAligmnet.WrapText)
-                    Cell.TextLines = Cell.TextLayoutEngine.WrapRichTextLineCollection(Cell.TextFragments, Cell.ColumnWidth);
+                {
+                    double wrapWidth = (Cell.Merged && Cell.Main == null) ? Cell.Width : Cell.ColumnWidth;
+                    Cell.TextLines = Cell.TextLayoutEngine.WrapRichTextLineCollection(Cell.TextFragments, wrapWidth);
+                }
                 else
+                {
                     Cell.TextLines = Cell.TextLayoutEngine.WrapRichTextLineCollection(Cell.TextFragments, double.MaxValue);
+                }
             }
             Cell.TotalTextLength = totalTextLength;
         }

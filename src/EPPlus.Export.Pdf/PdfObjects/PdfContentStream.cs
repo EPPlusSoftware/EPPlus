@@ -122,11 +122,24 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
-            double advanceX = 0;
+            double advanceY = 0d;
+            double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int k = 0; k < cell.TextLines.Count; k++)
             {
                 var line = cell.TextLines[k];
+                double lineOffsetX = 0d;
+                switch (cell.CellAlignmentData.HorizontalAlignment)
+                {
+                    case ExcelHorizontalAlignment.Right:
+                        lineOffsetX = line0Width - line.Width;
+                        break;
+                    case ExcelHorizontalAlignment.Center:
+                        lineOffsetX = (line0Width - line.Width) / 2d;
+                        break;
+                        // Left / General / Fill: no adjustment needed.
+                }
+                double advanceX = 0;
                 for (int i = 0; i < line.LineFragments.Count; i++)
                 {
                     //var textFormat = cell.TextFormats[i];
@@ -149,15 +162,32 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
                     // find the starting glyph within that ShapedText using StartRtIdx
                     int glyphStart = 0;
+                    //int rtCharCount = 0;
+                    //for (int g = 0; g < shapedText.ShapedText.Glyphs.Length; g++)
+                    //{
+                    //    if (rtCharCount >= textFormat.StartRtIdx)
+                    //    {
+                    //        glyphStart = g;
+                    //        break;
+                    //    }
+                    //    rtCharCount += shapedText.ShapedText.Glyphs[g].CharCount;
+                    //}
+                    int charOffsetInShapedText = textFormat.StartFullTextIdx - shapedTextCharStart;
                     int rtCharCount = 0;
                     for (int g = 0; g < shapedText.ShapedText.Glyphs.Length; g++)
                     {
-                        if (rtCharCount >= textFormat.StartRtIdx)
+                        if (rtCharCount >= charOffsetInShapedText)
                         {
                             glyphStart = g;
                             break;
                         }
                         rtCharCount += shapedText.ShapedText.Glyphs[g].CharCount;
+                    }
+                    while (glyphStart < shapedText.ShapedText.Glyphs.Length && shapedText.ShapedText.Glyphs[glyphStart].GlyphId == 0)
+                    {
+                        shapedTextIndex++;
+                        shapedText = cell.ShapedTexts[shapedTextIndex];
+                        glyphStart = 0;
                     }
 
 
@@ -166,7 +196,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
                     double size = textFormat.OriginalTextFragment.Font.Size;
                     double scale = textFormat.OriginalTextFragment.Font.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
-                    Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X, position.Y);
+                    Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
                     commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
                     if (textFormat.OriginalTextFragment.RichTextOptions.SuperScript)
@@ -258,6 +288,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     commands.Add(sb.ToString() + "] TJ");
                     commands.Add("ET");
                 }
+                advanceY -= (line.LargestAscent + line.LargestDescent);
             }
         }
 
