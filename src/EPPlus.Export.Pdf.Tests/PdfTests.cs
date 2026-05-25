@@ -170,7 +170,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
             pageSettings.ShowGridLines = true;
-            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "c:\\epplustest\\pdf\\FullPageTest51.pdf");
+            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest52.pdf");
 
             //line breaks
             //wrap comments
