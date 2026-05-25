@@ -71,6 +71,11 @@ namespace EPPlusImageRenderer.Svg
             MajorDateUnit = dateUnit;
             LabelOrientation = orientation;
 
+            if(Rectangle == null)
+            {
+                Rectangle = new RectRenderItem(sc.Bounds);
+            }
+
             if (ax.Deleted == false)
             {
                 if (ax.Layout.HasLayout)

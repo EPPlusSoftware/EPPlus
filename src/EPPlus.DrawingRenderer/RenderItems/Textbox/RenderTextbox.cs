@@ -70,7 +70,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         { 
             get 
             {
-                 return LeftMargin + (TextBody.Bounds?.Width ?? 0D) + RightMargin;
+                 return LeftMargin + (TextBody?.Bounds?.Width ?? 0D) + RightMargin;
             } 
         }
         public double Height
