@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
+    /// <summary>
+    /// A section of text within the larger FullText
+    /// </summary>
     public class TextSection
     {
         int _startIdx;

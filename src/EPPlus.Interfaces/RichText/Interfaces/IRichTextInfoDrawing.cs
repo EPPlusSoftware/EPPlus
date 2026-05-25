@@ -9,7 +9,7 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
     /// <summary>
     /// See 'ExcelParagraphTextRunBase.cs' for all options this interface should support
     /// </summary>
-    public interface IRichTextInfoDrawing : IRichTextInfoBase
+    public interface IRichTextInfoDrawing : IRichTextInfoSimple
     {
         DrawingStrikeType DrawingStrike{ get; set; } /*{ get { return (DrawingStrikeType)StrikeType; } set { StrikeType = (int)value; } }*/
         DrawingUnderlineStyle UnderlineStyle { get; set; }

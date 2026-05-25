@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Interfaces.RichText
             }
         }
 
-        public IRichTextInfoBase Info { get; set; } = new RichTextDefaults();
+        public IRichTextInfoSimple Info { get; set; } = new RichTextDefaults();
         public string Text { get; set; }
     }
 }

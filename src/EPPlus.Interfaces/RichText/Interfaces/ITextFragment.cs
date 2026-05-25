@@ -5,10 +5,11 @@ using System.Text;
 
 namespace OfficeOpenXml.Interfaces.RichText.Interfaces
 {
-    public interface ITextFragment
+    /// <summary>
+    /// Additional input and measurement data for shaper/layoutengine
+    /// </summary>
+    public interface ITextFragment : ITextFragmentBase
     {
-        string Text { get; set; }
-        IRichText RichText { get; }
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }

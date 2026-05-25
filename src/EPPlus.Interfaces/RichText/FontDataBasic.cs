@@ -10,26 +10,32 @@ namespace OfficeOpenXml.Interfaces.RichText
     /// <summary>
     /// Data holder for basic font data
     /// </summary>
-    public class FontDataBasic : IFontData
+    public class FontDataBasic : FontDataDefaults
     {
-        public FontDataBasic(string fontFamily, FontSubFamily subFamily, double fontSize) 
+        public FontDataBasic(string fontFamily, FontSubFamily subFamily, float fontSize) 
         {
             FontFamily = fontFamily;
             SubFamily = subFamily;
-            FontSize = fontSize;
+            Size = fontSize;
         }
         public FontDataBasic() {}
+
+        /// <summary>
+        /// Legacy constructor. Prefer to avoid with new implementations. To be removed after refactor
+        /// </summary>
+        /// <param name="font"></param>
         public FontDataBasic(MeasurementFont font)
         {
             FontFamily = font.FontFamily;
             SubFamily = GetFontSubFamily(font.Style);
-            FontSize = font.Size;
+            Size = font.Size;
         }
 
-        public string FontFamily { get; set; }
-        public FontSubFamily SubFamily { get; set; }
-        public double FontSize { get; set; }
-
+        /// <summary>
+        /// Utility for Legacy constructor. Prefer to avoid with new implementations. To be removed after refactor
+        /// </summary>
+        /// <param name="style"></param>
+        /// <returns></returns>
         public static FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
         {
             if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==

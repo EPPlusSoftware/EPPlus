@@ -5,6 +5,9 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
+    /// <summary>
+    /// A collection of StyleRuns
+    /// </summary>
     internal class Paragraph : TextSection
     {
         private List<StyleRun> _styleRuns = new List<StyleRun>();

@@ -21,6 +21,7 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.AttributesUtils;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Interfaces.RichText;
 
 namespace OfficeOpenXml.Style
 {

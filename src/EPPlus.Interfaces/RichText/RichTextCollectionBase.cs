@@ -11,7 +11,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         List<IRichText> _list = new List<IRichText>();
 
         public IFontData DefaultFont;
-        public IRichTextInfoBase DefaultRichText;
+        public IRichTextInfoSimple DefaultRichText;
 
         /// <summary>
         /// Initalizes using hard-coded defaults
@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// </summary>
         /// <param name="defaultFont">Default Fallback Font Options</param>
         /// <param name="defaultRichTextOptions">Default RichText Options</param>
-        public RichTextCollectionBase(IFontData defaultFont, IRichTextInfoBase defaultRichTextOptions)
+        public RichTextCollectionBase(IFontData defaultFont, IRichTextInfoSimple defaultRichTextOptions)
         {
             DefaultFont = defaultFont;
             DefaultRichText = defaultRichTextOptions;

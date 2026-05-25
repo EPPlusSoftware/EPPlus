@@ -9,18 +9,10 @@ using System.Text;
 namespace OfficeOpenXml.Interfaces.RichText.Interfaces
 {
     /// <summary>
-    /// Interface for pdf/svg/future richtext users to unify richtext styling
+    /// Simple rich-text data like e.g. the data in Excel cells
     /// </summary>
-    public interface IRichTextInfoBase : IFontData
+    public interface IRichTextInfoSimple : IRichTextInfoEssential
     {
-        /// <summary>
-        /// This MUST interact with font data subfamily
-        /// </summary>
-        bool Italic { get; set; }
-        /// <summary>
-        /// This MUST interact with font data subfamily
-        /// </summary>
-        bool Bold { get; set; }
         bool SubScript { get; set; }
         bool SuperScript { get; set; }
 
@@ -35,12 +27,6 @@ namespace OfficeOpenXml.Interfaces.RichText.Interfaces
 
         Color UnderlineColor { get; set; }
         public Color FontColor { get; set; }
-
-        /// <summary>
-        /// Sets the underlying data properties to be equal to the font
-        /// </summary>
-        /// <param name="font"></param>
-        public void SetFont(IFontData font);
 
         //TODO: ColorSettings independent from Epplus
     }

@@ -96,12 +96,12 @@ namespace OfficeOpenXml.Interfaces.RichText
         public Color FontColor { get; set; }
         public string FontFamily { get; set; }
         public FontSubFamily SubFamily { get; set; }
-        public double FontSize { get; set; }
+        public double Size { get; set; }
 
         public void SetFont(IFontData font)
         {
             FontFamily = font.FontFamily;
-            FontSize = font.FontSize;
+            Size = font.Size;
             SubFamily = font.SubFamily;
         }
     }

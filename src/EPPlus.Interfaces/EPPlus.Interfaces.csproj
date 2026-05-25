@@ -29,4 +29,8 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="RichText\Interfaces\TextFragmentModel\" />
+	</ItemGroup>
 </Project>

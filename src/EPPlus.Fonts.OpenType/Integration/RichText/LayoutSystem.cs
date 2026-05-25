@@ -196,8 +196,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 {
                     var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
                     double[] charWidths = new double[styleRun.Length + 1];
-                    shapedGlyphs.FillCharWidths((float)inputFrag.FontSize, charWidths, styleRun.Length + 1);
-                    var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.FontSize);
+                    shapedGlyphs.FillCharWidths((float)inputFrag.Size, charWidths, styleRun.Length + 1);
+                    var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.Size);
                     styleRun.SetCharWidths(charWidths, spaceWidth);
                 }
                 else
@@ -211,8 +211,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.FontFamily, lastFragment.SubFamily);
             var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
             double[] lastCharWidths = new double[lastRun.Length + 1];
-            lastShapedGlyphs.FillCharWidths((float)lastFragment.FontSize, lastCharWidths, lastRun.Length + 1);
-            var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.FontSize);
+            lastShapedGlyphs.FillCharWidths((float)lastFragment.Size, lastCharWidths, lastRun.Length + 1);
+            var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.Size);
             lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
         }
         /// <summary>
@@ -254,7 +254,6 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <summary>
         /// Wrapping/line breaking
         /// </summary>
-        /// <param name="fontDirectories"></param>
         /// <param name="maxWidth"></param>
         /// <returns></returns>
         public TextLineCollection WrapAlt(double maxWidth)
@@ -285,7 +284,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     if (frag == null) continue;
                     largestAscent = Math.Max(frag.AscentPoints, largestAscent);
                     largestDescent = Math.Max(frag.DescentPoints, largestDescent);
-                    largestFontSize = Math.Max(largestFontSize, frag.FontSize);
+                    largestFontSize = Math.Max(largestFontSize, frag.Size);
                 }
                 line.LargestAscent = largestAscent;
                 line.LargestDescent = largestDescent;

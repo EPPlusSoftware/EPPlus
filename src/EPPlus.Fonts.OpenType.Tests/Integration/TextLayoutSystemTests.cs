@@ -258,9 +258,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void EnsureWrappingRichTextAndGettingLineSpacing()
         {
             List<string> txtLst = new List<string>() { "Hi", "I am rich", "But I am Even Richer" };
-            var rt = new RtDataBasic(txtLst[0], "Roboto", 12d);
-            var rtSecond = new RtDataBasic(txtLst[1], "Archivo Narrow", 11d);
-            var rtThird = new RtDataBasic(txtLst[2], "Roboto", 18d);
+            var rt = new RtDataBasic(txtLst[0], "Roboto", 12f);
+            var rtSecond = new RtDataBasic(txtLst[1], "Archivo Narrow", 11f);
+            var rtThird = new RtDataBasic(txtLst[2], "Roboto", 18f);
 
             rtThird.Italic = true;
             rtThird.Bold = true;
@@ -294,7 +294,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             richRt.Info.Italic = true;
 
             richerRt.Info.FontFamily = "Roboto";
-            richerRt.Info.FontSize = 16;
+            richerRt.Info.Size = 16;
             richerRt.Info.Italic = true;
             richerRt.Info.UnderlineType = (int)ExcelUnderLineType.Single;
 
@@ -302,7 +302,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             richestRt.Info.FontColor = Color.BlueViolet;
             richestRt.Info.Bold = true;
             richestRt.Info.Italic = true;
-            richerRt.Info.FontSize = 18;
+            richerRt.Info.Size = 18;
 
 
             //someTextRt.FontData.Family = "Archivo Narrow";
