@@ -94,13 +94,13 @@ namespace OfficeOpenXml.Interfaces.RichText
         public int StrikeType { get; set; } = (int)DrawingStrikeType.No;
         public Color UnderlineColor { get; set; }
         public Color FontColor { get; set; }
-        public string FontFamily { get; set; }
+        public string FamilyName { get; set; }
         public FontSubFamily SubFamily { get; set; }
         public float Size { get; set; }
 
         public void SetFont(IFontData font)
         {
-            FontFamily = font.FontFamily;
+            FamilyName = font.FamilyName;
             Size = font.Size;
             SubFamily = font.SubFamily;
         }

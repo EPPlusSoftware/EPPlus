@@ -22,8 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Xml;
-using OfficeOpenXml.Interfaces.RichText.Interfaces;
-
+using OfficeOpenXml.Interfaces.RichText;
 
 namespace OfficeOpenXml.Drawing
 {

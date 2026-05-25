@@ -290,15 +290,15 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var richestRt = rtCollection.Add("richest");
             var wealthyRt = rtCollection.Add("Wealthy");
 
-            richRt.Info.FontFamily = "Roboto";
+            richRt.Info.FamilyName = "Roboto";
             richRt.Info.Italic = true;
 
-            richerRt.Info.FontFamily = "Roboto";
+            richerRt.Info.FamilyName = "Roboto";
             richerRt.Info.Size = 16;
             richerRt.Info.Italic = true;
             richerRt.Info.UnderlineType = (int)ExcelUnderLineType.Single;
 
-            richestRt.Info.FontFamily = "Oi";
+            richestRt.Info.FamilyName = "Oi";
             richestRt.Info.FontColor = Color.BlueViolet;
             richestRt.Info.Bold = true;
             richestRt.Info.Italic = true;

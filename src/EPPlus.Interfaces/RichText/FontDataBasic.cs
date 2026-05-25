@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Interfaces.RichText
     {
         public FontDataBasic(string fontFamily, FontSubFamily subFamily, float fontSize) 
         {
-            FontFamily = fontFamily;
+            FamilyName = fontFamily;
             SubFamily = subFamily;
             Size = fontSize;
         }
@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// <param name="font"></param>
         public FontDataBasic(MeasurementFont font)
         {
-            FontFamily = font.FontFamily;
+            FamilyName = font.FontFamily;
             SubFamily = GetFontSubFamily(font.Style);
             Size = font.Size;
         }

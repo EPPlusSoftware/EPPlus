@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Interfaces.RichText
             FirstInParagraph = firstInParagraph;
             if (string.IsNullOrEmpty(fontFamily) == false)
             {
-                Info.FontFamily = fontFamily;
+                Info.FamilyName = fontFamily;
             }
         }
 

@@ -43,16 +43,6 @@ namespace OfficeOpenXml.Style
         public bool PreserveSpace { get; set; } = true;
 
         /// <summary>
-        /// FontBold text
-        /// </summary>
-        public bool Bold { get; set; } = false;
-
-        /// <summary>
-        /// FontItalic text
-        /// </summary>
-        public bool Italic { get; set; } = false;
-
-        /// <summary>
         /// FontStrike-out text
         /// </summary>
         public bool Strike { get; set; } = false;
@@ -85,7 +75,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// Font size
         /// </summary>
-        public float Size
+        public override float Size
         {
             get
             {
@@ -181,6 +171,11 @@ namespace OfficeOpenXml.Style
         }
 
         /// <summary>
+        /// Font family name
+        /// </summary>
+        public override string FamilyName { get => _collection._cells.Style.Font.Name; set => base.FamilyName = _collection._cells.Style.Font.Name; }
+
+        /// <summary>
         /// Underline type of text
         /// </summary>
         public ExcelUnderLineType UnderLineType { get; set; } = ExcelUnderLineType.None;
@@ -217,7 +212,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// The text
         /// </summary>
-        public string Text
+        public override string Text
         {
             get
             {

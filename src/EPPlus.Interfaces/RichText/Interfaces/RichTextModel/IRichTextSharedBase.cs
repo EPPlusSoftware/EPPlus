@@ -5,7 +5,7 @@ using OfficeOpenXml.Interfaces.RichText.Interfaces;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
-    public interface IRichTextTrueBase : IRichTextInfoEssential
+    public interface IRichTextSharedBase : IRichTextInfoEssential
     {
         /// <summary>
         /// The most essential piece to measure

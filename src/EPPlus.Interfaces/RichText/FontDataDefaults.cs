@@ -8,13 +8,13 @@ namespace OfficeOpenXml.Interfaces.RichText
 {
     public class FontDataDefaults : IFontData
     {
-        public string FontFamily { get; set; } = "Archivo Narrow";
-        public FontSubFamily SubFamily { get; set; } = FontSubFamily.Regular;
-        public float Size { get; set; } = 11f;
+        public virtual string FamilyName { get; set; } = "Archivo Narrow";
+        public virtual FontSubFamily SubFamily { get; set; } = FontSubFamily.Regular;
+        public virtual float Size { get; set; } = 11f;
 
         public void SetFont(IFontData font)
         {
-            FontFamily = font.FontFamily;
+            FamilyName = font.FamilyName;
             Size = font.Size;
             SubFamily = font.SubFamily;
         }
