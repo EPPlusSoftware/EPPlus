@@ -591,6 +591,7 @@ namespace EPPlus.DrawingRenderer
             GroupRenderer = new SvgGroupRenderer(this, outputStream);
             TitleRenderer = new SvgTitleRenderer(outputStream);
             UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
+
             // ImageRenderer = new SvgImageRenderer(outputStream);
         }
         public BaseRenderer<StringBuilder, GroupRenderItem> GroupRenderer { get; }

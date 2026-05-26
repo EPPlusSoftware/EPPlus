@@ -55,8 +55,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// We must extract font info from this but nothing else is supposed to be done with this within opentype
         /// </summary>
         public new IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
-
-        public override float Size { get => Font.Size; }
     }
 
     public class TextFragmentBase : ITextFragmentBase
