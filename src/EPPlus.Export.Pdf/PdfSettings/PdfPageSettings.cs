@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -89,6 +90,16 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// Set true to show row and column headings.
         /// </summary>
         public bool ShowHeadings = false;
+
+        /// <summary>
+        /// Set the range to repeat at the top of the page.
+        /// </summary>
+        public ExcelRange RowsToRepeatAtTop = null;
+
+        /// <summary>
+        /// Set the range to repeat to the left of the page.
+        /// </summary>
+        public ExcelRange ColumnsToRepeatAtLeft = null;
 
         /// <summary>
         /// Set if comments and notes should be included.
