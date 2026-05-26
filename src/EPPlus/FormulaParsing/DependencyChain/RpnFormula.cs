@@ -280,12 +280,12 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if (e.ExpressionType == ExpressionType.CellAddress)
                 {
-                    e._cachedCompileResult = null;
+                    e.Reset();
                 }
                 if(e.ExpressionType == ExpressionType.Function)
                 {
                     var funcExp= e as FunctionExpression;
-                    funcExp.Status = ExpressionStatus.NoSet;
+                    e.Reset();
                     var key = funcExp.GetExpressionKey(this);
                     if (key != null)
                     {
@@ -303,6 +303,49 @@ namespace OfficeOpenXml.FormulaParsing
         {
             return _ws?.IndexInList??-1;
         }
+
+        internal bool PreviousFunctionIsAnchorArray()
+        {
+            var ix = _tokenIndex-1;
+            while(ix>=0)
+            {
+                if (_tokens[ix].TokenType == TokenType.StartFunctionArguments)
+                {
+                    var f = _tokens[ix].Value.ToString().ToLower();
+                    if (f == "anchorarray" || f == "_xlfn.anchorarray")
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else if (_tokens[ix].TokenType != TokenType.OpeningParenthesis &&
+                         _tokens[ix].TokenType != TokenType.WhiteSpace)
+                {
+                    return false;
+                }
+
+                ix--;
+            }
+            return false;
+        }
+
+        internal void Reset(RpnOptimizedDependencyChain depChain)
+        {
+            if (_tokenIndex <= 0) return;
+            _tokenIndex = -1; //tokenindex will be incremented to 0 at the beginning of formula execution
+            _enumeratorWorksheetIx = 0;
+            _formulaEnumerator = null;
+            _openParenthesis = 0;
+            _currentFunction = null;
+            _lambdaFormulaStackCount = 0;
+
+            _expressionStack.Clear();
+            _funcStack.Clear();
+            VariableStorage.Clear();
+            LambdaSettings.Reset();
+            ClearCache(depChain);
+        }
+
         internal virtual RpnFormulaType Type
         {
             get

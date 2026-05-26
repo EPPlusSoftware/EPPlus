@@ -1628,13 +1628,60 @@ namespace EPPlusTest.Issues
 
 
                 //ws.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+                p.Workbook.FullCalcOnLoad = false;
                 p.Workbook.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
 
                 // The following method removes any logger attached to the workbook.
                 p.Workbook.FormulaParserManager.DetachLogger();
 
-                SaveAndCleanup(p);
+                var wsTechnical = p.Workbook.Worksheets["Technical"];
+                Assert.AreEqual(18D, Convert.ToDouble(wsTechnical.Cells["K13"].Value));
+
+                var wsSummary = p.Workbook.Worksheets["Summary"];
+                Assert.AreEqual("No!", wsSummary.Cells["E75"].Value);
+                Assert.AreEqual(795060D, wsSummary.Cells["A75"].Value);
+                SaveWorkbook("S1048-calculated.xlsx",p);
+            }
+
+            //using (var p = OpenTemplatePackage("s1048PreCalc.xlsx"))
+            //{
+            //    var ws = p.Workbook.Worksheets[0];
+            //    // Output from the logger will be written to the following file
+            //    var logfile = new FileInfo(@"c:\temp\logfileS1048PreCalc.txt");
+            //    // Attach the logger before the calculation is performed.
+            //    p.Workbook.FormulaParserManager.AttachLogger(logfile);
+
+
+            //    p.Workbook.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+            //    // The following method removes any logger attached to the workbook.
+            //    p.Workbook.FormulaParserManager.DetachLogger();
+
+            //    SaveAndCleanup(p);
+            //}
+        }
+        [TestMethod]
+        public void s1048_Calculated()
+        {
+            using (var p = OpenTemplatePackage("s1048-Calculated.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Summary"];
+                // Output from the logger will be written to the following file
+                var logfile = new FileInfo(@"c:\temp\logfileS1048-pre.txt");
+                // Attach the logger before the calculation is performed.
+                p.Workbook.FormulaParserManager.AttachLogger(logfile);
+
+
+                //ws.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+                p.Workbook.FullCalcOnLoad = false;
+                p.Workbook.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                // The following method removes any logger attached to the workbook.
+                p.Workbook.FormulaParserManager.DetachLogger();
+
+                SaveWorkbook("S1048-pre-calculated.xlsx", p);
             }
 
             //using (var p = OpenTemplatePackage("s1048PreCalc.xlsx"))

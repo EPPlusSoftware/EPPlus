@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 return calc.GetDebugInfo();
             }
-            return _compileResult.ToString();   
+            return _compileResult.ToString();
         }
 
         internal override ExpressionType ExpressionType => ExpressionType.LambdaCalculation;

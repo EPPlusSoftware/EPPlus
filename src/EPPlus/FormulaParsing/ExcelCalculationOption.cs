@@ -34,6 +34,8 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public class ExcelCalculationOption
     {
+        internal const int MaxArrayFormulaRecalculationIterations=100; // To prevent infinite loops when calculating dynamic array formulas, EPPlus will stop recalculating after this many iterations. This is currently not a user configurable option, as using a higher value can cause performance issues or stack overflow exceptions.
+
         /// <summary>
         /// Constructor
         /// </summary>

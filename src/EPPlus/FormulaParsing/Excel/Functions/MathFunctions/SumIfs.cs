@@ -80,11 +80,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 var result = GetSumValue(context, valueRange, argRanges, criteria, 0, 0, out ExcelErrorValue ev);
 
-                if(criteria[0].Value != null && criteria[0].Value.GetType() == typeof(double) && (double)criteria[0].Value == 790020d)
-                {
-                    string stop = "stop";
-                }
-
                 if (double.IsNaN(result) && ev != null)
                 {
                     return CreateResult(ev, DataType.ExcelError);
@@ -119,7 +114,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private double GetSumValue(ParsingContext context, IRangeInfo valueRange, List<RangeOrValue> argRanges, List<RangeOrValue> criterias, int row, int col, out ExcelErrorValue ev)
         {
-
             GetFilteredValueRange(context, valueRange, argRanges, criterias, row, col, out List<int> matchIndexes, out List<object> sumRange);
 
             KahanSum result = 0d;
