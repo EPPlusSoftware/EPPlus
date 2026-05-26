@@ -3,6 +3,7 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
@@ -15,7 +16,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -27,13 +28,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         int _manualFragmentsStartIndex = -1;
         List<ITextFragmentBase> _manualFragments;
         internal DrawingTextbody ParentTextBody { get; set; }
-        private List<TextLineSimple> _lines;
+        private TextLineCollection _lines;
         //Start temp workaround vars
         string _textIfEmpty = null;
         ExcelDrawingParagraph Paragraph { get; set; } = null;
         //end temp workaround vars
 
-        LayoutSystem layoutSystem;
+        LayoutSystem _layoutSystem;
 
         private double? _centerAdjustment = null;
         bool LinespacingIsExact 
@@ -265,6 +266,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 currentFrag.RichTextOptions.SetFont(ParagraphFont);
                 _newTextFragments.Add(currentFrag);
             }
+            _layoutSystem = new LayoutSystem(_newTextFragments);
         }
 
         /// <summary>
@@ -276,8 +278,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             //List<TextFragmentBase> fragments = new List<TextFragmentBase>();
 
-            //var lstOfRichText = runs.ExportToOpenTypeFormat();
+            var lstOfRichText = runs.ExportToOpenTypeFormat();
+            _layoutSystem = new LayoutSystem(lstOfRichText);
 
+            //Use this instead if we ever need shaping options
             //foreach (var run in lstOfRichText)
             //{
             //    TextFragmentBase frag = new TextFragmentBase(run);
@@ -288,31 +292,31 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //    fragments.Add(frag);
             //}
 
-            //layoutSystem = new LayoutSystem(fragments);
+            //_layoutSystem = new LayoutSystem(lstOfRichText);
 
-            List<string> runContents = new List<string>();
-            List<MeasurementFont> fonts = new List<MeasurementFont>();
+            //List<string> runContents = new List<string>();
+            //List<MeasurementFont> fonts = new List<MeasurementFont>();
             
-            for (int i = 0; i < runs.Count(); i++)
-            {
-                var txtRun = runs[i];
-                var runFont = txtRun.GetMeasurementFont();
+            //for (int i = 0; i < runs.Count(); i++)
+            //{
+            //    var txtRun = runs[i];
+            //    var runFont = txtRun.GetMeasurementFont();
 
-                fonts.Add(runFont);
-                runContents.Add(txtRun.Text);
-            }
+            //    fonts.Add(runFont);
+            //    runContents.Add(txtRun.Text);
+            //}
 
-            _newTextFragments = new List<ITextFragmentBase>();
+            //_newTextFragments = new List<ITextFragmentBase>();
 
-            for (int i = 0; i < runContents.Count(); i++)
-            {
-                if (string.IsNullOrEmpty(runContents[i]) == false)
-                {
-                    var currentFrag = new TextFragment() { Text = runContents[i] };
-                    currentFrag.RichTextOptions.SetFont(ParagraphFont);
-                    _newTextFragments.Add(currentFrag);
-                }
-            }
+            //for (int i = 0; i < runContents.Count(); i++)
+            //{
+            //    if (string.IsNullOrEmpty(runContents[i]) == false)
+            //    {
+            //        var currentFrag = new TextFragment() { Text = runContents[i] };
+            //        currentFrag.RichTextOptions.SetFont(ParagraphFont);
+            //        _newTextFragments.Add(currentFrag);
+            //    }
+            //}
         }
 
         internal void ImportLinesAndTextRunsDefault(string textIfEmpty)
@@ -356,47 +360,20 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _lines = WrapFragmentsToLines();
 
             //In points
-            double lastDescent = 0;
-            double lineTop = 0;
-            double greatestWidth = 0;
+            double baseLinePosition = 0;
+            double widthOfLargestLine = 0;
+            //has value if there is linespacing otherwise isNaN
+            //Don't do this on the actual property as a paragraph can have a fallback linespacing without it being applied
+            //We should not change the 'ParagraphLineSpacing' variable directly here
+            double lineSpacingResult = LinespacingIsExact ? ParagraphLineSpacing : double.NaN;
 
             if (_lines != null && _lines.Count != 0)
             {
-                //This could be moved into a textLines collection class
-                //START
-                var idxOfLargestLine = 0;
-                double widthOfLargestLine = _lines[0].GetWidthWithoutTrailingSpaces();
+                widthOfLargestLine = _lines.LargestWidthWithoutSpace;
 
-                for (int i = 1; i < _lines.Count; i++)
-                {
-                    if (_lines[i].Width > widthOfLargestLine)
-                    {
-                        var ctrLineWidth = _lines[i].GetWidthWithoutTrailingSpaces();
-                        SpaceWidthsPerLine.Add(_lines[i].lastFontSpaceWidth);
-                        widthOfLargestLine = ctrLineWidth;
-                        idxOfLargestLine = i;
-                    }
-                }
-                //END
+                SetHorizontalAlignment(widthOfLargestLine, string.IsNullOrEmpty(textIfEmpty));
 
-
-                if (HorizontalAlignment == TextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && string.IsNullOrEmpty(textIfEmpty))
-                {
-                    //Bounds of the paragraph should be bounds of the text itself.
-                    //Therefore we must know the starting point to set accurate left and offset from left.
-                    Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
-                }
-                else
-                {
-                    Bounds.Left = 0;
-                }
-                //if (ParentTextBody.AutoSize)
-                //{
-                //    //Bounds of the paragraph should be bounds of the text itself.
-                //    //Therefore we must know the starting point to set accurate left and offset from left.
-                //    Bounds.Left = 0;
-                //}
-
+                int lineIdx = 0;
                 foreach (var line in _lines)
                 {
                     double prevWidth = 0;
@@ -414,24 +391,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
                         prevWidth = widthOfLargestLine - ctrLineWidth;
                     }
-
-                    if (LinespacingIsExact == false)
-                    {
-                        lineTop += line.LargestAscent + lastDescent;
-                    }
-                    else
-                    {
-                        lineTop += ParagraphLineSpacing;
-                    }
-                    if (line.GetWidthWithoutTrailingSpaces() > greatestWidth)
-                    {
-                        greatestWidth = line.GetWidthWithoutTrailingSpaces();
-                    }
-
                     foreach (var lineFragment in line.LineFragments)
                     {
                         var displayText = lineFragment.Text;
-
 
                         if (p != null && p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
                         {
@@ -440,7 +402,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         }
                         else if (p != null && p.TextRuns.Count != 0)
                         {
-                            var rtIdx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
+                            var rtIdx = _layoutSystem.InputFragments.IndexOf(lineFragment.OriginalTextFragment);
+                            //var rtIdx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
                             if (rtIdx > p.TextRuns.Count - 1)
                             {
                                 AddText(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
@@ -448,7 +411,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                             else
                             {
                                 //Import Paragraph text run
-                                var idx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
+                                var idx = _layoutSystem.InputFragments.IndexOf(lineFragment.OriginalTextFragment);
                                 AddRenderItemTextRun(p.TextRuns[idx], displayText);
                             }
                         }
@@ -459,38 +422,63 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         }
                         DrawingTextRunRenderItem runItem = (DrawingTextRunRenderItem)Runs.Last();
                         runItem.Bounds.Left = prevWidth;
-                        runItem.YPosition = lineTop;
+
+                        baseLinePosition = _lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
+                        runItem.YPosition = baseLinePosition;
 
                         runItem.Bounds.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
                     }
-                    lastDescent = line.LargestDescent;
+                    lineIdx++;
                 }
             }
-            Bounds.Height = lineTop + lastDescent;
-            Bounds.Width = greatestWidth;
+            Bounds.Height = _lines.GetHeightOfCollection(lineSpacingResult);
+            Bounds.Width = widthOfLargestLine;
         }
 
-        List<TextLineSimple> WrapFragmentsToLines(List<ITextFragmentBase> fragments = null)
+        void SetHorizontalAlignment(double widthOfLargestLine, bool textIfEmptyIsNull)
         {
-            if(fragments == null )
+            if (HorizontalAlignment == TextAlignment.Center && ParentTextBody.AutoSize && _centerAdjustment != null && textIfEmptyIsNull)
+            {
+                //Bounds of the paragraph should be bounds of the text itself.
+                //Therefore we must know the starting point to set accurate left and offset from left.
+                Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+            }
+            else
+            {
+                //Bounds of the paragraph should be bounds of the text itself.
+                //Therefore we must know the starting point to set accurate left and offset from left.
+                Bounds.Left = 0;
+            }
+        }
+
+        TextLineCollection WrapFragmentsToLines(List<ITextFragmentBase> fragments = null)
+        {
+            if (fragments == null && _layoutSystem == null)
             {
                 fragments = _newTextFragments;
+                _layoutSystem = new LayoutSystem(fragments);
             }
+            var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
+            return _layoutSystem.Wrap(maxWidthPoints);
+            //if (fragments == null )
+            //{
+            //    fragments = _newTextFragments;
+            //}
 
-            if (fragments.Count > 0)
-            {
-                if(Layout == null)
-                {
-                    Layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)fragments[0]);
-                }
+            //if (fragments.Count > 0)
+            //{
+            //    if(Layout == null)
+            //    {
+            //        Layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)fragments[0]);
+            //    }
 
-                var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
+            //    var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
 
-                _lines = Layout.WrapRichTextLines(fragments, maxWidthPoints);
-                return _lines;
-            }
-            return new List<TextLineSimple>();
+            //    _lines = Layout.WrapRichTextLines(fragments, maxWidthPoints);
+            //    return _lines;
+            //}
+            //return new List<TextLineSimple>();
         }
 
         internal double GetAlignmentHorizontal(TextAlignment txAlignment)

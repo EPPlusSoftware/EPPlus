@@ -144,6 +144,11 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
         }
 
+        public TextLineCollection()
+        {
+
+        }
+
         private void AddToDictionary(int idx, int lineNum, int fragPosInline)
         {
 
@@ -155,12 +160,26 @@ namespace EPPlus.Fonts.OpenType.Integration
             fragIdLookup[idx][lineNum].Add(fragPosInline);
         }
 
+        double _descentOfLastLine = -1d;
+        //Combined descent of previous line and ascent of current line gives the linespacing of that line
+        internal List<double> LinespacingPerLine = new List<double>();
+        /// <summary>
+        /// The total local position of the text baseLine
+        /// AKA the position of this line offset by all the lines before it.
+        /// </summary>
+        internal List<double> BaseLinePositions = new List<double>();
+
         internal void FinalizeTextLineData(List<TextLineSimple> lines)
         {
+            _descentOfLastLine = 0;
+            var currentLinePosition = 0d;
+
             for (int i = 0; i < lines.Count; i++)
             {
                 int lineNum = i;
                 int fragCount = 0;
+
+                currentLinePosition += lines[i].LargestAscent;
 
                 foreach (var lf in lines[i].InternalLineFragments)
                 {
@@ -188,6 +207,19 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                     fragCount++;
                 }
+
+                //The linespacing above this line
+                var lineSpacing = lines[i].LargestAscent + _descentOfLastLine;
+                lines[i].LineSpacingAbove = lineSpacing;
+                LinespacingPerLine.Add(lineSpacing);
+                
+                //All lines and spacing before it + the ascent of this line
+                //Gives the current local position
+                BaseLinePositions.Add(currentLinePosition);
+
+                _descentOfLastLine = lines[i].LargestDescent;
+                currentLinePosition += _descentOfLastLine;
+
                 Add(lines[i]);
             }
         }
@@ -231,7 +263,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 }
                 LargestWidthWithSpace = Math.Max(LargestWidthWithSpace, line.Width);
                 LargestWidthWithoutSpace = Math.Max(LargestWidthWithoutSpace, line.GetWidthWithoutTrailingSpaces());
-                SpaceWidthsPerLine.Add(line.lastFontSpaceWidth);
+                SpaceWidthsPerLine.Add(line.LastFontSpaceWidth);
                 lineIdx++;
             }
 
@@ -243,6 +275,57 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             FinalizeTextLineData(lines);
+        }
+
+        public double GetBaseLinePosition(int lineIndex, double exactLineSpacing = double.NaN)
+        {
+            double position = 0d;
+
+            if (double.IsNaN(exactLineSpacing))
+            {
+                position = BaseLinePositions[lineIndex];
+            }
+            else
+            {
+                position = lineIndex+1 * exactLineSpacing;
+            }
+
+            return position;
+        }
+
+        public double GetHeightOfCollection(double exactLineSpacing = double.NaN)
+        {
+            double height = 0;
+
+            if(double.IsNaN(exactLineSpacing))
+            {
+                foreach(var spacing in LinespacingPerLine)
+                {
+                    height += spacing;
+                }
+            }
+            else
+            {
+                height = exactLineSpacing * Count;
+            }
+
+            //Descent of the last line needs to be counted
+            //The last line has no line under it and thus its descent is not counted here otherwise.
+            height += _descentOfLastLine;
+
+            return height;
+        }
+
+        public double GetWidthOfCollection(bool withSpace = false)
+        {
+            if(withSpace)
+            {
+                return LargestWidthWithSpace;
+            }
+            else
+            {
+                return LargestWidthWithoutSpace;
+            }
         }
     }
 }

@@ -7,16 +7,15 @@ using System.Linq;
 namespace EPPlus.Fonts.OpenType.Integration.RichText
 {
     /// <summary>
-    /// A list of rich-text fragments with relation to eachother is a paragraph
+    /// A list of rich-text fragments with relation to eachother
+    /// Essentially a paragraph handler
     /// </summary>
     public class LayoutSystem
     {
         /// <summary>
-        /// The Unalatered input fragments
+        /// The Unaltered input fragments
         /// </summary>
-        List<ITextFragmentBase> InputFragments;
-
-        //List<TextFragmentBase> altInputFragments;
+        public List<ITextFragmentBase> InputFragments { get; private set; }
 
         //The text of the entire paragraph
         //regardless of linebreaking or style runs
@@ -43,67 +42,34 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 var frag = new TextFragmentBase(preFrag);
                 InputFragments.Add(frag);
             }
-
-            InitalizeAllTextAndCharInfo(InputFragments);
-
-            Segmentation();
-
-            Itemization();
-
-            Shaping();
-            //ShapingAlt(fragments);
-            //InitalizeAllTextAndCharInfo()
+            InitializeLayout();
         }
 
         public LayoutSystem(IEnumerable<ITextFragmentBase> fragments)
         {
             InputFragments = fragments.ToList();
-            //Extract basic info about the entire paragraph
-            InitalizeAllTextAndCharInfo();
-            //Split into sub paragraphs
-            Segmentation();
-
-            //TODO: Bi-directional analysis (level-runs) these will need to be merged with style runs
-
-            //Segmenting Style Runs (Itimization)
-            Itemization();
-
-            //Apply shaping (Scripting and Cluster) in simplest of terms Measure widths/heights of characters in runs
-            Shaping();
-
-            ////Line-breaking
-            //Wrapping(FontDirectories, dou);
+            InitializeLayout();
         }
 
-        /// <summary>
-        ///  Extract basic info about the entire paragraph
-        ///  Techically a string Lst would do but the point is to not repeat the strings but refer to them
-        /// </summary>
-        void InitalizeAllTextAndCharInfo(List<ITextFragmentBase> TestLst)
+        private void InitializeLayout()
         {
-            List<int> fragmentStartIdx = new List<int>();
-            int allCharIdx = 0;
-            int fragmentIdx = 0;
-            foreach (var fragment in TestLst)
+            if (InputFragments != null && InputFragments.Count > 0)
             {
-                int spanIndex = 0;
-                foreach (var c in fragment.Text)
-                {
-                    var currCharInfo = new CharInfo(allCharIdx, fragmentIdx, spanIndex);
-                    AllChars.Add(currCharInfo);
-                    if (char.IsSeparator(c))
-                    {
-                        currCharInfo.IsSeparator = true;
-                        SeparatorIndicies.Add(allCharIdx);
-                    }
+                //Extract basic info about the entire paragraph
+                InitalizeAllTextAndCharInfo();
+                //Split into sub paragraphs
+                Segmentation();
 
-                    spanIndex++;
-                    allCharIdx++;
-                }
-                FullText += fragment.Text;
-                fragmentIdx++;
+                //TODO: Bi-directional analysis (level-runs) these will need to be merged with style runs
+
+                //Segmenting Style Runs (Itimization)
+                Itemization();
+
+                //Apply shaping (Scripting and Cluster) in simplest of terms Measure widths/heights of characters in runs
+                Shaping();
             }
-            FullTextLength = allCharIdx;
+            //Line-breaking (Is called by user instead)
+            //Wrap();
         }
 
         /// <summary>
@@ -116,10 +82,6 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             int fragmentIdx = 0;
             foreach (var fragment in InputFragments)
             {
-                //var currentShaper = OpenTypeFonts.GetShaperForFont(fragment.Font);
-
-                //var currShapedText = currentShaper.ShapeLight(fragment.Text);
-
                 int spanIndex = 0;
                 foreach (var c in fragment.Text)
                 {
@@ -167,35 +129,42 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         {
             var subParagraphStartIdx = SubParagraphs[0].FullTextStart;
             var currIdx = subParagraphStartIdx;
-            var currFragIdx = AllChars[0].Fragment;
-            var lastRunIdx = 0;
-
-            for (int i = 0; i < SubParagraphs.Count; i++)
+            var currFragIdx = 0;
+            if (AllChars != null && AllChars.Count != 0)
             {
-                subParagraphStartIdx = SubParagraphs[i].FullTextStart;
-                currIdx = subParagraphStartIdx;
-                currFragIdx = AllChars[i].Fragment;
+                currFragIdx = AllChars[0].Fragment;
 
-                for (int j = 0; j < SubParagraphs[i].Length; j++)
+                var lastRunIdx = 0;
+
+                for (int i = 0; i < SubParagraphs.Count; i++)
                 {
-                    currIdx = subParagraphStartIdx + j;
-                    if (AllChars[currIdx].Fragment != currFragIdx)
-                    {
-                        //We have moved one beyond the last char to apply the given style.
-                        //Therefore -1 (unless it is on the very first idx)
-                        var styleRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx -1, 1), GetFullText, GetSection);
-                        StyleRuns.Add(styleRun);
-                        //TODO: Technically this should not get its own list it should refer back here
-                        SubParagraphs[i].AddStyleRun(styleRun);
-                        currFragIdx = AllChars[currIdx].Fragment;
-                        lastRunIdx = currIdx;
-                    }
-                }
-            }
+                    subParagraphStartIdx = SubParagraphs[i].FullTextStart;
+                    currIdx = subParagraphStartIdx;
 
-            var LastRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx, 1), GetFullText, GetSection);
-            StyleRuns.Add(LastRun);
-            SubParagraphs[SubParagraphs.Count -1].AddStyleRun(LastRun);
+                    currFragIdx = AllChars[i].Fragment;
+
+                    for (int j = 0; j < SubParagraphs[i].Length; j++)
+                    {
+                        currIdx = subParagraphStartIdx + j;
+                        if (AllChars[currIdx].Fragment != currFragIdx)
+                        {
+                            //We have moved one beyond the last char to apply the given style.
+                            //Therefore -1 (unless it is on the very first idx)
+                            var styleRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx - 1, 1), GetFullText, GetSection);
+                            StyleRuns.Add(styleRun);
+                            //TODO: Technically this should not get its own list it should refer back here
+                            SubParagraphs[i].AddStyleRun(styleRun);
+                            currFragIdx = AllChars[currIdx].Fragment;
+                            lastRunIdx = currIdx;
+                        }
+                    }
+
+                }
+
+                var LastRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx, 1), GetFullText, GetSection);
+                StyleRuns.Add(LastRun);
+                SubParagraphs[SubParagraphs.Count - 1].AddStyleRun(LastRun);
+            }
         }
 
         /// <summary>
@@ -205,32 +174,36 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <param name="shapeLight">Set to false for slower more exact positioning (very rarely neccesary)</param>
         void Shaping(bool shapeLight = true)
         {
-            foreach (var styleRun in StyleRuns)
+            if (InputFragments != null && InputFragments.Count > 0)
             {
-                var inputFrag = InputFragments[styleRun.FragmentIndex];
-                var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
-                if (shapeLight)
+                foreach (var styleRun in StyleRuns)
                 {
-                    var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
-                    double[] charWidths = new double[styleRun.Length + 1];
-                    shapedGlyphs.FillCharWidths((float)inputFrag.RichTextOptions.Size, charWidths, styleRun.Length + 1);
-                    var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextOptions.Size);
-                    styleRun.SetCharWidths(charWidths, spaceWidth);
+                    var inputFrag = InputFragments[styleRun.FragmentIndex];
+                    var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
+                    if (shapeLight)
+                    {
+                        var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
+                        double[] charWidths = new double[styleRun.Length + 1];
+                        shapedGlyphs.FillCharWidths((float)inputFrag.RichTextOptions.Size, charWidths, styleRun.Length + 1);
+                        var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextOptions.Size);
+                        styleRun.SetCharWidths(charWidths, spaceWidth);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("Proper shaping has not been implemented here yet");
+                    }
                 }
-                else
-                {
-                    throw new NotImplementedException("Proper shaping has not been implemented here yet");
-                }
-            }
 
-            var lastFragment = InputFragments[InputFragments.Count - 1];
-            var lastRun = StyleRuns[StyleRuns.Count - 1];
-            var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
-            var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
-            double[] lastCharWidths = new double[lastRun.Length + 1];
-            lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
-            var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.RichTextOptions.Size);
-            lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
+                var lastFragment = InputFragments[InputFragments.Count - 1];
+                var lastRun = StyleRuns[StyleRuns.Count - 1];
+                var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
+                var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
+                double[] lastCharWidths = new double[lastRun.Length + 1];
+                lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
+                var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.RichTextOptions.Size);
+
+                lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
+            }
         }
 
         /// <summary>
@@ -241,6 +214,10 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <returns></returns>
         public TextLineCollection Wrap(double maxWidth)
         {
+            if (InputFragments == null || InputFragments.Count <= 0)
+            {
+                return new TextLineCollection();
+            }
             var inputRt = InputFragments[0];
             var shaper = OpenTypeFonts.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
             var layoutEngine = new TextLayoutEngine(shaper);
@@ -252,7 +229,17 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
         string GetSection(int startIdx, int endIdx)
         {
-            var subString = FullText.Substring(startIdx, endIdx - startIdx + 1);
+            var len = endIdx - startIdx + 1;
+            len = len + startIdx > FullText.Length ? FullText.Length : len;
+            //var len = endIdx - startIdx;
+            //len = len < 0 ? len + 1 : len;
+            //len = len + startIdx > FullText.Length ? startIdx-len : len;
+            //if (startIdx == 0)
+            //{
+
+            //}
+            //var len = Math.Max(1, endIdx - startIdx + 1);
+            var subString = FullText.Substring(startIdx, len);
             return subString;
         }
 
