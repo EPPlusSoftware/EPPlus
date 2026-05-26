@@ -987,7 +987,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-
         public void PivotBy_YesAndShowHeaders_FieldNameRowLayout()
 
         {
@@ -1411,6 +1410,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(25d, s.Cells["I10"].Value);
             }
         }
+
         [TestMethod]
         public void PivotBy_HStackThreeFunctions_LayoutAndValues()
         {
@@ -1704,7 +1704,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             //   2026/Q1 = 4, 2026/Q2 = 8  -> 2026 subtotal = 12
             //   Grand total = 15
             //
-            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Verified in Excel (sv-SE) 2026-05-22:
             //   Spill range: F1:M4
             //     Row 1: ""       "Grand Total"  2025   2025   2025   2026   2026   2026
             //     Row 2: ""       ""             ""     "Q1"   "Q2"   ""     "Q1"   "Q2"
@@ -1773,12 +1773,151 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
+        [TestMethod]
+        public void PivotBy_NegativeRowTotalDepth2_GrandTotalAtTop_SubtotalsBeforeLeavesInEachGroup()
+        {
+            // RowTotalDepth = -2 produces:
+            //   * Grand total at the top (rowTotalAtTop, |depth| > 1 means label = "Grand Total")
+            //   * Row subtotals enabled (showRowSubtotals = |depth| > 1)
+            //   * Each country subtotal appears AT THE START of its group, before that group's leaves
+            //
+            // This mirrors what we fixed earlier for ColTotalDepth = -2 on the column axis:
+            // a negative sign flips BOTH grand total AND subtotal placement symmetrically.
+            //
+            // Current EPPlus puts subtotals AFTER their leaves regardless of sign - that's the
+            // bug this test catches. Grand-total-at-top is likely already handled correctly via
+            // rowTotalAtTop, but subtotal placement isn't tied to that flag.
+            //
+            // Data values are powers of two so every subtotal and grand total is unique:
+            //   Sweden/Stockholm/X = 1, Sweden/Göteborg/X = 2  -> Sweden subtotal = 3
+            //   Norway/Oslo/X = 4,      Norway/Bergen/X = 8    -> Norway subtotal = 12
+            //   Grand total = 15
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: F1:I8
+            //     Row 1: ""             ""           "X"  "Total"
+            //     Row 2: "Grand Total"  ""           15   15
+            //     Row 3: "Norway"       ""           12   12      <- subtotal BEFORE leaves
+            //     Row 4: "Norway"       "Bergen"     8    8
+            //     Row 5: "Norway"       "Oslo"       4    4
+            //     Row 6: "Sweden"       ""           3    3       <- subtotal BEFORE leaves
+            //     Row 7: "Sweden"       "Göteborg"   2    2
+            //     Row 8: "Sweden"       "Stockholm"  1    1
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Sweden"; s.Cells["B1"].Value = "Stockholm"; s.Cells["C1"].Value = "X"; s.Cells["D1"].Value = 1;
+                s.Cells["A2"].Value = "Sweden"; s.Cells["B2"].Value = "Göteborg"; s.Cells["C2"].Value = "X"; s.Cells["D2"].Value = 2;
+                s.Cells["A3"].Value = "Norway"; s.Cells["B3"].Value = "Oslo"; s.Cells["C3"].Value = "X"; s.Cells["D3"].Value = 4;
+                s.Cells["A4"].Value = "Norway"; s.Cells["B4"].Value = "Bergen"; s.Cells["C4"].Value = "X"; s.Cells["D4"].Value = 8;
+
+                s.Cells["F1"].Formula = "PIVOTBY(A1:B4, C1:C4, D1:D4, _xleta.SUM, , -2)";
+                s.Calculate();
+
+                // --- Row 1: column key header ---
+                Assert.IsTrue(IsBlank(s.Cells["F1"].Value), "F1 should be blank (corner).");
+                Assert.IsTrue(IsBlank(s.Cells["G1"].Value), "G1 should be blank (corner).");
+                Assert.AreEqual("X", s.Cells["H1"].Value);
+                Assert.AreEqual("Total", s.Cells["I1"].Value);
+
+                // --- Row 2: grand total AT TOP ---
+                Assert.AreEqual("Grand Total", s.Cells["F2"].Value,
+                    "Grand Total row must be at top (row 2, immediately after header). Label = 'Grand Total' for |depth| > 1.");
+                Assert.IsTrue(IsBlank(s.Cells["G2"].Value), "G2 should be blank on grand total row.");
+                Assert.AreEqual(15d, s.Cells["H2"].Value, "Grand total X = 1+2+4+8.");
+                Assert.AreEqual(15d, s.Cells["I2"].Value, "Grand total corner.");
+
+                // --- Row 3: Norway subtotal (BEFORE its leaves) ---
+                Assert.AreEqual("Norway", s.Cells["F3"].Value,
+                    "Norway subtotal must come BEFORE its leaves. Label is the group name, not 'Total'.");
+                Assert.IsTrue(IsBlank(s.Cells["G3"].Value), "G3 should be blank on subtotal row (city col).");
+                Assert.AreEqual(12d, s.Cells["H3"].Value, "Norway subtotal = 4 + 8.");
+                Assert.AreEqual(12d, s.Cells["I3"].Value);
+
+                // --- Row 4: Norway / Bergen (alphabetical: Bergen before Oslo) ---
+                Assert.AreEqual("Norway", s.Cells["F4"].Value);
+                Assert.AreEqual("Bergen", s.Cells["G4"].Value);
+                Assert.AreEqual(8d, s.Cells["H4"].Value);
+                Assert.AreEqual(8d, s.Cells["I4"].Value);
+
+                // --- Row 5: Norway / Oslo ---
+                Assert.AreEqual("Norway", s.Cells["F5"].Value);
+                Assert.AreEqual("Oslo", s.Cells["G5"].Value);
+                Assert.AreEqual(4d, s.Cells["H5"].Value);
+                Assert.AreEqual(4d, s.Cells["I5"].Value);
+
+                // --- Row 6: Sweden subtotal (BEFORE its leaves) ---
+                Assert.AreEqual("Sweden", s.Cells["F6"].Value,
+                    "Sweden subtotal must come BEFORE its leaves.");
+                Assert.IsTrue(IsBlank(s.Cells["G6"].Value), "G6 should be blank on subtotal row.");
+                Assert.AreEqual(3d, s.Cells["H6"].Value, "Sweden subtotal = 1 + 2.");
+                Assert.AreEqual(3d, s.Cells["I6"].Value);
+
+                // --- Row 7: Sweden / Göteborg ---
+                Assert.AreEqual("Sweden", s.Cells["F7"].Value);
+                Assert.AreEqual("Göteborg", s.Cells["G7"].Value);
+                Assert.AreEqual(2d, s.Cells["H7"].Value);
+                Assert.AreEqual(2d, s.Cells["I7"].Value);
+
+                // --- Row 8: Sweden / Stockholm ---
+                Assert.AreEqual("Sweden", s.Cells["F8"].Value);
+                Assert.AreEqual("Stockholm", s.Cells["G8"].Value);
+                Assert.AreEqual(1d, s.Cells["H8"].Value);
+                Assert.AreEqual(1d, s.Cells["I8"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void PivotBy_FilterArray_AllRowsFiltered_ReturnsValueError()
+        {
+            // When the filter array excludes every row, Excel returns #VALUE! - not an
+            // empty spill, not zero, not a degenerate single-cell result.
+            //
+            // Suspected EPPlus bug: BuildPivotData filters rows but never checks whether
+            // anything remains. Downstream code in AggregateLeaf accesses allVals[0].Length
+            // unconditionally, which throws IndexOutOfRangeException on an empty list,
+            // bubbling up as an unhandled exception or a generic error - not the clean
+            // #VALUE! Excel produces.
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   H1 = #VALUE!
+            //   (no spill range produced)
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "A"; s.Cells["B1"].Value = "X"; s.Cells["C1"].Value = 10;
+                s.Cells["A2"].Value = "B"; s.Cells["B2"].Value = "X"; s.Cells["C2"].Value = 20;
+                s.Cells["A3"].Value = "C"; s.Cells["B3"].Value = "X"; s.Cells["C3"].Value = 30;
+
+                // Filter array: all zeros = no row passes
+                s.Cells["F1"].Value = 0;
+                s.Cells["F2"].Value = 0;
+                s.Cells["F3"].Value = 0;
+
+                s.Cells["H1"].Formula = "PIVOTBY(A1:A3, B1:B3, C1:C3, _xleta.SUM,,,,,,F1:F3)";
+                s.Calculate();
+
+                var value = s.Cells["H1"].Value;
+                Assert.IsInstanceOfType(
+                    value,
+                    typeof(ExcelErrorValue),
+                    "Expected #VALUE! (ExcelErrorValue) when filter array excludes every row. " +
+                    "Got: " + (value == null ? "null" : value.GetType().Name + " = " + value));
+
+                var err = (ExcelErrorValue)value;
+                Assert.AreEqual(eErrorType.Value, err.Type,
+                    "Error must be #VALUE! specifically. Got: " + err.Type);
+
+                // No spill should be produced - subsequent cells must be untouched (null).
+                Assert.IsNull(s.Cells["I1"].Value, "I1 should not be part of a spill range.");
+                Assert.IsNull(s.Cells["H2"].Value, "H2 should not be part of a spill range.");
+            }
+        }
+
         // Helper - blank means null or empty string.
         private static bool IsBlank(object v)
         {
             return v == null || (v is string str && str.Length == 0);
         }
-
-
     }
 }

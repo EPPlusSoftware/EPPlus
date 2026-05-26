@@ -323,9 +323,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             foreach (var group in colGroups)
             {
                 var groupLeaves = group.ToList();
+                // När grand total står till vänster speglas även subtotalens position:
+                // subtotalen kommer FÖRE sina leaves i varje grupp (matchar Excel).
+                if (showColSubtotals && colTotalAtLeft)
+                    colEntries.Add(new ColEntry { IsSubtotal = true, GroupKey = group.Key, GroupLeaves = groupLeaves });
                 foreach (var leaf in groupLeaves)
                     colEntries.Add(new ColEntry { IsSubtotal = false, Leaf = leaf });
-                if (showColSubtotals)
+                if (showColSubtotals && !colTotalAtLeft)
                     colEntries.Add(new ColEntry { IsSubtotal = true, GroupKey = group.Key, GroupLeaves = groupLeaves });
             }
 
@@ -364,8 +368,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             // --- Fältnamnrad ---
             if (showFieldHeaders)
             {
+                // Init hela raden med string.Empty. Osatta (null) celler renderas
+                // som 0 av Excel när spill-arrayen visas - så även celler utanför
+                // fältnamns-positionerna måste vara explicit tomma strängar.
                 for (int i = 0; i < totalCols; i++)
                     result.SetValue(0, i, string.Empty);
+
+                // Skriv sedan ut kolumnfältnamnen på sina positioner.
                 for (int i = 0; i < args.ColFields.Size.NumberOfCols; i++)
                     result.SetValue(0, dataColStart + colOffset + i, args.ColFields.GetOffset(0, i));
             }
@@ -387,10 +396,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 
                     for (int f = 0; f < colsPerEntry; f++)
                     {
-                        if (isHStack)
-                            result.SetValue(outputLevel, col, /*f == 0 ?*/ val);                        
-                        else
-                            result.SetValue(outputLevel, col, f == 0 ? val : string.Empty);
+                        // Kolumnnyckeln upprepas över alla funktionskolumner i HSTACK-gruppen.
+                        // (För VSTACK och singel-funktion är colsPerEntry = 1 så loopen körs bara en gång.)
+                        result.SetValue(outputLevel, col, val);
                         col++;
                     }
                 }
@@ -401,10 +409,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     int totalCol = grandTotalCol;
                     for (int f = 0; f < colsPerEntry; f++)
                     {
-                        if (isHStack)
-                            result.SetValue(outputLevel, totalCol, colTotalLabel);
-                        else
-                            result.SetValue(outputLevel, totalCol, f == 0 && level == 0 ? colTotalLabel : string.Empty); 
+                        // "Total"-labeln upprepas över alla funktionskolumner i totalgruppen,
+                        // men bara på den översta nivån (level == 0); djupare nivåer är tomma.
+                        result.SetValue(outputLevel, totalCol, level == 0 ? colTotalLabel : string.Empty);
                         totalCol++;
                     }
                 }
@@ -485,6 +492,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             foreach (var rowGroup in rowGroups)
             {
                 var groupLeaves = rowGroup.ToList();
+                var groupKeyParts = showRowSubtotals
+                    ? groupLeaves[0].Path.Take(rowSubtotalDepth - 1).ToArray()
+                    : null;
+
+                // När grand total står överst speglas även subtotalens position:
+                // subtotalen kommer FÖRE sina leaves i varje grupp (matchar Excel).
+                if (showRowSubtotals && rowTotalAtTop)
+                {
+                    for (int fi = 0; fi < rowsPerLeaf; fi++)
+                    {
+                        WriteRowSubtotalRow(
+                            result, currentOutputRow + fi,
+                            groupKeyParts, groupLeaves,
+                            colEntries, colLeaves,
+                            pivotMap, args, context,
+                            nRowKeyCols, functionNameCol,
+                            dataColStart, colOffset,
+                            grandTotalCol,
+                            showColTotal, isVStack,
+                            args.Functions[fi], functionNames2[fi]);
+                    }
+                    currentOutputRow += rowsPerLeaf;
+                }
 
                 foreach (var rowLeafEntry in groupLeaves)
                 {
@@ -610,10 +640,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     currentOutputRow += rowsPerLeaf;
                 }
 
-                // --- Radsubtotalrad för gruppen ---
-                if (showRowSubtotals)
+                // --- Radsubtotalrad för gruppen (efter leaves i normal layout) ---
+                if (showRowSubtotals && !rowTotalAtTop)
                 {
-                    var groupKeyParts = groupLeaves[0].Path.Take(rowSubtotalDepth - 1).ToArray();
                     for (int fi = 0; fi < rowsPerLeaf; fi++)
                     {
                         WriteRowSubtotalRow(
