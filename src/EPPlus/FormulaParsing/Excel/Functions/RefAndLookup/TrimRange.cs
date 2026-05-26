@@ -23,8 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     Description = "Excludes all empty rows and/or columns from the outer edges of a range")]
     internal class TrimRange : TrimFunctionsBase
     {
-
-        public override int ArgumentMinLength => 1;
         public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
@@ -46,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             colMode = (TrimMode)v;
         }
 
-        return ExecuteTrim(arguments, rowMode, colMode);
+        return ExecuteTrim(arguments, rowMode, colMode, context);
         }
     }
 }

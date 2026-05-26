@@ -25,11 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
     internal class TroLeading : TrimFunctionsBase
     {
-        public override int ArgumentMinLength => 1;
-
         public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-    => ExecuteTrim(arguments, TrimMode.Leading, TrimMode.Leading); 
+    => ExecuteTrim(arguments, TrimMode.Leading, TrimMode.Leading, context); 
     }
 }

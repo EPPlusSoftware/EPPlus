@@ -24,11 +24,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Trims all leading and trailing empty cells of a range")]
     internal class TroAll : TrimFunctionsBase
     {
-        public override int ArgumentMinLength => 1;
-
         public override string NamespacePrefix => "_xlfn.";
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-            => ExecuteTrim(arguments, TrimMode.Both, TrimMode.Both);              
+            => ExecuteTrim(arguments, TrimMode.Both, TrimMode.Both, context);              
     }
 }

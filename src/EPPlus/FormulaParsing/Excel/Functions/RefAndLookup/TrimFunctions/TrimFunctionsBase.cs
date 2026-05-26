@@ -1,56 +1,64 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  25/5/2026         EPPlus Software AB           EPPlus v8.6
- *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+﻿using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
-    internal abstract class TrimFunctionsBase :  ExcelFunction
+    internal abstract class TrimFunctionsBase : ExcelFunction
     {
         public override int ArgumentMinLength => 1;
         public override string NamespacePrefix => "_xlfn.";
 
-        protected CompileResult ExecuteTrim(IList<FunctionArgument> arguments, TrimMode rowMode, TrimMode colMode)
+        protected CompileResult ExecuteTrim(IList<FunctionArgument> arguments, TrimMode rowMode, TrimMode colMode, ParsingContext context)
         {
             var range = arguments[0].ValueAsRangeInfo;
-            var result = TrimRangeCore(range, rowMode, colMode, out var error);
+            var result = TrimRangeCore(range, rowMode, colMode, context, out var error);
             if (error != null) return error;
             return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
 
-        private InMemoryRange TrimRangeCore(IRangeInfo range, TrimMode rowMode, TrimMode colMode, out CompileResult error)
+        private InMemoryRange TrimRangeCore(IRangeInfo range, TrimMode rowMode, TrimMode colMode, ParsingContext context, out CompileResult error)
         {
             error = null;
             int nRows = range.Size.NumberOfRows;
             int nCols = range.Size.NumberOfCols;
 
+            var dimension = context.CurrentWorksheet?.Dimension;
+            if (dimension == null)
+            {
+                error = CompileResult.GetErrorResult(eErrorType.Ref);
+                return new InMemoryRange(1, 1);
+            }
+
+            int rangeFromRow = range.Address.FromRow;
+            int rangeFromCol = range.Address.FromCol;
+
+            int scanFirstRow = Math.Max(0, dimension.Start.Row - rangeFromRow);
+            int scanLastRow = Math.Min(nRows - 1, dimension.End.Row - rangeFromRow);
+            int scanFirstCol = Math.Max(0, dimension.Start.Column - rangeFromCol);
+            int scanLastCol = Math.Min(nCols - 1, dimension.End.Column - rangeFromCol);
+
+            if (scanFirstRow > scanLastRow || scanFirstCol > scanLastCol)
+            {
+                error = CompileResult.GetErrorResult(eErrorType.Ref);
+                return new InMemoryRange(1, 1);
+            }
             int firstRow = 0, lastRow = nRows - 1;
             int firstCol = 0, lastCol = nCols - 1;
 
-            if (rowMode == TrimMode.Leading || rowMode == TrimMode.Both) 
-                firstRow = FindFirstNonEmptyRow(range, nRows, nCols);
+            if (rowMode == TrimMode.Leading || rowMode == TrimMode.Both)
+                firstRow = FindFirstNonEmptyRow(range, scanFirstRow, scanLastRow, scanFirstCol, scanLastCol);
 
             if (rowMode == TrimMode.Trailing || rowMode == TrimMode.Both)
-                lastRow = FindLastNonEmptyRow(range, nRows, nCols);
+                lastRow = FindLastNonEmptyRow(range, scanFirstRow, scanLastRow, scanFirstCol, scanLastCol);
 
             if (colMode == TrimMode.Leading || colMode == TrimMode.Both)
-                firstCol = FindFirstNonEmptyCol(range, nRows, nCols);
+                firstCol = FindFirstNonEmptyCol(range, scanFirstRow, scanLastRow, scanFirstCol, scanLastCol);
 
             if (colMode == TrimMode.Trailing || colMode == TrimMode.Both)
-                lastCol = FindLastNonEmptyCol(range, nRows, nCols);
+                lastCol = FindLastNonEmptyCol(range, scanFirstRow, scanLastRow, scanFirstCol, scanLastCol);
 
-            // Range is empty
             if (firstRow > lastRow || firstCol > lastCol)
             {
                 error = CompileResult.GetErrorResult(eErrorType.Ref);
@@ -68,34 +76,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunction
             return result;
         }
 
-        private int FindFirstNonEmptyRow(IRangeInfo range, int nRows, int nCols)
+        private int FindFirstNonEmptyRow(IRangeInfo range, int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            for (int r = 0; r < nRows; r++)
-                for (int c = 0; c < nCols; c++)
+            for (int r = rowStart; r <= rowEnd; r++)
+                for (int c = colStart; c <= colEnd; c++)
                     if (HasValue(range.GetOffset(r, c))) return r;
-            return nRows;           
+            return int.MaxValue; // not found, empty
         }
 
-        private int FindLastNonEmptyRow(IRangeInfo range, int nRows, int nCols)
+        private int FindLastNonEmptyRow(IRangeInfo range, int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            for (int r = nRows - 1; r >= 0; r--)
-                for (int c = 0; c < nCols; c++)
+            for (int r = rowEnd; r >= rowStart; r--)
+                for (int c = colStart; c <= colEnd; c++)
                     if (HasValue(range.GetOffset(r, c))) return r;
             return -1;
         }
 
-        private int FindFirstNonEmptyCol(IRangeInfo range, int nRows, int nCols)
+        private int FindFirstNonEmptyCol(IRangeInfo range, int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            for (int c = 0; c < nCols; c++)
-                for (int r = 0; r < nRows; r++)
+            for (int c = colStart; c <= colEnd; c++)
+                for (int r = rowStart; r <= rowEnd; r++)
                     if (HasValue(range.GetOffset(r, c))) return c;
-            return nCols;
+            return int.MaxValue; // not found, empty
         }
 
-        private int FindLastNonEmptyCol(IRangeInfo range, int nRows, int nCols)
+        private int FindLastNonEmptyCol(IRangeInfo range, int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            for (int c = nCols - 1; c >= 0; c--)
-                for (int r = 0; r < nRows; r++)
+            for (int c = colEnd; c >= colStart; c--)
+                for (int r = rowStart; r <= rowEnd; r++)
                     if (HasValue(range.GetOffset(r, c))) return c;
             return -1;
         }
