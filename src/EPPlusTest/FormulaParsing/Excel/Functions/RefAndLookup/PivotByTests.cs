@@ -1914,6 +1914,161 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
+        [TestMethod]
+        public void PivotBy_HeaderAutoDetect_NumericFirstRowKeyCell_StillDetectsHeadersFromValuesColumn()
+        {
+            // When field_headers is omitted, Excel auto-detects headers by inspecting
+            // the values column pattern (text followed by numbers), NOT just the row
+            // field's first cell. Even when A1 is numeric (2025), Excel still detects
+            // headers because C1='Revenue' followed by C2..C4 numeric is the canonical
+            // header signature.
+            //
+            // Suspected EPPlus behaviour: ResolveHeaders looks at the row field's first
+            // cell type, sees 2025 (numeric), and returns FieldHeaders.No - causing row 1
+            // to be processed as data with 'Quarter' as a col key and 'Revenue' as a
+            // text value (which then either errors or gets silently mistreated).
+            //
+            // Verified in Excel (sv-SE) 2026-05-22:
+            //   Spill range: E1:H4
+            //     Row 1: ""       "Q1"   "Q2"   "Total"
+            //     Row 2: 2025     100    <blank> 100
+            //     Row 3: 2026     300    200    500
+            //     Row 4: "Total"  400    200    600
+            //
+            // (Note: 'Quarter' and 'Revenue' do NOT appear anywhere in the output.
+            // Detection mode is YesAndDontShow, so field names are recognised but not
+            // displayed - and the auto-generated row key column is just 2025/2026/Total.)
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = 2025; s.Cells["B1"].Value = "Quarter"; s.Cells["C1"].Value = "Revenue";
+                s.Cells["A2"].Value = 2025; s.Cells["B2"].Value = "Q1"; s.Cells["C2"].Value = 100;
+                s.Cells["A3"].Value = 2026; s.Cells["B3"].Value = "Q2"; s.Cells["C3"].Value = 200;
+                s.Cells["A4"].Value = 2026; s.Cells["B4"].Value = "Q1"; s.Cells["C4"].Value = 300;
+
+                s.Cells["E1"].Formula = "PIVOTBY(A1:A4, B1:B4, C1:C4, _xleta.SUM)";
+                s.Calculate();
+
+                // --- Header row: col-key values + Total label ---
+                // E1 corner blank; F1='Q1' (NOT 'Quarter' - row 1 must be detected as header)
+                Assert.IsTrue(
+                    s.Cells["E1"].Value == null || (s.Cells["E1"].Value as string) == string.Empty,
+                    "E1 corner blank. Got: " + (s.Cells["E1"].Value ?? "null"));
+                Assert.AreEqual("Q1", s.Cells["F1"].Value,
+                    "F1 must be the col-key 'Q1', not 'Quarter'. If you see 'Quarter' here, " +
+                    "row 1 was treated as data instead of as a header row.");
+                Assert.AreEqual("Q2", s.Cells["G1"].Value);
+                Assert.AreEqual("Total", s.Cells["H1"].Value);
+
+                // --- Row 2: 2025 (numeric row key, NOT promoted to header) ---
+                Assert.AreEqual(2025, s.Cells["E2"].Value,
+                    "E2 must be the numeric row key 2025. If you see 'Year' or similar, header " +
+                    "promotion went too far.");
+                Assert.AreEqual(100d, s.Cells["F2"].Value, "2025/Q1 = 100.");
+                Assert.IsTrue(
+                    s.Cells["G2"].Value == null || (s.Cells["G2"].Value as string) == string.Empty,
+                    "G2 should be blank - 2025 has no Q2 value. Got: " + (s.Cells["G2"].Value ?? "null"));
+                Assert.AreEqual(100d, s.Cells["H2"].Value, "2025 row total = 100.");
+
+                // --- Row 3: 2026 ---
+                Assert.AreEqual(2026, s.Cells["E3"].Value);
+                Assert.AreEqual(300d, s.Cells["F3"].Value, "2026/Q1 = 300.");
+                Assert.AreEqual(200d, s.Cells["G3"].Value, "2026/Q2 = 200.");
+                Assert.AreEqual(500d, s.Cells["H3"].Value, "2026 row total = 500.");
+
+                // --- Row 4: Grand total ---
+                Assert.AreEqual("Total", s.Cells["E4"].Value);
+                Assert.AreEqual(400d, s.Cells["F4"].Value, "Q1 column total = 100 + 300.");
+                Assert.AreEqual(200d, s.Cells["G4"].Value, "Q2 column total = 200.");
+                Assert.AreEqual(600d, s.Cells["H4"].Value, "Grand total = 100 + 200 + 300.");
+            }
+        }
+
+        [TestMethod]
+        public void PivotBy_RowSortOrderArray_MagnitudeDeterminesPriority()
+        {
+            // Excel's PIVOTBY interprets the row_sort_order array such that the
+            // MAGNITUDE of each value determines both which row field to sort by AND
+            // its priority - NOT the position in the array:
+            //   |val| = 1  -> sort by first row field (col 0), highest priority
+            //   |val| = 2  -> sort by second row field (col 1), secondary priority
+            //   sign       -> direction (+ = ASC, - = DESC)
+            //
+            // So {2, -1} and {-1, 2} produce identical results: col 0 DESC primary,
+            // col 1 ASC secondary. EPPlus previously iterated the array in input
+            // order, treating the FIRST element as primary - which gives the wrong
+            // answer whenever the array isn't already in magnitude-ascending order.
+            //
+            // Input data is deliberately NOT pre-sorted so that the output order
+            // alone tells us whether sorting actually happened.
+            //
+            // Verified in Excel (sv-SE) 2026-05-22 (with input rows in this exact order):
+            //   F1=Norway,  G1=Bergen,    H1=10
+            //   F2=Sweden,  G2=Stockholm, H2=20
+            //   F3=Norway,  G3=Oslo,      H3=30
+            //   F4=Sweden,  G4=Göteborg,  H4=40
+            //
+            // Spill range: F1:I6 (4 data rows + header + grand total)
+            //   Row 1: ""        ""           "X"   "Total"
+            //   Row 2: "Sweden"  "Göteborg"   40    40
+            //   Row 3: "Sweden"  "Stockholm"  20    20
+            //   Row 4: "Norway"  "Bergen"     10    10
+            //   Row 5: "Norway"  "Oslo"       30    30
+            //   Row 6: "Total"   ""           100   100
+            //
+            // Expected primary order: Country DESC (Sweden before Norway).
+            // Expected secondary order within each country: City ASC.
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells["A1"].Value = "Norway"; s.Cells["B1"].Value = "Bergen"; s.Cells["C1"].Value = "X"; s.Cells["D1"].Value = 10;
+                s.Cells["A2"].Value = "Sweden"; s.Cells["B2"].Value = "Stockholm"; s.Cells["C2"].Value = "X"; s.Cells["D2"].Value = 20;
+                s.Cells["A3"].Value = "Norway"; s.Cells["B3"].Value = "Oslo"; s.Cells["C3"].Value = "X"; s.Cells["D3"].Value = 30;
+                s.Cells["A4"].Value = "Sweden"; s.Cells["B4"].Value = "Göteborg"; s.Cells["C4"].Value = "X"; s.Cells["D4"].Value = 40;
+
+                s.Cells["F1"].Formula = "PIVOTBY(A1:B4, C1:C4, D1:D4, _xleta.SUM, , , {2, -1})";
+                s.Calculate();
+
+                // --- Header row ---
+                Assert.AreEqual("X", s.Cells["H1"].Value);
+                Assert.AreEqual("Total", s.Cells["I1"].Value);
+
+                // --- Row 2: Sweden / Göteborg (Country DESC primary, so Sweden group first;
+                //                              City ASC secondary, so Göteborg before Stockholm) ---
+                Assert.AreEqual("Sweden", s.Cells["F2"].Value,
+                    "Primary sort = Country DESC, so Sweden group must come before Norway. " +
+                    "If you see 'Norway' here, the array was sorted in position order (first = primary) " +
+                    "instead of magnitude order (|val|=1 = primary).");
+                Assert.AreEqual("Göteborg", s.Cells["G2"].Value,
+                    "Secondary sort = City ASC, so Göteborg before Stockholm within Sweden.");
+                Assert.AreEqual(40d, s.Cells["H2"].Value);
+                Assert.AreEqual(40d, s.Cells["I2"].Value);
+
+                // --- Row 3: Sweden / Stockholm ---
+                Assert.AreEqual("Sweden", s.Cells["F3"].Value);
+                Assert.AreEqual("Stockholm", s.Cells["G3"].Value);
+                Assert.AreEqual(20d, s.Cells["H3"].Value);
+                Assert.AreEqual(20d, s.Cells["I3"].Value);
+
+                // --- Row 4: Norway / Bergen ---
+                Assert.AreEqual("Norway", s.Cells["F4"].Value);
+                Assert.AreEqual("Bergen", s.Cells["G4"].Value);
+                Assert.AreEqual(10d, s.Cells["H4"].Value);
+                Assert.AreEqual(10d, s.Cells["I4"].Value);
+
+                // --- Row 5: Norway / Oslo ---
+                Assert.AreEqual("Norway", s.Cells["F5"].Value);
+                Assert.AreEqual("Oslo", s.Cells["G5"].Value);
+                Assert.AreEqual(30d, s.Cells["H5"].Value);
+                Assert.AreEqual(30d, s.Cells["I5"].Value);
+
+                // --- Row 6: Grand total ---
+                Assert.AreEqual("Total", s.Cells["F6"].Value);
+                Assert.AreEqual(100d, s.Cells["H6"].Value, "Grand total X = 10+20+30+40.");
+                Assert.AreEqual(100d, s.Cells["I6"].Value);
+            }
+        }
+
         // Helper - blank means null or empty string.
         private static bool IsBlank(object v)
         {

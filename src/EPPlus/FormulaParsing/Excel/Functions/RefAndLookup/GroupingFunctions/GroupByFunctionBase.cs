@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
             return false;
         }
 
-        protected bool TryParseFunctionArg(FunctionArgument funtionArgument, List<LambdaCalculator> functions, 
+        protected bool TryParseFunctionArg(FunctionArgument funtionArgument, List<LambdaCalculator> functions,
                                             out LambdaCalculator function, out FunctionLayout layout)
         {
             function = null;
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
             {
                 // Single function
                 function = funtionArgument.Value as LambdaCalculator;
-                functions.Add(function);                
+                functions.Add(function);
             }
             else if (funtionArgument.IsExcelRange)
             {
@@ -85,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
                     if (cellVal is LambdaCalculator lc)
                         functions.Add(lc);
                     else
-                        return false; 
+                        return false;
                 }
                 function = functions[0];
             }
@@ -136,8 +136,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
             if (values.Size.NumberOfRows < 2)
                 return FieldHeaders.No;
 
-            var first = values.GetValue(0, 0);
-            var second = values.GetValue(1, 0);
+            var first = values.GetOffset(0, 0);
+            var second = values.GetOffset(1, 0);
 
             bool firstIsText = first is string;
             bool secondIsNumber = second is double || second is int || second is long || second is float;
@@ -277,7 +277,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
                                 f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                         }
                         return result;
-                    }).ToList(); 
+                    }).ToList();
                     level.SubtotalValue = level.SubtotalValues[0][0];
                 }
                 else
@@ -324,7 +324,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
             calculator.BeginCalculation();
             calculator.SetVariableValue(0, range, DataType.ExcelRange, context);
 
-            if(calculator.NumberOfVariables > 1 && allValues != null)
+            if (calculator.NumberOfVariables > 1 && allValues != null)
             {
                 int allRows = allValues.Count;
                 int allCols = allValues.Count > 0 ? allValues[0].Length : 1;

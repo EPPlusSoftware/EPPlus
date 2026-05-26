@@ -141,7 +141,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             if (sortOrders == null || sortOrders.All(s => s == 0)) return leaves;
 
             IOrderedEnumerable<LeafWithPath> ordered = null;
-            foreach (var sortOrder in sortOrders)
+            foreach (var sortOrder in sortOrders.Where(s => s != 0).OrderBy(s => Math.Abs(s)))
             {
                 if (sortOrder == 0) continue;
                 bool desc = sortOrder < 0;

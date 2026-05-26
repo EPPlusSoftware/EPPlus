@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 
             return CreateDynamicArrayResult(result, DataType.ExcelRange);            
         }
-
+            
         protected bool TryParsePivotByArgs(IList<FunctionArgument> arguments,
             out PivotByArgs args,
             out CompileResult error)
