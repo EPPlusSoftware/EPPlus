@@ -114,7 +114,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private double GetSumValue(ParsingContext context, IRangeInfo valueRange, List<RangeOrValue> argRanges, List<RangeOrValue> criterias, int row, int col, out ExcelErrorValue ev)
         {
-
             GetFilteredValueRange(context, valueRange, argRanges, criterias, row, col, out List<int> matchIndexes, out List<object> sumRange);
 
             KahanSum result = 0d;
