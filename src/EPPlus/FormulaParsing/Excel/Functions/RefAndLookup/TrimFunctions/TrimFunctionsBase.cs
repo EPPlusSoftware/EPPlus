@@ -23,8 +23,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunction
             error = null;
             int nRows = range.Size.NumberOfRows;
             int nCols = range.Size.NumberOfCols;
-
-            var dimension = context.CurrentWorksheet?.Dimension;
+            ExcelWorksheet ws;
+            if(range.Address != null && range.Address.WorksheetIx > -1 && context.CurrentWorksheet != null)
+            {
+                ws = context.CurrentWorksheet.Workbook.GetWorksheetByIndexInList(range.Address.WorksheetIx);
+            }
+            else
+            {
+                ws = context.CurrentWorksheet;
+            }
+            var dimension = ws?.Dimension;
             if (dimension == null)
             {
                 error = CompileResult.GetErrorResult(eErrorType.Ref);

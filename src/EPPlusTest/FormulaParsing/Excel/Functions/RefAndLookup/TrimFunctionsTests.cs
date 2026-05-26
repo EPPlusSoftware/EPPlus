@@ -259,5 +259,70 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void TrimRangeCrossSheetReference()
+        {
+            // Verifies that TRIMRANGE works correctly when the source range
+            // references a different worksheet than the formula cell.
+            // This ensures the dimension lookup uses the source sheet, not
+            // the sheet where the formula lives.
+            using (var package = new ExcelPackage())
+            {
+                // Arrange: data on "Data" sheet
+                var dataSheet = package.Workbook.Worksheets.Add("Data");
+                dataSheet.Cells["B2"].Value = "A";
+                dataSheet.Cells["C2"].Value = "A";
+                dataSheet.Cells["E2"].Value = "A";
+                dataSheet.Cells["B3"].Value = "A";
+                dataSheet.Cells["C3"].Value = "A";
+                dataSheet.Cells["E3"].Value = "A";
+                dataSheet.Cells["B4"].Value = "A";
+                dataSheet.Cells["C4"].Value = "A";
+                dataSheet.Cells["E4"].Value = "A";
+                // Rows 1 and 5 empty. Cols A, D, F empty. Same layout as
+                // the same-sheet tests above.
+
+                // Formula sheet has NO data of its own. If the dimension lookup
+                // used the wrong sheet, it would be null and the function would
+                // return #REF!.
+                var formulaSheet = package.Workbook.Worksheets.Add("Formula");
+
+                package.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                // Act
+                formulaSheet.Cells["I10"].Formula = "TRIMRANGE(Data!A1:F5, 0, 2)";
+                formulaSheet.Calculate();
+
+                // Assert: same expected output as TrimRangeColsTrailingOnly,
+                // but anchored on the formula sheet.
+                // Expected Excel output:
+                //   0  0  0  0  0
+                //   0  A  A  0  A
+                //   0  A  A  0  A
+                //   0  A  A  0  A
+                //   0  0  0  0  0
+
+                // Last column of result (M) must exist - it is the original col E
+                Assert.AreEqual("A", formulaSheet.Cells["M11"].Value);
+                Assert.AreEqual("A", formulaSheet.Cells["M12"].Value);
+                Assert.AreEqual("A", formulaSheet.Cells["M13"].Value);
+
+                // The 6th column would land at N - it must NOT exist in the result
+                Assert.IsNull(formulaSheet.Cells["N10"].Value);
+
+                // Last row of result (row 14) must exist - no row trim was requested
+                Assert.IsNotNull(formulaSheet.Cells["I14"].Value);
+
+                // Spot-check the data
+                Assert.AreEqual("A", formulaSheet.Cells["J11"].Value);
+                Assert.AreEqual("A", formulaSheet.Cells["K11"].Value);
+
+                // Importantly: the result should NOT be #REF!
+                // (this is what we'd get if the function looked at Formula sheet's
+                // dimension instead of Data sheet's)
+                Assert.AreNotEqual(ErrorValues.RefError, formulaSheet.Cells["I10"].Value);
+            }
+        }
     }
 }

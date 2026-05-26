@@ -20,8 +20,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "8",
-        Description = "Trims all leading and trailing empty cells of a range")]
+        EPPlusVersion = "8.6",
+        Description = "Used internally by Excel for the trim-range operators. Trims all leading and trailing empty rows and columns from a range.")]
     internal class TroAll : TrimFunctionsBase
     {
         public override string NamespacePrefix => "_xlfn.";
