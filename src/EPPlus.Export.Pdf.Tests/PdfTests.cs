@@ -17,6 +17,7 @@ using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using System;
 using System.IO;
@@ -137,10 +138,10 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var cell = p.Workbook.Worksheets[0].Cells["P118"];
 
-            List<TextFragment> TextFragments = GetTextFragments(cell.RichText);
+            List<ITextFragmentBase> TextFragments = GetTextFragments(cell.RichText).Cast<ITextFragmentBase>().ToList();
 
 
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[0].Font);
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)TextFragments[0]);
 
             var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
             ////var ShapedTexts = new List<PdfShapedText>();

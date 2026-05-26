@@ -3,17 +3,19 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Fonts.OpenType.Integration.RichText;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -21,9 +23,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
     {
         eDrawingTextLineSpacing _lsType;
         double? _lsMultiplier = null;
-        List<TextFragment> _newTextFragments;
+        List<ITextFragmentBase> _newTextFragments;
         int _manualFragmentsStartIndex = -1;
-        List<TextFragment> _manualFragments;
+        List<ITextFragmentBase> _manualFragments;
         internal DrawingTextbody ParentTextBody { get; set; }
         private List<TextLineSimple> _lines;
         //Start temp workaround vars
@@ -234,7 +236,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             return targetTxtRun;
         }
 
-        private void AddText(string text, MeasurementFont font)
+        private void AddText(string text, IFontFormatBase font)
         {
             var container = CreateTextRun(font, Bounds, text);
             Runs.Add(container);
@@ -255,11 +257,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         void GenerateTextFragments(string text)
         {
-            _newTextFragments = new List<TextFragment>();
+            _newTextFragments = new List<ITextFragmentBase>();
 
             if (string.IsNullOrEmpty(text) == false)
             {
-                var currentFrag = new TextFragment() { Text = text, Font = ParagraphFont};
+                var currentFrag = new TextFragment() { Text = text};
+                currentFrag.RichTextOptions.SetFont(ParagraphFont);
                 _newTextFragments.Add(currentFrag);
             }
         }
@@ -299,13 +302,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 runContents.Add(txtRun.Text);
             }
 
-            _newTextFragments = new List<TextFragment>();
+            _newTextFragments = new List<ITextFragmentBase>();
 
             for (int i = 0; i < runContents.Count(); i++)
             {
                 if (string.IsNullOrEmpty(runContents[i]) == false)
                 {
-                    var currentFrag = new TextFragment() { Text = runContents[i], Font = fonts[i] };
+                    var currentFrag = new TextFragment() { Text = runContents[i] };
+                    currentFrag.RichTextOptions.SetFont(ParagraphFont);
                     _newTextFragments.Add(currentFrag);
                 }
             }
@@ -439,7 +443,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                             var rtIdx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
                             if (rtIdx > p.TextRuns.Count - 1)
                             {
-                                AddText(displayText, _newTextFragments[rtIdx].Font);
+                                AddText(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
                             }
                             else
                             {
@@ -451,7 +455,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         else
                         {
                             //Import fallback with default settings from constructor
-                            AddText(displayText, ParagraphFont);
+                            AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
                         }
                         DrawingTextRunRenderItem runItem = (DrawingTextRunRenderItem)Runs.Last();
                         runItem.Bounds.Left = prevWidth;
@@ -467,7 +471,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Bounds.Width = greatestWidth;
         }
 
-        List<TextLineSimple> WrapFragmentsToLines(List<TextFragment> fragments = null)
+        List<TextLineSimple> WrapFragmentsToLines(List<ITextFragmentBase> fragments = null)
         {
             if(fragments == null )
             {
@@ -478,7 +482,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             {
                 if(Layout == null)
                 {
-                    Layout = OpenTypeFonts.GetTextLayoutEngineForFont((fragments[0].Font));
+                    Layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)fragments[0]);
                 }
 
                 var maxWidthPoints = Math.Round(ParentTextBody.MaxWidth, 0, MidpointRounding.AwayFromZero);
@@ -518,7 +522,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             return new DrawingTextRunRenderItem(parent, text, font, displayText);
         }
 
-        internal TextRunRenderItem CreateTextRun(MeasurementFont font, BoundingBox parent, string displayText)
+        internal TextRunRenderItem CreateTextRun(IFontFormatBase font, BoundingBox parent, string displayText)
         {
             return new DrawingTextRunRenderItem(parent, font, displayText);
         }

@@ -756,7 +756,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
@@ -766,7 +766,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var layout = SystemFontsEngine.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
-            var wrappedLinesPara = paragraph.Wrap(FontFolders, 225d);
+            var wrappedLinesPara = paragraph.Wrap(225d);
 
             Assert.AreEqual(wrappedLines.Count, wrappedLinesPara.Count);
 
@@ -795,7 +795,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment() {Text = lstOfRichText[0], Font = font }
             };
 
-            var layout = new LayoutSystem(fragments, FontFolders);
+            var layout = new LayoutSystem(fragments);
             Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
         }
 
@@ -843,8 +843,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
-            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+            var paragraph = new LayoutSystem(fragments);
+            var wrappedLines = paragraph.Wrap(225d);
 
             var line1 = wrappedLines[0];
         }
@@ -876,8 +876,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
-            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+            var paragraph = new LayoutSystem(fragments);
+            var wrappedLines = paragraph.Wrap(225d);
 
             Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
             Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartFullTextIdx);
@@ -911,7 +911,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
 
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);

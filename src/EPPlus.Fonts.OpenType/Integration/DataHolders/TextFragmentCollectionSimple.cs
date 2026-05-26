@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-    public class TextFragmentCollectionSimple : List<TextFragment>, IEnumerable<TextFragment>
+    public class TextFragmentCollectionSimple : List<ITextFragmentBase>, IEnumerable<ITextFragmentBase>
     {
         public TextFragmentCollectionSimple(List<MeasurementFont> fonts, List<string> texts) : base()
         {

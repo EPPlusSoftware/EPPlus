@@ -10,10 +10,12 @@ namespace EPPlus.Fonts.OpenType.Integration.DataHolders
     public class OpenTypeRichTextBase : OpenTypeFontInfoBase, IRichTextFormatBase
     {
         internal OpenTypeRichTextBase() 
-        { 
+        {
+            Italic = false;
+            Bold = false;
         }
 
-        public OpenTypeRichTextBase(string text, string fontFamily, float size, bool bold, bool italic)
+        public OpenTypeRichTextBase(string text, string fontFamily, float size, bool bold = false, bool italic = false)
         {
             Text = text;
             Family = fontFamily;

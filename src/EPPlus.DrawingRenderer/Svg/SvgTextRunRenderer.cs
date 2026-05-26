@@ -103,8 +103,8 @@ namespace EPPlus.DrawingRenderer.Svg
 
             if (textRun._measurementFont != null)
             {
-                finalString += $"font-family=\"{textRun._measurementFont.FontFamily},"
-                    + $"{textRun._measurementFont.FontFamily}_MSFontService,sans-serif\" "
+                finalString += $"font-family=\"{textRun._measurementFont.Family},"
+                    + $"{textRun._measurementFont.Family}_MSFontService,sans-serif\" "
                     + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
             }
 

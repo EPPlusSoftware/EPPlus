@@ -30,35 +30,44 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// <summary>
     /// Represents a text fragment with specific font properties.
     /// </summary>
-    public class TextFragment : TextFragmentBase
+    public class TextFragment : TextFragmentBase, ITextFragmentBase
     {
+        /// <summary>
+        /// Legacy. This is to be replaced after PDF refactor is taken in
+        /// </summary>
         MeasurementFont _mfFont;
 
+        /// <summary>
+        /// Legacy. This is to be replaced after PDF refactor is taken in
+        /// </summary>
         public MeasurementFont Font { get { return _mfFont; } set { _mfFont = value; base.RichTextOptions.SetFont(value); } }
 
         public TextFragment(IRichTextInfoBase rtFormat) : base(rtFormat)
         {
+            RichTextOptions = rtFormat;
         }
         public TextFragment():base()
         {
 
         }
-
-        ///// <summary>
-        ///// Store rich-text info.
-        ///// Nothing is supposed to be done with this within OpenType
-        ///// but we hold the data so users may more easily recognize what rich text this is in the output.
-        ///// </summary>
-        //public new IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+        /// <summary>
+        /// Store rich-text info.
+        /// We must extract font info from this but nothing else is supposed to be done with this within opentype
+        /// </summary>
+        public new IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
 
         public override float Size { get => Font.Size; }
     }
 
-    public class TextFragmentBase
+    public class TextFragmentBase : ITextFragmentBase
     {
         public string Text { get => RichTextOptions.Text; set => RichTextOptions.Text = value; }
-
-        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+        /// <summary>
+        /// Store rich-text info.
+        /// We must extract font info from this but nothing else is supposed to be done with this within opentype
+        /// but we hold the data so users may more easily recognize which rich text this is in the output.
+        /// </summary>
+        public IRichTextFormatBase RichTextOptions { get; set; } = new OpenTypeRichTextBase();
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
@@ -66,7 +75,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         public TextFragmentBase()
         {
         }
-        public TextFragmentBase(IRichTextInfoBase richText) 
+        public TextFragmentBase(IRichTextFormatBase richText) 
         {
             RichTextOptions = richText;
         }

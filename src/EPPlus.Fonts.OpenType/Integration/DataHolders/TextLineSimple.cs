@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -75,7 +76,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
         }
 
-        internal void FinalizeLineFragments(List<TextFragment> originalFragments)
+        internal void FinalizeLineFragments(List<ITextFragmentBase> originalFragments)
         {
             lastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
 

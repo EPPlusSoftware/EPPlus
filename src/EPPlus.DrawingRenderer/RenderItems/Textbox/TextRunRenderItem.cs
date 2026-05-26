@@ -1,8 +1,10 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 using System.Text.RegularExpressions;
 
@@ -111,7 +113,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected string _originalText;
         public string _currentText { get; protected set; }
 
-        public MeasurementFont _measurementFont { get; internal protected set; }
+        public IFontFormatBase _measurementFont { get; internal protected set; }
         protected bool _isFirstInParagraph;
 
         public double FontSizeInPixels { get;  protected set; }
@@ -132,7 +134,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Name = "TextRun";
         }
 
-        public TextRunRenderItem(BoundingBox parent, MeasurementFont font, string displayText) : base(parent)
+        public TextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) : base(parent)
         {
             _originalText = displayText;
 
@@ -170,7 +172,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             _underLineType = UnderLineType.None;
         }
-        public TextRunRenderItem(BoundingBox parent, string text, MeasurementFont font, string displayText) : base(parent)
+        public TextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) : base(parent)
         {
             _originalText = text;
 

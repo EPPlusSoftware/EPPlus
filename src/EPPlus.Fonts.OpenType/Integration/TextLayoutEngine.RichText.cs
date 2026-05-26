@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,15 +30,25 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// </summary>
     public partial class TextLayoutEngine
     {
+        //public List<string> WrapRichText(
+        //   List<TextFragment> fragments,
+        //   double maxWidthPoints)
+        //{
+        //    var frags = fragments.Cast<ITextFragmentBase>().ToList();
+        //    return WrapRichText(frags, maxWidthPoints);
+        //}
+
         /// <summary>
         /// Wraps rich text with multiple fonts without full text concatenation.
         /// Processes fragments sequentially with persistent line state.
         /// </summary>
         public List<string> WrapRichText(
-            List<TextFragment> fragments,
+            IEnumerable<ITextFragmentBase> fragments,
             double maxWidthPoints)
         {
-            if (fragments == null || fragments.Count == 0)
+            //Potentially optimize this '.Count()' method is slow
+            //Prefer the list parameter .Count but we also seemingly can't use List as input param
+            if (fragments == null || fragments.Count() == 0)
             {
                 return new List<string> { string.Empty };
             }
@@ -75,6 +86,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             return WrapRichText(fragmentCollection, maxWidthPoints);
         }
 
+
         public List<TextLineSimple> WrapRichTextLines(
             string text, MeasurementFont font,
             double maxWidthPoints)
@@ -84,7 +96,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         public TextLineCollection WrapRichTextLineCollection(
-            List<TextFragment> fragments,
+            List<ITextFragmentBase> fragments,
             double maxWidthPoints)
         {
             var innerLines = WrapRichTextLines(fragments, maxWidthPoints);
@@ -92,8 +104,20 @@ namespace EPPlus.Fonts.OpenType.Integration
             return collection;
         }
 
+        public TextLineCollection WrapRichTextLineCollection(List<TextFragment> fragments, double maxWidthPoints)
+        {
+            var frags = fragments.Cast<ITextFragmentBase>().ToList();
+            return WrapRichTextLineCollection(frags, maxWidthPoints);
+        }
+
+        public List<TextLineSimple> WrapRichTextLines(List<TextFragment> fragments, double maxWidthPoints)
+        {
+            var frags = fragments.Cast<ITextFragmentBase>().ToList();
+            return WrapRichTextLines(frags, maxWidthPoints);
+        }
+
         public List<TextLineSimple> WrapRichTextLines(
-            List<TextFragment> fragments,
+            List<ITextFragmentBase> fragments,
             double maxWidthPoints)
         {
             if (fragments == null || fragments.Count == 0)
@@ -133,7 +157,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     if (frag == null) continue;
                     largestAscent = Math.Max(frag.AscentPoints, largestAscent);
                     largestDescent = Math.Max(frag.DescentPoints, largestDescent);
-                    largestFontSize = Math.Max(largestFontSize, frag.Font.Size);
+                    largestFontSize = Math.Max(largestFontSize, frag.Size);
                 }
                 line.LargestAscent = largestAscent;
                 line.LargestDescent = largestDescent;
@@ -247,13 +271,13 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         private void ProcessFragment(
-            TextFragment fragment,
+            ITextFragmentBase fragment,
             double maxWidthPoints,
             StringBuilder lineBuilder,
             WrapStateRichText state)
         {
             state.CharIdxRt = 0;
-            var shaper = GetShaperForFont(fragment.Font);
+            var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
             var charWidths = GetCharWidthBuffer(len);
@@ -263,13 +287,13 @@ namespace EPPlus.Fonts.OpenType.Integration
             // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
             // is ~250x slower and irrelevant for wrapping decisions.
             var shaped = shaper.ShapeLight(fragment.Text, options);
-            shaped.FillCharWidths(fragment.Font.Size, charWidths, len);
+            shaped.FillCharWidths(fragment.Size, charWidths, len);
 
             //Store for after everything is done
-            fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Font.Size);
-            fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Font.Size);
+            fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
+            fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
 
-            var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Font.Size);
+            var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
             state.LineFrag.SpaceWidth = spaceWidth;
 

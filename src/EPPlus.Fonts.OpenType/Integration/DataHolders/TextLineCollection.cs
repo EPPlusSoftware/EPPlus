@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Array of the line numbers where fragment occurs
         /// </summary>
         public List<LineFragmentOutput> LineFragments = new List<LineFragmentOutput>();
-        List<TextFragment> _originalFragments;
+        List<ITextFragmentBase> _originalFragments;
 
         public int[] GetLineNumbersThatUse(TextFragment fragment)
         {
@@ -124,10 +125,10 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         Dictionary<int, Dictionary<int, List<int>>> fragIdLookup = new Dictionary<int, Dictionary<int, List<int>>>();
 
-        internal MeasurementFont GetFont(int fragIdx)
-        {
-            return _originalFragments[fragIdx].Font;
-        }
+        //internal MeasurementFont GetFont(int fragIdx)
+        //{
+        //    return _originalFragments[fragIdx].RichTextOptions;
+        //}
 
         /// <summary>
         /// If using this MUST call FinalizeTextLineData to finish the information gathering
@@ -228,7 +229,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             FinalizeTextLineData(lines);
         }
 
-        public TextLineCollection(List<TextLineSimple> lines, List<TextFragment> originalFragments)
+        public TextLineCollection(List<TextLineSimple> lines, List<ITextFragmentBase> originalFragments)
         {
             foreach (var line in lines)
             {

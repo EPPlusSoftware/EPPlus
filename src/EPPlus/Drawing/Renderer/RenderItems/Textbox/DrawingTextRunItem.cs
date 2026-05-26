@@ -1,9 +1,11 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
@@ -16,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     internal class DrawingTextRunRenderItem : TextRunRenderItem
     {
-        internal DrawingTextRunRenderItem(BoundingBox parent, MeasurementFont font, string displayText) : base(parent, font, displayText)
+        internal DrawingTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) : base(parent, font, displayText)
         {
             Bounds.Name = "TextRun";
             _currentText = displayText;
@@ -51,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _underLineType = UnderLineType.None;
         }
 
-        internal DrawingTextRunRenderItem(BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, text, font.GetMeasureFont(), displayText)
+        internal DrawingTextRunRenderItem(BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, text, new OpenTypeFontInfoBase(font.GetMeasureFont()), displayText)
         {
             _baseline = font.Baseline;
             if (_baseline != 0)
@@ -109,7 +111,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
 
-            _measurementFont = run.GetMeasurementFont();
+            _measurementFont = new OpenTypeFontInfoBase(run.GetMeasurementFont());
 
             
             //_fontStyles = _measurementFont.Style;

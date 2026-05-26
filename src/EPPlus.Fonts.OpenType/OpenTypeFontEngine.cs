@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -139,6 +140,16 @@ namespace EPPlus.Fonts.OpenType
         {
             var shaper = GetTextShaper(fontName, subFamily);
             return new TextLayoutEngine(shaper);
+        }
+        public TextLayoutEngine GetTextLayoutEngineForFont(IFontFormatBase font)
+        {
+            var shaper = GetShaperForFont(font);
+            return new TextLayoutEngine(shaper);
+        }
+
+        public ITextShaper GetShaperForFont(IFontFormatBase font)
+        {
+            return GetTextShaper(font.Family, font.SubFamily);
         }
 
         public TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font)
