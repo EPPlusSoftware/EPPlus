@@ -20,7 +20,7 @@ namespace EPPlus.DrawingRenderer
         Line = 3,
         Ellipse = 4,
         Text = 5,
-        TSpan = 6,
+        TextRun = 6,
         Paragraph = 7,
         CommentTitle = 8,         
         UseReference = 9,

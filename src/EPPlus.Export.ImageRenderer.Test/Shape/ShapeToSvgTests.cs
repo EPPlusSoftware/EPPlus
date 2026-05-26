@@ -1,9 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Drawing;

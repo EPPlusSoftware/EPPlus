@@ -108,7 +108,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     }
     public abstract class TextRunRenderItem : RenderItem
     {
-        public override RenderItemType Type => RenderItemType.Text;
+        public override RenderItemType Type => RenderItemType.TextRun;
 
         protected string _originalText;
         public string _currentText { get; protected set; }

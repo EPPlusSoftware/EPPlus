@@ -10,9 +10,10 @@ namespace EPPlus.DrawingRenderer.Svg
 {
     public class SvgParagraphRenderer : SvgBaseRenderer<ParagraphRenderItem> 
     {
-        public SvgParagraphRenderer(StringBuilder outputStream) : base(outputStream)
+        IBasicIShapesRenderer<StringBuilder> _shapeRenderer;
+        public SvgParagraphRenderer(IBasicIShapesRenderer<StringBuilder> shapeRenderer, StringBuilder outputStream) : base(outputStream)
         {
-
+            _shapeRenderer = shapeRenderer;
         }
         internal string Suffix = "px";
         public override void Render(ParagraphRenderItem item)
@@ -106,7 +107,7 @@ namespace EPPlus.DrawingRenderer.Svg
             {
                 foreach (var textRun in item.Runs)
                 {
-                    RenderTextRun(textRun);
+                    _shapeRenderer.Render(textRun);
                 }
             }
 
@@ -175,11 +176,5 @@ namespace EPPlus.DrawingRenderer.Svg
 
         //    return fontStyleAttributes;
         //}
-
-        private void RenderTextRun(TextRunRenderItem textRun)
-        {
-            SvgTextRunRenderer trRenderer = new SvgTextRunRenderer(OutputStream);
-            trRenderer.Render(textRun);
-        }
     }
 }

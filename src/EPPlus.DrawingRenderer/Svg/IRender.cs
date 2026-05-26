@@ -58,7 +58,7 @@ namespace EPPlus.DrawingRenderer
                     case RenderItemType.Path:
                         BasicShapesRenderer.PathRenderer.Render((PathRenderItem)item);
                         break;
-                    case RenderItemType.Text:
+                    case RenderItemType.Paragraph:
                         BasicShapesRenderer.ParagraphRenderer.Render((ParagraphRenderItem)item);
                         break;
                     case RenderItemType.UseReference:
@@ -587,8 +587,9 @@ namespace EPPlus.DrawingRenderer
             RectangleRenderer = new SvgRectRenderer(outputStream);
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
-            ParagraphRenderer = new SvgParagraphRenderer(outputStream);
+            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream);
             GroupRenderer = new SvgGroupRenderer(this, outputStream);
+            TextRunRenderer = new SvgTextRunRenderer(outputStream);
             TitleRenderer = new SvgTitleRenderer(outputStream);
             UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
 
@@ -602,6 +603,7 @@ namespace EPPlus.DrawingRenderer
         public BaseRenderer<StringBuilder, LineRenderItem> LineRenderer { get; }
         public BaseRenderer<StringBuilder, TitleRenderItem> TitleRenderer { get; }
         public BaseRenderer<StringBuilder, ParagraphRenderItem> ParagraphRenderer { get; }
+        public BaseRenderer<StringBuilder, TextRunRenderItem> TextRunRenderer { get; }
         public BaseRenderer<StringBuilder, UseReferenceRenderItem> UseReferenceRenderer { get; }
 
         public void Render(RenderItem item)
@@ -635,8 +637,9 @@ namespace EPPlus.DrawingRenderer
                 case RenderItemType.UseReference:
                     UseReferenceRenderer.Render((UseReferenceRenderItem)item);
                     break;
-                case RenderItemType.TSpan:
-                    throw new NotImplementedException();
+                case RenderItemType.TextRun:
+                    TextRunRenderer.Render((TextRunRenderItem)item);
+                    break;
             }
         }
     }

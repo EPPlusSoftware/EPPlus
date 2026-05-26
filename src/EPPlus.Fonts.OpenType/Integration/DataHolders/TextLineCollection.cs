@@ -192,46 +192,14 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
         }
 
-        double LargestWidthWithSpace = -1d;
-        double LargestWidthWithoutSpace = -1d;
-        public List<double> SpaceWidthsPerLine = new List<double>();
-
-
-        public TextLineCollection(List<TextLineSimple> lines, List<IFragInfo> originalFragments)
-        {
-            foreach (var line in lines)
-            {
-                double largestAscent = 0;
-                double largestDescent = 0;
-                double largestFontSize = 0;
-                foreach (var lineFragment in line.InternalLineFragments)
-                {
-                    var frag = originalFragments[lineFragment.FragmentIndex];
-                    if (frag == null) continue;
-                    largestAscent = Math.Max(frag.AscentPoints, largestAscent);
-                    largestDescent = Math.Max(frag.DescentPoints, largestDescent);
-                    largestFontSize = Math.Max(largestFontSize, frag.Size);
-                }
-                line.LargestAscent = largestAscent;
-                line.LargestDescent = largestDescent;
-                line.LargestFontSize = largestFontSize;
-
-                //line.FinalizeLineFragments(originalFragments);
-            }
-
-            //_originalFragments = originalFragments;
-
-            for (int i = 0; i < originalFragments.Count; i++)
-            {
-                fragIdLookup.Add(i, new Dictionary<int, List<int>>());
-            }
-
-            FinalizeTextLineData(lines);
-        }
-
+        public double LargestWidthWithSpace { get; private set; } = -1d;
+        public double LargestWidthWithoutSpace { get; private set; } = -1d;
+        public int idxOfLargestLine { get; private set; } = -1;
+        public List<double> SpaceWidthsPerLine { get; private set; } = new List<double>();
 
         public TextLineCollection(List<TextLineSimple> lines, List<ITextFragmentBase> originalFragments)
         {
+            int lineIdx = 0;
             foreach (var line in lines)
             {
                 double largestAscent = 0;
@@ -251,9 +219,20 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 line.FinalizeLineFragments(originalFragments);
 
+                if(line.Width > LargestWidthWithSpace)
+                {
+                    LargestWidthWithSpace = line.Width;
+
+                }
+                if(line.GetWidthWithoutTrailingSpaces() > LargestWidthWithoutSpace)
+                {
+                    LargestWidthWithoutSpace = line.GetWidthWithoutTrailingSpaces();
+                    idxOfLargestLine = lineIdx;
+                }
                 LargestWidthWithSpace = Math.Max(LargestWidthWithSpace, line.Width);
                 LargestWidthWithoutSpace = Math.Max(LargestWidthWithoutSpace, line.GetWidthWithoutTrailingSpaces());
                 SpaceWidthsPerLine.Add(line.lastFontSpaceWidth);
+                lineIdx++;
             }
 
             _originalFragments = originalFragments;
