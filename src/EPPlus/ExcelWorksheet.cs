@@ -400,6 +400,23 @@ namespace OfficeOpenXml
 
         #endregion
 
+
+        internal bool HasFormula(int row, int col)
+        {
+            var formula = _formulas.GetValue(row, col);
+            if(formula is int formulaIndex)
+            {
+                var sharedFormula = _sharedFormulas[formulaIndex];
+                if(sharedFormula.StartRow == row && sharedFormula.StartCol == col)
+                {
+                    return true;
+                }
+                var md = _metadataStore.GetValue(sharedFormula.StartRow, sharedFormula.StartCol);
+                return !Workbook.Metadata.IsFormulaDynamic(md.cm);
+            }
+            return !string.IsNullOrEmpty(formula?.ToString() ?? "");
+        }
+
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
