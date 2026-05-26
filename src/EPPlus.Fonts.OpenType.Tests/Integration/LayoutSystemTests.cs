@@ -42,7 +42,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
@@ -81,7 +81,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment() {Text = lstOfRichText[0], Font = font }
             };
 
-            var layout = new LayoutSystem(fragments, FontFolders);
+            var layout = new LayoutSystem(fragments);
             Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
         }
 
@@ -129,7 +129,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
             var wrappedLines = paragraph.Wrap(225d);
 
             var line1 = wrappedLines[0];
@@ -162,7 +162,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
             var wrappedLines = paragraph.Wrap(225d);
 
             Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
@@ -202,7 +202,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var layout = new TextLayoutEngine(shaper);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
             var wrappedLines2 = paragraph.Wrap(225d);
             //var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
             //var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
@@ -242,7 +242,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
 
             var lines = paragraph.Wrap(92.976377953d);
 

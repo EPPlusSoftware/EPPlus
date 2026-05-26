@@ -30,7 +30,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
         TextLineCollection WrappedLineCollection;
 
-        public LayoutSystem(List<TextFragment> preFragments): this(preFragments.Cast<IRichTextFormatBase>().ToList())
+        public LayoutSystem(List<TextFragment> preFragments): this(preFragments.Cast<ITextFragmentBase>().ToList())
         {
         }
 
@@ -55,9 +55,9 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             //InitalizeAllTextAndCharInfo()
         }
 
-        public LayoutSystem(List<ITextFragmentBase> fragments, IEnumerable<string> FontDirectories)
+        public LayoutSystem(IEnumerable<ITextFragmentBase> fragments)
         {
-            InputFragments = fragments;
+            InputFragments = fragments.ToList();
             //Extract basic info about the entire paragraph
             InitalizeAllTextAndCharInfo();
             //Split into sub paragraphs
