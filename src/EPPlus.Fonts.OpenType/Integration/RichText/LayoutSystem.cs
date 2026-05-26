@@ -233,11 +233,6 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
         }
 
-
-        double LargestWidthWithSpace = -1d;
-        double LargestWidthWithoutSpace = -1d;
-        public List<double> SpaceWidthsPerLine = new List<double>();
-
         /// <summary>
         /// Wrapping/line breaking
         /// </summary>
@@ -251,35 +246,6 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             var layoutEngine = new TextLayoutEngine(shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
-            LargestWidthWithSpace = -1d;
-            LargestWidthWithoutSpace = -1d;
-            SpaceWidthsPerLine.Clear();
-
-            //var wrappedLines = layoutEngine.WrapRichTextLines(InputFragments, maxWidth);
-            //Calculate ascent and descent so later application can handle line-spacing
-            //This could be optimized by doing it during ProcessFragment but that is way bulkier/unclear
-            foreach (var line in wrappedLines)
-            {
-                double largestAscent = 0;
-                double largestDescent = 0;
-                double largestFontSize = 0;
-                foreach (var lineFragment in line.InternalLineFragments)
-                {
-                    var frag = InputFragments[lineFragment.FragmentIndex];
-                    if (frag == null) continue;
-                    largestAscent = Math.Max(frag.AscentPoints, largestAscent);
-                    largestDescent = Math.Max(frag.DescentPoints, largestDescent);
-                    largestFontSize = Math.Max(largestFontSize, frag.RichTextOptions.Size);
-                }
-                line.LargestAscent = largestAscent;
-                line.LargestDescent = largestDescent;
-                line.LargestFontSize = largestFontSize;
-                line.FinalizeLineFragments(InputFragments);
-
-                LargestWidthWithSpace = Math.Max(LargestWidthWithSpace, line.Width);
-                LargestWidthWithoutSpace = Math.Max(LargestWidthWithoutSpace, line.GetWidthWithoutTrailingSpaces());
-                SpaceWidthsPerLine.Add(line.lastFontSpaceWidth);
-            }
             WrappedLineCollection = new TextLineCollection(wrappedLines, InputFragments);
             return WrappedLineCollection;
         }

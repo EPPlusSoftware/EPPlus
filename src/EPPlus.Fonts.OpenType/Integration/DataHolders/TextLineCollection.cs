@@ -229,6 +229,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             FinalizeTextLineData(lines);
         }
 
+
         public TextLineCollection(List<TextLineSimple> lines, List<ITextFragmentBase> originalFragments)
         {
             foreach (var line in lines)
@@ -249,6 +250,10 @@ namespace EPPlus.Fonts.OpenType.Integration
                 line.LargestFontSize = largestFontSize;
 
                 line.FinalizeLineFragments(originalFragments);
+
+                LargestWidthWithSpace = Math.Max(LargestWidthWithSpace, line.Width);
+                LargestWidthWithoutSpace = Math.Max(LargestWidthWithoutSpace, line.GetWidthWithoutTrailingSpaces());
+                SpaceWidthsPerLine.Add(line.lastFontSpaceWidth);
             }
 
             _originalFragments = originalFragments;

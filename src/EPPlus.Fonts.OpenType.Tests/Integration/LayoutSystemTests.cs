@@ -257,7 +257,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         [TestMethod]
         public void EnsureWrappingRichTextAndGettingLineSpacing()
         {
-            List<string> txtLst = new List<string>() { "Hi", "I am rich", "But I am Even Richer" };
+            List<string> txtLst = new List<string>() { "Hi ", "I am rich ", "But I am Even Richer " };
             var rt = new OpenTypeRichTextBase(txtLst[0], "Roboto", 12f);
             var rtSecond = new OpenTypeRichTextBase(txtLst[1], "Archivo Narrow", 11f);
             var rtThird = new OpenTypeRichTextBase(txtLst[2], "Roboto", 18f);
