@@ -30,67 +30,73 @@ namespace EPPlus.Fonts.OpenType.Integration
     /// <summary>
     /// Represents a text fragment with specific font properties.
     /// </summary>
-    public class TextFragment : IFragInfo
+    public class TextFragment : TextFragmentBase
     {
-        public string Text { get; set; }
+        MeasurementFont _mfFont;
 
-        public MeasurementFont Font { get; set; }
-        public ShapingOptions Options { get; set; }
-        public double AscentPoints { get; set; }
-        public double DescentPoints { get; set; }
+        public MeasurementFont Font { get { return _mfFont; } set { _mfFont = value; base.RichTextOptions.SetFont(value); } }
 
-        /// <summary>
-        /// Store rich-text info.
-        /// Nothing is supposed to be done with this within OpenType
-        /// but we hold the data so users may more easily recognize what rich text this is in the output.
-        /// </summary>
-        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+        public TextFragment(IRichTextInfoBase rtFormat) : base(rtFormat)
+        {
+        }
+        public TextFragment():base()
+        {
 
-        public float Size { get => Font.Size; }
+        }
+
+        ///// <summary>
+        ///// Store rich-text info.
+        ///// Nothing is supposed to be done with this within OpenType
+        ///// but we hold the data so users may more easily recognize what rich text this is in the output.
+        ///// </summary>
+        //public new IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+
+        public override float Size { get => Font.Size; }
     }
 
     public class TextFragmentBase
     {
-        public string Text { get => RichText.Text; set => RichText.Text = value; }
+        public string Text { get => RichTextOptions.Text; set => RichTextOptions.Text = value; }
 
-        public IRichTextFormatBase RichText;
-
+        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
         public ShapingOptions Options { get; set; }
-
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
 
-        public TextFragmentBase(IRichTextFormatBase richText) 
-        {
-            RichText = richText;
-        }
-        public float Size { get => RichText.Size; }
-    }
-
-    /// <summary>
-    /// Simple class to provide some kind of fallback/defaults
-    /// </summary>
-    public class RichTextDefaults : IRichTextInfoBase
-    {
-        internal RichTextDefaults()
+        public TextFragmentBase()
         {
         }
-        public bool IsItalic { get; set; } = false;
-
-        public bool IsBold { get; set; } = false;
-
-        public bool SubScript { get; set; } = false;
-
-        public bool SuperScript { get; set; } = false;
-
-        public int UnderlineType { get; set; } = -1;
-
-        public int StrikeType { get; set; } = -1;
-
-        public int Capitalization { get; set; } = -1;
-
-        public Color UnderlineColor { get; set; }
-
-        public Color FontColor { get; set; }
+        public TextFragmentBase(IRichTextInfoBase richText) 
+        {
+            RichTextOptions = richText;
+        }
+        public virtual float Size { get => RichTextOptions.Size; }
     }
+
+    ///// <summary>
+    ///// Simple class to provide some kind of fallback/defaults
+    ///// </summary>
+    //public class RichTextDefaults : IRichTextInfoBase
+    //{
+    //    internal RichTextDefaults()
+    //    {
+    //    }
+    //    public bool Italic { get; set; } = false;
+
+    //    public bool Bold { get; set; } = false;
+
+    //    public bool SubScript { get; set; } = false;
+
+    //    public bool SuperScript { get; set; } = false;
+
+    //    public int UnderlineType { get; set; } = -1;
+
+    //    public int StrikeType { get; set; } = -1;
+
+    //    public int Capitalization { get; set; } = -1;
+
+    //    public Color UnderlineColor { get; set; }
+
+    //    public Color FontColor { get; set; }
+    //}
 }

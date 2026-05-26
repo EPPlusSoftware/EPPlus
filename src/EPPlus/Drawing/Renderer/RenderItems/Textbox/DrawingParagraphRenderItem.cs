@@ -271,21 +271,21 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="runs"></param>
         void GenerateTextFragments(ExcelDrawingTextRunCollection runs/*, string textIfEmpty*/)
         {
-            List<TextFragmentBase> fragments = new List<TextFragmentBase>();
+            //List<TextFragmentBase> fragments = new List<TextFragmentBase>();
 
-            var lstOfRichText = runs.ExportToOpenTypeFormat();
+            //var lstOfRichText = runs.ExportToOpenTypeFormat();
 
-            foreach (var run in lstOfRichText)
-            {
-                TextFragmentBase frag = new TextFragmentBase(run);
-                //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
-                //We can do so here
-                frag.Options = new OfficeOpenXml.Interfaces.Fonts.ShapingOptions();
+            //foreach (var run in lstOfRichText)
+            //{
+            //    TextFragmentBase frag = new TextFragmentBase(run);
+            //    //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
+            //    //We can do so here
+            //    frag.Options = new OfficeOpenXml.Interfaces.Fonts.ShapingOptions();
 
-                fragments.Add(frag);
-            }
+            //    fragments.Add(frag);
+            //}
 
-            layoutSystem = new LayoutSystem(fragments);
+            //layoutSystem = new LayoutSystem(fragments);
 
             List<string> runContents = new List<string>();
             List<MeasurementFont> fonts = new List<MeasurementFont>();

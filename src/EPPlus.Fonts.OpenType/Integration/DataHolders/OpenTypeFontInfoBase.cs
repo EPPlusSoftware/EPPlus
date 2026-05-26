@@ -64,5 +64,16 @@ namespace EPPlus.Fonts.OpenType.Integration.DataHolders
             Size = font.Size;
             SubFamily = font.SubFamily;
         }
+
+        /// <summary>
+        /// Legacy import
+        /// </summary>
+        /// <param name="font"></param>
+        public void SetFont(MeasurementFont font)
+        {
+            Family = font.FontFamily;
+            Size = font.Size;
+            SubFamily = GetFontSubFamily(font.Style);
+        }
     }
 }

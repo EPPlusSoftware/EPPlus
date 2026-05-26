@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Interfaces.Fonts;
+﻿using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,5 +18,11 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// </summary>
         /// <param name="font"></param>
         public void SetFont(IFontFormatBase font);
+
+        /// <summary>
+        /// Sets the underlying data properties to be equal to the font
+        /// </summary>
+        /// <param name="font"></param>
+        public void SetFont(MeasurementFont font);
     }
 }

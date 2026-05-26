@@ -9,6 +9,10 @@ namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
     public class OpenTypeRichTextBase : OpenTypeFontInfoBase, IRichTextFormatBase
     {
+        internal OpenTypeRichTextBase() 
+        { 
+        }
+
         public OpenTypeRichTextBase(string text, string fontFamily, float size, bool bold, bool italic)
         {
             Text = text;
