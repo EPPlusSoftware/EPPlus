@@ -271,13 +271,26 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var lines = paragraph.Wrap(92.976377953d);
 
-            string stop = "stop!";
-            //Assert.AreEqual("Hi! I am a simple but", lines[0].Text);
-            //Assert.AreEqual("somewhat wordy text", lines[1].Text);
-            //Assert.AreEqual("string that is being", lines[2].Text);
-            //Assert.AreEqual("Tested for wrapping in", lines[3].Text);
-            //Assert.AreEqual("the case where only", lines[4].Text);
-            //Assert.AreEqual("one font exists", lines[5].Text);
+            //Assert correct wrapping
+            Assert.AreEqual("Hi I am rich But I", lines[0].Text);
+            Assert.AreEqual("am Even", lines[1].Text);
+            Assert.AreEqual("Richer", lines[2].Text);
+
+            //Assert line segments correct count
+            Assert.AreEqual(3, lines[0].LineFragments.Count);
+            Assert.AreEqual(3, lines[0].InternalLineFragments.Count);
+            Assert.AreEqual(1, lines[1].LineFragments.Count);
+            Assert.AreEqual(1, lines[1].InternalLineFragments.Count);
+            Assert.AreEqual(1, lines[2].LineFragments.Count);
+            Assert.AreEqual(1, lines[2].InternalLineFragments.Count);
+
+            //Assert correct fragment in correct spot
+            Assert.AreEqual(rtLst[0], (IRichTextFormatBase)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[1], (IRichTextFormatBase)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
+
+            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
         }
 
         [TestMethod]
