@@ -13,6 +13,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Fonts.OpenType.Integration.RichText;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -30,6 +31,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         ExcelDrawingParagraph Paragraph { get; set; } = null;
         //end temp workaround vars
 
+        LayoutSystem layoutSystem;
+
         private double? _centerAdjustment = null;
         bool LinespacingIsExact 
         { 
@@ -38,8 +41,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 return _lsMultiplier.HasValue == false; 
             } 
         }
-
-        public override RenderItemType Type => RenderItemType.Paragraph;
 
         public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent) : base(parent)
         {
@@ -63,6 +64,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
 
+            // --- Import Style Information---
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
                 if (IsFirstParagraph)
@@ -97,8 +99,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
                 }
             }
+            //End import Style Information
 
-            //---Initialize Bounds / Margins-- -
+            //---Initialize Bounds / Margins---
             var indent = 48 * p.IndentLevel;
             LeftMargin = p.LeftMargin + p.Indent + indent;
             RightMargin = p.RightMargin;
@@ -268,6 +271,22 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="runs"></param>
         void GenerateTextFragments(ExcelDrawingTextRunCollection runs/*, string textIfEmpty*/)
         {
+            List<TextFragmentBase> fragments = new List<TextFragmentBase>();
+
+            var lstOfRichText = runs.ExportToOpenTypeFormat();
+
+            foreach (var run in lstOfRichText)
+            {
+                TextFragmentBase frag = new TextFragmentBase(run);
+                //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
+                //We can do so here
+                frag.Options = new OfficeOpenXml.Interfaces.Fonts.ShapingOptions();
+
+                fragments.Add(frag);
+            }
+
+            layoutSystem = new LayoutSystem(fragments);
+
             List<string> runContents = new List<string>();
             List<MeasurementFont> fonts = new List<MeasurementFont>();
             

@@ -1,4 +1,5 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -60,6 +61,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public List<double> SpaceWidthsPerLine = new List<double>();
         public bool DisplayBounds { get; set; } = false;
         public MeasurementFont ParagraphFont;
+        public override RenderItemType Type => RenderItemType.Paragraph;
         //public ParagraphRenderItem(TextBodyItem textBody, BoundingBox parent) : base(parent)
         //{
         //    ParentTextBody = textBody;
@@ -196,7 +198,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         //    var fragment = new TextFragment();
         //    fragment.Text = text;
         //    fragment.Font = ParagraphFont;
-        //    _manualFragments.Add(fragment);
+        //    //_manualFragments.Add(fragment);
 
         //    //if(_newTextFragments == null)
         //    //{

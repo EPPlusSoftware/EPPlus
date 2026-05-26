@@ -41,6 +41,8 @@ namespace EPPlusImageRenderer.Svg
         internal ChartDrawingObject(ChartRenderer chart)
         {
             ChartRenderer = chart;
+            //Fixes null ref but might be inaccurate for some objects...
+            //Rectangle = new RectRenderItem(chart.Bounds);
         }
         internal void SetMargins(ExcelTextBody tb)
         {

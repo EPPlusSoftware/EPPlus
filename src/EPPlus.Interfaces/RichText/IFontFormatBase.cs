@@ -7,9 +7,9 @@ namespace OfficeOpenXml.Interfaces.RichText
 {
     public interface IFontFormatBase
     {
-        string Family { get; set; }
-        FontSubFamily SubFamily { get; set; }
-        float Size { get; set; }
+        public string Family { get; set; }
+        public FontSubFamily SubFamily { get; set; }
+        public float Size { get; set; }
 
 
         /// <summary>

@@ -92,7 +92,7 @@ namespace EPPlusImageRenderer.Svg
         private RectRenderItem GetLegendRectangleAndEntrySize(ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
             //var rect = new RectRenderItem(RectanBounds);
-            var rect = Rectangle;
+            var rect = Rectangle = new RectRenderItem(ChartRenderer.Bounds);
             var widest = 0d;
             var highest = 0d;
             var index = 0;

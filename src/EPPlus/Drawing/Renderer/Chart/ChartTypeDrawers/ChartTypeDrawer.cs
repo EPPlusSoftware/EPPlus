@@ -14,7 +14,6 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -29,6 +28,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal ChartTypeDrawer(ChartRenderer svgChart,  ExcelChart chartType) : base(svgChart)
         {
             _chartType = chartType;
+            //Avoid null-refs
+            Rectangle = new RectRenderItem(svgChart.Bounds);
         }
         internal abstract void DrawSeries();
         protected List<object> LoadSeriesValues(string serieAddressInput, double[] numLiterals, string[] strLiterals)

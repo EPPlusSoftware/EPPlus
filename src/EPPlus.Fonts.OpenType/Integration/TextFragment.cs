@@ -18,15 +18,26 @@ using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
+
+    public interface IFragInfo
+    {
+        public double AscentPoints { get; }
+        public double DescentPoints { get; }
+
+        public float Size { get; }
+    }
+
     /// <summary>
     /// Represents a text fragment with specific font properties.
     /// </summary>
-    public class TextFragment
+    public class TextFragment : IFragInfo
     {
         public string Text { get; set; }
 
         public MeasurementFont Font { get; set; }
         public ShapingOptions Options { get; set; }
+        public double AscentPoints { get; set; }
+        public double DescentPoints { get; set; }
 
         /// <summary>
         /// Store rich-text info.
@@ -35,15 +46,14 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
 
-        public double AscentPoints { get; set; }
-        public double DescentPoints { get; set; }
+        public float Size { get => Font.Size; }
     }
 
     public class TextFragmentBase
     {
         public string Text { get => RichText.Text; set => RichText.Text = value; }
 
-        IRichTextFormatBase RichText;
+        public IRichTextFormatBase RichText;
 
         public ShapingOptions Options { get; set; }
 
@@ -54,6 +64,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             RichText = richText;
         }
+        public float Size { get => RichText.Size; }
     }
 
     /// <summary>

@@ -17,6 +17,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Interfaces.RichText;
+using EPPlus.Fonts.OpenType.Integration;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -160,6 +163,16 @@ namespace OfficeOpenXml.Drawing
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal List<IRichTextFormatBase> ExportToOpenTypeFormat()
+        {
+            List<IRichTextFormatBase> RtFormatList = new List<IRichTextFormatBase>();
+            foreach (var item in _textRuns)
+            {
+                RtFormatList.Add(item.ExportToOpenTypeFormat());
+            }
+            return RtFormatList;
         }
     }
 }
