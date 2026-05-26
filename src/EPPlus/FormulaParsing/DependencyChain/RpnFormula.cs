@@ -304,31 +304,6 @@ namespace OfficeOpenXml.FormulaParsing
             return _ws?.IndexInList??-1;
         }
 
-        internal bool PreviousFunctionIsAnchorArray()
-        {
-            var ix = _tokenIndex-1;
-            while(ix>=0)
-            {
-                if (_tokens[ix].TokenType == TokenType.StartFunctionArguments)
-                {
-                    var f = _tokens[ix].Value.ToString().ToLower();
-                    if (f == "anchorarray" || f == "_xlfn.anchorarray")
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-                else if (_tokens[ix].TokenType != TokenType.OpeningParenthesis &&
-                         _tokens[ix].TokenType != TokenType.WhiteSpace)
-                {
-                    return false;
-                }
-
-                ix--;
-            }
-            return false;
-        }
-
         internal void Reset(RpnOptimizedDependencyChain depChain)
         {
             if (_tokenIndex <= 0) return;
