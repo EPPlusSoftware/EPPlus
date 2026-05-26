@@ -525,27 +525,56 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Gridlines Border End");
         }
 
+        //public void AddMarginClipping(PdfPageLayout pageLayout)
+        //{
+        //    if (pageLayout is not PdfPageLayout pl) return;
+        //    if (pageLayout.isCommentsPage) return;
+
+        //    commands.Add($"% Margin Clip Start");
+        //    double y = pageLayout.ContentTop;
+        //    double width = 0d;
+        //    foreach (var line in pl.BorderLines)
+        //    {
+        //        width = System.Math.Max(width, System.Math.Max(line.X1, line.X2));
+        //        y = System.Math.Min(y, System.Math.Min(line.Y1, line.Y2));
+        //    }
+        //    var heightAdjust = y - pageLayout.ContentBottom;
+
+        //    var x = (pageLayout.ContentLeft) - (GridLine.Width * 4 );
+        //    width = width - pageLayout.ContentLeft + (GridLine.Width * 8);
+        //    var height = pageLayout.ContentHeight - heightAdjust + (GridLine.Width * 4);
+
+        //    commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
+        //}
+
         public void AddMarginClipping(PdfPageLayout pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pageLayout.isCommentsPage) return;
-
             commands.Add($"% Margin Clip Start");
-            double y = pageLayout.ContentTop;
-            double width = 0d;
+            // Derive the tight bounding box directly from BorderLines.
+            // pageLayout is created with all-zero dimensions so ContentTop/Bottom/Left/Height
+            // cannot be used here — they are always 0.
+            double top = double.MinValue;
+            double bottom = double.MaxValue;
+            double left = double.MaxValue;
+            double right = double.MinValue;
             foreach (var line in pl.BorderLines)
             {
-                width = System.Math.Max(width, System.Math.Max(line.X1, line.X2));
-                y = System.Math.Min(y, System.Math.Min(line.Y1, line.Y2));
+                top = System.Math.Max(top, System.Math.Max(line.Y1, line.Y2));
+                bottom = System.Math.Min(bottom, System.Math.Min(line.Y1, line.Y2));
+                left = System.Math.Min(left, System.Math.Min(line.X1, line.X2));
+                right = System.Math.Max(right, System.Math.Max(line.X1, line.X2));
             }
-            var heightAdjust = y - pageLayout.ContentBottom;
-
-            var x = (pageLayout.ContentLeft) - (GridLine.Width * 4 );
-            width = width - pageLayout.ContentLeft + (GridLine.Width * 8);
-            var height = pageLayout.ContentHeight - heightAdjust + (GridLine.Width * 4);
-
+            var pad = GridLine.Width * 4;
+            var x = left - pad;
+            var y = bottom - pad;
+            var width = (right - left) + pad * 2;
+            var height = (top - bottom) + pad * 2;
             commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
         }
+
+
 
         internal override string RenderDictionary()
         {

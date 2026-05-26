@@ -41,6 +41,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellBorderLayout(PdfCellStyle style, bool isMerged, MergedCellCorners corners, MergedCellDrawInfo info, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)
         {
+            Z = 3;
             IsMerged = isMerged;
             MergedCellInfo = info;
             Corners = corners;

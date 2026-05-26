@@ -183,12 +183,14 @@ namespace EPPlus.Export.Pdf
         //Create Content
         private void AddContent(Transform pageLayout, PdfPage page)
         {
-            var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
+            //var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
+            var cells = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && !(t is PdfCellContentLayout cc && cc.IsHeaderFooter)).GroupBy(t => t.Name);
+            var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var contentStream = new PdfContentStream(Document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            //contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
             if (PageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
@@ -220,7 +222,10 @@ namespace EPPlus.Export.Pdf
                 contentStream.AddOuterGridBorder(pageLayout);
             }
             //Add header and footer.
-            AddHeaderFooter(contentStream, pageLayout, page);
+            foreach (var hf in headerFooterLayouts)
+            {
+                contentStream.AddCellContentLayout(hf, Dictionaries, PageSettings);
+            }
             Document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
             contentStream.AddCommand($"% {pageLayout.Name} end");

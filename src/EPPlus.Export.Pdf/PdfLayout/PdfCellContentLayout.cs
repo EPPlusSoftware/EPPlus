@@ -34,6 +34,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
+        public bool IsHeaderFooter;
         public PdfCellStyle CellStyle;
         public ExcelRangeBase cell;
         public TextLayoutEngine textLayoutEngine;
@@ -60,6 +61,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell, MergedCellDrawInfo mergedCellInfo, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
+            Z = 2;
             CellAlignmentData = cell.ContentAligmnet;
             TextLines = cell.TextLines;
             ShapedTexts = cell.ShapedTexts;
@@ -77,6 +79,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
+            Z = 2;
             TextLines = headerFooter.Content.TextLines;
             ShapedTexts = headerFooter.Content.ShapedTexts;
             TextLayoutEngine = headerFooter.Content.TextLayoutEngine;
@@ -501,14 +504,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Check if clipping is needed.
+
+
+        //Check if clipping is needed.
+
         public void CheckClipping(ExcelRangeBase cell, double x, double y, double width, double height)
         {
             if (textLength >= width || cell.Merge)
             {
                 if (cell.Merge ||
-                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill )
-                   //CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
-                   //CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
+                   CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Fill)
+                //CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Left && cell.Worksheet.Cells[cell._fromRow, cell._fromCol + 1].Value != null ||
+                //CellAlignmentData.HorizontalAlignment == ExcelHorizontalAlignment.Right && cell.Worksheet.Cells[cell._fromRow, cell._fromCol - 1 <= 0 ? 1 : cell._fromCol - 1].Value != null)
                 {
                     Clipping = new Rect()
                     {
@@ -519,6 +526,19 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     };
                 }
             }
+        }
+
+        // Set clipping to the cell's own bounds. cellY is the top edge (same convention as the constructor).
+        internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight)
+        {
+            Clip = true;
+            Clipping = new Rect()
+            {
+                X = cellX + rightMargin,
+                Y = cellY - cellHeight,   // bottom-left corner in PDF space
+                Width = cellWidth - rightMargin * 2,
+                Height = cellHeight
+            };
         }
 
         //Create clipping rectangle.

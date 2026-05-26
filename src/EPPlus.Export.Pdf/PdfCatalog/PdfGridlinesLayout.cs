@@ -13,7 +13,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         //------------------------------------------------------------------------------------------
         // Gridline generation
         // -----------------------------------------------------------------------------------------
- 
+
         /// <summary>
         /// Populates <paramref name="pageLayout"/>.GridLines and .BorderLines for one page.
         ///
@@ -29,7 +29,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         ///      that are not blocked by a cell border or a merged cell spanning the gap.
         ///   5. Add the four outer-frame lines to BorderLines.
         /// </summary>
-        public static void AddGridLines(PdfPageSettings pageSettings, Page page, PdfPageLayout pageLayout)
+        public static void AddGridLines(PdfPageSettings pageSettings, Page page, PdfPageLayout pageLayout, bool borderOnly = false)
         {
             int rowCount = page.ToRow - page.FromRow + 1;
             int colCount = page.ToColumn - page.FromColumn + 1;
@@ -53,10 +53,27 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             // Y decreases downward (PDF coordinate system used throughout GetCatalog).
             var rowY = new double[rowCount + 1];
             rowY[0] = pageSettings.ContentBounds.Top;
-            for (int ri = 0; ri < rowCount; ri++)
+
+           for (int ri = 0; ri < rowCount; ri++)
             {
                 rowY[ri + 1] = rowY[ri] - page.RowHeights[ri];
             }
+
+            // --- 5. Outer frame ------------------------------------------------------------------
+            // Always computed so BorderLines is available for margin clipping regardless of
+            // whether ShowGridLines is on. When borderOnly is true we stop here.
+
+            double frameLeft = colX[0];
+            double frameRight = colX[colCount];
+            double frameTop = rowY[0];
+            double frameBottom = rowY[rowCount];
+
+            pageLayout.BorderLines.Add(new GridLine(frameLeft, frameTop, frameRight, frameTop));
+            pageLayout.BorderLines.Add(new GridLine(frameLeft, frameBottom, frameRight, frameBottom));
+            pageLayout.BorderLines.Add(new GridLine(frameLeft, frameTop, frameLeft, frameBottom));
+            pageLayout.BorderLines.Add(new GridLine(frameRight, frameTop, frameRight, frameBottom));
+
+            if (borderOnly) return;
 
             // --- 2. Text-spill mask ---------------------------------------------------------------
 
@@ -88,8 +105,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         halign == ExcelHorizontalAlignment.General)
                     {
                         MarkSpillRight(page, ri, ci, colCount, colX, spill, spillBlocked);
+
                     }
-                    // Left spill — Right alignment.
+
+                   // Left spill — Right alignment.
                     else if (halign == ExcelHorizontalAlignment.Right)
                     {
                         MarkSpillLeft(page, ri, ci, colX, spill, spillBlocked);
@@ -100,7 +119,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         double halfSpill = spill / 2d;
                         MarkSpillRight(page, ri, ci, colCount, colX, halfSpill, spillBlocked);
                         MarkSpillLeft(page, ri, ci, colX, halfSpill, spillBlocked);
-                    }
+
+                   }
                 }
             }
 
@@ -192,18 +212,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 }
                 FlushHorizontal(pageLayout, y, ref runStart, runEnd);
             }
-
-            // --- 5. Outer frame ------------------------------------------------------------------
-
-            double frameLeft = colX[0];
-            double frameRight = colX[colCount];
-            double frameTop = rowY[0];
-            double frameBottom = rowY[rowCount];
-
-            pageLayout.BorderLines.Add(new GridLine(frameLeft, frameTop, frameRight, frameTop));
-            pageLayout.BorderLines.Add(new GridLine(frameLeft, frameBottom, frameRight, frameBottom));
-            pageLayout.BorderLines.Add(new GridLine(frameLeft, frameTop, frameLeft, frameBottom));
-            pageLayout.BorderLines.Add(new GridLine(frameRight, frameTop, frameRight, frameBottom));
         }
 
         // ---- Spill helpers ----------------------------------------------------------------------
@@ -325,7 +333,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (cs == null) return false;
             return (cs.xfRight != null && cs.xfRight.Style != ExcelBorderStyle.None) ||
                    (cs.dxfRight?.HasValue ?? false);
-        }
+
+       }
 
         private static bool HasLeftBorder(PdfCell cell)
         {

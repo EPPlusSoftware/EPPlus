@@ -3,12 +3,9 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -117,6 +114,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                         var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, info.Width, info.Height);
                                         text.Name = map.Name;
                                         text.GidsAndCharMap(dictionaries);
+                                        text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                                         pageLayout.AddChild(text);
                                     }
                                     if (map.Main != null) // map.Main != null → this is NOT the top-left cell
@@ -158,6 +156,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                                     var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
+                                    if (NeedsClipping(map, pages[j], row, col))
+                                        text.SetupClipping(x, y, map.ColumnWidth, rowHeight);
                                     pageLayout.AddChild(text);
                                 }
                             }
@@ -188,6 +188,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
                             text.Name = "LeftHeader";
+                            text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
@@ -201,6 +202,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
                             text.Name = "CenterHeader";
+                            text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
@@ -213,6 +215,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
                             text.Name = "RightHeader";
+                            text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
@@ -226,6 +229,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
                             text.Name = "LeftFooter";
+                            text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
@@ -239,6 +243,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, 0, 0);
                             text.Name = "CenterFooter";
+                            text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
@@ -252,15 +257,21 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
                             text.Name = "RightFooter";
+                            text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
                     }
 
-                    if (pageSettings.ShowGridLines)
-                        PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout);
+                    PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines);
 
-
+                    pageLayout.ChildObjects.Sort((a, b) =>
+                    {
+                        int cmp = a.Z.CompareTo(b.Z);
+                        if (cmp == 0)
+                            return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
+                        return cmp;
+                    });
 
                     //Print titles
                     pageNumber++;
@@ -293,6 +304,40 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
             return result;
         }
+
+        private static bool NeedsClipping(PdfCell map, Page page, int row, int col)
+        {
+            if (map.ContentAligmnet == null) return false;
+            // Fill alignment always clips; WrapText is already wrapped but clip for safety.
+            if (map.ContentAligmnet.HorizontalAlignment == ExcelHorizontalAlignment.Fill || map.ContentAligmnet.WrapText)
+                return true;
+            if (map.TotalTextLength <= map.ColumnWidth) return false;
+            var halign = map.ContentAligmnet.HorizontalAlignment;
+            if (halign == ExcelHorizontalAlignment.Left || halign == ExcelHorizontalAlignment.General)
+            {
+                // Text spills right — clip if the right neighbour has content or we're at the page edge.
+                if (col >= page.ToColumn) return true;
+                var right = page.Map[row, col + 1];
+                return right != null && !string.IsNullOrEmpty(right.Text);
+            }
+            else if (halign == ExcelHorizontalAlignment.Right)
+            {
+                // Text spills left — clip if the left neighbour has content or we're at the page edge.
+                if (col <= page.FromColumn) return true;
+                var left = page.Map[row, col - 1];
+                return left != null && !string.IsNullOrEmpty(left.Text);
+            }
+            else if (halign == ExcelHorizontalAlignment.Center)
+            {
+                // Text spills both ways — clip if either neighbour blocks or we're at an edge.
+                bool rightBlocked = col >= page.ToColumn || (page.Map[row, col + 1] != null && !string.IsNullOrEmpty(page.Map[row, col + 1].Text));
+                bool leftBlocked = col <= page.FromColumn || (page.Map[row, col - 1] != null && !string.IsNullOrEmpty(page.Map[row, col - 1].Text));
+                return rightBlocked || leftBlocked;
+            }
+            return false;
+        }
+
+
 
         private static bool HasBorder(PdfCellStyle cellStyle)
         {
