@@ -310,6 +310,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["type"] = new TypeFunction();
             Functions["sheet"] = new Sheet();
             Functions["isref"] = new IsRef();
+            Functions["isformula"] = new IsFormula();
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();

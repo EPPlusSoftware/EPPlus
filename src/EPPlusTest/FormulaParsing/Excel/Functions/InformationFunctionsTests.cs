@@ -465,5 +465,82 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual("00B4", result);
             }
         }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenNoFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 400;
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "1+0";
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "1+0";
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["A5"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenArrayFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1:A3"].Formula = "1+0";
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["A5"].Value;
+                Assert.IsTrue((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenDynamicArrayFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "RANDARRAY(3,1)";
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["A5"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
     }
 }
