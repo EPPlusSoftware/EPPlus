@@ -41,6 +41,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public Page[] Page;
         public int Width;
         public int Height;
+        public bool IsCommentsPage;
         public int Count
         {
             get { return Width * Height; }
@@ -79,6 +80,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 {
                     var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
+                    pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
                     var drawnMergedCells = new HashSet<string>();
                     //var drawnMergedCellsText = new HashSet<string>();
                     //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
@@ -263,7 +265,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         }
                     }
 
-                    PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines);
+                    PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
 
                     pageLayout.ChildObjects.Sort((a, b) =>
                     {
@@ -387,6 +389,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
                     pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
+                    pages.IsCommentsPage = true;
                     PagesCollection.Add(pages);
                 }
             }
@@ -502,7 +505,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             //if (HasPrintTitles Row)
             //if (HasPrintTitles Column)
 
-            Pages p;
+            Pages p = new Pages();
             p.Width = xPages;
             p.Height = yPages;
             p.Page = null;
