@@ -1641,6 +1641,11 @@ namespace EPPlusTest.Issues
                 var wsSummary = p.Workbook.Worksheets["Summary"];
                 Assert.AreEqual("No!", wsSummary.Cells["E75"].Value);
                 Assert.AreEqual(795060D, wsSummary.Cells["A75"].Value);
+                Assert.AreEqual(94D, wsSummary.Cells["C56"].Value);
+                Assert.AreEqual("Yes!", wsSummary.Cells["E56"].Value);
+                Assert.AreEqual(702D, wsSummary.Cells["C57"].Value);
+                Assert.AreEqual("Yes!", wsSummary.Cells["E57"].Value);
+
                 SaveWorkbook("S1048-calculated.xlsx",p);
             }
 
