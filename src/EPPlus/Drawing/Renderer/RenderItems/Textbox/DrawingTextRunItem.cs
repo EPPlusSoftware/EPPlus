@@ -12,138 +12,109 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     internal class DrawingTextRunRenderItem : TextRunRenderItem
     {
+        /// <summary>
+        /// Import textrun with only font data
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="font"></param>
+        /// <param name="displayText"></param>
         internal DrawingTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) : base(parent, font, displayText)
         {
-            Bounds.Name = "TextRun";
-            _currentText = displayText;
-
-            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();    
-            
-            _measurementFont = font;
-            _isFirstInParagraph = true;
-
-            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
-            Bounds.Height = _measurementFont.Size;
-            if (parent.Height < _measurementFont.Size)
-            {
-                parent.Height = _measurementFont.Size;
-            }
-
-            //To get clipping height we need to get the textbody bounds
-            if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
-            {
-                ClippingHeight = parent.Parent.Parent.Position.Y + parent.Parent.Parent.Size.Y;
-            }
-            if (Lines.Count == 1)
-            {
-                //Bounds.Width = parent.Width;
-                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
-            }
-            else
-            {
-                //Measure text.
-                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
-            }
-            _underLineType = UnderLineType.None;
+            //Parent and clipping height must be calculated dependent on content
+            AdjustParentAndSetClippingHeight(parent);
+            //Since only font there is no direct style info to import
         }
 
+        /// <summary>
+        /// Import TextRun from Default paragraph properties/ExcelTextFont
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="text"></param>
+        /// <param name="font">Legacy format</param>
+        /// <param name="displayText"></param>
         internal DrawingTextRunRenderItem(BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, text, new OpenTypeFontInfoBase(font.GetMeasureFont()), displayText)
         {
             _baseline = font.Baseline;
+
+            //Adjusts visual font size for sub and superscript
             if (_baseline != 0)
             {
                 _measurementFont.Size *= (float)(1 - (Math.Abs(_baseline) / 100));
             }
-            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
+            //Must be done after font adjustment
+            //Parent and clipping height must be calculated dependent on content
+            ImportExcelStyleInfo(font.Fill, font.Italic, font.Bold, font.UnderLine, font.UnderLineColor, font.Strike);
+            AdjustParentAndSetClippingHeight(parent);
+        }
 
-            Bounds.Height = _measurementFont.Size;
-            if (parent.Height < _measurementFont.Size)
-            {
-                parent.Height = _measurementFont.Size;
-            }
-            //_horizontalTextAlignment = TextAlignment.Center;
+        /// <summary>
+        /// Import text run from ParagraphTextRun
+        /// </summary>
+        /// <param name="run">new format</param>
+        /// <param name="parent"></param>
+        /// <param name="displayText"></param>
+        internal DrawingTextRunRenderItem(BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(parent, run.Text, new OpenTypeFontInfoBase(run.GetMeasurementFont()), displayText)
+        {
+            //This is pre-determined/irrelevant here and does not need to be calculated as sizes are already what they should
+            _isFirstInParagraph = false; 
+            //Has getXmlNodePercentage, therefore no need for conversion
+            _baseline = run.Baseline;
 
-            if (font.Fill.Style == eFillStyle.SolidFill)
-            {
-                FillColor = "#" + font.Fill.Color.To6CharHexString();
-            }
+            ImportExcelStyleInfo(run.Fill, run.FontItalic, run.FontBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
+
+            //This one cannot change parent size as it is pre-determined. No autosize etc. therefore no AdjustParentAndSetClippingHeight and different clipping height.
 
             //To get clipping height we need to get the textbody bounds
             if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
             {
-                ClippingHeight = parent.Parent.Parent.Position.Y + parent.Parent.Parent.Size.Y;
+                ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
             }
-            if (Lines.Count == 1)
-            {
-                //Bounds.Width = parent.Width;
-                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
-            }
-            else
-            {
-                //Measure text.
-                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
-            }
-
-            _isItalic = font.Italic;
-            _isBold = font.Bold;
-            _underLineType = (UnderLineType)font.UnderLine;
-            _underlineColor = font.UnderLineColor;
-            _strikeType = (StrikeType)font.Strike;
         }
 
-        /// <summary>
-        /// If the run has been wrapped more line-breaks may have been added in displayText
-        /// </summary>
-        /// <param name="run"></param>
-        /// <param name="parent"></param>
-        /// <param name="displayText"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(parent)
+        private void ImportExcelStyleInfo(ExcelDrawingFill fill, bool italic, bool bold, eUnderLineType uType, Color uColor, eStrikeType strikeType)
         {
-            _originalText = run.Text;
+            ImportDrawingFill(fill);
+            ImportRichTextInfo(italic, bold, uType, uColor, strikeType);
+        }
 
-            _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
-
-            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
-
-            _measurementFont = new OpenTypeFontInfoBase(run.GetMeasurementFont());
-
-            
-            //_fontStyles = _measurementFont.Style;
-
-            _baseline = run.Baseline;
-            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
-
-            Bounds.Height = _measurementFont.Size;
-
-            //_horizontalTextAlignment = run.Paragraph.HorizontalAlignment;
-
-            if (run.Fill.IsEmpty == false && run.Fill.Style == eFillStyle.SolidFill)
+        private void AdjustParentAndSetClippingHeight(BoundingBox parent)
+        {
+            if (parent.Height < _measurementFont.Size)
             {
-                FillColor = "#" + run.Fill.Color.To6CharHexString();
+                parent.Height = _measurementFont.Size;
             }
 
-            //To get clipping height we need to get the textbody bounds
-            if( parent!= null && parent.Parent != null && parent.Parent.Parent != null)
+            CalculateClippingHeightFromTextBodyParent();
+        }
+
+        void ImportDrawingFill(ExcelDrawingFill fill)
+        {
+            if (fill.IsEmpty == false && fill.Style == eFillStyle.SolidFill)
             {
-               ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
+                FillColor = "#" + fill.Color.To6CharHexString();
             }
 
-            if (run.Fill.Style == eFillStyle.SolidFill)
+            //Backup? Should probably be removed or fallback
+            if (fill.Style == eFillStyle.SolidFill)
             {
-                FillColor = "#" + run.Fill.Color.To6CharHexString();
+                FillColor = "#" + fill.Color.To6CharHexString();
             }
+        }
 
-            _isItalic = run.FontItalic;
-            _isBold = run.FontBold;
-            _underLineType = (UnderLineType)run.FontUnderLine;
-            _underlineColor = run.UnderLineColor;
-            _strikeType = (StrikeType)run.FontStrike;
+        void ImportRichTextInfo(bool italic, bool bold, eUnderLineType uType, Color uColor, eStrikeType strikeType)
+        {
+            _isItalic = italic;
+            _isBold = bold;
+            _underLineType = (UnderLineType)uType;
+            _underlineColor = uColor;
+            _strikeType = (StrikeType)strikeType;
         }
     }
 }

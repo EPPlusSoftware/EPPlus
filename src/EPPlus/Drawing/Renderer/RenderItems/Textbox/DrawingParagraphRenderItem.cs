@@ -79,8 +79,56 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //---Calculate linespacing---
             ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
 
+            if(p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+            {
+                //Create layout system from fallback
+                GenerateTextFragments(textIfEmpty);
+
+                //Set horizontal alignment differently
+                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+                if (HorizontalAlignment == TextAlignment.Center)
+                {
+                    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+                }
+
+                //this scenario Always wants to use:
+                // AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
+
+                //Some OTHER constructor COULD concievably use
+                //Import fallback text with paragraph settings
+                //AddText(displayText, p.DefaultRunProperties);
+
+                //////Was not able to import text. Input may not have been a full OOXML paragraph.
+                //////Import fallback with default settings from constructor
+                //AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
+
+            }
+            else
+            {
+                //Create layout directly from runs
+                GenerateTextFragments(p.TextRuns);
+                //Wants to do Import Paragraph text run or worst case fallback if no textruns
+                //AddRenderItemTextRun(txtRuns[rtIdx], displayText);
+            }
+
+
+            //else if(p.TextRuns.Count != 0)
+            //{
+
+            //}
+            //else
+            //{
+
+            //}
+
             ImportLinesAndTextRuns(p, textIfEmpty);
         }
+
+        private void AddTextRun(string displayText)
+        {
+
+        }
+
 
         private void ImportStyleInfo(DrawingTextbody textBody, ExcelDrawingParagraph p)
         {
@@ -244,7 +292,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         }
 
 
-        internal protected TextRunRenderItem AddRenderItemTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        internal protected TextRunRenderItem ImportTextRunFromParagraphTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
         {
             var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
 
@@ -252,7 +300,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             return targetTxtRun;
         }
 
-        private void AddText(string text, IFontFormatBase font)
+        private void ImportTextRunFromFont(string text, IFontFormatBase font)
         {
             var container = CreateTextRun(font, Bounds, text);
             Runs.Add(container);
@@ -260,10 +308,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             container.Bounds.Name = $"Container{Runs.Count}";
         }
 
-        private void AddText(string text, ExcelTextFont font)
+        private void ImportTextRunFromDefaultParaProps(string text, ExcelTextFont font)
         {
-            var mf = font.GetMeasureFont();
-            var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            //var mf = font.GetMeasureFont();
+            //var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
             var container = CreateTextRun(text, font, Bounds, text);
             Runs.Add(container);
@@ -383,7 +431,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         {
                             //Was not able to import text. Input may not have been a full OOXML paragraph.
                             //Import fallback with default settings from constructor
-                            AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
+                            ImportTextRunFromFont(displayText, new OpenTypeFontInfoBase(ParagraphFont));
                         }
 
                         DrawingTextRunRenderItem runItem = (DrawingTextRunRenderItem)Runs.Last();
@@ -414,7 +462,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
                 //Import fallback text with paragraph settings
-                AddText(displayText, p.DefaultRunProperties);
+                ImportTextRunFromDefaultParaProps(displayText, p.DefaultRunProperties);
                 return true;
             }
             else if (p.TextRuns.Count != 0)
@@ -423,16 +471,17 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 var txtRuns = p.TextRuns;
 
                 var rtIdx = _layoutSystem.InputFragments.IndexOf(lineFrag.OriginalTextFragment);
+
                 if (rtIdx > txtRuns.Count - 1)
                 {
-                    AddText(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
+                    //Add new text with existing text settings
+                    ImportTextRunFromFont(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
                     return true;
                 }
                 else
                 {
                     //Import Paragraph text run
-                    var idx = _layoutSystem.InputFragments.IndexOf(lineFrag.OriginalTextFragment);
-                    AddRenderItemTextRun(txtRuns[idx], displayText);
+                    ImportTextRunFromParagraphTextRun(txtRuns[rtIdx], displayText);
                     return true;
                 }
             }

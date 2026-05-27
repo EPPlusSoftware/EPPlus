@@ -7,6 +7,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -134,55 +135,53 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Bounds.Name = "TextRun";
         }
 
-        public TextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) : base(parent)
+        /// <summary>
+        /// Initialization for the two lower constructors
+        /// Not a Initialize() method since compiler warns of un-initalized variables if you do.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="origText"></param>
+        /// <param name="currentText"></param>
+        /// <param name="font"></param>
+        private TextRunRenderItem(BoundingBox parent, string origText, string currentText, IFontFormatBase font) : base(parent)
         {
-            _originalText = displayText;
-
             Bounds.Name = "TextRun";
-            _currentText = displayText;
 
+            //possibly no longer neccesary
+            _originalText = origText;
+
+            _currentText = currentText;
+
+            //Should be ascent-only?
+            Bounds.Height = font.Size;
+
+            //Possibly no longer neccesary
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
+
+            FontSizeInPixels = ((double)font.Size).PointToPixel(true);
 
             _measurementFont = font;
             _isFirstInParagraph = true;
+        }
 
-            FontSizeInPixels = ((double)_measurementFont.Size).PointToPixel(true);
-            Bounds.Height = _measurementFont.Size;
-            if (parent.Height < _measurementFont.Size)
-            {
-                parent.Height = _measurementFont.Size;
-            }
-
-            //To get clipping height we need to get the textbody bounds
-            if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
-            {
-                ClippingHeight = parent.Parent.Parent.Position.Y + parent.Parent.Parent.Size.Y;
-            }
-
-            if (Lines.Count == 1)
-            {
-                //Bounds.Width = parent.Width;
-                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
-            }
-            else
-            {
-                //Measure text.
-                GetBounds(out double il, out double it, out double ir, out double ib); //TODO: remove when calc works
-            }
-
+        public TextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) 
+            : this(parent, displayText, displayText, font)
+        {
+            //Dash is default but we know there is no underline in our input here
             _underLineType = UnderLineType.None;
         }
-        public TextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) : base(parent)
+        public TextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) 
+            : this(parent, displayText, string.IsNullOrEmpty(displayText) ? text : displayText, font)
         {
-            _originalText = text;
+        }
 
-            Bounds.Name = "TextRun";
-            _currentText = string.IsNullOrEmpty(displayText) ? _originalText : displayText;
-
-            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
-
-            _measurementFont = font;
-            _isFirstInParagraph = true;
+        internal protected void CalculateClippingHeightFromTextBodyParent()
+        {
+            //To get clipping height we need to get the textbody bounds
+            if (Bounds.Parent != null && Bounds.Parent.Parent != null && Bounds.Parent.Parent.Parent != null)
+            {
+                ClippingHeight = Bounds.Parent.Parent.Parent.Position.Y + Bounds.Parent.Parent.Parent.Size.Y;
+            }
         }
     }
 }
