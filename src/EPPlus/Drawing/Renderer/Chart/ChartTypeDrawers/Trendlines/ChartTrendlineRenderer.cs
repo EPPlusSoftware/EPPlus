@@ -28,7 +28,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class SvgTrendline : ChartDrawingObject
+    internal class ChartTrendlineRenderer : ChartDrawingObject
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
@@ -36,7 +36,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private ExcelChart _chartType;
         private bool _useSecondaryAxis;
         private int _serieCount, _seriePos;
-        public SvgTrendline(ChartRenderer svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
+        public ChartTrendlineRenderer(ChartRenderer svgChart, ExcelChartTrendline trendline, List<object> xSerie, List<object> ySerie, ExcelChart chartType, int seriePos) : base(svgChart)
         {
             _chartType = chartType;
             _trendline = trendline;
@@ -653,7 +653,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var isBar = _chartType.IsTypeBar();
             var isLine = _chartType.IsTypeLine();
-            SvgChartAxis catAxis, valAxis;
+            ChartAxisRenderer catAxis, valAxis;
             if(isBar)
             {
                 valAxis = _useSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;

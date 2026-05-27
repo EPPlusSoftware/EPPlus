@@ -52,7 +52,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             var paragraph = CreateParagraph(this, item, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            paragraph.Bounds.Top = startingY;
+            //if (startingY < 0)
+            //{
+            //    paragraph.Bounds.Top = GetAlignmentVertical();
+            //}
+            //else
+            //{
+                paragraph.Bounds.Top = startingY;
+            //}
 
             if (AutoSize)
             {

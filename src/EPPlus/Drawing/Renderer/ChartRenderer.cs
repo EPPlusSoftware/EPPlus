@@ -90,7 +90,7 @@ namespace EPPlusImageRenderer
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
                 if (VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
                 {
-                    var newtop = VerticalAxis.GetPositionInPlotarea(0D) + Plotarea.Rectangle.Top;
+                    var newtop = VerticalAxis.GetPositionInPlotarea(0D) + Plotarea.Group.Top;
                     var topDiff = HorizontalAxis.Rectangle.Top - newtop;
                     HorizontalAxis.Rectangle.Top = newtop;
                     HorizontalAxis.Rectangle.Height += topDiff;
@@ -113,24 +113,26 @@ namespace EPPlusImageRenderer
             }
         }
 
-        private void PlaceHorizontalAxis(SvgChartAxis horizontalAxis)
+        private void PlaceHorizontalAxis(ChartAxisRenderer horizontalAxis)
         {
-            horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
-            horizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
-            horizontalAxis.Line.X1 = (float)horizontalAxis.Rectangle.Left;
-            horizontalAxis.Line.X2 = (float)horizontalAxis.Rectangle.Right;
-
-            if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
+            if (horizontalAxis.Axis.Deleted == false)
             {
-                horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Bottom;
-                horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Bottom;
-            }
-            else
-            {
-                horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Top - horizontalAxis.Rectangle.Height;
-                horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Rectangle.Top;
-            }
+                horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
+                horizontalAxis.Rectangle.Left = Plotarea.Group.Left;
+                horizontalAxis.Line.X1 = (float)horizontalAxis.Rectangle.Left;
+                horizontalAxis.Line.X2 = (float)horizontalAxis.Rectangle.Right;
 
+                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
+                {
+                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                }
+                else
+                {
+                    horizontalAxis.Rectangle.Top = Plotarea.Rectangle.Top - horizontalAxis.Rectangle.Height;
+                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top;
+                }
+            }
             if (horizontalAxis.Title != null)
             {
                 horizontalAxis.Title.Rectangle.Height = Bounds.Height / 4;
@@ -144,27 +146,27 @@ namespace EPPlusImageRenderer
                 {
                     horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.TextBox.Height;
                 }
-                horizontalAxis.Title.TextBox.Left = Plotarea.Rectangle.Left + (Plotarea.Rectangle.Width / 2) - (horizontalAxis.Title.TextBox.Width / 2);
+                horizontalAxis.Title.TextBox.Left = Plotarea.Group.Left + (Plotarea.Rectangle.Width / 2) - (horizontalAxis.Title.TextBox.Width / 2);
             }
         }
 
-        private void PlaceVerticalAxis(SvgChartAxis verticalAxis)
+        private void PlaceVerticalAxis(ChartAxisRenderer verticalAxis)
         {
-            if (verticalAxis.Rectangle != null)
+            if(verticalAxis.Axis.Deleted==false && verticalAxis.Rectangle != null)
             {
-                verticalAxis.Rectangle.Top = Plotarea.Rectangle.Top;
+                verticalAxis.Rectangle.Top = Plotarea.Group.Top;
                 verticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
                 verticalAxis.Line.Y1 = (float)verticalAxis.Rectangle.Top;
                 verticalAxis.Line.Y2 = (float)verticalAxis.Rectangle.Bottom;
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
-                    verticalAxis.Rectangle.Left = Plotarea.Rectangle.Left - verticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Rectangle.Left;
+                    verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
+                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
                 }
                 else
                 {
-                    verticalAxis.Rectangle.Left = Plotarea.Rectangle.Right;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Rectangle.Right;
+                    verticalAxis.Rectangle.Left = Plotarea.Group.Left+Plotarea.Rectangle.Width;
+                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
                 }
             }
 
@@ -175,13 +177,13 @@ namespace EPPlusImageRenderer
                 //verticalAxis.Title.InitTextBox();
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Rectangle.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
                     if (verticalAxis.Rectangle == null)
                     {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Rectangle.Left - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
+                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
                     }
                     else
                     {
@@ -192,14 +194,13 @@ namespace EPPlusImageRenderer
                 {
                     if (verticalAxis.Rectangle == null)
                     {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Rectangle.Right;
+                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
                     }
                     else
                     {
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
                     }
                 }
-                //verticalAxis.Title.TextBox.TextAnchor = eTextAnchor.Middle;
             }
         }
 
@@ -213,19 +214,19 @@ namespace EPPlusImageRenderer
             item.AppendRenderItems(RenderItems);
             ChartArea = item;
         }
-        private SvgChartAxis GetAxis(bool vertical, int offset = 0)
+        private ChartAxisRenderer GetAxis(bool vertical, int offset = 0)
         {
             var axis = (ExcelChartAxisStandard)Chart.Axis[offset];
             if (axis.IsVertical == vertical)
             {
-                return new SvgChartAxis(this, axis);
+                return new ChartAxisRenderer(this, axis);
             }
             else if (Chart.Axis.Length > offset + 1)
             {
                 axis = (ExcelChartAxisStandard)Chart.Axis[offset + 1];
                 if (axis.IsVertical == vertical)
                 {
-                    return new SvgChartAxis(this, axis);
+                    return new ChartAxisRenderer(this, axis);
                 }
             }
             return null;
@@ -239,10 +240,10 @@ namespace EPPlusImageRenderer
         internal ChartLegendRenderer Legend { get; set; }
         internal ChartTitleRenderer Title { get; set; }
         internal ChartPlotareaRenderer Plotarea { get; set; }
-        internal SvgChartAxis VerticalAxis { get; set; }
-        internal SvgChartAxis HorizontalAxis { get; set; }
-        internal SvgChartAxis SecondVerticalAxis { get; set; }
-        internal SvgChartAxis SecondHorizontalAxis { get; set; }
+        internal ChartAxisRenderer VerticalAxis { get; set; }
+        internal ChartAxisRenderer HorizontalAxis { get; set; }
+        internal ChartAxisRenderer SecondVerticalAxis { get; set; }
+        internal ChartAxisRenderer SecondHorizontalAxis { get; set; }
 
         internal List<RenderItem> DefItems { get; } = new List<RenderItem>();
         internal void AddDefs(RenderItem item)

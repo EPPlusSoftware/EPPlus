@@ -1,7 +1,7 @@
-﻿//using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿//using EPPlus.Export.ImageRenderer.ChartAreaRenderItems.SvgItem;
 //using EPPlus.Export.ImageRenderer.Svg;
 //using EPPlus.Graphics;
-//using EPPlusImageRenderer.RenderItems;
+//using EPPlusImageRenderer.ChartAreaRenderItems;
 //using System.Text;
 
 //namespace EPPlus.Export.ImageRenderer.Tests
@@ -130,7 +130,7 @@
 
 //            var sb = new StringBuilder();
 
-//            baseItem.RenderItems.Add(groupItem);
+//            baseItem.ChartAreaRenderItems.Add(groupItem);
 
 //            baseItem.Render(sb);
 //            var svgString = sb.ToString();
@@ -234,7 +234,7 @@
 
 //            var sb = new StringBuilder();
 
-//            baseItem.RenderItems.Add(groupItem);
+//            baseItem.ChartAreaRenderItems.Add(groupItem);
 
 //            baseItem.Render(sb);
 //            var svgString = sb.ToString();
@@ -302,7 +302,7 @@
 
 //            var sb = new StringBuilder();
 
-//            baseItem.RenderItems.Add(groupItem);
+//            baseItem.ChartAreaRenderItems.Add(groupItem);
 
 //            baseItem.Render(sb);
 //            var svgString = sb.ToString();
@@ -363,11 +363,11 @@
 //            centerOfGroupMarker.Left = 30 - (centerOfGroupMarker.Width / 2);
 //            centerOfGroupMarker.Top = 30 - (centerOfGroupMarker.Height / 2);
 
-//            baseItem.RenderItems.Add(centerOfGroupMarker);
+//            baseItem.ChartAreaRenderItems.Add(centerOfGroupMarker);
 
 //            var sb = new StringBuilder();
 
-//            baseItem.RenderItems.Add(groupItem);
+//            baseItem.ChartAreaRenderItems.Add(groupItem);
 
 //            baseItem.Render(sb);
 //            var svgString = sb.ToString();

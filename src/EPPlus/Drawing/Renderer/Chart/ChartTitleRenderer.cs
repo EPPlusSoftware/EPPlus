@@ -46,7 +46,7 @@ namespace EPPlusImageRenderer.Svg
         /// <param name="t"></param>
         /// <param name="defaultText"></param>
         /// <param name="axis">If null, this is the main chart title.</param>
-        internal ChartTitleRenderer(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText, SvgChartAxis axis=null) : base(sc)
+        internal ChartTitleRenderer(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText, ChartAxisRenderer axis=null) : base(sc)
         {
             _svgChart = sc;
 
@@ -101,11 +101,12 @@ namespace EPPlusImageRenderer.Svg
                     SetAxisTitleRect(sc, axis);
                 }
             }
+
             Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
             Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
-        private void SetAxisTitleRect(ChartRenderer sc, SvgChartAxis axis)
+        private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
         {
             var margin = 8F;
             switch (axis.Axis.AxisPosition)
@@ -182,7 +183,8 @@ namespace EPPlusImageRenderer.Svg
         internal void InitTextBox(double maxWidth, double maxHeight)
         {
             TextBox = new DrawingTextBox(_svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
-            if(_title.Rotation != 0)
+            Rectangle = TextBox.Rectangle;
+            if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
                 TextBox.Rotation = _title.Rotation;
@@ -202,14 +204,6 @@ namespace EPPlusImageRenderer.Svg
             TextBox.TopMargin = TopMargin;
             TextBox.BottomMargin = BottomMargin;
             TextBox.TextBody.VerticalAlignment = TextAnchoringType.Top;
-            Rectangle = TextBox.Rectangle;
-
-            TextBox.LeftMargin = LeftMargin;
-            TextBox.RightMargin = RightMargin;
-            TextBox.TopMargin = TopMargin;
-            TextBox.BottomMargin = BottomMargin;
-            TextBox.TextBody.VerticalAlignment = TextAnchoringType.Top;
-            Rectangle = TextBox.Rectangle;
         }
 
         public DrawingTextBox TextBox

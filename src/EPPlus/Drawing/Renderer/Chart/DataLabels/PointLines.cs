@@ -18,6 +18,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private PointLines(ChartRenderer cr) : base(cr)
         {
+            Rectangle = new RectRenderItem(cr.Bounds);
         }
 
         internal PointLines(ChartRenderer cr, BoundingBox parent, ConnectionPointsMiddle connectionPoints) : this(cr)

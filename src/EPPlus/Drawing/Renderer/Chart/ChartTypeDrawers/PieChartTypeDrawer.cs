@@ -170,8 +170,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         internal override void DrawSeries()
         {
             _groupItem = new GroupRenderItem(0, 0);
-            _groupItem.TranslationOffset.Left = ChartRenderer.Plotarea.Rectangle.Left;
-            _groupItem.TranslationOffset.Top = ChartRenderer.Plotarea.Rectangle.Top;
+            _groupItem.TranslationOffset.Left = ChartRenderer.Plotarea.Group.Left;
+            _groupItem.TranslationOffset.Top = ChartRenderer.Plotarea.Group.Top;
 
             Rectangle.Bounds.Name = "ChartDrawer";
 
@@ -282,11 +282,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            RenderItems.Add(_groupItem);
+            ChartAreaRenderItems.Add(_groupItem);
             //Date series labels
             foreach (var dataLabel in serieDataLabels)
             {
-                dataLabel.AppendRenderItems(RenderItems);
+                dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
         }
     }
