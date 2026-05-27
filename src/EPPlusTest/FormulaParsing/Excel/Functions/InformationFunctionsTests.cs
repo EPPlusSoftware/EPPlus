@@ -465,5 +465,105 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual("00B4", result);
             }
         }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenNoFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 400;
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "1+0";
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "1+0";
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["A5"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenArrayFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1:A3"].Formula = "1+0";
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["A5"].Value;
+                Assert.IsTrue((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenLegacyArrayFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 3;
+                sheet.Cells["A3"].Value = 5;
+                sheet.Cells["B1"].Value = 2;
+                sheet.Cells["B2"].Value = 4;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["E6"].CreateArrayFormula("A1:B3+1");
+                sheet.Cells["E11"].Formula = "ISFORMULA(E6)";
+                sheet.Cells["F11"].Formula = "ISFORMULA(F6)";
+                sheet.Calculate();
+                var result = sheet.Cells["E11"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["F11"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
+
+        [TestMethod]
+        public void IsFormulaShouldReturnCorrectValueWhenDynamicArrayFormula()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["A1"].Formula = "RANDARRAY(3,1)";
+                sheet.Cells["A4"].Formula = "ISFORMULA(A1:A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["A4"].Value;
+                Assert.IsTrue((bool)result);
+                result = sheet.Cells["A5"].Value;
+                Assert.IsFalse((bool)result);
+            }
+        }
     }
 }

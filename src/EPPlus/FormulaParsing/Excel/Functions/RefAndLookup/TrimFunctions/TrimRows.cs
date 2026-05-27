@@ -8,31 +8,15 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/11/2021         EPPlus Software AB           ExcelTable Html Export
+  25/5/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
-
-namespace OfficeOpenXml.Export.HtmlExport
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.TrimFunctions
 {
-    /// <summary>
-    /// How to include picture drawings in the html
-    /// </summary>
-    public enum ePictureInclude
+    internal enum TrimRows
     {
-        /// <summary>
-        /// Do not include pictures in the html export. Default
-        /// </summary>
-        Exclude,
-        /// <summary>
-        /// Include in css only, so they images can be added manually. 
-        /// </summary>
-        IncludeInCssOnly,
-        /// <summary>
-        /// Include the images in the html export.
-        /// </summary>
-        Include,
-        /// <summary>
-        /// Include the images only in the HTML.
-        /// </summary>
-        IncludeInHtmlOnly
-    }
+        None = 0,
+        TrimLeading = 1,
+        TrimTrailing = 2,
+        TrimAll = 3
+    }    
 }

@@ -220,5 +220,13 @@ Renaming worksheet's will now change the formula correctly to include single quo
 * Setting dataLabelPosition.Top on BarCharts corrupted the excel file when saved. Trying to set this now throws an error instead. 
 * NumberFormatToTextArgs.NumberFormat now returns the interface IExcelNumberFormat rather than the ExcelNumberFormatXml class. All public variables remain the same and it can be safely cast to ´ExcelNumberFormatXml´ as long as ´Package.Workbook.NumberFormatToTextHandler´ is null.
 
+
+### 8.5.5
+* `ws.Cells["A1"].RichText` no longer sets cells with `null` to `string.empty`
+* .RichText no longer sets the cell or contents to be RichText automatically.
+ This is instead done when properties such as; `.Text`, `.Add` or `.Insert` are set on the .RichText property.
+The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
+
+
 ### 9.0.0
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.

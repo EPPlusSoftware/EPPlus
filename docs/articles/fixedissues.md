@@ -1,4 +1,20 @@
 # Features / Fixed issues - EPPlus 8
+
+## Version 8.5.5
+### Minor Features
+* Ranges can now convert their values to richText via ´ConvertToRichText()´ e.g. ´ws.Cells["A1"].ConvertToRichText()´
+### Fixed issues
+* Several issues related to RichText in ranges. Simply looking at the .RichText attribute no longer changes the cell value. Setting a propert e.g. ´range.RichText.Text = "Hi"´ or using ConvertToRichText() actually changes the value.
+
+## Version 8.5.4
+### Minor Features
+* Added ´IncludeInHtmlOnly´ option to the ´ePictureInclude´ enum. This allows the HTML Exporter to include pictures directly in the HTML output rather than in the CSS.
+### Fixed issues	
+* When recalculating spilling dynamic array formulas EPPlus did not always follow new dependent addresses.
+* The SUMIFS/COUNTIFS/AVERAGEIFS functions now evaluate date string literal criteria correctly.
+* Workbooks containing extended charts or unsupported drawing types (like diagrams), included in group shapes, failed to load.
+* Upgraded several referenced packages.
+
 ## Version 8.5.3
 * Downgraded references incorrectly update to 9.x to 8.x in version 8.5.2.
 

@@ -310,6 +310,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["type"] = new TypeFunction();
             Functions["sheet"] = new Sheet();
             Functions["isref"] = new IsRef();
+            Functions["isformula"] = new IsFormula();
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();
@@ -352,6 +353,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["indirect"] = new Indirect();
             Functions["offset"] = new Offset();
             Functions["transpose"] = new Transpose();
+            Functions["trimrange"] = new TrimRange();
+            Functions["_tro_all"] = new TroAll();
+            Functions["_tro_leading"] = new TroLeading();
+            Functions["_tro_trailing"] = new TroTrailing();
             Functions["filter"] = new FilterFunction();
             Functions["sort"] = new SortFunction();
             Functions["sortby"] = new SortBy();

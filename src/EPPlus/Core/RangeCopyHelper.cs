@@ -925,23 +925,27 @@ namespace OfficeOpenXml.Core
 
         private void CopyFullRow()
         {
-            if (_sourceRange._fromRow == 1 && _sourceRange._toRow == ExcelPackage.MaxRows)
+            _sourceRange.GetAddressDimensionFullRowAndColumn(out int dimFromRow, out int dimFromCol, out int dimToRow, out int dimToCol);
+            if (dimFromRow == 0 && dimFromCol==0) return;
+            if (_sourceRange._fromRow == 1 && _sourceRange._toRow == ExcelPackage.MaxRows && dimFromCol > 0)
             {
-                for (int col = 0; col < _sourceRange.Columns; col++)
+                var diff = dimFromCol - _sourceRange._fromCol;
+                for (int col = 0; col < (dimToCol-dimFromCol + 1); col++)
                 {
-                    _destinationRange.Worksheet.Column(_destinationRange.Start.Column + col).OutlineLevel = _sourceRange.Worksheet.Column(_sourceRange._fromCol + col).OutlineLevel;
+                    _destinationRange.Worksheet.Column(_destinationRange.Start.Column + col + diff).OutlineLevel = _sourceRange.Worksheet.Column(_sourceRange._fromCol + col + diff).OutlineLevel;
                 }
             }
 
-            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullRow))
+            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullRow) && dimFromRow > 0)
             {
                 var sourceRowOrig = _sourceRange._fromRow;
                 var destRowOrig = _destinationRange._fromRow;
 
-                for (int i = 0; i < _sourceRange.Rows; i++)
+                var diff = dimFromRow - _sourceRange._fromRow;
+                for (int i = 0; i < (dimToRow - dimFromRow + 1); i++)
                 {
-                    var sourceRow = _sourceRange.Worksheet.Row(sourceRowOrig + i);
-                    var destRow = _destinationRange.Worksheet.Row(destRowOrig + i);
+                    var sourceRow = _sourceRange.Worksheet.Row(sourceRowOrig + i + diff);
+                    var destRow = _destinationRange.Worksheet.Row(destRowOrig + i + diff);
 
                     destRow.Height = sourceRow.Height;
                 }
@@ -950,23 +954,27 @@ namespace OfficeOpenXml.Core
 
         private void CopyFullColumn()
         {
+            _sourceRange.GetAddressDimensionFullRowAndColumn(out int dimFromRow, out int dimFromCol, out int dimToRow, out int dimToCol);
+            if (dimFromRow == 0 && dimFromCol == 0) return;
             if (_sourceRange._fromCol == 1 && _sourceRange._toCol == ExcelPackage.MaxColumns)
             {
-                for (int row = 0; row < _sourceRange.Rows; row++)
+                var diff = dimFromRow - _sourceRange._fromRow;
+                for (int row = 0; row < (dimToRow - dimFromRow + 1); row++)
                 {
-                    _destinationRange.Worksheet.Row(_destinationRange.Start.Row + row).OutlineLevel = _sourceRange.Worksheet.Row(_sourceRange._fromRow + row).OutlineLevel;
+                    _destinationRange.Worksheet.Row(_destinationRange.Start.Row + row + diff).OutlineLevel = _sourceRange.Worksheet.Row(_sourceRange._fromRow + row + diff).OutlineLevel;
                 }
             }
 
-            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullColumn))
+            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.IncludeFullColumn) && dimFromCol > 0)
             {
                 var destColOrig = _destinationRange._fromCol;
                 var sourceColOrig = _sourceRange._fromCol;
 
-                for (int i = 0; i < _sourceRange.Columns; i++)
+                var diff = dimFromCol - _sourceRange._fromCol;
+                for (int i = 0; i < (dimToCol - dimFromCol+1); i++)
                 {
-                    var sourceCol = _sourceRange.Worksheet.Column(sourceColOrig + i);
-                    var destCol = _destinationRange.Worksheet.Column(destColOrig + i);
+                    var sourceCol = _sourceRange.Worksheet.Column(sourceColOrig + i + diff);
+                    var destCol = _destinationRange.Worksheet.Column(destColOrig + i + diff);
 
                     destCol.Width = sourceCol.Width;
                 }

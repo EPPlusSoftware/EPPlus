@@ -200,6 +200,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
+
         private static void CloneCellsAndStyles(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             bool sameWorkbook = (Copy.Workbook == added.Workbook);
