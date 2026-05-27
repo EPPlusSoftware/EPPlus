@@ -1,5 +1,4 @@
 ﻿using EPPlus.DrawingRenderer;
-using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
@@ -16,7 +15,6 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -66,8 +64,26 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             ParentTextBody = textBody;
             IsFirstParagraph = p == p._paragraphs[0];
+            ImportStyleInfo(textBody, p);
 
-            // --- Import Style Information---
+            ImportMarginAndIndent(p);
+            ImportAlignment(textBody.AutoSize, textBody.MaxWidth, parent.Width);
+
+            //---Initialize / calculate lines and runs---
+            //measurer must be set before AddLinesAndRichText
+            ParagraphFont = p.DefaultRunProperties.GetMeasureFont();
+
+            ////---Get measurer---
+            //Layout = OpenTypeFonts.GetTextLayoutEngineForFont(ParagraphFont);
+
+            //---Calculate linespacing---
+            ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
+
+            ImportLinesAndTextRuns(p, textIfEmpty);
+        }
+
+        private void ImportStyleInfo(DrawingTextbody textBody, ExcelDrawingParagraph p)
+        {
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
                 if (IsFirstParagraph)
@@ -102,21 +118,23 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
                 }
             }
-            //End import Style Information
+        }
 
-            //---Initialize Bounds / Margins---
-            var indent = 48 * p.IndentLevel;
-            LeftMargin = p.LeftMargin + p.Indent + indent;
-            RightMargin = p.RightMargin;
+        private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)
+        {
+            int numLines = ParagraphLines.Count;
+            _lsType = lsType;
+            var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(ParagraphFont);
 
-            LeftMargin = LeftMargin.PixelToPoint();
-            RightMargin = RightMargin.PixelToPoint();
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(
+                lineSpacingValue,
+                shaper,
+                ParagraphFont.Size);
+        }
 
-            HorizontalAlignment = (TextAlignment)p.HorizontalAlignment;
-            LeftMargin = LeftMargin.PixelToPoint();
-            RightMargin = RightMargin.PixelToPoint();
-
-            if (ParentTextBody.AutoSize == false)
+        private void ImportAlignment(bool isAutoSize, double maxWidth, double parentWidth)
+        {
+            if (isAutoSize == false)
             {
                 Bounds.Left = 0;
                 Bounds.Width = ParentTextBody.MaxWidth;
@@ -132,25 +150,22 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     //It doesn't truly matter as only left min and right max play a role
                     _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
                 }
-                Bounds.Width = parent.Width - RightMargin - LeftMargin;
+                Bounds.Width = parentWidth - RightMargin - LeftMargin;
             }
+        }
 
-            //---Initialize / calculate lines and runs---
-            //measurer must be set before AddLinesAndRichText
-            ParagraphFont = p.DefaultRunProperties.GetMeasureFont();
+        private void ImportMarginAndIndent(ExcelDrawingParagraph p)
+        {
+            var indent = 48 * p.IndentLevel;
+            LeftMargin = p.LeftMargin + p.Indent + indent;
+            RightMargin = p.RightMargin;
 
-            //---Get measurer---
-            Layout = OpenTypeFonts.GetTextLayoutEngineForFont(ParagraphFont);
+            LeftMargin = LeftMargin.PixelToPoint();
+            RightMargin = RightMargin.PixelToPoint();
 
-            //---Calculate linespacing---
-            int numLines = ParagraphLines.Count;
-            _lsType = p.LineSpacing.LineSpacingType;
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(p.LineSpacing.Value, 
-                (TextShaper) OpenTypeFonts.GetShaperForFont(ParagraphFont), 
-                ParagraphFont.Size);
-
-
-            ImportLinesAndTextRuns(p, textIfEmpty);
+            HorizontalAlignment = (TextAlignment)p.HorizontalAlignment;
+            LeftMargin = LeftMargin.PixelToPoint();
+            RightMargin = RightMargin.PixelToPoint();
         }
 
         private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
@@ -276,8 +291,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="runs"></param>
         void GenerateTextFragments(ExcelDrawingTextRunCollection runs/*, string textIfEmpty*/)
         {
-            //List<TextFragmentBase> fragments = new List<TextFragmentBase>();
-
             var lstOfRichText = runs.ExportToOpenTypeFormat();
             _layoutSystem = new LayoutSystem(lstOfRichText);
 
@@ -288,35 +301,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //    //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
             //    //We can do so here
             //    frag.Options = new OfficeOpenXml.Interfaces.Fonts.ShapingOptions();
-
-            //    fragments.Add(frag);
-            //}
-
-            //_layoutSystem = new LayoutSystem(lstOfRichText);
-
-            //List<string> runContents = new List<string>();
-            //List<MeasurementFont> fonts = new List<MeasurementFont>();
-            
-            //for (int i = 0; i < runs.Count(); i++)
-            //{
-            //    var txtRun = runs[i];
-            //    var runFont = txtRun.GetMeasurementFont();
-
-            //    fonts.Add(runFont);
-            //    runContents.Add(txtRun.Text);
-            //}
-
-            //_newTextFragments = new List<ITextFragmentBase>();
-
-            //for (int i = 0; i < runContents.Count(); i++)
-            //{
-            //    if (string.IsNullOrEmpty(runContents[i]) == false)
-            //    {
-            //        var currentFrag = new TextFragment() { Text = runContents[i] };
-            //        currentFrag.RichTextOptions.SetFont(ParagraphFont);
-            //        _newTextFragments.Add(currentFrag);
-            //    }
-            //}
         }
 
         internal void ImportLinesAndTextRunsDefault(string textIfEmpty)
