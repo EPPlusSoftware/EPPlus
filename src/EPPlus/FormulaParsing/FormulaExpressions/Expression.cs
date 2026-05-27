@@ -71,5 +71,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
 
         }
+
+        internal virtual void Reset()
+        {
+            _cachedCompileResult = null;
+        }
     }
 }

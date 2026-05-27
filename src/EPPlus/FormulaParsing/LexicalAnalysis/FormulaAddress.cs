@@ -130,6 +130,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
         }
         internal bool IsArray { get; set; }
+
+        internal bool IsDynamicArray { get; set; }
+
         internal string Address
         {
             get
