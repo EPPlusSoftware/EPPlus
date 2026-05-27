@@ -268,7 +268,7 @@ namespace OfficeOpenXml.Drawing.Renderer
 
             txtBodyItem.AppendRenderItems(grp.RenderItems);
 
-            //RenderItems.Add(new SvgEndGroupItem(this, Bounds));
+            //ChartAreaRenderItems.Add(new SvgEndGroupItem(this, Bounds));
             
             return txtBodyItem;
         }

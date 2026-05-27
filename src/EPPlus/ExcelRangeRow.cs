@@ -70,12 +70,12 @@ namespace OfficeOpenXml
         /// </summary>
         void Ungroup();
         /// <summary>
-        /// Collapses and hides the rows's children. RenderItems are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// Collapses and hides the rows's children. ChartAreaRenderItems are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
         /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced rows are collapsed.</paramref>
         /// </summary>
         void CollapseChildren(bool allLevels = true);
         /// <summary>
-        /// Expands and shows the rows's children. RenderItems are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// Expands and shows the rows's children. ChartAreaRenderItems are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
         /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
         /// </summary>
         void ExpandChildren(bool allLevels = true);
@@ -473,7 +473,7 @@ namespace OfficeOpenXml
             SetValue(new Action<RowInternal, int>((x, v) => { if (x.OutlineLevel >= 0) x.OutlineLevel += (short)v; }), -1);
         }
         /// <summary>
-        /// Collapses and hides the rows's children. RenderItems are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// Collapses and hides the rows's children. ChartAreaRenderItems are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
         /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced rows are collapsed.</paramref>
         /// </summary>
         public void CollapseChildren(bool allLevels = true)
@@ -495,7 +495,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Expands and shows the rows's children. RenderItems are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// Expands and shows the rows's children. ChartAreaRenderItems are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
         /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
         /// </summary>
         public void ExpandChildren(bool allLevels = true)

@@ -15,6 +15,7 @@ using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,10 @@ namespace EPPlusImageRenderer.Svg
     {
         public ChartPlotareaRenderer(ChartRenderer sc) : base(sc)
         {
+             
         }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
+        public GroupRenderItem Group { get; private set; }
         internal void SetPlotAreaRectangle()
         {
             var pa = Chart.PlotArea;
@@ -42,6 +45,18 @@ namespace EPPlusImageRenderer.Svg
                 rect.Left = GetPlotAreaLeft();
                 rect.Width = GetPlotAreaWidth(rect);
                 rect.Height = GetPlotAreaHeight(rect);
+            }
+
+            Group = new GroupRenderItem(ChartRenderer.Bounds);
+            Group.Bounds.Top = rect.Top;
+            Group.Bounds.Left = rect.Left;           
+            rect.Top = rect.Left = 0;
+            Group.RenderItems.Add(rect);
+
+            if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
+               Chart.Legend.Position == eLegendPosition.Left)
+            {
+                ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2;
             }
 
             rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style.PlotArea.FillReference.Color);
@@ -147,7 +162,7 @@ namespace EPPlusImageRenderer.Svg
             return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
         }
 
-        private SvgChartAxis GetAxisByPosition(eAxisPosition pos)
+        private ChartAxisRenderer GetAxisByPosition(eAxisPosition pos)
         {
             if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.AxisPosition == pos)
             {
@@ -170,7 +185,7 @@ namespace EPPlusImageRenderer.Svg
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            renderItems.Add(Rectangle);
+            renderItems.Add(Group);
         }
 
         internal void DrawSeries()
@@ -180,5 +195,6 @@ namespace EPPlusImageRenderer.Svg
                 drawer.DrawSeries();
             }
         }
+
     }
 }

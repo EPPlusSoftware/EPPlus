@@ -1,4 +1,4 @@
-﻿//using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿//using EPPlus.Export.ImageRenderer.ChartAreaRenderItems.SvgItem;
 //using EPPlus.Fonts.OpenType;
 //using EPPlus.Fonts.OpenType.Integration;
 //using EPPlus.Fonts.OpenType.Utils;

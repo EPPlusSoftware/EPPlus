@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     internal abstract class ChartTypeDrawer : ChartDrawingObject
     {
         internal protected ExcelChart _chartType;
-        internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
+        internal List<ChartTrendlineRenderer> Trendlines { get; } = new List<ChartTrendlineRenderer>();
         internal virtual bool SupportsTrendlines { get { return false; } }
         internal virtual bool SupportsErrorBars { get { return false; } }
         internal virtual bool SupportsUpDownBars { get { return false; } }
@@ -138,7 +138,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
+        public List<RenderItem> SeriesRenderItems { get; } = new List<RenderItem>();
+        public List<RenderItem> ChartAreaRenderItems { get; } = new List<RenderItem>();
         internal static List<ChartTypeDrawer> Create(ChartRenderer svgChart)
         {
             var drawers = new List<ChartTypeDrawer>();
@@ -193,7 +194,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     var ySerie = yValues[serieIndex];
                     foreach (var trendline in serie.TrendLines)
                     {
-                        var tr = new SvgTrendline(ChartRenderer, trendline, xSerie, ySerie, _chartType, serieIndex);
+                        var tr = new ChartTrendlineRenderer(ChartRenderer, trendline, xSerie, ySerie, _chartType, serieIndex);
                         Trendlines.Add(tr);
                     }
                 }

@@ -106,7 +106,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             //Assert.AreEqual(1, exps.Expressions.Count);
 
             //Assert.AreEqual(TokenType.TableName, tokens[4].TokenType);
-            //var result = ((TableAddressExpression)exps.Expressions[0].RenderItems[0].RenderItems[0]).Compile();
+            //var result = ((TableAddressExpression)exps.Expressions[0].ChartAreaRenderItems[0].ChartAreaRenderItems[0]).Compile();
             //var range = (IRangeInfo)result.Result;
 
             //Assert.AreEqual("#REF!", range.Address.WorksheetAddress);
@@ -130,7 +130,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             //Assert.AreEqual(1, exps.Expressions.Count);
 
             //Assert.AreEqual(TokenType.TableName, tokens[7].TokenType);
-            //var result = ((TableAddressExpression)exps.Expressions[0].RenderItems[0].RenderItems[0]).Compile();
+            //var result = ((TableAddressExpression)exps.Expressions[0].ChartAreaRenderItems[0].ChartAreaRenderItems[0]).Compile();
             //var range = (IRangeInfo)result.Result;
 
             //Assert.AreEqual(range.Address.FromRow, 2);
@@ -160,7 +160,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             //Assert.AreEqual(1, exps.Expressions.Count);
 
             //Assert.AreEqual(TokenType.TableName, tokens[4].TokenType);
-            //var addressResult = exps.Expressions[0].RenderItems[0].RenderItems[0].Compile();
+            //var addressResult = exps.Expressions[0].ChartAreaRenderItems[0].ChartAreaRenderItems[0].Compile();
 
             //Assert.IsInstanceOfType(addressResult.Result, typeof(FormulaRangeAddress));
             //var rangeResult = (FormulaRangeAddress)addressResult.Result;

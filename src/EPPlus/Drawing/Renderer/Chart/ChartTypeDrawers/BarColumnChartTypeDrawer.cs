@@ -58,9 +58,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal override void DrawSeries()
         {
-            var groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
-            RenderItems.Add(groupItem);
-
             var isBar = _chartType.IsTypeBar();
             var count = Math.Min(_catValues.Count, _valValues.Count);
             for (var i = 0; i < _catValues.Count; i++)
@@ -86,36 +83,34 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             ////Trendlines and trendline labels
             //foreach (var tr in Trendlines)
             //{
-            //    tr.AppendRenderItems(RenderItems);
+            //    tr.AppendRenderItems(ChartAreaRenderItems);
             //}
             //Append Trendline render items.
             foreach (var tr in Trendlines)
             {
                 tr.CreateRenderCoordinatesAndDatalabel();
-                tr.AppendRenderItems(RenderItems);
+                tr.AppendRenderItems(SeriesRenderItems);
             }
-
-            RenderItems.Add(new GroupRenderItem(null));
 
             //Add data labels for trendlines after the trendline has been rendered, to ensure they are on top of the line.
             foreach (var tr in Trendlines)
             {
                 if (tr.DataLabel != null)
                 {
-                    tr.DataLabel.AppendRenderItems(RenderItems);
+                    tr.DataLabel.AppendRenderItems(ChartAreaRenderItems);
                 }
             }
 
             foreach (var dataLabel in serieDataLabels)
             {
-                dataLabel.AppendRenderItems(RenderItems);
+                dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
         }
 
         private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position)
         {
             GetAxis(chartType, out var yAxis, out var xAxis);
-            SvgChartAxis valAx, catAx;
+            ChartAxisRenderer valAx, catAx;
 
             var isColumn = chartType.IsTypeColumn();
 
@@ -262,10 +257,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
                 rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
-                RenderItems.Add(rect);
+                SeriesRenderItems.Add(rect);
             }
         }
-        private void GetAxis(ExcelBarChart chartType, out SvgChartAxis yAxis, out SvgChartAxis xAxis)
+        private void GetAxis(ExcelBarChart chartType, out ChartAxisRenderer yAxis, out ChartAxisRenderer xAxis)
         {
             if (chartType.UseSecondaryAxis)
             {
@@ -285,7 +280,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            RenderItems.AddRange(renderItems);
+            renderItems.AddRange(ChartAreaRenderItems);
+            SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
     }
 }

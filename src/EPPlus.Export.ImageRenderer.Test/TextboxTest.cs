@@ -1,7 +1,7 @@
-﻿//using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+﻿//using EPPlus.Export.ImageRenderer.ChartAreaRenderItems.SvgItem;
 //using EPPlus.Export.ImageRenderer.Svg;
 //using EPPlus.Graphics;
-//using EPPlusImageRenderer.RenderItems;
+//using EPPlusImageRenderer.ChartAreaRenderItems;
 //using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 //using System;
 //using System.Collections.Generic;

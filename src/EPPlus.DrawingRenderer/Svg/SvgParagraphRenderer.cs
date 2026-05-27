@@ -113,9 +113,6 @@ namespace EPPlus.DrawingRenderer.Svg
 
             sb.AppendLine("</text>");
             sb.AppendLine("</g>");
-
-            RenderBase(item);
-            OutputStream.AppendFormat("/>");
         }
 
         //string GetFontStyleAttributes()

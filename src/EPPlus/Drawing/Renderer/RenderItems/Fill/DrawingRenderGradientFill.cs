@@ -33,16 +33,24 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 c.Opacity = opacity;
                 Colors.Add(c);
             }
-            FocusPoint = gradientFill.FocusPoint.AsOffsetRectangle();
-            TileRectangle = gradientFill.TileRectangle.AsOffsetRectangle();
+
+            if (gradientFill.FocusPoint != null)
+            {
+                FocusPoint = gradientFill.FocusPoint.AsOffsetRectangle();
+            }
+
+            if (gradientFill.TileRectangle != null)
+            {
+                TileRectangle = gradientFill.TileRectangle.AsOffsetRectangle();
+            }
+
             ShadePath = (ShadePath)gradientFill.ShadePath;
-            LinearSettings.Angle = gradientFill.LinearSettings.Angle;
-            LinearSettings.Scaled = gradientFill.LinearSettings.Scaled;
+            
+            if (gradientFill.LinearSettings != null)
+            {
+                LinearSettings.Angle = gradientFill.LinearSettings.Angle;
+                LinearSettings.Scaled = gradientFill.LinearSettings.Scaled;
+            }
         }
-
-
-        //public DrawingRenderGradientFill(List<Color> colors, List<double> stops) : base(colors, stops)
-        //{
-        //}
     }
 }

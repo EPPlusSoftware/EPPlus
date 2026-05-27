@@ -51,9 +51,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         internal override void DrawSeries()
         {
-            var groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
-            RenderItems.Add(groupItem);
-
             var lct = (ExcelLineChart)_chartType;
             for (var i = 0; i < _xValues.Count; i++)
             {
@@ -87,7 +84,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             foreach (var tr in Trendlines)
             {
                 tr.CreateRenderCoordinatesAndDatalabel();
-                tr.AppendRenderItems(RenderItems);
+                tr.AppendRenderItems(SeriesRenderItems);
             }
 
             //Datalabels use the chart area as parent as they can be positioned on the entire chart.
@@ -97,14 +94,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (tr.DataLabel != null)
                 {
-                    tr.DataLabel.AppendRenderItems(RenderItems);
+                    tr.DataLabel.AppendRenderItems(ChartAreaRenderItems);
                 }
             }
 
             //Date series labels
             foreach (var dataLabel in serieDataLabels)
             {
-                dataLabel.AppendRenderItems(RenderItems);
+                dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
         }
         private void SumSeries(List<List<object>> series)
@@ -119,7 +116,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
         {            
-            SvgChartAxis yAxis, xAxis;
+            ChartAxisRenderer yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
             {
                 yAxis = ChartRenderer.SecondVerticalAxis;
@@ -203,14 +200,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.FillColor = "none";    //No fill for line
             linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
-            linePath.LineJoin = LineJoin.Round; 
-            RenderItems.Add(linePath);
-            RenderItems.AddRange(markerItems);
+            linePath.LineJoin = LineJoin.Round;
+            SeriesRenderItems.Add(linePath);
+            SeriesRenderItems.AddRange(markerItems);
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            RenderItems.AddRange(renderItems);
+            renderItems.AddRange(ChartAreaRenderItems);
+            SeriesRenderItems.ForEach(x=> ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
     }
 

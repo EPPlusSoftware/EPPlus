@@ -82,7 +82,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public ShadePath ShadePath { get; set; }
         public OffsetRectangle FocusPoint { get; set; } = new OffsetRectangle();
         public OffsetRectangle TileRectangle { get; set; } = new OffsetRectangle();
-        public RenderLinearGradientSettings LinearSettings { get; private set; }
+        public RenderLinearGradientSettings LinearSettings { get; private set; } = new RenderLinearGradientSettings();
 
     }
 }

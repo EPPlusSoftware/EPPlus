@@ -129,7 +129,11 @@ namespace EPPlusImageRenderer.RenderItems
             }
             if (effect.HasOuterShadow)
             {
+                item.OuterShadowEffect = new RenderShadowEffect();
                 item.OuterShadowEffect.OuterShadowEffectColor = tc.ColorConverter.GetThemeColor(theme, effect.OuterShadow.Color);
+                item.OuterShadowEffect.Direction = effect.OuterShadow.Direction;
+                item.OuterShadowEffect.BlurRadius = effect.OuterShadow.BlurRadius;
+                item.OuterShadowEffect.Distance = effect.OuterShadow.Distance;
             }
         }
 

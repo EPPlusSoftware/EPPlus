@@ -22,6 +22,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
@@ -332,7 +333,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
+                        if (sls.Textbox.Bounds.Bottom > Rectangle.Height)
                         {
                             break;
                         }
@@ -380,7 +381,7 @@ namespace EPPlusImageRenderer.Svg
 
                         SetTrendlineLegend(ct, ix, index, pSls, pos, tl, sls, entryWidth, entryHeight);
 
-                        if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
+                        if (sls.Textbox.Bounds.Bottom > Rectangle.Height)
                         {
                             return;
                         }
@@ -410,14 +411,7 @@ namespace EPPlusImageRenderer.Svg
             var tbLeft = si.X1 + LineLength + MarginIconText;
             var tbTop = si.Y2 - entryHeight * 0.5;    //TODO:Should probably be font ascent 
             double tbWidth;
-            //if (pos == eLegendPosition.Left || pos == eLegendPosition.Right)
-            //{
-            //    tbWidth = Bounds.Width - tbLeft - RightMargin;
-            //}
-            //else
-            //{
-                tbWidth = Rectangle.Bounds.Width - tbLeft - RightMargin;
-            //}
+            tbWidth = Rectangle.Bounds.Width - tbLeft - RightMargin;
 
             var tbHeight = entryHeight;
             sls.Textbox = new DrawingTextbody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
@@ -636,13 +630,13 @@ namespace EPPlusImageRenderer.Svg
                 if (pSls != null && pSls.Textbox.Bounds.Right + entryWidth + RightMargin > _maxWidth)
                 {
                     topOffset += entryHeight * 1.25;
-                    x = Rectangle.Left + LeftMargin;
+                    x = LeftMargin;
                 }
                 else
                 {
                     if (pSls == null)
                     {
-                        x = Rectangle.Left + (float)LeftMargin;
+                        x = (float)LeftMargin;
                     }
                     else
                     {
@@ -680,7 +674,9 @@ namespace EPPlusImageRenderer.Svg
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            var groupItem = new GroupRenderItem(Rectangle.Bounds);
+            var groupItem = new GroupRenderItem(ChartRenderer.Bounds);
+            groupItem.Top = Rectangle.Bounds.Top;
+            groupItem.Left = Rectangle.Bounds.Left;
             renderItems.Add(groupItem);
 
             //The rectangle is position using the group transform, so we need to set the rectangle position to 0,0
@@ -690,11 +686,11 @@ namespace EPPlusImageRenderer.Svg
             groupItem.RenderItems.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {
-                if(s.SeriesIcon != null) renderItems.Add(s.SeriesIcon);
-                if(s.MarkerBackground != null) renderItems.Add(s.MarkerBackground);
-                if (s.MarkerIcon != null) renderItems.Add(s.MarkerIcon);
+                if(s.SeriesIcon != null) groupItem.RenderItems.Add(s.SeriesIcon);
+                if(s.MarkerBackground != null) groupItem.RenderItems.Add(s.MarkerBackground);
+                if (s.MarkerIcon != null) groupItem.RenderItems.Add(s.MarkerIcon);
                 //renderItems.Add(s.Textbox);
-                if(s.Textbox != null) s.Textbox.AppendRenderItems(renderItems);
+                if(s.Textbox != null) s.Textbox.AppendRenderItems(groupItem.RenderItems);
             }
         }
 

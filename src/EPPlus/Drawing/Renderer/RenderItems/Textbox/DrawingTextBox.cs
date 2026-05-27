@@ -235,15 +235,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             var rect = Rectangle;
 
-            GroupRenderItem groupItem;
-            if (Rotation == 0)
-            {
-                groupItem = new GroupRenderItem(new BoundingBox(Left, Top, Width, Height));
-            }
-            else
-            {
-                groupItem = new GroupRenderItem(new BoundingBox(Left, Top, Width, Height), Rotation);
-            }
+            GroupRenderItem groupItem = groupItem = new GroupRenderItem((BoundingBox)rect.Bounds.Parent, Rotation);
+            groupItem.Bounds = new BoundingBox(Left, Top, Width, Height);
+            groupItem.Bounds.Parent = rect.Bounds.Parent;
             groupItem.TextAnchor = TextAnchor.ToEnumString();
             renderItems.Add(groupItem);
 
@@ -264,12 +258,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             {
                 rect.Bounds.Left = 0;
             }
-
-            rect.Bounds.Top = 0;
             groupItem.RenderItems.Add(titleItem);
             groupItem.RenderItems.Add(rect);
 
-            TextBody.Bounds.Left = LeftMargin;
+            TextBody.Bounds.Left = LeftMargin + rect.Bounds.Left;
             TextBody.Bounds.Top = TopMargin;
             TextBody.AppendRenderItems(groupItem.RenderItems);
         }

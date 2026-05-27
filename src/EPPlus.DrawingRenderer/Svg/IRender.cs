@@ -473,8 +473,6 @@ namespace EPPlus.DrawingRenderer
 
         private void SetStopColors(StringBuilder defSb, RenderGradientFill gradientFill, PathFillMode fillMode)
         {
-            int ix = 0;
-
             //Svg requires starting at 0 and moving towards 100% Excel sometimes starts at 100
             //Sort to get around that
             var sortedGradientColors = gradientFill.Colors.OrderBy(x => x.Position);
@@ -483,7 +481,8 @@ namespace EPPlus.DrawingRenderer
             {
                 var color = ColorUtils.GetAdjustedColor(fillMode, c.Color);
                 // TODO: check if ix should be increased...?
-                defSb.Append($"<stop offset=\"{c.Position}%\" stop-color=\"#{color.To6CharHexString()}\" {gradientFill.Colors[ix].Opacity} />");
+                var op = c.Opacity;
+                defSb.Append($"<stop offset=\"{c.Position}%\" stop-color=\"#{color.To6CharHexString()}\" {(op==1?"":"stop-opacity=\"" + (op*100).ToString("N0") + "%\"")} />");
             }
         }
 

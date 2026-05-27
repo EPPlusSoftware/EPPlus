@@ -7,7 +7,6 @@ namespace EPPlus.DrawingRenderer.Svg
 {
     public class SvgGroupRenderer : SvgBaseRenderer<GroupRenderItem> 
     {
-        const string transformTranslate = "translate({0}, {1})";
         const string transformRotate = "rotate({0})";
         const string transformScale = "scale({0}, {1})";
 
@@ -21,14 +20,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             string combinedTransform = GetCombinedTransformString(item);
 
-            if (string.IsNullOrEmpty(combinedTransform) == false)
-            {
-                OutputStream.Append($"<g {GetTransformOrigin(item)} transform=\"{combinedTransform}\" >");
-            }
-            else
-            {
-                OutputStream.Append($"<g>");
-            }
+            OutputStream.Append($"<g {GetTransformOrigin(item)} transform=\"{combinedTransform}\">");
 
             foreach (var childItem in item.RenderItems)
             {
@@ -44,10 +36,12 @@ namespace EPPlus.DrawingRenderer.Svg
             string scalingStr = GetScalingStr(item);
 
 
-            if (item.TranslationOffset != null && (item.TranslationOffset.Left == 0 && item.TranslationOffset.Top == 0) == false)
-            {
-                positionStr = string.Format(transformTranslate, item.TranslationOffset.Left.PointToPixelString(), item.TranslationOffset.Top.PointToPixelString()) + " ";
-            }
+            //if (item.TranslationOffset != null && (item.TranslationOffset.Left == 0 && item.TranslationOffset.Top == 0) == false)
+            //{
+            //    positionStr = string.Format(transformTranslate, item.TranslationOffset.Left.PointToPixelString(), item.TranslationOffset.Top.PointToPixelString()) + " ";
+            //}
+
+            positionStr = string.Format("translate({0}, {1})", item.Bounds.Left.PointToPixelString(), item.Bounds.Top.PointToPixelString()) + " ";
 
             return positionStr + rotationStr + scalingStr;
         }
@@ -77,7 +71,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
         string GetRotationStr(GroupRenderItem item)
         {
-            if (double.IsNaN(item.Rotation) == false || item.Rotation!=0)
+            if (double.IsNaN(item.Rotation) == false && item.Rotation!=0)
             {
                 string rot = item.Rotation.ToString(CultureInfo.InvariantCulture);
 

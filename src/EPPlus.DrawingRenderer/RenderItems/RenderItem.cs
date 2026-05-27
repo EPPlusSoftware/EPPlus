@@ -156,7 +156,14 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 RotationPoint = new Graphics.Point(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
             }
         }
-
+        /// <summary>
+        /// The top position of the group. This is the position of the group relative to its parent. The child items are positioned relative to this position.
+        /// </summary>
+        public double Top { get { return Bounds.Top; } set { Bounds.Top = value; } }
+        /// <summary>
+        /// The left position of the group. This is the position of the group relative to its parent. The child items are positioned relative to this position.
+        /// </summary>
+        public double Left { get { return Bounds.Left; } set { Bounds.Left = value; } }
         public override RenderItemType Type => RenderItemType.Group;
         public string TextAnchor { get; set; }
         public double Rotation { get; set; }
@@ -228,7 +235,6 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double Cy { get; set; }
         public double Rx { get; set; }
         public double Ry { get; set; }
-
     }
     public class LineRenderItem : RenderItem
     {
@@ -342,7 +348,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public RenderBlipFill BlipFill { get; set; }
         public double? BorderWidth { get; set; }
         public double[] BorderDashArray { get; set; }
-        public int StrokeMiterLimit { get; set; } = 4;
+        public int? StrokeMiterLimit { get; set; }
         public CompoundLineStyle CompoundLineStyle { get; set; } = CompoundLineStyle.Single;
         public double? BorderDashOffset { get; set; }
         public LineCap LineCap { get; set; } = LineCap.Flat;
@@ -352,7 +358,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
         public double? GlowRadius { get; set; }
         public string GlowColor { get; set; }
-        public RenderShadowEffect OuterShadowEffect { get; private set; } = null;
+        public RenderShadowEffect OuterShadowEffect { get; set; }
 
         /// <summary>
         /// The origin point for any transform actions in svg.

@@ -44,6 +44,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabelStandard standard) : base(chart)
         {
             _labelPosition = standard.Position;
+            Rectangle = new RectRenderItem(chart.Bounds);
         }
 
         RenderItem _seriesIcon = null;
