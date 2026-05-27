@@ -8,24 +8,17 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  19/3/2026         EPPlus Software AB           EPPlus v8.6
+  13/4/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions
 {
-    internal class GroupLevel
+    internal enum RelativeTo
     {
-        public object Key { get; set; }
-        public object[] KeyParts { get; set; }
-        public List<GroupLevel> Children { get; set; } = new List<GroupLevel>();
-        public Dictionary<string, GroupLevel> ChildDict { get; set; } = null;
-        public List<string> ChildOrder { get; set; } = null;
-        public List<GroupRow> Rows { get; set; } = new List<GroupRow>();
-        public object SubtotalValue { get; set; }
-        public List<object[]> SubtotalValues { get; set; } = new List<object[]>(); // [function][valueCol]
-        public bool IsLeaf => Children.Count == 0;
+        ColumnTotals = 0,
+        RowTotals = 1,
+        GrandTotals = 2,
+        ParentColTotal = 3,
+        ParentRowTotal = 4
     }
 }

@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
@@ -337,7 +338,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();
-            //Functions["groupby"] = new GroupBy();  //Will be released in next minor release.
+            Functions["groupby"] = new GroupBy();
+            Functions["pivotby"] = new PivotBy();
             Functions["hlookup"] = new HLookup();
             Functions["vlookup"] = new VLookup();
             Functions["xlookup"] = new Xlookup();

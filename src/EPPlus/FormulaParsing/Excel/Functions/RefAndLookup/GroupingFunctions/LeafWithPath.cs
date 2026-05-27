@@ -8,24 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  19/3/2026         EPPlus Software AB           EPPlus v8.6
+  13/4/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions
 {
-    internal class GroupLevel
+    internal class LeafWithPath
     {
-        public object Key { get; set; }
-        public object[] KeyParts { get; set; }
-        public List<GroupLevel> Children { get; set; } = new List<GroupLevel>();
-        public Dictionary<string, GroupLevel> ChildDict { get; set; } = null;
-        public List<string> ChildOrder { get; set; } = null;
-        public List<GroupRow> Rows { get; set; } = new List<GroupRow>();
-        public object SubtotalValue { get; set; }
-        public List<object[]> SubtotalValues { get; set; } = new List<object[]>(); // [function][valueCol]
-        public bool IsLeaf => Children.Count == 0;
+        public GroupLevel Leaf { get; private set; }
+        public object[] Path { get; private set; }
+        public string PivotKey { get; private set; }
+
+        public LeafWithPath(GroupLevel leaf, object[] path, string pivotKey)
+        {
+            Leaf = leaf;
+            Path = path;
+            PivotKey = pivotKey;
+        }
     }
 }
