@@ -33,6 +33,84 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double LeftTextSpillLength = 0d;
         public double RightTextSpillLength = 0d;
         public bool delete = false;
+        public bool isHeading = false;
+
+        public PdfCellLayout(PdfDictionaries dictionaries, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+            : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)
+        {
+            Z = 1;
+            var xfFill = CellStyle.xfFill;
+            var dxfFill = CellStyle.dxfFill;
+            CellFillData = new PdfCellFillData();
+            if (dxfFill != null && xfFill.IsEmpty())
+            {
+                CellFillData.PatternStyle = dxfFill.PatternType != null ? (ExcelFillStyle)dxfFill.PatternType : ExcelFillStyle.Solid;
+                if (CellFillData.PatternStyle == ExcelFillStyle.Solid)
+                {
+                    CellFillData.BackgroundColor = PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor());
+                }
+                else if (CellFillData.PatternStyle != ExcelFillStyle.None)
+                {
+                    CellFillData.BackgroundColor = PdfColor.SetColorFromHex(dxfFill.PatternColor.Color == null ? "#FFFFFFFF" : dxfFill.PatternColor.LookupColor());
+                    CellFillData.PatternColor = PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor());
+                    CellFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.PatternStyle.ToString() + CellFillData.PatternColor.ToHexString() + CellFillData.BackgroundColor.ToHexString());
+                }
+                else if (dxfFill.Gradient != null)
+                {
+                    CellFillData.GradientFillData = new PdfCellGradientFillData();
+                    CellFillData.GradientFillData.GradientType = dxfFill.Gradient.GradientType == null ? ExcelFillGradientType.None : (ExcelFillGradientType)dxfFill.Gradient.GradientType;
+                    CellFillData.GradientFillData.Color1 = PdfColor.SetColorFromHex(dxfFill.Gradient.Colors[0].Color.LookupColor());
+                    CellFillData.GradientFillData.Color2 = PdfColor.SetColorFromHex(dxfFill.Gradient.Colors[1].Color.LookupColor());
+                    CellFillData.GradientFillData.Color3 = PdfColor.SetColorFromHex(dxfFill.Gradient.Colors[2].Color.LookupColor());
+                    CellFillData.GradientFillData.Degree = dxfFill.Gradient.Degree == null ? 0 : (double)dxfFill.Gradient.Degree;
+                    CellFillData.GradientFillData.Top = dxfFill.Gradient.Top == null ? 0 : (double)dxfFill.Gradient.Top;
+                    CellFillData.GradientFillData.Bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
+                    CellFillData.GradientFillData.Left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
+                    CellFillData.GradientFillData.Right = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
+                    CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
+                    AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
+                }
+            }
+            else
+            {
+                if (xfFill.PatternType == ExcelFillStyle.Solid)
+                {
+                    var bkgc = xfFill.BackgroundColor;
+                    CellFillData.PatternStyle = xfFill.PatternType;
+                    if (string.IsNullOrEmpty(bkgc.LookupColor()) && !string.IsNullOrEmpty(cell.Text))
+                    {
+                        CellFillData.BackgroundColor = Color.Empty;
+                    }
+                    else
+                    {
+                        CellFillData.BackgroundColor = Pdfhelpers.PdfColor.SetColorFromHex(bkgc.LookupColor());
+                    }
+                }
+                else if (xfFill.PatternType != ExcelFillStyle.None)
+                {
+                    CellFillData.PatternStyle = xfFill.PatternType;
+                    CellFillData.BackgroundColor = PdfColor.SetColorFromHex(xfFill.PatternColor.Rgb == null ? "#FFFFFFFF" : xfFill.PatternColor.LookupColor());
+                    CellFillData.PatternColor = PdfColor.SetColorFromHex(xfFill.BackgroundColor.LookupColor());
+                    CellFillData.id = AddPatternResourceData(dictionaries.Patterns, CellFillData.PatternStyle.ToString() + CellFillData.PatternColor.ToHexString() + CellFillData.BackgroundColor.ToHexString());
+                }
+                else if (xfFill.HasGradient)
+                {
+                    CellFillData.GradientFillData = new PdfCellGradientFillData();
+                    CellFillData.GradientFillData.GradientType = xfFill.Gradient.Type;
+                    CellFillData.GradientFillData.Color1 = PdfColor.SetColorFromHex(xfFill.Gradient.Color1.LookupColor());
+                    CellFillData.GradientFillData.Color2 = PdfColor.SetColorFromHex(xfFill.Gradient.Color2.LookupColor());
+                    CellFillData.GradientFillData.Color3 = PdfColor.SetColorFromHex(xfFill.Gradient.Color3.LookupColor());
+                    CellFillData.GradientFillData.Degree = xfFill.Gradient.Degree;
+                    CellFillData.GradientFillData.Top = double.IsNaN(xfFill.Gradient.Top) ? 0 : xfFill.Gradient.Top;
+                    CellFillData.GradientFillData.Bottom = double.IsNaN(xfFill.Gradient.Bottom) ? 0 : xfFill.Gradient.Bottom;
+                    CellFillData.GradientFillData.Left = double.IsNaN(xfFill.Gradient.Left) ? 0 : xfFill.Gradient.Left;
+                    CellFillData.GradientFillData.Right = double.IsNaN(xfFill.Gradient.Right) ? 0 : xfFill.Gradient.Right;
+                    CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
+                    AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
+                }
+            }
+        }
+
 
         public PdfCellLayout(PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
@@ -69,7 +147,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         CellFillData.GradientFillData.Bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
                         CellFillData.GradientFillData.Left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
                         CellFillData.GradientFillData.Right = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
-                        CellFillData.id = CellFillData.GradientFillData.ToString();
+                        CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
                         AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                     }
                 }
@@ -107,7 +185,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         CellFillData.GradientFillData.Bottom = double.IsNaN(xfFill.Gradient.Bottom) ? 0 : xfFill.Gradient.Bottom;
                         CellFillData.GradientFillData.Left = double.IsNaN(xfFill.Gradient.Left) ? 0 : xfFill.Gradient.Left;
                         CellFillData.GradientFillData.Right = double.IsNaN(xfFill.Gradient.Right) ? 0 : xfFill.Gradient.Right;
-                        CellFillData.id = CellFillData.GradientFillData.ToString();
+                        CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{x:F4}_{(y - height):F4}_{width:F4}_{height:F4}";
                         AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
                     }
                 }

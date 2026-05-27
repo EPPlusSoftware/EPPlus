@@ -36,6 +36,21 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
+
+        public string FullFontName
+        {
+            get
+            {
+                // Keep only the style bits that affect the font face
+                MeasurementFontStyles faceStyle =
+                    Font.Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic);
+
+                if (faceStyle == MeasurementFontStyles.Regular)
+                    return Font.FontFamily;
+
+                return $"{Font.FontFamily} {faceStyle.ToString().Replace(", ", " ")}";
+            }
+        }
     }
 
     /// <summary>
@@ -46,9 +61,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         internal RichTextDefaults()
         {
         }
-        public bool IsItalic { get; set; } = false;
+        public bool Italic { get; set; } = false;
 
-        public bool IsBold { get; set; } = false;
+        public bool Bold { get; set; } = false;
 
         public bool SubScript { get; set; } = false;
 

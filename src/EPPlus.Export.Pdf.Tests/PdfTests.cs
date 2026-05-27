@@ -11,18 +11,15 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf;
+using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 
 namespace EPPlusTest.PDF
 {
@@ -33,10 +30,10 @@ namespace EPPlusTest.PDF
          * This should be turned into tickets on github..
          * 
          * FEATURES:
-         * Cells: Display errors option
          * Cells: Icons
          * Cells: Pictures in cells : Prio 3
          * Cells: Conditional Formatting
+         * Cells: Calculate clip rect for merged cells with content bounds in mind
          * 
          * Text: Wrap text
          * Text: Vertical text again
@@ -49,11 +46,10 @@ namespace EPPlusTest.PDF
          * Layout: Selected worksheets to pdf (Export)
          * Layout: Cell range to pdf (Export)
          * Layout: Print Area (This is like a collection of cell ranges) (Export)
-         * Layout: Comments and Notes
-         * Layout: Row and column headings
          * Layout: Print titles
          * Layout: Background (Excel does not add this to pdf it seems) (Images) : Prio 4
          * Layout: Remove empty last page
+         * Layout: Autofit row
          * 
          * Pivot Table: Pivot table implementation : Prio 5
          * 
@@ -81,7 +77,35 @@ namespace EPPlusTest.PDF
          * Borders: Adjust and make border look better
          */
 
-
+        /* REFACTOR:
+         * 1. Collect: Gather all text in all worksheets, headerfooter and comments
+         * 2. Shape  : Shape the Text in all worksheets, headerfooter and comments
+         * 3. Layout : Autofit row, add print titles, add row and column headings, set up print areas, page breaks
+         * 4. Pages: : Create number of pages needed, assign elements to pages
+         * 5. PDF    : Export to pdf
+         * 
+         * 
+         * --------------0. Set up ---------------------
+         * Create class catalog that takes in a workbook, or a collection of worksheets, or a range.
+         * When step1 is done we check in a comments collections if there are comments and process the comments worksheet the same way.
+         * for each worksheet do following:
+         * --------------1. Collect---------------------
+         * Create array map of worksheet with coords, text, fills and so on.
+         * This is done when all worksheets have been mapped.
+         * Comments and notes will create a temporary worksheet in current workbook with all notes and comments inside cells.
+         * --------------2. Shape  ---------------------
+         * Go through all text in all workbbooks and shape the text.
+         * We also check text height measurements and adjust row height.
+         * --------------3. Layout ---------------------
+         * Precalculate content area of each page using content area and page breaks and print areas. We need to take scaling into account here!
+         * Add pictures, shapes, notes and other elements that lies on top of cells.
+         * Then loop the collection and insert row and column headings, print titles.
+         * We also need to create gridlines here
+         * --------------4. Pages ----------------------
+         * Create Pages and create transform objects of each element from the array and assign them to their respective page.
+         * --------------5. PDF ------------------------
+         * When all worksheets have been processed, combine all into one catalog and create the pdf document.
+         */
 
         [TestMethod]
         public void TestWritePdf()
@@ -105,12 +129,14 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = true;
             pageSettings.CenterOnPageHorizontally = true;
             pageSettings.CenterOnPageVertically = true;
+            pageSettings.ShowHeadings = true;
+            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
             //Debug Flags
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
 
             ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest46.pdf");
+            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest49.pdf");
         }
 
         [TestMethod]
@@ -132,7 +158,49 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
-        public void WritePrintAreas()
+        public void ReadPrintAreas()
+        {
+            //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("DoubleBorder.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
+            pageSettings.CellErrors = CellErrors.NA;
+            pageSettings.Debug = true;
+            pageSettings.PrintAsText = true;
+            pageSettings.ShowGridLines = true;
+            pageSettings.ShowHeadings = true;
+            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest52.pdf");
+
+            //line breaks
+            //wrap comments
+            //text placement
+            //alignment
+                //vertical
+        }
+
+
+        [TestMethod]
+        public void CalculatePages()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.ShowHeadings = true;
+            PdfWorksheet pws = new PdfWorksheet();
+            pws.Worksheet = ws;
+            pws.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(ws);
+            pws.ToRow = 256;
+            PdfRange range = new PdfRange();
+            range.TotalWidth = 800;
+            range.TotalHeight = 1600;
+
+            var result = PdfLayout.GetNumberOfPages(pageSettings, pws, range);
+        }
+
+        [TestMethod]
+        public void TestWrapText()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var cell = p.Workbook.Worksheets[0].Cells["P118"];
@@ -143,15 +211,6 @@ namespace EPPlusTest.PDF
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[0].Font);
 
             var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
-            ////var ShapedTexts = new List<PdfShapedText>();
-            //for (int i = 0; i < TextFragments.Count; i++)
-            //{
-            //    var tf = TextFragments[i];
-            //    var layout = OpenTypeFonts.GetTextLayoutEngineForFont(TextFragments[i].Font);
-
-            //    var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
-            //}
-
         }
 
         private static List<TextFragment> GetTextFragments(ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
@@ -177,8 +236,8 @@ namespace EPPlusTest.PDF
                 textFrag.Font.FontFamily = rt.FontName;
                 textFrag.Font.Size = rt.Size;
 
-                textFrag.RichTextOptions.IsBold = rt.Bold || bold;
-                textFrag.RichTextOptions.IsItalic = rt.Italic || italic;
+                textFrag.RichTextOptions.Bold = rt.Bold || bold;
+                textFrag.RichTextOptions.Italic = rt.Italic || italic;
                 //underline
                 //none   : 12
                 //single : 13
@@ -192,8 +251,8 @@ namespace EPPlusTest.PDF
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                 textFrag.RichTextOptions.FontColor = rt.Color;
 
-                textFrag.Font.Style = (textFrag.RichTextOptions.IsBold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.IsItalic ? MeasurementFontStyles.Italic : 0) |
+                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
                                       (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
                                       (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
 

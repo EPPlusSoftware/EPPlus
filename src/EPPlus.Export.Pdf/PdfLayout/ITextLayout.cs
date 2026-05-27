@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
+    internal struct PdfTextFormat
+    { }
     internal interface ITextLayout
     {
         public  List<PdfTextFormat> TextFormats { get; set; }

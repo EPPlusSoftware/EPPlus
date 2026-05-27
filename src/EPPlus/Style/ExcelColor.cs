@@ -239,7 +239,7 @@ namespace OfficeOpenXml.Style
             }
             else if (theColor.Auto)
             {
-                if (objectType is Border)
+                if (objectType is Border || objectType is ExcelBorderItem)
                 {
                     return "#FF000000";
                 }
