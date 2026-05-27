@@ -14,7 +14,6 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -33,6 +32,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //end temp workaround vars
 
         LayoutSystem _layoutSystem;
+        OpenTypeFontInfoBase DefaultParagraphFont;
 
         private double? _centerAdjustment = null;
         bool LinespacingIsExact 
@@ -49,6 +49,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Bounds.Name = "Paragraph";
             var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
             ParagraphFont = defaultFont;
+            DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
 
             Layout = OpenTypeFonts.GetTextLayoutEngineForFont(defaultFont);
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(defaultFont), defaultFont.Size);
@@ -57,6 +58,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent, string text) : base(parent)
         {
             ParentTextBody = textBody;
+            var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+            ParagraphFont = defaultFont;
+            DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
             ImportLinesAndTextRunsDefault(text);
         }
 
@@ -72,6 +76,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
             ParagraphFont = p.DefaultRunProperties.GetMeasureFont();
+            DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
 
             ////---Get measurer---
             //Layout = OpenTypeFonts.GetTextLayoutEngineForFont(ParagraphFont);
@@ -79,37 +84,37 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //---Calculate linespacing---
             ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
 
-            if(p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
-            {
-                //Create layout system from fallback
-                GenerateTextFragments(textIfEmpty);
+            //if(p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+            //{
+            //    //Create layout system from fallback
+            //    GenerateTextFragments(textIfEmpty);
 
-                //Set horizontal alignment differently
-                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-                if (HorizontalAlignment == TextAlignment.Center)
-                {
-                    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-                }
+            //    //Set horizontal alignment differently
+            //    Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+            //    if (HorizontalAlignment == TextAlignment.Center)
+            //    {
+            //        _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+            //    }
 
-                //this scenario Always wants to use:
-                // AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
+            //    //this scenario Always wants to use:
+            //    // AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
 
-                //Some OTHER constructor COULD concievably use
-                //Import fallback text with paragraph settings
-                //AddText(displayText, p.DefaultRunProperties);
+            //    //Some OTHER constructor COULD concievably use
+            //    //Import fallback text with paragraph settings
+            //    //AddText(displayText, p.DefaultRunProperties);
 
-                //////Was not able to import text. Input may not have been a full OOXML paragraph.
-                //////Import fallback with default settings from constructor
-                //AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
+            //    //////Was not able to import text. Input may not have been a full OOXML paragraph.
+            //    //////Import fallback with default settings from constructor
+            //    //AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
 
-            }
-            else
-            {
-                //Create layout directly from runs
-                GenerateTextFragments(p.TextRuns);
-                //Wants to do Import Paragraph text run or worst case fallback if no textruns
-                //AddRenderItemTextRun(txtRuns[rtIdx], displayText);
-            }
+            //}
+            //else
+            //{
+            //    //Create layout directly from runs
+            //    GenerateTextFragments(p.TextRuns);
+            //    //Wants to do Import Paragraph text run or worst case fallback if no textruns
+            //    //AddRenderItemTextRun(txtRuns[rtIdx], displayText);
+            //}
 
 
             //else if(p.TextRuns.Count != 0)
@@ -122,11 +127,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //}
 
             ImportLinesAndTextRuns(p, textIfEmpty);
-        }
-
-        private void AddTextRun(string displayText)
-        {
-
         }
 
 
@@ -238,86 +238,33 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
         }
 
-        public void AddOwnText(string text)
-        {
-            var fragment = new TextFragment();
-            fragment.Text = text;
-            fragment.Font = ParagraphFont;
-            _manualFragments.Add(fragment);
+        //internal protected DrawingTextRunRenderItem ImportTextRunFromParagraphTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
+        //{
+        //    var targetTxtRun = (DrawingTextRunRenderItem)CreateTextRun(origTxtRun, Bounds, displayText);
 
-            //if(_newTextFragments == null)
-            //{
-            //    //This should probably never happen
-            //    throw new InvalidOperationException("Must GENERATE textfragments first in the constructor");
-            //    //GenerateTextFragments(text);
-            //}
-            //else
-            //{
-            //    var fragment = new TextFragment();
-            //    fragment.Text = text;
-            //    fragment.Font = ParagraphFont;
-            //    //_newTextFragments.Add(fragment);
-            //    _manualFragments.Add(fragment);
-            //}
+        //    Runs.Add(targetTxtRun);
+        //    return targetTxtRun;
+        //}
 
-            //Redo whole thing for now.
-            //Import and wrapping really should be completely seperated but can't refactor all of it yet
-            //AddTextLinesAndSpacing(Paragraph, _textIfEmpty);
-        }
+        //private DrawingTextRunRenderItem ImportTextRunFromFont(string text, IFontFormatBase font)
+        //{
+        //    var container = (DrawingTextRunRenderItem)CreateTextRun(font, Bounds, text);
+        //    Runs.Add(container);
 
-        public void AddOwnText(TextFragment fragment)
-        {
-            //_manualFragments.Add(fragment);
+        //    container.Bounds.Name = $"Container{Runs.Count}";
+        //    return container;
+        //}
 
-            if (_newTextFragments == null)
-            {
-                //This should probably never happen
-                throw new InvalidOperationException("Must GENERATE textfragments first in the constructor");
-                //GenerateTextFragments(text);
-            }
-            else
-            {
-                if(_manualFragmentsStartIndex == -1)
-                {
-                    _manualFragmentsStartIndex = _newTextFragments.Count;
-                }
-                //_newTextFragments.Add(fragment);
-                _newTextFragments.Add(fragment);
-            }
+        //private void ImportTextRunFromDefaultParaProps(string text, ExcelTextFont font)
+        //{
+        //    //var mf = font.GetMeasureFont();
+        //    //var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
 
-
-            //Redo whole thing for now.
-            //Import and wrapping really should be completely seperated but can't refactor all of it yet
-            AddTextLinesAndSpacing(Paragraph, _textIfEmpty);
-        }
-
-
-        internal protected TextRunRenderItem ImportTextRunFromParagraphTextRun(ExcelParagraphTextRunBase origTxtRun, string displayText)
-        {
-            var targetTxtRun = CreateTextRun(origTxtRun, Bounds, displayText);
-
-            Runs.Add(targetTxtRun);
-            return targetTxtRun;
-        }
-
-        private void ImportTextRunFromFont(string text, IFontFormatBase font)
-        {
-            var container = CreateTextRun(font, Bounds, text);
-            Runs.Add(container);
-
-            container.Bounds.Name = $"Container{Runs.Count}";
-        }
-
-        private void ImportTextRunFromDefaultParaProps(string text, ExcelTextFont font)
-        {
-            //var mf = font.GetMeasureFont();
-            //var measurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
-
-            var container = CreateTextRun(text, font, Bounds, text);
-            Runs.Add(container);
-            //Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
-            container.Bounds.Name = $"Container{Runs.Count}";
-        }
+        //    var container = CreateTextRun(text, font, Bounds, text);
+        //    Runs.Add(container);
+        //    //Bounds.Width = container.Bounds.Width + 0.001; //TODO: fix for equal width issue
+        //    container.Bounds.Name = $"Container{Runs.Count}";
+        //}
 
         void GenerateTextFragments(string text)
         {
@@ -351,7 +298,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //    frag.Options = new OfficeOpenXml.Interfaces.Fonts.ShapingOptions();
         }
 
-        internal void ImportLinesAndTextRunsDefault(string textIfEmpty)
+        internal void ImportLinesAndTextRunsDefault(string textIfEmpty, ExcelTextFont font = null)
         {
             GenerateTextFragments(textIfEmpty);
 
@@ -361,35 +308,80 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
             }
 
-            AddTextLinesAndSpacing(null, textIfEmpty);
+            AddTextLinesAndSpacing(textIfEmpty);
+
+            //Import RichText data to each run
+            foreach(var run in Runs)
+            {
+                var textRun = (DrawingTextRunRenderItem)run;
+                ImportStyleFallback(font, textRun);
+            }
         }
+
         private void ImportLinesAndTextRuns(ExcelDrawingParagraph p, string textIfEmpty)
         {
             if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
             {
-                ImportLinesAndTextRunsDefault(textIfEmpty);
+                ImportLinesAndTextRunsDefault(textIfEmpty, p.DefaultRunProperties);
             }
             else
             {
                 //Log line positions and run sizes
                 GenerateTextFragments(p.TextRuns);
-                AddTextLinesAndSpacing(p, textIfEmpty);
+                //Initalize and wrap textruns
+                AddTextLinesAndSpacing(textIfEmpty);
+                ImportStyles(p.TextRuns, p.DefaultRunProperties);
             }
         }
 
-        private void AddTextLinesAndSpacing(ExcelDrawingParagraph p, string textIfEmpty)
+        void ImportStyleFallback(ExcelTextFont font, DrawingTextRunRenderItem run)
+        {
+            if (font != null)
+            {
+                //IF there is a default ExcelTextFont use it
+                run.ImportExcelTextFont(font, DefaultParagraphFont);
+            }
+            else
+            {
+                //If not use the default for the whole paragraph (potentially user specified)
+                run.ImportFontData(DefaultParagraphFont);
+            }
+        }
+
+        void ImportStyles(ExcelDrawingTextRunCollection textRuns, ExcelTextFont font)
+        {
+            //Import RichText data to each run
+            foreach (var run in Runs)
+            {
+                var textRun = (DrawingTextRunRenderItem)run;
+
+                if (textRuns.Count != 0 && run.OriginalRtIdx != -1)
+                {
+                    //Import existing textrun
+                    textRun.ImportTextRunBase(textRuns[run.OriginalRtIdx], _layoutSystem.InputFragments[run.OriginalRtIdx].RichTextOptions);
+                }
+                else
+                {
+                    //Import default properties or fallback font
+                    ImportStyleFallback(font, textRun);
+                }
+            }
+        }
+
+        private void AddTextLinesAndSpacing(string textIfEmpty)
         {
             //Temp workaround
-            if (Paragraph == null)
-            {
-                Paragraph = p;
-            }
-            if (textIfEmpty == null)
-            {
-                _textIfEmpty = textIfEmpty;
-            }
+            //if (Paragraph == null)
+            //{
+            //    Paragraph = p;
+            //}
+            //if (textIfEmpty == null)
+            //{
+            //    _textIfEmpty = textIfEmpty;
+            //}
 
             _lines = WrapFragmentsToLines();
+
 
             //In points
             double widthOfLargestLine = 0;
@@ -407,41 +399,29 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 int lineIdx = 0;
                 foreach (var line in _lines)
                 {
-                    double prevWidth = 0;
+                    double lineDist = widthOfLargestLine - line.GetWidthWithoutTrailingSpaces();
+                    double prevWidth = CalculatePrevWidthBasedOnAlignment(lineDist);
 
-                    if (HorizontalAlignment == TextAlignment.Center)
-                    {
-                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                        //Calculate difference in widths and split to get offset between leftmost position and current line
-                        prevWidth = (widthOfLargestLine - ctrLineWidth) / 2;
-                    }
-                    else if (HorizontalAlignment == TextAlignment.Right)
-                    {
-                        //Note that the actual bounds with the space will be outside max bounds.
-                        //This appears to be how excel does it
-                        var ctrLineWidth = line.GetWidthWithoutTrailingSpaces();
-                        prevWidth = widthOfLargestLine - ctrLineWidth;
-                    }
                     foreach (var lineFragment in line.LineFragments)
                     {
                         var displayText = lineFragment.Text;
 
-                        var wasImported = TryImportParagraphTextRunsSettings(p, textIfEmpty, lineFragment);
-                        if (wasImported == false)
+                        int rtIdx = -1;
+                        if (_layoutSystem != null && lineFragment.OriginalTextFragment != null && _layoutSystem.InputFragments.Count > 0)
                         {
-                            //Was not able to import text. Input may not have been a full OOXML paragraph.
-                            //Import fallback with default settings from constructor
-                            ImportTextRunFromFont(displayText, new OpenTypeFontInfoBase(ParagraphFont));
+                            rtIdx = _layoutSystem.InputFragments.IndexOf(lineFragment.OriginalTextFragment);
                         }
 
-                        DrawingTextRunRenderItem runItem = (DrawingTextRunRenderItem)Runs.Last();
-                        runItem.Bounds.Left = prevWidth;
+                        var run = new DrawingTextRunRenderItem(Bounds, displayText, rtIdx);
+                        //Potentially we could import styling here instead but that leads to multiple issues.
+                        //We may need to move it back here for auto-size reasons
 
-                        var baseLinePosition = _lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
-                        runItem.YPosition = baseLinePosition;
-
-                        runItem.Bounds.Width = lineFragment.Width;
+                        run.YPosition = _lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
+                        run.Bounds.Left = prevWidth;
+                        run.Bounds.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
+
+                        Runs.Add(run);
                     }
                     lineIdx++;
                 }
@@ -450,43 +430,22 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Bounds.Width = widthOfLargestLine;
         }
 
-        bool TryImportParagraphTextRunsSettings(ExcelDrawingParagraph p, string textIfEmpty, LineFragmentOutput lineFrag)
+        double CalculatePrevWidthBasedOnAlignment(double lineDist)
         {
-            if(p == null)
+            double prevWidth = 0;
+            if (HorizontalAlignment == TextAlignment.Center)
             {
-                return false;
+                //Calculate difference in widths and split to get offset between leftmost position and current line
+                prevWidth = lineDist / 2;
+            }
+            else if (HorizontalAlignment == TextAlignment.Right)
+            {
+                //Note that the actual bounds with the space will be outside max bounds.
+                //This appears to be how excel does it
+                prevWidth = lineDist;
             }
 
-            string displayText = lineFrag.Text;
-
-            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
-            {
-                //Import fallback text with paragraph settings
-                ImportTextRunFromDefaultParaProps(displayText, p.DefaultRunProperties);
-                return true;
-            }
-            else if (p.TextRuns.Count != 0)
-            {
-                //Import textruns as-is
-                var txtRuns = p.TextRuns;
-
-                var rtIdx = _layoutSystem.InputFragments.IndexOf(lineFrag.OriginalTextFragment);
-
-                if (rtIdx > txtRuns.Count - 1)
-                {
-                    //Add new text with existing text settings
-                    ImportTextRunFromFont(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
-                    return true;
-                }
-                else
-                {
-                    //Import Paragraph text run
-                    ImportTextRunFromParagraphTextRun(txtRuns[rtIdx], displayText);
-                    return true;
-                }
-            }
-
-            return false;
+            return prevWidth;
         }
 
         void SetHorizontalAlignment(double widthOfLargestLine, bool textIfEmptyIsNull)

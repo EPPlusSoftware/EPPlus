@@ -11,24 +11,84 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     internal class DrawingTextRunRenderItem : TextRunRenderItem
     {
         /// <summary>
+        /// Most basic of all textruns without even a font
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="text"></param>
+        internal DrawingTextRunRenderItem(BoundingBox parent, string text, int origRtIndex) : base(parent, text, origRtIndex)
+        {
+
+        }
+
+        internal void ImportFontData(IFontFormatBase font)
+        {
+            InitializeBase(font);
+        }
+        /// <summary>
+        /// 
+        ///  baseFont is most likely a OpenTypeFontInfoBase made out of the font but we don't want to 'new' it every time we import
+        /// </summary>
+        /// <param name="run"></param>
+        /// <param name="baseFont"></param>
+        internal void ImportTextRunBase(ExcelParagraphTextRunBase run, IFontFormatBase baseFont)
+        {
+            InitializeBase(new OpenTypeFontInfoBase(run.GetMeasureFont()));
+            _currentText = string.IsNullOrEmpty(_currentText) ? run.Text : _currentText;
+            _isFirstInParagraph = run.IsFirstInParagraph;
+            _baseline = run.Baseline;
+            ImportExcelStyleInfo(run.Fill, run.FontItalic, run.FontBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
+            SetClippingHeightToCurrentTextBoxBottom((BoundingBox)Bounds.Parent);
+        }
+
+        /// <summary>
+        /// Text font holds style info.
+        /// baseFont is most likely a OpenTypeFontInfoBase made out of the font but we don't want to 'new' it every time we import
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="baseFont"></param>
+        internal void ImportExcelTextFont(ExcelTextFont font, IFontFormatBase baseFont)
+        {
+            InitializeBase(baseFont);
+            _baseline = font.Baseline;
+
+            //Adjusts visual font size for sub and superscript
+            if (_baseline != 0)
+            {
+                _measurementFont.Size *= (float)(1 - (Math.Abs(_baseline) / 100));
+            }
+            //Must be done after font adjustment
+            //Parent and clipping height must be calculated dependent on content
+            ImportExcelStyleInfo(font.Fill, font.Italic, font.Bold, font.UnderLine, font.UnderLineColor, font.Strike);
+            //Assumes texbox uses auto-size?
+            AdjustParentAndSetClippingHeight((BoundingBox)Bounds.Parent);
+        }
+
+        /// <summary>
         /// Import textrun with only font data
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="font"></param>
         /// <param name="displayText"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) : base(parent, font, displayText)
+        /// <param name="adjustParent"></param>
+        internal DrawingTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText, bool adjustParent = true) : base(parent, font, displayText)
         {
             //Parent and clipping height must be calculated dependent on content
-            AdjustParentAndSetClippingHeight(parent);
+            if (adjustParent)
+            {
+                AdjustParentAndSetClippingHeight(parent);
+            }
+            else
+            {
+                //If auto-size is not on?
+                SetClippingHeightToCurrentTextBoxBottom(parent);
+            }
             //Since only font there is no direct style info to import
         }
 
@@ -71,11 +131,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             //This one cannot change parent size as it is pre-determined. No autosize etc. therefore no AdjustParentAndSetClippingHeight and different clipping height.
 
-            //To get clipping height we need to get the textbody bounds
-            if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
-            {
-                ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
-            }
+            SetClippingHeightToCurrentTextBoxBottom(parent);
         }
 
         private void ImportExcelStyleInfo(ExcelDrawingFill fill, bool italic, bool bold, eUnderLineType uType, Color uColor, eStrikeType strikeType)
@@ -115,6 +171,15 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _underLineType = (UnderLineType)uType;
             _underlineColor = uColor;
             _strikeType = (StrikeType)strikeType;
+        }
+
+        void SetClippingHeightToCurrentTextBoxBottom(BoundingBox parent)
+        {
+            //To get clipping height we need to get the textbody bounds
+            if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
+            {
+                ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -111,6 +110,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     {
         public override RenderItemType Type => RenderItemType.TextRun;
 
+        public int OriginalRtIdx { get; private set; } = -1;
+
         protected string _originalText;
         public string _currentText { get; protected set; }
 
@@ -123,7 +124,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected internal bool _isItalic = false;
         protected internal bool _isBold = false;
-        protected internal UnderLineType _underLineType;
+        protected internal UnderLineType _underLineType = UnderLineType.None;
         protected internal StrikeType _strikeType;
         protected internal Color _underlineColor;
         protected internal double _baseline;
@@ -133,6 +134,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public TextRunRenderItem(BoundingBox parent) : base(parent)
         {
             Bounds.Name = "TextRun";
+        }
+
+        public TextRunRenderItem(BoundingBox parent, string text, int origRtIdx) : base(parent)
+        {
+            Bounds.Name = "TextRun";
+            _currentText = text;
+            OriginalRtIdx = origRtIdx;
+        }
+
+        internal protected void InitializeBase(IFontFormatBase font)
+        {
+            //Should be ascent-only?
+            Bounds.Height = font.Size;
+            FontSizeInPixels = ((double)font.Size).PointToPixel(true);
+            _measurementFont = font;
         }
 
         /// <summary>
@@ -167,11 +183,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public TextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) 
             : this(parent, displayText, displayText, font)
         {
-            //Dash is default but we know there is no underline in our input here
-            _underLineType = UnderLineType.None;
+            ////Dash is default but we know there is no underline in our input here
+            //_underLineType = UnderLineType.None;
         }
         public TextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) 
-            : this(parent, displayText, string.IsNullOrEmpty(displayText) ? text : displayText, font)
+            : this(parent, text, string.IsNullOrEmpty(displayText) ? text : displayText, font)
         {
         }
 
