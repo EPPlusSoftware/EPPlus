@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "X",
+        EPPlusVersion = "8.6",
         Description = "Wraps a row or column vector into a 2D array of the specified number of rows per column.",
         SupportsArrays = true)]
     internal class WrapCols : WrapFunctionBase
