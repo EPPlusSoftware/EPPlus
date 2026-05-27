@@ -28,6 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
         protected const int TotalDepthNoTotals = 0;
         protected const int TotalDepthGrandOnly = 1;
 
+        private InMemoryRange _allValuesRangeCache;
+        private List<object[]> _allValuesCacheKey;
+
         protected List<string> ResolveFunctionHeaders(List<LambdaCalculator> functions)
         {
             var names = functions
@@ -252,10 +255,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
                             var result = new object[nValCols];
                             for (int col = 0; col < nValCols; col++)
                             {
-                                var colValues = row.Values
-                                    .Select(v => new object[] { v[col] })
-                                    .ToList();
-                                result[col] = Aggregate(f, colValues, context,
+                                result[col] = Aggregate(f, row.Values, col, context,
                                     f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                             }
                             return result;
@@ -270,10 +270,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
                         var result = new object[nValCols];
                         for (int col = 0; col < nValCols; col++)
                         {
-                            var colValues = allVals
-                                .Select(v => new object[] { v[col] })
-                                .ToList();
-                            result[col] = Aggregate(f, colValues, context,
+                            result[col] = Aggregate(f, allVals, col, context,
                                 f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                         }
                         return result;
@@ -291,10 +288,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
                         var result = new object[nValCols];
                         for (int col = 0; col < nValCols; col++)
                         {
-                            var colValues = allVals
-                                .Select(v => new object[] { v[col] })
-                                .ToList();
-                            result[col] = Aggregate(f, colValues, context,
+                            result[col] = Aggregate(f, allVals, col, context,
                                 f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                         }
                         return result;
@@ -311,28 +305,53 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
             return level.Children.SelectMany(c => GetAllValues(c)).ToList();
         }
 
-        protected object Aggregate(LambdaCalculator calculator, List<object[]> values, ParsingContext context, List<object[]> allValues = null)
+        private static InMemoryRange BuildRangeFromList(List<object[]> values)
         {
             int nRows = values.Count;
             int nCols = values.Count > 0 ? values[0].Length : 1;
-
             var range = new InMemoryRange(nRows, (short)nCols);
             for (int row = 0; row < nRows; row++)
                 for (int col = 0; col < nCols; col++)
                     range.SetValue(row, col, values[row][col]);
+            return range;
+        }
+
+        protected object Aggregate(LambdaCalculator calculator, List<object[]> values, ParsingContext context, List<object[]> allValues = null)
+        {
+            var range = BuildRangeFromList(values);
 
             calculator.BeginCalculation();
             calculator.SetVariableValue(0, range, DataType.ExcelRange, context);
 
             if (calculator.NumberOfVariables > 1 && allValues != null)
             {
-                int allRows = allValues.Count;
-                int allCols = allValues.Count > 0 ? allValues[0].Length : 1;
-                var allRange = new InMemoryRange(allRows, (short)allCols);
-                for (int row = 0; row < allRows; row++)
-                    for (int col = 0; col < allCols; col++)
-                        allRange.SetValue(row, col, allValues[row][col]);
-                calculator.SetVariableValue(1, allRange, DataType.ExcelRange, context);
+                // Cacha: om vi får samma allValues-referens som förra gången,
+                // återanvänd den InMemoryRange vi redan byggt.
+                if (!ReferenceEquals(_allValuesCacheKey, allValues))
+                {
+                    _allValuesRangeCache = BuildRangeFromList(allValues);
+                    _allValuesCacheKey = allValues;
+                }
+                calculator.SetVariableValue(1, _allValuesRangeCache, DataType.ExcelRange, context);
+            }
+            return calculator.Execute(context).ResultValue;
+        }
+
+        protected object Aggregate(LambdaCalculator calculator, List<object[]> values, int colIndex, ParsingContext context, List<object[]> allValues = null)
+        {
+            var range = BuildRangeFromColumn(values, colIndex);
+
+            calculator.BeginCalculation();
+            calculator.SetVariableValue(0, range, DataType.ExcelRange, context);
+
+            if (calculator.NumberOfVariables > 1 && allValues != null)
+            {
+                if (!ReferenceEquals(_allValuesCacheKey, allValues))
+                {
+                    _allValuesRangeCache = BuildRangeFromList(allValues);
+                    _allValuesCacheKey = allValues;
+                }
+                calculator.SetVariableValue(1, _allValuesRangeCache, DataType.ExcelRange, context);
             }
             return calculator.Execute(context).ResultValue;
         }
@@ -424,6 +443,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
             }
 
             return ordered?.ToList() ?? rows;
+        }
+
+        private static InMemoryRange BuildRangeFromColumn(List<object[]> values, int colIndex)
+        {
+            int nRows = values.Count;
+            var range = new InMemoryRange(nRows, 1);
+            for (int row = 0; row < nRows; row++)
+                range.SetValue(row, 0, values[row][colIndex]);
+            return range;
         }
 
         private IEnumerable<GroupRow> CollectLeafRows(GroupLevel level)

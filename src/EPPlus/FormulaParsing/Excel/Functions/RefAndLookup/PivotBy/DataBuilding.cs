@@ -70,15 +70,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 if (!rowLeafDict.ContainsKey(rowKey))
                 {
                     var leaf = new GroupLevel { Key = rowKeyParts[rowKeyParts.Length - 1] };
-                    rowLeafDict[rowKey] = new LeafWithPath(leaf, rowKeyParts);
+                    rowLeafDict[rowKey] = new LeafWithPath(leaf, rowKeyParts, rowKey);
                     rowLeafOrder.Add(rowKey);
                 }
                 var rowLeafEntry = rowLeafDict[rowKey];
-                var existingRow = rowLeafEntry.Leaf.Rows.FirstOrDefault(rw => MakePivotKey(rw.KeyParts) == rowKey);
-                if (existingRow == null)
+                GroupRow existingRow;
+                if (rowLeafEntry.Leaf.Rows.Count == 0)
                 {
                     existingRow = new GroupRow { KeyParts = rowKeyParts };
                     rowLeafEntry.Leaf.Rows.Add(existingRow);
+                }
+                else
+                {
+                    existingRow = rowLeafEntry.Leaf.Rows[0];
                 }
                 existingRow.Values.Add(vals);
 
@@ -86,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 if (!colLeafDict.ContainsKey(colKey))
                 {
                     var leaf = new GroupLevel { Key = colKeyParts[colKeyParts.Length - 1] };
-                    colLeafDict[colKey] = new LeafWithPath(leaf, colKeyParts);
+                    colLeafDict[colKey] = new LeafWithPath(leaf, colKeyParts, colKey);
                     colLeafOrder.Add(colKey);
                 }
 
@@ -120,8 +124,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 var result = new object[nValCols];
                 for (int col = 0; col < nValCols; col++)
                 {
-                    var colValues = allVals.Select(v => new object[] { v[col] }).ToList();
-                    result[col] = Aggregate(f, colValues, context,
+                    result[col] = Aggregate(f, allVals, col, context,
                         f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
                 }
                 return result;

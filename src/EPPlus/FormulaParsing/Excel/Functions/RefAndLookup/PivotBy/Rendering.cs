@@ -22,6 +22,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 {
     internal partial class PivotBy
     {
+        private Dictionary<string, List<object[]>> _colTotalsCache;
+        private Dictionary<string, List<object[]>> _rowTotalsCache;
+
         private List<object[]> ResolveRelativeToValues(
             RelativeTo relativeTo,
             LeafWithPath colLeaf,
@@ -34,28 +37,41 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
         {
             switch (relativeTo)
             {
-                case RelativeTo.ColumnTotals: // 0 — default
-                    {
-                        // Nämnare = alla rader för denna kolumn (kolumnens totalsumma)
-                        string colKey = MakePivotKey(colLeaf.Path);
-                        return pivotMap.Values
-                            .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
-                                ? cv
-                                : Enumerable.Empty<object[]>())
-                            .ToList();
-                    }
-                case RelativeTo.RowTotals: // 1
-                    {
-                        if (!pivotMap.TryGetValue(rowKey, out var colMap))
-                            return null;
+case RelativeTo.ColumnTotals: // 0 — default
+    {
+        string colKey = colLeaf.PivotKey;
 
-                        return colMap.Values
-                            .SelectMany(vals => vals)
-                            .ToList();
-                    }
+        if (_colTotalsCache != null && _colTotalsCache.TryGetValue(colKey, out var cached))
+            return cached;
+
+        var list = pivotMap.Values
+            .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
+                ? cv
+                : Enumerable.Empty<object[]>())
+            .ToList();
+
+        if (_colTotalsCache != null)
+            _colTotalsCache[colKey] = list;
+        return list;
+    }
+case RelativeTo.RowTotals: // 1
+    {
+        if (_rowTotalsCache != null && _rowTotalsCache.TryGetValue(rowKey, out var cached))
+            return cached;
+
+        if (!pivotMap.TryGetValue(rowKey, out var colMap))
+            return null;
+
+        var list = colMap.Values
+            .SelectMany(vals => vals)
+            .ToList();
+
+        if (_rowTotalsCache != null)
+            _rowTotalsCache[rowKey] = list;
+        return list;
+    }
                 case RelativeTo.GrandTotals: // 2
                     {
-                        // Nämnare = alla värden i hela datasetet
                         return args.AllValuesInOrder;
                     }
                 case RelativeTo.ParentColTotal:
@@ -63,35 +79,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         if (!pivotMap.TryGetValue(rowKey, out var colMap))
                             return null;
 
-                        // En kolumnnivå = ingen riktig föräldragrupp finns.
-                        // Faller tillbaka på RowTotals: nämnare = radens totalsumma över ALLA kolumner.
                         if (colLeaf.Path.Length <= 1)
                         {
                             return colMap.Values
                                 .SelectMany(vals => vals)
                                 .ToList();
                         }
-
-                        // Flernivå: nämnare = radens värden inom förälderns kolumngrupp.
-                        // Föräldergruppen är hela kolumnvägen UTOM sista nivån.
+                       
                         var parentPrefix = GetParentPrefix(colLeaf.Path);
                         var siblingLeaves = colLeaves
                             .Where(l => HasParentPrefix(l.Path, parentPrefix))
                             .ToList();
 
                         return siblingLeaves
-                            .Where(leaf => colMap.ContainsKey(MakePivotKey(leaf.Path)))
-                            .SelectMany(leaf => colMap[MakePivotKey(leaf.Path)])
+                            .Where(leaf => colMap.ContainsKey(leaf.PivotKey))
+                            .SelectMany(leaf => colMap[leaf.PivotKey])
                             .ToList();
                     }
                 case RelativeTo.ParentRowTotal: // 4
                     {
-                        // Nämnare = sibling-radernas värden för denna kolumn,
-                        // där sibling = rader med samma föräldraprefix.
-                        string colKey = MakePivotKey(colLeaf.Path);
-
-                        // En radnivå = ingen riktig föräldragrupp finns.
-                        // Faller tillbaka på hela kolumnen.
+                        string colKey = colLeaf.PivotKey;
+                    
                         if (rowPath == null || rowPath.Length <= 1)
                         {
                             return pivotMap.Values
@@ -104,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         var parentPrefix = GetParentPrefix(rowPath);
                         return rowLeaves
                             .Where(rl => HasParentPrefix(rl.Path, parentPrefix))
-                            .Select(rl => MakePivotKey(rl.Path))
+                            .Select(rl => rl.PivotKey)
                             .Where(rk => pivotMap.ContainsKey(rk))
                             .SelectMany(rk => pivotMap[rk].TryGetValue(colKey, out var cv)
                                 ? cv
@@ -193,8 +201,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             return groupRowKeys
                 .SelectMany(rk => pivotMap.TryGetValue(rk, out var cm)
                     ? siblingColLeaves
-                        .Where(cl => cm.ContainsKey(MakePivotKey(cl.Path)))
-                        .SelectMany(cl => cm[MakePivotKey(cl.Path)])
+                        .Where(cl => cm.ContainsKey(cl.PivotKey))
+                        .SelectMany(cl => cm[cl.PivotKey])
                     : Enumerable.Empty<object[]>())
                 .ToList();
         }
@@ -232,19 +240,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
         {
             switch (relativeTo)
             {
-                case RelativeTo.RowTotals: // 1
+                case RelativeTo.RowTotals:
                     {
                         return pivotMap.Values
                             .SelectMany(colMap => colMap.Values.SelectMany(v => v))
                             .ToList();
                     }
-                case RelativeTo.GrandTotals: // 2
+                case RelativeTo.GrandTotals: 
                     {
                         return args.AllValuesInOrder;
                     }
                 case RelativeTo.ParentColTotal:
                     {
-                        // En kolumnnivå = faller tillbaka på GrandTotals som nämnare
                         if (colLeaf.Path.Length <= 1)
                         {
                             return pivotMap.Values
@@ -260,13 +267,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         return pivotMap.Values
                             .SelectMany(cm => siblingLeaves
                                 .Where(leaf => cm.ContainsKey(MakePivotKey(leaf.Path)))
-                                .SelectMany(leaf => cm[MakePivotKey(leaf.Path)]))
+                                .SelectMany(leaf => cm[leaf.PivotKey]))
                             .ToList();
                     }
-                case RelativeTo.ParentRowTotal: // 4
+                case RelativeTo.ParentRowTotal: 
                     {
-                        // Total-raden: kolumn / kolumn = 1
-                        string colKey = MakePivotKey(colLeaf.Path);
+                        string colKey = colLeaf.PivotKey;
                         var colVals = pivotMap.Values
                             .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
                                 ? cv
@@ -291,6 +297,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             PivotByArgs args,
             ParsingContext context)
         {
+            if (args.Functions.Any(f => f.EtaFunction?.Name == "PERCENTOF"))
+            {
+                _colTotalsCache = new Dictionary<string, List<object[]>>(StringComparer.OrdinalIgnoreCase);
+                _rowTotalsCache = new Dictionary<string, List<object[]>>(StringComparer.OrdinalIgnoreCase);
+            }
+            else
+            {
+                _colTotalsCache = null;
+                _rowTotalsCache = null;
+            }
+
             int nRowKeyCols = args.RowFields.Size.NumberOfCols;
             int nColKeyRows = args.ColFields.Size.NumberOfCols;
             int nRowLeaves = rowLeaves.Count;
@@ -323,8 +340,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             foreach (var group in colGroups)
             {
                 var groupLeaves = group.ToList();
-                // När grand total står till vänster speglas även subtotalens position:
-                // subtotalen kommer FÖRE sina leaves i varje grupp (matchar Excel).
                 if (showColSubtotals && colTotalAtLeft)
                     colEntries.Add(new ColEntry { IsSubtotal = true, GroupKey = group.Key, GroupLeaves = groupLeaves });
                 foreach (var leaf in groupLeaves)
@@ -365,21 +380,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
             int grandTotalCol = colTotalAtLeft ? dataColStart : dataColStart + nDataCols;
             int colOffset = colTotalAtLeft ? colsPerEntry : 0;
 
-            // --- Fältnamnrad ---
+            // --- Headerrows ---            
             if (showFieldHeaders)
             {
-                // Init hela raden med string.Empty. Osatta (null) celler renderas
-                // som 0 av Excel när spill-arrayen visas - så även celler utanför
-                // fältnamns-positionerna måste vara explicit tomma strängar.
                 for (int i = 0; i < totalCols; i++)
                     result.SetValue(0, i, string.Empty);
 
-                // Skriv sedan ut kolumnfältnamnen på sina positioner.
                 for (int i = 0; i < args.ColFields.Size.NumberOfCols; i++)
                     result.SetValue(0, dataColStart + colOffset + i, args.ColFields.GetOffset(0, i));
             }
-
-            // --- Rubrikrader ---
+            
             for (int level = 0; level < nColKeyRows; level++)
             {
                 int outputLevel = fieldHeaderRows + level;
@@ -396,8 +406,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
 
                     for (int f = 0; f < colsPerEntry; f++)
                     {
-                        // Kolumnnyckeln upprepas över alla funktionskolumner i HSTACK-gruppen.
-                        // (För VSTACK och singel-funktion är colsPerEntry = 1 så loopen körs bara en gång.)
                         result.SetValue(outputLevel, col, val);
                         col++;
                     }
@@ -409,15 +417,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     int totalCol = grandTotalCol;
                     for (int f = 0; f < colsPerEntry; f++)
                     {
-                        // "Total"-labeln upprepas över alla funktionskolumner i totalgruppen,
-                        // men bara på den översta nivån (level == 0); djupare nivåer är tomma.
                         result.SetValue(outputLevel, totalCol, level == 0 ? colTotalLabel : string.Empty);
                         totalCol++;
                     }
                 }
             }
 
-            // --- HSTACK: Funktionsnamnsrad ---
+            // --- HSTACK ---
             if (isHStack)
             {
                 var functionNames = ResolveFunctionHeaders(args.Functions);
@@ -478,14 +484,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 }
             }
 
-            // --- Grand total-rad överst ---
             if (rowTotalAtTop && showRowTotal)
                 WriteGrandTotalRow(result, fieldHeaderRows + nColKeyRows + functionHeaderRows + headerDataRows,
                                    colEntries, colLeaves, pivotMap, args, context,
                                    nRowKeyCols, functionNameCol, dataColStart, colOffset,
                                    grandTotalCol, showColTotal, colsPerEntry, isVStack, functionColOffset);
 
-            // --- Datarader ---
+            // --- Datarows ---
             var functionNames2 = ResolveFunctionHeaders(args.Functions);
             int currentOutputRow = dataRowStart;
 
@@ -496,8 +501,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     ? groupLeaves[0].Path.Take(rowSubtotalDepth - 1).ToArray()
                     : null;
 
-                // När grand total står överst speglas även subtotalens position:
-                // subtotalen kommer FÖRE sina leaves i varje grupp (matchar Excel).
                 if (showRowSubtotals && rowTotalAtTop)
                 {
                     for (int fi = 0; fi < rowsPerLeaf; fi++)
@@ -520,14 +523,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 {
                     var rowPath = rowLeafEntry.Path;
                     var rowLeaf = rowLeafEntry.Leaf;
-                    string rowKey = MakePivotKey(rowPath);
+                    string rowKey = rowLeafEntry.PivotKey;
 
                     for (int fi = 0; fi < nFunctions; fi++)
                     {
                         int outputRow = currentOutputRow + fi;
                         var f = args.Functions[fi];
 
-                        // Fyll alla radnyckelkolumner – även de som saknas i rowPath
                         for (int k = 0; k < nRowKeyCols; k++)
                             result.SetValue(outputRow, k, k < rowPath.Length ? rowPath[k] : string.Empty);
 
@@ -542,7 +544,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                 var groupVals = entry.GroupLeaves
                                     .SelectMany(l =>
                                     {
-                                        var ck = MakePivotKey(l.Path);
+                                        var ck = l.PivotKey;
                                         if (pivotMap.TryGetValue(rowKey, out var cm) && cm.TryGetValue(ck, out var cv))
                                             return cv;
                                         return Enumerable.Empty<object[]>();
@@ -572,7 +574,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                             }
                             else
                             {
-                                string colKey = MakePivotKey(entry.Leaf.Path);
+                                string colKey = entry.Leaf.PivotKey;
 
                                 if (isHStack)
                                 {
@@ -640,7 +642,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     currentOutputRow += rowsPerLeaf;
                 }
 
-                // --- Radsubtotalrad för gruppen (efter leaves i normal layout) ---
                 if (showRowSubtotals && !rowTotalAtTop)
                 {
                     for (int fi = 0; fi < rowsPerLeaf; fi++)
@@ -659,8 +660,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     currentOutputRow += rowsPerLeaf;
                 }
             }
-
-            // --- Grand total-rad nederst ---
+            
             if (!rowTotalAtTop && showRowTotal)
                 WriteGrandTotalRow(result, grandTotalRow, colEntries, colLeaves, pivotMap, args, context,
                                    nRowKeyCols, functionNameCol, dataColStart, colOffset,
@@ -690,14 +690,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
              LambdaCalculator f,
              string functionName)
         {
-            // Radnycklar: känd prefix + tomt för resten
             for (int k = 0; k < nRowKeyCols; k++)
                 result.SetValue(outputRow, k, k < groupKeyParts.Length ? groupKeyParts[k] : string.Empty);
 
             if (isVStack)
                 result.SetValue(outputRow, functionNameCol, functionName);
 
-            var groupRowKeys = groupLeaves.Select(l => MakePivotKey(l.Path)).ToList();
+            var groupRowKeys = groupLeaves.Select(l => l.PivotKey).ToList();
 
             int col = dataColStart + colOffset;
             foreach (var entry in colEntries)
@@ -710,13 +709,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         {
                             if (!pivotMap.TryGetValue(rk, out var cm)) return Enumerable.Empty<object[]>();
                             return entry.GroupLeaves
-                                .SelectMany(gl => cm.TryGetValue(MakePivotKey(gl.Path), out var cv)
+                                .SelectMany(gl => cm.TryGetValue(gl.PivotKey, out var cv)
                                     ? cv : Enumerable.Empty<object[]>());
                         }).ToList();
                 }
                 else
                 {
-                    string colKey = MakePivotKey(entry.Leaf.Path);
+                    string colKey = entry.Leaf.PivotKey;
                     cellVals = groupRowKeys
                         .SelectMany(rk =>
                         {
@@ -750,11 +749,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                                     ? entry.GroupLeaves
                                         .SelectMany(gl =>
                                             pivotMap.Values.SelectMany(cm =>
-                                                cm.TryGetValue(MakePivotKey(gl.Path), out var cv)
+                                                cm.TryGetValue(gl.PivotKey, out var cv)
                                                     ? cv : Enumerable.Empty<object[]>()))
                                         .ToList()
                                     : pivotMap.Values
-                                        .SelectMany(cm => cm.TryGetValue(MakePivotKey(entry.Leaf.Path), out var cv2)
+                                        .SelectMany(cm => cm.TryGetValue(entry.Leaf.PivotKey, out var cv2)
                                             ? cv2 : Enumerable.Empty<object[]>())
                                         .ToList(),
                             _ => args.AllValuesInOrder
@@ -839,7 +838,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                         var groupVals = entry.GroupLeaves
                             .SelectMany(l =>
                             {
-                                var ck = MakePivotKey(l.Path);
+                                var ck = l.PivotKey;
                                 return pivotMap.Values
                                     .SelectMany(cm => cm.TryGetValue(ck, out var cv)
                                         ? cv : Enumerable.Empty<object[]>());
@@ -869,7 +868,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                     }
                     else
                     {
-                        string colKey = MakePivotKey(entry.Leaf.Path);
+                        string colKey = entry.Leaf.PivotKey;
                         var allValsForCol = pivotMap.Values
                             .SelectMany(cm => cm.TryGetValue(colKey, out var cv)
                                 ? cv : Enumerable.Empty<object[]>())
@@ -962,7 +961,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
                 path[parentPath.Length] = level.Key;
 
                 if (level.IsLeaf)
-                    result.Add(new LeafWithPath(level, path));
+                    result.Add(new LeafWithPath(level, path, MakePivotKey(path)));
                 else
                     result.AddRange(CollectLeavesWithPath(level.Children, path));
             }

@@ -17,11 +17,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
     {
         public GroupLevel Leaf { get; private set; }
         public object[] Path { get; private set; }
+        public string PivotKey { get; private set; }
 
-        public LeafWithPath(GroupLevel leaf, object[] path)
+        public LeafWithPath(GroupLevel leaf, object[] path, string pivotKey)
         {
             Leaf = leaf;
             Path = path;
+            PivotKey = pivotKey;
         }
-    }    
+    }
 }
