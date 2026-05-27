@@ -38,13 +38,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             double result;
-            if(decimals >= 0)
+            if (decimals >= 0)
             {
-                result = Math.Round(number, decimals);
+                result = Math.Round(number, decimals, MidpointRounding.AwayFromZero);
             }
             else
             {
-                result = Math.Round(number * System.Math.Pow(10, decimals)) / System.Math.Pow(10, decimals);
+                var factor = Math.Pow(10, decimals);
+                result = Math.Round(number * factor, MidpointRounding.AwayFromZero) / factor;
             }
             return CreateResult(result.ToString(GetFormatString(decimals), CultureInfo.CurrentCulture), DataType.String);
         }
