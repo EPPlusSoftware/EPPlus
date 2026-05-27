@@ -344,7 +344,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _lines = WrapFragmentsToLines();
 
             //In points
-            double baseLinePosition = 0;
             double widthOfLargestLine = 0;
             //has value if there is linespacing otherwise isNaN
             //Don't do this on the actual property as a paragraph can have a fallback linespacing without it being applied
@@ -379,35 +378,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     {
                         var displayText = lineFragment.Text;
 
-                        if (p != null && p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+                        var wasImported = TryImportParagraphTextRunsSettings(p, textIfEmpty, lineFragment);
+                        if (wasImported == false)
                         {
-                            //Import fallback text with paragraph settings
-                            AddText(displayText, p.DefaultRunProperties);
-                        }
-                        else if (p != null && p.TextRuns.Count != 0)
-                        {
-                            var rtIdx = _layoutSystem.InputFragments.IndexOf(lineFragment.OriginalTextFragment);
-                            //var rtIdx = _newTextFragments.IndexOf(lineFragment.OriginalTextFragment);
-                            if (rtIdx > p.TextRuns.Count - 1)
-                            {
-                                AddText(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
-                            }
-                            else
-                            {
-                                //Import Paragraph text run
-                                var idx = _layoutSystem.InputFragments.IndexOf(lineFragment.OriginalTextFragment);
-                                AddRenderItemTextRun(p.TextRuns[idx], displayText);
-                            }
-                        }
-                        else
-                        {
+                            //Was not able to import text. Input may not have been a full OOXML paragraph.
                             //Import fallback with default settings from constructor
                             AddText(displayText, new OpenTypeFontInfoBase(ParagraphFont));
                         }
+
                         DrawingTextRunRenderItem runItem = (DrawingTextRunRenderItem)Runs.Last();
                         runItem.Bounds.Left = prevWidth;
 
-                        baseLinePosition = _lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
+                        var baseLinePosition = _lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
                         runItem.YPosition = baseLinePosition;
 
                         runItem.Bounds.Width = lineFragment.Width;
@@ -418,6 +400,44 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
             Bounds.Height = _lines.GetHeightOfCollection(lineSpacingResult);
             Bounds.Width = widthOfLargestLine;
+        }
+
+        bool TryImportParagraphTextRunsSettings(ExcelDrawingParagraph p, string textIfEmpty, LineFragmentOutput lineFrag)
+        {
+            if(p == null)
+            {
+                return false;
+            }
+
+            string displayText = lineFrag.Text;
+
+            if (p.TextRuns.Count == 0 && string.IsNullOrEmpty(textIfEmpty) == false)
+            {
+                //Import fallback text with paragraph settings
+                AddText(displayText, p.DefaultRunProperties);
+                return true;
+            }
+            else if (p.TextRuns.Count != 0)
+            {
+                //Import textruns as-is
+                var txtRuns = p.TextRuns;
+
+                var rtIdx = _layoutSystem.InputFragments.IndexOf(lineFrag.OriginalTextFragment);
+                if (rtIdx > txtRuns.Count - 1)
+                {
+                    AddText(displayText, (IFontFormatBase)_newTextFragments[rtIdx]);
+                    return true;
+                }
+                else
+                {
+                    //Import Paragraph text run
+                    var idx = _layoutSystem.InputFragments.IndexOf(lineFrag.OriginalTextFragment);
+                    AddRenderItemTextRun(txtRuns[idx], displayText);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         void SetHorizontalAlignment(double widthOfLargestLine, bool textIfEmptyIsNull)
