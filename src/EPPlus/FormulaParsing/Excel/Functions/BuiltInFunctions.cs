@@ -374,6 +374,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["hstack"] = new Hstack();
             Functions["getpivotdata"] = new GetPivotData();
             Functions["image"] = new ImageFunction();
+            Functions["wraprows"] = new WrapRows();
+            Functions["wrapcols"] = new WrapCols();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();
