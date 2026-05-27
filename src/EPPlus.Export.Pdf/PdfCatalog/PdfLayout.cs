@@ -1,8 +1,10 @@
 ﻿using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public Dictionary<string, MergedCellDrawInfo> MergedCells;
 
         public double[] RowHeights;
+
+        public double HeadingWidth;
+        public double HeadingHeight;
+
     }
 
     internal struct Pages
@@ -42,6 +48,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public int Width;
         public int Height;
         public bool IsCommentsPage;
+        public string HeadingFontName;
+        public float HeadingFontSize;
+        public ExcelFill HeadingFill;
         public int Count
         {
             get { return Width * Height; }
@@ -85,8 +94,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     //var drawnMergedCellsText = new HashSet<string>();
                     //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
                     //pageLayout.AddChild(contentLayout);
-                    double y = pageSettings.ContentBounds.Top;
-                    double x = pageSettings.ContentBounds.Left;
+                    double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth;
+                    double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight;
+                    if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
+                        AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
+
+                    double y = contentStartY;//pageSettings.ContentBounds.Top;
+                    double x = contentStartX;//pageSettings.ContentBounds.Left;
                     //create cells & headings if exsists
                     for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
                     {
@@ -174,7 +188,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             x += map.ColumnWidth;
                         }
                         y -= rowHeight;
-                        x = pageSettings.ContentBounds.Left;
+                        x = contentStartX; //pageSettings.ContentBounds.Left;
                     }
 
                     if (page.HeaderFooters != null)
@@ -359,6 +373,133 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         private static bool HasDiagonalBorder(PdfCellStyle style) => style?.Diagonal != null && style.Diagonal.Style != ExcelBorderStyle.None;
 
+        private static void AddHeadingCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, double contentStartX, double contentStartY, double headingWidth, double headingHeight, string fontName, float fontSize, ExcelFill fill)
+        {
+            // An empty style gives a transparent/white fill with no border.
+            // TODO: replace with a proper light-grey fill once PdfCellStyle supports
+            //       creating standalone fills without a backing ExcelFillXml object.
+            var headingStyle = new PdfCellStyle();
+            headingStyle.xfFill = fill;
+
+            // ── Corner cell (top-left, where the two strips intersect) ──────────────────────────
+            var cornerFill = new PdfCellLayout(dictionaries, headingStyle,
+                pageSettings.ContentBounds.Left, pageSettings.ContentBounds.Top,
+                headingWidth, headingHeight);
+            cornerFill.Name = "Heading_Corner";
+            cornerFill.UpdateShadingPositionMatrix(pageSettings);
+            pageLayout.AddChild(cornerFill);
+
+            // ── Column headings (one per data column, spanning the top strip) ───────────────────
+            double x = contentStartX;
+            for (int col = page.FromColumn; col <= page.ToColumn; col++)
+            {
+                var mapCell = page.Map[page.FromRow, col];
+                double colWidth = mapCell?.ColumnWidth ?? 0d;
+                if (colWidth == 0d) { x += colWidth; continue; } // hidden column — skip
+
+                string colLetter = ExcelCellBase.GetColumnLetter(col);
+
+                var colFill = new PdfCellLayout(dictionaries, headingStyle,
+                    x, pageSettings.ContentBounds.Top, colWidth, headingHeight);
+                colFill.Name = "Heading_Col_" + colLetter;
+                colFill.UpdateShadingPositionMatrix(pageSettings);
+                pageLayout.AddChild(colFill);
+
+                var colCell = CreateHeadingPdfCell(pageSettings, dictionaries,
+                    colLetter, ExcelHorizontalAlignment.Center,
+                    colWidth, headingHeight, fontName, fontSize);
+
+                if (colCell.TextLines != null && colCell.TextLines.Count > 0)
+                {
+                    var info = new MergedCellDrawInfo { X = x, Y = pageSettings.ContentBounds.Top, Width = colWidth, Height = headingHeight };
+                    var colText = new PdfCellContentLayout(pageSettings, dictionaries, colCell, info,
+                        x, pageSettings.ContentBounds.Top, colWidth, headingHeight);
+                    colText.Name = "Heading_Col_" + colLetter + "_Text";
+                    colText.GidsAndCharMap(dictionaries);
+                    pageLayout.AddChild(colText);
+                }
+                AddHeadingCellBorder(pageLayout, x, pageSettings.ContentBounds.Top, colWidth, headingHeight);
+                x += colWidth;
+            }
+            // ── Row headings (one per data row, spanning the left strip) ─────────────────────────
+            double y = contentStartY;
+            for (int row = page.FromRow; row <= page.ToRow; row++)
+            {
+                double rowHeight = page.RowHeights[row - page.FromRow];
+                if (rowHeight == 0d) { y -= rowHeight; continue; } // hidden row — skip
+
+                string rowNum = row.ToString();
+
+                var rowFill = new PdfCellLayout(dictionaries, headingStyle,
+                    pageSettings.ContentBounds.Left, y, headingWidth, rowHeight);
+                rowFill.Name = "Heading_Row_" + rowNum;
+                rowFill.UpdateShadingPositionMatrix(pageSettings);
+                pageLayout.AddChild(rowFill);
+
+                var rowCell = CreateHeadingPdfCell(pageSettings, dictionaries,
+                    rowNum, ExcelHorizontalAlignment.Center,
+                    headingWidth, rowHeight, fontName, fontSize);
+
+                if (rowCell.TextLines != null && rowCell.TextLines.Count > 0)
+                {
+                    var info = new MergedCellDrawInfo { X = pageSettings.ContentBounds.Left, Y = y, Width = headingWidth, Height = rowHeight };
+                    var rowText = new PdfCellContentLayout(pageSettings, dictionaries, rowCell, info,
+                        pageSettings.ContentBounds.Left, y, headingWidth, rowHeight);
+                    rowText.Name = "Heading_Row_" + rowNum + "_Text";
+                    rowText.GidsAndCharMap(dictionaries);
+                    pageLayout.AddChild(rowText);
+                }
+                AddHeadingCellBorder(pageLayout, pageSettings.ContentBounds.Left, y, headingWidth, rowHeight);
+                y -= rowHeight;
+            }
+        }
+
+        private static void AddHeadingCellBorder(PdfPageLayout pageLayout, double x, double y, double width, double height)
+        {
+            double right = x + width;
+            double bottom = y - height;
+            pageLayout.BorderLines.Add(new GridLine(x, y, right, y));       // top
+            pageLayout.BorderLines.Add(new GridLine(x, bottom, right, bottom));  // bottom
+            pageLayout.BorderLines.Add(new GridLine(x, y, x, bottom));  // left
+            pageLayout.BorderLines.Add(new GridLine(right, y, right, bottom));  // right
+        }
+
+
+        private static PdfCell CreateHeadingPdfCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, string text, ExcelHorizontalAlignment hAlign, double width, double height, string fontName, float fontSize)
+        {
+            var cell = new PdfCell();
+            cell.ColumnWidth = width;
+            cell.Width = width;
+            cell.Height = height;
+            cell.Text = text;
+            cell.CellStyle = new PdfCellStyle();
+            cell.ContentAligmnet = new PdfCellAlignmentData();
+            cell.ContentAligmnet.HorizontalAlignment = hAlign;
+            cell.ContentAligmnet.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+            cell.ContentAligmnet.WrapText = false;
+            if (!string.IsNullOrEmpty(text))
+            {
+                var tf = new TextFragment();
+                tf.Font = new MeasurementFont
+                {
+                    FontFamily = fontName,
+                    Size = fontSize,
+                    Style = MeasurementFontStyles.Regular
+                };
+                tf.Text = text;
+                tf.RichTextOptions.Bold = false;
+                tf.RichTextOptions.Italic = false;
+                tf.RichTextOptions.UnderlineType = 12;  // none
+                tf.RichTextOptions.StrikeType = 1;   // none
+                cell.TextFragments = new List<TextFragment> { tf };
+                PdfTextShaper.LayoutAndShapeText(pageSettings, dictionaries, cell);
+            }
+            return cell;
+        }
+
+
+
+
         // TODO Count total pages when creating them isntead of looping them here.
         private static int GetTotalPages(List<Pages> pdfPages)
         {
@@ -375,18 +516,22 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             List<Pages> PagesCollection = new List<Pages>();
             foreach (var pdfSheet in pdfSheets)
             {
-                foreach (var range in pdfSheet.Ranges)
+                for (int ri = 0; ri < pdfSheet.Ranges.Count; ri++)
                 {
-                    var pages = GetNumberOfPages(pageSettings, pdfSheet, range);
+                    var range = pdfSheet.Ranges[ri];
+                    var pages = GetNumberOfPages(pageSettings, pdfSheet, ref range);
                     pages = AssignRangeToPages(pageSettings, range, pages);
                     pages = MapPage(range, pages);
                     pages = GetHeaderFooter(range, pages, pdfSheet);
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
+                    pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
+                    pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
+                    pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
                 {
-                    var pages = GetNumberOfPages(pageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
+                    var pages = GetNumberOfPages(pageSettings, pdfSheet, ref pdfSheet.CommentsAndNotes);
                     pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
                     pages.IsCommentsPage = true;
@@ -432,7 +577,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
                     // --- Y ---
                     // Replace the * 15d line with a sum of real row heights
-                    double drawY = pageSettings.ContentBounds.Top;
+                    double drawY = pageSettings.ContentBounds.Top - page.HeadingHeight;
                     for (int r = page.FromRow; r < row; r++)
                     {
                         drawY -= range.RowHeights[r - range.Range._fromRow].Height;
@@ -460,7 +605,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             int colCount = page.ToColumn - page.FromColumn + 1;
             var colX = new double[colCount];
-            double x = pageSettings.ContentBounds.Left;
+            double x = pageSettings.ContentBounds.Left + page.HeadingWidth;
             for (int col = page.FromColumn; col <= page.ToColumn; col++)
             {
                 colX[col - page.FromColumn] = x;
@@ -470,7 +615,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return colX;
         }
 
-        internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet,  PdfRange range)
+        internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, ref PdfRange range)
         {
             //calculte pages needed for this range, add in col headings for width, row headings for height. THis is where we also add print headings later on. Autofit on row here too later on.
             var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.ContentBounds.Width));
@@ -538,6 +683,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
             }
 
+            for (int k = 0; k < pages.Page.Length; k++)
+            {
+                var p = pages.Page[k];
+                p.HeadingWidth = addedWidth;
+                p.HeadingHeight = addedHeight;
+                pages.Page[k] = p;
+            }
             pdfPages = pages;
             return pdfPages;
         }

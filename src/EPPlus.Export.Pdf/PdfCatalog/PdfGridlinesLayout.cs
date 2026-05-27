@@ -41,7 +41,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             // colX[ci] = X of left edge of column ci (0-based within page).
             // colX[colCount] = X of right edge of last column.
             var colX = new double[colCount + 1];
-            colX[0] = pageSettings.ContentBounds.Left;
+            colX[0] = pageSettings.ContentBounds.Left + page.HeadingWidth;
             for (int ci = 0; ci < colCount; ci++)
             {
                 var cell = page.Map[page.FromRow, page.FromColumn + ci];
@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             // rowY[rowCount] = Y of bottom edge of last row.
             // Y decreases downward (PDF coordinate system used throughout GetCatalog).
             var rowY = new double[rowCount + 1];
-            rowY[0] = pageSettings.ContentBounds.Top;
+            rowY[0] = pageSettings.ContentBounds.Top - page.HeadingHeight;
 
            for (int ri = 0; ri < rowCount; ri++)
             {
@@ -63,9 +63,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             // Always computed so BorderLines is available for margin clipping regardless of
             // whether ShowGridLines is on. When borderOnly is true we stop here.
 
-            double frameLeft = colX[0];
+            double frameLeft = pageSettings.ContentBounds.Left; //colX[0];
             double frameRight = colX[colCount];
-            double frameTop = rowY[0];
+            double frameTop = pageSettings.ContentBounds.Top; //rowY[0];
             double frameBottom = rowY[rowCount];
 
             pageLayout.BorderLines.Add(new GridLine(frameLeft, frameTop, frameRight, frameTop));

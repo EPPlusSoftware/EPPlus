@@ -196,7 +196,7 @@ namespace EPPlusTest.PDF
             range.TotalWidth = 800;
             range.TotalHeight = 1600;
 
-            var result = PdfLayout.GetNumberOfPages(pageSettings, pws, range);
+            var result = PdfLayout.GetNumberOfPages(pageSettings, pws, ref range);
         }
 
         [TestMethod]
