@@ -20,9 +20,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Text,
        EPPlusVersion = "8.6",
-       Description = "Returns a URL-encoded string, replacing characters that are not allowed in URLs with their percent-encoded equivalents.")]
+       Description = "Returns a URL-encoded string, replacing characters that are not allowed in URLs with their percent-encoded equivalents.", 
+       SupportsArrays = true)]
     internal class EncodeUrl : ExcelFunction
     {
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
 

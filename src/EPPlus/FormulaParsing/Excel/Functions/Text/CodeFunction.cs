@@ -18,10 +18,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Text,
-       EPPlusVersion = "8",
-       Description = "Returns the numeric code for the first character of a text string.")]
+       EPPlusVersion = "8.6",
+       Description = "Returns the numeric code for the first character of a text string.", SupportsArrays = true)]
     internal class CodeFunction : ExcelFunction
     {
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override int ArgumentMinLength => 1;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)

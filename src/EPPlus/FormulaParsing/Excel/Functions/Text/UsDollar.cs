@@ -15,7 +15,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 [FunctionMetadata(
    Category = ExcelFunctionCategory.Text,
    EPPlusVersion = "8.6",
-   Description = "Legacy Lotus 1-2-3 compatibility function. Behaves identically to DOLLAR.")]
+   Description = "Legacy Lotus 1-2-3 compatibility function. Behaves identically to DOLLAR.",
+   SupportsArrays = true)]
 internal class UsDollar : Dollar
 {
 }
