@@ -11,7 +11,8 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.ImageRenderer.RenderItems;
-using System.Drawing;
+
+using System.Text;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
@@ -37,7 +38,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// </summary>
         Shape
     }
-    public class  OffsetRectangle
+    public class  OffsetRectangle : RenderStyle
     {
         /// <summary>
         /// Top offset in percentage
@@ -56,33 +57,55 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// </summary>
         public double RightOffset { get; set; }
 
+        public override string GetKey()
+        {
+            return $"{TopOffset} {BottomOffset} {LeftOffset} {RightOffset}";
+        }
     }
-    public class RenderLinearGradientSettings
+    public class RenderLinearGradientSettings : RenderStyle
     {
         public double Angle { get; set; }  
         public bool Scaled { get; set; }
+
+        public override string GetKey()
+        {
+            return $"{Angle} {Scaled}";
+        }
     }
-    public class RenderGradientFill
+    public class RenderGradientFill : RenderStyle
     {
         public RenderGradientFill()
         {
             
         }
-        //public RenderGradientFill(List<Color> colors, List<double> stops)
-        //{
-        //    for (int i = 0; i < stops.Count; i++)
-        //    {
-        //        var c = new GradientFillColor(stops[i], colors[i]);
-        //        Colors.Add(c);
-        //    }
-        //}
-
-        //public ExcelDrawingGradientFill Settings { get; set; }
         public List<GradientFillColor> Colors { get; set; } = new List<GradientFillColor>();
         public ShadePath ShadePath { get; set; }
         public OffsetRectangle FocusPoint { get; set; } = new OffsetRectangle();
         public OffsetRectangle TileRectangle { get; set; } = new OffsetRectangle();
         public RenderLinearGradientSettings LinearSettings { get; private set; } = new RenderLinearGradientSettings();
+        public override string GetKey()
+        {
+            var sb = new StringBuilder();
+            foreach(var c in Colors)
+            {
+                sb.Append(c.Color.ToArgb());
+                sb.Append(' ');
+                sb.Append(c.Position);
+            }
+            sb.Append(ShadePath);
 
+            sb.Append(' ');
+
+            sb.Append(FocusPoint.GetKey());
+            sb.Append(' ');
+            sb.Append(LinearSettings.GetKey());
+
+            return sb.ToString();
+        }
+    }
+
+    public abstract class RenderStyle
+    {
+        public abstract string GetKey();
     }
 }

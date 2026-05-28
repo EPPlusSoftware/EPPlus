@@ -401,6 +401,11 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 shadowColor = "#" + tc.ToArgb().ToString("x8").Substring(2);
             }
         }
+
+        internal string GetFilterKey()
+        {
+            return $"{GlowColor} + {GlowRadius} { OuterShadowEffect.GetKey()}";
+        }
     }
     /// <summary>
     /// Base class for any item rendered.
