@@ -22,17 +22,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="text"></param>
+        /// /// <param name="origRtIndex"></param>
         internal DrawingTextRunRenderItem(BoundingBox parent, string text, int origRtIndex) : base(parent, text, origRtIndex)
         {
 
         }
 
-        internal void ImportFontData(IFontFormatBase font)
-        {
-            InitializeBase(font);
-        }
         /// <summary>
-        /// 
+        ///  TextRunBase holds style info
         ///  baseFont is most likely a OpenTypeFontInfoBase made out of the font but we don't want to 'new' it every time we import
         /// </summary>
         /// <param name="run"></param>

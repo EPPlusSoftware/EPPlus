@@ -1,8 +1,13 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Fonts.OpenType.Integration.RichText;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -40,28 +45,220 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         ThaiDistributed
     }
+
+    public enum TextLineSpacing
+    {
+        /// <summary>
+        /// Single line spacing
+        /// </summary>
+        Single,
+        /// <summary>
+        /// 1.5 lines
+        /// </summary>
+        OneAndAHalf,
+        /// <summary>
+        /// Double line spacing
+        /// </summary>
+        Double,
+        /// <summary>
+        /// Exact point spacing
+        /// </summary>
+        Exactly,
+        /// <summary>
+        /// Multiple line spacing
+        /// </summary>
+        Multiple
+    }
+
     public abstract class ParagraphRenderItem : RenderItem
     {
+        protected double LeftMargin { get; set; }
+        protected double RightMargin { get; set; }        
+        protected double LineSpacingAscendantOnly { get; set; }
+        protected bool IsFirstParagraph { get; set; }
+
+        protected LayoutSystem _layoutSystem;
+
+        protected List<ITextFragmentBase> _textFragments;
+
+        public double ParagraphLineSpacing { get; protected set; }
+        public TextAlignment HorizontalAlignment { get; protected set; }
+        public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
+        public TextLineCollection Lines { get; protected set; }
+        public bool DisplayBounds { get; set; } = false;
+        public MeasurementFont ParagraphFont;
+        public override RenderItemType Type => RenderItemType.Paragraph;
+
+        public bool AutoSize = false;
+
+        public OpenTypeFontInfoBase DefaultParagraphFont;
+
+        protected double ParentMaxWidth;
+        protected double ParentMaxHeight;
+
+        protected RenderTextBody ParentTextBody { get; set; }
+
+        protected double? _lsMultiplier = null;
+
+        protected bool LinespacingIsExact
+        {
+            get
+            {
+                return _lsMultiplier.HasValue == false;
+            }
+        }
+
+        protected TextLineSpacing _lsType;
+
+        protected double? _centerAdjustment;
+
+
         protected ParagraphRenderItem(BoundingBox parent) : base(parent)
         {
             Bounds.Name = "Paragraph";
         }
-        protected TextLayoutEngine Layout { get; set; }
-        protected double LeftMargin { get; set; }
-        protected double RightMargin { get; set; }        
 
-        protected double LineSpacingAscendantOnly { get; set; }
-        protected bool IsFirstParagraph { get; set; }
-        protected List<string> ParagraphLines { get; set; } = new List<string>();
-        protected List<string> TextRunDisplayText { get; set; } = new List<string>();
-        public double ParagraphLineSpacing { get; protected set; }
-        public TextAlignment HorizontalAlignment { get; protected set; }
-        public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
-        public List<TextLineSimple> Lines { get; set; }
-        public List<double> SpaceWidthsPerLine = new List<double>();
-        public bool DisplayBounds { get; set; } = false;
-        public MeasurementFont ParagraphFont;
-        public override RenderItemType Type => RenderItemType.Paragraph;
+        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, bool setFallbackDefaultFont = true) : base(parent)
+        {
+            SetParentProps(textBody);
+            Bounds.Name = "Paragraph";
+
+            if(setFallbackDefaultFont)
+            {
+                var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+                ParagraphFont = defaultFont;
+                DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
+            }
+        }
+
+        internal double GetAlignmentHorizontal(TextAlignment txAlignment)
+        {
+            double x = 0;
+            switch (txAlignment)
+            {
+                case TextAlignment.Left:
+                default:
+                    x = Bounds.Left + LeftMargin;
+                    break;
+                case TextAlignment.Center:
+                    x = (Bounds.Right / 2) + LeftMargin - RightMargin;
+                    break;
+                case TextAlignment.Right:
+                    x = Bounds.Right - RightMargin;
+                    break;
+            }
+
+            return x;
+        }
+
+
+        void SetParentProps(RenderTextBody textBody)
+        {
+            ParentTextBody = textBody;
+            ParentMaxWidth = textBody.MaxWidth;
+            ParentMaxHeight = textBody.MaxHeight;
+            AutoSize = textBody.AutoSize;
+        }
+
+        TextLineCollection WrapFragmentsToLines(List<ITextFragmentBase>? fragments = null)
+        {
+            if (fragments == null && _layoutSystem == null)
+            {
+                fragments = _textFragments;
+                _layoutSystem = new LayoutSystem(fragments);
+            }
+            var maxWidthPoints = Math.Round(ParentMaxWidth, 0, MidpointRounding.AwayFromZero);
+            return _layoutSystem.Wrap(maxWidthPoints);
+        }
+
+        private void AddTextLinesAndSpacingBase(string textIfEmpty)
+        {
+            Lines = WrapFragmentsToLines();
+
+            //In points
+            double widthOfLargestLine = 0;
+            //has value if there is linespacing otherwise isNaN
+            //Don't do this on the actual property as a paragraph can have a fallback linespacing without it being applied
+            //(e.g. paragraph linespacing is set in the ooxml but the paragraph contains no textruns)
+            //We should not change the 'ParagraphLineSpacing' variable directly here
+            double lineSpacingResult = LinespacingIsExact ? ParagraphLineSpacing : double.NaN;
+
+            if (Lines != null && Lines.Count != 0)
+            {
+                widthOfLargestLine = Lines.LargestWidthWithoutSpace;
+
+                SetHorizontalAlignment(widthOfLargestLine, string.IsNullOrEmpty(textIfEmpty));
+
+                int lineIdx = 0;
+                foreach (var line in Lines)
+                {
+                    double lineDist = widthOfLargestLine - line.GetWidthWithoutTrailingSpaces();
+                    double prevWidth = CalculatePrevWidthBasedOnAlignment(lineDist);
+
+                    foreach (var lineFragment in line.LineFragments)
+                    {
+                        var displayText = lineFragment.Text;
+
+                        int rtIdx = -1;
+                        if (_layoutSystem != null && lineFragment.OriginalTextFragment != null && _layoutSystem.InputFragments.Count > 0)
+                        {
+                            rtIdx = _layoutSystem.InputFragments.IndexOf(lineFragment.OriginalTextFragment);
+                        }
+
+                        var run = CreateTextRun(Bounds, displayText, rtIdx);
+                        //Potentially we could import styling here instead but that leads to multiple issues.
+                        //We may need to move it back here for auto-size reasons
+
+                        run.YPosition = Lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
+                        run.Bounds.Left = prevWidth;
+                        run.Bounds.Width = lineFragment.Width;
+                        prevWidth += lineFragment.Width;
+
+                        Runs.Add(run);
+                    }
+                    lineIdx++;
+                }
+            }
+            Bounds.Height = Lines.GetHeightOfCollection(lineSpacingResult);
+            Bounds.Width = widthOfLargestLine;
+        }
+
+        protected double CalculatePrevWidthBasedOnAlignment(double lineDist)
+        {
+            double prevWidth = 0;
+            if (HorizontalAlignment == TextAlignment.Center)
+            {
+                //Calculate difference in widths and split to get offset between leftmost position and current line
+                prevWidth = lineDist / 2;
+            }
+            else if (HorizontalAlignment == TextAlignment.Right)
+            {
+                //Note that the actual bounds with the space will be outside max bounds.
+                //This appears to be how excel does it
+                prevWidth = lineDist;
+            }
+
+            return prevWidth;
+        }
+
+        protected void SetHorizontalAlignment(double widthOfLargestLine, bool textIfEmptyIsNull)
+        {
+            if (HorizontalAlignment == TextAlignment.Center && AutoSize && _centerAdjustment != null && textIfEmptyIsNull)
+            {
+                //Bounds of the paragraph should be bounds of the text itself.
+                //Therefore we must know the starting point to set accurate left and offset from left.
+                Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+            }
+            else
+            {
+                //Bounds of the paragraph should be bounds of the text itself.
+                //Therefore we must know the starting point to set accurate left and offset from left.
+                Bounds.Left = 0;
+            }
+        }
+
+        protected abstract TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx);
+
         //public ParagraphRenderItem(TextBodyItem textBody, BoundingBox parent) : base(parent)
         //{
         //    ParentTextBody = textBody;
