@@ -294,7 +294,81 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
-        public void TestSimpleRichText()
+        public void TestGetSection()
+        {
+            List<string> txtLst = new List<string>() { "Hi ", "I am rich ", "But I am Even Richer " };
+            var rt = new OpenTypeRichTextBase(txtLst[0], "Roboto", 12f);
+            var rtSecond = new OpenTypeRichTextBase(txtLst[1], "Archivo Narrow", 11f);
+            var rtThird = new OpenTypeRichTextBase(txtLst[2], "Roboto", 18f);
+
+            rtThird.Italic = true;
+            rtThird.Bold = true;
+
+            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird };
+
+            var paragraph = new LayoutSystem(rtLst);
+
+            var fulltext = paragraph.GetTextOfAllTextRuns();
+
+            var joinedInput = string.Join("", txtLst.ToArray());
+            var joinedOutput = string.Join("", fulltext.ToArray());
+
+            Assert.AreEqual(joinedInput, joinedOutput);
+
+            paragraph.Wrap(92.976377953d);
+        }
+
+        [TestMethod]
+        public void TestGetSectionWithIndividualChars()
+        {
+            List<string> txtLst = new List<string>() { "A", "B", "C", "D" };
+            var rt = new OpenTypeRichTextBase(txtLst[0], "Roboto", 12f);
+            var rtSecond = new OpenTypeRichTextBase(txtLst[1], "Archivo Narrow", 11f);
+            var rtThird = new OpenTypeRichTextBase(txtLst[2], "Roboto", 18f);
+            var rtFourth = new OpenTypeRichTextBase(txtLst[3], "Archivo Narrow", 18f);
+
+
+            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird, rtFourth };
+
+            var pIndividual = new LayoutSystem(rtLst);
+
+            var joinedInput = string.Join("", txtLst.ToArray());
+            var joinedOutput = string.Join("", pIndividual.GetTextOfAllTextRuns().ToArray());
+
+
+            Assert.AreEqual(joinedInput, joinedOutput);
+        }
+
+        [TestMethod]
+        public void TestGetSectionMixed()
+        {
+            var txtLstMixed = new List<string>() { "Abc", "D", "Efg", "H" };
+            var rt = new OpenTypeRichTextBase(txtLstMixed[0], "Roboto", 12f);
+            var rtSecond = new OpenTypeRichTextBase(txtLstMixed[1], "Archivo Narrow", 11f);
+            var rtThird = new OpenTypeRichTextBase(txtLstMixed[2], "Roboto", 18f);
+            var rtFourth = new OpenTypeRichTextBase(txtLstMixed[3], "Archivo Narrow", 18f);
+
+            var rtLstMixed = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird, rtFourth };
+            var pMixed = new LayoutSystem(rtLstMixed);
+
+            var InMix = string.Join("", txtLstMixed.ToArray());
+            var OutMix = string.Join("", pMixed.GetTextOfAllTextRuns().ToArray());
+
+            Assert.AreEqual(InMix, OutMix);
+        }
+
+        [TestMethod]
+        public void SubStringTest()
+        {
+            string testStr = "abcd";
+            var strA = testStr.Substring(0, 1);
+            var strEmpty = testStr.Substring(0, 0);
+            var strLast = testStr.Substring(4, 0);
+            var strLast2 = testStr.Substring(3, 1);
+        }
+
+        [TestMethod]
+        public void TestSimpleRichText2()
         {
             //var rtCollection = new RichTextCollectionBase();
             //var someTextRt = rtCollection.Add("SomeText", true);

@@ -20,12 +20,13 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         //The text of the entire paragraph
         //regardless of linebreaking or style runs
         string FullText;
-        List<CharInfo> AllChars = new List<CharInfo>();
+        public List<CharInfo> AllChars { get; private set; }= new List<CharInfo>();
         List<int> SeparatorIndicies = new List<int>();
         List<int> ParagraphSeparatorIndicies = new List<int>();
         List<Paragraph> SubParagraphs = new List<Paragraph>();
-        List<StyleRun> StyleRuns = new List<StyleRun>();
+        public List<StyleRun> StyleRuns { get; private set; } = new List<StyleRun>();
         int FullTextLength = 0;
+        int FullTextLastIdx = 0;
 
         TextLineCollection WrappedLineCollection;
 
@@ -100,6 +101,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 fragmentIdx++;
             }
             FullTextLength = allCharIdx;
+            FullTextLastIdx = FullTextLength - 1;
         }
 
         //Split paragraphs along paragraph separators
@@ -150,7 +152,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         {
                             //We have moved one beyond the last char to apply the given style.
                             //Therefore -1 (unless it is on the very first idx)
-                            var styleRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx - 1, 1), GetFullText, GetSection);
+                            var styleRun = new StyleRun(currFragIdx, lastRunIdx, currIdx - 1, GetFullText, GetSection);
                             StyleRuns.Add(styleRun);
                             //TODO: Technically this should not get its own list it should refer back here
                             SubParagraphs[i].AddStyleRun(styleRun);
@@ -190,6 +192,13 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         inputFrag.AscentPoints = shaper.GetAscentInPoints(inputFrag.RichTextOptions.Size);
                         inputFrag.DescentPoints = shaper.GetDescentInPoints(inputFrag.RichTextOptions.Size);
 
+                        int charIdx = styleRun.FullTextStart;
+                        foreach (var width in charWidths)
+                        {
+                            AllChars[charIdx].Width = width;
+                            charIdx++;
+                        }
+
                         styleRun.SetCharWidths(charWidths, spaceWidth);
                     }
                     else
@@ -227,22 +236,44 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             var layoutEngine = new TextLayoutEngine(shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
+            if(wrappedLines.Count > 1)
+            {
+                //This could be done during wrapping technically for optimization
+                for (int i = 1; i < wrappedLines.Count; i++)
+                {
+                    var startIdx = wrappedLines[i].InternalLineFragments[0].StartOriginal;
+                    var len = wrappedLines[i].Text.Length;
+                    for(int j = startIdx; j< (startIdx + len); j++)
+                    {
+                        AllChars[j].Line = i;
+                    }
+                }
+            }
+
             WrappedLineCollection = new TextLineCollection(wrappedLines, InputFragments);
             return WrappedLineCollection;
         }
 
-        string GetSection(int startIdx, int endIdx)
+        /// <summary>
+        /// This returns the first letter with input 0,0
+        /// The first two with 0,1 etc.
+        /// </summary>
+        /// <param name="startIdx"></param>
+        /// <param name="endIdx"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        private string GetSection(int startIdx, int endIdx)
         {
+            if(startIdx > FullTextLastIdx)
+            {
+                throw new InvalidOperationException($"Cannot GetSection. StartIdx: '{startIdx}' is larger than LastIdx: '{FullTextLastIdx}' ");
+            }
+            if(endIdx > FullTextLastIdx)
+            {
+                throw new InvalidOperationException($"Cannot GetSection. EndIdx: '{endIdx}' is larger than LastIdx: '{FullTextLastIdx}'");
+            }
             var len = endIdx - startIdx + 1;
-            len = len + startIdx > FullText.Length ? FullText.Length : len;
-            //var len = endIdx - startIdx;
-            //len = len < 0 ? len + 1 : len;
-            //len = len + startIdx > FullText.Length ? startIdx-len : len;
-            //if (startIdx == 0)
-            //{
-
-            //}
-            //var len = Math.Max(1, endIdx - startIdx + 1);
+            len = len + startIdx > (FullText.Length-1) ? FullTextLength - startIdx : len;
             var subString = FullText.Substring(startIdx, len);
             return subString;
         }
