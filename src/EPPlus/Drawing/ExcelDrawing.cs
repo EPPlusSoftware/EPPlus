@@ -2417,7 +2417,6 @@ namespace OfficeOpenXml.Drawing
             else if (this.DrawingType == eDrawingType.Chart)
             {
                 var cr = new ChartRenderer((ExcelChart)this);
-                cr.AppendItems();
 
                 var sb = new StringBuilder();
 

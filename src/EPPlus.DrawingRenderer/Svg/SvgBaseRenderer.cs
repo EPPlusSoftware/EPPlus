@@ -64,7 +64,10 @@ namespace EPPlus.DrawingRenderer.Svg
                 sb.Append($" transform-origin=\"{item.TransformOrigin.X.ToString(CultureInfo.InvariantCulture)} {item.TransformOrigin.Y.ToString(CultureInfo.InvariantCulture)}\" ");
             }
 
-            sb.Append($"stroke-miterlimit =\"{item.StrokeMiterLimit}\" ");
+            if (item.StrokeMiterLimit.HasValue)
+            {
+                sb.Append($"stroke-miterlimit =\"{item.StrokeMiterLimit}\" ");
+            }
         }
         protected void RenderCompoundItems(T li, double? borderWidth, string color, string filter)
         {
