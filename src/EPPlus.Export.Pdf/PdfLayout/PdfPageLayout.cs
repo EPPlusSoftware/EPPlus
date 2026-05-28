@@ -80,6 +80,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double ContentX;
         public double ContentHeight;
 
+        public double HeadingWidth;
+        public double HeadingHeight;
+
         public bool isCommentsPage = false;
 
         public PdfPageLayout(double x, double y, double width, double height)

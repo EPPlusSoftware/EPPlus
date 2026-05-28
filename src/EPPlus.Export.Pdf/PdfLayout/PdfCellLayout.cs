@@ -33,7 +33,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public double LeftTextSpillLength = 0d;
         public double RightTextSpillLength = 0d;
         public bool delete = false;
-        public bool isHeading = false;
+        public bool IsHeading = false;
 
         public PdfCellLayout(PdfDictionaries dictionaries, PdfCellStyle CellStyle, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)

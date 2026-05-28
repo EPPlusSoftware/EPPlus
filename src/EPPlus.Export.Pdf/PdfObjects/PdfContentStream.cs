@@ -567,10 +567,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 right = System.Math.Max(right, System.Math.Max(line.X1, line.X2));
             }
             var pad = GridLine.Width * 4;
-            var x = left - pad;
+            var x = left + pl.HeadingWidth - pad;
             var y = bottom - pad;
-            var width = (right - left) + pad * 2;
-            var height = (top - bottom) + pad * 2;
+            var width = (right - left - pl.HeadingWidth) + pad * 2;
+            var height = (top - pl.HeadingHeight - bottom) + pad * 2;
             commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
         }
 

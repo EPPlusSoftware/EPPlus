@@ -90,6 +90,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
                     pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
+                    pageLayout.HeadingWidth = page.HeadingWidth;
+                    pageLayout.HeadingHeight = page.HeadingHeight;
                     var drawnMergedCells = new HashSet<string>();
                     //var drawnMergedCellsText = new HashSet<string>();
                     //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
@@ -402,6 +404,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 var colFill = new PdfCellLayout(dictionaries, headingStyle,
                     x, pageSettings.ContentBounds.Top, colWidth, headingHeight);
                 colFill.Name = "Heading_Col_" + colLetter;
+                colFill.IsHeading = true;
                 colFill.UpdateShadingPositionMatrix(pageSettings);
                 pageLayout.AddChild(colFill);
 
@@ -415,6 +418,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var colText = new PdfCellContentLayout(pageSettings, dictionaries, colCell, info,
                         x, pageSettings.ContentBounds.Top, colWidth, headingHeight);
                     colText.Name = "Heading_Col_" + colLetter + "_Text";
+                    colText.IsHeading = true;
                     colText.GidsAndCharMap(dictionaries);
                     pageLayout.AddChild(colText);
                 }
@@ -433,6 +437,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 var rowFill = new PdfCellLayout(dictionaries, headingStyle,
                     pageSettings.ContentBounds.Left, y, headingWidth, rowHeight);
                 rowFill.Name = "Heading_Row_" + rowNum;
+                rowFill.IsHeading = true;
                 rowFill.UpdateShadingPositionMatrix(pageSettings);
                 pageLayout.AddChild(rowFill);
 
@@ -446,6 +451,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     var rowText = new PdfCellContentLayout(pageSettings, dictionaries, rowCell, info,
                         pageSettings.ContentBounds.Left, y, headingWidth, rowHeight);
                     rowText.Name = "Heading_Row_" + rowNum + "_Text";
+                    rowText.IsHeading = true;
                     rowText.GidsAndCharMap(dictionaries);
                     pageLayout.AddChild(rowText);
                 }

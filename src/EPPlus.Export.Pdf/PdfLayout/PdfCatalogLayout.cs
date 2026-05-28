@@ -246,7 +246,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var cell = new PdfCellLayout(dictionaries, col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
                 cell.Name = col.Address;
                 cell.Z = 8;
-                cell.isHeading = true;
+                cell.IsHeading = true;
                 cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
                 cell.CellFillData.BackgroundColor = Color.White;
                 //Add text
@@ -294,7 +294,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 var cell = new PdfCellLayout(dictionaries, row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
                 cell.Name = j.ToString();
                 cell.Z = 8;
-                cell.isHeading = true;
+                cell.IsHeading = true;
                 cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
                 cell.CellFillData.BackgroundColor = Color.White;
                 //Add text
@@ -669,7 +669,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     else if (child is PdfCellLayout l)
                     {
-                        if (l.isHeading) continue;
+                        if (l.IsHeading) continue;
                         var localFromRow = l.cell._fromRow - page.FromRow;
                         var localFromCol = l.cell._fromCol - page.FromCol;
                         page.Map[localFromRow, localFromCol].Name = l.Name;

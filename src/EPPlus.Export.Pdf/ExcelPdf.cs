@@ -184,8 +184,9 @@ namespace EPPlus.Export.Pdf
         private void AddContent(Transform pageLayout, PdfPage page)
         {
             //var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
-            var cells = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && !(t is PdfCellContentLayout cc && cc.IsHeaderFooter)).GroupBy(t => t.Name);
+            var cells = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && !(t is PdfCellLayout cc && cc.IsHeading) && !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading))).GroupBy(t => t.Name);
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
+            var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var contentStream = new PdfContentStream(Document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
@@ -217,7 +218,21 @@ namespace EPPlus.Export.Pdf
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
-            if (PageSettings.ShowGridLines)
+            // Heading cells render outside the clip — no merged-cell content can obscure them.
+            foreach (var heading in headingLayouts)
+            {
+                contentStream.AddCommand($"% HEADING : {heading.Name}");
+                switch (heading)
+                {
+                    case PdfCellLayout layout:
+                        contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
+                    case PdfCellContentLayout contentLayout:
+                        contentStream.AddCellContentLayout(contentLayout, Dictionaries, PageSettings); break;
+                    case PdfCellBorderLayout borderLayout:
+                        contentStream.AddBorderLayout(borderLayout); break;
+                }
+            }
+            if (PageSettings.ShowGridLines || PageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
             }

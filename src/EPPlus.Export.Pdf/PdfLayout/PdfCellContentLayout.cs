@@ -35,6 +35,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public bool Clip;
         public Rect Clipping;
         public bool IsHeaderFooter;
+        public bool IsHeading;
         public PdfCellStyle CellStyle;
         public ExcelRangeBase cell;
         public TextLayoutEngine textLayoutEngine;
