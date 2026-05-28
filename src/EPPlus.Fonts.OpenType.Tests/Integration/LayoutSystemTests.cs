@@ -358,16 +358,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
-        public void SubStringTest()
-        {
-            string testStr = "abcd";
-            var strA = testStr.Substring(0, 1);
-            var strEmpty = testStr.Substring(0, 0);
-            var strLast = testStr.Substring(4, 0);
-            var strLast2 = testStr.Substring(3, 1);
-        }
-
-        [TestMethod]
         public void TestSimpleRichText2()
         {
             //var rtCollection = new RichTextCollectionBase();

@@ -102,6 +102,10 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             }
             FullTextLength = allCharIdx;
             FullTextLastIdx = FullTextLength - 1;
+            if(FullTextLength != 0 && FullTextLastIdx == 0)
+            {
+                FullTextLastIdx = 1;
+            }
         }
 
         //Split paragraphs along paragraph separators
@@ -195,8 +199,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         int charIdx = styleRun.FullTextStart;
                         foreach (var width in charWidths)
                         {
-                            AllChars[charIdx].Width = width;
-                            charIdx++;
+                            if (charIdx < AllChars.Count)
+                            {
+                                AllChars[charIdx].Width = width;
+                                charIdx++;
+                            }
                         }
 
                         styleRun.SetCharWidths(charWidths, spaceWidth);
