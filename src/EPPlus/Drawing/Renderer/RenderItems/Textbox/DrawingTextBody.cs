@@ -80,32 +80,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Paragraphs.Add(paragraph);
         }
 
-        public void AddParagraph(double startingY, string text = null)
-        {
-            var paragraph = CreateParagraph(this, Bounds, text);
-            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            paragraph.Bounds.Top = startingY;
-            Text = text;
-
-            if (AutoSize)
-            {
-                if (Paragraphs.Count == 0)
-                {
-                    Bounds.Height = paragraph.Bounds.Height;
-                }
-                else
-                {
-                    Bounds.Height += paragraph.Bounds.Height;
-                }
-
-                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
-                {
-                    Bounds.Width = paragraph.Bounds.Width;
-                }
-            }
-            Paragraphs.Add(paragraph);
-        }
-
         internal void SetHorizontalAlignmentPosition()
         {
             //if (AutoSize)
@@ -224,9 +198,15 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             return new DrawingParagraphRenderItem(textBody, parent, paragraph, textIfEmpty);
         }
 
-        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, BoundingBox parent, string textIfEmpty = "")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="textIfEmpty"></param>
+        /// <returns></returns>
+        protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "")
         {
-            return new DrawingParagraphRenderItem(textBody, parent, textIfEmpty);
+            return new DrawingParagraphRenderItem(this, parent, textIfEmpty);
         }
     }
 }

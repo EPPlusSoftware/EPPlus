@@ -282,7 +282,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             WrapStateRichText state)
         {
             state.CharIdxRt = 0;
-            var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
+            var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextFormat);
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
             var charWidths = GetCharWidthBuffer(len);

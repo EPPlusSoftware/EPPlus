@@ -30,7 +30,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         Top
     }
 
-    public class RenderTextBody : GroupRenderItem
+    public abstract class RenderTextBody : GroupRenderItem
     {
         public RenderTextBody(BoundingBox parent, bool autoSize)
         {
@@ -100,8 +100,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             //Set bounds position to be translation
             //Posibly remove translationOffset and make it always be bounds?
             //But then we will have an inaccurate bounding box if a child object has negative position.
-            TranslationOffset.Left = Bounds.Left;
-            TranslationOffset.Top = Bounds.Top;
+            //TranslationOffset.Left = Bounds.Left;
+            //TranslationOffset.Top = Bounds.Top;
 
             renderItems.Add(this);
             foreach (var item in Paragraphs)
@@ -109,5 +109,33 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 AddChildItem(item);
             }
         }
+
+        public void AddParagraph(double startingY, string text = null)
+        {
+            var paragraph = CreateParagraph(Bounds, text);
+            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
+            paragraph.Bounds.Top = startingY;
+            Text = text;
+
+            if (AutoSize)
+            {
+                if (Paragraphs.Count == 0)
+                {
+                    Bounds.Height = paragraph.Bounds.Height;
+                }
+                else
+                {
+                    Bounds.Height += paragraph.Bounds.Height;
+                }
+
+                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
+                {
+                    Bounds.Width = paragraph.Bounds.Width;
+                }
+            }
+            Paragraphs.Add(paragraph);
+        }
+
+        protected abstract ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "");
     }
 }

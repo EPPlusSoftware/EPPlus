@@ -177,6 +177,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             //In points
             double widthOfLargestLine = 0;
+            //Set to 0 then grow to size of content after wrap/measure
+            //This as an empty paragraph should have no real size
+            double combinedHeight = 0;
+
             //has value if there is linespacing otherwise isNaN
             //Don't do this on the actual property as a paragraph can have a fallback linespacing without it being applied
             //(e.g. paragraph linespacing is set in the ooxml but the paragraph contains no textruns)
@@ -186,6 +190,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             if (Lines != null && Lines.Count != 0)
             {
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
+                combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
                 SetHorizontalAlignment(widthOfLargestLine, string.IsNullOrEmpty(textIfEmpty));
 
@@ -219,8 +224,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     lineIdx++;
                 }
             }
-            Bounds.Height = Lines.GetHeightOfCollection(lineSpacingResult);
             Bounds.Width = widthOfLargestLine;
+            Bounds.Height = combinedHeight;
         }
 
         protected double CalculatePrevWidthBasedOnAlignment(double lineDist)

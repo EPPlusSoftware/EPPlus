@@ -31,16 +31,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rectItem.Height = 250;
             rectItem.FillColor = "darkblue";
 
-            var textBody = new RenderTextBody(baseGroup.Bounds, true);
+            //var textBody = new RenderTextBody(baseGroup.Bounds, true);
 
-            textBody.Text = "Hello";
+            //textBody.Text = "Hello";
             //var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
             
             //var para2 = new DrawingParagraphRenderItem(textBody, textBody.Bounds);
             //textBody.Paragraphs.Add
 
             baseGroup.AddChildItem(rectItem);
-            baseGroup.AddChildItem(textBody);
+            //baseGroup.AddChildItem(textBody);
 
             List<RenderItem> items = new List<RenderItem>() { baseGroup };
 
@@ -48,7 +48,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             var svg = sb.ToString();
 
-            var fi = GetOutputFile("svg/", "RectTestStandAlone.svg");
             SaveTextFileToWorkbook("svg\\rectStandalone.svg", svg);
         }
 
@@ -68,8 +67,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             background.Height = bounds.Height;
             background.FillColor = "aliceBlue";
 
-            var textBody = new RenderTextBody(baseGroup.Bounds, true);
+            //var textBody = new RenderTextBody(baseGroup.Bounds, true);
 
+            
             //textBody.
             //textBody.Text = "Hello";
             //var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
@@ -82,7 +82,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             //para.Runs.Add()
 
             //baseGroup.AddChildItem(background);
-            baseGroup.AddChildItem(textBody);
+            //baseGroup.AddChildItem(textBody);
 
             List<RenderItem> items = new List<RenderItem>() { baseGroup };
 
@@ -90,8 +90,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             var svg = sb.ToString();
 
-            var fi = GetOutputFile("svg/", "RectTestStandAlone.svg");
-            SaveTextFileToWorkbook("svg\\rectStandalone.svg", svg);
+
+            SaveTextFileToWorkbook("svg\\textBoxStandAlone.svg", svg);
         }
     }
 }

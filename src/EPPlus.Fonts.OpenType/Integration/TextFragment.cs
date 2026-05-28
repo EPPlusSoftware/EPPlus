@@ -40,7 +40,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// Legacy. This is to be replaced after PDF refactor is taken in
         /// </summary>
-        public MeasurementFont Font { get { return _mfFont; } set { _mfFont = value; base.RichTextOptions.SetFont(value); } }
+        public MeasurementFont Font { get { return _mfFont; } set { _mfFont = value; RichTextOptions.SetFont(value); } }
 
         public TextFragment(IRichTextInfoBase rtFormat) : base(rtFormat)
         {
@@ -54,18 +54,22 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Store rich-text info.
         /// We must extract font info from this but nothing else is supposed to be done with this within opentype
         /// </summary>
-        public new IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
+
+        public override IRichTextFormatBase RichTextFormat { get => RichTextOptions; set => RichTextOptions = (IRichTextInfoBase)value; }
+
+        public override float Size { get => RichTextOptions.Size; }
     }
 
     public class TextFragmentBase : ITextFragmentBase
     {
-        public string Text { get => RichTextOptions.Text; set => RichTextOptions.Text = value; }
+        public string Text { get => RichTextFormat.Text; set => RichTextFormat.Text = value; }
         /// <summary>
         /// Store rich-text info.
         /// We must extract font info from this but nothing else is supposed to be done with this within opentype
         /// but we hold the data so users may more easily recognize which rich text this is in the output.
         /// </summary>
-        public IRichTextFormatBase RichTextOptions { get; set; } = new OpenTypeRichTextBase();
+        public virtual IRichTextFormatBase RichTextFormat { get; set; } = new OpenTypeRichTextBase();
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
@@ -75,9 +79,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
         public TextFragmentBase(IRichTextFormatBase richText) 
         {
-            RichTextOptions = richText;
+            RichTextFormat = richText;
         }
-        public virtual float Size { get => RichTextOptions.Size; }
+        public virtual float Size { get => RichTextFormat.Size; }
     }
 
     ///// <summary>

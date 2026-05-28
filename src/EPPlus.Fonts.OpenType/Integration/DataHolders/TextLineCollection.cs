@@ -293,15 +293,15 @@ namespace EPPlus.Fonts.OpenType.Integration
             return position;
         }
 
-        public double GetHeightOfCollection(double exactLineSpacing = double.NaN)
+        public double GetHeightOfCollection(double? lsMultiplier, double exactLineSpacing = double.NaN)
         {
             double height = 0;
 
-            if(double.IsNaN(exactLineSpacing))
+            if(double.IsNaN(exactLineSpacing) && lsMultiplier.HasValue)
             {
                 foreach(var spacing in LinespacingPerLine)
                 {
-                    height += spacing;
+                    height += spacing * lsMultiplier.Value;
                 }
             }
             else
