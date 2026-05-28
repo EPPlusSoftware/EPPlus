@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
-    internal class PdfCatalog
+    public class PdfCatalog
     {
         internal PdfDictionaries Dictionaries = new PdfDictionaries();
         private bool AddTextForHeadings = true;
@@ -61,7 +61,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             sw.Start();
 
             //Auto-Fit Rows
-            PdfCalculateRowHeight.ResizeRowHeights(pdfSheet); //call a method that does this so we can use it for comments sheet aswell!
+            PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
             sw.Stop();
             var AutoFitRowTime = sw.ElapsedMilliseconds;
             sw.Reset();
@@ -88,7 +88,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
         }
 
-        public PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
+        internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
@@ -99,13 +99,28 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         //Create Layout Methods
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
-            PdfWorksheet[] pdfSheets = new PdfWorksheet[1]{ pdfSheet };
+            PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
             var Layout = PdfLayout.GetLayout(pageSettings, Dictionaries, pdfSheets);
             return Layout;
         }
 
         //Shape Text Methods
-        private void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        internal void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            // Pass 1: collect text per font
+            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(Dictionaries, cell));
+
+            // Pass 2: build one provider per font
+            foreach (var kvp in Dictionaries.Fonts)
+            {
+                Dictionaries.ShapedProviders[kvp.Key] = kvp.Value.fontSubsetManager.CreateSubsettedProvider();
+            }
+
+            // Pass 3: shape text using the pre-built providers
+            IterateCells(pdfSheet, cell => PdfTextShaper.ShapeText(pageSettings, Dictionaries, cell));
+        }
+
+        private void IterateCells(PdfWorksheet pdfSheet, System.Action<PdfCell> action)
         {
             foreach (var range in pdfSheet.Ranges)
             {
@@ -113,29 +128,21 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 {
                     for (int j = range.Map.FromColumn; j <= range.Map.ToColumn; j++)
                     {
-                        var cell = range.Map[i, j];
-                        PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
+                        action(range.Map[i, j]);
                     }
                 }
             }
+
             if (pdfSheet.CommentsAndNotes.Map != null)
             {
                 for (int i = pdfSheet.CommentsAndNotes.Map.FromRow; i <= pdfSheet.CommentsAndNotes.Map.ToRow; i++)
                 {
                     for (int j = pdfSheet.CommentsAndNotes.Map.FromColumn; j <= pdfSheet.CommentsAndNotes.Map.ToColumn; j++)
                     {
-                        var cell = pdfSheet.CommentsAndNotes.Map[i, j];
-                        PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, cell);
+                        action(pdfSheet.CommentsAndNotes.Map[i, j]);
                     }
                 }
             }
-            //if (pdfSheet.HeaderFooters != null)
-            //{
-            //    foreach (var hf in pdfSheet.HeaderFooters.PdfHeaderFooterEntries)
-            //    {
-            //        PdfTextShaper.LayoutAndShapeText(pageSettings, Dictionaries, hf.Content);
-            //    }
-            //}
         }
 
         //Collect Text Methods
@@ -149,14 +156,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return pdfSheets;
         }
 
-        private PdfWorksheet GetPdfWorksheet(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        internal PdfWorksheet GetPdfWorksheet(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
             PdfWorksheet pdfSheet = new PdfWorksheet();
             pdfSheet.Ranges = new List<PdfRange>();
             pdfSheet.Worksheet = worksheet;
             pdfSheet.Ranges = GetRanges(pdfSheet.Worksheet);
-            //pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
-            if(pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+            if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
             GetHeaderFooter(pageSettings, pdfSheet);

@@ -81,7 +81,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         if (!string.IsNullOrEmpty(cell.Text))
                         {
                             tempMap.Text = cell.Text;
-                            if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
+                            if(row == 1 && col == 1)
+                            {
+                                Console.WriteLine($"Cell.RichText.Count: {cell.RichText.Count}");
+                            }
+                            if (cell._rtc == null) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
                             //tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cell._rtc, cellStyle);
                         }
@@ -560,6 +564,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             for (int i = 0; i < RichTextCollection.Count; i++)
             {
                 var rt = RichTextCollection[i];
+                if (cell.Address == "A1")
+                {
+                    Console.WriteLine($"[GetTextFragments] A1 rt[{i}]: Text='{rt.Text}' Bold={rt.Bold} FontName='{rt.FontName}'");
+                }
                 var textFrag = new TextFragment();
                 textFrag.Font = new MeasurementFont();
                 textFrag.Text = text == null ? rt.Text : text;

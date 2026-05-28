@@ -12,17 +12,19 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfSettings;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfResources
 {
-    internal class PdfDictionaries
+    public class PdfDictionaries
     {
         internal readonly Dictionary<string, PdfFontResource> Fonts = new Dictionary<string, PdfFontResource>();
         internal readonly Dictionary<string, PdfPatternResource> Patterns = new Dictionary<string, PdfPatternResource>();
         internal readonly Dictionary<string, PdfShadingResource> Shadings = new Dictionary<string, PdfShadingResource>();
+        internal Dictionary<string, IFontProvider> ShapedProviders = new Dictionary<string, IFontProvider>();
 
         public void AddFont(PdfPageSettings pageSettings, string FontName, FontSubFamily SubFamily, string Text)
         {
@@ -39,7 +41,7 @@ namespace EPPlus.Export.Pdf.PdfResources
             manger.AddText(Text);
         }
 
-        public PdfFontResource GetFont(string FontName)
+        internal PdfFontResource GetFont(string FontName)
         {
             if (!Fonts.ContainsKey(FontName))
             {

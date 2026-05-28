@@ -194,6 +194,10 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)textFormat.OriginalTextFragment.Font.Size);
                     var color = textFormat.OriginalTextFragment.RichTextOptions.FontColor;
                     var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
+                    if (cell.Name == "A1")
+                    {
+                        Console.WriteLine($"[Render A1] fragmentText='{textFormat.OriginalTextFragment.Text}' FontFamily='{textFormat.OriginalTextFragment.Font.FontFamily}' Style={textFormat.OriginalTextFragment.Font.Style} shapedTextIndex={shapedTextIndex} fontResource.Label={fontResrouce.Label}");
+                    }
                     double size = textFormat.OriginalTextFragment.Font.Size;
                     double scale = textFormat.OriginalTextFragment.Font.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
