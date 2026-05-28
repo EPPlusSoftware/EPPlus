@@ -14,11 +14,16 @@ using System.Drawing;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
-    public class RenderShadowEffect
+    public class RenderShadowEffect : RenderStyle
     {
         public Color OuterShadowEffectColor { get; set; }
         public double Distance { get; set; }
         public double? BlurRadius { get; set; }
         public double? Direction { get; set; }
+
+        public override string GetKey()
+        {
+            return $"{OuterShadowEffectColor.ToArgb()} {Distance} {BlurRadius} {Direction}";
+        }
     }
 }

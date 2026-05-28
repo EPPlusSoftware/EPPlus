@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics;
+using System.Security.Cryptography;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
@@ -75,7 +76,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// </summary>
         Y
     }
-    public class FillTile
+    public class FillTile : RenderStyle
     {
         /// <summary>
         /// The direction(s) in which to flip the image.
@@ -101,9 +102,15 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// The vertical offset after alignment
         /// </summary>
         public double VerticalOffset { get; set; }
+
+        public override string GetKey()
+        {
+            return $"{FlipMode} {Alignment} {HorizontalRatio} {VerticalRatio} {HorizontalOffset} {VerticalOffset}";
+        }
     }
-    public class RenderBlipFill
+    public class RenderBlipFill : RenderStyle
     {
+        internal static SHA256 sha = SHA256.Create();
         public BoundingBox ImageBounds { get; set; } = new BoundingBox();
         public string ContentType { get; set; }
         public byte[] ImageBytes { get; set; }
@@ -113,5 +120,11 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public bool Stretch { get; set; } = false;
         public OffsetRectangle StretchOffset{ get; set; }
         public FillTile Tile{ get;set;}
-}
+
+        public override string GetKey()
+        {
+            var imageHash = Convert.ToBase64String(sha.ComputeHash(ImageBytes));
+            return $"{ContentType} {imageHash} {Stretch} {StretchOffset.GetKey()} {Tile.GetKey()}";
+        }
+    }
 }

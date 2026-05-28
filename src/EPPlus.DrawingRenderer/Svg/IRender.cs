@@ -78,75 +78,19 @@ namespace EPPlus.DrawingRenderer
 
             foreach (RenderItem item in items)
             {
-                string filter = "";
-                if (item.GradientFill != null)
+                if(item is GroupRenderItem group)
                 {
-                    string name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource, true);
-                    item.FillColor = $"Url(#{name})";
-                }
-                else if (item.PatternFill != null)
-                {
-                    string name = WritePattern($"Pattern{item.PatternFill.PatternType}{ix}", defSb, hs, item.PatternFill, item.FillColorSource);
-                    item.FillColor = $"Url(#{name})";
-                }
-                else if (item.BlipFill != null)
-                {
-                    if (item.FillColorSource != PathFillMode.Norm)
+                    foreach(var child in group.RenderItems)
                     {
-                        item.FilterName = GetFilterName(ix);
+                        WriteDefsForRenderItem(defSb, hs, ref ix, child);
                     }
-
-                    string name = WriteBlip("Blip", defSb, hs, item, ref filter);
-                    item.FillColor = $"Url(#{name})";
                 }
-                if (item.BorderGradientFill != null)
+                else
                 {
-                    string name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
-                    item.BorderColor = $"Url(#{name})";
+                    WriteDefsForRenderItem(defSb, hs,ref ix, item);
                 }
-                if (item.GlowColor != null)
-                {
-                    if (string.IsNullOrEmpty(item.FilterName))
-                    {
-                        var filterName = GetFilterName(ix);
-                        item.FilterName = $"Url(#{filterName})";
-                        filter = $"<filter id=\"{filterName}\">";
-                    }
-
-                    filter += $"<feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"{item.GlowRadius ?? 0 / 2}\" result=\"blur\"/>" +
-                    $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"0.8\" result=\"glowColor\"/>" +
-                    $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
-                    $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
-                }
-                if (item.OuterShadowEffect != null)
-                {
-                    if (string.IsNullOrEmpty(item.FilterName))
-                    {
-                        var filterName = GetFilterName(ix);
-                        item.FilterName = $"Url(#{filterName})";
-                        filter = $"<filter id=\"{filterName}\" >";
-                    }
-                    item.GetOuterShadowColor(out string shadowColor, out double opacity);
-                    var dx = Math.Round(item.OuterShadowEffect.Distance * Math.Cos(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
-                    var dy = Math.Round(item.OuterShadowEffect.Distance * Math.Sin(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
-                    var blurRadius = item.OuterShadowEffect.BlurRadius ?? 0D / 2;
-                    filter += $"<feDropShadow dx=\"{dx.PointToPixelString()}\" dy=\"{dy.PointToPixelString()}\" stdDeviation=\"{blurRadius.PointToPixelString()}\" flood-color=\"{shadowColor}\" flood-opacity=\"{opacity.ToString("N2", CultureInfo.InvariantCulture)}\" />";
-                }
-                if (string.IsNullOrEmpty(filter) == false)
-                {
-                    defSb.Append(filter + "</filter>");
-                }
-
-                //if (item is RenderItem svgItem)
-                //{
-                //    if (string.IsNullOrEmpty(svgItem.DefId) == false)
-                //    {
-                //        svgItem.Render(defSb);
-                //    }
-                //}
-
-                ix++;
             }
+
             if (defSb.Length > 0)
             {
                 OutputStream.Append("<defs>");
@@ -158,6 +102,112 @@ namespace EPPlus.DrawingRenderer
             //renderItems.RemoveAll(x => x is SvgRenderItem svgX && string.IsNullOrEmpty(svgX.DefId) == false);
             return true;
         }
+        Dictionary<string, string> _defsCache = new Dictionary<string, string>();
+        private void WriteDefsForRenderItem(StringBuilder defSb, HashSet<string> hs, ref int ix, RenderItem item)
+        {
+            string filter = "";
+            if (item.GradientFill != null)
+            {
+                var key = item.GradientFill.GetKey();
+                if (_defsCache.TryGetValue(key, out string? name) == false)
+                {
+                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource, true);
+                    _defsCache[key] = name;
+                }
+                item.FillColor = $"Url(#{name})";
+            }
+            else if (item.PatternFill != null)
+            {
+                var key = item.PatternFill.GetKey();
+                if (_defsCache.TryGetValue(key, out string? name) == false)
+                { 
+                    name = WritePattern($"Pattern{item.PatternFill.PatternType}{ix}", defSb, hs, item.PatternFill, item.FillColorSource);
+                    _defsCache[key] = name;
+                }
+                item.FillColor = $"Url(#{name})";
+            }
+            else if (item.BlipFill != null)
+            {
+                var key = item.BlipFill.GetKey();
+
+                if (_defsCache.TryGetValue(key, out string? name) == false)
+                {
+                    if (item.FillColorSource != PathFillMode.Norm)
+                    {
+                        item.FilterName = GetFilterName(ix);
+                    }
+
+                    name = WriteBlip("Blip", defSb, hs, item, ref filter);
+                    _defsCache[key] = name;
+                }
+                item.FillColor = $"Url(#{name})";
+            }
+            if (item.BorderGradientFill != null)
+            {
+                var key = item.BorderGradientFill.GetKey();
+                if (_defsCache.TryGetValue(key, out string? name) == false)
+                {
+                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
+                    _defsCache[key] = name;
+                }
+                item.BorderColor = $"Url(#{name})";
+            }
+            if (item.GlowColor != null)
+            {
+                var key = item.GetFilterKey();
+                if (_defsCache.TryGetValue(key, out string? name) == false)
+                {
+                    if (string.IsNullOrEmpty(item.FilterName))
+                    {
+                        name = GetFilterName(ix);
+                        item.FilterName = $"Url(#{name})";
+                        filter = $"<filter id=\"{name}\">";
+                        filter += $"<feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"{item.GlowRadius ?? 0 / 2}\" result=\"blur\"/>" +
+                        $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"0.8\" result=\"glowColor\"/>" +
+                        $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
+                        $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
+
+                        _defsCache[key] = name;
+                    }
+                }
+                else
+                {
+                    item.FilterName = name;
+                }
+            }
+            if (item.OuterShadowEffect != null)
+            {
+                if (string.IsNullOrEmpty(item.FilterName))
+                {
+                    var key = item.GetFilterKey();
+                    if (_defsCache.TryGetValue(key, out string? name) == false)
+                    {
+                        var filterName = GetFilterName(ix);
+                        item.FilterName = $"Url(#{filterName})";
+                        filter = $"<filter id=\"{filterName}\" >";
+                        _defsCache[key] = filterName;
+                    }
+                    else
+                    {
+                        item.FilterName = $"Url(#{name})";
+                    }
+                }
+                if (string.IsNullOrEmpty(filter) == false)
+                {
+                    item.GetOuterShadowColor(out string shadowColor, out double opacity);
+                    var dx = Math.Round(item.OuterShadowEffect.Distance * Math.Cos(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
+                    var dy = Math.Round(item.OuterShadowEffect.Distance * Math.Sin(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
+                    var blurRadius = item.OuterShadowEffect.BlurRadius ?? 0D / 2;
+                    filter += $"<feDropShadow dx=\"{dx.PointToPixelString()}\" dy=\"{dy.PointToPixelString()}\" stdDeviation=\"{blurRadius.PointToPixelString()}\" flood-color=\"{shadowColor}\" flood-opacity=\"{opacity.ToString("N2", CultureInfo.InvariantCulture)}\" />";
+                }
+            }
+            if (string.IsNullOrEmpty(filter) == false)
+            {
+                defSb.Append(filter + "</filter>");
+            }
+            ix++;
+        }
+
         private static string GetFilterName(int ix)
         {
             return $"item{ix}Filter";

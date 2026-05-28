@@ -238,9 +238,14 @@ namespace EPPlus.DrawingRenderer.RenderItems
         ZigZag
     }
 }
-public class RenderPatternFill
+public class RenderPatternFill : RenderStyle
 {
     public FillPatternStyle PatternType { get; set; }
     public Color ForegroundColor { get; set; }
     public Color BackgroundColor { get; set; }
+
+    public override string GetKey()
+    {
+        return $"{PatternType}|{ForegroundColor.ToArgb()} {BackgroundColor.ToArgb()}";
+    }
 }
