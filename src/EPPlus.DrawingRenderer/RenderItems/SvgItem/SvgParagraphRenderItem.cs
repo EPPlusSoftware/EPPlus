@@ -15,5 +15,10 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
         }
 
         public override RenderItemType Type => RenderItemType.Paragraph;
+
+        protected override TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx)
+        {
+            return new SvgTextRunRenderItem(parent, displayText, origRtIdx);
+        }
     }
 }

@@ -70,9 +70,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             var textBody = new RenderTextBody(baseGroup.Bounds, true);
 
-
-            textBody.Text = "Hello";
-            var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
+            //textBody.
+            //textBody.Text = "Hello";
+            //var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
 
            
             //var para2 = new DrawingParagraphRenderItem(textBody, textBody.Bounds);
@@ -81,7 +81,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             //para.Runs.Add()
 
-            baseGroup.AddChildItem(background);
+            //baseGroup.AddChildItem(background);
             baseGroup.AddChildItem(textBody);
 
             List<RenderItem> items = new List<RenderItem>() { baseGroup };

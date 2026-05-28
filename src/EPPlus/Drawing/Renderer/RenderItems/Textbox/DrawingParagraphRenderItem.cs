@@ -14,6 +14,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -147,18 +148,27 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// So that we can easily know what textfragment is on what line and what size it has later
         /// </summary>
         /// <param name="runs"></param>
-        void GenerateTextFragments(ExcelDrawingTextRunCollection runs/*, string textIfEmpty*/)
+        void GenerateTextFragments(ExcelDrawingTextRunCollection runs, List<ShapingOptions>? optionLst = null)
         {
             var lstOfRichText = runs.ExportToOpenTypeFormat();
-            _layoutSystem = new LayoutSystem(lstOfRichText);
 
-            //Use this instead if we ever need shaping options
-            //foreach (var run in lstOfRichText)
-            //{
-            //    TextFragmentBase frag = new TextFragmentBase(run);
-            //    //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
-            //    //We can do so here
-            //    frag.Options = new OfficeOpenXml.Interfaces.Fonts.ShapingOptions();
+            if (optionLst == null)
+            {
+                _layoutSystem = new LayoutSystem(lstOfRichText);
+            }
+            else
+            {
+                //Use this instead if we ever need shaping options
+                for(int i= 0; i< lstOfRichText.Count; i++)
+                {
+                    TextFragmentBase frag = new TextFragmentBase(lstOfRichText[i]);
+                    //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
+                    //We can do so here
+                    frag.Options = optionLst[i];
+                    _textFragments.Add(frag);
+                }
+                _layoutSystem = new LayoutSystem(_textFragments);
+            }
         }
 
         private void ImportStyleInfo(DrawingTextbody textBody, ExcelDrawingParagraph p)

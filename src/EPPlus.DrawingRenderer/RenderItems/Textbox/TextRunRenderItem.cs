@@ -143,6 +143,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             OriginalRtIdx = origRtIdx;
         }
 
+        public void ImportFontData(IFontFormatBase font)
+        {
+            InitializeBase(font);
+        }
+
         internal protected void InitializeBase(IFontFormatBase font)
         {
             //Should be ascent-only?
