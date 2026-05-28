@@ -28,6 +28,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public int ToColumn;
 
         public bool HasPrintTitle;
+        public double PrintTitleWidth;
+        public double PrintTitleHeight;
 
         public PdfCellCollection Map;
 
@@ -621,9 +623,35 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return colX;
         }
 
+        private static void ComputePrintTitleDimensions(PdfPageSettings pageSettings, PdfRange range, out double titleHeight, out double titleWidth)
+        {
+            titleHeight = 0d;
+            titleWidth = 0d;
+            if (pageSettings.RowsToRepeatAtTop != null)
+            {
+                for (int r = pageSettings.RowsToRepeatAtTop._fromRow;
+                         r <= pageSettings.RowsToRepeatAtTop._toRow; r++)
+                {
+                    int idx = r - range.Range._fromRow;
+                    if (idx >= 0 && idx < range.RowHeights.Count)
+                        titleHeight += range.RowHeights[idx].Height;
+                }
+            }
+            if (pageSettings.ColumnsToRepeatAtLeft != null)
+            {
+                for (int c = pageSettings.ColumnsToRepeatAtLeft._fromCol;
+                         c <= pageSettings.ColumnsToRepeatAtLeft._toCol; c++)
+                {
+                    int idx = c - range.Range._fromCol;
+                    if (idx >= 0 && idx < range.ColWidths.Count)
+                        titleWidth += range.ColWidths[idx];
+                }
+            }
+        }
+
+
         internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, ref PdfRange range)
         {
-            //calculte pages needed for this range, add in col headings for width, row headings for height. THis is where we also add print headings later on. Autofit on row here too later on.
             var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.ContentBounds.Width));
             var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.ContentBounds.Height));
 
@@ -653,9 +681,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 if (pdfSheet.Worksheet.Row(i).PageBreak)
                     yPages++;
             }
-            //if (HasPrintTitles Row)
-            //if (HasPrintTitles Column)
-
+            ComputePrintTitleDimensions(pageSettings, range, out range.PrintTitleHeight, out range.PrintTitleWidth);
             Pages p = new Pages();
             p.Width = xPages;
             p.Height = yPages;
@@ -670,32 +696,58 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             var addedWidth = pages.Width > 0 ? range.AdditionalWidth / pages.Width : 0d;
             var addedHeight = pages.Height > 0 ? range.AdditionalHeight / pages.Height : 0d;
 
-            var colSegments = GetColumnSegments(pageSettings, range, worksheet, addedWidth);
-            var rowSegments = GetRowSegments(pageSettings, range, worksheet, addedHeight);
+            var colSegments = GetColumnSegments(pageSettings, range, worksheet, addedWidth, range.PrintTitleWidth);
+            var rowSegments = GetRowSegments(pageSettings, range, worksheet, addedHeight, range.PrintTitleHeight);
 
             pages.Page = new Page[colSegments.Count * rowSegments.Count];
             int i = 0;
 
             if (pageSettings.PageOrders == PageOrders.DownThenOver)
             {
-                foreach (var colSeg in colSegments)
-                    foreach (var rowSeg in rowSegments)
-                        pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
+                //foreach (var colSeg in colSegments)
+                //    foreach (var rowSeg in rowSegments)
+                //        pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
+                for (int ci = 0; ci < colSegments.Count; ci++)
+                    for (int ri = 0; ri < rowSegments.Count; ri++)
+                        pages.Page[i++] = new Page
+                        {
+                            FromColumn = colSegments[ci].From,
+                            ToColumn = colSegments[ci].To,
+                            FromRow = rowSegments[ri].From,
+                            ToRow = rowSegments[ri].To,
+                            HeadingWidth = addedWidth,
+                            HeadingHeight = addedHeight,
+                            PrintTitleWidth = ci > 0 ? range.PrintTitleWidth : 0d,
+                            PrintTitleHeight = ri > 0 ? range.PrintTitleHeight : 0d,
+                        };
             }
             else //if (pageSettings.PageOrders == PageOrders.OverThenDown)
             {
-                foreach (var rowSeg in rowSegments)
-                    foreach (var colSeg in colSegments)
-                        pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
+                //foreach (var rowSeg in rowSegments)
+                //    foreach (var colSeg in colSegments)
+                //        pages.Page[i++] = new Page { FromColumn = colSeg.From, ToColumn = colSeg.To, FromRow = rowSeg.From, ToRow = rowSeg.To };
+                for (int ri = 0; ri < rowSegments.Count; ri++)
+                    for (int ci = 0; ci < colSegments.Count; ci++)
+                        pages.Page[i++] = new Page
+                        {
+                            FromColumn = colSegments[ci].From,
+                            ToColumn = colSegments[ci].To,
+                            FromRow = rowSegments[ri].From,
+                            ToRow = rowSegments[ri].To,
+                            HeadingWidth = addedWidth,
+                            HeadingHeight = addedHeight,
+                            PrintTitleWidth = ci > 0 ? range.PrintTitleWidth : 0d,
+                            PrintTitleHeight = ri > 0 ? range.PrintTitleHeight : 0d,
+                        };
             }
 
-            for (int k = 0; k < pages.Page.Length; k++)
-            {
-                var p = pages.Page[k];
-                p.HeadingWidth = addedWidth;
-                p.HeadingHeight = addedHeight;
-                pages.Page[k] = p;
-            }
+            //for (int k = 0; k < pages.Page.Length; k++)
+            //{
+            //    var p = pages.Page[k];
+            //    p.HeadingWidth = addedWidth;
+            //    p.HeadingHeight = addedHeight;
+            //    pages.Page[k] = p;
+            //}
             pdfPages = pages;
             return pdfPages;
         }
@@ -707,7 +759,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             public PageSegment(int from, int to) { From = from; To = to; }
         }
 
-        private static List<PageSegment> GetColumnSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedWidth)
+        private static List<PageSegment> GetColumnSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedWidth, double titleWidth)
         {
             var segments = new List<PageSegment>();
             int segStartIdx = 0;
@@ -717,8 +769,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 int actualCol = range.Range._fromCol + col;
 
+                double effectiveAdded = addedWidth + (segments.Count == 0 ? 0d : titleWidth);
+
+
                 // Content-bounds overflow: col doesn't fit, end segment before it and reprocess.
-                if (width + range.ColWidths[col] + addedWidth >= pageSettings.ContentBounds.Width)
+                if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.ContentBounds.Width)
                 {
                     segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col - 1));
                     segStartIdx = col;
@@ -745,7 +800,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return segments;
         }
 
-        private static List<PageSegment> GetRowSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedHeight)
+        private static List<PageSegment> GetRowSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedHeight, double titleHeight)
         {
             var segments = new List<PageSegment>();
             int segStartIdx = 0;
@@ -755,8 +810,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 int actualRow = range.Range._fromRow + row;
 
+                double effectiveAdded = addedHeight + (segments.Count == 0 ? 0d : titleHeight);
+
                 // Content-bounds overflow: row doesn't fit, end segment before it and reprocess.
-                if (height + range.RowHeights[row].Height + addedHeight >= pageSettings.ContentBounds.Height)
+                if (height + range.RowHeights[row].Height + effectiveAdded >= pageSettings.ContentBounds.Height)
                 {
                     segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row - 1));
                     segStartIdx = row;

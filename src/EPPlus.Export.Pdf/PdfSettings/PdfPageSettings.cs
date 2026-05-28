@@ -94,12 +94,12 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// <summary>
         /// Set the range to repeat at the top of the page.
         /// </summary>
-        public ExcelRange RowsToRepeatAtTop = null;
+        public ExcelAddressBase RowsToRepeatAtTop = null;
 
         /// <summary>
         /// Set the range to repeat to the left of the page.
         /// </summary>
-        public ExcelRange ColumnsToRepeatAtLeft = null;
+        public ExcelAddressBase ColumnsToRepeatAtLeft = null;
 
         /// <summary>
         /// Set if comments and notes should be included.
