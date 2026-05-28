@@ -74,6 +74,10 @@ namespace EPPlusImageRenderer
             SetAxisPositionsFromPlotarea();
 
             Plotarea.DrawSeries();
+
+            //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
+            AppendItems();
+
         }
         private void SetAxisPositionsFromPlotarea()
         {
