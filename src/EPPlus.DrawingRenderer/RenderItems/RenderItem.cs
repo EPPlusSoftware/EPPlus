@@ -404,7 +404,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         internal string GetFilterKey()
         {
-            return $"{GlowColor} + {GlowRadius} { OuterShadowEffect.GetKey()}";
+            return $"{GlowColor} {GlowRadius} { OuterShadowEffect?.GetKey()}";
         }
     }
     /// <summary>
