@@ -10,11 +10,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     {
         public override int ArgumentMinLength => 2;
         public override string NamespacePrefix => "_xlfn.";
-
+        
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             bool textIsRange = arguments[0].IsExcelRange;
             bool patternIsRange = arguments[1].IsExcelRange;
+            int caseSensitivity = ArgToInt(arguments, 2, 0);
 
             if (!textIsRange && !patternIsRange)
             {
@@ -25,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 if (text == null || pattern == null)
                     return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
 
-                return CreateResult(GetRegexTest(text, pattern), DataType.Boolean);
+                return CreateResult(GetRegexTest(text, pattern, caseSensitivity), DataType.Boolean);
             }
 
             // Minst ett range-argument – bygg resultatmatrisen
@@ -54,6 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                     if (textValue == null || patternValue == null)
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                    else if(Math.Abs(caseSensitivity) <
                     else
                         result.SetValue(row, col, GetRegexTest(textValue, patternValue));
                 }
@@ -97,7 +99,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             return (short)Math.Max(a, b);   // Båda > 1: max-storlek, överskott → #N/A
         }
 
-        private static bool GetRegexTest(string text, string pattern)
+        private static bool GetRegexTest(string text, string pattern, int caseSensitive)
             => Regex.IsMatch(text, pattern);
     }
 }
