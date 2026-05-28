@@ -280,7 +280,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 if (textRuns.Count != 0 && run.OriginalRtIdx != -1)
                 {
                     //Import existing textrun
-                    textRun.ImportTextRunBase(textRuns[run.OriginalRtIdx], _layoutSystem.InputFragments[run.OriginalRtIdx].RichTextFormat);
+                    textRun.ImportTextRunBase(textRuns[run.OriginalRtIdx], _layoutSystem.InputFragments[run.OriginalRtIdx].RichTextOptions);
                 }
                 else
                 {

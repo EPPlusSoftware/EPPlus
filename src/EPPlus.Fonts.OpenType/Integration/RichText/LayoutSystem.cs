@@ -179,16 +179,16 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 foreach (var styleRun in StyleRuns)
                 {
                     var inputFrag = InputFragments[styleRun.FragmentIndex];
-                    var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextFormat.Family, inputFrag.RichTextFormat.SubFamily);
+                    var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
                     if (shapeLight)
                     {
                         var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
                         double[] charWidths = new double[styleRun.Length + 1];
-                        shapedGlyphs.FillCharWidths((float)inputFrag.RichTextFormat.Size, charWidths, styleRun.Length + 1);
-                        var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextFormat.Size);
+                        shapedGlyphs.FillCharWidths((float)inputFrag.RichTextOptions.Size, charWidths, styleRun.Length + 1);
+                        var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextOptions.Size);
 
-                        inputFrag.AscentPoints = shaper.GetAscentInPoints(inputFrag.RichTextFormat.Size);
-                        inputFrag.DescentPoints = shaper.GetDescentInPoints(inputFrag.RichTextFormat.Size);
+                        inputFrag.AscentPoints = shaper.GetAscentInPoints(inputFrag.RichTextOptions.Size);
+                        inputFrag.DescentPoints = shaper.GetDescentInPoints(inputFrag.RichTextOptions.Size);
 
                         styleRun.SetCharWidths(charWidths, spaceWidth);
                     }
@@ -200,11 +200,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
                 var lastFragment = InputFragments[InputFragments.Count - 1];
                 var lastRun = StyleRuns[StyleRuns.Count - 1];
-                var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.RichTextFormat.Family, lastFragment.RichTextFormat.SubFamily);
+                var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
                 var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
                 double[] lastCharWidths = new double[lastRun.Length + 1];
-                lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextFormat.Size, lastCharWidths, lastRun.Length + 1);
-                var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.RichTextFormat.Size);
+                lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
+                var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.RichTextOptions.Size);
 
                 lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
             }
@@ -223,7 +223,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 return new TextLineCollection();
             }
             var inputRt = InputFragments[0];
-            var shaper = OpenTypeFonts.GetTextShaper(inputRt.RichTextFormat.Family, inputRt.RichTextFormat.SubFamily);
+            var shaper = OpenTypeFonts.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
             var layoutEngine = new TextLayoutEngine(shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 

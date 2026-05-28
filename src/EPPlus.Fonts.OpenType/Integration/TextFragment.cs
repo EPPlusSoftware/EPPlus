@@ -48,28 +48,23 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
         public TextFragment():base()
         {
-
+            RichTextOptions = new RichTextDefaults();
         }
-        /// <summary>
-        /// Store rich-text info.
-        /// We must extract font info from this but nothing else is supposed to be done with this within opentype
-        /// </summary>
-        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
 
-        public override IRichTextFormatBase RichTextFormat { get => RichTextOptions; set => RichTextOptions = (IRichTextInfoBase)value; }
+        public new IRichTextInfoBase RichTextOptions { get { return (IRichTextInfoBase)base.RichTextOptions; } set { base.RichTextOptions = value; } }
 
         public override float Size { get => RichTextOptions.Size; }
     }
 
     public class TextFragmentBase : ITextFragmentBase
     {
-        public string Text { get => RichTextFormat.Text; set => RichTextFormat.Text = value; }
+        public string Text { get => RichTextOptions.Text; set => RichTextOptions.Text = value; }
         /// <summary>
         /// Store rich-text info.
         /// We must extract font info from this but nothing else is supposed to be done with this within opentype
         /// but we hold the data so users may more easily recognize which rich text this is in the output.
         /// </summary>
-        public virtual IRichTextFormatBase RichTextFormat { get; set; } = new OpenTypeRichTextBase();
+        public virtual IRichTextFormatBase RichTextOptions { get; set; } = new OpenTypeRichTextBase();
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
@@ -79,9 +74,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
         public TextFragmentBase(IRichTextFormatBase richText) 
         {
-            RichTextFormat = richText;
+            RichTextOptions = richText;
         }
-        public virtual float Size { get => RichTextFormat.Size; }
+        public virtual float Size { get => RichTextOptions.Size; }
     }
 
     ///// <summary>

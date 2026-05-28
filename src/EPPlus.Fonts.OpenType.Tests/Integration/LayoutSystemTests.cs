@@ -285,12 +285,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(1, lines[2].InternalLineFragments.Count);
 
             //Assert correct fragment in correct spot
-            Assert.AreEqual(rtLst[0], (IRichTextFormatBase)lines[0].LineFragments[0].OriginalTextFragment.RichTextFormat);
-            Assert.AreEqual(rtLst[1], (IRichTextFormatBase)lines[0].LineFragments[1].OriginalTextFragment.RichTextFormat);
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[0].LineFragments[2].OriginalTextFragment.RichTextFormat);
+            Assert.AreEqual(rtLst[0], (IRichTextFormatBase)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[1], (IRichTextFormatBase)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
 
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[1].LineFragments[0].OriginalTextFragment.RichTextFormat);
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[2].LineFragments[0].OriginalTextFragment.RichTextFormat);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
         }
 
         [TestMethod]

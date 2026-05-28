@@ -13,7 +13,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// We must extract font info from this but nothing else is supposed to be done with this within opentype
         /// but we hold the data so users may more easily recognize which rich text this is in the output.
         /// </summary>
-        public IRichTextFormatBase RichTextFormat { get; set; }
+        public IRichTextFormatBase RichTextOptions { get; set; }
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
