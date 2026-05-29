@@ -470,15 +470,18 @@ namespace OfficeOpenXml
                 worksheet.Drawings.ClearDrawings();
             }
 
-            //Remove all comments
-            if (!(worksheet is ExcelChartsheet) && worksheet.Comments.Count > 0)
+            if (!(worksheet is ExcelChartsheet))
             {
-                worksheet.Comments.Clear();
-            }
+                //Remove all comments
+                if (worksheet.Comments.Count > 0)
+                {
+                    worksheet.Comments.Clear();
+                }
 
-            while(worksheet.PivotTables.Count>0)
-            {
-                worksheet.PivotTables.Delete(worksheet.PivotTables[0]);
+                while (worksheet.PivotTables.Count > 0)
+                {
+                    worksheet.PivotTables.Delete(worksheet.PivotTables[0]);
+                }
             }
             //Delete any parts still with relations to the Worksheet.
             DeleteRelationsAndParts(worksheet.Part);
