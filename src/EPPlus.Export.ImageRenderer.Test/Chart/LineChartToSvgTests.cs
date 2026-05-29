@@ -19,17 +19,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var ix = 6;
-                var c = ws.Drawings[ix];
-                var svg = c.ToSvg();
-                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                //var ix = 6;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                //var ix = 0;
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var svg = renderer.RenderDrawingToSvg(c);
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                //}
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                }
             }
         }
 
@@ -42,7 +42,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ws = p.Workbook.Worksheets[1];
                 //var ix = 2;
                 //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
+                //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
                 var ix = 1;
                 foreach (ExcelChart c in ws.Drawings)
@@ -59,16 +59,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[2];
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet3_{ix++}.svg", svg);
                 var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet3{ix++}.svg", svg);
-                }
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet3_{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet3{ix++}.svg", svg);
+                //}
             }
         }
         [TestMethod]
@@ -116,9 +116,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("LineChartRenderTest.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                //var ix = 2;
+                //var ix = 1;
                 //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
+                //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
                 var ix = 1;
                 foreach (ExcelChart c in ws.Drawings)

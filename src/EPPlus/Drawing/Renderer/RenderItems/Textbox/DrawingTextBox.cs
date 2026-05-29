@@ -237,31 +237,30 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             GroupRenderItem groupItem = groupItem = new GroupRenderItem((BoundingBox)rect.Bounds.Parent, Rotation);
             groupItem.Bounds = new BoundingBox(Left, Top, Width, Height);
-            groupItem.Bounds.Parent = rect.Bounds.Parent;
             groupItem.TextAnchor = TextAnchor.ToEnumString();
             renderItems.Add(groupItem);
 
-            var textboxGroupItem = new GroupRenderItem(groupItem.Bounds);
-            groupItem.RenderItems.Add(textboxGroupItem);
+            rect.Top = 0;
+            rect.Left = 0;
+
 
             var titleItem = new TitleRenderItem("TextBodySvg Rect");
             //The rect shound encapse the text element, so we need to set the left depending on the text anchor.
             if(TextAnchor==eTextAnchor.Middle)
             {
-                rect.Bounds.Left = -(rect.Bounds.Width / 2);
+                groupItem.Bounds.Left += -(rect.Bounds.Width / 2);
             }
             else if(TextAnchor==eTextAnchor.End)
             {
-                rect.Bounds.Left = -rect.Bounds.Width;
-            }
-            else
-            {
-                rect.Bounds.Left = 0;
+                const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+                groupItem.Bounds.Left += -(rect.Bounds.Width * COS45);
+                groupItem.Bounds.Top += (rect.Bounds.Width * COS45 );
             }
             groupItem.RenderItems.Add(titleItem);
+            //As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
             groupItem.RenderItems.Add(rect);
 
-            TextBody.Bounds.Left = LeftMargin + rect.Bounds.Left;
+            TextBody.Bounds.Left = LeftMargin ;
             TextBody.Bounds.Top = TopMargin;
             TextBody.AppendRenderItems(groupItem.RenderItems);
         }
