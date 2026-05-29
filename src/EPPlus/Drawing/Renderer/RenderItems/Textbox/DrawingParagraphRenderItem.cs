@@ -173,6 +173,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         private void ImportStyleInfo(DrawingTextbody textBody, ExcelDrawingParagraph p)
         {
+            //If this paragraph has defaults of its own enter here
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
                 if (IsFirstParagraph)
@@ -201,10 +202,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
             else
             {
-                if (p._paragraphs.FirstDefaultRunProperties != null && p._paragraphs.FirstDefaultRunProperties.Fill != null && p._paragraphs.FirstDefaultRunProperties.Fill.IsEmpty == false)
+                if(p._paragraphs.Count != 0)
                 {
-                    var fill = p._paragraphs.FirstDefaultRunProperties.Fill;
-                    this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
+                    //Fallback to the defaults of the first paragraph
+                    if (p._paragraphs[0].DefaultRunProperties != null && p._paragraphs[0].DefaultRunProperties.Fill != null && p._paragraphs[0].DefaultRunProperties.Fill.IsEmpty == false)
+                    {
+                        var fill = p._paragraphs[0].DefaultRunProperties.Fill;
+                        this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
+                    }
                 }
             }
         }
