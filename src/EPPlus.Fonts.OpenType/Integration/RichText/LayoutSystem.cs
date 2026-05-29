@@ -118,13 +118,13 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == category)
                 {
                     ParagraphSeparatorIndicies.Add(sepIdx);
-                    var section = new Paragraph(lastParagraphIdx, sepIdx, GetFullText, GetSection);
+                    var section = new Paragraph(lastParagraphIdx, sepIdx-1, GetFullText, GetSection);
                     SubParagraphs.Add(section);
                     lastParagraphIdx = sepIdx;
                 }
             }
 
-            var lastSection = new Paragraph(lastParagraphIdx, FullTextLength, GetFullText, GetSection);
+            var lastSection = new Paragraph(lastParagraphIdx, FullTextLength-1, GetFullText, GetSection);
             SubParagraphs.Add(lastSection);
         }
 
@@ -156,7 +156,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         {
                             //We have moved one beyond the last char to apply the given style.
                             //Therefore -1 (unless it is on the very first idx)
-                            var styleRun = new StyleRun(currFragIdx, lastRunIdx, currIdx - 1, GetFullText, GetSection);
+                            var styleRun = new StyleRun(currFragIdx, lastRunIdx, currIdx -1, GetFullText, GetSection);
                             StyleRuns.Add(styleRun);
                             //TODO: Technically this should not get its own list it should refer back here
                             SubParagraphs[i].AddStyleRun(styleRun);
@@ -167,7 +167,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
                 }
 
-                var LastRun = new StyleRun(currFragIdx, lastRunIdx, Math.Max(currIdx, 1), GetFullText, GetSection);
+                var LastRun = new StyleRun(currFragIdx, lastRunIdx, currIdx, GetFullText, GetSection);
                 StyleRuns.Add(LastRun);
                 SubParagraphs[SubParagraphs.Count - 1].AddStyleRun(LastRun);
             }

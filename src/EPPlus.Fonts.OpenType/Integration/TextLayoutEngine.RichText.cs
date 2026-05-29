@@ -222,11 +222,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.LineFrag.SpaceWidth = run.SpaceWidth;
 
             int i = 0;
-            var len = run.Length+1;
-            if(len == 2)
-            {
-                len = 1;
-            }
+            var len = run.Length;
             while (i < (len))
             {
                 char c = run.Text[i];

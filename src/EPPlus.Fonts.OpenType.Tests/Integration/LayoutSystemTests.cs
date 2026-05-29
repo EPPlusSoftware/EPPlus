@@ -358,6 +358,23 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        public void TestGetSectionNumber2()
+        {
+            var txtLstMixed = new List<string>() { "10"};
+            var rt = new OpenTypeRichTextBase(txtLstMixed[0], "Roboto", 12f);
+
+            var rtLstMixed = new List<IRichTextFormatBase>() { rt };
+            var pMixed = new LayoutSystem(rtLstMixed);
+
+            var InMix = string.Join("", txtLstMixed.ToArray());
+            var OutMix = string.Join("", pMixed.GetTextOfAllTextRuns().ToArray());
+
+            var wrappedLines = pMixed.Wrap(60d);
+
+            Assert.AreEqual(InMix, OutMix);
+        }
+
+        [TestMethod]
         public void TestSimpleRichText2()
         {
             //var rtCollection = new RichTextCollectionBase();

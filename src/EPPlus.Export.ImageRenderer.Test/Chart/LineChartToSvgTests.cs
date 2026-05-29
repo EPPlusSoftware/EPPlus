@@ -40,7 +40,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
-                //var ix = 2;
+                //var ix = 1;
                 //var c = ws.Drawings[ix];
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);

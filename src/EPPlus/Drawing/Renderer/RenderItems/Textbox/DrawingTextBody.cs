@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)
         {
             bool isFirst = Paragraphs.Count == 0;
-            Text = text;
+            //Text = text;
 
             var paragraph = CreateParagraph(this, item, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
