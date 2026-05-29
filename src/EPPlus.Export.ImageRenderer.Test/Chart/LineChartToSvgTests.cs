@@ -40,16 +40,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
-                //var ix = 2;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
                 var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                }
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                //}
             }
         }
         [TestMethod]
