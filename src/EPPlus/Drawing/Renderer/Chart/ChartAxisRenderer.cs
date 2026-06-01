@@ -170,7 +170,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         break;
                     case eTextOrientation.Diagonal:
-                        var width = (m.Width + m.Height) * COS45;
+                        var width = (m.Width) * COS45;
                         if (width > highest)
                         {
                             highest = width;
@@ -235,7 +235,7 @@ namespace EPPlusImageRenderer.Svg
         {
             Title?.AppendRenderItems(renderItems);
             //Title?.Render(sb);
-            if(Rectangle!=null) renderItems.Add(Rectangle);
+            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) renderItems.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
             if (MajorGridlinePositions != null)

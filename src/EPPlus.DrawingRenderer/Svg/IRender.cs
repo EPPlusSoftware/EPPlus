@@ -275,8 +275,6 @@ namespace EPPlus.DrawingRenderer
         private string WritePattern(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderPatternFill patternFill, PathFillMode fillMode)
         {
             var name = $"{namePrefix}{fillMode}";
-            //var fc = TypeConv.ColorConverter.GetThemeColor(_theme, patternFill.ForegroundColor);
-            //var bc = TypeConv.ColorConverter.GetThemeColor(_theme, patternFill.BackgroundColor);
             var afc = ColorUtils.GetAdjustedColor(fillMode, patternFill.ForegroundColor);
             var abc = ColorUtils.GetAdjustedColor(fillMode, patternFill.BackgroundColor);
             switch (patternFill.PatternType)
@@ -448,24 +446,45 @@ namespace EPPlus.DrawingRenderer
         private static void SetPatternHalf(StringBuilder defSb, string name, Color afc, Color abc, int width, int height)
         {
             defSb.Append($"<pattern id=\"{name}\" width=\"{width}\" height=\"{height}\" patternUnits=\"userSpaceOnUse\">");
-            defSb.Append($"<rect width=\"{width}\" height=\"{height}\" fill=\"#{abc.To6CharHexString()}\"/>");
-            defSb.Append($"<rect x=\"0\" y=\"0\" width=\"1\" height=\"1\" fill=\"#{afc.To6CharHexString()}\"/>");
-            defSb.Append($"<rect x=\"{Math.Round(width / 2D, 0)}\" y=\"{Math.Round(height / 2D, 0)}\" width=\"1\" height=\"1\" fill=\"#{afc.To6CharHexString()}\"/>");
+
+
+            defSb.Append($"<rect width=\"{width}\" height=\"{height}\" {WriteFillColor(abc)}");
+            defSb.Append("/>");
+            defSb.Append($"<rect x=\"0\" y=\"0\" width=\"1\" height=\"1\" \"/>");
+            defSb.Append($"<rect x=\"{Math.Round(width / 2D, 0)}\" y=\"{Math.Round(height / 2D, 0)}\" width=\"1\" height=\"1\" {WriteFillColor(afc)}/>");
             defSb.Append($"</pattern>");
         }
+
+        private static object WriteFillColor(Color c)
+        {
+            double opacity = -1;            
+            if (c.A < 255 && c != Color.Empty)
+            {
+                opacity = c.A / 255D * 100;
+            }
+            if (opacity == -1)
+            {
+                return $"fill=\"#{c.To6CharHexString()}\"";
+            }
+            else
+            {
+                return $"fill=\"#{c.To6CharHexString()}\" fill-opacity=\"{opacity}%\"";
+            }
+        }
+
         private static void SetPatternArray(StringBuilder defSb, string name, Color afc, Color abc, short[][] pathArray)
         {
             var height = pathArray.GetLength(0);
             var width = pathArray[0].GetLength(0);
             defSb.Append($"<pattern id=\"{name}\" width=\"{width}\" height=\"{height}\" patternUnits=\"userSpaceOnUse\">");
-            defSb.Append($"<rect width=\"{width}\" height=\"{height}\" fill=\"#{abc.To6CharHexString()}\"/>");
+            defSb.Append($"<rect width=\"{width}\" height=\"{height}\" {WriteFillColor(abc)}/>");
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
                     if (pathArray[y][x] == 1)
                     {
-                        defSb.Append($"<rect x=\"{x}\" y=\"{y}\" width=\"1\" height=\"1\" fill=\"#{afc.To6CharHexString()}\" />");
+                        defSb.Append($"<rect x=\"{x}\" y=\"{y}\" width=\"1\" height=\"1\" {WriteFillColor(afc)}/>");
                     }
                 }
             }

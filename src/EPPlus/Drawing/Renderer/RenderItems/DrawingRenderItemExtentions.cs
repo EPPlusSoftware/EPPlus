@@ -37,7 +37,7 @@ namespace EPPlusImageRenderer.RenderItems
             {
 
                 case eFillStyle.PatternFill:
-                    item.PatternFill = new DrawingRenderPatternFill(fill.PatternFill);
+                    item.PatternFill = new DrawingRenderPatternFill(theme, fill.PatternFill, item.FillColorSource);
                     break;
                 case eFillStyle.BlipFill:
                     item.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
