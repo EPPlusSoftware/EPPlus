@@ -42,7 +42,7 @@ namespace EPPlusImageRenderer.Svg
         {
             ChartRenderer = chart;
             //Fixes null ref but might be inaccurate for some objects...
-            //Rectangle = new RectRenderItem(chart.Bounds);
+            Rectangle = new RectRenderItem(chart.Bounds);
         }
         internal void SetMargins(ExcelTextBody tb)
         {

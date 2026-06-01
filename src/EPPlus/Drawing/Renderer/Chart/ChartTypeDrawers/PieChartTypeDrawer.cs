@@ -283,11 +283,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             ChartAreaRenderItems.Add(_groupItem);
-            //Date series labels
+            //Series Labels
             foreach (var dataLabel in serieDataLabels)
             {
-                dataLabel.AppendRenderItems(ChartAreaRenderItems);
+                dataLabel.AppendRenderItems(SeriesRenderItems);
             }
+
+            renderItems.AddRange(ChartAreaRenderItems);
+            SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
     }
 }
