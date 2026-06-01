@@ -137,7 +137,7 @@ namespace EPPlusImageRenderer.Svg
                     var fullLength = LeftMargin + entryWidth * index + _marginItemsWidth * (index - 1) + RightMargin;
                     if(fullLength > _maxWidth)
                     {
-                        var height = entryHeight * 0.25;
+                        var height = entryHeight * 0.166666;
                         var widestLine = 0D;
                         var width = LeftMargin + entryWidth;
                         
@@ -145,7 +145,7 @@ namespace EPPlusImageRenderer.Svg
                         {
                             if (width + entryWidth + RightMargin > _maxWidth)
                             {
-                                height += entryHeight * 1.25;
+                                height += entryHeight * 1.166666;
                                 if (width + RightMargin > widestLine)
                                 {
                                     widestLine = width + RightMargin;
@@ -160,12 +160,12 @@ namespace EPPlusImageRenderer.Svg
 
                         //height+= BottomMargin;
                         rect.Width = Math.Max(widestLine, width);
-                        rect.Height = height + entryHeight * 1.25; 
+                        rect.Height = height + entryHeight * 1.166666; 
                     }
                     else
                     {
                         rect.Width = fullLength;
-                        rect.Height = entryHeight * 1.5;
+                        rect.Height = entryHeight * 1.333333;
                     }
                     rect.Left = (ChartRenderer.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
@@ -569,8 +569,8 @@ namespace EPPlusImageRenderer.Svg
 
             line.X1 = x;
             line.X2 = x + LineLength;
-            line.Y1 = y + entryHeight * 0.5;
-            line.Y2 = y + entryHeight * 0.5;
+            line.Y1 = y; //+ entryHeight * 0.5;
+            line.Y2 = y;// + entryHeight * 0.5;
             line.LineCap = LineCap.Round;
 
             return line;
@@ -629,7 +629,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (pSls != null && pSls.Textbox.Bounds.Right + entryWidth + RightMargin > _maxWidth)
                 {
-                    topOffset += entryHeight * 1.25;
+                    topOffset += entryHeight * 1.166666;
                     x = LeftMargin;
                 }
                 else
@@ -646,11 +646,11 @@ namespace EPPlusImageRenderer.Svg
 
                 if (pSls == null)
                 {
-                    y = + entryHeight / 4 + TopMargin;
+                    y = TopMargin + entryHeight / 3;
                 }
                 else
                 {
-                    y = iconTop + topOffset; // - (entryHeight / 2);
+                    y = iconTop + topOffset;
                 }
 
 
