@@ -13,6 +13,7 @@
 using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -37,18 +38,18 @@ namespace EPPlus.Fonts.Benchmarks
         private const double MaxPixelWidth = 52d;
         private const double MaxPointWidth = 39d; // 52 pixels ≈ 39 points (at 96 DPI)
         private const float FontSize = 11f;
-        private const string FontFamily = "Roboto";
+        private const string Family = "Roboto";
 
         private List<TextFragment> _fragments10;
         private List<string> _texts10;
-        private List<MeasurementFont> _fonts10;
+        private List<OpenTypeFontInfoBase> _fonts10;
 
         //[GlobalSetup]
         //public void Setup()
         //{
         //    // Setup old measurer
         //    _oldMeasurer = new FontMeasurerTrueType();
-        //    _oldMeasurer.SetFont(FontSize, FontFamily);
+        //    _oldMeasurer.SetFont(FontSize, Family);
 
         //    var fontsPath = Path.Combine(AppContext.BaseDirectory, "Fonts");
 
@@ -60,20 +61,20 @@ namespace EPPlus.Fonts.Benchmarks
         //    var fontFolders = new List<string> { fontsPath };
 
         //    // Setup new layout engine
-        //    var font = OpenTypeFonts.LoadFont(FontFamily, FontSubFamily.Regular);
+        //    var font = OpenTypeFonts.LoadFont(Family, FontSubFamily.Regular);
         //    var shaper = new TextShaper(font);
         //    _layoutEngine = new TextLayoutEngine(shaper);
 
         //    // Prepare 100 copies of the long text
         //    _fragments10 = new List<TextFragment>();
         //    _texts10 = new List<string>();
-        //    _fonts10 = new List<MeasurementFont>();
+        //    _fonts10 = new List<OpenTypeFontInfoBase>();
 
-        //    var measurementFont = new MeasurementFont
+        //    var OpenTypeFontInfoBase = new OpenTypeFontInfoBase
         //    {
-        //        FontFamily = FontFamily,
+        //        Family = Family,
         //        Size = FontSize,
-        //        Style = MeasurementFontStyles.Regular
+        //        SubFamily = OpenTypeFontInfoBaseSubFamilys.Regular
         //    };
 
         //    for (int i = 0; i < 10; i++)
@@ -162,7 +163,7 @@ namespace EPPlus.Fonts.Benchmarks
                 x.FontDirectories.Add(fontsPath);
                 x.SearchSystemDirectories = false;
             });
-            var font = fontEngine.LoadFont(FontFamily, FontSubFamily.Regular);
+            var font = fontEngine.LoadFont(Family, FontSubFamily.Regular);
             var shaper = new TextShaper(fontEngine, font);
             return shaper.ExtractCharWidths(LoremIpsum20Para, FontSize, ShapingOptions.Default);
         }
@@ -212,17 +213,17 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = "Lorem ipsum ",
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = "dolor sit amet, ",
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 12f, Style = MeasurementFontStyles.Bold }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = 12f, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = "consectetur adipiscing elit.",
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = FontSize }
                 }
             };
 
@@ -241,27 +242,27 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = text.Substring(0, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 12f, Style = MeasurementFontStyles.Bold }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = 12f, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 2, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize, Style = MeasurementFontStyles.Italic }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = FontSize, SubFamily = FontSubFamily.Italic }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 3, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 4),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 10f }
+                    Font = new OpenTypeFontInfoBase { Family = Family, Size = 10f }
                 }
             };
 

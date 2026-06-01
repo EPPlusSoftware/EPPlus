@@ -298,5 +298,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 _status = value;
             }
         }
+        internal override void Reset()
+        {            
+            base.Reset();
+            _argPos = 0;
+            _latestConditionValue = ExpressionCondition.None;
+            _negate = 0;
+            _args?.Clear();
+            _dependencyAddresses?.Clear();
+            _status = ExpressionStatus.NoSet;
+        }
     }
 }

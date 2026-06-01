@@ -14,7 +14,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             for (int i = 0; i< fonts.Count; i++)
             {
-                Add(new TextFragment() { Font = fonts[i], Text = texts[i] });
+                var tf = new TextFragment() { Text = texts[i] };
+                tf.RichTextOptions.SetFont(fonts[i]);
+                Add(tf);
             }
         }
     }

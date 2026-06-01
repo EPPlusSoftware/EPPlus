@@ -10,14 +10,14 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using System.Drawing;
 using System.Globalization;
-using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Utils.TypeConversion;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml.Style
 {
@@ -35,7 +35,6 @@ namespace OfficeOpenXml.Style
         {
             _wb = wb;
             _cells = cells;
-			_cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
 		}
 
 		internal ExcelRichTextCollection(string s, ExcelRangeBase cells)
@@ -157,6 +156,19 @@ namespace OfficeOpenXml.Style
         {
             CheckDeleted();
             if (text == null) throw new ArgumentException("Text can't be null", "text");
+
+            //If just a note we can't clear formulas on the cell itself.
+            if (_isComment == false)
+            {
+                //We can't clear formulas if no cells exist
+                if(_cells != null)
+                {
+                    //We MUST clear formulas before setting richtext
+                    //To ensure calculate does not create missmatch between formula and richtext.
+                    _cells.ClearFormulas();
+                }
+            }
+
             var rt = new ExcelRichText(text, this);
             rt.PreserveSpace = true;
             int prevIndex = 0;
@@ -203,8 +215,19 @@ namespace OfficeOpenXml.Style
                 {
                     rt.Color = Color.FromArgb(hex);
                 }
+
+                //If just a note we cannot set rich text flag on the cell itself.
                 if (_isComment == false)
                 {
+                    //If the range value is not richtext it is now.
+                    //Must set value first in order to not overwrite flags after.
+                    if (_cells.Value != this)
+                    {
+                        //var flags = _cells._worksheet._flags;
+                        _cells._worksheet._flags.GetFlagValue(_cells._fromRow, _cells._fromCol, CellFlags.RichText);
+                        _cells.Value = this;
+                    }
+                    //If not a note then we are a cell and can set the flag.
                     _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, true, CellFlags.RichText);
                 }
             }
@@ -219,6 +242,8 @@ namespace OfficeOpenXml.Style
         {
             CheckDeleted();
             _list.Clear();
+            _cells._worksheet._flags.SetFlagValue(_cells._fromRow, _cells._fromCol, false, CellFlags.RichText);
+            _cells.Value = string.Empty;
         }
         /// <summary>
         /// Removes an item at the specific index

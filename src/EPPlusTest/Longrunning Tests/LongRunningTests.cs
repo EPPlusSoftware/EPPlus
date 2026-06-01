@@ -159,6 +159,47 @@ namespace EPPlusTest.LongRunning
                 SaveWorkbook("PivotTest_calculated_columns.xlsx", p);
             }
         }
+        [TestMethod]
+        public void PerformanceIssueLoadAndSave()
+        {
+            using (var p = OpenTemplatePackage("LargeWorkbookTemplate.xlsx"))
+            {
+                /* Raw Data Sheet only */
+                ExcelWorksheet ws = p.Workbook.Worksheets[0];  // second sheet
+
+                p.Workbook.Calculate();
+                SaveWorkbook("LargeWBSave.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void PerformanceIssueLoadAndSaveSync()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var file = GetTemplateFile("LargeWorkbookTemplate.xlsx");
+                p.Load(new FileStream(file.FullName, FileMode.Open));
+                /* Raw Data Sheet only */
+                ExcelWorksheet ws = p.Workbook.Worksheets[0];  // second sheet
+
+                p.Workbook.Calculate();
+            }
+        }
+
+
+        [TestMethod]
+        public async Task PerformanceIssueLoadAndSaveAsync()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var file = GetTemplateFile("LargeWorkbookTemplate.xlsx");
+                await p.LoadAsync(file);
+                /* Raw Data Sheet only */
+                ExcelWorksheet ws = p.Workbook.Worksheets[0];  // second sheet
+
+                p.Workbook.Calculate();                
+            }
+        }
+
         #endregion
         #region HtmlExport
         [TestMethod]

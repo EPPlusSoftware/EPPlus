@@ -369,5 +369,46 @@ namespace EPPlusTest.Style
             Assert.AreEqual(C4.Style.Font.Size, C4.RichText[0].Size);
             Assert.AreEqual("Arial", C4.RichText[1].FontName);
         }
+
+        [TestMethod]
+        public void issue2214()
+        {
+            var p = new ExcelPackage();
+
+            //Ensure that 'getting' any properties does not change type
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 1D;
+
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+            var r = ws.Cells["A1"].RichText;
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+
+            var test = r.Text;
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(double));
+            Assert.IsFalse(ws.Cells["A1"].IsRichText);
+
+            //Assert that Setting the property does.
+            string text = "Hello";
+            r.Text = text;
+
+            Assert.IsTrue(ws.Cells["A1"].IsRichText);
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(string));
+            Assert.AreEqual(text, (string)ws.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void ConvertCellToRichText()
+        {
+            var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 1D;
+
+            ws.Cells["A1"].ConvertToRichText();
+
+            Assert.IsTrue(ws.Cells["A1"].IsRichText);
+            Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(string));
+            Assert.AreEqual("1", (string)ws.Cells["A1"].Value);
+            Assert.AreEqual("1", ws.Cells["A1"].RichText.Text);
+        }
     }
 }

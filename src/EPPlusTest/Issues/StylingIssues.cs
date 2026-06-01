@@ -468,7 +468,8 @@ namespace EPPlusTest
                 Assert.IsTrue(origText.Contains("69928453.64000"));
 
                 ws1.Cells["D8"].Calculate();
-                var cellRich = ws1.Cells["D8"].RichText.Text;
+                
+                var cellRich = ws1.Cells["D8"].ConvertToRichText().Text;
 
                 //Verify formatting has changed appropriately for calculated string
                 Assert.IsTrue(cellRich.Contains("0,80"));

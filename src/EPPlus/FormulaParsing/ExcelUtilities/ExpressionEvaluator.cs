@@ -218,21 +218,44 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         private bool TryConvertStringToDouble(string right, out double result)
         {
             result = 0d;
-            if(double.TryParse(right, out double val))
+            if (double.TryParse(right, out double val))
             {
                 result = val;
                 return true;
             }
-            else
+            // Time-like strings ("10:04", "7 AM") go to the time parser; everything
+            // else is offered to DateTime.TryParse first so date criteria like
+            // ">=2026-2-1" compare against the actual date serial rather than the
+            // time-string parser's midnight fallback (which would yield 0).
+            if (!LooksLikeTime(right) && DateTime.TryParse(right, out DateTime date))
             {
-                var timeVal = _timeStringParser.Parse(right);
-                if(double.IsNaN(timeVal))
-                {
-                    return false;
-                }
-                result = timeVal;
+                result = date.ToOADate();
                 return true;
             }
+            var timeVal = _timeStringParser.Parse(right);
+            if (double.IsNaN(timeVal))
+            {
+                return false;
+            }
+            result = timeVal;
+            return true;
+        }
+
+        private static bool LooksLikeTime(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+            if (s.IndexOf(':') >= 0) return true;
+            var trimmed = s.TrimEnd();
+            if (trimmed.Length >= 2)
+            {
+                var suffix = trimmed.Substring(trimmed.Length - 2);
+                if (string.Equals(suffix, "AM", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(suffix, "PM", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

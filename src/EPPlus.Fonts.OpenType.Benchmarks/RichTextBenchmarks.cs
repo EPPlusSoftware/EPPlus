@@ -14,6 +14,7 @@
 using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -92,11 +93,12 @@ namespace EPPlus.Fonts.Benchmarks
 
             for (int i = 0; i < 10; i++)
             {
-                _fragments10.Add(new TextFragment
+                var tf = new TextFragment
                 {
                     Text = LoremIpsum20Para,
-                    Font = measurementFont
-                });
+                };
+                tf.RichTextOptions.SetFont(measurementFont);
+                _fragments10.Add(tf);
             }
 
             Console.WriteLine(string.Format("Prepared {0} fragments, each with {1} chars",
@@ -144,31 +146,31 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = "warmup",
-                    Font = new MeasurementFont
+                    Font = new OpenTypeFontInfoBase
                     {
-                        FontFamily = FontFamily,
+                        Family = FontFamily,
                         Size = FontSize,
-                        Style = MeasurementFontStyles.Regular
+                        SubFamily = FontSubFamily.Regular
                     }
                 },
                 new TextFragment
                 {
                     Text = "warmup",
-                    Font = new MeasurementFont
+                    Font = new OpenTypeFontInfoBase
                     {
-                        FontFamily = FontFamily,
+                        Family = FontFamily,
                         Size = 12f,
-                        Style = MeasurementFontStyles.Bold
+                        SubFamily = FontSubFamily.Bold
                     }
                 },
                 new TextFragment
                 {
                     Text = "warmup",
-                    Font = new MeasurementFont
+                    Font = new OpenTypeFontInfoBase
                     {
-                        FontFamily = FontFamily,
+                        Family = FontFamily,
                         Size = FontSize,
-                        Style = MeasurementFontStyles.Italic
+                        SubFamily = FontSubFamily.Italic
                     }
                 }
             };
@@ -204,27 +206,27 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = text.Substring(0, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 12f, Style = MeasurementFontStyles.Bold }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 12f, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 2, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize, Style = MeasurementFontStyles.Italic }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize, SubFamily = FontSubFamily.Italic }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 3, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 4),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 10f }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 10f }
                 }
             };
 
@@ -259,27 +261,27 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = text.Substring(0, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 12f, Style = MeasurementFontStyles.Bold }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 12f, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 2, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize, Style = MeasurementFontStyles.Italic }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize, SubFamily = FontSubFamily.Italic }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 3, chunkSize),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = FontSize }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 4),
-                    Font = new MeasurementFont { FontFamily = FontFamily, Size = 10f }
+                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 10f }
                 }
             };
 

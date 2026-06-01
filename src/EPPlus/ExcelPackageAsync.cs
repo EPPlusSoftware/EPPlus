@@ -175,8 +175,8 @@ namespace OfficeOpenXml
 				}
                 finally
                 {
-                    ms.Dispose();
-				}
+                    //ms.Dispose();   //Don't dispose the stream as it is used as the base for the ZipPackage when having 2GB streams or larger. It will be disposed when the package is disposed or saved.
+                }
             }
             //Clear the workbook so that it gets reinitialized next time
             this._workbook = null;

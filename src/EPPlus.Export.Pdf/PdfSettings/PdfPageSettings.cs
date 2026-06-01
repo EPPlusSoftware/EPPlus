@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
+using OfficeOpenXml;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -90,6 +91,31 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// </summary>
         public bool ShowHeadings = false;
 
+        /// <summary>
+        /// Set the range to repeat at the top of the page.
+        /// </summary>
+        public ExcelRange RowsToRepeatAtTop = null;
+
+        /// <summary>
+        /// Set the range to repeat to the left of the page.
+        /// </summary>
+        public ExcelRange ColumnsToRepeatAtLeft = null;
+
+        /// <summary>
+        /// Set if comments and notes should be included.
+        /// </summary>
+        public CommentsAndNotes CommentsAndNotes = CommentsAndNotes.None;
+
+        /// <summary>
+        /// Sets how to display errors in cells.
+        /// </summary>
+        public CellErrors CellErrors = CellErrors.Displayed; 
+
+        /// <summary>
+        /// Set the starting page number.
+        /// </summary>
+        public int FirstPageNumber = 1;
+
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
         /// Set the size of pages.
@@ -163,6 +189,22 @@ namespace EPPlus.Export.Pdf.PdfSettings
             }
         }
 
+        private PdfScaling _scaling = PdfScaling.NoScaling;
+        /// <summary>
+        /// Set the scaling. NOT IMPLEMENTED
+        /// </summary>
+        public PdfScaling Scaling
+        {
+            get
+            {
+                return _scaling;
+            }
+            set
+            {
+                _scaling = value;
+            }
+        }
+
         internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
         internal string defaultFontName = "";
 
@@ -199,6 +241,42 @@ namespace EPPlus.Export.Pdf.PdfSettings
         /// Order Over then down.
         /// </summary>
         OverThenDown,
+    }
+
+    public enum CommentsAndNotes
+    {
+        /// <summary>
+        /// Comments and Notes will be ignored.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Comments and Notes will be displayed on a seprate page at the end.
+        /// </summary>
+        AtEndOfSheet,
+        /// <summary>
+        /// Notes will be displayed on the sheet. (Comments will not be shown.)
+        /// </summary>
+        AsDisplayedOnSheet
+    }
+
+    public enum CellErrors
+    {
+        /// <summary>
+        /// Errors will be displayed
+        /// </summary>
+        Displayed,
+        /// <summary>
+        /// Errors will be not displayed
+        /// </summary>
+        Blank,
+        /// <summary>
+        /// Errors will be displayed as "--"
+        /// </summary>
+        Dashed,
+        /// <summary>
+        /// Errors will be displayed as #N/A
+        /// </summary>
+        NA,
     }
 }
 
