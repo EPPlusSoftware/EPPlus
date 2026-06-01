@@ -186,10 +186,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 {
                     var inputFrag = InputFragments[styleRun.FragmentIndex];
                     var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
-                    
+
                     if (shapeLight)
                     {
                         var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
+
                         double[] charWidths = new double[styleRun.Length + 1];
                         shapedGlyphs.FillCharWidths((float)inputFrag.RichTextOptions.Size, charWidths, styleRun.Length + 1);
                         var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextOptions.Size);

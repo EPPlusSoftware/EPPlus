@@ -106,6 +106,12 @@ namespace EPPlus.Fonts.OpenType
         // Public API
         // -----------------------------------------------------------------------------------------
 
+        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.Exact;
+        bool RequireExactFoundFont { get { return LeastRequiredAvailability == FontAvailability.Exact; } }
+        bool RequireFamilyFont{ get { return RequireExactFoundFont || LeastRequiredAvailability == FontAvailability.FamilyOnly; } }
+
+        //public FontAvailability FallBackAvailablility = FontAvailability.Exact;
+
         /// <summary>
         /// Gets a TextShaper for the given font, reusing a thread-local cached instance.
         /// The underlying OpenTypeFont is shared within this engine (but not between engines),
@@ -128,6 +134,16 @@ namespace EPPlus.Fonts.OpenType
                 var font = LoadFont(fontName, subFamily);
                 if (font == null)
                     return null;
+
+                var availability = GetFontAvailability(fontName, subFamily);
+                if (RequireExactFoundFont && availability != FontAvailability.Exact)
+                {
+                    throw new FileNotFoundException($"Could not find Font: {fontName} fallbacked to font:{font.GetEnglishFontFamilyName()}");
+                }
+                else if(RequireFamilyFont && availability != FontAvailability.FamilyOnly && availability !=  FontAvailability.Exact)
+                {
+                    throw new FileNotFoundException($"Could not find Font subfamily: {subFamily} fallbacked to familyOnly font:{font.GetEnglishFontFamilyName()} subfamily:{font.SubFamily}");
+                }
 
                 shaper = new TextShaper(this, font);
                 perEngineMap[key] = shaper;
