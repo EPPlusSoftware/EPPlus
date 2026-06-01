@@ -56,7 +56,7 @@ namespace EPPlusImageRenderer.Svg
             if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
                Chart.Legend.Position == eLegendPosition.Left)
             {
-                ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2;
+                ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
 
             rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style.PlotArea.FillReference.Color);

@@ -17,7 +17,7 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgLegendSerie : SvgLegendSeriesIcon
+    internal class DrawingLegendSerie : SvgLegendSeriesIcon
     {
         internal DrawingTextbody Textbox { get; set; }
     }

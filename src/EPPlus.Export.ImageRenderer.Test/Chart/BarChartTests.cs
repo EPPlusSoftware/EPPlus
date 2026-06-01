@@ -13,11 +13,10 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("BarChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                //var renderer = new EPPlusImageRenderer.ImageRenderer();
 
-                //var ix = 0;
+                //var ix = 1;
                 //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
+                //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
                 var ix = 0;
@@ -35,12 +34,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("BarChartForSvg.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
-
-                //var ix = 2;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
-
                 var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)
                 {
