@@ -6,9 +6,10 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
-using OfficeOpenXml.Utils.Drawing;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class PieSliceRenderItem : ChartDrawingObject
@@ -34,6 +35,157 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         Point _startPoint;
         Point _midPoint;
         Point _endPoint;
+
+        /// <summary>
+        /// Get copy of start point of slice in local coordinates
+        /// </summary>
+        /// <returns></returns>
+        internal Coordinate GetStartPointPositionLocal()
+        {
+            return new Coordinate(_startPoint.Left, _startPoint.Top);
+        }
+        /// <summary>
+        /// Get copy of mid point of slice in local coordinates
+        /// </summary>
+        /// <returns></returns>
+        internal Coordinate GetMidPointLocal()
+        {
+            return new Coordinate(_midPoint.Left, _midPoint.Top);
+        }
+        /// <summary>
+        /// Get copy of end point of slice in local coordinates
+        /// </summary>
+        /// <returns></returns>
+        internal Coordinate GetEndPointLocal()
+        {
+            return new Coordinate(_endPoint.Left, _endPoint.Top);
+        }
+
+        PathRenderItem _slicePath;
+        PathRenderItem _debugBoundsPath;
+
+        bool ExistWithinRange(double target, double min, double max)
+        {
+            if (min < target && target < max)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal BoundingBox ExtremePoints { get; set; }
+
+        void CalculateWidthHeight(double prevSliceDegrees)
+        {
+
+            var endPointDegrees = prevSliceDegrees + Degrees;
+            if (endPointDegrees < 0)
+            {
+                endPointDegrees = 360 + endPointDegrees;
+            }
+
+            var startPointDegrees = prevSliceDegrees;
+            if (startPointDegrees < 0)
+            {
+                startPointDegrees = 360 + startPointDegrees;
+            }
+
+            var circleSectorDegrees = endPointDegrees - startPointDegrees;
+
+            double maxX;
+            double maxY;
+            double minY;
+            double minX;
+
+            if (ExistWithinRange(90, startPointDegrees, endPointDegrees))
+            {
+                maxY = _circleCenter.Top + _radius;
+            }
+            else
+            {
+                maxY = Math.Max(_startPoint.Top, _endPoint.Top);
+            }
+
+            maxY = Math.Max(maxY, _circleCenter.Top);
+
+            if (ExistWithinRange(180, startPointDegrees, endPointDegrees))
+            {
+                minX = _circleCenter.Left - _radius;
+            }
+            else
+            {
+                minX = Math.Min(_startPoint.Left, _endPoint.Left);
+            }
+
+            minX = Math.Min(minX, _circleCenter.Left);
+
+            if (ExistWithinRange(270, startPointDegrees, endPointDegrees))
+            {
+                minY = _circleCenter.Top - _radius;
+            }
+            else
+            {
+                minY = Math.Min(_startPoint.Top, _endPoint.Top);
+            }
+
+            minY = Math.Min(minY, _circleCenter.Top);
+
+            if (endPointDegrees < startPointDegrees || ExistWithinRange(0, startPointDegrees, endPointDegrees))
+            {
+                if (endPointDegrees > 270)
+                {
+                    maxX = _circleCenter.Left;
+                }
+                else
+                {
+                    maxX = _circleCenter.Left + _radius;
+                }
+            }
+            else
+            {
+                maxX = Math.Max(_startPoint.Left, _endPoint.Left);
+            }
+
+            maxX = Math.Max(_circleCenter.Left, maxX);
+
+
+            ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
+            ExtremePoints.Parent = _innerGroup.Bounds;
+            //if(Degrees > 0)
+            //{
+
+            //}
+            //if(Degrees)
+            //double xMax = Math.Max(_startPoint.Left, _endPoint.Left);
+            //xMax = Math.Max(xMax, _midPoint.Left);
+
+            //double yMax = Math.Max(_startPoint.Top, _endPoint.Top);
+            //yMax = Math.Max(yMax, _midPoint.Top);
+            //double yMax;
+            //double xMin;
+            //double yMin;
+        }
+
+        private double _sliceScaleFactor = 1d;
+        private double _scaledRadius { get { return _radius * _sliceScaleFactor; } }
+
+        private void CalculateExplosionDir()
+        {
+            var transformOriginLocal = new Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
+
+            //Get directional vector (in local coords but does not matter since we make it directional)
+            Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
+
+            //normalize the pieDirection vector so that it is percentual and with lenght == 1
+            pieDirection = pieDirection / pieDirection.Length;
+
+            CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
+        }
+
+        //internal Graphics.Math.Vector2 GetVectorCtrToEnd()
+        //{
+        //    //_circleCenter + _sc
+        //}
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
@@ -70,152 +222,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerItems = new GroupRenderItem(_innerGroup.Bounds, 0);
         }
 
-        /// <summary>
-        /// Get copy of start point of slice in local coordinates
-        /// </summary>
-        /// <returns></returns>
-        internal Coordinate GetStartPointPositionLocal()
-        {
-            return new Coordinate(_startPoint.Left, _startPoint.Top);
-        }
-        /// <summary>
-        /// Get copy of mid point of slice in local coordinates
-        /// </summary>
-        /// <returns></returns>
-        internal Coordinate GetMidPointLocal()
-        {
-            return new Coordinate(_midPoint.Left, _midPoint.Top);
-        }
-        /// <summary>
-        /// Get copy of end point of slice in local coordinates
-        /// </summary>
-        /// <returns></returns>
-        internal Coordinate GetEndPointLocal()
-        {
-            return new Coordinate(_endPoint.Left, _endPoint.Top);
-        }
-
-        PathRenderItem _slicePath;
-        PathRenderItem _debugBoundsPath;
-
-        bool ExistWithinRange(double target, double min, double max)
-        {
-            if(min < target && target < max)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        internal BoundingBox ExtremePoints { get; set; }
-
-        void CalculateWidthHeight(double prevSliceDegrees)
-        {
-
-            var endPointDegrees = prevSliceDegrees + Degrees;
-            if(endPointDegrees < 0)
-            {
-                endPointDegrees = 360 + endPointDegrees;
-            }
-
-            var startPointDegrees = prevSliceDegrees;
-            if(startPointDegrees < 0)
-            {
-                startPointDegrees = 360 + startPointDegrees;
-            }
-
-            var circleSectorDegrees = endPointDegrees - startPointDegrees;
-
-            double maxX;
-            double maxY;
-            double minY;
-            double minX;
-
-            if (ExistWithinRange(90, startPointDegrees, endPointDegrees))
-            {
-                maxY = _circleCenter.Top + _radius;
-            }
-            else
-            {
-                maxY = Math.Max(_startPoint.Top, _endPoint.Top);
-            }
-
-            maxY = Math.Max(maxY, _circleCenter.Top);
-
-            if (ExistWithinRange(180, startPointDegrees, endPointDegrees))
-            {
-                minX = _circleCenter.Left - _radius;
-            }
-            else
-            {
-                minX = Math.Min(_startPoint.Left, _endPoint.Left);
-            }
-
-            minX = Math.Min(minX, _circleCenter.Left);
-
-            if(ExistWithinRange(270, startPointDegrees, endPointDegrees))
-            {
-                minY = _circleCenter.Top - _radius;
-            }
-            else
-            {
-                minY = Math.Min(_startPoint.Top, _endPoint.Top);
-            }
-
-            minY = Math.Min(minY, _circleCenter.Top);
-
-            if (endPointDegrees < startPointDegrees || ExistWithinRange(0, startPointDegrees, endPointDegrees))
-            {
-                if(endPointDegrees > 270)
-                {
-                    maxX = _circleCenter.Left;
-                }
-                else
-                {
-                    maxX = _circleCenter.Left + _radius;
-                }
-            }
-            else
-            {
-                maxX = Math.Max(_startPoint.Left, _endPoint.Left);
-            }
-
-            maxX = Math.Max(_circleCenter.Left, maxX);
-
-
-            ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
-            ExtremePoints.Parent = Rectangle.Bounds;
-            //if(Degrees > 0)
-            //{
-
-            //}
-            //if(Degrees)
-            //double xMax = Math.Max(_startPoint.Left, _endPoint.Left);
-            //xMax = Math.Max(xMax, _midPoint.Left);
-
-            //double yMax = Math.Max(_startPoint.Top, _endPoint.Top);
-            //yMax = Math.Max(yMax, _midPoint.Top);
-            //double yMax;
-            //double xMin;
-            //double yMin;
-        }
-
-        private double _sliceScaleFactor = 1d;
-        private double _scaledRadius { get{ return _radius * _sliceScaleFactor; } }
-
-        private void CalculateExplosionDir()
-        {
-            var transformOriginLocal = new Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
-
-            //Get directional vector (in local coords but does not matter since we make it directional)
-            Vector2 pieDirection = transformOriginLocal - _circleCenter.LocalPosition;
-
-            //normalize the pieDirection vector so that it is percentual and with lenght == 1
-            pieDirection = pieDirection / pieDirection.Length;
-
-            CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
-        }
-
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
         {
             _slicePath = new PathRenderItem(plotAreaBounds);
@@ -226,7 +232,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var moveCenter = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
             var lineToStart = new PathCommands(PathCommandType.Line, _startPoint.Left, _startPoint.Top);
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top});
+            var arcCommand = new PathCommands(PathCommandType.Arc, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top });
             var end = new PathCommands(PathCommandType.End, _endPoint.Left, _endPoint.Top);
 
             //Get max and min values
@@ -243,7 +249,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
-            if(position == -1)
+            if (position == -1)
             {
                 //Visualize all points
                 AddDebugLines(moveCenter, plotAreaBounds);
@@ -374,7 +380,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <returns></returns>
         Vector2 GetLocalTranslationVector(double percentTowardsEndPoint)
         {
-            if(percentTowardsEndPoint < 0 || percentTowardsEndPoint > 100)
+            if (percentTowardsEndPoint < 0 || percentTowardsEndPoint > 100)
             {
                 throw new InvalidOperationException($"input: '{percentTowardsEndPoint}' invalid. Must be between 0 and 100");
             }
@@ -416,7 +422,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         Coordinate GetFinalLocalTranslation(Vector2 LocalTranslationVector, Vector2 localMax, Vector2 localMin)
         {
-            Coordinate lengthPoint = new Coordinate(0,0);
+            Coordinate lengthPoint = new Coordinate(0, 0);
 
             //Check if local is above or below extremes in X axis
             if (LocalTranslationVector.X != 0)
@@ -481,12 +487,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(translationLeft, translationTop);
         }
 
-        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Vector2 localMax, Vector2 localMin)
+        void CalculatePointExplosion(double explosionOfPoint, double pieExplosion, Vector2 localMax,Vector2 localMin)
         {
             //Get distance/length to move along vector
             Vector2 LocalTranslationVector = GetLocalTranslationVector(explosionOfPoint, pieExplosion);
             var finalTranslation = GetFinalLocalTranslation(LocalTranslationVector, localMax, localMin);
-            
+
             _innerGroup.TranslationOffset.Left = finalTranslation.X;
             _innerGroup.TranslationOffset.Top = finalTranslation.Y;
         }
@@ -495,7 +501,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
 
-            var xPoint = _circleCenter.Left + ( _radius * Math.Cos(angleRadians));
+            var xPoint = _circleCenter.Left + (_radius * Math.Cos(angleRadians));
             var yPoint = _circleCenter.Top + (_radius * Math.Sin(angleRadians));
 
             var point = new Point();
@@ -515,22 +521,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal GroupRenderItem GetInnerItemGroup()
         {
-            return _innerItems;
+            return _innerGroup;
         }
 
         /// <summary>
         /// Transform origin in local coordinates
+        /// Translated
         /// </summary>
         /// <returns></returns>
-        internal Coordinate GetInnerGroupTransformOrigin()
+        internal Coordinate GetInnerGroupTransformOriginTranslated()
         {
-            return new Coordinate(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
+            return new Coordinate(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            renderItems.Add(_innerGroup);
+
+            throw new NotImplementedException();
         }
 
+        //internal BoundingBox GetInnerGroupBounds()
+        //{
+        //    return _innerGroup.Bounds;
+        //}
     }
 }
