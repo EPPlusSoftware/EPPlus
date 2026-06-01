@@ -186,6 +186,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 {
                     var inputFrag = InputFragments[styleRun.FragmentIndex];
                     var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
+                    
                     if (shapeLight)
                     {
                         var shapedGlyphs = shaper.ShapeLight(styleRun.Text);

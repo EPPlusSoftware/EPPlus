@@ -73,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 trailingSpaceCount++;
             }
 
-            var widthWithoutTrail = Width - LastFontSpaceWidth * (trailingSpaceCount);
+            var widthWithoutTrail = Width - (LastFontSpaceWidth * (trailingSpaceCount));
             return widthWithoutTrail;
         }
 
