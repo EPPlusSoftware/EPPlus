@@ -19,15 +19,15 @@ using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
-using System.Security;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {
@@ -51,49 +51,53 @@ namespace EPPlus.Export.Pdf.PdfLayout
             Name = worksheet.Name + " Catalog";
             var WorksheetLayout = AddChild(new PdfWorksheetLayout(worksheet, pageSettings, dictionaries));
             sw.Stop();
-            var t1 = sw.ElapsedMilliseconds;
+            var wsLayoutTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
             //CreateFontSubsets(pageSettings, dictionaries.Fonts);
             var PagesLayout = CreatePagesLayoutObject();
             sw.Stop();
-            var t2 = sw.ElapsedMilliseconds;
+            var PagesTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
-            CreatePageLayoutObjects(worksheet, pageSettings, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
+            CreatePageLayoutObjects(worksheet, pageSettings, dictionaries, WorksheetLayout as PdfWorksheetLayout, PagesLayout);
             sw.Stop();
-            var t3 = sw.ElapsedMilliseconds;
+            var PageTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
-            var s0 = this.ToHierarchyString();
+
+            //Add Page for Notes and Comments
+            CreatePageForLayoutComments(pageSettings, dictionaries, worksheet, PagesLayout);
+            sw.Stop();
+            var CommentsTime = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
 
             AddHeaderFooter(worksheet, pageSettings, dictionaries, PagesLayout);
             sw.Stop();
-            var t8 = sw.ElapsedMilliseconds;
+            var HeaderFooterTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
             PopulatePages(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             sw.Stop();
-            var t4 = sw.ElapsedMilliseconds;
+            var PopulateTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
-            var s1 = this.ToHierarchyString();
 
             //AddCellsToPageLayout(WorksheetLayout, PagesLayout);
             //HandleMergedCellsAndDrawings(pageSettings, dictionaries, WorksheetLayout, PagesLayout);
             MoveCellToPageFromContent(pageSettings, dictionaries, PagesLayout);
             sw.Stop();
-            var t5 = sw.ElapsedMilliseconds;
+            var MoveCellsTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
-            var s2 = this.ToHierarchyString();
 
             ProocessPageAndCells(pageSettings, dictionaries, PagesLayout);
             sw.Stop();
-            var t6 = sw.ElapsedMilliseconds;
+            var ProcessCellsTime = sw.ElapsedMilliseconds;
             sw.Reset();
             sw.Start();
 
@@ -101,7 +105,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             AdjustAndSort(PagesLayout, dictionaries);
             RemoveChild(WorksheetLayout);
             sw.Stop();
-            var t7 = sw.ElapsedMilliseconds;
+            var AdjustSortTime = sw.ElapsedMilliseconds;
             sw.Reset();
         }
 
@@ -115,7 +119,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         }
 
         //Create page and content objects.
-        private void CreatePageLayoutObjects(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfWorksheetLayout worksheetLayout, PdfPagesLayout pages)
+        internal static void CreatePageLayoutObjects(ExcelWorksheet worksheet, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheetLayout worksheetLayout, PdfPagesLayout pages, bool IsCommentPage = false)
         {
 
             /* when calculating pages we need to take row and column headings width and height into consideration we could start our for loops and 0 and check if j==0 and add row width and then just proceed like usual and
@@ -126,45 +130,63 @@ namespace EPPlus.Export.Pdf.PdfLayout
              */
 
             //Get x cooridiantes to break for new page
-            List<double> xBreaks = new List<double>() { 0d };
+            double rowHeading = pageSettings.ShowHeadings ? PdfWorksheetLayout.RowHeadingWidth : 0d;
+            List<double> xBreaks = new List<double>() { 0 };
             double currentWidth = 0, boundsWidth = pageSettings.ContentBounds.Width;
+            List<int> columns = new List<int>();
+            int columnCount = 0;
             for (int j = 1; j <= worksheet.Dimension._toCol; j++)
             {
                 if (worksheet.Column(j).Hidden) { continue; }
                 var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(j).Width, PdfWorksheetLayout.ZeroCharWidth);
-                if (currentWidth + width >= boundsWidth)
+                if (currentWidth + width + rowHeading >= boundsWidth)
                 {
                     xBreaks.Add(currentWidth);
+                    columns.Add(columnCount);
+                    columnCount = 0;
                     boundsWidth = currentWidth + pageSettings.ContentBounds.Width;
                 }
                 currentWidth += width;
+                columnCount++;
                 if (worksheet.Column(j).PageBreak)
                 {
                     xBreaks.Add(currentWidth);
+                    columns.Add(columnCount);
+                    columnCount = 0;
                     boundsWidth = currentWidth + pageSettings.ContentBounds.Width;
                 }
             }
-                xBreaks.Add(currentWidth);
+            xBreaks.Add(currentWidth);
+            columns.Add(columnCount);
             //Get y cooridiantes to break for new page
+            double colHeading = pageSettings.ShowHeadings ? -PdfWorksheetLayout.ColumnHeadingHeight : 0;
             List<double> yBreaks = new List<double>() { 0d };
             double currentHeight = 0, boundsHeight = -pageSettings.ContentBounds.Height;
+            List<int> rows = new List<int>();
+            int rowCount = 0;
             for (int i = 1; i <= worksheet.Dimension._toRow; i++)
             {
                 if (worksheet.Row(i).Hidden) { continue; }
                 var height = UnitConversion.ExcelRowHeightToPoints(worksheet.Row(i).Height);
-                if (currentHeight - height <= boundsHeight)
+                if (currentHeight - height + colHeading <= boundsHeight)
                 {
                     yBreaks.Add(currentHeight);
+                    rows.Add(rowCount);
+                    rowCount = 0;
                     boundsHeight = currentHeight - pageSettings.ContentBounds.Height;
                 }
                 currentHeight -= height;
+                rowCount++;
                 if (worksheet.Row(i).PageBreak)
                 {
                     yBreaks.Add(currentHeight);
+                    rows.Add(rowCount);
+                    rowCount = 0;
                     boundsHeight = currentHeight - pageSettings.ContentBounds.Height;
                 }
             }
-                yBreaks.Add(currentHeight);
+            yBreaks.Add(currentHeight);
+            rows.Add(rowCount);
             //calculate number of pages needed based on contentBounds and worksheetLayout.Size
             int horizontalPageCount = xBreaks.Count-1; //System.Math.Max(1, (int)System.Math.Ceiling(worksheetLayout.Size.X / pageSettings.ContentBounds.Width));
             int verticalPageCount = yBreaks.Count-1; //System.Math.Max(1, (int)System.Math.Ceiling(System.Math.Abs( worksheetLayout.Size.Y) / pageSettings.ContentBounds.Height));
@@ -192,14 +214,139 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 double height = Math.Abs( yBreaks[row] - yBreaks[row + 1]);
                 PdfContentLayout content = new PdfContentLayout(0, 0, width, height);
                 content.Name = "Content " + (i + 1);
+                if (pageSettings.ShowHeadings)
+                {
+                    AddColumnHeadings(worksheet, pageSettings, dictionaries, content, columns[col], col, columns);
+                    AddRowHeadings(worksheet, pageSettings, dictionaries, content, rows[row], row, rows);
+                }
                 page.AddChild(content);
+                page.isCommentsPage = IsCommentPage;
                 content.Position = new Vector2(xBreaks[col], yBreaks[row+1]);
                 pages.AddChild(page);
             }
         }
 
+        private static void AddColumnHeadings(ExcelWorksheet ws, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfContentLayout content, int columnsInPage, int pageColumn, List<int> columns )
+        {
+            int startColIndex = 1;
+            for (int i = 0; i < pageColumn; i++)
+            {
+                startColIndex += columns[i];
+            }
+            double X = content.LocalPosition.X;
+            for (int j = startColIndex; j < startColIndex + columnsInPage; j++)
+            {
+                if (ws.Column(j).Hidden) { continue; }
+                string column = ExcelRangeBase.GetColumnLetter(j);
+                var col = ws.Cells[column];
+                var width = UnitConversion.ExcelColumnWidthToPoints(ws.Column(j).Width, PdfWorksheetLayout.ZeroCharWidth);
+                var height = UnitConversion.ExcelRowHeightToPoints(ws.DefaultRowHeight);
+                var cellStyle = new PdfCellStyle();
+                cellStyle.xfFill = col.Style.Fill;
+                var cell = new PdfCellLayout(dictionaries, col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
+                cell.Name = col.Address;
+                cell.Z = 8;
+                cell.isHeading = true;
+                cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
+                cell.CellFillData.BackgroundColor = Color.White;
+                //Add text
+                var cellContent = new PdfCellContentLayout(column, col, cellStyle, pageSettings, X, content.LocalPosition.Y + content.Size.Y, width, height, 1, 1, 0, content, dictionaries);
+                cellContent.Name = col.Address;
+                cellContent.Z = 9;
+                //Add border
+                cellStyle.xfTop = col.Style.Border.Top;
+                cellStyle.xfBottom = col.Style.Border.Bottom;
+                cellStyle.xfLeft = col.Style.Border.Left;
+                cellStyle.xfRight = col.Style.Border.Right;
+                var border = new PdfCellBorderLayout(col, cellStyle, X, content.LocalPosition.Y + content.Size.Y + height, width, height, 1, 1, 0, content);
+                border.Name = col.Address;
+                border.Z = 10;
+                border.InitEdgeBorders(col);
+                border.BorderData.Top.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Bottom.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Left.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Right.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Top.IsHeading = true;
+                border.BorderData.Bottom.IsHeading = true;
+                border.BorderData.Left.IsHeading = true;
+                border.BorderData.Right.IsHeading = true;
+
+                X = X + width;
+            }
+        }
+
+        private static void AddRowHeadings(ExcelWorksheet ws, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfContentLayout content, int rowsInPage, int pageRow, List<int> rows)
+        {
+            int startRowIndex = 1;
+            for (int i = 0; i < pageRow; i++)
+            {
+                startRowIndex += rows[i];
+            }
+            double Y = content.LocalPosition.Y + content.Size.Y;
+            for (int j = startRowIndex; j < startRowIndex + rowsInPage; j++)
+            {
+                if (ws.Row(j).Hidden) { continue; }
+                var row = ws.Cells[j, 1];
+                var height = UnitConversion.ExcelRowHeightToPoints(ws.Row(j).Height);
+                var width = PdfWorksheetLayout.RowHeadingWidth;
+                var cellStyle = new PdfCellStyle();
+                cellStyle.xfFill = row.Style.Fill;
+                var cell = new PdfCellLayout(dictionaries, row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
+                cell.Name = j.ToString();
+                cell.Z = 8;
+                cell.isHeading = true;
+                cell.CellFillData.PatternStyle = ExcelFillStyle.Solid;
+                cell.CellFillData.BackgroundColor = Color.White;
+                //Add text
+                var cellContent = new PdfCellContentLayout(j.ToString(), row, cellStyle, pageSettings, content.LocalPosition.X - width, Y - height, width, height, 1, 1, 0, content, dictionaries);
+                cellContent.Name = j.ToString();
+                cellContent.Z = 9;
+                //Add border
+                cellStyle.xfTop = row.Style.Border.Top;
+                cellStyle.xfBottom = row.Style.Border.Bottom;
+                cellStyle.xfLeft = row.Style.Border.Left;
+                cellStyle.xfRight = row.Style.Border.Right;
+                var border = new PdfCellBorderLayout(row, cellStyle, content.LocalPosition.X - width, Y, width, height, 1, 1, 0, content);
+                border.Name = j.ToString();
+                border.Z = 10;
+                border.InitEdgeBorders(row);
+                border.BorderData.Top.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Bottom.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Left.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Right.BorderStyle = ExcelBorderStyle.Thin;
+                border.BorderData.Top.IsHeading = true;
+                border.BorderData.Bottom.IsHeading = true;
+                border.BorderData.Left.IsHeading = true;
+                border.BorderData.Right.IsHeading = true;
+
+                Y = Y - height;
+            }
+        }
+
+        //Create pages for comments and notes
+        private void CreatePageForLayoutComments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, PdfPagesLayout pagesLayout)
+        {
+            PdfCommentsLayout.CreateCommentAndNotesPages(pageSettings, dictionaries, ws, pagesLayout);
+        }
+
+        private void LayoutAndShapeCommentsAndNotes(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPageLayout page)
+        {
+            page.ChildObjects[0].LocalPosition = new Vector2(pageSettings.Margins.LeftPu, pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y);
+            var contentList = page.ChildObjects[0].ChildObjects.ToArray();
+            foreach (var child in contentList)
+            {
+                page.AddChild(child);
+                if (child is PdfCellContentLayout ccl)
+                {
+                    //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, ccl);
+                    ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
+                }
+            }
+            page.RemoveChild(page.ChildObjects[0]);
+        }
+
         //Internal class for storing bounds for pages
-        private class PageData
+        internal class PageData
         {
             public PdfPageLayout Page;
             public Rect Bounds; // replace BoundingBox with whatever your bounds type is
@@ -217,28 +364,40 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Move cells to their overlapping pages.
         private void PopulatePages(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform WorksheetLayout, PdfPagesLayout pages)
         {
-
             var pageData = new List<PageData>();
             foreach (PdfPageLayout p in pages.ChildObjects)
             {
-                pageData.Add(new PageData(p, p.ChildObjects[0].GetGlobalBoundingbox()));
-
                 var hfs = p.ChildObjects.Where(x => x is PdfHeaderFooterLayout).ToArray();
-                foreach(var hf in hfs )
-                    LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
+                foreach (var hf in hfs)
+                {
+                    //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, (PdfHeaderFooterLayout)hf);
+                }
+                if (p.isCommentsPage)
+                {
+                    LayoutAndShapeCommentsAndNotes(pageSettings, dictionaries, p);
+                    continue;
+                }
+
+                pageData.Add(new PageData(p, p.ChildObjects[0].GetGlobalBoundingbox()));
+                var contents = p.ChildObjects[0].ChildObjects.Where(x => x is PdfCellContentLayout).ToArray();
+                foreach (PdfCellContentLayout content in contents)
+                {
+                    //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, content);
+                    AdjustText(content.TextLength, content.TextHeight, content);
+                }
+
             }
             pageData.Sort((a, b) => a.Bounds.Top.CompareTo(b.Bounds.Top));
-
             var transforms = new List<Transform>(WorksheetLayout.ChildObjects);
             foreach (var t in transforms)
             {
                 var cellBounds = t.GetGlobalBoundingbox();
-
                 // Pass 1: check if ANY page fully contains this transform. 
                 // If so, we use only that page and skip all partial intersects.
                 PageData fullIntersectPage = null;
                 foreach (var pd in pageData)
                 {
+                    if (pd.Page.isCommentsPage) continue;
                     if (pd.Bounds.Top > cellBounds.Bottom) break;
                     if (pd.Bounds.Bottom < cellBounds.Top) continue;
 
@@ -251,6 +410,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 // Pass 2: assign to pages.
                 foreach (var pd in pageData)
                 {
+                    if (pd.Page.isCommentsPage) continue;
                     if (pd.Bounds.Top > cellBounds.Bottom) break;
                     if (pd.Bounds.Bottom < cellBounds.Top) continue;
 
@@ -294,7 +454,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                         if (fullIntersect)
                         {
                             page.AddCell(cellContent);
-                            LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, cellContent);
+                            //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, cellContent);
+                            AdjustText(cellContent.TextLength, cellContent.TextHeight, cellContent);
                             break;
                         }
                         else
@@ -307,7 +468,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
                             copy.Name = cellContent.Name;
                             copy.Z = cellContent.Z;
                             page.ChildObjects[0].AddChild(copy);
-                            LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, copy);
+                            //LayoutAndShapeText(pageSettings, dictionaries, shaperCache, layoutEngineCache, copy);
+                            AdjustText(cellContent.TextLength, cellContent.TextHeight, cellContent);
                         }
                     }
                     else if (t is PdfCellBorderLayout border)
@@ -351,74 +513,77 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Font handling, Text shaping and layouting wrapped text
         private static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Dictionary<IFontProvider, TextShaper> shaperCache, Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache, ITextLayout text)
         {
-            var totalTextLength = 0d;
-            var maxLineHeight = 0d;
-            for (int i = 0; i < text.TextFormats.Count; i++)
-            {
-                var fd = text.TextFormats[i];
-                fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
+            //var totalTextLength = 0d;
+            //var maxLineHeight = 0d;
+            //for (int i = 0; i < text.TextFormats.Count; i++)
+            //{
+            //    var fd = text.TextFormats[i];
+            //    fd.FontProvider = dictionaries.Fonts[fd.FullFontName].fontSubsetManager.CreateSubsettedProvider();
 
-                if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
-                {
-                    shaper = new TextShaper(fd.FontProvider);
-                    shaperCache[fd.FontProvider] = shaper;
-                }
+            //    if (!shaperCache.TryGetValue(fd.FontProvider, out var shaper))
+            //    {
+            //        shaper = new TextShaper(fd.FontProvider);
+            //        shaperCache[fd.FontProvider] = shaper;
+            //    }
 
-                if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
-                {
-                    layoutEngine = new TextLayoutEngine(shaper);
-                    layoutEngineCache[fd.FontProvider] = layoutEngine;
-                }
+            //    if (!layoutEngineCache.TryGetValue(fd.FontProvider, out var layoutEngine))
+            //    {
+            //        layoutEngine = new TextLayoutEngine(shaper);
+            //        layoutEngineCache[fd.FontProvider] = layoutEngine;
+            //    }
 
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
+            //    var options = ShapingOptions.Default;
+            //    options.ApplyPositioning = true;
+            //    options.ApplySubstitutions = true;
 
-                var shaped = shaper.Shape(fd.Text, options);
-                var usedFonts = shaper.GetUsedFonts().ToList();
-                var fontIdMap = new Dictionary<byte, string>();
+            //    var shaped = shaper.Shape(fd.Text, options);
+            //    var usedFonts = shaper.GetUsedFonts().ToList();
+            //    var fontIdMap = new Dictionary<byte, string>();
 
-                var allProviderFonts = fd.FontProvider.GetAllFonts().ToList();
+            //    var allProviderFonts = fd.FontProvider.GetAllFonts().ToList();
 
-                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
-                {
-                    var font = usedFonts[fontId];
+            //    for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
+            //    {
+            //        var font = usedFonts[fontId];
 
-                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
-                    {
-                        int label = 1;
-                        if (dictionaries.Fonts.Count > 0)
-                        {
-                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
-                        }
-                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
-                        fontResource.fontData = font;
-                        dictionaries.Fonts.Add(font.FullName, fontResource);
-                    }
-                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
-                }
+            //        if (!dictionaries.Fonts.ContainsKey(font.FullName))
+            //        {
+            //            int label = 1;
+            //            if (dictionaries.Fonts.Count > 0)
+            //            {
+            //                label = dictionaries.Fonts.Last().Value.labelNumber + 1;
+            //            }
+            //            var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+            //            fontResource.fontData = font;
+            //            dictionaries.Fonts.Add(font.FullName, fontResource);
+            //        }
+            //        fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+            //    }
 
-                text.TextLayoutEngine = layoutEngine;
-                fd.ShapedText = shaped;
-                var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
-                var textHeight = fd.ShapedText.GetLineHeightInPoints((float)fd.FontSize);
-                fd.TextLength = textWdith;
-                fd.TextHeight = textHeight;
-                totalTextLength += textWdith;
-                maxLineHeight = Math.Max(textHeight, maxLineHeight);
-                fd.FontIdMap = fontIdMap;
-                fd.UsedFonts = usedFonts;
-                text.TextFormats[i] = fd;
-            }
-            //saker här sen
-            if (text is PdfCellContentLayout ccl)
-            {
-                ccl.TextLength = totalTextLength;
-                ccl.TextHeight = maxLineHeight;
-                ccl.CalculateTextSpill(ccl.Size.X, ccl.CellAlignmentData.TextRotation);
-                ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
-                ccl.CheckClipping(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
-            }
+            //    text.TextLayoutEngine = layoutEngine;
+            //    fd.ShapedText = shaped;
+            //    var textWdith = fd.ShapedText.GetWidthInPoints((float)fd.FontSize);
+            //    var textHeight = fd.ShapedText.GetLineHeightInPoints((float)fd.FontSize);
+            //    fd.TextLength = textWdith;
+            //    fd.TextHeight = textHeight;
+            //    totalTextLength += textWdith;
+            //    maxLineHeight = Math.Max(textHeight, maxLineHeight);
+            //    fd.FontIdMap = fontIdMap;
+            //    fd.UsedFonts = usedFonts;
+            //    text.TextFormats[i] = fd;
+            //}
+            //if (text is PdfCellContentLayout ccl)
+            //{
+            //    ccl.TextLength = totalTextLength;
+            //    ccl.TextHeight = maxLineHeight;
+            //}
+        }
+
+        private static void AdjustText(double totalTextLength, double maxLineHeight, PdfCellContentLayout ccl)
+        {
+            ccl.CalculateTextSpill(ccl.Size.X, ccl.CellAlignmentData.TextRotation);
+            ccl.LocalPosition = ccl.CalculateAlignmentPositionAndTextOffsets(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
+            ccl.CheckClipping(ccl.cell, ccl.LocalPosition.X, ccl.LocalPosition.Y, ccl.Size.X, ccl.Size.Y);
         }
 
         //Create a map for page
@@ -427,25 +592,28 @@ namespace EPPlus.Export.Pdf.PdfLayout
             List<string> entriesToRemove = new();
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                if (page.isCommentsPage) continue;
                 page.CreateMap();
-                var x = pageSettings.Margins.LeftPu;
+                var hw = PdfWorksheetLayout.RowHeadingWidth;
+                var x = pageSettings.Margins.LeftPu + hw;
                 if (pageSettings.CenterOnPageHorizontally)
                 {
                     var w = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
-                    x = pageSettings.Margins.LeftPu + (w - page.ChildObjects[0].Size.X) / 2;
+                    x = pageSettings.Margins.LeftPu + (w - page.ChildObjects[0].Size.X + hw) / 2;
                 }
-                var y = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y;
+                var hh = PdfWorksheetLayout.ColumnHeadingHeight;
+                var y = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - page.ChildObjects[0].Size.Y + hh;
                 if (pageSettings.CenterOnPageVertically)
                 {
                     var h = pageSettings.PageSize.HeightPu - pageSettings.Margins.TopPu - pageSettings.Margins.BottomPu;
-                    y = pageSettings.Margins.BottomPu + (h - page.ChildObjects[0].Size.Y) / 2;
+                    y = pageSettings.Margins.BottomPu + (h - page.ChildObjects[0].Size.Y - hh) / 2;
                 }
                 page.ChildObjects[0].LocalPosition = new Vector2(x, y);
-                page.ContentTop = page.ChildObjects[0].LocalPosition.Y + page.ChildObjects[0].Size.Y;
+                page.ContentTop = page.ChildObjects[0].LocalPosition.Y + hh + page.ChildObjects[0].Size.Y;
                 page.ContentBottom = page.ChildObjects[0].LocalPosition.Y;
-                page.ContentLeft = page.ChildObjects[0].LocalPosition.X;
+                page.ContentLeft = page.ChildObjects[0].LocalPosition.X - hw;
                 page.ContentRight = page.ChildObjects[0].LocalPosition.X + page.ChildObjects[0].Size.X;
-                page.ContentHeight = page.ChildObjects[0].Size.Y;
+                page.ContentHeight = page.ChildObjects[0].Size.Y + hh;
 
                 var contentObjects = page.ChildObjects[0].ChildObjects.ToList();
                 for (int i = 0; i < contentObjects.Count; i++)
@@ -501,6 +669,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     }
                     else if (child is PdfCellLayout l)
                     {
+                        if (l.isHeading) continue;
                         var localFromRow = l.cell._fromRow - page.FromRow;
                         var localFromCol = l.cell._fromCol - page.FromCol;
                         page.Map[localFromRow, localFromCol].Name = l.Name;
@@ -531,6 +700,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                if (page.isCommentsPage) continue;
                 var rowCount = page.ToRow - page.FromRow + 1;
                 var colCount = page.ToCol - page.FromCol + 1;
 
@@ -777,6 +947,21 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             foreach (PdfPageLayout page in pages.ChildObjects)
             {
+                if (page.isCommentsPage)
+                {
+                    foreach (var child in page.ChildObjects)
+                    {
+                        if (child is PdfCellContentLayout content)
+                        {
+                            content.GidsAndCharMap(dictionaries);
+                        }
+                        else if (child is PdfHeaderFooterLayout headerFooterLayout)
+                        {
+                            //headerFooterLayout.GidsAndCharMap(dictionaries);
+                        }
+                    }
+                    continue;
+                }
                 //Make adjustments
                 foreach (var child in page.ChildObjects)
                 {
@@ -791,6 +976,10 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     else if (child is PdfMergedCellLayout mergedLayout)
                     {
                         mergedLayout.AdjustForGridLines();
+                    }
+                    else if (child is PdfHeaderFooterLayout headerFooterLayout)
+                    {
+                        //headerFooterLayout.GidsAndCharMap(dictionaries);
                     }
                 }
                 //Sort by Z ascending and the by Name descending

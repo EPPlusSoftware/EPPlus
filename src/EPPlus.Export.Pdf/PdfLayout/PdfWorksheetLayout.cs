@@ -40,6 +40,8 @@ namespace EPPlus.Export.Pdf.PdfLayout
         {
             double x = 0d, y = 0d, totalWidth = 0d;
             ZeroCharWidth = GetThemeFont0Width(worksheet);
+            AddHeadings(worksheet, pageSettings, dictionaries);
+
             List<string> checkedMergedCells = new List<string>();
             int addedColumns = AddColumnsForNonWrappedText(worksheet);
             for(int row = 1; row<= worksheet.Dimension._toRow; row++)
@@ -68,6 +70,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
                     if (border != null) border.InitEdgeBorders(cell);
                     x += width;
                     totalWidth = System.Math.Max( x, totalWidth);
+                    if (pageSettings.CommentsAndNotes != CommentsAndNotes.None)
+                    {
+                        if (cell.Comment != null && cell.ThreadedComment == null)
+                        {
+                            dictionaries.CommentsAndNotes.Add(cell.Address, new PdfCommentsAndNotes(cell.Comment));
+                        }
+                        if (cell.ThreadedComment != null)
+                        {
+                            dictionaries.CommentsAndNotes.Add(cell.Address, new PdfCommentsAndNotes(cell.ThreadedComment));
+                            PdfCommentsAndNotes.HasThreadedComment = true;
+                        }
+                    }
                 }
                 y -= height;
             }
@@ -159,6 +173,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
                 cellStyle.xfBottom = cell.Style.Border.Bottom;
                 cellStyle.xfLeft = cell.Style.Border.Left;
                 cellStyle.xfRight = cell.Style.Border.Right;
+                cellStyle.Diagonal= cell.Style.Border.Diagonal;
+                cellStyle.DiagonalUp = cell.Style.Border.DiagonalUp;
+                cellStyle.DiagonalDown = cell.Style.Border.DiagonalDown;
                 var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {
@@ -330,7 +347,6 @@ namespace EPPlus.Export.Pdf.PdfLayout
         //Create cell.
         private void HandleCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, double x, double y, double width, double height, PdfCellStyle CellStyle)
         {
-            //We add empty cells for gridline calculation later. We just marked them for deletion by addng * to their name.
             bool delete = cell.IsEmpty() && !cell.Worksheet.ExistsStyleInner(cell._fromRow, cell._toCol);
             var cl0 = new PdfCellLayout(dictionaries, cell, CellStyle, x, y, width, height, 1, 1, 0, this);
             cl0.Name = cell.Address;
@@ -440,6 +456,18 @@ namespace EPPlus.Export.Pdf.PdfLayout
             OpenTypeFontTextMeasurer fontMeasurerTrueType = new OpenTypeFontTextMeasurer(shaper);
             var result = fontMeasurerTrueType.MeasureText("0", font);
             return result.Width;
+        }
+
+        private void AddHeadings(ExcelWorksheet ws, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
+        {
+            if (!pageSettings.ShowHeadings)
+            {
+                RowHeadingWidth = 0d;
+                ColumnHeadingHeight = 0d;
+                return;
+            }
+            ColumnHeadingHeight = ws.DefaultRowHeight; //Should take font height into consideration here
+            RowHeadingWidth = UnitConversion.ExcelColumnWidthToPoints(4, ZeroCharWidth); //4 is an estimation. In reality we should measure width based on font width/height at the max row
         }
     }
 }

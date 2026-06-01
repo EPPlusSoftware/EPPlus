@@ -98,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             }
             return CreateResult(resultStr, DataType.String);
         }
-
+        public override string NamespacePrefix => "_xlfn.";
         private static string GetStringVal(object val, int format)
         {
             string strVal = string.Empty;

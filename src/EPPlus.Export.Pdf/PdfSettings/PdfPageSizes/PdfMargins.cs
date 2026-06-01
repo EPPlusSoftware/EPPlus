@@ -16,7 +16,7 @@ namespace EPPlus.Export.Pdf.PdfSettings.PdfPageSizes
 {
     public class PdfMargins
     {
-        public double Header { get; set; } = 7.6d;
+        public double Header { get; set; } = 7.6;
         public double Footer { get; set; } = 7.6d;
         public double Top { get; set; } = 19.1d;
         public double Left { get; set; } = 17.8d;

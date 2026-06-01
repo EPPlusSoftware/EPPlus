@@ -197,6 +197,27 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.AreEqual(html, htmlAsync);
             }
         }
+
+        [TestMethod]
+        public async Task WriteImagesAsyncHTMLOnlyEmbed()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Pictures.Include = ePictureInclude.IncludeInHtmlOnly;
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+
+                var html = exporter.GetHtmlString();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "_htmlOnly.html", html);
+            }
+        }
+
         [TestMethod]
         public void ExportMultipleRanges()
         {

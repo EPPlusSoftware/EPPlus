@@ -25,8 +25,9 @@ namespace EPPlus.Export.Pdf.PdfLayout
         internal ExcelBorderItem xfBottom { get; set; }
         internal ExcelBorderItem xfLeft { get; set; }
         internal ExcelBorderItem xfRight { get; set; }
-        internal ExcelBorderItem xfDiagonalUp { get; set; }
-        internal ExcelBorderItem xfDiagonalDown { get; set; }
+        internal bool DiagonalUp { get; set; }
+        internal bool DiagonalDown { get; set; }
+        internal ExcelBorderItem Diagonal { get; set; }
         internal ExcelDxfBorderItem dxfTop { get; set; }
         internal ExcelDxfBorderItem dxfBottom { get; set; }
         internal ExcelDxfBorderItem dxfLeft { get; set; }

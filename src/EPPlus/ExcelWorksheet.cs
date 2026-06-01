@@ -394,6 +394,23 @@ namespace OfficeOpenXml
 
         #endregion
 
+
+        internal bool HasFormula(int row, int col)
+        {
+            var formula = _formulas.GetValue(row, col);
+            if(formula is int formulaIndex)
+            {
+                var sharedFormula = _sharedFormulas[formulaIndex];
+                if(sharedFormula.StartRow == row && sharedFormula.StartCol == col)
+                {
+                    return true;
+                }
+                var md = _metadataStore.GetValue(sharedFormula.StartRow, sharedFormula.StartCol);
+                return !Workbook.Metadata.IsFormulaDynamic(md.cm);
+            }
+            return !string.IsNullOrEmpty(formula?.ToString() ?? "");
+        }
+
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
@@ -1509,6 +1526,33 @@ namespace OfficeOpenXml
             delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
 
+        internal ExcelRichTextCollection ConvertCellValueToRichText(int row, int col, ExcelRangeBase r = null)
+        {
+            var v = GetCoreValueInner(row, col);
+            var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
+
+            //If it already is rt then no need to actually convert
+            if (isRt && v._value is ExcelRichTextCollection rtc)
+            {
+                if (rtc._cells == null) rtc._cells = r;
+                return rtc;
+            }
+            else
+            {
+                object textValue = v._value;
+                if (textValue != null && typeof(ExcelRichTextCollection) == textValue.GetType())
+                {
+                    textValue = ((ExcelRichTextCollection)textValue).Text;
+                }
+
+                var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
+                var item = new ExcelRichTextCollection(text, r);
+                SetValue(row, col, item);
+
+                return item;
+            }
+        }
+
         internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r = null)
         {
             var v = GetCoreValueInner(row, col);
@@ -1520,19 +1564,17 @@ namespace OfficeOpenXml
             }
             else
             {
-                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
-                if (string.IsNullOrEmpty(text))
+                object textValue = v._value;
+                if (textValue != null && typeof(ExcelRichTextCollection) == textValue.GetType())
                 {
-                    var item = new ExcelRichTextCollection(Workbook, r);
-                    SetValue(row, col, item);
-                    return item;
+                    //This should only really happen if e.g. rich-text from a Note is Set to a cell value
+                    textValue = ((ExcelRichTextCollection)textValue).Text;
+                    var text = ValueToTextHandler.GetFormattedText(textValue, Workbook, v._styleId, false);
+                    var itemRt = new ExcelRichTextCollection(text, r);
+                    return itemRt;
                 }
-                else
-                {
-                    var item = new ExcelRichTextCollection(text, r);
-                    SetValue(row, col, item);
-                    return item;
-                }
+                var item = new ExcelRichTextCollection(Workbook, r);
+                return item;
             }
         }
 
@@ -2281,7 +2323,7 @@ namespace OfficeOpenXml
             var v = GetValueInner(Row, Column);
             if (v != null)
             {
-                if (_flags.GetFlagValue(Row, Column, CellFlags.RichText))
+                if (_flags.GetFlagValue(Row, Column, CellFlags.RichText) && Cells[Row, Column].IsRichText)
                 {
                     return (object)Cells[Row, Column].RichText.Text;
                 }

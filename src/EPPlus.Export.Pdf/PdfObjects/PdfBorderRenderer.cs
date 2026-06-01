@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.PdfCatalog;
 using EPPlus.Export.Pdf.Pdfhelpers;
 using EPPlus.Export.Pdf.PdfLayout;
 using OfficeOpenXml.Style;
@@ -29,6 +30,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
         private readonly double Y;
         private readonly string Name;
         private readonly bool IsMerged;
+        private readonly MergedCellDrawInfo info;
+        private readonly MergedCellCorners corners;
         private readonly double Width;
         private readonly double Height;
         private readonly double MergedDiagnoalWidth;
@@ -37,6 +40,9 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
         public PdfBorderRenderer(PdfCellBorderLayout cell)
         {
+            IsMerged = cell.IsMerged;
+            corners = cell.Corners;
+            info = cell.MergedCellInfo;
             X = cell.LocalPosition.X;
             Y = cell.LocalPosition.Y;
             Width = cell.Size.X;
@@ -48,7 +54,6 @@ namespace EPPlus.Export.Pdf.PdfObjects
             Right = cell.BorderData.Right;
             DiagonalUp = cell.BorderData.DiagonalUp;
             DiagonalDown = cell.BorderData.DiagonalDown;
-            IsMerged = cell.IsMerged;
             //MergedDiagnoalWidth = DiagonalUp.MergedDiagonalWidth;
             //MergedDiagnoalHeight = DiagonalDown.MergedDiagonalHeight;
         }
@@ -98,17 +103,46 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     y2 = Y + Height;
                     break;
                 case LineType.DiagonalUp:
-                    x1 = X;
-                    y1 = Y;
-                    x2 = X + Width;
-                    y2 = Y + Height;
+                    if (IsMerged)
+                    {
+                        x1 = info.X;
+                        y1 = info.Y - info.Height;
+                        x2 = info.X + info.Width;
+                        y2 = info.Y;
+                    }
+                    else
+                    {
+                        x1 = X;
+                        y1 = Y;
+                        x2 = X + Width;
+                        y2 = Y + Height;
+                    }
                     break;
                 case LineType.DiagonalDown:
-                    x1 = X;
-                    y1 = Y + Height;
-                    x2 = X + Width;
-                    y2 = Y;
+                    if (IsMerged)
+                    {
+                        x1 = info.X;
+                        y1 = info.Y;
+                        x2 = info.X + info.Width;
+                        y2 = info.Y - info.Height;
+                    }
+                    else
+                    {
+                        x1 = X;
+                        y1 = Y + Height;
+                        x2 = X + Width;
+                        y2 = Y;
+                    }
                     break;
+            }
+            if (border.IsHeading)
+            {
+                DrawBasicBorder(contentStream, border, PdfCellBorderData.OuterGridLine, PdfCellBorderData.NoDash);
+                contentStream.AddCommand($"{x1.ToPdfStringF4()} {y1.ToPdfStringF4()} m");
+                contentStream.AddCommand($"{x2.ToPdfStringF4()} {y2.ToPdfStringF4()} l");
+                contentStream.AddCommand("S");
+                contentStream.AddCommand($"% Border Type End: {border.LineType.ToString()}");
+                return;
             }
             switch (border.BorderStyle)
             {
@@ -184,15 +218,34 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
             if (border.LineType == LineType.Top)
             {
-                //Inner Line
+                ////Inner Line
+                //ix1 = x1;
+                //ix2 = x2;
+                //iy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
+                //iy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
+                //if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
+                //if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
+                //if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
+                //if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+
                 ix1 = x1;
                 ix2 = x2;
                 iy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
                 iy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
                 if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
                 if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
-                if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
-                if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+
+                // For a multi-column merged cell the diagonal endpoint sits at the far
+                // corner of the full merge, not at the right/left edge of this single
+                // cell column.  Applying the indent here would create a gap at the wrong
+                // position along the top border, so suppress it.
+                bool multiColMerge = IsMerged && info.Width > Width + 0.5d;
+                if (!multiColMerge)
+                {
+                    if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
+                    if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+                }
+
                 //Outer Line
                 ox1 = x1;
                 ox2 = x2;
@@ -221,6 +274,17 @@ namespace EPPlus.Export.Pdf.PdfObjects
             }
             else if (border.LineType == LineType.Left)
             {
+                //DiagonalUpFactor = 0.5d;
+                //DiagonalDownFactor = 0.5d;
+                //ix1 = x1 + (PdfCellBorderData.Hair / 0.65d);
+                //ix2 = x2 + (PdfCellBorderData.Hair / 0.65d);
+                //iy1 = y1;
+                //iy2 = y2;
+                //if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
+                //if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
+                //if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
+                //if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+
                 DiagonalUpFactor = 0.5d;
                 DiagonalDownFactor = 0.5d;
                 ix1 = x1 + (PdfCellBorderData.Hair / 0.65d);
@@ -229,8 +293,16 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 iy2 = y2;
                 if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
                 if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
-                if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
-                if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+
+                // For a multi-row merged cell the diagonal endpoint sits at the far
+                // corner of the full merge height, not at the bottom/top edge of this
+                // single row.  Suppress the indent to avoid a gap at the wrong position.
+                bool multiRowMerge = IsMerged && info.Height > Height + 0.5d;
+                if (!multiRowMerge)
+                {
+                    if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
+                    if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+                }
 
                 ox1 = x1 - (PdfCellBorderData.Hair / 0.65d);
                 ox2 = x2 - (PdfCellBorderData.Hair / 0.65d);

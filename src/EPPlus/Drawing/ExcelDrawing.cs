@@ -21,17 +21,20 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Drawings;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
@@ -595,6 +598,9 @@ namespace OfficeOpenXml.Drawing
 
         internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet)
         {
+            string fallbackDrawingPath = "";
+            string fallbackNvPrPath = "";
+
             switch (drawNode.LocalName)
             {
                 case "sp":
@@ -603,10 +609,18 @@ namespace OfficeOpenXml.Drawing
                     var aPic = new ExcelPicture(drawings, node, parent, DrawingsType);
                     return aPic;
                 case "graphicFrame":
-                    var c= ExcelChart.GetChart(drawings, node, parent);
-                    if(c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
+                    var c = ExcelChart.GetChart(drawings, node, parent);
+                    if (c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
                     {
                         return c;
+                    }
+                    else
+                    {
+                        //While we do not know the exact type.
+                        //It's a standard drawing with a graphic frame
+                        //We assume the object has its name etc. in the same nodes as a chart
+                        fallbackDrawingPath = "xdr:graphicFrame";
+                        fallbackNvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr";
                     }
                     break;
                 case "grpSp":
@@ -656,7 +670,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "", "");
+            return new ExcelDrawing(drawings, node, fallbackDrawingPath, fallbackNvPrPath, parent, DrawingsType);
         }
 
         private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
@@ -743,8 +757,8 @@ namespace OfficeOpenXml.Drawing
         {
             if (CellAnchor == eEditAs.Absolute)
             {
-                GetToRowFromPixels(Position.Y, out fromRow, out fromRowOff);
-                GetToColumnFromPixels(Position.X, out fromCol, out fromColOff);
+                GetToRowFromPixels(Position.Y / (double)EMU_PER_PIXEL, out fromRow, out fromRowOff);
+                GetToColumnFromPixels(Position.X / (double)EMU_PER_PIXEL, out fromCol, out fromColOff);
             }
             else
             {
@@ -759,7 +773,7 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.Absolute)
             {
                 GetToRowFromPixels((Position.Y + Size.Height) / EMU_PER_PIXEL, out toRow, out toRowOff);
-                GetToColumnFromPixels(Position.X + Size.Width / EMU_PER_PIXEL, out toCol, out toColOff);
+                GetToColumnFromPixels((Position.X + Size.Width) / EMU_PER_PIXEL, out toCol, out toColOff);
             }
             else
             {
@@ -825,19 +839,22 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                var cache = _drawings.Worksheet.RowHeightCache;
-                for (int row = 0; row < From.Row; row++)
+                if (From != null)
                 {
-                    lock (cache)
+                    var cache = _drawings.Worksheet.RowHeightCache;
+                    for (int row = 0; row < From.Row; row++)
                     {
-                        if (!cache.ContainsKey(row))
+                        lock (cache)
                         {
-                            cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            if (!cache.ContainsKey(row))
+                            {
+                                cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            }
                         }
+                        pix += (int)(cache[row] / 0.75);
                     }
-                    pix += (int)(cache[row] / 0.75);
+                    pix += From.RowOff / EMU_PER_PIXEL;
                 }
-                pix += From.RowOff / EMU_PER_PIXEL;
             }
             return pix;
         }
@@ -864,15 +881,14 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
-                double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
                 for (int col = From.Column + 1; col <= To.Column; col++)
                 {
-                    pix += MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                    pix += PixelHelper.GetColumnWidth(ws, col);
                 }
 
-                var w = MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(To.Column + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                var w = PixelHelper.GetColumnWidth(ws, To.Column + 1);
                 pix += Math.Min(w, Convert.ToDouble(To.ColumnOff) / EMU_PER_PIXEL);
             }
             else
@@ -907,9 +923,9 @@ namespace OfficeOpenXml.Drawing
                 pix = -(From.RowOff / (double)EMU_PER_PIXEL);
                 for (int row = From.Row + 1; row <= To.Row; row++)
                 {
-                    pix += ws.GetRowHeight(row) / 0.75;
+                    pix += PixelHelper.GetRowHeight(ws, row);
                 }
-                var h = ws.GetRowHeight(To.Row + 1) / 0.75;
+                var h = PixelHelper.GetRowHeight(ws, To.Row + 1);
                 pix += Math.Min(h, Convert.ToDouble(To.RowOff) / EMU_PER_PIXEL);
             }
             else
@@ -948,12 +964,12 @@ namespace OfficeOpenXml.Drawing
             ExcelWorksheet ws = _drawings.Worksheet;
             double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = ws.GetRowHeight(1) / 0.75;
+            double pix = PixelHelper.GetRowHeight(ws, 1);
             int r = 2;
-            while (pix < pixels)
+            while (pix < pixels && r <= ExcelPackage.MaxRows)
             {
                 prevPix = pix;
-                pix += (int)(ws.GetRowHeight(r++) / 0.75);
+                pix += (int)PixelHelper.GetRowHeight(ws, r++);
             }
 
             if (pix == pixels)
@@ -996,15 +1012,14 @@ namespace OfficeOpenXml.Drawing
         {
 
             ExcelWorksheet ws = _drawings.Worksheet;
-            double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+            double pix = (int)PixelHelper.GetColumnWidth(ws, 1);
             int col = 2;
 
-            while (pix < pixels)
+            while (pix < pixels && col <= ExcelPackage.MaxColumns)
             {
                 prevPix = pix;
-                pix += (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                pix += (int)PixelHelper.GetColumnWidth(ws, col++);
             }
             if (pix == pixels)
             {
@@ -1042,20 +1057,40 @@ namespace OfficeOpenXml.Drawing
 
         internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow = -1, int fromRowOff = -1)
         {
+            if (From == null && this is not ExcelControl)
+            {
+                // Absolute anchor path
+                double remaining = pixels;
+                int currentRow = 1;
+
+                while (true && currentRow <= ExcelPackage.MaxRows)
+                {
+                    double rowPix = PixelHelper.GetRowHeight(_drawings.Worksheet, currentRow);
+                    if (remaining < rowPix)
+                        break;
+
+                    remaining -= rowPix;
+                    currentRow++;
+                }
+
+                toRow = currentRow - 1;
+                rowOff = (int)(remaining);
+                return;
+            }
             if (fromRow < 0)
             {
                 fromRow = From.Row;
                 fromRowOff = From.RowOff;
             }
             ExcelWorksheet ws = _drawings.Worksheet;
-            var pixOff = pixels - ((ws.GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
+            var pixOff = pixels - (PixelHelper.GetRowHeight(ws, fromRow + 1) - (fromRowOff / (double)EMU_PER_PIXEL));
             double prevPixOff = pixels;
             int row = fromRow + 1;
 
-            while (pixOff >= 0)
+            while (pixOff >= 0 && row < ExcelPackage.MaxRows)
             {
                 prevPixOff = pixOff;
-                pixOff -= (ws.GetRowHeight(++row) / 0.75);
+                pixOff -= PixelHelper.GetRowHeight(ws, ++row);
             }
             toRow = row - 1;
             if (fromRow == toRow)
@@ -1095,19 +1130,35 @@ namespace OfficeOpenXml.Drawing
         internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
-            double mdw = ws.Workbook.MaxFontWidth;
-            if (fromColumn < 0)
+            if (From == null && this is not ExcelControl)
+            {
+                // Absolute anchor path
+                double remaining = pixels;
+                int currentCol = 1;
+                double colPix = PixelHelper.GetColumnWidth(ws, currentCol);
+                while (remaining >= colPix && currentCol < ExcelPackage.MaxColumns)
+                {
+                    remaining -= colPix;
+                    currentCol++;
+                    colPix = PixelHelper.GetColumnWidth(ws, currentCol);
+                }
+
+                col = currentCol-1;
+                colOff = (int)(remaining);
+                return;
+            }
+            if (From != null && fromColumn < 0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(fromColumn + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            double pixOff = pixels - (PixelHelper.GetColumnWidth(ws, fromColumn + 1) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 offset = pixOff;
-                pixOff -= MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                pixOff -= PixelHelper.GetColumnWidth(ws, col++);
             }
             colOff = (int)offset;
         }
@@ -1398,10 +1449,20 @@ namespace OfficeOpenXml.Drawing
                 _height = GetPixelHeight();
             }
 
-            From.Row = Row;
-            From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
-            From.Column = Column;
-            From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetPixelHeightFromRow(Row, RowOffsetPixels, out int pixelHeight);
+
+                Position.Y = (int)(pixelHeight * EMU_PER_PIXEL);
+                Position.X = (int)(ColumnOffsetPixels * EMU_PER_PIXEL);
+            }
+            else
+            {
+                From.Row = Row;
+                From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
+                From.Column = Column;
+                From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            }
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _left = GetPixelLeft();
@@ -1413,6 +1474,36 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = false;
             UpdatePositionAndSizeXml();
         }
+        private void GetPixelWidthFromRow(int toCol, int colOffsetPixels, out int pixelWidth)
+        {
+            ExcelWorksheet ws = _drawings.Worksheet;
+            double mdw = ws.Workbook.MaxFontWidth;
+
+            pixelWidth = 0;
+            for (int col = 0; col < toCol; col++)
+            {
+                pixelWidth += ws.GetColumnWidthPixels(col, mdw);
+            }
+            pixelWidth += colOffsetPixels;
+        }
+        private void GetPixelHeightFromRow(int toRow, int rowOffsetPixels, out int pixelHeight)
+        {
+            pixelHeight = 0;
+            var cache = _drawings.Worksheet.RowHeightCache;
+            for (int row = 0; row < toRow; row++)
+            {
+                lock (cache)
+                {
+                    if (!cache.ContainsKey(row))
+                    {
+                        cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                    }
+                }
+                pixelHeight += (int)(cache[row] / 0.75);
+            }
+            pixelHeight += rowOffsetPixels;
+        }
+
         /// <summary>
         /// Set size in Percent.
         /// Note that resizing columns / rows after using this function will effect the size of the drawing

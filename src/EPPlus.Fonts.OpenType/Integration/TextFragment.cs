@@ -69,6 +69,14 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
 
+        public string FullFontName
+        {
+            get
+            {
+                return $"{RichTextOptions.Family} {RichTextOptions.SubFamily.ToString().Replace(", ", " ")}";
+            }
+        }
+
         public TextFragmentBase()
         {
         }
@@ -79,30 +87,30 @@ namespace EPPlus.Fonts.OpenType.Integration
         public virtual float Size { get => RichTextOptions.Size; }
     }
 
-    ///// <summary>
-    ///// Simple class to provide some kind of fallback/defaults
-    ///// </summary>
-    //public class RichTextDefaults : IRichTextInfoBase
-    //{
-    //    internal RichTextDefaults()
-    //    {
-    //    }
-    //    public bool Italic { get; set; } = false;
+    // /// <summary>
+    // /// Simple class to provide some kind of fallback/defaults
+    // /// </summary>
+    // public class RichTextDefaults : IRichTextInfoBase
+    // {
+    //     internal RichTextDefaults()
+    //     {
+    //     }
+    //     public bool IsItalic { get; set; } = false;
 
-    //    public bool Bold { get; set; } = false;
+    //     public bool IsBold { get; set; } = false;
 
-    //    public bool SubScript { get; set; } = false;
+    // //    public bool SubScript { get; set; } = false;
 
-    //    public bool SuperScript { get; set; } = false;
+    // //    public bool SuperScript { get; set; } = false;
 
-    //    public int UnderlineType { get; set; } = -1;
+    // //    public int UnderlineType { get; set; } = -1;
 
-    //    public int StrikeType { get; set; } = -1;
+    // //    public int StrikeType { get; set; } = -1;
 
-    //    public int Capitalization { get; set; } = -1;
+    // //    public int Capitalization { get; set; } = -1;
 
-    //    public Color UnderlineColor { get; set; }
+    // //    public Color UnderlineColor { get; set; }
 
-    //    public Color FontColor { get; set; }
-    //}
+    // //    public Color FontColor { get; set; }
+    // //}
 }
