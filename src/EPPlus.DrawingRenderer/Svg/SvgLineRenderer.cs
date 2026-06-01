@@ -86,7 +86,7 @@ namespace EPPlus.DrawingRenderer.Svg
                 li.Y2.PointToPixelString());
             }
 
-            RenderCompoundItems(li, li.BorderWidth, color, filter);
+            RenderCompoundItems(li, borderWidth, color, filter);
         }
     }
 }
