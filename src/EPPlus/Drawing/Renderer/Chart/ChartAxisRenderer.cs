@@ -170,7 +170,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         break;
                     case eTextOrientation.Diagonal:
-                        var width = (m.Width + m.Height) * COS45;
+                        var width = (m.Width) * COS45;
                         if (width > highest)
                         {
                             highest = width;
