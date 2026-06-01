@@ -137,7 +137,7 @@ namespace EPPlusImageRenderer.Svg
                     var fullLength = LeftMargin + entryWidth * index + _marginItemsWidth * (index - 1) + RightMargin;
                     if(fullLength > _maxWidth)
                     {
-                        var height = entryHeight * 0.166666;
+                        var height = entryHeight * 0.25;
                         var widestLine = 0D;
                         var width = LeftMargin + entryWidth;
                         
@@ -145,7 +145,7 @@ namespace EPPlusImageRenderer.Svg
                         {
                             if (width + entryWidth + RightMargin > _maxWidth)
                             {
-                                height += entryHeight * 1.166666;
+                                height += entryHeight * 1.25;
                                 if (width + RightMargin > widestLine)
                                 {
                                     widestLine = width + RightMargin;
@@ -160,12 +160,12 @@ namespace EPPlusImageRenderer.Svg
 
                         //height+= BottomMargin;
                         rect.Width = Math.Max(widestLine, width);
-                        rect.Height = height + entryHeight * 1.166666; 
+                        rect.Height = height + entryHeight * 1.25; 
                     }
                     else
                     {
                         rect.Width = fullLength;
-                        rect.Height = entryHeight * 1.333333;
+                        rect.Height = entryHeight * 1.5;
                     }
                     rect.Left = (ChartRenderer.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
@@ -181,7 +181,7 @@ namespace EPPlusImageRenderer.Svg
                 case eLegendPosition.TopRight:
                 case eLegendPosition.Left:
                     rect.Width = LeftMargin + entryWidth + RightMargin;
-                    rect.Height = (entryHeight * index) + ((index + 1) * entryHeight * 0.5); //use margin as 50% of the entry height and to the top and the bottom.;
+                    rect.Height = TopMargin + (entryHeight * index) + ((index - 1) * entryHeight * 0.5) + BottomMargin; //use margin as 50% of the entry height and to the top and the bottom.;
 
                     if (rect.Height > _maxHeight)
                     {
@@ -569,8 +569,8 @@ namespace EPPlusImageRenderer.Svg
 
             line.X1 = x;
             line.X2 = x + LineLength;
-            line.Y1 = y; //+ entryHeight * 0.5;
-            line.Y2 = y;// + entryHeight * 0.5;
+            line.Y1 = y;
+            line.Y2 = y;
             line.LineCap = LineCap.Round;
 
             return line;
@@ -599,17 +599,17 @@ namespace EPPlusImageRenderer.Svg
             var iconHeight = GetIconLenght(ct, entryHeight);
             var icon = pSls?.SeriesIcon as RectRenderItem;
 
-            GetItemPosition(pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top+(iconHeight/2) ?? 0D, out double x, out double y);
 
             item.LineCap = LineCap.Round;
             item.Left = x;
             if(pSls !=null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
-                item.Top = y + (entryHeight - iconHeight) / 2;
+                item.Top = y - iconHeight / 2;
             }
             else
             {
-                item.Top = y;
+                item.Top = y - iconHeight / 2;
             }
             //item.Top = y;
             item.Width = iconHeight;
@@ -621,7 +621,7 @@ namespace EPPlusImageRenderer.Svg
             return item;
         }
 
-        private double GetItemPosition(DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconTop, out double x, out double y)
+        private double GetItemPosition(DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y)
         {
             var topOffset = 0D;
             if (Chart.Legend.Position == eLegendPosition.Top ||
@@ -629,7 +629,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (pSls != null && pSls.Textbox.Bounds.Right + entryWidth + RightMargin > _maxWidth)
                 {
-                    topOffset += entryHeight * 1.166666;
+                    topOffset += entryHeight * 1.25;
                     x = LeftMargin;
                 }
                 else
@@ -646,11 +646,11 @@ namespace EPPlusImageRenderer.Svg
 
                 if (pSls == null)
                 {
-                    y = TopMargin + entryHeight / 3;
+                    y = TopMargin + entryHeight / 2;
                 }
                 else
                 {
-                    y = iconTop + topOffset;
+                    y = iconCenter + topOffset;
                 }
 
 
@@ -659,11 +659,11 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (pSls == null)
                 {
-                    y = entryHeight / 2;
+                    y = TopMargin + entryHeight / 2;
                 }
                 else
                 {
-                    y = pSls.Textbox.Bounds.Top + entryHeight * 1.50;
+                    y = iconCenter + entryHeight * 1.5;
                 }
                 x = LeftMargin;
 
