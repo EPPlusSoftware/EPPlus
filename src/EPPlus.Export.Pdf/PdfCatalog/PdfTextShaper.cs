@@ -96,37 +96,5 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
             Cell.TotalTextLength = totalTextLength;
         }
-
-        private static List<TextFragment> GetTextFragments(List<TextFragment> textFragments)
-        {
-            var fragments = new List<TextFragment>(textFragments.Count);
-
-            foreach (var tf in textFragments)
-            {
-                var fragment = new TextFragment
-                {
-                    Text = tf.Text,
-                    Font = new MeasurementFont
-                    {
-                        FontFamily = tf.Font.FontFamily,
-                        Size = (float)tf.Font.Size,
-                        Style = GetMeasurementFontStyle(tf)
-                    }
-                };
-                fragments.Add(fragment);
-            }
-
-            return fragments;
-        }
-
-        private static MeasurementFontStyles GetMeasurementFontStyle(TextFragment tf)
-        {
-            var style = (tf.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0)
-                      | (tf.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0)
-                      | (tf.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0)
-                      | (tf.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0);
-
-            return style == 0 ? MeasurementFontStyles.Regular : (MeasurementFontStyles)style;
-        }
     }
 }

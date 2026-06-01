@@ -209,7 +209,7 @@ namespace EPPlusTest.PDF
             List<ITextFragmentBase> TextFragments = GetTextFragments(cell.RichText).Cast<ITextFragmentBase>().ToList();
 
 
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)TextFragments[0]);
+            var layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)TextFragments[0].RichTextOptions);
 
             var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
         }
@@ -231,10 +231,9 @@ namespace EPPlusTest.PDF
             {
                 var rt = RichTextCollection[i];
                 var textFrag = new TextFragment();
-                textFrag.Font = new MeasurementFont();
                 textFrag.Text = rt.Text;
 
-                textFrag.Font.FontFamily = rt.FontName;
+                textFrag.Font.Family = rt.FontName;
                 textFrag.Font.Size = rt.Size;
 
                 textFrag.RichTextOptions.Bold = rt.Bold || bold;
@@ -252,14 +251,14 @@ namespace EPPlusTest.PDF
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                 textFrag.RichTextOptions.FontColor = rt.Color;
 
-                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
-                                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-                                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+                //Should no longer be neccesary
+                //textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                //                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
+                //                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+                //                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
 
 
                 textFragments.Add(textFrag);
-                OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
             }
 
             return textFragments;

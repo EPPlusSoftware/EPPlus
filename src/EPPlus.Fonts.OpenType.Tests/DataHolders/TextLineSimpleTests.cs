@@ -107,7 +107,8 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 

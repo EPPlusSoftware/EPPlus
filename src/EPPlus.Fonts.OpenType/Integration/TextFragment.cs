@@ -35,12 +35,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// Legacy. This is to be replaced after PDF refactor is taken in
         /// </summary>
-        MeasurementFont _mfFont;
-
-        /// <summary>
-        /// Legacy. This is to be replaced after PDF refactor is taken in
-        /// </summary>
-        public MeasurementFont Font { get { return _mfFont; } set { _mfFont = value; RichTextOptions.SetFont(value); } }
+        public IFontFormatBase Font { get { return RichTextOptions; } set {RichTextOptions.SetFont(value); } }
 
         public TextFragment(IRichTextInfoBase rtFormat) : base(rtFormat)
         {

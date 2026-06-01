@@ -3,9 +3,11 @@ using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -38,7 +40,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 
@@ -70,11 +73,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum[d] exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? [D]Quis autem vel eum i[r]ure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?\u2029 " +
                 "At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem reru[d]um facilis est e[r]t expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellend[a]us. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.\u2029 " +
                 "Let's see if we can recognize unicode paragraph separators" };
-            var font = new MeasurementFont()
+            var font = new OpenTypeFontInfoBase()
             {
-                FontFamily = "Aptos Narrow",
+                Family = "Aptos Narrow",
                 Size = 11,
-                Style = MeasurementFontStyles.Bold
+                SubFamily = FontSubFamily.Bold
             };
             var fragments = new List<ITextFragmentBase>()
             {
@@ -123,7 +126,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i]};
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 
@@ -158,7 +162,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 
@@ -193,7 +198,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 
@@ -238,7 +244,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < strings.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = strings[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = strings[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 
