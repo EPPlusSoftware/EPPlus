@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
-    internal class RegexTest : ExcelFunction
+    internal class RegexTest : RegexFunctionBase
     {
         public override int ArgumentMinLength => 2;
         public override string NamespacePrefix => "_xlfn.";
@@ -15,7 +15,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         {
             bool textIsRange = arguments[0].IsExcelRange;
             bool patternIsRange = arguments[1].IsExcelRange;
-            int caseSensitivity = ArgToInt(arguments, 2, 0);
+            int caseSensitivity = arguments.Count > 2 ? ArgToInt(arguments, 2, 0) : 0;
 
             if (!textIsRange && !patternIsRange)
             {
@@ -25,6 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                 if (text == null || pattern == null)
                     return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+                if (caseSensitivity > 1 || caseSensitivity < 0)
+                    return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
 
                 return CreateResult(GetRegexTest(text, pattern, caseSensitivity), DataType.Boolean);
             }
@@ -55,51 +57,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                     if (textValue == null || patternValue == null)
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
-                    else if(Math.Abs(caseSensitivity) <
+                    else if(caseSensitivity > 1 || caseSensitivity < 0)
+                    {
+                        result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                    }
                     else
-                        result.SetValue(row, col, GetRegexTest(textValue, patternValue));
+                        result.SetValue(row, col, GetRegexTest(textValue, patternValue, caseSensitivity));
                 }
             }
 
             return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
 
-        /// <summary>
-        /// Hämtar strängvärdet för (row, col) med broadcasting.
-        /// Returnerar null om cellen är utanför räckvidden (→ #N/A).
-        /// </summary>
-        private static string GetValue(
-            IRangeInfo range,
-            FunctionArgument scalar,
-            int nRows, int nCols,
-            int row, int col)
-        {
-            if (range == null)
-                // Skalärargument – broadcastas alltid
-                return scalar.Value?.ToString();
-
-            // Beräkna verkligt index med broadcasting (storlek 1 → använd index 0)
-            int r = nRows == 1 ? 0 : row;
-            int c = nCols == 1 ? 0 : col;
-
-            // Utanför räckvidden → #N/A
-            if (r >= nRows || c >= nCols)
-                return null;
-
-            return range.GetOffset(r, c)?.ToString();
-        }
-
-        /// <summary>
-        /// Beräknar resultatdimensionen för en axel enligt Excels broadcasting-regler.
-        /// </summary>
-        private static short ExpandedSize(int a, int b)
-        {
-            if (a == 1) return (short)b;
-            if (b == 1) return (short)a;
-            return (short)Math.Max(a, b);   // Båda > 1: max-storlek, överskott → #N/A
-        }
-
         private static bool GetRegexTest(string text, string pattern, int caseSensitive)
-            => Regex.IsMatch(text, pattern);
+            => Regex.IsMatch(text, pattern, (RegexOptions)caseSensitive);
     }
 }
