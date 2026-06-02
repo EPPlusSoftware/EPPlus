@@ -94,9 +94,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, rect.Bounds));
         //}
 
-        internal void AddText(double startingY, string text = null)
+        internal void AddText(string text = null)
         {
-            TextBody.AddParagraph(startingY, text);
+            TextBody.AddParagraph(text);
         }
 
 
@@ -228,7 +228,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             RightMargin = r;
             BottomMargin = b;
 
-            TextBody.ImportTextBody(body);
+            TextBody.ImportTextBodyAndParagraphs(body);
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)

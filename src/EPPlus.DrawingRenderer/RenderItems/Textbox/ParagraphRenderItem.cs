@@ -113,22 +113,28 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected double? _centerAdjustment;
 
 
-        protected ParagraphRenderItem(BoundingBox parent) : base(parent)
+        protected ParagraphRenderItem(BoundingBox parent, bool setFallbackDefaultFont = true) : base(parent)
         {
             Bounds.Name = "Paragraph";
-        }
-
-        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, bool setFallbackDefaultFont = true) : base(parent)
-        {
-            SetParentProps(textBody);
-            Bounds.Name = "Paragraph";
-
-            if(setFallbackDefaultFont)
+            if (setFallbackDefaultFont)
             {
                 var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
                 ParagraphFont = defaultFont;
                 DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
+                FillColor = "black";
             }
+        }
+
+        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, bool setFallbackDefaultFont = true) : this(parent, setFallbackDefaultFont)
+        {
+            InitBasedOnParent(textBody);
+            Bounds.Name = "Paragraph";
+        }
+
+        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, string text, bool setFallbackDefaultFont = true) : this(parent, textBody, setFallbackDefaultFont)
+        {
+            _lsMultiplier = 1d;
+            ImportLinesAndTextRunsBase(text);
         }
 
         protected double GetAlignmentHorizontal(TextAlignment txAlignment)
@@ -152,7 +158,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
 
-        void SetParentProps(RenderTextBody textBody)
+        void InitBasedOnParent(RenderTextBody textBody)
         {
             ParentTextBody = textBody;
             ParentMaxWidth = textBody.MaxWidth;
@@ -169,6 +175,35 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             var maxWidthPoints = Math.Round(ParentMaxWidth, 0, MidpointRounding.AwayFromZero);
             return _layoutSystem.Wrap(maxWidthPoints);
+        }
+
+        protected void GenerateTextFragments(string text)
+        {
+            if (_textFragments == null)
+            {
+                _textFragments = new List<ITextFragmentBase>();
+            }
+
+            if (string.IsNullOrEmpty(text) == false)
+            {
+                var currentFrag = new TextFragment() { Text = text };
+                currentFrag.RichTextOptions.SetFont(ParagraphFont);
+                _textFragments.Add(currentFrag);
+            }
+            _layoutSystem = new LayoutSystem(_textFragments);
+        }
+
+        protected void ImportLinesAndTextRunsBase(string textIfEmpty)
+        {
+            GenerateTextFragments(textIfEmpty);
+
+            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
+            if (HorizontalAlignment == TextAlignment.Center)
+            {
+                _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+            }
+
+            AddTextLinesAndSpacing(textIfEmpty);
         }
 
         protected void AddTextLinesAndSpacing(string textIfEmpty)

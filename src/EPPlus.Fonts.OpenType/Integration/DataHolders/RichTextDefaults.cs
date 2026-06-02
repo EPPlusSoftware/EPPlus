@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
-    internal class RichTextDefaults : OpenTypeRichTextBase, IRichTextInfoBase
+    public class RichTextDefaults : OpenTypeRichTextBase, IRichTextInfoBase
     {
         public bool SubScript { get; set; } = false;
 

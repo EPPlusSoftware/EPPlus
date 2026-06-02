@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType.Integration.RichText;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
@@ -52,7 +54,49 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
-        public void SvgTextBoxTest()
+        public void SvgTextRun()
+        {
+            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
+            StringBuilder sb = new StringBuilder();
+            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb);
+
+
+            var baseGroup = new GroupRenderItem(bounds);
+
+            var background = new RectRenderItem(baseGroup.Bounds);
+
+            background.Width = bounds.Width;
+            background.Height = bounds.Height;
+            background.FillColor = "aliceBlue";
+
+            baseGroup.AddChildItem(background);
+
+            var rt = new RichTextDefaults();
+            rt.Text = "My text";
+            rt.UnderlineType = 1;
+            rt.FontColor = System.Drawing.Color.Black;
+            rt.Family = "Archivo Narrow";
+            rt.SubFamily = OfficeOpenXml.Interfaces.Fonts.FontSubFamily.Regular;
+            rt.Size = 12f;
+           
+            //var paragraph = new SvgParagraphRenderItem()
+
+            var textRun = new SvgTextRunRenderItem(baseGroup.Bounds, rt, rt.Text);
+            baseGroup.AddChildItem(textRun);
+
+
+            List<RenderItem> items = new List<RenderItem>() { baseGroup };
+
+            svgShapeRenderer.Render(items);
+
+            var svg = sb.ToString();
+
+
+            SaveTextFileToWorkbook("svg\\textRunStandAlone.svg", svg);
+        }
+
+        [TestMethod]
+        public void SvgTextBodyTest()
         {
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
             StringBuilder sb = new StringBuilder();
@@ -67,14 +111,19 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             background.Height = bounds.Height;
             background.FillColor = "aliceBlue";
 
-            //var textBody = new RenderTextBody(baseGroup.Bounds, true);
+            baseGroup.Bounds.Width = bounds.Width;
+            baseGroup.Bounds.Height = bounds.Height;
 
-            
+            var textBody = new SvgTextBodyRenderItem(baseGroup.Bounds, true);
+            textBody.AddParagraph("Hello");
+
+            baseGroup.AddChildItem(textBody);
+            baseGroup.AddChildItem(background);
             //textBody.
             //textBody.Text = "Hello";
             //var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
 
-           
+
             //var para2 = new DrawingParagraphRenderItem(textBody, textBody.Bounds);
             //textBody.Paragraphs.Add
 
@@ -85,13 +134,14 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             //baseGroup.AddChildItem(textBody);
 
             List<RenderItem> items = new List<RenderItem>() { baseGroup };
+            textBody.AppendRenderItems(items);
 
             svgShapeRenderer.Render(items);
 
             var svg = sb.ToString();
 
 
-            SaveTextFileToWorkbook("svg\\textBoxStandAlone.svg", svg);
+            SaveTextFileToWorkbook("svg\\textBodyStandAlone.svg", svg);
         }
     }
 }

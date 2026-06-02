@@ -24,8 +24,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal ExcelTheme Theme { get; }
 
-        
-
         public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
         {
             _drawing = drawing;
@@ -108,7 +106,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //}
         }
 
-        internal virtual void ImportTextBody(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
+        internal virtual void ImportTextBodyAndParagraphs(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             Text = null;
             VerticalAlignment = (TextAnchoringType)body.Anchor;
@@ -136,31 +134,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             Bounds.Top = GetAlignmentVertical();
-        }
-        /// <summary>
-        /// Get the start of text space vertically
-        /// </summary>
-        /// <returns></returns>
-        private double GetAlignmentVertical()
-        {
-            double alignmentY = 0;
-
-            switch (VerticalAlignment)
-            {
-                case TextAnchoringType.Top:
-                    alignmentY = Bounds.Top;
-                    break;
-                //Center means center of a Shape's ENTIRE bounding box height.
-                //Not center of the Inset GetRectangle
-                case TextAnchoringType.Center:
-                    alignmentY = (MaxHeight - Bounds.Height) / 2 + Bounds.Top;
-                    break;
-                case TextAnchoringType.Bottom:
-                    alignmentY = MaxHeight - Bounds.Height;
-                    break;
-            }
-
-            return alignmentY;
         }
 
         //internal override void AppendRenderItems(List<RenderItem> renderItems)

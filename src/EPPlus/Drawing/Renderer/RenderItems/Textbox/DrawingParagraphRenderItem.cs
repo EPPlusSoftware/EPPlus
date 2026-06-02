@@ -108,39 +108,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal void ImportLinesAndTextRunsDefault(string textIfEmpty, ExcelTextFont font = null)
         {
-            GenerateTextFragments(textIfEmpty);
-
-            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-            if (HorizontalAlignment == TextAlignment.Center)
-            {
-                _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-            }
-
-            AddTextLinesAndSpacing(textIfEmpty);
-
+            ImportLinesAndTextRunsBase(textIfEmpty);
             //Import RichText data to each run
             foreach (var run in Runs)
             {
                 var textRun = (DrawingTextRunRenderItem)run;
                 ImportStyleFallback(font, textRun);
             }
-        }
-
-
-        void GenerateTextFragments(string text)
-        {
-            if (_textFragments == null)
-            {
-                _textFragments = new List<ITextFragmentBase>();
-            }
-
-            if (string.IsNullOrEmpty(text) == false)
-            {
-                var currentFrag = new TextFragment() { Text = text };
-                currentFrag.RichTextOptions.SetFont(ParagraphFont);
-                _textFragments.Add(currentFrag);
-            }
-            _layoutSystem = new LayoutSystem(_textFragments);
         }
 
         /// <summary>

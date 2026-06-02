@@ -110,11 +110,17 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
-        public void AddParagraph(double startingY, string text = null)
+        public void AddParagraph(string text = null)
         {
+            double paragraphTop = 0;
+
+            if(Paragraphs.Count != 0)
+            {
+                paragraphTop = Paragraphs.Last().Bounds.Bottom;
+            }
             var paragraph = CreateParagraph(Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            paragraph.Bounds.Top = startingY;
+            paragraph.Bounds.Top = paragraphTop;
             Text = text;
 
             if (AutoSize)
@@ -134,6 +140,32 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 }
             }
             Paragraphs.Add(paragraph);
+        }
+
+        /// <summary>
+        /// Get the start of text space vertically
+        /// </summary>
+        /// <returns></returns>
+        protected double GetAlignmentVertical()
+        {
+            double alignmentY = 0;
+
+            switch (VerticalAlignment)
+            {
+                case TextAnchoringType.Top:
+                    alignmentY = Bounds.Top;
+                    break;
+                //Center means center of a Shape's ENTIRE bounding box height.
+                //Not center of the Inset GetRectangle
+                case TextAnchoringType.Center:
+                    alignmentY = (MaxHeight - Bounds.Height) / 2 + Bounds.Top;
+                    break;
+                case TextAnchoringType.Bottom:
+                    alignmentY = MaxHeight - Bounds.Height;
+                    break;
+            }
+
+            return alignmentY;
         }
 
         protected abstract ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "");
