@@ -80,12 +80,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //}
             }
 
-            ////Trendlines and trendline labels
-            //foreach (var tr in Trendlines)
-            //{
-            //    tr.AppendRenderItems(ChartAreaRenderItems);
-            //}
-            //Append Trendline render items.
             foreach (var tr in Trendlines)
             {
                 tr.CreateRenderCoordinatesAndDatalabel();
