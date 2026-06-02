@@ -117,6 +117,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             double currentHeight = 0;
             double largestWidth = double.MinValue;
 
+            body.GetInsetsInPoints(out double left, out double top, out double right, out double bottom);
+
+            if (AutoSize == false)
+            {
+                LeftMargin = left;
+                TopMargin = top;
+                RightMargin = right;
+                BottomMargin = bottom;
+
+                MaxHeight = MaxHeight - top - bottom;
+                MaxWidth = MaxWidth - left - right;
+            }
+
             foreach (var paragraph in body.Paragraphs)
             {
                 ImportParagraph(paragraph, currentHeight);
