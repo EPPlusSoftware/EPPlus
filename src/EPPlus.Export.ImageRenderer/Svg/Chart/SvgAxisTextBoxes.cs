@@ -18,7 +18,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class SvgAxisTextBoxes : SvgChartObject
     {
-        internal SvgAxisTextBoxes(DrawingChart chart) : base(chart)
+        internal SvgAxisTextBoxes(EPPlusImageRenderer.DrawingChart chart) : base(chart)
         {
         }
 

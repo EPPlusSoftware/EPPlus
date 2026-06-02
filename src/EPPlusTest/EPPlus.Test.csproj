@@ -25,7 +25,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\EPPlus.Export.ImageRenderer\EPPlus.Export.ImageRenderer.csproj" />
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 		<ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />

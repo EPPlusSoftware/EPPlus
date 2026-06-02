@@ -10,11 +10,14 @@
  *************************************************************************************************
   11/15/2021         EPPlus Software AB       Html export
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Coloring;
-using System.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using System;
+using System.Drawing;
+using System.Linq;
+using TC = OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Utils.TypeConversion
 {
@@ -165,23 +168,23 @@ namespace OfficeOpenXml.Utils.TypeConversion
         }
         internal static Color ApplyTint(Color ret, double tint)
         {
-            if (tint == 0)
+            if (tint < 0)
             {
-                return ret;
+                double shade = 1+tint;
+                var r = (byte)Math.Round(ret.R * shade);
+                var g = (byte)Math.Round(ret.G * shade);
+                var b = (byte)Math.Round(ret.B * shade); 
+                return Color.FromArgb(ret.A, r, g, b);
             }
-            else
+            else if(tint > 0)
             {
-                ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
-                if (tint < 0)
-                {
-                    l = l * (1.0 + tint);
-                }
-                else if (tint > 0)
-                {
-                    l += (1 - l) * tint;
-                }
-                return ExcelDrawingHslColor.GetRgb(h, s, l);
+                double blend = 1.0 - tint;
+                var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
+                var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
+                var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
+                return Color.FromArgb(ret.A, r, g, b);
             }
+            return ret;
         }
         internal static Color ApplyBlend(Color color, Color blendColor, double percent)
         {
@@ -191,6 +194,34 @@ namespace OfficeOpenXml.Utils.TypeConversion
             var b = (int)Math.Min(255D, color.B * colorPercent + blendColor.B * percent);
             return Color.FromArgb(0xff, r, g, b);
         }
+        internal static Color GetAdjustedColor(PathFillMode fillColorSource, Color fc)
+        {
+            switch (fillColorSource)
+            {
+                case PathFillMode.Darken:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.Black, 0.4);
+                    break;
+                case PathFillMode.DarkenLess:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.Black, 50D / 255D);
+                    break;
+                case PathFillMode.LightenLess:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.White, 50D / 255D);
+                    break;
+                case PathFillMode.Lighten:
+                    fc = TC.ColorConverter.ApplyBlend(fc, Color.White, 0.4);
+                    break;
+            }
 
+            return fc;
+        }
+
+        internal static double GetOpacity(ExcelDrawingColorManager color)
+        {
+            if(color.Transforms.Where(t=>t.Type==eColorTransformType.Alpha).FirstOrDefault() is IColorTransformItem alpha)
+            {
+                return alpha.Value / 100;
+            }
+            return 1D;
+        }
     }
 }

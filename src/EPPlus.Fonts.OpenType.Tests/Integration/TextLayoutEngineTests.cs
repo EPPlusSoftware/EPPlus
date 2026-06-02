@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.RichText;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -268,7 +269,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Hello world",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 }
             };
 
@@ -296,12 +297,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Hello ",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "world",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 12, Style = MeasurementFontStyles.Bold }
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 12, SubFamily = FontSubFamily.Bold }
                 }
             };
 
@@ -327,17 +328,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "This is ",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "mixed ",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 14, Style = MeasurementFontStyles.Bold }
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 14, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = "fonts",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 }
             };
 
@@ -379,21 +380,19 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void WrapLongRichTextWord()
         {
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
-            var mFont = new MeasurementFont()
+            var mFont = new OpenTypeFontInfoBase()
             {
-                FontFamily = "Aptos Narrow",
+                Family = "Aptos Narrow",
                 Size = 11,
-                Style = MeasurementFontStyles.Regular
+                SubFamily = FontSubFamily.Regular
             };
-
-            var font = SystemFontsEngine.LoadFont(mFont.FontFamily);
 
             var longWord = "pellentesquer";
 
             var fragment = new TextFragment() { Text = longWord, Font = mFont };
             var fragLst = new List<TextFragment>() { fragment };
 
-            ITextShaper shaper = new TextShaper(SystemFontsEngine, font);
+            ITextShaper shaper = OpenTypeFonts.GetShaperForFont(mFont);
             using var layout = new TextLayoutEngine(shaper);
 
             var wrappedLines = layout.WrapRichText(fragLst, 54);
@@ -424,7 +423,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var fragments = new List<TextFragment>();
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                fragments.Add(new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] });
+                var currFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currFrag.RichTextOptions.SetFont(fonts[i]);
+                fragments.Add(currFrag);
             }
 
             lap = sw.ElapsedMilliseconds;
@@ -502,8 +503,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
+                var currFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currFrag.RichTextOptions.SetFont(fonts[i]);
+                fragments.Add(currFrag);
             }
 
             //var test = "TextBox2ra underlineLa StrikeGoudysize16SvgSize24";
@@ -564,18 +566,19 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var comparatorFragments = new List<TextFragment>();
 
-            var font11= new MeasurementFont()
+            var font11 = new RichTextDefaults()
             {
-                FontFamily = "Aptos Narrow",
+                Family = "Aptos Narrow",
                 Size = 11,
-                Style = MeasurementFontStyles.Strikeout
+                StrikeType = 1
             };
 
-            var font22 = new MeasurementFont()
+           
+
+            var font22 = new RichTextDefaults()
             {
-                FontFamily = "Goudy Stout",
+                Family = "Goudy Stout",
                 Size = 16,
-                Style = MeasurementFontStyles.Regular
             };
 
             var frag1 = new TextFragment() { Font = font11, Text = comparatorLst[0] };
@@ -583,8 +586,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             comparatorFragments.Add(frag1);
             comparatorFragments.Add(frag2);
 
-            var startFont = SystemFontsEngine.LoadFont(font11.FontFamily, GetFontSubType(font11.Style));
-            var goudyFont = SystemFontsEngine.LoadFont(font22.FontFamily, GetFontSubType(font22.Style));
+            var startFont = SystemFontsEngine.LoadFont(font11.Family, font11.SubFamily);
+            var goudyFont = SystemFontsEngine.LoadFont(font22.Family, font22.SubFamily);
 
             ITextShaper shaper2 = new TextShaper(SystemFontsEngine, font);
             using var layoutEngine = new TextLayoutEngine(shaper);
@@ -617,18 +620,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var comparatorFragments = new List<TextFragment>();
 
-            var font11 = new MeasurementFont()
+            var font11 = new RichTextDefaults()
             {
-                FontFamily = "Aptos Narrow",
+                Family = "Aptos Narrow",
                 Size = 11,
-                Style = MeasurementFontStyles.Strikeout
+                StrikeType = 1
             };
 
-            var font22 = new MeasurementFont()
+            var font22 = new RichTextDefaults()
             {
-                FontFamily = "Goudy Stout",
+                Family = "Goudy Stout",
                 Size = 16,
-                Style = MeasurementFontStyles.Regular
             };
 
             var frag1 = new TextFragment() { Font = font11, Text = comparatorLst[0] };
@@ -636,8 +638,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             comparatorFragments.Add(frag1);
             comparatorFragments.Add(frag2);
 
-            var startFont = SystemFontsEngine.LoadFont(font11.FontFamily, GetFontSubType(font11.Style));
-            var goudyFont = SystemFontsEngine.LoadFont(font22.FontFamily, GetFontSubType(font22.Style));
+            var startFont = SystemFontsEngine.LoadFont(font11.Family, font11.SubFamily);
+            var goudyFont = SystemFontsEngine.LoadFont(font22.Family, font22.SubFamily);
 
             ITextShaper shaper2 = new TextShaper(SystemFontsEngine, font);
             using var layoutEngine = new TextLayoutEngine(shaper);
@@ -692,7 +694,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i]};
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 
@@ -728,6 +731,16 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual("16", smallestTextFragments[5]);
         }
 
+        private void GenerateTextFragments(List<string> lstOfRichText, List<MeasurementFont> fonts, ref List<TextFragment> fragments)
+        {
+            for (int i = 0; i < lstOfRichText.Count(); i++)
+            {
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
+                fragments.Add(currentFrag);
+            }
+        }
+
         [TestMethod]
         public void TestParagraphs()
         {
@@ -750,13 +763,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var fragments = new List<TextFragment>();
 
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
+            GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
@@ -766,7 +775,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var layout = SystemFontsEngine.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
-            var wrappedLinesPara = paragraph.Wrap(FontFolders, 225d);
+            var wrappedLinesPara = paragraph.Wrap(225d);
 
             Assert.AreEqual(wrappedLines.Count, wrappedLinesPara.Count);
 
@@ -784,18 +793,18 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum[d] exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? [D]Quis autem vel eum i[r]ure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?\u2029 " +
                 "At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem reru[d]um facilis est e[r]t expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellend[a]us. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.\u2029 " +
                 "Let's see if we can recognize unicode paragraph separators" };
-                var font = new MeasurementFont()
+            var font = new OpenTypeFontInfoBase()
             {
-                FontFamily = "Aptos Narrow",
+                Family = "Aptos Narrow",
                 Size = 11,
-                Style = MeasurementFontStyles.Bold
+                SubFamily = FontSubFamily.Bold
             };
             var fragments = new List<TextFragment>()
             {
                 new TextFragment() {Text = lstOfRichText[0], Font = font }
             };
 
-            var layout = new LayoutSystem(fragments, FontFolders);
+            var layout = new LayoutSystem(fragments);
             Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
         }
 
@@ -835,16 +844,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             List<MeasurementFont> fonts = new() { font2, font3, font4, font5 };
             var fragments = new List<TextFragment>();
 
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
+            GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
-            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+            var paragraph = new LayoutSystem(fragments);
+            var wrappedLines = paragraph.Wrap(225d);
 
             var line1 = wrappedLines[0];
         }
@@ -870,14 +875,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var fragments = new List<TextFragment>();
 
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
+            GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
-            var wrappedLines = paragraph.Wrap(FontFolders, 225d);
+            var paragraph = new LayoutSystem(fragments);
+            var wrappedLines = paragraph.Wrap(225d);
 
             Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
             Assert.AreEqual(24, wrappedLines[1].LineFragments[0].StartFullTextIdx);
@@ -905,13 +906,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var fragments = new List<TextFragment>();
 
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
+            GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
-            var paragraph = new LayoutSystem(fragments, FontFolders);
+            var paragraph = new LayoutSystem(fragments);
 
             var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
@@ -977,11 +974,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             List<MeasurementFont> fonts = new() { font1, font2, font3, font4, font5, font6 };
             var fragments = new List<TextFragment>();
 
-            for (int i = 0; i < lstOfRichText.Count(); i++)
-            {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
-                fragments.Add(currentFrag);
-            }
+            GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
             var startFont = SystemFontsEngine.LoadFont(font1.FontFamily, GetFontSubType(font1.Style));
@@ -1048,12 +1041,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Hel",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "lo world",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
                 }
             };
 
@@ -1080,12 +1073,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Line 1\n",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "Line 2",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
                 }
             };
 
@@ -1114,17 +1107,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "Hello",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 }
             };
 
@@ -1171,17 +1164,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "First ",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "second ",
-                    Font = new MeasurementFont { FontFamily = "Calibri", Size = 11 }
+                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "third",
-                    Font = new MeasurementFont { FontFamily = "Arial", Size = 11 } // Same as first
+                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 } // Same as first
                 }
             };
 
@@ -1234,7 +1227,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "value, 1",
-                    Font = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 9 }
+                    Font = new OpenTypeFontInfoBase { Family = "Aptos Narrow", Size = 9 }
                 },
             };
 
@@ -1254,11 +1247,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             RequireFont(SystemFontsEngine, "Aptos Narrow");
 
 
-            var font1 = new MeasurementFont()
+            var font1 = new OpenTypeFontInfoBase()
             {
-                FontFamily = "Aptos Narrow",
+                Family = "Aptos Narrow",
                 Size = 11,
-                Style = MeasurementFontStyles.Regular
+                SubFamily = FontSubFamily.Regular
             };
 
             var maxWidthPt = 31.8125234375d;

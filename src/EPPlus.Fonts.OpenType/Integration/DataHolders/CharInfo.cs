@@ -5,7 +5,7 @@ using System.Text;
 namespace EPPlus.Fonts.OpenType.Integration
 {
     //Leaving this for now. May be neccesary for vertical text
-    internal class CharInfo
+    public class CharInfo
     {
         /// <summary>
         /// Index within AllText
@@ -22,8 +22,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// Width in points of the char
         /// </summary>
-        internal int Width;
-
+        internal double Width;
 
         internal int Line;
 
@@ -33,6 +32,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             Index = index;
             Fragment = fragment;
+            InnerIndex = fragCharIdx;
             //Line = line;
         }
     }

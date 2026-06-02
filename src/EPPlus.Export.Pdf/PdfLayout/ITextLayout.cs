@@ -1,5 +1,4 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Graphics.Math;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Interfaces.RichText;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// If this becomes null/loses its reference the original textfragment has been deleted
         /// Don't delete/clear the original textFragment list if you plan to use/check it here.
         /// </summary>
-        public TextFragment OriginalTextFragment { get { return _getTextFragment(); } }
+        public ITextFragmentBase OriginalTextFragment { get { return _getTextFragment(); } }
 
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         #region Callbacks
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        Func<TextFragment> _getTextFragment;
+        Func<ITextFragmentBase> _getTextFragment;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Func<double> _getWidth;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -61,7 +62,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         Func<int> _getFullTextIdx;
         #endregion
 
-        internal LineFragmentOutput(Func<TextFragment> getTextFragment, Func<double> getWidth, Func<int> startIdx, Func<int> startRt, Func<int> fullTextIdx, string text)
+        internal LineFragmentOutput(Func<ITextFragmentBase> getTextFragment, Func<double> getWidth, Func<int> startIdx, Func<int> startRt, Func<int> fullTextIdx, string text)
         {
             _getTextFragment = getTextFragment;
             _getWidth = getWidth;

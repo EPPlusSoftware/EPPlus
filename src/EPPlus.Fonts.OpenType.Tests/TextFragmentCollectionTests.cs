@@ -11,7 +11,7 @@ namespace EPPlus.Fonts.OpenType.Tests
         public override TestContext? TestContext { get; set; }
 
         [TestMethod]
-        public void EnsureTextFragmentsAndWrapperWorkCorrectlyForLongParagraphs()
+        public void WrappingLongParagraphs()
         {
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
 

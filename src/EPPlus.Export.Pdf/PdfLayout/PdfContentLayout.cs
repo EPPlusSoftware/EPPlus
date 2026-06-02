@@ -11,7 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
 using EPPlus.Export.Pdf.PdfSettings;
 
 namespace EPPlus.Export.Pdf.PdfLayout

@@ -22,6 +22,7 @@ using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 
@@ -85,12 +86,23 @@ namespace EPPlus.Fonts.OpenType
             return _default.GetTextLayoutEngine(fontName, subFamily);
         }
 
+
+        public static TextLayoutEngine GetTextLayoutEngineForFont(IFontFormatBase font)
+        {
+            return _default.GetTextLayoutEngineForFont(font);
+        }
+
         public static TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font)
         {
             return _default.GetTextLayoutEngineForFont(font);
         }
 
         public static ITextShaper GetShaperForFont(MeasurementFont font)
+        {
+            return _default.GetShaperForFont(font);
+        }
+
+        public static ITextShaper GetShaperForFont(IFontFormatBase font)
         {
             return _default.GetShaperForFont(font);
         }

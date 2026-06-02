@@ -1,4 +1,4 @@
-﻿using EPPlus.Graphics.Math;
+﻿using EPPlus.Graphics.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,23 +6,23 @@ using System.Text;
 
 namespace EPPlus.Graphics
 {
-    internal class BoundingBox : Transform
+    public class BoundingBox : Transform
     {
-        internal BoundingBox() : base()
+        public BoundingBox() : base()
         {
         }
 
-        internal BoundingBox(double width, double height) : base(0, 0, width, height)
+        public BoundingBox(double width, double height) : base(0, 0, width, height)
         {
         }
-        internal BoundingBox(double left, double top, double width, double height) : base(left, top, width, height)
+        public BoundingBox(double left, double top, double width, double height) : base(left, top, width, height)
         {
         }
 
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        internal double Top
+        public double Top
         {
             get { return LocalPosition.Y; }
             set
@@ -45,7 +45,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// X pos (min)
         /// </summary>
-        internal double Left
+        public double Left
         {
             get { return LocalPosition.X; }
             set
@@ -69,7 +69,7 @@ namespace EPPlus.Graphics
         /// <summary>
         /// If @ClampedToParent is true will not set value beyond parent
         /// </summary>
-        internal double Bottom
+        public double Bottom
         {
             get
             {
@@ -80,14 +80,14 @@ namespace EPPlus.Graphics
         /// <summary>
         /// If @ClampedToParent is true will not set value beyond parent
         /// </summary>
-        internal double Right
+        public double Right
         {
             get
             {
                 return LocalPosition.X + Size.X;
             }
         }
-        internal virtual double Width
+        public virtual double Width
         {
             get
             {
@@ -99,7 +99,7 @@ namespace EPPlus.Graphics
             }
         }
 
-        internal virtual double Height
+        public virtual double Height
         {
             get
             {
@@ -110,37 +110,19 @@ namespace EPPlus.Graphics
                 Size = new Vector2(Size.X, value);
             }
         }
-        internal double GlobalLeft
+        public double GlobalLeft
         {
             get
             {
                 return Position.X;
             }
         }
-        internal double GlobalTop
+        public double GlobalTop
         {
             get
             {
                 return Position.Y;
             }
         }
-
-        //Quick-access to underlying transform
-
-        ///// <summary>
-        ///// Local position X
-        ///// X-position from parent transform position
-        ///// </summary>
-        //internal override double X { get { return Left; } set { Left = value; } }
-
-        ///// <summary>
-        ///// Local position Y
-        ///// Y-position from parent transform position
-        ///// </summary>
-        //internal override double Y { get { return Top; } set { Top = value; } }
-
-        //Gets global position x and y
-        internal double GlobalX { get { return Position.X; } }
-        internal double GlobalY { get { return Position.Y; } }
-    }
+   }
 }

@@ -6,35 +6,35 @@ using System.Text;
 
 namespace EPPlus.Graphics
 {
-    internal class RectMargins : Rect
+    public class RectMargins : Rect
     {
-        internal double MarginLeft { get; set; }
-        internal double MarginTop { get; set; }
-        internal double MarginRight { get; set; }
-        internal double MarginBottom { get; set; }
+        public double MarginLeft { get; set; }
+        public double MarginTop { get; set; }
+        public double MarginRight { get; set; }
+        public double MarginBottom { get; set; }
 
-        internal RectMargins() : base() { }
+        public RectMargins() : base() { }
 
-        internal RectMargins(double l, double t, double r, double b) : base(l, t, r, b)
+        public RectMargins(double l, double t, double r, double b) : base(l, t, r, b)
         {
         }
 
-        internal double GetInnerLeft()
+        public double GetInnerLeft()
         {
             return Left + MarginLeft;
         }
 
-        internal double GetInnerTop()
+        public double GetInnerTop()
         {
             return Top + MarginTop;
         }
 
-        internal double GetInnerBottom()
+        public double GetInnerBottom()
         {
             return Bottom - MarginBottom;
         }
 
-        internal double GetInnerRight()
+        public double GetInnerRight()
         {
             return Right - MarginRight;
         }

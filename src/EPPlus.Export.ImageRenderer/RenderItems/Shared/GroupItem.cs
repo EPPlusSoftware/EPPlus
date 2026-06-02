@@ -5,16 +5,19 @@ using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
-    internal abstract class GroupItem : RenderItem
+    internal abstract class PieGroupItemBase : RenderItem
     {
         /// <summary>
         /// In degrees
         /// </summary>
         internal double Rotation = double.NaN;
         /// <summary>
-        /// In points
+        /// The translated position of this item in points
+        /// Also the parent position of the group item 
+        /// (This may seem strange but it ensures the the translation is seen 
+        /// immediately in the global position of GroupItem without affecting local position)
         /// </summary>
-        internal Point Position = null;
+        internal Point TranslationOffset = new Point(0,0);
 
         Point _altRotationPoint = null;
 
@@ -24,7 +27,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 if (_altRotationPoint == null)
                 {
-                    return Position;
+                    return TranslationOffset;
                 }
                 return _altRotationPoint;
             }
@@ -34,6 +37,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+        internal Coordinate Scale = null;
+
 
         //Transform _rotationPoint;
 
@@ -42,21 +47,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         internal protected List<RenderItem> _childItems = new List<RenderItem>();
 
-        public GroupItem(DrawingBase renderer) : base(renderer)
+        public PieGroupItemBase(DrawingBase renderer) : base(renderer)
         {
-            Bounds.Parent = Position;
+            Bounds.Parent = TranslationOffset;
             //_rotationPoint = Bounds;
         }
 
-        public GroupItem(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
+        public PieGroupItemBase(DrawingBase renderer, double localXPos, double localYPos) : this(renderer)
         {
-            Position = new Point(localXPos, localYPos);
+            Bounds.Left = localXPos;
+            Bounds.Top = localYPos;
         }
 
 
-        public GroupItem(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
+        public PieGroupItemBase(DrawingBase renderer, BoundingBox parent, double rotation, Transform rotationPoint = null) : this(renderer, 0, 0)
         {
-            Position.Parent = parent;
+            TranslationOffset.Parent = parent;
             Rotation = rotation;
             if (rotationPoint != null)
             {
@@ -76,7 +82,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         internal void AddChildItem(RenderItem item)
         {
-            item.Bounds.Parent = Position;
+            if (item is PieGroupItemBase)
+            {
+                var subGroup = (PieGroupItemBase)item;
+                subGroup.TranslationOffset.Parent = Bounds;
+            }
+            else
+            {
+                item.Bounds.Parent = Bounds;
+            }
             _childItems.Add(item);
 
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;

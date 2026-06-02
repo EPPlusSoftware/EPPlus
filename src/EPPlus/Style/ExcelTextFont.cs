@@ -356,7 +356,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return _xml.GetXmlNodeDouble($"@baseline", 0);
+                return _xml.GetXmlNodePercentage($"@baseline") ?? 0;
             }
             set
             {

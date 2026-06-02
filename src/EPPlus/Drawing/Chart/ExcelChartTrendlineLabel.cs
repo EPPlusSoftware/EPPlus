@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTrendlineLabel : XmlHelper, IDrawingStyle
     {
-        ExcelChartStandardSerie _serie;        
+        ExcelChartStandardSerie _serie;
         internal ExcelChartTrendlineLabel(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelChartStandardSerie serie) : base(namespaceManager, topNode)
         {
             _serie = serie;
@@ -169,6 +169,25 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 SetXmlNodeBool("c:trendlineLbl/c:numFmt/@sourceLinked", value, true);
             }
-        }        
+        }
+        ExcelLayout _layout = null;
+        /// <summary>
+        /// Gets the manual layout settings for the trendline label, allowing customization of its position and size
+        /// within the chart area.
+        /// </summary>
+        /// <remarks>Use this property to access and modify the manual layout options for the trendline
+        /// label, such as its height, width, and position. Changes to these settings affect how the trendline label is
+        /// displayed in the chart.</remarks>
+        public ExcelLayout Layout
+        {
+            get
+            {
+                if (_layout == null)
+                {
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, $"c:trendlineLbl/c:layout", "c:extLst/c:ext[1]/c15:layout", SchemaNodeOrder);
+                }
+                return _layout;
+            }
+        }
     }
 }

@@ -14,11 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
 
 namespace EPPlus.Graphics
 {
-    internal class Transform
+    public class Transform
     {
         public string Name;
 

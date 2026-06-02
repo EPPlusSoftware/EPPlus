@@ -264,7 +264,7 @@ namespace OfficeOpenXml.Drawing.Chart
         private double? GetXmlValue(string path, string name)
         {
             var xmlValue = GetXmlNodeDouble($"{path}/c:{name}/@val");
-            return xmlValue == double.NaN ? null : xmlValue * 100;
+            return double.IsNaN(xmlValue) ? null : xmlValue * 100;
         }
 
         private void SetXmlValue(string path, string name, double? value)

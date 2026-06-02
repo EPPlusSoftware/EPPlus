@@ -10,11 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Table.PivotTable;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -101,6 +102,23 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             return base.GetChartType(name);
         }
+
+        string _firstSliceAngPath = "c:firstSliceAng/@val";
+        /// <summary>
+        /// Angle of the first slize
+        /// </summary>
+        public double FirstSliceAngle
+        {
+            get
+            {
+                return _chartXmlHelper.GetXmlNodeDouble(_firstSliceAngPath);
+            }
+            internal set
+            {
+                _chartXmlHelper.SetXmlNodeString(_firstSliceAngPath, value.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
         /// <summary>
         /// A collection of series for a Pie Chart
         /// </summary>

@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, string text) : base(textBody, renderer, parent)
         {
-            AddLinesAndTextRuns(text);
+            ImportLinesAndTextRunsDefault(text);
         }
 
         public SvgParagraphItem(TextBodyItem textBody, DrawingBase renderer, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(textBody, renderer, parent, p, textIfEmpty)
