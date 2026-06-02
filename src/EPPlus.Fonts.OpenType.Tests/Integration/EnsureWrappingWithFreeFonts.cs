@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
@@ -37,7 +38,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Style = MeasurementFontStyles.Regular
             };
 
-            var tle = TestFolderEngine.GetTextLayoutEngineForFont(mf);
+            var tle = SystemFontsEngine.GetTextLayoutEngineForFont(mf);
 
             var resultStrings = tle.WrapText(TestText, mf.Size, MaxWidthInPoints);
             Assert.AreEqual(2, resultStrings.Count);
@@ -93,8 +94,19 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Style = MeasurementFontStyles.Regular
             };
 
+            //Archivo Narrow is built in default fallback font that may not exists in directories
+            //It will be found even on "not found" availability
+            var tEngine =
+            new Lazy<OpenTypeFontEngine>(() => new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = false;
+            })).Value;
 
-            var tle = TestFolderEngine.GetTextLayoutEngineForFont(mf);
+            tEngine.LeastRequiredAvailability = FontAvailability.NotFound;
+
+            var tle = tEngine.GetTextLayoutEngineForFont(mf);
 
             var maxWidth = 54.1420d;
 

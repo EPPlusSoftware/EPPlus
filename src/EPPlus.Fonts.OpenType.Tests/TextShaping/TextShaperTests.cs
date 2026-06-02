@@ -715,9 +715,17 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Shape_Cafe_HandlesDecomposed()
         {
-            TestFolderEngine.LeastRequiredAvailability = FontAvailability.NotFound;
+            var tEngine  =
+            new Lazy<OpenTypeFontEngine>(() => new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = false;
+            })).Value;
+
+            tEngine.LeastRequiredAvailability = FontAvailability.NotFound;
             // Arrange
-            var shaper = TestFolderEngine.GetTextShaper("SourceSans3");
+            var shaper = tEngine.GetTextShaper("SourceSans3");
 
             // Act - "café" with decomposed é
             var result = shaper.Shape("cafe\u0301");
@@ -737,7 +745,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Shape_Cafe_HandlesDecomposedSpecified()
         {
-            TestFolderEngine.LeastRequiredAvailability = FontAvailability.Exact;
             // Arrange
             var shaper = TestFolderEngine.GetTextShaper("Source Sans 3");
 
