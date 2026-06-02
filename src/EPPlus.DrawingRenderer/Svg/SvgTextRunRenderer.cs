@@ -87,9 +87,12 @@ namespace EPPlus.DrawingRenderer.Svg
             string visibility = "";
 
             double fontSize = textRun.FontSizeInPixels;
+            var baseLine = -textRun._baseline / 100D;
             if (textRun._baseline != 0)
             {
-                finalString += $" dy=\"{(fontSize.PointToPixel() * -textRun._baseline / 100D).ToString(CultureInfo.InvariantCulture)}px\" ";  //For sub/superscript, move the text up/down by baseline% of font size. Negative value moves up, positive moves down.
+                //For sub/superscript, move the text up/down by baseline% of font size. Negative value moves up, positive moves down.
+                finalString += $" dy=\"{(fontSize * baseLine).ToString(CultureInfo.InvariantCulture)}px\" ";
+                fontSize *= (1 - Math.Abs(baseLine));
             }
             finalString += xString;
             var yString = $" y=\"{textRun.YPosition.PointToPixelString()}px\" ";
@@ -103,6 +106,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
             finalString += visibility;
             finalString += $"{GetFontStyleAttributes(textRun)}";
+
 
             if (textRun._measurementFont != null)
             {

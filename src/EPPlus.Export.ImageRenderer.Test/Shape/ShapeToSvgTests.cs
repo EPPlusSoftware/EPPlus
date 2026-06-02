@@ -637,5 +637,20 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void SuperAndSubScript()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("SuperAndSubScript.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var currShape = ws.Drawings[0];
+
+                var svg = currShape.ToSvg();
+                SaveTextFileToWorkbook("svg\\SuperAndSubScript.svg", svg);
+            }
+        }
     }
 }
