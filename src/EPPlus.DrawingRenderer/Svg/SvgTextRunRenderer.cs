@@ -27,14 +27,14 @@ namespace EPPlus.DrawingRenderer.Svg
             {
                 fontStyleAttributes += "font-weight=\"bold\" ";
             }
-            if (textRun._underLineType != UnderLineType.None | textRun._strikeType != StrikeType.No)
+            if (textRun._underLineType != eDrawingUnderLineType.None | textRun._strikeType != eDrawingStrikeType.No)
             {
                 string content = "";
-                if (textRun._underLineType != UnderLineType.None)
+                if (textRun._underLineType != eDrawingUnderLineType.None)
                 {
                     switch (textRun._underLineType)
                     {
-                        case UnderLineType.Single:
+                        case eDrawingUnderLineType.Single:
                             content += "underline";
                             break;
                         //These are all css only apparently
@@ -57,10 +57,10 @@ namespace EPPlus.DrawingRenderer.Svg
                     }
                 }
 
-                if (textRun._strikeType == StrikeType.Single)
+                if (textRun._strikeType == eDrawingStrikeType.Single)
                 {
                     //Has to check if Both underline and strike
-                    if (textRun._underLineType != UnderLineType.None)
+                    if (textRun._underLineType != eDrawingUnderLineType.None)
                     {
                         content += ",";
                     }

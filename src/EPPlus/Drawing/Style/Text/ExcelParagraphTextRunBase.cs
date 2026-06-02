@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/15/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
@@ -617,6 +618,22 @@ namespace OfficeOpenXml.Drawing
         internal IRichTextFormatEssential ExportToOpenTypeFormat()
         {
             var rtBase = new RichTextFormatBase(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
+            return rtBase;
+        }
+
+        /// <summary>
+        /// Export to OpenTypeFormat
+        /// </summary>
+        /// <returns></returns>
+        internal IRichTextFormatDrawing ExportToImageRendererFormat()
+        {
+            var rtBase = new RichTextFormatDrawing(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
+            rtBase.Capitalization = (int)Capitalization;
+            rtBase.HighLightColor = HighlightColor.GetColor();
+            rtBase.FontColor = Fill.Color;
+            rtBase.UnderlineColor = UnderLineColor;
+            rtBase.Baseline = Baseline;
+            rtBase.Spacing = Spacing;
             return rtBase;
         }
     }

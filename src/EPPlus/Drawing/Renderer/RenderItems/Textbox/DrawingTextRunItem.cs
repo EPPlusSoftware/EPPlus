@@ -165,9 +165,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             _isItalic = italic;
             _isBold = bold;
-            _underLineType = (UnderLineType)uType;
+            _underLineType = (eDrawingUnderLineType)uType;
             _underlineColor = uColor;
-            _strikeType = (StrikeType)strikeType;
+            _strikeType = (eDrawingStrikeType)strikeType;
         }
 
         void SetClippingHeightToCurrentTextBoxBottom(BoundingBox parent)

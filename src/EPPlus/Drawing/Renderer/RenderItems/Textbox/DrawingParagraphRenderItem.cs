@@ -124,33 +124,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="runs"></param>
         void GenerateRichText(ExcelDrawingTextRunCollection runs/*, List<ShapingOptions>? optionLst = null*/)
         {
-            var lstOfRichText = runs.ExportToOpenTypeFormat();
+            //var lstOfRichText = runs.ExportToOpenTypeFormat();
+            var lstOfRichText = runs.ExportToImageRendererFormat();
             foreach (var rt in lstOfRichText)
             {
                 _textFragments.Add(rt);
             }
-
-            //if (optionLst == null)
-            //{
-            //    foreach(var rt in lstOfRichText)
-            //    {
-            //        _textFragments.Add(rt);
-            //    }
-            //    _layoutSystem = new LayoutSystem(lstOfRichText);
-            //}
-            //else
-            //{
-            //    //Use this instead if we ever need shaping options
-            //    for(int i= 0; i< lstOfRichText.Count; i++)
-            //    {
-            //        TextFragmentBase frag = new TextFragmentBase(lstOfRichText[i]);
-            //        //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
-            //        //We can do so here
-            //        frag.Options = optionLst[i];
-            //        _textFragments.Add(lstOfRichText[i]);
-            //    }
-            //    _layoutSystem = new LayoutSystem(_textFragments);
-            //}
         }
 
         private void ImportStyleInfo(DrawingTextbody textBody, ExcelDrawingParagraph p)

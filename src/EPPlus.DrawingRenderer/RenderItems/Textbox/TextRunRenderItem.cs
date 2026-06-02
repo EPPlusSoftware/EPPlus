@@ -14,7 +14,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// <summary>
     /// Linestyle
     /// </summary>
-    public enum UnderLineType
+    public enum eDrawingUnderLineType
     {
         /// <summary>
         /// Dashed
@@ -92,7 +92,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// <summary>
     /// BulletType of font strike
     /// </summary>
-    public enum StrikeType
+    public enum eDrawingStrikeType
     {
         /// <summary>
         /// Double-lined font strike
@@ -125,8 +125,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected internal bool _isItalic = false;
         protected internal bool _isBold = false;
-        protected internal UnderLineType _underLineType = UnderLineType.None;
-        protected internal StrikeType _strikeType;
+        protected internal eDrawingUnderLineType _underLineType = eDrawingUnderLineType.None;
+        protected internal eDrawingStrikeType _strikeType;
         protected internal Color _underlineColor;
         protected internal double _baseline;
 

@@ -20,6 +20,7 @@ using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Interfaces.RichText;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -163,6 +164,16 @@ namespace OfficeOpenXml.Drawing
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal List<IRichTextFormatDrawing> ExportToImageRendererFormat()
+        {
+            List<IRichTextFormatDrawing> RtFormatList = new List<IRichTextFormatDrawing>();
+            foreach (var item in _textRuns)
+            {
+                RtFormatList.Add(item.ExportToImageRendererFormat());
+            }
+            return RtFormatList;
         }
 
         internal List<IRichTextFormatEssential> ExportToOpenTypeFormat()
