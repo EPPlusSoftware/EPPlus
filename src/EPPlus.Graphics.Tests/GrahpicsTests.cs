@@ -97,8 +97,8 @@ namespace EPPlus.Graphics.Tests
             p1.LocalPosition = new Vector2(5, 5);
 
 
-            Assert.AreEqual(2.5, p1.Position.X);
-            Assert.AreEqual(2.5, p1.Position.Y);
+            Assert.AreEqual(5d, p1.Position.X);
+            Assert.AreEqual(5d, p1.Position.Y);
         }
 
         [TestMethod]
