@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 
 namespace EPPlus.DrawingRenderer.RenderItems
@@ -110,7 +111,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
-        public void AddParagraph(string text = null)
+        public ParagraphRenderItem AddParagraph(string text = null)
         {
             double paragraphTop = 0;
 
@@ -140,7 +141,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 }
             }
             Paragraphs.Add(paragraph);
+            return paragraph;
         }
+
+
 
         /// <summary>
         /// Get the start of text space vertically
@@ -169,5 +173,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         }
 
         protected abstract ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "");
+
+        protected abstract ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText);
     }
 }

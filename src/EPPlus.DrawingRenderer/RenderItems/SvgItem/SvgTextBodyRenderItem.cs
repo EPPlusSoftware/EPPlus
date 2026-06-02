@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 
 
@@ -18,6 +19,13 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "")
         {
             return new SvgParagraphRenderItem(this, parent, textIfEmpty);
+        }
+
+        protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
+        {
+            var paragraph = new SvgParagraphRenderItem(this, parent, "", false);
+            paragraph.AddNewTextFragment(richText);
+            return paragraph;
         }
     }
 }

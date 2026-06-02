@@ -7,15 +7,19 @@ using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
-    public class OpenTypeRichTextBase : OpenTypeFontInfoBase, IRichTextFormatBase
+    /// <summary>
+    /// The most basic rich text format
+    /// The only properties that belong in this class are those that are absolutely neccesary for Measuring the text correctly
+    /// </summary>
+    public class RichTextFormatBase : FontFormatBase, IRichTextFormatBase
     {
-        internal OpenTypeRichTextBase() 
+        internal RichTextFormatBase() 
         {
             Italic = false;
             Bold = false;
         }
 
-        public OpenTypeRichTextBase(string text, string fontFamily, float size, bool bold = false, bool italic = false)
+        public RichTextFormatBase(string text, string fontFamily, float size, bool bold = false, bool italic = false)
         {
             Text = text;
             Family = fontFamily;

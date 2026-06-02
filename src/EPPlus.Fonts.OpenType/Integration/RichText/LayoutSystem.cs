@@ -28,6 +28,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         int FullTextLength = 0;
         int FullTextLastIdx = 0;
 
+
         TextLineCollection WrappedLineCollection;
 
         public LayoutSystem(List<TextFragment> preFragments): this(preFragments.Cast<ITextFragmentBase>().ToList())

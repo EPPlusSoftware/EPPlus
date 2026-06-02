@@ -71,7 +71,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             baseGroup.AddChildItem(background);
 
-            var rt = new RichTextDefaults();
+            var rt = new RichTextFormatSimple();
             rt.Text = "My text";
             rt.UnderlineType = 1;
             rt.FontColor = System.Drawing.Color.Black;
@@ -115,7 +115,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             baseGroup.Bounds.Height = bounds.Height;
 
             var textBody = new SvgTextBodyRenderItem(baseGroup.Bounds, true);
-            textBody.AddParagraph("Hello");
+            var paragraph = textBody.AddParagraph("Hello");
+
+            paragraph.AddText(" There");
+
+            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
+
+            //var para2 = textBody.AddParagraph()
 
             baseGroup.AddChildItem(textBody);
             baseGroup.AddChildItem(background);

@@ -7,8 +7,21 @@ using System.Threading.Tasks;
 
 namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
-    public class RichTextDefaults : OpenTypeRichTextBase, IRichTextInfoBase
+    /// <summary>
+    /// Defaults class mainly intended for Cells
+    /// </summary>
+    public class RichTextFormatSimple : RichTextFormatBase, IRichTextFormatSimple
     {
+        public RichTextFormatSimple() : base()
+        {
+
+        }
+
+        public RichTextFormatSimple(string text, string fontFamily, float size, bool bold = false, bool italic = false) : base(text, fontFamily, size, bold, italic)
+        {
+
+        }
+
         public bool SubScript { get; set; } = false;
 
         public bool SuperScript { get; set; } = false;

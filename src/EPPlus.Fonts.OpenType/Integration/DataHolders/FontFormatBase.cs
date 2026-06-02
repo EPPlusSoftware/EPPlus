@@ -9,25 +9,25 @@ using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
-    public class OpenTypeFontInfoBase : IFontFormatBase
+    public class FontFormatBase : IFontFormatBase
     {
         public virtual string Family { get; set; } = "Archivo Narrow";
         public virtual FontSubFamily SubFamily { get; set; } = FontSubFamily.Regular;
         public virtual float Size { get; set; } = 11f;
 
-        public OpenTypeFontInfoBase(string fontFamily, FontSubFamily subFamily, float fontSize)
+        public FontFormatBase(string fontFamily, FontSubFamily subFamily, float fontSize)
         {
             Family = fontFamily;
             SubFamily = subFamily;
             Size = fontSize;
         }
-        public OpenTypeFontInfoBase() { }
+        public FontFormatBase() { }
 
         /// <summary>
         /// Legacy constructor. Prefer to avoid with new implementations. To be removed after refactor
         /// </summary>
         /// <param name="font"></param>
-        public OpenTypeFontInfoBase(MeasurementFont font)
+        public FontFormatBase(MeasurementFont font)
         {
             Family = font.FontFamily;
             SubFamily = GetFontSubFamily(font.Style);

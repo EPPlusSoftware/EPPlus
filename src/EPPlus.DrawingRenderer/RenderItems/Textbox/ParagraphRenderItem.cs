@@ -79,19 +79,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected LayoutSystem _layoutSystem;
 
-        protected List<ITextFragmentBase> _textFragments;
+        protected RichTextCollectionBase _textFragments;
 
         public double ParagraphLineSpacing { get; protected set; }
         public TextAlignment HorizontalAlignment { get; protected set; }
         public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
         public TextLineCollection Lines { get; protected set; }
         public bool DisplayBounds { get; set; } = false;
-        public MeasurementFont ParagraphFont;
+
         public override RenderItemType Type => RenderItemType.Paragraph;
 
         public bool AutoSize = false;
 
-        public OpenTypeFontInfoBase DefaultParagraphFont;
+        public FontFormatBase DefaultParagraphFont;
 
         protected double ParentMaxWidth;
         protected double ParentMaxHeight;
@@ -99,6 +99,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected RenderTextBody ParentTextBody { get; set; }
 
         protected double? _lsMultiplier = null;
+
+        protected bool TextIfEmptyIsNull { get; set; }
 
         protected bool LinespacingIsExact
         {
@@ -109,9 +111,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
         protected TextLineSpacing _lsType;
-
         protected double? _centerAdjustment;
-
 
         protected ParagraphRenderItem(BoundingBox parent, bool setFallbackDefaultFont = true) : base(parent)
         {
@@ -119,8 +119,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             if (setFallbackDefaultFont)
             {
                 var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
-                ParagraphFont = defaultFont;
-                DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
+                DefaultParagraphFont = new FontFormatBase(defaultFont);
                 FillColor = "black";
             }
         }
@@ -168,34 +167,52 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         TextLineCollection WrapFragmentsToLines(List<ITextFragmentBase>? fragments = null)
         {
-            if (fragments == null && _layoutSystem == null)
-            {
-                fragments = _textFragments;
-                _layoutSystem = new LayoutSystem(fragments);
-            }
+            //This is highly innefficent. Really, LayoutSystem should be 
+            //Holding the fragments from the start/wrapping should only be done when textFragments are fully complete
+            _layoutSystem = new LayoutSystem(_textFragments);
+
+            //if (fragments == null && _layoutSystem == null)
+            //{
+            //    _layoutSystem = new LayoutSystem(_textFragments);
+            //}
             var maxWidthPoints = Math.Round(ParentMaxWidth, 0, MidpointRounding.AwayFromZero);
             return _layoutSystem.Wrap(maxWidthPoints);
         }
 
-        protected void GenerateTextFragments(string text)
+        private void AddRichTextBase(IRichTextFormatSimple rt)
         {
             if (_textFragments == null)
             {
-                _textFragments = new List<ITextFragmentBase>();
+                _textFragments = new RichTextCollectionBase();
             }
 
-            if (string.IsNullOrEmpty(text) == false)
+            if (string.IsNullOrEmpty(rt.Text) == false)
             {
-                var currentFrag = new TextFragment() { Text = text };
-                currentFrag.RichTextOptions.SetFont(ParagraphFont);
-                _textFragments.Add(currentFrag);
+                _textFragments.Add(rt);
             }
-            _layoutSystem = new LayoutSystem(_textFragments);
+        }
+
+        protected void AddDefaultTextFragment(string text)
+        {
+            var defaults = new RichTextFormatSimple();
+            defaults.Text = text;
+            defaults.SetFont(DefaultParagraphFont);
+
+            AddRichTextBase(defaults);
         }
 
         protected void ImportLinesAndTextRunsBase(string textIfEmpty)
         {
-            GenerateTextFragments(textIfEmpty);
+            if(string.IsNullOrEmpty(textIfEmpty))
+            {
+                TextIfEmptyIsNull = true;
+            }
+            else
+            {
+                TextIfEmptyIsNull = false;
+            }
+
+            AddDefaultTextFragment(textIfEmpty);
 
             Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
             if (HorizontalAlignment == TextAlignment.Center)
@@ -203,12 +220,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
             }
 
-            AddTextLinesAndSpacing(textIfEmpty);
+            WrapTextFragmentsAndGenerateTextRuns();
         }
 
-        protected void AddTextLinesAndSpacing(string textIfEmpty)
+        protected void WrapTextFragmentsAndGenerateTextRuns()
         {
             Lines = WrapFragmentsToLines();
+            Runs.Clear();
 
             //In points
             double widthOfLargestLine = 0;
@@ -227,7 +245,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
-                SetHorizontalAlignment(widthOfLargestLine, string.IsNullOrEmpty(textIfEmpty));
+                SetHorizontalAlignment(widthOfLargestLine);
 
                 int lineIdx = 0;
                 foreach (var line in Lines)
@@ -281,9 +299,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return prevWidth;
         }
 
-        protected void SetHorizontalAlignment(double widthOfLargestLine, bool textIfEmptyIsNull)
+        protected void SetHorizontalAlignment(double widthOfLargestLine)
         {
-            if (HorizontalAlignment == TextAlignment.Center && AutoSize && _centerAdjustment != null && textIfEmptyIsNull)
+            if (HorizontalAlignment == TextAlignment.Center && AutoSize && _centerAdjustment != null && TextIfEmptyIsNull)
             {
                 //Bounds of the paragraph should be bounds of the text itself.
                 //Therefore we must know the starting point to set accurate left and offset from left.
@@ -295,6 +313,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 //Therefore we must know the starting point to set accurate left and offset from left.
                 Bounds.Left = 0;
             }
+        }
+
+        public void AddNewTextFragment(IRichTextFormatSimple richText)
+        {
+            AddRichTextBase(richText);
+            WrapTextFragmentsAndGenerateTextRuns();
+        }
+
+        public void AddText(string text)
+        {
+            ImportLinesAndTextRunsBase(text);
         }
 
         protected abstract TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx);

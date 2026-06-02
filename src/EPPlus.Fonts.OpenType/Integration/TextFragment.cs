@@ -37,16 +37,16 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public IFontFormatBase Font { get { return RichTextOptions; } set {RichTextOptions.SetFont(value); } }
 
-        public TextFragment(IRichTextInfoBase rtFormat) : base(rtFormat)
+        public TextFragment(IRichTextFormatSimple rtFormat) : base(rtFormat)
         {
             RichTextOptions = rtFormat;
         }
         public TextFragment():base()
         {
-            RichTextOptions = new RichTextDefaults();
+            RichTextOptions = new RichTextFormatSimple();
         }
 
-        public new IRichTextInfoBase RichTextOptions { get { return (IRichTextInfoBase)base.RichTextOptions; } set { base.RichTextOptions = value; } }
+        public new IRichTextFormatSimple RichTextOptions { get { return (IRichTextFormatSimple)base.RichTextOptions; } set { base.RichTextOptions = value; } }
 
         public override float Size { get => RichTextOptions.Size; }
     }
@@ -59,7 +59,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// We must extract font info from this but nothing else is supposed to be done with this within opentype
         /// but we hold the data so users may more easily recognize which rich text this is in the output.
         /// </summary>
-        public virtual IRichTextFormatBase RichTextOptions { get; set; } = new OpenTypeRichTextBase();
+        public virtual IRichTextFormatBase RichTextOptions { get; set; } = new RichTextFormatBase();
         public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
