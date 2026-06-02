@@ -252,9 +252,17 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
             else if(TextAnchor==eTextAnchor.End)
             {
-                const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
-                groupItem.Bounds.Left += -(rect.Bounds.Width * COS45);
-                groupItem.Bounds.Top += (rect.Bounds.Width * COS45 );
+                if (Math.Abs(Rotation) == 45)
+                {
+                    const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+                    groupItem.Bounds.Left += -(rect.Bounds.Width * COS45);
+                    groupItem.Bounds.Top += (rect.Bounds.Width * COS45);
+                }
+                else
+                {
+                    groupItem.Bounds.Left += rect.Bounds.Height / 2;
+                    groupItem.Bounds.Top += (rect.Bounds.Width);
+                }
             }
             groupItem.RenderItems.Add(titleItem);
             //As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
