@@ -29,14 +29,13 @@ namespace EPPlus.DrawingRenderer.Svg
             }
             if (textRun._underLineType != UnderLineType.None | textRun._strikeType != StrikeType.No)
             {
-
-                fontStyleAttributes += "text-decoration=\" ";
+                string content = "";
                 if (textRun._underLineType != UnderLineType.None)
                 {
                     switch (textRun._underLineType)
                     {
                         case UnderLineType.Single:
-                            fontStyleAttributes += "underline";
+                            content += "underline";
                             break;
                         //These are all css only apparently
                         //case eUnderLineType.Double:
@@ -52,7 +51,7 @@ namespace EPPlus.DrawingRenderer.Svg
                         //    fontStyleAttributes += "wavy";
                         //    break;
                         default:
-                            fontStyleAttributes += "underline";
+                            content += "underline";
                             break;
                             //throw new NotImplementedException("Not implemented yet");
                     }
@@ -63,14 +62,18 @@ namespace EPPlus.DrawingRenderer.Svg
                     //Has to check if Both underline and strike
                     if (textRun._underLineType != UnderLineType.None)
                     {
-                        fontStyleAttributes += ",";
+                        content += ",";
                     }
-                    fontStyleAttributes += "line-through";
+                    content += "line-through";
                 }
 
-                fontStyleAttributes += "\" ";
+                if(string.IsNullOrEmpty(content) == false)
+                {
+                    fontStyleAttributes += "text-decoration=\" ";
+                    fontStyleAttributes += content;
+                    fontStyleAttributes += "\" ";
+                }
             }
-
             return fontStyleAttributes;
         }
 

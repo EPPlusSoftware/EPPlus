@@ -119,19 +119,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             baseGroup.AddChildItem(textBody);
             baseGroup.AddChildItem(background);
-            //textBody.
-            //textBody.Text = "Hello";
-            //var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
-
-
-            //var para2 = new DrawingParagraphRenderItem(textBody, textBody.Bounds);
-            //textBody.Paragraphs.Add
-
-
-            //para.Runs.Add()
-
-            //baseGroup.AddChildItem(background);
-            //baseGroup.AddChildItem(textBody);
 
             List<RenderItem> items = new List<RenderItem>() { baseGroup };
             textBody.AppendRenderItems(items);
