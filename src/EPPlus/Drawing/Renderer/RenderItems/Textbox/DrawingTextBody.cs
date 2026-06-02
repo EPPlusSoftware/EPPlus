@@ -1,5 +1,7 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -180,6 +182,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "")
         {
             return new DrawingParagraphRenderItem(this, parent, textIfEmpty);
+        }
+
+        protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
+        {
+            var paragraph = new SvgParagraphRenderItem(this, parent, "", false);
+            paragraph.AddRichText(richText);
+            return paragraph;
         }
     }
 }

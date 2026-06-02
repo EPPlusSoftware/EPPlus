@@ -7,6 +7,7 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using EPPlusImageRenderer.Utils;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -146,6 +147,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void ImportFontData(IFontFormatBase font)
         {
             InitializeBase(font);
+        }
+
+        public void ImportRichTextData(IRichTextFormatSimple rt)
+        {
+            InitializeBase(rt);
+            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
         }
 
         internal protected void InitializeBase(IFontFormatBase font)

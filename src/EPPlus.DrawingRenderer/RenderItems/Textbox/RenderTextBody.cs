@@ -111,18 +111,24 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
+        public ParagraphRenderItem AddParagraph(IRichTextFormatSimple rtFormat)
+        {
+            var paragraph = CreateParagraph(Bounds, rtFormat);
+            AdjustAndAddParagraph(paragraph);
+            return paragraph;
+        }
+
         public ParagraphRenderItem AddParagraph(string text = null)
         {
-            double paragraphTop = 0;
-
-            if(Paragraphs.Count != 0)
-            {
-                paragraphTop = Paragraphs.Last().Bounds.Bottom;
-            }
             var paragraph = CreateParagraph(Bounds, text);
+            AdjustAndAddParagraph(paragraph);
+            return paragraph;
+        }
+
+        private void AdjustAndAddParagraph(ParagraphRenderItem paragraph)
+        {
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            paragraph.Bounds.Top = paragraphTop;
-            Text = text;
+            paragraph.Bounds.Top = GetTopToAddNextParagraphAt();
 
             if (AutoSize)
             {
@@ -141,9 +147,18 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 }
             }
             Paragraphs.Add(paragraph);
-            return paragraph;
         }
 
+        private double GetTopToAddNextParagraphAt()
+        {
+            double paragraphTop = 0;
+
+            if (Paragraphs.Count != 0)
+            {
+                paragraphTop = Paragraphs.Last().Bounds.Bottom;
+            }
+            return paragraphTop;
+        }
 
 
         /// <summary>

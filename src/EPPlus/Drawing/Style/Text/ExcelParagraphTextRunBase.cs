@@ -614,7 +614,7 @@ namespace OfficeOpenXml.Drawing
         /// Export to OpenTypeFormat
         /// </summary>
         /// <returns></returns>
-        internal IRichTextFormatBase ExportToOpenTypeFormat()
+        internal IRichTextFormatEssential ExportToOpenTypeFormat()
         {
             var rtBase = new RichTextFormatBase(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
             return rtBase;

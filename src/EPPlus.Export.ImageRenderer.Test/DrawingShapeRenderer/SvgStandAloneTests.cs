@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
@@ -120,8 +121,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             paragraph.AddText(" There");
 
             var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
-
-            //var para2 = textBody.AddParagraph()
+            rtItem.FontColor = Color.DarkGreen;
+            var para2 = textBody.AddParagraph(rtItem);
 
             baseGroup.AddChildItem(textBody);
             baseGroup.AddChildItem(background);

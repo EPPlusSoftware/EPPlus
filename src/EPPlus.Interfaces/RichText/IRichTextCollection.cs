@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Interfaces.RichText
 {
-    public interface IRichTextCollection : IEnumerable<IRichTextFormatBase>
+    public interface IRichTextCollection : IEnumerable<IRichTextFormatEssential>
     {
         /// <summary>
         /// The full text string of all richtext in the collection
@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        IRichTextFormatBase this[int index] { get; }
+        IRichTextFormatEssential this[int index] { get; }
 
         /// <summary>
         /// Number of items in the list
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// <param name="Text">The text to add</param>
         /// <param name="NewParagraph">Adds a new paragraph after the <paramref name="Text"/>. This will add a new line break.</param>
         /// <returns></returns>
-        public IRichTextFormatBase Add(string Text, bool NewParagraph);
+        public IRichTextFormatEssential Add(string Text, bool NewParagraph);
 
         /// <summary>
         /// Insert a rich text string at the specified index.
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// <param name="index">The zero-based index at which rich text should be inserted.</param>
         /// <param name="text">The text to insert.</param>
         /// <returns></returns>
-        public IRichTextFormatBase Insert(int index, string Text, bool NewParagraph);
+        public IRichTextFormatEssential Insert(int index, string Text, bool NewParagraph);
 
         /// <summary>
         /// Clear the collection
@@ -50,6 +50,6 @@ namespace OfficeOpenXml.Interfaces.RichText
         /// <param name="Index"></param>
         public void RemoveAt(int Index);
 
-        public void Remove(IRichTextFormatBase Item);
+        public void Remove(IRichTextFormatEssential Item);
     }
 }

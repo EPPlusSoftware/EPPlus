@@ -23,9 +23,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
         {
-            var paragraph = new SvgParagraphRenderItem(this, parent, "", false);
-            paragraph.AddNewTextFragment(richText);
-            return paragraph;
+            return new SvgParagraphRenderItem(this, parent, richText);
         }
     }
 }

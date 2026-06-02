@@ -79,7 +79,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected LayoutSystem _layoutSystem;
 
-        protected RichTextCollectionBase _textFragments;
+        protected RichTextCollectionBase _textFragments = new RichTextCollectionBase();
 
         public double ParagraphLineSpacing { get; protected set; }
         public TextAlignment HorizontalAlignment { get; protected set; }
@@ -134,6 +134,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             _lsMultiplier = 1d;
             ImportLinesAndTextRunsBase(text);
+        }
+
+        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, IRichTextFormatSimple rtFormat) : this(parent, textBody, false)
+        {
+            _lsMultiplier = 1d;
+            DefaultParagraphFont = new FontFormatBase(rtFormat.Family, rtFormat.SubFamily, rtFormat.Size);
+            AddRichText(rtFormat);
         }
 
         protected double GetAlignmentHorizontal(TextAlignment txAlignment)
@@ -221,6 +228,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
 
             WrapTextFragmentsAndGenerateTextRuns();
+
         }
 
         protected void WrapTextFragmentsAndGenerateTextRuns()
@@ -315,7 +323,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        public void AddNewTextFragment(IRichTextFormatSimple richText)
+        public void AddRichText(IRichTextFormatSimple richText)
         {
             AddRichTextBase(richText);
             WrapTextFragmentsAndGenerateTextRuns();

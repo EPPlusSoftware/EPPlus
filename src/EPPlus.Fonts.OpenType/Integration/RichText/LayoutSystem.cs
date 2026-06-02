@@ -35,7 +35,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         {
         }
 
-        public LayoutSystem(IEnumerable<IRichTextFormatBase> preFragments)
+        public LayoutSystem(IEnumerable<IRichTextFormatEssential> preFragments)
         {
             InputFragments = new List<ITextFragmentBase>();
 

@@ -272,7 +272,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             rtThird.Italic = true;
             rtThird.Bold = true;
 
-            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird};
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird};
 
             var paragraph = new LayoutSystem(rtLst);
 
@@ -292,12 +292,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(1, lines[2].InternalLineFragments.Count);
 
             //Assert correct fragment in correct spot
-            Assert.AreEqual(rtLst[0], (IRichTextFormatBase)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
-            Assert.AreEqual(rtLst[1], (IRichTextFormatBase)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[0], (IRichTextFormatEssential)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[1], (IRichTextFormatEssential)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
 
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
         }
 
         [TestMethod]
@@ -311,7 +311,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             rtThird.Italic = true;
             rtThird.Bold = true;
 
-            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird };
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird };
 
             var paragraph = new LayoutSystem(rtLst);
 
@@ -335,7 +335,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var rtFourth = new RichTextFormatBase(txtLst[3], "Archivo Narrow", 18f);
 
 
-            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird, rtFourth };
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird, rtFourth };
 
             var pIndividual = new LayoutSystem(rtLst);
 
@@ -355,7 +355,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var rtThird = new RichTextFormatBase(txtLstMixed[2], "Roboto", 18f);
             var rtFourth = new RichTextFormatBase(txtLstMixed[3], "Archivo Narrow", 18f);
 
-            var rtLstMixed = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird, rtFourth };
+            var rtLstMixed = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird, rtFourth };
             var pMixed = new LayoutSystem(rtLstMixed);
 
             var InMix = string.Join("", txtLstMixed.ToArray());
@@ -370,7 +370,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var txtLstMixed = new List<string>() { "10"};
             var rt = new RichTextFormatBase(txtLstMixed[0], "Roboto", 12f);
 
-            var rtLstMixed = new List<IRichTextFormatBase>() { rt };
+            var rtLstMixed = new List<IRichTextFormatEssential>() { rt };
             var pMixed = new LayoutSystem(rtLstMixed);
 
             var InMix = string.Join("", txtLstMixed.ToArray());

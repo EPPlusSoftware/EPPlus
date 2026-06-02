@@ -165,9 +165,9 @@ namespace OfficeOpenXml.Drawing
             return GetEnumerator();
         }
 
-        internal List<IRichTextFormatBase> ExportToOpenTypeFormat()
+        internal List<IRichTextFormatEssential> ExportToOpenTypeFormat()
         {
-            List<IRichTextFormatBase> RtFormatList = new List<IRichTextFormatBase>();
+            List<IRichTextFormatEssential> RtFormatList = new List<IRichTextFormatEssential>();
             foreach (var item in _textRuns)
             {
                 RtFormatList.Add(item.ExportToOpenTypeFormat());

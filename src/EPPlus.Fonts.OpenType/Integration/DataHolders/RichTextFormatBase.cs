@@ -11,7 +11,7 @@ namespace EPPlus.Fonts.OpenType.Integration.DataHolders
     /// The most basic rich text format
     /// The only properties that belong in this class are those that are absolutely neccesary for Measuring the text correctly
     /// </summary>
-    public class RichTextFormatBase : FontFormatBase, IRichTextFormatBase
+    public class RichTextFormatBase : FontFormatBase, IRichTextFormatEssential
     {
         internal RichTextFormatBase() 
         {
