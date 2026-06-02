@@ -22,16 +22,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             if (cell == null || cell.TextFragments == null) return;
 
-            if (cell.TextFragments.Count > 1 || (cell.TextFragments.Count == 1 && cell.TextFragments[0].Text.Contains("should")))
-            {
-                Console.WriteLine($"[CollectText] cell={cell.Name} fragments={cell.TextFragments.Count}");
-                for (int i = 0; i < cell.TextFragments.Count; i++)
-                {
-                    var tf = cell.TextFragments[i];
-                    Console.WriteLine($"  [{i}] Text='{tf.Text}' FullFontName='{tf.FullFontName}' Bold={tf.RichTextOptions.Bold}");
-                }
-            }
-
             for (int i = 0; i < cell.TextFragments.Count; i++)
             {
                 var tf = cell.TextFragments[i];
@@ -46,15 +36,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             var totalTextLength = 0d;
             var maxLineHeight = 0d;
             if (cell == null || cell.TextFragments == null) return;
-
-            if (cell.Name == "A1" || (cell.TextFragments.Count > 0 && cell.TextFragments[0].Text.StartsWith("This text")))
-            {
-                Console.WriteLine($"[ShapeText START] cell={cell.Name} fragments={cell.TextFragments.Count}");
-                for (int i = 0; i < cell.TextFragments.Count; i++)
-                {
-                    Console.WriteLine($"  [{i}] Text='{cell.TextFragments[i].Text}' FullFontName='{cell.TextFragments[i].FullFontName}'");
-                }
-            }
 
             cell.ShapedTexts = new List<PdfShapedText>();
 
@@ -116,10 +97,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 st.UsedFonts = usedFonts;
                 cell.TextFragments[i] = tf;
                 cell.ShapedTexts[i] = st;
-                if (cell.Name == "A1" || (cell.TextFragments.Count > 0 && cell.TextFragments[0].Text.StartsWith("This text")))
-                {
-                    Console.WriteLine($"[ShapeText END loop {i}] tf.Text='{tf.Text}' provider={(st.FontProvider != null ? "OK" : "NULL")} usedFonts={string.Join(",", st.UsedFonts.Select(f => f.FullName).ToArray())}");
-                }
             }
 
             if (cell.TextLayoutEngine != null)

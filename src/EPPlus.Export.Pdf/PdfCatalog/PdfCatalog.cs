@@ -2,16 +2,18 @@
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
     public class PdfCatalog
     {
-        internal PdfDictionaries Dictionaries = new PdfDictionaries();
-        private bool AddTextForHeadings = true;
+        internal PdfDictionaries _dictionaries = new PdfDictionaries();
+        private bool _addTextForHeadings = true;
 
         //Constructors
         public PdfCatalog() { }
@@ -42,44 +44,70 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet, string fileName)
         {
+            BuildPdf(pageSettings, worksheet, (excelPdf, layout) =>
+                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName));
+        }
+
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Stream stream)
+        {
+            BuildPdf(pageSettings, worksheet, (excelPdf, layout) =>
+                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, stream));
+        }
+
+        private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<ExcelPdf, Transform> writePdf)
+        {
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
 
-            Stopwatch sw = Stopwatch.StartNew();
+            PdfWorksheet pdfSheet = null;
+            try
+            {
+                Stopwatch sw = Stopwatch.StartNew();
 
-            //Collect Text
-            PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
-            sw.Stop();
-            var CollectTextTime = sw.ElapsedMilliseconds;
-            sw.Reset();
-            sw.Start();
+                //Collect Text
+                pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
+                sw.Stop();
+                var CollectTextTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+                sw.Start();
 
-            //Shape Text
-            ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-            sw.Stop();
-            var ShapeTextTime = sw.ElapsedMilliseconds;
-            sw.Reset();
-            sw.Start();
+                //Shape Text
+                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+                sw.Stop();
+                var ShapeTextTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+                sw.Start();
 
-            //Auto-Fit Rows
-            PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-            sw.Stop();
-            var AutoFitRowTime = sw.ElapsedMilliseconds;
-            sw.Reset();
-            sw.Start();
+                //Auto-Fit Rows
+                PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
+                sw.Stop();
+                var AutoFitRowTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+                sw.Start();
 
-            //Create Layout
-            var Layout = GetLayout(pageSettings, pdfSheet);
-            sw.Stop();
-            var CreateLayoutTime = sw.ElapsedMilliseconds;
-            sw.Reset();
-            sw.Start();
+                //Create Layout
+                var Layout = GetLayout(pageSettings, pdfSheet);
+                sw.Stop();
+                var CreateLayoutTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+                sw.Start();
 
-            //Create Pdf
-            ExcelPdf excelPdf = new ExcelPdf();
-            excelPdf.CreatePdf(pageSettings, Dictionaries, Layout, fileName);
-            sw.Stop();
-            var CreatePdfTime = sw.ElapsedMilliseconds;
-            sw.Reset();
+                //Create Pdf
+                ExcelPdf excelPdf = new ExcelPdf();
+                writePdf(excelPdf, Layout);
+                sw.Stop();
+                var CreatePdfTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+            }
+            finally
+            {
+                //Clean up the temporary worksheet used to build the comments/notes pages,
+                //so the source workbook isn't permanently mutated by the PDF export.
+                if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
+                {
+                    worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
+                    pdfSheet.CommentsAndNotesSheet = null;
+                }
+            }
         }
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase range)
@@ -100,7 +128,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
-            var Layout = PdfLayout.GetLayout(pageSettings, Dictionaries, pdfSheets);
+            var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
             return Layout;
         }
 
@@ -108,16 +136,16 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         internal void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             // Pass 1: collect text per font
-            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(Dictionaries, cell));
+            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(_dictionaries, cell));
 
             // Pass 2: build one provider per font
-            foreach (var kvp in Dictionaries.Fonts)
+            foreach (var kvp in _dictionaries.Fonts)
             {
-                Dictionaries.ShapedProviders[kvp.Key] = kvp.Value.fontSubsetManager.CreateSubsettedProvider();
+                _dictionaries.ShapedProviders[kvp.Key] = kvp.Value.fontSubsetManager.CreateSubsettedProvider();
             }
 
             // Pass 3: shape text using the pre-built providers
-            IterateCells(pdfSheet, cell => PdfTextShaper.ShapeText(pageSettings, Dictionaries, cell));
+            IterateCells(pdfSheet, cell => PdfTextShaper.ShapeText(pageSettings, _dictionaries, cell));
         }
 
         private void IterateCells(PdfWorksheet pdfSheet, System.Action<PdfCell> action)
@@ -162,8 +190,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             pdfSheet.Ranges = new List<PdfRange>();
             pdfSheet.Worksheet = worksheet;
             pdfSheet.Ranges = GetRanges(pdfSheet.Worksheet);
-            if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
-            AddTextForHeadings = false;
+            if (pageSettings.ShowHeadings && _addTextForHeadings) _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+            _addTextForHeadings = false;
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
@@ -176,8 +204,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             pdfSheet.Ranges = new List<PdfRange>();
             pdfSheet.Worksheet = excelRange.Worksheet;
             pdfSheet.Ranges.Add(new PdfRange(excelRange, false));
-            if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
-            AddTextForHeadings = false;
+            if (pageSettings.ShowHeadings && _addTextForHeadings) _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+            _addTextForHeadings = false;
             pdfSheet.Ranges[0] = GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
@@ -216,14 +244,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         private PdfRange GetMaps(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range)
         {
             var temp = range;
-            temp.Map = PdfTextMap.SetTextMap(pageSettings, Dictionaries, pdfSheet, ref temp);
+            temp.Map = PdfTextMap.SetTextMap(pageSettings, _dictionaries, pdfSheet, ref temp);
             range = temp;
             return range;
         }
 
         private void GetHeaderFooter(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
-            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, Dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
+            pdfSheet.HeaderFooters = new PdfHeaderFooterCollection(pageSettings, _dictionaries, pdfSheet, pdfSheet.Worksheet.HeaderFooter);
         }
 
         private void GetCommentsAndNotes(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)

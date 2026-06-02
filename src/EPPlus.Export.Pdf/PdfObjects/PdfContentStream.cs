@@ -193,36 +193,33 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)textFormat.OriginalTextFragment.Font.Size);
                     var color = textFormat.OriginalTextFragment.RichTextOptions.FontColor;
-                    var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
-                    if (cell.Name == "A1")
-                    {
-                        Console.WriteLine($"[Render A1] fragmentText='{textFormat.OriginalTextFragment.Text}' FontFamily='{textFormat.OriginalTextFragment.Font.FontFamily}' Style={textFormat.OriginalTextFragment.Font.Style} shapedTextIndex={shapedTextIndex} fontResource.Label={fontResrouce.Label}");
-                    }
+                    var fontResource = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
+                    
                     double size = textFormat.OriginalTextFragment.Font.Size;
-                    double scale = textFormat.OriginalTextFragment.Font.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
+                    double scale = textFormat.OriginalTextFragment.Font.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
                     commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
                     if (textFormat.OriginalTextFragment.RichTextOptions.SuperScript)
                     {
-                        var supOffX = fontResrouce.fontData.Os2Table.ySuperscriptXOffset * scale;
-                        var supOffY = fontResrouce.fontData.Os2Table.ySuperscriptYOffset * scale;
-                        var supSizeY = fontResrouce.fontData.Os2Table.ySuperscriptYSize * scale;
+                        var supOffX = fontResource.fontData.Os2Table.ySuperscriptXOffset * scale;
+                        var supOffY = fontResource.fontData.Os2Table.ySuperscriptYOffset * scale;
+                        var supSizeY = fontResource.fontData.Os2Table.ySuperscriptYSize * scale;
                         textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
                         size = supSizeY;
                     }
                     else if (textFormat.OriginalTextFragment.RichTextOptions.SubScript)
                     {
-                        var supOffX = fontResrouce.fontData.Os2Table.ySubscriptXOffset * scale;
-                        var supOffY = fontResrouce.fontData.Os2Table.ySubscriptYOffset * scale;
-                        var supSizeY = fontResrouce.fontData.Os2Table.ySubscriptYSize * scale;
+                        var supOffX = fontResource.fontData.Os2Table.ySubscriptXOffset * scale;
+                        var supOffY = fontResource.fontData.Os2Table.ySubscriptYOffset * scale;
+                        var supSizeY = fontResource.fontData.Os2Table.ySubscriptYSize * scale;
                         textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
                         size = supSizeY;
                     }
                     if (textFormat.OriginalTextFragment.RichTextOptions.UnderlineType != 12)
                     {
-                        var underlinePos = fontResrouce.fontData.PostTable.underlinePosition * scale;
-                        var underlineWidth = fontResrouce.fontData.PostTable.underlineThickness * scale;
+                        var underlinePos = fontResource.fontData.PostTable.underlinePosition * scale;
+                        var underlineWidth = fontResource.fontData.PostTable.underlineThickness * scale;
                         var start = textMatrix.Transform(new Vector2(0, underlinePos));
                         var end = textMatrix.Transform(new Vector2(textLength, underlinePos));
                         commands.Add($"{underlineWidth.ToPdfString()} w");
@@ -232,8 +229,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     }
                     if (textFormat.OriginalTextFragment.RichTextOptions.StrikeType > 1)
                     {
-                        var strikePos = fontResrouce.fontData.Os2Table.yStrikeoutPosition * scale;
-                        var strikeWidth = fontResrouce.fontData.Os2Table.yStrikeoutSize * scale;
+                        var strikePos = fontResource.fontData.Os2Table.yStrikeoutPosition * scale;
+                        var strikeWidth = fontResource.fontData.Os2Table.yStrikeoutSize * scale;
                         var start = textMatrix.Transform(new Vector2(0, strikePos));
                         var end = textMatrix.Transform(new Vector2(textLength, strikePos));
                         commands.Add($"{strikeWidth.ToPdfString()} w");
@@ -251,7 +248,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     byte currentFontId = shapedText.ShapedText.Glyphs.Length > 0 ? shapedText.ShapedText.Glyphs[0].FontId : (byte)0;
                     string currentFontLabel = shapedText.FontIdMap.ContainsKey(currentFontId)
                         ? shapedText.FontIdMap[currentFontId]
-                        : fontResrouce.Label;
+                        : fontResource.Label;
                     commands.Add($"/{currentFontLabel} {size.ToPdfString()} Tf");
 
                     int fragmentCharCount = textFormat.Text.Length;

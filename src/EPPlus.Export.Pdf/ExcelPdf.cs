@@ -34,10 +34,12 @@ namespace EPPlus.Export.Pdf
     {
         internal List<ExcelWorksheet> _workheets = new List<ExcelWorksheet>();
         internal ExcelRangeBase _range;
-        private PdfPageSettings PageSettings;
-        internal List<PdfObject> Document = new List<PdfObject>();
+        private PdfPageSettings _pageSettings;
+        internal List<PdfObject> _document = new List<PdfObject>();
         internal string header = "%PDF-1.7\n";
-        internal PdfDictionaries Dictionaries = new PdfDictionaries();
+        internal PdfDictionaries _dictionaries = new PdfDictionaries();
+        private string _debugString;
+
         public ExcelPdf()
         {
         }
@@ -50,8 +52,8 @@ namespace EPPlus.Export.Pdf
         public ExcelPdf(ExcelWorksheet worksheet, PdfPageSettings pageSettings = null)
         {
             _workheets.Add(worksheet);
-            PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
-            PageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            _pageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
+            _pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
         }
 
         /// <summary>
@@ -96,9 +98,9 @@ namespace EPPlus.Export.Pdf
             if ((layout.CellFillData.PatternStyle != ExcelFillStyle.Solid && layout.CellFillData.PatternStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null)
             {
                 var patternName = layout.CellFillData.id;
-                if (Dictionaries.Patterns.ContainsKey(patternName))
+                if (_dictionaries.Patterns.ContainsKey(patternName))
                 {
-                    return Dictionaries.Patterns[patternName].Label;
+                    return _dictionaries.Patterns[patternName].Label;
                 }
             }
             return null;
@@ -107,28 +109,28 @@ namespace EPPlus.Export.Pdf
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
         {
-            if (PageSettings.EmbeddFonts)
+            if (_pageSettings.EmbeddFonts)
             {
-                foreach (var font in Dictionaries.Fonts)
+                foreach (var font in _dictionaries.Fonts)
                 {
                     //font.Value.CreateGidsAndCharMaps();
-                    var CidSet = font.Value.GetCidSet(Document.Count + 1);
-                    if (CidSet != null) Document.Add(CidSet);
-                    Document.Add(font.Value.GetEmbeddedFontStreamObject(Document.Count + 1));
-                    Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
-                    Document.Add(font.Value.GetCIDFontObject(Document.Count + 1));
-                    Document.Add(font.Value.GetUnicodeCmapObject(Document.Count + 1));
-                    Document.Add(font.Value.GetType0FontDictObject(Document.Count + 1));
-                    font.Value.GetFontObject(Document.Count);
+                    var cidSet = font.Value.GetCidSet(_document.Count + 1);
+                    if (cidSet != null) _document.Add(cidSet);
+                    _document.Add(font.Value.GetEmbeddedFontStreamObject(_document.Count + 1));
+                    _document.Add(font.Value.GetFontDescriptorObject(_document.Count + 1));
+                    _document.Add(font.Value.GetCIDFontObject(_document.Count + 1));
+                    _document.Add(font.Value.GetUnicodeCmapObject(_document.Count + 1));
+                    _document.Add(font.Value.GetType0FontDictObject(_document.Count + 1));
+                    font.Value.GetFontObject(_document.Count);
                 }
             }
             else
             {
-                foreach (var font in Dictionaries.Fonts)
+                foreach (var font in _dictionaries.Fonts)
                 {
-                    Document.Add(font.Value.GetFontDescriptorObject(Document.Count + 1));
-                    Document.Add(font.Value.GetWidthsObject(Document.Count + 1));
-                    Document.Add(font.Value.GetFontObject(Document.Count + 1));
+                    _document.Add(font.Value.GetFontDescriptorObject(_document.Count + 1));
+                    _document.Add(font.Value.GetWidthsObject(_document.Count + 1));
+                    _document.Add(font.Value.GetFontObject(_document.Count + 1));
                 }
             }
         }
@@ -136,47 +138,47 @@ namespace EPPlus.Export.Pdf
         //Add Patterns
         internal void AddPatternData()
         {
-            foreach (var pattern in Dictionaries.Patterns)
+            foreach (var pattern in _dictionaries.Patterns)
             {
-                Document.Add(pattern.Value.GetPatternObject(Document.Count + 1));
+                _document.Add(pattern.Value.GetPatternObject(_document.Count + 1));
             }
         }
 
         //Add Shadings and accompanying pattern
-        internal void AddShadingsData(PdfDictionaries dictionaries)
+        internal void AddShadingsData()
         {
-            foreach (var shading in Dictionaries.Shadings)
+            foreach (var shading in _dictionaries.Shadings)
             {
-                Document.Add(shading.Value.GetShadingObject(Document.Count + 1));
-                Document.Add(shading.Value.GetShadingPatternObject(Document.Count + 1, Document.Count));
-                int label = dictionaries.Patterns.Last().Value.labelNumber + 1;
+                _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                _document.Add(shading.Value.GetShadingPatternObject(_document.Count + 1, _document.Count));
+                int label = _dictionaries.Patterns.Last().Value.labelNumber + 1;
                 var pr = new PdfPatternResource(label, shading.Value.CellFillData);
-                pr.objectNumber = Document.Count;
-                dictionaries.Patterns.Add(shading.Value.CellFillData.id, pr);
+                pr.objectNumber = _document.Count;
+                _dictionaries.Patterns.Add(shading.Value.CellFillData.id, pr);
             }
         }
 
         //Create Page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
-            var page = new PdfPage(Document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, Dictionaries);
-            Document.Add(page);
+            var page = new PdfPage(_document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, _dictionaries);
+            _document.Add(page);
             return page;
         }
 
         //Create Pages
         private PdfPages AddPages()
         {
-            var pages = new PdfPages(Document.Count + 1, new List<int>{});
-            Document.Add(pages);
+            var pages = new PdfPages(_document.Count + 1, new List<int> { });
+            _document.Add(pages);
             return pages;
         }
 
         //Create Catalog
         private PdfObjects.PdfCatalog AddCatalog(int pagesObjectNumber)
         {
-            var catalog = new PdfObjects.PdfCatalog(Document.Count + 1, pagesObjectNumber);
-            Document.Add(catalog);
+            var catalog = new PdfObjects.PdfCatalog(_document.Count + 1, pagesObjectNumber);
+            _document.Add(catalog);
             return catalog;
         }
 
@@ -186,12 +188,12 @@ namespace EPPlus.Export.Pdf
             //var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             var cells = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && !(t is PdfCellContentLayout cc && cc.IsHeaderFooter)).GroupBy(t => t.Name);
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
-            var contentStream = new PdfContentStream(Document.Count + 1);
+            var contentStream = new PdfContentStream(_document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
             contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
-            if (PageSettings.ShowGridLines)
+            if (_pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
@@ -206,7 +208,7 @@ namespace EPPlus.Export.Pdf
                             contentStream.AddCellLayout(layout, GetPatternLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
-                            contentStream.AddCellContentLayout(contentLayout, Dictionaries, PageSettings);
+                            contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings);
                             break;
                         case PdfCellBorderLayout borderLayout:
                             contentStream.AddBorderLayout(borderLayout);
@@ -217,16 +219,16 @@ namespace EPPlus.Export.Pdf
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
-            if (PageSettings.ShowGridLines)
+            if (_pageSettings.ShowGridLines)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
             }
             //Add header and footer.
             foreach (var hf in headerFooterLayouts)
             {
-                contentStream.AddCellContentLayout(hf, Dictionaries, PageSettings);
+                contentStream.AddCellContentLayout(hf, _dictionaries, _pageSettings);
             }
-            Document.Add(contentStream);
+            _document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
             contentStream.AddCommand($"% {pageLayout.Name} end");
         }
@@ -238,23 +240,35 @@ namespace EPPlus.Export.Pdf
             foreach (var hf in headerFooter)
             {
                 var headerFooterLayout = hf as PdfHeaderFooterLayout;
-                contentStream.AddCellContentLayout(headerFooterLayout, Dictionaries, PageSettings);
+                contentStream.AddCellContentLayout(headerFooterLayout, _dictionaries, _pageSettings);
             }
         }
 
         //Add Info
         private PdfInfoObject AddInfoObject(string workBookName = "")
         {
-            var info = new PdfInfoObject(Document.Count + 1, workBookName);
-            Document.Add(info);
+            var info = new PdfInfoObject(_document.Count + 1, workBookName);
+            _document.Add(info);
             return info;
         }
 
-
         internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
-            PageSettings = pageSettings;
-            Dictionaries = dictionaries;
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            {
+                CreatePdf(pageSettings, dictionaries, layout, fs);
+            }
+
+            if (_pageSettings.Debug && _pageSettings.PrintAsText)
+            {
+                WriteDebugText(fileName);
+            }
+        }
+
+        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
+        {
+            _pageSettings = pageSettings;
+            _dictionaries = dictionaries;
 
             var catalog = AddCatalog(2);
             //Create Pages
@@ -265,55 +279,19 @@ namespace EPPlus.Export.Pdf
             //Create Patterns
             AddPatternData();
             //Create Shadings
-            AddShadingsData(dictionaries);
+            AddShadingsData();
             //Create Page and Content
             for (int i = 0; i < layout.ChildObjects.Count; i++)
             {
                 var pageLayout = layout.ChildObjects[i];
-                var page = AddPage(2, new List<int>(), PageSettings);
+                var page = AddPage(2, new List<int>(), _pageSettings);
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             var info = AddInfoObject();
-            string debugString = "";
-            //write to pdf
-            PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-            //start wring pdf binary
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-            {
-                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
-                {
-                    //Write header
-                    bw.Write(Encoding.ASCII.GetBytes(header));
-                    debugString += header;
-                    //Write body
-                    foreach (var pdfobj in Document)
-                    {
-                        crossRefTable.AddPosition(fs.Position);
-                        pdfobj.ToPdfBytes(bw);
-                        debugString += pdfobj.ToPdfString();
-                    }
-                    //Write CrossReference
-                    crossRefTable.Write(bw, fs.Position, Document.Count);
-                    debugString += crossRefTable.WriteString(Document.Count);
-                    // Write trailer
-                    PdfTrailer.Write(bw, Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                    debugString += PdfTrailer.WriteString(Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                }
-            }
-            //Write pdf as txt for debug.
-            if (PageSettings.Debug && PageSettings.PrintAsText)
-            {
-                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
-                {
-                    using (var wr = new StreamWriter(fs))
-                    {
-                        wr.Write(debugString);
-                    }
-                }
-            }
-        }
 
+            WriteDocumentToStream(stream, catalog, info);
+        }
 
         /// <summary>
         /// Create the pdf from the supplied worksheet.
@@ -321,8 +299,25 @@ namespace EPPlus.Export.Pdf
         /// <param name="Filename">The file name</param>
         public void CreatePdf(string Filename)
         {
+            using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+            {
+                CreatePdf(fs);
+            }
+
+            if (_pageSettings.Debug && _pageSettings.PrintAsText)
+            {
+                WriteDebugText(Filename);
+            }
+        }
+
+        /// <summary>
+        /// Create the pdf from the supplied worksheet and write it to a stream.
+        /// </summary>
+        /// <param name="stream">The stream to write the pdf to. The stream will not be closed.</param>
+        public void CreatePdf(Stream stream)
+        {
             //Create Catalog
-            var catalogLayout = new PdfCatalogLayout(_workheets[0], PageSettings, Dictionaries);
+            var catalogLayout = new PdfCatalogLayout(_workheets[0], _pageSettings, _dictionaries);
             var catalog = AddCatalog(2);
             //Create Pages
             var pagesLayout = catalogLayout.ChildObjects[0];
@@ -332,51 +327,62 @@ namespace EPPlus.Export.Pdf
             //Create Patterns
             AddPatternData();
             //Create Shadings
-            AddShadingsData(Dictionaries);
+            AddShadingsData();
             //Create Page and Content
             for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
             {
                 var pageLayout = pagesLayout.ChildObjects[i];
-                var page = AddPage(2, new List<int>(), PageSettings);
+                var page = AddPage(2, new List<int>(), _pageSettings);
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             var info = AddInfoObject(_workheets[0].Workbook._package.File.Name);
-            string debugString = "";
-            //write to pdf
+
+            WriteDocumentToStream(stream, catalog, info);
+        }
+
+        //Write the document and cross-ref/trailer to the supplied stream.
+        //The stream is not closed; the caller owns it.
+        private void WriteDocumentToStream(Stream stream, PdfObjects.PdfCatalog catalog, PdfInfoObject info)
+        {
+            _debugString = "";
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-            //start wring pdf binary
-            using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+
+            //Use a BinaryWriter without disposing it, so the underlying stream stays open for the caller.
+            //BinaryWriter does not own the stream when we don't dispose it; we just flush at the end.
+            var bw = new BinaryWriter(stream, Encoding.ASCII);
+            try
             {
-                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+                //Write header
+                bw.Write(Encoding.ASCII.GetBytes(header));
+                _debugString += header;
+                //Write body
+                foreach (var pdfobj in _document)
                 {
-                    //Write header
-                    bw.Write(Encoding.ASCII.GetBytes(header));
-                    debugString += header;
-                    //Write body
-                    foreach (var pdfobj in Document)
-                    {
-                        crossRefTable.AddPosition(fs.Position);
-                        pdfobj.ToPdfBytes(bw);
-                        debugString += pdfobj.ToPdfString();
-                    }
-                    //Write CrossReference
-                    crossRefTable.Write(bw, fs.Position, Document.Count);
-                    debugString += crossRefTable.WriteString(Document.Count);
-                    // Write trailer
-                    PdfTrailer.Write(bw, Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                    debugString += PdfTrailer.WriteString(Document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                    crossRefTable.AddPosition(stream.Position);
+                    pdfobj.ToPdfBytes(bw);
+                    _debugString += pdfobj.ToPdfString();
                 }
+                //Write CrossReference
+                crossRefTable.Write(bw, stream.Position, _document.Count);
+                _debugString += crossRefTable.WriteString(_document.Count);
+                // Write trailer
+                PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                _debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
             }
-            //Write pdf as txt for debug.
-            if (PageSettings.Debug && PageSettings.PrintAsText)
+            finally
             {
-                using (var fs = new FileStream(Filename + ".txt", FileMode.Create, FileAccess.Write))
+                bw.Flush();
+            }
+        }
+
+        private void WriteDebugText(string fileName)
+        {
+            using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
+            {
+                using (var wr = new StreamWriter(fs))
                 {
-                    using ( var wr = new StreamWriter(fs))
-                    {
-                        wr.Write(debugString);
-                    }
+                    wr.Write(_debugString);
                 }
             }
         }

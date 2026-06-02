@@ -14,13 +14,14 @@ using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
     internal class PdfTextMap
     {
-        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange )
+        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
         {
             var Range = pdfRange;
             var worksheet = Range.Range.Worksheet;
@@ -33,10 +34,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
             {
                 var hiddenRow = worksheet.Row(row).Hidden;
-
                 var r = (RowInternal)worksheet.GetValueInner(row, 0);
                 bool usesDefaultValue = false;
-                double height=0;
+                double height = 0;
                 if (r == null || r.Height < 0)
                 {
                     usesDefaultValue = true;
@@ -48,7 +48,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 }
                 Range.TotalHeight += hiddenRow ? 0d : height;
                 Range.RowHeights.Add(new RowHeight { Height = hiddenRow ? 0d : height, UsesDefaultValue = usesDefaultValue });
-                //x = 0d;
                 for (int col = Range.Range._fromCol; col <= Range.Range._toCol + addedColumns; col++)
                 {
                     var hiddenCol = worksheet.Column(col).Hidden;
@@ -60,40 +59,28 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
                     var tempMap = new PdfCell();
                     tempMap.Hidden = hiddenRow || hiddenCol;
-
                     tempMap.ColumnWidth = tempMap.Width = hiddenCol ? 0d : width;
-
                     var cell = worksheet.Cells[row, col];
                     tempMap.Name = cell.Address;
                     if (cell.Merge)
                     {
                         HandleMergedCell(pageSettings, dictionaries, cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
                     }
-
                     var cellStyle = new PdfCellStyle();
                     GetBorderStyles(cell, cellStyle, tempMap);
                     if (tempMap.Main == null)
                     {
                         GetFillStyles(cell, cellStyle);
                         GetFontStyle(cell, cellStyle);
-
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
                         if (!string.IsNullOrEmpty(cell.Text))
                         {
                             tempMap.Text = cell.Text;
-                            if(row == 1 && col == 1)
-                            {
-                                Console.WriteLine($"Cell.RichText.Count: {cell.RichText.Count}");
-                            }
-                            if (cell._rtc == null) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);
-                            //tempMap.TextFormats = GetTextFormats(pageSettings, dictionaries, cell._rtc, cellStyle);
-                            tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cell._rtc, cellStyle);
+                            tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
                         }
                     }
                     tempMap.CellStyle = cellStyle;
-
                     Map[row, col] = tempMap;
-                    //if cell is hidden maybe we skip adding comment to comment collection.
                     if (pageSettings.CommentsAndNotes != CommentsAndNotes.None)
                     {
                         if (cell.Comment != null && cell.ThreadedComment == null)
@@ -106,16 +93,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             PdfCommentsAndNotes.HasThreadedComment = true;
                         }
                     }
-
-
-                    //x += width;
-                    //totalWidth = System.Math.Max(x, totalWidth);
-
                 }
                 firstColumnRun = false;
-                //y -= height;
             }
-            //HandleDrawings(worksheet);
             pdfRange = Range;
             return Map;
         }
@@ -157,9 +137,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     if (!string.IsNullOrEmpty(main.Text))
                     {
                         mainCell.Text = main.Text;
-                        if (!main.IsRichText) main._rtc = new ExcelRichTextCollection(main.Text, cell);
-                        //mainCell.TextFormats = GetTextFormats(pageSettings, dictionaries, main._rtc, cellStyle);
-                        mainCell.TextFragments = GetTextFragments(pageSettings, dictionaries, main, main._rtc, cellStyle);
+                        mainCell.TextFragments = GetTextFragments(pageSettings, dictionaries, main, cellStyle);
                     }
                     mainCell.CellStyle = cellStyle;
                     tempMap.Main = mainCell;
@@ -527,12 +505,108 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return contentAlignment;
         }
 
-        private static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
+        internal static long subFamilyTicks;
+        internal static long addFontTicks;
+        internal static int subFamilyCount;
+
+        private static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
-            var textFragments = new List<TextFragment>();
-            bool bold = false, italic = false, underline = false, strike = false;
-            string text = null;
-            ExcelUnderLineType underLineType = ExcelUnderLineType.None;
+            bool dxfBold, dxfItalic, dxfStrike, dxfUnderline;
+            ExcelUnderLineType dxfUnderLineType;
+            ReadDxfFontOverrides(cellStyle, out dxfBold, out dxfItalic, out dxfStrike, out dxfUnderline, out dxfUnderLineType);
+
+            string forcedText = ResolveErrorText(pageSettings, cell);
+
+            if (cell.IsRichText)
+            {
+                return GetTextFragmentsFromRichText(pageSettings, dictionaries, cell.RichText, forcedText,
+                    dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType);
+            }
+            return GetTextFragmentsFromCellStyle(pageSettings, dictionaries, cell, forcedText,
+                dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType);
+        }
+
+        private static List<TextFragment> GetTextFragmentsFromRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection richText, string forcedText,
+            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType)
+        {
+            var textFragments = new List<TextFragment>(richText.Count);
+            for (int i = 0; i < richText.Count; i++)
+            {
+                var rt = richText[i];
+                var textFrag = new TextFragment();
+                textFrag.Font = new MeasurementFont();
+                textFrag.Text = forcedText == null ? rt.Text : forcedText;
+
+                textFrag.Font.FontFamily = rt.FontName;
+                textFrag.Font.Size = rt.Size;
+
+                textFrag.RichTextOptions.Bold = rt.Bold || dxfBold;
+                textFrag.RichTextOptions.Italic = rt.Italic || dxfItalic;
+                textFrag.RichTextOptions.UnderlineType = MapUnderlineType(rt.UnderLineType);
+                textFrag.RichTextOptions.StrikeType = (rt.Strike || dxfStrike) ? 2 : 1;
+                textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+                textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+                textFrag.RichTextOptions.FontColor = rt.Color;
+
+                textFrag.Font.Style = ComputeFontStyle(textFrag);
+
+                textFragments.Add(textFrag);
+                dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
+            }
+            return textFragments;
+        }
+
+        private static List<TextFragment> GetTextFragmentsFromCellStyle(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, string forcedText,
+            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType)
+        {
+            var font = cell.Style.Font;
+            var textFragments = new List<TextFragment>(1);
+
+            var textFrag = new TextFragment();
+            textFrag.Font = new MeasurementFont();
+            textFrag.Text = forcedText == null ? cell.Text : forcedText;
+
+            textFrag.Font.FontFamily = font.Name;
+            textFrag.Font.Size = font.Size;
+
+            textFrag.RichTextOptions.Bold = font.Bold || dxfBold;
+            textFrag.RichTextOptions.Italic = font.Italic || dxfItalic;
+
+            // Cell-style underline; dxf overrides only when the cell itself is not underlined.
+            ExcelUnderLineType underLineType;
+            if (font.UnderLine)
+            {
+                underLineType = font.UnderLineType == ExcelUnderLineType.None ? ExcelUnderLineType.Single : font.UnderLineType;
+            }
+            else if (dxfUnderline)
+            {
+                underLineType = dxfUnderLineType;
+            }
+            else
+            {
+                underLineType = ExcelUnderLineType.None;
+            }
+            textFrag.RichTextOptions.UnderlineType = MapUnderlineType(underLineType);
+
+            textFrag.RichTextOptions.StrikeType = (font.Strike || dxfStrike) ? 2 : 1;
+            textFrag.RichTextOptions.SuperScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+            textFrag.RichTextOptions.SubScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+            textFrag.RichTextOptions.FontColor = font.Color.ToColor();
+
+            textFrag.Font.Style = ComputeFontStyle(textFrag);
+
+            textFragments.Add(textFrag);
+            dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
+            return textFragments;
+        }
+
+        private static void ReadDxfFontOverrides(PdfCellStyle cellStyle, out bool bold, out bool italic, out bool strike, out bool underline, out ExcelUnderLineType underLineType)
+        {
+            bold = false;
+            italic = false;
+            strike = false;
+            underline = false;
+            underLineType = ExcelUnderLineType.None;
             if (cellStyle != null && cellStyle.dxfFont != null)
             {
                 bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
@@ -541,67 +615,35 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 underline = cellStyle.dxfFont.Underline != null;
                 underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
             }
-            if (ExcelErrorValue.IsErrorValue(cell.Text))
+        }
+
+        private static string ResolveErrorText(PdfPageSettings pageSettings, ExcelRangeBase cell)
+        {
+            if (!ExcelErrorValue.IsErrorValue(cell.Text)) return null;
+            switch (pageSettings.CellErrors)
             {
-                switch (pageSettings.CellErrors)
-                {
-                    case CellErrors.Blank:
-                        text = "";
-                        break;
-                    case CellErrors.Dashed:
-                        text = "--";
-                        break;
-                    case CellErrors.NA:
-                        text = "#N/A";
-                        break;
-                    case CellErrors.Displayed:
-                    default:
-                        text = null;
-                        break;
-
-                }
+                case CellErrors.Blank: return "";
+                case CellErrors.Dashed: return "--";
+                case CellErrors.NA: return "#N/A";
+                case CellErrors.Displayed:
+                default: return null;
             }
-            for (int i = 0; i < RichTextCollection.Count; i++)
-            {
-                var rt = RichTextCollection[i];
-                if (cell.Address == "A1")
-                {
-                    Console.WriteLine($"[GetTextFragments] A1 rt[{i}]: Text='{rt.Text}' Bold={rt.Bold} FontName='{rt.FontName}'");
-                }
-                var textFrag = new TextFragment();
-                textFrag.Font = new MeasurementFont();
-                textFrag.Text = text == null ? rt.Text : text;
+        }
 
-                textFrag.Font.FontFamily = rt.FontName;
-                textFrag.Font.Size = rt.Size;
+        private static int MapUnderlineType(ExcelUnderLineType type)
+        {
+            // 12 = none, 13 = single, 4 = double (matches existing rendering code; accounting not supported).
+            if (type == ExcelUnderLineType.Single) return 13;
+            if (type == ExcelUnderLineType.Double) return 4;
+            return 12;
+        }
 
-                textFrag.RichTextOptions.Bold = rt.Bold || bold;
-                textFrag.RichTextOptions.Italic = rt.Italic || italic;
-                //underline
-                //none   : 12
-                //single : 13
-                //Double : 4
-                //accouting does not exsist
-                textFrag.RichTextOptions.UnderlineType = 12;
-                textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Single ? 13 : textFrag.RichTextOptions.UnderlineType;
-                textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Double ? 4 : textFrag.RichTextOptions.UnderlineType;
-                textFrag.RichTextOptions.StrikeType = rt.Strike || strike ? 2 : 1;
-                textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                textFrag.RichTextOptions.FontColor = rt.Color;
-
-                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0 ) |
-                                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-                                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
-
-
-                textFragments.Add(textFrag);
-                OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
-                dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
-            }
-
-            return textFragments;
+        private static MeasurementFontStyles ComputeFontStyle(TextFragment textFrag)
+        {
+            return (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                   (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
+                   (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+                   (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
         }
 
 
