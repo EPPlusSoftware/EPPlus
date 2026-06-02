@@ -1447,7 +1447,7 @@ namespace EPPlusTest.Issues
             using var package = OpenTemplatePackage("s965-Not Calculated.xlsx");
             //package.Workbook.Calculate();
             var ws = package.Workbook.Worksheets["Calculation"];
-            package.Workbook.Calculate(); 
+            package.Workbook.Calculate();
             Assert.AreEqual("72201004296", ws.Cells["J2"].Value);
             Assert.AreEqual("72201024296", ws.Cells["J4"].Value);
             Assert.IsNull(ws.Cells["J5"].Value);
@@ -1537,7 +1537,7 @@ namespace EPPlusTest.Issues
             wb.FullCalcOnLoad = false;
             wb.CalcMode = ExcelCalcMode.Manual;
             ws.Cells["Q2"].Calculate();
-            Assert.AreEqual("365" ,ws.Cells["Q2"].Value);
+            Assert.AreEqual("365", ws.Cells["Q2"].Value);
             Assert.AreEqual("181-365", ws.Cells["Q45"].Value);
             Assert.AreEqual("90", ws.Cells["Q55"].Value);
             Assert.AreEqual(6D, ws.Cells["A34"].Value);
@@ -1646,7 +1646,20 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(702D, wsSummary.Cells["C57"].Value);
                 Assert.AreEqual("Yes!", wsSummary.Cells["E57"].Value);
 
-                SaveWorkbook("S1048-calculated.xlsx",p);
+                SaveWorkbook("S1048-calculated.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void s1050()
+        {
+            using (var p = OpenTemplatePackage("issues\\s1050\\Data File.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet1"];
+                //ws.Calculate();
+
+                ws.Cells["E1:E2164"].CopyValues(ws.Cells["AU1"]);
+
+                SaveWorkbook("s1050-saved.xlsx", p);
             }
         }
     }

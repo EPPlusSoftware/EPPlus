@@ -372,7 +372,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <returns>The adjusted address.</returns>
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
         {
-            return _address;
+            var dimension = _externalWs?.GetDimension()?.AsFormulaRangeAddress(_address._context);
+            return dimension ?? _address;
         }
 
         /// <summary>
