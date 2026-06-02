@@ -228,7 +228,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             RightMargin = r;
             BottomMargin = b;
 
-            TextBody.ImportTextBody(body);
+            TextBody.ImportTextBody(body, horizontalDefault);
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
