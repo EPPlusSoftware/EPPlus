@@ -2,61 +2,72 @@
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
 using System.Collections.Generic;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class LineChartTypeDrawer : ChartTypeDrawer
     {
+        List<List<object>> _xValues, _yValues;
+
         List<SvgChartSerieDataLabel> serieDataLabels = new List<SvgChartSerieDataLabel>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
-
+        internal override bool SupportsTrendlines => true;
         internal LineChartTypeDrawer(SvgChart svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
-            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
-            RenderItems.Add(groupItem);
             var isStacked = chartType.IsTypeStacked();
             var isPercentStacked = chartType.IsTypePercentStacked();
-            var xValues = new List<List<object>>();
-            var yValues = new List<List<object>>();
             int serCounter = 0;
-
+            _xValues = new List<List<object>>();
+            _yValues = new List<List<object>>();
             foreach (ExcelLineChartSerie serie in chartType.Series)
             {
                 var yValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 var xValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
 
-                xValues.Add(xValue);
-                yValues.Add(yValue);
+                _xValues.Add(xValue);
+                _yValues.Add(yValue);
 
-                if (serie.HasDataLabel)
-                {
-                    var datalabel = new SvgChartSerieDataLabel(svgChart, serie.DataLabel, svgChart.Bounds, serie, xValue, yValue, serCounter);
-                    serieDataLabels.Add(datalabel);
-                }
                 serCounter++;
             }
 
             if (chartType.IsTypeStacked())
             {
-                SumSeries(yValues);
+                SumSeries(_yValues);
             }
             else if (chartType.IsTypePercentStacked())
             {
-                ExcelChartAxisStandard.CalculateStacked100(yValues);
+                ExcelChartAxisStandard.CalculateStacked100(_yValues);
             }
 
-            for(var i= 0; i < xValues.Count; i++)
+            CreateTrendlines(chartType, _xValues, _yValues);
+        }
+        internal override void DrawSeries()
+        {
+            var groupItem = new SvgGroupItem(ChartRenderer, _svgChart.Plotarea.Rectangle.Bounds);
+            RenderItems.Add(groupItem);
+
+            var lct = (ExcelLineChart)_chartType;
+            for (var i = 0; i < _xValues.Count; i++)
             {
-                var xSerie = xValues[i];
-                var ySerie = yValues[i];
-                var serie = (ExcelLineChartSerie)chartType.Series[i];
+                var xSerie = _xValues[i];
+                var ySerie = _yValues[i];
+                var serie = lct.Series[i];
+
+                if (serie.HasDataLabel)
+                {
+                    var datalabel = new SvgChartSerieDataLabel(_svgChart, serie.DataLabel, _svgChart.Bounds, serie, xSerie, ySerie, i);
+                    serieDataLabels.Add(datalabel);
+                }
+
 
                 var dataPoints = new List<BoundingBox>();
-
-                AddLine(chartType, serie, xSerie, ySerie, dataPoints);
+                AddLine(_chartType, serie, xSerie, ySerie, dataPoints);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -68,8 +79,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
             }
+
+
+            //Append Trendline render items.
+            foreach (var tr in Trendlines)
+            {
+                tr.CreateRenderCoordinatesAndDatalabel();
+                tr.AppendRenderItems(RenderItems);
+            }
+
             RenderItems.Add(new SvgEndGroupItem(ChartRenderer, null));
 
+            //Datalabels use the chart area as parent as they can be positioned on the entire chart.
+
+            //Add data labels for trendlines after the trendline has been rendered, to ensure they are on top of the line.
+            foreach (var tr in Trendlines)
+            {
+                if (tr.DataLabel != null)
+                {
+                    tr.DataLabel.AppendRenderItems(RenderItems);
+                }
+            }
+
+            //Date series labels
             foreach (var dataLabel in serieDataLabels)
             {
                 dataLabel.AppendRenderItems(RenderItems);
@@ -87,7 +119,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
         {            
-            SvgChartAxis yAxis, xAxis;
+            ChartAxisRenderer yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
             {
                 yAxis = _svgChart.SecondVerticalAxis;
@@ -126,8 +158,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (double.IsNaN(yPos) == false)
                 {
-                    coords.Add(xPos / _svgChart.Plotarea.Rectangle.Bounds.Width);
-                    coords.Add(yPos / _svgChart.Plotarea.Rectangle.Bounds.Height);
+                    coords.Add(xPos);
+                    coords.Add(yPos);
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);

@@ -323,15 +323,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         /// </summary>
         public string GetFamilyName()
         {
-            // Typographic Family (16) first
-            string name = GetFirstNonEmpty(NameRecordTypes.TypographicFamilyName);
+            //// Typographic Family (16) first
+            //string name = GetFirstNonEmpty(NameRecordTypes.TypographicFamilyName);
+            //if (!string.IsNullOrEmpty(name))
+            //    return name;
+
+            // Then regular Family Name (1)
+            string name = GetFirstNonEmpty(NameRecordTypes.FontFamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
 
-            // Then regular Family Name (1)
-            name = GetFirstNonEmpty(NameRecordTypes.FontFamilyName);
+            // Typographic Family (16) first
+            name = GetFirstNonEmpty(NameRecordTypes.TypographicFamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
+
 
             // Fallback to English
             name = GetEnglishName(NameRecordTypes.TypographicFamilyName);

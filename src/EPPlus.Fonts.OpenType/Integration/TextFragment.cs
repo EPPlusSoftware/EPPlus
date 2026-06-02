@@ -13,27 +13,54 @@
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
+
+    public interface IFragInfo
+    {
+        public double AscentPoints { get; }
+        public double DescentPoints { get; }
+
+        public float Size { get; }
+    }
+
     /// <summary>
     /// Represents a text fragment with specific font properties.
     /// </summary>
-    public class TextFragment
+    public class TextFragment : TextFragmentBase, ITextFragmentBase
     {
-        public string Text { get; set; }
+        /// <summary>
+        /// Legacy. This is to be replaced after PDF refactor is taken in
+        /// </summary>
+        public IFontFormatBase Font { get { return RichTextOptions; } set {RichTextOptions.SetFont(value); } }
 
-        public MeasurementFont Font { get; set; }
-        public ShapingOptions Options { get; set; }
+        public TextFragment(IRichTextInfoBase rtFormat) : base(rtFormat)
+        {
+            RichTextOptions = rtFormat;
+        }
+        public TextFragment():base()
+        {
+            RichTextOptions = new RichTextDefaults();
+        }
 
+        public new IRichTextInfoBase RichTextOptions { get { return (IRichTextInfoBase)base.RichTextOptions; } set { base.RichTextOptions = value; } }
+
+        public override float Size { get => RichTextOptions.Size; }
+    }
+
+    public class TextFragmentBase : ITextFragmentBase
+    {
+        public string Text { get => RichTextOptions.Text; set => RichTextOptions.Text = value; }
         /// <summary>
         /// Store rich-text info.
-        /// Nothing is supposed to be done with this within OpenType
-        /// but we hold the data so users may more easily recognize what rich text this is in the output.
+        /// We must extract font info from this but nothing else is supposed to be done with this within opentype
+        /// but we hold the data so users may more easily recognize which rich text this is in the output.
         /// </summary>
-        public IRichTextInfoBase RichTextOptions { get; set; } = new RichTextDefaults();
-
+        public virtual IRichTextFormatBase RichTextOptions { get; set; } = new OpenTypeRichTextBase();
+        public ShapingOptions Options { get; set; }
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
 
@@ -41,42 +68,44 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             get
             {
-                // Keep only the style bits that affect the font face
-                MeasurementFontStyles faceStyle =
-                    Font.Style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic);
-
-                if (faceStyle == MeasurementFontStyles.Regular)
-                    return Font.FontFamily;
-
-                return $"{Font.FontFamily} {faceStyle.ToString().Replace(", ", " ")}";
+                return $"{RichTextOptions.Family} {RichTextOptions.SubFamily.ToString().Replace(", ", " ")}";
             }
         }
-    }
 
-    /// <summary>
-    /// Simple class to provide some kind of fallback/defaults
-    /// </summary>
-    public class RichTextDefaults : IRichTextInfoBase
-    {
-        internal RichTextDefaults()
+        public TextFragmentBase()
         {
         }
-        public bool Italic { get; set; } = false;
-
-        public bool Bold { get; set; } = false;
-
-        public bool SubScript { get; set; } = false;
-
-        public bool SuperScript { get; set; } = false;
-
-        public int UnderlineType { get; set; } = -1;
-
-        public int StrikeType { get; set; } = -1;
-
-        public int Capitalization { get; set; } = -1;
-
-        public Color UnderlineColor { get; set; }
-
-        public Color FontColor { get; set; }
+        public TextFragmentBase(IRichTextFormatBase richText) 
+        {
+            RichTextOptions = richText;
+        }
+        public virtual float Size { get => RichTextOptions.Size; }
     }
+
+    // /// <summary>
+    // /// Simple class to provide some kind of fallback/defaults
+    // /// </summary>
+    // public class RichTextDefaults : IRichTextInfoBase
+    // {
+    //     internal RichTextDefaults()
+    //     {
+    //     }
+    //     public bool IsItalic { get; set; } = false;
+
+    //     public bool IsBold { get; set; } = false;
+
+    // //    public bool SubScript { get; set; } = false;
+
+    // //    public bool SuperScript { get; set; } = false;
+
+    // //    public int UnderlineType { get; set; } = -1;
+
+    // //    public int StrikeType { get; set; } = -1;
+
+    // //    public int Capitalization { get; set; } = -1;
+
+    // //    public Color UnderlineColor { get; set; }
+
+    // //    public Color FontColor { get; set; }
+    // //}
 }

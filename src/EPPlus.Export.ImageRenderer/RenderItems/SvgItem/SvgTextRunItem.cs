@@ -96,6 +96,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             finalString += $"<tspan ";
             string visibility = "";
 
+            double fontSize=FontSizeInPixels;
+            if(_baseline!=0)
+            { 
+                finalString += $" dy=\"{(fontSize.PointToPixel()*-_baseline/100D).ToString(CultureInfo.InvariantCulture)}px\" ";  //For sub/superscript, move the text up/down by baseline% of font size. Negative value moves up, positive moves down.
+            }
             finalString += xString;
             var yString = $" y=\"{YPosition.PointToPixelString()}px\" ";
             finalString += yString;
@@ -113,7 +118,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 finalString += $"font-family=\"{_measurementFont.FontFamily},"
                     + $"{_measurementFont.FontFamily}_MSFontService,sans-serif\" "
-                    + $"font-size=\"{FontSizeInPixels.ToString(CultureInfo.InvariantCulture)}px\" ";
+                    + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
             }
 
             sb.Append(finalString);

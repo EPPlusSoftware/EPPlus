@@ -10,6 +10,8 @@ using OfficeOpenXml.Style;
 using System.Text;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Export.HtmlExport
 {
@@ -182,7 +184,7 @@ namespace EPPlusTest.Export.HtmlExport
             {
                 var sheet = p.Workbook.Worksheets[0];                
                 var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
-                
+
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Pictures.Include = ePictureInclude.Include;

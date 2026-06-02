@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +15,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// <summary>
         /// Internal data for making operations
         /// </summary>
-        internal List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
+        public List<LineFragment> InternalLineFragments { get; set; } = new List<LineFragment>();
 
         /// <summary>
         /// External output data for reading
@@ -39,7 +40,12 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public double Width { get; internal set; }
 
-        public double lastFontSpaceWidth { get; internal set; }
+        public double LastFontSpaceWidth { get; internal set; }
+
+        /// <summary>
+        /// The combined ascent of this line and the descent of the previous line
+        /// </summary>
+        public double LineSpacingAbove { get; internal set; }
 
         internal bool WasWrappedOnSpace = false;
 
@@ -67,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 trailingSpaceCount++;
             }
 
-            var widthWithoutTrail = Width - lastFontSpaceWidth * (trailingSpaceCount);
+            var widthWithoutTrail = Width - (LastFontSpaceWidth * (trailingSpaceCount));
             return widthWithoutTrail;
         }
 
@@ -75,9 +81,9 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
         }
 
-        internal void FinalizeLineFragments(List<TextFragment> originalFragments)
+        internal void FinalizeLineFragments(List<ITextFragmentBase> originalFragments)
         {
-            lastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
+            LastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
 
             foreach (var lf in InternalLineFragments)
             {

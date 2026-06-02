@@ -29,21 +29,24 @@ using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class SvgChart : DrawingChart
+    internal class SvgChart : EPPlusImageRenderer.DrawingChart
     {
         public SvgChart(ExcelChart chart) : base(chart)
         {
-
             SetChartArea();
 
             if(chart.HasTitle && chart.Series.Count > 0)
             {
-                Title = new SvgChartTitle(this, (ExcelChartTitleStandard)chart.Title, "Chart Title");
+                Title = new ChartTitleRenderer(this, (ExcelChartTitleStandard)chart.Title, "Chart Title");
             }
             else
             {
                 Title = null;
             }
+
+            //We need to create the plotarea before the legend and axes, as the trendlines can affect the value axis and should be rendererd in the legend.
+            Plotarea = new SvgChartPlotarea(this);
+            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
 
             if (chart.HasLegend)
             {
@@ -54,7 +57,7 @@ namespace EPPlusImageRenderer.Svg
                 Legend = null;
             }
 
-            if(Chart.Axis.Length != 0)
+            if (Chart.Axis.Length != 0)
             {
                 HorizontalAxis = GetAxis(false);
                 VerticalAxis = GetAxis(true);
@@ -66,27 +69,27 @@ namespace EPPlusImageRenderer.Svg
                 SecondHorizontalAxis = GetAxis(false, 2);
             }
 
-            Plotarea = new SvgChartPlotarea(this);
+            Plotarea.SetPlotAreaRectangle(this);
 
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea(this);
-
-            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+            
+            Plotarea.DrawSeries();
         }
 
-        private SvgChartAxis GetAxis(bool vertical, int offset=0)
+        private ChartAxisRenderer GetAxis(bool vertical, int offset=0)
         {
             var axis = (ExcelChartAxisStandard)Chart.Axis[offset];
             if(axis.IsVertical==vertical)
             {
-                return new SvgChartAxis(this, axis);
+                return new ChartAxisRenderer(this, axis);
             }
             else if(Chart.Axis.Length > offset + 1)
             {
                 axis = (ExcelChartAxisStandard)Chart.Axis[offset + 1];
                 if(axis.IsVertical==vertical)
                 {
-                    return new SvgChartAxis(this, axis);
+                    return new ChartAxisRenderer(this, axis);
                 }
             }
             return null;
@@ -94,6 +97,10 @@ namespace EPPlusImageRenderer.Svg
 
         private void  SetAxisPositionsFromPlotarea(SvgChart sc)
         {
+            if(Legend !=null && (sc.Chart.Legend.Position==eLegendPosition.Left || sc.Chart.Legend.Position == eLegendPosition.Right))
+            {
+                Legend.Rectangle.Top = sc.Plotarea.Rectangle.Top + (sc.Plotarea.Rectangle.Height / 2) - (Legend.Rectangle.Height / 2);
+            }
             if(VerticalAxis != null)
             {
                 PlaceVerticalAxis(sc, VerticalAxis);
@@ -130,7 +137,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void PlaceHorizontalAxis(SvgChart sc, SvgChartAxis horizontalAxis)
+        private void PlaceHorizontalAxis(SvgChart sc, ChartAxisRenderer horizontalAxis)
         {
             horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
             horizontalAxis.Rectangle.Left = Plotarea.Rectangle.Left;
@@ -165,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void PlaceVerticalAxis(SvgChart sc, SvgChartAxis verticalAxis)
+        private void PlaceVerticalAxis(SvgChart sc, ChartAxisRenderer verticalAxis)
         {
             if (verticalAxis.Rectangle != null)
             {
@@ -216,22 +223,18 @@ namespace EPPlusImageRenderer.Svg
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
                     }
                 }
-                //verticalAxis.Title.TextBox.TextAnchor = eTextAnchor.Middle;
+                //verticalAxis.Title.RenderTextbox.TextAnchor = eTextAnchor.Middle;
             }
         }
 
         internal SvgChartObject ChartArea { get; set; }
         internal SvgChartLegend Legend { get; set; }
-        internal SvgChartTitle Title { get; set; }
+        internal ChartTitleRenderer Title { get; set; }
         internal SvgChartPlotarea Plotarea { get; set; }
-        internal SvgChartAxis VerticalAxis { get; set; }
-        internal SvgChartAxis HorizontalAxis { get; set; }
-        internal SvgChartAxis SecondVerticalAxis { get; set; }
-        internal SvgChartAxis SecondHorizontalAxis { get; set; }
-        internal SvgChartTitle VerticalAxisTitle { get; set; }
-        internal SvgChartTitle HorizontalAxisTitle { get; set; }
-        internal SvgChartTitle SecondVerticalAxisTitle { get; set; }
-
+        internal ChartAxisRenderer VerticalAxis { get; set; }
+        internal ChartAxisRenderer HorizontalAxis { get; set; }
+        internal ChartAxisRenderer SecondVerticalAxis { get; set; }
+        internal ChartAxisRenderer SecondHorizontalAxis { get; set; }
         private void SetChartArea()
         {
             var item = new SvgChartArea(this);
@@ -322,5 +325,15 @@ namespace EPPlusImageRenderer.Svg
 
             return item;
         }
+    }
+
+    internal interface IChartRenderer
+    {
+        DrawingObject ChartAreaRenderer { get; }
+        DrawingObject TitleRenderer { get; }
+        DrawingObject LegendRenderer { get; }
+        DrawingObject AxisRenderer { get; }
+        DrawingObject AxisTextboxRenderer { get; }
+        DrawingObject PlotareaRenderer { get; }
     }
 }

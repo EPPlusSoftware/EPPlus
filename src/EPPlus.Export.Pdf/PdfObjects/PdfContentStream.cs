@@ -16,7 +16,8 @@ using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
+using EPPlus.Graphics.Geometry;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -25,6 +26,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using EPPlus.Fonts.OpenType.Integration;
 
 namespace EPPlus.Export.Pdf.PdfObjects
 {
@@ -190,16 +192,18 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         glyphStart = 0;
                     }
 
+                    var originalFragment = ((TextFragment)textFormat.OriginalTextFragment);
+                    var richInfo = originalFragment.RichTextOptions;
 
-                    var textLength = shapedText.ShapedText.GetWidthInPoints((float)textFormat.OriginalTextFragment.Font.Size);
-                    var color = textFormat.OriginalTextFragment.RichTextOptions.FontColor;
-                    var fontResrouce = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
-                    double size = textFormat.OriginalTextFragment.Font.Size;
-                    double scale = textFormat.OriginalTextFragment.Font.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
+                    var textLength = shapedText.ShapedText.GetWidthInPoints((float)richInfo.Size);
+                    var color = richInfo.FontColor;
+                    var fontResrouce = GetFontResource(dictionaries, pageSettings, richInfo.Family, richInfo.SubFamily, richInfo.Size);
+                    double size = richInfo.Size;
+                    double scale = richInfo.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
                     commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
-                    if (textFormat.OriginalTextFragment.RichTextOptions.SuperScript)
+                    if (richInfo.SuperScript)
                     {
                         var supOffX = fontResrouce.fontData.Os2Table.ySuperscriptXOffset * scale;
                         var supOffY = fontResrouce.fontData.Os2Table.ySuperscriptYOffset * scale;
@@ -207,7 +211,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
                         size = supSizeY;
                     }
-                    else if (textFormat.OriginalTextFragment.RichTextOptions.SubScript)
+                    else if (richInfo.SubScript)
                     {
                         var supOffX = fontResrouce.fontData.Os2Table.ySubscriptXOffset * scale;
                         var supOffY = fontResrouce.fontData.Os2Table.ySubscriptYOffset * scale;
@@ -215,7 +219,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         textMatrix = textMatrix * Matrix3x3.Translation(supOffX, supOffY);
                         size = supSizeY;
                     }
-                    if (textFormat.OriginalTextFragment.RichTextOptions.UnderlineType != 12)
+                    if (richInfo.UnderlineType != 12)
                     {
                         var underlinePos = fontResrouce.fontData.PostTable.underlinePosition * scale;
                         var underlineWidth = fontResrouce.fontData.PostTable.underlineThickness * scale;
@@ -226,7 +230,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                         commands.Add($"S");
                     }
-                    if (textFormat.OriginalTextFragment.RichTextOptions.StrikeType > 1)
+                    if (richInfo.StrikeType > 1)
                     {
                         var strikePos = fontResrouce.fontData.Os2Table.yStrikeoutPosition * scale;
                         var strikeWidth = fontResrouce.fontData.Os2Table.yStrikeoutSize * scale;

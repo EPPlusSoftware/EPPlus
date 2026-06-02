@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using OfficeOpenXml.Drawing;
 using System.Drawing;
 using TC = OfficeOpenXml.Utils.TypeConversion;

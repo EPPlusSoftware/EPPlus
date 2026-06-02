@@ -1,6 +1,6 @@
 ﻿using EPPlus.Graphics;
 using EPPlus.Graphics.Units;
-using EPPlus.Graphics.Math;
+using EPPlus.Graphics.Geometry;
 using System.Drawing;
 
 namespace EPPlus.Graphics.Tests
@@ -34,6 +34,71 @@ namespace EPPlus.Graphics.Tests
             p1.Scale = new Vector2(2,2);
             Assert.AreEqual(1, c1.LocalScale.X);
             Assert.AreEqual(2, c1.Scale.X);
+        }
+
+        [TestMethod]
+        public void ScaleMatrixTest()
+        {
+            var identity = Matrix3x3.Identity;
+            var scaleMatrix = new Matrix3x3(2, 0, 0, 2, 0, 0);
+
+            var mtMult = identity * scaleMatrix;
+
+            Assert.AreEqual(mtMult.A, scaleMatrix.A);
+            Assert.AreEqual(mtMult.B, scaleMatrix.B);
+            Assert.AreEqual(mtMult.C, scaleMatrix.C);
+            Assert.AreEqual(mtMult.D, scaleMatrix.D);
+            Assert.AreEqual(mtMult.E, scaleMatrix.E);
+            Assert.AreEqual(mtMult.F, scaleMatrix.F);
+            Assert.AreEqual(mtMult.G, scaleMatrix.G);
+            Assert.AreEqual(mtMult.H, scaleMatrix.H);
+            Assert.AreEqual(mtMult.I, scaleMatrix.I);
+
+            var vect2 = Vector2.One* mtMult;
+
+            Assert.AreEqual(2, vect2.X);
+            Assert.AreEqual(2, vect2.Y);
+
+            var vect3 = new Vector2(2,2) * mtMult;
+
+            Assert.AreEqual(4, vect3.X);
+            Assert.AreEqual(4, vect3.Y);
+        }
+
+        [TestMethod]
+        public void ChildAndGrandChildLocalAndGlobal()
+        {
+            Transform p1 = new Transform();
+            Transform c1 = new Transform(Vector2.One, Vector2.One, p1);
+
+            Transform gc1 = new Transform(new Vector2(5, 5), Vector2.One, c1);
+            p1.Scale = new Vector2(0.5d, 0.5d);
+
+            Assert.AreEqual(1, c1.LocalScale.X);
+            Assert.AreEqual(0.5, c1.Scale.X);
+            Assert.AreEqual(0.5, gc1.Scale.X);
+
+            p1.Scale = new Vector2(1d, 1d);
+
+            c1.Scale = new Vector2(0.5d, 0.5d);
+
+            Assert.AreEqual(3.5, gc1.Position.X);
+            Assert.AreEqual(3.5, gc1.Position.Y);
+            //Assert.AreEqual(5, gc1.Position.X);
+            //Assert.AreEqual(5, gc1.Position.Y);
+        }
+
+
+        [TestMethod]
+        public void AttemptDirectScale()
+        {
+            Transform p1 = new Transform();
+            p1.Scale = new Vector2(0.5d, 0.5d);
+            p1.LocalPosition = new Vector2(5, 5);
+
+
+            Assert.AreEqual(5d, p1.Position.X);
+            Assert.AreEqual(5d, p1.Position.Y);
         }
 
         [TestMethod]

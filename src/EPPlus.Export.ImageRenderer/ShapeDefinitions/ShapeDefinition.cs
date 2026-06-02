@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.ShapeDefinitions;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
@@ -21,7 +22,7 @@ using System.Linq;
 namespace EPPlusImageRenderer.ShapeDefinitions
 {
     [DebuggerDisplay("{Style}")]
-    internal class ShapeDefinition
+    public class ShapeDefinition
     {
         internal Dictionary<string, double> _calculatedValues = new Dictionary<string, double>();
 
@@ -305,63 +306,13 @@ namespace EPPlusImageRenderer.ShapeDefinitions
 
         private void InitCalculatedValues(ExcelShape shape)
         {
-            //var adjustedHeight = shape._height - 5.5d;
-            //var adjustedWidth = shape._width - 3.625;
 
             var adjustedHeight = shape._height;
-            //var adjustedWidth = shape._width - 10.5d;
             var adjustedWidth = shape._width;
 
-            //var hOld = adjustedHeight;
-            //var wOld = adjustedWidth;
-
-            //if (shape.TextBodyItem.TextAutofit == eTextAutofit.ShapeAutofit)
-            //{
-
-            //    var txt = shape.Textbox;
-
-            //    var newContainer = new TextContainer(txt, shape.TextBodyItem.Paragraphs.FirstDefaultRunProperties.GetMeasureFont(), true);
-
-            //    adjustedHeight = newContainer.Height;
-            //    adjustedWidth = newContainer.Width;
-
-            //    //if(ShapeGuides.Where(x => x.Name == TextBoxRect.RightValue))
-            //    //{
-
-            //    //}
-
-            //    TextBoxRect.RightValue = adjustedHeight;
-            //    TextBoxRect.BottomValue = adjustedWidth;
-            //}
-
+            //Convert shape bounds from pixels to EMUs
             var h = (double)(adjustedHeight * (double)ExcelDrawing.EMU_PER_PIXEL);
             var w = (double)(adjustedWidth * (double)ExcelDrawing.EMU_PER_PIXEL);
-
-
-            ////This might be neccesary if there are several fonts/fontsizes
-            ////Could maybe work better inside a singular text container taking Paragraphs as input
-            //Containers for each "line"
-            //List<TextContainer> textContainers = new List<TextContainer>();
-
-            //double largestHeight = -1;
-            //double largestWidth = -1;
-
-            //if(shape.TextBodyItem.TextAutofit == eTextAutofit.ShapeAutofit)
-            //{
-            //    foreach( var paragraph in shape.TextBodyItem.Paragraphs)
-            //    {
-            //        foreach(var txtRun in paragraph.TextRuns)
-            //        {
-            //            var lineContainer = new TextContainer(txtRun.Textbox, txtRun.GetMeasureFont(), true);
-            //            textContainers.Add(lineContainer);
-            //            if(lineContainer.Width > largestWidth)
-            //            {
-            //                largestWidth = lineContainer.Width;
-            //            }
-            //        }
-            //    }
-            //}
-
 
             //Longest side
             var ls = Math.Max(h, w);

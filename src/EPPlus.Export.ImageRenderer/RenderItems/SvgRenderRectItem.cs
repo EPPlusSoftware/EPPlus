@@ -44,12 +44,7 @@ namespace EPPlusImageRenderer.RenderItems
 
         public override void Render(StringBuilder sb)
         {
-            //var groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
-            //groupItem.Render(sb);
-
             RenderRect(sb);
-
-            //groupItem.RenderEndGroup(sb);
         }
 
         internal string Suffix = "px";

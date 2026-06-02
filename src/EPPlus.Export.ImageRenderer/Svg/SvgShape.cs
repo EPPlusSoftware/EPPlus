@@ -166,6 +166,7 @@ namespace EPPlusImageRenderer.Svg
                         cmd = null;
                         break;
                 }
+                //p.TranslateCoordiantesToPointsAndDegrees(ExcelDrawing.EMU_PER_POINT, 1);
                 pCmd = p;
             }
             if (coordinates.Count > 0)
@@ -227,8 +228,7 @@ namespace EPPlusImageRenderer.Svg
 
         public void Render(StringBuilder sb)
         {
-            sb.Append($"<svg width=\"{Bounds.Width.PointToPixel()}\" height=\"{Bounds.Height.PointToPixel()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
-            sb.Append($"<svg width=\"{Bounds.Width.PointToPixel()}\" height=\"{Bounds.Height.PointToPixel()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            sb.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
 
             //Write defs used for gradient colors
             var writer = new SvgDrawingWriter(this);
@@ -273,12 +273,12 @@ namespace EPPlusImageRenderer.Svg
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
+                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
                 InsetTextBox.Bounds.Left = x.PixelToPoint();
                 InsetTextBox.Bounds.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = TextBox.Parent; //TODO:Check that textBody is correct.
+                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
             }
 
             double l, r, t, b;

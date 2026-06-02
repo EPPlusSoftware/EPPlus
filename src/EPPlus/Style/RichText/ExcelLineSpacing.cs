@@ -167,14 +167,14 @@ namespace OfficeOpenXml.Style
         ///// Otherwise they are set to default values 13.2 or 3
         ///// </summary>
         ///// <param name="lineSpacingType"></param>
-        //public void SetSpacingType(eDrawingTextLineSpacing lineSpacingType)
+        //public void SetSpacingType(DrawingTextLineSpacing lineSpacingType)
         //{
         //    LineSpacingType = lineSpacingType;
-        //    if(lineSpacingType == eDrawingTextLineSpacing.Exactly)
+        //    if(lineSpacingType == DrawingTextLineSpacing.Exactly)
         //    {
         //        SetExactly(13.2);
         //    }
-        //    else if(lineSpacingType == eDrawingTextLineSpacing.Multiple)
+        //    else if(lineSpacingType == DrawingTextLineSpacing.Multiple)
         //    {
         //        SetMultiple(3);
         //    }

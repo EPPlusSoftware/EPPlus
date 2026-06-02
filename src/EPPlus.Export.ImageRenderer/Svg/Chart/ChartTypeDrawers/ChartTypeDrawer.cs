@@ -5,27 +5,44 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal abstract class ChartTypeDrawer : SvgChartObject
     {
         protected SvgChart _svgChart;
-        protected ExcelChart _chartType;
+        internal protected ExcelChart _chartType;
+        internal List<SvgTrendline> Trendlines { get; } = new List<SvgTrendline>();
+
+        internal virtual bool SupportsTrendlines { get { return false; } }
+        internal virtual bool SupportsErrorBars { get { return false; } }
+        internal virtual bool SupportsUpDownBars { get { return false; } }
+        internal virtual bool SupportsDataTable { get { return false; } }
         internal ChartTypeDrawer(SvgChart svgChart,  ExcelChart chartType) : base(svgChart)
         {
             _svgChart = svgChart;
             _chartType = chartType;
         }
-        protected List<object> LoadSeriesValues(string serieAddress, double[] numLiterals, string[] strLiterals)
+        internal abstract void DrawSeries();
+        protected List<object> LoadSeriesValues(string serieAddressInput, double[] numLiterals, string[] strLiterals)
         {
-            List<object> values=new List<object>();
+            string serieAddress = serieAddressInput;
+
+            //Some addresses are split and within parenthesis
+            if (serieAddressInput.StartsWith("("))
+            {
+                serieAddress = serieAddressInput.Trim('(', ')');
+            }
+
+            List<object> values = new List<object>();
             if (numLiterals != null)
             {
                 values.AddRange(numLiterals.Select(x => (object)x));
@@ -36,29 +53,91 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                if(string.IsNullOrEmpty(serieAddress))
+                if (string.IsNullOrEmpty(serieAddress))
                 {
                     return null;
                 }
                 var address = new ExcelAddressBase(serieAddress);
+
+                if (address.Addresses != null && address.Addresses.Count > 1)
+                {
+                    foreach (var splitAddress in address.Addresses)
+                    {
+                        FillValuesFromAddress(splitAddress, ref values);
+                    }
+                }
+                else
+                {
+                    FillValuesFromAddress(address, ref values);
+                }
+            }
+            return values;
+        }
+
+        protected void FillValuesFromAddress(ExcelAddressBase address, ref List<object> values)
+        {
+            if (address.IsExternal)
+            {
+                var wb = Chart.WorkSheet.Workbook;
+                var extWb = wb.ExternalLinks[address.ExternalReferenceIndex - 1] as ExcelExternalWorkbook;
+                if (extWb != null)
+                {
+                    var wsName = address.WorkSheetName;
+                    if (extWb.Package == null)
+                    {
+                        var extWs = extWb.CachedWorksheets[wsName];
+                        FillExternalValues(extWs, address, ref values);
+                    }
+                    else
+                    {
+                        var ws = extWb.Package.Workbook.Worksheets[wsName];
+                        FillInternalValues(ws, address, ref values);
+                    }
+                }
+            }
+            else
+            {
                 var wsName = address.WorkSheetName;
+
                 if (string.IsNullOrEmpty(wsName))
                 {
                     wsName = Chart.WorkSheet.Name;
                 }
-                if (Chart.WorkSheet.Workbook.Worksheets[wsName] != null)
+
+                var ws = Chart.WorkSheet.Workbook.Worksheets[wsName];
+                FillInternalValues(ws, address, ref values);
+            }
+        }
+
+        protected void FillExternalValues(ExcelExternalWorksheet extWs, ExcelAddressBase address, ref List<object> values)
+        {
+            if (extWs != null)
+            {
+                for (int r = address.Start.Row; r <= address.End.Row; r++)
                 {
-                    for (int r = address.Start.Row; r <= address.End.Row; r++)
+                    for (int c = address.Start.Column; c <= address.End.Column; c++)
                     {
-                        for (int c = address.Start.Column; c <= address.End.Column; c++)
-                        {
-                            values.Add(Chart.WorkSheet.Workbook.Worksheets[wsName].Cells[r, c].Value);
-                        }
+                        values.Add(extWs.CellValues[r, c].Value);
                     }
                 }
             }
-            return values; 
         }
+
+        private void FillInternalValues(ExcelWorksheet ws, ExcelAddressBase address, ref List<object> values)
+        {
+
+            if (ws != null)
+            {
+                for (int r = address.Start.Row; r <= address.End.Row; r++)
+                {
+                    for (int c = address.Start.Column; c <= address.End.Column; c++)
+                    {
+                        values.Add(ws.Cells[r, c].Value);
+                    }
+                }
+            }
+        }
+
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         internal static List<ChartTypeDrawer> Create(SvgChart svgChart)
         {
@@ -84,6 +163,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         drawers.Add(new BarColumnChartTypeDrawer(svgChart, (ExcelBarChart)ct));
                         break;
                     case eChartType.Pie:
+                    case eChartType.PieExploded:
                         drawers.Add(new PieChartTypeDrawer(svgChart, (ExcelPieChart)ct));
                         break;
                     default:
@@ -102,10 +182,33 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
+        protected void CreateTrendlines(ExcelChart chartType, List<List<object>> xValues, List<List<object>> yValues)
+        {
+            var serieIndex = 0;
+            foreach (ExcelChartSerie serie in chartType.Series)
+            {
+                if (serie.TrendLines.Count > 0)
+                {
+                    var xSerie = xValues[serieIndex];
+                    var ySerie = yValues[serieIndex];
+                    foreach (var trendline in serie.TrendLines)
+                    {
+                        var tr = new SvgTrendline(_svgChart, trendline, xSerie, ySerie, _chartType, serieIndex);
+                        Trendlines.Add(tr);
+                    }
+                }
+                serieIndex++;
+            }
+        }
 
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(RenderItems);
+        }
+
+        internal bool IsOnAxis(ExcelChartAxisStandard ax)
+        {
+            return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
     }
 

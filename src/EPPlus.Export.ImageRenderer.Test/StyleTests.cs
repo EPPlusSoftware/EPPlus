@@ -1,20 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.Style;
-using EPPlusImageRenderer;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Export.HtmlExport;
-using OfficeOpenXml.Export.HtmlExport.CssCollections;
-using OfficeOpenXml.Export.HtmlExport.Exporters.Internal;
-using OfficeOpenXml.Export.HtmlExport.Translators;
-using OfficeOpenXml.Export.HtmlExport.Writers;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
+﻿using OfficeOpenXml;
 using System.Drawing;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -30,9 +15,9 @@ namespace EPPlus.Export.ImageRenderer.Tests
             using (var p = OpenTemplatePackage("baseThemeChartStyle.xlsx"))
             {
                 var c = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
-
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
+                var svg = c.ToSvg();
+                //var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var svg = renderer.RenderDrawingToSvg(c);
                 SaveTextFileToWorkbook($"svg\\baseThemeChartStyle.svg", svg);
             }
         }
@@ -87,8 +72,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
 
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(simpleChart);
+                var svg = simpleChart.ToSvg();
                 SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcel2.svg", svg);
 
                 //var serLine = chartDefaultStyle.SeriesLine;

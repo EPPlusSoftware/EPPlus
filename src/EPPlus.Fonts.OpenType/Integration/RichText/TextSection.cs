@@ -19,7 +19,12 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// Run starting char index in fulltext
         /// </summary>
         internal int FullTextStart { get { return _startIdx; } }
-        internal int Length { get { return _endIdx - _startIdx; } }
+        internal int Length 
+        {   get 
+            {
+               return Text.Length;
+            } 
+        }
 
         /// <summary>
         /// A section of text between start and end index

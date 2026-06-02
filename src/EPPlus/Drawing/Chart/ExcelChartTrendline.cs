@@ -10,12 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Xml;
-using System.Globalization;
-using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -278,6 +279,40 @@ namespace OfficeOpenXml.Drawing.Chart
             CreatespPrNode();
         }
 
+        internal string GetName(int index)
+        {
+            if(string.IsNullOrEmpty(Name))
+            {
+                var serieName = _serie.GetHeaderText(index);
+                var trendlineType = GetTypeName();
+
+                return $"{trendlineType} ({serieName})";
+            }
+            else
+            {
+                return Name;
+            }
+        }
+
+        private string GetTypeName()
+        {
+            switch(Type)
+            {
+                case eTrendLine.Exponential:
+                    return "Expon.";
+                case eTrendLine.Logarithmic:
+                    return "Log.";
+                case eTrendLine.Polynomial:
+                    return "Poly.";
+                case eTrendLine.MovingAverage:
+                    return $"{Period} per Mov. Avg.";
+                case eTrendLine.Power:
+                    return "Power";
+                default:
+                    return "Linear";
+            }
+        }
+
         ExcelChartTrendlineLabel _label =null;
         /// <summary>
         /// Trendline labels
@@ -305,5 +340,13 @@ namespace OfficeOpenXml.Drawing.Chart
                        (Type != eTrendLine.MovingAverage && (DisplayRSquaredValue == true || DisplayEquation == true));
             }
         }
+        internal ExcelChartStandardSerie Serie 
+        { 
+            get 
+            {
+                return _serie;
+            } 
+        }
+
     }
 }

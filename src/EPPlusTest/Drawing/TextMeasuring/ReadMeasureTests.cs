@@ -155,8 +155,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
                 shape1.GetSizeInPixels(out int width, out int height);
 
-                var ir = new ImageRenderer();
-                var svg = ir.RenderDrawingToSvg(shape1);
+                var svg = shape1.ToSvg();
 
                 var svgFile = GetOutputFile("", "paragraphBook.svg");
 

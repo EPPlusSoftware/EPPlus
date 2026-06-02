@@ -561,11 +561,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 var rt = RichTextCollection[i];
                 var textFrag = new TextFragment();
-                textFrag.Font = new MeasurementFont();
                 textFrag.Text = text == null ? rt.Text : text;
 
-                textFrag.Font.FontFamily = rt.FontName;
-                textFrag.Font.Size = rt.Size;
+                textFrag.RichTextOptions.Family = rt.FontName;
+                textFrag.RichTextOptions.Size = rt.Size;
 
                 textFrag.RichTextOptions.Bold = rt.Bold || bold;
                 textFrag.RichTextOptions.Italic = rt.Italic || italic;
@@ -582,15 +581,15 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                 textFrag.RichTextOptions.FontColor = rt.Color;
 
-                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0 ) |
-                                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-                                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+                //Should no longer be neccesary
+                //textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                //                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0 ) |
+                //                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+                //                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
 
 
                 textFragments.Add(textFrag);
-                OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
-                dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
+                dictionaries.AddFont(pageSettings, textFrag.FullFontName, textFrag.RichTextOptions.SubFamily, textFrag.Text);
             }
 
             return textFragments;
@@ -674,9 +673,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 var hf = textCollection[i];
                 var textFrag = new TextFragment();
-                textFrag.Font = new MeasurementFont();
 
-                textFrag.Font.FontFamily = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
+                textFrag.Font.Family = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
                 textFrag.Font.Size = hf.FontSize == null ? ns.Style.Font.Size : (float)hf.FontSize;
 
                 textFrag.RichTextOptions.Bold = hf.Bold;
@@ -692,10 +690,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFrag.RichTextOptions.StrikeType = hf.Striketrough ? 2 : 1;
                 textFrag.RichTextOptions.FontColor = hf.Color;
 
-                textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-                                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
-                                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-                                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+                //Should no longer be neccesary
+                //textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+                //                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
+                //                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+                //                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
 
                 var text = string.Empty;
                 switch (hf.FormatCode)
@@ -731,9 +730,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFrag.Text = text;
 
                 textFragments.Add(textFrag);
-                OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style);
-                dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), textFrag.Text);
-                if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.FullFontName, OpenTypeFonts.GetFontSubFamily(textFrag.Font.Style), "1234567890");
+                dictionaries.AddFont(pageSettings, textFrag.FullFontName, textFrag.RichTextOptions.SubFamily, textFrag.Text);
+                if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.FullFontName, textFrag.RichTextOptions.SubFamily, "1234567890");
 
 
 

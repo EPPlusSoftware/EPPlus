@@ -45,7 +45,12 @@ namespace OfficeOpenXml.Drawing
                 pNodes = pNodes.Count == 0 ? GetNodes("../a:p") : pNodes;
                 foreach (XmlElement pn in pNodes)
                 {
-                    _paragraphs.Add(new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml));
+                    var paragraph = new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml);
+                    _paragraphs.Add(paragraph);
+                    //if(_paragraphs.Count == 1)
+                    //{
+                    //    FirstDefaultRunProperties = paragraph.DefaultRunProperties;
+                    //}
                 }
 
                 if (_paragraphs.Count == 0)

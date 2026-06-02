@@ -70,6 +70,13 @@ namespace EPPlusImageRenderer.RenderItems
         public double? GlowRadius { get; private set; }
         public string GlowColor { get; private set; }
         public ExcelDrawingOuterShadowEffect OuterShadowEffect { get; private set; } = null;
+
+        /// <summary>
+        /// The origin point for any transform actions in svg.
+        /// Normally/Default 0,0
+        /// </summary>
+        public Coordinate TransformOrigin { get; set; } = null;
+
         protected void CloneBase(RenderItem item)
         {
             item.FillColor = FillColor;
