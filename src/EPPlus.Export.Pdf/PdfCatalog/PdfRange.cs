@@ -22,7 +22,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public double AdditionalWidth;
         public double PrintTitleHeight;
         public double PrintTitleWidth;
-
+         
         public PdfRange(ExcelRangeBase range, bool extendColumns)
         {
             Range = range;

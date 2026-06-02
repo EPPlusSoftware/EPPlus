@@ -21,6 +21,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfHeaderFooterCollection HeaderFooters = null;
         public double ZeroCharWidth;
         public int ToRow;
+        public int PrintTitleRowFrom = -1;
+        public int PrintTitleRowTo = -1;
+        public int PrintTitleColFrom = -1;
+        public int PrintTitleColTo = -1;
 
         //EPPlus references
         public ExcelWorksheet Worksheet { get; set; }

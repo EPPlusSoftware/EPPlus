@@ -30,6 +30,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public PdfCell Main;
         public ExcelAddressBase MergedAddress;
 
+        public bool IsPrintTitleRow;
+        public bool IsPrintTitleCol;
+
 
 
         //public int FromCol;

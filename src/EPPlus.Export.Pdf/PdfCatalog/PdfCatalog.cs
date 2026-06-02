@@ -159,6 +159,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if(pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
+            GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             return pdfSheet;
@@ -173,6 +174,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (pageSettings.ShowHeadings && AddTextForHeadings) Dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
             AddTextForHeadings = false;
             pdfSheet.Ranges[0] = GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+            GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             return pdfSheet;
@@ -214,6 +216,74 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             range = temp;
             return range;
         }
+
+        private void GetPrintTitles(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            var worksheet = pdfSheet.Worksheet;
+            // --- Step 1: auto-detect from the worksheet's _xlnm.Print_Titles defined name ---
+            if (worksheet.Names.ContainsKey("_xlnm.Print_Titles"))
+            {
+                var printTitlesName = worksheet.Names["_xlnm.Print_Titles"];
+                foreach (var address in printTitlesName.Addresses)
+                {
+                    // A full-row reference spans every column  (e.g. $1:$3  →  _toCol == MaxColumns)
+                    if (address._toCol >= ExcelPackage.MaxColumns)
+                    {
+                        pdfSheet.PrintTitleRowFrom = address._fromRow;
+                        pdfSheet.PrintTitleRowTo = address._toRow;
+                    }
+                    // A full-column reference spans every row  (e.g. $A:$B  →  _toRow == MaxRows)
+                    else if (address._toRow >= ExcelPackage.MaxRows)
+                    {
+                        pdfSheet.PrintTitleColFrom = address._fromCol;
+                        pdfSheet.PrintTitleColTo = address._toCol;
+                    }
+                }
+            }
+            // --- Step 2: PdfPageSettings overrides take precedence over the defined name ---
+            if (pageSettings.RowsToRepeatAtTop != null)
+            {
+                pdfSheet.PrintTitleRowFrom = pageSettings.RowsToRepeatAtTop._fromRow;
+                pdfSheet.PrintTitleRowTo = pageSettings.RowsToRepeatAtTop._toRow;
+            }
+            if (pageSettings.ColumnsToRepeatAtLeft != null)
+            {
+                pdfSheet.PrintTitleColFrom = pageSettings.ColumnsToRepeatAtLeft._fromCol;
+                pdfSheet.PrintTitleColTo = pageSettings.ColumnsToRepeatAtLeft._toCol;
+            }
+
+            // --- Step 3: mark cells so the renderer can identify them instantly ---
+            foreach (var range in pdfSheet.Ranges)
+                MarkPrintTitleCells(pdfSheet, range);
+        }
+
+        private static void MarkPrintTitleCells(PdfWorksheet pdfSheet, PdfRange range)
+        {
+            var map = range.Map;
+
+            for (int row = map.FromRow; row <= map.ToRow; row++)
+            {
+                bool isTitleRow = pdfSheet.PrintTitleRowFrom >= 0
+                               && row >= pdfSheet.PrintTitleRowFrom
+                               && row <= pdfSheet.PrintTitleRowTo;
+
+                for (int col = map.FromColumn; col <= map.ToColumn; col++)
+                {
+                    bool isTitleCol = pdfSheet.PrintTitleColFrom >= 0
+                                   && col >= pdfSheet.PrintTitleColFrom
+                                   && col <= pdfSheet.PrintTitleColTo;
+
+                    if (!isTitleRow && !isTitleCol) continue;
+
+                    var cell = map[row, col];
+                    if (cell == null) continue;
+
+                    if (isTitleRow) cell.IsPrintTitleRow = true;
+                    if (isTitleCol) cell.IsPrintTitleCol = true;
+                }
+            }
+        }
+
 
         private void GetHeaderFooter(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {

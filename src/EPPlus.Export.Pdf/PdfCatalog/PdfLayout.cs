@@ -623,24 +623,22 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return colX;
         }
 
-        private static void ComputePrintTitleDimensions(PdfPageSettings pageSettings, PdfRange range, out double titleHeight, out double titleWidth)
+        private static void ComputePrintTitleDimensions(PdfWorksheet pdfSheet, PdfRange range, out double titleHeight, out double titleWidth)
         {
             titleHeight = 0d;
             titleWidth = 0d;
-            if (pageSettings.RowsToRepeatAtTop != null)
+            if (pdfSheet.PrintTitleRowFrom >= 0)
             {
-                for (int r = pageSettings.RowsToRepeatAtTop._fromRow;
-                         r <= pageSettings.RowsToRepeatAtTop._toRow; r++)
+                for (int r = pdfSheet.PrintTitleRowFrom; r <= pdfSheet.PrintTitleRowTo; r++)
                 {
                     int idx = r - range.Range._fromRow;
                     if (idx >= 0 && idx < range.RowHeights.Count)
                         titleHeight += range.RowHeights[idx].Height;
                 }
             }
-            if (pageSettings.ColumnsToRepeatAtLeft != null)
+            if (pdfSheet.PrintTitleColFrom >= 0)
             {
-                for (int c = pageSettings.ColumnsToRepeatAtLeft._fromCol;
-                         c <= pageSettings.ColumnsToRepeatAtLeft._toCol; c++)
+                for (int c = pdfSheet.PrintTitleColFrom; c <= pdfSheet.PrintTitleColTo; c++)
                 {
                     int idx = c - range.Range._fromCol;
                     if (idx >= 0 && idx < range.ColWidths.Count)
@@ -681,7 +679,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 if (pdfSheet.Worksheet.Row(i).PageBreak)
                     yPages++;
             }
-            ComputePrintTitleDimensions(pageSettings, range, out range.PrintTitleHeight, out range.PrintTitleWidth);
+            ComputePrintTitleDimensions(pdfSheet, range, out range.PrintTitleHeight, out range.PrintTitleWidth);
             Pages p = new Pages();
             p.Width = xPages;
             p.Height = yPages;
