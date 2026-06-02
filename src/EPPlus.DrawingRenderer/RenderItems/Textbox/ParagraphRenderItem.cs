@@ -182,8 +182,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //{
             //    _layoutSystem = new LayoutSystem(_textFragments);
             //}
-            var maxWidthPoints = Math.Round(ParentMaxWidth, 0, MidpointRounding.AwayFromZero);
-            return _layoutSystem.Wrap(maxWidthPoints);
+
+            double maxWidthInPoints;
+            if(AutoSize)
+            {
+                maxWidthInPoints = Math.Round(ParentMaxWidth - RightMargin - LeftMargin, 0, MidpointRounding.AwayFromZero);
+            }
+            else
+            {
+                maxWidthInPoints = Bounds.Width;
+            }
+            return _layoutSystem.Wrap(maxWidthInPoints);
         }
 
         private void AddRichTextBase(IRichTextFormatSimple rt)

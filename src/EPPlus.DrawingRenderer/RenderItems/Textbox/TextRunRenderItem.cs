@@ -119,7 +119,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public IFontFormatBase _measurementFont { get; internal protected set; }
         protected bool _isFirstInParagraph;
 
-        public double FontSizeInPixels { get;  protected set; }
+        public double FontSizeInPixels { get; protected set; }
 
         public List<string> Lines { get;  set; }
 

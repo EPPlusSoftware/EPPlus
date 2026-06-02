@@ -617,7 +617,8 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         internal IRichTextFormatEssential ExportToOpenTypeFormat()
         {
-            var rtBase = new RichTextFormatBase(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
+            var measureFont = GetMeasurementFont();
+            var rtBase = new RichTextFormatBase(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
             return rtBase;
         }
 
@@ -627,7 +628,8 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         internal IRichTextFormatDrawing ExportToImageRendererFormat()
         {
-            var rtBase = new RichTextFormatDrawing(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
+            var measureFont = GetMeasurementFont();
+            var rtBase = new RichTextFormatDrawing(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
             rtBase.Capitalization = (int)Capitalization;
             rtBase.HighLightColor = HighlightColor.GetColor();
             rtBase.FontColor = Fill.Color;

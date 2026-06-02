@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="baseFont"></param>
         internal void ImportTextRunBase(ExcelParagraphTextRunBase run, IFontFormatBase baseFont)
         {
-            InitializeBase(new FontFormatBase(run.GetMeasureFont()));
+            InitializeBase(new FontFormatBase(run.GetMeasurementFont()));
             _currentText = string.IsNullOrEmpty(_currentText) ? run.Text : _currentText;
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;
