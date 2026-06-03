@@ -180,8 +180,6 @@ namespace OfficeOpenXml.Style
             }
         }
 
-
-        string _underLineColorSetPath = "a:uFill/a:solidFill/a:srgbClr/@val";
         string _underLineColorPath = "a:uFill/a:solidFill";
 
         ExcelDrawingColorManager _underlineColorManager = null;
@@ -204,15 +202,6 @@ namespace OfficeOpenXml.Style
                 {
                     return _underlineColorManager.GetColor();
                 }
-                //string col = _xml.GetXmlNodeString(_underLineColorPath);
-                //if (col == "")
-                //{
-                //    return Color.Empty;
-                //}
-                //else
-                //{
-                //    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
-                //}
             }
             set
             {
@@ -223,9 +212,6 @@ namespace OfficeOpenXml.Style
                     _underlineColorManager = new ExcelDrawingColorManager(_xml.NameSpaceManager, _xml.TopNode, _underLineColorPath, _xml.SchemaNodeOrder);
                 }
                 _underlineColorManager.SetRgbColor(value);
-                //_underlineColorManager.SetXml(_xml.NameSpaceManager, _underlineColorManager._colorNode);
-
-                //_xml.SetXmlNodeString(_underLineColorSetPath, value.ToArgb().ToString("X").Substring(2, 6));
             }
         }
         string _italicPath = "@i";
