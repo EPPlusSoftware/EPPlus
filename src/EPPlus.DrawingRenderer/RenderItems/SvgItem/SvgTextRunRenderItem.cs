@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 {
-    internal class SvgTextRunRenderItem : TextRunRenderItem
+    public class SvgTextRunRenderItem : TextRunRenderItem
     {
         public SvgTextRunRenderItem(BoundingBox parent) : base(parent)
         {

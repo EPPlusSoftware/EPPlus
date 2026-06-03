@@ -12,7 +12,6 @@ namespace OfficeOpenXml.Interfaces.RichText
         public FontSubFamily SubFamily { get; set; }
         public float Size { get; set; }
 
-
         /// <summary>
         /// Sets the underlying data properties to be equal to the font
         /// </summary>

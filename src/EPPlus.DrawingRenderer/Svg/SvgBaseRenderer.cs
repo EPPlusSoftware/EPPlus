@@ -10,9 +10,14 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             
         }
-        protected void RenderBase(T item)
+
+        /// <summary>
+        /// Used if you wish to render base to a different string builder first
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="sb"></param>
+        protected void RenderBaseToSpecified(T item, StringBuilder sb)
         {
-            var sb = OutputStream;
             if (item.Bounds.Name != null)
             {
                 sb.Append($" id=\"{item.Bounds.Name}\" ");
@@ -68,6 +73,12 @@ namespace EPPlus.DrawingRenderer.Svg
             {
                 sb.Append($"stroke-miterlimit =\"{item.StrokeMiterLimit}\" ");
             }
+        }
+
+        protected void RenderBase(T item)
+        {
+            var sb = OutputStream;
+            RenderBaseToSpecified(item, sb);
         }
         protected void RenderCompoundItems(T li, double? borderWidth, string color, string filter)
         {

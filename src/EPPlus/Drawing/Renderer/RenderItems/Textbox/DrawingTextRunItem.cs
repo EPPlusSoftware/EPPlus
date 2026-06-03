@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="baseFont"></param>
         internal void ImportTextRunBase(ExcelParagraphTextRunBase run, IFontFormatBase baseFont)
         {
-            InitializeBase(new OpenTypeFontInfoBase(run.GetMeasureFont()));
+            InitializeBase(new FontFormatBase(run.GetMeasurementFont()));
             _currentText = string.IsNullOrEmpty(_currentText) ? run.Text : _currentText;
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="text"></param>
         /// <param name="font">Legacy format</param>
         /// <param name="displayText"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, text, new OpenTypeFontInfoBase(font.GetMeasureFont()), displayText)
+        internal DrawingTextRunRenderItem(BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, text, new FontFormatBase(font.GetMeasureFont()), displayText)
         {
             _baseline = font.Baseline;
 
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="run">new format</param>
         /// <param name="parent"></param>
         /// <param name="displayText"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(parent, run.Text, new OpenTypeFontInfoBase(run.GetMeasurementFont()), displayText)
+        internal DrawingTextRunRenderItem(BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(parent, run.Text, new FontFormatBase(run.GetMeasurementFont()), displayText)
         {
             //This is pre-determined/irrelevant here and does not need to be calculated as sizes are already what they should
             _isFirstInParagraph = false; 
@@ -165,9 +165,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             _isItalic = italic;
             _isBold = bold;
-            _underLineType = (UnderLineType)uType;
+            _underLineType = (eDrawingUnderLineType)uType;
             _underlineColor = uColor;
-            _strikeType = (StrikeType)strikeType;
+            _strikeType = (eDrawingStrikeType)strikeType;
         }
 
         void SetClippingHeightToCurrentTextBoxBottom(BoundingBox parent)

@@ -681,8 +681,8 @@ namespace OfficeOpenXml.Encryption
             {
                 case eHashAlgorithm.MD5:
                         return new MD5CryptoServiceProvider();
-                case eHashAlgorithm.RIPEMD160:
-                        return new RIPEMD160Managed();
+                //case eHashAlgorithm.RIPEMD160:
+                //        return new RIPEMD160Managed();
                 case eHashAlgorithm.SHA1:
                         return new SHA1CryptoServiceProvider();
                 case eHashAlgorithm.SHA256:

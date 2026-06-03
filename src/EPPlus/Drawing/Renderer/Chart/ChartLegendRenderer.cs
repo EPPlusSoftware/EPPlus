@@ -411,7 +411,7 @@ namespace EPPlusImageRenderer.Svg
             var tbLeft = si.X1 + LineLength + MarginIconText;
             var tbTop = si.Y2 - entryHeight * 0.5;    //TODO:Should probably be font ascent 
             double tbWidth;
-            tbWidth = Rectangle.Bounds.Width - tbLeft - RightMargin;
+            tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
             sls.Textbox = new DrawingTextbody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
@@ -563,9 +563,10 @@ namespace EPPlusImageRenderer.Svg
             var line = new LineRenderItem(Rectangle.Bounds);
             line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
             line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            var icon = pSls?.SeriesIcon as LineRenderItem;
+            double iconTop = 0, iconLeft = 0;
+            pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
-            GetItemPosition(pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, iconLeft, iconTop, out double x, out double y);
 
             line.X1 = x;
             line.X2 = x + LineLength;
@@ -580,9 +581,10 @@ namespace EPPlusImageRenderer.Svg
             var line = new LineRenderItem(Rectangle.Bounds);
             line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style.Trendline.FillReference.Color);
             line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            var icon = pSls?.SeriesIcon as LineRenderItem;
+            double iconTop = 0, iconLeft = 0;
+            pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
-            GetItemPosition(pSls, entryWidth, entryHeight, icon?.X1 ?? 0D, icon?.Y1 ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, iconLeft, iconTop, out double x, out double y);
 
             line.X1 = x;
             line.Y1 = y;
@@ -597,9 +599,11 @@ namespace EPPlusImageRenderer.Svg
         {            
             var item = new RectRenderItem(Rectangle.Bounds);
             var iconHeight = GetIconLenght(ct, entryHeight);
-            var icon = pSls?.SeriesIcon as RectRenderItem;
+            //var icon = pSls?.SeriesIcon as RectRenderItem;
+            double iconTop = 0, iconLeft = 0;
+            pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
-            GetItemPosition(pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top+(iconHeight/2) ?? 0D, out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, iconTop, iconTop + (iconHeight / 2), out double x, out double y);
 
             item.LineCap = LineCap.Round;
             item.Left = x;

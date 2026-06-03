@@ -1,5 +1,7 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -23,8 +25,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         internal ExcelDrawing _drawing;
 
         internal ExcelTheme Theme { get; }
-
-        
 
         public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
         {
@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //}
         }
 
-        internal virtual void ImportTextBody(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
+        internal virtual void ImportTextBodyAndParagraphs(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             Text = null;
             VerticalAlignment = (TextAnchoringType)body.Anchor;
@@ -116,6 +116,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //We already apply bounds top via the parent Transform
             double currentHeight = 0;
             double largestWidth = double.MinValue;
+
+            body.GetInsetsInPoints(out double left, out double top, out double right, out double bottom);
+
+            if (AutoSize == false)
+            {
+                LeftMargin = left;
+                TopMargin = top;
+                RightMargin = right;
+                BottomMargin = bottom;
+
+                MaxHeight = MaxHeight - top - bottom;
+                MaxWidth = MaxWidth - left - right;
+            }
 
             foreach (var paragraph in body.Paragraphs)
             {
@@ -136,31 +149,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             Bounds.Top = GetAlignmentVertical();
-        }
-        /// <summary>
-        /// Get the start of text space vertically
-        /// </summary>
-        /// <returns></returns>
-        private double GetAlignmentVertical()
-        {
-            double alignmentY = 0;
-
-            switch (VerticalAlignment)
-            {
-                case TextAnchoringType.Top:
-                    alignmentY = Bounds.Top;
-                    break;
-                //Center means center of a Shape's ENTIRE bounding box height.
-                //Not center of the Inset GetRectangle
-                case TextAnchoringType.Center:
-                    alignmentY = (MaxHeight - Bounds.Height) / 2 + Bounds.Top;
-                    break;
-                case TextAnchoringType.Bottom:
-                    alignmentY = MaxHeight - Bounds.Height;
-                    break;
-            }
-
-            return alignmentY;
         }
 
         //internal override void AppendRenderItems(List<RenderItem> renderItems)
@@ -207,6 +195,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "")
         {
             return new DrawingParagraphRenderItem(this, parent, textIfEmpty);
+        }
+
+        protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
+        {
+            var paragraph = new SvgParagraphRenderItem(this, parent, "", false);
+            paragraph.AddRichText(richText);
+            return paragraph;
         }
     }
 }

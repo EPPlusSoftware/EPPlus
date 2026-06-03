@@ -269,7 +269,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Hello world",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 }
             };
 
@@ -297,12 +297,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Hello ",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "world",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 12, SubFamily = FontSubFamily.Bold }
+                    Font = new FontFormatBase { Family = "Arial", Size = 12, SubFamily = FontSubFamily.Bold }
                 }
             };
 
@@ -328,17 +328,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "This is ",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "mixed ",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 14, SubFamily = FontSubFamily.Bold }
+                    Font = new FontFormatBase { Family = "Arial", Size = 14, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = "fonts",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 }
             };
 
@@ -380,7 +380,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void WrapLongRichTextWord()
         {
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
-            var mFont = new OpenTypeFontInfoBase()
+            var mFont = new FontFormatBase()
             {
                 Family = "Aptos Narrow",
                 Size = 11,
@@ -566,7 +566,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var comparatorFragments = new List<TextFragment>();
 
-            var font11 = new RichTextDefaults()
+            var font11 = new RichTextFormatSimple()
             {
                 Family = "Aptos Narrow",
                 Size = 11,
@@ -575,7 +575,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
            
 
-            var font22 = new RichTextDefaults()
+            var font22 = new RichTextFormatSimple()
             {
                 Family = "Goudy Stout",
                 Size = 16,
@@ -620,14 +620,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var comparatorFragments = new List<TextFragment>();
 
-            var font11 = new RichTextDefaults()
+            var font11 = new RichTextFormatSimple()
             {
                 Family = "Aptos Narrow",
                 Size = 11,
                 StrikeType = 1
             };
 
-            var font22 = new RichTextDefaults()
+            var font22 = new RichTextFormatSimple()
             {
                 Family = "Goudy Stout",
                 Size = 16,
@@ -793,7 +793,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum[d] exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? [D]Quis autem vel eum i[r]ure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?\u2029 " +
                 "At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem reru[d]um facilis est e[r]t expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellend[a]us. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.\u2029 " +
                 "Let's see if we can recognize unicode paragraph separators" };
-            var font = new OpenTypeFontInfoBase()
+            var font = new FontFormatBase()
             {
                 Family = "Aptos Narrow",
                 Size = 11,
@@ -1041,12 +1041,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Hel",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "lo world",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
+                    Font = new FontFormatBase { Family = "Arial", Size = 11 }
                 }
             };
 
@@ -1073,12 +1073,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "Line 1\n",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "Line 2",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
+                    Font = new FontFormatBase { Family = "Arial", Size = 11 }
                 }
             };
 
@@ -1107,17 +1107,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "Hello",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
+                    Font = new FontFormatBase { Family = "Arial", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 }
             };
 
@@ -1164,17 +1164,17 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "First ",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 }
+                    Font = new FontFormatBase { Family = "Arial", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "second ",
-                    Font = new OpenTypeFontInfoBase { Family = "Calibri", Size = 11 }
+                    Font = new FontFormatBase { Family = "Calibri", Size = 11 }
                 },
                 new TextFragment
                 {
                     Text = "third",
-                    Font = new OpenTypeFontInfoBase { Family = "Arial", Size = 11 } // Same as first
+                    Font = new FontFormatBase { Family = "Arial", Size = 11 } // Same as first
                 }
             };
 
@@ -1227,7 +1227,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment
                 {
                     Text = "value, 1",
-                    Font = new OpenTypeFontInfoBase { Family = "Aptos Narrow", Size = 9 }
+                    Font = new FontFormatBase { Family = "Aptos Narrow", Size = 9 }
                 },
             };
 
@@ -1247,7 +1247,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             RequireFont(SystemFontsEngine, "Aptos Narrow");
 
 
-            var font1 = new OpenTypeFontInfoBase()
+            var font1 = new FontFormatBase()
             {
                 Family = "Aptos Narrow",
                 Size = 11,

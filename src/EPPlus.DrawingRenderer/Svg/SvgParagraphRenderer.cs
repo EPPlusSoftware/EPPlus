@@ -19,7 +19,7 @@ namespace EPPlus.DrawingRenderer.Svg
         public override void Render(ParagraphRenderItem item)
         {
             var sb = OutputStream;
-            var fontSize = item.ParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
+            var fontSize = item.DefaultParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
             sb.AppendLine($"<g transform=\"translate({item.Bounds.Left.PointToPixelString()},{item.Bounds.Top.PointToPixelString()})\" >");
 
@@ -100,7 +100,7 @@ namespace EPPlus.DrawingRenderer.Svg
             RenderBase(item);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
-                $"font-family=\"{item.ParagraphFont.FontFamily},{item.ParagraphFont.FontFamily}_MSFontService,sans-serif\" " +
+                $"font-family=\"{item.DefaultParagraphFont.Family},{item.DefaultParagraphFont.Family}_MSFontService,sans-serif\" " +
                 $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
             if (item.Runs != null && item.Runs.Count > 0)
