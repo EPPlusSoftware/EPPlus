@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Fonts.OpenType", "EP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Export.Pdf", "EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj", "{0D6A557E-FCD3-42A8-A5D1-C3CD5C0EF9E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Export.ImageRenderer.Tests", "EPPlus.Export.ImageRenderer.Test\EPPlus.Export.ImageRenderer.Tests.csproj", "{A41EC1A4-8008-4943-AA29-A6D83918751F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.DrawingRenderer.Tests", "EPPlus.DrawingRenderer.Tests\EPPlus.DrawingRenderer.Tests.csproj", "{A41EC1A4-8008-4943-AA29-A6D83918751F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlus.Export.Pdf.Tests", "EPPlus.Export.Pdf.Tests\EPPlus.Export.Pdf.Tests.csproj", "{72041196-84B2-47B4-974D-B9FC0F8EF71A}"
 EndProject
