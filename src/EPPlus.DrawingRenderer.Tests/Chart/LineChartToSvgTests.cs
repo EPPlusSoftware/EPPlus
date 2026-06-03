@@ -129,7 +129,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
         [TestMethod]
-        public void GenerateSvgForLineCharts2()
+        public void GenerateSuperScript()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("Superscript.xlsx"))
