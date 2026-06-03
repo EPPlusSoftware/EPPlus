@@ -537,7 +537,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 var rt = richText[i];
                 var textFrag = new TextFragment();
-                textFrag.Font = new OpenTypeFontInfoBase();
+                textFrag.Font = new RichTextFormatSimple();
                 textFrag.Text = forcedText == null ? rt.Text : forcedText;
 
                 textFrag.Font.Family = rt.FontName;
@@ -566,7 +566,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             var textFragments = new List<TextFragment>(1);
 
             var textFrag = new TextFragment();
-            textFrag.Font = new OpenTypeFontInfoBase();
+            textFrag.Font = new RichTextFormatSimple();
             textFrag.Text = forcedText == null ? cell.Text : forcedText;
 
             textFrag.Font.Family = font.Name;
@@ -735,7 +735,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 var hf = textCollection[i];
                 var textFrag = new TextFragment();
-                textFrag.Font = new OpenTypeFontInfoBase();
+                textFrag.Font = new RichTextFormatSimple();
 
                 textFrag.Font.Family = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
                 textFrag.Font.Size = hf.FontSize == null ? ns.Style.Font.Size : (float)hf.FontSize;

@@ -5,7 +5,6 @@ using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -490,7 +489,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (!string.IsNullOrEmpty(text))
             {
                 var tf = new TextFragment();
-                tf.Font = new OpenTypeFontInfoBase();
+                tf.Font = new RichTextFormatSimple();
                 tf.Font.Family = fontName;
                 tf.Font.SubFamily = FontSubFamily.Regular;
                 tf.Font.Size = fontSize;
