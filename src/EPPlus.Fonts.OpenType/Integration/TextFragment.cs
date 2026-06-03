@@ -18,15 +18,6 @@ using System.Drawing;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
-
-    public interface IFragInfo
-    {
-        public double AscentPoints { get; }
-        public double DescentPoints { get; }
-
-        public float Size { get; }
-    }
-
     /// <summary>
     /// Represents a text fragment with specific font properties.
     /// </summary>
