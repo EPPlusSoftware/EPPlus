@@ -85,7 +85,6 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 Color.SetPresetColor(ePresetColor.Black);
             }
-            _color.SetXml(nsm, node);
         }
         internal override void GetXml()
         {

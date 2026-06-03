@@ -17,6 +17,11 @@ namespace EPPlusImageRenderer.Utils
 {
     internal static class ColorUtils
     {
+        internal static string To6CharHexStringImage(this Color color)
+        {
+            return (color.ToArgb() & 0xFFFFFF).ToString("x6");
+        }
+
         internal static Color GetAdjustedColor(PathFillMode fillColorSource, Color fc)
         {
             switch (fillColorSource)
