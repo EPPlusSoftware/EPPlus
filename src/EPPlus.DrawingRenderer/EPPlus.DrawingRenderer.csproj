@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
+		<AssemblyVersion>9.0.0.0</AssemblyVersion>
+	    <FileVersion>9.0.0.0</FileVersion>
+	    <Version>9.0.0.0</Version>
+	    <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+		<Company>EPPlus Software AB</Company>
+		<Product>EPPlus</Product>
+		<Description>A spreadsheet library for .NET framework and .NET core</Description>
+		<NeutralLanguage />
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="RenderItems\Shared\GroupItem.cs" />
+	  <Compile Remove="RenderItems\Shared\InnerGroup.cs" />
+	  <Compile Remove="RenderItems\Shared\ParagraphItem.cs" />
+	  <Compile Remove="RenderItems\Shared\TextBodyItem.cs" />
+	  <Compile Remove="RenderItems\Shared\TextRunCollection.cs" />
+	  <Compile Remove="RenderItems\Shared\TextRunItem.cs" />
+	  <Compile Remove="RenderItems\Shared\TransformGroup.cs" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="resource\presetShapeDefinitions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="RenderItems\Shared\" />
+  </ItemGroup>
+
+</Project>

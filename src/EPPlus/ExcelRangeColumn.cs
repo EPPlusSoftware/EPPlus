@@ -72,12 +72,12 @@ namespace OfficeOpenXml
         /// </summary>
         void UnGroup();
         /// <summary>
-        /// Collapses and hides the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// Collapses and hides the column's children. ChartAreaRenderItems are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
         /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced columns are collapsed.</paramref>
         /// </summary>
         void CollapseChildren(bool allLevels = true);
         /// <summary>
-        /// Expands and shows the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// Expands and shows the column's children. ChartAreaRenderItems are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
         /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
         /// </summary>
         void ExpandChildren(bool allLevels = true);
@@ -152,7 +152,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Collapses and hides the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// Collapses and hides the column's children. ChartAreaRenderItems are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
         /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced columns are collapsed.</paramref>
         /// </summary>
         public void CollapseChildren(bool allLevels = true)
@@ -174,7 +174,7 @@ namespace OfficeOpenXml
             }            
         }
         /// <summary>
-        /// Expands and shows the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// Expands and shows the column's children. ChartAreaRenderItems are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
         /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
         /// </summary>
         public void ExpandChildren(bool allLevels = true)

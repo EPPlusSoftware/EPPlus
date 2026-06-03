@@ -863,6 +863,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("xda", schemaDynamicArrays);
             ns.AddNamespace("clbl", schemaMipLabelMetadata);
             ns.AddNamespace("xfpb", Schemas.schemaFeaturePropertyBag);
+            ns.AddNamespace("xcalcf", Schemas.schemaCalcFeature);
             return ns;
         }
         #region SavePart

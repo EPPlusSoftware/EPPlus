@@ -316,5 +316,25 @@ namespace OfficeOpenXml.Style
             return false;
 
         }
+
+        /// <summary>
+        /// Returns the resolved color as a <see cref="Color"/>, taking theme, tint, indexed, RGB, and auto values into account.
+        /// Returns <see cref="Color.Empty"/> if the color is not set.
+        /// </summary>
+        public Color ToColor()
+        {
+            var hex = LookupColor();
+            if (string.IsNullOrEmpty(hex) || hex == "0") return Color.Empty;
+
+            // LookupColor returns strings like "#FFRRGGBB". Strip the leading '#'.
+            if (hex[0] == '#') hex = hex.Substring(1);
+
+            int argb;
+            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out argb))
+            {
+                return Color.FromArgb(argb);
+            }
+            return Color.Empty;
+        }
     }
 }

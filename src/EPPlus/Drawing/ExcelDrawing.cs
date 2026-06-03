@@ -10,7 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Collections.Generic;
+using EPPlus.DrawingRenderer;
+using EPPlus.Export.Utils;
+using EPPlusImageRenderer;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
@@ -19,497 +21,25 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Drawings;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
-    /// <summary>
-    /// Drawing type
-    /// </summary>
-    public enum PathDrawingType
-    {
-        /// <summary>
-        /// Drawing-Path Move to command
-        /// </summary>
-        MoveTo,
-        /// <summary>
-        /// Drawing-Path Line to command
-        /// </summary>
-        LineTo,
-        /// <summary>
-        /// Drawing-Path Arc command
-        /// </summary>
-        ArcTo,
-        /// <summary>
-        /// Drawing-Path Cubic Berzier Curve command
-        /// </summary>
-        CubicBezierTo,
-        /// <summary>
-        /// Drawing-Path Quad Berier Curve command
-        /// </summary>
-        QuadBezierTo,
-        /// <summary>
-        /// Drawing-Path Close command
-        /// </summary>
-        Close
-    }
-    /// <summary>
-    /// How a shape path is filled.
-    /// </summary>
-    public enum PathFillMode
-    {
-        /// <summary>
-        /// The corresponding path should have a normally shaded color applied to it’s fill
-        /// </summary>
-        Norm,
-        /// <summary>
-        /// The corresponding path should have a darker shaded color applied to it’s fill.
-        /// </summary>
-        Darken,
-        /// <summary>
-        /// The corresponding path should have a slightly darker shaded color applied to it’s fill.
-        /// </summary>
-        DarkenLess,
-        /// <summary>
-        /// The corresponding path should have a lightly shaded color applied to it’s fill.
-        /// </summary>
-        Lighten,
-        /// <summary>
-        /// The corresponding path should have a slightly lighter shaded color applied to it’s fill.
-        /// </summary>
-        LightenLess,
-        /// <summary>
-        /// The corresponding path should have no fill.
-        /// </summary>
-        None
-    }
-    internal class DrawCoordinate
-    {
-        public DrawCoordinate(DrawCoordinate c) 
-        {
-            X = c.X;
-            Y = c.Y;
-            XName = c.XName;
-            YName = c.YName;
-        }
-
-        public DrawCoordinate(object x, object y)
-        {
-            if(x is long xl)
-            {
-                X = xl;
-            }
-            else
-            {
-                XName = x.ToString();
-                X = null;
-            }
-            if (y is long yl)
-            {
-                Y = yl;
-            }
-            else
-            {
-                YName = y.ToString();
-                Y = null;
-            }
-
-        }
-        public double? X { get; set; }
-        public double? Y { get; set; }
-        public string XName { get; set; }
-        public string YName { get; set; }
-    }
-    public abstract class PathsBase
-    {
-        public abstract PathDrawingType Type { get;  }
-
-        internal abstract PathsBase Clone();
-        public abstract double EndX { get; }
-        public abstract double EndY { get; }
-    }
-    internal abstract class PathWithCoordinates : PathsBase
-    {
-        protected PathWithCoordinates(XmlElement e)
-        {
-            foreach (var cn in e.ChildNodes)
-            {
-                if (cn is XmlElement ce && ce.LocalName=="pt")
-                {
-                    Coordinates.Add(new DrawCoordinate(GetNameOrNumber(ce.GetAttribute("x")), GetNameOrNumber(ce.GetAttribute("y"))));
-                }
-            }
-        }
-
-        private object GetNameOrNumber(string s)
-        {
-            if(long.TryParse(s, NumberStyles.Number , CultureInfo.InvariantCulture, out var l))
-            {
-                return l;
-            }
-            return s;
-        }
-
-        protected PathWithCoordinates(XmlReader xr)
-        {
-            var name = xr.LocalName;
-            while(xr.Read())
-            {
-                if (xr.LocalName == "pt" && xr.NodeType == XmlNodeType.Element)
-                {
-                    Coordinates.Add(new DrawCoordinate(GetNameOrNumber(xr.GetAttribute("x")), GetNameOrNumber(xr.GetAttribute("y"))));
-                }
-                else if(xr.IsEndElementWithName(name))
-                {
-                    break;
-                }
-            }
-        }
-
-        protected PathWithCoordinates(PathWithCoordinates clone) 
-        {
-            foreach(var c in clone.Coordinates)
-            {
-                Coordinates.Add(new DrawCoordinate(c));
-            }
-        }
-        public List<DrawCoordinate> Coordinates { get; set; } = new List<DrawCoordinate>();
-        public override double EndX => Coordinates.Count > 0D ? Coordinates[Coordinates.Count-1].X.Value : 0D;
-        public override double EndY => Coordinates.Count > 0D ? Coordinates[Coordinates.Count - 1].Y.Value : 0D;
-    }
-    internal class MoveTo : PathWithCoordinates
-    {
-        public MoveTo(MoveTo clone) : base(clone)
-        {
-
-        }
-        public MoveTo(XmlElement e) : base(e)
-        {
-        }
-        public MoveTo(XmlReader xr) : base(xr)
-        {
-        }
-        public override PathDrawingType Type => PathDrawingType.MoveTo;
-        public DrawCoordinate Coordinate { get; set; }
-
-        internal override PathsBase Clone()
-        {
-            return new MoveTo(this);
-        }
-    }
-    internal class LineTo : PathWithCoordinates
-    {
-        public LineTo(LineTo clone) : base(clone)
-        {
-
-        }
-        public LineTo(XmlReader xr) : base(xr)
-        {
-
-        }
-
-        public LineTo(XmlElement e):base(e)
-        {
-
-        }
-        public override PathDrawingType Type => PathDrawingType.LineTo;
-        public DrawCoordinate Coordinate { get; set; }
-        internal override PathsBase Clone()
-        {
-            return new LineTo(this);
-        }
-    }
-    internal class ClosePath : PathsBase
-    {
-        public ClosePath()
-        {
-            
-        }
-        public override PathDrawingType Type => PathDrawingType.Close;
-        internal override PathsBase Clone()
-        {
-            return new ClosePath();
-        }
-        public override double EndX => double.MinValue;
-        public override double EndY => double.MinValue;
-    }
-    internal class QuadBezerTo : PathWithCoordinates
-    {
-        public QuadBezerTo(QuadBezerTo clone) : base(clone)
-        {
-
-        }
-        public QuadBezerTo(XmlReader xr) : base(xr)
-        {
-
-        }
-        public QuadBezerTo(XmlElement e) : base(e)
-        {
-            
-        }
-        public override PathDrawingType Type => PathDrawingType.QuadBezierTo;
-        internal override PathsBase Clone()
-        {
-            return new QuadBezerTo(this);
-        }
-
-    }
-
-    internal class CubicBezerTo : PathWithCoordinates
-    {
-        public CubicBezerTo(CubicBezerTo clone) : base(clone)
-        {
-            
-        }
-        public CubicBezerTo(XmlReader xr) : base(xr)
-        {
-
-        }
-        public CubicBezerTo(XmlElement e) : base(e)
-        {
-
-        }
-
-        public override PathDrawingType Type => PathDrawingType.CubicBezierTo;
-        internal override PathsBase Clone()
-        {
-            return new CubicBezerTo(this);
-        }
-    }
-
-    internal class  ArcTo : PathsBase
-    {
-        public ArcTo(XmlReader xr)
-        {
-            if (long.TryParse(xr.GetAttribute("hR"), out var hrv))
-            {
-                HeightRadius = hrv;
-            }
-            else
-            {
-                HeightRadiusName = xr.GetAttribute("hR");
-            }
-
-            if (long.TryParse(xr.GetAttribute("wR"), out var wrv))
-            {
-                WidthRadius = wrv;
-            }
-            else
-            {
-                WidthRadiusName = xr.GetAttribute("wR");
-            }
-
-            if (long.TryParse(xr.GetAttribute("swAng"), out var swAng))
-            {
-                SwingAngle = swAng;
-            }
-            else
-            {
-                SwingAngleName = xr.GetAttribute("swAng");
-            }
-
-            if (long.TryParse(xr.GetAttribute("stAng"), out var stAng))
-            {
-                StartAngle = stAng;
-            }
-            else
-            {
-                StartAngleName = xr.GetAttribute("stAng");
-            }
-        }
-        public ArcTo(XmlElement e)
-        {
-            if(long.TryParse(e.GetAttribute("hR"), out var hrv))
-            {
-                HeightRadius = hrv;
-            }
-            else
-            {
-                HeightRadiusName = e.GetAttribute("hR");
-            }
-
-            if (long.TryParse(e.GetAttribute("wR"), out var wrv))
-            {
-                WidthRadius = wrv;
-            }
-            else
-            {
-                WidthRadiusName = e.GetAttribute("wR");
-            }
-
-            if (long.TryParse(e.GetAttribute("swAng"), out var swAng))
-            {
-                SwingAngle = swAng;
-            }
-            else
-            {
-                SwingAngleName = e.GetAttribute("swAng");
-            }
-
-            if (long.TryParse(e.GetAttribute("stAng"), out var stAng))
-            {
-                StartAngle = stAng;
-            }
-            else
-            {
-                StartAngleName = e.GetAttribute("stAng");
-            }
-        }
-        public override PathDrawingType Type => PathDrawingType.ArcTo;
-        public double? HeightRadius { get; set; }
-        public double? StartAngle { get; set; }
-        public double? SwingAngle { get; set; }
-        public double? WidthRadius { get; set; }
-        public string HeightRadiusName { get; set; }
-        public string StartAngleName { get; set; }
-        public string SwingAngleName { get; set; }
-        public string WidthRadiusName { get; set; }
-        private ArcTo()
-        {
-            
-        }
-        internal override PathsBase Clone()
-        {
-            return new ArcTo()
-            {
-                HeightRadius = HeightRadius,
-                StartAngle = StartAngle,
-                SwingAngle = SwingAngle,
-                WidthRadius = WidthRadius,
-                HeightRadiusName = HeightRadiusName,
-                StartAngleName = StartAngleName,
-                SwingAngleName = SwingAngleName,
-                WidthRadiusName = WidthRadiusName
-            };
-        }
-        double _endX, _endY;
-        internal void SetEndCoordinates(double x, double y)
-        {
-            _endX = x;
-            _endY = y;
-        }
-        public override double EndX => _endX;
-        public override double EndY => _endY;
-    }
-    public class DrawingPath
-    {
-        public DrawingPath(DrawingPath clone)
-        {
-            Width = clone.Width;
-            Height = clone.Height;
-            Fill = clone.Fill;
-            Stroke = clone.Stroke;
-            ExtrusionOk = clone.ExtrusionOk;
-            foreach(var p in clone.Paths)
-            {
-                Paths.Add(p.Clone());
-            }
-        }
-        public DrawingPath(XmlReader xr)
-        {
-            Width = ConvertUtil.GetValueLongNull(xr.GetAttribute("w"));
-            Height = ConvertUtil.GetValueLongNull(xr.GetAttribute("h"));
-            Fill = GetFill(xr.GetAttribute("fill"));
-            Stroke = ConvertUtil.ToBooleanString(xr.GetAttribute("stroke"), true);
-            ExtrusionOk = ConvertUtil.ToBooleanString(xr.GetAttribute("extrusionOk"), false);
-            while (xr.Read())
-            {
-                if (xr.NodeType == XmlNodeType.Element)
-                {
-                    switch (xr.LocalName)
-                    {
-                        case "moveTo":
-                            Paths.Add(new MoveTo(xr));
-                            break;
-                        case "lnTo":
-                            Paths.Add(new LineTo(xr));
-                            break;
-                        case "cubicBezTo":
-                            Paths.Add(new CubicBezerTo(xr));
-                            break;
-                        case "quadBezTo":
-                            Paths.Add(new QuadBezerTo(xr));
-                            break;
-                        case "arcTo":
-                            Paths.Add(new ArcTo(xr));
-                            break;
-                        case "close":
-                            Paths.Add(new ClosePath());
-                            break;
-                    }
-                }
-                else if(xr.LocalName =="path" && xr.NodeType == XmlNodeType.EndElement)
-                {
-                    break;
-                }
-            }
-        }
-
-        public DrawingPath(XmlElement topNode, XmlNamespaceManager nsm)
-        {
-            Width = int.Parse(topNode.GetAttribute("w"));
-            Height = int.Parse(topNode.GetAttribute("h"));
-            Fill = GetFill(topNode.GetAttribute("fill"));
-            Stroke = ConvertUtil.ToBooleanString(topNode.GetAttribute("stroke"), true);
-            ExtrusionOk = ConvertUtil.ToBooleanString(topNode.GetAttribute("extrusionOk"), true);
-            foreach (var child in topNode.ChildNodes)
-            {
-                if (child is XmlElement e)
-                {
-                    switch (e.LocalName)
-                    {
-                        case "moveTo":
-                            Paths.Add(new MoveTo(e));
-                            break;
-                        case "lnTo":
-                            Paths.Add(new LineTo(e));
-                            break;
-                        case "cubicBezTo":
-                            Paths.Add(new CubicBezerTo(e));
-                            break;
-                        case "quadBezTo":
-                            Paths.Add(new CubicBezerTo(e));
-                            break;
-                        case "arcTo":
-                            Paths.Add(new ArcTo(e));
-                            break;
-                        case "close":
-                            Paths.Add(new ClosePath());
-                            break;
-                    }
-                }
-            }
-        }
-
-        private PathFillMode GetFill(string s)
-        {
-            if (string.IsNullOrEmpty(s) == false)
-            {
-                return (PathFillMode)Enum.Parse(typeof(PathFillMode), s, true);
-            }
-            return PathFillMode.Norm;
-        }
-
-        internal DrawingPath Clone() => new DrawingPath(this);
-
-        public bool Stroke { get; set; }
-        public bool ExtrusionOk { get; set; }        
-        public PathFillMode Fill { get; set; }
-        public double? Width { get; set; }
-        public double? Height { get; set; }
-        public List<PathsBase> Paths { get; set; } = new List<PathsBase>();
-    }
     /// <summary>
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
@@ -1068,6 +598,9 @@ namespace OfficeOpenXml.Drawing
 
         internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.Worksheet)
         {
+            string fallbackDrawingPath = "";
+            string fallbackNvPrPath = "";
+
             switch (drawNode.LocalName)
             {
                 case "sp":
@@ -1076,10 +609,18 @@ namespace OfficeOpenXml.Drawing
                     var aPic = new ExcelPicture(drawings, node, parent, DrawingsType);
                     return aPic;
                 case "graphicFrame":
-                    var c= ExcelChart.GetChart(drawings, node, parent);
-                    if(c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
+                    var c = ExcelChart.GetChart(drawings, node, parent);
+                    if (c!=null) //If null, the drawing is not a chart. Might be a smart art, diagram or 3d model. We return a standard drawing to retain the drawing. 
                     {
                         return c;
+                    }
+                    else
+                    {
+                        //While we do not know the exact type.
+                        //It's a standard drawing with a graphic frame
+                        //We assume the object has its name etc. in the same nodes as a chart
+                        fallbackDrawingPath = "xdr:graphicFrame";
+                        fallbackNvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr";
                     }
                     break;
                 case "grpSp":
@@ -1129,7 +670,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "", "");
+            return new ExcelDrawing(drawings, node, fallbackDrawingPath, fallbackNvPrPath, parent, DrawingsType);
         }
 
         private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType collectionType = DrawingsCollectionType.Worksheet)
@@ -1216,8 +757,8 @@ namespace OfficeOpenXml.Drawing
         {
             if (CellAnchor == eEditAs.Absolute)
             {
-                GetToRowFromPixels(Position.Y, out fromRow, out fromRowOff);
-                GetToColumnFromPixels(Position.X, out fromCol, out fromColOff);
+                GetToRowFromPixels(Position.Y / (double)EMU_PER_PIXEL, out fromRow, out fromRowOff);
+                GetToColumnFromPixels(Position.X / (double)EMU_PER_PIXEL, out fromCol, out fromColOff);
             }
             else
             {
@@ -1232,7 +773,7 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.Absolute)
             {
                 GetToRowFromPixels((Position.Y + Size.Height) / EMU_PER_PIXEL, out toRow, out toRowOff);
-                GetToColumnFromPixels(Position.X + Size.Width / EMU_PER_PIXEL, out toCol, out toColOff);
+                GetToColumnFromPixels((Position.X + Size.Width) / EMU_PER_PIXEL, out toCol, out toColOff);
             }
             else
             {
@@ -1298,19 +839,22 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                var cache = _drawings.Worksheet.RowHeightCache;
-                for (int row = 0; row < From.Row; row++)
+                if (From != null)
                 {
-                    lock (cache)
+                    var cache = _drawings.Worksheet.RowHeightCache;
+                    for (int row = 0; row < From.Row; row++)
                     {
-                        if (!cache.ContainsKey(row))
+                        lock (cache)
                         {
-                            cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            if (!cache.ContainsKey(row))
+                            {
+                                cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                            }
                         }
+                        pix += (int)(cache[row] / 0.75);
                     }
-                    pix += (int)(cache[row] / 0.75);
+                    pix += From.RowOff / EMU_PER_PIXEL;
                 }
-                pix += From.RowOff / EMU_PER_PIXEL;
             }
             return pix;
         }
@@ -1337,15 +881,14 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
-                double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
                 for (int col = From.Column + 1; col <= To.Column; col++)
                 {
-                    pix += MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                    pix += PixelHelper.GetColumnWidth(ws, col);
                 }
 
-                var w = MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(To.Column + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                var w = PixelHelper.GetColumnWidth(ws, To.Column + 1);
                 pix += Math.Min(w, Convert.ToDouble(To.ColumnOff) / EMU_PER_PIXEL);
             }
             else
@@ -1380,9 +923,9 @@ namespace OfficeOpenXml.Drawing
                 pix = -(From.RowOff / (double)EMU_PER_PIXEL);
                 for (int row = From.Row + 1; row <= To.Row; row++)
                 {
-                    pix += ws.GetRowHeight(row) / 0.75;
+                    pix += PixelHelper.GetRowHeight(ws, row);
                 }
-                var h = ws.GetRowHeight(To.Row + 1) / 0.75;
+                var h = PixelHelper.GetRowHeight(ws, To.Row + 1);
                 pix += Math.Min(h, Convert.ToDouble(To.RowOff) / EMU_PER_PIXEL);
             }
             else
@@ -1421,12 +964,12 @@ namespace OfficeOpenXml.Drawing
             ExcelWorksheet ws = _drawings.Worksheet;
             double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = ws.GetRowHeight(1) / 0.75;
+            double pix = PixelHelper.GetRowHeight(ws, 1);
             int r = 2;
-            while (pix < pixels)
+            while (pix < pixels && r <= ExcelPackage.MaxRows)
             {
                 prevPix = pix;
-                pix += (int)(ws.GetRowHeight(r++) / 0.75);
+                pix += (int)PixelHelper.GetRowHeight(ws, r++);
             }
 
             if (pix == pixels)
@@ -1469,15 +1012,14 @@ namespace OfficeOpenXml.Drawing
         {
 
             ExcelWorksheet ws = _drawings.Worksheet;
-            double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+            double pix = (int)PixelHelper.GetColumnWidth(ws, 1);
             int col = 2;
 
-            while (pix < pixels)
+            while (pix < pixels && col <= ExcelPackage.MaxColumns)
             {
                 prevPix = pix;
-                pix += (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                pix += (int)PixelHelper.GetColumnWidth(ws, col++);
             }
             if (pix == pixels)
             {
@@ -1515,20 +1057,40 @@ namespace OfficeOpenXml.Drawing
 
         internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow = -1, int fromRowOff = -1)
         {
+            if (From == null && this is not ExcelControl)
+            {
+                // Absolute anchor path
+                double remaining = pixels;
+                int currentRow = 1;
+
+                while (true && currentRow <= ExcelPackage.MaxRows)
+                {
+                    double rowPix = PixelHelper.GetRowHeight(_drawings.Worksheet, currentRow);
+                    if (remaining < rowPix)
+                        break;
+
+                    remaining -= rowPix;
+                    currentRow++;
+                }
+
+                toRow = currentRow - 1;
+                rowOff = (int)(remaining);
+                return;
+            }
             if (fromRow < 0)
             {
                 fromRow = From.Row;
                 fromRowOff = From.RowOff;
             }
             ExcelWorksheet ws = _drawings.Worksheet;
-            var pixOff = pixels - ((ws.GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
+            var pixOff = pixels - (PixelHelper.GetRowHeight(ws, fromRow + 1) - (fromRowOff / (double)EMU_PER_PIXEL));
             double prevPixOff = pixels;
             int row = fromRow + 1;
 
-            while (pixOff >= 0)
+            while (pixOff >= 0 && row < ExcelPackage.MaxRows)
             {
                 prevPixOff = pixOff;
-                pixOff -= (ws.GetRowHeight(++row) / 0.75);
+                pixOff -= PixelHelper.GetRowHeight(ws, ++row);
             }
             toRow = row - 1;
             if (fromRow == toRow)
@@ -1568,19 +1130,35 @@ namespace OfficeOpenXml.Drawing
         internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
-            double mdw = ws.Workbook.MaxFontWidth;
-            if (fromColumn < 0)
+            if (From == null && this is not ExcelControl)
+            {
+                // Absolute anchor path
+                double remaining = pixels;
+                int currentCol = 1;
+                double colPix = PixelHelper.GetColumnWidth(ws, currentCol);
+                while (remaining >= colPix && currentCol < ExcelPackage.MaxColumns)
+                {
+                    remaining -= colPix;
+                    currentCol++;
+                    colPix = PixelHelper.GetColumnWidth(ws, currentCol);
+                }
+
+                col = currentCol-1;
+                colOff = (int)(remaining);
+                return;
+            }
+            if (From != null && fromColumn < 0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(fromColumn + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            double pixOff = pixels - (PixelHelper.GetColumnWidth(ws, fromColumn + 1) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 offset = pixOff;
-                pixOff -= MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
+                pixOff -= PixelHelper.GetColumnWidth(ws, col++);
             }
             colOff = (int)offset;
         }
@@ -1871,10 +1449,20 @@ namespace OfficeOpenXml.Drawing
                 _height = GetPixelHeight();
             }
 
-            From.Row = Row;
-            From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
-            From.Column = Column;
-            From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetPixelHeightFromRow(Row, RowOffsetPixels, out int pixelHeight);
+
+                Position.Y = (int)(pixelHeight * EMU_PER_PIXEL);
+                Position.X = (int)(ColumnOffsetPixels * EMU_PER_PIXEL);
+            }
+            else
+            {
+                From.Row = Row;
+                From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
+                From.Column = Column;
+                From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            }
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _left = GetPixelLeft();
@@ -1886,6 +1474,36 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = false;
             UpdatePositionAndSizeXml();
         }
+        private void GetPixelWidthFromRow(int toCol, int colOffsetPixels, out int pixelWidth)
+        {
+            ExcelWorksheet ws = _drawings.Worksheet;
+            double mdw = ws.Workbook.MaxFontWidth;
+
+            pixelWidth = 0;
+            for (int col = 0; col < toCol; col++)
+            {
+                pixelWidth += ws.GetColumnWidthPixels(col, mdw);
+            }
+            pixelWidth += colOffsetPixels;
+        }
+        private void GetPixelHeightFromRow(int toRow, int rowOffsetPixels, out int pixelHeight)
+        {
+            pixelHeight = 0;
+            var cache = _drawings.Worksheet.RowHeightCache;
+            for (int row = 0; row < toRow; row++)
+            {
+                lock (cache)
+                {
+                    if (!cache.ContainsKey(row))
+                    {
+                        cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
+                    }
+                }
+                pixelHeight += (int)(cache[row] / 0.75);
+            }
+            pixelHeight += rowOffsetPixels;
+        }
+
         /// <summary>
         /// Set size in Percent.
         /// Note that resizing columns / rows after using this function will effect the size of the drawing
@@ -2881,5 +2499,25 @@ namespace OfficeOpenXml.Drawing
             //Individual drawings that require certain saving actions do so by overriding this
             
         }
+        public string ToSvg()
+        {
+            if (this.DrawingType == eDrawingType.Shape)
+            {
+                return ((ExcelShape)this).ToSvg();
+            }
+            else if (this.DrawingType == eDrawingType.Chart)
+            {
+                var cr = new ChartRenderer((ExcelChart)this);
+
+                var sb = new StringBuilder();
+
+                var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb);
+                shapeRenderer.Render(cr.RenderItems);
+
+                return sb.ToString();
+            }
+            throw new InvalidOperationException("Only line-, column-, bar- and pie charts and shapes can be rendered to svg");
+        }
+
     }
 }

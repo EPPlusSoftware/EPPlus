@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/03/2025         EPPlus Software AB       EPPlus 8.1
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.DependencyChain
@@ -42,6 +43,16 @@ namespace OfficeOpenXml.FormulaParsing.DependencyChain
             LambdaTokens ??= [];
             if (LambdaTokens.Contains(tokenIx)) return;
             LambdaTokens.Add(tokenIx);
+        }
+
+        internal void Reset()
+        {
+            LambdaTokens?.Clear();
+            LambdaStackNumbers.Clear();
+            NumberOfLambdaVariables.Clear();
+            LambdaArgsAdded.Clear();
+            InvokeLambdaAt.Clear();
+            CurrentLambdaExpressions.Clear();
         }
     }
 }

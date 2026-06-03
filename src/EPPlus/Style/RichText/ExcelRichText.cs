@@ -1,4 +1,4 @@
-﻿/*************************************************************************************************
+﻿ /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -10,17 +10,19 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Text;
-using System.Xml;
-using System.Drawing;
-using System.Globalization;
-using OfficeOpenXml.Export.HtmlExport;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Coloring;
-using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Utils.AttributesUtils;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
+using System;
+using System.Drawing;
+using System.Globalization;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml.Style
 {
@@ -31,7 +33,7 @@ namespace OfficeOpenXml.Style
     public class ExcelRichText
     {
         /// <summary>
-        /// A referens to the richtext collection
+        /// A reference to the richtext collection
         /// </summary>
         internal ExcelRichTextCollection _collection { get; set; }
 
@@ -585,6 +587,16 @@ namespace OfficeOpenXml.Style
                     //Extend == false &&
                     //Scheme == null;
             }
+        }
+
+        /// <summary>
+        /// Export to OpenTypeFormat
+        /// </summary>
+        /// <returns></returns>
+        public IRichTextFormatBase ExportToOpenTypeFormat()
+        {
+            var rtBase = new OpenTypeRichTextBase(Text, _collection._cells.Style.Font.Name, Size, Bold, Italic);
+            return rtBase;
         }
     }
 }

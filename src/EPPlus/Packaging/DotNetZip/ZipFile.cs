@@ -2649,7 +2649,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   System.Console.Out to get messages on the Console. A graphical or headless
         ///   application may wish to capture the messages in a different
         ///   <c>TextWriter</c>, for example, a <c>StringWriter</c>, and then display
-        ///   the messages in a TextBox, or generate an audit log of ZipFile operations.
+        ///   the messages in a RenderTextbox, or generate an audit log of ZipFile operations.
         /// </para>
         ///
         /// <para>
@@ -2731,7 +2731,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   <c>System.Console.Out</c> to get messages on the Console. A graphical or
         ///   headless application may wish to capture the messages in a different
         ///   <c>TextWriter</c>, for example, a <c>StringWriter</c>, and then display
-        ///   the messages in a <c>TextBox</c>, or generate an audit log of
+        ///   the messages in a <c>RenderTextbox</c>, or generate an audit log of
         ///   <c>ZipFile</c> operations.
         /// </para>
         ///

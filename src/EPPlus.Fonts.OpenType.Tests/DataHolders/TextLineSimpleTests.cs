@@ -49,7 +49,7 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
             Assert.AreEqual(lines[0].LineFragments[1], specificFragments[0]);
             Assert.AreEqual(fragments[4], wrappedCollection.LineFragments[6].OriginalTextFragment);
-            Assert.AreEqual(Color.DarkRed, wrappedCollection.LineFragments[6].OriginalTextFragment.RichTextOptions.FontColor);
+            Assert.AreEqual(Color.DarkRed, ((TextFragment)wrappedCollection.LineFragments[6].OriginalTextFragment).RichTextOptions.FontColor);
 
             var expectedArr = new int[] { 3, 4 };
             expectedArr.SequenceCompareTo(lineIndicies);
@@ -107,7 +107,8 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i], Font = fonts[i] };
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
+                currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
 

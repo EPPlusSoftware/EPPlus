@@ -14,10 +14,15 @@ namespace EPPlus.Fonts.OpenType.Utils
             //1 inch is 72 pts. "Inches * dots/inch = dots" aka Pixels
             return pointSize / 72 * 96;
         }
-        public static string PointToPixelString(this double pointSize)
+        public static string PointToPixelString(this double pointSize, string format=null)
         {
             //1 inch is 72 pts. "Inches * dots/inch = dots" aka Pixels
-            return (pointSize / 72 * 96).ToString(CultureInfo.InvariantCulture);
+            var pixelSize = pointSize / 72 * 96;
+            if (format != null)
+            {
+                return pixelSize.ToString(format, CultureInfo.InvariantCulture);
+            }
+            return pixelSize.ToString(CultureInfo.InvariantCulture);
         }
 
         public static double PointToPixel(this double pointSize, bool isFonts)

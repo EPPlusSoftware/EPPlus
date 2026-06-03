@@ -1,10 +1,7 @@
-﻿using EPPlusImageRenderer;
-using EPPlusImageRenderer.ShapeDefinitions;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.ShapeDefinitions;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
-using System.Collections.Generic;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace TestProject1
 {
@@ -23,7 +20,7 @@ namespace TestProject1
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var shape = ws.Drawings.AddShape("Rect1", OfficeOpenXml.Drawing.eShapeStyle.Rect);
 
-                PresetShapeDefinitions.ShapeDefinitions[shape.Style].Calculate(shape);
+                PresetShapeDefinitions.ShapeDefinitions[(ShapeStyle)shape.Style].Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
                 await p.SaveAsAsync("c:\\temp\\rect.xlsx");
             }
         }
@@ -32,13 +29,13 @@ namespace TestProject1
         public void MathMultiplyTest()
         {
             ExcelPackage.License.SetNonCommercialPersonal("EPPLUS");
-            var shDef = PresetShapeDefinitions.ShapeDefinitions[eShapeStyle.MathMultiply];
+            var shDef = PresetShapeDefinitions.ShapeDefinitions[ShapeStyle.MathMultiply];
 
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("ws");
-                var drawing = ws.Drawings.AddShape("mMult", eShapeStyle.MathMultiply);
-                shDef.Calculate(drawing);
+                var shape = ws.Drawings.AddShape("mMult", eShapeStyle.MathMultiply);
+                shDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
             }
         }
 
@@ -46,15 +43,15 @@ namespace TestProject1
         public void CurvedDownArrow()
         {
             ExcelPackage.License.SetNonCommercialPersonal("EPPLUS");
-            var shDef = PresetShapeDefinitions.ShapeDefinitions[eShapeStyle.CurvedDownArrow];
+            var shDef = PresetShapeDefinitions.ShapeDefinitions[ShapeStyle.CurvedDownArrow];
 
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("ws");
-                var drawing = ws.Drawings.AddShape("mMult", eShapeStyle.CurvedDownArrow);
-                drawing.SetSize(100, 100);
+                var shape = ws.Drawings.AddShape("mMult", eShapeStyle.CurvedDownArrow);
+                shape.SetSize(100, 100);
 
-                shDef.Calculate(drawing);
+                shDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
 
 
                 //shDef._calculatedValues
@@ -65,15 +62,15 @@ namespace TestProject1
         public void BlockArc()
         {
             ExcelPackage.License.SetNonCommercialPersonal("EPPLUS");
-            var shDef = PresetShapeDefinitions.ShapeDefinitions[eShapeStyle.BlockArc];
+            var shDef = PresetShapeDefinitions.ShapeDefinitions[ShapeStyle.BlockArc];
 
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("ws");
-                var drawing = ws.Drawings.AddShape("mMult", eShapeStyle.BlockArc);
-                drawing.SetSize(100, 100);
+                var shape = ws.Drawings.AddShape("mMult", eShapeStyle.BlockArc);
+                shape.SetSize(100, 100);
 
-                shDef.Calculate(drawing);
+                shDef.Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
                 //shDef._calculatedValues
             }
         }

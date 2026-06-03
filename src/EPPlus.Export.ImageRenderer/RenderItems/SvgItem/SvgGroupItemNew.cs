@@ -7,10 +7,15 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgGroupItemNew : GroupItem
+    /// <summary>
+    /// Group item that ends itself
+    /// (writes its own ending node)
+    /// </summary>
+    internal class PieGroupRenderItem : PieGroupItemBase
     {
-        const string transformTranslate = "translate({0}, {1}) ";
-        const string transformRotate = "rotate({0}) ";
+        const string transformTranslate = "translate({0}, {1})";
+        const string transformRotate = "rotate({0})";
+        const string transformScale = "scale({0}, {1})";
 
         public SvgGroupItemNew(DrawingBase renderer, double localXPos, double localYPos) : base(renderer, localXPos, localYPos)
         {
@@ -23,10 +28,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void Render(StringBuilder sb)
         {
             string combinedTransform = GetCombinedTransformString();
+            string name = string.Empty;
+            if(Bounds.Name != null)
+            {
+                name = $"class=\"{Bounds.Name}\"";
+            }
 
             if (string.IsNullOrEmpty(combinedTransform) == false)
             {
-                sb.Append($"<g transform=\"{combinedTransform}\">");
+                sb.Append($"<g {name} {GetTransformOrigin()} transform=\"{combinedTransform}\" >");
             }
             else
             {
@@ -35,23 +45,56 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             foreach (var item in _childItems)
             {
-                item.Render(sb);
+                if (item is SvgGroupItemNew)
+                {
+                    var subGroup = item as SvgGroupItemNew;
+                    subGroup.Render(sb);
+                }
+                else
+                {
+                    item.Render(sb);
+                }
             }
 
             sb.Append("</g>");
+        }
+
+        string GetTransformOrigin()
+        {
+            string tOrigin = string.Empty;
+
+            if(TransformOrigin != null && (TransformOrigin.X == 0 && TransformOrigin.Y == 0) == false)
+            {
+                tOrigin = $"transform-origin=\"{TransformOrigin.X.PointToPixelString()} {TransformOrigin.Y.PointToPixelString()}\"";
+            }
+            return tOrigin;
         }
 
         string GetCombinedTransformString()
         {
             string positionStr = "";
             string rotationStr = GetRotationStr();
+            string scalingStr = GetScalingStr();
 
-            if (Position != null)
+
+            if (TranslationOffset != null && (TranslationOffset.Left == 0 && TranslationOffset.Top == 0) == false)
             {
-                positionStr = string.Format(transformTranslate, Position.Top.PointToPixelString(), Position.Left.PointToPixelString()) + " ";
+                positionStr = string.Format(transformTranslate, TranslationOffset.Left.PointToPixelString(), TranslationOffset.Top.PointToPixelString()) + " ";
             }
             
-            return positionStr + rotationStr;
+            return positionStr + rotationStr + scalingStr;
+        }
+
+        string GetScalingStr()
+        {
+            var scaleStr = string.Empty;
+
+            if (Scale != null)
+            {
+                scaleStr = string.Format(transformScale, Scale.X.ToString(CultureInfo.InvariantCulture), Scale.Y.ToString(CultureInfo.InvariantCulture)) + " ";
+            }
+
+            return scaleStr;
         }
 
         string GetRotationStr()
@@ -60,9 +103,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 string rot = Rotation.ToString(CultureInfo.InvariantCulture);
 
-                if(RotationPoint != null && RotationPoint != Position)
+                if(RotationPoint != null && RotationPoint != TranslationOffset)
                 {
-                    rot += $", {RotationPoint.Left.PointToPixelString()}, {RotationPoint.Top.PointToPixelString()}";
+                    rot += $", {RotationPoint.Left.PointToPixelString()}, {RotationPoint.Top.PointToPixelString()}" + " ";
                 }
 
                 return string.Format(transformRotate, rot);

@@ -14,6 +14,7 @@ using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,11 +25,10 @@ namespace EPPlusImageRenderer.Svg
         public SvgChartPlotarea(SvgChart sc) : base(sc)
         {
             SvgChart = sc;
-            Rectangle = GetPlotAreaRectangle(sc);
         }
         public SvgChart SvgChart { get; set; }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
-        internal SvgRenderRectItem GetPlotAreaRectangle(SvgChart sc)
+        internal void SetPlotAreaRectangle(SvgChart sc)
         {
             var pa = sc.Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer.Svg
 
             rect.SetDrawingPropertiesFill(pa.Fill, sc.Chart.StyleManager.Style.PlotArea.FillReference.Color);
             rect.SetDrawingPropertiesBorder(pa.Border, sc.Chart.StyleManager.Style.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, 0.75);
-            return rect;
+            Rectangle = rect;
         }
 
         private double GetPlotAreaHeight(SvgChart sc, SvgRenderRectItem rect)
@@ -69,43 +69,41 @@ namespace EPPlusImageRenderer.Svg
         {
             var rightAxis = GetAxisByPosition(sc, eAxisPosition.Right);
             var lp = sc.Chart.Legend?.Position;
-            var left = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ?
+            var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && sc.Legend != null ?
                         sc.Legend.Bounds.GlobalLeft - RightMargin :
                         sc.ChartArea.Rectangle.Width - RightMargin);
 
 
-            double rightWidth;
+            double rightAxisWidth;
             if (rightAxis == null)
             {
-                rightWidth =  0;
+                rightAxisWidth =  0;
             }
             else
             {
-                rightWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
-                               
-                //return left - rightWidth - rect.GlobalLeft;
+                rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D);
             }
 
-            var width = left - rightWidth;
+            var width = right - rightAxisWidth - rect.GlobalLeft;
             //Reserve space for the last label that will be on the tick label instead of Middle of the category.
-            if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            if (sc.HorizontalAxis != null && sc.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
             {
                 var minusPA = width / sc.HorizontalAxis.AxisValues.Count / 2;
-                if (minusPA > rightWidth)
+                if (minusPA > rightAxisWidth)
                 {
-                    rightWidth = minusPA;
+                    rightAxisWidth = minusPA;
                 }
             }
-            if (sc.SecondHorizontalAxis != null && sc.SecondHorizontalAxis.Axis.CrossBetween == eCrossBetween.Between)
+            if (sc.SecondHorizontalAxis != null && sc.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
             {
                 var minusSA = width / sc.SecondHorizontalAxis.AxisValues.Count / 2;
-                if (minusSA > rightWidth)
+                if (minusSA > rightAxisWidth)
                 {
-                    rightWidth = minusSA;
+                    rightAxisWidth = minusSA;
                 }
             }
 
-            return left - rightWidth-rect.GlobalLeft;
+            return right - rightAxisWidth-rect.GlobalLeft;
         }
         private double GetPlotAreaLeft(SvgChart sc)
         {
@@ -150,7 +148,7 @@ namespace EPPlusImageRenderer.Svg
             return (sc.Chart.Legend?.Position == eLegendPosition.Top ? sc.Legend.Bounds.Bottom : sc.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
         }
 
-        private SvgChartAxis GetAxisByPosition(SvgChart sc, eAxisPosition pos)
+        private ChartAxisRenderer GetAxisByPosition(SvgChart sc, eAxisPosition pos)
         {
             if (sc.HorizontalAxis != null && sc.HorizontalAxis.Axis.AxisPosition == pos)
             {
@@ -174,6 +172,14 @@ namespace EPPlusImageRenderer.Svg
         internal override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
+        }
+
+        internal void DrawSeries()
+        {
+            foreach (var drawer in ChartTypeDrawers)
+            {
+                drawer.DrawSeries();
+            }
         }
     }
 }

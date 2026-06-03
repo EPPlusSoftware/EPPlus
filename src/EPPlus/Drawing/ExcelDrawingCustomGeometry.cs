@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.ShapeDefinitions;
 using System.Collections.Generic;
 using System.Xml;
 

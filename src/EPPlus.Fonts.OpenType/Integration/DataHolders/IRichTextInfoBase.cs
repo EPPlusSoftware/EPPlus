@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,11 +12,8 @@ namespace EPPlus.Fonts.OpenType.Integration.DataHolders
     /// <summary>
     /// Interface for pdf/svg/future richtext users to unify richtext styling
     /// </summary>
-    public interface IRichTextInfoBase
+    public interface IRichTextInfoBase : IRichTextFormatBase
     {
-
-        bool Italic { get; set; }
-        bool Bold { get; set; }
         bool SubScript { get; set; }
         bool SuperScript { get; set; }
 

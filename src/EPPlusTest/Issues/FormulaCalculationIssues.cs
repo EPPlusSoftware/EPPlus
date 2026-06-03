@@ -1543,6 +1543,112 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(6D, ws.Cells["A34"].Value);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void s1042()
+        {
+            using var p = OpenTemplatePackage("s1042.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets["Aico data"];
+            wb.Calculate();
+            Assert.AreEqual(2116735.05, ws.Cells["D45"].Value);
+            Assert.AreEqual(-27679.13, ws.Cells["D46"].Value);
+            Assert.AreEqual(27679.13, ws.Cells["D47"].Value);
+            //SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void s1048TestIsolated()
+        {
+            using (var p = OpenTemplatePackage("s1048Isolated.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet2"];
+                ws.Cells["B56"].ClearFormulaValues();
+                ws.Cells["B56"].Calculate();
+
+                Assert.AreEqual(-94d, ws.Cells["B56"].Value);
+            }
+        }
+
+        /// <summary>
+        /// Calculates correctly
+        /// </summary>
+        [TestMethod]
+        public void s1048Test()
+        {
+            using (var p = OpenTemplatePackage("s1048.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Individual Assets"];
+                ws.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+
+                var ws2 = p.Workbook.Worksheets["Summary"];
+                ws2.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        /// <summary>
+        /// THIS one returns CORRECT on the SumIf
+        /// </summary>
+        [TestMethod]
+        public void s1048Test2()
+        {
+            using (var p = OpenTemplatePackage("s1048.xlsx"))
+            {
+                var wsTable = p.Workbook.Worksheets["ANKA"];
+
+                wsTable.Calculate();
+
+                var ws = p.Workbook.Worksheets["Individual Assets"];
+                ws.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+
+                var ws2 = p.Workbook.Worksheets["Summary"];
+                ws2.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                SaveAndCleanup(p);
+            }
+        }
+
+
+        [TestMethod]
+        public void s1048()
+        {
+            using (var p = OpenTemplatePackage("s1048.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Summary"];
+                // Output from the logger will be written to the following file
+                var logfile = new FileInfo(@"c:\temp\logfileS1048.txt");
+                // Attach the logger before the calculation is performed.
+                p.Workbook.FormulaParserManager.AttachLogger(logfile);
+
+
+                //ws.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+                p.Workbook.FullCalcOnLoad = false;
+                p.Workbook.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+
+                // The following method removes any logger attached to the workbook.
+                p.Workbook.FormulaParserManager.DetachLogger();
+
+                var wsTechnical = p.Workbook.Worksheets["Technical"];
+                Assert.AreEqual(18D, Convert.ToDouble(wsTechnical.Cells["K13"].Value));
+
+                var wsSummary = p.Workbook.Worksheets["Summary"];
+                Assert.AreEqual("No!", wsSummary.Cells["E75"].Value);
+                Assert.AreEqual(795060D, wsSummary.Cells["A75"].Value);
+                Assert.AreEqual(94D, wsSummary.Cells["C56"].Value);
+                Assert.AreEqual("Yes!", wsSummary.Cells["E56"].Value);
+                Assert.AreEqual(702D, wsSummary.Cells["C57"].Value);
+                Assert.AreEqual("Yes!", wsSummary.Cells["E57"].Value);
+
+                SaveWorkbook("S1048-calculated.xlsx",p);
+            }
+        }
     }
 }
 

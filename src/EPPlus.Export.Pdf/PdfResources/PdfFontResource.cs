@@ -136,7 +136,7 @@ namespace EPPlus.Export.Pdf.PdfResources
             return new PdfFontDescriptor
             (
                 objectNumber,
-                fontName,
+                fontData.FullName,
                 flag,
                 fontBBox,
                 Convert.ToDouble(fontData.PostTable.italicAngle.FloatValue),
@@ -180,7 +180,7 @@ namespace EPPlus.Export.Pdf.PdfResources
         internal PdfFont GetFontObject(int objectNumber, int version = 0)
         {
             fontObjectNumber = objectNumber;
-            return new PdfFont(objectNumber, fontName, PdfFontSubType.Type1, firstChar, lastChar, fontWidthObjectNumber, fontDescObjectNumber, PdfFontEncoding.WinAnsiEncoding);
+            return new PdfFont(objectNumber, fontData.FullName, PdfFontSubType.Type1, firstChar, lastChar, fontWidthObjectNumber, fontDescObjectNumber, PdfFontEncoding.WinAnsiEncoding);
         }
 
         internal PdfCIDFont GetCIDFontObject(int objectNumber, int version = 0)

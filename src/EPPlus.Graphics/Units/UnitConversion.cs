@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlus.Graphics.Units
 {
-    internal static class UnitConversion
+    public static class UnitConversion
     {
         public const double PointsPerInch = 72.0d;
         public const double MmPerInch = 25.4d;

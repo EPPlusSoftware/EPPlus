@@ -17,6 +17,7 @@ using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -105,6 +106,12 @@ namespace EPPlus.Fonts.OpenType
         // Public API
         // -----------------------------------------------------------------------------------------
 
+        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.Exact;
+        bool RequireExactFoundFont { get { return LeastRequiredAvailability == FontAvailability.Exact; } }
+        bool RequireFamilyFont{ get { return RequireExactFoundFont || LeastRequiredAvailability == FontAvailability.FamilyOnly; } }
+
+        //public FontAvailability FallBackAvailablility = FontAvailability.Exact;
+
         /// <summary>
         /// Gets a TextShaper for the given font, reusing a thread-local cached instance.
         /// The underlying OpenTypeFont is shared within this engine (but not between engines),
@@ -128,6 +135,16 @@ namespace EPPlus.Fonts.OpenType
                 if (font == null)
                     return null;
 
+                var availability = GetFontAvailability(fontName, subFamily);
+                if (RequireExactFoundFont && availability != FontAvailability.Exact)
+                {
+                    throw new FileNotFoundException($"Could not find Font: {fontName} fallbacked to font:{font.GetEnglishFontFamilyName()}");
+                }
+                else if(RequireFamilyFont && availability != FontAvailability.FamilyOnly && availability !=  FontAvailability.Exact)
+                {
+                    throw new FileNotFoundException($"Could not find Font subfamily: {subFamily} fallbacked to familyOnly font:{font.GetEnglishFontFamilyName()} subfamily:{font.SubFamily}");
+                }
+
                 shaper = new TextShaper(this, font);
                 perEngineMap[key] = shaper;
             }
@@ -139,6 +156,16 @@ namespace EPPlus.Fonts.OpenType
         {
             var shaper = GetTextShaper(fontName, subFamily);
             return new TextLayoutEngine(shaper);
+        }
+        public TextLayoutEngine GetTextLayoutEngineForFont(IFontFormatBase font)
+        {
+            var shaper = GetShaperForFont(font);
+            return new TextLayoutEngine(shaper);
+        }
+
+        public ITextShaper GetShaperForFont(IFontFormatBase font)
+        {
+            return GetTextShaper(font.Family, font.SubFamily);
         }
 
         public TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font)

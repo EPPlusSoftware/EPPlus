@@ -1,9 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Drawing;
@@ -28,9 +26,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 d.Text = "Rectangle Rectangle Rectangle Rectangle";
                 d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("rect.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\rect.svg", svg);
                 SaveAndCleanup(p);
             }
         }
@@ -45,9 +42,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 var myShape = ws.Drawings[0].As.Shape;
 
-                var ir = new EPPlusImageRenderer.ImageRenderer();
-                var svg = ir.RenderDrawingToSvg(myShape);
-                SaveTextFileToWorkbook("ShapeWithPattern.svg", svg);
+                var svg = myShape.ToSvg();
+
+                SaveTextFileToWorkbook("svg\\ShapeWithPattern.svg", svg);
                 SaveAndCleanup(p);
             }
         }
@@ -66,9 +63,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 d.Text = "Rectangle Rectangle Rectangle Rectangle";
 
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("Roundrect.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\Roundrect.svg", svg);
                 SaveWorkbook("svgRoundRectdrawing.xlsx", p);
             }
         }
@@ -83,9 +79,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 d.Text = "Test";
                 d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
                 d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Center;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("Triangle.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\Triangle.svg", svg);
                 SaveWorkbook("svgTriangleDrawing.xlsx", p);
             }
         }
@@ -98,9 +93,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.RightArrow);
                 d.SetSize(100, 100);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("RightArrow.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\RightArrow.svg", svg);
                 SaveWorkbook("svgRightArrowDrawing.xlsx", p);
             }
         }
@@ -113,9 +107,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.SmileyFace);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("SmileyFace.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\SmileyFace.svg", svg);
                 SaveWorkbook("svgSmileyFace.xlsx", p);
             }
         }
@@ -128,9 +121,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.VerticalScroll);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("VerticalScroll.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\VerticalScroll.svg", svg);
                 SaveWorkbook("svgVerticalScroll.xlsx", p);
             }
         }
@@ -143,9 +135,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.CloudCallout);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("CloudCallout.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\CloudCallout.svg", svg);
                 SaveWorkbook("svgCloudCallout.xlsx", p);
             }
         }
@@ -158,9 +149,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal2);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("IrregularSeal2.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\IrregularSeal2.svg", svg);
                 SaveWorkbook("IrregularSeal2.xlsx", p);
             }
         }
@@ -173,9 +163,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.LightningBolt);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("LightningBolt.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\LightningBolt.svg", svg);
                 SaveWorkbook("svgLightningBolt.xlsx", p);
             }
         }
@@ -188,9 +177,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticTape);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("FlowChartMagneticTape.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\FlowChartMagneticTape.svg", svg);
                 SaveWorkbook("svgFlowChartMagneticTape.xlsx", p);
             }
         }
@@ -203,9 +191,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.MathNotEqual);
                 d.SetSize(800, 800);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("MathNotEqual.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\MathNotEqual.svg", svg);
                 SaveWorkbook("svgMathNotEqual.xlsx", p);
             }
         }
@@ -220,9 +207,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 d.SetSize(800, 800);
                 d.Fill.Color = Color.Orange;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("Sun.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\Sun.svg", svg);
                 SaveWorkbook("svgSun.xlsx", p);
             }
         }
@@ -237,9 +223,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 d.SetSize(800, 800);
                 d.Fill.Color = Color.Orange;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("Ellipse.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\Ellipse.svg", svg);
                 SaveWorkbook("svgEllipse.xlsx", p);
             }
         }
@@ -254,9 +239,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 d.SetSize(800, 800);
                 d.Fill.Color = Color.Red;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("Heart.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\Heart.svg", svg);
                 SaveWorkbook("svgHeart.xlsx", p);
             }
         }
@@ -271,9 +255,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 d.SetSize(804, 804);
                 d.Fill.Color = Color.Red;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("bevelred.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\bevelred.svg", svg);
                 SaveWorkbook("svgBevelred.xlsx", p);
             }
         }
@@ -287,9 +270,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.Bevel);
 
                 d.SetSize(804, 804);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("bevel.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\bevel.svg", svg);
                 SaveWorkbook("svgBevel.xlsx", p);
             }
         }
@@ -305,9 +287,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 d.SetSize(804, 804);
                 d.Fill.Style = eFillStyle.NoFill;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("LeftBracket.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\LeftBracket.svg", svg);
                 SaveWorkbook("LeftBracket.xlsx", p);
             }
         }
@@ -321,9 +302,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var d = ws.Drawings.AddShape("Shape1", eShapeStyle.QuadArrowCallout);
 
                 d.SetSize(804, 200);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
-                SaveTextFileToWorkbook("QuadArrowCallout.svg", svg);
+                var svg = d.ToSvg();
+                SaveTextFileToWorkbook("svg\\QuadArrowCallout.svg", svg);
                 SaveWorkbook("QuadArrowCallout.xlsx", p);
             }
         }
@@ -337,8 +317,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var d = ws.Drawings.AddShape("Shape1", eShapeStyle.ActionButtonHome);
 
                 d.SetSize(804, 804);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
+                var svg = d.ToSvg();
                 SaveTextFileToWorkbook($"svg\\ActionButtonHome.svg", svg);
                 SaveWorkbook("ActionButtonHome.xlsx", p);
             }
@@ -353,8 +332,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 var d = ws.Drawings.AddShape("Shape1", eShapeStyle.ActionButtonMovie);
 
                 d.SetSize(804, 804);
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(d);
+                var svg = d.ToSvg();
                 SaveTextFileToWorkbook($"svg\\ActionButtonMovie.svg", svg);
                 SaveWorkbook("ActionButtonMovie.xlsx", p);
             }
@@ -369,15 +347,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 //var d = ws.Drawings[0].As.Shape;
                 //Assert.AreEqual(1, d.CustomGeom.DrawingPaths.Count);
                 //d.Textbox = "GetGetRectangle GetGetRectangle GetGetRectangle GetGetRectangle";
-                //d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
+                //d.TextAlignment = OfficeOpenXml.Drawing.TextAlignment.Left;
                 //d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-
                 //var svg = renderer.RenderDrawingToSvg(d);
                 //SaveTextFileToWorkbook("CustomDrawing1.svg", svg);
 
-                var d = ws.Drawings[1].As.Shape;
-                var svg = renderer.RenderDrawingToSvg(d);
+                var d = ws.Drawings[0].As.Shape;
+                var svg = d.ToSvg();
                 SaveTextFileToWorkbook($"svg\\CustomDrawing2.svg", svg);
 
                 //SaveWorkbook("svgdrawing.xlsx");
@@ -429,7 +405,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             using (var p = OpenTemplatePackage("GradientFillShapes.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
                 int ix = 1;
 
                 //var d = ws.Drawings[7];
@@ -438,7 +413,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 foreach (var d in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(d);
+                    var svg = d.ToSvg();
                     SaveTextFileToWorkbook($"svg\\{d.Name}-{ix}.svg", svg);
                     ix++;
                 }
@@ -451,7 +426,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             using (var p = OpenTemplatePackage("GradiantRadial.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
                 //var d = ws.Drawings[5];
                 //var svg = renderer.RenderDrawingToSvg(d);
                 //File.WriteAllText($"c:\\temp\\{d.Name}-{5}.svg", svg);    
@@ -460,7 +434,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 foreach (var d in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(d);
+                    var svg = d.ToSvg();
                     SaveTextFileToWorkbook($"svg\\{d.Name}-{ix}.svg", svg);
                     ix++;
                 }
@@ -473,12 +447,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             using (var p = OpenTemplatePackage("PatternFills.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
                 int ix = 1;
 
                 foreach (ExcelShape d in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(d);
+                    var svg = d.ToSvg();
                     SaveTextFileToWorkbook($"svg\\Pattern-{d.Fill.PatternFill.PatternType}-{ix}.svg", svg);
                     ix++;
                 }
@@ -491,12 +464,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             using (var p = OpenTemplatePackage("BlipFills.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
                 int ix = 1;
 
                 foreach (ExcelShape d in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(d);
+                    var svg = d.ToSvg();
                     SaveSvg($"Blip{ix}.svg", svg);
                     ix++;
                 }
@@ -511,7 +483,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             using (var p = OpenTemplatePackage("GradientRadialVerifyCircle.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
                 //var svg = renderer.RenderDrawingToSvg(ws.Drawings[1]);
                 //File.WriteAllText($"c:\\temp\\ChartForSvg{1}.svg", svg);
 
@@ -519,7 +490,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 foreach (ExcelShape d in ws.Drawings)
                 {
-                    var svg = renderer.RenderDrawingToSvg(d);
+                    var svg = d.ToSvg();
                     SaveTextFileToWorkbook($"svg\\DrawForSvg{ix}.svg", svg);
                     ix++;
                 }
@@ -534,8 +505,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             {
                 var c = p.Workbook.Worksheets[0].Drawings[0];
 
-                var renderer = new EPPlusImageRenderer.ImageRenderer();
-                var svg = renderer.RenderDrawingToSvg(c);
+                var svg = c.ToSvg();
                 SaveTextFileToWorkbook($"svg\\SimplestChartRightAlign.svg", svg);
             }
         }
@@ -628,6 +598,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 _currentShape.GetSizeInPixels(out int testWidth, out int testHeight);
 
+
+                var svg = _currentShape.ToSvg();
+                SaveTextFileToWorkbook("svg\\centeredParagraph.svg", svg);
                 SaveAndCleanup(p);
             }
         }

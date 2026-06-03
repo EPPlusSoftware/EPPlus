@@ -20,6 +20,7 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utilities;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -230,6 +231,11 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         private ITextShaper GetShaperForFont(MeasurementFont font)
+        {
+            return OpenTypeFonts.GetShaperForFont(font);
+        }
+
+        private ITextShaper GetShaperForFont(IFontFormatBase font)
         {
             return OpenTypeFonts.GetShaperForFont(font);
         }

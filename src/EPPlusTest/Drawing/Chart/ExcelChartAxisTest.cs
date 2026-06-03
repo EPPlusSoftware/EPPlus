@@ -270,7 +270,7 @@ namespace EPPlusTest.Drawing.Chart
             using (var p = OpenPackage("CreateEmployeesAndSales.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                var headers = new List<string> { "Hire Date", "Employee Name", "Employee Position", "Sales This Year" };
+                var headers = new List<string> { "Hire Date", "Employee Name", "Employee TranslationOffset", "Sales This Year" };
 
                 var headRange = ws.Cells["A1:D1"];
                 headRange.FillList(headers, x =>

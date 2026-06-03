@@ -43,21 +43,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
         }
 
-        string _firstSliceAngPath = "c:firstSliceAng/@val";
-        /// <summary>
-        /// Angle of the first slize
-        /// </summary>
-        public double FirstSliceAngle
-        {
-            get
-            {
-                return _chartXmlHelper.GetXmlNodeDouble(_firstSliceAngPath);
-            }
-            internal set
-            {
-                _chartXmlHelper.SetXmlNodeString(_firstSliceAngPath, value.ToString(CultureInfo.InvariantCulture));
-            }
-        }
         //string _holeSizePath = "c:chartSpace/c:chart/c:plotArea/{0}/c:holeSize/@val";
         string _holeSizePath = "c:holeSize/@val";
         /// <summary>

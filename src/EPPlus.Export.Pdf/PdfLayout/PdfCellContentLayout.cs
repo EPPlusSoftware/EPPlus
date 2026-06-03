@@ -24,7 +24,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using Vector2 = EPPlus.Graphics.Math.Vector2;
+using System.Xml.Serialization;
+using Vector2 = EPPlus.Graphics.Geometry.Vector2;
 
 namespace EPPlus.Export.Pdf.PdfLayout
 {

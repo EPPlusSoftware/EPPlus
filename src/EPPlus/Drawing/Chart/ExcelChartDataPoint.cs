@@ -175,6 +175,28 @@ namespace OfficeOpenXml.Drawing.Chart
             return ExistsNode("c:marker");
         }
 
+        const string explosionPath = "c:explosion/@val";
+
+        /// <summary>
+        /// Explosion 
+        /// (only relevant in some charts e.g. Pie Charts)
+        /// </summary>
+        public int Explosion
+        {
+            get
+            {
+                return GetXmlNodeInt(explosionPath);
+            }
+            set
+            {
+                if (value < 0 || value > 400)
+                {
+                    throw (new ArgumentOutOfRangeException("Explosion range is 0-400"));
+                }
+                SetXmlNodeString(explosionPath, value.ToString());
+            }
+        }
+
         /// <summary>
         /// Dispose the object
         /// </summary>

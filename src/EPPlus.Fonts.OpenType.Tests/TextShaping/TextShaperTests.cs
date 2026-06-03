@@ -685,6 +685,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Shape_SourceSans3_SingleMark_PositionsCorrectly()
         {
+            TestFolderEngine.LeastRequiredAvailability = FontAvailability.NotFound;
+
             // Arrange
             var shaper = TestFolderEngine.GetTextShaper("SourceSans3");
 
@@ -713,8 +715,38 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Shape_Cafe_HandlesDecomposed()
         {
+            var tEngine  =
+            new Lazy<OpenTypeFontEngine>(() => new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = false;
+            })).Value;
+
+            tEngine.LeastRequiredAvailability = FontAvailability.NotFound;
             // Arrange
-            var shaper = TestFolderEngine.GetTextShaper("SourceSans3");
+            var shaper = tEngine.GetTextShaper("SourceSans3");
+
+            // Act - "café" with decomposed é
+            var result = shaper.Shape("cafe\u0301");
+
+            // Assert
+            Assert.AreEqual(5, result.Glyphs.Length, "c-a-f-e-´");
+
+            // Last glyph (accent) should not advance
+            Assert.AreEqual(0, result.Glyphs[4].XAdvance, "Accent should not advance");
+
+            // Should have positioning
+            Assert.IsTrue(
+                result.Glyphs[4].XOffset != 0 || result.Glyphs[4].YOffset != 0,
+                "Accent should be positioned");
+        }
+
+        [TestMethod]
+        public void Shape_Cafe_HandlesDecomposedSpecified()
+        {
+            // Arrange
+            var shaper = TestFolderEngine.GetTextShaper("Source Sans 3");
 
             // Act - "café" with decomposed é
             var result = shaper.Shape("cafe\u0301");
