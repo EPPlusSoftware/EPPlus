@@ -259,7 +259,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 }
             }
 
-            WrappedLineCollection = new TextLineCollection(wrappedLines, InputFragments);
+            WrappedLineCollection = new TextLineCollection(wrappedLines, InputFragments, true);
             return WrappedLineCollection;
         }
 
