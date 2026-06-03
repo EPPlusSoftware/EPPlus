@@ -59,6 +59,7 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationInt(ExcelDataValidationInt copy, ExcelWorksheet ws) 
             : base(copy, ws)
         {
+            _isTextLength = copy.ValidationType.Type == eDataValidationType.TextLength;
             Formula = copy.Formula;
             Formula2 = copy.Formula2;
         }

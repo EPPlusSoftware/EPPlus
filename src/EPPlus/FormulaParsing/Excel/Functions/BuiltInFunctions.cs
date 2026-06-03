@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
@@ -64,6 +65,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["unichar"] = new Unichar();
             Functions["numbervalue"] = new NumberValue();
             Functions["dollar"] = new Dollar();
+            Functions["usdollar"] = new UsDollar();
+            Functions["encodeurl"] = new EncodeUrl();
+            Functions["code"] = new CodeFunction();
             Functions["regextest"] = new RegexTest();
             Functions["regexextract"] = new RegexExtract();
             Functions["regexreplace"] = new RegexReplace();
@@ -313,6 +317,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["type"] = new TypeFunction();
             Functions["sheet"] = new Sheet();
             Functions["isref"] = new IsRef();
+            Functions["isformula"] = new IsFormula();
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();
@@ -339,7 +344,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();
-            //Functions["groupby"] = new GroupBy();  //Will be released in next minor release.
+            Functions["groupby"] = new GroupBy();
+            Functions["pivotby"] = new PivotBy();
             Functions["hlookup"] = new HLookup();
             Functions["vlookup"] = new VLookup();
             Functions["xlookup"] = new Xlookup();
@@ -355,6 +361,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["indirect"] = new Indirect();
             Functions["offset"] = new Offset();
             Functions["transpose"] = new Transpose();
+            Functions["trimrange"] = new TrimRange();
+            Functions["_tro_all"] = new TroAll();
+            Functions["_tro_leading"] = new TroLeading();
+            Functions["_tro_trailing"] = new TroTrailing();
             Functions["filter"] = new FilterFunction();
             Functions["sort"] = new SortFunction();
             Functions["sortby"] = new SortBy();
@@ -372,6 +382,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["hstack"] = new Hstack();
             Functions["getpivotdata"] = new GetPivotData();
             Functions["image"] = new ImageFunction();
+            Functions["wraprows"] = new WrapRows();
+            Functions["wrapcols"] = new WrapCols();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

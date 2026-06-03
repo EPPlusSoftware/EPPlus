@@ -457,6 +457,7 @@ namespace OfficeOpenXml.FormulaParsing
 #endif
                 SetCurrentCell(depChain, f);
                 var ws = f._ws;
+
                 if (f._tokenIndex < f._tokens.Count)
                 {
                     addresses = ExecuteNextToken(depChain, f, followChain);
@@ -495,7 +496,6 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             addresses = f._expressions[f._tokenIndex].GetAddress();
                         }
-
                         depChain.AddFormulaToChain(f, addresses);
 
                         if (GetAddressesToFollow(depChain, f, options, ref addresses, ref rd, ref ws))
@@ -519,6 +519,15 @@ namespace OfficeOpenXml.FormulaParsing
                 if (cr != null && f.IsLambda == false &&  (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
                     SetValueToWorkbook(depChain, f, rd, cr, options, ref depChainPos);
+                    
+                    //We are in a dirty cell recalculation and have a new position in the chain.
+                    //We should return to the caller and let it continue from the new position in the chain.
+                    //We use this technique to avoid stack overflow exceptions when recalculating dirty cells with long dependency chains.
+                    if (depChain._recalculateDirtyCellsNewPosition)  
+                    {
+                        depChain._recalculateDirtyCellsNewPosition = false;
+                        return cr;
+                    }
                 }
 
                 if (hasLogger)
@@ -638,6 +647,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
 
         }
+
 
         private static bool GetAddressesToFollow(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, ref FormulaRangeAddress[] addresses, ref RangeHashset rd, ref ExcelWorksheet ws)
         {
@@ -849,7 +859,14 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void RecalculateDirtyCells(SimpleAddress[] dirtyRange, RpnOptimizedDependencyChain depChain, RangeHashset rd, ExcelCalculationOption options)
         {
-            if(depChain._isInRecalculateDirtyCells || options.FollowDependencyChain==false) return; //EPPlus will not recalculate dirty cells while recalculating other dirty cells to avoid stack overflow.
+            if (options.FollowDependencyChain == false)
+            {
+                return; //EPPlus will not recalculate dirty cells while recalculating other dirty cells to avoid stack overflow.
+            }
+            if(depChain._recalculateDirtyCellsIterations > ExcelCalculationOption.MaxArrayFormulaRecalculationIterations)
+            {
+                throw(new DynamicArrayMaxIterationsException($"Too many iterations when recalculating dirty dynamic array formula ranges. EPPlus currently limit this value to {ExcelCalculationOption.MaxArrayFormulaRecalculationIterations} iterations"));
+            }
             var dirtyCells = dirtyRange.ToList();
             if (depChain.FormulaRangeReferences.ContainsKey(depChain._parsingContext.CurrentWorksheet.IndexInList))
             {
@@ -861,10 +878,21 @@ namespace OfficeOpenXml.FormulaParsing
                     var ir = qt.GetIntersectingRangeItems(new QuadRange(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
                     if (ir.Count > 0)
                     {
+                        depChain._parsingContext.RangeCriteriaCache.Clear();
                         foreach (var r in ir.Select(x => x.Value).Distinct())
                         {
                             ExcelAddressBase.SplitCellId(r, out int sheet, out int row, out int col);
 
+                            var f=depChain._formulaStack.FirstOrDefault(x => x.CellId == r);
+                            if (f!=null)
+                            {
+                                foreach (var fs in depChain._formulaStack)
+                                {
+                                   fs.Reset(depChain);
+                                }
+                                continue;
+                            }
+                            
                             var ix = depChain.DependencyChain.IndexOf(r);
                             if (ix < 0) continue;
                             if (ix < fromIx)
@@ -884,11 +912,19 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
 
+                if(depChain._recalculateDirtyCellsPosition >= 0)
+                {
+                    depChain._recalculateDirtyCellsIterations++;
+                    depChain._recalculateDirtyCellsPosition = fromIx;
+                    depChain._recalculateDirtyCellsNewPosition = true;
+                    return;
+                }
+
                 if (fromIx != int.MaxValue)
                 {
-                    depChain._isInRecalculateDirtyCells = true;
                     var dcCount = depChain.DependencyChain.Count;
-                    var cc = depChain._parsingContext.CurrentCell;
+                    var cc = depChain._parsingContext.CurrentCell;                    
+
                     for (int i = fromIx; i < dcCount; i++)
                     {
                         ExcelCellBase.SplitCellId(depChain.DependencyChain[i], out int sheetId, out int row, out int col);
@@ -899,17 +935,28 @@ namespace OfficeOpenXml.FormulaParsing
                         if (GetFormula(depChain, ws, row, col, v, ref f))
                         {
                             f.ClearCache(depChain);
+                            depChain._recalculateDirtyCellsPosition=i;
                             CalculateFormulaChain(depChain, f, options, true, i);
+
                             if (depChain.DependencyChain.Count > dcCount)
                             {
                                 i += depChain.DependencyChain.Count - dcCount;
                                 dcCount = depChain.DependencyChain.Count;
                             }
+
+                            if (depChain._recalculateDirtyCellsPosition < i)
+                            {
+                                i = depChain._recalculateDirtyCellsPosition - 1; //We have a new position to recalculate from, set i to one before that because of the i++ in the for loop.
+                            }
+                            else
+                            {
+                                depChain._recalculateDirtyCellsIterations--;
+                            }
                         }
                     }
-                    depChain._isInRecalculateDirtyCells = false;
+                    depChain._recalculateDirtyCellsIterations = 0;
+                    depChain._recalculateDirtyCellsPosition = -1;
                 }
-
             }
         }
         private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, int rangePos, CellStoreEnumerator<object> fe, bool atEnd)
@@ -1097,7 +1144,6 @@ namespace OfficeOpenXml.FormulaParsing
         {
             FormulaRangeAddress[] addresses;
             var s = f._expressionStack;
-            bool IsInRecalculateDirtyCells = depChain._isInRecalculateDirtyCells;
             while (f._tokenIndex < f._tokens.Count)
             {
                 if (f.HasLambdaToken(f._tokenIndex))
@@ -1111,7 +1157,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 var leStackPos = f.GetCurrentLambdaExpressionStackPosition();
                 var t = f._tokens[f._tokenIndex];
-                 switch (t.TokenType)
+                switch (t.TokenType)
                 {
                     case TokenType.Boolean:
                     case TokenType.Integer:

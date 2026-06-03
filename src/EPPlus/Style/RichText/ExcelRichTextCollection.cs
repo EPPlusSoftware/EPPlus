@@ -160,9 +160,13 @@ namespace OfficeOpenXml.Style
             //If just a note we can't clear formulas on the cell itself.
             if (_isComment == false)
             {
-                //We MUST clear formulas before setting richtext
-                //To ensure calculate does not create missmatch between formula and richtext.
-                _cells.ClearFormulas();
+                //We can't clear formulas if no cells exist
+                if(_cells != null)
+                {
+                    //We MUST clear formulas before setting richtext
+                    //To ensure calculate does not create missmatch between formula and richtext.
+                    _cells.ClearFormulas();
+                }
             }
 
             var rt = new ExcelRichText(text, this);

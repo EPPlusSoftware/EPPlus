@@ -1,11 +1,29 @@
 # Features / Fixed issues - EPPlus 8
 
-## Version 8.5.5
-### Minor Features
-* Ranges can now convert their values to richText via ´ConvertToRichText()´ e.g. ´ws.Cells["A1"].ConvertToRichText()´
-### Fixed issues
-* Several issues related to RichText in ranges. Simply looking at the .RichText attribute no longer changes the cell value. Setting a propert e.g. ´range.RichText.Text = "Hi"´ or using ConvertToRichText() actually changes the value.
-
+## Version 8.6 0
+### Features
+* 9 new functions:
+  * ´GROUPBY´
+  * ´PIVOTBY´
+  * ´TRIMRANGE´
+  * ´WRAPROWS´
+  * ´WRAPCOLS´
+  * ´USDOLLAR´
+  * ´CODE´
+  * ´ENCODEURL´
+  * ´ISFORMULA´
+* Support for the [trim reference operators](https://github.com/EPPlusSoftware/EPPlus/wiki/Trim-reference-operator).
+* Ranges can now convert their values to rich text via ´ConvertToRichText()´ e.g. ´ws.Cells["A1"].ConvertToRichText()´
+* Calculation of dynamic array formulas now support dirty cell recalculation inside other dirty cell calculations.
+### Fixed issues	
+* Fixed a cache issue with the ´IF´ function when recalculation dynamic array formulas with dirty cells.
+* ´ExcelPackage.LoadAsync´ failed with an unhandled exception, if a package had a package part larger than 2GB.
+* Fixed copy of absolute positioned drawings and group shapes.
+* Fixed a performance issue related to copying using full row/column addresses.
+* Fixed stale values when using newer worksheet functions (e.g. ARRAYTOTEXT) by adding required features to the workbook XML.
+* CompareOptions.Culture in RangeSortOptions was not honored when sorting ranges(thanks to lievendf).
+* Copied "Text length data validations" no longer become "Int data validations" in the output workbook.
+* Several issues related to RichText in ranges. Accessing the ´ExcelRangeBase.RichText´ property no longer casts the cell value to string.
 ## Version 8.5.4
 ### Minor Features
 * Added ´IncludeInHtmlOnly´ option to the ´ePictureInclude´ enum. This allows the HTML Exporter to include pictures directly in the HTML output rather than in the CSS.

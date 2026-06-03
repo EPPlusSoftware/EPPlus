@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (!TryParseBaseArgs(arguments, out var args, out var error))
+            if (!TryParseGroupByArgs(arguments, out var args, out var error))
                 return error;
             var groups = BuildGroups(args, context);
             groups = ApplySort(groups, args);
@@ -43,112 +43,85 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
 
-        // -------------------------------------------------------
-        // Sorting
-        // -------------------------------------------------------
-        private List<GroupLevel> ApplySort(List<GroupLevel> levels, GroupByBaseArgs args, int depth = 1)
+        private bool TryParseGroupByArgs(IList<FunctionArgument> arguments,
+            out GroupByBaseArgs args,
+            out CompileResult error)
         {
-            if (args.SortOrders == null || args.SortOrders.All(s => s == 0)) return levels;
+            args = new GroupByBaseArgs();
+            error = null;
 
-            if (args.FieldRelationship == FieldRelationship.Table)
+            if (!arguments[0].IsExcelRange) // TODO. Man kan skicka in enskilda celler i rowfields och values, så detta är fel.
+                return Fail(eErrorType.Value, out error);
+            args.RowFields = arguments[0].ValueAsRangeInfo;
+
+            if (!arguments[1].IsExcelRange)
+                return Fail(eErrorType.Value, out error);
+            args.Values = arguments[1].ValueAsRangeInfo;
+
+            if (args.RowFields.Size.NumberOfRows != args.Values.Size.NumberOfRows)
+                return Fail(eErrorType.Value, out error);
+
+            if (!TryParseFunctionArg(arguments[2], args.Functions, out LambdaCalculator function, out FunctionLayout layout))
+                return Fail(eErrorType.Value, out error);
+
+            args.Function = function;
+            args.FunctionLayout = layout;
+
+            if (args.Functions.Count == 0)
+                return Fail(eErrorType.Value, out error);
+
+            // field_headers (optional)
+            if (arguments.Count > 3 && arguments[3].Value != null)
             {
-                var allRows = levels.SelectMany(l => CollectLeafRows(l)).ToList();
-                allRows = SortRowsMulti(allRows, args);
-
-                var newLevelDict = new Dictionary<string, GroupLevel>();
-                var newLevelOrder = new List<string>();
-                foreach (var row in allRows)
-                {
-                    var topKey = (row.KeyParts[0]?.ToString() ?? string.Empty).ToLowerInvariant();
-                    if (!newLevelDict.TryGetValue(topKey, out var level))
-                    {
-                        level = new GroupLevel { Key = row.KeyParts[0] };
-                        newLevelDict[topKey] = level;
-                        newLevelOrder.Add(topKey);
-                    }
-                    level.Rows.Add(row);
-                }
-                return newLevelOrder.Select(k => newLevelDict[k]).ToList();
+                var v = Convert.ToInt32(arguments[3].Value);
+                if (!Enum.IsDefined(typeof(FieldHeaders), v))
+                    return Fail(eErrorType.Value, out error);
+                args.Headers = (FieldHeaders)v;
             }
-            else
+            else if (args.Functions.Count > 1) // In excel, if multiple functions are included, headers are by default displayed.
             {
-                var sortForThisLevel = args.SortOrders
-                    .FirstOrDefault(s => Math.Abs(s) == depth);
-
-                bool hasSortForThisLevel = sortForThisLevel != 0;
-                bool desc = sortForThisLevel < 0;
-                bool sortOnAggregated = hasSortForThisLevel && Math.Abs(sortForThisLevel) > args.RowFields.Size.NumberOfCols;
-
-                if (hasSortForThisLevel)
-                {
-                    levels = sortOnAggregated
-                        ? (desc ? levels.OrderByDescending(l => l.SubtotalValue as IComparable, _comparer).ToList()
-                                : levels.OrderBy(l => l.SubtotalValue as IComparable, _comparer).ToList())
-                        : (desc ? levels.OrderByDescending(l => l.Key as IComparable, _comparer).ToList()
-                                : levels.OrderBy(l => l.Key as IComparable, _comparer).ToList());
-                }
-
-                foreach (var level in levels)
-                {
-                    if (!level.IsLeaf)
-                        level.Children = ApplySort(level.Children, args, depth + 1);
-                    else
-                        level.Rows = SortRowsMulti(level.Rows, args);
-                }
-
-                return levels;
-            }
-        }
-
-        private List<GroupRow> SortRowsMulti(List<GroupRow> rows, GroupByBaseArgs args)
-        {
-            if (rows == null || rows.Count == 0) return rows;
-
-            int nKeyCols = args.RowFields.Size.NumberOfCols;
-            IOrderedEnumerable<GroupRow> ordered = null;
-
-            foreach (var sortOrder in args.SortOrders)
-            {
-                if (sortOrder == 0) continue;
-                bool desc = sortOrder < 0;
-                int col = Math.Abs(sortOrder);
-                bool sortOnAggregated = col > nKeyCols;
-
-                // Capture loop variables
-                var capturedCol = col;
-                var capturedSortOnAggregated = sortOnAggregated;
-
-                Func<GroupRow, object> keySelector = capturedSortOnAggregated
-                    ? (Func<GroupRow, object>)(r => r.AggregatedValue)
-                    : (r => r.KeyParts[Math.Min(capturedCol - 1, r.KeyParts.Length - 1)]);
-
-                if (ordered == null)
-                    ordered = desc
-                        ? rows.OrderByDescending(keySelector, _comparer)
-                        : rows.OrderBy(keySelector, _comparer);
-                else
-                    ordered = desc
-                        ? ordered.ThenByDescending(keySelector, _comparer)
-                        : ordered.ThenBy(keySelector, _comparer);
+                args.Headers = FieldHeaders.YesAndShow;
             }
 
-            return ordered?.ToList() ?? rows;
-        }
+            // total_depth (optional)
+            if (arguments.Count > 4 && arguments[4].Value != null)
+            {
+                if (!TryParseTotalDepthArg(arguments[4], args.RowFields.Size.NumberOfCols, out int totalDepth))
+                    return Fail(eErrorType.Value, out error);
+                args.TotalDepth = totalDepth;
+            }
 
-        private IEnumerable<GroupRow> CollectLeafRows(GroupLevel level)
-        {
-            if (level.IsLeaf)
-                return level.Rows;
-            return level.Children.SelectMany(c => CollectLeafRows(c));
-        }
+            // sort_order (optional)
+            if (arguments.Count > 5 && arguments[5].Value != null)
+            {                
+                args.SortOrders = ParseSortOrderArg(arguments[5]);
+            }
 
+            // filter_array (optional)
+            if (arguments.Count > 6 && arguments[6].IsExcelRange)
+                args.FilterArray = arguments[6].ValueAsRangeInfo;
+
+            // field_relationship (optional)
+            if (arguments.Count > 7 && arguments[7].Value != null)
+            {
+                var v = Convert.ToInt32(arguments[7].Value);
+                if (!Enum.IsDefined(typeof(FieldRelationship), v))
+                    return Fail(eErrorType.Value, out error);
+                if (v == (int)FieldRelationship.Table && Math.Abs(args.TotalDepth) > 1)
+                    return Fail(eErrorType.Value, out error);
+                args.FieldRelationship = (FieldRelationship)v;
+            }
+
+            return true;
+        }
+        
         // -------------------------------------------------------
         // Build result
         // -------------------------------------------------------        
 
         private InMemoryRange BuildResult(List<GroupLevel> levels, GroupByBaseArgs args, ParsingContext context)
         {
-            var resolvedHeaders = ResolveHeaders(args);
+            var resolvedHeaders = ResolveHeaders(args.Headers, args.Values);
             bool showHeaders = resolvedHeaders == FieldHeaders.YesAndShow
                               || resolvedHeaders == FieldHeaders.NoButGenerate;
             bool addFunctionHeaders = args.Functions.Count > 1;
@@ -192,7 +165,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if(addFunctionHeaders)
             {
-                var functionHeaders = ResolveFunctionHeaders(args);
+                var functionHeaders = ResolveFunctionHeaders(args.Functions);
                 if(args.FunctionLayout == FunctionLayout.Horizontal)
                 {
                     for (int c = 0; c < nFunctions; c++)
@@ -247,7 +220,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     int depth)
         {
             var functionHeaders = args.FunctionLayout == FunctionLayout.Vertical
-                ? ResolveFunctionHeaders(args)
+                ? ResolveFunctionHeaders(args.Functions)
                 : null;
 
             foreach (var level in levels)
@@ -318,7 +291,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private int WriteSubtotal(InMemoryRange result, int r, GroupLevel level, int nKeyCols, int nValCols, GroupByBaseArgs args)
         {
-            var functionHeaders = ResolveFunctionHeaders(args);
+            var functionHeaders = ResolveFunctionHeaders(args.Functions);
             if (args.FunctionLayout == FunctionLayout.Vertical)
             {
                 for (int f = 0; f < args.Functions.Count; f++)
@@ -347,7 +320,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private int WriteGrandTotal(InMemoryRange result, int r, List<GroupLevel> levels, string label, int nKeyCols, int nValCols, GroupByBaseArgs args, ParsingContext context)
         {
-            var functionHeaders = ResolveFunctionHeaders(args);
+            var functionHeaders = ResolveFunctionHeaders(args.Functions);
             int nAllValCols = args.AllValuesInOrder.Count > 0 ? args.AllValuesInOrder[0].Length : 1;
 
             if (args.FunctionLayout == FunctionLayout.Vertical)
