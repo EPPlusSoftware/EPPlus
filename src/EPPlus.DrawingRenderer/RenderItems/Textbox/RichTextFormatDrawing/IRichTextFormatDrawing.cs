@@ -9,6 +9,9 @@ using System.Drawing;
 namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 {
     /// <summary>
+    /// TODO: Move this to interfaces. Only here in order to not break existing references in PDF 
+    /// (This should be moved when IRichTextFormatSimple is moved)
+    /// 
     /// Rich text data for drawings
     /// </summary>
     public interface IRichTextFormatDrawing : IRichTextFormatSimple

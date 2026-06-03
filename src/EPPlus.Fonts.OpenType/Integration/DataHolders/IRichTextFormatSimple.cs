@@ -1,16 +1,12 @@
-﻿using OfficeOpenXml.Interfaces.Fonts;
-using OfficeOpenXml.Interfaces.RichText;
-using System;
-using System.Collections.Generic;
+﻿using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 
 namespace EPPlus.Fonts.OpenType.Integration.DataHolders
 {
     /// <summary>
     /// TODO: Move this to interfaces. Only here in order to not break existing references in PDF
+    /// 
     /// Interface for pdf/svg/future richtext users to unify richtext styling
     /// </summary>
     public interface IRichTextFormatSimple : IRichTextFormatEssential

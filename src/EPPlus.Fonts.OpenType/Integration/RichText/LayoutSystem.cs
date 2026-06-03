@@ -20,11 +20,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         //The text of the entire paragraph
         //regardless of linebreaking or style runs
         string FullText;
-        public List<CharInfo> AllChars { get; private set; }= new List<CharInfo>();
+        private List<CharInfo> AllChars { get; set; }= new List<CharInfo>();
         List<int> SeparatorIndicies = new List<int>();
         List<int> ParagraphSeparatorIndicies = new List<int>();
         List<Paragraph> SubParagraphs = new List<Paragraph>();
-        public List<StyleRun> StyleRuns { get; private set; } = new List<StyleRun>();
+        private List<StyleRun> StyleRuns { get; set; } = new List<StyleRun>();
         int FullTextLength = 0;
         int FullTextLastIdx = 0;
 
