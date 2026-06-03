@@ -197,10 +197,9 @@ namespace EPPlus.Export.Pdf.PdfObjects
 
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)richInfo.Size);
                     var color = richInfo.FontColor;
-                    var fontResource = GetFontResource(dictionaries, pageSettings, textFormat.OriginalTextFragment.Font.FontFamily, OpenTypeFonts.GetFontSubFamily(textFormat.OriginalTextFragment.Font.Style), textFormat.OriginalTextFragment.Font.Size);
-                    
-                    double scale = richInfo.Size / fontResrouce.fontData.HeadTable.UnitsPerEm;
-                    double scale = textFormat.OriginalTextFragment.Font.Size / fontResource.fontData.HeadTable.UnitsPerEm;
+                    var fontResource = GetFontResource(dictionaries, pageSettings, richInfo.Family, richInfo.SubFamily, richInfo.Size);
+                    double size = richInfo.Size;
+                    double scale = textFormat.OriginalTextFragment.RichTextOptions.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
                     commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);

@@ -2,9 +2,11 @@
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -488,12 +490,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (!string.IsNullOrEmpty(text))
             {
                 var tf = new TextFragment();
-                tf.Font = new MeasurementFont
-                {
-                    FontFamily = fontName,
-                    Size = fontSize,
-                    Style = MeasurementFontStyles.Regular
-                };
+                tf.Font = new OpenTypeFontInfoBase();
+                tf.Font.Family = fontName;
+                tf.Font.SubFamily = FontSubFamily.Regular;
+                tf.Font.Size = fontSize;
                 tf.Text = text;
                 tf.RichTextOptions.Bold = false;
                 tf.RichTextOptions.Italic = false;

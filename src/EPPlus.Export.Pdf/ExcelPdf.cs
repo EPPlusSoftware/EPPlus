@@ -189,7 +189,7 @@ namespace EPPlus.Export.Pdf
             var cells = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && !(t is PdfCellLayout cc && cc.IsHeading) && !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading))).GroupBy(t => t.Name);
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
-            var contentStream = new PdfContentStream(Document.Count + 1);
+            var contentStream = new PdfContentStream(_document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
@@ -229,12 +229,12 @@ namespace EPPlus.Export.Pdf
                     case PdfCellLayout layout:
                         contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
                     case PdfCellContentLayout contentLayout:
-                        contentStream.AddCellContentLayout(contentLayout, Dictionaries, PageSettings); break;
+                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings); break;
                     case PdfCellBorderLayout borderLayout:
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
-            if (PageSettings.ShowGridLines || PageSettings.ShowHeadings)
+            if (_pageSettings.ShowGridLines || _pageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
             }
