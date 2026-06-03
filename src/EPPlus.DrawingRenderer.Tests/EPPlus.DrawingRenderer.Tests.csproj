@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>EPPlus.Export.ImageRenderer.Tests.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>EPPlus.DrawingRenderer.Tests.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
