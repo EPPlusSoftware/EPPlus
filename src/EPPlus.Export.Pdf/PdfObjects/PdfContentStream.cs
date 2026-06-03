@@ -103,7 +103,8 @@ namespace EPPlus.Export.Pdf.PdfObjects
         //Get font label //need to update this one too for same reasons as AddFontData
         internal PdfFontResource GetFontResource(PdfDictionaries Dictionaries, PdfPageSettings PageSettings, string fontName, FontSubFamily subFamily, double fontSize)
         {
-            if (!Dictionaries.Fonts.ContainsKey(fontName))
+            var lookUpName = fontName + " " + subFamily.ToString();
+            if (!Dictionaries.Fonts.ContainsKey(lookUpName))
             {
                 int label = 1;
                 if (Dictionaries.Fonts.Count > 0)
@@ -119,7 +120,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 //Document.Add(fr.GetFontObject(Document.Count + 1));
                 Dictionaries.Fonts.Add(fontName, fr);
             }
-            return Dictionaries.Fonts[fontName];
+            return Dictionaries.Fonts[lookUpName];
         }
 
         public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)

@@ -171,7 +171,7 @@ namespace EPPlusTest.PDF
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
             pageSettings.ShowGridLines = true;
-            pageSettings.ShowHeadings = true;
+            pageSettings.ShowHeadings = false;
             PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest55.pdf");
 
             //line breaks
