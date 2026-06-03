@@ -171,6 +171,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         var fill = p._paragraphs[0].DefaultRunProperties.Fill;
                         this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
                     }
+                    else
+                    {
+                        var fc = ColorConverter.GetThemeColor(textBody.Theme.ColorScheme.Light1);
+                        fc = ColorConverter.GetAdjustedColor(PathFillMode.Norm, fc);
+                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
+                        //Use shape fill somehow
+                        //Maybe use a name property for fallback theme accent1 color?
+                    }
                 }
             }
         }

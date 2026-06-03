@@ -4,6 +4,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Utils;
 using System.Globalization;
 using System.Text;
 
@@ -11,6 +12,8 @@ namespace EPPlus.DrawingRenderer.Svg
 {
     internal class SvgTextRunRenderer : SvgBaseRenderer<TextRunRenderItem>
     {
+        string UnderlineColorString = "";
+
         public SvgTextRunRenderer(StringBuilder outputStream) : base(outputStream)
         {
 
@@ -27,15 +30,18 @@ namespace EPPlus.DrawingRenderer.Svg
             {
                 fontStyleAttributes += "font-weight=\"bold\" ";
             }
+
+            string content = "";
+
             if (textRun._underLineType != eDrawingUnderLineType.None | textRun._strikeType != eDrawingStrikeType.No)
             {
-                string content = "";
+                string underlineContent = "";
                 if (textRun._underLineType != eDrawingUnderLineType.None)
                 {
                     switch (textRun._underLineType)
                     {
                         case eDrawingUnderLineType.Single:
-                            content += "underline";
+                            underlineContent += "underline";
                             break;
                         //These are all css only apparently
                         //case eUnderLineType.Double:
@@ -51,10 +57,21 @@ namespace EPPlus.DrawingRenderer.Svg
                         //    fontStyleAttributes += "wavy";
                         //    break;
                         default:
-                            content += "underline";
+                            underlineContent += "underline";
                             break;
                             //throw new NotImplementedException("Not implemented yet");
                     }
+                    if(textRun._underlineColor != System.Drawing.Color.Empty)
+                    {
+                        UnderlineColorString = $"<tspan {underlineContent} style=\"fill: {textRun._underlineColor.To6CharHexString()}; \">{{0}}</tspan>";
+                    }
+                    else
+                    {
+                        content += underlineContent;
+                    }
+                    //Underline color
+                    //We can change the underline color using double tspans
+                    // <text>SVG with a <tspan style="fill: red; text-decoration: underline;"><tspan style="fill:black;">colored underline</tspan></tspan>section.</text>
                 }
 
                 if (textRun._strikeType == eDrawingStrikeType.Single)
@@ -79,6 +96,8 @@ namespace EPPlus.DrawingRenderer.Svg
 
         public override void Render(TextRunRenderItem textRun)
         {
+            var sbStartidx = OutputStream.Length -1;
+
             string finalString = "";
             var xString = $"x =\"{(textRun.Bounds.Left.PointToPixelString())}\" ";
 
@@ -115,19 +134,29 @@ namespace EPPlus.DrawingRenderer.Svg
                     + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
             }
 
-            var sb = OutputStream;
+            var sb = new StringBuilder();
             sb.Append(finalString);
             //Get color etc.
-            //Renders up until this point
-            RenderBase(textRun);
+            //Renders up until this point (must be done to end the attribute addings so that text content can then be added)
+            RenderBaseToSpecified(textRun, sb);
             //Since final string has been written in base.render erase it.
             finalString = "";
 
             finalString += ">";
+            //Add actual text content
             finalString += textRun._currentText;
             finalString += "</tspan>";
-
             sb.Append(finalString);
+
+            var textRunString = sb.ToString();
+
+            //Wrap in another tspan to apply underline color if neccesary
+            if(string.IsNullOrEmpty(UnderlineColorString) == false)
+            {
+                textRunString = string.Format(UnderlineColorString, textRunString);
+            }
+
+            OutputStream.Append(textRunString);
         }
     }
 }

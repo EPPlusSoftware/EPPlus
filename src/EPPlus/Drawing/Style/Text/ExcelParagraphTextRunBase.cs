@@ -628,8 +628,25 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         internal IRichTextFormatDrawing ExportToImageRendererFormat()
         {
+            //This is neccesary for the baseline to be applied to the fontsize correctly
             var measureFont = GetMeasurementFont();
+
             var rtBase = new RichTextFormatDrawing(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
+
+            switch (Capitalization)
+            {
+                case eTextCapsType.All:
+                    rtBase.Text = Text.ToUpper();
+                    break;
+                case eTextCapsType.Small:
+                    rtBase.Text = Text.ToLower();
+                    break;
+                default:
+                    //Leave as is
+                    break;
+
+            }
+
             rtBase.Capitalization = (int)Capitalization;
             rtBase.HighLightColor = HighlightColor.GetColor();
             rtBase.FontColor = Fill.Color;
