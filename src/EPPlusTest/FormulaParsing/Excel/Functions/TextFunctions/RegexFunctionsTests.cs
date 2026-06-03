@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -17,7 +18,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void RegexTest()
         {
-            using(var package = OpenPackage("Testpackage"))
+            using (var package = OpenPackage("Testpackage"))
             {
                 var sheet = package.Workbook.Worksheets.Add("testsheet");
 
@@ -42,7 +43,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 Assert.AreEqual(false, sheet.Cells["D3"].Value);
                 Assert.AreEqual(false, sheet.Cells["D4"].Value);
                 Assert.AreEqual(false, sheet.Cells["D5"].Value);
-                Assert.AreEqual(true, sheet.Cells["D6"].Value);                
+                Assert.AreEqual(true, sheet.Cells["D6"].Value);
             }
         }
 
@@ -308,8 +309,131 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1:A2, B1, 2)";
                 sheet.Calculate();
 
-                Assert.AreEqual("9183", sheet.Cells["D1"].Value);                
+                Assert.AreEqual("9183", sheet.Cells["D1"].Value);
                 Assert.AreEqual("2546", sheet.Cells["D2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RegexReplace()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "044-5654-6546";
+
+                sheet.Cells["B1"].Value = "[^0-9]";
+
+                sheet.Cells["D1"].Formula = "REGEXREPLACE(A1,B1,C1)";
+                sheet.Calculate();
+
+                Assert.AreEqual("04456546546", sheet.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RegexReplaceWithOccurrance()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "044-5654-6546";
+
+                sheet.Cells["B1"].Value = "[^0-9]";
+
+                sheet.Cells["D1"].Formula = "REGEXREPLACE(A1,B1,C1, -1)";
+                sheet.Calculate();
+
+                Assert.AreEqual("044-56546546", sheet.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RegexReplaceRangeInput()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "044-5654-6546";
+                sheet.Cells["A2"].Value = "0546-4654-565";
+
+                sheet.Cells["D1"].Value = "[^0-9]";
+                sheet.Cells["D2"].Value = "[^0-9]";
+
+                sheet.Cells["E1"].Formula = "REGEXREPLACE(A1:B2,D1:D3, B1:C2)";
+                sheet.Calculate();
+
+                Assert.AreEqual("04456546546", sheet.Cells["E1"].Value);
+                Assert.AreEqual("05464654565", sheet.Cells["E2"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["E3"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["F3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RegexReplaceValueError()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "044-5654-6546";
+                sheet.Cells["D1"].Value = "(\\d{4})-(\\w+)-(\\w+)";
+                sheet.Cells["B1"].Formula = "REGEXREPLACE(A1,C1,D1)";
+                sheet.Calculate();
+
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RegexReplaceInvalidBackreference()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                // Text-kolumn (A1:A3)
+                sheet.Cells["A1"].Value = "2026-Stockholm-Q2";
+                sheet.Cells["A2"].Value = "2025-Linkoping-Q1";
+                sheet.Cells["A3"].Value = "2024-Orebro-Q4";
+
+                // Pattern: bara C1 satt (3 grupper), C2 och C3 tomma
+                sheet.Cells["C1"].Value = @"(\d{4})-(\w+)-(\w+)";
+
+                // Test 1: replacement med backreferenser ($3_$1)
+                // rad 1 har grupper → ok, rad 2-3 tomt pattern → 0 grupper → #VALUE!
+                sheet.Cells["E1"].Formula = "REGEXREPLACE(A1:A3, C1:C3, \"$3_$1\")";
+
+                // Test 2: samma uppsättning, replacement UTAN backreferens ("s")
+                // tomt pattern matchar varje position → "s" stoppas in överallt
+                sheet.Cells["G1"].Formula = "REGEXREPLACE(A1:A3, C1:C3, \"s\")";
+
+                // Test 3: skalärt – giltigt pattern + giltig backreferens
+                sheet.Cells["I1"].Formula = "REGEXREPLACE(A1, C1, \"$3_$1\")";
+
+                // Test 4: skalärt – pattern UTAN grupper + backreferens $1 → #VALUE!
+                sheet.Cells["I2"].Formula = "REGEXREPLACE(A1, \"[0-9]+\", \"$1\")";
+                sheet.Calculate();
+
+                // Test 1
+                Assert.AreEqual("Q2_2026", sheet.Cells["E1"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["E2"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["E3"].Value);
+
+                // Test 2
+                Assert.AreEqual("s", sheet.Cells["G1"].Value);
+                Assert.AreEqual("s2s0s2s5s-sLsisnsksospsisnsgs-sQs1s", sheet.Cells["G2"].Value);
+                Assert.AreEqual("s2s0s2s4s-sOsrsesbsrsos-sQs4s", sheet.Cells["G3"].Value);
+
+                // Test 3
+                Assert.AreEqual("Q2_2026", sheet.Cells["I1"].Value);
+
+                // Test 4: $1 finns inte ([0-9]+ har inga grupper) → #VALUE!
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["I2"].Value);
             }
         }
     }

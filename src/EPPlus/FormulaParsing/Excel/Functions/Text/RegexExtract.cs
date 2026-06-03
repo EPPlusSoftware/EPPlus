@@ -69,7 +69,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 return CreateResult(GetRegexExtractSingle(text, pattern, caseSensitivity), DataType.String);                                    
             }
 
-            // Minst ett range-argument – bygg resultatmatrisen
             var texts = textIsRange ? arguments[0].ValueAsRangeInfo : null;
             var patterns = patternIsRange ? arguments[1].ValueAsRangeInfo : null;
 
@@ -78,9 +77,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             int patternRows = patterns != null ? patterns.Size.NumberOfRows : 1;
             int patternCols = patterns != null ? patterns.Size.NumberOfCols : 1;
 
-            // Broadcasting-regler:
-            //   • Om en dimension är 1  → broadcastas till den andres storlek
-            //   • Om båda > 1           → ta max (den kortare ger #N/A vid överflöd)
             var nRows = ExpandedSize(textRows, patternRows);
             var nCols = ExpandedSize(textCols, patternCols);
 
@@ -108,7 +104,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                                       .Cast<Group>()
                                       .Skip(1)
                                       .Select(g => g.Value)
-                                      .ToArray().First().ToString(); // Excel only returns the first match and ignores following matches.
+                                      .ToArray().First().ToString();
                             result.SetValue(row, col, firstMatch);
                         }
                         else if(returnMode == 1)
@@ -143,7 +139,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                         .ToArray();
         }
         
-
         private string GetRegexExtractSingle(string text, string pattern, int caseSensitivity)
         {                            
             return Regex.Match(text, pattern, (RegexOptions)caseSensitivity).ToString();

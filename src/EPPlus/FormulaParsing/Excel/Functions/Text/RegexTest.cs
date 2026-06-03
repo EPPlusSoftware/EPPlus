@@ -19,7 +19,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
             if (!textIsRange && !patternIsRange)
             {
-                // Skalär × skalär – ursprungligt beteende
                 var text = arguments[0].Value?.ToString();
                 var pattern = arguments[1].Value?.ToString();
 
@@ -31,7 +30,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 return CreateResult(GetRegexTest(text, pattern, caseSensitivity), DataType.Boolean);
             }
 
-            // Minst ett range-argument – bygg resultatmatrisen
             var texts = textIsRange ? arguments[0].ValueAsRangeInfo : null;
             var patterns = patternIsRange ? arguments[1].ValueAsRangeInfo : null;
 
@@ -40,9 +38,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             int patternRows = patterns != null ? patterns.Size.NumberOfRows : 1;
             int patternCols = patterns != null ? patterns.Size.NumberOfCols : 1;
 
-            // Broadcasting-regler:
-            //   • Om en dimension är 1  → broadcastas till den andres storlek
-            //   • Om båda > 1           → ta max (den kortare ger #N/A vid överflöd)
             var nRows = ExpandedSize(textRows, patternRows);
             var nCols = ExpandedSize(textCols, patternCols);
                         
