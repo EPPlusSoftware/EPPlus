@@ -593,9 +593,9 @@ namespace OfficeOpenXml.Style
         /// Export to OpenTypeFormat
         /// </summary>
         /// <returns></returns>
-        public IRichTextFormatBase ExportToOpenTypeFormat()
+        public IRichTextFormatEssential ExportToOpenTypeFormat()
         {
-            var rtBase = new OpenTypeRichTextBase(Text, _collection._cells.Style.Font.Name, Size, Bold, Italic);
+            var rtBase = new RichTextFormatBase(Text, _collection._cells.Style.Font.Name, Size, Bold, Italic);
             return rtBase;
         }
     }

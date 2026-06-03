@@ -58,8 +58,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
-            ParagraphFont = p.DefaultRunProperties.GetMeasureFont();
-            DefaultParagraphFont = new OpenTypeFontInfoBase(ParagraphFont);
+            DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont());
 
             //---Calculate linespacing---
             ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
@@ -99,25 +98,17 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             else
             {
                 //Log line positions and run sizes
-                GenerateTextFragments(p.TextRuns);
+                GenerateRichText(p.TextRuns);
+                TextIfEmptyIsNull = string.IsNullOrEmpty(textIfEmpty);
                 //Initalize and wrap textruns
-                AddTextLinesAndSpacing(textIfEmpty);
+                WrapTextFragmentsAndGenerateTextRuns();
                 ImportStyles(p.TextRuns, p.DefaultRunProperties);
             }
         }
 
         internal void ImportLinesAndTextRunsDefault(string textIfEmpty, ExcelTextFont font = null)
         {
-            GenerateTextFragments(textIfEmpty);
-
-            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-            if (HorizontalAlignment == TextAlignment.Center)
-            {
-                _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-            }
-
-            AddTextLinesAndSpacing(textIfEmpty);
-
+            ImportLinesAndTextRunsBase(textIfEmpty);
             //Import RichText data to each run
             foreach (var run in Runs)
             {
@@ -126,48 +117,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
         }
 
-
-        void GenerateTextFragments(string text)
-        {
-            if (_textFragments == null)
-            {
-                _textFragments = new List<ITextFragmentBase>();
-            }
-
-            if (string.IsNullOrEmpty(text) == false)
-            {
-                var currentFrag = new TextFragment() { Text = text };
-                currentFrag.RichTextOptions.SetFont(ParagraphFont);
-                _textFragments.Add(currentFrag);
-            }
-            _layoutSystem = new LayoutSystem(_textFragments);
-        }
-
         /// <summary>
         /// Log linebreak positions and sizes of the runs
         /// So that we can easily know what textfragment is on what line and what size it has later
         /// </summary>
         /// <param name="runs"></param>
-        void GenerateTextFragments(ExcelDrawingTextRunCollection runs, List<ShapingOptions>? optionLst = null)
+        void GenerateRichText(ExcelDrawingTextRunCollection runs/*, List<ShapingOptions>? optionLst = null*/)
         {
-            var lstOfRichText = runs.ExportToOpenTypeFormat();
-
-            if (optionLst == null)
+            //var lstOfRichText = runs.ExportToOpenTypeFormat();
+            var lstOfRichText = runs.ExportToImageRendererFormat();
+            foreach (var rt in lstOfRichText)
             {
-                _layoutSystem = new LayoutSystem(lstOfRichText);
-            }
-            else
-            {
-                //Use this instead if we ever need shaping options
-                for(int i= 0; i< lstOfRichText.Count; i++)
-                {
-                    TextFragmentBase frag = new TextFragmentBase(lstOfRichText[i]);
-                    //Is initalized within the constructor but if for some reason a certain fragment needs to be imported differently
-                    //We can do so here
-                    frag.Options = optionLst[i];
-                    _textFragments.Add(frag);
-                }
-                _layoutSystem = new LayoutSystem(_textFragments);
+                _textFragments.Add(rt);
             }
         }
 
@@ -209,6 +170,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     {
                         var fill = p._paragraphs[0].DefaultRunProperties.Fill;
                         this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
+                    }
+                    else
+                    {
+                        var fc = ColorConverter.GetThemeColor(textBody.Theme.ColorScheme.Light1);
+                        fc = ColorConverter.GetAdjustedColor(PathFillMode.Norm, fc);
+                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
+                        //Use shape fill somehow
+                        //Maybe use a name property for fallback theme accent1 color?
                     }
                 }
             }
@@ -253,12 +222,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)
         {
             _lsType = (TextLineSpacing)lsType;
-            var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(ParagraphFont);
+            var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(DefaultParagraphFont);
 
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(
                 lineSpacingValue,
                 shaper,
-                ParagraphFont.Size);
+                DefaultParagraphFont.Size);
         }
 
         void ImportStyleFallback(ExcelTextFont font, DrawingTextRunRenderItem run)

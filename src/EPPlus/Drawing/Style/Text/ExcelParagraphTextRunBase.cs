@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/15/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
@@ -24,6 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Xml;
+using tc = OfficeOpenXml.Utils.TypeConversion; 
 
 namespace OfficeOpenXml.Drawing
 {
@@ -166,7 +168,11 @@ namespace OfficeOpenXml.Drawing
 
         //UnderlineLine underlineFill etc.
         #region Underline
-        string _underLineColorPath = "a:rPr/a:uFill/a:solidFill/a:srgbClr/@val";
+        string _underLineColorSetPath = "a:rPr/a:uFill/a:solidFill/a:srgbClr/@val";
+        string _underLineColorPath = "a:rPr/a:uFill/a:solidFill";
+
+        ExcelDrawingColorManager _underlineColorManager = null;
+
         /// <summary>
         /// The fonts underline color
         /// </summary>
@@ -174,19 +180,28 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                string col = GetXmlNodeString(_underLineColorPath);
-                if (col == "")
+                if(_underlineColorManager == null)
                 {
-                    return Color.Empty;
+                    _underlineColorManager = new ExcelDrawingColorManager(NameSpaceManager, TopNode, _underLineColorPath, SchemaNodeOrder);
+                }
+
+                if(_underlineColorManager.ColorType == eDrawingColorType.Scheme)
+                {
+                    return tc.ColorConverter.GetThemeColor(_prd.Package.Workbook.ThemeManager.GetOrCreateTheme(), _underlineColorManager);
                 }
                 else
                 {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                    var col = _underlineColorManager.GetColor();
+                    return col;
                 }
             }
             set
             {
-                SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
+                if (_underlineColorManager == null)
+                {
+                    _underlineColorManager = new ExcelDrawingColorManager(NameSpaceManager, TopNode, _underLineColorPath, SchemaNodeOrder);
+                }
+                _underlineColorManager.SetRgbColor(value);
             }
         }
 
@@ -614,9 +629,44 @@ namespace OfficeOpenXml.Drawing
         /// Export to OpenTypeFormat
         /// </summary>
         /// <returns></returns>
-        internal IRichTextFormatBase ExportToOpenTypeFormat()
+        internal IRichTextFormatEssential ExportToOpenTypeFormat()
         {
-            var rtBase = new OpenTypeRichTextBase(Text, GetMeasurementFont().FontFamily, FontSize, FontBold, FontItalic);
+            var measureFont = GetMeasurementFont();
+            var rtBase = new RichTextFormatBase(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
+            return rtBase;
+        }
+
+        /// <summary>
+        /// Export to OpenTypeFormat
+        /// </summary>
+        /// <returns></returns>
+        internal IRichTextFormatDrawing ExportToImageRendererFormat()
+        {
+            //This is neccesary for the baseline to be applied to the fontsize correctly
+            var measureFont = GetMeasurementFont();
+
+            var rtBase = new RichTextFormatDrawing(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
+
+            switch (Capitalization)
+            {
+                case eTextCapsType.All:
+                    rtBase.Text = Text.ToUpper();
+                    break;
+                case eTextCapsType.Small:
+                    rtBase.Text = Text.ToLower();
+                    break;
+                default:
+                    //Leave as is
+                    break;
+
+            }
+
+            rtBase.Capitalization = (int)Capitalization;
+            rtBase.HighLightColor = HighlightColor.GetColor();
+            rtBase.FontColor = Fill.Color;
+            rtBase.UnderlineColor = UnderLineColor;
+            rtBase.Baseline = Baseline;
+            rtBase.Spacing = Spacing;
             return rtBase;
         }
     }

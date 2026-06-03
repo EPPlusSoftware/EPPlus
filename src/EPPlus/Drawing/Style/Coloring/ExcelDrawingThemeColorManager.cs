@@ -118,10 +118,6 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         /// <see cref="ExcelDrawingColorManager.SetSchemeColor(eSchemeColor)"/>
         /// </summary>
         public eDrawingColorType ColorType { get; internal protected set; } = eDrawingColorType.None;
-        internal void SetXml(XmlNamespaceManager nameSpaceManager, XmlNode node)
-        {
-            
-        }
         ExcelColorTransformCollection _transforms = null;
         /// <summary>
         /// Color transformations

@@ -146,7 +146,7 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = "warmup",
-                    Font = new OpenTypeFontInfoBase
+                    Font = new FontFormatBase
                     {
                         Family = FontFamily,
                         Size = FontSize,
@@ -156,7 +156,7 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = "warmup",
-                    Font = new OpenTypeFontInfoBase
+                    Font = new FontFormatBase
                     {
                         Family = FontFamily,
                         Size = 12f,
@@ -166,7 +166,7 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = "warmup",
-                    Font = new OpenTypeFontInfoBase
+                    Font = new FontFormatBase
                     {
                         Family = FontFamily,
                         Size = FontSize,
@@ -206,27 +206,27 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = text.Substring(0, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
+                    Font = new FontFormatBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 12f, SubFamily = FontSubFamily.Bold }
+                    Font = new FontFormatBase { Family = FontFamily, Size = 12f, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 2, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize, SubFamily = FontSubFamily.Italic }
+                    Font = new FontFormatBase { Family = FontFamily, Size = FontSize, SubFamily = FontSubFamily.Italic }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 3, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
+                    Font = new FontFormatBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 4),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 10f }
+                    Font = new FontFormatBase { Family = FontFamily, Size = 10f }
                 }
             };
 
@@ -261,27 +261,27 @@ namespace EPPlus.Fonts.Benchmarks
                 new TextFragment
                 {
                     Text = text.Substring(0, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
+                    Font = new FontFormatBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 12f, SubFamily = FontSubFamily.Bold }
+                    Font = new FontFormatBase { Family = FontFamily, Size = 12f, SubFamily = FontSubFamily.Bold }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 2, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize, SubFamily = FontSubFamily.Italic }
+                    Font = new FontFormatBase { Family = FontFamily, Size = FontSize, SubFamily = FontSubFamily.Italic }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 3, chunkSize),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = FontSize }
+                    Font = new FontFormatBase { Family = FontFamily, Size = FontSize }
                 },
                 new TextFragment
                 {
                     Text = text.Substring(chunkSize * 4),
-                    Font = new OpenTypeFontInfoBase { Family = FontFamily, Size = 10f }
+                    Font = new FontFormatBase { Family = FontFamily, Size = 10f }
                 }
             };
 

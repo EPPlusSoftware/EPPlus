@@ -12,14 +12,11 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -32,7 +29,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
-        private List<object> _xSerie;
+        private List<double> _xSerie;
         private ExcelChart _chartType;
         private bool _useSecondaryAxis;
         private int _serieCount, _seriePos;
@@ -40,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             _chartType = chartType;
             _trendline = trendline;
-            _xSerie = xSerie;
+            _xSerie = GetXSerie(xSerie);
             _ySerie = ySerie.Select(y => ConvertUtil.GetValueDouble(y)).ToArray();
             _useSecondaryAxis = chartType.UseSecondaryAxis;
             _serieCount = _chartType.Series.Count;
@@ -50,8 +47,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
-                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
-                    Coordinates.Add(new Coordinate(_xSerie.Count-1, GetLinearValueAtPosition(_xSerie.Count)));
+                    Coordinates.Add(new Coordinate(_xSerie[0], GetLinearValueAtPosition(_xSerie[0])));
+                    Coordinates.Add(new Coordinate(_xSerie[_xSerie.Count-1], GetLinearValueAtPosition(_xSerie[_xSerie.Count - 1])));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();
@@ -95,6 +92,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
+        /// <summary>
+        /// Get the X serie values. If the values are not numeric, return a serie with the index values (1,2,3,...). Trendline calculation requires numeric X values, but Excel allows non-numeric X values for trendlines, in which case it uses the index values as X for calculation.
+        /// </summary>
+        /// <param name="xSerie">Input values</param>
+        /// <returns>Output doubles</returns>
+        private List<double> GetXSerie(List<object> xSerie)
+        {
+            var l=new List<double>();
+            for(int i=0;i<xSerie.Count;i++)
+            {
+                if (ConvertUtil.IsExcelNumeric(xSerie[i]))
+                {
+                    l.Add(ConvertUtil.GetValueDouble(xSerie[i]));
+                }
+                else
+                {
+                    return xSerie.Select((x, index) => (double)(index + 1)).ToList();
+                }
+            }
+            return l;
+        }
+
         private void CreateDatalabel()
         {
             if(_trendline.DisplayEquation==false && _trendline.DisplayRSquaredValue==false)
@@ -104,8 +123,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Display the label for the trendline with equation and R² value.
             var lbl = _trendline.Label;
             var coord = RenderCoordinates;
-            var x = ChartRenderer.Plotarea.Rectangle.Left + coord[coord.Length - 2];
-            var y = ChartRenderer.Plotarea.Rectangle.Top + coord[coord.Length - 1];
+            var x = ChartRenderer.Plotarea.Group.Left + coord[coord.Length - 2];
+            var y = ChartRenderer.Plotarea.Group.Top + coord[coord.Length - 1];
             double width = 0, height = 0;
 
             if (_trendline.Label.Layout.HasLayout)
@@ -138,7 +157,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 DataLabel.TextBody.AutoSize = true;
             }
-            //DataLabel.ImportTextBody(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
+            DataLabel.ImportTextBody(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
             var labelText = "";
             if (_trendline.DisplayEquation)
             {
@@ -152,9 +171,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 labelText += RSquare;
             }
+            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
             DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, labelText);
-            //DataLabel.AddText(0, labelText);
-            //DataLabel.TextBody.Paragraphs[0].AddText(labelText, 0);
             DataLabel.LeftMargin = DataLabel.RightMargin = 4;
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
@@ -196,9 +214,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private void CalculateLinear()
         {
             var n = _xSerie.Count;
-            var sumX = n * (n + 1) / 2;
+            //var sumX = (double)n * (n + 1) / 2;
+            var sumX = _xSerie.Sum(x => x);
+            var sumX2 = _xSerie.Sum(x => x * x);
             var sumY = _ySerie.Sum(y => y);
-            var sumX2 = n * (n + 1) * (2 * n + 1) / 6;
+            //var sumX2 = (double)n * (n + 1) * (2 * n + 1) / 6;
             var sumXY = 0D;
 
             double slope, intercept;
@@ -219,15 +239,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 intercept = _trendline.Intercept;
                 for (int i = 0; i < _ySerie.Length; i++)
                 {
-                    sumXY += (_ySerie[i] - intercept) * (i + 1);
+                    double x= _xSerie[i];
+                    sumXY += x * (_ySerie[i] - intercept);  // x = i+1
                 }
+
                 slope = sumXY / sumX2;
             }
 
             //var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetLinearSerie(slope, intercept)), 2);
             var r2 = CalculateRSquared(x => slope * x + intercept, _ySerie, _trendline.Intercept);
             Coefficients = [slope, intercept];
-            Formula = $"y={slope:G5}x{(GetValueAndSignSuppressZero(intercept))}";
+            Formula = $"y={slope:N4}x{(GetValueAndSignSuppressZero(intercept))}";
             RSquare = $"R²={r2:N4}";
         }
 
@@ -739,7 +761,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        private double GetLinearValueAtPosition(int x)
+        private double GetLinearValueAtPosition(double x)
         {
             return Coefficients[1] + Coefficients[0] * x;
         }

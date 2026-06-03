@@ -7,13 +7,14 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using EPPlusImageRenderer.Utils;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
     /// <summary>
     /// Linestyle
     /// </summary>
-    public enum UnderLineType
+    public enum eDrawingUnderLineType
     {
         /// <summary>
         /// Dashed
@@ -91,7 +92,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
     /// <summary>
     /// BulletType of font strike
     /// </summary>
-    public enum StrikeType
+    public enum eDrawingStrikeType
     {
         /// <summary>
         /// Double-lined font strike
@@ -118,14 +119,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public IFontFormatBase _measurementFont { get; internal protected set; }
         protected bool _isFirstInParagraph;
 
-        public double FontSizeInPixels { get;  protected set; }
+        public double FontSizeInPixels { get; protected set; }
 
         public List<string> Lines { get;  set; }
 
         protected internal bool _isItalic = false;
         protected internal bool _isBold = false;
-        protected internal UnderLineType _underLineType = UnderLineType.None;
-        protected internal StrikeType _strikeType;
+        protected internal eDrawingUnderLineType _underLineType = eDrawingUnderLineType.None;
+        protected internal eDrawingStrikeType _strikeType;
         protected internal Color _underlineColor;
         protected internal double _baseline;
 
@@ -146,6 +147,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void ImportFontData(IFontFormatBase font)
         {
             InitializeBase(font);
+        }
+
+        public void ImportRichTextData(IRichTextFormatSimple rt)
+        {
+            InitializeBase(rt);
+            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
         }
 
         internal protected void InitializeBase(IFontFormatBase font)

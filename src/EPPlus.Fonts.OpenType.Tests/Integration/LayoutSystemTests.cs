@@ -73,7 +73,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum[d] exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? [D]Quis autem vel eum i[r]ure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?\u2029 " +
                 "At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem reru[d]um facilis est e[r]t expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellend[a]us. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.\u2029 " +
                 "Let's see if we can recognize unicode paragraph separators" };
-            var font = new OpenTypeFontInfoBase()
+            var font = new FontFormatBase()
             {
                 Family = "Aptos Narrow",
                 Size = 11,
@@ -265,14 +265,14 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void EnsureWrappingRichTextAndGettingLineSpacing()
         {
             List<string> txtLst = new List<string>() { "Hi ", "I am rich ", "But I am Even Richer " };
-            var rt = new OpenTypeRichTextBase(txtLst[0], "Roboto", 12f);
-            var rtSecond = new OpenTypeRichTextBase(txtLst[1], "Archivo Narrow", 11f);
-            var rtThird = new OpenTypeRichTextBase(txtLst[2], "Roboto", 18f);
+            var rt = new RichTextFormatBase(txtLst[0], "Roboto", 12f);
+            var rtSecond = new RichTextFormatBase(txtLst[1], "Archivo Narrow", 11f);
+            var rtThird = new RichTextFormatBase(txtLst[2], "Roboto", 18f);
 
             rtThird.Italic = true;
             rtThird.Bold = true;
 
-            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird};
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird};
 
             var paragraph = new LayoutSystem(rtLst);
 
@@ -292,26 +292,26 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(1, lines[2].InternalLineFragments.Count);
 
             //Assert correct fragment in correct spot
-            Assert.AreEqual(rtLst[0], (IRichTextFormatBase)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
-            Assert.AreEqual(rtLst[1], (IRichTextFormatBase)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[0], (IRichTextFormatEssential)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[1], (IRichTextFormatEssential)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
 
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
-            Assert.AreEqual(rtLst[2], (IRichTextFormatBase)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
         }
 
         [TestMethod]
         public void TestGetSection()
         {
             List<string> txtLst = new List<string>() { "Hi ", "I am rich ", "But I am Even Richer " };
-            var rt = new OpenTypeRichTextBase(txtLst[0], "Roboto", 12f);
-            var rtSecond = new OpenTypeRichTextBase(txtLst[1], "Archivo Narrow", 11f);
-            var rtThird = new OpenTypeRichTextBase(txtLst[2], "Roboto", 18f);
+            var rt = new RichTextFormatBase(txtLst[0], "Roboto", 12f);
+            var rtSecond = new RichTextFormatBase(txtLst[1], "Archivo Narrow", 11f);
+            var rtThird = new RichTextFormatBase(txtLst[2], "Roboto", 18f);
 
             rtThird.Italic = true;
             rtThird.Bold = true;
 
-            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird };
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird };
 
             var paragraph = new LayoutSystem(rtLst);
 
@@ -329,13 +329,13 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void TestGetSectionWithIndividualChars()
         {
             List<string> txtLst = new List<string>() { "A", "B", "C", "D" };
-            var rt = new OpenTypeRichTextBase(txtLst[0], "Roboto", 12f);
-            var rtSecond = new OpenTypeRichTextBase(txtLst[1], "Archivo Narrow", 11f);
-            var rtThird = new OpenTypeRichTextBase(txtLst[2], "Roboto", 18f);
-            var rtFourth = new OpenTypeRichTextBase(txtLst[3], "Archivo Narrow", 18f);
+            var rt = new RichTextFormatBase(txtLst[0], "Roboto", 12f);
+            var rtSecond = new RichTextFormatBase(txtLst[1], "Archivo Narrow", 11f);
+            var rtThird = new RichTextFormatBase(txtLst[2], "Roboto", 18f);
+            var rtFourth = new RichTextFormatBase(txtLst[3], "Archivo Narrow", 18f);
 
 
-            List<IRichTextFormatBase> rtLst = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird, rtFourth };
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird, rtFourth };
 
             var pIndividual = new LayoutSystem(rtLst);
 
@@ -350,12 +350,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void TestGetSectionMixed()
         {
             var txtLstMixed = new List<string>() { "Abc", "D", "Efg", "H" };
-            var rt = new OpenTypeRichTextBase(txtLstMixed[0], "Roboto", 12f);
-            var rtSecond = new OpenTypeRichTextBase(txtLstMixed[1], "Archivo Narrow", 11f);
-            var rtThird = new OpenTypeRichTextBase(txtLstMixed[2], "Roboto", 18f);
-            var rtFourth = new OpenTypeRichTextBase(txtLstMixed[3], "Archivo Narrow", 18f);
+            var rt = new RichTextFormatBase(txtLstMixed[0], "Roboto", 12f);
+            var rtSecond = new RichTextFormatBase(txtLstMixed[1], "Archivo Narrow", 11f);
+            var rtThird = new RichTextFormatBase(txtLstMixed[2], "Roboto", 18f);
+            var rtFourth = new RichTextFormatBase(txtLstMixed[3], "Archivo Narrow", 18f);
 
-            var rtLstMixed = new List<IRichTextFormatBase>() { rt, rtSecond, rtThird, rtFourth };
+            var rtLstMixed = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird, rtFourth };
             var pMixed = new LayoutSystem(rtLstMixed);
 
             var InMix = string.Join("", txtLstMixed.ToArray());
@@ -368,9 +368,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void TestGetSectionNumber2()
         {
             var txtLstMixed = new List<string>() { "10"};
-            var rt = new OpenTypeRichTextBase(txtLstMixed[0], "Roboto", 12f);
+            var rt = new RichTextFormatBase(txtLstMixed[0], "Roboto", 12f);
 
-            var rtLstMixed = new List<IRichTextFormatBase>() { rt };
+            var rtLstMixed = new List<IRichTextFormatEssential>() { rt };
             var pMixed = new LayoutSystem(rtLstMixed);
 
             var InMix = string.Join("", txtLstMixed.ToArray());

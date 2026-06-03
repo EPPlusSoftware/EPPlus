@@ -14,11 +14,31 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using System;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class DrawingLegendSerie : SvgLegendSeriesIcon
     {
         internal DrawingTextbody Textbox { get; set; }
+
+        internal void GetIconTopLeft(out double top, out double left)
+        {
+            if (SeriesIcon is LineRenderItem line)
+            {
+                top = line.Y1;
+                left = line.X1;
+            }
+            else if (SeriesIcon is RectRenderItem rect)
+            {
+                top = rect.Top;
+                left = rect.Left;
+            }
+            else
+            {
+                top = SeriesIcon.Bounds.Top;
+                left = SeriesIcon.Bounds.Left;
+            }
+        }
     }
 }

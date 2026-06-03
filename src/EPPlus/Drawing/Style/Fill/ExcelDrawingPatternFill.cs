@@ -112,10 +112,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             }
             _xml.SetXmlNodeString("@prst", PatternType.ToEnumString());
             var fgNode=_xml.CreateNode("a:fgClr");
-            ForegroundColor.SetXml(nsm, fgNode);
-
             var bgNode = _xml.CreateNode("a:bgClr");
-            BackgroundColor.SetXml(nsm, bgNode);
         }
         internal override void GetXml()
         {
