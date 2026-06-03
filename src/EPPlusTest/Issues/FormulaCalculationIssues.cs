@@ -1655,10 +1655,14 @@ namespace EPPlusTest.Issues
             using (var p = OpenTemplatePackage("issues\\s1050\\Data File.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["Sheet1"];
-                //ws.Calculate();
+                ws.Cells["E2:E2164"].Formula = "VLOOKUP(D2,'[1]LIST'!C:C,1,0)"; //1 is the Linked File position
+                ws.Calculate();
 
                 ws.Cells["E1:E2164"].CopyValues(ws.Cells["AU1"]);
-
+                Assert.AreEqual(ws.Cells["E172"].Value, 27823D);
+                Assert.AreEqual(ws.Cells["E2113"].Value, 15064D);
+                Assert.AreEqual(ws.Cells["AU172"].Value, 27823D);
+                Assert.AreEqual(ws.Cells["AU2113"].Value, 15064D);
                 SaveWorkbook("s1050-saved.xlsx", p);
             }
         }
