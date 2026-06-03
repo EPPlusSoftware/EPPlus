@@ -217,14 +217,15 @@ namespace OfficeOpenXml.Style
             set
             {
                 CreateTopNode();
+
                 if (_underlineColorManager == null)
                 {
                     _underlineColorManager = new ExcelDrawingColorManager(_xml.NameSpaceManager, _xml.TopNode, _underLineColorPath, _xml.SchemaNodeOrder);
                 }
                 _underlineColorManager.SetRgbColor(value);
-                _underlineColorManager.SetXml(_xml.NameSpaceManager, _underlineColorManager._colorNode);
+                //_underlineColorManager.SetXml(_xml.NameSpaceManager, _underlineColorManager._colorNode);
 
-                _xml.SetXmlNodeString(_underLineColorSetPath, value.ToArgb().ToString("X").Substring(2, 6));
+                //_xml.SetXmlNodeString(_underLineColorSetPath, value.ToArgb().ToString("X").Substring(2, 6));
             }
         }
         string _italicPath = "@i";

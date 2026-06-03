@@ -207,13 +207,15 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                //if (_underlineColorManager == null)
-                //{
-                //    _underlineColorManager = new ExcelDrawingColorManager(NameSpaceManager, TopNode, _underLineColorPath, SchemaNodeOrder);
-                //}
-                //_underlineColorManager.SetRgbColor(value);
-                //_underlineColorManager.SetXml(NameSpaceManager, _underlineColorManager._colorNode);
-                SetXmlNodeString(_underLineColorSetPath, value.ToArgb().ToString("X").Substring(2, 6));
+                //_underlineColorManager.SetXml
+                if (_underlineColorManager == null)
+                {
+                    _underlineColorManager = new ExcelDrawingColorManager(NameSpaceManager, TopNode, _underLineColorPath, SchemaNodeOrder);
+                }
+                _underlineColorManager.SetRgbColor(value);
+                ////_underlineColorManager.SetXml(NameSpaceManager, _underlineColorManager._colorNode);
+                //ExcelDrawingColorManager
+                //SetXmlNodeString(_underLineColorSetPath, value.ToArgb().ToString("X").Substring(2, 6));
             }
         }
 
