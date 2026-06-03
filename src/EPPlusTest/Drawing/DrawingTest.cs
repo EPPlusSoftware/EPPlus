@@ -1254,6 +1254,90 @@ namespace EPPlusTest
                 Assert.AreEqual("Rad", d.TextBody.Paragraphs[0].TextRuns[0].Text);
                 Assert.AreEqual(" 1", d.TextBody.Paragraphs[0].TextRuns[1].Text);
             }
-        }        
+        }
+
+        [TestMethod]
+        public void ChangeUnderlineShapeTextRun()
+        {
+            string outputFileName = "UnderlineChange_SuperAndSubscript.xlsx";
+            using (var p = OpenTemplatePackage("SuperAndSubScript.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var currShape = ws.Drawings[0];
+
+                var paragraph = currShape.As.Shape.TextBody.Paragraphs[0];
+                paragraph.TextRuns[2].UnderLineColor = Color.Red;
+
+                var file = GetOutputFile("", outputFileName);
+                p.SaveAs(file);
+            }
+
+            using(var p = OpenPackage(outputFileName))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var currShape = ws.Drawings[0];
+
+                var paragraph = currShape.As.Shape.TextBody.Paragraphs[0];
+                Assert.AreEqual(Color.Red.ToArgb(), paragraph.TextRuns[2].UnderLineColor.ToArgb());
+            }
+        }
+
+        [TestMethod]
+        public void GenerateAndChangeUnderlineShapeTextRunEpplus()
+        {
+            string outputFileName = "UnderlineChange_Generated.xlsx";
+
+            //Generate file
+            using (var p = OpenPackage("UnderlineChange_Shape.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ws1");
+
+                var box = ws.Drawings.AddTextbox("boxy", "Boxy is kind");
+
+                box.Fill.Color = Color.DarkKhaki;
+
+                box.TextBody.Paragraphs[0].TextRuns[0].FontUnderLine = eUnderLineType.Heavy;
+                box.TextBody.Paragraphs[0].TextRuns[0].UnderLineColor = Color.DarkRed;
+
+                var file = GetOutputFile("", outputFileName);
+
+                p.SaveAs(file);
+
+                var file2 = GetOutputFile("", "UnderlineChange_Shape.xlsx");
+                p.SaveAs(file2);
+            }
+
+            //Open file, verify color, save with new color
+            using (var p = OpenPackage(outputFileName))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var currShape = ws.Drawings[0];
+
+                var paragraph = currShape.As.Shape.TextBody.Paragraphs[0];
+                var textRun = paragraph.TextRuns[0];
+                Assert.AreEqual(Color.DarkRed.ToArgb(), textRun.UnderLineColor.ToArgb());
+
+                textRun.UnderLineColor = Color.Chartreuse;
+
+                SaveAndCleanup(p);
+            }
+
+            //Open file, verify color
+            using (var p = OpenPackage(outputFileName))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var currShape = ws.Drawings[0];
+
+                var paragraph = currShape.As.Shape.TextBody.Paragraphs[0];
+                var textRun = paragraph.TextRuns[0];
+                Assert.AreEqual(Color.Chartreuse.ToArgb(), textRun.UnderLineColor.ToArgb());
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
