@@ -12,7 +12,7 @@ namespace EPPlus.DrawingRenderer.Svg
 {
     internal class SvgTextRunRenderer : SvgBaseRenderer<TextRunRenderItem>
     {
-        string UnderlineColorString = "";
+        string UnderlineColorString = string.Empty;
 
         public SvgTextRunRenderer(StringBuilder outputStream) : base(outputStream)
         {
@@ -63,12 +63,9 @@ namespace EPPlus.DrawingRenderer.Svg
                     }
                     if(textRun._underlineColor != System.Drawing.Color.Empty)
                     {
-                        UnderlineColorString = $"<tspan {underlineContent} style=\"fill: {textRun._underlineColor.To6CharHexString()}; \">{{0}}</tspan>";
+                        UnderlineColorString = $"<tspan style=\"fill: #{textRun._underlineColor.To6CharHexString()}; {{0}} \">{{1}}</tspan>";
                     }
-                    else
-                    {
-                        content += underlineContent;
-                    }
+                    content += underlineContent;
                     //Underline color
                     //We can change the underline color using double tspans
                     // <text>SVG with a <tspan style="fill: red; text-decoration: underline;"><tspan style="fill:black;">colored underline</tspan></tspan>section.</text>
@@ -86,9 +83,14 @@ namespace EPPlus.DrawingRenderer.Svg
 
                 if(string.IsNullOrEmpty(content) == false)
                 {
-                    fontStyleAttributes += "text-decoration=\" ";
-                    fontStyleAttributes += content;
-                    fontStyleAttributes += "\" ";
+                    if (string.IsNullOrEmpty(UnderlineColorString))
+                    {
+                        fontStyleAttributes += $" text-decoration=\"{content}\" ";
+                    }
+                    else
+                    {
+                        UnderlineColorString = string.Format(UnderlineColorString, $"text-decoration: {content};", "{0}");
+                    }
                 }
             }
             return fontStyleAttributes;
@@ -134,11 +136,24 @@ namespace EPPlus.DrawingRenderer.Svg
                     + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
             }
 
+            if(string.IsNullOrEmpty(textRun.FillColor) == false)
+            {
+                finalString += $" style=\"fill: {textRun.FillColor};\" ";
+            }
+
+            //Avoid rendering fill color as we do so via style
+            var temp = textRun.FillColor;
+            textRun.FillColor = null;
+
             var sb = new StringBuilder();
             sb.Append(finalString);
+
             //Get color etc.
             //Renders up until this point (must be done to end the attribute addings so that text content can then be added)
             RenderBaseToSpecified(textRun, sb);
+
+            textRun.FillColor = temp;
+
             //Since final string has been written in base.render erase it.
             finalString = "";
 
@@ -157,6 +172,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
 
             OutputStream.Append(textRunString);
+            UnderlineColorString = string.Empty;
         }
     }
 }

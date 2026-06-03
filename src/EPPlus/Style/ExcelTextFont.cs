@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Font;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -21,7 +22,9 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Xml;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Style
 {
@@ -177,7 +180,11 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        string _underLineColorPath = "a:uFill/a:solidFill/a:srgbClr/@val";
+
+        string _underLineColorSetPath = "a:uFill/a:solidFill/a:srgbClr/@val";
+        string _underLineColorPath = "a:uFill/a:solidFill";
+
+        ExcelDrawingColorManager _underlineColorManager = null;
         /// <summary>
         /// The fonts underline color
         /// </summary>
@@ -185,20 +192,39 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                string col = _xml.GetXmlNodeString(_underLineColorPath);
-                if (col == "")
+                if(_underlineColorManager == null )
                 {
-                    return Color.Empty;
+                    _underlineColorManager = new ExcelDrawingColorManager(_xml.NameSpaceManager, _xml.TopNode, _underLineColorPath, _xml.SchemaNodeOrder);
+                }
+                if (_underlineColorManager.ColorType == eDrawingColorType.Scheme)
+                {
+                    return tc.ColorConverter.GetThemeColor(_pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme(), _underlineColorManager);
                 }
                 else
                 {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                    return _underlineColorManager.GetColor();
                 }
+                //string col = _xml.GetXmlNodeString(_underLineColorPath);
+                //if (col == "")
+                //{
+                //    return Color.Empty;
+                //}
+                //else
+                //{
+                //    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                //}
             }
             set
             {
                 CreateTopNode();
-                _xml.SetXmlNodeString(_underLineColorPath, value.ToArgb().ToString("X").Substring(2, 6));
+                if (_underlineColorManager == null)
+                {
+                    _underlineColorManager = new ExcelDrawingColorManager(_xml.NameSpaceManager, _xml.TopNode, _underLineColorPath, _xml.SchemaNodeOrder);
+                }
+                _underlineColorManager.SetRgbColor(value);
+                _underlineColorManager.SetXml(_xml.NameSpaceManager, _underlineColorManager._colorNode);
+
+                _xml.SetXmlNodeString(_underLineColorSetPath, value.ToArgb().ToString("X").Substring(2, 6));
             }
         }
         string _italicPath = "@i";
