@@ -527,7 +527,7 @@ namespace OfficeOpenXml.Drawing
                     DeleteNode(_hyperLinkPath);
                     if (HypRel != null)
                     {
-                        _drawings._package.ZipPackage.DeletePart(UriHelper.ResolvePartUri(HypRel.SourceUri, HypRel.TargetUri));
+                        _drawings.Part.DeleteRelationship(HypRel.Id);
                     }
                 }
 
@@ -542,7 +542,7 @@ namespace OfficeOpenXml.Drawing
                         HypRel = _drawings.Part.CreateRelationship(value, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
                     }
                     SetXmlNodeString(_hyperLinkPath + "/@r:id", HypRel.Id);
-                    if (Hyperlink is ExcelHyperLink excelLink)
+                    if (value is ExcelHyperLink excelLink)
                     {
                         SetXmlNodeString(_hyperLinkPath + "/@tooltip", excelLink.ToolTip);
                     }
