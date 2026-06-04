@@ -793,6 +793,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFrag.Text = text;
 
                 textFragments.Add(textFrag);
+                Console.WriteLine($"[GetTextFormats] AddFont('{textFrag.FullFontName}', subFamily={textFrag.Font.SubFamily}, text='{textFrag.Text}')");
                 dictionaries.AddFont(pageSettings, textFrag.FullFontName, textFrag.Font.SubFamily, textFrag.Text);
                 if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.FullFontName, textFrag.Font.SubFamily, "1234567890");
 

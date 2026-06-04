@@ -122,6 +122,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 var tf = cell.TextFragments[i];
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
+                Console.WriteLine($"[LayoutAndShapeText] Looking up '{tf.FullFontName}' (Family={tf.Font.Family}, SubFamily={tf.Font.SubFamily}). Found in Fonts: {dictionaries.Fonts.ContainsKey(tf.FullFontName)}");
                 st.FontProvider = dictionaries.Fonts[tf.FullFontName].fontSubsetManager.CreateSubsettedProvider();
 
                 if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
