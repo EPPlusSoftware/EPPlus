@@ -163,6 +163,7 @@ namespace EPPlusTest.PDF
         {
             //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
             using var p = OpenTemplatePackage("PDFTest.xlsx");
+            //using var p = OpenTemplatePackage("PDFTest_old.xlsx");
             //using var p = OpenTemplatePackage("DoubleBorder.xlsx");
             var ws = p.Workbook.Worksheets[0];
             PdfPageSettings pageSettings = new PdfPageSettings();
@@ -172,7 +173,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
             pageSettings.ShowGridLines = true;
             pageSettings.ShowHeadings = false;
-            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest55.pdf");
+            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest56.pdf");
 
             //line breaks
             //wrap comments

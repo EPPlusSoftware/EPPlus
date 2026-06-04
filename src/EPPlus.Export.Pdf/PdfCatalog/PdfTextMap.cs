@@ -554,7 +554,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
 
                 textFragments.Add(textFrag);
-                dictionaries.AddFont(pageSettings, textFrag.FullFontName, textFrag.Font.SubFamily, textFrag.Text);
+                dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
             }
             return textFragments;
         }

@@ -28,16 +28,17 @@ namespace EPPlus.Export.Pdf.PdfResources
 
         public void AddFont(PdfPageSettings pageSettings, string FontName, FontSubFamily SubFamily, string Text)
         {
-            if (!Fonts.ContainsKey(FontName))
+            var fullFont = FontName + " " + SubFamily.ToString();
+            if (!Fonts.ContainsKey(fullFont))
             {
                 int label = 1;
                 if (Fonts.Count > 0)
                 {
                     label = Fonts.Last().Value.labelNumber + 1;
                 }
-                Fonts.Add(FontName, new PdfFontResource(FontName, SubFamily, label, pageSettings));
+                Fonts.Add(fullFont, new PdfFontResource(FontName, SubFamily, label, pageSettings));
             }
-            var manger = Fonts[FontName].fontSubsetManager;
+            var manger = Fonts[fullFont].fontSubsetManager;
             manger.AddText(Text);
         }
 
