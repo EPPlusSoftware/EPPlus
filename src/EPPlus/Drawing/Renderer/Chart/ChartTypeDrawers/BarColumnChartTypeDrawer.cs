@@ -53,7 +53,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ExcelChartAxisStandard.CalculateStacked100(_valValues);
             }
 
-            CreateTrendlines(chartType, _catValues, _valValues);
+            //if(chartType.IsTypeBar())
+            //{
+            //    CreateTrendlines(chartType, _valValues, _catValues);
+            //}
+            //else
+            //{
+                CreateTrendlines(chartType, _catValues, _valValues);
+            //}                
         }
 
         internal override void DrawSeries()

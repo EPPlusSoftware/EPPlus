@@ -47,8 +47,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
-                    Coordinates.Add(new Coordinate(_xSerie[0], GetLinearValueAtPosition(_xSerie[0])));
-                    Coordinates.Add(new Coordinate(_xSerie[_xSerie.Count-1], GetLinearValueAtPosition(_xSerie[_xSerie.Count - 1])));
+                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
+                    Coordinates.Add(new Coordinate(_xSerie.Count-1, GetLinearValueAtPosition(_xSerie.Count)));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();
@@ -177,7 +177,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
             //Set datalabel position.
-            if(DataLabel.Left - (DataLabel.Width + 5) > ChartRenderer.Bounds.Right)
+            if(DataLabel.Left + (DataLabel.Width + 5) > ChartRenderer.Bounds.Right)
             {
                 DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width;
             }
@@ -215,8 +215,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var n = _xSerie.Count;
             //var sumX = (double)n * (n + 1) / 2;
-            var sumX = _xSerie.Sum(x => x);
-            var sumX2 = _xSerie.Sum(x => x * x);
             var sumY = _ySerie.Sum(y => y);
             //var sumX2 = (double)n * (n + 1) * (2 * n + 1) / 6;
             var sumXY = 0D;
@@ -224,9 +222,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double slope, intercept;
             if (double.IsNaN(_trendline.Intercept))
             {
+                var sumX = (double)n * (n + 1) / 2;
+                var sumX2 = (double)n * (n + 1) * (2 * n + 1) / 6;
                 for (int i = 0; i < _ySerie.Length; i++)
                 {
-                    sumXY += _ySerie[i] * (i + 1);
+                    double x = _xSerie[i];
+                    sumXY += _ySerie[i] * (i+1);
                 }
 
                 //Slope
@@ -236,6 +237,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
+                var sumX = _xSerie.Sum(x => x);
+                var sumX2 = _xSerie.Sum(x => x * x);
                 intercept = _trendline.Intercept;
                 for (int i = 0; i < _ySerie.Length; i++)
                 {

@@ -84,6 +84,16 @@ namespace EPPlusImageRenderer
             if (VerticalAxis != null)
             {
                 PlaceVerticalAxis(VerticalAxis);
+                //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
+                if (VerticalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && HorizontalAxis.Axis.AxisType == eAxisType.Val && HorizontalAxis.Min < 0D)
+                {
+                    Plotarea.Rectangle.Width += VerticalAxis.Rectangle.Width;
+                    Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
+                    var newRight = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(0D);
+                    var rightDiff = newRight - VerticalAxis.Rectangle.Width;
+                    VerticalAxis.Rectangle.Left = rightDiff;
+                    VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = newRight;
+                }
                 VerticalAxis.AddTickmarksAndValues(DefItems);
             }
 
@@ -92,7 +102,7 @@ namespace EPPlusImageRenderer
                 PlaceHorizontalAxis(HorizontalAxis);
 
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-                if (VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
+                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
                 {
                     var newtop = VerticalAxis.GetPositionInPlotarea(0D) + Plotarea.Group.Top;
                     var topDiff = HorizontalAxis.Rectangle.Top - newtop;
@@ -162,8 +172,20 @@ namespace EPPlusImageRenderer
                 verticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
                 verticalAxis.Line.Y1 = (float)verticalAxis.Rectangle.Top;
                 verticalAxis.Line.Y2 = (float)verticalAxis.Rectangle.Bottom;
-                if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
+                var axisPos = verticalAxis.Axis.AxisPosition;
+                if(verticalAxis.Axis.TickLabelPosition==eTickLabelPosition.High)
                 {
+                    axisPos = axisPos == eAxisPosition.Left ? eAxisPosition.Left : eAxisPosition.Right;
+                }
+                //if(verticalAxis.Axis.TickLabelPosition==eTickLabelPosition.NextTo)
+                //{
+
+                //    verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
+                //    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                //}
+                //else if (axisPos == eAxisPosition.Left)
+                if (axisPos == eAxisPosition.Left)
+                {                    
                     verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
                     verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
                 }

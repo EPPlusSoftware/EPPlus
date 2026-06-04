@@ -19,17 +19,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                //var ix = 6;
-                //var c = ws.Drawings[ix];
-                //var svg = c.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                var ix = 6;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
+                //var ix = 0;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
+                //}
             }
         }
 

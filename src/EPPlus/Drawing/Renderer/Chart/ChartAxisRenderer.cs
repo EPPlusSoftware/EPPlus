@@ -203,7 +203,7 @@ namespace EPPlusImageRenderer.Svg
                     widest = m.Width;
                 }
             }
-            return widest.PointToPixel();
+            return widest;
         }
 
         public List<object> Values

@@ -54,7 +54,7 @@ namespace EPPlusImageRenderer.Svg
 
             LeftMargin = RightMargin = 3; //4px
             TopMargin = BottomMargin = 3; //4px
-            _marginItemsWidth = mf.Size; //We use the size of the font as margin between items.
+            _marginItemsWidth = mf.Size / 2; //We use half the size of the font as margin between items.
             switch (l.Position)
             {
                 case eLegendPosition.Top:
@@ -603,7 +603,7 @@ namespace EPPlusImageRenderer.Svg
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
-            GetItemPosition(pSls, entryWidth, entryHeight, iconTop, iconTop + (iconHeight / 2), out double x, out double y);
+            GetItemPosition(pSls, entryWidth, entryHeight, iconLeft, iconTop + (iconHeight / 2), out double x, out double y);
 
             item.LineCap = LineCap.Round;
             item.Left = x;
