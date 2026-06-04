@@ -214,7 +214,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             pageLayout.AddChild(text);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if(centerH != null)
+                        if (centerH != null)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
@@ -228,7 +228,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             pageLayout.AddChild(text);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if(rightH != null)
+                        if (rightH != null)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
@@ -241,7 +241,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             pageLayout.AddChild(text);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if(leftF != null)
+                        if (leftF != null)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
                             int last = leftF.Content.TextLines.Count - 1;
@@ -255,7 +255,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             pageLayout.AddChild(text);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if(centerF != null)
+                        if (centerF != null)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
                             int last = centerF.Content.TextLines.Count - 1;
@@ -269,7 +269,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             pageLayout.AddChild(text);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if(rightF != null)
+                        if (rightF != null)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
                             int last = rightF.Content.TextLines.Count - 1;
@@ -886,7 +886,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 foreach (var idx in hf.NumberOfPagesIndexes)
                     hf.Content.TextFragments[idx].Text = totalPages.ToString();
             }
-            PdfTextShaper.LayoutAndShapeText(pageSettings, dictionaries, hf.Content);
+            PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
         }
 
     }
