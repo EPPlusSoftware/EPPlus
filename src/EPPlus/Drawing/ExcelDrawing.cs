@@ -21,6 +21,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.XML;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -332,6 +333,18 @@ namespace OfficeOpenXml.Drawing
                 try
                 {
                     if (_nvPrPath == "") throw new NotImplementedException();
+                    string oldName = GetXmlNodeString(_nvPrPath + "/@name");
+                    // Only perform dictionary synchronization if the name has actually changed
+                    if (!string.IsNullOrEmpty(oldName) && !oldName.Equals(value, StringComparison.Ordinal))
+                    {
+                        // Validate name uniqueness in both worksheet and parent-group drawing collections.
+                        // All checks must pass before any dictionaries are updated, preventing partial desynchronization.
+                        ValidateNameUniquenessInCollections(value);
+
+                        // All uniqueness checks successfully passed! Safe to update name-lookup dictionaries.
+                        UpdateNameInDictionaries(oldName, value);
+                    }
+
                     SetXmlNodeString(_nvPrPath + "/@name", value);
                     if (this is ExcelSlicer<ExcelTableSlicerCache> ts)
                     {
@@ -343,6 +356,10 @@ namespace OfficeOpenXml.Drawing
                         SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
                         pts.SlicerName = value;
                     }
+                }
+                catch (ArgumentException)
+                {
+                    throw;
                 }
                 catch
                 {
@@ -2496,6 +2513,43 @@ namespace OfficeOpenXml.Drawing
             //Copy Blip Fill
             WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, this, sourceShape.Fill, worksheet._drawings.Part.Uri);
             return drawNode;
+        }
+
+        private void ValidateNameUniqueness(Dictionary<string, int> drawingNames, IEnumerable<ExcelDrawing> collection, string name)
+        {
+            if (drawingNames?.ContainsKey(name) == true)
+            {
+                int index = drawingNames[name];
+                var drawing = collection?.ElementAtOrDefault(index);
+
+                if (drawing != null && drawing != this)
+                {
+                    string collectionDescription = collection is ExcelDrawingsGroup ? "the group drawings collection" : "drawings collection";
+                    throw new ArgumentException($"Name '{name}' already exists in {collectionDescription}.");
+                }
+            }
+        }
+
+        private void ValidateNameUniquenessInCollections(string name)
+        {
+            ValidateNameUniqueness(_drawings?._drawingNames, _drawings?._drawingsList, name);
+            ValidateNameUniqueness(_parent?.Drawings?._drawingNames, _parent?.Drawings, name);
+        }
+
+        private void UpdateNameInDictionary(Dictionary<string, int> drawingNames, string oldName, string newName)
+        {
+            if (drawingNames?.ContainsKey(oldName) == true)
+            {
+                int index = drawingNames[oldName];
+                drawingNames.Remove(oldName);
+                drawingNames[newName] = index;
+            }
+        }
+
+        private void UpdateNameInDictionaries(string oldName, string newName)
+        {
+            UpdateNameInDictionary(_drawings?._drawingNames, oldName, newName);
+            UpdateNameInDictionary(_parent?.Drawings?._drawingNames, oldName, newName);
         }
 
         internal ExcelAddressBase GetAddress()
