@@ -158,6 +158,37 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
+        /// Returns the actual position of the axis, taking into account the position and the label position. 
+        /// For example, if the axis position is left and the label position is high, the actual position will be to the right of the plotarea.
+        /// </summary>
+        public eAxisPosition ActualAxisPosition
+        {
+            get
+            {
+                var ap = AxisPosition;
+                if(ap==eAxisPosition.Left && LabelPosition==eTickLabelPosition.High)
+                {
+                    return eAxisPosition.Right;
+                }
+                else if(ap==eAxisPosition.Right && LabelPosition==eTickLabelPosition.Low)
+                {
+                    return eAxisPosition.Left;
+                }
+                else if(ap==eAxisPosition.Top && LabelPosition==eTickLabelPosition.Low)
+                {
+                    return eAxisPosition.Bottom;
+                }
+                else if(ap==eAxisPosition.Bottom && LabelPosition==eTickLabelPosition.High)
+                {
+                    return eAxisPosition.Top;
+                }
+                else
+                {
+                    return ap;
+                }
+            }
+        }
+        /// <summary>
         /// Chart axis title
         /// </summary>
         public new ExcelChartTitleStandard Title
