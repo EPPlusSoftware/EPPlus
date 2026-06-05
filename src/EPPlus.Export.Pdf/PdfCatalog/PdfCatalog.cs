@@ -330,6 +330,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 var cnPageSettings = new PdfPageSettings();
                 cnPageSettings.CommentsAndNotes = CommentsAndNotes.None;
+                cnPageSettings.ShowHeadings = false;
                 pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);
                 pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
                 pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);

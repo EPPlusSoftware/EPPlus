@@ -95,12 +95,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
                     pageLayout.HeadingWidth = page.HeadingWidth;
                     pageLayout.HeadingHeight = page.HeadingHeight;
+                    pageLayout.PrintTitleWidth = page.PrintTitleWidth;
+                    pageLayout.PrintTitleHeight = page.PrintTitleHeight;
                     var drawnMergedCells = new HashSet<string>();
                     //var drawnMergedCellsText = new HashSet<string>();
                     //PdfContentLayout contentLayout = new PdfContentLayout(0d, 0d, pageSettings.ContentBounds);
                     //pageLayout.AddChild(contentLayout);
-                    double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth;
-                    double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight;
+                    double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+                    double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
                     if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
 
@@ -584,7 +586,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
                     // --- Y ---
                     // Replace the * 15d line with a sum of real row heights
-                    double drawY = pageSettings.ContentBounds.Top - page.HeadingHeight;
+                    double drawY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
                     for (int r = page.FromRow; r < row; r++)
                     {
                         drawY -= range.RowHeights[r - range.Range._fromRow].Height;
@@ -612,7 +614,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             int colCount = page.ToColumn - page.FromColumn + 1;
             var colX = new double[colCount];
-            double x = pageSettings.ContentBounds.Left + page.HeadingWidth;
+            double x = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
             for (int col = page.FromColumn; col <= page.ToColumn; col++)
             {
                 colX[col - page.FromColumn] = x;

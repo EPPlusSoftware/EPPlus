@@ -41,7 +41,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             // colX[ci] = X of left edge of column ci (0-based within page).
             // colX[colCount] = X of right edge of last column.
             var colX = new double[colCount + 1];
-            colX[0] = pageSettings.ContentBounds.Left + page.HeadingWidth;
+            colX[0] = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
             for (int ci = 0; ci < colCount; ci++)
             {
                 var cell = page.Map[page.FromRow, page.FromColumn + ci];
@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             // rowY[rowCount] = Y of bottom edge of last row.
             // Y decreases downward (PDF coordinate system used throughout GetCatalog).
             var rowY = new double[rowCount + 1];
-            rowY[0] = pageSettings.ContentBounds.Top - page.HeadingHeight;
+            rowY[0] = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
 
            for (int ri = 0; ri < rowCount; ri++)
             {
