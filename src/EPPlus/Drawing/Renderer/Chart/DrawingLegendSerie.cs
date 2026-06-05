@@ -18,7 +18,7 @@ using System;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class DrawingLegendSerie : SvgLegendSeriesIcon
+    internal class DrawingLegendSerie : DrawingLegendSeriesIcon
     {
         internal DrawingTextbody Textbox { get; set; }
 

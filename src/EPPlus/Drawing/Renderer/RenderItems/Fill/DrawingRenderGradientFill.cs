@@ -50,6 +50,11 @@ namespace EPPlus.DrawingRenderer.RenderItems
             {
                 LinearSettings.Angle = gradientFill.LinearSettings.Angle;
                 LinearSettings.Scaled = gradientFill.LinearSettings.Scaled;
+                UserSpaceOnUse = false;
+            }
+            else
+            {
+                UserSpaceOnUse = true;
             }
         }
     }

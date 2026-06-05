@@ -8,7 +8,7 @@ using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
 
-namespace EPPlus.Export.ImageRenderer.Svg
+namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
     internal class LineMarkerHelper
     {

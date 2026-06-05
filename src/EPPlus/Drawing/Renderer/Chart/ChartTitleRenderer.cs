@@ -120,7 +120,14 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width - margin : sc.Bounds.Right - Rectangle.Width - margin;
                     break;
                 case eAxisPosition.Bottom:
-                    Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
+                    if(sc.HorizontalAxis!=null && sc.HorizontalAxis.Axis.HasTitle && sc.HorizontalAxis.Axis.AxisPosition==eAxisPosition.Bottom)
+                    {                        
+                        Rectangle.Top = sc.HorizontalAxis.Rectangle.Bottom + margin;
+                    }
+                    else
+                    {
+                        Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
+                    }
                     Rectangle.Left = GetHorizontalLeft(sc);
                     break;
                 case eAxisPosition.Top:

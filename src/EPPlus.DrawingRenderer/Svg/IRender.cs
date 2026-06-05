@@ -111,7 +111,7 @@ namespace EPPlus.DrawingRenderer
                 var key = item.GradientFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource, true);
+                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource);
                     _defsCache[key] = name;
                 }
                 item.FillColor = $"Url(#{name})";
@@ -147,7 +147,7 @@ namespace EPPlus.DrawingRenderer
                 var key = item.BorderGradientFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
+                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource);
                     _defsCache[key] = name;
                 }
                 item.BorderColor = $"Url(#{name})";
@@ -249,11 +249,11 @@ namespace EPPlus.DrawingRenderer
             defSb.Append($"</pattern>");
             return name;
         }
-        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderGradientFill gradientFill, PathFillMode fillMode, bool userSpaceOnUse)
+        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderGradientFill gradientFill, PathFillMode fillMode)
         {
             //var gs = gradientFill.Settings;
             var name = $"{namePrefix}{fillMode}";
-            var grUnits = userSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
+            var grUnits = gradientFill.UserSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
             if (gradientFill.ShadePath == ShadePath.Linear && hs.Contains(name) == false)
             {
                 hs.Add(name);
