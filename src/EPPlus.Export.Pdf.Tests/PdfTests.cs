@@ -21,6 +21,8 @@ using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Drawing.Printing;
 
 namespace EPPlusTest.PDF
 {
@@ -179,7 +181,58 @@ namespace EPPlusTest.PDF
             //wrap comments
             //text placement
             //alignment
-                //vertical
+            //vertical
+        }
+
+        [TestMethod]
+        public void PerfTest()
+        {
+            var sw = new Stopwatch();
+            Console.WriteLine("Starting...");
+            sw.Start();
+            using var p = OpenTemplatePackage("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx");
+            Console.WriteLine($"Read package time elapsed: {sw.ElapsedMilliseconds} ms");
+            sw.Restart();
+            var ws = p.Workbook.Worksheets[0];
+            var dun = ws.Dimension;
+            var pageSettings = new PdfPageSettings
+            {
+                CommentsAndNotes = CommentsAndNotes.AtEndOfSheet,
+                CellErrors = CellErrors.NA,
+                Debug = true,
+                PrintAsText = true,
+                ShowGridLines = false,
+                ShowHeadings = true
+            };
+            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\OutputTest1.3.pdf");
+            Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
+        }
+
+
+            [TestMethod]
+        // works as expected.
+        [DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", 0)]
+
+        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", 0)]
+        // 1. Minus signs alignment in cells differs from Excel.
+        // 2. Dimension seems to differ from Excel, Excel stops at row 75, EPPlus goes to row 89.
+        // 3. Row headings are sligthly wider in EPPlus than in Excel.
+        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", 1)]
+        public void WorkbookTests(string sourceFile, string outputPath, int wsIx)
+        {
+            using var p = OpenTemplatePackage(sourceFile);
+            var ws = p.Workbook.Worksheets[wsIx];
+
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
+
+            pageSettings.CellErrors = CellErrors.NA;
+            pageSettings.Debug = true;
+            pageSettings.PrintAsText = true;
+            pageSettings.ShowGridLines = true;
+            pageSettings.ShowHeadings = true;
+
+            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
         }
 
 

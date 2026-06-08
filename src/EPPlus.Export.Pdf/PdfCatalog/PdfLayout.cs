@@ -9,6 +9,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -62,6 +63,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
     internal class PdfLayout
     {
+        // [PERF] Temporary instrumentation — remove before PR
+        internal static long PerfHeadingCellCalls = 0;
+        internal static long PerfHeadingShapeTicks = 0;
+        internal static long PerfHeadingTotalTicks = 0;
+        internal static readonly System.Collections.Generic.HashSet<string> PerfUniqueHeadingTexts = new System.Collections.Generic.HashSet<string>();
         private const double rowHeadingWith1CharWidth = 23.25d;
 
         public static Transform GetLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
@@ -103,8 +109,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     //pageLayout.AddChild(contentLayout);
                     double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
                     double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                    // [PERF] page geometry
+                    int perfRowCount = page.ToRow - page.FromRow + 1;
+                    int perfColCount = page.ToColumn - page.FromColumn + 1;
+                    long headingTicks = 0;
                     if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
+                    {
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
+                    }
 
                     double y = contentStartY;//pageSettings.ContentBounds.Top;
                     double x = contentStartX;//pageSettings.ContentBounds.Left;
@@ -501,7 +513,12 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 tf.RichTextOptions.UnderlineType = 12;  // none
                 tf.RichTextOptions.StrikeType = 1;   // none
                 cell.TextFragments = new List<TextFragment> { tf };
-                PdfTextShaper.LayoutAndShapeText(pageSettings, dictionaries, cell);
+                // [PERF]
+                PerfHeadingCellCalls++;
+                PerfUniqueHeadingTexts.Add(text);
+                long perfT0 = System.Diagnostics.Stopwatch.GetTimestamp();
+                PdfTextShaper.ShapeText(pageSettings, dictionaries, cell);
+                PerfHeadingShapeTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfT0;
             }
             return cell;
         }

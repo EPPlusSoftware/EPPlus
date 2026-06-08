@@ -189,11 +189,11 @@ namespace EPPlus.Export.Pdf.PdfObjects
                     var originalFragment = ((TextFragment)textFormat.OriginalTextFragment);
                     while (glyphStart < shapedText.ShapedText.Glyphs.Length && shapedText.ShapedText.Glyphs[glyphStart].GlyphId == 0)
                     {
-                        Console.WriteLine($"[AddText] GlyphId==0 in shapedText {shapedTextIndex} of {cell.ShapedTexts.Count}, advancing. Cell.Text='{cell.cell?.Text}' textFormat.Text='{textFormat.Text}'");
+                        //Console.WriteLine($"[AddText] GlyphId==0 in shapedText {shapedTextIndex} of {cell.ShapedTexts.Count}, advancing. Cell.Text='{cell.cell?.Text}' textFormat.Text='{textFormat.Text}'");
                         shapedTextIndex++;
                         if (shapedTextIndex >= cell.ShapedTexts.Count)
                         {
-                            Console.WriteLine($"[AddText] OUT OF RANGE! Original text: '{originalFragment.Text}'");
+                            //Console.WriteLine($"[AddText] OUT OF RANGE! Original text: '{originalFragment.Text}'");
                             break; // temp safety
                         }
                         shapedText = cell.ShapedTexts[shapedTextIndex];

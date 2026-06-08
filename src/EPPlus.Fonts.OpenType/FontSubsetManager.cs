@@ -67,11 +67,11 @@ namespace EPPlus.Fonts.OpenType
                 ushort glyphId;
                 _sourceProvider.TryGetGlyphFont((uint)cp, out font, out glyphId);
 
-                var fontName = font?.NameTable?.GetFullFontName() ?? "null";
-                if ((char)cp == 'E' || (char)cp == 'P')
-                {
-                    Console.WriteLine($"[FontSubsetManager.AddText] cp='{(char)cp}' (U+{cp:X4}) -> font='{fontName}', glyphId={glyphId}");
-                }
+                //var fontName = font?.NameTable?.GetFullFontName() ?? "null";
+                //if ((char)cp == 'E' || (char)cp == 'P')
+                //{
+                //    Console.WriteLine($"[FontSubsetManager.AddText] cp='{(char)cp}' (U+{cp:X4}) -> font='{fontName}', glyphId={glyphId}");
+                //}
 
                 HashSet<int> fontCodePoints;
                 if (!_codePointsByFont.TryGetValue(font, out fontCodePoints))

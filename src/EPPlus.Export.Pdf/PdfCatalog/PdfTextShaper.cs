@@ -69,7 +69,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
-                //Console.WriteLine($"[ShapeText] tf.Text='{tf.Text}' FullFontName='{tf.FullFontName}' usedFonts={string.Join(",", usedFonts.Select(f => f.FullName).ToArray())}");
                 var fontIdMap = new Dictionary<byte, string>();
 
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
@@ -107,85 +106,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
             }
 
-            cell.TotalTextLength = totalTextLength;
-        }
-
-        // Kept for backwards compatibility - not used by ShapeTextInPdfWorksheet anymore
-        public static void LayoutAndShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
-        {
-            var totalTextLength = 0d;
-            var maxLineHeight = 0d;
-            if (cell.TextFragments == null) return;
-            cell.ShapedTexts = new List<PdfShapedText>();
-            for (int i = 0; i < cell.TextFragments.Count; i++)
-            {
-                var tf = cell.TextFragments[i];
-                cell.ShapedTexts.Add(new PdfShapedText());
-                var st = cell.ShapedTexts[i];
-                Console.WriteLine($"[LayoutAndShapeText] Looking up '{tf.FullFontName}' (Family={tf.Font.Family}, SubFamily={tf.Font.SubFamily}). Found in Fonts: {dictionaries.Fonts.ContainsKey(tf.FullFontName)}");
-                st.FontProvider = dictionaries.Fonts[tf.FullFontName].fontSubsetManager.CreateSubsettedProvider();
-
-                if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
-                {
-                    shaper = new TextShaper(st.FontProvider);
-                    shaperCache[st.FontProvider] = shaper;
-                }
-
-                if (!layoutEngineCache.TryGetValue(st.FontProvider, out var layoutEngine))
-                {
-                    layoutEngine = new TextLayoutEngine(shaper);
-                    layoutEngineCache[st.FontProvider] = layoutEngine;
-                }
-
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
-
-                var shaped = shaper.Shape(tf.Text, options);
-                var usedFonts = shaper.GetUsedFonts().ToList();
-                var fontIdMap = new Dictionary<byte, string>();
-
-                var allProviderFonts = st.FontProvider.GetAllFonts().ToList();
-
-                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
-                {
-                    var font = usedFonts[fontId];
-                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
-                    {
-                        int label = 1;
-                        if (dictionaries.Fonts.Count > 0)
-                        {
-                            label = dictionaries.Fonts.Last().Value.labelNumber + 1;
-                        }
-                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
-                        fontResource.fontData = font;
-                        dictionaries.Fonts.Add(font.FullName, fontResource);
-                    }
-                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
-                }
-                cell.TextLayoutEngine = layoutEngine;
-                st.ShapedText = shaped;
-                var textWidth = st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
-                var textHeight = st.ShapedText.GetLineHeightInPoints((float)tf.Font.Size);
-                totalTextLength += textWidth;
-                maxLineHeight = Math.Max(textHeight, maxLineHeight);
-                st.FontIdMap = fontIdMap;
-                st.UsedFonts = usedFonts;
-                cell.TextFragments[i] = tf;
-                cell.ShapedTexts[i] = st;
-            }
-            if (cell.TextLayoutEngine != null)
-            {
-                if (cell.ContentAligmnet.WrapText)
-                {
-                    double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
-                    cell.TextLines = cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth);
-                }
-                else
-                {
-                    cell.TextLines = cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
-                }
-            }
             cell.TotalTextLength = totalTextLength;
         }
     }
