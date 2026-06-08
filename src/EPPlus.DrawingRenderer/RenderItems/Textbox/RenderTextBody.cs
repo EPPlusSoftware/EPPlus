@@ -125,6 +125,28 @@ namespace EPPlus.DrawingRenderer.RenderItems
             return paragraph;
         }
 
+        public void ApplyAutoSize()
+        {
+            if (AutoSize)
+            {
+               var currentHeight = 0d;
+               var currentWidth = 0d;
+
+                foreach(var paragraph in Paragraphs)
+                {
+                    currentHeight += paragraph.Bounds.Height;
+
+                    if (currentWidth < paragraph.Bounds.Width || currentWidth == MaxWidth)
+                    {
+                        currentWidth = paragraph.Bounds.Width;
+                    }
+                }
+
+                Bounds.Width = currentWidth;
+                Bounds.Height = currentHeight;
+            }
+        }
+
         private void AdjustAndAddParagraph(ParagraphRenderItem paragraph)
         {
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";

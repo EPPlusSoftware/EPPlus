@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             ImportMarginAndIndent(p);
             ImportAlignment(textBody.AutoSize, textBody.MaxWidth, parent.Width);
-
+            
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
             DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont());

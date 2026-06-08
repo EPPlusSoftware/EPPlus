@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _rectangle = new RectRenderItem(parent);
             TextBody = new DrawingTextbody(drawing, Rectangle.Bounds, true);
             TextBody.MaxWidth = maxWidth;
-            TextBody.MaxHeight = maxHeight;            
+            TextBody.MaxHeight = maxHeight;
         }
 
         internal DrawingTextBox(ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight) : base(parent, maxWidth, maxHeight)
@@ -265,10 +265,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 }
             }
             groupItem.RenderItems.Add(titleItem);
+
+            if(TextBody.AutoSize)
+            {
+                TextBody.ApplyAutoSize();
+                rect.Width = TextBody.Width + RightMargin;
+                rect.Height = TextBody.Height + BottomMargin;
+            }
+
             //As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
             groupItem.RenderItems.Add(rect);
 
-            TextBody.Bounds.Left = LeftMargin ;
+            TextBody.Bounds.Left = LeftMargin;
             TextBody.Bounds.Top = TopMargin;
             TextBody.AppendRenderItems(groupItem.RenderItems);
         }

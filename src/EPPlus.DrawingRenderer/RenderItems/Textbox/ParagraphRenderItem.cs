@@ -1,5 +1,6 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
@@ -8,6 +9,9 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
+using System.Drawing;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -140,6 +144,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             _lsMultiplier = 1d;
             DefaultParagraphFont = new FontFormatBase(rtFormat.Family, rtFormat.SubFamily, rtFormat.Size);
+            AddRichText(rtFormat);
+        }
+
+        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, IRichTextFormatDrawing rtFormat) : this(parent, textBody, false)
+        {
             AddRichText(rtFormat);
         }
 
@@ -332,15 +341,51 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+        void ImportStyles()
+        {
+            foreach (var run in Runs)
+            {
+                var rt = _layoutSystem.InputFragments[run.OriginalRtIdx].RichTextOptions;
+                if(rt is RichTextFormatDrawing)
+                {
+                    //Import drawing data
+                    run.ImportRichTextData((RichTextFormatDrawing)rt);
+                }
+                else if(rt is IRichTextFormatSimple)
+                {
+                    //Import basic/cell data
+                    run.ImportRichTextData((IRichTextFormatSimple)rt);
+                }
+                else
+                {
+                    //Import only essential font data
+                    run.ImportFontData((IFontFormatBase)rt);
+                }
+            }
+        }
+
         public void AddRichText(IRichTextFormatSimple richText)
         {
+            //TODO: Fix superScript/subScript should apply baseLine changes appropriately
+
             AddRichTextBase(richText);
             WrapTextFragmentsAndGenerateTextRuns();
+        }
+
+        public void AddRichText(IRichTextFormatDrawing richText)
+        {
+            //adjust size in accordance with baseline
+            richText.Size = richText.Baseline == 0 ? richText.Size : (float)(richText.Size * (1 - (Math.Abs(richText.Baseline) / 100)));
+
+            AddRichTextBase(richText);
+            WrapTextFragmentsAndGenerateTextRuns();
+            ImportStyles();
         }
 
         public void AddText(string text)
         {
             ImportLinesAndTextRunsBase(text);
+            ImportStyles();
         }
 
         protected abstract TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx);
