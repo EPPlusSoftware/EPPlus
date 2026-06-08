@@ -9,6 +9,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
 {
@@ -84,6 +85,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
     internal class PdfLayout
     {
+        // [PERF] Temporary instrumentation — remove before PR
+        internal static long PerfHeadingCellCalls = 0;
+        internal static long PerfHeadingShapeTicks = 0;
+        internal static long PerfHeadingTotalTicks = 0;
+        internal static readonly System.Collections.Generic.HashSet<string> PerfUniqueHeadingTexts = new System.Collections.Generic.HashSet<string>();
         private const double rowHeadingWith1CharWidth = 23.25d;
 
         public static Transform GetLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
@@ -125,206 +131,211 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     //pageLayout.AddChild(contentLayout);
                     double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
                     double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                    // [PERF] page geometry
+                    int perfRowCount = page.ToRow - page.FromRow + 1;
+                    int perfColCount = page.ToColumn - page.FromColumn + 1;
+                    long headingTicks = 0;
                     if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
                     {
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
                         AddPrintTitleHeadings(pageSettings, dictionaries, page, pageLayout, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
                     }
                     AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
+                }
 
-                    double y = contentStartY;//pageSettings.ContentBounds.Top;
-                    double x = contentStartX;//pageSettings.ContentBounds.Left;
-                    //create cells & headings if exsists
-                    for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
+                double y = contentStartY;//pageSettings.ContentBounds.Top;
+                double x = contentStartX;//pageSettings.ContentBounds.Left;
+                                         //create cells & headings if exsists
+                for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
+                {
+                    double rowHeight = pages[j].RowHeights[row - pages[j].FromRow];
+                    for (int col = pages[j].FromColumn; col <= pages[j].ToColumn; col++)
                     {
-                        double rowHeight = pages[j].RowHeights[row - pages[j].FromRow];
-                        for (int col = pages[j].FromColumn; col <= pages[j].ToColumn; col++)
+                        var map = pages[j].Map[row, col];
+                        MergedCellDrawInfo info = new MergedCellDrawInfo();
+                        //Merged Cell
+                        if (map.Merged)
                         {
-                            var map = pages[j].Map[row, col];
-                            MergedCellDrawInfo info = new MergedCellDrawInfo();
-                            //Merged Cell
-                            if (map.Merged)
-                            {
-                                string key = map.MergedAddress.Address;
-                                if (!drawnMergedCells.Contains(key) &&
-                                    pages[j].MergedCells.TryGetValue(key, out info))
-                                {
-                                    //Fill
-                                    var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
-                                    var fill = new PdfCellLayout(dictionaries, cellStyle,
-                                        info.X, info.Y, info.Width, info.Height);
-                                    fill.Name = map.Name;
-                                    fill.UpdateShadingPositionMatrix(pageSettings);
-                                    pageLayout.AddChild(fill);
-                                    //Text
-                                    var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
-                                    if (sourceMap != null)
-                                    {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, info.Width, info.Height);
-                                        text.Name = map.Name;
-                                        text.GidsAndCharMap(dictionaries);
-                                        text.SetupClipping(info.X, info.Y, info.Width, info.Height);
-                                        pageLayout.AddChild(text);
-                                    }
-                                    if (map.Main != null) // map.Main != null → this is NOT the top-left cell
-                                    {
-                                        var mergeMainStyle = map.Main.CellStyle;
-                                        if (HasDiagonalBorder(mergeMainStyle))
-                                        {
-                                            var diagBorder = new PdfCellBorderLayout(
-                                                mergeMainStyle,
-                                                isMerged: false,            // use X/Y/W/H path in renderer, not info.*
-                                                corners: MergedCellCorners.All,
-                                                info: info,
-                                                x: info.X,           // virtual full-merge top-left X
-                                                y: info.Y,           // virtual full-merge top Y
-                                                width: info.Width,       // full merge width
-                                                height: info.Height);     // full merge height
-                                            diagBorder.Name = map.Name;
-                                            // Suppress edge borders — this layout exists only for the diagonal
-                                            diagBorder.BorderData.Top.BorderStyle = ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Bottom.BorderStyle = ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Left.BorderStyle = ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Right.BorderStyle = ExcelBorderStyle.None;
-                                            pageLayout.AddChild(diagBorder);
-                                        }
-                                    }
-                                    drawnMergedCells.Add(key);
-                                }
-                            }
-                            else
+                            string key = map.MergedAddress.Address;
+                            if (!drawnMergedCells.Contains(key) &&
+                                pages[j].MergedCells.TryGetValue(key, out info))
                             {
                                 //Fill
-                                var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, rowHeight);
-                                fill.UpdateShadingPositionMatrix(pageSettings);
+                                var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
+                                var fill = new PdfCellLayout(dictionaries, cellStyle,
+                                    info.X, info.Y, info.Width, info.Height);
                                 fill.Name = map.Name;
+                                fill.UpdateShadingPositionMatrix(pageSettings);
                                 pageLayout.AddChild(fill);
                                 //Text
-                                if (map.TextLines != null && map.TextLines.Count > 0)
+                                var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
+                                if (sourceMap != null)
                                 {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, info.Width, info.Height);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
-                                    if (NeedsClipping(map, pages[j], row, col))
-                                        text.SetupClipping(x, y, map.ColumnWidth, rowHeight);
+                                    text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                                     pageLayout.AddChild(text);
                                 }
+                                if (map.Main != null) // map.Main != null → this is NOT the top-left cell
+                                {
+                                    var mergeMainStyle = map.Main.CellStyle;
+                                    if (HasDiagonalBorder(mergeMainStyle))
+                                    {
+                                        var diagBorder = new PdfCellBorderLayout(
+                                            mergeMainStyle,
+                                            isMerged: false,            // use X/Y/W/H path in renderer, not info.*
+                                            corners: MergedCellCorners.All,
+                                            info: info,
+                                            x: info.X,           // virtual full-merge top-left X
+                                            y: info.Y,           // virtual full-merge top Y
+                                            width: info.Width,       // full merge width
+                                            height: info.Height);     // full merge height
+                                        diagBorder.Name = map.Name;
+                                        // Suppress edge borders — this layout exists only for the diagonal
+                                        diagBorder.BorderData.Top.BorderStyle = ExcelBorderStyle.None;
+                                        diagBorder.BorderData.Bottom.BorderStyle = ExcelBorderStyle.None;
+                                        diagBorder.BorderData.Left.BorderStyle = ExcelBorderStyle.None;
+                                        diagBorder.BorderData.Right.BorderStyle = ExcelBorderStyle.None;
+                                        pageLayout.AddChild(diagBorder);
+                                    }
+                                }
+                                drawnMergedCells.Add(key);
                             }
-                            //Border
-                            var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
-                            if (HasBorder(map.CellStyle))
+                        }
+                        else
+                        {
+                            //Fill
+                            var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, rowHeight);
+                            fill.UpdateShadingPositionMatrix(pageSettings);
+                            fill.Name = map.Name;
+                            pageLayout.AddChild(fill);
+                            //Text
+                            if (map.TextLines != null && map.TextLines.Count > 0)
                             {
-                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
-                                border.Name = map.Name;
-                                pageLayout.AddChild(border);
+                                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
+                                text.Name = map.Name;
+                                text.GidsAndCharMap(dictionaries);
+                                if (NeedsClipping(map, pages[j], row, col))
+                                    text.SetupClipping(x, y, map.ColumnWidth, rowHeight);
+                                pageLayout.AddChild(text);
                             }
-                            x += map.ColumnWidth;
                         }
-                        y -= rowHeight;
-                        x = contentStartX; //pageSettings.ContentBounds.Left;
+                        //Border
+                        var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
+                        if (HasBorder(map.CellStyle))
+                        {
+                            var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
+                            border.Name = map.Name;
+                            pageLayout.AddChild(border);
+                        }
+                        x += map.ColumnWidth;
                     }
-
-                    if (page.HeaderFooters != null)
-                    {
-                        bool isVeryFirstPage = (i == 0 && j == 0);
-                        var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
-                        var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        if (leftH != null)
-                        {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, pageNumber, totalPages);
-                            var ascent = leftH.Content.TextLines[0].LargestAscent;
-                            var hfx = pageSettings.Margins.LeftPu;
-                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
-                            text.Name = "LeftHeader";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
-                        }
-                        var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if (centerH != null)
-                        {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
-                            var ascent = centerH.Content.TextLines[0].LargestAscent;
-                            var hfx = pageSettings.Margins.LeftPu;
-                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
-                            text.Name = "CenterHeader";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
-                        }
-                        var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if (rightH != null)
-                        {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
-                            var ascent = rightH.Content.TextLines[0].LargestAscent;
-                            var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
-                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
-                            text.Name = "RightHeader";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
-                        }
-                        var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if (leftF != null)
-                        {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
-                            int last = leftF.Content.TextLines.Count - 1;
-                            var descent = leftF.Content.TextLines[last].LargestDescent;
-                            var hfx = pageSettings.Margins.LeftPu;
-                            var hfy = pageSettings.Margins.FooterPu + descent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
-                            text.Name = "LeftFooter";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
-                        }
-                        var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if (centerF != null)
-                        {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
-                            int last = centerF.Content.TextLines.Count - 1;
-                            var descent = centerF.Content.TextLines[last].LargestDescent;
-                            var hfx = pageSettings.PageSize.WidthPu / 2d;
-                            var hfy = pageSettings.Margins.FooterPu + descent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, 0, 0);
-                            text.Name = "CenterFooter";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
-                        }
-                        var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if (rightF != null)
-                        {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
-                            int last = rightF.Content.TextLines.Count - 1;
-                            var descent = rightF.Content.TextLines[last].LargestDescent;
-                            var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
-                            var hfy = pageSettings.Margins.FooterPu + descent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
-                            text.Name = "RightFooter";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
-                        }
-                    }
-
-                    PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
-
-                    pageLayout.ChildObjects.Sort((a, b) =>
-                    {
-                        int cmp = a.Z.CompareTo(b.Z);
-                        if (cmp == 0)
-                            return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
-                        return cmp;
-                    });
-                    pageNumber++;
-                    Catalog.AddChild(pageLayout);
+                    y -= rowHeight;
+                    x = contentStartX; //pageSettings.ContentBounds.Left;
                 }
+
+                if (page.HeaderFooters != null)
+                {
+                    bool isVeryFirstPage = (i == 0 && j == 0);
+                    var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
+                    var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                    if (leftH != null)
+                    {
+                        SubstitutePageNumbers(pageSettings, dictionaries, leftH, pageNumber, totalPages);
+                        var ascent = leftH.Content.TextLines[0].LargestAscent;
+                        var hfx = pageSettings.Margins.LeftPu;
+                        var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
+                        var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
+                        text.Name = "LeftHeader";
+                        text.IsHeaderFooter = true;
+                        text.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(text);
+                    }
+                    var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
+                    if (centerH != null)
+                    {
+                        SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
+                        var ascent = centerH.Content.TextLines[0].LargestAscent;
+                        var hfx = pageSettings.Margins.LeftPu;
+                        var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
+                        var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                        var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
+                        text.Name = "CenterHeader";
+                        text.IsHeaderFooter = true;
+                        text.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(text);
+                    }
+                    var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
+                    if (rightH != null)
+                    {
+                        SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
+                        var ascent = rightH.Content.TextLines[0].LargestAscent;
+                        var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
+                        var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
+                        var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
+                        text.Name = "RightHeader";
+                        text.IsHeaderFooter = true;
+                        text.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(text);
+                    }
+                    var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
+                    if (leftF != null)
+                    {
+                        SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
+                        int last = leftF.Content.TextLines.Count - 1;
+                        var descent = leftF.Content.TextLines[last].LargestDescent;
+                        var hfx = pageSettings.Margins.LeftPu;
+                        var hfy = pageSettings.Margins.FooterPu + descent;
+                        var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
+                        text.Name = "LeftFooter";
+                        text.IsHeaderFooter = true;
+                        text.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(text);
+                    }
+                    var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
+                    if (centerF != null)
+                    {
+                        SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
+                        int last = centerF.Content.TextLines.Count - 1;
+                        var descent = centerF.Content.TextLines[last].LargestDescent;
+                        var hfx = pageSettings.PageSize.WidthPu / 2d;
+                        var hfy = pageSettings.Margins.FooterPu + descent;
+                        var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, 0, 0);
+                        text.Name = "CenterFooter";
+                        text.IsHeaderFooter = true;
+                        text.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(text);
+                    }
+                    var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
+                    if (rightF != null)
+                    {
+                        SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
+                        int last = rightF.Content.TextLines.Count - 1;
+                        var descent = rightF.Content.TextLines[last].LargestDescent;
+                        var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
+                        var hfy = pageSettings.Margins.FooterPu + descent;
+                        var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
+                        text.Name = "RightFooter";
+                        text.IsHeaderFooter = true;
+                        text.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(text);
+                    }
+                }
+
+                PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
+
+                pageLayout.ChildObjects.Sort((a, b) =>
+                {
+                    int cmp = a.Z.CompareTo(b.Z);
+                    if (cmp == 0)
+                        return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
+                    return cmp;
+                });
+                pageNumber++;
+                Catalog.AddChild(pageLayout);
             }
+        }
             return Catalog;
         }
 
@@ -388,7 +399,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         private static bool HasBorder(PdfCellStyle cellStyle)
         {
-            if(cellStyle == null) return false;
+            if (cellStyle == null) return false;
             bool hasBorders =
                 cellStyle.xfTop.Style != ExcelBorderStyle.None ||
                 cellStyle.xfBottom.Style != ExcelBorderStyle.None ||
@@ -593,7 +604,16 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 tf.RichTextOptions.UnderlineType = 12;  // none
                 tf.RichTextOptions.StrikeType = 1;   // none
                 cell.TextFragments = new List<TextFragment> { tf };
+<<<<<<< HEAD
                 PdfTextShaper.ShapeText(pageSettings, dictionaries, cell);
+=======
+                // [PERF]
+                PerfHeadingCellCalls++;
+                PerfUniqueHeadingTexts.Add(text);
+                long perfT0 = System.Diagnostics.Stopwatch.GetTimestamp();
+                PdfTextShaper.ShapeText(pageSettings, dictionaries, cell);
+                PerfHeadingShapeTicks += System.Diagnostics.Stopwatch.GetTimestamp() - perfT0;
+>>>>>>> 58c0e0fc23d16f7675746fbfd19e87df21421fcf
             }
             return cell;
         }
@@ -1205,10 +1225,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         }
 
         private struct PageSegment
-        {
-            public int From;
-            public int To;
-            public PageSegment(int from, int to) { From = from; To = to; }
+    {
+        public int From;
+        public int To;
+        public PageSegment(int from, int to) { From = from; To = to; }
         }
 
         private static List<PageSegment> GetColumnSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedWidth, double titleWidth, int printTitleColTo)
