@@ -104,9 +104,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         public RichTextFormatDrawing(FontFormatBase defaultParagraphFont)
         {
-            Family = defaultParagraphFont.Family;
-            SubFamily = defaultParagraphFont.SubFamily;
-            Size = defaultParagraphFont.Size;
+            SetFont(defaultParagraphFont);
         }
     }
 }
