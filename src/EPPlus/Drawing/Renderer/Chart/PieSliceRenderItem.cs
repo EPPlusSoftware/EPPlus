@@ -6,7 +6,6 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
@@ -155,19 +154,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
             ExtremePoints.Parent = _innerGroup.Bounds;
-            //if(Degrees > 0)
-            //{
-
-            //}
-            //if(Degrees)
-            //double xMax = Math.Max(_startPoint.Left, _endPoint.Left);
-            //xMax = Math.Max(xMax, _midPoint.Left);
-
-            //double yMax = Math.Max(_startPoint.Top, _endPoint.Top);
-            //yMax = Math.Max(yMax, _midPoint.Top);
-            //double yMax;
-            //double xMin;
-            //double yMin;
         }
 
         private double _sliceScaleFactor = 1d;
@@ -185,11 +171,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
-
-        //internal Graphics.Math.Vector2 GetVectorCtrToEnd()
-        //{
-        //    //_circleCenter + _sc
-        //}
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
@@ -253,7 +234,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
-            if (position != -1)
+            //Change to != -1 to activate debug items
+            if (position == -1)
             {
                 //Visualize all points
                 AddDebugLines(moveCenter, plotAreaBounds);
@@ -284,19 +266,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
             var lineToTopRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Top);
 
-            //var sliceCenter = GetSliceShapeCenterLocal();
-            //var lineToSliceCenter = new PathCommands(PathCommandType.Line, _debugBoundsPath, sliceCenter.Left, sliceCenter.Top);
-
             var lineToBottomRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Bottom);
             var lineToBottomLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Bottom);
             var end = new PathCommands(PathCommandType.End, ExtremePoints.Left, ExtremePoints.Top);
 
-            //_debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(lineToTopRight);
-            ////_debugBoundsPath.Commands.Add(lineToSliceCenter);
             _debugBoundsPath.Commands.Add(lineToBottomRight);
             _debugBoundsPath.Commands.Add(lineToBottomLeft);
-            //_debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(end);
 
             DebugItems.Add(_debugBoundsPath);
@@ -512,12 +488,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //The length is within the bounds. No binding neccesary.
                 translationLeft = LocalTranslationVector.X;
                 translationTop = LocalTranslationVector.Y;
-
-                //translationLeft = Math.Min(translateX, maxTranslationXWorld);
-                //translationTop = Math.Min(translateY, maxTranslationY);
-
-                //translationLeft = Math.Max(translationLeft, minTranslationXWorld);
-                //translationTop = Math.Max(translationTop, minTranslationYWorld);
             }
 
             return new Coordinate(translationLeft, translationTop);
