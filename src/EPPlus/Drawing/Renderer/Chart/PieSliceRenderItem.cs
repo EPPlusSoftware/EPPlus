@@ -58,10 +58,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <returns></returns>
         internal Coordinate GetEndPointLocal()
         {
-            return new Coordinate(_endPoint.Left, _endPoint.Top);
+            return new Coordinate(_endPoint.LocalPosition.X, _endPoint.LocalPosition.Y);
         }
 
         PathRenderItem _slicePath;
+
+
+        List<RenderItem> DebugItems;
         PathRenderItem _debugBoundsPath;
         RectRenderItem _debugCircleCenter;
 
@@ -267,6 +270,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <param name="moveCenter"></param>
         private void AddDebugLines(PathCommands moveCenter, BoundingBox bounds)
         {
+            DebugItems = new List<RenderItem>();
+
             //Render bounds for slice
             _debugBoundsPath = new PathRenderItem(bounds);
             _debugBoundsPath.BorderColor = "red";
@@ -294,16 +299,35 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //_debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(end);
 
+            DebugItems.Add(_debugBoundsPath);
+
             //Render green dot at circle center
-            _debugCircleCenter = new RectRenderItem(bounds);
-            _debugCircleCenter.Left = _circleCenter.Left;
-            _debugCircleCenter.Top = _circleCenter.Top;
-            _debugCircleCenter.Bounds.Left -= 2.5d;
-            _debugCircleCenter.Bounds.Top -= 2.5d;
-            _debugCircleCenter.Bounds.Width = 5d;
-            _debugCircleCenter.Bounds.Height = 5d;
-            _debugCircleCenter.FillColor = "green";
+            _debugCircleCenter = GenerateDebugPoint(bounds, new Coordinate(_circleCenter.Left, _circleCenter.Top), "green");
+
+            DebugItems.Add(_debugCircleCenter);
+
+            //render dots at points
+            var pointColor = "yellow";
+            
+            var startDebug = GenerateDebugPoint(bounds, GetStartPointPositionLocal(), pointColor);
+            var midDebug = GenerateDebugPoint(bounds, GetMidPointLocal(), pointColor);
+            var endDebug = GenerateDebugPoint(bounds, GetEndPointLocal(), pointColor);
+
+            DebugItems.Add(startDebug);
+            DebugItems.Add(midDebug);
+            DebugItems.Add(endDebug);
         }
+
+        private RectRenderItem GenerateDebugPoint(BoundingBox parent, Coordinate point, string fillColor)
+        {
+            double l = -2.5d;
+            double t = -2.5d;
+            double w = 5d;
+            double h = 5d;
+
+            return new RectRenderItem(parent) { Left = l + point.X, Top = t + point.Y, Width = w, Height = h, FillColor = fillColor };
+        }
+
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
         {
@@ -323,11 +347,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //The bounds and translations of the slice
             _innerGroup.AddChildItem(_innerItems);
 
-            if (_debugBoundsPath != null)
+            if (DebugItems != null && DebugItems.Count > 0)
             {
-                //adding the debug lines
-                _innerGroup.AddChildItem(_debugBoundsPath);
-                _innerGroup.AddChildItem(_debugCircleCenter);
+                foreach(var debugItem in DebugItems)
+                {
+                    _innerGroup.AddChildItem(debugItem);
+                }
             }
 
             //The group containing all slices
