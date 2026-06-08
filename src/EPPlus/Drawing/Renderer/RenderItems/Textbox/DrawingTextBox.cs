@@ -99,8 +99,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             TextBody.AddParagraph(text);
         }
 
-
-        public new DrawingTextbody TextBody {get;set;}
+        public new DrawingTextbody TextBody { get { return (DrawingTextbody)base.TextBody; } set { base.TextBody = value; } }
         public double Left 
         {
             get

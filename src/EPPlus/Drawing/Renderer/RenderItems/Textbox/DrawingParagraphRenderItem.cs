@@ -199,8 +199,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         private void ImportAlignment(bool isAutoSize, double maxWidth, double parentWidth)
         {
-            if (isAutoSize == false)
-            {
+            //if (isAutoSize == false)
+            //{
                 Bounds.Left = 0;
                 Bounds.Width = ParentMaxWidth;
 
@@ -216,7 +216,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
                 }
                 Bounds.Width = parentWidth - RightMargin - LeftMargin;
-            }
+            //}
         }
 
         private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)

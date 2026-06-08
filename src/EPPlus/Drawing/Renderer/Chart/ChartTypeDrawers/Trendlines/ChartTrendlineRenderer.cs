@@ -13,6 +13,7 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.Textbox;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -217,7 +218,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             int pIx = 0;
             var ix = labelText.IndexOf("|ss:");
-         
+
+            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Center;
+
             if (ix < 0)
             {
                 lbl.TextBody.Paragraphs[0].AddText(labelText);
