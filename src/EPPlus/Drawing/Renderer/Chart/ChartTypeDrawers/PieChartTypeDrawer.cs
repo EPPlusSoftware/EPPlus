@@ -161,7 +161,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var dataPoint = serie.DataPoints[position];
 
             Slices[position].ImportPathData(
-                ChartRenderer.Plotarea.Rectangle.Bounds, Rectangle.Bounds, 
+                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds, 
                 _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
 
             Slices[position].ImportStlyeInfo(dataPoint, chartType);
@@ -170,9 +170,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         internal override void DrawSeries()
         {
-            _groupItem = new GroupRenderItem(ChartRenderer.Bounds);
-            _groupItem.TranslationOffset.Left = ChartRenderer.Plotarea.Rectangle.Left;
-            _groupItem.TranslationOffset.Top = ChartRenderer.Plotarea.Rectangle.Top;
+            _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
+
+            //_groupItem.Left = ChartRenderer.Plotarea.Group.Left;
+            //_groupItem.Top = ChartRenderer.Plotarea.Group.Top;
+
+            //_groupItem.TransformOrigin = new Coordinate(ChartRenderer.Plotarea.LeftMargin, ChartRenderer.Plotarea.TopMargin);
 
             Rectangle.Bounds.Name = "ChartDrawer";
 
@@ -263,8 +266,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            renderItems.AddRange(ChartAreaRenderItems);
-            SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
+            ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
+            //renderItems.AddRange(ChartAreaRenderItems);
+            //SeriesRenderItems.ForEach(x => _groupItem.AddChildItem(x));
         }
     }
 }

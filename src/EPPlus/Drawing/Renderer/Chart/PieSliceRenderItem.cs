@@ -63,6 +63,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         PathRenderItem _slicePath;
         PathRenderItem _debugBoundsPath;
+        RectRenderItem _debugCircleCenter;
 
         bool ExistWithinRange(double target, double min, double max)
         {
@@ -249,7 +250,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
-            if (position == -1)
+            if (position != -1)
             {
                 //Visualize all points
                 AddDebugLines(moveCenter, plotAreaBounds);
@@ -266,21 +267,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <param name="moveCenter"></param>
         private void AddDebugLines(PathCommands moveCenter, BoundingBox bounds)
         {
-            //var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
-            //var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
-            //_slicePath.Commands.Add(moveCenter);
-            //_slicePath.Commands.Add(lineToMidPoint);
-            //_slicePath.Commands.Add(moveCenter);
-            //_slicePath.Commands.Add(lineToEnd);
+            //Render bounds for slice
             _debugBoundsPath = new PathRenderItem(bounds);
             _debugBoundsPath.BorderColor = "red";
             _debugBoundsPath.FillColor = "transparent";
             _debugBoundsPath.BorderWidth = 3;
-            var moveCenterDebug = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
+            var moveCenterDebug = new PathCommands(PathCommandType.Move, ExtremePoints.Left, ExtremePoints.Top);
             _debugBoundsPath.Commands.Add(moveCenterDebug);
 
             //Draw extremes/bounds
-            var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
+            //var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
             var lineToTopRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Top);
 
             //var sliceCenter = GetSliceShapeCenterLocal();
@@ -290,13 +286,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var lineToBottomLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Bottom);
             var end = new PathCommands(PathCommandType.End, ExtremePoints.Left, ExtremePoints.Top);
 
-            _debugBoundsPath.Commands.Add(lineToTopLeft);
+            //_debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(lineToTopRight);
             ////_debugBoundsPath.Commands.Add(lineToSliceCenter);
             _debugBoundsPath.Commands.Add(lineToBottomRight);
             _debugBoundsPath.Commands.Add(lineToBottomLeft);
-            //_debugBoundsPath.Commands.Add(end);
+            //_debugBoundsPath.Commands.Add(lineToTopLeft);
+            _debugBoundsPath.Commands.Add(end);
 
+            //Render green dot at circle center
+            _debugCircleCenter = new RectRenderItem(bounds);
+            _debugCircleCenter.Left = _circleCenter.Left;
+            _debugCircleCenter.Top = _circleCenter.Top;
+            _debugCircleCenter.Bounds.Left -= 2.5d;
+            _debugCircleCenter.Bounds.Top -= 2.5d;
+            _debugCircleCenter.Bounds.Width = 5d;
+            _debugCircleCenter.Bounds.Height = 5d;
+            _debugCircleCenter.FillColor = "green";
         }
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
@@ -308,6 +314,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal void AppendGroupItem(GroupRenderItem group)
         {
+            //Apply translation after all calculations are done
+            _innerGroup.Left += _innerGroup.TranslationOffset.Left;
+            _innerGroup.Top += _innerGroup.TranslationOffset.Top;
+
             //The slice items post transform operations
             _innerItems.AddChildItem(_slicePath);
             //The bounds and translations of the slice
@@ -317,6 +327,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 //adding the debug lines
                 _innerGroup.AddChildItem(_debugBoundsPath);
+                _innerGroup.AddChildItem(_debugCircleCenter);
             }
 
             //The group containing all slices
