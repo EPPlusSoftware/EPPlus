@@ -1626,7 +1626,6 @@ namespace EPPlusTest.Issues
                 // Attach the logger before the calculation is performed.
                 p.Workbook.FormulaParserManager.AttachLogger(logfile);
 
-
                 //ws.Cells["C56"].Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
                 p.Workbook.CalcMode = ExcelCalcMode.Manual;
                 p.Workbook.FullCalcOnLoad = false;
@@ -1651,4 +1650,3 @@ namespace EPPlusTest.Issues
         }
     }
 }
-

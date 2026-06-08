@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -172,7 +173,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 labelText += RSquare;
             }
             lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
-            DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, labelText);
+            DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, "");
+            AddLblText(DataLabel, labelText);
             DataLabel.LeftMargin = DataLabel.RightMargin = 4;
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
@@ -209,6 +211,31 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color);
             DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
             DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
+        }
+
+        private void AddLblText(DrawingTextBox lbl, string labelText)
+        {
+            int pIx = 0;
+            var ix = labelText.IndexOf("|ss:");
+         
+            if (ix < 0)
+            {
+                lbl.TextBody.Paragraphs[0].AddText(labelText);
+            }
+            while(ix>=0 && ix < labelText.Length)
+            {
+                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, ix - pIx));
+                var endIx = labelText.IndexOf("|", ix + 4);
+                var rt = new RichTextFormatDrawing(lbl.TextBody.Paragraphs[0].DefaultParagraphFont) { SuperScript = true, Text = labelText.Substring(ix+4, endIx-ix-4)};
+                lbl.TextBody.Paragraphs[0].AddRichText(rt);
+                pIx = endIx+1;
+                ix = labelText.IndexOf("|ss:", pIx);
+            }
+
+            if(pIx < labelText.Length)
+            {
+                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, labelText.Length - pIx));
+            }
         }
 
         private void CalculateLinear()
@@ -306,7 +333,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetExponentialSerie(slope, intercept)), 2);
             Coefficients = [slope, intercept];
-            Formula = $"y={intercept:G5}|ss:e{slope:G3}|";
+            Formula = $"y={intercept:G5}e|ss:{slope:G3}|";
             RSquare = $"R²={r2:N4}";
         }
         private void CalculateLogarithmic()
