@@ -63,6 +63,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
     {
         internal List<GridLine> GridLines = new List<GridLine>();
         internal List<GridLine> BorderLines = new List<GridLine>();
+        public List<GridLine> PrintTitleGridLines = new List<GridLine>();
 
         public int FromRow = int.MaxValue;
         public int ToRow = 0;

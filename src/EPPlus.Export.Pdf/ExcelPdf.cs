@@ -186,9 +186,14 @@ namespace EPPlus.Export.Pdf
         private void AddContent(Transform pageLayout, PdfPage page)
         {
             //var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
-            var cells = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && !(t is PdfCellLayout cc && cc.IsHeading) && !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading))).GroupBy(t => t.Name);
+            var cells = pageLayout.ChildObjects.Where(t =>
+                                                (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && 
+                                                !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) && 
+                                                !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
+                                                !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).GroupBy(t => t.Name);
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
+            var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
             var contentStream = new PdfContentStream(_document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
@@ -237,11 +242,25 @@ namespace EPPlus.Export.Pdf
             if (_pageSettings.ShowGridLines || _pageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
+                contentStream.AddPrintTitleGridLines(pageLayout);
             }
             //Add header and footer.
             foreach (var hf in headerFooterLayouts)
             {
                 contentStream.AddCellContentLayout(hf, _dictionaries, _pageSettings);
+            }
+            foreach (var titleCell in printTitleLayouts)
+            {
+                contentStream.AddCommand($"% PRINT TITLE : {titleCell.Name}");
+                switch (titleCell)
+                {
+                    case PdfCellLayout layout:
+                        contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
+                    case PdfCellContentLayout contentLayout:
+                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings); break;
+                    case PdfCellBorderLayout borderLayout:
+                        contentStream.AddBorderLayout(borderLayout); break;
+                }
             }
             _document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);

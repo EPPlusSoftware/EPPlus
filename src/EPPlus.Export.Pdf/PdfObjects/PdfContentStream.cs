@@ -516,6 +516,37 @@ namespace EPPlus.Export.Pdf.PdfObjects
             commands.Add($"% Gridlines End");
         }
 
+        public void AddPrintTitleGridLines(Transform pageLayout)
+        {
+            if (pageLayout is not PdfPageLayout pl) return;
+            if (pl.isCommentsPage) return;
+
+            commands.Add($"% Print Title Gridlines Start");
+            commands.Add("q");
+            commands.Add($"{GridLine.Width.ToPdfString()} w");
+            commands.Add(Color.Black.ToFillCommand());
+            foreach (var line in pl.PrintTitleGridLines)
+            {
+                string w, h;
+                if (line.X1 == line.X2)
+                {
+                    w = GridLine.Width.ToPdfStringF4();
+                    h = System.Math.Abs(line.Y2 - line.Y1).ToPdfStringF4();
+                }
+                else
+                {
+                    w = System.Math.Abs(line.X2 - line.X1).ToPdfStringF4();
+                    h = GridLine.Width.ToPdfStringF4();
+                }
+                var x = Math.Min(line.X1, line.X2);
+                var y = Math.Min(line.Y1, line.Y2);
+                commands.Add($"{x.ToPdfStringF4()} {y.ToPdfStringF4()} {w} {h} re");
+            }
+            commands.Add("f");
+            commands.Add("Q");
+            commands.Add($"% Print Title Gridlines End");
+        }
+
         public void AddOuterGridBorder(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;

@@ -31,6 +31,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
         public MergedCellDrawInfo MergedCellInfo;
         public MergedCellCorners Corners;
         public ExcelRangeBase cell;
+        public bool IsPrintTitle;
 
         public string range;
 
