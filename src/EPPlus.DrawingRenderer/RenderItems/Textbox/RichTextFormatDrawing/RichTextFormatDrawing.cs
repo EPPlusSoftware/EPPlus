@@ -101,5 +101,12 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             StrikeType = eDrawingStrikeType.No;
             UnderlineType = eDrawingUnderLineType.None;
         }
+
+        public RichTextFormatDrawing(FontFormatBase defaultParagraphFont)
+        {
+            Family = defaultParagraphFont.Family;
+            SubFamily = defaultParagraphFont.SubFamily;
+            Size = defaultParagraphFont.Size;
+        }
     }
 }
