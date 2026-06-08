@@ -333,7 +333,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetExponentialSerie(slope, intercept)), 2);
             Coefficients = [slope, intercept];
-            Formula = $"y={intercept:G5}e|ss:{slope:G3}|";
+            Formula = $"y={intercept:G5}e|ss:{slope:G3}x|";
             RSquare = $"R²={r2:N4}";
         }
         private void CalculateLogarithmic()

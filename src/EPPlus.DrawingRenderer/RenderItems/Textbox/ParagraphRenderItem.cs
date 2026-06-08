@@ -303,7 +303,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     lineIdx++;
                 }
             }
-            Bounds.Width = widthOfLargestLine;
+            Bounds.Width = widthOfLargestLine + RightMargin;
             Bounds.Height = combinedHeight;
         }
 

@@ -269,8 +269,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             if(TextBody.AutoSize)
             {
                 TextBody.ApplyAutoSize();
-                rect.Width = TextBody.Width + RightMargin;
-                rect.Height = TextBody.Height + BottomMargin;
+                rect.Width = TextBody.Width + RightMargin + LeftMargin;
+                rect.Height = TextBody.Height + BottomMargin + RightMargin;
             }
 
             //As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
