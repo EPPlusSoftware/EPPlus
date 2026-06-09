@@ -141,21 +141,66 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             var textBody = GenerateTextBody(baseGroup);
             textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
             textBody.Paragraphs[0].HorizontalAlignment = RenderItems.Shared.TextAlignment.Center;
+
+            textBody.Paragraphs[1].HorizontalAlignment = RenderItems.Shared.TextAlignment.Center;
+            textBody.Paragraphs[1].AddText("\r\n What fun, what fun!");
+
             //Text was added to the paragraph above the last paragraph
             //We must re-calculate where the next paragraph should be placed
             textBody.RecalculateParagraphs();
             textBody.ApplyAutoSize();
 
+            double delta = 0.001;
+
             //new day beckons is the largest line in the centered paragraph[0]
             //Assert that the first line has been centered appropriately
-            Assert.AreEqual(9.890869140625d, textBody.Paragraphs[0].Runs[0].Bounds.Left);
-            Assert.AreEqual(33.142333984375d, textBody.Paragraphs[0].Runs[1].Bounds.Left);
-            Assert.AreEqual(59.509033203125d, textBody.Paragraphs[0].Runs[2].Bounds.Left);
+            Assert.AreEqual(9.890869140625d, textBody.Paragraphs[0].Runs[0].Bounds.Left, delta);
+            Assert.AreEqual(33.142333984375d, textBody.Paragraphs[0].Runs[1].Bounds.Left, delta);
+            Assert.AreEqual(59.509033203125d, textBody.Paragraphs[0].Runs[2].Bounds.Left, delta);
             Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
+
+            Assert.AreEqual(4.3760001659393311d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
 
             //Assert that the second paragraph has been moved correctly
             Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Bounds.Top);
-            GenerateTextBodyFile("standAloneTextBodyAlignment", baseGroup, textBody);
+            GenerateTextBodyFile("textBodyAlignCenter", baseGroup, textBody);
+        }
+
+        [TestMethod]
+        public void SvgTextBodyTestRightAlignmentGenerated()
+        {
+            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
+            var baseGroup = new GroupRenderItem(bounds);
+
+            baseGroup.Bounds.Width = bounds.Width;
+            baseGroup.Bounds.Height = bounds.Height;
+
+            var textBody = GenerateTextBody(baseGroup);
+            textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
+            textBody.Paragraphs[0].HorizontalAlignment = RenderItems.Shared.TextAlignment.Right;
+
+
+            textBody.Paragraphs[1].HorizontalAlignment = RenderItems.Shared.TextAlignment.Right;
+            textBody.Paragraphs[1].AddText("\r\n What fun, what fun!");
+
+            //Text was added to the paragraph above the last paragraph
+            //We must re-calculate where the next paragraph should be placed
+            textBody.RecalculateParagraphs();
+            textBody.ApplyAutoSize();
+
+            double delta = 0.001;
+
+            //Assert that the first line has been aligned correctly
+            Assert.AreEqual(19.78173828125d, textBody.Paragraphs[0].Runs[0].Bounds.Left, delta);
+            Assert.AreEqual(43.033203125d, textBody.Paragraphs[0].Runs[1].Bounds.Left, delta);
+            Assert.AreEqual(69.39990234375d, textBody.Paragraphs[0].Runs[2].Bounds.Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
+
+            Assert.AreEqual(8.7520003318786621d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
+
+            GenerateTextBodyFile("textBodyAlignRight", baseGroup, textBody);
         }
 
         [TestMethod]
