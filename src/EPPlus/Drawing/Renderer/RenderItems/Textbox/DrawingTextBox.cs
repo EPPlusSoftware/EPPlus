@@ -238,8 +238,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             if (TextBody.AutoSize)
             {
                 TextBody.ApplyAutoSize();
-                rect.Width = TextBody.Width + RightMargin + LeftMargin;
-                rect.Height = TextBody.Height + BottomMargin + TopMargin;
+                rect.Width = TextBody.Width + RightMargin;
+                rect.Height = TextBody.Height + BottomMargin;
                 rect.Left = -LeftMargin;
                 rect.Top = -TopMargin;
             }

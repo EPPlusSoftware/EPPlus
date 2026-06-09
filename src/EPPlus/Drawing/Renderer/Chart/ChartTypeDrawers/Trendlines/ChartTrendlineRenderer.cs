@@ -337,8 +337,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetExponentialSerie(slope, intercept)), 2);
             Coefficients = [slope, intercept];
-            Formula = $"y={intercept:G5}e|ss:{slope:G3}x|";
-            RSquare = $"R²={r2:N4}";
+            Formula = $"y = {intercept:G5}e|ss:{slope:G3}x| ";
+            RSquare = $"R² = {r2:N4} ";
         }
         private void CalculateLogarithmic()
         {
@@ -364,8 +364,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Coefficients = [slope, intercept];
 
             var r2 = CalculateRSquared(x => slope * Math.Log(x) + intercept, _ySerie, _trendline.Intercept);
-            Formula = $"y={slope:G5}ln(x)+{intercept:G5}";
-            RSquare = $"R²={r2:N4}";
+            Formula = $"y = {slope:G5}ln(x) + {intercept:G5}";
+            RSquare = $"R² = {r2:N4}";
         }
         public void CalculatePolynomial()
         {
@@ -488,7 +488,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     Coefficients[i] = matrix[i, coeffCount];
                 }
             }
-            Formula = "y=" + GetPolynormFormula();
+            Formula = "y = " + GetPolynormFormula();
             var r2 = CalculateRSquared(x => PredictLinear(x), _ySerie, _trendline.Intercept);
             RSquare = $"R² = {r2:N4}";
         }
@@ -543,25 +543,25 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (Coefficients[i-1]>=0) 
                 { 
-                    sb.Insert(0, "+");
+                    sb.Insert(0, " + ");
                 }
                 else
                 {
-                    sb.Insert(0, "-");
+                    sb.Insert(0, " - ");
                 }
 
                 if(i < 2)
                 {
-                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x");
+                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x ");
                 }
                 else
                 {
-                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x|ss:{i}|");
+                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x|ss:{i}| ");
                 }                    
             }
             if (Coefficients[Coefficients.Length - 1] < 0)
             {
-                sb.Insert(0, "-");
+                sb.Insert(0, " - ");
             }
 
             return sb.ToString();
