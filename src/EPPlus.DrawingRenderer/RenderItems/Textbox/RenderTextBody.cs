@@ -199,10 +199,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //Center means center of a Shape's ENTIRE bounding box height.
                 //Not center of the Inset GetRectangle
                 case TextAnchoringType.Center:
-                    alignmentY = (MaxHeight - Bounds.Height) / 2 + Bounds.Top;
+                    alignmentY = (Bounds.Height) / 2 + Bounds.Top;
                     break;
                 case TextAnchoringType.Bottom:
-                    alignmentY = MaxHeight - Bounds.Height;
+                    alignmentY = Bounds.Height;
                     break;
             }
 

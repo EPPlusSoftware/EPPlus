@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ImportStyleInfo(textBody, p);
 
             ImportMarginAndIndent(p);
-            ImportAlignment(textBody.AutoSize, textBody.MaxWidth, parent.Width);
+            //ImportAlignment(textBody.AutoSize, textBody.MaxWidth, parent.Width);
             
             //---Initialize / calculate lines and runs---
             //measurer must be set before AddLinesAndRichText
@@ -201,21 +201,21 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             //if (isAutoSize == false)
             //{
-                Bounds.Left = 0;
-                Bounds.Width = ParentMaxWidth;
+                //Bounds.Left = 0;
+                //Bounds.Width = ParentMaxWidth;
 
-                //Left is equal to left Paragraph margin
-                //Textbody or Textbox are assumed to handle shape/chart margins
-                //Paragraph handles only indentations/margins that is applied ON TOP of those margins
-                //Paragraph left is the exact position where the text itself starts on the left
-                Bounds.Left = GetAlignmentHorizontal(TextAlignment.Left);
-                if (HorizontalAlignment == TextAlignment.Center)
-                {
-                    //Center is a bit strange the bounds really are the same as left or right aligned
-                    //It doesn't truly matter as only left min and right max play a role
-                    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-                }
-                Bounds.Width = parentWidth - RightMargin - LeftMargin;
+                ////Left is equal to left Paragraph margin
+                ////Textbody or Textbox are assumed to handle shape/chart margins
+                ////Paragraph handles only indentations/margins that is applied ON TOP of those margins
+                ////Paragraph left is the exact position where the text itself starts on the left
+                //Bounds.Left = GetAlignmentHorizontal(TextAlignment.Left);
+                //if (HorizontalAlignment == TextAlignment.Center)
+                //{
+                //    //Center is a bit strange the bounds really are the same as left or right aligned
+                //    //It doesn't truly matter as only left min and right max play a role
+                //    _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
+                //}
+                //Bounds.Width = parentWidth - RightMargin - LeftMargin;
             //}
         }
 
