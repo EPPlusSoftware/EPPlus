@@ -16,6 +16,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
+using OfficeOpenXml.Export.HtmlExport.Settings;
 using OfficeOpenXml.Export.HtmlExport.Translators;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -731,7 +732,32 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     element.AddChildElement(childHtml);
                 }
             }
+
+            var textRotation = cell.Style.TextRotation;
+            if (textRotation != 0 && textRotation != 255 && IsTextRotationExcluded(settings, isHeader) == false)
+            {
+                var rotationValue = textRotation > 90 ? textRotation - 90 : 360 - textRotation;
+                var rotationWrapper = new HTMLElement("div");
+                rotationWrapper.AddAttribute("style", $"display:inline-block;transform:rotate({rotationValue}deg);");
+                element.AddChildElement(rotationWrapper);
+                valueElement = rotationWrapper;
+            }
         }
+
+        private static bool IsTextRotationExcluded(HtmlExportSettings settings, bool isHeader)
+        {
+            if (settings is HtmlRangeExportSettings rangeSettings)
+            {
+                return rangeSettings.Css.CssExclude.TextRotation;
+            }
+            if (settings is HtmlTableExportSettings tableSettings)
+            {
+                var exclude = isHeader ? tableSettings.Css.Exclude.TableStyle : tableSettings.Css.Exclude.CellStyle;
+                return exclude.TextRotation;
+            }
+            return false;
+        }
+
 
         public void AddTableDataFromCell(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content)
         {
