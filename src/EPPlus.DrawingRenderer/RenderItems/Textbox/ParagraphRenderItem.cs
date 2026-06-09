@@ -9,9 +9,6 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
-using System.Drawing;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -86,7 +83,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected RichTextCollectionBase _textFragments = new RichTextCollectionBase();
 
         public double ParagraphLineSpacing { get; protected set; }
-        public TextAlignment HorizontalAlignment { get; protected set; }
+
+        protected TextAlignment _alignment;
+
+        //After setting alignment we must re-calculate the rows
+        public TextAlignment HorizontalAlignment { get { return _alignment; } set { _alignment = value; WrapTextFragmentsAndGenerateTextRuns(); } }
         public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
         public TextLineCollection Lines { get; protected set; }
         public bool DisplayBounds { get; set; } = false;

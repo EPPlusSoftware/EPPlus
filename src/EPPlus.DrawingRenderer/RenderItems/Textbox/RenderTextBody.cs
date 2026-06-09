@@ -104,11 +104,11 @@ namespace EPPlus.DrawingRenderer.RenderItems
             //TranslationOffset.Left = Bounds.Left;
             //TranslationOffset.Top = Bounds.Top;
 
-            renderItems.Add(this);
             foreach (var item in Paragraphs)
             {
                 AddChildItem(item);
             }
+            renderItems.Add(this);
         }
 
         public ParagraphRenderItem AddParagraph(IRichTextFormatSimple rtFormat)
@@ -145,6 +145,23 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 Bounds.Width = currentWidth;
                 Bounds.Height = currentHeight;
             }
+        }
+
+        /// <summary>
+        /// If text is added to the first paragraph without using textbody e.g. Paragraphs[0].AddText()
+        /// Subsequent paragraphs must be updated
+        /// </summary>
+        public void RecalculateParagraphs()
+        {
+            double lastParagraphBottom = 0;
+
+            foreach(var paragraph in Paragraphs)
+            {
+                paragraph.Bounds.Top = lastParagraphBottom;
+                lastParagraphBottom = paragraph.Bounds.Bottom;
+            }
+
+            Bounds.Height = lastParagraphBottom;
         }
 
         private void AdjustAndAddParagraph(ParagraphRenderItem paragraph)

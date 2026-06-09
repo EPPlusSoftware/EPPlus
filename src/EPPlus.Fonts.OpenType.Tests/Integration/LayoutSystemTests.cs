@@ -382,8 +382,25 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
-        public void TestSimpleRichText2()
+        public void TestLayoutSystemMultipleParagraphs()
         {
+            var paragraphEndSymbol = '\u2029';
+
+            List<string> lstOfRichText = new() { $"Here comes lorem ipsum{paragraphEndSymbol} " +
+                $"Sed ut perspiciatis,{paragraphEndSymbol}", $"u{paragraphEndSymbol}n{paragraphEndSymbol}de{paragraphEndSymbol} omnis" };
+            var font = new FontFormatBase()
+            {
+                Family = "Aptos Narrow",
+                Size = 11,
+                SubFamily = FontSubFamily.Bold
+            };
+            var fragments = new List<ITextFragmentBase>()
+            {
+                new TextFragment() {Text = lstOfRichText[0], Font = font }
+            };
+
+            var layout = new LayoutSystem(fragments);
+            Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
             //var rtCollection = new RichTextCollectionBase();
             //var someTextRt = rtCollection.Add("SomeText", true);
             //var richRt = rtCollection.Add("rich");

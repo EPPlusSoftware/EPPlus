@@ -192,7 +192,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             LeftMargin = LeftMargin.PixelToPoint();
             RightMargin = RightMargin.PixelToPoint();
 
-            HorizontalAlignment = (TextAlignment)p.HorizontalAlignment;
+            _alignment = (TextAlignment)p.HorizontalAlignment;
             LeftMargin = LeftMargin.PixelToPoint();
             RightMargin = RightMargin.PixelToPoint();
         }

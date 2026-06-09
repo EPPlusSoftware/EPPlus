@@ -1,6 +1,7 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using System.Drawing;
 
 
 namespace EPPlus.DrawingRenderer.RenderItems.SvgItem

@@ -1,61 +1,18 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.DrawingRenderer.Svg;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Graphics;
-using OfficeOpenXml.Drawing.Renderer.TextBox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
-using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Graphics;
 using System.Drawing;
+using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
     [TestClass]
     public class SvgStandAloneTests : TestBase
     {
-        [TestMethod]
-        public void SvgRectTest()
-        {
-            BoundingBox bounds = new BoundingBox(0,0,500,500);
-            StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb);
 
-            var baseGroup = new GroupRenderItem(bounds);
-
-            var rectItem = new RectRenderItem(baseGroup.Bounds);
-
-            rectItem.Width = 250;
-            rectItem.Height = 250;
-            rectItem.FillColor = "darkblue";
-
-            //var textBody = new RenderTextBody(baseGroup.Bounds, true);
-
-            //textBody.Text = "Hello";
-            //var para = new SvgParagraphRenderItem(textBody, textBody.Bounds);
-            
-            //var para2 = new DrawingParagraphRenderItem(textBody, textBody.Bounds);
-            //textBody.Paragraphs.Add
-
-            baseGroup.AddChildItem(rectItem);
-            //baseGroup.AddChildItem(textBody);
-
-            List<RenderItem> items = new List<RenderItem>() { baseGroup };
-
-            svgShapeRenderer.Render(items);
-
-            var svg = sb.ToString();
-
-            SaveTextFileToWorkbook("svg\\rectStandalone.svg", svg);
-        }
-
-        [TestMethod]
-        public void SvgTextRun()
+        private GroupRenderItem GenerateShapeRenderer()
         {
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
             StringBuilder sb = new StringBuilder();
@@ -71,6 +28,34 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             background.FillColor = "aliceBlue";
 
             baseGroup.AddChildItem(background);
+            return baseGroup;
+        }
+
+        private void GenerateSvgFile(string fileName, BoundingBox bounds, params RenderItem[] items)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb);
+
+            List<RenderItem> renderItems = items.ToList();
+            svgShapeRenderer.Render(renderItems);
+
+            var svg = sb.ToString();
+
+            SaveTextFileToWorkbook($"svg\\{fileName}.svg", svg);
+        }
+
+        [TestMethod]
+        public void SvgRectTest()
+        {
+            var baseGroup = GenerateShapeRenderer();
+            GenerateSvgFile("rectStandAlone", baseGroup.Bounds, baseGroup);
+        }
+
+        [TestMethod]
+        public void SvgTextRun()
+        {
+            var baseGroup = GenerateShapeRenderer();
 
             var rt = new RichTextFormatSimple();
             rt.Text = "My text";
@@ -79,50 +64,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rt.Family = "Archivo Narrow";
             rt.SubFamily = OfficeOpenXml.Interfaces.Fonts.FontSubFamily.Regular;
             rt.Size = 12f;
-           
-            //var paragraph = new SvgParagraphRenderItem()
 
-            var textRun = new SvgTextRunRenderItem(baseGroup.Bounds, rt, rt.Text);
+            var textRun = new SvgTextRunRenderItem(baseGroup.Bounds, rt, rt.Text, true);
+
+            //Add size of text since svg renders text upwards from the start point.
+            textRun.YPosition = rt.Size;
+
             baseGroup.AddChildItem(textRun);
 
-
-            List<RenderItem> items = new List<RenderItem>() { baseGroup };
-
-            svgShapeRenderer.Render(items);
-
-            var svg = sb.ToString();
-
-
-            SaveTextFileToWorkbook("svg\\textRunStandAlone.svg", svg);
+            GenerateSvgFile("textRunStandAlone", baseGroup.Bounds, baseGroup);
         }
 
-        [TestMethod]
-        public void SvgTextBodyTest()
+        private void GenerateTextBodyFile(string fileName, GroupRenderItem baseGroup, SvgTextBodyRenderItem textBody)
         {
-            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb);
-            
-
-            var baseGroup = new GroupRenderItem(bounds);
+            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb);
 
             var background = new RectRenderItem(baseGroup.Bounds);
 
-            background.Width = bounds.Width;
-            background.Height = bounds.Height;
+            background.Width = baseGroup.Bounds.Width;
+            background.Height = baseGroup.Bounds.Height;
             background.FillColor = "aliceBlue";
-
-            baseGroup.Bounds.Width = bounds.Width;
-            baseGroup.Bounds.Height = bounds.Height;
-
-            var textBody = new SvgTextBodyRenderItem(baseGroup.Bounds, true);
-            var paragraph = textBody.AddParagraph("Hello");
-
-            paragraph.AddText(" There");
-
-            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
-            rtItem.FontColor = Color.DarkGreen;
-            var para2 = textBody.AddParagraph(rtItem);
 
             baseGroup.AddChildItem(textBody);
             baseGroup.AddChildItem(background);
@@ -135,7 +97,71 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             var svg = sb.ToString();
 
 
-            SaveTextFileToWorkbook("svg\\textBodyStandAlone.svg", svg);
+            SaveTextFileToWorkbook($"svg\\{fileName}.svg", svg);
+        }
+
+
+        private SvgTextBodyRenderItem GenerateTextBody(GroupRenderItem baseGroup)
+        {
+            var textBody = new SvgTextBodyRenderItem(baseGroup.Bounds, true);
+            var paragraph = textBody.AddParagraph("Hello");
+
+            paragraph.AddText(" There");
+
+            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
+            rtItem.FontColor = Color.DarkGreen;
+            var para2 = textBody.AddParagraph(rtItem);
+
+            return textBody;
+        }
+
+        [TestMethod]
+        public void SvgTextBodyTest()
+        {
+            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
+            var baseGroup = new GroupRenderItem(bounds);
+
+            baseGroup.Bounds.Width = bounds.Width;
+            baseGroup.Bounds.Height = bounds.Height;
+
+            var textBody = GenerateTextBody(baseGroup);
+
+            GenerateTextBodyFile("standAloneTextBody", baseGroup, textBody);
+        }
+
+        [TestMethod]
+        public void SvgTextBodyTestCenterAlignmentGenerated()
+        {
+            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
+            var baseGroup = new GroupRenderItem(bounds);
+
+            baseGroup.Bounds.Width = bounds.Width;
+            baseGroup.Bounds.Height = bounds.Height;
+
+            var textBody = GenerateTextBody(baseGroup);
+            textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
+            textBody.Paragraphs[0].HorizontalAlignment = RenderItems.Shared.TextAlignment.Center;
+            //Text was added to the paragraph above the last paragraph
+            //We must re-calculate where the next paragraph should be placed
+            textBody.RecalculateParagraphs();
+            textBody.ApplyAutoSize();
+
+            //new day beckons is the largest line in the centered paragraph[0]
+            //Assert that the first line has been centered appropriately
+            Assert.AreEqual(9.890869140625d, textBody.Paragraphs[0].Runs[0].Bounds.Left);
+            Assert.AreEqual(33.142333984375d, textBody.Paragraphs[0].Runs[1].Bounds.Left);
+            Assert.AreEqual(59.509033203125d, textBody.Paragraphs[0].Runs[2].Bounds.Left);
+            Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
+
+            //Assert that the second paragraph has been moved correctly
+            Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Bounds.Top);
+            GenerateTextBodyFile("standAloneTextBodyAlignment", baseGroup, textBody);
+        }
+
+        [TestMethod]
+        public void SvgTextBoxTest()
+        {
+
         }
     }
 }

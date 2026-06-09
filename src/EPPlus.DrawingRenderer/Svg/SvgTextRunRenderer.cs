@@ -1,4 +1,5 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
@@ -18,6 +19,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
 
         }
+
         string GetFontStyleAttributes(TextRunRenderItem textRun)
         {
             string fontStyleAttributes = " ";
@@ -166,9 +168,18 @@ namespace EPPlus.DrawingRenderer.Svg
             var textRunString = sb.ToString();
 
             //Wrap in another tspan to apply underline color if neccesary
-            if(string.IsNullOrEmpty(UnderlineColorString) == false)
+            if (string.IsNullOrEmpty(UnderlineColorString) == false)
             {
                 textRunString = string.Format(UnderlineColorString, textRunString);
+            }
+
+            if (textRun is SvgTextRunRenderItem)
+            {
+                var tr = (SvgTextRunRenderItem)textRun;
+                if (tr.RenderTextNode)
+                {
+                    textRunString = $"<text>{textRunString}</text>";
+                }
             }
 
             OutputStream.Append(textRunString);
