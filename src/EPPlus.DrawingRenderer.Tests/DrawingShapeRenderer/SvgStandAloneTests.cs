@@ -31,6 +31,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             return baseGroup;
         }
 
+        private GroupRenderItem GenerateGroupRenderItem()
+        {
+            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
+
+            var baseGroup = new GroupRenderItem(bounds);
+
+            var background = new RectRenderItem(baseGroup.Bounds);
+
+            background.Width = bounds.Width;
+            background.Height = bounds.Height;
+            background.FillColor = "aliceBlue";
+
+            baseGroup.AddChildItem(background);
+            return baseGroup;
+        }
+
         private void GenerateSvgFile(string fileName, BoundingBox bounds, params RenderItem[] items)
         {
 
@@ -90,7 +106,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             baseGroup.AddChildItem(background);
 
             List<RenderItem> items = new List<RenderItem>() { baseGroup };
-            textBody.AppendRenderItems(items);
 
             svgShapeRenderer.Render(items);
 
@@ -112,31 +127,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rtItem.FontColor = Color.DarkGreen;
             var para2 = textBody.AddParagraph(rtItem);
 
+            textBody.AddChildItem(paragraph);
+            textBody.AddChildItem(para2);
+
+            baseGroup.AddChildItem(textBody);
+
             return textBody;
         }
 
         [TestMethod]
         public void SvgTextBodyTest()
         {
-            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
-            var baseGroup = new GroupRenderItem(bounds);
-
-            baseGroup.Bounds.Width = bounds.Width;
-            baseGroup.Bounds.Height = bounds.Height;
-
+            var baseGroup = GenerateGroupRenderItem();
             var textBody = GenerateTextBody(baseGroup);
-
-            GenerateTextBodyFile("standAloneTextBody", baseGroup, textBody);
+            GenerateSvgFile("standAloneTextBody", baseGroup.Bounds, baseGroup);
         }
 
         [TestMethod]
         public void SvgTextBodyTestCenterAlignmentGenerated()
         {
-            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
-            var baseGroup = new GroupRenderItem(bounds);
-
-            baseGroup.Bounds.Width = bounds.Width;
-            baseGroup.Bounds.Height = bounds.Height;
+            var baseGroup = GenerateGroupRenderItem();
 
             var textBody = GenerateTextBody(baseGroup);
             textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
@@ -164,17 +174,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             //Assert that the second paragraph has been moved correctly
             Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Bounds.Top);
-            GenerateTextBodyFile("textBodyAlignCenter", baseGroup, textBody);
+            GenerateSvgFile("textBodyAlignCenter", baseGroup.Bounds, baseGroup);
         }
 
         [TestMethod]
         public void SvgTextBodyTestRightAlignmentGenerated()
         {
-            BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
-            var baseGroup = new GroupRenderItem(bounds);
-
-            baseGroup.Bounds.Width = bounds.Width;
-            baseGroup.Bounds.Height = bounds.Height;
+            var baseGroup = GenerateGroupRenderItem();
 
             var textBody = GenerateTextBody(baseGroup);
             textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
@@ -200,13 +206,55 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(8.7520003318786621d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
             Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
 
-            GenerateTextBodyFile("textBodyAlignRight", baseGroup, textBody);
+            GenerateSvgFile("textBodyAlignRight", baseGroup.Bounds, baseGroup);
         }
 
         [TestMethod]
-        public void SvgTextBoxTest()
+        public void SvgTextBodyVerticalAlignmentGenerated()
         {
+            var baseGroup = GenerateGroupRenderItem();
 
+            var textBody = GenerateTextBody(baseGroup);
+            textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
+            textBody.Paragraphs[1].AddText("\r\n What fun, what fun!");
+
+            //Text was added to the paragraph above the last paragraph
+            //We must re-calculate where the next paragraph should be placed
+            textBody.RecalculateParagraphs();
+            textBody.ApplyAutoSize();
+
+            textBody.AutoSize = false;
+            textBody.MaxHeight = 500;
+
+            textBody.Bounds.Top = 0;
+            textBody.VerticalAlignment = TextAnchoringType.Center;
+            textBody.Bounds.Top = textBody.GetAlignmentVertical();
+
+            GenerateSvgFile("textBodyAlignVCenter", baseGroup.Bounds, baseGroup);
+        }
+
+        [TestMethod]
+        public void SvgTextBodyVerticalAlignmentBottomGenerated()
+        {
+            var baseGroup = GenerateGroupRenderItem();
+
+            var textBody = GenerateTextBody(baseGroup);
+            textBody.Paragraphs[0].AddText(" a\r\n new day beckons");
+            textBody.Paragraphs[1].AddText("\r\n What fun, what fun!");
+
+            //Text was added to the paragraph above the last paragraph
+            //We must re-calculate where the next paragraph should be placed
+            textBody.RecalculateParagraphs();
+            textBody.ApplyAutoSize();
+
+            textBody.AutoSize = false;
+            textBody.MaxHeight = 500;
+
+            textBody.Bounds.Top = 0;
+            textBody.VerticalAlignment = TextAnchoringType.Bottom;
+            textBody.Bounds.Top = textBody.GetAlignmentVertical();
+
+            GenerateSvgFile("textBodyAlignVBottom", baseGroup.Bounds, baseGroup);
         }
     }
 }

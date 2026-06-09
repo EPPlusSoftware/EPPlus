@@ -204,7 +204,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// Get the start of text space vertically
         /// </summary>
         /// <returns></returns>
-        protected double GetAlignmentVertical()
+        public double GetAlignmentVertical()
         {
             double alignmentY = 0;
 
@@ -216,10 +216,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //Center means center of a Shape's ENTIRE bounding box height.
                 //Not center of the Inset GetRectangle
                 case TextAnchoringType.Center:
-                    alignmentY = (Bounds.Height) / 2 + Bounds.Top;
+                    alignmentY = (MaxHeight) / 2 - Bounds.Height;
                     break;
                 case TextAnchoringType.Bottom:
-                    alignmentY = Bounds.Height;
+                    alignmentY = MaxHeight - Bounds.Height;
                     break;
             }
 
