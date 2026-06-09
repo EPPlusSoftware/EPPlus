@@ -136,13 +136,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var plotAreaGroup = new GroupRenderItem(plotAreaBounds);
+
             plotAreaGroup.Left = plotAreaBounds.Position.X;
             plotAreaGroup.Top = plotAreaBounds.Position.Y;
 
             if (_dlblSerie.Fill.IsEmpty == false)
             {
                 plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-                plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\"";
+                plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\" name=\"Plot area group\"";
             }
 
             renderItems.Add(plotAreaGroup);

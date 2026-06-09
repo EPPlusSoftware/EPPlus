@@ -461,18 +461,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var parentPointGroup = new GroupRenderItem(_parentPoint);
             parentPointGroup.Left = _parentPoint.Left;
             parentPointGroup.Top = _parentPoint.Top;
-            renderItems.Add(parentPointGroup);
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
             renderItems.Add(titleItemOrigin);
+
+            renderItems.Add(parentPointGroup);
+
+            var titleItem = new TitleRenderItem("DataLabel size adjustment");
+            parentPointGroup.RenderItems.Add(titleItem);
 
             var group = new GroupRenderItem(Rectangle.Bounds);
             group.Left = Rectangle.Bounds.Left;
             group.Top = Rectangle.Bounds.Top;
             parentPointGroup.RenderItems.Add(group);
-
-            var titleItem = new TitleRenderItem("DataLabel size adjustment");
-            parentPointGroup.RenderItems.Add(titleItem);
 
             _txtBox.AppendRenderItems(group.RenderItems);
             

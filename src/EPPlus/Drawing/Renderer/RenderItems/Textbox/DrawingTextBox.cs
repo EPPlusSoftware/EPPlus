@@ -265,18 +265,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
             groupItem.RenderItems.Add(titleItem);
 
-            if(TextBody.AutoSize)
+            if (TextBody.AutoSize)
             {
                 TextBody.ApplyAutoSize();
                 rect.Width = TextBody.Width + RightMargin + LeftMargin;
                 rect.Height = TextBody.Height + BottomMargin + RightMargin;
             }
+            //TextBody.SetHorizontalAlignmentPosition();
+            TextBody.Bounds.Left = LeftMargin;
+            TextBody.Bounds.Top = TopMargin;
 
             //As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
             groupItem.RenderItems.Add(rect);
-
-            TextBody.Bounds.Left = LeftMargin;
-            TextBody.Bounds.Top = TopMargin;
             TextBody.AppendRenderItems(groupItem.RenderItems);
         }
 

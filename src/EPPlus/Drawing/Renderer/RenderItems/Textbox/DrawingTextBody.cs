@@ -80,33 +80,33 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Paragraphs.Add(paragraph);
         }
 
-        internal void SetHorizontalAlignmentPosition()
-        {
-            //if (AutoSize)
-            //{
-            foreach (var p in Paragraphs)
-            {
-                switch (p.HorizontalAlignment)
-                {
-                    case TextAlignment.Left:
-                        p.Bounds.Left = 0;
-                        break;
-                    case TextAlignment.Center:
-                        p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
-                        break;
-                    case TextAlignment.Right:
-                        p.Bounds.Left = Bounds.Right - p.Bounds.Width;
-                        break;
-                    case TextAlignment.Distributed:
-                    case TextAlignment.Justified:
-                    case TextAlignment.JustifiedLow:
-                    case TextAlignment.ThaiDistributed:
-                        p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
-                        break;
-                }
-            }
-            //}
-        }
+        //internal void SetHorizontalAlignmentPosition()
+        //{
+        //    //if (AutoSize)
+        //    //{
+        //    foreach (var p in Paragraphs)
+        //    {
+        //        switch (p.HorizontalAlignment)
+        //        {
+        //            case TextAlignment.Left:
+        //                p.Bounds.Left = 0;
+        //                break;
+        //            case TextAlignment.Center:
+        //                p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
+        //                break;
+        //            case TextAlignment.Right:
+        //                p.Bounds.Left = Bounds.Right - p.Bounds.Width;
+        //                break;
+        //            case TextAlignment.Distributed:
+        //            case TextAlignment.Justified:
+        //            case TextAlignment.JustifiedLow:
+        //            case TextAlignment.ThaiDistributed:
+        //                p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
+        //                break;
+        //        }
+        //    }
+        //    //}
+        //}
 
         internal virtual void ImportTextBodyAndParagraphs(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
@@ -138,10 +138,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
 
-            foreach (var paragraph in body.Paragraphs)
-            {
-                SetHorizontalAlignmentPosition();
-            }
+            //foreach (var paragraph in body.Paragraphs)
+            //{
+            //    SetHorizontalAlignmentPosition();
+            //}
 
             if (Paragraphs != null && Paragraphs.Count() > 0)
             {
