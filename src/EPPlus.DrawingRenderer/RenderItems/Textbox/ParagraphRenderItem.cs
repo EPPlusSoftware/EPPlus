@@ -327,11 +327,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected void SetHorizontalAlignment(double widthOfLargestLine)
         {
-            if (HorizontalAlignment == TextAlignment.Center && _centerAdjustment != null /*&& AutoSize && TextIfEmptyIsNull*/)
+            if (HorizontalAlignment == TextAlignment.Center)
             {
                 //Bounds of the paragraph should be bounds of the text itself.
                 //Therefore we must know the starting point to set accurate left and offset from left.
-                Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment) - (widthOfLargestLine / 2);
             }
             else
             {

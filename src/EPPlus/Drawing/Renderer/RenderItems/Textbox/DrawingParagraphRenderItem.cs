@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// </summary>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
-        public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent) : base(parent, textBody)
+        public DrawingParagraphRenderItem(DrawingTextBody textBody, BoundingBox parent) : base(parent, textBody)
         {
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
         }
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="text"></param>
-        public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent, string text) : this(textBody, parent)
+        public DrawingParagraphRenderItem(DrawingTextBody textBody, BoundingBox parent, string text) : this(textBody, parent)
         {
             ImportLinesAndTextRunsDefault(text);
         }
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="parent"></param>
         /// <param name="p"></param>
         /// <param name="textIfEmpty"></param>
-        public DrawingParagraphRenderItem(DrawingTextbody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent, textBody, false)
+        public DrawingParagraphRenderItem(DrawingTextBody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent, textBody, false)
         {
             IsFirstParagraph = p == p._paragraphs[0];
             ImportStyleInfo(textBody, p);
@@ -132,7 +132,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
         }
 
-        private void ImportStyleInfo(DrawingTextbody textBody, ExcelDrawingParagraph p)
+        private void ImportStyleInfo(DrawingTextBody textBody, ExcelDrawingParagraph p)
         {
             //If this paragraph has defaults of its own enter here
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)

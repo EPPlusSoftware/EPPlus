@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Parent = parent;
             _drawing= drawing; 
             _rectangle = new RectRenderItem(parent);
-            TextBody = new DrawingTextbody(drawing, Rectangle.Bounds, true);
+            TextBody = new DrawingTextBody(drawing, Rectangle.Bounds, true);
             TextBody.MaxWidth = maxWidth;
             TextBody.MaxHeight = maxHeight;
         }
@@ -39,16 +39,16 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //                                    parent, maxBounds.Left, maxBounds.Top, maxBounds.Width, maxBounds.Height, maxBounds.Width, maxBounds.Height)
         //{
         //}
-        RectRenderItem _rectangle =null;
-        public RectRenderItem Rectangle
-        {
-            get
-            {
-                _rectangle.Bounds.Width = Width;
-                _rectangle.Bounds.Height = Height;
-                return _rectangle;
-            }
-        }
+        //RectRenderItem _rectangle =null;
+        //public RectRenderItem Rectangle
+        //{
+        //    get
+        //    {
+        //        _rectangle.Bounds.Width = Width;
+        //        _rectangle.Bounds.Height = Height;
+        //        return _rectangle;
+        //    }
+        //}
         //internal override void AppendRenderItems(List<RenderItem> renderItems)
         //{
         //    var rect = Rectangle;
@@ -99,119 +99,112 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             TextBody.AddParagraph(text);
         }
 
-        public new DrawingTextbody TextBody { get { return (DrawingTextbody)base.TextBody; } set { base.TextBody = value; } }
-        public double Left 
-        {
-            get
-            {
-                return Rectangle.Bounds.Left; //TextBody.Bounds.Left - LeftMargin;
+        DrawingTextBody _textBody;
 
-            }
-            set
-            {
-                //TextBody.Bounds.Left = value + LeftMargin;
-                Rectangle.Bounds.Left = value;
-            }
-        }
-        public double Top 
-        { 
-            get
-            {
-                return Rectangle.Bounds.Top;  //TextBody.Bounds.Top - TopMargin;
-            }
-            set
-            {
-                //TextBody.Bounds.Top = value + TopMargin;
-                Rectangle.Bounds.Top = value;
-            } 
-        }
-        public double Width
-        { 
-            get 
-            {
-                 return LeftMargin + (TextBody?.Width ?? 0D) + RightMargin;
-            } 
-        }
-        public double Height
+        public DrawingTextBody GetTextBody()
         {
-            get
-            {
-                return TopMargin + (TextBody?.Height ?? 0d) + BottomMargin;
-            }
-        }
-        internal double LeftMargin
-        {
-            get; set; 
+            return (DrawingTextBody)TextBody;
         }
 
-        internal double TopMargin
+        public void SetDrawingTextBody(DrawingTextBody tb)
         {
-            get; set;
+            TextBody = tb;
         }
 
-        internal double RightMargin
-        {
-            get; set;
-        }
+        public override RenderTextBody TextBody { get { return _textBody; } set { _textBody = (DrawingTextBody)value; } }
+        //public double Left 
+        //{
+        //    get
+        //    {
+        //        return Rectangle.Bounds.Left; //TextBody.Bounds.Left - LeftMargin;
 
-        internal double BottomMargin
-        {
-            get; set;
-        }
-        internal BoundingBox Parent { get; private set; }
-        internal double Rotation 
-        {
-            get
-            {
-                return Rectangle.Bounds.Rotation;
-            }
-            set
-            {
-                Rectangle.Bounds.Rotation = value;
-            }
-        }
+        //    }
+        //    set
+        //    {
+        //        //TextBody.Bounds.Left = value + LeftMargin;
+        //        Rectangle.Bounds.Left = value;
+        //    }
+        //}
+        //public double Top 
+        //{ 
+        //    get
+        //    {
+        //        return Rectangle.Bounds.Top;  //TextBody.Bounds.Top - TopMargin;
+        //    }
+        //    set
+        //    {
+        //        //TextBody.Bounds.Top = value + TopMargin;
+        //        Rectangle.Bounds.Top = value;
+        //    } 
+        //}
+        //public double Width
+        //{ 
+        //    get 
+        //    {
+        //         return LeftMargin + (TextBody?.Width ?? 0D) + RightMargin;
+        //    } 
+        //}
+        //public double Height
+        //{
+        //    get
+        //    {
+        //        return TopMargin + (TextBody?.Height ?? 0d) + BottomMargin;
+        //    }
+        //}
+        //internal BoundingBox Parent { get; private set; }
+        //internal double Rotation 
+        //{
+        //    get
+        //    {
+        //        return Rectangle.Bounds.Rotation;
+        //    }
+        //    set
+        //    {
+        //        Rectangle.Bounds.Rotation = value;
+        //    }
+        //}
         /// <summary>
         /// Gets the actual width of the rotated textbox.
         /// </summary>
         /// <returns></returns>
-        internal double GetActualWidth()
-        {
-            return Width * Math.Abs(Math.Cos(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Sin(MathHelper.Radians(Rotation)));
-        }
+        //internal double GetActualWidth()
+        //{
+        //    return Width * Math.Abs(Math.Cos(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Sin(MathHelper.Radians(Rotation)));
+        //}
+        ///// <summary>
+        ///// Gets the actual right position of the rotated textbox.
+        ///// </summary>
+        ///// <returns></returns>
+        //internal double GetActualRight()
+        //{
+        //    return Left+GetActualWidth();
+        //}
+        ///// <summary>
+        ///// Gets the actual height of the rotated textbox.
+        ///// </summary>
+        ///// <returns></returns>
+        //internal double GetActualHeight()
+        //{
+        //    return Width * Math.Abs(Math.Sin(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Cos(MathHelper.Radians(Rotation)));
+        //}
         /// <summary>
         /// Gets the actual right position of the rotated textbox.
         /// </summary>
         /// <returns></returns>
-        internal double GetActualRight()
-        {
-            return Left+GetActualWidth();
-        }
-        /// <summary>
-        /// Gets the actual height of the rotated textbox.
-        /// </summary>
-        /// <returns></returns>
-        internal double GetActualHeight()
-        {
-            return Width * Math.Abs(Math.Sin(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Cos(MathHelper.Radians(Rotation)));
-        }
-        /// <summary>
-        /// Gets the actual right position of the rotated textbox.
-        /// </summary>
-        /// <returns></returns>
-        internal double GetActualBottom()
-        {
-            return Top + GetActualHeight();
-        }
+        //internal double GetActualBottom()
+        //{
+        //    return Top + GetActualHeight();
+        //}
         /// <summary>
         /// How the text is anchored.
         /// </summary>
-        internal eTextAnchor TextAnchor
-        {
-            get;
-            set;
-        }
+        //internal eTextAnchor TextAnchor
+        //{
+        //    get;
+        //    set;
+        //}
 
-        internal void ImportTextBody(ExcelTextBody body, bool useDefaults = true, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
+        internal void ImportTextBodyAndParagraphs(ExcelTextBody body, bool useDefaults = true, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
             double l, r, t, b;
             if (useDefaults)
@@ -227,7 +220,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             RightMargin = r;
             BottomMargin = b;
 
-            TextBody.ImportTextBodyAndParagraphs(body, horizontalDefault);
+            _textBody.ImportTextBodyAndParagraphs(body, horizontalDefault);
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
@@ -282,7 +275,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)
         {
-            TextBody.ImportParagraph(item, startingY, text);
+            _textBody.ImportParagraph(item, startingY, text);
         }
 
         //internal void AddText(double startingY, string text = null)

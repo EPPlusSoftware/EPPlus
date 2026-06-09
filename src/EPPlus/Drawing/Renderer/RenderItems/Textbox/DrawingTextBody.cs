@@ -20,20 +20,20 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    public class DrawingTextbody : RenderTextBody
+    public class DrawingTextBody : RenderTextBody
     {
         internal ExcelDrawing _drawing;
 
         internal ExcelTheme Theme { get; }
 
-        public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
+        public DrawingTextBody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
-        public DrawingTextbody(ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(parent, autoSize)
+        public DrawingTextBody(ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(parent, autoSize)
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
@@ -176,12 +176,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         //}
 
-        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, BoundingBox parent)
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, BoundingBox parent)
         {
             return new DrawingParagraphRenderItem(textBody, parent);
         }
 
-        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextbody textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
         {
             return new DrawingParagraphRenderItem(textBody, parent, paragraph, textIfEmpty);
         }

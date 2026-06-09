@@ -104,19 +104,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var txtBox = new DrawingTextBox(Chart, Rectangle.Bounds, maxBounds.Width, maxBounds.Height);
 
-            txtBox.ImportTextBody(dataLabel.TextBody, false);
+            txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);
 
             txtBox.TextBody.Bounds.Top = 0;
             txtBox.TextBody.AutoSize = true;
 
             if (txtBox.TextBody.Paragraphs.Count == 0)
             {
-                txtBox.TextBody.ImportParagraph(defaultParagraph, 0, finalString);
+                txtBox.ImportParagraph(defaultParagraph, 0, finalString);
                 //txtBox.TextBody.AddParagraph(0, finalString);
             }
             else if (txtBox.TextBody.Paragraphs.Count == 1)
             {
-                txtBox.TextBody.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
+                txtBox.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
                 //Remove dummy paragraph added by ImportTextBody
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
