@@ -146,6 +146,10 @@ namespace EPPlusImageRenderer.Svg
                 {
                     left += leftAxis.Rectangle.Width + 1.5;
                 }
+                if(leftSecondAxis!=null)
+                {
+                    left += leftSecondAxis.Rectangle.Width;
+                }
             }
             return left;
         }
@@ -158,7 +162,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 //If the axis is not on the top, we should check if there is an axis that has the position on the top. If there is, we should reserve space for the title of the axis. This can happen when LabelPosition is set to Low and the axis is on the bottom, but the position of the axis is set to top.
                 topAxis = GetAxisByPosition(eAxisPosition.Top);
-                haHeight = topAxis.Title?.Rectangle.Height ?? 0D;
+                haHeight = topAxis?.Title?.Rectangle.Height ?? 0D;
             }
             else
             {
