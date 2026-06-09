@@ -928,7 +928,7 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                if (_collectionType == DrawingsCollectionType.Worksheet)
+                if (_collectionType == DrawingsCollectionType.Worksheet || _collectionType == DrawingsCollectionType.Chart)
                 {
                     Position.Y = (int)(pixels * EMU_PER_PIXEL);
                 }
@@ -977,7 +977,7 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                if (_collectionType == DrawingsCollectionType.Worksheet)
+                if (_collectionType == DrawingsCollectionType.Worksheet || _collectionType == DrawingsCollectionType.Chart)
                 {
                     Position.X = (int)(pixels * EMU_PER_PIXEL);
                 }
@@ -1143,7 +1143,7 @@ namespace OfficeOpenXml.Drawing
             double pixOff = pixels - (PixelHelper.GetColumnWidth(ws, fromColumn + 1) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
-            while (pixOff >= 0)
+            while (pixOff >= 0 && col < ExcelPackage.MaxColumns)
             {
                 offset = pixOff;
                 pixOff -= PixelHelper.GetColumnWidth(ws, col++);

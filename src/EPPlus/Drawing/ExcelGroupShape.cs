@@ -645,7 +645,7 @@ namespace OfficeOpenXml.Drawing
             foreach (var d in Drawings)
             {
                 //Ensure position on underlying drawings are updated
-                d.AdjustPositionAndSize();
+                //d.AdjustPositionAndSize();
                 d.UpdatePositionAndSizeXml();
                 d.SaveDrawing(hasLoadedPivotTables);
             }
