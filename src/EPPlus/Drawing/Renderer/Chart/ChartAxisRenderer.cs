@@ -408,7 +408,7 @@ namespace EPPlusImageRenderer.Svg
                     if (LabelOrientation == eTextOrientation.Diagonal)
                     {
                         x = ticMarkX - (height / 2) * cos;
-                        if (Axis.AxisPosition == eAxisPosition.Bottom)
+                        if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                         {
                             y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
                         }
@@ -420,7 +420,7 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         x = ticMarkX - (height / 2);
-                        if (Axis.AxisPosition == eAxisPosition.Bottom)
+                        if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                         {
                             y = ticMarkY + BottomMargin + 4;
                         }
@@ -435,7 +435,7 @@ namespace EPPlusImageRenderer.Svg
                 if (LabelOrientation == eTextOrientation.Diagonal)
                 {
                     tb.Rotation = -45;
-                    if(Axis.AxisPosition==eAxisPosition.Bottom)
+                    if(Axis.ActualAxisPosition==eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                     {
                         tb.TextAnchor = eTextAnchor.End;
                     }
@@ -444,7 +444,7 @@ namespace EPPlusImageRenderer.Svg
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
                     tb.Rotation = -90;
-                    if (Axis.AxisPosition == eAxisPosition.Bottom)
+                    if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                     {
                         tb.TextAnchor = eTextAnchor.End;
                     }
@@ -574,7 +574,7 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAxisItemTop(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
-            if (Axis.AxisPosition == eAxisPosition.Top)
+            if (Axis.ActualAxisPosition == eActualAxisPosition.Top || Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
             {
                 switch (LabelOrientation)
                 {
@@ -585,7 +585,7 @@ namespace EPPlusImageRenderer.Svg
                         return Rectangle.Bottom - m.Height - TopMargin;
                 }
             }
-            else if (Axis.AxisPosition == eAxisPosition.Bottom)
+            else if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
             {
                 switch(LabelOrientation)
                 {
@@ -684,31 +684,35 @@ namespace EPPlusImageRenderer.Svg
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
                     double x1, y1, x2, y2;
-                    switch (Axis.AxisPosition)
+                    switch (Axis.ActualAxisPosition)
                     {
-                        case eAxisPosition.Left:
+                        case eActualAxisPosition.Left:
+                        case eActualAxisPosition.LeftSecond:
                             y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
                             y2 = y1;                            
-                            x1 = (float)ChartRenderer.Plotarea.Rectangle.Left - tickMarkWidthOutside;
-                            x2 = (float)ChartRenderer.Plotarea.Rectangle.Left + tickMarkWidthInside;
+                            x1 = (float)Rectangle.Right - tickMarkWidthOutside;
+                            x2 = (float)Rectangle.Right + tickMarkWidthInside;
                             break;
-                        case eAxisPosition.Right:
+                        case eActualAxisPosition.Right:
+                        case eActualAxisPosition.RightSecond:
                             y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
                             y2 = y1;
-                            x1 = (float)ChartRenderer.Plotarea.Rectangle.Right - tickMarkWidthInside;
-                            x2 = (float)ChartRenderer.Plotarea.Rectangle.Right + tickMarkWidthOutside;
+                            x1 = (float)Rectangle.Left - tickMarkWidthInside;
+                            x2 = (float)Rectangle.Left + tickMarkWidthOutside;
                             break;
-                        case eAxisPosition.Top:
+                        case eActualAxisPosition.Top:
+                        case eActualAxisPosition.TopSecond:
                             x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
                             x2 = x1;
-                            y1 = (float)ChartRenderer.Plotarea.Rectangle.Top - tickMarkWidthOutside;
-                            y2 = (float)ChartRenderer.Plotarea.Rectangle.Top + tickMarkWidthInside;
+                            y1 = (float)Rectangle.Bottom - tickMarkWidthOutside;
+                            y2 = (float)Rectangle.Bottom + tickMarkWidthInside;
                             break;
-                        case eAxisPosition.Bottom:
+                        case eActualAxisPosition.Bottom:
+                        case eActualAxisPosition.BottomSecond:
                             x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
                             x2 = x1;
-                            y1 = (float)ChartRenderer.Plotarea.Rectangle.Top - tickMarkWidthInside;
-                            y2 = (float)ChartRenderer.Plotarea.Rectangle.Top + tickMarkWidthOutside;
+                            y1 = (float)Rectangle.Top - tickMarkWidthInside;
+                            y2 = (float)Rectangle.Top + tickMarkWidthOutside;
                             break;
                         default:
                             throw new InvalidOperationException("Invalid axis position");

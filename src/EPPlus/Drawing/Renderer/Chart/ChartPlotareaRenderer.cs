@@ -134,7 +134,7 @@ namespace EPPlusImageRenderer.Svg
             if (leftAxis == null)
             {
                 leftAxis = GetAxisByPosition(eAxisPosition.Left);
-                left += leftAxis?.Title?.Rectangle.Width ?? 0D;
+                left += leftAxis?.Title?.TextBox.Width ?? 0D;
             }
             else
             {
