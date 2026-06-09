@@ -636,5 +636,77 @@ namespace EPPlusTest.Excel.Functions
             A.CallTo(() => parsingContext.ExcelDataProvider.ExcelMaxRows).Returns(10);
             var result = func.Execute(FunctionsHelper.CreateArgs(1, 2, (int)ExcelReferenceType.RelativeRowAndColumn, false), parsingContext);
         }
+
+        [TestMethod]
+        public void VLookupApproximateMatchShouldHandleBlankRowsAroundData()
+        {
+            // Regression test: approximate match (range_lookup = TRUE) over a whole-column
+            // reference where the data is preceded and followed by blank rows.
+            // The lookup column is not trimmed/compacted, so leading blanks must be skipped
+            // while the binary search still partitions the range the same way Excel does.
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            // Blank rows 1-3, data in rows 4-8, blank rows below.
+            ws.Cells["B4"].Value = 10;
+            ws.Cells["B5"].Value = 20;
+            ws.Cells["B6"].Value = 30;
+            ws.Cells["B7"].Value = 40;
+            ws.Cells["B8"].Value = 50;
+            ws.Cells["C4"].Value = 100;
+            ws.Cells["C5"].Value = 200;
+            ws.Cells["C6"].Value = 300;
+            ws.Cells["C7"].Value = 400;
+            ws.Cells["C8"].Value = 500;
+
+            // Approximate match between keys returns the value of the largest key <= lookup.
+            ws.Cells["E1"].Formula = "VLOOKUP(35,B:C,2,TRUE)";
+            // Exact matches at the edges of the data block.
+            ws.Cells["E2"].Formula = "VLOOKUP(10,B:C,2,TRUE)";
+            ws.Cells["E3"].Formula = "VLOOKUP(50,B:C,2,TRUE)";
+            // Lookup value smaller than every key returns #N/A.
+            ws.Cells["E4"].Formula = "VLOOKUP(5,B:C,2,TRUE)";
+            ws.Calculate();
+
+            Assert.AreEqual(300, ws.Cells["E1"].Value);
+            Assert.AreEqual(100, ws.Cells["E2"].Value);
+            Assert.AreEqual(500, ws.Cells["E3"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), ws.Cells["E4"].Value);
+        }
+
+        [TestMethod]
+        public void HLookupApproximateMatchShouldHandleBlankColumnsAroundData()
+        {
+            // Regression test: approximate match (range_lookup = TRUE) for HLOOKUP where the
+            // key row is preceded by blank columns. Mirrors the VLOOKUP case but horizontally.
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            // Blank columns A-C, keys in D1:H1, results in D2:H2.
+            ws.Cells["D1"].Value = 10;
+            ws.Cells["E1"].Value = 20;
+            ws.Cells["F1"].Value = 30;
+            ws.Cells["G1"].Value = 40;
+            ws.Cells["H1"].Value = 50;
+            ws.Cells["D2"].Value = 100;
+            ws.Cells["E2"].Value = 200;
+            ws.Cells["F2"].Value = 300;
+            ws.Cells["G2"].Value = 400;
+            ws.Cells["H2"].Value = 500;
+
+            // Approximate match between keys returns the value of the largest key <= lookup.
+            ws.Cells["A4"].Formula = "HLOOKUP(35,A1:H2,2,TRUE)";
+            // Exact matches at the edges of the data block.
+            ws.Cells["A5"].Formula = "HLOOKUP(10,A1:H2,2,TRUE)";
+            ws.Cells["A6"].Formula = "HLOOKUP(50,A1:H2,2,TRUE)";
+            // Lookup value smaller than every key returns #N/A.
+            ws.Cells["A7"].Formula = "HLOOKUP(5,A1:H2,2,TRUE)";
+            ws.Calculate();
+
+            Assert.AreEqual(300, ws.Cells["A4"].Value);
+            Assert.AreEqual(100, ws.Cells["A5"].Value);
+            Assert.AreEqual(500, ws.Cells["A6"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), ws.Cells["A7"].Value);
+        }
     }
 }

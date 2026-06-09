@@ -74,7 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Horizontal);
+                index = LookupBinarySearch.SearchAscFullRange(searchedValue, lookupRange, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Horizontal);
                 index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextSmaller, true);
                 if (index < 0)
                 {
@@ -112,9 +112,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
         }
-		/// <summary>
-		/// If the function is allowed in a pivot table calculated field
-		/// </summary>
-		public override bool IsAllowedInCalculatedPivotTableField => false;
-	}
+        /// <summary>
+        /// If the function is allowed in a pivot table calculated field
+        /// </summary>
+        public override bool IsAllowedInCalculatedPivotTableField => false;
+    }
 }
