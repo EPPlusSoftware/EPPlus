@@ -30,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public RenderTextbox(BoundingBox parent, BoundingBox maxBounds) 
         {
         }
-        RectRenderItem _rectangle =null;
+        protected RectRenderItem _rectangle =null;
         public RectRenderItem Rectangle
         {
             get
@@ -40,7 +40,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 return _rectangle;
             }
         }
-        public virtual RenderTextBody TextBody {get;set;}
+
+        public virtual RenderTextBody TextBody { get; set; }
         public double Left 
         {
             get
@@ -80,27 +81,28 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 return TopMargin + (TextBody?.Bounds.Height ?? 0d) + BottomMargin;
             }
         }
-        internal double LeftMargin
+        public double LeftMargin
         {
             get; set; 
         }
 
-        internal double TopMargin
+        public double TopMargin
         {
             get; set;
         }
 
-        internal double RightMargin
+        public double RightMargin
         {
             get; set;
         }
 
-        internal double BottomMargin
+        public double BottomMargin
         {
             get; set;
         }
-        internal BoundingBox Parent { get; private set; }
-        internal double Rotation 
+
+        internal protected BoundingBox Parent { get; protected set; }
+        public double Rotation 
         {
             get
             {
@@ -115,7 +117,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// Gets the actual width of the rotated textbox.
         /// </summary>
         /// <returns></returns>
-        internal double GetActualWidth()
+        public double GetActualWidth()
         {
             return Width * Math.Abs(Math.Cos(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Sin(MathHelper.Radians(Rotation)));
         }
@@ -123,7 +125,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// Gets the actual right position of the rotated textbox.
         /// </summary>
         /// <returns></returns>
-        internal double GetActualRight()
+        public double GetActualRight()
         {
             return Left+GetActualWidth();
         }
@@ -131,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// Gets the actual height of the rotated textbox.
         /// </summary>
         /// <returns></returns>
-        internal double GetActualHeight()
+        public double GetActualHeight()
         {
             return Width * Math.Abs(Math.Sin(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Cos(MathHelper.Radians(Rotation)));
         }
@@ -139,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// Gets the actual right position of the rotated textbox.
         /// </summary>
         /// <returns></returns>
-        internal double GetActualBottom()
+        public double GetActualBottom()
         {
             return Top + GetActualHeight();
         }
@@ -151,7 +153,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// <summary>
         /// How the text is anchored.
         /// </summary>
-        internal eTextAnchor TextAnchor
+        public eTextAnchor TextAnchor
         {
             get;
             set;

@@ -20,7 +20,7 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class DrawingLegendSerie : DrawingLegendSeriesIcon
     {
-        internal DrawingTextbody Textbox { get; set; }
+        internal DrawingTextBody Textbox { get; set; }
 
         internal void GetIconTopLeft(out double top, out double left)
         {

@@ -13,6 +13,7 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.Textbox;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -158,7 +159,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 DataLabel.TextBody.AutoSize = true;
             }
-            DataLabel.ImportTextBody(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
+            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
+            DataLabel.ImportTextBodyAndParagraphs(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
             var labelText = "";
             if (_trendline.DisplayEquation)
             {
@@ -172,8 +174,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 labelText += RSquare;
             }
-            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
-            DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, "");
+            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
+            //DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, "");
             AddLblText(DataLabel, labelText);
             DataLabel.LeftMargin = DataLabel.RightMargin = 4;
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
@@ -217,7 +219,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             int pIx = 0;
             var ix = labelText.IndexOf("|ss:");
-         
+
+            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Center;
+
             if (ix < 0)
             {
                 lbl.TextBody.Paragraphs[0].AddText(labelText);
@@ -333,7 +337,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetExponentialSerie(slope, intercept)), 2);
             Coefficients = [slope, intercept];
-            Formula = $"y={intercept:G5}e|ss:{slope:G3}|";
+            Formula = $"y={intercept:G5}e|ss:{slope:G3}x|";
             RSquare = $"R²={r2:N4}";
         }
         private void CalculateLogarithmic()
@@ -486,7 +490,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             Formula = "y=" + GetPolynormFormula();
             var r2 = CalculateRSquared(x => PredictLinear(x), _ySerie, _trendline.Intercept);
-            RSquare = $"R²={r2:N4}";
+            RSquare = $"R² = {r2:N4}";
         }
 
         private void CalculatePower()
@@ -507,10 +511,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var intercept = Math.Pow(Math.E, (sumLnY - slope  * sumLnX) / n);
             Coefficients = [slope, intercept];
 
-            Formula = $"y={intercept:G5}x|ss:{slope:G3}|";
+            Formula = $"y = {intercept:G5} x |ss:{slope:G3}|";
             var ylogSerie = _ySerie.Select(y => Math.Log(y)).ToArray();
             var r2 = CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
-            RSquare = $"R²={r2:N4}";
+            RSquare = $"R² = {r2:N4} ";
         }
 
         private void CalculateMoveingAverage()

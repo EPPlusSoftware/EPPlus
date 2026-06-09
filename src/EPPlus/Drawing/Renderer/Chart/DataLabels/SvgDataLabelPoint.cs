@@ -104,19 +104,19 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var txtBox = new DrawingTextBox(Chart, Rectangle.Bounds, maxBounds.Width, maxBounds.Height);
 
-            txtBox.ImportTextBody(dataLabel.TextBody, false);
+            txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);
 
             txtBox.TextBody.Bounds.Top = 0;
             txtBox.TextBody.AutoSize = true;
 
             if (txtBox.TextBody.Paragraphs.Count == 0)
             {
-                txtBox.TextBody.ImportParagraph(defaultParagraph, 0, finalString);
+                txtBox.ImportParagraph(defaultParagraph, 0, finalString);
                 //txtBox.TextBody.AddParagraph(0, finalString);
             }
             else if (txtBox.TextBody.Paragraphs.Count == 1)
             {
-                txtBox.TextBody.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
+                txtBox.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
                 //Remove dummy paragraph added by ImportTextBody
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
@@ -245,6 +245,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
             _parentShapeBounds = parentShape;
+            
 
             var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
             Vector2 startPointDirection = Vector2.Zero;
@@ -458,24 +459,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var parentPointGroup = new GroupRenderItem(_parentPoint);
-            renderItems.Add(parentPointGroup);
+            parentPointGroup.Left = _parentPoint.Left;
+            parentPointGroup.Top = _parentPoint.Top;
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
             renderItems.Add(titleItemOrigin);
 
-            var group = new GroupRenderItem(Rectangle.Bounds);
-            parentPointGroup.RenderItems.Add(group);
+            renderItems.Add(parentPointGroup);
 
             var titleItem = new TitleRenderItem("DataLabel size adjustment");
             parentPointGroup.RenderItems.Add(titleItem);
 
-            _txtBox.AppendRenderItems(parentPointGroup.RenderItems);
+            var group = new GroupRenderItem(Rectangle.Bounds);
+            group.Left = Rectangle.Bounds.Left;
+            group.Top = Rectangle.Bounds.Top;
+            parentPointGroup.RenderItems.Add(group);
+
+            _txtBox.AppendRenderItems(group.RenderItems);
             
             if(_renderConnectionPointLines)
             {
                 if (_connectionPointLines != null)
                 {
-                    _connectionPointLines.AppendRenderItems(parentPointGroup.RenderItems);
+                    _connectionPointLines.AppendRenderItems(group.RenderItems);
                 }
             }
 

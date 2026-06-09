@@ -199,7 +199,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
-                TextBox.ImportTextBody(_title.TextBody, true, ExcelHorizontalAlignment.Center);
+                TextBox.ImportTextBodyAndParagraphs(_title.TextBody, true, ExcelHorizontalAlignment.Center);
             }
             else
             {

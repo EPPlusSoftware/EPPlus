@@ -238,15 +238,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
 
             AddDefaultTextFragment(textIfEmpty);
-
-            Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment);
-            if (HorizontalAlignment == TextAlignment.Center)
-            {
-                _centerAdjustment = GetAlignmentHorizontal(HorizontalAlignment);
-            }
-
             WrapTextFragmentsAndGenerateTextRuns();
-
         }
 
         protected void WrapTextFragmentsAndGenerateTextRuns()
@@ -271,7 +263,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
-                SetHorizontalAlignment(widthOfLargestLine);
+                if(AutoSize)
+                {
+                    Bounds.Width = widthOfLargestLine + RightMargin;
+                }
+                //SetHorizontalAlignment(widthOfLargestLine);
 
                 int lineIdx = 0;
                 foreach (var line in Lines)
@@ -303,7 +299,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     lineIdx++;
                 }
             }
-            Bounds.Width = widthOfLargestLine;
             Bounds.Height = combinedHeight;
         }
 
@@ -327,11 +322,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         protected void SetHorizontalAlignment(double widthOfLargestLine)
         {
-            if (HorizontalAlignment == TextAlignment.Center && AutoSize && _centerAdjustment != null && TextIfEmptyIsNull)
+            if (HorizontalAlignment == TextAlignment.Center)
             {
                 //Bounds of the paragraph should be bounds of the text itself.
                 //Therefore we must know the starting point to set accurate left and offset from left.
-                Bounds.Left = _centerAdjustment.Value - (widthOfLargestLine / 2);
+                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment) - (widthOfLargestLine / 2);
             }
             else
             {
