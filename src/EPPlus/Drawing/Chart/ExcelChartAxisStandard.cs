@@ -167,48 +167,69 @@ namespace OfficeOpenXml.Drawing.Chart
             get
             {
                 var ap = AxisPosition;
-                if(ap==eAxisPosition.Right && LabelPosition==eTickLabelPosition.Low)
+                if (ap == eAxisPosition.Left && LabelPosition == eTickLabelPosition.High)
                 {
-                    if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.Low)
+                    return eActualAxisPosition.Right;
+                }
+                else if (ap == eAxisPosition.Bottom)
+                {
+                    if (LabelPosition == eTickLabelPosition.High)
                     {
-                        return eActualAxisPosition.Right;
+                        return eActualAxisPosition.Top;
                     }
                     else
-                    {
-                        return eActualAxisPosition.RightSecond;
-                    }
-                }
-                else if(ap==eAxisPosition.Right && LabelPosition==eTickLabelPosition.High)
-                {
-                    if(_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.High)
-                    {
-                        return eActualAxisPosition.Left;
-                    }
-                    else 
-                    {
-                        return eActualAxisPosition.LeftSecond;
-                    }
-                }
-                else if(ap==eAxisPosition.Top && LabelPosition==eTickLabelPosition.Low)
-                {
-                    if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.Low)
                     {
                         return eActualAxisPosition.Bottom;
                     }
+                }
+                else if (ap == eAxisPosition.Right)
+                {
+                    if (LabelPosition == eTickLabelPosition.Low)
+                    {
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.High)
+                        {
+                            return eActualAxisPosition.Left;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.LeftSecond;
+                        }
+                    }
                     else
                     {
-                        return eActualAxisPosition.BottomSecond;
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.Low)
+                        {
+                            return eActualAxisPosition.Right;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.RightSecond;
+                        }
                     }
                 }
-                else if(ap==eAxisPosition.Bottom && LabelPosition==eTickLabelPosition.High)
-                {                    
-                    if(_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.High)
-                    { 
-                        return eActualAxisPosition.Top;
-                    }
-                    else    
+                else if(ap==eAxisPosition.Top)
+                {
+                    if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        return eActualAxisPosition.TopSecond;
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.High)
+                        {
+                            return eActualAxisPosition.Bottom;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.BottomSecond;
+                        }
+                    }
+                    else
+                    {
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.Low)
+                        {
+                            return eActualAxisPosition.Top;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.TopSecond;
+                        }
                     }
                 }
                 else

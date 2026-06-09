@@ -39,6 +39,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 _rectangle.Bounds.Height = Height;
                 return _rectangle;
             }
+            set
+            {
+                _rectangle = value;
+            }
         }
 
         public virtual RenderTextBody TextBody { get; set; }
@@ -74,11 +78,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                  return LeftMargin + (TextBody?.Bounds?.Width ?? 0D) + RightMargin;
             } 
         }
+        public double WidthRotated
+        {
+            get
+            {
+                var radians = MathHelper.Radians(Rotation);
+                var sin = Math.Abs(Math.Sin(radians));
+                var cos = Math.Abs(Math.Cos(radians));
+                return Width * sin + Height * cos;
+            }
+        }
         public double Height
         {
             get
             {
                 return TopMargin + (TextBody?.Bounds.Height ?? 0d) + BottomMargin;
+            }
+        }
+        public double HeightWithRotation 
+        {
+            get
+            {
+                var radians = MathHelper.Radians(Rotation);
+                var sin = Math.Abs(Math.Sin(radians));
+                var cos = Math.Abs(Math.Cos(radians));
+                return Width * cos + Height * sin;
             }
         }
         public double LeftMargin

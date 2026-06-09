@@ -36,6 +36,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -84,34 +85,55 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    if (ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right)
+                    var aav = ax.ActualAxisPosition;
+                    if (ax.IsVertical)
                     {
-                        if (ax.AxisPosition == eAxisPosition.Left)
+                        if (aav == eActualAxisPosition.Left || 
+                            aav == eActualAxisPosition.LeftSecond)
                         {
                             Rectangle.Width = GetTextWidest(ax) + LeftMargin;
-                            var ll = 8D;
-                            if (sc.Chart.HasLegend  && sc.Chart.Legend.Position == eLegendPosition.Left)
-                            {
-                                ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
-                            }
-                            Rectangle.Left = Title == null ? ll : Title.Rectangle.Left + Title.TextBox.GetActualWidth();
+                            //var ll = 8D;
+                            //if (sc.Chart.HasLegend  && sc.Chart.Legend.Position == eLegendPosition.Left)
+                            //{
+                            //    ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
+                            //}
+                            //Rectangle.Left = Title == null ? ll : Title.Rectangle.Left + Title.TextBox.GetActualWidth();
                         }
                         else
                         {
                             Rectangle.Width = GetTextWidest(ax) + RightMargin;
-                            var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
-                            if (sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right)
-                            {
-                                lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
-                            }
-                            Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width - LeftMargin;
+                            //var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
+                            //if (aav == eActualAxisPosition.Right)
+                            //{
+                            //    if (sc.SecondVerticalAxis?.Axis?.ActualAxisPosition == eActualAxisPosition.RightSecond)
+                            //    {
+                            //        lp -= sc.SecondVerticalAxis.Rectangle.Width;
+                            //    }
+                            //    else
+                            //    {
+                            //    }
+                            //}
+                            //else
+                            //{
+
+                            //}
+                            //if (sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right)
+                            //{
+                            //    lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
+                            //}
+                            //Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width - LeftMargin;
                         }
                     }
                     else
                     {
                         Rectangle.Height = GetTextHeight(ax);
-                        //TODO:Fix
-                        Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
+                        //var rb = 0D;
+                        //if (aav == eActualAxisPosition.Bottom && sc.SecondHorizontalAxis?.Axis.ActualAxisPosition==eActualAxisPosition.BottomSecond)
+                        //{
+                        //    rb = sc.SecondHorizontalAxis.Rectangle.Height;
+                        //}
+                        
+                        //Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                     }
                 }
 
@@ -386,7 +408,7 @@ namespace EPPlusImageRenderer.Svg
                     if (LabelOrientation == eTextOrientation.Diagonal)
                     {
                         x = ticMarkX - (height / 2) * cos;
-                        if (Axis.AxisPosition == eAxisPosition.Bottom)
+                        if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                         {
                             y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
                         }
@@ -398,7 +420,7 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         x = ticMarkX - (height / 2);
-                        if (Axis.AxisPosition == eAxisPosition.Bottom)
+                        if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                         {
                             y = ticMarkY + BottomMargin + 4;
                         }
@@ -413,7 +435,7 @@ namespace EPPlusImageRenderer.Svg
                 if (LabelOrientation == eTextOrientation.Diagonal)
                 {
                     tb.Rotation = -45;
-                    if(Axis.AxisPosition==eAxisPosition.Bottom)
+                    if(Axis.ActualAxisPosition==eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                     {
                         tb.TextAnchor = eTextAnchor.End;
                     }
@@ -422,7 +444,7 @@ namespace EPPlusImageRenderer.Svg
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
                     tb.Rotation = -90;
-                    if (Axis.AxisPosition == eAxisPosition.Bottom)
+                    if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                     {
                         tb.TextAnchor = eTextAnchor.End;
                     }
@@ -552,7 +574,7 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAxisItemTop(int i, OfficeOpenXml.Interfaces.Drawing.Text.TextMeasurement m)
         {
-            if (Axis.AxisPosition == eAxisPosition.Top)
+            if (Axis.ActualAxisPosition == eActualAxisPosition.Top || Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
             {
                 switch (LabelOrientation)
                 {
@@ -563,7 +585,7 @@ namespace EPPlusImageRenderer.Svg
                         return Rectangle.Bottom - m.Height - TopMargin;
                 }
             }
-            else if (Axis.AxisPosition == eAxisPosition.Bottom)
+            else if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
             {
                 switch(LabelOrientation)
                 {
@@ -662,27 +684,31 @@ namespace EPPlusImageRenderer.Svg
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
                     double x1, y1, x2, y2;
-                    switch (Axis.AxisPosition)
+                    switch (Axis.ActualAxisPosition)
                     {
-                        case eAxisPosition.Left:
+                        case eActualAxisPosition.Left:
+                        case eActualAxisPosition.LeftSecond:
                             y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
                             y2 = y1;                            
                             x1 = (float)Rectangle.Right - tickMarkWidthOutside;
                             x2 = (float)Rectangle.Right + tickMarkWidthInside;
                             break;
-                        case eAxisPosition.Right:
+                        case eActualAxisPosition.Right:
+                        case eActualAxisPosition.RightSecond:
                             y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
                             y2 = y1;
                             x1 = (float)Rectangle.Left - tickMarkWidthInside;
                             x2 = (float)Rectangle.Left + tickMarkWidthOutside;
                             break;
-                        case eAxisPosition.Top:
+                        case eActualAxisPosition.Top:
+                        case eActualAxisPosition.TopSecond:
                             x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
                             x2 = x1;
                             y1 = (float)Rectangle.Bottom - tickMarkWidthOutside;
                             y2 = (float)Rectangle.Bottom + tickMarkWidthInside;
                             break;
-                        case eAxisPosition.Bottom:
+                        case eActualAxisPosition.Bottom:
+                        case eActualAxisPosition.BottomSecond:
                             x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
                             x2 = x1;
                             y1 = (float)Rectangle.Top - tickMarkWidthInside;

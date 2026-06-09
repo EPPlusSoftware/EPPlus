@@ -56,7 +56,7 @@ namespace EPPlusImageRenderer.Svg
         internal double RightMargin { get; set; }
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
-        internal RectRenderItem Rectangle { get; set; }
+        internal virtual RectRenderItem Rectangle { get; set; }
         protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
             var bounds = parent ?? sc.Bounds;
