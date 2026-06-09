@@ -245,6 +245,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
             _parentShapeBounds = parentShape;
+            
 
             var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
             Vector2 startPointDirection = Vector2.Zero;
@@ -458,24 +459,28 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var parentPointGroup = new GroupRenderItem(_parentPoint);
+            parentPointGroup.Left = _parentPoint.Left;
+            parentPointGroup.Top = _parentPoint.Top;
             renderItems.Add(parentPointGroup);
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
             renderItems.Add(titleItemOrigin);
 
             var group = new GroupRenderItem(Rectangle.Bounds);
+            group.Left = Rectangle.Bounds.Left;
+            group.Top = Rectangle.Bounds.Top;
             parentPointGroup.RenderItems.Add(group);
 
             var titleItem = new TitleRenderItem("DataLabel size adjustment");
             parentPointGroup.RenderItems.Add(titleItem);
 
-            _txtBox.AppendRenderItems(parentPointGroup.RenderItems);
+            _txtBox.AppendRenderItems(group.RenderItems);
             
             if(_renderConnectionPointLines)
             {
                 if (_connectionPointLines != null)
                 {
-                    _connectionPointLines.AppendRenderItems(parentPointGroup.RenderItems);
+                    _connectionPointLines.AppendRenderItems(group.RenderItems);
                 }
             }
 

@@ -26,7 +26,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             _serieIndex = index;
             _dlblSerie = dlblSerie;
-            plotAreaBounds = chart.Plotarea.Rectangle.Bounds;
+            plotAreaBounds = chart.Plotarea.Group.Bounds;
 
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
@@ -136,8 +136,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var plotAreaGroup = new GroupRenderItem(plotAreaBounds);
+            plotAreaGroup.Left = plotAreaBounds.Position.X;
+            plotAreaGroup.Top = plotAreaBounds.Position.Y;
 
-            if(_dlblSerie.Fill.IsEmpty == false)
+            if (_dlblSerie.Fill.IsEmpty == false)
             {
                 plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
                 plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\"";
