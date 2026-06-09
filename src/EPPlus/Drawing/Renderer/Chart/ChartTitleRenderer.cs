@@ -120,20 +120,21 @@ namespace EPPlusImageRenderer.Svg
                     Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width - margin : sc.Bounds.Right - Rectangle.Width - margin;
                     break;
                 case eAxisPosition.Bottom:
-                    if(sc.HorizontalAxis!=null && sc.HorizontalAxis.Axis.HasTitle && sc.HorizontalAxis.Axis.AxisPosition==eAxisPosition.Bottom)
-                    {                        
-                        Rectangle.Top = sc.HorizontalAxis.Rectangle.Bottom + margin;
-                    }
-                    else
-                    {
-                        Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
-                    }
+                    Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
                     Rectangle.Left = GetHorizontalLeft(sc);
                     break;
                 case eAxisPosition.Top:
                     Rectangle.Top = sc.Title != null && sc.Title._title.Layout.HasLayout==false ? sc.Title.Rectangle.Bottom+margin : margin;
                     Rectangle.Left = GetHorizontalLeft(sc);
                     break;
+                //case eActualAxisPosition.BottomSecond:
+                //    Rectangle.Top = sc.HorizontalAxis.Rectangle.Bottom;
+                //    Rectangle.Left = GetHorizontalLeft(sc);
+                //    break;
+                //case eActualAxisPosition.RightSecond:
+                //    Rectangle.Top = sc.GetPlotAreaTop();
+                //    Rectangle.Left = sc.VerticalAxis.Rectangle.Right;
+                //    break;
             }
         }
 
