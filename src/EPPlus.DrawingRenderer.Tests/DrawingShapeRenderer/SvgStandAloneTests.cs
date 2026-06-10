@@ -268,12 +268,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             GenerateSvgFile("textBodyAlignVBottom", baseGroup.Bounds, baseGroup);
         }
 
-
-
-        [TestMethod]
-        public void BasicTextBox()
+        private RenderTextbox GenerateTextBox(out GroupRenderItem group)
         {
-            var group = GenerateGroupRenderItem();
+            group = GenerateGroupRenderItem();
 
             var textbox = new RenderTextbox(group.Bounds, 500d, 500d);
             textbox.TextBody = new SvgTextBodyRenderItem(group.Bounds, true);
@@ -287,6 +284,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             textbox.Rectangle.FillColor = "#F9F6C4";
 
+            return textbox;
+        }
+
+        [TestMethod]
+        public void BasicTextBox()
+        {
+            var textbox = GenerateTextBox(out GroupRenderItem group);
             textbox.AppendRenderItems(group.RenderItems);
 
             double delta = 0.001;
@@ -294,21 +298,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(107.95200681686401d, textbox.Width, delta);
             Assert.AreEqual(34.979735851287842d, textbox.Height, delta);
 
-            StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(group.Bounds, sb);
-
-            List<RenderItem> renderItems = new List<RenderItem>() { group };
-            svgShapeRenderer.Render(renderItems);
-
-            var svg = sb.ToString();
-            //textbox.Rectangle.BorderColor = "green";
-            //textbox.Rectangle.BorderWidth = 5;
-
-            var fileName = "BasicTextbox";
-
-            SaveTextFileToWorkbook($"svg\\{fileName}.svg", svg);
-
-            //var textBody = new (baseGroup.Bounds, true);
+            GenerateSvgFile("BasicTextBox", group.Bounds, group);
         }
 
 
@@ -316,19 +306,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         [TestMethod]
         public void TextBoxWithMargins()
         {
-            var group = GenerateGroupRenderItem();
-
-            var textbox = new RenderTextbox(group.Bounds, 500d, 500d);
-            textbox.TextBody = new SvgTextBodyRenderItem(group.Bounds, true);
-            var paragraph = textbox.TextBody.AddParagraph("Hello");
-
-            paragraph.AddText(" There");
-
-            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
-            rtItem.FontColor = Color.DarkGreen;
-            var para2 = textbox.TextBody.AddParagraph(rtItem);
-
-            textbox.Rectangle.FillColor = "#F9F6C4";
+            var textbox = GenerateTextBox(out GroupRenderItem group);
 
             double delta = 0.001;
 
@@ -349,18 +327,37 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(117.95200681686401d, textbox.Width, delta);
             Assert.AreEqual(44.979735851287842d, textbox.Height, delta);
 
-            StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(group.Bounds, sb);
 
-            List<RenderItem> renderItems = new List<RenderItem>() { group };
-            svgShapeRenderer.Render(renderItems);
+            GenerateSvgFile("MarginTextBox", group.Bounds, group);
+        }
 
-            var svg = sb.ToString();
-            var fileName = "MarginTextBox";
+        [TestMethod]
+        public void TextBoxWithAllMargins()
+        {
+            var textbox = GenerateTextBox(out GroupRenderItem group);
 
-            SaveTextFileToWorkbook($"svg\\{fileName}.svg", svg);
+            double delta = 0.001;
 
-            //var textBody = new (baseGroup.Bounds, true);
+            textbox.LeftMargin = 10d;
+            textbox.TopMargin = 10d;
+            textbox.RightMargin = 10d;
+            textbox.BottomMargin = 10d;
+
+            textbox.AppendRenderItems(group.RenderItems);
+
+            //Assert local position unchanged
+            Assert.AreEqual(0d, textbox.TextBody.Left);
+            Assert.AreEqual(0d, textbox.TextBody.Top);
+
+            //Assert global position changed
+            Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.X);
+            Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.Y);
+
+            //Assert width and height changed by margins
+            Assert.AreEqual(127.95200681686401d, textbox.Width, delta);
+            Assert.AreEqual(54.979735851287842d, textbox.Height, delta);
+
+            GenerateSvgFile("AllMarginsTextBox", group.Bounds, group);
         }
     }
 }
