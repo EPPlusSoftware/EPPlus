@@ -158,12 +158,11 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             if(Paragraphs != null && Paragraphs.Count != 0)
             {
-                double lastParagraphBottom = 0;
+                double lastParagraphBottom = Paragraphs[0].Bounds.Top;
 
                 double smallestLeft = double.MaxValue;
                 double largestWidth = double.MinValue;
-
-                ContentBounds.Top = Paragraphs[0].Bounds.Top;
+                double totalHeight = 0;
 
                 foreach (var paragraph in Paragraphs)
                 {
@@ -172,13 +171,19 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
                     smallestLeft = Math.Min(smallestLeft, paragraph.Bounds.Left);
                     largestWidth = paragraph.Bounds.Width;
+                    totalHeight += paragraph.Bounds.Height;
                 }
 
+                ContentBounds.Top = Paragraphs[0].Bounds.Top;
                 ContentBounds.Left = smallestLeft;
                 ContentBounds.Width = largestWidth;
-                ContentBounds.Top = Paragraphs[0].Bounds.Top;
+                ContentBounds.Height = totalHeight;
 
-                Bounds.Height = lastParagraphBottom;
+                if (AutoSize)
+                {
+                    Bounds.Height = totalHeight;
+                    Bounds.Width = ContentBounds.Width;
+                }
             }
         }
 
@@ -240,7 +245,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //Center means center of a Shape's ENTIRE bounding box height.
                 //Not center of the Inset GetRectangle
                 case TextAnchoringType.Center:
-                    alignmentY = (Bounds.Height) / 2 - ContentBounds.Height;
+                    if(AutoSize == false)
+                    {
+                        alignmentY = (Bounds.Height) / 2 - ContentBounds.Height;
+                    }
                     break;
                 case TextAnchoringType.Bottom:
                     alignmentY = Bounds.Height - ContentBounds.Height;
