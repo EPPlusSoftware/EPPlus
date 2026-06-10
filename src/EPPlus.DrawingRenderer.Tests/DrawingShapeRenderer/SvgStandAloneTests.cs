@@ -228,7 +228,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textBody.ApplyAutoSize();
 
             textBody.AutoSize = false;
-            textBody.MaxHeight = 500;
+            textBody.Height = 500;
 
             textBody.Bounds.Top = 0;
             textBody.VerticalAlignment = TextAnchoringType.Center;
@@ -256,7 +256,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textBody.ApplyAutoSize();
 
             textBody.AutoSize = false;
-            textBody.MaxHeight = 500;
+            textBody.Height = 500;
 
             textBody.Bounds.Top = 0;
             textBody.VerticalAlignment = TextAnchoringType.Bottom;
