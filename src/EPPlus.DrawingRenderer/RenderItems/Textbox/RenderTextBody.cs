@@ -104,11 +104,14 @@ namespace EPPlus.DrawingRenderer.RenderItems
             //TranslationOffset.Left = Bounds.Left;
             //TranslationOffset.Top = Bounds.Top;
 
+            renderItems.Add(this);
+
+            var titleItem = new TitleRenderItem("TextBody group");
+            AddChildItem(titleItem);
             foreach (var item in Paragraphs)
             {
                 AddChildItem(item);
             }
-            renderItems.Add(this);
         }
 
         public ParagraphRenderItem AddParagraph(IRichTextFormatSimple rtFormat)
