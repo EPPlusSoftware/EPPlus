@@ -301,8 +301,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             GenerateSvgFile("BasicTextBox", group.Bounds, group);
         }
 
-
-
         [TestMethod]
         public void TextBoxWithMargins()
         {
@@ -345,19 +343,44 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             textbox.AppendRenderItems(group.RenderItems);
 
-            //Assert local position unchanged
-            Assert.AreEqual(0d, textbox.TextBody.Left);
-            Assert.AreEqual(0d, textbox.TextBody.Top);
-
-            //Assert global position changed
-            Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.X);
-            Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.Y);
-
             //Assert width and height changed by margins
             Assert.AreEqual(127.95200681686401d, textbox.Width, delta);
             Assert.AreEqual(54.979735851287842d, textbox.Height, delta);
 
             GenerateSvgFile("AllMarginsTextBox", group.Bounds, group);
+        }
+
+
+        /// <summary>
+        /// TODO: Discuss. Should it really work like this?
+        /// There IS an argument to be made that margin should BE textbody position
+        /// At the same time then positioning in accordance with vertical aligment then becomes difficult
+        /// And might affect the margin
+        /// </summary>
+        [TestMethod]
+        public void TextBoxWithAllMarginsANDTextbodyChanged()
+        {
+            var textbox = GenerateTextBox(out GroupRenderItem group);
+
+            double delta = 0.001;
+
+            textbox.TextBody.AutoSize = true;
+
+            textbox.TextBody.Left = 15d;
+            textbox.TextBody.Top = 15d;
+
+            textbox.LeftMargin = 10d;
+            textbox.TopMargin = 10d;
+            textbox.RightMargin = 10d;
+            textbox.BottomMargin = 10d;
+
+            textbox.AppendRenderItems(group.RenderItems);
+
+            //Assert width and height changed by margins and textbody
+            Assert.AreEqual(142.952006816864d, textbox.Width, delta);
+            Assert.AreEqual(69.979735851287842d, textbox.Height, delta);
+
+            GenerateSvgFile("TextAnchor_TextBox", group.Bounds, group);
         }
     }
 }

@@ -463,6 +463,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             combinedString += address.Text + separator;
                         }
+                        return combinedString;
                     }
                     return LinkedCell.Text;
                 }

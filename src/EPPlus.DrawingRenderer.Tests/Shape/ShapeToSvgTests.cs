@@ -498,6 +498,41 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         }
 
         [TestMethod]
+        public void SuperScriptShape()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("Superscript.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
+                var ix = 1;
+                foreach (var c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ss{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SuperAndSubScript()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("SuperAndSubScript.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var currShape = ws.Drawings[0];
+
+                var svg = currShape.ToSvg();
+                SaveTextFileToWorkbook("svg\\SuperAndSubScript.svg", svg);
+            }
+        }
+
+        [TestMethod]
         public void OpenRightAligned()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -635,21 +670,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 chart3.SetSize(800, 400);
 
                 SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void SuperAndSubScript()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("SuperAndSubScript.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                var currShape = ws.Drawings[0];
-
-                var svg = currShape.ToSvg();
-                SaveTextFileToWorkbook("svg\\SuperAndSubScript.svg", svg);
             }
         }
     }

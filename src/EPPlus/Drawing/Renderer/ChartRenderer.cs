@@ -183,7 +183,7 @@ namespace EPPlusImageRenderer
             {
                 if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
                 {
-                    if (SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
+                    if (SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
                     {
                         horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom + SecondHorizontalAxis.Rectangle.Height;
                     }

@@ -87,7 +87,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         { 
             get 
             {
-                 return LeftMargin + (TextBody?.Bounds?.Width ?? 0D) + RightMargin;
+                 return LeftMargin + (TextBody?.Bounds?.Width ?? 0D) + RightMargin + TextBody.Left;
             } 
         }
         public double WidthRotated
@@ -104,7 +104,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             get
             {
-                return TopMargin + (TextBody?.Bounds.Height ?? 0d) + BottomMargin;
+                return TopMargin + (TextBody?.Bounds.Height ?? 0d) + BottomMargin + TextBody.Top;
             }
         }
         public double HeightWithRotation 
@@ -229,8 +229,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _group.RenderItems.Add(rect);
 
             //The textbox should be in local-space.
-            //If I.e. a user changes textbody left and right, changing margin on the parent should not change the Local coordinates
-            //Therefore a group inbetween should hold the margins
+            //If e.g. a user changes textbody left and right, changing margin on the parent should not change the Local coordinates
+            //Therefore a group in-between should hold the margins
             _marginGroup.Left = LeftMargin;
             _marginGroup.Top = TopMargin;
 

@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             IsFirstParagraph = p == p._paragraphs[0];
             ImportStyleInfo(textBody, p);
-
+            HorizontalAlignment = (TextAlignment)(int)p.HorizontalAlignment;
             ImportMarginAndIndent(p);
             //ImportAlignment(textBody.AutoSize, textBody.MaxWidth, parent.Width);
             

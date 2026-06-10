@@ -19,17 +19,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var ix = 6;
-                var c = ws.Drawings[ix];
-                var svg = c.ToSvg();
-                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                //var ix = 6;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                //var ix = 0;
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                //}
+                for(int i = 5; i< ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{i}.svg", svg);
+                }
             }
         }
 
@@ -125,25 +125,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 {
                     var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForLineCharts2()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("Superscript.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
-                var ix = 1;
-                foreach (var c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ss{ix++}.svg", svg);
                 }
             }
         }

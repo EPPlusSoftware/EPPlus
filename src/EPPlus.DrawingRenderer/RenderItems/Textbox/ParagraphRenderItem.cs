@@ -180,6 +180,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ParentMaxWidth = textBody.MaxWidth;
             ParentMaxHeight = textBody.MaxHeight;
             AutoSize = textBody.AutoSize;
+
+            if (AutoSize == false)
+            {
+                Bounds.Width = textBody.Width;
+                Bounds.Height = textBody.Height;
+            }
+            else
+            {
+                //Set to max until measured
+                Bounds.Width = ParentMaxWidth;
+                Bounds.Height = ParentMaxHeight;
+            }
         }
 
         TextLineCollection WrapFragmentsToLines(List<ITextFragmentBase>? fragments = null)
