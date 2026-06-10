@@ -977,6 +977,13 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
             }
 
+            // repeated title-row text continues onto the next horizontal page's band
+            if (topBand)
+                AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
+                    pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth,
+                    pageSettings.ContentBounds.Top - page.HeadingHeight,
+                    isPrintTitle: true);
+
             // left band: a neighbour whose text spills INTO a title column travels with the repeated column
             if (leftBand)
                 AddIncomingSpill(page, range, page.FromRow, page.ToRow,
@@ -991,13 +998,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
                     pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X
                     pageSettings.ContentBounds.Top - page.HeadingHeight,                                  // title-rows origin Y
-                    isPrintTitle: true);
-
-            // repeated title-row text continues onto the next horizontal page's band
-            if (topBand)
-                AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth,
-                    pageSettings.ContentBounds.Top - page.HeadingHeight,
                     isPrintTitle: true);
 
             return page;
@@ -1084,6 +1084,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             int nc = toCol - fromCol + 1;
             if (nr <= 0 || nc <= 0) return;
 
+            var spill = BuildBandSpillMask(range, fromRow, toRow, fromCol, toCol, colX);
             double top = rowY[0], bottom = rowY[nr];
             double left = colX[0], right = colX[nc];
 
@@ -1102,9 +1103,16 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 for (int ri = 0; ri < nr; ri++)
                 {
                     int r = fromRow + ri;
-                    if (!SameMerge(range, r, leftCol, r, rightCol)) { if (runStart == null) runStart = rowY[ri]; runEnd = rowY[ri + 1]; }
+                    bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi];
+                    if (!block) { if (runStart == null) runStart = rowY[ri]; runEnd = rowY[ri + 1]; }
                     else if (runStart != null) { target.Add(new GridLine(x, runStart.Value, x, runEnd)); runStart = null; }
                 }
+                //for (int ri = 0; ri < nr; ri++)
+                //{
+                //    int r = fromRow + ri;
+                //    if (!SameMerge(range, r, leftCol, r, rightCol)) { if (runStart == null) runStart = rowY[ri]; runEnd = rowY[ri + 1]; }
+                //    else if (runStart != null) { target.Add(new GridLine(x, runStart.Value, x, runEnd)); runStart = null; }
+                //}
                 if (runStart != null) target.Add(new GridLine(x, runStart.Value, x, runEnd));
             }
 
@@ -1121,6 +1129,112 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     else if (runStart != null) { target.Add(new GridLine(runStart.Value, y, runEnd, y)); runStart = null; }
                 }
                 if (runStart != null) target.Add(new GridLine(runStart.Value, y, runEnd, y));
+            }
+        }
+
+        private static bool[,] BuildBandSpillMask(PdfRange range, int fromRow, int toRow, int fromCol, int toCol, double[] colX)
+        {
+            int nr = toRow - fromRow + 1;
+            int nc = toCol - fromCol + 1;
+            var blocked = new bool[Math.Max(nr, 1), Math.Max(nc, 1)]; // [ri, g], g in 1..nc-1
+            if (nr <= 0 || nc <= 1) return blocked;
+            int repRow = fromRow;
+
+            for (int ri = 0; ri < nr; ri++)
+            {
+                int row = fromRow + ri;
+
+                // (a) cells spilling within the band region
+                for (int ci = 0; ci < nc; ci++)
+                {
+                    var cell = RangeCell(range, row, fromCol + ci);
+                    if (cell == null || cell.Merged) continue;
+                    if (cell.ContentAligmnet != null && cell.ContentAligmnet.WrapText) continue;
+                    if (string.IsNullOrEmpty(cell.Text)) continue;
+                    double spill = cell.TotalTextLength - cell.ColumnWidth;
+                    if (spill <= 0d) continue;
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    if (hal == ExcelHorizontalAlignment.Left || hal == ExcelHorizontalAlignment.General)
+                        BandMarkRight(range, row, ci, nc, fromCol, colX, spill, ri, blocked);
+                    else if (hal == ExcelHorizontalAlignment.Right)
+                        BandMarkLeft(range, row, ci, fromCol, colX, spill, ri, blocked);
+                    else if (hal == ExcelHorizontalAlignment.Center)
+                    {
+                        double half = spill / 2d;
+                        BandMarkRight(range, row, ci, nc, fromCol, colX, half, ri, blocked);
+                        BandMarkLeft(range, row, ci, fromCol, colX, half, ri, blocked);
+                    }
+                }
+
+                // (b) spill entering from the LEFT of the region (left/general/center → spilling right in)
+                double lx = colX[0];
+                for (int c = fromCol - 1; c >= range.Range._fromCol; c--)
+                {
+                    double w = RangeColWidth(range, repRow, c);
+                    lx -= w;
+                    var cell = RangeCell(range, row, c);
+                    if (cell == null) continue;
+                    if (cell.Merged) break;
+                    if (string.IsNullOrEmpty(cell.Text)) continue;
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    if (hal == ExcelHorizontalAlignment.Right) break; // spills away from the region
+                    double rightExtent = (hal == ExcelHorizontalAlignment.Center)
+                        ? lx + w / 2d + cell.TotalTextLength / 2d
+                        : lx + cell.TotalTextLength;
+                    for (int g = 1; g <= nc - 1; g++)
+                    {
+                        var blk = RangeCell(range, row, fromCol + g - 1);
+                        if (blk != null && !string.IsNullOrEmpty(blk.Text)) break;
+                        if (colX[g] < rightExtent) blocked[ri, g] = true; else break;
+                    }
+                    break;
+                }
+
+                // (c) spill entering from the RIGHT of the region (right/center → spilling left in)
+                double rx = colX[nc];
+                for (int c = toCol + 1; c <= range.Range._toCol; c++)
+                {
+                    double w = RangeColWidth(range, repRow, c);
+                    var cell = RangeCell(range, row, c);
+                    if (cell == null) { rx += w; continue; }
+                    if (cell.Merged) break;
+                    if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    if (hal == ExcelHorizontalAlignment.Left || hal == ExcelHorizontalAlignment.General) break; // spills away
+                    double leftExtent = (hal == ExcelHorizontalAlignment.Center)
+                        ? rx + w / 2d - cell.TotalTextLength / 2d
+                        : rx + w - cell.TotalTextLength;
+                    for (int g = nc - 1; g >= 1; g--)
+                    {
+                        var blk = RangeCell(range, row, fromCol + g);
+                        if (blk != null && !string.IsNullOrEmpty(blk.Text)) break;
+                        if (colX[g] > leftExtent) blocked[ri, g] = true; else break;
+                    }
+                    break;
+                }
+            }
+            return blocked;
+        }
+
+        private static void BandMarkRight(PdfRange range, int row, int ci, int nc, int fromCol, double[] colX, double spill, int ri, bool[,] blocked)
+        {
+            for (int g = ci + 1; g <= nc - 1; g++)
+            {
+                var rightCell = RangeCell(range, row, fromCol + g);
+                if (rightCell != null && !string.IsNullOrEmpty(rightCell.Text)) break;
+                double distToGap = colX[g] - colX[ci + 1];
+                if (spill > distToGap) blocked[ri, g] = true; else break;
+            }
+        }
+
+        private static void BandMarkLeft(PdfRange range, int row, int ci, int fromCol, double[] colX, double spill, int ri, bool[,] blocked)
+        {
+            for (int g = ci; g >= 1; g--)
+            {
+                var leftCell = RangeCell(range, row, fromCol + g - 1);
+                if (leftCell != null && !string.IsNullOrEmpty(leftCell.Text)) break;
+                double distToGap = colX[ci] - colX[g];
+                if (spill > distToGap) blocked[ri, g] = true; else break;
             }
         }
 
