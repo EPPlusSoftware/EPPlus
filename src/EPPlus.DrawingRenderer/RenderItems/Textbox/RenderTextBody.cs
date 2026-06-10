@@ -156,16 +156,36 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// </summary>
         public void RecalculateParagraphs()
         {
-            double lastParagraphBottom = 0;
-
-            foreach(var paragraph in Paragraphs)
+            if(Paragraphs != null && Paragraphs.Count != 0)
             {
-                paragraph.Bounds.Top = lastParagraphBottom;
-                lastParagraphBottom = paragraph.Bounds.Bottom;
-            }
+                double lastParagraphBottom = 0;
 
-            Bounds.Height = lastParagraphBottom;
+                double smallestLeft = double.MaxValue;
+                double largestWidth = double.MinValue;
+
+                ContentBounds.Top = Paragraphs[0].Bounds.Top;
+
+                foreach (var paragraph in Paragraphs)
+                {
+                    paragraph.Bounds.Top = lastParagraphBottom;
+                    lastParagraphBottom = paragraph.Bounds.Bottom;
+
+                    smallestLeft = Math.Min(smallestLeft, paragraph.Bounds.Left);
+                    largestWidth = paragraph.Bounds.Width;
+                }
+
+                ContentBounds.Left = smallestLeft;
+                ContentBounds.Width = largestWidth;
+                ContentBounds.Top = Paragraphs[0].Bounds.Top;
+
+                Bounds.Height = lastParagraphBottom;
+            }
         }
+
+        /// <summary>
+        /// The total bounds of all paragraphs without margins
+        /// </summary>
+        protected BoundingBox ContentBounds = new BoundingBox();
 
         private void AdjustAndAddParagraph(ParagraphRenderItem paragraph)
         {
@@ -189,6 +209,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 }
             }
             Paragraphs.Add(paragraph);
+            RecalculateParagraphs();
         }
 
         private double GetTopToAddNextParagraphAt()
@@ -219,10 +240,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //Center means center of a Shape's ENTIRE bounding box height.
                 //Not center of the Inset GetRectangle
                 case TextAnchoringType.Center:
-                    alignmentY = (MaxHeight) / 2 - Bounds.Height;
+                    alignmentY = (Bounds.Height) / 2 - ContentBounds.Height;
                     break;
                 case TextAnchoringType.Bottom:
-                    alignmentY = MaxHeight - Bounds.Height;
+                    alignmentY = Bounds.Height - ContentBounds.Height;
                     break;
             }
 

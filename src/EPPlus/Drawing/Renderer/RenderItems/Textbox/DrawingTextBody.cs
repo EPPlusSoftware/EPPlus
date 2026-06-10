@@ -78,6 +78,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 }
             }
             Paragraphs.Add(paragraph);
+            RecalculateParagraphs();
         }
 
         internal void SetHorizontalAlignmentPosition()
@@ -161,6 +162,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 currentHeight = addedPara.Bounds.Bottom;
                 largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
+
+            //Ensure contentBounds are calculated and paragraphs don't overlap
+            RecalculateParagraphs();
 
             //Alignment adjustment for e.g. ChartTitles one paragraph may be longer than another
             //Therefore as paragraphs have no awareness of eachother we must compare and adjust

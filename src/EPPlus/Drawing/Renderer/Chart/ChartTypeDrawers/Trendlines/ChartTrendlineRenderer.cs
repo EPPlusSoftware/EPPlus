@@ -240,6 +240,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, labelText.Length - pIx));
             }
+
+            //Should probably be a callback
+            lbl.TextBody.RecalculateParagraphs();
+            lbl.TextBody.Top = lbl.TextBody.GetAlignmentVertical();
         }
 
         private void CalculateLinear()

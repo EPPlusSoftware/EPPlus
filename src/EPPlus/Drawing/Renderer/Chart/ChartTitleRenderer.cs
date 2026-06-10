@@ -112,20 +112,20 @@ namespace EPPlusImageRenderer.Svg
             switch (axis.Axis.AxisPosition)
             {
                 case eAxisPosition.Left:
-                    Rectangle.Top = sc.GetPlotAreaTop();
-                    Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : margin;                               
+                    TextBox.Top = sc.GetPlotAreaTop();
+                    TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : margin;                               
                     break;
                 case eAxisPosition.Right:
-                    Rectangle.Top = sc.GetPlotAreaTop();
-                    Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width - margin : sc.Bounds.Right - Rectangle.Width - margin;
+                    TextBox.Top = sc.GetPlotAreaTop();
+                    TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width - margin : sc.Bounds.Right - Rectangle.Width - margin;
                     break;
                 case eAxisPosition.Bottom:
-                    Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
-                    Rectangle.Left = GetHorizontalLeft(sc);
+                    TextBox.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
+                    TextBox.Left = GetHorizontalLeft(sc);
                     break;
                 case eAxisPosition.Top:
-                    Rectangle.Top = sc.Title != null && sc.Title._title.Layout.HasLayout==false ? sc.Title.Rectangle.Bottom+margin : margin;
-                    Rectangle.Left = GetHorizontalLeft(sc);
+                    TextBox.Top = sc.Title != null && sc.Title._title.Layout.HasLayout==false ? sc.Title.Rectangle.Bottom+margin : margin;
+                    TextBox.Left = GetHorizontalLeft(sc);
                     break;
                 //case eActualAxisPosition.BottomSecond:
                 //    Rectangle.Top = sc.HorizontalAxis.Rectangle.Bottom;
