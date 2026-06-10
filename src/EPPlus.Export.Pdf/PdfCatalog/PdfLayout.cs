@@ -29,6 +29,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public double Y;
         public double Width;
         public double Height;
+        public double ClipX;       // text clip (spill bound)
+        public double ClipY;
+        public double ClipWidth;
+        public double ClipHeight;
     }
 
     internal struct PrintTitleHeadingDraw
@@ -39,6 +43,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public double Y;
         public double Width;
         public double Height;
+    }
+
+    internal struct SpillCellDraw
+    {
+        public PdfCell Cell;
+        public double X, Y, Width, Height;                  // source cell's true position (off-window)
+        public double ClipX, ClipY, ClipWidth, ClipHeight;  // visible slice on this page
+        public bool IsPrintTitle;
     }
 
     internal struct Page
@@ -60,6 +72,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public List<PrintTitleCellDraw> PrintTitleCells;
         public List<GridLine> PrintTitleGridLines;
         public List<PrintTitleHeadingDraw> PrintTitleHeadings;
+        public List<SpillCellDraw> SpillCells;
 
         public double[] RowHeights;
 
@@ -130,6 +143,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     {
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
                         AddPrintTitleHeadings(pageSettings, dictionaries, page, pageLayout, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
+                        AddSpillCells(pageSettings, dictionaries, page, pageLayout);
                     }
                     AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
 
@@ -599,6 +613,24 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return cell;
         }
 
+        private static void AddSpillCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout)
+        {
+            if (page.SpillCells == null) return;
+            foreach (var s in page.SpillCells)
+            {
+                var map = s.Cell;
+                if (map.TextLines == null || map.TextLines.Count == 0) continue;
+                if (s.ClipWidth <= 0d || s.ClipHeight <= 0d) continue;
+
+                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, new MergedCellDrawInfo(), s.X, s.Y, s.Width, s.Height);
+                text.Name = "Spill_" + map.Name;
+                text.IsPrintTitle = s.IsPrintTitle;       // false → clipped content group; true → outside-clip (band)
+                text.GidsAndCharMap(dictionaries);
+                text.SetupClipping(s.ClipX, s.ClipY, s.ClipWidth, s.ClipHeight);
+                pageLayout.AddChild(text);
+            }
+        }
+
         private static void AddPrintTitleCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout)
         {
             if (page.PrintTitleCells == null) return;
@@ -620,7 +652,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     text.Name = map.Name;
                     text.IsPrintTitle = true;
                     text.GidsAndCharMap(dictionaries);
-                    text.SetupClipping(t.X, t.Y, t.Width, t.Height);
+                    text.SetupClipping(t.ClipX, t.ClipY, t.ClipWidth, t.ClipHeight);
                     pageLayout.AddChild(text);
                 }
 
@@ -669,6 +701,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     pages = MapPage(range, pages);
                     pages = GetHeaderFooter(range, pages, pdfSheet);
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
+                    pages = PrecomputeSpillCells(pageSettings, range, pages);
                     pages = PrecomputePrintTitleCells(pageSettings, pdfSheet, range, pages);
                     pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
@@ -944,11 +977,43 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     }
             }
 
+            // left band: a neighbour whose text spills INTO a title column travels with the repeated column
+            if (leftBand)
+                AddIncomingSpill(page, range, page.FromRow, page.ToRow,
+                    pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
+                    pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X (left edge of the title columns)
+                    pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight,           // content-rows origin Y
+                    isPrintTitle: true);
+
+            // corner: same, for the title-rows × title-columns intersection
+            if (topBand && leftBand)
+                AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo,
+                    pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
+                    pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X
+                    pageSettings.ContentBounds.Top - page.HeadingHeight,                                  // title-rows origin Y
+                    isPrintTitle: true);
+
+            // repeated title-row text continues onto the next horizontal page's band
+            if (topBand)
+                AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
+                    pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth,
+                    pageSettings.ContentBounds.Top - page.HeadingHeight,
+                    isPrintTitle: true);
+
             return page;
         }
 
         private static void ProcessBandRegionCells(Page page, PdfRange range, int fromRow, int toRow, int fromCol, int toCol, Dictionary<int, double> colX, Dictionary<int, double> rowY)
         {
+            // Band-region rectangle (top-left origin). Non-merged text may spill within this rect,
+            // which is bounded by the band edge, so it can never overflow into the content area.
+            double regLeft = colX[fromCol];
+            double regRight = colX[toCol] + RangeColWidth(range, page.FromRow, toCol);
+            double regTop = rowY[fromRow];
+            double regBottom = rowY[toRow] - RangeRowHeight(range, toRow);
+            double regW = regRight - regLeft;
+            double regH = regTop - regBottom;
+
             var drawnMerges = new HashSet<string>();
             for (int r = fromRow; r <= toRow; r++)
             {
@@ -959,7 +1024,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
                     if (cell.Merged)
                     {
-                        if (!drawnMerges.Add(cell.MergedAddress.Address)) continue; // render each merge once per region
+                        if (!drawnMerges.Add(cell.MergedAddress.Address)) continue;
                         var addr = cell.MergedAddress;
                         var main = cell.Main ?? cell;
 
@@ -975,14 +1040,39 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         double height = (rowY[vFromRow] - rowY[vToRow]) + RangeRowHeight(range, vToRow);
                         if (width <= 0d || height <= 0d) continue;
 
-                        page.PrintTitleCells.Add(new PrintTitleCellDraw { Cell = main, X = x, Y = y, Width = width, Height = height });
+                        // merged cells don't spill — clip text to the merge itself (matches content)
+                        page.PrintTitleCells.Add(new PrintTitleCellDraw
+                        {
+                            Cell = main,
+                            X = x,
+                            Y = y,
+                            Width = width,
+                            Height = height,
+                            ClipX = x,
+                            ClipY = y,
+                            ClipWidth = width,
+                            ClipHeight = height
+                        });
                     }
                     else
                     {
                         double w = RangeColWidth(range, page.FromRow, c);
                         double h = RangeRowHeight(range, r);
                         if (w <= 0d || h <= 0d) continue;
-                        page.PrintTitleCells.Add(new PrintTitleCellDraw { Cell = cell, X = colX[c], Y = rowY[r], Width = w, Height = h });
+
+                        // non-merged: clip to the band region so text can spill within it but not into content
+                        page.PrintTitleCells.Add(new PrintTitleCellDraw
+                        {
+                            Cell = cell,
+                            X = colX[c],
+                            Y = rowY[r],
+                            Width = w,
+                            Height = h,
+                            ClipX = regLeft,
+                            ClipY = regTop,
+                            ClipWidth = regW,
+                            ClipHeight = regH
+                        });
                     }
                 }
             }
@@ -1344,6 +1434,131 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     hf.Content.TextFragments[idx].Text = totalPages.ToString();
             }
             PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        }
+
+        private static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)
+        {
+            if (page.SpillCells == null) return; // initialised by the caller
+
+            double windowRightX = windowOriginX;
+            for (int c = windowFromCol; c <= windowToCol; c++) windowRightX += RangeColWidth(range, page.FromRow, c);
+
+            double rowTop = windowOriginY;
+            for (int r = fromRow; r <= toRow; r++)
+            {
+                double rowH = RangeRowHeight(range, r);
+                double y = rowTop;
+                rowTop -= rowH;
+                if (rowH <= 0d) continue;
+
+                // spill entering from the LEFT (left/general/center)
+                double lx = windowOriginX;
+                for (int c = windowFromCol - 1; c >= range.Range._fromCol; c--)
+                {
+                    double w = RangeColWidth(range, page.FromRow, c);
+                    lx -= w;
+                    var cell = RangeCell(range, r, c);
+                    if (cell == null) continue;
+                    if (cell.Merged) break;                              // merges don't spill, and block
+                    if (string.IsNullOrEmpty(cell.Text)) continue;
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    double rightExtent =
+                        (hal == ExcelHorizontalAlignment.Center) ? lx + w / 2d + cell.TotalTextLength / 2d :
+                        (hal == ExcelHorizontalAlignment.Right) ? lx + w :
+                                                                   lx + cell.TotalTextLength;
+                    if (rightExtent > windowOriginX)
+                    {
+                        double clipRight = FirstBlockedX(page, range, r, windowFromCol, windowToCol, windowOriginX, windowRightX, fromLeft: true);
+                        page.SpillCells.Add(new SpillCellDraw
+                        {
+                            Cell = cell,
+                            X = lx,
+                            Y = y,
+                            Width = w,
+                            Height = rowH,
+                            ClipX = windowOriginX,
+                            ClipY = y,
+                            ClipWidth = clipRight - windowOriginX,
+                            ClipHeight = rowH,
+                            IsPrintTitle = isPrintTitle
+                        });
+                    }
+                    break;
+                }
+
+                // spill entering from the RIGHT (right/center)
+                double rx = windowRightX;
+                for (int c = windowToCol + 1; c <= range.Range._toCol; c++)
+                {
+                    double w = RangeColWidth(range, page.FromRow, c);
+                    var cell = RangeCell(range, r, c);
+                    if (cell == null) { rx += w; continue; }
+                    if (cell.Merged) break;
+                    if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    double leftExtent =
+                        (hal == ExcelHorizontalAlignment.Center) ? rx + w / 2d - cell.TotalTextLength / 2d :
+                        (hal == ExcelHorizontalAlignment.Right) ? rx + w - cell.TotalTextLength :
+                                                                   rx;
+                    if (leftExtent < windowRightX)
+                    {
+                        double clipLeft = FirstBlockedX(page, range, r, windowFromCol, windowToCol, windowOriginX, windowRightX, fromLeft: false);
+                        page.SpillCells.Add(new SpillCellDraw
+                        {
+                            Cell = cell,
+                            X = rx,
+                            Y = y,
+                            Width = w,
+                            Height = rowH,
+                            ClipX = clipLeft,
+                            ClipY = y,
+                            ClipWidth = windowRightX - clipLeft,
+                            ClipHeight = rowH,
+                            IsPrintTitle = isPrintTitle
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Where spill into the window is cut off by the first non-empty (or merged) cell inside it.
+        private static double FirstBlockedX(Page page, PdfRange range, int row, int windowFromCol, int windowToCol, double windowOriginX, double windowRightX, bool fromLeft)
+        {
+            if (fromLeft)
+            {
+                double x = windowOriginX;
+                for (int c = windowFromCol; c <= windowToCol; c++)
+                {
+                    var cell = RangeCell(range, row, c);
+                    if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text))) return x;
+                    x += RangeColWidth(range, page.FromRow, c);
+                }
+                return windowRightX;
+            }
+            double rx = windowRightX;
+            for (int c = windowToCol; c >= windowFromCol; c--)
+            {
+                double w = RangeColWidth(range, page.FromRow, c);
+                rx -= w;
+                var cell = RangeCell(range, row, c);
+                if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text))) return rx + w;
+            }
+            return windowOriginX;
+        }
+
+        internal static Pages PrecomputeSpillCells(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages)
+        {
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+            {
+                var page = pdfPages.Page[i];
+                page.SpillCells = new List<SpillCellDraw>();
+                double originX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+                double originY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                AddIncomingSpill(page, range, page.FromRow, page.ToRow, page.FromColumn, page.ToColumn, originX, originY, isPrintTitle: false);
+                pdfPages.Page[i] = page;
+            }
+            return pdfPages;
         }
 
     }
