@@ -62,7 +62,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
 
             var rangeLookup = true;
-            if(arguments.Count > 3)
+            if (arguments.Count > 3)
             {
                 rangeLookup = ArgToBool(arguments, 3);
             }
@@ -88,21 +88,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
                 //}
 
-                index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Vertical);
+                index = LookupBinarySearch.SearchAscFullRange(searchedValue, lookupRange, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Vertical);
                 index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextSmaller, true);
                 if (index < 0)
                 {
                     return CompileResult.GetErrorResult(eErrorType.NA);
                 }
             }
-            return CompileResultFactory.Create(lookupRange.GetOffset(index, lookupIndex - 1));            
+            return CompileResultFactory.Create(lookupRange.GetOffset(index, lookupIndex - 1));
         }
         public override void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)
         {
             if (args.Count > 2)
             {
                 var lookupRange = args[1].Result as RangeInfo;
-                if (lookupRange!=null)
+                if (lookupRange != null)
                 {
                     try
                     {
@@ -114,7 +114,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                             addresses.Enqueue(lookupRange.Address.GetOffset(0, 0, lookupRange.Size.NumberOfRows, ix + 1).Address);
                         }
                         else
-                        {                            
+                        {
                             addresses.Enqueue(lookupRange.Address.GetOffset(0, 0, lookupRange.Size.NumberOfRows, 1));
                             addresses.Enqueue(lookupRange.Address.GetOffset(0, ix, lookupRange.Size.NumberOfRows, 1));
                         }
@@ -126,9 +126,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
         }
-		/// <summary>
-		/// If the function is allowed in a pivot table calculated field
-		/// </summary>
-		public override bool IsAllowedInCalculatedPivotTableField => false;
-	}
+        /// <summary>
+        /// If the function is allowed in a pivot table calculated field
+        /// </summary>
+        public override bool IsAllowedInCalculatedPivotTableField => false;
+    }
 }

@@ -1666,6 +1666,19 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("s1050-saved.xlsx", p);
             }
         }
+
+        [TestMethod]
+        public void s1054()
+        {
+            using (var p = OpenTemplatePackage("issues\\1054\\Payroll and FBL3N.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Journal Calculation"];
+                ws.Cells["E2"].Calculate();
+
+                var result = ws.Cells["E2"].Value;
+                Assert.AreEqual(1258679d, result);
+            }
+        }
     }
 }
 
