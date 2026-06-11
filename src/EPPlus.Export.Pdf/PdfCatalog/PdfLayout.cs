@@ -100,7 +100,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
     internal class PdfLayout
     {
-        private const double rowHeadingWith1CharWidth = 23.25d;
+        private const double rowHeadingWith1CharWidth = 18d;
 
         public static Transform GetLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
         {
@@ -722,11 +722,20 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
                 {
+                    bool savedShowHeadings = pageSettings.ShowHeadings;
+                    pageSettings.ShowHeadings = false;
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, ref pdfSheet.CommentsAndNotes);
                     pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
+                    pageSettings.ShowHeadings = savedShowHeadings;
                     pages.IsCommentsPage = true;
                     PagesCollection.Add(pages);
+
+                    //var pages = GetNumberOfPages(pageSettings, pdfSheet, ref pdfSheet.CommentsAndNotes);
+                    //pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
+                    //pages = MapPage(pdfSheet.CommentsAndNotes, pages);
+                    //pages.IsCommentsPage = true;
+                    //PagesCollection.Add(pages);
                 }
             }
             return PagesCollection;

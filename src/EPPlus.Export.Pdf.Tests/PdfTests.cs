@@ -18,6 +18,7 @@ using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
@@ -211,17 +212,17 @@ namespace EPPlusTest.PDF
 
             [TestMethod]
         // works as expected.
-        [DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
-        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
+        //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
+        //[DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
 
         // Output file: OutputTest1.2.pdf
-        // 1. Minus signs alignment in cells differs from Excel.
-        // 2. Dimension seems to differ from Excel, Excel stops at row 75, EPPlus goes to row 89.
-        // 3. Row headings are sligthly wider in EPPlus than in Excel.
-        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", "Summary")]
+        // 1. Minus signs alignment in cells differs from Excel. Comment: Currently no support for number formats. Requires implementing number formats.
+        // 2. Dimension seems to differ from Excel, Excel stops at row 75, EPPlus goes to row 89. Fixed
+        // 3. Row headings are sligthly wider in EPPlus than in Excel. Fixed
+        //[DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", "Summary")]
         // works as expected
-        [DataRow("Aico WiP 120180 FBL3N for 0110 in 2025-04.xlsx", "C:\\epplustest\\pdf\\OutputTest1.4.pdf", "Technical")]
-        [DataRow("Aico KKS1 Variance Calculation for 0105 in 2025-04 (25_4_2025 15_43_40) .xlsx", "C:\\epplustest\\pdf\\OutputTest1.5.pdf", "Technical")]
+        //[DataRow("Aico WiP 120180 FBL3N for 0110 in 2025-04.xlsx", "C:\\epplustest\\pdf\\OutputTest1.4.pdf", "Technical")]
+        //[DataRow("Aico KKS1 Variance Calculation for 0105 in 2025-04 (25_4_2025 15_43_40) .xlsx", "C:\\epplustest\\pdf\\OutputTest1.5.pdf", "Technical")]
 
         // Output file: OutputTest1.6.pdf
         // 1. Merged cells not working
@@ -236,13 +237,35 @@ namespace EPPlusTest.PDF
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
 
-            pageSettings.CellErrors = CellErrors.NA;
+            pageSettings.CellErrors = CellErrors.Displayed;
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
             pageSettings.ShowGridLines = true;
             pageSettings.ShowHeadings = true;
 
             PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
+        }
+
+        [TestMethod]
+        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", "Summary")]
+        public void TestCells(string sourceFile, string outputPath, string wsName)
+        {
+            using var p = OpenTemplatePackage(sourceFile);
+            var ws = p.Workbook.Worksheets[wsName];
+            var dim = ws.Dimension;
+            var dim2 = ws.DimensionByValue;
+            List<ExcelRange> NotEmpty = new List<ExcelRange>();
+            for (int r = 76; r <= 89; r++)
+            {
+                for (int c = 1; c <= 8; c++)
+                {
+                    var cell = ws.Cells[r, c];
+                    if (!cell.IsEmpty(false, false, false))
+                    {
+                        NotEmpty.Add(cell);
+                    }
+                }
+            }
         }
 
 
