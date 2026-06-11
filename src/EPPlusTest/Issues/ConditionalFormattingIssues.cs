@@ -161,5 +161,24 @@ namespace EPPlusTest.Issues
                 //SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void i2381()
+        {
+            using (var package = OpenTemplatePackage("Cabinet_template_test_clean.xlsx"))
+            {
+                var copyCount = package.Workbook.Worksheets.Count;
+                var worksheets = package.Workbook.Worksheets;
+
+                //for (int i = 0; i < copyCount; i++)
+                //{
+                //    package.Workbook.Worksheets.Copy(
+                //    worksheets[i].Name, $"{worksheets[i].Name}_{i}");
+                //}
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
