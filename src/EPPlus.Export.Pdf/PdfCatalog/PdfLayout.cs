@@ -5,6 +5,7 @@ using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -73,6 +74,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         public List<GridLine> PrintTitleGridLines;
         public List<PrintTitleHeadingDraw> PrintTitleHeadings;
         public List<SpillCellDraw> SpillCells;
+        public List<PrintTitleCellDraw> PrintTitleBorders;
 
         public double[] RowHeights;
 
@@ -666,11 +668,21 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 //    pageLayout.AddChild(text);
                 //}
 
-                if (HasBorder(map.CellStyle))
+                if (!map.Merged && HasBorder(map.CellStyle))   // was: if (HasBorder(map.CellStyle))
                 {
                     var border = new PdfCellBorderLayout(map.CellStyle, false, MergedCellCorners.All, new MergedCellDrawInfo(), t.X, t.Y, t.Width, t.Height);
-                    border.Name = map.Name;
                     border.IsPrintTitle = true;
+                    border.Name = "PrintTitleBorder_" + map.Name;
+                    pageLayout.AddChild(border);
+                }
+                // Per-cell borders for merged band cells — outside the margin clip like the rest of the band.
+                foreach (var b in page.PrintTitleBorders)
+                {
+                    var sub = b.Cell;
+                    if (!HasBorder(sub.CellStyle)) continue;
+                    var border = new PdfCellBorderLayout(sub.CellStyle, false, MergedCellCorners.All, new MergedCellDrawInfo(), b.X, b.Y, b.Width, b.Height);
+                    border.IsPrintTitle = true;
+                    border.Name = "PrintTitleMergeBorder_" + sub.Name;
                     pageLayout.AddChild(border);
                 }
             }
@@ -828,6 +840,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         private static Page PrecomputePagePrintTitleCells(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Page page)
         {
             page.PrintTitleCells = new List<PrintTitleCellDraw>();
+            page.PrintTitleBorders = new List<PrintTitleCellDraw>();
 
             bool topBand = page.PrintTitleHeight > 0d && pdfSheet.PrintTitleRowFrom >= 0 && page.FromRow > pdfSheet.PrintTitleRowTo;
             bool leftBand = page.PrintTitleWidth > 0d && pdfSheet.PrintTitleColFrom >= 0 && page.FromColumn > pdfSheet.PrintTitleColTo;
@@ -1053,6 +1066,26 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             ClipWidth = width,
                             ClipHeight = height
                         });
+                        for (int br = vFromRow; br <= vToRow; br++)
+                        {
+                            double bh = RangeRowHeight(range, br);
+                            if (bh <= 0d) continue;
+                            for (int bc = vFromCol; bc <= vToCol; bc++)
+                            {
+                                double bw = RangeColWidth(range, page.FromRow, bc);
+                                if (bw <= 0d) continue;
+                                var sub = RangeCell(range, br, bc);
+                                if (sub == null || !HasBorder(sub.CellStyle)) continue;
+                                page.PrintTitleBorders.Add(new PrintTitleCellDraw
+                                {
+                                    Cell = sub,
+                                    X = colX[bc],
+                                    Y = rowY[br],
+                                    Width = bw,
+                                    Height = bh
+                                });
+                            }
+                        }
                     }
                     else
                     {
@@ -1088,11 +1121,16 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             double top = rowY[0], bottom = rowY[nr];
             double left = colX[0], right = colX[nc];
 
+            EmitBandFrameH(target, range, top, fromRow, fromCol, nc, colX, CellHasTopBorder);
+            EmitBandFrameH(target, range, bottom, toRow, fromCol, nc, colX, CellHasBottomBorder);
+            EmitBandFrameV(target, range, left, fromCol, fromRow, nr, rowY, CellHasLeftBorder);
+            EmitBandFrameV(target, range, right, toCol, fromRow, nr, rowY, CellHasRightBorder);
+
             // region frame (outer edges; harmless overlap with page frame / heading borders / band↔content seam)
-            target.Add(new GridLine(left, top, left, bottom));
-            target.Add(new GridLine(right, top, right, bottom));
-            target.Add(new GridLine(left, top, right, top));
-            target.Add(new GridLine(left, bottom, right, bottom));
+            //target.Add(new GridLine(left, top, left, bottom));
+            //target.Add(new GridLine(right, top, right, bottom));
+            //target.Add(new GridLine(left, top, right, top));
+            //target.Add(new GridLine(left, bottom, right, bottom));
 
             // interior verticals — suppress where a merge spans the gap
             for (int gi = 1; gi < nc; gi++)
@@ -1103,7 +1141,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 for (int ri = 0; ri < nr; ri++)
                 {
                     int r = fromRow + ri;
-                    bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi];
+                    //bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi];
+                    bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi] ||
+                                            CellHasRightBorder(RangeCell(range, r, leftCol)) ||
+                                            CellHasLeftBorder(RangeCell(range, r, rightCol));
                     if (!block) { if (runStart == null) runStart = rowY[ri]; runEnd = rowY[ri + 1]; }
                     else if (runStart != null) { target.Add(new GridLine(x, runStart.Value, x, runEnd)); runStart = null; }
                 }
@@ -1125,7 +1166,11 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 for (int ci = 0; ci < nc; ci++)
                 {
                     int c = fromCol + ci;
-                    if (!SameMerge(range, topRow, c, bottomRow, c)) { if (runStart == null) runStart = colX[ci]; runEnd = colX[ci + 1]; }
+                    bool block = SameMerge(range, topRow, c, bottomRow, c) ||
+                                            CellHasBottomBorder(RangeCell(range, topRow, c)) ||
+                                            CellHasTopBorder(RangeCell(range, bottomRow, c));
+                    if (!block) { if (runStart == null) runStart = colX[ci]; runEnd = colX[ci + 1]; }
+                    //if (!SameMerge(range, topRow, c, bottomRow, c)) { if (runStart == null) runStart = colX[ci]; runEnd = colX[ci + 1]; }
                     else if (runStart != null) { target.Add(new GridLine(runStart.Value, y, runEnd, y)); runStart = null; }
                 }
                 if (runStart != null) target.Add(new GridLine(runStart.Value, y, runEnd, y));
@@ -1673,6 +1718,53 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 pdfPages.Page[i] = page;
             }
             return pdfPages;
+        }
+
+        private static bool CellHasRightBorder(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return (cs.xfRight != null && cs.xfRight.Style != ExcelBorderStyle.None) || (cs.dxfRight?.HasValue ?? false);
+        }
+        private static bool CellHasLeftBorder(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return (cs.xfLeft != null && cs.xfLeft.Style != ExcelBorderStyle.None) || (cs.dxfLeft?.HasValue ?? false);
+        }
+        private static bool CellHasTopBorder(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return (cs.xfTop != null && cs.xfTop.Style != ExcelBorderStyle.None) || (cs.dxfTop?.HasValue ?? false);
+        }
+        private static bool CellHasBottomBorder(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return (cs.xfBottom != null && cs.xfBottom.Style != ExcelBorderStyle.None) || (cs.dxfBottom?.HasValue ?? false);
+        }
+
+        private static void EmitBandFrameH(List<GridLine> target, PdfRange range, double y, int row, int fromCol, int nc, double[] colX, Func<PdfCell, bool> hasBorder)
+        {
+            double? rs = null; double re = 0d;
+            for (int ci = 0; ci < nc; ci++)
+            {
+                double segL = colX[ci], segR = colX[ci + 1];
+                if (segR - segL <= 0d) { if (rs != null) { target.Add(new GridLine(rs.Value, y, re, y)); rs = null; } continue; }
+                if (!hasBorder(RangeCell(range, row, fromCol + ci))) { if (rs == null) rs = segL; re = segR; }
+                else if (rs != null) { target.Add(new GridLine(rs.Value, y, re, y)); rs = null; }
+            }
+            if (rs != null) target.Add(new GridLine(rs.Value, y, re, y));
+        }
+
+        private static void EmitBandFrameV(List<GridLine> target, PdfRange range, double x, int col, int fromRow, int nr, double[] rowY, Func<PdfCell, bool> hasBorder)
+        {
+            double? rs = null; double re = 0d;
+            for (int ri = 0; ri < nr; ri++)
+            {
+                double segT = rowY[ri], segB = rowY[ri + 1];
+                if (segT - segB <= 0d) { if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; } continue; }
+                if (!hasBorder(RangeCell(range, fromRow + ri, col))) { if (rs == null) rs = segT; re = segB; }
+                else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
+            }
+            if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
         }
 
     }
