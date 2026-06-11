@@ -52,14 +52,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             var paragraph = CreateParagraph(this, item, Bounds, text);
             paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            //if (startingY < 0)
-            //{
-            //    paragraph.Bounds.Top = GetAlignmentVertical();
-            //}
-            //else
-            //{
-                paragraph.Bounds.Top = startingY;
-            //}
+            paragraph.Bounds.Top = startingY;
 
             if (AutoSize)
             {
@@ -160,7 +153,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             {
                 ImportParagraph(paragraph, currentHeight);
                 var addedPara = Paragraphs.Last();
-                //addedPara.Bounds.Width = MaxWidth;
                 //addedPara.HorizontalAlignment = defaultAlignment;
 
                 currentHeight = addedPara.Bounds.Bottom;

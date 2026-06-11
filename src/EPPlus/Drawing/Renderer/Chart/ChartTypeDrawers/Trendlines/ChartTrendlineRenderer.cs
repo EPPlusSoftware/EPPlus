@@ -220,12 +220,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             int pIx = 0;
             var ix = labelText.IndexOf("|ss:");
 
-            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Center;
-
-            if (ix < 0)
-            {
-                lbl.TextBody.Paragraphs[0].AddText(labelText);
-            }
             while(ix>=0 && ix < labelText.Length)
             {
                 lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, ix - pIx));
@@ -236,7 +230,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ix = labelText.IndexOf("|ss:", pIx);
             }
 
-            if(pIx < labelText.Length)
+            //Uncommenting this doubles the line in the case ix <0
+            //Left as comment just in case there is some edge-cases
+            //if (ix < 0)
+            //{
+            //    lbl.TextBody.Paragraphs[0].AddText(labelText);
+            //}
+            if (pIx < labelText.Length)
             {
                 lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, labelText.Length - pIx));
             }

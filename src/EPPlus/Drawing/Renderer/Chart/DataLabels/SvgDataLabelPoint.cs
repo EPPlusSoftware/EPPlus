@@ -493,7 +493,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     height = _txtBox.Height;
                 }
                 //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Bounds.Left, height / 2 - 2));
+                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Bounds.Left, height / 2));
+                iconGrp.Left = _seriesIcon.Bounds.Left;
+                iconGrp.Top = (height / 2) - 2;
                 group.RenderItems.Add(iconGrp);
                 iconGrp.RenderItems.Add(_seriesIcon);
             }
