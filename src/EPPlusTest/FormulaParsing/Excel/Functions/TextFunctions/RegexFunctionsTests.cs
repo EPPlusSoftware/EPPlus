@@ -1,20 +1,29 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
 {
+    /// <summary>
+    /// Integration / range-level tests for the REGEX functions.
+    ///
+    /// Scalar behavior, case sensitivity and the per-function range cases now live in
+    /// RegexTestTests, RegexExtractTests and RegexReplaceTests. This file keeps the
+    /// broader multi-column / broadcast / integration tests that have no equivalent there.
+    ///
+    /// STATUS NOTES:
+    ///  - Two tests are intentionally RED until the replacement-grammar fix lands and act as
+    ///    regression guards: RegexReplaceValueError and Replacement_BackslashGroupReference_MatchesExcel.
+    ///    Do not "fix" them by changing the assert - they encode verified Excel behavior.
+    ///  - Tests marked "UNVERIFIED ASSERT" below were written from assumptions, not confirmed
+    ///    against Excel desktop. Their expected values should be verified (and may shift once the
+    ///    range / broadcast / replacement-grammar fixes land). Treat them as provisional.
+    /// </summary>
     [TestClass]
     public class RegexFunctionsTests : TestBase
     {
+        // NOTE: This test mixes one text/pattern pair per row. The expected values follow
+        // standard regex semantics and are reasonably safe, but the row-by-row pairing is
+        // hard to read - consider documenting each pair if this test is kept long-term.
         [TestMethod]
         public void RegexTest()
         {
@@ -93,6 +102,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        // UNVERIFIED ASSERT: the #N/A fill pattern for uneven ranges with numeric input was not
+        // confirmed against Excel. This overlaps the broadcast behavior we are still fixing -
+        // verify the expected values before trusting this as a regression guard.
         [TestMethod]
         public void RegexUnevenInputRanges()
         {
@@ -152,62 +164,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
-        [TestMethod]
-        public void RegexTestCaseSensitive()
-        {
-            using (var package = OpenPackage("Testpackage"))
-            {
-                var sheet = package.Workbook.Worksheets.Add("testsheet");
-
-                sheet.Cells["A1"].Value = "Stockholm";
-                sheet.Cells["A2"].Value = "Linköping";
-                sheet.Cells["A3"].Value = "Örebro";
-                sheet.Cells["A4"].Value = "Stockholm";
-                sheet.Cells["A5"].Value = "Örebro";
-                sheet.Cells["A6"].Value = "Linköping";
-
-                sheet.Cells["B1"].Value = "k";
-
-                sheet.Cells["D1"].Formula = "REGEXTEST(A1:A6, B1, 1)";
-                sheet.Calculate();
-
-                Assert.AreEqual(true, sheet.Cells["D1"].Value);
-                Assert.AreEqual(true, sheet.Cells["D2"].Value);
-                Assert.AreEqual(false, sheet.Cells["D3"].Value);
-                Assert.AreEqual(true, sheet.Cells["D4"].Value);
-                Assert.AreEqual(false, sheet.Cells["D5"].Value);
-                Assert.AreEqual(true, sheet.Cells["D6"].Value);
-            }
-        }
-
-        [TestMethod]
-        public void RegexTestCaseSensitiveError()
-        {
-            using (var package = OpenPackage("Testpackage"))
-            {
-                var sheet = package.Workbook.Worksheets.Add("testsheet");
-
-                sheet.Cells["A1"].Value = "Stockholm";
-                sheet.Cells["A2"].Value = "Linköping";
-                sheet.Cells["A3"].Value = "Örebro";
-                sheet.Cells["A4"].Value = "Stockholm";
-                sheet.Cells["A5"].Value = "Örebro";
-                sheet.Cells["A6"].Value = "Linköping";
-
-                sheet.Cells["B1"].Value = "k";
-
-                sheet.Cells["D1"].Formula = "REGEXTEST(A1:A6, B1, 2)";
-                sheet.Calculate();
-
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D1"].Value);
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D2"].Value);
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D3"].Value);
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D4"].Value);
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D5"].Value);
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D6"].Value);
-            }
-        }
-
+        // UNVERIFIED ASSERT: the email-pattern results over a range were not confirmed against
+        // Excel. The pattern also has an unescaped dot before the TLD, so it matches more loosely
+        // than it looks. Verify the expected values (and consider escaping the dot) before trusting.
         [TestMethod]
         public void RegexExtract()
         {
@@ -224,7 +183,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
 
                 sheet.Cells["B1"].Value = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}";
 
-
                 sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1:A6, B1)";
                 sheet.Calculate();
                 Assert.AreEqual("Mail@mail.se", sheet.Cells["D1"].Value);
@@ -236,24 +194,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
-        [TestMethod]
-        public void RegexExtractReturnMode1()
-        {
-            using (var package = OpenPackage("Testpackage"))
-            {
-                var sheet = package.Workbook.Worksheets.Add("testsheet");
-
-                sheet.Cells["A1"].Value = "Just #fitness finished 5k! #running";
-
-                sheet.Cells["B1"].Value = "#\\w+";
-
-                sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1, B1, 1)";
-                sheet.Calculate();
-                Assert.AreEqual("#fitness", sheet.Cells["D1"].Value);
-                Assert.AreEqual("#running", sheet.Cells["E1"].Value);
-            }
-        }
-
+        // Verifies that range mode 1 returns only the FIRST match per row (no horizontal spill
+        // inside a range result). Uses weak AreNotEqual assertions - the stronger per-cell checks
+        // live in RegexExtractTests.Range_Mode1_NoMatchCell_ReturnsNA.
         [TestMethod]
         public void RegexExtractShouldReturnSingleWithReturnMode1()
         {
@@ -274,26 +217,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
-
-        [TestMethod]
-        public void RegexExtractReturnMode2()
-        {
-            using (var package = OpenPackage("Testpackage"))
-            {
-                var sheet = package.Workbook.Worksheets.Add("testsheet");
-
-                sheet.Cells["A1"].Value = "9183-Green-M";
-
-                sheet.Cells["B1"].Value = "(\\d{4})-(\\w+)-(\\w+)";
-
-                sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1, B1, 2)";
-                sheet.Calculate();
-                Assert.AreEqual("9183", sheet.Cells["D1"].Value);
-                Assert.AreEqual("Green", sheet.Cells["E1"].Value);
-                Assert.AreEqual("M", sheet.Cells["F1"].Value);
-            }
-        }
-
+        // Verifies that range mode 2 returns only the FIRST group per row.
         [TestMethod]
         public void RegexExtractShouldReturnSingleWithReturnMode2()
         {
@@ -350,6 +274,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        // UNVERIFIED ASSERT: this range case overlaps the broadcast / out-of-range #N/A fix we are
+        // landing. The replacement range (B1:C2) reuses pattern-like text and the dimensions are
+        // uneven - verify the expected values against Excel, as the fix may change row 3.
         [TestMethod]
         public void RegexReplaceRangeInput()
         {
@@ -373,6 +300,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        // REGRESSION GUARD - intentionally RED until the replacement-grammar fix lands.
+        // C1 is blank (empty pattern) and D1 holds a replacement containing \d \w, which Excel
+        // rejects with #VALUE!. Current code inserts it literally. Do not change this assert.
         [TestMethod]
         public void RegexReplaceValueError()
         {
@@ -389,6 +319,27 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        // REGRESSION GUARD - intentionally RED until the replacement-grammar fix lands.
+        // Verified against Excel: \1 is a back reference, so the result is "ax1y".
+        // Current code passes the replacement straight to Regex.Replace and yields "ax\1y".
+        [TestMethod]
+        public void Replacement_BackslashGroupReference_MatchesExcel()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+                sheet.Cells["A1"].Value = "a1";
+                sheet.Cells["B1"].Formula = "REGEXREPLACE(A1,\"(\\d)\",\"x\\1y\")";
+                sheet.Calculate();
+                Assert.AreEqual("ax1y", sheet.Cells["B1"].Value);
+            }
+        }
+
+        // UNVERIFIED ASSERT (partly): Test 2 below assumes a BLANK CELL pattern (C2/C3) behaves
+        // like an empty-string pattern (insertion). The scalar empty-string case is verified, and
+        // blank cells coerced to empty string also gave insertion in scalar tests, but the
+        // range-mode blank-cell behavior here was not directly confirmed against Excel. The fix to
+        // per-cell error handling and replacement grammar may also affect these rows - verify.
         [TestMethod]
         public void RegexReplaceInvalidBackreference()
         {
@@ -396,26 +347,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             {
                 var sheet = package.Workbook.Worksheets.Add("testsheet");
 
-                // Text-kolumn (A1:A3)
+                // Text column (A1:A3)
                 sheet.Cells["A1"].Value = "2026-Stockholm-Q2";
                 sheet.Cells["A2"].Value = "2025-Linkoping-Q1";
                 sheet.Cells["A3"].Value = "2024-Orebro-Q4";
 
-                // Pattern: bara C1 satt (3 grupper), C2 och C3 tomma
+                // Pattern: only C1 set (3 groups), C2 and C3 are empty
                 sheet.Cells["C1"].Value = @"(\d{4})-(\w+)-(\w+)";
 
-                // Test 1: replacement med backreferenser ($3_$1)
-                // rad 1 har grupper → ok, rad 2-3 tomt pattern → 0 grupper → #VALUE!
+                // Test 1: replacement with back references ($3_$1)
+                // row 1 has groups -> ok, rows 2-3 empty pattern -> 0 groups -> #VALUE!
                 sheet.Cells["E1"].Formula = "REGEXREPLACE(A1:A3, C1:C3, \"$3_$1\")";
 
-                // Test 2: samma uppsättning, replacement UTAN backreferens ("s")
-                // tomt pattern matchar varje position → "s" stoppas in överallt
+                // Test 2: same setup, replacement WITHOUT back reference ("s")
+                // empty pattern matches every position -> "s" inserted everywhere
                 sheet.Cells["G1"].Formula = "REGEXREPLACE(A1:A3, C1:C3, \"s\")";
 
-                // Test 3: skalärt – giltigt pattern + giltig backreferens
+                // Test 3: scalar - valid pattern + valid back reference
                 sheet.Cells["I1"].Formula = "REGEXREPLACE(A1, C1, \"$3_$1\")";
 
-                // Test 4: skalärt – pattern UTAN grupper + backreferens $1 → #VALUE!
+                // Test 4: scalar - pattern WITHOUT groups + back reference $1 -> #VALUE!
                 sheet.Cells["I2"].Formula = "REGEXREPLACE(A1, \"[0-9]+\", \"$1\")";
                 sheet.Calculate();
 
@@ -432,7 +383,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 // Test 3
                 Assert.AreEqual("Q2_2026", sheet.Cells["I1"].Value);
 
-                // Test 4: $1 finns inte ([0-9]+ har inga grupper) → #VALUE!
+                // Test 4: $1 does not exist ([0-9]+ has no groups) -> #VALUE!
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["I2"].Value);
             }
         }

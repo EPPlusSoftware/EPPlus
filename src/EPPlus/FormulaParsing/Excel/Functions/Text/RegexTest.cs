@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,16 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
+    [FunctionMetadata(
+       Category = ExcelFunctionCategory.Text,
+       EPPlusVersion = "8.6",
+       Description = "Tests whether input text matches a given regular expression pattern and returns boolean result.",
+       SupportsArrays = true)]
     internal class RegexTest : RegexFunctionBase
     {
         public override int ArgumentMinLength => 2;
         public override string NamespacePrefix => "_xlfn.";
-        
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             bool textIsRange = arguments[0].IsExcelRange;
@@ -40,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
             var nRows = ExpandedSize(textRows, patternRows);
             var nCols = ExpandedSize(textCols, patternCols);
-                        
+
             var result = new InMemoryRange(nRows, nCols);
 
             for (int row = 0; row < nRows; row++)
@@ -52,12 +58,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                     if (textValue == null || patternValue == null)
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
-                    else if(caseSensitivity > 1 || caseSensitivity < 0)
+                    else if (caseSensitivity > 1 || caseSensitivity < 0)
                     {
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
                     }
                     else
-                        result.SetValue(row, col, GetRegexTest(textValue, patternValue, caseSensitivity));
+                    {
+                        // Catch an invalid pattern per cell so that a single bad cell becomes
+                        // #VALUE! in place, while the other cells are still calculated
+                        // (verified against Excel).
+                        try
+                        {
+                            result.SetValue(row, col, GetRegexTest(textValue, patternValue, caseSensitivity));
+                        }
+                        catch (ArgumentException)
+                        {
+                            result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                        }
+                    }
                 }
             }
 

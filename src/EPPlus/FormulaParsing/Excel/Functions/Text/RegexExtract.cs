@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -12,6 +13,11 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Text,
+        EPPlusVersion = "8.6",
+        Description = "Extracts text matching a regular expression pattern from input string values.",
+        SupportsArrays = true)]
     internal class RegexExtract : RegexFunctionBase
     {
         public override int ArgumentMinLength => 2;
@@ -32,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                 if (text == null || pattern == null)
                     return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
-                if (caseSensitivity > 1 || caseSensitivity < 0 || returnMode < 0 || returnMode > 3)
+                if (caseSensitivity > 1 || caseSensitivity < 0 || returnMode < 0 || returnMode > 2)
                     return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
 
                 if (returnMode == 1)
@@ -48,9 +54,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     return CreateDynamicArrayResult(arr, DataType.ExcelRange);
                 }
                 else if (returnMode == 2)
-                {                    
-                    var match = Regex.Match(text, pattern, (RegexOptions)caseSensitivity);
-                    if (!match.Success || match.Groups.Count <= 1)
+                {
+                    // Read the number of capturing groups from the pattern (GetGroupNumbers
+                    // includes group 0). A failed match reports Groups.Count == 1, so this must
+                    // not be read from the match. No groups -> #VALUE!; groups but no match -> #N/A.
+                    var regex = new Regex(pattern, (RegexOptions)caseSensitivity);
+                    if (regex.GetGroupNumbers().Length <= 1)
+                        return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+
+                    var match = regex.Match(text);
+                    if (!match.Success)
                         return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
 
                     var groups = match.Groups
@@ -65,8 +78,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
                     return CreateDynamicArrayResult(arr, DataType.ExcelRange);
                 }
-
-                return CreateResult(GetRegexExtractSingle(text, pattern, caseSensitivity), DataType.String);                                    
+                var firstMatch = Regex.Match(text, pattern, (RegexOptions)caseSensitivity);
+                if (!firstMatch.Success)
+                    return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+                return CreateResult(firstMatch.Value, DataType.String);
             }
 
             var texts = textIsRange ? arguments[0].ValueAsRangeInfo : null;
@@ -90,41 +105,81 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     var patternValue = GetValue(patterns, arguments[1], patternRows, patternCols, row, col);
 
                     if (textValue == null || patternValue == null)
+                    {
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
-                    else if (Math.Abs(caseSensitivity) > 1 || Math.Abs(returnMode) > 2)
+                    }
+                    // Use the same validation as the scalar branch. The previous Math.Abs check
+                    // let negative arguments through, which fell into mode 0 or reached
+                    // (RegexOptions)(-1). Excel returns #VALUE! per cell for these.
+                    else if (caseSensitivity > 1 || caseSensitivity < 0 || returnMode < 0 || returnMode > 2)
                     {
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
                     }
                     else
                     {
-                        if(returnMode == 2)
+                        // Compute per cell and catch invalid-pattern exceptions here so that a
+                        // single bad cell becomes #VALUE! in place, while the other cells are
+                        // still calculated (verified against Excel).
+                        try
                         {
-                            var fullMatch = Regex.Match(textValue, patternValue, (RegexOptions)caseSensitivity);
-                            var firstMatch = fullMatch.Groups
-                                      .Cast<Group>()
-                                      .Skip(1)
-                                      .Select(g => g.Value)
-                                      .ToArray().First().ToString();
-                            result.SetValue(row, col, firstMatch);
-                        }
-                        else if(returnMode == 1)
-                        {
-                            var firstMatch = GetMatches(textValue, patternValue, caseSensitivity).First().ToString();
-                            result.SetValue(row, col, firstMatch);
-                        }
-                        else
-                        {
-                            var match = GetRegexExtractSingle(textValue, patternValue, caseSensitivity);
-                            if (match == string.Empty)
+                            var options = (RegexOptions)caseSensitivity;
+                            if (returnMode == 2)
                             {
-                                result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                                // A failed match reports Groups.Count == 1, so the number of
+                                // capturing groups must be read from the pattern itself (via
+                                // GetGroupNumbers, which includes group 0) rather than from the
+                                // match. No groups -> #VALUE!; groups but no match -> #N/A.
+                                var regex = new Regex(patternValue, options);
+                                if (regex.GetGroupNumbers().Length <= 1)
+                                {
+                                    result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                                }
+                                else
+                                {
+                                    var match = regex.Match(textValue);
+                                    if (!match.Success)
+                                    {
+                                        result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                                    }
+                                    else
+                                    {
+                                        // In range mode only the first group is returned per cell.
+                                        result.SetValue(row, col, match.Groups[1].Value);
+                                    }
+                                }
+                            }
+                            else if (returnMode == 1)
+                            {
+                                var matches = GetMatches(textValue, patternValue, caseSensitivity);
+                                if (matches.Length == 0)
+                                {
+                                    result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                                }
+                                else
+                                {
+                                    // In range mode only the first match is returned per cell.
+                                    result.SetValue(row, col, matches[0]);
+                                }
                             }
                             else
                             {
-                                result.SetValue(row, col, GetRegexExtractSingle(textValue, patternValue, caseSensitivity));
+                                var match = Regex.Match(textValue, patternValue, options);
+                                if (!match.Success)
+                                {
+                                    result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
+                                }
+                                else
+                                {
+                                    result.SetValue(row, col, match.Value);
+                                }
                             }
-                        }                                                
-                    }                        
+                        }
+                        catch (ArgumentException)
+                        {
+                            // Invalid regex pattern in this cell -> #VALUE! for this cell only.
+                            result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                        }
+                    }
                 }
             }
 
@@ -138,11 +193,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                         .Select(m => m.Value)
                         .ToArray();
         }
-        
-        private string GetRegexExtractSingle(string text, string pattern, int caseSensitivity)
-        {                            
-            return Regex.Match(text, pattern, (RegexOptions)caseSensitivity).ToString();
-        }
-
     }
 }

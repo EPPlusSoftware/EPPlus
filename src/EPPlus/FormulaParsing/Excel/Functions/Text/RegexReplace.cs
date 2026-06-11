@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Text,
+        EPPlusVersion = "8.6",
+        Description = "Replaces text matching a regular expression pattern with specified replacement values in strings.",
+        SupportsArrays = true)]
     internal class RegexReplace : RegexFunctionBase
     {
         public override int ArgumentMinLength => 3;
@@ -31,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 var pattern = arguments[1].Value?.ToString() ?? string.Empty;
                 var replacement = arguments[2].Value?.ToString() ?? string.Empty;
 
-                if (caseSensitive > 1 || caseSensitive < 0 || (text != null && pattern == string.Empty))
+                if (caseSensitive > 1 || caseSensitive < 0)
                     return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
                 var res = GetRegexReplaced(text, pattern, replacement, occurnance, caseSensitive);
                 if (res == null)
@@ -62,28 +68,43 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 {
                     var textValue = GetRegexReplaceValue(texts, arguments[0], textRows, textCols, row, col);
                     var patternValue = GetRegexReplaceValue(patterns, arguments[1], patternRows, patternCols, row, col);
-                    var replacementValue = GetRegexReplaceValue(replacements, arguments[2], replacementsRows, replacementsCols, row, col) ?? string.Empty;
+                    // Keep null for an out-of-range replacement (do not collapse it to an empty
+                    // string). An empty cell within range still returns "" from GetRegexReplaceValue,
+                    // so a legitimate empty replacement is preserved.
+                    var replacementValue = GetRegexReplaceValue(replacements, arguments[2], replacementsRows, replacementsCols, row, col);
 
                     if (textValue != null && patternValue == null)
                     {
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
-                    }                        
-                    else if (textValue == null || patternValue == null)
+                    }
+                    else if (textValue == null || patternValue == null || replacementValue == null)
                     {
+                        // Any input out of range -> #N/A (verified against Excel for the
+                        // replacement dimension).
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
-                    }                        
+                    }
                     else if (caseSensitive > 1 || caseSensitive < 0)
                     {
                         result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
                     }
                     else
                     {
-                        var val = GetRegexReplaced(textValue, patternValue, replacementValue, occurnance, caseSensitive);
-                        if (val == null)
-                             result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
-                        else
-                            result.SetValue(row, col,  val);
-                    }                        
+                        // Catch an invalid pattern per cell so that a single bad cell becomes
+                        // #VALUE! in place, while the other cells are still calculated
+                        // (verified against Excel).
+                        try
+                        {
+                            var val = GetRegexReplaced(textValue, patternValue, replacementValue, occurnance, caseSensitive);
+                            if (val == null)
+                                result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                            else
+                                result.SetValue(row, col, val);
+                        }
+                        catch (ArgumentException)
+                        {
+                            result.SetValue(row, col, ExcelErrorValue.Create(eErrorType.Value));
+                        }
+                    }
                 }
             }
 
@@ -92,31 +113,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         private short ExpandedSizeRegexReplace(int a, int b, int c)
         {
-            return (short)Math.Max(a, Math.Max(b,c));
+            return (short)Math.Max(a, Math.Max(b, c));
         }
         private string GetRegexReplaced(string text, string pattern, string replacement, int occurnance, int caseSensitive)
         {
-            if (HasInvalidBackreference(pattern, replacement, (RegexOptions)caseSensitive))
+            var regex = new Regex(pattern, (RegexOptions)caseSensitive);
+            int maxGroup = regex.GetGroupNumbers().Max();
+
+            // Validate the replacement against Excel's grammar (independent of any match).
+            // An invalid template (bad escape, out-of-range group, malformed $) -> #VALUE!.
+            if (!RegexReplacementExpander.IsValidTemplate(replacement, maxGroup))
                 return null;
 
             if (Math.Abs(occurnance) > 0)
             {
-                var allReplaceMatches = Regex.Matches(text, pattern, (RegexOptions)caseSensitive); 
-                var targetIndex = occurnance > 0 ? occurnance - 1 
+                var allReplaceMatches = regex.Matches(text);
+                var targetIndex = occurnance > 0 ? occurnance - 1
                                                  : allReplaceMatches.Count + occurnance; // search from end
-                if(targetIndex < 0 || targetIndex >= allReplaceMatches.Count)
+                if (targetIndex < 0 || targetIndex >= allReplaceMatches.Count)
                 {
                     return text;
                 }
                 var targetMatch = allReplaceMatches[targetIndex];
-                return text.Substring(0, targetMatch.Index) 
-                    + targetMatch.Result(replacement) 
-                    + text.Substring(targetMatch.Index + targetMatch.Length); 
+                return text.Substring(0, targetMatch.Index)
+                    + RegexReplacementExpander.Expand(targetMatch, replacement, maxGroup)
+                    + text.Substring(targetMatch.Index + targetMatch.Length);
             }
             else
             {
-                return Regex.Replace(text, pattern, replacement, (RegexOptions)caseSensitive);
-            }            
+                return regex.Replace(text, m => RegexReplacementExpander.Expand(m, replacement, maxGroup));
+            }
         }
 
         private static string GetRegexReplaceValue(
@@ -126,31 +152,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             int row, int col)
         {
             if (range == null)
-                return scalar.Value?.ToString() ?? string.Empty;  
+                return scalar.Value?.ToString() ?? string.Empty;
 
             int r = argRows == 1 ? 0 : row;
             int c = argCols == 1 ? 0 : col;
-            
+
             if (r >= argRows || c >= argCols)
                 return null;
 
             return range.GetOffset(r, c)?.ToString() ?? string.Empty;
-        }
-
-
-        private static bool HasInvalidBackreference(string pattern, string replacement, RegexOptions options)
-        {
-            if (string.IsNullOrEmpty(replacement))
-                return false;
-
-            int maxGroup = new Regex(pattern, options).GetGroupNumbers().Max();
-
-            foreach (Match m in Regex.Matches(replacement, @"(?<!\$)\$(\d+)"))
-            {
-                if (int.TryParse(m.Groups[1].Value, out int refNum) && refNum > maxGroup)
-                    return true;
-            }
-            return false;
         }
     }
 }
