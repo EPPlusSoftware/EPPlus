@@ -81,30 +81,32 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             RecalculateParagraphs();
         }
 
+        //Horizontal alignment should technically be set directly in paragraph
+        //But as the text is not measured until a paragraph has been imported an autosized textbody
+        //does not know its maximum size until all its paragraphs has been imported
+        //thus after all have we need to adjust.
+        //The alternative would be to perform the performance heavy measurement twice.
         internal void SetHorizontalAlignmentPosition()
         {
-            if (AutoSize)
+            foreach (var p in Paragraphs)
             {
-                foreach (var p in Paragraphs)
+                switch (p.HorizontalAlignment)
                 {
-                    switch (p.HorizontalAlignment)
-                    {
-                        case TextAlignment.Left:
-                            p.Bounds.Left = 0;
-                            break;
-                        case TextAlignment.Center:
-                            p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
-                            break;
-                        case TextAlignment.Right:
-                            p.Bounds.Left = Bounds.Right - p.Bounds.Width;
-                            break;
-                        case TextAlignment.Distributed:
-                        case TextAlignment.Justified:
-                        case TextAlignment.JustifiedLow:
-                        case TextAlignment.ThaiDistributed:
-                            p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
-                            break;
-                    }
+                    case TextAlignment.Left:
+                        p.Bounds.Left = 0;
+                        break;
+                    case TextAlignment.Center:
+                        p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
+                        break;
+                    case TextAlignment.Right:
+                        p.Bounds.Left = Bounds.Right - p.Bounds.Width;
+                        break;
+                    case TextAlignment.Distributed:
+                    case TextAlignment.Justified:
+                    case TextAlignment.JustifiedLow:
+                    case TextAlignment.ThaiDistributed:
+                        p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
+                        break;
                 }
             }
         }
@@ -150,6 +152,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
                 MaxHeight = MaxHeight - top - bottom;
                 MaxWidth = MaxWidth - left - right;
+                Height = MaxHeight;
+                Width = MaxWidth;
             }
 
             foreach (var paragraph in body.Paragraphs)
@@ -163,6 +167,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
             }
 
+
+            if (Paragraphs != null && Paragraphs.Count() > 0 && AutoSize)
+            {
+                Bounds.Height = currentHeight;
+            }
+
             //Ensure contentBounds are calculated and paragraphs don't overlap
             RecalculateParagraphs();
 
@@ -171,11 +181,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             foreach (var paragraph in body.Paragraphs)
             {
                 SetHorizontalAlignmentPosition();
-            }
-
-            if (Paragraphs != null && Paragraphs.Count() > 0)
-            {
-                Bounds.Height = currentHeight;
             }
 
             Bounds.Top = GetAlignmentVertical();

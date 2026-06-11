@@ -276,10 +276,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
-                if(AutoSize)
-                {
-                    Bounds.Width = widthOfLargestLine + RightMargin;
-                }
+
+                Bounds.Width = widthOfLargestLine + RightMargin;
                 //SetHorizontalAlignment(widthOfLargestLine);
 
                 int lineIdx = 0;
