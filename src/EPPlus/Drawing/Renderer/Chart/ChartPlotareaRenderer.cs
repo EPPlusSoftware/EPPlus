@@ -70,8 +70,8 @@ namespace EPPlusImageRenderer.Svg
             double vaHeight = 0;
             if (bottomAxis!=null)
             {
-                var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom);
-                vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D) + (bottomSecondAxis.Rectangle?.Height ?? 0D);
+                var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.BottomSecond);
+                vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
             }
             if (Chart.Legend?.Position == eLegendPosition.Bottom)
             {
@@ -97,7 +97,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis.Rectangle?.Width ?? 0D);
+                rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
             }
 
             var width = right - rightAxisWidth - rect.GlobalLeft;
@@ -166,7 +166,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
+                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
 
             return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;

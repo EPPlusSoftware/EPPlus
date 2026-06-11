@@ -186,7 +186,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.High)
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition != eTickLabelPosition.Low)
                         {
                             return eActualAxisPosition.Left;
                         }
@@ -197,7 +197,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.Low)
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition != eTickLabelPosition.High)
                         {
                             return eActualAxisPosition.Right;
                         }
@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.High)
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition != eTickLabelPosition.Low)
                         {
                             return eActualAxisPosition.Bottom;
                         }
@@ -222,7 +222,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.Low)
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition != eTickLabelPosition.High)
                         {
                             return eActualAxisPosition.Top;
                         }

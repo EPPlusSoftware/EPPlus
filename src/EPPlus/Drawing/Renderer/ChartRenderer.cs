@@ -99,7 +99,7 @@ namespace EPPlusImageRenderer
 
             if (HorizontalAxis != null && HorizontalAxis.Rectangle != null)
             {
-                PlaceHorizontalAxis(HorizontalAxis, false);
+                 PlaceHorizontalAxis(HorizontalAxis, false);
 
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
                 if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
@@ -284,7 +284,7 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        verticalAxis.Title.TextBox.Left = ChartArea.LeftMargin;
+                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
                     }
                 }
                 else
