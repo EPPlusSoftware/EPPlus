@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Drawing
             }
             else if (d._drawings._collectionType == DrawingsCollectionType.Chart)
             {
-                if (d is not ExcelGroupShape)
+                if (d.ParentGroup is ExcelGroupShape)
                 {
                     d.RemoveFromToNodes();
                     d.Position = new ExcelDrawingCoordinate(d.NameSpaceManager, d.TopNode, d.GetPositionSize);
@@ -645,7 +645,7 @@ namespace OfficeOpenXml.Drawing
             foreach (var d in Drawings)
             {
                 //Ensure position on underlying drawings are updated
-                //d.AdjustPositionAndSize();
+                d.AdjustPositionAndSize();
                 d.UpdatePositionAndSizeXml();
                 d.SaveDrawing(hasLoadedPivotTables);
             }
