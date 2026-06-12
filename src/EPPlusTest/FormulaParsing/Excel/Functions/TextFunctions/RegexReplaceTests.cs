@@ -177,10 +177,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         {
             // Excel treats an empty pattern as an empty match at every position and
             // inserts the replacement: "abc" with "x" -> "xaxbxcx".
-            // KNOWN DIVERGENCE: the current scalar branch has a guard
-            // (text != null && pattern == string.Empty) that returns #VALUE! instead.
-            // This test is expected to FAIL until the empty-pattern guard is removed
-            // (pending team decision on whether to match Excel parity).
             using (var package = OpenPackage("Testpackage"))
             {
                 var sheet = package.Workbook.Worksheets.Add("testsheet");
@@ -225,6 +221,70 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 sheet.Calculate();
 
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // Range / broadcast behavior
+        // -------------------------------------------------------------------
+
+        [TestMethod]
+        public void Range_SimpleReplace_BlankReplacement()
+        {
+            // Verified against Excel desktop (Swedish locale).
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+                sheet.Cells["A1"].Value = "044-5654-6546";
+                sheet.Cells["B1"].Value = "[^0-9]";
+
+                sheet.Cells["D1"].Formula = "REGEXREPLACE(A1,B1,C1)";
+                sheet.Calculate();
+
+                Assert.AreEqual("04456546546", sheet.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Range_NegativeOccurrence_ReplacesFromEnd()
+        {
+            // Verified against Excel desktop (Swedish locale).
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+                sheet.Cells["A1"].Value = "044-5654-6546";
+                sheet.Cells["B1"].Value = "[^0-9]";
+
+                sheet.Cells["D1"].Formula = "REGEXREPLACE(A1,B1,C1, -1)";
+                sheet.Calculate();
+
+                Assert.AreEqual("044-56546546", sheet.Cells["D1"].Value);
+            }
+        }
+
+        // UNVERIFIED ASSERT: this range case overlaps the broadcast / out-of-range #N/A fix we are
+        // landing. The replacement range (B1:C2) reuses pattern-like text and the dimensions are
+        // uneven - verify the expected values against Excel, as the fix may change row 3.
+        [TestMethod]
+        public void Range_UnevenDimensions_OutOfRangeRowGivesNA()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "044-5654-6546";
+                sheet.Cells["A2"].Value = "0546-4654-565";
+
+                sheet.Cells["D1"].Value = "[^0-9]";
+                sheet.Cells["D2"].Value = "[^0-9]";
+
+                sheet.Cells["E1"].Formula = "REGEXREPLACE(A1:B2,D1:D3, B1:C2)";
+                sheet.Calculate();
+
+                Assert.AreEqual("04456546546", sheet.Cells["E1"].Value);
+                Assert.AreEqual("05464654565", sheet.Cells["E2"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["E3"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["F3"].Value);
             }
         }
 
@@ -279,6 +339,91 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 Assert.AreEqual("xinkoping", sheet.Cells["E2"].Value);
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["E3"].Value);
                 Assert.AreEqual("xalmo", sheet.Cells["E4"].Value); // computed AFTER the error cell
+            }
+        }
+
+        [TestMethod]
+        public void Range_InvalidBackreference_PerCellValidation()
+        {
+            // Test 1: replacement with back references ($3_$1).
+            // Row 1 has 3 groups -> ok. Rows 2-3 have empty pattern -> 0 groups -> #VALUE!.
+            // Test 2: replacement without back reference ("s").
+            // Empty pattern matches every position -> "s" inserted everywhere.
+            // Test 3 & 4: scalar versions for comparison.
+            // UNVERIFIED ASSERT: blank-cell pattern in range mode (rows 2-3 in test 2)
+            // was not directly confirmed against Excel desktop.
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "2026-Stockholm-Q2";
+                sheet.Cells["A2"].Value = "2025-Linkoping-Q1";
+                sheet.Cells["A3"].Value = "2024-Orebro-Q4";
+
+                // Only C1 is set (3 groups); C2 and C3 are empty.
+                sheet.Cells["C1"].Value = @"(\d{4})-(\w+)-(\w+)";
+
+                sheet.Cells["E1"].Formula = "REGEXREPLACE(A1:A3, C1:C3, \"$3_$1\")";
+                sheet.Cells["G1"].Formula = "REGEXREPLACE(A1:A3, C1:C3, \"s\")";
+                sheet.Cells["I1"].Formula = "REGEXREPLACE(A1, C1, \"$3_$1\")";
+                sheet.Cells["I2"].Formula = "REGEXREPLACE(A1, \"[0-9]+\", \"$1\")";
+                sheet.Calculate();
+
+                // Test 1
+                Assert.AreEqual("Q2_2026", sheet.Cells["E1"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["E2"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["E3"].Value);
+
+                // Test 2
+                Assert.AreEqual("s", sheet.Cells["G1"].Value);
+                Assert.AreEqual("s2s0s2s5s-sLsisnsksospsisnsgs-sQs1s", sheet.Cells["G2"].Value);
+                Assert.AreEqual("s2s0s2s4s-sOsrsesbsrsos-sQs4s", sheet.Cells["G3"].Value);
+
+                // Test 3
+                Assert.AreEqual("Q2_2026", sheet.Cells["I1"].Value);
+
+                // Test 4: $1 does not exist ([0-9]+ has no groups) -> #VALUE!
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["I2"].Value);
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // Regression guards — intentionally RED until replacement-grammar fix lands.
+        // Do not change these asserts; they encode verified Excel behavior.
+        // -------------------------------------------------------------------
+
+        // REGRESSION GUARD: Excel rejects unknown backslash escapes (\d, \w) in the
+        // replacement string with #VALUE!. Current code passes the replacement straight
+        // to Regex.Replace and inserts it literally instead.
+        [TestMethod]
+        public void RegexReplaceValueError()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "044-5654-6546";
+                sheet.Cells["D1"].Value = "(\\d{4})-(\\w+)-(\\w+)";
+                sheet.Cells["B1"].Formula = "REGEXREPLACE(A1,C1,D1)";
+                sheet.Calculate();
+
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
+            }
+        }
+
+        // REGRESSION GUARD: Excel treats \1 in the replacement as a back reference (group 1),
+        // yielding "ax1y". Current code passes it through literally, yielding "ax\1y".
+        [TestMethod]
+        public void Replacement_BackslashGroupReference_MatchesExcel()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+                sheet.Cells["A1"].Value = "a1";
+                sheet.Cells["B1"].Formula = "REGEXREPLACE(A1,\"(\\d)\",\"x\\1y\")";
+                sheet.Calculate();
+
+                Assert.AreEqual("ax1y", sheet.Cells["B1"].Value);
             }
         }
     }

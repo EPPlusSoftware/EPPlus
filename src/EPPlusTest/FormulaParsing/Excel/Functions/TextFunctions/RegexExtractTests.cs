@@ -118,6 +118,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        [TestMethod]
+        public void ReturnMode2_PatternWithoutGroups_ReturnsValueError()
+        {
+            // Mode 2 with a pattern that has no capturing groups returns #VALUE!,
+            // both scalar and in range mode (verified against Excel).
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+                sheet.Cells["A1"].Value = "9183";
+
+                sheet.Cells["B1"].Formula = "REGEXEXTRACT(A1,\"\\d+\",2)";
+                sheet.Calculate();
+
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
+            }
+        }
+
         // -------------------------------------------------------------------
         // Invalid return_mode
         // -------------------------------------------------------------------
@@ -177,6 +194,64 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        // -------------------------------------------------------------------
+        // Range / broadcast behavior
+        // -------------------------------------------------------------------
+
+        // UNVERIFIED ASSERT: the email-pattern results over a range were not confirmed against
+        // Excel. The pattern also has an unescaped dot before the TLD, so it matches more loosely
+        // than it looks. Verify the expected values (and consider escaping the dot) before trusting.
+        [TestMethod]
+        public void Range_Mode0_EmailPattern()
+        {
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "Kossa Mail@mail.se";
+                sheet.Cells["A2"].Value = "Får enmail@mef.se sd";
+                sheet.Cells["A3"].Value = "mailens@hemma.com";
+                sheet.Cells["A4"].Value = "mail@se.se";
+                sheet.Cells["A5"].Value = "Tupp ska gala gmail@adress.net dwqdw";
+                sheet.Cells["A6"].Value = "Katt";
+
+                sheet.Cells["B1"].Value = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}";
+
+                sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1:A6, B1)";
+                sheet.Calculate();
+
+                Assert.AreEqual("Mail@mail.se", sheet.Cells["D1"].Value);
+                Assert.AreEqual("enmail@mef.se sd", sheet.Cells["D2"].Value);
+                Assert.AreEqual("mailens@hemma.com", sheet.Cells["D3"].Value);
+                Assert.AreEqual("mail@se.se", sheet.Cells["D4"].Value);
+                Assert.AreEqual("gmail@adress.net dwqdw", sheet.Cells["D5"].Value);
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D6"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Range_Mode1_ReturnsFirstMatchPerRow()
+        {
+            // Verifies that range mode 1 returns only the FIRST match per row (no horizontal
+            // spill inside a range result).
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "Just #fitness finished 5k! #running";
+                sheet.Cells["A2"].Value = "Look at this picture #nature #instagram";
+                sheet.Cells["B1"].Value = "#\\w+";
+
+                sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1:A2, B1, 1)";
+                sheet.Calculate();
+
+                Assert.AreEqual("#fitness", sheet.Cells["D1"].Value);
+                Assert.AreNotEqual("#running", sheet.Cells["E1"].Value);
+                Assert.AreEqual("#nature", sheet.Cells["D2"].Value);
+                Assert.AreNotEqual("#instagram", sheet.Cells["E2"].Value);
+            }
+        }
+
         [TestMethod]
         public void Range_Mode1_NoMatchCell_ReturnsNA()
         {
@@ -198,6 +273,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 Assert.AreEqual("#nature", sheet.Cells["D2"].Value);
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D3"].Value);
                 Assert.AreEqual("#a", sheet.Cells["D4"].Value); // first match only, per row
+            }
+        }
+
+        [TestMethod]
+        public void Range_Mode2_ReturnsFirstGroupPerRow()
+        {
+            // Verifies that range mode 2 returns only the FIRST group per row.
+            using (var package = OpenPackage("Testpackage"))
+            {
+                var sheet = package.Workbook.Worksheets.Add("testsheet");
+
+                sheet.Cells["A1"].Value = "9183-Green-M";
+                sheet.Cells["A2"].Value = "2546-Black-XL";
+                sheet.Cells["B1"].Value = "(\\d{4})-(\\w+)-(\\w+)";
+
+                sheet.Cells["D1"].Formula = "REGEXEXTRACT(A1:A2, B1, 2)";
+                sheet.Calculate();
+
+                Assert.AreEqual("9183", sheet.Cells["D1"].Value);
+                Assert.AreEqual("2546", sheet.Cells["D2"].Value);
             }
         }
 
@@ -281,23 +376,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
 
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D1"].Value);
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["D2"].Value);
-            }
-        }
-
-        [TestMethod]
-        public void ReturnMode2_PatternWithoutGroups_ReturnsValueError()
-        {
-            // Mode 2 with a pattern that has no capturing groups returns #VALUE!,
-            // both scalar and in range mode (verified against Excel).
-            using (var package = OpenPackage("Testpackage"))
-            {
-                var sheet = package.Workbook.Worksheets.Add("testsheet");
-                sheet.Cells["A1"].Value = "9183";
-
-                sheet.Cells["B1"].Formula = "REGEXEXTRACT(A1,\"\\d+\",2)";
-                sheet.Calculate();
-
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
             }
         }
     }
