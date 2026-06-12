@@ -788,7 +788,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     return (int)(Math.Round(From.X * _drawings._screenWidth));
                 }
-                return 0;
+                return Position == null ? 0 : Position.X / EMU_PER_PIXEL;
             }
             if (CellAnchor == eEditAs.Absolute)
             {
@@ -818,7 +818,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     return (int)(Math.Round(From.Y * _drawings._screenHeight));
                 }
-                return 0;
+                return Position == null ? 0 : Position.Y / EMU_PER_PIXEL;
             }
 
             if (CellAnchor == eEditAs.Absolute)
