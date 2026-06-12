@@ -1266,6 +1266,8 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
+                To.X = x + To.X - From.X;
+                To.Y = y + To.Y - From.Y;
                 From.X = x;
                 From.Y = y;
             }
