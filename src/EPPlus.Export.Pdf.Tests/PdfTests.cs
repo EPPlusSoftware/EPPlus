@@ -228,7 +228,8 @@ namespace EPPlusTest.PDF
         // 1. Merged cells not working
         // 2. Pattern fills looks differnt, in some cases not working
         // 3. Rotation of text in cells not working (the dates).
-        [DataRow("R05.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
+       // [DataRow("R05.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
+        [DataRow("R05 - Copy.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
         public void WorkbookTests(string sourceFile, string outputPath, string wsName)
         {
             using var p = OpenTemplatePackage(sourceFile);
@@ -245,29 +246,6 @@ namespace EPPlusTest.PDF
 
             PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
         }
-
-        [TestMethod]
-        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", "Summary")]
-        public void TestCells(string sourceFile, string outputPath, string wsName)
-        {
-            using var p = OpenTemplatePackage(sourceFile);
-            var ws = p.Workbook.Worksheets[wsName];
-            var dim = ws.Dimension;
-            var dim2 = ws.DimensionByValue;
-            List<ExcelRange> NotEmpty = new List<ExcelRange>();
-            for (int r = 76; r <= 89; r++)
-            {
-                for (int c = 1; c <= 8; c++)
-                {
-                    var cell = ws.Cells[r, c];
-                    if (!cell.IsEmpty(false, false, false))
-                    {
-                        NotEmpty.Add(cell);
-                    }
-                }
-            }
-        }
-
 
         [TestMethod]
         public void CalculatePages()

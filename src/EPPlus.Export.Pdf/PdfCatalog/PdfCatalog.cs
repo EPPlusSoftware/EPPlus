@@ -56,8 +56,8 @@ namespace EPPlus.Export.Pdf.PdfCatalog
 
         private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<ExcelPdf, Transform> writePdf)
         {
-            pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-
+            //pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
+            pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             PdfWorksheet pdfSheet = null;
             try
             {
