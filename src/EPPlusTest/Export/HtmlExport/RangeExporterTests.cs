@@ -619,8 +619,10 @@ namespace EPPlusTest.Export.HtmlExport
                 var settings = exporter.Settings;
                 settings.SetRowHeight = true;
                 settings.SetColumnWidth = true;
+                settings.HeaderRows = 3;
+                settings.Encoding = Encoding.UTF8;
                 var page = exporter.GetSinglePage();
-                File.WriteAllText("c:\\temp\\" + "R05" + ".html", page);
+                File.WriteAllText("c:\\temp\\" + "R05" + ".html", page, Encoding.UTF8);
             }
             {
                 using var p = OpenTemplatePackage("CR168.xlsx");
@@ -632,7 +634,7 @@ namespace EPPlusTest.Export.HtmlExport
                 settings.SetRowHeight = true;
                 settings.SetColumnWidth = true;
                 var page = exporter.GetSinglePage();
-                File.WriteAllText("c:\\temp\\" + "CR168" + ".html", page);
+                File.WriteAllText("c:\\temp\\" + "CR168" + ".html", page, Encoding.UTF8);
             }
         }
 

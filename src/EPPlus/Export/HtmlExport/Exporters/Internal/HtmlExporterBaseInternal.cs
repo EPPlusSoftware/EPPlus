@@ -508,7 +508,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 if (rowInternal.Height != -1 && rowInternal.Height != range.Worksheet.DefaultRowHeight)
                 {
-                    element.AddAttribute("style", $"height:{rowInternal.Height}pt");
+                    element.AddAttribute("style", $"height:{rowInternal.Height.ToString(CultureInfo.InvariantCulture)}pt");
                     return;
                 }
             }
@@ -738,7 +738,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 var rotationValue = textRotation > 90 ? textRotation - 90 : 360 - textRotation;
                 var rotationWrapper = new HTMLElement("div");
-                rotationWrapper.AddAttribute("style", $"display:inline-block;transform:rotate({rotationValue}deg);");
+                rotationWrapper.AddAttribute("style", $"display:inline-block;transform:rotate({rotationValue.ToString(CultureInfo.InvariantCulture)}deg);");
                 element.AddChildElement(rotationWrapper);
                 valueElement = rotationWrapper;
             }
