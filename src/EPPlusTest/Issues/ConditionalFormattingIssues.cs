@@ -169,14 +169,21 @@ namespace EPPlusTest.Issues
             {
                 var copyCount = package.Workbook.Worksheets.Count;
                 var worksheets = package.Workbook.Worksheets;
+                var ws = worksheets[0];
+                var range1 = ws.Cells["A6:AL23"];
 
+                var cfS = range1.ConditionalFormatting.GetConditionalFormattings();
+                var cfStyle = cfS[0].Style;
+                var borderBottom = cfS[0].Style.Border.HasValue;
                 //for (int i = 0; i < copyCount; i++)
                 //{
                 //    package.Workbook.Worksheets.Copy(
                 //    worksheets[i].Name, $"{worksheets[i].Name}_{i}");
                 //}
 
-                SaveAndCleanup(package);
+                var file = GetOutputFile("", "Cabinet_template_test_clean_Output.xlsx");
+                package.SaveAs(file);
+                //SaveAndCleanup(package);
             }
         }
 

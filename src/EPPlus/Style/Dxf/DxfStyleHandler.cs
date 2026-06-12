@@ -215,18 +215,21 @@ namespace OfficeOpenXml.Style.Dxf
                     int ix = dxfs.FindIndexById(cf.Style.Id);
                     if (ix < 0)
                     {
-                        ((ExcelConditionalFormattingRule)cf).DxfId = dxfs.Count;
+                        ((ExcelConditionalFormattingRule)cf).DxfId = dxfs.Count-1;
                         dxfs.Add(cf.Style.Id, cf.Style);
                         var elem = dxfsNode.OwnerDocument.CreateElement("dxf", ExcelPackage.schemaMain);
+                        //cf.Style.DxfId = ((ExcelConditionalFormattingRule)cf).DxfId;
                         cf.Style.CreateNodes(new XmlHelperInstance(ws.NameSpaceManager, elem), "");
                         dxfsNode.AppendChild(elem);
                     }
                     else
                     {
-                        ((ExcelConditionalFormattingRule)cf).DxfId = ix;
+                        ((ExcelConditionalFormattingRule)cf).DxfId = ix-1;
+                        //cf.Style.DxfId = ix;
                     }
                 }
             }
+            //var num = dxfs._list[129];
         }
         internal static void CopyDxfStylesTable(ExcelTable tblFrom, ExcelTable tblTo)
         {
