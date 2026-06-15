@@ -302,7 +302,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 if (ws != null)
                 {
-                    return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                    if (HeaderAddress.IsSingleCell)
+                    {
+                        return ws.Cells[HeaderAddress.Address].Offset(0, 0).Text;
+                    }
+                    else
+                    {
+                        var sb = new StringBuilder();
+                        foreach (var cell in ws.Cells[HeaderAddress.Address])
+                        {
+                            if (sb.Length != 0)
+                            {
+                                sb.Append(" ");
+                            }
+                            sb.Append(cell.TextMerged);
+                        }
+                        return sb.ToString();
+                    }
                 }
             }
             return ExcelErrorValue.Values.Ref;

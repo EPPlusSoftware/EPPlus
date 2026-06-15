@@ -59,12 +59,12 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.8;
+                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.85;
                     _maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
                     break;
                 default:
                     _maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.8;
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85;
                     break;
             }
             double entryWidth, entryHeight;
@@ -150,7 +150,7 @@ namespace EPPlusImageRenderer.Svg
                                 {
                                     widestLine = width + RightMargin;
                                 }
-                                width = RightMargin + widest;
+                                width = RightMargin + entryWidth;
                             }
                             else
                             {
