@@ -410,31 +410,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var layout = new LayoutSystem(fragments);
             Assert.AreEqual(5, layout.GetParagraphSeparatorCount());
-            //var rtCollection = new RichTextCollectionBase();
-            //var someTextRt = rtCollection.Add("SomeText", true);
-            //var richRt = rtCollection.Add("rich");
-            //var richerRt = rtCollection.Add("richer");
-            //var richestRt = rtCollection.Add("richest");
-            //var wealthyRt = rtCollection.Add("Wealthy");
-
-            //richRt.Info.FontFamily = "Roboto";
-            //richRt.Info.Italic = true;
-
-            //richerRt.Info.FontFamily = "Roboto";
-            //richerRt.Info.Size = 16;
-            //richerRt.Info.Italic = true;
-            //richerRt.Info.UnderlineType = (int)ExcelUnderLineType.Single;
-
-            //richestRt.Info.FontFamily = "Oi";
-            //richestRt.Info.FontColor = Color.BlueViolet;
-            //richestRt.Info.Bold = true;
-            //richestRt.Info.Italic = true;
-            //richerRt.Info.Size = 18;
-
-
-            //someTextRt.FontData.Family = "Archivo Narrow";
-
-            //richRt
         }
     }
 }
