@@ -99,6 +99,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 }
                 firstColumnRun = false;
             }
+            worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
             pdfRange = Range;
             return Map;
         }
@@ -157,14 +158,19 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             {
                 //Conditional Formating
                 var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-                if (cf != null && cf.Count > 1)
+                if (cf != null && cf.Count > 0)
                 {
                     // Sort ascending — priority 1 beats priority 2, etc.
                     var ordered = cf.OrderBy(r => r.Priority);
 
                     foreach (var rule in ordered)
                     {
-                        if (!EvaluateConditionalFormattingRule(rule, cell))
+                        // Use the core per-rule evaluator (the same one the HTML exporter
+                        // calls). It correctly handles every rule type — comparisons, text,
+                        // blanks/errors, top/bottom, above/below average, duplicate/unique,
+                        // time periods and formula expressions — including the range-wide
+                        // aggregates, which the previous hand-rolled evaluator stubbed out.
+                        if (!rule.ShouldApplyToCell(cell))
                         {
                             if (rule.StopIfTrue) break; // higher-priority rule fired but had no fill — stop anyway
                             continue;
@@ -173,10 +179,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                         if (rule.Style?.Fill != null && rule.Style.Fill.HasValue)
                         {
                             cellStyle.dxfFill = rule.Style.Fill;
+                            // xfFill must be non-null for the downstream dxf path
+                            // (PdfCellLayout checks xfFill.IsEmpty()); the cell's own fill
+                            // is empty here, which is exactly what selects the dxf fill.
+                            cellStyle.xfFill = cell.Style.Fill;
                             return; // CF fill wins — skip table and xf entirely
                         }
 
-                        if (rule.StopIfTrue) break; // rule applied but defined no fill — stop evaluating lower rules
+                        if (rule.StopIfTrue) break;
                     }
                 }
 
@@ -234,130 +244,130 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
             cellStyle.xfFill = cell.Style.Fill;
         }
-        private static bool EvaluateConditionalFormattingRule(IExcelConditionalFormattingRule rule, ExcelRangeBase cell)
-        {
-            // These never produce a dxf fill — skip entirely
-            switch (rule.Type)
-            {
-                case eExcelConditionalFormattingRuleType.TwoColorScale:
-                case eExcelConditionalFormattingRuleType.ThreeColorScale:
-                case eExcelConditionalFormattingRuleType.DataBar:
-                case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                case eExcelConditionalFormattingRuleType.FourIconSet:
-                case eExcelConditionalFormattingRuleType.FiveIconSet:
-                    return false;
-            }
+        //private static bool EvaluateConditionalFormattingRule(IExcelConditionalFormattingRule rule, ExcelRangeBase cell)
+        //{
+        //    // These never produce a dxf fill — skip entirely
+        //    switch (rule.Type)
+        //    {
+        //        case eExcelConditionalFormattingRuleType.TwoColorScale:
+        //        case eExcelConditionalFormattingRuleType.ThreeColorScale:
+        //        case eExcelConditionalFormattingRuleType.DataBar:
+        //        case eExcelConditionalFormattingRuleType.ThreeIconSet:
+        //        case eExcelConditionalFormattingRuleType.FourIconSet:
+        //        case eExcelConditionalFormattingRuleType.FiveIconSet:
+        //            return false;
+        //    }
 
-            var cellValue = cell.Value;
-            var cellText = cellValue?.ToString() ?? string.Empty;
+        //    var cellValue = cell.Value;
+        //    var cellText = cellValue?.ToString() ?? string.Empty;
 
-            switch (rule.Type)
-            {
-                // --- Comparison (CellIs) types ---
-                case eExcelConditionalFormattingRuleType.Equal:
-                case eExcelConditionalFormattingRuleType.NotEqual:
-                case eExcelConditionalFormattingRuleType.GreaterThan:
-                case eExcelConditionalFormattingRuleType.GreaterThanOrEqual:
-                case eExcelConditionalFormattingRuleType.LessThan:
-                case eExcelConditionalFormattingRuleType.LessThanOrEqual:
-                case eExcelConditionalFormattingRuleType.Between:
-                case eExcelConditionalFormattingRuleType.NotBetween:
-                    return EvaluateCellIs(rule, cell);
+        //    switch (rule.Type)
+        //    {
+        //        // --- Comparison (CellIs) types ---
+        //        case eExcelConditionalFormattingRuleType.Equal:
+        //        case eExcelConditionalFormattingRuleType.NotEqual:
+        //        case eExcelConditionalFormattingRuleType.GreaterThan:
+        //        case eExcelConditionalFormattingRuleType.GreaterThanOrEqual:
+        //        case eExcelConditionalFormattingRuleType.LessThan:
+        //        case eExcelConditionalFormattingRuleType.LessThanOrEqual:
+        //        case eExcelConditionalFormattingRuleType.Between:
+        //        case eExcelConditionalFormattingRuleType.NotBetween:
+        //            return EvaluateCellIs(rule, cell);
 
-                // --- Text types ---
-                case eExcelConditionalFormattingRuleType.ContainsText:
-                    return cellText.Contains((rule as IExcelConditionalFormattingContainsText)?.Text ?? "");
+        //        // --- Text types ---
+        //        case eExcelConditionalFormattingRuleType.ContainsText:
+        //            return cellText.Contains((rule as IExcelConditionalFormattingContainsText)?.Text ?? "");
 
-                case eExcelConditionalFormattingRuleType.NotContainsText:
-                    return !cellText.Contains((rule as IExcelConditionalFormattingNotContainsText)?.Text ?? "");
+        //        case eExcelConditionalFormattingRuleType.NotContainsText:
+        //            return !cellText.Contains((rule as IExcelConditionalFormattingNotContainsText)?.Text ?? "");
 
-                case eExcelConditionalFormattingRuleType.NotContains:
-                    return !cellText.Contains((rule as IExcelConditionalFormattingContainsText)?.Text ?? "");
+        //        case eExcelConditionalFormattingRuleType.NotContains:
+        //            return !cellText.Contains((rule as IExcelConditionalFormattingContainsText)?.Text ?? "");
 
-                case eExcelConditionalFormattingRuleType.BeginsWith:
-                    return cellText.StartsWith((rule as IExcelConditionalFormattingBeginsWith)?.Text ?? "");
+        //        case eExcelConditionalFormattingRuleType.BeginsWith:
+        //            return cellText.StartsWith((rule as IExcelConditionalFormattingBeginsWith)?.Text ?? "");
 
-                case eExcelConditionalFormattingRuleType.EndsWith:
-                    return cellText.EndsWith((rule as IExcelConditionalFormattingEndsWith)?.Text ?? "");
+        //        case eExcelConditionalFormattingRuleType.EndsWith:
+        //            return cellText.EndsWith((rule as IExcelConditionalFormattingEndsWith)?.Text ?? "");
 
-                // --- Blank/Error types ---
-                case eExcelConditionalFormattingRuleType.ContainsBlanks:
-                    return string.IsNullOrEmpty(cellText.Trim());
+        //        // --- Blank/Error types ---
+        //        case eExcelConditionalFormattingRuleType.ContainsBlanks:
+        //            return string.IsNullOrEmpty(cellText.Trim());
 
-                case eExcelConditionalFormattingRuleType.NotContainsBlanks:
-                    return !string.IsNullOrEmpty(cellText.Trim());
+        //        case eExcelConditionalFormattingRuleType.NotContainsBlanks:
+        //            return !string.IsNullOrEmpty(cellText.Trim());
 
-                case eExcelConditionalFormattingRuleType.ContainsErrors:
-                    return cellValue is ExcelErrorValue;
+        //        case eExcelConditionalFormattingRuleType.ContainsErrors:
+        //            return cellValue is ExcelErrorValue;
 
-                case eExcelConditionalFormattingRuleType.NotContainsErrors:
-                    return !(cellValue is ExcelErrorValue);
+        //        case eExcelConditionalFormattingRuleType.NotContainsErrors:
+        //            return !(cellValue is ExcelErrorValue);
 
-                // --- Duplicate/Unique — require range-wide scan, stub for now ---
-                case eExcelConditionalFormattingRuleType.DuplicateValues:
-                case eExcelConditionalFormattingRuleType.UniqueValues:
-                    return false;
+        //        // --- Duplicate/Unique — require range-wide scan, stub for now ---
+        //        case eExcelConditionalFormattingRuleType.DuplicateValues:
+        //        case eExcelConditionalFormattingRuleType.UniqueValues:
+        //            return false;
 
-                // --- Average/StdDev/Top/Bottom/TimePeriod — require range-wide scan, stub for now ---
-                case eExcelConditionalFormattingRuleType.AboveAverage:
-                case eExcelConditionalFormattingRuleType.AboveOrEqualAverage:
-                case eExcelConditionalFormattingRuleType.BelowAverage:
-                case eExcelConditionalFormattingRuleType.BelowOrEqualAverage:
-                case eExcelConditionalFormattingRuleType.AboveStdDev:
-                case eExcelConditionalFormattingRuleType.BelowStdDev:
-                case eExcelConditionalFormattingRuleType.Top:
-                case eExcelConditionalFormattingRuleType.TopPercent:
-                case eExcelConditionalFormattingRuleType.Bottom:
-                case eExcelConditionalFormattingRuleType.BottomPercent:
-                case eExcelConditionalFormattingRuleType.Last7Days:
-                case eExcelConditionalFormattingRuleType.LastMonth:
-                case eExcelConditionalFormattingRuleType.LastWeek:
-                case eExcelConditionalFormattingRuleType.NextMonth:
-                case eExcelConditionalFormattingRuleType.NextWeek:
-                case eExcelConditionalFormattingRuleType.ThisMonth:
-                case eExcelConditionalFormattingRuleType.ThisWeek:
-                case eExcelConditionalFormattingRuleType.Today:
-                case eExcelConditionalFormattingRuleType.Tomorrow:
-                case eExcelConditionalFormattingRuleType.Yesterday:
-                    return false;
+        //        // --- Average/StdDev/Top/Bottom/TimePeriod — require range-wide scan, stub for now ---
+        //        case eExcelConditionalFormattingRuleType.AboveAverage:
+        //        case eExcelConditionalFormattingRuleType.AboveOrEqualAverage:
+        //        case eExcelConditionalFormattingRuleType.BelowAverage:
+        //        case eExcelConditionalFormattingRuleType.BelowOrEqualAverage:
+        //        case eExcelConditionalFormattingRuleType.AboveStdDev:
+        //        case eExcelConditionalFormattingRuleType.BelowStdDev:
+        //        case eExcelConditionalFormattingRuleType.Top:
+        //        case eExcelConditionalFormattingRuleType.TopPercent:
+        //        case eExcelConditionalFormattingRuleType.Bottom:
+        //        case eExcelConditionalFormattingRuleType.BottomPercent:
+        //        case eExcelConditionalFormattingRuleType.Last7Days:
+        //        case eExcelConditionalFormattingRuleType.LastMonth:
+        //        case eExcelConditionalFormattingRuleType.LastWeek:
+        //        case eExcelConditionalFormattingRuleType.NextMonth:
+        //        case eExcelConditionalFormattingRuleType.NextWeek:
+        //        case eExcelConditionalFormattingRuleType.ThisMonth:
+        //        case eExcelConditionalFormattingRuleType.ThisWeek:
+        //        case eExcelConditionalFormattingRuleType.Today:
+        //        case eExcelConditionalFormattingRuleType.Tomorrow:
+        //        case eExcelConditionalFormattingRuleType.Yesterday:
+        //            return false;
 
-                // --- Formula-based ---
-                case eExcelConditionalFormattingRuleType.Expression:
-                    return false; // requires formula evaluation — future phase
+        //        // --- Formula-based ---
+        //        case eExcelConditionalFormattingRuleType.Expression:
+        //            return false; // requires formula evaluation — future phase
 
-                default:
-                    return false;
-            }
-        }
+        //        default:
+        //            return false;
+        //    }
+        //}
 
-        private static bool EvaluateCellIs(IExcelConditionalFormattingRule rule, ExcelRangeBase cell)
-        {
-            if (cell.Value == null) return false;
-            if (!double.TryParse(cell.Value.ToString(), out double cellDouble)) return false;
+        //private static bool EvaluateCellIs(IExcelConditionalFormattingRule rule, ExcelRangeBase cell)
+        //{
+        //    if (cell.Value == null) return false;
+        //    if (!double.TryParse(cell.Value.ToString(), out double cellDouble)) return false;
 
-            var f1Rule = rule as IExcelConditionalFormattingWithFormula;
-            if (f1Rule == null || !double.TryParse(f1Rule.Formula, out double formula1)) return false;
+        //    var f1Rule = rule as IExcelConditionalFormattingWithFormula;
+        //    if (f1Rule == null || !double.TryParse(f1Rule.Formula, out double formula1)) return false;
 
-            switch (rule.Type)
-            {
-                case eExcelConditionalFormattingRuleType.Equal: return cellDouble == formula1;
-                case eExcelConditionalFormattingRuleType.NotEqual: return cellDouble != formula1;
-                case eExcelConditionalFormattingRuleType.GreaterThan: return cellDouble > formula1;
-                case eExcelConditionalFormattingRuleType.GreaterThanOrEqual: return cellDouble >= formula1;
-                case eExcelConditionalFormattingRuleType.LessThan: return cellDouble < formula1;
-                case eExcelConditionalFormattingRuleType.LessThanOrEqual: return cellDouble <= formula1;
-                case eExcelConditionalFormattingRuleType.Between:
-                case eExcelConditionalFormattingRuleType.NotBetween:
-                    {
-                        var f2Rule = rule as IExcelConditionalFormattingWithFormula2;
-                        if (f2Rule == null || !double.TryParse(f2Rule.Formula2, out double formula2)) return false;
-                        bool inRange = cellDouble >= formula1 && cellDouble <= formula2;
-                        return rule.Type == eExcelConditionalFormattingRuleType.Between ? inRange : !inRange;
-                    }
-                default:
-                    return false;
-            }
-        }
+        //    switch (rule.Type)
+        //    {
+        //        case eExcelConditionalFormattingRuleType.Equal: return cellDouble == formula1;
+        //        case eExcelConditionalFormattingRuleType.NotEqual: return cellDouble != formula1;
+        //        case eExcelConditionalFormattingRuleType.GreaterThan: return cellDouble > formula1;
+        //        case eExcelConditionalFormattingRuleType.GreaterThanOrEqual: return cellDouble >= formula1;
+        //        case eExcelConditionalFormattingRuleType.LessThan: return cellDouble < formula1;
+        //        case eExcelConditionalFormattingRuleType.LessThanOrEqual: return cellDouble <= formula1;
+        //        case eExcelConditionalFormattingRuleType.Between:
+        //        case eExcelConditionalFormattingRuleType.NotBetween:
+        //            {
+        //                var f2Rule = rule as IExcelConditionalFormattingWithFormula2;
+        //                if (f2Rule == null || !double.TryParse(f2Rule.Formula2, out double formula2)) return false;
+        //                bool inRange = cellDouble >= formula1 && cellDouble <= formula2;
+        //                return rule.Type == eExcelConditionalFormattingRuleType.Between ? inRange : !inRange;
+        //            }
+        //        default:
+        //            return false;
+        //    }
+        //}
 
         private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell)
         {

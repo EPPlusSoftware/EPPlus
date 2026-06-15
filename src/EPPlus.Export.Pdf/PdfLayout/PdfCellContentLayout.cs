@@ -163,9 +163,66 @@ namespace EPPlus.Export.Pdf.PdfLayout
 
         private Vector2 CalculateAlignment(string text, double textLength, double textHeight, double firstLineAscent, double lastLineAscent, double x, double y, double width, double height)
         {
+            if (CellAlignmentData.TextRotation != 0 && !CellAlignmentData.IsVertical)
+            {
+                return CalculateRotatedAlignment(textLength, textHeight, firstLineAscent, x, y, width, height);
+            }
             double newX = CalculateHorizontalAlignment(text, textLength, x, width, rightMargin);
             double newY = CalculateVerticalAlignment(text, textHeight, firstLineAscent, lastLineAscent, y, height, 0d);
             return CalculatePositionFromRotation(textLength, newX, newY);
+        }
+
+        private Vector2 CalculateRotatedAlignment(double textLength, double textHeight, double firstLineAscent, double x, double y, double width, double height)
+        {
+            double ascent = firstLineAscent;
+            double descent = textHeight - firstLineAscent;
+            if (descent < 0d) descent = 0d;
+
+            double theta = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
+            double cos = System.Math.Cos(theta);
+            double sin = System.Math.Sin(theta);
+
+            // Bounding box of the rotated block. Reading direction spans [0, textLength];
+            // the cross (line-height) direction spans [-descent, ascent].
+            double[] gx = { 0d, textLength, 0d, textLength };
+            double[] gy = { ascent, ascent, -descent, -descent };
+            double minX = double.MaxValue, maxX = double.MinValue, minY = double.MaxValue, maxY = double.MinValue;
+            for (int i = 0; i < 4; i++)
+            {
+                double ux = cos * gx[i] - sin * gy[i];
+                double uy = sin * gx[i] + cos * gy[i];
+                if (ux < minX) minX = ux;
+                if (ux > maxX) maxX = ux;
+                if (uy < minY) minY = uy;
+                if (uy > maxY) maxY = uy;
+            }
+            double blockWidth = maxX - minX;
+            double blockHeight = maxY - minY;
+
+            double bx;
+            switch (CellAlignmentData.HorizontalAlignment)
+            {
+                case ExcelHorizontalAlignment.Left:
+                    bx = x + rightMargin; break;
+                case ExcelHorizontalAlignment.Right:
+                    bx = x + width - blockWidth - rightMargin; break;
+                default: // Center / General
+                    bx = x + (width - blockWidth) / 2d; break;
+            }
+
+            double by;
+            switch (CellAlignmentData.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                    by = y + height - blockHeight - bottomMargin; break;
+                case ExcelVerticalAlignment.Bottom:
+                    by = y + bottomMargin; break;
+                default: // Center / Justify / Distributed
+                    by = y + (height - blockHeight) / 2d; break;
+            }
+
+            // Convert the bounding-box lower-left back to the baseline origin the matrix expects.
+            return new Vector2(bx - minX, by - minY);
         }
 
         //private static List<TextFragment> GetTextFragments(List<PdfTextFormat> textFormats)
