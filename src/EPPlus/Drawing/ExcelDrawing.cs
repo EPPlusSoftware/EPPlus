@@ -1534,8 +1534,18 @@ namespace OfficeOpenXml.Drawing
             }
             if (To != null)
             {
-                To.X = (From.X + PixelWidth / _drawings._screenWidth);
-                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
+                var widthFraction = PixelWidth / _drawings._screenWidth;
+                To.X = From.X + widthFraction;
+                if (To.X > 1)
+                {
+                    To.X = 1;
+                    From.X = Math.Max(0, 1 - widthFraction);
+                }
+                else if (To.X < 0)
+                {
+                    From.X = 0;
+                    To.X = widthFraction;
+                }
             }
             if (Size != null)
             {
@@ -1550,12 +1560,18 @@ namespace OfficeOpenXml.Drawing
             }
             if (To != null)
             {
-                
-                
-                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
-
-                To.Y = (From.Y + PixelHeight / _drawings._screenHeight);
-                if (To.Y > 1) To.Y = 1; else if (To.Y < 0) To.Y = 0;
+                var heightFraction = PixelHeight / _drawings._screenHeight;
+                To.Y = From.Y + heightFraction;
+                if (To.Y > 1)
+                {
+                    To.Y = 1;
+                    From.Y = Math.Max(0, 1 - heightFraction);
+                }
+                else if (To.Y < 0)
+                {
+                    From.Y = 0;
+                    To.Y = heightFraction;
+                }
             }
             if (Size != null)
             {
