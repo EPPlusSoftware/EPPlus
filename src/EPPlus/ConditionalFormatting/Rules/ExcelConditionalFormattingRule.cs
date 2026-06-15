@@ -299,7 +299,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 _ws.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
                 var origStyle = _ws.Workbook.Styles.Dxfs[DxfId];
-                _style = ((ExcelDxfStyleBase)origStyle).ToDxfConditionalFormattingStyle();    //Clone, so it can be altered without affecting other dxf styles
+                _style = origStyle.ToDxfConditionalFormattingStyle();    //Clone, so it can be altered without affecting other dxf styles
             }
 
             var tempAddress = "";
