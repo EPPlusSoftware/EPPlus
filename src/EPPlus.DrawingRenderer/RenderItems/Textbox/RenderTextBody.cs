@@ -170,7 +170,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                     lastParagraphBottom = paragraph.Bounds.Bottom;
 
                     smallestLeft = Math.Min(smallestLeft, paragraph.Bounds.Left);
-                    largestWidth = paragraph.Bounds.Width;
+                    largestWidth = Math.Max(largestWidth, paragraph.Bounds.Width);
                     totalHeight += paragraph.Bounds.Height;
                 }
 

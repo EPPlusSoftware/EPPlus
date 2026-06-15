@@ -143,10 +143,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             _txtBox = txtBox;
 
-            if (dataLabel.Fill.IsEmpty == false)
-            {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
-            }
+            _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+            //if (dataLabel.Fill.IsEmpty == false)
+            //{
+            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+            //}
+            //else
+            //{
+            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+            //}
             if (dataLabel.Font.IsEmpty == false)
             {
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();

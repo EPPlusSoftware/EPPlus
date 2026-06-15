@@ -394,38 +394,22 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Size = 11,
                 SubFamily = FontSubFamily.Bold
             };
+
+            var font2 = new FontFormatBase()
+            {
+                Family = "Aptos Narrow",
+                Size = 11,
+                SubFamily = FontSubFamily.Italic
+            };
+
             var fragments = new List<ITextFragmentBase>()
             {
-                new TextFragment() {Text = lstOfRichText[0], Font = font }
+                new TextFragment() {Text = lstOfRichText[0], Font = font },
+                new TextFragment() {Text = lstOfRichText[1], Font = font2 }
             };
 
             var layout = new LayoutSystem(fragments);
-            Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
-            //var rtCollection = new RichTextCollectionBase();
-            //var someTextRt = rtCollection.Add("SomeText", true);
-            //var richRt = rtCollection.Add("rich");
-            //var richerRt = rtCollection.Add("richer");
-            //var richestRt = rtCollection.Add("richest");
-            //var wealthyRt = rtCollection.Add("Wealthy");
-
-            //richRt.Info.FontFamily = "Roboto";
-            //richRt.Info.Italic = true;
-
-            //richerRt.Info.FontFamily = "Roboto";
-            //richerRt.Info.Size = 16;
-            //richerRt.Info.Italic = true;
-            //richerRt.Info.UnderlineType = (int)ExcelUnderLineType.Single;
-
-            //richestRt.Info.FontFamily = "Oi";
-            //richestRt.Info.FontColor = Color.BlueViolet;
-            //richestRt.Info.Bold = true;
-            //richestRt.Info.Italic = true;
-            //richerRt.Info.Size = 18;
-
-
-            //someTextRt.FontData.Family = "Archivo Narrow";
-
-            //richRt
+            Assert.AreEqual(5, layout.GetParagraphSeparatorCount());
         }
     }
 }
