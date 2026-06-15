@@ -234,6 +234,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                             {
                                 var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
                                 border.Name = map.Name;
+                                if (map.Merged && map.MergedAddress != null)
+                                {
+                                    var addr = map.MergedAddress;
+                                    if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = ExcelBorderStyle.None;
+                                    if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = ExcelBorderStyle.None;
+                                    if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = ExcelBorderStyle.None;
+                                    if (col != addr.End.Column) border.BorderData.Right.BorderStyle = ExcelBorderStyle.None;
+                                }
                                 pageLayout.AddChild(border);
                             }
                             x += map.ColumnWidth;

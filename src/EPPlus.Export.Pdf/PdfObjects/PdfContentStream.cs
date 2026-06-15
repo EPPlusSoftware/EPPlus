@@ -250,7 +250,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         commands.Add($"S");
                     }
                     commands.Add(color.ToFillCommand());
-                    commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
+                    commands.Add($"{textMatrix.A.ToPdfStringF4()} {textMatrix.B.ToPdfStringF4()} {textMatrix.C.ToPdfStringF4()} {textMatrix.D.ToPdfStringF4()} {textMatrix.E.ToPdfStringF4()} {textMatrix.F.ToPdfStringF4()} Tm");
 
                     // FIX: Always use fontIdMap to determine the initial font.
                     // FontId=0 does NOT always mean "primary font" — when the text starts

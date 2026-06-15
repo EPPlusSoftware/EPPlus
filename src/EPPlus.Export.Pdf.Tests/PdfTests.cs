@@ -241,8 +241,8 @@ namespace EPPlusTest.PDF
             pageSettings.CellErrors = CellErrors.Displayed;
             pageSettings.Debug = true;
             pageSettings.PrintAsText = true;
-            pageSettings.ShowGridLines = true;
-            pageSettings.ShowHeadings = true;
+            pageSettings.ShowGridLines = false;
+            pageSettings.ShowHeadings = false;
 
             PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
         }

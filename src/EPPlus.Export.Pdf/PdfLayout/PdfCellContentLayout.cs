@@ -214,7 +214,7 @@ namespace EPPlus.Export.Pdf.PdfLayout
             CellAlignmentData.Indent = cell.Style.Indent;
             CellAlignmentData.WrapText = cell.Style.WrapText;
             CellAlignmentData.ShrinkToFit = cell.Style.ShrinkToFit;
-            CellAlignmentData.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
+            CellAlignmentData.TextRotation = (cell.Style.TextRotation > 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             CellAlignmentData.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             CellAlignmentData.TextDirection = cell.Style.ReadingOrder;
             if (!cell.IsRichText) cell._rtc = new ExcelRichTextCollection(cell.Text, cell);

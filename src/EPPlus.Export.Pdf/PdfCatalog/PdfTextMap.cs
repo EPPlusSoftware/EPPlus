@@ -502,7 +502,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             contentAlignment.Indent = cell.Style.Indent;
             contentAlignment.WrapText = cell.Style.WrapText;
             contentAlignment.ShrinkToFit = cell.Style.ShrinkToFit;
-            contentAlignment.TextRotation = (cell.Style.TextRotation >= 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
+            contentAlignment.TextRotation = (cell.Style.TextRotation > 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             contentAlignment.IsVertical = cell.Style.TextRotation == 255 ? true : false;
             contentAlignment.TextDirection = cell.Style.ReadingOrder;
             return contentAlignment;
