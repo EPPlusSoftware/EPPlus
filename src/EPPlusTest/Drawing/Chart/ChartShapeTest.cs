@@ -21,6 +21,18 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(p);
         }
 
+        [TestMethod]
+        public void ShapeInChartTest2()
+        {
+            using var p = OpenTemplatePackage("ShapeInChartTest2.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var chart = ws.Drawings[0] as ExcelChartStandard;
+            var cdr = chart.Drawings[0];
+            cdr.SetPosition(150, 200);
+            cdr.SetSize(200, 200);
+
+            SaveAndCleanup(p);
+        }
 
         [TestMethod]
         public void ShapeInChartTest()
