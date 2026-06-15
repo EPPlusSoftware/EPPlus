@@ -788,7 +788,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     return (int)(Math.Round(From.X * _drawings._screenWidth));
                 }
-                return 0;
+                return Position == null ? 0 : Position.X / EMU_PER_PIXEL;
             }
             if (CellAnchor == eEditAs.Absolute)
             {
@@ -818,7 +818,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     return (int)(Math.Round(From.Y * _drawings._screenHeight));
                 }
-                return 0;
+                return Position == null ? 0 : Position.Y / EMU_PER_PIXEL;
             }
 
             if (CellAnchor == eEditAs.Absolute)
@@ -928,14 +928,7 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                if (_collectionType == DrawingsCollectionType.Worksheet)
-                {
-                    Position.Y = (int)(pixels * EMU_PER_PIXEL);
-                }
-                else
-                {
-                    From.Y= (double)pixels/_drawings._screenHeight;
-                }
+                Position.Y = (int)(pixels * EMU_PER_PIXEL);
             }
             else
             {
@@ -977,14 +970,7 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                if (_collectionType == DrawingsCollectionType.Worksheet)
-                {
-                    Position.X = (int)(pixels * EMU_PER_PIXEL);
-                }
-                else
-                {
-                    From.X = (double)pixels / _drawings._screenWidth;
-                }
+                Position.X = (int)(pixels * EMU_PER_PIXEL);
             }
             else
             {
@@ -1143,7 +1129,7 @@ namespace OfficeOpenXml.Drawing
             double pixOff = pixels - (PixelHelper.GetColumnWidth(ws, fromColumn + 1) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
-            while (pixOff >= 0)
+            while (pixOff >= 0 && col < ExcelPackage.MaxColumns)
             {
                 offset = pixOff;
                 pixOff -= PixelHelper.GetColumnWidth(ws, col++);
@@ -1266,6 +1252,11 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
+                if (EditAs != eEditAs.Absolute)
+                {
+                    To.X = x + To.X - From.X;
+                    To.Y = y + To.Y - From.Y;
+                }
                 From.X = x;
                 From.Y = y;
             }
@@ -1532,8 +1523,18 @@ namespace OfficeOpenXml.Drawing
             }
             if (To != null)
             {
-                To.X = (From.X + PixelWidth / _drawings._screenWidth);
-                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
+                var widthFraction = PixelWidth / _drawings._screenWidth;
+                To.X = From.X + widthFraction;
+                if (To.X > 1)
+                {
+                    To.X = 1;
+                    From.X = Math.Max(0, 1 - widthFraction);
+                }
+                else if (To.X < 0)
+                {
+                    From.X = 0;
+                    To.X = widthFraction;
+                }
             }
             if (Size != null)
             {
@@ -1548,12 +1549,18 @@ namespace OfficeOpenXml.Drawing
             }
             if (To != null)
             {
-                
-                
-                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
-
-                To.Y = (From.Y + PixelHeight / _drawings._screenHeight);
-                if (To.Y > 1) To.Y = 1; else if (To.Y < 0) To.Y = 0;
+                var heightFraction = PixelHeight / _drawings._screenHeight;
+                To.Y = From.Y + heightFraction;
+                if (To.Y > 1)
+                {
+                    To.Y = 1;
+                    From.Y = Math.Max(0, 1 - heightFraction);
+                }
+                else if (To.Y < 0)
+                {
+                    From.Y = 0;
+                    To.Y = heightFraction;
+                }
             }
             if (Size != null)
             {

@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                     AddTableData(table, contentElement, col);
 
-                    if (Settings.Pictures.Include == (ePictureInclude.Include | ePictureInclude.IncludeInHtmlOnly))
+                    if ((Settings.Pictures.Include == ePictureInclude.Include) || (Settings.Pictures.Include == ePictureInclude.IncludeInHtmlOnly))
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
@@ -270,7 +270,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                     SetColRowSpan(range, tblData, cell);
 
-                    if (Settings.Pictures.Include == (ePictureInclude.Include | ePictureInclude.IncludeInHtmlOnly))
+                    if ((Settings.Pictures.Include == ePictureInclude.Include) || (Settings.Pictures.Include == ePictureInclude.IncludeInHtmlOnly))
                     { 
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }

@@ -68,6 +68,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["usdollar"] = new UsDollar();
             Functions["encodeurl"] = new EncodeUrl();
             Functions["code"] = new CodeFunction();
+            Functions["regextest"] = new RegexTest();
+            Functions["regexextract"] = new RegexExtract();
+            Functions["regexreplace"] = new RegexReplace();
             Functions["textsplit"] = new TextSplit();
             Functions["textbefore"] = new TextBefore(DelimiterFunction.TextBefore);
             Functions["textafter"] = new TextAfter(DelimiterFunction.TextAfter);
