@@ -738,7 +738,24 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 var rotationValue = textRotation > 90 ? textRotation - 90 : 360 - textRotation;
                 var rotationWrapper = new HTMLElement("div");
-                rotationWrapper.AddAttribute("style", $"display:inline-block;transform:rotate({rotationValue.ToString(CultureInfo.InvariantCulture)}deg);");
+
+                string rotationStyle = "";
+                if (rotationValue == 90 || rotationValue == 270)
+                {
+                    if (rotationValue > 90)
+                    {
+                        rotationStyle = "writing-mode: sideways-lr;";
+                    }
+                    else
+                    {
+                        rotationStyle += " writing-mode: sideways-rl;";
+                    }
+                }
+                else
+                {
+                    rotationStyle = $"$display:inline-block;transform:rotate({rotationValue.ToString(CultureInfo.InvariantCulture)}deg);";
+                }
+                rotationWrapper.AddAttribute("style", $"{rotationStyle}");
                 element.AddChildElement(rotationWrapper);
                 valueElement = rotationWrapper;
             }
