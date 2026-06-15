@@ -175,17 +175,9 @@ namespace EPPlusTest.Issues
                 var cfS = range1.ConditionalFormatting.GetConditionalFormattings();
                 var cfStyle = cfS[0].Style;
                 var borderBottom = cfS[0].Style.Border.HasValue;
-                //for (int i = 0; i < copyCount; i++)
-                //{
-                //    package.Workbook.Worksheets.Copy(
-                //    worksheets[i].Name, $"{worksheets[i].Name}_{i}");
-                //}
-
-                //ws.Workbook.Styles.Dxfs = null;
 
                 var file = GetOutputFile("", "Cabinet_template_test_clean_Output.xlsx");
                 package.SaveAs(file);
-                //SaveAndCleanup(package);
             }
 
             using (var package = OpenPackage("Cabinet_template_test_clean_Output.xlsx"))
@@ -209,26 +201,6 @@ namespace EPPlusTest.Issues
         }
 
         [TestMethod]
-        public void i2381OnlyTheBug()
-        {
-            using (var package = OpenTemplatePackage("mergedCellCFBorder.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets[0];
-                var cf = ws.ConditionalFormatting[1];
-                var border = cf.Style.Border;
-                SaveAndCleanup(package);
-            }
-
-            using (var package = OpenPackage("mergedCellCFBorder.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets[0];
-                var cf = ws.ConditionalFormatting[1];
-                var border = cf.Style.Border;
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
         public void i2381Excel()
         {
             using (var package = OpenTemplatePackage("Cabinet_template_test_clean_excelSaved.xlsx"))
@@ -241,15 +213,9 @@ namespace EPPlusTest.Issues
                 var cfS = range1.ConditionalFormatting.GetConditionalFormattings();
                 var cfStyle = cfS[0].Style;
                 var borderBottom = cfS[0].Style.Border.HasValue;
-                //for (int i = 0; i < copyCount; i++)
-                //{
-                //    package.Workbook.Worksheets.Copy(
-                //    worksheets[i].Name, $"{worksheets[i].Name}_{i}");
-                //}
 
                 var file = GetOutputFile("", "Cabinet_template_test_clean_ExcelOutput.xlsx");
                 package.SaveAs(file);
-                //SaveAndCleanup(package);
             }
         }
     }
