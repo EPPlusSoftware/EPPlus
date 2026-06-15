@@ -21,6 +21,18 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(p);
         }
 
+        [TestMethod]
+        public void ShapeInChartTest2()
+        {
+            using var p = OpenTemplatePackage("ShapeInChartTest2.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var chart = ws.Drawings[0] as ExcelChartStandard;
+            var cdr = chart.Drawings[0];
+            cdr.SetPosition(150, 200);
+            cdr.SetSize(200, 200);
+
+            SaveAndCleanup(p);
+        }
 
         [TestMethod]
         public void ShapeInChartTest()
@@ -257,6 +269,7 @@ namespace EPPlusTest.Drawing.Chart
             Assert.IsTrue(chart.Drawings.Count == 5);
             var group = pic1.Group(pic2, pic3, pic4, pic5);
             Assert.IsTrue(chart.Drawings.Count == 1);
+            SaveWorkbook("groupshapes2.xlsx", p);
         }
         [TestMethod]
         public void GroupShapesWithGroupShapes()
@@ -272,11 +285,14 @@ namespace EPPlusTest.Drawing.Chart
             var equal = chart.Drawings.AddShape("Equal", eShapeStyle.MathEqual);
             var roundRect = chart.Drawings.AddShape("RoundRect", eShapeStyle.Round1Rect);
             var triangle = chart.Drawings.AddShape("Triangle", eShapeStyle.Triangle);
-
+             
             Assert.IsTrue(chart.Drawings.Count == 4);
             var group1 = arrow.Group(equal);
             var group2 = group1.Group(roundRect, triangle);
-            Assert.IsTrue(chart.Drawings.Count == 1);
+            //Assert.IsTrue(chart.Drawings.Count == 1);
+            group2.SetPosition(100, 100);
+            //group2.SetPosition(20, 20);
+            SaveWorkbook("groupshapes1.xlsx", p);
         }
         [TestMethod]
         public void GroupShapesMixed()

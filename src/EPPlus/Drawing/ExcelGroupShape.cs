@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Drawing
             }
             else if (d._drawings._collectionType == DrawingsCollectionType.Chart)
             {
-                if (d is not ExcelGroupShape)
+                if (d.ParentGroup is ExcelGroupShape)
                 {
                     d.RemoveFromToNodes();
                     d.Position = new ExcelDrawingCoordinate(d.NameSpaceManager, d.TopNode, d.GetPositionSize);

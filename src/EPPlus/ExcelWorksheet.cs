@@ -2556,6 +2556,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         private void SaveSlicers()
         {
             SlicerXmlSources.Save();
