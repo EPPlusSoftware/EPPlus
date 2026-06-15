@@ -394,13 +394,22 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Size = 11,
                 SubFamily = FontSubFamily.Bold
             };
+
+            var font2 = new FontFormatBase()
+            {
+                Family = "Aptos Narrow",
+                Size = 11,
+                SubFamily = FontSubFamily.Italic
+            };
+
             var fragments = new List<ITextFragmentBase>()
             {
-                new TextFragment() {Text = lstOfRichText[0], Font = font }
+                new TextFragment() {Text = lstOfRichText[0], Font = font },
+                new TextFragment() {Text = lstOfRichText[1], Font = font2 }
             };
 
             var layout = new LayoutSystem(fragments);
-            Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
+            Assert.AreEqual(5, layout.GetParagraphSeparatorCount());
             //var rtCollection = new RichTextCollectionBase();
             //var someTextRt = rtCollection.Add("SomeText", true);
             //var richRt = rtCollection.Add("rich");
