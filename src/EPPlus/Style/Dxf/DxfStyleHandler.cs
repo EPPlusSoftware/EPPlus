@@ -212,19 +212,22 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 if (cf.Style.HasValue)
                 {
-                    int ix = dxfs.FindIndexById(cf.Style.Id);
+                    var standardDxfStyle = cf.Style.ToDxfStyle();
+
+                    int ix = dxfs.FindIndexById(standardDxfStyle.Id);
                     if (ix < 0)
                     {
-                        ((ExcelConditionalFormattingRule)cf).DxfId = dxfs.Count-1;
+                        ((ExcelConditionalFormattingRule)cf).DxfId = dxfs.Count;
+                        cf.Style.DxfId = ((ExcelConditionalFormattingRule)cf).DxfId;
                         dxfs.Add(cf.Style.Id, cf.Style);
                         var elem = dxfsNode.OwnerDocument.CreateElement("dxf", ExcelPackage.schemaMain);
-                        //cf.Style.DxfId = ((ExcelConditionalFormattingRule)cf).DxfId;
                         cf.Style.CreateNodes(new XmlHelperInstance(ws.NameSpaceManager, elem), "");
                         dxfsNode.AppendChild(elem);
                     }
                     else
                     {
-                        ((ExcelConditionalFormattingRule)cf).DxfId = ix-1;
+                        ((ExcelConditionalFormattingRule)cf).DxfId = ix;
+                        cf.Style.DxfId = ix;
                         //cf.Style.DxfId = ix;
                     }
                 }

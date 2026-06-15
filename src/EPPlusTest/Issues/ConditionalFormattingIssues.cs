@@ -181,11 +181,76 @@ namespace EPPlusTest.Issues
                 //    worksheets[i].Name, $"{worksheets[i].Name}_{i}");
                 //}
 
+                //ws.Workbook.Styles.Dxfs = null;
+
                 var file = GetOutputFile("", "Cabinet_template_test_clean_Output.xlsx");
                 package.SaveAs(file);
                 //SaveAndCleanup(package);
             }
+
+            using (var package = OpenPackage("Cabinet_template_test_clean_Output.xlsx"))
+            {
+                var copyCount = package.Workbook.Worksheets.Count;
+                var worksheets = package.Workbook.Worksheets;
+                var ws = worksheets[0];
+                var range1 = ws.Cells["A6:AL23"];
+
+                var cfS = range1.ConditionalFormatting.GetConditionalFormattings();
+                var cfStyle = cfS[0].Style;
+                var borderBottom = cfS[0].Style.Border.HasValue;
+
+                var style = ws.Workbook.Styles.Dxfs[128];
+
+                var test = "why";
+
+                var file = GetOutputFile("", "Cabinet_template_test_clean_OutputReRead.xlsx");
+                package.SaveAs(file);
+            }
         }
 
+        [TestMethod]
+        public void i2381OnlyTheBug()
+        {
+            using (var package = OpenTemplatePackage("mergedCellCFBorder.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var cf = ws.ConditionalFormatting[1];
+                var border = cf.Style.Border;
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("mergedCellCFBorder.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var cf = ws.ConditionalFormatting[1];
+                var border = cf.Style.Border;
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void i2381Excel()
+        {
+            using (var package = OpenTemplatePackage("Cabinet_template_test_clean_excelSaved.xlsx"))
+            {
+                var copyCount = package.Workbook.Worksheets.Count;
+                var worksheets = package.Workbook.Worksheets;
+                var ws = worksheets[0];
+                var range1 = ws.Cells["A6:AL23"];
+
+                var cfS = range1.ConditionalFormatting.GetConditionalFormattings();
+                var cfStyle = cfS[0].Style;
+                var borderBottom = cfS[0].Style.Border.HasValue;
+                //for (int i = 0; i < copyCount; i++)
+                //{
+                //    package.Workbook.Worksheets.Copy(
+                //    worksheets[i].Name, $"{worksheets[i].Name}_{i}");
+                //}
+
+                var file = GetOutputFile("", "Cabinet_template_test_clean_ExcelOutput.xlsx");
+                package.SaveAs(file);
+                //SaveAndCleanup(package);
+            }
+        }
     }
 }
