@@ -42,5 +42,21 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+
+        [TestMethod]
+        public void DatalabelBarCharts()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("BarChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var chartWithDataLabels = ws.Drawings["Chart 4"];
+
+                var svg = chartWithDataLabels.ToSvg();
+
+                SaveTextFileToWorkbook($"svg\\DataLableBarChart_sheet1_{chartWithDataLabels.Name}.svg", svg);
+            }
+        }
     }
 }
