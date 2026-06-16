@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.Pdf.PdfLayout;
+﻿using EPPlus.Export.Pdf.Pdfhelpers;
+using EPPlus.Export.Pdf.PdfLayout;
 using EPPlus.Export.Pdf.PdfResources;
 using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType;
@@ -12,12 +13,14 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.PdfCatalog
@@ -417,11 +420,62 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                     cellStyle.dxfLeft = PdfCellBorderLayout.GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle);
                     cellStyle.dxfRight = PdfCellBorderLayout.GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle);
                 }
+                var cfBorder = GetConditionalFormattingBorder(cell);
+                if (cfBorder != null)
+                {
+                    if (cfBorder.Top != null && cfBorder.Top.HasValue) cellStyle.dxfTop = cfBorder.Top;
+                    if (cfBorder.Bottom != null && cfBorder.Bottom.HasValue) cellStyle.dxfBottom = cfBorder.Bottom;
+                    if (cfBorder.Left != null && cfBorder.Left.HasValue) cellStyle.dxfLeft = cfBorder.Left;
+                    if (cfBorder.Right != null && cfBorder.Right.HasValue) cellStyle.dxfRight = cfBorder.Right;
+                }
             }
+        }
+
+        private static ExcelDxfBorderBase GetConditionalFormattingBorder(ExcelRangeBase cell)
+        {
+            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
+            if (cf != null && cf.Count > 0)
+            {
+                var ordered = cf.OrderBy(r => r.Priority);
+                foreach (var rule in ordered)
+                {
+                    if (!rule.ShouldApplyToCell(cell))
+                    {
+                        if (rule.StopIfTrue) break;
+                        continue;
+                    }
+                    if (rule.Style?.Border != null && rule.Style.Border.HasValue)
+                    {
+                        return rule.Style.Border;
+                    }
+                    if (rule.StopIfTrue) break;
+                }
+            }
+            return null;
         }
 
         private static PdfCellStyle GetFontStyle(ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
+            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
+            if (cf != null && cf.Count > 0)
+            {
+                // Sort ascending — priority 1 beats priority 2, etc.
+                var ordered = cf.OrderBy(r => r.Priority);
+                foreach (var rule in ordered)
+                {
+                    if (!rule.ShouldApplyToCell(cell))
+                    {
+                        if (rule.StopIfTrue) break;
+                        continue;
+                    }
+                    if (rule.Style?.Font != null && rule.Style.Font.HasValue)
+                    {
+                        cellStyle.dxfFont = rule.Style.Font;
+                        return cellStyle; // CF font wins over the table font
+                    }
+                    if (rule.StopIfTrue) break;
+                }
+            }
             var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
             if (tables.Count > 0)
             {
@@ -526,21 +580,22 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         {
             bool dxfBold, dxfItalic, dxfStrike, dxfUnderline;
             ExcelUnderLineType dxfUnderLineType;
-            ReadDxfFontOverrides(cellStyle, out dxfBold, out dxfItalic, out dxfStrike, out dxfUnderline, out dxfUnderLineType);
+            System.Drawing.Color? dxfColor;
+            ReadDxfFontOverrides(cellStyle, out dxfBold, out dxfItalic, out dxfStrike, out dxfUnderline, out dxfUnderLineType, out dxfColor);
 
             string forcedText = ResolveErrorText(pageSettings, cell);
 
             if (cell.IsRichText)
             {
                 return GetTextFragmentsFromRichText(pageSettings, dictionaries, cell.RichText, forcedText,
-                    dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType);
+                    dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType, dxfColor);
             }
             return GetTextFragmentsFromCellStyle(pageSettings, dictionaries, cell, forcedText,
-                dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType);
+                dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType, dxfColor);
         }
 
         private static List<TextFragment> GetTextFragmentsFromRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection richText, string forcedText,
-            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType)
+            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
         {
             var textFragments = new List<TextFragment>(richText.Count);
             for (int i = 0; i < richText.Count; i++)
@@ -559,7 +614,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFrag.RichTextOptions.StrikeType = (rt.Strike || dxfStrike) ? 2 : 1;
                 textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                textFrag.RichTextOptions.FontColor = rt.Color;
+                textFrag.RichTextOptions.FontColor = dxfColor ?? rt.Color;
 
                 textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
 
@@ -570,7 +625,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         }
 
         private static List<TextFragment> GetTextFragmentsFromCellStyle(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, string forcedText,
-            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType)
+            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
         {
             var font = cell.Style.Font;
             var textFragments = new List<TextFragment>(1);
@@ -604,7 +659,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             textFrag.RichTextOptions.StrikeType = (font.Strike || dxfStrike) ? 2 : 1;
             textFrag.RichTextOptions.SuperScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             textFrag.RichTextOptions.SubScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-            textFrag.RichTextOptions.FontColor = font.Color.ToColor();
+            textFrag.RichTextOptions.FontColor = = dxfColor ?? font.Color.ToColor();
 
             textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
 
@@ -613,13 +668,14 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return textFragments;
         }
 
-        private static void ReadDxfFontOverrides(PdfCellStyle cellStyle, out bool bold, out bool italic, out bool strike, out bool underline, out ExcelUnderLineType underLineType)
+        private static void ReadDxfFontOverrides(PdfCellStyle cellStyle, out bool bold, out bool italic, out bool strike, out bool underline, out ExcelUnderLineType underLineType, out System.Drawing.Color? color)
         {
             bold = false;
             italic = false;
             strike = false;
             underline = false;
             underLineType = ExcelUnderLineType.None;
+            color = null;
             if (cellStyle != null && cellStyle.dxfFont != null)
             {
                 bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
@@ -627,6 +683,10 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
                 underline = cellStyle.dxfFont.Underline != null;
                 underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
+                if (cellStyle.dxfFont.Color != null && cellStyle.dxfFont.Color.HasValue)
+                {
+                    color = cellStyle.dxfFont.Color.GetColorAsColor();
+                }
             }
         }
 
