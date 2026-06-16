@@ -924,7 +924,21 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                Position.Y = (int)(pixels * EMU_PER_PIXEL);
+                if (_drawings._collectionType == DrawingsCollectionType.Chart)
+                {
+                    if (From == null)
+                    {
+                        Position.Y = (int)(pixels * EMU_PER_PIXEL);
+                    }
+                    else
+                    {
+                        From.Y = pixels / _drawings._screenHeight;
+                    }
+                }
+                else
+                {
+                    Position.Y = (int)(pixels * EMU_PER_PIXEL);
+                }
             }
             else
             {
@@ -966,7 +980,21 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                Position.X = (int)(pixels * EMU_PER_PIXEL);
+                if (_drawings._collectionType == DrawingsCollectionType.Chart)
+                {
+                    if(From==null)
+                    {
+                        Position.X = (int)(pixels * EMU_PER_PIXEL);
+                    }
+                    else
+                    {
+                        From.X = pixels / _drawings._screenWidth;
+                    }
+                }
+                else
+                {
+                    Position.X = (int)(pixels * EMU_PER_PIXEL);
+                }
             }
             else
             {
