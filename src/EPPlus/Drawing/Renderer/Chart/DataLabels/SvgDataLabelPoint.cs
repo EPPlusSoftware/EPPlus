@@ -143,15 +143,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             _txtBox = txtBox;
 
-            _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
-            //if (dataLabel.Fill.IsEmpty == false)
-            //{
-            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
-            //}
-            //else
-            //{
-            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
-            //}
+            if (dataLabel.Fill.IsEmpty == false)
+            {
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+            }
+            else
+            {
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+                _txtBox.Rectangle.FillColor = "transparent";
+            }
             if (dataLabel.Font.IsEmpty == false)
             {
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
@@ -172,12 +172,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     _hasManualLayout = true;
                     var rect = GetRectFromManualLayout(ChartRenderer, individualLabel.Layout);
-                    Rectangle = rect;
 
-                    _manualLayoutOffset = new Coordinate(Rectangle.Left, Rectangle.Top);
+                    Rectangle.Bounds.Left += rect.Left;
+                    Rectangle.Bounds.Top += rect.Top;
 
-                    Rectangle.Bounds.Left += _manualLayoutOffset.X;
-                    Rectangle.Bounds.Top += _manualLayoutOffset.Y;
+                    _manualLayoutOffset = new Coordinate(rect.Left, rect.Top);
+
+                    if (rect.Bounds.Width != 0)
+                    {
+                        Rectangle.Bounds.Width = rect.Bounds.Width;
+                    }
+                    if (rect.Bounds.Height != 0)
+                    {
+                        Rectangle.Bounds.Height = rect.Bounds.Height;
+                    }
 
                     if (dataLabel.ShowLeaderLines)
                     {
