@@ -1,5 +1,27 @@
 # Features / Fixed issues - EPPlus 8
 
+## Version 8.6 1
+### Features
+* 3 new functions:
+  * ´REGEXEXTRACT´
+  * ´REGEXREPLACE´
+  * ´REGEXTEST´
+### Fixed issues	
+* Fixed mismatch in conditional formatting when loading a workbook.
+* Fixed several issues in the HTML export
+  * Text rotated vertically in cells now adjusts column widths more appropriately.
+  * Borders sometimes disappeared when having rotate the text.
+  * Fixed bug where the positions/visuals of images would sometimes not appear.
+  * Pattern fills with empty colors did not pick the correct theme color.
+  * Merged cells did not render border correctly on the right and bottom edges.
+* Workbooks with group shapes in charts sometimes failed to load. 
+* Images in charts sometimes got stretched.
+* ´ExcelRangeBase.ClearDataValidation´ threw an ´InvalidOperationException´ if when there were no data validations.
+* Fixed case-sensitivity parsing on ´ExcelChartAxisStandard´ enums, ´MajorTickMark´ and ´MinorTickMark´ (Fix by Lieven De Foor).
+* ´ExcelWorksheets.Delete´ threw ´NotSupportedException´ on chart worksheets. (Fix by Lieven De Foor).
+* Using full row/column addresses in formulas referencing external workbooks caused bad performance.
+* The ´VLOOKUP´ and ´HLOOKUP´ function sometimes returned the wrong value on unsorted data.
+
 ## Version 8.6 0
 ### Features
 * 9 new functions:

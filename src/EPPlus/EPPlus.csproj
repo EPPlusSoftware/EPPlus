@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.6.0.0</AssemblyVersion>
-		<FileVersion>8.6.0.0</FileVersion>
-		<Version>8.6.0</Version>
+		<AssemblyVersion>8.6.1.0</AssemblyVersion>
+		<FileVersion>8.6.1.0</FileVersion>
+		<Version>8.6.1</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.6.0
+			EPPlus 8.6.1
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,11 +26,16 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+			## Version 8.6.1
+			* New functions:
+			* REGEXEXTRACT, REGEXREPLACE, REGEXTEST
+			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+
 			## Version 8.6.0
 			* New functions:
 			* GROUPBY, PIVOTBY, TRIMRANGE, WRAPROWS, WRAPCOLS, USDOLLAR, CODE, ENCODEURL, ISFORMULA
 			* Support for [Trim reference operator](https://github.com/EPPlusSoftware/EPPlus/wiki/Trim-reference-operator).
-			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			* Minor bug fixes. 
 
 			## Version 8.5.4
 			* Minor bug fixes.
@@ -566,16 +571,17 @@
 			* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
 			* Pivot tables will always refresh on load.
 			* Adding and inserting table row will now copy styles from the row above.
-			* ...and more, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
+			* ...and more, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-8
 
 			Worksheets collection behavior in .NET Framework
 			The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
 			For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
-			For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7
-			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
+			For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-8
+			A list of fixed issues can be found here https://epplussoftware.com/docs/8.6/articles/fixedissues.html
 
 			Version history
-			8.6.0			20260529 9 new functions. Support for trim Reference operator. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.6.1			20260616 3 new functions. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.6.0			20260529 9	 new functions. Support for trim Reference operator.
 			8.5.4			20260430 Minor bug fixes.
 			8.5.3			20260416 Updated .NET 8 references incorrectly update to 9.x to 8.x.
 			8.5.2			20260416 Minor bug fixes.

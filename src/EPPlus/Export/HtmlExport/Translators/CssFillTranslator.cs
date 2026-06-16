@@ -64,6 +64,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 else
                 {
                     string bgColor, patternColor;
+                    //EPPlus has background and pattern fills swiched for xfs styles, so we need separate handling for them.
                     if (_fill is FillDxf)
                     {
                         bgColor = _fill.GetBackgroundColor(_theme) ?? "#" + ColorConverter.GetThemeColor(_theme.ColorScheme.GetColorByEnum(Drawing.eThemeSchemeColor.Background1)).ToArgb().ToString("x8").Substring(2);
