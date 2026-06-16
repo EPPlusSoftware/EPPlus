@@ -492,7 +492,7 @@ namespace EPPlusImageRenderer.Svg
             else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx()) //Only apples when labels are horizontally aligned
             {
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
-                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
                 var majorWidth = Rectangle.Width / AxisValues.Count;
                 if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat)
                 {
@@ -529,6 +529,17 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
+            else if(LabelOrientation == eTextOrientation.Diagonal)
+            {
+                if (!(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat))
+                {
+                    var majorWidth = Rectangle.Width / AxisValues.Count;
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += majorWidth / 2;
+                    }
+                }
+            }
 
             return ret;
         }
@@ -552,7 +563,7 @@ namespace EPPlusImageRenderer.Svg
                     if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
                         majorWidth = Rectangle.Width / AxisValues.Count;
-                        majorHalf = majorWidth / 2;
+                        //majorHalf = majorWidth / 2;
                     }
                     else
                     {

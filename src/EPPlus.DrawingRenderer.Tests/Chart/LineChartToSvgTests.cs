@@ -24,7 +24,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                for(int i = 5; i< ws.Drawings.Count; i++)
+                for(int i = 0; i< ws.Drawings.Count; i++)
                 {
                     var c = ws.Drawings[i];
                     var svg = c.ToSvg();
@@ -281,5 +281,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 SaveTextFileToWorkbook($"svg\\defChartLine3Points.svg", svg);
             }
         }
+        [TestMethod]
+        public void GenerateSvgForLineCharts_AxisAlign_sheet1()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("HorizontalAxisAlign.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var ix = 3;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{ix++}.svg", svg);
+
+                //for (int i = 0; i < ws.Drawings.Count; i++)
+                //{
+                //    var c = ws.Drawings[i];
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{i}.svg", svg);
+                //}
+            }
+        }
+
     }
 }
