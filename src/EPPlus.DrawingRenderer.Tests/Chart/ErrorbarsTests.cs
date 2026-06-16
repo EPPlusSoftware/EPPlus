@@ -16,7 +16,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var ix = 4;
                 //var c = ws.Drawings[ix];
                 //var svg = c.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\Trendline_sheet1_ind{ix++}.svg", svg);
+                //SaveTextFileToWorkbook($"svg\\Error_sheet1_ind{ix++}.svg", svg);
 
                 var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)

@@ -548,16 +548,17 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (IsCatAx())
                 {
-                    double majorWidth;
+                    double majorWidth, majorHalf=0D;
                     if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
                         majorWidth = Rectangle.Width / AxisValues.Count;
+                        majorHalf = majorWidth / 2;
                     }
                     else
                     {
                         majorWidth = Rectangle.Width / (AxisValues.Count - 1);
                     }
-                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i + majorHalf;
                     return majorTickStartingPosition;
                 }
                 else

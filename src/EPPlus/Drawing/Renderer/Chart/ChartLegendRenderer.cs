@@ -326,10 +326,10 @@ namespace EPPlusImageRenderer.Svg
                     if (Chart.Legend.Position == eLegendPosition.Top ||
                         Chart.Legend.Position == eLegendPosition.Bottom)
                     {
-                        //if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
-                        //{
-                        //    break;
-                        //}
+                        if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
+                        {
+                            break;
+                        }
                     }
                     else
                     {
@@ -631,7 +631,7 @@ namespace EPPlusImageRenderer.Svg
             if (Chart.Legend.Position == eLegendPosition.Top ||
                Chart.Legend.Position == eLegendPosition.Bottom)
             {
-                if (pSls != null && pSls.Textbox.Bounds.Right + entryWidth + RightMargin > _maxWidth)
+                if (pSls != null && iconLeft + entryWidth * 2 + _marginItemsWidth + RightMargin > _maxWidth)
                 {
                     topOffset += entryHeight * 1.25;
                     x = LeftMargin;
