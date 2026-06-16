@@ -492,7 +492,7 @@ namespace EPPlusImageRenderer.Svg
             else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx()) //Only apples when labels are horizontally aligned
             {
                 //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
-                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment??OfficeOpenXml.eAxisLabelAlignment.Center;
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
                 var majorWidth = Rectangle.Width / AxisValues.Count;
                 if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat)
                 {
@@ -501,12 +501,13 @@ namespace EPPlusImageRenderer.Svg
                         switch (lblAlignment)
                         {
                             case OfficeOpenXml.eAxisLabelAlignment.Left:
-                                tb.Left -= tb.Width;
+                                tb.Left -= (tb.Width + majorWidth) / 2;
                                 break;
                             case OfficeOpenXml.eAxisLabelAlignment.Center:
-                               tb.Left -= tb.Width / 2;
+                                tb.Left -= tb.Width / 2;
                                 break;
                             case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += (tb.Width + majorWidth) / 2;
                                 break;
                         }
                     }
@@ -529,6 +530,17 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
+            else if(LabelOrientation == eTextOrientation.Diagonal)
+            {
+                if (!(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat))
+                {
+                    var majorWidth = Rectangle.Width / AxisValues.Count;
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += majorWidth / 2;
+                    }
+                }
+            }
 
             return ret;
         }
@@ -548,17 +560,16 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (IsCatAx())
                 {
-                    double majorWidth, majorHalf=0D;
+                    double majorWidth;
                     if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
                         majorWidth = Rectangle.Width / AxisValues.Count;
-                        majorHalf = majorWidth / 2;
                     }
                     else
                     {
                         majorWidth = Rectangle.Width / (AxisValues.Count - 1);
                     }
-                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i + majorHalf;
+                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
                     return majorTickStartingPosition;
                 }
                 else

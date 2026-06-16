@@ -99,7 +99,7 @@ namespace EPPlusImageRenderer
 
             if (HorizontalAxis != null && HorizontalAxis.Rectangle != null)
             {
-                 PlaceHorizontalAxis(HorizontalAxis, false);
+                PlaceHorizontalAxis(HorizontalAxis, false);
 
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
                 if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
@@ -306,8 +306,8 @@ namespace EPPlusImageRenderer
             var item = new ChartAreaRenderer(this);
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style.ChartArea.FillReference.Color);
-            item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color);
+            item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
