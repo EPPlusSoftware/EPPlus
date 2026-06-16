@@ -126,7 +126,7 @@ namespace OfficeOpenXml.Core
                 {
                     if (af.Collide(fromRow, col, toRow, col) != eAddressCollition.No)
                     {
-                        var cell = worksheet.Cells[af.Address];
+                        var cell = worksheet.Cells[af._fromRow, col];
                         var cellStyleId = styles.CellXfs[cell.StyleID];
                         currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                     }

@@ -2181,6 +2181,27 @@ namespace EPPlusTest
             SaveAndCleanup(p);
         }
         [TestMethod]
+        public void AutoFitColumnsWithAutoFilter()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutofitAutoFilter");
+            ws.Cells["A1"].Value = "hour";
+            ws.Cells["B1"].Value = "minute";
+            ws.Cells["A2"].Value = 12;
+            ws.Cells["B2"].Value = 30;
+
+            ws.Cells["A1:B2"].AutoFilter = true;
+
+            ws.Cells["A1:B2"].AutoFitColumns();
+
+            // Without the fix, the AutoFilter header row range (A1:B1) is measured as a whole.
+            // Under the hood, worksheet.Cells["A1:B1"].TextForWidth evaluated to "System.Object[,]" (16 chars),
+            // which forced a minimum width of ~16.07 points.
+            // With the fix, the specific cell for each column in the AutoFilter is measured, 
+            // resulting in a narrow width matching "hour" / "minute".
+            Assert.IsTrue(ws.Column(1).Width < 12d, $"Column 1 width should be small but was {ws.Column(1).Width}");
+            Assert.IsTrue(ws.Column(2).Width < 12d, $"Column 2 width should be small but was {ws.Column(2).Width}");
+        }
+        [TestMethod]
         public void CopyOverwrite()
         {
             var ws = _pck.Workbook.Worksheets.Add("CopyOverwrite");
