@@ -9,6 +9,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
@@ -120,6 +121,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //Remove dummy paragraph added by ImportTextBody
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
+
+            txtBox.TextBody.RecalculateParagraphs();
 
             if(txtBox.LeftMargin == 0)
             {
@@ -259,7 +262,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
             _parentShapeBounds = parentShape;
-            
+
 
             var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
             Vector2 startPointDirection = Vector2.Zero;
@@ -269,34 +272,34 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 startPointDirection = startToEndDir / startToEndDir.Length;
             }
 
-                //if (_parentShapeBounds != null)
-                //{
-                //    //shapeCenter
-                //    dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
+            //if (_parentShapeBounds != null)
+            //{
+            //    //shapeCenter
+            //    dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
 
-                //    //Get directional vector (in local coords but does not matter since we make it directional)
-                //    startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
-                //    //Divide by length to only get direction
-                //    var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
+            //    //Get directional vector (in local coords but does not matter since we make it directional)
+            //    startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
+            //    //Divide by length to only get direction
+            //    var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
 
-                //    //var lenX = Math.Abs()
-                //    //////Pythagoran theorem
-                //    var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
-                //    startPointDirection = startPointDirectionOnly * len;
-                //}
-                //else
-                //{
-                //    dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
-                //}
+            //    //var lenX = Math.Abs()
+            //    //////Pythagoran theorem
+            //    var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
+            //    startPointDirection = startPointDirectionOnly * len;
+            //}
+            //else
+            //{
+            //    dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
+            //}
 
-                switch (_labelPosition)
-                {
+            switch (_labelPosition)
+            {
                 case eLabelPosition.Center:
 
                     if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
                     {
                         //Half and invert
-                        dataLabelCenter = ((startToEndDir*0.5d) * -1d);
+                        dataLabelCenter = ((startToEndDir * 0.5d) * -1d);
                     }
                     Rectangle.Bounds.Left += dataLabelCenter.X;
                     Rectangle.Bounds.Top += dataLabelCenter.Y;
@@ -315,57 +318,32 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     SetPositionBasic(parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InEnd:
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
-                    //}
-                    ////if(parentShape == null)
-                    ////{
-                    ////    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
-                    ////}
-                    //startPointDirection = startPointDirection * -1;
-                    //if (startPointDirection.X != 0)
-                    //{
-                    //    //If endPoint is to the right
-                    //    if (startPointDirection.X > 0)
-                    //    {
-                    //        //We must place to the left
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Left);
-                    //    }
-                    //    //if endpoint is to the left
-                    //    else
-                    //    {
-                    //        //We must place to the right
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Right);
-                    //    }
-                    //}
-
-                    //if (startPointDirection.Y != 0)
-                    //{
-                    //    //If endpoint is below
-                    //    if (startPointDirection.Y > 0)
-                    //    {
-                    //        //We must place on Top
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Top);
-                    //    }
-                    //    else
-                    //    {
-                    //        //We must place on Bottom
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                    //    }
-                    //}
+                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
+                    {
+                        throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
+                            "Cannot be within End if EndPoint is undefined.");
+                    }
+                    var insidePos = startToEndDir * 0.15 * -1;
+                    Rectangle.Bounds.Left += insidePos.X;
+                    Rectangle.Bounds.Top += insidePos.Y;
                     break;
                 case eLabelPosition.OutEnd:
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
+                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
+                    {
+                        throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
+                            "Cannot be within End if EndPoint is undefined.");
+                    }
+                    if (startPointDirection.X == 0 && startPointDirection.Y == 0)
+                    {
+                        throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
+                            "Cannot be within End if EndPoint is undefined.");
+                    }
+                    Rectangle.Bounds.Left += startToEndDir.X * 0.15;
+                    Rectangle.Bounds.Top += startToEndDir.Y * 0.15;
+                    //if (parentShape == null)
                     //{
-                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
+                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
                     //}
-                    ////if (parentShape == null)
-                    ////{
-                    ////    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
-                    ////}
 
                     //if (startPointDirection.X != 0)
                     //{
