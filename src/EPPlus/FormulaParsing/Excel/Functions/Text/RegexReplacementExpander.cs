@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     ///   Literals:
     ///     $$              -> literal $
     ///     \\              -> literal \
-    ///     \ + non-letter  -> the literal character (e.g. \, \- \. \$ \) \<space>)
+    ///     \ + non-letter  -> the literal character (e.g. \, \- \. \$ \) \&lt;space&gt;)
     ///   Character escapes (-> the corresponding character):
     ///     \n \t \r \f \a \v \e \b, \cX (control), \xNN (hex)
     ///     \u is NOT supported and is silently dropped (Excel quirk: \u0041 -> "0041")

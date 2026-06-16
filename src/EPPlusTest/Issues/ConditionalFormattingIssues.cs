@@ -193,8 +193,6 @@ namespace EPPlusTest.Issues
 
                 var style = ws.Workbook.Styles.Dxfs[128];
 
-                var test = "why";
-
                 var file = GetOutputFile("", "Cabinet_template_test_clean_OutputReRead.xlsx");
                 package.SaveAs(file);
             }

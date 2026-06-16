@@ -10,7 +10,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Text
     {
         private ExcelWorksheet _sheet;
         private ExcelPackage _package;
-        private CultureInfo _originalCulture;
 
         [TestInitialize]
         public void TestInitialize()

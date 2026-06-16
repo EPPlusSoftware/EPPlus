@@ -15,7 +15,7 @@ namespace EPPlusTest.Core.Worksheet
     [TestClass]
     public class AutofitWithSerializedFontMetricsTests : TestBase
     {
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Calibri")]
         [DataRow("Aptos Narrow")]
         [DataRow("Aptos Display")]
@@ -93,7 +93,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod, Ignore]
+        [TestMethod, Ignore]
         [DataRow("Calibri", 1)]
         //[DataRow("Calibri Light", 2)]
         //[DataRow("Arial", 3)]
@@ -209,7 +209,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod, Ignore]
+        [TestMethod, Ignore]
         [DataRow("Calibri", 1)]
         [DataRow("Arial", 2)]
         [DataRow("Arial Black", 3)]
@@ -333,7 +333,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod, Ignore]
+        [TestMethod, Ignore]
         [DataRow("Calibri")]
         [DataRow("Arial")]
         [DataRow("Times New Roman")]
@@ -380,7 +380,7 @@ namespace EPPlusTest.Core.Worksheet
         }
 
 
-        [DataTestMethod, Ignore]
+        [TestMethod, Ignore]
         [DataRow("Yu Gothic", 1)]
         [DataRow("Yu Mincho", 2)]
         [DataRow("Arial Rounded MT Bold", 3)]
