@@ -289,17 +289,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var ix = 3;
-                var c = ws.Drawings[ix];
-                var svg = c.ToSvg();
-                SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{ix++}.svg", svg);
+                //var ix = 3;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{ix++}.svg", svg);
 
-                //for (int i = 0; i < ws.Drawings.Count; i++)
-                //{
-                //    var c = ws.Drawings[i];
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{i}.svg", svg);
-                //}
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{i}.svg", svg);
+                }
             }
         }
 
