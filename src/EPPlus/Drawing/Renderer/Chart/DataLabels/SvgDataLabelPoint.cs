@@ -147,11 +147,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
             }
-            else
-            {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
-                _txtBox.Rectangle.FillColor = "transparent";
-            }
+            //else
+            //{
+            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+            //    _txtBox.Rectangle.FillColor = "transparent";
+            //}
+
             if (dataLabel.Font.IsEmpty == false)
             {
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
@@ -476,16 +477,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             parentPointGroup.Top = _parentPoint.Top;
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
-            renderItems.Add(titleItemOrigin);
+            parentPointGroup.AddChildItem(titleItemOrigin);
 
             renderItems.Add(parentPointGroup);
-
-            var titleItem = new TitleRenderItem("DataLabel size adjustment");
-            parentPointGroup.RenderItems.Add(titleItem);
 
             var group = new GroupRenderItem(Rectangle.Bounds);
             group.Left = Rectangle.Bounds.Left;
             group.Top = Rectangle.Bounds.Top;
+
+            var titleItem = new TitleRenderItem("DataLabel size adjustment");
+            group.AddChildItem(titleItem);
+
             parentPointGroup.RenderItems.Add(group);
 
             _txtBox.AppendRenderItems(group.RenderItems);

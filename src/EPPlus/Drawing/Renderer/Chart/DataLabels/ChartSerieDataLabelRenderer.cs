@@ -35,7 +35,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 _defaultMargins = new BoundingBox(l, top, right, bottom);
             }
 
-
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
                 for (int i = 0; i < serie.NumberOfItems; i++)
@@ -142,6 +141,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_dlblSerie.Fill.IsEmpty == false)
             {
+                //Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
+                //plotAreaGroup.AddChildItem(Rectangle);
+                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
+
                 plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
                 plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\" name=\"Plot area group\"";
             }
