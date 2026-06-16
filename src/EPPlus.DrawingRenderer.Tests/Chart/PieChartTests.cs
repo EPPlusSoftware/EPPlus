@@ -19,18 +19,15 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var manySlices = ws.Drawings["ManySlices"];
-                var test = manySlices.ToSvg();
-                SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\s{0}_{ws.Name}_{manySlices.Name}.svg", test);
-                //for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
-                //{
-                //    ws = p.Workbook.Worksheets[i];
-                //    foreach (ExcelChart c in ws.Drawings)
-                //    {
-                //        var svg = c.ToSvg();
-                //        SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\s{i}_{ws.Name}_{c.Name}.svg", svg);
-                //    }
-                //}
+                for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
+                {
+                    ws = p.Workbook.Worksheets[i];
+                    foreach (ExcelChart c in ws.Drawings)
+                    {
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\s{i}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
             }
         }
 
@@ -136,56 +133,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
-
-        //[TestMethod]
-        //public void BasicPieChart()
-        //{
-        //    ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-        //    using (var p = OpenTemplatePackage("BasicPieChart.xlsx"))
-        //    {
-        //        var ws = p.Workbook.Worksheets[0];
-        //        var renderer = new EPPlusImageRenderer.ImageRenderer();
-
-        //        var pChart = ws.Drawings[0].As.Chart.PieChart;
-
-        //        var ser = pChart.Series[0];
-
-        //        var legend = pChart.Legend;
-        //        var entry = pChart.Legend.Entries;
-        //        var pHeader = ser.Header;
-        //        var pHeaderAddress = ser.HeaderAddress;
-        //        var headerString = ser.GetHeaderString();
-
-
-        //        var ix = 0;
-        //        foreach (ExcelChart c in ws.Drawings)
-        //        {
-        //            var svg = renderer.RenderDrawingToSvg(c);
-        //            SaveTextFileToWorkbook($"svg\\BasicPieChart{ix++}.svg", svg);
-        //        }
-        //    }
-        //}
-
-        //[TestMethod]
-        //public void Datalabels()
-        //{
-        //    ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-        //    using (var p = OpenTemplatePackage("PieChartDlblsOrig.xlsx"))
-        //    {
-        //        var ws = p.Workbook.Worksheets[0];
-        //        var renderer = new EPPlusImageRenderer.ImageRenderer();
-
-        //        for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
-        //        {
-        //            ws = p.Workbook.Worksheets[i];
-        //            foreach (ExcelChart c in ws.Drawings)
-        //            {
-        //                var svg = renderer.RenderDrawingToSvg(c);
-        //                SaveTextFileToWorkbook($"svg\\PieChartDlbls\\s{i}_{ws.Name}_{c.Name}.svg", svg);
-        //            }
-        //        }
-        //    }
-        //}
 
         [TestMethod]
         public void Datalabels22()
