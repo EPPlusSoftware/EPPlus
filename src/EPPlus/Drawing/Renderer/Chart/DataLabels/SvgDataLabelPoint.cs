@@ -356,6 +356,44 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 case eLabelPosition.Bottom:
                     break;
                 case eLabelPosition.InBase:
+                    Rectangle.Left += basePoint.LocalPosition.X;
+                    //Translate to the base point
+                    Rectangle.Left += endToBaseVector.X;
+                    Rectangle.Top += endToBaseVector.Y;
+
+                    //Move the textbox margins inside on left
+                    if (endToBaseVector.X != 0)
+                    {
+                        //If basePoint is to the left
+                        if (endToBaseVector.X > 0)
+                        {
+                            //We must place to the left
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                        }
+                        //if basePoint is to the right
+                        else
+                        {
+                            //We must place to the right
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                        }
+                    }
+
+                    //Move the textbox margins inside on top
+                    if (endToBaseVector.Y != 0)
+                    {
+                        //If endpoint is on Top
+                        if (endToBaseVector.Y > 0)
+                        {
+                            //We must place on bottom
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                        }
+                        //If endpoint is on bottom
+                        else
+                        {
+                            //We must place on top
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                        }
+                    }
                     break;
                 case eLabelPosition.InEnd:
                     break;
