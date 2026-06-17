@@ -443,7 +443,37 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     }
                     break;
                 case eLabelPosition.OutEnd:
+                    if (endToBaseVector.X != 0)
+                    {
+                        //If endPoint is to the left
+                        if (endToBaseVector.X > 0)
+                        {
+                            //We must place to the left
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                        }
+                        //if endpoint is to the right
+                        else
+                        {
+                            //We must place to the right
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                        }
+                    }
 
+                    if (endToBaseVector.Y != 0)
+                    {
+                        //If endpoint is on Top
+                        if (endToBaseVector.Y > 0)
+                        {
+                            //We must place on Top
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                        }
+                        //If endpoint is on bottom
+                        else
+                        {
+                            //We must place on Bottom
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                        }
+                    }
 
                     break;
                 default:

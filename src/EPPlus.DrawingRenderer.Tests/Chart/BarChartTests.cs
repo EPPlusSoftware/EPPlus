@@ -51,7 +51,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
-                var ix = 2;
+                var ix = 0;
                 //var svg = drawings[ix].ToSvg();
                 //SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
                 for (int i = ix; i < drawings.Count; i++)
