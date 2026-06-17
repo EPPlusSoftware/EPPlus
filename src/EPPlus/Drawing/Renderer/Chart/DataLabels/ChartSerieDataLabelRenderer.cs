@@ -31,9 +31,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
                 defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
-                dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
-                _defaultMargins = new BoundingBox(l, top, right, bottom);
             }
+
+            dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
+            _defaultMargins = new BoundingBox(l, top, right, bottom);
 
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {
@@ -115,6 +116,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             _parentShapeBounds = parentBounds;
             SetParentPoint(shapeEndPoint, index);
+        }
+
+        internal void SetDimensions(int index, Transform basePoint, Transform endPoint)
+        {
+            if (dataLabels.Count > index)
+            {
+                dataLabels[index].SetShapeDimensions(basePoint, endPoint);
+            }
         }
 
         internal void SetParentVector(BoundingBox parentPoint, int index, Vector2 startToEndDir)

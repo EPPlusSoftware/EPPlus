@@ -42,5 +42,24 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+
+        [TestMethod]
+        public void DatalabelBarCharts()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("BarChartForSvgDatalabels.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var drawings = ws.Drawings;
+                var ix = 2;
+                //var svg = drawings[ix].ToSvg();
+                //SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                for (int i = ix; i < drawings.Count; i++)
+                {
+                    var svg = drawings[i].ToSvg();
+                    SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                }
+            }
+        }
     }
 }

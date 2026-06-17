@@ -281,7 +281,7 @@ namespace EPPlusImageRenderer.Svg
                 widest = tm.Width;
             }
 
-             if (tm.Height > highest)
+            if (tm.Height > highest)
             {
                 highest = tm.Height;
             }
@@ -353,8 +353,8 @@ namespace EPPlusImageRenderer.Svg
                             if (ix == 0)
                             {
                                 SetPieLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
-                                //pSls = null;
-                                //sls = null;
+                                pSls = null;
+                                sls = null;
                             }
                             break;
                         default:
@@ -375,11 +375,11 @@ namespace EPPlusImageRenderer.Svg
                             break;
                         }
                     }
-                    //if (sls != null)
-                    //{
-                    //    SeriesIcon.Add(sls);
-                    //}
-                    SeriesIcon.Add(sls);
+                    if (sls != null)
+                    {
+                        SeriesIcon.Add(sls);
+                    }
+                    //SeriesIcon.Add(sls);
                     pSls = sls;
                     //else
                     //{
@@ -522,8 +522,8 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            double lastWidth = entryWidth;
-            double totalWidth = entryWidth;
+            double lastWidth = 0;
+            double totalWidth = 0;
 
             for (int i = 0; i < catValues.Count; i++)
             {
@@ -533,10 +533,18 @@ namespace EPPlusImageRenderer.Svg
                 var si = GetPieSeriesIcon(ct, ps, pSls, lastWidth, entryHeight, i);
                 sls = new DrawingLegendSerie();
                 var tbLeft = si.Left + maxIconLength + MarginIconText;
-                var tbTop = si.Top - (entryHeight - si.Height) / 2;
+                var tbTop = si.Top - ((entryHeight) / 2);
+                
                 double tbWidth;
 
-                tbWidth = Rectangle.Bounds.Width;
+                if(i != catValues.Count -1)
+                {
+                    tbWidth = Rectangle.Bounds.Width - tbLeft;
+                }
+                else
+                {
+                    tbWidth = Rectangle.Bounds.Width;
+                }
 
                 var tbHeight = tm.Height;
                 sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
@@ -549,7 +557,7 @@ namespace EPPlusImageRenderer.Svg
 
                 lastWidth = tbWidth + si.Width;
 
-                totalWidth += tbWidth + si.Width;
+                totalWidth += tbWidth + si.Width + maxIconLength + MarginIconText;
 
                 var dp = ps.DataPoints[i];
 
@@ -560,6 +568,14 @@ namespace EPPlusImageRenderer.Svg
                 SeriesIcon.Add(sls);
                 pSls = sls;
             }
+
+            foreach(var icon in SeriesIcon)
+            {
+                icon.SeriesIcon.Bounds.Top = icon.SeriesIcon.Bounds.Top - ((entryHeight) / 4);
+            }
+
+            Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4;
+            Rectangle.Bounds.Left = (ChartRenderer.Bounds.Width / 2) - (totalWidth/2);
             pSls = null;
             sls = null;
         }

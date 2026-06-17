@@ -1,18 +1,17 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using static OfficeOpenXml.ExcelErrorValue;
+
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class BarColumnChartTypeDrawer : ChartTypeDrawer
@@ -27,6 +26,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
 
+            int serCounter = 0;
+
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {
                 List<object> valValue,catValue;
@@ -35,13 +36,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 _catValues.Add(catValue);
                 _valValues.Add(valValue);
-
-
-                //if (serie.HasDataLabel)
-                //{
-                //    var datalabel = new ChartSerieDataLabelRenderer(svgChart, serie.DataLabel, svgChart.Bounds, serie, catValue, valValue, serCounter);
-                //    serieDataLabels.Add(datalabel);
-                //}
             }
 
             if(chartType.IsTypeStacked())
@@ -72,13 +66,65 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 dataPointsPerSerie.Add(dataPoints);
 
-                //if (serie.HasDataLabel)
-                //{
-                //    for (int j = 0; j < dataPoints.Count; j++)
-                //    {
-                //        serieDataLabels[i].SetParentPoint(dataPoints[j], j);
-                //    }
-                //}
+                int serCounter = 0;
+
+                var isColumn = ((ExcelBarChart)_chartType).IsTypeColumn();
+
+                if (serie.HasDataLabel)
+                {
+                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _valValues[i], serCounter++);
+                    serieDataLabels.Add(datalabel);
+
+                    for (int j = 0; j < dataPoints.Count; j++)
+                    {
+
+                        if (isColumn == true)
+                        {
+                            var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
+
+                            var furthestPoint = new Vector2(middleRight, dataPoints[j].Top);
+                            var startingPoint = new Vector2(middleRight, dataPoints[j].Bottom);
+
+                            var vectorTop = furthestPoint - startingPoint;
+
+                            vectorTop = new Vector2(0, vectorTop.Y);
+
+                            Transform basePoint = new Transform();
+                            Transform endPoint = new Transform();
+
+                            basePoint.Parent = dataPoints[j];
+                            endPoint.Parent = dataPoints[j];
+
+                            endPoint.Position = new Vector2(middleRight, endPoint.Position.Y);
+                            basePoint.Position = new Vector2(middleRight, endPoint.Position.Y + dataPoints[j].Height);
+                            //BoundingBox startingPointBound = new BoundingBox(0, 0);
+                            //startingPointBound.Parent = dataPoints[j];
+                            //startingPointBound.Top = dataPoints[j].Top;
+                            //startingPointBound.Left = middleRight;
+
+                            serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
+                            //serieDataLabels[i].SetParentVector(startingPointBound, j, vectorTop);
+                        }
+                        else
+                        {
+                            var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
+
+                            var furthestPoint = new Vector2(dataPoints[j].Right, middleHeight);
+                            var startingPoint = new Vector2(dataPoints[j].Left, middleHeight);
+
+                            var vectorRight = furthestPoint - startingPoint;
+
+                            BoundingBox startingPointBound = new BoundingBox(0, 0);
+                            startingPointBound.Parent = dataPoints[j];
+                            startingPointBound.Top = middleHeight;
+                            startingPointBound.Left = dataPoints[j].Width;
+
+                            serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
+                        }
+                    }
+
+                    serCounter++;
+                }
             }
 
             foreach (var tr in Trendlines)
@@ -252,6 +298,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color);
                 rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, true);
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
+
+                dataPoints.Add(rect.Bounds);
+
                 SeriesRenderItems.Add(rect);
             }
         }
