@@ -333,6 +333,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //At this point our rectangle globally is centered on the top-left of the object.
             //And endVector is the top center position.
 
+            //Centering is handled by the enum options below but if they are the same no change is made
+            if(basePoint.LocalPosition.X == endPoint.LocalPosition.X)
+            {
+                Rectangle.Left += endPoint.LocalPosition.X;
+            }
+            //We should not have to add this as we start at top left anyway
+            //if (basePoint.LocalPosition.Y == endPoint.LocalPosition.Y)
+            //{
+            //    Rectangle.Left += endPoint.LocalPosition.Y;
+            //}
+
             //--- Visualize positions for debugging purposes
             CreateDebugPoints(basePoint, endPoint);
             centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
@@ -343,7 +354,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-                    Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
+                    //Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
                     Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
                     break;
                 case eLabelPosition.Left:
@@ -356,7 +367,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 case eLabelPosition.Bottom:
                     break;
                 case eLabelPosition.InBase:
-                    Rectangle.Left += basePoint.LocalPosition.X;
                     //Translate to the base point
                     Rectangle.Left += endToBaseVector.X;
                     Rectangle.Top += endToBaseVector.Y;
@@ -396,6 +406,41 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     }
                     break;
                 case eLabelPosition.InEnd:
+                    //Our base assumption is that we start at the endpoint. No change neccesary
+
+                    //Move the textbox margins inside on left
+                    if (endToBaseVector.X != 0)
+                    {
+                        //If basePoint is to the left
+                        if (endToBaseVector.X < 0)
+                        {
+                            //We must place to the left
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                        }
+                        //if basePoint is to the right
+                        else
+                        {
+                            //We must place to the right
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                        }
+                    }
+
+                    //Move the textbox margins inside on top
+                    if (endToBaseVector.Y != 0)
+                    {
+                        //If endpoint is on Top
+                        if (endToBaseVector.Y < 0)
+                        {
+                            //We must place on bottom
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                        }
+                        //If endpoint is on bottom
+                        else
+                        {
+                            //We must place on top
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                        }
+                    }
                     break;
                 case eLabelPosition.OutEnd:
 
