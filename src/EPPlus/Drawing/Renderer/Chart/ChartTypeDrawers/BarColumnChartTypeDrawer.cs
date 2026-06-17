@@ -95,18 +95,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         else
                         {
                             var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
+                           
+                            basePoint.Position = new Vector2(basePoint.Position.X, middleHeight);
+                            endPoint.Position = new Vector2(basePoint.Position.X + dataPoints[j].Width, middleHeight);
 
-                            var furthestPoint = new Vector2(dataPoints[j].Right, middleHeight);
-                            var startingPoint = new Vector2(dataPoints[j].Left, middleHeight);
-
-                            var vectorRight = furthestPoint - startingPoint;
-
-                            BoundingBox startingPointBound = new BoundingBox(0, 0);
-                            startingPointBound.Parent = dataPoints[j];
-                            startingPointBound.Top = middleHeight;
-                            startingPointBound.Left = dataPoints[j].Width;
-
-                            serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
+                            serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
                         }
                     }
 
