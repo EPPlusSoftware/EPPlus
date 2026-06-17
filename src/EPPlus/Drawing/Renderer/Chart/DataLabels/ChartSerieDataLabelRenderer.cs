@@ -118,6 +118,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             SetParentPoint(shapeEndPoint, index);
         }
 
+        internal void SetDimensions(int index, Transform basePoint, Transform endPoint)
+        {
+            if (dataLabels.Count > index)
+            {
+                dataLabels[index].SetShapeDimensions(basePoint, endPoint);
+            }
+        }
+
         internal void SetParentVector(BoundingBox parentPoint, int index, Vector2 startToEndDir)
         {
             _startToEndDir = startToEndDir;

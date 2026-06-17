@@ -13,6 +13,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -264,12 +265,114 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
+
+        RectRenderItem originPointRect;
+        RectRenderItem basePositionRect;
+        RectRenderItem endPositionRect;
+        RectRenderItem centerPositionRect;
+
+
+        private RectRenderItem GenerateDebugRenderItem(BoundingBox parent, string fillColor)
+        {
+            var pointRect = new RectRenderItem(parent);
+            pointRect.Width = 10d;
+            pointRect.Height = 10d;
+            pointRect.FillColor = fillColor;
+            pointRect.Left = -5d;
+            pointRect.Top = -5d;
+            return pointRect;
+        }
+
+
+        private void CreateDebugPoints(Transform basePoint, Transform endPoint)
+        {
+            originPointRect = GenerateDebugRenderItem(_parentPoint, "darkRed");
+            basePositionRect = GenerateDebugRenderItem(_parentPoint, "darkGreen");
+            basePositionRect.Left += basePoint.LocalPosition.X;
+            basePositionRect.Top += basePoint.LocalPosition.Y;
+            endPositionRect = GenerateDebugRenderItem(_parentPoint, "darkBlue");
+            endPositionRect.Left += endPoint.LocalPosition.X;
+            endPositionRect.Top += endPoint.LocalPosition.Y;
+            endPositionRect.BorderWidth = 2d;
+            endPositionRect.BorderColor = "cyan";
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void SetShapeDimensions(Transform basePoint, Transform endPoint)
+        {
+            if(basePoint.Parent != endPoint.Parent)
+            {
+                throw new InvalidOperationException("basePoint and endPoint have different parents. " +
+                    "Please ensure that they share the same parent");
+            }
+
+
+            //--- Set parent point ---
+            _parentPoint = new BoundingBox();
+            _parentPoint.Parent = basePoint.Parent.Parent;
+            _parentPoint.Left = basePoint.Parent.LocalPosition.X;
+            _parentPoint.Top = basePoint.Parent.LocalPosition.Y;
+            Rectangle.Bounds.Parent = _parentPoint;
+            //---
+
+            //--- Calculate vectors and center point ---
+            var endVector = endPoint.LocalPosition;
+            var baseVector = basePoint.LocalPosition;
+
+            var endToBaseVector = baseVector - endVector;
+            var centerVector = endToBaseVector * 0.5d;
+
+            //Translate from end point towards base point by 50% to find the center point
+            Transform centerPoint = new Transform(endPoint.LocalPosition + centerVector, endPoint.LocalPosition + centerVector);
+            centerPoint.Parent = basePoint.Parent;
+            //--- 
+
+            //At this point our rectangle globally is centered on the top-left of the object.
+            //And endVector is the top center position.
+
+            //--- Visualize positions for debugging purposes
+            CreateDebugPoints(basePoint, endPoint);
+            centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
+            centerPositionRect.Left += centerPoint.LocalPosition.X;
+            centerPositionRect.Top += centerPoint.LocalPosition.Y;
+            //---
+
+            switch (_labelPosition)
+            {
+                case eLabelPosition.Center:
+                    Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
+                    Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
+                    break;
+                case eLabelPosition.Left:
+                    break;
+                case eLabelPosition.Right:
+                case eLabelPosition.BestFit:
+                    break;
+                case eLabelPosition.Top:
+                    break;
+                case eLabelPosition.Bottom:
+                    break;
+                case eLabelPosition.InBase:
+                    break;
+                case eLabelPosition.InEnd:
+                    break;
+                case eLabelPosition.OutEnd:
+
+
+                    break;
+                default:
+                    throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
+            }
+        }
+
         internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape, Vector2 startToEndDir)
         {
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
             _parentShapeBounds = parentShape;
-
 
             var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
             Vector2 startPointDirection = Vector2.Zero;
@@ -540,6 +643,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
             parentPointGroup.AddChildItem(titleItemOrigin);
+
+            if(originPointRect != null)
+            {
+                parentPointGroup.AddChildItem(originPointRect);
+            }
+            if(basePositionRect != null)
+            {
+                parentPointGroup.AddChildItem(basePositionRect);
+            }
+            if(endPositionRect != null)
+            {
+                parentPointGroup.AddChildItem(endPositionRect);
+            }
+            if(centerPositionRect != null)
+            {
+                parentPointGroup.AddChildItem(centerPositionRect);
+            }
 
             renderItems.Add(parentPointGroup);
 
