@@ -47,7 +47,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void DatalabelBarCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("BarChartForSvg.xlsx"))
+            using (var p = OpenTemplatePackage("BarChartForSvgDatalabels.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
 

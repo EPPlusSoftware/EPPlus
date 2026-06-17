@@ -240,7 +240,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //    Bounds.Top = dataLabelCenter.Y;
                 //    break;
                 case eLabelPosition.Left:
-                    Rectangle.Bounds.Left -= _txtBox.Width + (point.Width / 2d);
+                    Rectangle.Bounds.Left -= (_txtBox.Width/2) + (point.Width / 2d);
                     break;
                 case eLabelPosition.Right:
                 case eLabelPosition.BestFit:
@@ -319,7 +319,64 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 case eLabelPosition.Bottom:
                     SetPositionBasic(parentPoint, _labelPosition);
                     break;
+                case eLabelPosition.InBase:
+                    var endToStartVector = startToEndDir * -1;
+                    //Rectangle.Left *= endToStartVector.X;
+                    //Rectangle.Top *= endToStartVector.Y;
+                    if (startPointDirection.X != 0)
+                    {
+                        Rectangle.Left += endToStartVector.X;
+                        //If basePoint is to the left
+                        if (startPointDirection.X < 0)
+                        {
+                            //We must place to the left
+                            SetPositionBasic(new BoundingBox(0,0), eLabelPosition.Left);
+                        }
+                        //if basePoint is to the right
+                        else
+                        {
+                            //We must place to the right
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                        }
+                    }
+
+                    if (startPointDirection.Y != 0)
+                    {
+                        Rectangle.Top += endToStartVector.Y;
+                    }
+                    break;
                 case eLabelPosition.InEnd:
+                    if (startPointDirection.X != 0)
+                    {
+                        //If endPoint is to the left
+                        if (startPointDirection.X < 0)
+                        {
+                            //We must place to the right
+                            SetPositionBasic(parentPoint, eLabelPosition.Right);
+                        }
+                        //if endpoint is to the right
+                        else
+                        {
+                            //We must place to the left
+                            SetPositionBasic(parentPoint, eLabelPosition.Left);
+                        }
+                    }
+
+                    if (startPointDirection.Y != 0)
+                    {
+                        //If endpoint is on Top
+                        if (startPointDirection.Y < 0)
+                        {
+                            //We must place on bottom
+                            SetPositionBasic(parentPoint, eLabelPosition.Bottom);
+                        }
+                        //If endpoint is on bottom
+                        else
+                        {
+                            //We must place on top
+                            SetPositionBasic(parentPoint, eLabelPosition.Top);
+                        }
+                    }
                     //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
                     //{
                     //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
@@ -362,9 +419,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                             SetPositionBasic(parentPoint, eLabelPosition.Right);
                         }
                     }
-
-                    //Rectangle.Top = 0;
-                    //Rectangle.Height = 0;
 
                     if (startPointDirection.Y != 0)
                     {
