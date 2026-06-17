@@ -15,7 +15,6 @@ namespace DrawingRenderer.Constants
 {
     internal static class PatternArrays
     {
-
         internal static readonly short[][] Pct30 = new short[][]
         {
             new short[] { 0, 0, 0, 1 },

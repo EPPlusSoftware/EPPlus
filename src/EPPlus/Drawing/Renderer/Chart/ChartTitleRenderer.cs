@@ -102,8 +102,8 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -221,9 +221,12 @@ namespace EPPlusImageRenderer.Svg
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();
-            TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
-            TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme,_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
-            TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            if (p != null)
+            {
+                TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
+                TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color);
+                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            }
             TextBox.AppendRenderItems(renderItems);
         }
 

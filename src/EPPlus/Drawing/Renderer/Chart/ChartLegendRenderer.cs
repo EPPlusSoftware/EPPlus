@@ -84,8 +84,8 @@ namespace EPPlusImageRenderer.Svg
             //Bounds.Height = Rectangle.Height;
             //Rectangle.Bounds.Left = Rectangle.Bounds.Top = 0;
 
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
             var pSls = SetLegendSeries(entryWidth, entryHeight);
             SetLegendTrendlines(entryWidth, entryHeight, pSls);
@@ -553,8 +553,8 @@ namespace EPPlusImageRenderer.Svg
 
                 var dp = ps.DataPoints[i];
 
-                sls.SeriesIcon.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, ct.As.Chart.PieChart.StyleManager.Style.DataPoint.FillReference.Color);
-                sls.SeriesIcon.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, ct.As.Chart.PieChart.StyleManager.Style.DataPoint.BorderReference.Color, true);
+                sls.SeriesIcon.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.FillReference.Color);
+                sls.SeriesIcon.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.BorderReference.Color, true);
                 sls.SeriesIcon.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
 
                 SeriesIcon.Add(sls);
@@ -642,8 +642,8 @@ namespace EPPlusImageRenderer.Svg
         private LineRenderItem GetLineSeriesIcon(ExcelChart ct, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight)
         {
             var line = new LineRenderItem(Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -660,8 +660,8 @@ namespace EPPlusImageRenderer.Svg
         private LineRenderItem GetTrendLineSeriesIcon(ExcelChart ct, ExcelChartTrendline tl, DrawingLegendSerie pSls, double entryWidth, double entryHeight)
         {
             var line = new LineRenderItem(Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style.Trendline.FillReference.Color);
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -700,8 +700,8 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
             return item;
         }
@@ -731,8 +731,8 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
             return item;
         }
