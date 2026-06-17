@@ -659,7 +659,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             textFrag.RichTextOptions.StrikeType = (font.Strike || dxfStrike) ? 2 : 1;
             textFrag.RichTextOptions.SuperScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             textFrag.RichTextOptions.SubScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-            textFrag.RichTextOptions.FontColor = = dxfColor ?? font.Color.ToColor();
+            textFrag.RichTextOptions.FontColor = dxfColor ?? font.Color.ToColor();
 
             textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
 

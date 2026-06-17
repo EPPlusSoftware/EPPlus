@@ -74,9 +74,9 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             var cellValue = _ws.Cells[address.Address].Value;
-            if (cellValue != null && string.IsNullOrEmpty(Formula) == false && string.IsNullOrEmpty(Formula2) == false)
+            if (string.IsNullOrEmpty(Formula) == false && string.IsNullOrEmpty(Formula2) == false)
             {
-                var str = cellValue.ToString();
+                var str = cellValue == null ? string.Empty : cellValue.ToString();
 
                 calculatedFormula1 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
                 calculatedFormula2 = string.Format(_ws.Workbook.FormulaParserManager.Parse(GetCellFormula(address, true), address.FullAddress, false).ToString(), CultureInfo.InvariantCulture);
@@ -85,6 +85,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 var Formula2IsNum = double.TryParse(calculatedFormula2, NumberStyles.Float, CultureInfo.InvariantCulture, out double num2);
                 var cellValueIsNum = double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out double numCellValue);
 
+                if (cellValue == null || str.Length == 0)
+                {
+                    cellValueIsNum = true;
+                    numCellValue = 0d;
+                }
                 if (Formula1IsNum && Formula2IsNum)
                 {
                     if (cellValueIsNum)
