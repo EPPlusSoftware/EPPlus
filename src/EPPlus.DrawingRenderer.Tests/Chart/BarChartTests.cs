@@ -50,11 +50,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("BarChartForSvgDatalabels.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-
+                var drawings = ws.Drawings;
                 var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
+                //var svg = drawings[ix].ToSvg();
+                //SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                for (int i = ix; i < drawings.Count; i++)
                 {
-                    var svg = c.ToSvg();
+                    var svg = drawings[i].ToSvg();
                     SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
                 }
             }

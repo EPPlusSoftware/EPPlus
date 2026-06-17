@@ -31,9 +31,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
                 defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
-                dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
-                _defaultMargins = new BoundingBox(l, top, right, bottom);
             }
+
+            dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
+            _defaultMargins = new BoundingBox(l, top, right, bottom);
 
             if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
             {

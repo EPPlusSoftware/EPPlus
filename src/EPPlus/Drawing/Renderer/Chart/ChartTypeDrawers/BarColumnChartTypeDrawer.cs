@@ -78,14 +78,31 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel)
                 {
-   
                     var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _valValues[i], serCounter++);
                     serieDataLabels.Add(datalabel);
 
                     for (int j = 0; j < dataPoints.Count; j++)
                     {
 
-                        if (isColumn == false)
+                        if (isColumn == true)
+                        {
+                            var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
+
+                            var furthestPoint = new Vector2(middleRight, dataPoints[j].Top);
+                            var startingPoint = new Vector2(middleRight, dataPoints[j].Bottom);
+
+                            var vectorTop = furthestPoint - startingPoint;
+
+                            vectorTop = new Vector2(0, vectorTop.Y);
+
+                            BoundingBox startingPointBound = new BoundingBox(0, 0);
+                            startingPointBound.Parent = dataPoints[j];
+                            startingPointBound.Top = dataPoints[j].Top;
+                            startingPointBound.Left = middleRight;
+
+                            serieDataLabels[i].SetParentVector(startingPointBound, j, vectorTop);
+                        }
+                        else
                         {
                             var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
 
@@ -100,24 +117,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                             startingPointBound.Left = dataPoints[j].Width;
 
                             serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
-                        }
-                        else
-                        {
-                            var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
-
-                            var furthestPoint = new Vector2(middleRight, dataPoints[j].Top);
-                            var startingPoint = new Vector2(middleRight, dataPoints[j].Bottom);
-
-                            var vectorRight = furthestPoint - startingPoint;
-
-                            BoundingBox startingPointBound = new BoundingBox(0, 0);
-                            startingPointBound.Parent = dataPoints[j];
-                            startingPointBound.Top = dataPoints[j].Top;
-                            startingPointBound.Left = middleRight;
-
-                            serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
-
-                            //serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
                         }
                     }
 

@@ -112,7 +112,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (txtBox.TextBody.Paragraphs.Count == 0)
             {
-                txtBox.ImportParagraph(defaultParagraph, 0, finalString);
+                if(defaultParagraph == null)
+                {
+                    txtBox.TextBody.AddParagraph(finalString);
+                }
+                else
+                {
+                    txtBox.ImportParagraph(defaultParagraph, 0, finalString);
+                }
                 //txtBox.TextBody.AddParagraph(0, finalString);
             }
             else if (txtBox.TextBody.Paragraphs.Count == 1)
@@ -303,6 +310,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         //Half and invert
                         dataLabelCenter = ((startToEndDir * 0.5d) * -1d);
                     }
+                    else if (startToEndDir.Y != 0)
+                    {
+                        //Half and invert
+                        dataLabelCenter = ((startToEndDir * 0.5d) * -1d);
+                    }
+
                     Rectangle.Bounds.Left += dataLabelCenter.X;
                     Rectangle.Bounds.Top += dataLabelCenter.Y;
                     break;
