@@ -51,11 +51,12 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var chartWithDataLabels = ws.Drawings["Chart 4"];
-
-                var svg = chartWithDataLabels.ToSvg();
-
-                SaveTextFileToWorkbook($"svg\\DataLableBarChart_sheet1_{chartWithDataLabels.Name}.svg", svg);
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                }
             }
         }
     }

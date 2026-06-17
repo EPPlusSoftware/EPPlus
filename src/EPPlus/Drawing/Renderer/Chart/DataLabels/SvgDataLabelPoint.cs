@@ -343,6 +343,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     if (startPointDirection.Y != 0)
                     {
                         Rectangle.Top += endToStartVector.Y;
+                        //If endpoint is on Top
+                        if (startPointDirection.Y < 0)
+                        {
+                            //We must place on bottom
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                        }
+                        //If endpoint is on bottom
+                        else
+                        {
+                            //We must place on top
+                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                        }
                     }
                     break;
                 case eLabelPosition.InEnd:

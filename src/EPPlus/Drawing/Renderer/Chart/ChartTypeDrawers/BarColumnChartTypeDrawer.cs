@@ -5,6 +5,7 @@ using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -73,6 +74,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 int serCounter = 0;
 
+                var isColumn = ((ExcelBarChart)_chartType).IsTypeColumn();
+
                 if (serie.HasDataLabel)
                 {
    
@@ -81,32 +84,41 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     for (int j = 0; j < dataPoints.Count; j++)
                     {
-                       
-                        var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
-                        var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
 
-                        var furthestPoint = new Vector2(dataPoints[j].Right, middleHeight);
-                        var startingPoint = new Vector2(dataPoints[j].Left, middleHeight);
+                        if (isColumn == false)
+                        {
+                            var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
 
-                        var vectorRight = furthestPoint - startingPoint;
+                            var furthestPoint = new Vector2(dataPoints[j].Right, middleHeight);
+                            var startingPoint = new Vector2(dataPoints[j].Left, middleHeight);
 
-                        BoundingBox startingPointBound = new BoundingBox(dataPoints[j].Width, dataPoints[j].Height);
-                        startingPointBound.Parent = dataPoints[j];
-                        startingPointBound.Top = middleHeight;
-                        startingPointBound.Left = dataPoints[j].Width;
+                            var vectorRight = furthestPoint - startingPoint;
 
-                        startingPointBound.Width = 0;
-                        startingPointBound.Height = 0;
+                            BoundingBox startingPointBound = new BoundingBox(0, 0);
+                            startingPointBound.Parent = dataPoints[j];
+                            startingPointBound.Top = middleHeight;
+                            startingPointBound.Left = dataPoints[j].Width;
 
-                        //var furthestRight = dataPoints[j].Right - dataPoints[j].Left;
+                            serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
+                        }
+                        else
+                        {
+                            var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
 
-                        //var endPoint = new Vector2(furthestRight, middleHeight);
-                        //var startPoint = new Vector2(0, middleHeight);
-                        //var vectorRight = endPoint - startPoint;
-                        //dataPoints[j].Width;
-                        //var vectorRight = new Vector2(dataPoints[j].Right - dataPoints[j].Left, middleHeight);
-                        //serieDataLabels[i].SetParentPoint(startingPointBound, j);
-                        serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
+                            var furthestPoint = new Vector2(middleRight, dataPoints[j].Top);
+                            var startingPoint = new Vector2(middleRight, dataPoints[j].Bottom);
+
+                            var vectorRight = furthestPoint - startingPoint;
+
+                            BoundingBox startingPointBound = new BoundingBox(0, 0);
+                            startingPointBound.Parent = dataPoints[j];
+                            startingPointBound.Top = dataPoints[j].Top;
+                            startingPointBound.Left = middleRight;
+
+                            serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
+
+                            //serieDataLabels[i].SetParentVector(startingPointBound, j, vectorRight);
+                        }
                     }
 
                     serCounter++;
