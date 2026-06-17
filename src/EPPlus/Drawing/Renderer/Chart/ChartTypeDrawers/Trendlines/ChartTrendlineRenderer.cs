@@ -94,28 +94,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        /// <summary>
-        /// Get the X serie values. If the values are not numeric, return a serie with the index values (1,2,3,...). Trendline calculation requires numeric X values, but Excel allows non-numeric X values for trendlines, in which case it uses the index values as X for calculation.
-        /// </summary>
-        /// <param name="xSerie">Input values</param>
-        /// <returns>Output doubles</returns>
-        private List<double> GetXSerie(List<object> xSerie)
-        {
-            var l=new List<double>();
-            for(int i=0;i<xSerie.Count;i++)
-            {
-                if (ConvertUtil.IsExcelNumeric(xSerie[i]))
-                {
-                    l.Add(ConvertUtil.GetValueDouble(xSerie[i]));
-                }
-                else
-                {
-                    return xSerie.Select((x, index) => (double)(index + 1)).ToList();
-                }
-            }
-            return l;
-        }
-
         private void CreateDatalabel()
         {
             if(_trendline.DisplayEquation==false && _trendline.DisplayRSquaredValue==false)
@@ -685,7 +663,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, _trendline.Border.Width);
             pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }

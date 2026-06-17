@@ -140,7 +140,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
@@ -311,7 +311,7 @@ namespace EPPlusImageRenderer.Svg
 
             if(Axis.HasMajorGridlines)
             {
-                MajorGridlinePositions = AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style.GridlineMajor);
+                MajorGridlinePositions = AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style?.GridlineMajor);
             }
 
             if ((Axis.HasMinorGridlines))
@@ -462,7 +462,7 @@ namespace EPPlusImageRenderer.Svg
                 tb.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
-                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle.FillReference.Color);
+                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color);
 
                 if(widest < tb.Width)
                 {
@@ -734,7 +734,7 @@ namespace EPPlusImageRenderer.Svg
                     tm.Y1 = y1;
                     tm.X2 = x2;
                     tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle.BorderReference.Color, true);
+                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true);
                     if(tm.BorderWidth<1) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
                     {
                         tm.BorderWidth = 1;
@@ -837,7 +837,7 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry.BorderReference.Color, true, lineItem.Width);
+            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, lineItem.Width);
 
             tm.DefId = id;
 
@@ -875,13 +875,13 @@ namespace EPPlusImageRenderer.Svg
             switch (Axis.AxisType)
             {
                 case eAxisType.Cat:
-                    axisStyle = Chart.StyleManager.Style.CategoryAxis;
+                    axisStyle = Chart.StyleManager.Style?.CategoryAxis;
                     break;
                 case eAxisType.Serie:
-                    axisStyle = Chart.StyleManager.Style.SeriesAxis;
+                    axisStyle = Chart.StyleManager.Style?.SeriesAxis;
                     break;
                 default:
-                    axisStyle = Chart.StyleManager.Style.ValueAxis;
+                    axisStyle = Chart.StyleManager.Style?.ValueAxis;
                     break;
             }
 

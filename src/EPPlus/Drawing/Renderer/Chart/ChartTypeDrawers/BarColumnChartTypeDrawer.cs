@@ -47,14 +47,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ExcelChartAxisStandard.CalculateStacked100(_valValues);
             }
 
-            //if(chartType.IsTypeBar())
-            //{
-            //    CreateTrendlines(chartType, _valValues, _catValues);
-            //}
-            //else
-            //{
-                CreateTrendlines(chartType, _catValues, _valValues);
-            //}                
+            CreateTrendlines(chartType, _catValues, _valValues);
+            CreateErrorBars(chartType, _catValues, _valValues);
         }
 
         internal override void DrawSeries()
@@ -301,8 +295,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         }
                     }
                 }
-                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style.SeriesAxis.FillReference.Color);
-                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style.SeriesAxis.BorderReference.Color, true);
+                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color);
+                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, true);
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
                 dataPoints.Add(rect.Bounds);
