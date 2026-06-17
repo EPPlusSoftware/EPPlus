@@ -212,7 +212,7 @@ namespace EPPlusTest.PDF
 
             [TestMethod]
         // works as expected.
-        [DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
+        //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
         //[DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
 
         // Output file: OutputTest1.2.pdf
@@ -229,11 +229,14 @@ namespace EPPlusTest.PDF
         // 2. Pattern fills looks differnt, in some cases not working -----
         // 3. Rotation of text in cells not working (the dates). ----------
         // [DataRow("R05.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
-        [DataRow("R05 - Copy.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
+        //[DataRow("R05 - Copy.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
+        [DataRow("PatternStyles.xlsx", "C:\\epplustest\\pdf\\OutputTest1.8.pdf", "Sheet1")]
         public void WorkbookTests(string sourceFile, string outputPath, string wsName)
         {
             using var p = OpenTemplatePackage(sourceFile);
             var ws = p.Workbook.Worksheets[wsName];
+            var d = ws.Dimension;
+            var d2 = ws.DimensionByValue;
 
             PdfPageSettings pageSettings = new PdfPageSettings();
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;

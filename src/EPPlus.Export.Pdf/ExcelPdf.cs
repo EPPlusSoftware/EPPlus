@@ -95,10 +95,11 @@ namespace EPPlus.Export.Pdf
         //Get the label to use for pattern.
         internal string GetPatternLabel(PdfCellLayout layout)
         {
-            if ((layout.CellFillData.PatternStyle != ExcelFillStyle.Solid && layout.CellFillData.PatternStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null)
+            bool isPattern = (layout.CellFillData.PatternStyle != ExcelFillStyle.Solid && layout.CellFillData.PatternStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null;
+            if (isPattern)
             {
                 var patternName = layout.CellFillData.id;
-                if (_dictionaries.Patterns.ContainsKey(patternName))
+                if (patternName != null && _dictionaries.Patterns.ContainsKey(patternName))
                 {
                     return _dictionaries.Patterns[patternName].Label;
                 }
@@ -185,12 +186,13 @@ namespace EPPlus.Export.Pdf
         //Create Content
         private void AddContent(Transform pageLayout, PdfPage page)
         {
-            //var cells = pageLayout.ChildObjects.Where(t => t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout).GroupBy(t => t.Name);
             var cells = pageLayout.ChildObjects.Where(t =>
-                                                (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) && 
-                                                !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) && 
+                                                (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
+                                                !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
                                                 !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
                                                 !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).GroupBy(t => t.Name);
+
+
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));

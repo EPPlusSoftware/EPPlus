@@ -73,23 +73,32 @@ namespace EPPlus.Export.Pdf.PdfObjects
                 commands.Add("Q");
                 commands.Add($"% Solid Fill End: {cell.Name}");
             }
-            else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PatternStyle != ExcelFillStyle.None)
+            else if (cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
-                commands.Add($"% Gradient Start: {cell.Name}");
-                commands.Add("q");
-                commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
-                commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
-                commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
-                commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
-                commands.Add("B");
-                commands.Add("Q");
+                commands.Add($"% Pattern Start: {cell.Name}");
+
+                // Draw the solid cell background only when one is set. The pattern
+                // tile already fills itself with its own background color, so the
+                // pattern must be rendered regardless of whether the cell has a
+                // separate background fill (it may be Color.Empty).
+                if (cell.CellFillData.BackgroundColor != Color.Empty)
+                {
+                    commands.Add("q");
+                    commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
+                    commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
+                    commands.Add(cell.CellFillData.BackgroundColor.ToStrokeCommand());
+                    commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
+                    commands.Add("B");
+                    commands.Add("Q");
+                }
+
                 commands.Add("q");
                 commands.Add("/Pattern cs");
                 commands.Add($"/{label} scn");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("f");
                 commands.Add("Q");
-                commands.Add($"% Gradient End: {cell.Name}");
+                commands.Add($"% Pattern End: {cell.Name}");
             }
         }
 
@@ -200,7 +209,7 @@ namespace EPPlus.Export.Pdf.PdfObjects
                         glyphStart = 0;
                     }
 
-                   
+
                     var richInfo = originalFragment.RichTextOptions;
 
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)richInfo.Size);
