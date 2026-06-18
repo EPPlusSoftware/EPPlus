@@ -14,6 +14,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RoundingHelper;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -300,6 +301,53 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             centerPositionRect.Top += centerPoint.LocalPosition.Y;
         }
 
+        private void SetBasicPositionBasedOnInput(double pointOnAxis, BoundingBox axisMargin, eLabelPosition positivePosition, eLabelPosition negativePosition)
+        {
+            if(pointOnAxis != 0)
+            {
+                //If point is positive
+                if (pointOnAxis > 0)
+                {
+                    //We must place to the left
+                    SetPositionBasic(axisMargin, positivePosition);
+                }
+                //if basePoint is to the left
+                else
+                {
+                    //We must place to the right
+                    SetPositionBasic(axisMargin, negativePosition);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set the basic label position based on the direction of a vector
+        /// </summary>
+        /// <param name="direction">Shows what direction is in or out</param>
+        /// <param name="inDirection">Set the label in the same direction as the vector (set to false for opposite)</param>
+        private void SetBasicPositionForInOrOut(Vector2 direction, bool inDirection)
+        {
+            //Could be simplified by pos Array defined by isIn
+            if(inDirection)
+            {
+                //If direction is to the right (positive)
+                //We must set the label to the Right to stay outside the shape. and vice versa
+                SetBasicPositionBasedOnInput(direction.X, new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right, eLabelPosition.Left);
+                //If direction is to the bottom (positive)
+                //We must set the label to the bottom to stay within the shape. and vice versa
+                SetBasicPositionBasedOnInput(direction.Y, new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom, eLabelPosition.Top);
+            }
+            else
+            {
+                //If direction is to the right (positive)
+                //We must set the label to the left to stay within the shape. and vice versa
+                SetBasicPositionBasedOnInput(direction.X, new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left, eLabelPosition.Right);
+                //If direction is to the downwards (positive)
+                //We must set the label to the top to stay within the shape. and vice versa
+                SetBasicPositionBasedOnInput(direction.Y, new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top, eLabelPosition.Bottom);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -346,124 +394,39 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
                     break;
                 case eLabelPosition.Left:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Right:
                 case eLabelPosition.BestFit:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Top:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Bottom:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InBase:
                     //Translate to the base point
                     Rectangle.Bounds.Position += basePoint.LocalPosition;
-
-                    //Move the textbox margins inside on left
-                    if (endToBaseVector.X != 0)
-                    {
-                        //If basePoint is to the left
-                        if (endToBaseVector.X > 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left);
-                        }
-                        //if basePoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right);
-                        }
-                    }
-
-                    //Move the textbox margins inside on top
-                    if (endToBaseVector.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (endToBaseVector.Y > 0)
-                        {
-                            //We must place on bottom and apply margin to height
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on top and apply margin to height
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
-                        }
-                    }
+                    //We want to stay inside the object so if the direction to end is Right we want to set the label to the Left
+                    SetBasicPositionForInOrOut(endToBaseVector, false);
                     break;
                 case eLabelPosition.InEnd:
                     //Move to end point
                     Rectangle.Bounds.Position += endPoint.LocalPosition;
 
-                    //Move the textbox margins inside on left
-                    if (endToBaseVector.X != 0)
-                    {
-                        //If basePoint is to the left
-                        if (endToBaseVector.X < 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left);
-                        }
-                        //if basePoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right);
-                        }
-                    }
-
-                    //Move the textbox margins inside on top
-                    if (endToBaseVector.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (endToBaseVector.Y < 0)
-                        {
-                            //We must place on bottom
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on top
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
-                        }
-                    }
+                    //We want to stay inside the object so if the direction to end is Right we want to set the label to the Right
+                    //Since the only time endToBaseVector is Positive is when the end is further positive than the base
+                    SetBasicPositionForInOrOut(endToBaseVector, true);
                     break;
                 case eLabelPosition.OutEnd:
                     //Move to end point
                     Rectangle.Bounds.Position += endPoint.LocalPosition;
-                    if (endToBaseVector.X != 0)
-                    {
-                        //If endPoint is to the left
-                        if (endToBaseVector.X > 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left);
-                        }
-                        //if endpoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right);
-                        }
-                    }
 
-                    if (endToBaseVector.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (endToBaseVector.Y > 0)
-                        {
-                            //We must place on Top
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on Bottom
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
-                        }
-                    }
+                    //We want to set the label outside the object
+                    //So we do the opposite of InEnd
+                    SetBasicPositionForInOrOut(endToBaseVector, false);
 
                     break;
                 default:
