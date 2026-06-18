@@ -102,5 +102,51 @@ namespace EPPlusTest
             }
         }
 
+
+        [TestMethod]
+        public void DrawingHyperlinkUpdate_ShouldNotThrowException()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+
+                // Add a drawing (shape)
+                var shape = ws.Drawings.AddShape("MyShape", eShapeStyle.Rect);
+
+                // 1. Assign initial external URL hyperlink
+                var initialUrl = new ExcelHyperLink("https://epplussoftware.com") { ToolTip = "Initial ToolTip" };
+                shape.Hyperlink = initialUrl;
+
+                Assert.IsNotNull(shape.Hyperlink);
+
+                // 2. Re-assign to a new external URL hyperlink (this would crash without the fix)
+                var updatedUrl = new ExcelHyperLink("https://github.com/EPPlusSoftware/EPPlus") { ToolTip = "Updated ToolTip" };
+                shape.Hyperlink = updatedUrl;
+
+                Assert.AreEqual("https://github.com/EPPlusSoftware/EPPlus", shape.Hyperlink.OriginalString);
+
+                // 3. Re-assign to an internal sheet reference (this would also crash without the fix)
+                var internalLink = new ExcelHyperLink("Sheet1!A10", "Go to A10") { ToolTip = "Internal ToolTip" };
+                shape.Hyperlink = internalLink;
+
+                Assert.AreEqual("Sheet1!A10", ((ExcelHyperLink)shape.Hyperlink).ReferenceAddress);
+
+                // 4. Save and read back to verify XML and tooltip are correct
+                package.Save();
+
+                using (var readPackage = new ExcelPackage(package.Stream))
+                {
+                    var readWs = readPackage.Workbook.Worksheets["Sheet1"];
+                    var readShape = readWs.Drawings["MyShape"];
+
+                    var readLink = (ExcelHyperLink)readShape.Hyperlink;
+                    Assert.IsNotNull(readLink);
+                    Assert.AreEqual("Sheet1!A10", readLink.ReferenceAddress);
+                    Assert.AreEqual("Internal ToolTip", readLink.ToolTip);
+                }
+            }
+        }
+
+
     }
 }

@@ -62,16 +62,16 @@ namespace OfficeOpenXml.LoadFunctions
 
         protected object ConvertData(T Format, eDataTypes[] dataType, string v, int col, bool isText)
         {
-            if (isText && (dataType == null || dataType.Length < col))
+            bool isOutOfBounds = dataType == null || col >= dataType.Length;
+            if (isOutOfBounds)
             {
-                return string.IsNullOrEmpty(v) ? null : v;
+                if (isText)
+                {
+                    return string.IsNullOrEmpty(v) ? null : v;
+                }
+                return ConvertData(Format, eDataTypes.Unknown, v, col, isText);
             }
-            else
-            {
-                if(dataType == null || dataType.Length < col)
-                    return ConvertData(Format, eDataTypes.Unknown, v, col, isText);
-                return ConvertData(Format, dataType[col], v, col, isText);
-            }
+            return ConvertData(Format, dataType[col], v, col, isText);
         }
 
         protected object ConvertData(T Format, eDataTypes? dataType, string v, int col, bool isText)
