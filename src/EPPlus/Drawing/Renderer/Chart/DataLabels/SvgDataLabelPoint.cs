@@ -284,7 +284,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         }
 
 
-        private void CreateDebugPoints(Transform basePoint, Transform endPoint)
+        private void CreateDebugPoints(Transform basePoint, Transform endPoint, Transform centerPoint)
         {
             originPointRect = GenerateDebugRenderItem(_parentPoint, "darkRed");
             basePositionRect = GenerateDebugRenderItem(_parentPoint, "darkGreen");
@@ -295,7 +295,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             endPositionRect.Top += endPoint.LocalPosition.Y;
             endPositionRect.BorderWidth = 2d;
             endPositionRect.BorderColor = "cyan";
-
+            centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
+            centerPositionRect.Left += centerPoint.LocalPosition.X;
+            centerPositionRect.Top += centerPoint.LocalPosition.Y;
         }
 
         /// <summary>
@@ -334,10 +336,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //And endVector is the top center position.
 
             //--- Visualize positions for debugging purposes
-            CreateDebugPoints(basePoint, endPoint);
-            centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
-            centerPositionRect.Left += centerPoint.LocalPosition.X;
-            centerPositionRect.Top += centerPoint.LocalPosition.Y;
+            //CreateDebugPoints(basePoint, endPoint, centerPoint);
             //---
 
             switch (_labelPosition)
@@ -382,14 +381,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         //If endpoint is on Top
                         if (endToBaseVector.Y > 0)
                         {
-                            //We must place on bottom
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                            //We must place on bottom and apply margin to height
+                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
                         }
                         //If endpoint is on bottom
                         else
                         {
-                            //We must place on top
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                            //We must place on top and apply margin to height
+                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
                         }
                     }
                     break;
@@ -421,13 +420,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         if (endToBaseVector.Y < 0)
                         {
                             //We must place on bottom
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
                         }
                         //If endpoint is on bottom
                         else
                         {
                             //We must place on top
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
                         }
                     }
                     break;

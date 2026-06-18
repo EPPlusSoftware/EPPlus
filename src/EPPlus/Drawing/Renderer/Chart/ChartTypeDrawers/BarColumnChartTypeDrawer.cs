@@ -86,16 +86,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         if (isColumn == true)
                         {
                             var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
+                            basePoint.Position = new Vector2(middleRight, chartBaseY);
 
-                            endPoint.Position = new Vector2(middleRight, endPoint.Position.Y);
-                            basePoint.Position = new Vector2(middleRight, endPoint.Position.Y + dataPoints[j].Height);
+                            if (chartBaseY > dataPoints[j].Top)
+                            {
+                                endPoint.Position = new Vector2(middleRight, chartBaseY - dataPoints[j].Height);
+                            }
+                            else
+                            {
+                                endPoint.Position = new Vector2(middleRight, chartBaseY + dataPoints[j].Height);
+                            }
 
                             serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
                         }
                         else
                         {
                             var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
-                           
+
+
                             basePoint.Position = new Vector2(basePoint.Position.X, middleHeight);
                             endPoint.Position = new Vector2(basePoint.Position.X + dataPoints[j].Width, middleHeight);
 
@@ -127,6 +135,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
         }
+
+        double chartBaseY = double.NaN;
 
         private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position)
         {
@@ -160,18 +170,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
 
-            double yAxisStart;
             if (catAx.Axis.Crosses == eCrosses.AutoZero)
             {
-                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+                chartBaseY = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
             }
             else if (catAx.Axis.Crosses == eCrosses.Min)
             {
-                yAxisStart = valAx.GetPositionInPlotarea(valAx.Min, true);
+                chartBaseY = valAx.GetPositionInPlotarea(valAx.Min, true);
             }
             else
             {
-                yAxisStart = valAx.GetPositionInPlotarea(valAx.Max, true);
+                chartBaseY = valAx.GetPositionInPlotarea(valAx.Max, true);
             }
 
             var isStacked = chartType.IsTypeStacked();
@@ -252,13 +261,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         if (y < 0)
                         {
-                            rect.Top = yAxisStart;
-                            rect.Height = yPos - yAxisStart;
+                            rect.Top = chartBaseY;
+                            rect.Height = yPos - chartBaseY;
                         }
                         else
                         {
                             rect.Top = yPos;
-                            rect.Height = yAxisStart - yPos;
+                            rect.Height = chartBaseY - yPos;
                         }
                     }
                     else
@@ -266,12 +275,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         if (y < 0)
                         {
                             rect.Left = yPos;
-                            rect.Width = yAxisStart - yPos;
+                            rect.Width = chartBaseY - yPos;
                         }
                         else
                         {
-                            rect.Left = yAxisStart;
-                            rect.Width = yPos - yAxisStart;
+                            rect.Left = chartBaseY;
+                            rect.Width = yPos - chartBaseY;
                         }
                     }
                 }
