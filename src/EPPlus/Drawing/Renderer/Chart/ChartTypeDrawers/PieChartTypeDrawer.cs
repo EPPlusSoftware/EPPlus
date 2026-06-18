@@ -244,11 +244,22 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                         if (serie.HasDataLabel)
                         {
-                            var innerGroup = Slices[j].GetInnerGroupTransformOriginTranslated();
+                            var innerGroup = Slices[j].GetInnerGroupWithTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(innerGroup.X, innerGroup.Y, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
+                            var dlblBounds = new BoundingBox(innerGroup.LocalPosition.X, innerGroup.LocalPosition.Y, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
 
-                            serieDataLabels[i].SetParentVector(dlblBounds, j, Slices[j].GetWholeVectorCenterToMid());
+                            var ctrToMid = Slices[j].GetWholeVectorCenterToMid();
+                            var startPt = new Transform();
+                            startPt.Parent = innerGroup.Parent;
+                            startPt.Position = innerGroup.Position + (ctrToMid * -1);
+
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup);
+
+                            //var endPoint = Slices[j].CopyOuterMidPoint();
+                            //var startPoint = _circleCenter.Position
+                            //serieDataLabels[i].SetDimensions(j, startPoint, endPoint);
+
+                            //serieDataLabels[i].SetParentVector(dlblBounds, j, Slices[j].GetWholeVectorCenterToMid());
                         }
                     }
                 }
