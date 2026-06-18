@@ -6,7 +6,9 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -21,6 +23,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         BoundingBox plotAreaBounds;
         BoundingBox _defaultMargins;
         ExcelChartSerieDataLabel _dlblSerie;
+
+        internal double rotation = double.NaN;
+        internal Graphics.Point rotationPoint = null;
 
         public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
@@ -162,19 +167,36 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             plotAreaGroup.Left = plotAreaBounds.Position.X;
             plotAreaGroup.Top = plotAreaBounds.Position.Y;
 
+            if(rotation != double.NaN)
+            {
+                if(rotationPoint != null)
+                {
+                    plotAreaGroup.RotationPoint = rotationPoint;
+                }
+                plotAreaGroup.Rotation = rotation;
+            }
+
             if (_dlblSerie.Fill.IsEmpty == false)
             {
                 //Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
                 //plotAreaGroup.AddChildItem(Rectangle);
                 Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-
                 plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-                plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\" name=\"Plot area group\"";
+                //if (_dlblSerie.Fill.Color.ToArgb() == Color.Transparent.ToArgb())
+                //{
+                //    plotAreaGroup.FillColor = "transparent";
+                //}
+
+                //plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\" name=\"Plot area group\"";
             }
 
             renderItems.Add(plotAreaGroup);
             for(int i = 0; i< dataLabels.Count; i++) 
             {
+                if(rotation != double.NaN)
+                {
+                    dataLabels[i].CounterRotation = -rotation;
+                }
                 dataLabels[i].AppendRenderItems(plotAreaGroup.RenderItems);
             }
         }

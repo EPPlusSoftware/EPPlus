@@ -22,7 +22,9 @@ namespace EPPlus.DrawingRenderer.Svg
 
             //Neccesary as fallback for e.g. DataLabels
             string fillPropery = "";
-            if (string.IsNullOrEmpty(item.FillColor) == false && item.FillColor != "none")
+
+            //We may need special handling for fill-color 'none' as it is sometimes transparent and sometimes un-applied.
+            if (string.IsNullOrEmpty(item.FillColor) == false)
             {
                 fillPropery = $" fill=\"{item.FillColor}\" ";
             }

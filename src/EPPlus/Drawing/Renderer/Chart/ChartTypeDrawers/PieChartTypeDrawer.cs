@@ -192,6 +192,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             LoadSeriesValues(chartType);
             CalculateLocalCenterAndRadius();
+            if (serieDataLabels.Count > 0)
+            {
+                serieDataLabels[0].rotation = angleOffset;
+                serieDataLabels[0].rotationPoint = _groupItem.RotationPoint;
+            }
+
             InitializeSlices();
 
             //How much to scale each slice due to pie explosion
@@ -207,23 +213,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 _sliceScaleFactor += 0.02d;
             }
 
-            int count = 0;
+            int dataPointCount = 0;
             if (catValues != null)
             {
                 if (valValues != null)
                 {
-                    count = Math.Min(catValues.Count, valValues.Count);
+                    dataPointCount = Math.Max(catValues.Count, valValues.Count);
                 }
                 else
                 {
-                    count = catValues.Count;
+                    dataPointCount = catValues.Count;
                 }
             }
             else
             {
                 if (valValues != null)
                 {
-                    count = valValues.Count;
+                    dataPointCount = valValues.Count;
                 }
             }
 
@@ -237,10 +243,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 //Excel ignores series beyond the first for pie chart visualization
                 if (i == 0)
                 {
-                    for (var j = 0; j < count; j++)
+                    for (var j = 0; j < Slices.Count; j++)
                     {
                         //Update the initialized slice with path, style and group data
-                        UpdateSlice(chartType, serie, count, j);
+                        UpdateSlice(chartType, serie, dataPointCount, j);
 
                         if (serie.HasDataLabel)
                         {

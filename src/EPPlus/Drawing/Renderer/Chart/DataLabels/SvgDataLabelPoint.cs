@@ -13,6 +13,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RoundingHelper;
 
@@ -31,6 +32,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         Coordinate _manualLayoutOffset = new Coordinate (0, 0);
         PointLines _connectionPointLines;
         eLabelPosition _labelPosition;
+        internal double CounterRotation = double.NaN;
 
         //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         //{
@@ -348,6 +350,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
+        private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
+        {
+            if(reverseDirection)
+            {
+                direction *= -1;
+            }
+
+            var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+            var percentualLength = txtBoxAdjustVector.Length / direction.Length;
+            Rectangle.Bounds.Position += direction * percentualLength;
+        }
+
+        private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
+        {
+            //Translate to the base point
+            Rectangle.Bounds.Position += translation;
+            SetAdjustedTextBoxPosition(direction, reverseDirection);
+        }
+
+        //private void SetInEnd(Vector2 direction, Vector2 translation)
+
+        //private void SetLeft(Transform centerPoint)
+
         /// <summary>
         /// 
         /// </summary>
@@ -397,7 +422,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Right:
-                case eLabelPosition.BestFit:
                     SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Top:
@@ -407,27 +431,76 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InBase:
-                    //Translate to the base point
-                    Rectangle.Bounds.Position += basePoint.LocalPosition;
-                    //We want to stay inside the object so if the direction to end is Right we want to set the label to the Left
-                    SetBasicPositionForInOrOut(endToBaseVector, false);
+                    SetInOut(endToBaseVector, basePoint.LocalPosition, true);
+                    //SetInBase(endToBaseVector, basePoint.LocalPosition);
+                    ////Translate to the base point
+                    //Rectangle.Bounds.Position += basePoint.LocalPosition;
+                    //SetAdjustedTextBoxPosition(endToBaseVector, true);
+                    //var textPartToPoint = new Vector2(_txtBox.Width + 5, _txtBox.Height + 5) * -1;
+                    //Rectangle.Bounds.Position += textPartToPoint;
+                    //var reverseDir = new Vector2(direction.X + _txtBox.Width + 5, direction.Y + _txtBox.Height + 5) * -1;
+
+                    ////We want to stay inside the object so if the direction to end is Right we want to set the label to the Left
+                    //SetBasicPositionForInOrOut(endToBaseVector, false);
                     break;
                 case eLabelPosition.InEnd:
-                    //Move to end point
-                    Rectangle.Bounds.Position += endPoint.LocalPosition;
+                    SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                    ////Move to end point
+                    //Rectangle.Bounds.Position += endPoint.LocalPosition;
 
-                    //We want to stay inside the object so if the direction to end is Right we want to set the label to the Right
-                    //Since the only time endToBaseVector is Positive is when the end is further positive than the base
-                    SetBasicPositionForInOrOut(endToBaseVector, true);
+                    //SetAdjustedTextBoxPosition(endToBaseVector, false);
+                    //var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+                    //var percentualLength =  txtBoxAdjustVector.Length / endToBaseVector.Length;
+                    //Rectangle.Bounds.Position += endToBaseVector * percentualLength;
+
+                    //var textPartToPoint2 = new Vector2(1 - ((_txtBox.Width/2) / endPoint.LocalPosition.X), 1 - ((_txtBox.Height/2) / endPoint.LocalPosition.Y));
+                    //Rectangle.Bounds.Position *= textPartToPoint2;
+                    ////We want to stay inside the object so if the direction to end is Right we want to set the label to the Right
+                    ////Since the only time endToBaseVector is Positive is when the end is further positive than the base
+                    //SetBasicPositionForInOrOut(endToBaseVector, true);
                     break;
                 case eLabelPosition.OutEnd:
                     //Move to end point
-                    Rectangle.Bounds.Position += endPoint.LocalPosition;
+                    SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                    //Rectangle.Bounds.Position += endPoint.LocalPosition;
+                    //SetAdjustedTextBoxPosition(endToBaseVector, true);
+                    //var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+                    //var percentualLength = txtBoxAdjustVector.Length / endToBaseVector.Length;
+                    //Rectangle.Bounds.Position += endToBaseVector * percentualLength;
+                    //var textPartToPoint3 = new Vector2(_txtBox.Width + 5, _txtBox.Height + 5) * -1;
+                    //Rectangle.Bounds.Position += textPartToPoint3;
+                    ////We want to set the label outside the object
+                    ////So we do the opposite of InEnd
+                    //SetBasicPositionForInOrOut(endToBaseVector, false);
 
-                    //We want to set the label outside the object
-                    //So we do the opposite of InEnd
-                    SetBasicPositionForInOrOut(endToBaseVector, false);
+                    break;
+                //Only available in charts that include pie chart
+                case eLabelPosition.BestFit:
+                    //Try to fit within object if possible. If not then as close to it as possible?
 
+                    //var labelVector = new Vector2(_txtBox.Width, _txtBox.Height);
+                    bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
+                    bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
+                    if (CanFitWidth && CanFitHeight)
+                    {
+                        //TODO: make input parameter in pie chart
+                        bool canFitInCenter = false;
+                        if (canFitInCenter)
+                        {
+                            Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
+                            Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
+                        }
+                        else
+                        {
+                            //Set inside End
+                            SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                        }
+                    }
+                    else
+                    {
+                        //Set outside end
+                        SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                    }
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
@@ -737,6 +810,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             group.AddChildItem(titleItem);
 
             parentPointGroup.RenderItems.Add(group);
+
+            group.RotationPoint = new Graphics.Point(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
+            group.Rotation = CounterRotation;
 
             _txtBox.AppendRenderItems(group.RenderItems);
             

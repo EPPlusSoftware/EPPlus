@@ -12,12 +12,12 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
     {
 
         [TestMethod]
-        public void ReadAndGenerateExcelPieChartSvgs()
+        public void ReadAndGenerateAll()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
+                var ws = p.Workbook.Worksheets[4];
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
