@@ -47,7 +47,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void DatalabelBarCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("BarChartForSvgDatalabels.xlsx"))
+            using (var p = OpenTemplatePackage("BarChartForSvgDatalabels2.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
@@ -58,6 +58,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 {
                     var svg = drawings[i].ToSvg();
                     SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                }
+            }
+        }
+
+
+        [TestMethod]
+        public void NegativeDatalabelBarCharts()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("negativeDatalabels.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var drawings = ws.Drawings;
+                var ix = 0;
+                //var svg = drawings[ix].ToSvg();
+                //SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                for (int i = ix; i < drawings.Count; i++)
+                {
+                    var svg = drawings[i].ToSvg();
+                    SaveTextFileToWorkbook($"svg\\NegativeLabels{ix++}.svg", svg);
                 }
             }
         }

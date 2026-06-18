@@ -47,16 +47,30 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
             else
             {
-                //if (xValues != null)
-                //{
-                    for (int i = 0; i < dlblSerie.DataLabels.Count; i++)
+                int nextIndex = dlblSerie.DataLabels[0].Index;
+                var customIndex = 0;
+                for (int i = 0; i < serie.NumberOfItems; i++)
+                {
+                    if (i == nextIndex)
                     {
-                        var dataLabel = dlblSerie.DataLabels[i];
+                        var dataLabel = dlblSerie.DataLabels[customIndex++];
+                        var individualIndex = dataLabel.Index;
                         var yVal = yValues == null ? null : yValues[i];
                         var xVal = xValues == null ? null : xValues[i];
                         AddDatalabel(serie, dataLabel, xVal, yVal, maxBounds);
+
+                        if (customIndex < dlblSerie.DataLabels.Count)
+                        {
+                            nextIndex = dlblSerie.DataLabels[customIndex].Index;
+                        }
                     }
-                //}
+                    else
+                    {
+                        var yVal = yValues == null ? null : yValues[i];
+                        var xVal = xValues == null ? null : xValues[i];
+                        AddDatalabel(serie, dlblSerie, xVal, yValues[i], maxBounds);
+                    }
+                }
             }
         }
 
