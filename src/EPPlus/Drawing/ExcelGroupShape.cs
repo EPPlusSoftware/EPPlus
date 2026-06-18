@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing
             _parent = parent;
             _nsm = nsm;
             _topNode = topNode;
-            _drawingNames = new Dictionary<string, int>();
+            _drawingNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             _drawingsCollectionType = drawingsCollectionType;
             AddDrawings();
         }
@@ -298,7 +298,21 @@ namespace OfficeOpenXml.Drawing
         public void Remove(ExcelDrawing drawing)
         {
             CheckNotDisposed();
-            _groupDrawings.Remove(drawing);
+            // Find the 0-based list index of the drawing within this group
+            int index = _groupDrawings.IndexOf(drawing);
+            if (index < 0) return;
+
+            // Remove the drawing from the list and its entry from the lookup dictionary
+            _groupDrawings.RemoveAt(index);
+            _drawingNames.Remove(drawing.Name);
+            
+            // Re-index all remaining drawings after the removed index in the group's name-to-index lookup.
+            // When an element is removed, all subsequent elements shift down, so we update their mapped indices accordingly.
+            for (int i = index; i < _groupDrawings.Count; i++)
+            {
+                _drawingNames[_groupDrawings[i].Name] = i;
+            }
+
             AdjustXmlAndMoveFromGroup(drawing);
             var ix = _parent._drawings._drawingsList.IndexOf(_parent);
             _parent._drawings._drawingsList.Insert(ix, drawing);
