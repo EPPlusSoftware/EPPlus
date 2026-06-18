@@ -10,13 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfLayout;
-using EPPlus.Export.Pdf.PdfResources;
-using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
-using OfficeOpenXml;
+using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.Data.Dictionaries;
+using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -27,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EPPlus.Export.Pdf.PdfCatalog
+namespace OfficeOpenXml.Export.PdfExport.TextMapping
 {
     internal class PdfTextMap
     {
@@ -251,130 +250,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             }
             cellStyle.xfFill = cell.Style.Fill;
         }
-        //private static bool EvaluateConditionalFormattingRule(IExcelConditionalFormattingRule rule, ExcelRangeBase cell)
-        //{
-        //    // These never produce a dxf fill — skip entirely
-        //    switch (rule.Type)
-        //    {
-        //        case eExcelConditionalFormattingRuleType.TwoColorScale:
-        //        case eExcelConditionalFormattingRuleType.ThreeColorScale:
-        //        case eExcelConditionalFormattingRuleType.DataBar:
-        //        case eExcelConditionalFormattingRuleType.ThreeIconSet:
-        //        case eExcelConditionalFormattingRuleType.FourIconSet:
-        //        case eExcelConditionalFormattingRuleType.FiveIconSet:
-        //            return false;
-        //    }
-
-        //    var cellValue = cell.Value;
-        //    var cellText = cellValue?.ToString() ?? string.Empty;
-
-        //    switch (rule.Type)
-        //    {
-        //        // --- Comparison (CellIs) types ---
-        //        case eExcelConditionalFormattingRuleType.Equal:
-        //        case eExcelConditionalFormattingRuleType.NotEqual:
-        //        case eExcelConditionalFormattingRuleType.GreaterThan:
-        //        case eExcelConditionalFormattingRuleType.GreaterThanOrEqual:
-        //        case eExcelConditionalFormattingRuleType.LessThan:
-        //        case eExcelConditionalFormattingRuleType.LessThanOrEqual:
-        //        case eExcelConditionalFormattingRuleType.Between:
-        //        case eExcelConditionalFormattingRuleType.NotBetween:
-        //            return EvaluateCellIs(rule, cell);
-
-        //        // --- Text types ---
-        //        case eExcelConditionalFormattingRuleType.ContainsText:
-        //            return cellText.Contains((rule as IExcelConditionalFormattingContainsText)?.Text ?? "");
-
-        //        case eExcelConditionalFormattingRuleType.NotContainsText:
-        //            return !cellText.Contains((rule as IExcelConditionalFormattingNotContainsText)?.Text ?? "");
-
-        //        case eExcelConditionalFormattingRuleType.NotContains:
-        //            return !cellText.Contains((rule as IExcelConditionalFormattingContainsText)?.Text ?? "");
-
-        //        case eExcelConditionalFormattingRuleType.BeginsWith:
-        //            return cellText.StartsWith((rule as IExcelConditionalFormattingBeginsWith)?.Text ?? "");
-
-        //        case eExcelConditionalFormattingRuleType.EndsWith:
-        //            return cellText.EndsWith((rule as IExcelConditionalFormattingEndsWith)?.Text ?? "");
-
-        //        // --- Blank/Error types ---
-        //        case eExcelConditionalFormattingRuleType.ContainsBlanks:
-        //            return string.IsNullOrEmpty(cellText.Trim());
-
-        //        case eExcelConditionalFormattingRuleType.NotContainsBlanks:
-        //            return !string.IsNullOrEmpty(cellText.Trim());
-
-        //        case eExcelConditionalFormattingRuleType.ContainsErrors:
-        //            return cellValue is ExcelErrorValue;
-
-        //        case eExcelConditionalFormattingRuleType.NotContainsErrors:
-        //            return !(cellValue is ExcelErrorValue);
-
-        //        // --- Duplicate/Unique — require range-wide scan, stub for now ---
-        //        case eExcelConditionalFormattingRuleType.DuplicateValues:
-        //        case eExcelConditionalFormattingRuleType.UniqueValues:
-        //            return false;
-
-        //        // --- Average/StdDev/Top/Bottom/TimePeriod — require range-wide scan, stub for now ---
-        //        case eExcelConditionalFormattingRuleType.AboveAverage:
-        //        case eExcelConditionalFormattingRuleType.AboveOrEqualAverage:
-        //        case eExcelConditionalFormattingRuleType.BelowAverage:
-        //        case eExcelConditionalFormattingRuleType.BelowOrEqualAverage:
-        //        case eExcelConditionalFormattingRuleType.AboveStdDev:
-        //        case eExcelConditionalFormattingRuleType.BelowStdDev:
-        //        case eExcelConditionalFormattingRuleType.Top:
-        //        case eExcelConditionalFormattingRuleType.TopPercent:
-        //        case eExcelConditionalFormattingRuleType.Bottom:
-        //        case eExcelConditionalFormattingRuleType.BottomPercent:
-        //        case eExcelConditionalFormattingRuleType.Last7Days:
-        //        case eExcelConditionalFormattingRuleType.LastMonth:
-        //        case eExcelConditionalFormattingRuleType.LastWeek:
-        //        case eExcelConditionalFormattingRuleType.NextMonth:
-        //        case eExcelConditionalFormattingRuleType.NextWeek:
-        //        case eExcelConditionalFormattingRuleType.ThisMonth:
-        //        case eExcelConditionalFormattingRuleType.ThisWeek:
-        //        case eExcelConditionalFormattingRuleType.Today:
-        //        case eExcelConditionalFormattingRuleType.Tomorrow:
-        //        case eExcelConditionalFormattingRuleType.Yesterday:
-        //            return false;
-
-        //        // --- Formula-based ---
-        //        case eExcelConditionalFormattingRuleType.Expression:
-        //            return false; // requires formula evaluation — future phase
-
-        //        default:
-        //            return false;
-        //    }
-        //}
-
-        //private static bool EvaluateCellIs(IExcelConditionalFormattingRule rule, ExcelRangeBase cell)
-        //{
-        //    if (cell.Value == null) return false;
-        //    if (!double.TryParse(cell.Value.ToString(), out double cellDouble)) return false;
-
-        //    var f1Rule = rule as IExcelConditionalFormattingWithFormula;
-        //    if (f1Rule == null || !double.TryParse(f1Rule.Formula, out double formula1)) return false;
-
-        //    switch (rule.Type)
-        //    {
-        //        case eExcelConditionalFormattingRuleType.Equal: return cellDouble == formula1;
-        //        case eExcelConditionalFormattingRuleType.NotEqual: return cellDouble != formula1;
-        //        case eExcelConditionalFormattingRuleType.GreaterThan: return cellDouble > formula1;
-        //        case eExcelConditionalFormattingRuleType.GreaterThanOrEqual: return cellDouble >= formula1;
-        //        case eExcelConditionalFormattingRuleType.LessThan: return cellDouble < formula1;
-        //        case eExcelConditionalFormattingRuleType.LessThanOrEqual: return cellDouble <= formula1;
-        //        case eExcelConditionalFormattingRuleType.Between:
-        //        case eExcelConditionalFormattingRuleType.NotBetween:
-        //            {
-        //                var f2Rule = rule as IExcelConditionalFormattingWithFormula2;
-        //                if (f2Rule == null || !double.TryParse(f2Rule.Formula2, out double formula2)) return false;
-        //                bool inRange = cellDouble >= formula1 && cellDouble <= formula2;
-        //                return rule.Type == eExcelConditionalFormattingRuleType.Between ? inRange : !inRange;
-        //            }
-        //        default:
-        //            return false;
-        //    }
-        //}
 
         private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell)
         {
@@ -561,7 +436,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return cellStyle;
         }
 
-
         private static PdfCellAlignmentData GetContentAlignment(ExcelRangeBase cell)
         {
             var contentAlignment = new PdfCellAlignmentData();
@@ -715,14 +589,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             return 12;
         }
 
-        //private static MeasurementFontStyles ComputeFontStyle(TextFragment textFrag)
-        //{
-        //    return (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-        //           (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
-        //           (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-        //           (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
-        //}
-
         private static FontSubFamily ComputeFontStyle(TextFragment textFrag)
         {
             if (textFrag.RichTextOptions.Bold && textFrag.RichTextOptions.Italic) return FontSubFamily.BoldItalic;
@@ -730,55 +596,6 @@ namespace EPPlus.Export.Pdf.PdfCatalog
             if (textFrag.RichTextOptions.Italic) return FontSubFamily.Italic;
             return FontSubFamily.Regular;
         }
-
-
-        //private static List<PdfTextFormat> GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
-        //{
-        //    var textFormats = new List<PdfTextFormat>();
-        //    bool bold = false, italic = false, underline = false, strike = false;
-        //    ExcelUnderLineType underLineType = ExcelUnderLineType.None;
-        //    if (cellStyle != null && cellStyle.dxfFont != null)
-        //    {
-        //        bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
-        //        italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
-        //        strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
-        //        underline = cellStyle.dxfFont.Underline != null;
-        //        underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
-        //    }
-        //    for (int i = 0; i < RichTextCollection.Count; i++)
-        //    {
-        //        var rt = RichTextCollection[i];
-        //        var textFormat = new PdfTextFormat();
-        //        textFormat.Text = rt.Text;
-        //        textFormat.FontName = rt.FontName;
-        //        textFormat.FontFamily = rt.Family;
-        //        textFormat.FontSize = rt.Size;
-        //        textFormat.Bold = rt.Bold || bold;
-        //        textFormat.Italic = rt.Italic || italic;
-        //        textFormat.Strike = rt.Strike || strike;
-        //        textFormat.Underline = rt.UnderLine || underline;
-        //        textFormat.UnderlineType = rt.UnderLineType == ExcelUnderLineType.None ? underLineType : rt.UnderLineType;
-        //        textFormat.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-        //        textFormat.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-        //        textFormat.FontColor = rt.Color;
-        //        textFormat.SubFamily = FontSubFamily.Regular;
-        //        if (textFormat.Bold)
-        //        {
-        //            textFormat.SubFamily = FontSubFamily.Bold;
-        //            if (textFormat.Italic)
-        //            {
-        //                textFormat.SubFamily = FontSubFamily.BoldItalic;
-        //            }
-        //        }
-        //        else if (textFormat.Italic)
-        //        {
-        //            textFormat.SubFamily = FontSubFamily.Italic;
-        //        }
-        //        textFormats.Add(textFormat);
-        //        dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
-        //    }
-        //    return textFormats;
-        //}
 
         public static PdfCellAlignmentData GetAlignmentData(PdfHeaderFooter headerFooter)
         {
@@ -869,71 +686,9 @@ namespace EPPlus.Export.Pdf.PdfCatalog
                 textFragments.Add(textFrag);
                 dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
                 if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, "1234567890");
-
-
-
-
-                //var text = textCollection[i];
-                //var ns = ws.Workbook.Styles.GetNormalStyle();
-                //PdfTextFormat textFormat = new PdfTextFormat();
-                //textFormat.FontName = string.IsNullOrEmpty(text.FontName) ? ns.Style.Font.Name : text.FontName;
-                //textFormat.FontSize = text.FontSize == null ? ns.Style.Font.Size : (double)text.FontSize;
-                //textFormat.Bold = text.Bold;
-                //textFormat.Italic = text.Italic;
-                //textFormat.Strike = text.Striketrough;
-                //textFormat.SubScript = text.SubScript;
-                //textFormat.SuperScript = text.SuperScript;
-                //textFormat.Underline = text.Underline;
-                //textFormat.UnderlineType = textFormat.Underline ? ExcelUnderLineType.Single : ExcelUnderLineType.None;
-                //if (text.DoubleUnderline) textFormat.Underline = true;
-                //textFormat.UnderlineType = text.DoubleUnderline ? ExcelUnderLineType.Double : textFormat.UnderlineType;
-                //textFormat.FontColor = text.Color;
-                //textFormat.SubFamily = FontSubFamily.Regular;
-                //if (textFormat.Bold)
-                //{
-                //    textFormat.SubFamily = FontSubFamily.Bold;
-                //    if (textFormat.Italic)
-                //    {
-                //        textFormat.SubFamily = FontSubFamily.BoldItalic;
-                //    }
-                //}
-                //else if (textFormat.Italic)
-                //{
-                //    textFormat.SubFamily = FontSubFamily.Italic;
-                //}
-                //switch (text.FormatCode)
-                //{
-                //    case ExcelHeaderFooterFormattingCodes.SheetName:
-                //        textFormat.Text += ws.Name;
-                //        break;
-                //    case ExcelHeaderFooterFormattingCodes.CurrentDate:
-                //        textFormat.Text += DateTime.Now.ToString($"yyyy-MM-dd");
-                //        break;
-                //    case ExcelHeaderFooterFormattingCodes.FileName:
-                //        textFormat.Text += ws._package.File.Name;
-                //        break;
-                //    case ExcelHeaderFooterFormattingCodes.NumberOfPages:
-                //    case ExcelHeaderFooterFormattingCodes.PageNumber:
-                //        textFormat.Text += "000";
-                //        containsPageNumber = true;
-                //        break;
-                //    case ExcelHeaderFooterFormattingCodes.CurrentTime:
-                //        textFormat.Text += DateTime.Now.ToString("HH:mm");
-                //        break;
-                //    case ExcelHeaderFooterFormattingCodes.FilePath:
-                //        textFormat.Text += ws._package.File.Directory.FullName + "\\";
-                //        break;
-                //    default:
-                //        textFormat.Text += text.Text;
-                //        break;
-                //}
-                //textFormats.Add(textFormat);
-                //dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, textFormat.Text);
-                //if (containsPageNumber) dictionaries.AddFont(pageSettings, textFormat.FullFontName, textFormat.SubFamily, "1234567890");
             }
             return new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
         }
-
 
         /// <summary>
         /// Check if we need to add additional columns to accomodate text that is not wrapped and overlaps other cell.s

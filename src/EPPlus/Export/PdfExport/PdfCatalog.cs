@@ -10,19 +10,22 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfResources;
-using EPPlus.Export.Pdf.PdfSettings;
 using EPPlus.Graphics;
-using OfficeOpenXml;
+using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.Data.Dictionaries;
+using OfficeOpenXml.Export.PdfExport.Layout;
+using OfficeOpenXml.Export.PdfExport.RowResize;
+using OfficeOpenXml.Export.PdfExport.TextMapping;
+using OfficeOpenXml.Export.PdfExport.TextShaping;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace EPPlus.Export.Pdf.PdfCatalog
+namespace OfficeOpenXml.Export.PdfExport
 {
-    public class PdfCatalog
+    internal class PdfCatalog
     {
         internal PdfDictionaries _dictionaries = new PdfDictionaries();
         private bool _addTextForHeadings = true;
@@ -30,6 +33,7 @@ namespace EPPlus.Export.Pdf.PdfCatalog
         //
         // CONSTRUCTORS FOR MULTIPLE WORKSHEETS AS INPUT
         //
+        public PdfCatalog() { }
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
