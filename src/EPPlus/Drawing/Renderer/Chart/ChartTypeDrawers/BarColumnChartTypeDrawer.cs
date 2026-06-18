@@ -102,10 +102,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         else
                         {
                             var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
-
-
-                            basePoint.Position = new Vector2(basePoint.Position.X, middleHeight);
-                            endPoint.Position = new Vector2(basePoint.Position.X + dataPoints[j].Width, middleHeight);
+                            basePoint.Position = new Vector2(chartBaseY, middleHeight);
+                            if (chartBaseY > dataPoints[j].Left)
+                            {
+                                endPoint.Position = new Vector2(chartBaseY - dataPoints[j].Width, middleHeight);
+                            }
+                            else
+                            {
+                                endPoint.Position = new Vector2(dataPoints[j].Left + dataPoints[j].Width, middleHeight);
+                            }
+                            //endPoint.Position = new Vector2(basePoint.Position.X + dataPoints[j].Width, middleHeight);
 
                             serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
                         }

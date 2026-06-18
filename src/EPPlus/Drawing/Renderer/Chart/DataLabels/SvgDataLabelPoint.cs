@@ -365,13 +365,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         if (endToBaseVector.X > 0)
                         {
                             //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left);
                         }
                         //if basePoint is to the right
                         else
                         {
                             //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right);
                         }
                     }
 
@@ -403,13 +403,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         if (endToBaseVector.X < 0)
                         {
                             //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left);
                         }
                         //if basePoint is to the right
                         else
                         {
                             //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right);
                         }
                     }
 
@@ -439,13 +439,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         if (endToBaseVector.X > 0)
                         {
                             //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Left);
                         }
                         //if endpoint is to the right
                         else
                         {
                             //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                            SetPositionBasic(new BoundingBox(0, 0) { Width = 5d }, eLabelPosition.Right);
                         }
                     }
 
@@ -455,13 +455,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         if (endToBaseVector.Y > 0)
                         {
                             //We must place on Top
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
+                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
                         }
                         //If endpoint is on bottom
                         else
                         {
                             //We must place on Bottom
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
+                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
                         }
                     }
 
