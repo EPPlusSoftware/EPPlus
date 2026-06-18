@@ -63,6 +63,7 @@ namespace OfficeOpenXml.LoadFunctions
         protected object ConvertData(T Format, eDataTypes[] dataType, string v, int col, bool isText)
         {
             bool isOutOfBounds = dataType == null || col >= dataType.Length;
+
             if (isOutOfBounds)
             {
                 if (isText)
@@ -71,6 +72,7 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 return ConvertData(Format, eDataTypes.Unknown, v, col, isText);
             }
+
             return ConvertData(Format, dataType[col], v, col, isText);
         }
 

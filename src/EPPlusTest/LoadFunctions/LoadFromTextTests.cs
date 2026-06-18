@@ -482,5 +482,6 @@ namespace EPPlusTest.LoadFunctions
             Assert.AreEqual(2d, _worksheet.Cells["B1"].Value);
             Assert.AreEqual("extra", _worksheet.Cells["C1"].Value);
         }
+
     }
 }

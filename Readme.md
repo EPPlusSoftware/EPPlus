@@ -6,7 +6,7 @@
 # EPPlus 8
 
 ## License
-EPPlus 8 has a dual license model with a community license for noncommercial use: [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
+EPPlus 8 has a dual license model with a community license for noncommercial use: [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0).
 
 With this license EPPlus is free to use for personal/noncommercial use, but will require a commercial license to be used in a commercial business.
 
