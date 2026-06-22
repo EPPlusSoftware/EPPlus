@@ -75,9 +75,13 @@ namespace EPPlusTest.Export.HtmlExport
                 var chart = ws.Drawings.AddBarChart("myColChart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
                 chart.Series.Add(ws.Cells["A1:A8"]);
 
-                var theme = ws.Workbook.ThemeManager.GetOrCreateTheme();
-                chart.StyleManager.SetChartStyle(ePresetChartStyle.BarChartStyle1, ePresetChartColors.MonochromaticPalette1);
-                //chart.StyleManager.SetChartStyle(ePresetChartStyle.ColumnChartStyle1, ePresetChartColors.ColorfulPalette1);
+                chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BarChartStyle1);
+
+                //chart.Style = OfficeOpenXml.Drawing.Chart.eChartStyle.Style1;
+                //var theme = ws.Workbook.ThemeManager.GetOrCreateTheme();
+                //chart.StyleManager.SetChartStyle(0);
+                //chart.StyleManager.SetChartStyle(0);
+                //chart.StyleManager.ApplyStyles();
                 //chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
                 //chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
 
