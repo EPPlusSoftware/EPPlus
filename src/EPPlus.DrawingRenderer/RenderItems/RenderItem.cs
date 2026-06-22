@@ -316,7 +316,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public abstract class DrawingObject
     {
-        public abstract void AppendRenderItems(List<RenderItem> renderItems);
+        public virtual void AppendRenderItems(List<RenderItem> renderItems) { }
     }
     public abstract class RenderItem : RenderItemBase
     {

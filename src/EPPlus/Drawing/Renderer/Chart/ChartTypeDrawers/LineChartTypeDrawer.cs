@@ -21,6 +21,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
+        internal override bool SupportsErrorBars => true;
         internal LineChartTypeDrawer(ChartRenderer svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
             var isStacked = chartType.IsTypeStacked();
@@ -169,7 +170,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if(hasErrorBars)
                 {
-                    errorBars.Add(ErrorBars.GetErrorBarRenderItem(i, xAxis, yAxis, x, y));
+                    errorBars.AddRange(ErrorBars.GetErrorBarRenderItem(i, xAxis, yAxis, x, y, xPos, yPos));
                 }
                 if (hasMarker)
                 {
@@ -211,6 +212,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             linePath.LineJoin = LineJoin.Round;
             SeriesRenderItems.Add(linePath);
             SeriesRenderItems.AddRange(markerItems);
+            SeriesRenderItems.AddRange(errorBars);
         }
 
 

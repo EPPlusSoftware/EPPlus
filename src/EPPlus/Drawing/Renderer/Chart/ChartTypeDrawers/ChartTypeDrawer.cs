@@ -213,8 +213,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     var xSerie = xValues[serieIndex];
                     var ySerie = yValues[serieIndex];
-                    ErrorBars = new ChartErrorBarRenderer(ChartRenderer, serie.ErrorBars, xSerie, ySerie, _chartType, serieIndex);
-                    
+                    ErrorBars = new ChartErrorBarRenderer(ChartRenderer, serie.ErrorBars, xSerie, ySerie, _chartType, serieIndex); 
                 }
                 serieIndex++;
             }
