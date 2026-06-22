@@ -136,6 +136,13 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             get;
         } = new HtmlPictureSettings();
+        /// <summary>
+        /// If and which Charts and/or Shapes will be included
+        /// </summary>
+        public HtmlDrawingSettings Drawings
+        {
+            get;
+        } = new HtmlDrawingSettings();
 
         /// <summary>
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.

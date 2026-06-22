@@ -4,11 +4,8 @@ using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Drawing;
 using System.Text;
-using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {

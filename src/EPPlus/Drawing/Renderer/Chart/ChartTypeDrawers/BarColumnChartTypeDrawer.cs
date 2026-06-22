@@ -173,7 +173,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var yWidth = (isColumn ? ChartRenderer.Plotarea.Rectangle.Width : ChartRenderer.Plotarea.Rectangle.Height);
 
             var slotSize = valValues.Count;
-            var gapPercent = chartType.GapWidth / 100D;     // Gap width between bars/columns in percent
+            //Gapwidth has a default value of 150% See ECMA-376 Part 1 page 4063:
+            //"<xsd:complexType name="CT_GapAmount">286 <xsd:attribute name="val" type="ST_GapAmount" default="150%"/>287 </xsd:complexType>"
+            var gapWidth = chartType.GapWidth == int.MinValue ? 150 : chartType.GapWidth;
+            var gapPercent = gapWidth / 100D;     // Gap width between bars/columns in percent
             var overlapPercent = chartType.Overlap / 100D;  // Overlap  between bars/columns in percent            
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
