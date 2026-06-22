@@ -120,6 +120,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
                 chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
+                chart.SetPixelWidth(250);
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
@@ -128,7 +129,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var htmlPage = exporter.GetSinglePage();
 
-                var file = GetOutputFile("html", "myColChart.html");
+                var file = GetOutputFile("html", "colChartCats.html");
 
                 SaveAndCleanup(package);
 
