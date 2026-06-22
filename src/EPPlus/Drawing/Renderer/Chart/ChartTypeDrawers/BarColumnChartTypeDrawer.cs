@@ -5,9 +5,7 @@ using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -86,15 +84,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         if (isColumn == true)
                         {
                             var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
-                            basePoint.Position = new Vector2(middleRight, chartBaseY);
 
-                            if (chartBaseY > dataPoints[j].Top)
+                            if (chartBaseY >= dataPoints[j].Top)
                             {
-                                endPoint.Position = new Vector2(middleRight, chartBaseY - dataPoints[j].Height);
+                                //We are a negative column 
+                                // ----- Base-Axis
+                                //  |_| Col
+                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Top);
+                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
                             }
                             else
                             {
-                                endPoint.Position = new Vector2(middleRight, chartBaseY + dataPoints[j].Height);
+                                //We are a positive column 
+                                //   _
+                                //  | |  Col
+                                // ----- Base-Axis
+                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Top);
+                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
                             }
 
                             serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
@@ -102,10 +108,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         else
                         {
                             var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
-
-
-                            basePoint.Position = new Vector2(basePoint.Position.X, middleHeight);
-                            endPoint.Position = new Vector2(basePoint.Position.X + dataPoints[j].Width, middleHeight);
+                            basePoint.Position = new Vector2(chartBaseY, middleHeight);
+                            if (chartBaseY > dataPoints[j].Left)
+                            {
+                                endPoint.Position = new Vector2(chartBaseY - dataPoints[j].Width, middleHeight);
+                            }
+                            else
+                            {
+                                endPoint.Position = new Vector2(dataPoints[j].Left + dataPoints[j].Width, middleHeight);
+                            }
 
                             serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
                         }

@@ -172,16 +172,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
 
-            //_groupItem.Left = ChartRenderer.Plotarea.Group.Left;
-            //_groupItem.Top = ChartRenderer.Plotarea.Group.Top;
-
-            //_groupItem.TransformOrigin = new Coordinate(ChartRenderer.Plotarea.LeftMargin, ChartRenderer.Plotarea.TopMargin);
-
             Rectangle.Bounds.Name = "ChartDrawer";
-
             _groupItem.Bounds.Name = "OuterGroupChartDrawer";
-
-            //_groupitem.bounds.parent = _groupitem.translationoffset;
 
             var chartType = (ExcelPieChart)_chartType;
 
@@ -192,6 +184,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             LoadSeriesValues(chartType);
             CalculateLocalCenterAndRadius();
+            if (serieDataLabels.Count > 0)
+            {
+                serieDataLabels[0].rotation = angleOffset;
+                serieDataLabels[0].rotationPoint = _groupItem.RotationPoint;
+            }
+
             InitializeSlices();
 
             //How much to scale each slice due to pie explosion
@@ -207,23 +205,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 _sliceScaleFactor += 0.02d;
             }
 
-            int count = 0;
+            int dataPointCount = 0;
             if (catValues != null)
             {
                 if (valValues != null)
                 {
-                    count = Math.Min(catValues.Count, valValues.Count);
+                    dataPointCount = Math.Max(catValues.Count, valValues.Count);
                 }
                 else
                 {
-                    count = catValues.Count;
+                    dataPointCount = catValues.Count;
                 }
             }
             else
             {
                 if (valValues != null)
                 {
-                    count = valValues.Count;
+                    dataPointCount = valValues.Count;
                 }
             }
 
@@ -237,18 +235,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 //Excel ignores series beyond the first for pie chart visualization
                 if (i == 0)
                 {
-                    for (var j = 0; j < count; j++)
+                    for (var j = 0; j < Slices.Count; j++)
                     {
                         //Update the initialized slice with path, style and group data
-                        UpdateSlice(chartType, serie, count, j);
+                        UpdateSlice(chartType, serie, dataPointCount, j);
 
                         if (serie.HasDataLabel)
                         {
-                            var innerGroup = Slices[j].GetInnerGroupTransformOriginTranslated();
+                            var innerGroup = Slices[j].GetInnerGroupWithTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(innerGroup.X, innerGroup.Y, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
+                            var dlblBounds = new BoundingBox(innerGroup.LocalPosition.X, innerGroup.LocalPosition.Y, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
 
-                            serieDataLabels[i].SetParentVector(dlblBounds, j, Slices[j].GetWholeVectorCenterToMid());
+                            var ctrToMid = Slices[j].GetWholeVectorCenterToMid();
+                            var startPt = new Transform();
+                            startPt.Parent = innerGroup.Parent;
+                            startPt.Position = innerGroup.Position + (ctrToMid * -1);
+
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup);
                         }
                     }
                 }
@@ -267,14 +270,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
-            //ChartRenderer.Plotarea.Group.AddChildItem(SeriesRenderItems[0]);
             if(SeriesRenderItems != null && SeriesRenderItems.Count > 0)
             {
                 ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
             }
-            //SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
-            //renderItems.AddRange(ChartAreaRenderItems);
-            //SeriesRenderItems.ForEach(x => _groupItem.AddChildItem(x));
         }
     }
 }

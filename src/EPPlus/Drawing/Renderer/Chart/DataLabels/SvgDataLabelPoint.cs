@@ -1,6 +1,5 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
@@ -9,11 +8,9 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
-using System.Net;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -30,6 +27,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         Coordinate _manualLayoutOffset = new Coordinate (0, 0);
         PointLines _connectionPointLines;
         eLabelPosition _labelPosition;
+        internal double CounterRotation = double.NaN;
 
         //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         //{
@@ -235,10 +233,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             return smallestIndex;
         }
 
-        BoundingBox _parentShapeBounds = null;
-
-
-
         private void SetPositionBasic(BoundingBox point, eLabelPosition basicPosition)
         {
             switch (basicPosition)
@@ -299,6 +293,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             centerPositionRect.Left += centerPoint.LocalPosition.X;
             centerPositionRect.Top += centerPoint.LocalPosition.Y;
         }
+        private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
+        {
+            if(reverseDirection)
+            {
+                direction *= -1;
+            }
+
+            //Ensure vector is normalized
+            var directionOnly = direction / direction.Length;
+
+            //Get txtbox-size based vector
+            var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+
+            //Apply translation to current position
+            Rectangle.Bounds.Position += directionOnly * txtBoxAdjustVector;
+        }
+
+        private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
+        {
+            //Translate to the translation point
+            Rectangle.Bounds.Position += translation;
+            SetAdjustedTextBoxPosition(direction, reverseDirection);
+        }
 
         /// <summary>
         /// 
@@ -346,184 +363,71 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
                     break;
                 case eLabelPosition.Left:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Right:
-                case eLabelPosition.BestFit:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Top:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.Bottom:
+                    SetPositionBasic(_parentPoint, _labelPosition);
                     break;
                 case eLabelPosition.InBase:
-                    //Translate to the base point
-                    Rectangle.Bounds.Position += basePoint.LocalPosition;
-
-                    //Move the textbox margins inside on left
-                    if (endToBaseVector.X != 0)
-                    {
-                        //If basePoint is to the left
-                        if (endToBaseVector.X > 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
-                        }
-                        //if basePoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
-                        }
-                    }
-
-                    //Move the textbox margins inside on top
-                    if (endToBaseVector.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (endToBaseVector.Y > 0)
-                        {
-                            //We must place on bottom and apply margin to height
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on top and apply margin to height
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
-                        }
-                    }
+                    SetInOut(endToBaseVector, basePoint.LocalPosition, true);
                     break;
                 case eLabelPosition.InEnd:
-                    //Move to end point
-                    Rectangle.Bounds.Position += endPoint.LocalPosition;
-
-                    //Move the textbox margins inside on left
-                    if (endToBaseVector.X != 0)
-                    {
-                        //If basePoint is to the left
-                        if (endToBaseVector.X < 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
-                        }
-                        //if basePoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
-                        }
-                    }
-
-                    //Move the textbox margins inside on top
-                    if (endToBaseVector.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (endToBaseVector.Y < 0)
-                        {
-                            //We must place on bottom
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on top
-                            SetPositionBasic(new BoundingBox(0, 0) { Height = 5d }, eLabelPosition.Bottom);
-                        }
-                    }
+                    SetInOut(endToBaseVector, endPoint.LocalPosition, false);
                     break;
                 case eLabelPosition.OutEnd:
-                    //Move to end point
-                    Rectangle.Bounds.Position += endPoint.LocalPosition;
-                    if (endToBaseVector.X != 0)
+                    SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                    break;
+                //Only available in charts that include pie chart
+                case eLabelPosition.BestFit:
+                    //Try to fit within object if possible. If not then as close to it as possible?
+
+                    //var labelVector = new Vector2(_txtBox.Width, _txtBox.Height);
+                    bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
+                    bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
+                    if (CanFitWidth && CanFitHeight)
                     {
-                        //If endPoint is to the left
-                        if (endToBaseVector.X > 0)
+                        //TODO: make input parameter in pie chart
+                        bool canFitInCenter = false;
+                        if (canFitInCenter)
                         {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Left);
+                            Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
+                            Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
                         }
-                        //if endpoint is to the right
                         else
                         {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
+                            //Set inside End
+                            SetInOut(endToBaseVector, endPoint.LocalPosition, false);
                         }
                     }
-
-                    if (endToBaseVector.Y != 0)
+                    else
                     {
-                        //If endpoint is on Top
-                        if (endToBaseVector.Y > 0)
-                        {
-                            //We must place on Top
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on Bottom
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
-                        }
+                        //Set outside end
+                        SetInOut(endToBaseVector, endPoint.LocalPosition, true);
                     }
-
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
             }
         }
 
-        internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape, Vector2 startToEndDir)
+        internal void SetParentPoint(BoundingBox parentPoint)
         {
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
-            _parentShapeBounds = parentShape;
 
             var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
-            Vector2 startPointDirection = Vector2.Zero;
-
-            if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
-            {
-                startPointDirection = startToEndDir / startToEndDir.Length;
-            }
-
-            //Rectangle.Bounds.Left += 20;
-
-            //if (_parentShapeBounds != null)
-            //{
-            //    //shapeCenter
-            //    dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
-
-            //    //Get directional vector (in local coords but does not matter since we make it directional)
-            //    startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
-            //    //Divide by length to only get direction
-            //    var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
-
-            //    //var lenX = Math.Abs()
-            //    //////Pythagoran theorem
-            //    var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
-            //    startPointDirection = startPointDirectionOnly * len;
-            //}
-            //else
-            //{
-            //    dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
-            //}
 
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-
-                    if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
-                    {
-                        //Half and invert
-                        dataLabelCenter = ((startToEndDir * 0.5d) * -1d);
-                    }
-                    else if (startToEndDir.Y != 0)
-                    {
-                        //Half and invert
-                        dataLabelCenter = ((startToEndDir * 0.5d) * -1d);
-                    }
-
-                    Rectangle.Bounds.Left += dataLabelCenter.X;
-                    Rectangle.Bounds.Top += dataLabelCenter.Y;
+                    Rectangle.Bounds.Left += Rectangle.Bounds.Left;
+                    Rectangle.Bounds.Top += Rectangle.Bounds.Top;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(parentPoint, _labelPosition);
@@ -537,135 +441,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     break;
                 case eLabelPosition.Bottom:
                     SetPositionBasic(parentPoint, _labelPosition);
-                    break;
-                case eLabelPosition.InBase:
-                    var endToStartVector = startToEndDir * -1;
-                    //Rectangle.Left *= endToStartVector.X;
-                    //Rectangle.Top *= endToStartVector.Y;
-                    if (startPointDirection.X != 0)
-                    {
-                        Rectangle.Left += endToStartVector.X;
-                        //If basePoint is to the left
-                        if (startPointDirection.X < 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(new BoundingBox(0,0), eLabelPosition.Left);
-                        }
-                        //if basePoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Right);
-                        }
-                    }
-
-                    if (startPointDirection.Y != 0)
-                    {
-                        Rectangle.Top += endToStartVector.Y;
-                        //If endpoint is on Top
-                        if (startPointDirection.Y < 0)
-                        {
-                            //We must place on bottom
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on top
-                            SetPositionBasic(new BoundingBox(0, 0), eLabelPosition.Bottom);
-                        }
-                    }
-                    break;
-                case eLabelPosition.InEnd:
-                    if (startPointDirection.X != 0)
-                    {
-                        //If endPoint is to the left
-                        if (startPointDirection.X < 0)
-                        {
-                            //We must place to the right
-                            SetPositionBasic(parentPoint, eLabelPosition.Right);
-                        }
-                        //if endpoint is to the right
-                        else
-                        {
-                            //We must place to the left
-                            SetPositionBasic(parentPoint, eLabelPosition.Left);
-                        }
-                    }
-
-                    if (startPointDirection.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (startPointDirection.Y < 0)
-                        {
-                            //We must place on bottom
-                            SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on top
-                            SetPositionBasic(parentPoint, eLabelPosition.Top);
-                        }
-                    }
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
-                    //}
-                    //var insidePos = startToEndDir * 0.15 * -1;
-                    //Rectangle.Bounds.Left += insidePos.X;
-                    //Rectangle.Bounds.Top += insidePos.Y;
-                    break;
-                case eLabelPosition.OutEnd:
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
-                    //}
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
-                    //}
-                    //Rectangle.Bounds.Left += startToEndDir.X * 0.15;
-                    //Rectangle.Bounds.Top += startToEndDir.Y * 0.15;
-                    //if (parentShape == null)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
-                    //}
-
-                    if (startPointDirection.X != 0)
-                    {
-                        //If endPoint is to the left
-                        if (startPointDirection.X < 0)
-                        {
-                            //We must place to the left
-                            SetPositionBasic(parentPoint, eLabelPosition.Left);
-                        }
-                        //if endpoint is to the right
-                        else
-                        {
-                            //We must place to the right
-                            SetPositionBasic(parentPoint, eLabelPosition.Right);
-                        }
-                    }
-
-                    if (startPointDirection.Y != 0)
-                    {
-                        //If endpoint is on Top
-                        if (startPointDirection.Y < 0)
-                        {
-                            //We must place on Top
-                            SetPositionBasic(parentPoint, eLabelPosition.Top);
-                        }
-                        //If endpoint is on bottom
-                        else
-                        {
-                            //We must place on Bottom
-                            SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                        }
-                    }
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
@@ -774,6 +549,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             group.AddChildItem(titleItem);
 
             parentPointGroup.RenderItems.Add(group);
+
+            group.RotationPoint = new Graphics.Point(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
+            group.Rotation = CounterRotation;
 
             _txtBox.AppendRenderItems(group.RenderItems);
             

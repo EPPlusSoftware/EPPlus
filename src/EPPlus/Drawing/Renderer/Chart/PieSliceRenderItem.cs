@@ -159,6 +159,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private double _sliceScaleFactor = 1d;
         private double _scaledRadius { get { return _radius * _sliceScaleFactor; } }
 
+
         private void CalculateExplosionDir()
         {
             var transformOriginLocal = new Vector2(_innerGroup.TransformOrigin.X, _innerGroup.TransformOrigin.Y);
@@ -525,6 +526,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(_midPoint.Position.X, _midPoint.Position.Y);
         }
 
+
+        internal Transform CopyOuterMidPoint()
+        {
+            var transform = new Transform();
+            transform.Parent = _midPoint.Parent;
+            transform.Position = transform.Position + _midPoint.LocalPosition;
+            return transform;
+        }
+
+        internal Transform CopyStartPoint()
+        {
+            var translationVector = GetLocalTranslationVector(100);
+            var transform = new Transform();
+            transform.Parent = _midPoint.Parent;
+            transform.Position = transform.Position + _midPoint.LocalPosition;
+            return transform;
+        }
+
         internal GroupRenderItem GetInnerItemGroup()
         {
             return _innerGroup;
@@ -538,6 +557,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal Coordinate GetInnerGroupTransformOriginTranslated()
         {
             return new Coordinate(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
+        }
+        /// <summary>
+        /// Transform origin in local coordinates
+        /// Translated
+        /// </summary>
+        /// <returns></returns>
+        internal Transform GetInnerGroupWithTransformOriginTranslated()
+        {
+            Transform transform = new Transform();
+            transform.Parent = _innerGroup.Bounds.Parent;
+            transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
+            return transform;
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
