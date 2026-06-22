@@ -47,13 +47,12 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void DatalabelBarCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("BarChartForSvgDatalabels2.xlsx"))
+            using (var p = OpenTemplatePackage("BarChartForSvgDatalabelsBasic.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
                 var ix = 0;
-                //var svg = drawings[ix].ToSvg();
-                //SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+
                 for (int i = ix; i < drawings.Count; i++)
                 {
                     var svg = drawings[i].ToSvg();
@@ -71,9 +70,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
-                var ix = 1;
-                //var svg = drawings[ix].ToSvg();
-                //SaveTextFileToWorkbook($"svg\\BarChartDataLabels{ix++}.svg", svg);
+                var ix = 0;
+
                 for (int i = ix; i < drawings.Count; i++)
                 {
                     var svg = drawings[i].ToSvg();

@@ -121,22 +121,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
-        BoundingBox _parentShapeBounds = null;
-        Vector2 _startToEndDir = Vector2.Zero;
-        /// <summary>
-        /// Datapoints can have different shapes. 
-        /// Which gives different meaning to positions like'Center' and 'Inside' and 'Outside'
-        /// Therefore you have the option to provide the bounds of a shape and its endpoint
-        /// </summary>
-        /// <param name="parentBounds"></param>
-        /// <param name="parentPoint"></param>
-        /// <param name="index"></param>
-        internal void SetParentShape(BoundingBox parentBounds, BoundingBox shapeEndPoint, int index)
-        {
-            _parentShapeBounds = parentBounds;
-            SetParentPoint(shapeEndPoint, index);
-        }
-
         internal void SetDimensions(int index, Transform basePoint, Transform endPoint)
         {
             if (dataLabels.Count > index)
@@ -145,19 +129,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void SetParentVector(BoundingBox parentPoint, int index, Vector2 startToEndDir)
-        {
-            _startToEndDir = startToEndDir;
-            SetParentPoint(parentPoint, index);
-        }
-
         internal void SetParentPoint(BoundingBox parent, int index)
         {
             if (dataLabels.Count > index)
             {
-                dataLabels[index].SetParentPoint(parent, _parentShapeBounds, _startToEndDir);
+                dataLabels[index].SetParentPoint(parent);
             }
-            //dataLabels[index].SetParentPoint(parent);
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
@@ -178,16 +155,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_dlblSerie.Fill.IsEmpty == false)
             {
-                //Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-                //plotAreaGroup.AddChildItem(Rectangle);
                 Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
                 plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-                //if (_dlblSerie.Fill.Color.ToArgb() == Color.Transparent.ToArgb())
-                //{
-                //    plotAreaGroup.FillColor = "transparent";
-                //}
-
-                //plotAreaGroup.GroupTransform += $" fill=\"{plotAreaGroup.FillColor}\" name=\"Plot area group\"";
             }
 
             renderItems.Add(plotAreaGroup);
