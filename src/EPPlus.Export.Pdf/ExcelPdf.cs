@@ -10,90 +10,40 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfLayout;
-using EPPlus.Export.Pdf.PdfObjects;
-using EPPlus.Export.Pdf.PdfResources;
-using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Fonts.OpenType;
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
-using OfficeOpenXml;
-using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace EPPlus.Export.Pdf
 {
     /// <summary>
     /// Class for exporting to PDF format.
     /// </summary>
-    public class ExcelPdf
+    internal class ExcelPdf
     {
-        internal List<ExcelWorksheet> _workheets = new List<ExcelWorksheet>();
-        internal ExcelRangeBase _range;
         private PdfPageSettings _pageSettings;
-        internal List<PdfObject> _document = new List<PdfObject>();
-        internal string header = "%PDF-1.7\n";
-        internal PdfDictionaries _dictionaries = new PdfDictionaries();
+        private PdfDictionaries _dictionaries;
+        private List<PdfObject> _document = new List<PdfObject>();
+
         private string _debugString;
 
-        public ExcelPdf()
+        internal static string Header
         {
-        }
-
-        /// <summary>
-        /// Create a PDF Document from the worksheet and settings.
-        /// </summary>
-        /// <param name="worksheet">The worksheet to convert to PDF Document</param>
-        /// <param name="pageSettings">The settings object</param>
-        public ExcelPdf(ExcelWorksheet worksheet, PdfPageSettings pageSettings = null)
-        {
-            _workheets.Add(worksheet);
-            _pageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
-            _pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-        }
-
-        /// <summary>
-        /// Create a PDF Document from the selected worksheets and settings. NOT IMPLEMENTED
-        /// </summary>
-        /// <param name="worksheet">The worksheets to convert to PDF Document</param>
-        /// <param name="pageSettings">The Settings object</param>
-        public ExcelPdf(ExcelWorksheet[] worksheet, PdfPageSettings pageSettings = null)
-        {
-            //_ws = worksheet[0];
-            //defaultFontName = worksheet[0].Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-            //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
-        }
-
-        /// <summary>
-        /// Create a PDF Document from the entire worksbook and settings.NOT IMPLEMENTED
-        /// </summary>
-        /// <param name="workbook">Workbook to convert to PDF Document</param>
-        /// <param name="pageSettings">The settings object</param>
-        public ExcelPdf(ExcelWorkbook workbook, PdfPageSettings pageSettings = null)
-        {
-            //_ws = worksheet;
-            //defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-            //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
-        }
-
-        /// <summary>
-        /// Create a PDF Document from the selected range and settings. NOT IMPLEMENTED
-        /// </summary>
-        /// <param name="Range">Range to convert to PDF Document</param>
-        /// <param name="pageSettings">The settings object</param>
-        public ExcelPdf(ExcelRangeBase Range, PdfPageSettings pageSettings = null)
-        {
-            //_range = Range;
-            //defaultFontName = Range.Worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
-            //PageSettings = pageSettings == null ? new PdfPageSettings() : pageSettings;
+            get
+            {
+                return "%PDF-1.7\n";
+            }
         }
 
         //Get the label to use for pattern.
-        internal string GetPatternLabel(PdfCellLayout layout)
+        private string GetPatternLabel(PdfCellLayout layout)
         {
             bool isPattern = (layout.CellFillData.PatternStyle != ExcelFillStyle.Solid && layout.CellFillData.PatternStyle != ExcelFillStyle.None) || layout.CellFillData.GradientFillData != null;
             if (isPattern)
@@ -108,7 +58,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
-        internal void AddFontData()
+        private void AddFontData()
         {
             if (_pageSettings.EmbeddFonts)
             {
@@ -137,7 +87,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Patterns
-        internal void AddPatternData()
+        private void AddPatternData()
         {
             foreach (var pattern in _dictionaries.Patterns)
             {
@@ -146,7 +96,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Shadings and accompanying pattern
-        internal void AddShadingsData()
+        private void AddShadingsData()
         {
             foreach (var shading in _dictionaries.Shadings)
             {
@@ -270,15 +220,15 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Header Footer
-        private void AddHeaderFooter(PdfContentStream contentStream, Transform pageLayout, PdfPage page)
-        {
-            var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
-            foreach (var hf in headerFooter)
-            {
-                var headerFooterLayout = hf as PdfHeaderFooterLayout;
-                contentStream.AddCellContentLayout(headerFooterLayout, _dictionaries, _pageSettings);
-            }
-        }
+        //private void AddHeaderFooter(PdfContentStream contentStream, Transform pageLayout, PdfPage page)
+        //{
+        //    var headerFooter = pageLayout.ChildObjects.Where(t => t is PdfHeaderFooterLayout);
+        //    foreach (var hf in headerFooter)
+        //    {
+        //        var headerFooterLayout = hf as PdfHeaderFooterLayout;
+        //        contentStream.AddCellContentLayout(headerFooterLayout, _dictionaries, _pageSettings);
+        //    }
+        //}
 
         //Add Info
         private PdfInfoObject AddInfoObject(string workBookName = "")
@@ -333,7 +283,7 @@ namespace EPPlus.Export.Pdf
         /// Create the pdf from the supplied worksheet.
         /// </summary>
         /// <param name="Filename">The file name</param>
-        public void CreatePdf(string Filename)
+        internal void CreatePdf(string Filename)
         {
             using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
             {
@@ -350,7 +300,7 @@ namespace EPPlus.Export.Pdf
         /// Create the pdf from the supplied worksheet and write it to a stream.
         /// </summary>
         /// <param name="stream">The stream to write the pdf to. The stream will not be closed.</param>
-        public void CreatePdf(Stream stream)
+        internal void CreatePdf(Stream stream)
         {
             //Create Catalog
             var catalogLayout = new PdfCatalogLayout(_workheets[0], _pageSettings, _dictionaries);
@@ -390,8 +340,8 @@ namespace EPPlus.Export.Pdf
             try
             {
                 //Write header
-                bw.Write(Encoding.ASCII.GetBytes(header));
-                _debugString += header;
+                bw.Write(Encoding.ASCII.GetBytes(Header));
+                _debugString += Header;
                 //Write body
                 foreach (var pdfobj in _document)
                 {

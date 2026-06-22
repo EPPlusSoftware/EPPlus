@@ -11,8 +11,8 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics;
+using EPPlus.Export.Pdf.Settings;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Export.PdfExport.Data.Dictionaries;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
@@ -319,13 +319,15 @@ namespace OfficeOpenXml.Export.PdfExport
             // --- Step 2: PdfPageSettings overrides take precedence over the defined name ---
             if (pageSettings.RowsToRepeatAtTop != null)
             {
-                pdfSheet.PrintTitleRowFrom = pageSettings.RowsToRepeatAtTop._fromRow;
-                pdfSheet.PrintTitleRowTo = pageSettings.RowsToRepeatAtTop._toRow;
+                ExcelAddressBase repeatRows = new ExcelAddressBase(pageSettings.RowsToRepeatAtTop);
+                pdfSheet.PrintTitleRowFrom = repeatRows._fromRow;
+                pdfSheet.PrintTitleRowTo = repeatRows._toRow;
             }
             if (pageSettings.ColumnsToRepeatAtLeft != null)
             {
-                pdfSheet.PrintTitleColFrom = pageSettings.ColumnsToRepeatAtLeft._fromCol;
-                pdfSheet.PrintTitleColTo = pageSettings.ColumnsToRepeatAtLeft._toCol;
+                ExcelAddressBase repeatCols = new ExcelAddressBase(pageSettings.ColumnsToRepeatAtLeft);
+                pdfSheet.PrintTitleColFrom = repeatCols._fromCol;
+                pdfSheet.PrintTitleColTo = repeatCols._toCol;
             }
 
             // --- Step 3: mark cells so the renderer can identify them instantly ---

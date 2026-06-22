@@ -14,24 +14,16 @@ using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Export.PdfExport.Data.Dictionaries;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using EPPlus.Export.Pdf.Settings;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 { 
-    internal struct MergedCellDrawInfo
-    {
-        public double X;
-        public double Y;
-        public double Width;
-        public double Height;
-    }
-
     internal struct PrintTitleCellDraw
     {
         public PdfCell Cell;
@@ -61,50 +53,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         public double X, Y, Width, Height;                  // source cell's true position (off-window)
         public double ClipX, ClipY, ClipWidth, ClipHeight;  // visible slice on this page
         public bool IsPrintTitle;
-    }
-
-    internal struct Page
-    {
-        public int FromRow;
-        public int FromColumn;
-        public int ToRow;
-        public int ToColumn;
-
-        public bool HasPrintTitle;
-        public double PrintTitleWidth;
-        public double PrintTitleHeight;
-
-        public PdfCellCollection Map;
-
-        public PdfHeaderFooterCollection HeaderFooters;
-
-        public Dictionary<string, MergedCellDrawInfo> MergedCells;
-        public List<PrintTitleCellDraw> PrintTitleCells;
-        public List<GridLine> PrintTitleGridLines;
-        public List<PrintTitleHeadingDraw> PrintTitleHeadings;
-        public List<SpillCellDraw> SpillCells;
-        public List<PrintTitleCellDraw> PrintTitleBorders;
-
-        public double[] RowHeights;
-
-        public double HeadingWidth;
-        public double HeadingHeight;
-
-    }
-
-    internal struct Pages
-    {
-        public Page[] Page;
-        public int Width;
-        public int Height;
-        public bool IsCommentsPage;
-        public string HeadingFontName;
-        public float HeadingFontSize;
-        public ExcelFill HeadingFill;
-        public int Count
-        {
-            get { return Width * Height; }
-        }
     }
 
     internal class PdfLayout

@@ -25,17 +25,14 @@
 		<Compile Remove="Core\Worksheet\Fonts\Tables\**" />
 		<Compile Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
 		<Compile Remove="FormulaParsing\FormulaExpressions\Variables\**" />
-		<Compile Remove="Settings\**" />
 		<Compile Remove="Utils\RecyclableMemoryStream\**" />
 		<EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
 		<EmbeddedResource Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
 		<EmbeddedResource Remove="FormulaParsing\FormulaExpressions\Variables\**" />
-		<EmbeddedResource Remove="Settings\**" />
 		<EmbeddedResource Remove="Utils\RecyclableMemoryStream\**" />
 		<None Remove="Core\Worksheet\Fonts\Tables\**" />
 		<None Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
 		<None Remove="FormulaParsing\FormulaExpressions\Variables\**" />
-		<None Remove="Settings\**" />
 		<None Remove="Utils\RecyclableMemoryStream\**" />
 	</ItemGroup>
 
