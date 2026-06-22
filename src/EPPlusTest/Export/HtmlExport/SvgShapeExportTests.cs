@@ -1,11 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Export.HtmlExport;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.Export.HtmlExport;
-using System.IO;
-using System.Drawing;
 
 namespace EPPlusTest.Export.HtmlExport
 {
@@ -72,8 +73,11 @@ namespace EPPlusTest.Export.HtmlExport
                 }
 
                 var chart = ws.Drawings.AddBarChart("myColChart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
-                chart.Series.Add(ws.Cells["A1:A10"]);
+                chart.Series.Add(ws.Cells["A1:A8"]);
 
+                var theme = ws.Workbook.ThemeManager.GetOrCreateTheme();
+                chart.StyleManager.SetChartStyle(ePresetChartStyle.BarChartStyle1, ePresetChartColors.MonochromaticPalette1);
+                //chart.StyleManager.SetChartStyle(ePresetChartStyle.ColumnChartStyle1, ePresetChartColors.ColorfulPalette1);
                 //chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
                 //chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
 
@@ -85,10 +89,12 @@ namespace EPPlusTest.Export.HtmlExport
                 var htmlPage = exporter.GetSinglePage();
 
                 var file = GetOutputFile("html", "myColChart.html");
-
-                SaveAndCleanup(package);
+                var svgFile = GetOutputFile("html", "myColChartSvg.svg");
 
                 File.WriteAllText(file.FullName, htmlPage);
+                File.WriteAllText(svgFile.FullName, chart.ToSvg());
+
+                SaveAndCleanup(package);
             }
         }
 
