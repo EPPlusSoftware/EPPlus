@@ -11,6 +11,8 @@
 		<Description>A spreadsheet library for .NET framework and .NET core</Description>
 		<NeutralLanguage />
 		<LangVersion>latest</LangVersion>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>EPPlus.DrawingRenderer.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="RenderItems\Shared\GroupItem.cs" />
