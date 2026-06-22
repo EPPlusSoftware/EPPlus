@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.String;
@@ -78,7 +79,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             ToColumnOff = toColOff
                         });
                     }
-                    if(d is ExcelShape s)
+                    else if(d is ExcelShape s)
                     {
                         s.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
                         s.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
@@ -87,6 +88,25 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         {
                             WorksheetId = worksheet.PositionId,
                             Drawing = s,
+                            FromRow = fromRow,
+                            FromRowOff = fromRowOff,
+                            FromColumn = fromCol,
+                            FromColumnOff = fromColOff,
+                            ToRow = toRow,
+                            ToRowOff = toRowOff,
+                            ToColumn = toCol,
+                            ToColumnOff = toColOff
+                        });
+                    }
+                    else if(d is ExcelChart)
+                    {
+                        d.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
+                        d.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
+
+                        _rangeDrawings.Add(new HtmlSvgDrawing()
+                        {
+                            WorksheetId = worksheet.PositionId,
+                            Drawing = d,
                             FromRow = fromRow,
                             FromRowOff = fromRowOff,
                             FromColumn = fromCol,

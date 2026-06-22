@@ -458,8 +458,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 if (settings.Drawings.Include == ePictureInclude.IncludeInHtmlOnly)
                 {
                     child.ElementName = "div";
-                    child.Content = d.Drawing.As.Shape.ToSvg();
-                    //ePictureType? type;
+                    child.Content = d.Drawing.ToSvg();
                     //var _encodedImage = ImageEncoder.EncodeImage(image, out type);
 
                     //child.AddAttribute("src", $"data:{GetContentType(type.Value)};base64,{_encodedImage}");
