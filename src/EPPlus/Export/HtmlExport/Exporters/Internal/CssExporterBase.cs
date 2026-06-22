@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (Settings.Pictures.Include == ePictureInclude.Include)
             {
-                LoadRangeImages(_ranges._list);
+                LoadRangeDrawings(_ranges._list);
                 foreach (var p in _rangePictures)
                 {
                     cssTranslator.AddPictureToCss(p);

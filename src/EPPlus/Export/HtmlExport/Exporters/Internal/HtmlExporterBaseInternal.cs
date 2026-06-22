@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
             }
 
-            LoadRangeImages(_ranges._list);
+            LoadRangeDrawings(_ranges._list);
         }
 
         public HtmlExporterBaseInternal(HtmlExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             Require.Argument(ranges).IsNotNull("ranges");
             _ranges = ranges;
             //TODO: Fix support for all ranges
-            LoadRangeImages(_ranges._list);
+            LoadRangeDrawings(_ranges._list);
         }
 
         protected void SetColumnGroup(HTMLElement element, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
@@ -121,6 +121,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                 ExcelWorksheet worksheet = range.Worksheet;
                 HtmlImage image = null;
+                HtmlSvgDrawing drawing = null;
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
@@ -153,7 +154,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
+                    if(Settings.Drawings.Include == (ePictureInclude.Include | ePictureInclude.IncludeInHtmlOnly))
+                    {
+                        drawing = GetDrawing(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                    }
+
                     AddImage(contentElement, Settings, image, cell.Value);
+                    AddDrawing(contentElement, Settings, drawing, cell.Value);
 
                     if (headerRows > 0 || table != null)
                     {
@@ -224,6 +231,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             var ws = range.Worksheet;
             HtmlImage image = null;
+            HtmlDrawing drawing = null;
             bool hasFooter = table != null && table.ShowTotal;
             while (row <= endRow)
             {
@@ -272,6 +280,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     if (Settings.Pictures.Include == (ePictureInclude.Include | ePictureInclude.IncludeInHtmlOnly))
                     { 
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                    }
+
+                    if (Settings.Drawings.Include == (ePictureInclude.Include | ePictureInclude.IncludeInHtmlOnly))
+                    {
+                        drawing = GetDrawing(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
                     if (cell.Hyperlink == null)
@@ -424,6 +437,36 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 else
                 {
                     child.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+                }
+                parent._childElements.Add(child);
+            }
+        }
+
+        protected void AddDrawing(HTMLElement parent, HtmlExportSettings settings, HtmlSvgDrawing d, object value)
+        {
+            if (d != null)
+            {
+                var child = new HTMLElement(HtmlElements.Svg);
+                var name = d.Drawing.Name;
+                string drawingName = HtmlExportTableUtil.GetClassName(d.Drawing.Name, $"drawing{d.Drawing.Id}");
+                child.AddAttribute("alt", d.Drawing.Name);
+                if (settings.Pictures.AddNameAsId)
+                {
+                    child.AddAttribute("id", drawingName);
+                }
+
+                if (settings.Drawings.Include == ePictureInclude.IncludeInHtmlOnly)
+                {
+                    child.ElementName = "div";
+                    child.Content = d.Drawing.As.Shape.ToSvg();
+                    //ePictureType? type;
+                    //var _encodedImage = ImageEncoder.EncodeImage(image, out type);
+
+                    //child.AddAttribute("src", $"data:{GetContentType(type.Value)};base64,{_encodedImage}");
+                }
+                else
+                {
+                    child.AddAttribute("class", $"{settings.StyleClassPrefix}drawing-{name} {settings.StyleClassPrefix}drawing-prop-{drawingName}");
                 }
                 parent._childElements.Add(child);
             }
