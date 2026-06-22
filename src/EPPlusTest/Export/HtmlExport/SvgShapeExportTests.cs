@@ -20,9 +20,9 @@ namespace EPPlusTest.Export.HtmlExport
             {
                 var ws = package.Workbook.Worksheets.Add("ShapeWs");
                 var rect = ws.Drawings.AddShape("SimpleRect", OfficeOpenXml.Drawing.eShapeStyle.Rect);
-                rect.Fill.Color = System.Drawing.Color.AliceBlue;
-                var rect2 = ws.Drawings.AddShape("SimpleRect2", OfficeOpenXml.Drawing.eShapeStyle.Rect);
-                rect2.Fill.Color = System.Drawing.Color.BlanchedAlmond;
+                //rect.Fill.Color = System.Drawing.Color.AliceBlue;
+                //var rect2 = ws.Drawings.AddShape("SimpleRect2", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+                //rect2.Fill.Color = System.Drawing.Color.BlanchedAlmond;
 
                 for (int i = 0; i< values.Count()*2; i++)
                 {
@@ -74,8 +74,8 @@ namespace EPPlusTest.Export.HtmlExport
                 var chart = ws.Drawings.AddBarChart("myColChart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
                 chart.Series.Add(ws.Cells["A1:A10"]);
 
-                chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
-                chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
+                //chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
+                //chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
