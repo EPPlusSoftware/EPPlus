@@ -92,48 +92,15 @@ namespace EPPlusImageRenderer.Svg
                             aav == eActualAxisPosition.LeftSecond)
                         {
                             Rectangle.Width = GetTextWidest(ax) + LeftMargin;
-                            //var ll = 8D;
-                            //if (sc.Chart.HasLegend  && sc.Chart.Legend.Position == eLegendPosition.Left)
-                            //{
-                            //    ll = sc.Legend.Rectangle.Right + sc.Legend.RightMargin;
-                            //}
-                            //Rectangle.Left = Title == null ? ll : Title.Rectangle.Left + Title.TextBox.GetActualWidth();
                         }
                         else
                         {
                             Rectangle.Width = GetTextWidest(ax) + RightMargin;
-                            //var lp = sc.ChartArea.Rectangle.Width - Rectangle.Width - 8D;
-                            //if (aav == eActualAxisPosition.Right)
-                            //{
-                            //    if (sc.SecondVerticalAxis?.Axis?.ActualAxisPosition == eActualAxisPosition.RightSecond)
-                            //    {
-                            //        lp -= sc.SecondVerticalAxis.Rectangle.Width;
-                            //    }
-                            //    else
-                            //    {
-                            //    }
-                            //}
-                            //else
-                            //{
-
-                            //}
-                            //if (sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right)
-                            //{
-                            //    lp = sc.Legend.Rectangle.Left + -Rectangle.Width;
-                            //}
-                            //Rectangle.Left = Title == null ? lp : Title.Rectangle.Left - Rectangle.Width - LeftMargin;
                         }
                     }
                     else
                     {
                         Rectangle.Height = GetTextHeight(ax);
-                        //var rb = 0D;
-                        //if (aav == eActualAxisPosition.Bottom && sc.SecondHorizontalAxis?.Axis.ActualAxisPosition==eActualAxisPosition.BottomSecond)
-                        //{
-                        //    rb = sc.SecondHorizontalAxis.Rectangle.Height;
-                        //}
-                        
-                        //Rectangle.Top = Title == null || ax.AxisPosition == eAxisPosition.Top ? sc.ChartArea.Rectangle.Height - 8 - Rectangle.Height : Title.Rectangle.Top - Rectangle.Height - 8;
                     }
                 }
 
@@ -1133,6 +1100,21 @@ namespace EPPlusImageRenderer.Svg
                                 }
                             }
                         }
+                    }
+                    if(drawer.SupportsErrorBars)
+                    {
+                        foreach(var v in drawer.ErrorBars.Values)
+                        {
+                            if (v[0] < min)
+                            {
+                                min = v[0];
+                            }
+                            if (v[2] > max)
+                            {
+                                max = v[2];
+                            }
+                        }
+
                     }
                 }
             }
