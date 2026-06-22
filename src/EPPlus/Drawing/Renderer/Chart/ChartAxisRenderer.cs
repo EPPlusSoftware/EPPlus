@@ -1101,7 +1101,7 @@ namespace EPPlusImageRenderer.Svg
                             }
                         }
                     }
-                    if(drawer.SupportsErrorBars)
+                    if(drawer.SupportsErrorBars && drawer.ErrorBars!=null)
                     {
                         foreach(var v in drawer.ErrorBars.Values)
                         {
