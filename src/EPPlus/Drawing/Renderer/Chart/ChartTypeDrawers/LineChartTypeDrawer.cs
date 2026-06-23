@@ -11,6 +11,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -33,12 +34,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var yValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 var xValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-
+                if(xValue==null)
+                {
+                    //No x-axis. Create serie from 1..y-items.
+                    xValue = yValue.Select((x, index) => (object)(double)(index + 1)).ToList();
+                }
                 _xValues.Add(xValue);
                 _yValues.Add(yValue);
 
                 serCounter++;
-            }
+             }
 
             if (chartType.IsTypeStacked())
             {
