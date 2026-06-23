@@ -53,14 +53,14 @@ namespace EPPlusImageRenderer.RenderItems
             switch (fill.Style)
             {
                 case eFillStyle.NoFill:
-                    //if (fill.IsEmpty) //Removed for now. 
-                    //{
-                    //    item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
-                    //}
-                    //else
-                    //{
+                    if (fill.IsEmpty) //Do NOT remove. This if is required for Shapes
+                    {
+                        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
+                    }
+                    else
+                    {
                         item.FillColor = "none";
-                    //}
+                    }
                     break;
                 case eFillStyle.SolidFill:
                     item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);

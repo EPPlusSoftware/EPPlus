@@ -23,6 +23,22 @@ namespace EPPlus.Export.ImageRenderer.Tests
         }
 
         [TestMethod]
+        public void BaseThemeChartStyle2()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            using (var p = OpenTemplatePackage("baseThemeChartStyle2.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
+                var svg = c.ToSvg();
+                //var renderer = new EPPlusImageRenderer.ImageRenderer();
+                //var svg = renderer.RenderDrawingToSvg(c);
+                SaveTextFileToWorkbook($"svg\\baseThemeChartStyle.svg", svg);
+            }
+        }
+
+
+        [TestMethod]
         public void ExtractThemeStyleWorks()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
