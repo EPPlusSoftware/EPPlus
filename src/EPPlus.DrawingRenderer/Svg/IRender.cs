@@ -607,7 +607,7 @@ namespace EPPlus.DrawingRenderer
                 var y = Bounds.Height * blipFill.StretchOffset.TopOffset / 100;
                 var width = Bounds.Width - x - Bounds.Width * blipFill.StretchOffset.RightOffset / 100;
                 var height = Bounds.Height - x - Bounds.Height * blipFill.StretchOffset.BottomOffset / 100;
-                return $" preserveAspectRatio=\"none\" x=\"{x.ToString(CultureInfo.InvariantCulture)}\" y=\"{y.ToString(CultureInfo.InvariantCulture)}\" width=\"{width.ToString(CultureInfo.InvariantCulture)}\" height=\"{height.ToString(CultureInfo.InvariantCulture)}\" ";
+                return $" preserveAspectRatio=\"none\" x=\"{x.ToString(CultureInfo.InvariantCulture)}\" y=\"{y.ToString(CultureInfo.InvariantCulture)}\" width=\"{width.PointToPixelString()}\" height=\"{height.PointToPixelString()}\" ";
             }
             else if (!(blipFill.Tile.HorizontalOffset == 0 && blipFill.Tile.VerticalOffset == 0 &&
                     blipFill.Tile.HorizontalRatio == 100 && blipFill.Tile.VerticalRatio == 100 && blipFill.Tile.FlipMode == TileFlipMode.None))
