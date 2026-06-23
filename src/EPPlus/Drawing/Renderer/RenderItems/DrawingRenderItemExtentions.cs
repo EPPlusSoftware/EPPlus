@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal static class DrawingRenderItemExtentions
     {
-        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color)
+        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, ExcelDrawingThemeColorManager nullColor=null)
         {
             switch (fill.Style)
             {
@@ -43,11 +43,11 @@ namespace EPPlusImageRenderer.RenderItems
                     item.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
                     break;
                 default:
-                    SetDrawingPropertiesFillBasic(item, theme, fill, color);
+                    SetDrawingPropertiesFillBasic(item, theme, fill, color, nullColor ?? theme.ColorScheme.Accent1);
                     break;
             }
         }
-        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color)
+        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, ExcelDrawingThemeColorManager nullColor)
         {
             double? opacity = null;
             switch (fill.Style)
@@ -55,7 +55,7 @@ namespace EPPlusImageRenderer.RenderItems
                 case eFillStyle.NoFill:
                     if (fill.IsEmpty) //Do NOT remove. This if is required for Shapes
                     {
-                        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
+                        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity, nullColor);
                     }
                     else
                     {
