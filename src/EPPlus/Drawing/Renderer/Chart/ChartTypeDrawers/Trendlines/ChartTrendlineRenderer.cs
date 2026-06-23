@@ -159,9 +159,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
             //Set datalabel position.
-            if(DataLabel.Left + (DataLabel.Width + 5) > ChartRenderer.Bounds.Right)
+            if(DataLabel.Left + 5 > ChartRenderer.Bounds.Right)
             {
-                DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width;
+                DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width - 5;
             }
             else
             {
@@ -493,7 +493,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var intercept = Math.Pow(Math.E, (sumLnY - slope  * sumLnX) / n);
             Coefficients = [slope, intercept];
 
-            Formula = $"y = {intercept:G5} x |ss:{slope:G3}|";
+            Formula = $"y = {intercept:G5} x |ss:{slope:G5}|";
             var ylogSerie = _ySerie.Select(y => Math.Log(y)).ToArray();
             var r2 = CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
             RSquare = $"R² = {r2:N4} ";

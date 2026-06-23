@@ -26,5 +26,25 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+        [TestMethod]
+        public void GenerateSvgForErrorbars_Column_Sheet2()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("Errorbars.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                //var ix = 4;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\Error_sheet1_ind{ix++}.svg", svg);
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\Errorbar_sheet2_{ix++}.svg", svg);
+                }
+            }
+        }
     }
 }
