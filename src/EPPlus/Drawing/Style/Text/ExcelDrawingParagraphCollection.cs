@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     var paragraph = new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml);
                     _paragraphs.Add(paragraph);
-                    //if(_paragraphs.Count == 1)
+                    //if (_paragraphs.Count == 1 && FirstDefaultRunProperties == null)
                     //{
                     //    FirstDefaultRunProperties = paragraph.DefaultRunProperties;
                     //}
@@ -90,10 +90,10 @@ namespace OfficeOpenXml.Drawing
             }
 
             var p = new ExcelDrawingParagraph(this, _prd, NameSpaceManager, pn, SchemaNodeOrder, _initXml);
+
             var tr = p.TextRuns.Add(text);
             
             _paragraphs.Add(p);
-            
             //_addCallback?.Invoke(tr);
 
             if (placeHolderNode != null)

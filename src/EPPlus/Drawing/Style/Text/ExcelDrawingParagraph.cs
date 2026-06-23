@@ -36,6 +36,9 @@ namespace OfficeOpenXml.Drawing
         Action _initXml;
         internal IPictureRelationDocument _prd;
         internal ExcelDrawingParagraphCollection _paragraphs;
+
+        //bool legacyDefaultRunPropertySetting = false;
+
         internal ExcelDrawingParagraph(ExcelDrawingParagraphCollection paragraphs, IPictureRelationDocument prd, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode)
         {
             _paragraphs = paragraphs;
@@ -43,13 +46,27 @@ namespace OfficeOpenXml.Drawing
             _initXml = initXml;
             _prd = prd;
 
+
+
             if (_paragraphs.FirstDefaultRunProperties == null)
             {
                 DefaultRunProperties = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
             }
             else
             {
-                DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
+                if(paragraphs.Count == 0)
+                {
+                    //The node must still be created
+                    var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper;
+                    var textFont = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+                    var xmlNewNode = textFont.XmlHelper;
+                    CopyElement((XmlElement)xmlFirstDefault.TopNode, (XmlElement)xmlNewNode.TopNode);
+                    DefaultRunProperties = textFont;
+                }
+                else
+                {
+                    DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
+                }
             }
 
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();

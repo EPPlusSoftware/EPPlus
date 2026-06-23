@@ -33,13 +33,13 @@ namespace OfficeOpenXml.Style
         private readonly float _defaultFontSize;
         private readonly ExcelTextFont _defaultFont;
         private readonly ExcelTextBody _textBody;
-        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11, eTextAlignment defaultAlignment = eTextAlignment.Left) :
+        internal ExcelParagraphCollection(ExcelTextBody tb, ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize = 11, eTextAlignment defaultAlignment = eTextAlignment.Left) :
             base(ns, topNode)
         {
             _drawing = drawing;
             _textBody = tb;
             _defaultFontSize = defaultFontSize;
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef", "rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount", "pt", "pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont", "buNone", "buAutoNum", "buChar", "buBlip", "tabLst", "defRPr", "r", "br", "fld", "endParaRPr" });
 
             //if (topNode.SelectSingleNode(path, ns) == null)
             //{
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Style
             foreach (var p in tb.Paragraphs)
             {
                 p.defaultAlignment = defaultAlignment;
-                foreach(var tr in p.TextRuns)
+                foreach (var tr in p.TextRuns)
                 {
                     _list.Add(new ExcelParagraph(tr));
                 }
@@ -95,7 +95,29 @@ namespace OfficeOpenXml.Style
                     return;
                 }
             }
-            _list.Add(new ExcelParagraph(tr));
+            if (_list.Count == 0)
+            {
+                var para = new ExcelParagraph(tr);
+                _list.Add(para);
+                
+                ////_textBody.Paragraphs[0].DefaultRunProperties = _textBody.Paragraphs.FirstDefaultRunProperties;
+                //var para = new ExcelParagraph(tr);
+                //_list.Add(para);
+                //var defRpr = tr.Paragraph._paragraphs.FirstDefaultRunProperties;
+                //var para = new ExcelParagraph(tr);
+                //var mf = defRpr.GetMeasureFont();
+                //para.SetFromFont(mf.FontFamily, mf.Size,
+                //    (mf.Style & MeasurementFontStyles.Bold) != 0,
+                //    (mf.Style & MeasurementFontStyles.Italic) != 0,
+                //    (mf.Style & MeasurementFontStyles.Underline) != 0,
+                //    (mf.Style & MeasurementFontStyles.Strikeout) != 0);
+                //_list.Add(para);
+            }
+            else
+            {
+                _list.Add(new ExcelParagraph(tr));
+            }
+            //_list.Add(new ExcelParagraph(tr));
         }
         private void RemoveTextRun(ExcelParagraphTextRunBase textRun)
         {
@@ -239,7 +261,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_textBody.Paragraphs.Count == 0)
                 {
-                    Add(value);
+                    Add(value, true);
                 }
                 else
                 {
