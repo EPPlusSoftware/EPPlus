@@ -10,12 +10,13 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Export.PdfExport.Data.Dictionaries;
-using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -439,14 +440,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         private static PdfCellAlignmentData GetContentAlignment(ExcelRangeBase cell)
         {
             var contentAlignment = new PdfCellAlignmentData();
-            contentAlignment.HorizontalAlignment = cell.Style.HorizontalAlignment;
-            contentAlignment.VerticalAlignment = cell.Style.VerticalAlignment;
+            contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)cell.Style.HorizontalAlignment;
+            contentAlignment.VerticalAlignment = (EPPlus.Export.Pdf.Enums.ExcelVerticalAlignment)cell.Style.VerticalAlignment;
             contentAlignment.Indent = cell.Style.Indent;
             contentAlignment.WrapText = cell.Style.WrapText;
             contentAlignment.ShrinkToFit = cell.Style.ShrinkToFit;
             contentAlignment.TextRotation = (cell.Style.TextRotation > 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             contentAlignment.IsVertical = cell.Style.TextRotation == 255 ? true : false;
-            contentAlignment.TextDirection = cell.Style.ReadingOrder;
+            contentAlignment.TextDirection = (EPPlus.Export.Pdf.Enums.ExcelReadingOrder)cell.Style.ReadingOrder;
             return contentAlignment;
         }
 
@@ -603,13 +604,13 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             switch (headerFooter.Alignment)
             {
                 case HeaderFooterAlignment.Left:
-                    contentAlignment.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left;
                     break;
                 case HeaderFooterAlignment.Center:
-                    contentAlignment.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center;
                     break;
                 case HeaderFooterAlignment.Right:
-                    contentAlignment.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                    contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right;
                     break;
             }
             return contentAlignment;

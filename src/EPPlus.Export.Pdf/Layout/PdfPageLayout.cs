@@ -51,50 +51,6 @@ namespace EPPlus.Export.Pdf.Layout
         public int ColEnd;
     }
 
-    internal struct Page
-    {
-        public int FromRow;
-        public int FromColumn;
-        public int ToRow;
-        public int ToColumn;
-
-        public bool HasPrintTitle;
-        public double PrintTitleWidth;
-        public double PrintTitleHeight;
-
-        public PdfCellCollection Map;
-
-        public PdfHeaderFooterCollection HeaderFooters;
-
-        public Dictionary<string, MergedCellDrawInfo> MergedCells;
-        public List<PrintTitleCellDraw> PrintTitleCells;
-        public List<GridLine> PrintTitleGridLines;
-        public List<PrintTitleHeadingDraw> PrintTitleHeadings;
-        public List<SpillCellDraw> SpillCells;
-        public List<PrintTitleCellDraw> PrintTitleBorders;
-
-        public double[] RowHeights;
-
-        public double HeadingWidth;
-        public double HeadingHeight;
-
-    }
-
-    internal struct Pages
-    {
-        public Page[] Page;
-        public int Width;
-        public int Height;
-        public bool IsCommentsPage;
-        public string HeadingFontName;
-        public float HeadingFontSize;
-        public ExcelFill HeadingFill;
-        public int Count
-        {
-            get { return Width * Height; }
-        }
-    }
-
     [DebuggerDisplay("{Name}")]
     internal class PdfPageLayout : Transform
     {

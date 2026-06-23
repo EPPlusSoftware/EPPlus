@@ -10,17 +10,18 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
-using EPPlus.Export.Pdf.Settings;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 { 

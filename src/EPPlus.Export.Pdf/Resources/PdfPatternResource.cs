@@ -10,9 +10,10 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfLayout;
-using EPPlus.Export.Pdf.PdfObjects.PdfPatterns;
-using OfficeOpenXml.Style;
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.DocumentObjects.Patterns;
+using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.Helpers;
 
 namespace EPPlus.Export.Pdf.Resources
 {

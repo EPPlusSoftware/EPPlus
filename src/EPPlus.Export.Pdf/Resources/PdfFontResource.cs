@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects.Fonts;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.TextShaping;
@@ -18,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.Interfaces.Fonts;
-using OfficeOpenXml.Export.PdfExport.ObjectData;
 
 namespace EPPlus.Export.Pdf.Resources
 {

@@ -14,41 +14,43 @@ using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Linq;
+using EPPlus.Export.Pdf.Settings;
 
 namespace EPPlus.Export.Pdf.Resources
-
-internal class PdfDictionaries
 {
-    internal readonly Dictionary<string, PdfFontResource> Fonts = new Dictionary<string, PdfFontResource>();
-    internal readonly Dictionary<string, PdfPatternResource> Patterns = new Dictionary<string, PdfPatternResource>();
-    internal readonly Dictionary<string, PdfShadingResource> Shadings = new Dictionary<string, PdfShadingResource>();
-    internal Dictionary<string, IFontProvider> ShapedProviders = new Dictionary<string, IFontProvider>();
-
-    public void AddFont(PdfPageSettings pageSettings, string FontName, FontSubFamily SubFamily, string Text)
+    internal class PdfDictionaries
     {
-        var fullFont = FontName + " " + SubFamily.ToString();
-        if (!Fonts.ContainsKey(fullFont))
+        internal readonly Dictionary<string, PdfFontResource> Fonts = new Dictionary<string, PdfFontResource>();
+        internal readonly Dictionary<string, PdfPatternResource> Patterns = new Dictionary<string, PdfPatternResource>();
+        internal readonly Dictionary<string, PdfShadingResource> Shadings = new Dictionary<string, PdfShadingResource>();
+        internal Dictionary<string, IFontProvider> ShapedProviders = new Dictionary<string, IFontProvider>();
+
+        public void AddFont(PdfPageSettings pageSettings, string FontName, FontSubFamily SubFamily, string Text)
         {
-            int label = 1;
-            if (Fonts.Count > 0)
+            var fullFont = FontName + " " + SubFamily.ToString();
+            if (!Fonts.ContainsKey(fullFont))
             {
-                label = Fonts.Last().Value.labelNumber + 1;
+                int label = 1;
+                if (Fonts.Count > 0)
+                {
+                    label = Fonts.Last().Value.labelNumber + 1;
+                }
+                Fonts.Add(fullFont, new PdfFontResource(FontName, SubFamily, label, pageSettings));
             }
-            Fonts.Add(fullFont, new PdfFontResource(FontName, SubFamily, label, pageSettings));
+            var manger = Fonts[fullFont].fontSubsetManager;
+            manger.AddText(Text);
         }
-        var manger = Fonts[fullFont].fontSubsetManager;
-        manger.AddText(Text);
-    }
 
-    internal PdfFontResource GetFont(string FontName)
-    {
-        if (!Fonts.ContainsKey(FontName))
+        internal PdfFontResource GetFont(string FontName)
         {
-            return null;
+            if (!Fonts.ContainsKey(FontName))
+            {
+                return null;
+            }
+            return Fonts[FontName];
         }
-        return Fonts[FontName];
-    }
 
-    //this should move and be on worksheet level.
-    internal readonly Dictionary<string, PdfCommentsAndNotes> CommentsAndNotes = new Dictionary<string, PdfCommentsAndNotes>(); 
+        //this should move and be on worksheet level.
+        internal readonly Dictionary<string, PdfCommentsAndNotes> CommentsAndNotes = new Dictionary<string, PdfCommentsAndNotes>();
+    }
 }

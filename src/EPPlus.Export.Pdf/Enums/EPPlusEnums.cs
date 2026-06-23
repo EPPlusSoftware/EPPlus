@@ -266,5 +266,5 @@ namespace EPPlus.Export.Pdf.Helpers
         /// Slanted Dash Dot
         /// </summary>
         SlantDashDot
-    };
+    }
 }

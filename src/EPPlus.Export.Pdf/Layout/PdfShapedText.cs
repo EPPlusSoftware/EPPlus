@@ -14,7 +14,7 @@ using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Export.PdfExport.TextShaping
+namespace EPPlus.Export.Pdf.Layout
 {
     internal struct PdfShapedText
     {

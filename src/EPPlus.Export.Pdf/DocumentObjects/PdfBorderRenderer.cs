@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
-using OfficeOpenXml.Style;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {

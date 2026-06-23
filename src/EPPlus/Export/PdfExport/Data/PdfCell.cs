@@ -10,52 +10,16 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.PdfLayout;
-using EPPlus.Fonts.OpenType.Integration;
-using OfficeOpenXml.Export.PdfExport.TextShaping;
-using OfficeOpenXml.Style;
-using System.Collections.Generic;
+using EPPlus.Export.Pdf.Layout;
 
 namespace OfficeOpenXml.Export.PdfExport.Data
 {
-    internal class PdfCell
+    internal class PdfCell : PdfCellBase
     {
-        public string Name { get; set; }
-        public bool Hidden;
         public PdfCellStyle CellStyle;
-        public PdfCellAlignmentData ContentAligmnet;
-        public List<TextFragment> TextFragments { get; set; }
-        public List<PdfShapedText> ShapedTexts { get; set; }
-        public TextLineCollection TextLines { get; set; }
-        public string Text { get; set; }
-
-
-        public double TotalTextLength { get; set; }
-        public double ColumnWidth { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
-
-        public TextLayoutEngine TextLayoutEngine { get; set; }
 
         public bool Merged;
         public PdfCell Main;
         public ExcelAddressBase MergedAddress;
-
-        public bool IsPrintTitleRow;
-        public bool IsPrintTitleCol;
-    }
-
-    internal class PdfCellAlignmentData
-    {
-        public ExcelHorizontalAlignment HorizontalAlignment = ExcelHorizontalAlignment.General;
-        public ExcelVerticalAlignment VerticalAlignment = ExcelVerticalAlignment.Bottom;
-        public int Indent = 0;
-        public bool WrapText = false;
-        public bool ShrinkToFit = false;
-        public int TextRotation = 0;
-        public ExcelReadingOrder TextDirection = ExcelReadingOrder.ContextDependent;
-        public bool IsVertical = false;
-
-        public PdfCellAlignmentData() { }
     }
 }

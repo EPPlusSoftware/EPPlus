@@ -10,8 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using OfficeOpenXml.Style;
 using System.Drawing;
+using EPPlus.Export.Pdf.Helpers;
 
 namespace EPPlus.Export.Pdf.Layout
 {
