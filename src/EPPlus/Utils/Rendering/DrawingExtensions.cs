@@ -146,7 +146,7 @@ namespace EPPlus.Export.Utils
         {
             return new FillTile
             {
-                Alignment = (RectangleAlignment)fillTile.Alignment,
+                Alignment = (RectangleAlignment?)fillTile.Alignment,
                 FlipMode = (TileFlipMode)fillTile.FlipMode,
                 HorizontalOffset = fillTile.HorizontalOffset,
                 VerticalOffset = fillTile.VerticalOffset,
