@@ -85,7 +85,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         {
                             var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
 
-                            if (chartBaseY >= dataPoints[j].Top)
+                            if (chartBaseY <= dataPoints[j].Top)
                             {
                                 //We are a negative column 
                                 // ----- Base-Axis
@@ -99,8 +99,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 //   _
                                 //  | |  Col
                                 // ----- Base-Axis
-                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Top);
-                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
+                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
+                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Top);
                             }
 
                             serieDataLabels[i].SetDimensions(j, basePoint, endPoint);

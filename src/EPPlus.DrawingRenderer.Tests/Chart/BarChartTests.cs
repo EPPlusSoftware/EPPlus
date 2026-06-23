@@ -51,7 +51,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
-                var ix = 0;
+                var ix = 1;
 
                 for (int i = ix; i < drawings.Count; i++)
                 {

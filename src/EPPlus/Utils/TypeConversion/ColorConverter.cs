@@ -41,6 +41,27 @@ namespace OfficeOpenXml.Utils.TypeConversion
 
         }
 
+        public static Color GetThemeColor(ExcelTheme theme, ExcelDrawingColorManager cm, ExcelDrawingColorManager cmStyle)
+        {
+            if (cm != null && cm.ColorType == eDrawingColorType.Scheme)
+            {
+                ExcelDrawingThemeColorManager newCm;
+                if(cm.SchemeColor.Color == eSchemeColor.Style)
+                {
+                   return GetThemeColor(theme, cmStyle);
+                }
+                else
+                {
+                    newCm = theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
+                }
+                var nc = GetThemeColor(newCm);
+                return ApplyTransforms(nc, cm.Transforms);
+            }
+            var c = GetThemeColor(cm);
+            return ApplyTransforms(c, cm.Transforms);
+
+        }
+
         private static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
         {
             if (transforms==null || transforms.Count == 0) return c;

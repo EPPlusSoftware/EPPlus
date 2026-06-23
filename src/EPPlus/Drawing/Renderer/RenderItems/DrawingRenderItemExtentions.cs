@@ -198,7 +198,8 @@ namespace EPPlusImageRenderer.RenderItems
             }
             else if (fill.Style == eFillStyle.SolidFill)
             {
-                fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color);
+                //Send in styleFill as well since a solid fill can refer to style color
+                fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, styleFillColor);
             }
             else
             {

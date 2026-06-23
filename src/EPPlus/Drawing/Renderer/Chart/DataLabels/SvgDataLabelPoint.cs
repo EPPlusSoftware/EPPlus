@@ -353,7 +353,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //And endVector is the top center position.
 
             //--- Visualize positions for debugging purposes
-            //CreateDebugPoints(basePoint, endPoint, centerPoint);
+            CreateDebugPoints(basePoint, endPoint, centerPoint);
             //---
 
             switch (_labelPosition)

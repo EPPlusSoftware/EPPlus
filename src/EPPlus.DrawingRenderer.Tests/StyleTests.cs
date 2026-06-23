@@ -67,18 +67,20 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 //context.SetTranslator(fillTranslator);
                 //context.AddDeclarations(styleClass);
-                simpleChart.StyleManager.ApplyStyles();
+                //simpleChart.StyleManager.ApplyStyles();
 
                 //chartDefaultStyle.DataPointLine.FillReference.Color
-                simpleChart.Title.Font.Color = Color.CornflowerBlue;
+                //simpleChart.Title.Font.Color = Color.CornflowerBlue;
                 //simpleChart.StyleManager.Style.Title.FontReference.Color.SetPresetColor(Color.CornflowerBlue);
 
                 //Highest order of styling if datapoint does not exist
                 //simpleChart.StyleManager.Style.DeleteAllNode("cs:dataPointLine");
                 simpleChart.StyleManager.Style.DataPointLine.BorderReference.Color.SetPresetColor(Color.Green);
 
+                //
+                //var currBorderFill = simpleChart.StyleManager.Style.DataPointLine.Border.Fill;
                 //simpleChart.StyleManager.Style.DataPointLine.Border.Fill.DeleteNode(path);
-                simpleChart.StyleManager.Style.DataPointLine.Border.Fill.Color = Color.Red;
+                //simpleChart.StyleManager.Style.DataPointLine.Border.Fill.Color = Color.Red;
                 //simpleChart.StyleManager.Style.DataPointLine.Fill.Color = Color.Green;
 
                 //simpleChart.StyleManager.Style.DataPoint.Fill.Color = Color.Yellow;
@@ -86,7 +88,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 simpleChart.StyleManager.ApplyStyles();
 
-                simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
+                //simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
 
                 var svg = simpleChart.ToSvg();
                 SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcel2.svg", svg);
@@ -98,6 +100,30 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 //var myFill = chartDefaultStyle.Title.Fill;
                 //var myLine = chartDefaultStyle.Title.Border;
 
+                SaveAndCleanup(p);
+            }
+
+        }
+
+        [TestMethod]
+        public void ExtractThemeStyleWorksDataLine()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            using (var p = OpenTemplatePackage("MyLineIonThemeExcel.xlsx"))
+            {
+                var wbStyles = p.Workbook.Styles;
+                var simpleChart = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
+
+                simpleChart.Title.Text = "Hello";
+
+                var chartDefaultStyle = simpleChart.StyleManager.Style;
+                simpleChart.StyleManager.ApplyStyles();
+
+                //simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
+
+                var svg = simpleChart.ToSvg();
+                SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcelChangeOnlyTitle.svg", svg);
                 SaveAndCleanup(p);
             }
 
