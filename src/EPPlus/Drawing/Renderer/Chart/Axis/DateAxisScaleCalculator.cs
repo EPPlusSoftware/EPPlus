@@ -14,8 +14,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 {
     internal class DateAxisScaleCalculator
     {
-
-
         /// <summary>
         /// Calculate automatic axis settings for date data
         /// </summary>

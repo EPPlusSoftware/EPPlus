@@ -55,7 +55,7 @@ namespace EPPlusImageRenderer.RenderItems
                 case eFillStyle.NoFill:
                     if (fill.IsEmpty) //Do NOT remove. This if is required for Shapes
                     {
-                        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity, nullColor);
+                        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity, null);
                     }
                     else
                     {
