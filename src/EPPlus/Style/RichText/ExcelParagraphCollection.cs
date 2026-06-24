@@ -213,6 +213,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_textBody.Paragraphs.Count == 0)
                 {
+                    //_textBody.Paragraphs.Add(value);
                     Add(value, true);
                 }
                 else
