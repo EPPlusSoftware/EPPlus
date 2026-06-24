@@ -56,6 +56,12 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             if (string.IsNullOrEmpty(fontName))
                 return FontAvailability.NotFound;
 
+            // special case for Archivo Narrow which is distributed as last-resort-font with EPPlus
+            if (string.Equals("archivo narrow", fontName, StringComparison.OrdinalIgnoreCase))
+            {
+                return FontAvailability.Exact;
+            }
+
             var face = _scanner.FindBestMatch(
                 _fontDirectories,
                 fontName,
@@ -77,14 +83,20 @@ namespace EPPlus.Fonts.OpenType.FontResolver
 
         public byte[] ResolveFont(string fontName, FontSubFamily subFamily)
         {
-            // 1. Try exact match first
+            // 1.  special case for Archivo Narrow which is distributed as last-resort-font with EPPlus
+            if (string.Equals("archivo narrow", fontName, StringComparison.OrdinalIgnoreCase))
+            {
+                return EmbeddedFonts.LoadArchivoNarrow(subFamily).RawData;
+            }
+
+            // 2. Try exact match first
             var face = _scanner.FindBestMatch(
                 _fontDirectories, fontName, subFamily, _searchSystemDirectories);
 
             if (face != null && face.IsExactMatch)
                 return _fileReader.ReadFontBytes(face);
 
-            // 2. No exact match — try user-configured fallback chain
+            // 3. No exact match — try user-configured fallback chain
             if (_config != null)
             {
                 var userFallbacks = _config.GetFallbacks(fontName);
@@ -96,7 +108,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
                 }
             }
 
-            // 3. Try built-in fallback chain for known Office/system fonts.
+            // 4. Try built-in fallback chain for known Office/system fonts.
             // Runs after user config so user preferences win, but still provides a metric-aware
             // safety net for fonts the user hasn't configured.
             var builtinFallbacks = BuiltinFontFallbackChains.GetFallbacks(fontName);
@@ -107,7 +119,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
                     return resolved;
             }
 
-            // 4. No match found — fall back to built-in Archivo Narrow.
+            // 5. No match found — fall back to built-in Archivo Narrow.
             // Only applies when using DefaultFontResolver (i.e. no custom resolver installed).
             return EmbeddedFonts.LoadArchivoNarrow(subFamily).RawData;
         }
