@@ -13,6 +13,7 @@
 using EPPlus.Export.Pdf.Settings;
 using OfficeOpenXml.Export.PdfExport.Data;
 using EPPlus.Export.Pdf.Layout;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
@@ -109,20 +110,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     var halign = cell.ContentAligmnet.HorizontalAlignment;
 
                     // Right spill — Left / General alignment.
-                    if (halign == ExcelHorizontalAlignment.Left ||
-                        halign == ExcelHorizontalAlignment.General)
+                    if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left ||
+                        halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
                     {
                         MarkSpillRight(page, ri, ci, colCount, colX, spill, spillBlocked);
 
                     }
 
                    // Left spill — Right alignment.
-                    else if (halign == ExcelHorizontalAlignment.Right)
+                    else if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right)
                     {
                         MarkSpillLeft(page, ri, ci, colX, spill, spillBlocked);
                     }
                     // Both directions — Center alignment, half the excess each way.
-                    else if (halign == ExcelHorizontalAlignment.Center)
+                    else if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
                     {
                         double halfSpill = spill / 2d;
                         MarkSpillRight(page, ri, ci, colCount, colX, halfSpill, spillBlocked);

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Resources;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;

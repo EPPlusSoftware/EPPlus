@@ -158,10 +158,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                 height: info.Height);     // full merge height
                                             diagBorder.Name = map.Name;
                                             // Suppress edge borders — this layout exists only for the diagonal
-                                            diagBorder.BorderData.Top.BorderStyle = ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Bottom.BorderStyle = ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Left.BorderStyle = ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Right.BorderStyle = ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                            diagBorder.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
                                             pageLayout.AddChild(diagBorder);
                                         }
                                     }
@@ -195,10 +195,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 if (map.Merged && map.MergedAddress != null)
                                 {
                                     var addr = map.MergedAddress;
-                                    if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = ExcelBorderStyle.None;
-                                    if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = ExcelBorderStyle.None;
-                                    if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = ExcelBorderStyle.None;
-                                    if (col != addr.End.Column) border.BorderData.Right.BorderStyle = ExcelBorderStyle.None;
+                                    if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                    if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                    if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                    if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
                                 }
                                 pageLayout.AddChild(border);
                             }
@@ -335,25 +335,25 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             if (map.ContentAligmnet == null) return false;
             // Fill alignment always clips; WrapText is already wrapped but clip for safety.
-            if (map.ContentAligmnet.HorizontalAlignment == ExcelHorizontalAlignment.Fill || map.ContentAligmnet.WrapText)
+            if (map.ContentAligmnet.HorizontalAlignment == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Fill || map.ContentAligmnet.WrapText)
                 return true;
             if (map.TotalTextLength <= map.ColumnWidth) return false;
             var halign = map.ContentAligmnet.HorizontalAlignment;
-            if (halign == ExcelHorizontalAlignment.Left || halign == ExcelHorizontalAlignment.General)
+            if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
             {
                 // Text spills right — clip if the right neighbour has content or we're at the page edge.
                 if (col >= page.ToColumn) return true;
                 var right = page.Map[row, col + 1];
                 return right != null && !string.IsNullOrEmpty(right.Text);
             }
-            else if (halign == ExcelHorizontalAlignment.Right)
+            else if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right)
             {
                 // Text spills left — clip if the left neighbour has content or we're at the page edge.
                 if (col <= page.FromColumn) return true;
                 var left = page.Map[row, col - 1];
                 return left != null && !string.IsNullOrEmpty(left.Text);
             }
-            else if (halign == ExcelHorizontalAlignment.Center)
+            else if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
             {
                 // Text spills both ways — clip if either neighbour blocks or we're at an edge.
                 bool rightBlocked = col >= page.ToColumn || (page.Map[row, col + 1] != null && !string.IsNullOrEmpty(page.Map[row, col + 1].Text));
@@ -474,8 +474,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             cell.Text = text;
             cell.CellStyle = new PdfCellStyle();
             cell.ContentAligmnet = new PdfCellAlignmentData();
-            cell.ContentAligmnet.HorizontalAlignment = hAlign;
-            cell.ContentAligmnet.VerticalAlignment = ExcelVerticalAlignment.Bottom;
+            cell.ContentAligmnet.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)hAlign;
+            cell.ContentAligmnet.VerticalAlignment = (EPPlus.Export.Pdf.Enums.ExcelVerticalAlignment)ExcelVerticalAlignment.Bottom;
             cell.ContentAligmnet.WrapText = false;
             if (!string.IsNullOrEmpty(text))
             {
@@ -1087,12 +1087,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     if (string.IsNullOrEmpty(cell.Text)) continue;
                     double spill = cell.TotalTextLength - cell.ColumnWidth;
                     if (spill <= 0d) continue;
-                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
-                    if (hal == ExcelHorizontalAlignment.Left || hal == ExcelHorizontalAlignment.General)
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
+                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
                         BandMarkRight(range, row, ci, nc, fromCol, colX, spill, ri, blocked);
-                    else if (hal == ExcelHorizontalAlignment.Right)
+                    else if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right)
                         BandMarkLeft(range, row, ci, fromCol, colX, spill, ri, blocked);
-                    else if (hal == ExcelHorizontalAlignment.Center)
+                    else if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
                     {
                         double half = spill / 2d;
                         BandMarkRight(range, row, ci, nc, fromCol, colX, half, ri, blocked);
@@ -1110,9 +1110,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     if (cell == null) continue;
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) continue;
-                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
-                    if (hal == ExcelHorizontalAlignment.Right) break; // spills away from the region
-                    double rightExtent = (hal == ExcelHorizontalAlignment.Center)
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
+                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right) break; // spills away from the region
+                    double rightExtent = (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
                         ? lx + w / 2d + cell.TotalTextLength / 2d
                         : lx + cell.TotalTextLength;
                     for (int g = 1; g <= nc - 1; g++)
@@ -1133,9 +1133,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     if (cell == null) { rx += w; continue; }
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
-                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
-                    if (hal == ExcelHorizontalAlignment.Left || hal == ExcelHorizontalAlignment.General) break; // spills away
-                    double leftExtent = (hal == ExcelHorizontalAlignment.Center)
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
+                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General) break; // spills away
+                    double leftExtent = (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
                         ? rx + w / 2d - cell.TotalTextLength / 2d
                         : rx + w - cell.TotalTextLength;
                     for (int g = nc - 1; g >= 1; g--)
@@ -1509,10 +1509,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     if (cell == null) continue;
                     if (cell.Merged) break;                              // merges don't spill, and block
                     if (string.IsNullOrEmpty(cell.Text)) continue;
-                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
                     double rightExtent =
-                        (hal == ExcelHorizontalAlignment.Center) ? lx + w / 2d + cell.TotalTextLength / 2d :
-                        (hal == ExcelHorizontalAlignment.Right) ? lx + w :
+                        (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center) ? lx + w / 2d + cell.TotalTextLength / 2d :
+                        (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right) ? lx + w :
                                                                    lx + cell.TotalTextLength;
                     if (rightExtent > windowOriginX)
                     {
@@ -1543,10 +1543,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     if (cell == null) { rx += w; continue; }
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
-                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? ExcelHorizontalAlignment.General;
+                    var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
                     double leftExtent =
-                        (hal == ExcelHorizontalAlignment.Center) ? rx + w / 2d - cell.TotalTextLength / 2d :
-                        (hal == ExcelHorizontalAlignment.Right) ? rx + w - cell.TotalTextLength :
+                        (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center) ? rx + w / 2d - cell.TotalTextLength / 2d :
+                        (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right) ? rx + w - cell.TotalTextLength :
                                                                    rx;
                     if (leftExtent < windowRightX)
                     {

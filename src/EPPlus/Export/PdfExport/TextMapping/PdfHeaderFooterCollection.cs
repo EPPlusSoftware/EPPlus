@@ -10,8 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Resources;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Export.PdfExport.Data.Dictionaries;
 using System.Collections.Generic;
 using System.Linq;
 

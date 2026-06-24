@@ -10,11 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Helpers;
+using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Vector2 = EPPlus.Graphics.Geometry.Vector2;
@@ -400,18 +401,18 @@ namespace EPPlus.Export.Pdf.Layout
         //    }
         //}
 
-        //// Set clipping to the cell's own bounds. cellY is the top edge (same convention as the constructor).
-        //internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight)
-        //{
-        //    Clip = true;
-        //    Clipping = new Rect()
-        //    {
-        //        X = cellX + rightMargin,
-        //        Y = cellY - cellHeight,   // bottom-left corner in PDF space
-        //        Width = cellWidth - rightMargin * 2,
-        //        Height = cellHeight
-        //    };
-        //}
+        // Set clipping to the cell's own bounds. cellY is the top edge (same convention as the constructor).
+        internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight)
+        {
+            Clip = true;
+            Clipping = new Rect()
+            {
+                X = cellX + rightMargin,
+                Y = cellY - cellHeight,   // bottom-left corner in PDF space
+                Width = cellWidth - rightMargin * 2,
+                Height = cellHeight
+            };
+        }
 
         ////Create clipping rectangle.
         //internal void CreateClippingRect(List<Transform> cells)
@@ -447,41 +448,41 @@ namespace EPPlus.Export.Pdf.Layout
         //    };
         //}
 
-        //internal void GidsAndCharMap(PdfDictionaries dictionaries)
-        //{
-        //    foreach (var tf in ShapedTexts)
-        //    {
-        //        var usedFonts = tf.UsedFonts;
+        internal void GidsAndCharMap(PdfDictionaries dictionaries)
+        {
+            foreach (var tf in ShapedTexts)
+            {
+                var usedFonts = tf.UsedFonts;
 
-        //        foreach (var glyph in tf.ShapedText.Glyphs)
-        //        {
-        //            if (glyph.FontId >= usedFonts.Count)
-        //                continue;
+                foreach (var glyph in tf.ShapedText.Glyphs)
+                {
+                    if (glyph.FontId >= usedFonts.Count)
+                        continue;
 
-        //            var font = usedFonts[glyph.FontId];
+                    var font = usedFonts[glyph.FontId];
 
-        //            dictionaries.Fonts[font.FullName].Gids.Add(glyph.GlyphId);
-        //            dictionaries.Fonts[font.FullName].fontData = font;
+                    dictionaries.Fonts[font.FullName].Gids.Add(glyph.GlyphId);
+                    dictionaries.Fonts[font.FullName].fontData = font;
 
-        //            if (!dictionaries.Fonts[font.FullName].charactermappings.ContainsKey(glyph.GlyphId))
-        //            {
-        //                var chars = ExtractCharactersForGlyph(glyph, tf.ShapedText.OriginalText);
-        //                if (!string.IsNullOrEmpty(chars))
-        //                {
-        //                    dictionaries.Fonts[font.FullName].charactermappings[glyph.GlyphId] = chars;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //private string ExtractCharactersForGlyph(ShapedGlyph glyph, string textLine)
-        //{
-        //    var chars = new System.Text.StringBuilder();
-        //    for (int i = 0; i < glyph.CharCount && glyph.ClusterIndex + i < textLine.Length; i++)
-        //    {
-        //        chars.Append(textLine[glyph.ClusterIndex + i]);
-        //    }
-        //    return chars.ToString();
-        //}
+                    if (!dictionaries.Fonts[font.FullName].charactermappings.ContainsKey(glyph.GlyphId))
+                    {
+                        var chars = ExtractCharactersForGlyph(glyph, tf.ShapedText.OriginalText);
+                        if (!string.IsNullOrEmpty(chars))
+                        {
+                            dictionaries.Fonts[font.FullName].charactermappings[glyph.GlyphId] = chars;
+                        }
+                    }
+                }
+            }
+        }
+        private string ExtractCharactersForGlyph(ShapedGlyph glyph, string textLine)
+        {
+            var chars = new System.Text.StringBuilder();
+            for (int i = 0; i < glyph.CharCount && glyph.ClusterIndex + i < textLine.Length; i++)
+            {
+                chars.Append(textLine[glyph.ClusterIndex + i]);
+            }
+            return chars.ToString();
+        }
     }
 }

@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
@@ -227,105 +228,104 @@ namespace EPPlus.Export.Pdf.Layout
         //        LocalPosition = new Vector2(LocalPosition.X + GridLine.FourthWidth, LocalPosition.Y + GridLine.FourthWidth);
         //    }
 
-        //    public void UpdateShadingPositionMatrix(PdfPageSettings pageSettings)
-        //    {
-        //        //LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y) - Size.Y);
-        //        if (CellFillData.GradientFillData != null)
-        //        {
-        //            if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Linear)
-        //            {
-        //                switch (CellFillData.GradientFillData.Degree)
-        //                {
-        //                    case 45d:
-        //                        CellFillData.GradientFillData.coords = [0, 1, 1, 0];
-        //                        break;
-        //                    case 90d:
-        //                        CellFillData.GradientFillData.coords = [0, 1, 0, 0];
-        //                        break;
-        //                    case 135d:
-        //                        CellFillData.GradientFillData.coords = [1, 1, 0, 0];
-        //                        break;
-        //                    case 180d:
-        //                        CellFillData.GradientFillData.coords = [1, 0, 0, 0];
-        //                        break;
-        //                    case 225d:
-        //                        CellFillData.GradientFillData.coords = [1, 0, 0, 1];
-        //                        break;
-        //                    case 270d:
-        //                        CellFillData.GradientFillData.coords = [0, 0, 0, 1];
-        //                        break;
-        //                    case 315d:
-        //                        CellFillData.GradientFillData.coords = [0, 0, 1, 1];
-        //                        break;
-        //                    case 0d:
-        //                    default:
-        //                        CellFillData.GradientFillData.coords = [0, 0, 1, 0];
-        //                        break;
-        //                }
-        //                CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
-        //            }
-        //            else if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
-        //            {
-        //                double x = LocalPosition.X;
-        //                double y = LocalPosition.Y;
-        //                double width = Size.X;
-        //                double height = Size.Y;
-        //                var top = CellFillData.GradientFillData.Top;
-        //                var bottom = CellFillData.GradientFillData.Bottom;
-        //                var left = CellFillData.GradientFillData.Left;
-        //                var right = CellFillData.GradientFillData.Right;
-        //                double r = 1;
-        //                if (top == 0 && bottom == 0 && left == 0 && right == 0)
-        //                {
-        //                    CellFillData.GradientFillData.coords = [0, 1, 0, 0, 1, r];
-        //                }
-        //                else if (top == 0 && bottom == 0 && left == 1 && right == 1)
-        //                {
-        //                    CellFillData.GradientFillData.coords = [1, 1, 0, 1, 1, r];
-        //                }
-        //                else if (top == 1 && bottom == 1 && left == 0 && right == 0)
-        //                {
-        //                    CellFillData.GradientFillData.coords = [0, 0, 0, 0, 0, r];
-        //                }
-        //                else if (top == 1 && bottom == 1 && left == 1 && right == 1)
-        //                {
-        //                    CellFillData.GradientFillData.coords = [1, 0, 0, 1, 0, r];
-        //                }
-        //                else if (top == 0.5 && bottom == 0.5 && left == 0.5 && right == 0.5)
-        //                {
-        //                    CellFillData.GradientFillData.coords = [0.5, 0.5, 0, 0.5, 0.5, r];
-        //                }
-        //                CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
-        //                //double cx = x;
-        //                //double cy = y + height;
-        //                //if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(top) && !double.IsNaN(bottom)) // bottom-right
-        //                //{
-        //                //    if (top < 1d && bottom < 1d &&left < 1d && right < 1d)
-        //                //    {
-        //                //        cx = x + width / 2d;
-        //                //        cy = y + height / 2d;
-        //                //    }
-        //                //    else
-        //                //    {
-        //                //        cx = x + width;
-        //                //        cy = y;
-        //                //    }
-        //                //}
-        //                //else if (!double.IsNaN(left) && !double.IsNaN(right)) // bottom-left
-        //                //{
-        //                //    cx = x + width;
-        //                //    cy = y + height;
-        //                //}
-        //                //else if (!double.IsNaN(top) && !double.IsNaN(bottom)) // top-right
-        //                //{
-        //                //    cx = x;
-        //                //    cy = y;
-        //                //}
-        //                //double r = System.Math.Sqrt(width * width + height * height) / 2d;
-        //                //CellFillData.GradientFillData.coords = [cx, cy, 0, cx, cy, r];
-        //            }
-        //        }
-        //    }
-        //}
+        public void UpdateShadingPositionMatrix(PdfPageSettings pageSettings)
+        {
+            //LocalPosition = new Vector2(LocalPosition.X, pageSettings.PageSize.HeightPu - System.Math.Abs(LocalPosition.Y) - Size.Y);
+            if (CellFillData.GradientFillData != null)
+            {
+                if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Linear)
+                {
+                    switch (CellFillData.GradientFillData.Degree)
+                    {
+                        case 45d:
+                            CellFillData.GradientFillData.coords = [0, 1, 1, 0];
+                            break;
+                        case 90d:
+                            CellFillData.GradientFillData.coords = [0, 1, 0, 0];
+                            break;
+                        case 135d:
+                            CellFillData.GradientFillData.coords = [1, 1, 0, 0];
+                            break;
+                        case 180d:
+                            CellFillData.GradientFillData.coords = [1, 0, 0, 0];
+                            break;
+                        case 225d:
+                            CellFillData.GradientFillData.coords = [1, 0, 0, 1];
+                            break;
+                        case 270d:
+                            CellFillData.GradientFillData.coords = [0, 0, 0, 1];
+                            break;
+                        case 315d:
+                            CellFillData.GradientFillData.coords = [0, 0, 1, 1];
+                            break;
+                        case 0d:
+                        default:
+                            CellFillData.GradientFillData.coords = [0, 0, 1, 0];
+                            break;
+                    }
+                    CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
+                }
+                else if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
+                {
+                    double x = LocalPosition.X;
+                    double y = LocalPosition.Y;
+                    double width = Size.X;
+                    double height = Size.Y;
+                    var top = CellFillData.GradientFillData.Top;
+                    var bottom = CellFillData.GradientFillData.Bottom;
+                    var left = CellFillData.GradientFillData.Left;
+                    var right = CellFillData.GradientFillData.Right;
+                    double r = 1;
+                    if (top == 0 && bottom == 0 && left == 0 && right == 0)
+                    {
+                        CellFillData.GradientFillData.coords = [0, 1, 0, 0, 1, r];
+                    }
+                    else if (top == 0 && bottom == 0 && left == 1 && right == 1)
+                    {
+                        CellFillData.GradientFillData.coords = [1, 1, 0, 1, 1, r];
+                    }
+                    else if (top == 1 && bottom == 1 && left == 0 && right == 0)
+                    {
+                        CellFillData.GradientFillData.coords = [0, 0, 0, 0, 0, r];
+                    }
+                    else if (top == 1 && bottom == 1 && left == 1 && right == 1)
+                    {
+                        CellFillData.GradientFillData.coords = [1, 0, 0, 1, 0, r];
+                    }
+                    else if (top == 0.5 && bottom == 0.5 && left == 0.5 && right == 0.5)
+                    {
+                        CellFillData.GradientFillData.coords = [0.5, 0.5, 0, 0.5, 0.5, r];
+                    }
+                    CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
+                    //double cx = x;
+                    //double cy = y + height;
+                    //if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(top) && !double.IsNaN(bottom)) // bottom-right
+                    //{
+                    //    if (top < 1d && bottom < 1d &&left < 1d && right < 1d)
+                    //    {
+                    //        cx = x + width / 2d;
+                    //        cy = y + height / 2d;
+                    //    }
+                    //    else
+                    //    {
+                    //        cx = x + width;
+                    //        cy = y;
+                    //    }
+                    //}
+                    //else if (!double.IsNaN(left) && !double.IsNaN(right)) // bottom-left
+                    //{
+                    //    cx = x + width;
+                    //    cy = y + height;
+                    //}
+                    //else if (!double.IsNaN(top) && !double.IsNaN(bottom)) // top-right
+                    //{
+                    //    cx = x;
+                    //    cy = y;
+                    //}
+                    //double r = System.Math.Sqrt(width * width + height * height) / 2d;
+                    //CellFillData.GradientFillData.coords = [cx, cy, 0, cx, cy, r];
+                }
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {

@@ -13,7 +13,7 @@
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.DocumentObjects.Patterns;
 using EPPlus.Export.Pdf.DocumentObjects;
-using EPPlus.Export.Pdf.Helpers;
+using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf.Resources
 {

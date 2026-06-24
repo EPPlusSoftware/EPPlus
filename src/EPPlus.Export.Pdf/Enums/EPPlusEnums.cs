@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPPlus.Export.Pdf.Helpers
+namespace EPPlus.Export.Pdf.Enums
 {
     /// <summary>
     /// Horizontal text alignment

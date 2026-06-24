@@ -11,7 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using System.Drawing;
-using EPPlus.Export.Pdf.Helpers;
+using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf.Layout
 {

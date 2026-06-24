@@ -14,12 +14,12 @@ using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Graphics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf
 {

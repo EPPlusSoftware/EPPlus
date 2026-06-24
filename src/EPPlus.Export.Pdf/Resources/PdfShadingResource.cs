@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects.Patterns;
 using EPPlus.Export.Pdf.DocumentObjects.Shadings;
-using EPPlus.Export.Pdf.Helpers;
+using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 
 namespace EPPlus.Export.Pdf.Resources
