@@ -33,7 +33,7 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 var svg = c.ToSvg();
                 //var renderer = new EPPlusImageRenderer.ImageRenderer();
                 //var svg = renderer.RenderDrawingToSvg(c);
-                SaveTextFileToWorkbook($"svg\\baseThemeChartStyle.svg", svg);
+                SaveTextFileToWorkbook($"svg\\baseThemeChartStyle2.svg", svg);
             }
         }
 
@@ -117,13 +117,16 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 simpleChart.Title.Text = "Hello";
 
-                var chartDefaultStyle = simpleChart.StyleManager.Style;
-                simpleChart.StyleManager.ApplyStyles();
+                //var chartDefaultStyle = simpleChart.StyleManager.Style;
+                //simpleChart.StyleManager.ApplyStyles();
 
                 //simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
 
-                var svg = simpleChart.ToSvg();
-                SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcelChangeOnlyTitle.svg", svg);
+                //var svg = simpleChart.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcelChangeOnlyTitle.svg", svg);
+
+                var fontSize = simpleChart.Title.Font.Size;
+
                 SaveAndCleanup(p);
             }
 

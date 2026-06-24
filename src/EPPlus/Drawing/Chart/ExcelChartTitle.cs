@@ -148,11 +148,10 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    //var defBody = DefaultTextBody;
-                    //var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:bodyPr/a:p/a:pPr/a:defRPr", TopNode);
+                    var defBody = DefaultTextBody;
+                    var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:bodyPr/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
-                    //_textBody.Paragraphs.FirstDefaultRunProperties = firstDefaultRunProperties;
-                    //_textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties();
+                    _textBody.Paragraphs.FirstDefaultRunProperties = firstDefaultRunProperties;
                 }
                 return _textBody;
             }
@@ -250,6 +249,12 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             var tb = TextBody;
             _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont, eTextAlignment.Center);
+
+            //if(tb.Paragraphs.Count == 0)
+            //{
+            //    var para = _richText.Add("");
+            //    _richText.Remove(para);
+            //}
         }
 
         private ExcelChartStyleEntry GetStylePart()

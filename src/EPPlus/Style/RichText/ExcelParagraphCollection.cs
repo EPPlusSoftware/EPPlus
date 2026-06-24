@@ -33,44 +33,19 @@ namespace OfficeOpenXml.Style
         private readonly float _defaultFontSize;
         private readonly ExcelTextFont _defaultFont;
         private readonly ExcelTextBody _textBody;
-        internal ExcelParagraphCollection(ExcelTextBody tb,  ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11, eTextAlignment defaultAlignment = eTextAlignment.Left) :
+        internal ExcelParagraphCollection(ExcelTextBody tb, ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize = 11, eTextAlignment defaultAlignment = eTextAlignment.Left) :
             base(ns, topNode)
         {
             _drawing = drawing;
             _textBody = tb;
             _defaultFontSize = defaultFontSize;
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
-
-            //if (topNode.SelectSingleNode(path, ns) == null)
-            //{
-            //    if (tb.Paragraphs.Count == 0)
-            //    {
-            //        var paragraphParent = path.Substring(0, path.LastIndexOf('/'));
-            //        var tmpTop = TopNode;
-            //        TopNode = TopNode.SelectNodes(paragraphParent, ns)[0];
-            //        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-            //        TopNode = tmpTop;
-            //    }
-            //}
-
-            //var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
-            ////if(tb.Paragraphs.Count == 0)
-            ////{
-            ////    if(tfXml._rootNode.SelectSingleNode("//a:p", tfXml.XmlHelper.NameSpaceManager) == null)
-            ////    {
-
-            ////        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-            ////        tfXml.XmlHelper.TopNode = placeHolderNode;
-            ////    }
-            ////}
-
-            //_defaultFont = tfXml;
-
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef", "rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount", "pt", "pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont", "buNone", "buAutoNum", "buChar", "buBlip", "tabLst", "defRPr", "r", "br", "fld", "endParaRPr" });
             _path = path;
+
             foreach (var p in tb.Paragraphs)
             {
                 p.defaultAlignment = defaultAlignment;
-                foreach(var tr in p.TextRuns)
+                foreach (var tr in p.TextRuns)
                 {
                     _list.Add(new ExcelParagraph(tr));
                 }
@@ -152,7 +127,6 @@ namespace OfficeOpenXml.Style
         public ExcelParagraph Add(string Text, bool NewParagraph=false)
         {
             ExcelDrawingParagraph p;
-            ExcelParagraph item;
             if (NewParagraph || _textBody.Paragraphs.Count==0)
             {
                 _textBody.Paragraphs.Add(Text);
@@ -239,7 +213,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_textBody.Paragraphs.Count == 0)
                 {
-                    Add(value);
+                    Add(value, true);
                 }
                 else
                 {

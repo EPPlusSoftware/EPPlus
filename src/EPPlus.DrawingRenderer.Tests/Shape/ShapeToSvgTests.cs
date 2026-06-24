@@ -508,7 +508,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
                 //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
-                var ix = 1;
+                var ix = 0;
                 foreach (var c in ws.Drawings)
                 {
                     var svg = c.ToSvg();
@@ -638,6 +638,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void ChartAndShapeGreen()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ShapeAndChartTestGreen.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = renderer.RenderDrawingToSvg(c);
+                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
+                var ix = 0;
+                foreach (var c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\TestGreen{ix++}.svg", svg);
+                }
+            }
+        }
+
         [TestMethod]
         public void CreateChartsWithDifferentSize()
         {
