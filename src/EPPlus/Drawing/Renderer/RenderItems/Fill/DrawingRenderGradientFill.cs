@@ -23,7 +23,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 {
     internal class DrawingRenderGradientFill : RenderGradientFill
     {
-        public DrawingRenderGradientFill(ExcelTheme theme, ExcelDrawingGradientFill gradientFill) : base()
+        public DrawingRenderGradientFill(ExcelTheme theme, ExcelDrawingGradientFill gradientFill, bool userSpaceOnUse) : base()
         {
             //this.Settings = gradientFill;
             for (int i = 0; i < gradientFill.Colors.Count; i++)
@@ -50,12 +50,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             {
                 LinearSettings.Angle = gradientFill.LinearSettings.Angle;
                 LinearSettings.Scaled = gradientFill.LinearSettings.Scaled;
-                UserSpaceOnUse = false;
             }
-            else
-            {
-                UserSpaceOnUse = true;
-            }
+            UserSpaceOnUse = userSpaceOnUse;
         }
     }
 }

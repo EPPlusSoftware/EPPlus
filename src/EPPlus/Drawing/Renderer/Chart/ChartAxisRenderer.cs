@@ -429,7 +429,7 @@ namespace EPPlusImageRenderer.Svg
                 tb.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
-                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color);
+                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, true);
 
                 if(widest < tb.Width)
                 {

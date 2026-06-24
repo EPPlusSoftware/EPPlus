@@ -188,7 +188,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color);
+            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true);
             DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
             DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
@@ -755,24 +755,25 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             if (_ma == null)
             {
-                CalcMa();
+                CalcMa((int)_trendline.Period);
             }
 
             int ix = (int)(x - _trendline.Period + 1);
             return _ma[ix];
         }
 
-        private void CalcMa()
+        private void CalcMa(int period)
         {
             _ma= new List<double>();
             double sum = 0;
             for (int i=0;i < _ySerie.Length;i++)
             {
                 sum += _ySerie[i];
-                if (i >= _trendline.Period-1)
+                if (i >= period - 1)
                 {
                     
-                    _ma.Add(sum / (i+1));
+                    _ma.Add(sum / period);
+                    sum -= _ySerie[i - period + 1];
                 }
             }
         }
