@@ -11,10 +11,9 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Integration;
-using OfficeOpenXml.Export.PdfExport.Data;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Export.PdfExport
+namespace EPPlus.Export.Pdf.Layout
 {
     internal enum HeaderFooterType
     {
@@ -42,14 +41,14 @@ namespace OfficeOpenXml.Export.PdfExport
         public HeaderFooterAlignment Alignment;
         public HeaderFooterSection Section;
 
-        public PdfCell Content;
+        public PdfCellBase Content;
 
         public List<int> NumberOfPagesIndexes = new List<int>();
         public List<int> PageNumberIndexes = new List<int>();
 
         public PdfHeaderFooter(List<TextFragment> textFormats, List<int> pageNumberIndexes, List<int> numberOfPagesIndexes, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
-            Content = new PdfCell();
+            Content = new PdfCellBase();
             Content.TextFragments = textFormats;
             PageNumberIndexes = pageNumberIndexes;
             NumberOfPagesIndexes = numberOfPagesIndexes;

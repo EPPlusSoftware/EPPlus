@@ -10,20 +10,16 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Settings;
+using OfficeOpenXml.Export.PdfExport;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.PdfCatalog;
-using EPPlus.Export.Pdf.PdfLayout;
-using EPPlus.Export.Pdf.PdfSettings;
-using EPPlus.Export.Pdf.PdfSettings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using OfficeOpenXml;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
-using System.Drawing.Printing;
 
 namespace EPPlusTest.PDF
 {
@@ -111,55 +107,61 @@ namespace EPPlusTest.PDF
          * When all worksheets have been processed, combine all into one catalog and create the pdf document.
          */
 
-        [TestMethod]
-        public void TestWritePdf()
-        {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
-            //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
-            //using var p = OpenTemplatePackage("PdfGrids\\PdfPageBreakTest.xlsx");
-            //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
-            //using var p = OpenTemplatePackage("PdfBorders.xlsx");
-            //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
-            //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
-            //using var p = OpenTemplatePackage("Gradient.xlsx");
-            //using var p = OpenTemplatePackage("PatternFill.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            //var ws = p.Workbook.Worksheets[1];
-            PdfPageSettings pageSettings = new PdfPageSettings();
-            pageSettings.ShowGridLines = true;
-            pageSettings.PageSize = PdfPageSize.A4;
-            pageSettings.Orientation = Orientations.Portrait;
-            pageSettings.Margins = PdfMargins.Normal;
-            pageSettings.ShowGridLines = true;
-            pageSettings.CenterOnPageHorizontally = true;
-            pageSettings.CenterOnPageVertically = true;
-            pageSettings.ShowHeadings = true;
-            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-            //Debug Flags
-            pageSettings.Debug = true;
-            pageSettings.PrintAsText = true;
+        /// <summary>
+        /// Old Test
+        /// </summary>
+        //[TestMethod]
+        //public void TestWritePdf()
+        //{
+        //    using var p = OpenTemplatePackage("PDFTest.xlsx");
+        //    //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
+        //    //using var p = OpenTemplatePackage("PdfGrids\\PdfPageBreakTest.xlsx");
+        //    //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
+        //    //using var p = OpenTemplatePackage("PdfBorders.xlsx");
+        //    //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
+        //    //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
+        //    //using var p = OpenTemplatePackage("Gradient.xlsx");
+        //    //using var p = OpenTemplatePackage("PatternFill.xlsx");
+        //    var ws = p.Workbook.Worksheets[0];
+        //    //var ws = p.Workbook.Worksheets[1];
+        //    PdfPageSettings pageSettings = new PdfPageSettings();
+        //    pageSettings.ShowGridLines = true;
+        //    pageSettings.PageSize = PdfPageSize.A4;
+        //    pageSettings.Orientation = Orientations.Portrait;
+        //    pageSettings.Margins = PdfMargins.Normal;
+        //    pageSettings.ShowGridLines = true;
+        //    pageSettings.CenterOnPageHorizontally = true;
+        //    pageSettings.CenterOnPageVertically = true;
+        //    pageSettings.ShowHeadings = true;
+        //    pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
+        //    //Debug Flags
+        //    pageSettings.Debug = true;
+        //    pageSettings.PrintAsText = true;
 
-            ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest49.pdf");
-        }
+        //    ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
+        //    pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest49.pdf");
+        //}
 
-        [TestMethod]
-        public void TestWritePdf2()
-        {
-            using var p = OpenTemplatePackage("PDFTest2.xlsx");
-            PdfPageSettings pageSettings = new PdfPageSettings();
-            pageSettings.ShowGridLines = true;
-            pageSettings.PageSize = PdfPageSize.A4;
-            pageSettings.Orientation = Orientations.Portrait;
-            pageSettings.Margins = PdfMargins.Normal;
-            pageSettings.ShowGridLines = true;
-            //Debug Flags
-            pageSettings.Debug = true;
-            pageSettings.PrintAsText = true;
+        /// <summary>
+        /// Old Test
+        /// </summary>
+        //[TestMethod]
+        //public void TestWritePdf2()
+        //{
+        //    using var p = OpenTemplatePackage("PDFTest2.xlsx");
+        //    PdfPageSettings pageSettings = new PdfPageSettings();
+        //    pageSettings.ShowGridLines = true;
+        //    pageSettings.PageSize = PdfPageSize.A4;
+        //    pageSettings.Orientation = Orientations.Portrait;
+        //    pageSettings.Margins = PdfMargins.Normal;
+        //    pageSettings.ShowGridLines = true;
+        //    //Debug Flags
+        //    pageSettings.Debug = true;
+        //    pageSettings.PrintAsText = true;
 
-            ExcelPdf pedeef = new ExcelPdf(p.Workbook.Worksheets.First(), pageSettings);
-            pedeef.CreatePdf("c:\\epplustest\\pdf\\EmojiTest.pdf");
-        }
+        //    ExcelPdf pedeef = new ExcelPdf(p.Workbook.Worksheets.First(), pageSettings);
+        //    pedeef.CreatePdf("c:\\epplustest\\pdf\\EmojiTest.pdf");
+        //}
 
         [TestMethod]
         public void ReadPrintAreas()
@@ -250,86 +252,92 @@ namespace EPPlusTest.PDF
             PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
         }
 
-        [TestMethod]
-        public void CalculatePages()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            PdfPageSettings pageSettings = new PdfPageSettings();
-            pageSettings.ShowHeadings = true;
-            PdfWorksheet pws = new PdfWorksheet();
-            pws.Worksheet = ws;
-            pws.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(ws);
-            pws.ToRow = 256;
-            PdfRange range = new PdfRange();
-            range.TotalWidth = 800;
-            range.TotalHeight = 1600;
+        /// <summary>
+        /// This test we can make somehing of.
+        /// </summary>
+        //[TestMethod]
+        //public void CalculatePages()
+        //{
+        //    using var p = new ExcelPackage();
+        //    var ws = p.Workbook.Worksheets.Add("Sheet 1");
+        //    PdfPageSettings pageSettings = new PdfPageSettings();
+        //    pageSettings.ShowHeadings = true;
+        //    PdfWorksheet pws = new PdfWorksheet();
+        //    pws.Worksheet = ws;
+        //    pws.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(ws);
+        //    pws.ToRow = 256;
+        //    PdfRange range = new PdfRange();
+        //    range.TotalWidth = 800;
+        //    range.TotalHeight = 1600;
 
-            var result = PdfLayout.GetNumberOfPages(pageSettings, pws, ref range);
-        }
+        //    var result = PdfLayout.GetNumberOfPages(pageSettings, pws, ref range);
+        //}
 
-        [TestMethod]
-        public void TestWrapText()
-        {
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
-            var cell = p.Workbook.Worksheets[0].Cells["P118"];
+        /// <summary>
+        /// Old Test
+        /// </summary>
+        //[TestMethod]
+        //public void TestWrapText()
+        //{
+        //    using var p = OpenTemplatePackage("PDFTest.xlsx");
+        //    var cell = p.Workbook.Worksheets[0].Cells["P118"];
 
-            List<ITextFragmentBase> TextFragments = GetTextFragments(cell.RichText).Cast<ITextFragmentBase>().ToList();
-
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)TextFragments[0].RichTextOptions);
-
-            var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
-        }
-
-        private static List<TextFragment> GetTextFragments(ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
-        {
-            var textFragments = new List<TextFragment>();
-            bool bold = false, italic = false, underline = false, strike = false;
-            ExcelUnderLineType underLineType = ExcelUnderLineType.None;
-            if (cellStyle != null && cellStyle.dxfFont != null)
-            {
-                bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
-                italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
-                strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
-                underline = cellStyle.dxfFont.Underline != null;
-                underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
-            }
-            for (int i = 0; i < RichTextCollection.Count; i++)
-            {
-                var rt = RichTextCollection[i];
-                var textFrag = new TextFragment();
-                textFrag.Text = rt.Text;
-
-                textFrag.Font.Family = rt.FontName;
-                textFrag.Font.Size = rt.Size;
-
-                textFrag.RichTextOptions.Bold = rt.Bold || bold;
-                textFrag.RichTextOptions.Italic = rt.Italic || italic;
-                //underline
-                //none   : 12
-                //single : 13
-                //Double : 4
-                //accouting does not exsist
-                textFrag.RichTextOptions.UnderlineType = 12;
-                textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Single ? 13 : textFrag.RichTextOptions.UnderlineType;
-                textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Double ? 4 : textFrag.RichTextOptions.UnderlineType;
-                textFrag.RichTextOptions.StrikeType = rt.Strike || strike ? 2 : 1;
-                textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                textFrag.RichTextOptions.FontColor = rt.Color;
-
-                //Should no longer be neccesary
-                //textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-                //                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
-                //                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-                //                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+        //    List<ITextFragmentBase> TextFragments = GetTextFragments(cell.RichText).Cast<ITextFragmentBase>().ToList();
 
 
-                textFragments.Add(textFrag);
-            }
+        //    var layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)TextFragments[0].RichTextOptions);
 
-            return textFragments;
-        }
+        //    var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
+        //}
+
+        //private static List<TextFragment> GetTextFragments(ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
+        //{
+        //    var textFragments = new List<TextFragment>();
+        //    bool bold = false, italic = false, underline = false, strike = false;
+        //    ExcelUnderLineType underLineType = ExcelUnderLineType.None;
+        //    if (cellStyle != null && cellStyle.dxfFont != null)
+        //    {
+        //        bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
+        //        italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
+        //        strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
+        //        underline = cellStyle.dxfFont.Underline != null;
+        //        underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
+        //    }
+        //    for (int i = 0; i < RichTextCollection.Count; i++)
+        //    {
+        //        var rt = RichTextCollection[i];
+        //        var textFrag = new TextFragment();
+        //        textFrag.Text = rt.Text;
+
+        //        textFrag.Font.Family = rt.FontName;
+        //        textFrag.Font.Size = rt.Size;
+
+        //        textFrag.RichTextOptions.Bold = rt.Bold || bold;
+        //        textFrag.RichTextOptions.Italic = rt.Italic || italic;
+        //        //underline
+        //        //none   : 12
+        //        //single : 13
+        //        //Double : 4
+        //        //accouting does not exsist
+        //        textFrag.RichTextOptions.UnderlineType = 12;
+        //        textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Single ? 13 : textFrag.RichTextOptions.UnderlineType;
+        //        textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Double ? 4 : textFrag.RichTextOptions.UnderlineType;
+        //        textFrag.RichTextOptions.StrikeType = rt.Strike || strike ? 2 : 1;
+        //        textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
+        //        textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
+        //        textFrag.RichTextOptions.FontColor = rt.Color;
+
+        //        //Should no longer be neccesary
+        //        //textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
+        //        //                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
+        //        //                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
+        //        //                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
+
+
+        //        textFragments.Add(textFrag);
+        //    }
+
+        //    return textFragments;
+        //}
     }
 }

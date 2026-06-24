@@ -49,8 +49,5 @@ namespace EPPlus.Export.Pdf.Resources
             }
             return Fonts[FontName];
         }
-
-        //this should move and be on worksheet level.
-        internal readonly Dictionary<string, PdfCommentsAndNotes> CommentsAndNotes = new Dictionary<string, PdfCommentsAndNotes>();
     }
 }

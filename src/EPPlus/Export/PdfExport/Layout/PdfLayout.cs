@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
@@ -18,10 +19,12 @@ using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 { 
@@ -127,8 +130,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 {
                                     //Fill
                                     var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
-                                    var fill = new PdfCellLayout(dictionaries, cellStyle,
-                                        info.X, info.Y, info.Width, info.Height);
+                                    var fill = new PdfCellLayout(info.X, info.Y, info.Width, info.Height);
+                                    SetFill(dictionaries, cellStyle, map.Text, fill);
                                     fill.Name = map.Name;
                                     fill.UpdateShadingPositionMatrix(pageSettings);
                                     pageLayout.AddChild(fill);
@@ -148,7 +151,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                         if (HasDiagonalBorder(mergeMainStyle))
                                         {
                                             var diagBorder = new PdfCellBorderLayout(
-                                                mergeMainStyle,
                                                 isMerged: false,            // use X/Y/W/H path in renderer, not info.*
                                                 corners: MergedCellCorners.All,
                                                 info: info,
@@ -156,6 +158,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                 y: info.Y,           // virtual full-merge top Y
                                                 width: info.Width,       // full merge width
                                                 height: info.Height);     // full merge height
+                                            SetBorderStyle(mergeMainStyle, diagBorder);
                                             diagBorder.Name = map.Name;
                                             // Suppress edge borders — this layout exists only for the diagonal
                                             diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
@@ -171,7 +174,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             else
                             {
                                 //Fill
-                                var fill = new PdfCellLayout(dictionaries, map.CellStyle, x, y, map.ColumnWidth, rowHeight);
+                                var fill = new PdfCellLayout(x, y, map.ColumnWidth, rowHeight);
+                                SetFill(dictionaries, map.CellStyle, map.Text, fill);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
                                 pageLayout.AddChild(fill);
@@ -190,7 +194,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
                             if (HasBorder(map.CellStyle))
                             {
-                                var border = new PdfCellBorderLayout(map.CellStyle, map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
+                                var border = new PdfCellBorderLayout(map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
+                                SetBorderStyle(map.CellStyle, border);
                                 border.Name = map.Name;
                                 if (map.Merged && map.MergedAddress != null)
                                 {
@@ -311,6 +316,75 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return Catalog;
         }
 
+        private static void SetFill(PdfDictionaries dictionaries, PdfCellStyle cellStyle, string text, PdfCellLayout fill)
+        {
+            var xfFill = cellStyle.xfFill;
+            var dxfFill = cellStyle.dxfFill;
+            if (dxfFill != null && xfFill.IsEmpty())
+            {
+                var patternStyle = dxfFill.PatternType != null ? (ExcelFillStyle)dxfFill.PatternType : ExcelFillStyle.Solid;
+                if (patternStyle == ExcelFillStyle.Solid)
+                {
+                    fill.SetFill( PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor()));
+                }
+                else if (patternStyle != ExcelFillStyle.None)
+                {
+                    var bkgc = PdfColor.SetColorFromHex(dxfFill.PatternColor.Color == null ? "#FFFFFFFF" : dxfFill.PatternColor.LookupColor());
+                    var patc = PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor());
+                    fill.SetPattern(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillStyle)patternStyle, bkgc, patc);
+                }
+                else if (dxfFill.Gradient != null)
+                {
+                    var gradientType = dxfFill.Gradient.GradientType == null ? ExcelFillGradientType.None : (ExcelFillGradientType)dxfFill.Gradient.GradientType;
+                    var color1 = PdfColor.SetColorFromHex(dxfFill.Gradient.Colors[0].Color.LookupColor());
+                    var color2 = PdfColor.SetColorFromHex(dxfFill.Gradient.Colors[1].Color.LookupColor());
+                    var color3 = PdfColor.SetColorFromHex(dxfFill.Gradient.Colors[2].Color.LookupColor());
+                    var degree = dxfFill.Gradient.Degree == null ? 0 : (double)dxfFill.Gradient.Degree;
+                    var top = dxfFill.Gradient.Top == null ? 0 : (double)dxfFill.Gradient.Top;
+                    var bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
+                    var left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
+                    var right  = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
+                    fill.SetGradient(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillGradientType)gradientType, color1, color2, color3, degree, top, bottom, left, right);
+                }
+            }
+            else
+            {
+                if (xfFill.PatternType == ExcelFillStyle.Solid)
+                {
+                    var bkgc = xfFill.BackgroundColor;
+                    var patternStyle = xfFill.PatternType;
+                    if (string.IsNullOrEmpty(bkgc.LookupColor()) && !string.IsNullOrEmpty(text))
+                    {
+                        fill.SetFill(Color.Empty);
+                    }
+                    else
+                    {
+                        fill.SetFill(PdfColor.SetColorFromHex(bkgc.LookupColor()));
+                    }
+                }
+                else if (xfFill.PatternType != ExcelFillStyle.None)
+                {
+                    var  patternStyle = xfFill.PatternType;
+                    var bkgc = PdfColor.SetColorFromHex(xfFill.PatternColor.Rgb == null ? "#FFFFFFFF" : xfFill.PatternColor.LookupColor());
+                    var patc = PdfColor.SetColorFromHex(xfFill.BackgroundColor.LookupColor());
+                    fill.SetPattern(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillStyle)patternStyle, bkgc, patc);
+                }
+                else if (xfFill.HasGradient)
+                {
+                    var gradientType = xfFill.Gradient.Type;
+                    var color1 = PdfColor.SetColorFromHex(xfFill.Gradient.Color1.LookupColor());
+                    var color2 = PdfColor.SetColorFromHex(xfFill.Gradient.Color2.LookupColor());
+                    var color3 = PdfColor.SetColorFromHex(xfFill.Gradient.Color3.LookupColor());
+                    var degree = xfFill.Gradient.Degree;
+                    var top = double.IsNaN(xfFill.Gradient.Top) ? 0 : xfFill.Gradient.Top;
+                    var bottom = double.IsNaN(xfFill.Gradient.Bottom) ? 0 : xfFill.Gradient.Bottom;
+                    var left = double.IsNaN(xfFill.Gradient.Left) ? 0 : xfFill.Gradient.Left;
+                    var right = double.IsNaN(xfFill.Gradient.Right) ? 0 : xfFill.Gradient.Right;
+                    fill.SetGradient(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillGradientType)gradientType, color1, color2, color3, degree, top, bottom, left, right);
+                }
+            }
+        }
+
         static MergedCellCorners GetCorners(ExcelAddressBase addr, int row, int col)
         {
             if (addr == null) return MergedCellCorners.All;
@@ -387,7 +461,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             if (width == 0d || height == 0d) return;
 
-            var fill = new PdfCellLayout(dictionaries, headingStyle, x, y, width, height);
+            var fill = new PdfCellLayout(x, y, width, height);
+            SetFill(dictionaries, headingStyle, label, fill);
             fill.Name = namePrefix;
             fill.IsHeading = true;
             fill.UpdateShadingPositionMatrix(pageSettings);
@@ -411,8 +486,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
 
-            var cornerFill = new PdfCellLayout(dictionaries, headingStyle,
-                pageSettings.ContentBounds.Left, pageSettings.ContentBounds.Top, headingWidth, headingHeight);
+            var cornerFill = new PdfCellLayout(pageSettings.ContentBounds.Left, pageSettings.ContentBounds.Top, headingWidth, headingHeight);
+            SetFill(dictionaries, headingStyle, "", cornerFill);
             cornerFill.Name = "Heading_Corner";
             cornerFill.UpdateShadingPositionMatrix(pageSettings);
             pageLayout.AddChild(cornerFill);
@@ -521,7 +596,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 var map = t.Cell;
 
-                var fill = new PdfCellLayout(dictionaries, map.CellStyle, t.X, t.Y, t.Width, t.Height);
+                var fill = new PdfCellLayout(t.X, t.Y, t.Width, t.Height);
+                SetFill(dictionaries, map.CellStyle, map.Text, fill);
                 fill.Name = map.Name;
                 fill.IsPrintTitle = true;
                 fill.UpdateShadingPositionMatrix(pageSettings);
@@ -550,7 +626,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
                 if (!map.Merged && HasBorder(map.CellStyle))   // was: if (HasBorder(map.CellStyle))
                 {
-                    var border = new PdfCellBorderLayout(map.CellStyle, false, MergedCellCorners.All, new MergedCellDrawInfo(), t.X, t.Y, t.Width, t.Height);
+                    var border = new PdfCellBorderLayout(false, MergedCellCorners.All, new MergedCellDrawInfo(), t.X, t.Y, t.Width, t.Height);
+                    SetBorderStyle(map.CellStyle, border);
                     border.IsPrintTitle = true;
                     border.Name = "PrintTitleBorder_" + map.Name;
                     pageLayout.AddChild(border);
@@ -560,12 +637,41 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     var sub = b.Cell;
                     if (!HasBorder(sub.CellStyle)) continue;
-                    var border = new PdfCellBorderLayout(sub.CellStyle, false, MergedCellCorners.All, new MergedCellDrawInfo(), b.X, b.Y, b.Width, b.Height);
+                    var border = new PdfCellBorderLayout(false, MergedCellCorners.All, new MergedCellDrawInfo(), b.X, b.Y, b.Width, b.Height);
+                    SetBorderStyle(sub.CellStyle, border);
                     border.IsPrintTitle = true;
                     border.Name = "PrintTitleMergeBorder_" + sub.Name;
                     pageLayout.AddChild(border);
                 }
             }
+        }
+
+        private static void SetBorderStyle(PdfCellStyle style, PdfCellBorderLayout border)
+        {
+            var topStyle = style.xfTop.Style == ExcelBorderStyle.None ? ((style.dxfTop != null && style.dxfTop.HasValue) ? (ExcelBorderStyle)style.dxfTop.Style : ExcelBorderStyle.None) : style.xfTop.Style;
+            var topColor = style.dxfTop != null ? PdfColor.SetColorFromHex(style.dxfTop.Color.LookupColor(style.dxfTop)) : PdfColor.SetColorFromHex(style.xfTop.Color.LookupColor(style.xfTop));
+
+            var bottomStyle = style.xfBottom.Style == ExcelBorderStyle.None ? ((style.dxfBottom != null && style.dxfBottom.HasValue) ? (ExcelBorderStyle)style.dxfBottom.Style : ExcelBorderStyle.None) : style.xfBottom.Style;
+            var bottomColor = style.dxfBottom != null ? PdfColor.SetColorFromHex(style.dxfBottom.Color.LookupColor(style.dxfBottom)) : PdfColor.SetColorFromHex(style.xfBottom.Color.LookupColor(style.xfBottom));
+
+            var leftStyle = style.xfLeft.Style == ExcelBorderStyle.None ? ((style.dxfLeft != null && style.dxfLeft.HasValue) ? (ExcelBorderStyle)style.dxfLeft.Style : ExcelBorderStyle.None) : style.xfLeft.Style;
+            var leftColor = style.dxfLeft != null ? PdfColor.SetColorFromHex(style.dxfLeft.Color.LookupColor(style.dxfLeft)) : PdfColor.SetColorFromHex(style.xfLeft.Color.LookupColor(style.xfLeft));
+
+            var rightStyle = style.xfRight.Style == ExcelBorderStyle.None ? ((style.dxfRight != null && style.dxfRight.HasValue) ? (ExcelBorderStyle)style.dxfRight.Style : ExcelBorderStyle.None) : style.xfRight.Style;
+            var rightColor = style.dxfRight != null ? PdfColor.SetColorFromHex(style.dxfRight.Color.LookupColor(style.dxfRight)) : PdfColor.SetColorFromHex(style.xfRight.Color.LookupColor(style.xfRight));
+
+            var diagUpStyle = style.DiagonalUp ? style.Diagonal.Style : ExcelBorderStyle.None;
+            var diagUpColor = style.DiagonalUp ? PdfColor.SetColorFromHex(style.Diagonal.Color.LookupColor(style.Diagonal)) : Color.Transparent;
+
+            var diagDownStyle = style.DiagonalDown ? style.Diagonal.Style : ExcelBorderStyle.None;
+            var diagDownColor = style.DiagonalDown ? PdfColor.SetColorFromHex(style.Diagonal.Color.LookupColor(style.Diagonal)) : Color.Transparent;
+
+            border.SetStyle((EPPlus.Export.Pdf.Enums.ExcelBorderStyle)topStyle, topColor,
+                            (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)bottomStyle, bottomColor,
+                            (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)leftStyle, leftColor,
+                            (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)rightStyle, rightColor,
+                            (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagUpStyle, diagUpColor,
+                            (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagDownStyle, diagDownColor);
         }
 
 
@@ -1481,7 +1587,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 foreach (var idx in hf.NumberOfPagesIndexes)
                     hf.Content.TextFragments[idx].Text = totalPages.ToString();
             }
-            PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+            PdfTextShaper.ShapeText(pageSettings, dictionaries, (PdfCell)hf.Content);
         }
 
         private static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)

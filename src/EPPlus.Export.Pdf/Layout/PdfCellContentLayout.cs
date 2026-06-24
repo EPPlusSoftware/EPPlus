@@ -31,7 +31,6 @@ namespace EPPlus.Export.Pdf.Layout
         public bool IsHeaderFooter;
         public bool IsHeading;
         public bool IsPrintTitle;
-        public PdfCellStyle CellStyle;
         public TextLayoutEngine textLayoutEngine;
         //private List<PdfTextFormat> textFormats = new List<PdfTextFormat>();
         public TextLineCollection TextLines;

@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics;
+using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Resources;
 using OfficeOpenXml.Export.PdfExport.Data;
@@ -18,10 +19,8 @@ using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport
@@ -69,17 +68,15 @@ namespace OfficeOpenXml.Export.PdfExport
 
         public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet, string fileName)
         {
-            BuildPdf(pageSettings, worksheet, (excelPdf, layout) =>
-                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName));
+            BuildPdf(pageSettings, worksheet, fileName);
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Stream stream)
-        {
-            BuildPdf(pageSettings, worksheet, (excelPdf, layout) =>
-                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, stream));
-        }
+        //public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Stream stream)
+        //{
+        //    BuildPdf(pageSettings, worksheet);
+        //}
 
-        private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<ExcelPdf, Transform> writePdf)
+        private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, string fileName)
         {
             //pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
@@ -110,15 +107,15 @@ namespace OfficeOpenXml.Export.PdfExport
                 sw.Start();
 
                 //Create Layout
-                var Layout = GetLayout(pageSettings, pdfSheet);
+                var layout = GetLayout(pageSettings, pdfSheet);
                 sw.Stop();
                 var CreateLayoutTime = sw.ElapsedMilliseconds;
                 sw.Reset();
                 sw.Start();
 
-                //Create Pdf //Done in pdf export project
+                //Write Pdf Document
                 ExcelPdf excelPdf = new ExcelPdf();
-                writePdf(excelPdf, Layout);
+                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName);
                 sw.Stop();
                 var CreatePdfTime = sw.ElapsedMilliseconds;
                 sw.Reset();

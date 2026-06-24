@@ -10,8 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.Enums;
+using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
@@ -19,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf
 {
@@ -126,9 +126,9 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Catalog
-        private PdfObjects.PdfCatalog AddCatalog(int pagesObjectNumber)
+        private PdfCatalog AddCatalog(int pagesObjectNumber)
         {
-            var catalog = new PdfObjects.PdfCatalog(_document.Count + 1, pagesObjectNumber);
+            var catalog = new PdfCatalog(_document.Count + 1, pagesObjectNumber);
             _document.Add(catalog);
             return catalog;
         }
@@ -240,19 +240,6 @@ namespace EPPlus.Export.Pdf
 
         internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-            {
-                CreatePdf(pageSettings, dictionaries, layout, fs);
-            }
-
-            if (_pageSettings.Debug && _pageSettings.PrintAsText)
-            {
-                WriteDebugText(fileName);
-            }
-        }
-
-        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
-        {
             _pageSettings = pageSettings;
             _dictionaries = dictionaries;
 
@@ -275,92 +262,169 @@ namespace EPPlus.Export.Pdf
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             var info = AddInfoObject();
-
-            WriteDocumentToStream(stream, catalog, info);
-        }
-
-        /// <summary>
-        /// Create the pdf from the supplied worksheet.
-        /// </summary>
-        /// <param name="Filename">The file name</param>
-        internal void CreatePdf(string Filename)
-        {
-            using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+            string debugString = "";
+            //write to pdf
+            PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
+            //start wring pdf binary
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
-                CreatePdf(fs);
+                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+                {
+                    //Write header
+                    bw.Write(Encoding.ASCII.GetBytes(Header));
+                    debugString += Header;
+                    //Write body
+                    foreach (var pdfobj in _document)
+                    {
+                        crossRefTable.AddPosition(fs.Position);
+                        pdfobj.ToPdfBytes(bw);
+                        debugString += pdfobj.ToPdfString();
+                    }
+                    //Write CrossReference
+                    crossRefTable.Write(bw, fs.Position, _document.Count);
+                    debugString += crossRefTable.WriteString(_document.Count);
+                    // Write trailer
+                    PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                    debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                }
             }
-
+            //Write pdf as txt for debug.
             if (_pageSettings.Debug && _pageSettings.PrintAsText)
             {
-                WriteDebugText(Filename);
-            }
-        }
-
-        /// <summary>
-        /// Create the pdf from the supplied worksheet and write it to a stream.
-        /// </summary>
-        /// <param name="stream">The stream to write the pdf to. The stream will not be closed.</param>
-        internal void CreatePdf(Stream stream)
-        {
-            //Create Catalog
-            var catalogLayout = new PdfCatalogLayout(_workheets[0], _pageSettings, _dictionaries);
-            var catalog = AddCatalog(2);
-            //Create Pages
-            var pagesLayout = catalogLayout.ChildObjects[0];
-            var pages = AddPages();
-            //Create Fonts
-            AddFontData();
-            //Create Patterns
-            AddPatternData();
-            //Create Shadings
-            AddShadingsData();
-            //Create Page and Content
-            for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
-            {
-                var pageLayout = pagesLayout.ChildObjects[i];
-                var page = AddPage(2, new List<int>(), _pageSettings);
-                AddContent(pageLayout, page);
-                pages.pageObjectNumbers.Add(page.objectNumber);
-            }
-            var info = AddInfoObject(_workheets[0].Workbook._package.File.Name);
-
-            WriteDocumentToStream(stream, catalog, info);
-        }
-
-        //Write the document and cross-ref/trailer to the supplied stream.
-        //The stream is not closed; the caller owns it.
-        private void WriteDocumentToStream(Stream stream, PdfObjects.PdfCatalog catalog, PdfInfoObject info)
-        {
-            _debugString = "";
-            PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-
-            //Use a BinaryWriter without disposing it, so the underlying stream stays open for the caller.
-            //BinaryWriter does not own the stream when we don't dispose it; we just flush at the end.
-            var bw = new BinaryWriter(stream, Encoding.ASCII);
-            try
-            {
-                //Write header
-                bw.Write(Encoding.ASCII.GetBytes(Header));
-                _debugString += Header;
-                //Write body
-                foreach (var pdfobj in _document)
+                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
                 {
-                    crossRefTable.AddPosition(stream.Position);
-                    pdfobj.ToPdfBytes(bw);
-                    _debugString += pdfobj.ToPdfString();
+                    using (var wr = new StreamWriter(fs))
+                    {
+                        wr.Write(debugString);
+                    }
                 }
-                //Write CrossReference
-                crossRefTable.Write(bw, stream.Position, _document.Count);
-                _debugString += crossRefTable.WriteString(_document.Count);
-                // Write trailer
-                PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                _debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-            }
-            finally
-            {
-                bw.Flush();
             }
         }
+
+
+        //internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
+        //{
+        //    using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+        //    {
+        //        CreatePdf(pageSettings, dictionaries, layout, fs);
+        //    }
+
+        //    if (_pageSettings.Debug && _pageSettings.PrintAsText)
+        //    {
+        //        WriteDebugText(fileName);
+        //    }
+        //}
+
+        //internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
+        //{
+        //    _pageSettings = pageSettings;
+        //    _dictionaries = dictionaries;
+
+        //    var catalog = AddCatalog(2);
+        //    //Create Pages
+        //    var pagesLayout = layout.ChildObjects[0];
+        //    var pages = AddPages();
+        //    //Create Fonts
+        //    AddFontData();
+        //    //Create Patterns
+        //    AddPatternData();
+        //    //Create Shadings
+        //    AddShadingsData();
+        //    //Create Page and Content
+        //    for (int i = 0; i < layout.ChildObjects.Count; i++)
+        //    {
+        //        var pageLayout = layout.ChildObjects[i];
+        //        var page = AddPage(2, new List<int>(), _pageSettings);
+        //        AddContent(pageLayout, page);
+        //        pages.pageObjectNumbers.Add(page.objectNumber);
+        //    }
+        //    var info = AddInfoObject();
+
+        //    WriteDocumentToStream(stream, catalog, info);
+        //}
+
+        ///// <summary>
+        ///// Create the pdf from the supplied worksheet.
+        ///// </summary>
+        ///// <param name="Filename">The file name</param>
+        //internal void CreatePdf(string Filename)
+        //{
+        //    using (var fs = new FileStream(Filename, FileMode.Create, FileAccess.Write))
+        //    {
+        //        CreatePdf(fs);
+        //    }
+
+        //    if (_pageSettings.Debug && _pageSettings.PrintAsText)
+        //    {
+        //        WriteDebugText(Filename);
+        //    }
+        //}
+
+        /////// <summary>
+        /////// Create the pdf from the supplied worksheet and write it to a stream.
+        /////// </summary>
+        /////// <param name="stream">The stream to write the pdf to. The stream will not be closed.</param>
+        ////internal void CreatePdf(Stream stream)
+        ////{
+        ////    //Create Catalog
+        ////    var catalogLayout = new PdfCatalogLayout(_workheets[0], _pageSettings, _dictionaries);
+        ////    var catalog = AddCatalog(2);
+        ////    //Create Pages
+        ////    var pagesLayout = catalogLayout.ChildObjects[0];
+        ////    var pages = AddPages();
+        ////    //Create Fonts
+        ////    AddFontData();
+        ////    //Create Patterns
+        ////    AddPatternData();
+        ////    //Create Shadings
+        ////    AddShadingsData();
+        ////    //Create Page and Content
+        ////    for (int i = 0; i < pagesLayout.ChildObjects.Count; i++)
+        ////    {
+        ////        var pageLayout = pagesLayout.ChildObjects[i];
+        ////        var page = AddPage(2, new List<int>(), _pageSettings);
+        ////        AddContent(pageLayout, page);
+        ////        pages.pageObjectNumbers.Add(page.objectNumber);
+        ////    }
+        ////    var info = AddInfoObject(_workheets[0].Workbook._package.File.Name);
+
+        ////    WriteDocumentToStream(stream, catalog, info);
+        ////}
+
+        ////Write the document and cross-ref/trailer to the supplied stream.
+        ////The stream is not closed; the caller owns it.
+        //private void WriteDocumentToStream(Stream stream, PdfObjects.PdfCatalog catalog, PdfInfoObject info)
+        //{
+        //    _debugString = "";
+        //    PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
+
+        //    //Use a BinaryWriter without disposing it, so the underlying stream stays open for the caller.
+        //    //BinaryWriter does not own the stream when we don't dispose it; we just flush at the end.
+        //    var bw = new BinaryWriter(stream, Encoding.ASCII);
+        //    try
+        //    {
+        //        //Write header
+        //        bw.Write(Encoding.ASCII.GetBytes(Header));
+        //        _debugString += Header;
+        //        //Write body
+        //        foreach (var pdfobj in _document)
+        //        {
+        //            crossRefTable.AddPosition(stream.Position);
+        //            pdfobj.ToPdfBytes(bw);
+        //            _debugString += pdfobj.ToPdfString();
+        //        }
+        //        //Write CrossReference
+        //        crossRefTable.Write(bw, stream.Position, _document.Count);
+        //        _debugString += crossRefTable.WriteString(_document.Count);
+        //        // Write trailer
+        //        PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+        //        _debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+        //    }
+        //    finally
+        //    {
+        //        bw.Flush();
+        //    }
+        //}
 
         private void WriteDebugText(string fileName)
         {
