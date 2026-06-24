@@ -57,10 +57,19 @@ namespace OfficeOpenXml.Drawing
                 if(paragraphs.Count == 0)
                 {
                     //The node must still be created
-                    var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper;
+                    var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper.TopNode.ParentNode;
+                    XmlNode paragraphProperties = topNode.SelectSingleNode("a:pPr", NameSpaceManager);
+
+                    //Create paragraph properties if it does not already exist
+                    if (paragraphProperties == null)
+                    {
+                        paragraphProperties = CreateNode(topNode, "a:pPr", true);
+                    }
+                    //Create defRPr
                     var textFont = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
-                    var xmlNewNode = textFont.XmlHelper;
-                    CopyElement((XmlElement)xmlFirstDefault.TopNode, (XmlElement)xmlNewNode.TopNode);
+
+                    //Copy the first element and apply it to the paragraphProperties
+                    CopyElement((XmlElement)xmlFirstDefault, (XmlElement)paragraphProperties);
                     DefaultRunProperties = textFont;
                 }
                 else
