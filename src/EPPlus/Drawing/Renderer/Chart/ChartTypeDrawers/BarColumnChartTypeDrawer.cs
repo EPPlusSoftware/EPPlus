@@ -167,19 +167,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 valAx = xAxis;
             }
 
+            var hasErrorBars = serie.HasErrorBars();
+
             var catValues = catSeries[position];
             var valValues = valSeries[position];
             
             var yWidth = (isColumn ? ChartRenderer.Plotarea.Rectangle.Width : ChartRenderer.Plotarea.Rectangle.Height);
 
-            var slotSize = valValues.Count;
+            var slotSize = (catAx.Max - catAx.Min) / catAx.MajorUnit + 1; //valValues.Count;
             //Gapwidth has a default value of 150% See ECMA-376 Part 1 page 4063:
             //"<xsd:complexType name="CT_GapAmount">286 <xsd:attribute name="val" type="ST_GapAmount" default="150%"/>287 </xsd:complexType>"
             var gapWidth = chartType.GapWidth == int.MinValue ? 150 : chartType.GapWidth;
             var gapPercent = gapWidth / 100D;     // Gap width between bars/columns in percent
             var overlapPercent = chartType.Overlap / 100D;  // Overlap  between bars/columns in percent            
             var slotWidth = yWidth / slotSize;
-            var clusterWidth = slotWidth * 100 / (100 + chartType.GapWidth);
+            var clusterWidth = slotWidth * 100 / (100 + gapWidth);
             var step = 1 - overlapPercent;
             var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
@@ -215,23 +217,38 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 else
                 {
-                    x = ConvertUtil.GetValueDouble(catValues[i], false, true);
+                    if (isColumn)
+                    {
+                        x = ConvertUtil.GetValueDouble(catValues[i], false, true);
+                    }
+                    else
+                    {
+                        var ix = valValues.Count - i - 1;
+                        if (ix < catValues.Count)
+                        {
+                            x = ConvertUtil.GetValueDouble(catValues[ix], false, true);
+                        }
+                        else
+                        {
+                            x = 0;
+                        }
+                    }
                 }
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
                 
                 var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
-
+                double xPos;
                 if (isColumn)
                 {
-                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                    xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
                     rect.Left = xPos;
                     rect.Width = barWidth;
                 }
                 else
                 {
-                    var xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
+                    xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
                     rect.Top = xPos;
                     rect.Height = barWidth;
                 }
@@ -298,6 +315,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         }
                     }
                 }
+
                 rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color);
                 rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, true);
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
@@ -305,6 +323,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 dataPoints.Add(rect.Bounds);
 
                 SeriesRenderItems.Add(rect);
+
+                if (hasErrorBars)
+                {
+                    if(isColumn)
+                    {
+                        //x += barWidth / 2;
+                        xPos += rect.Width / 2;
+                    }
+                    else
+                    {
+                        //y += barWidth / 2;
+                        xPos += rect.Height / 2;
+                    }
+                    SeriesRenderItems.AddRange(ErrorBars.GetErrorBarRenderItem(i, catAx, valAx, x, y, xPos, yPos));
+                }
             }
         }
         private void GetAxis(ExcelBarChart chartType, out ChartAxisRenderer yAxis, out ChartAxisRenderer xAxis)

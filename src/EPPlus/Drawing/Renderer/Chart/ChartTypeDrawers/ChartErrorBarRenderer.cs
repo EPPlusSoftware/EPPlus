@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
         }
         public double GetCustomValue(List<double> l, int i)
         {
-            if(l.Count==0)
+            if(l.Count==1)
             {
                 return l[0];
             }
@@ -120,29 +120,31 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 bottomValue = Values[index][0];
             }
 
-            if (_errorbars.Direction == eErrorBarDirection.X)
+            //if (_errorbars.Direction == eErrorBarDirection.X )
+            if(_chartType.IsTypeBar())
             {
-                var rightPos = xAxis.GetPositionInPlotarea(topValue);
+                var rightPos = yAxis.GetPositionInPlotarea(topValue);
                 var centerPos = yAxis.GetPositionInPlotarea(Values[index][1]);
-                var leftPos = xAxis.GetPositionInPlotarea(bottomValue);
+                var leftPos = yAxis.GetPositionInPlotarea(bottomValue);
 
                 //Bottom line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, leftPos, yPos, centerPos, yPos));
                 var bl = new LineRenderItem(ChartRenderer.Bounds)
                 {
                     X1 = leftPos,
-                    Y1 = yPos,
+                    Y1 = xPos,
                     X2 = centerPos,
-                    Y2 = yPos
+                    Y2 = xPos
                 };
+
                 //Top line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, centerPos, yPos, rightPos, yPos));
                 var tl = new LineRenderItem(ChartRenderer.Bounds)
                 {
                     X1 = centerPos,
-                    Y1 = yPos,
+                    Y1 = xPos,
                     X2 = rightPos,
-                    Y2 = yPos
+                    Y2 = xPos
                 };
                 l.Add(bl);
                 l.Add(tl);
@@ -153,18 +155,18 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                     var bc = new LineRenderItem(ChartRenderer.Bounds)
                     {
                         X1 = leftPos,
-                        Y1 = yPos - 3,
+                        Y1 = xPos - 3,
                         X2 = leftPos,
-                        Y2 = yPos + 3
+                        Y2 = xPos + 3
                     };
                     //Top cap
                     //path.Commands.Add(new PathCommands(PathCommandType.Move, rightPos, yPos - 3, rightPos, yPos + 3));
                     var tc = new LineRenderItem(ChartRenderer.Bounds)
                     {
                         X1 = rightPos,
-                        Y1 = yPos - 3,
+                        Y1 = xPos - 3,
                         X2 = rightPos,
-                        Y2 = yPos + 3
+                        Y2 = xPos + 3
                     };
                     l.Add(bc);
                     l.Add(tc);
@@ -172,9 +174,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
             else
             {
-                var bottomPos = yAxis.GetPositionInPlotarea(bottomValue);
-                var centerPos = yAxis.GetPositionInPlotarea(Values[index][1]);
-                var topPos = yAxis.GetPositionInPlotarea(topValue);
+                var bottomPos = xAxis.GetPositionInPlotarea(bottomValue);
+                var centerPos = xAxis.GetPositionInPlotarea(Values[index][1]);
+                var topPos = xAxis.GetPositionInPlotarea(topValue);
 
                 //Bottom line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos, bottomPos, xPos, centerPos));
