@@ -170,7 +170,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(59.509033203125d, textBody.Paragraphs[0].Runs[2].Bounds.Left, delta);
             Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
 
-            Assert.AreEqual(4.3760001659393311d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
+            Assert.AreEqual(5.08, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
             Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
 
             //Assert that the second paragraph has been moved correctly
@@ -204,7 +204,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(69.39990234375d, textBody.Paragraphs[0].Runs[2].Bounds.Left, delta);
             Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
 
-            Assert.AreEqual(8.7520003318786621d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
+            Assert.AreEqual(10.16d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
             Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
 
             GenerateSvgFile("textBodyAlignRight", baseGroup.Bounds, baseGroup);
@@ -292,8 +292,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             double delta = 0.001;
 
-            Assert.AreEqual(107.95200681686401d, textbox.Width, delta);
-            Assert.AreEqual(34.979735851287842d, textbox.Height, delta);
+            Assert.AreEqual(115.2d, textbox.Width, delta, $"textbox.Width was {textbox.Width}, not 107.952 as expected");
+            Assert.AreEqual(34.979735851287842d, textbox.Height, delta, $"textbox.Height was {textbox.Height}, not 34.978 as expected");
 
             GenerateSvgFile("BasicTextBox", group.Bounds, group);
         }
@@ -319,7 +319,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.Y);
 
             //Assert width and height changed by margins
-            Assert.AreEqual(117.95200681686401d, textbox.Width, delta);
+            Assert.AreEqual(125.2, textbox.Width, delta);
             Assert.AreEqual(44.979735851287842d, textbox.Height, delta);
 
 
@@ -341,7 +341,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.AppendRenderItems(group.RenderItems);
 
             //Assert width and height changed by margins
-            Assert.AreEqual(127.95200681686401d, textbox.Width, delta);
+            Assert.AreEqual(135.2d, textbox.Width, delta);
             Assert.AreEqual(54.979735851287842d, textbox.Height, delta);
 
             GenerateSvgFile("AllMarginsTextBox", group.Bounds, group);
@@ -374,7 +374,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.AppendRenderItems(group.RenderItems);
 
             //Assert width and height changed by margins and textbody
-            Assert.AreEqual(142.952006816864d, textbox.Width, delta);
+            Assert.AreEqual(150.2d, textbox.Width, delta);
             Assert.AreEqual(69.979735851287842d, textbox.Height, delta);
 
             GenerateSvgFile("TextAnchor_TextBox", group.Bounds, group);

@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_textBody == null)
                 {
                     var defBody = DefaultTextBody;
-                    var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:bodyPr/a:p/a:pPr/a:defRPr", TopNode);
+                    var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
                     _textBody.Paragraphs.FirstDefaultRunProperties = firstDefaultRunProperties;
                 }
@@ -444,7 +444,18 @@ namespace OfficeOpenXml.Drawing.Chart
                 var applyStyle = (RichText.Count == 0);
                 RichText.Text = value;
                 _font = null;
-                if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+                if (applyStyle)
+                {
+                    var defRprOld = GetNode($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr");
+                    defRprOld.InnerXml = "";
+                    _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+
+                    //Apply style on part does not update default path element yet replaces it
+                    //Copy the new element to the old.
+                    var defRpr = GetNode($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr");
+                    var textSettingsDefRPr = GetNode($"{_richTextPath}/a:p/a:pPr/a:defRPr");
+                    CopyElement((XmlElement)defRpr, (XmlElement)textSettingsDefRPr);
+                }
             }
         }
         /// <summary>
