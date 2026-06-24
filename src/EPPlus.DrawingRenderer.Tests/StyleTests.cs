@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -126,6 +127,11 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 //SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcelChangeOnlyTitle.svg", svg);
 
                 var fontSize = simpleChart.Title.Font.Size;
+
+                Assert.AreEqual(simpleChart.Title.Font.Size, 14d);
+                var paragraphPropeties = simpleChart.Title.GetNode("c:txPr/a:p/a:pPr");
+                var paragraphPropertiesRich = simpleChart.Title.GetNode("c:tx/c:rich/a:p/a:pPr");
+                Assert.AreEqual(paragraphPropeties.InnerXml, paragraphPropertiesRich.InnerXml);
 
                 SaveAndCleanup(p);
             }

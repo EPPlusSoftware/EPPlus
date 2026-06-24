@@ -54,19 +54,29 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                if(paragraphs.Count == 0)
-                {
-                    //The node must still be created
-                    var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper;
-                    var textFont = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
-                    var xmlNewNode = textFont.XmlHelper;
-                    CopyElement((XmlElement)xmlFirstDefault.TopNode, (XmlElement)xmlNewNode.TopNode);
-                    DefaultRunProperties = textFont;
-                }
-                else
-                {
-                    DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
-                }
+                DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
+                //if(paragraphs.Count == 0)
+                //{
+                //    //The node must still be created
+                //    var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper.TopNode.ParentNode;
+                //    XmlNode paragraphProperties = topNode.SelectSingleNode("a:pPr", NameSpaceManager);
+
+                //    //Create paragraph properties if it does not already exist
+                //    if (paragraphProperties == null)
+                //    {
+                //        paragraphProperties = CreateNode(topNode, "a:pPr", true);
+                //    }
+                //    //Create defRPr
+                //    var textFont = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+
+                //    //Copy the first element and apply it to the paragraphProperties
+                //    CopyElement((XmlElement)xmlFirstDefault, (XmlElement)paragraphProperties);
+                //    DefaultRunProperties = textFont;
+                //}
+                //else
+                //{
+                //    DefaultRunProperties = _paragraphs.FirstDefaultRunProperties;
+                //}
             }
 
             var normalStyle = _prd.Package.Workbook.Styles.GetNormalStyle();
@@ -95,6 +105,24 @@ namespace OfficeOpenXml.Drawing
                             DefaultRunProperties.ComplexFont = normalStyle.Style.Font.Name;
                         }
                     }
+                }
+                else
+                {
+                    //The node must still be created
+                    var xmlFirstDefault = ((ExcelTextFontXml)paragraphs.FirstDefaultRunProperties).XmlHelper.TopNode.ParentNode;
+                    XmlNode paragraphProperties = topNode.SelectSingleNode("a:pPr", NameSpaceManager);
+
+                    //Create paragraph properties if it does not already exist
+                    if (paragraphProperties == null)
+                    {
+                        paragraphProperties = CreateNode(topNode, "a:pPr", true);
+                    }
+                    //Create defRPr
+                    var textFont = new ExcelTextFontXml(prd, nameSpaceManager, topNode, "a:pPr/a:defRPr", schemaNodeOrder, initXml);
+
+                    //Copy the first element and apply it to the paragraphProperties
+                    CopyElement((XmlElement)xmlFirstDefault, (XmlElement)paragraphProperties);
+                    DefaultRunProperties = textFont;
                 }
             }
             else if (legacyDefaultRunPropertySetting && _paragraphs.FirstDefaultRunProperties != null)

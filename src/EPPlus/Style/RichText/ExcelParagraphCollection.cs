@@ -40,33 +40,8 @@ namespace OfficeOpenXml.Style
             _textBody = tb;
             _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef", "rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount", "pt", "pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont", "buNone", "buAutoNum", "buChar", "buBlip", "tabLst", "defRPr", "r", "br", "fld", "endParaRPr" });
-
-            //if (topNode.SelectSingleNode(path, ns) == null)
-            //{
-            //    if (tb.Paragraphs.Count == 0)
-            //    {
-            //        var paragraphParent = path.Substring(0, path.LastIndexOf('/'));
-            //        var tmpTop = TopNode;
-            //        TopNode = TopNode.SelectNodes(paragraphParent, ns)[0];
-            //        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-            //        TopNode = tmpTop;
-            //    }
-            //}
-
-            //var tfXml = new ExcelTextFontXml(drawing._drawings, ns, TopNode, path + "/a:pPr/a:defRPr", schemaNodeOrder);
-            ////if(tb.Paragraphs.Count == 0)
-            ////{
-            ////    if(tfXml._rootNode.SelectSingleNode("//a:p", tfXml.XmlHelper.NameSpaceManager) == null)
-            ////    {
-
-            ////        var placeHolderNode = tb.Paragraphs.CreateAndReturnParagraphPlaceHolder();
-            ////        tfXml.XmlHelper.TopNode = placeHolderNode;
-            ////    }
-            ////}
-
-            //_defaultFont = tfXml;
-
             _path = path;
+
             foreach (var p in tb.Paragraphs)
             {
                 p.defaultAlignment = defaultAlignment;
@@ -95,29 +70,7 @@ namespace OfficeOpenXml.Style
                     return;
                 }
             }
-            if (_list.Count == 0)
-            {
-                var para = new ExcelParagraph(tr);
-                _list.Add(para);
-                
-                ////_textBody.Paragraphs[0].DefaultRunProperties = _textBody.Paragraphs.FirstDefaultRunProperties;
-                //var para = new ExcelParagraph(tr);
-                //_list.Add(para);
-                //var defRpr = tr.Paragraph._paragraphs.FirstDefaultRunProperties;
-                //var para = new ExcelParagraph(tr);
-                //var mf = defRpr.GetMeasureFont();
-                //para.SetFromFont(mf.FontFamily, mf.Size,
-                //    (mf.Style & MeasurementFontStyles.Bold) != 0,
-                //    (mf.Style & MeasurementFontStyles.Italic) != 0,
-                //    (mf.Style & MeasurementFontStyles.Underline) != 0,
-                //    (mf.Style & MeasurementFontStyles.Strikeout) != 0);
-                //_list.Add(para);
-            }
-            else
-            {
-                _list.Add(new ExcelParagraph(tr));
-            }
-            //_list.Add(new ExcelParagraph(tr));
+            _list.Add(new ExcelParagraph(tr));
         }
         private void RemoveTextRun(ExcelParagraphTextRunBase textRun)
         {
@@ -174,7 +127,6 @@ namespace OfficeOpenXml.Style
         public ExcelParagraph Add(string Text, bool NewParagraph=false)
         {
             ExcelDrawingParagraph p;
-            ExcelParagraph item;
             if (NewParagraph || _textBody.Paragraphs.Count==0)
             {
                 _textBody.Paragraphs.Add(Text);
