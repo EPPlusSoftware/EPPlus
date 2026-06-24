@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal static class DrawingRenderItemExtentions
     {
-        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, ExcelDrawingThemeColorManager nullColor=null)
+        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, bool gradientUserSpace=false, ExcelDrawingThemeColorManager nullColor=null)
         {
             switch (fill.Style)
             {
@@ -43,11 +43,11 @@ namespace EPPlusImageRenderer.RenderItems
                     item.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
                     break;
                 default:
-                    SetDrawingPropertiesFillBasic(item, theme, fill, color, nullColor ?? theme.ColorScheme.Accent1);
+                    SetDrawingPropertiesFillBasic(item, theme, fill, color, gradientUserSpace, nullColor ?? theme.ColorScheme.Accent1);
                     break;
             }
         }
-        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, ExcelDrawingThemeColorManager nullColor)
+        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, bool gradientUserSpaceOnUse, ExcelDrawingThemeColorManager nullColor)
         {
             double? opacity = null;
             switch (fill.Style)
@@ -66,7 +66,7 @@ namespace EPPlusImageRenderer.RenderItems
                     item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
                     break;
                 case eFillStyle.GradientFill:
-                    item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill);
+                    item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill, gradientUserSpaceOnUse);
                     item.FillColor = null;
                     break;
             }
@@ -75,7 +75,7 @@ namespace EPPlusImageRenderer.RenderItems
                 item.FillOpacity = opacity;
             }
         }
-        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, double defaultWidth = 1.5)
+        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, double defaultWidth = 1.5, bool grandientUserSpaceOnUse=true)
         {
             double? opacity = null;
             if (border == null)
@@ -104,7 +104,7 @@ namespace EPPlusImageRenderer.RenderItems
                         item.BorderGradientFill = null;
                         break;
                     case eFillStyle.GradientFill:
-                        item.BorderGradientFill = new RenderGradientFill();
+                        item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, grandientUserSpaceOnUse);
                         item.BorderColor = null;
                         break;
                 }

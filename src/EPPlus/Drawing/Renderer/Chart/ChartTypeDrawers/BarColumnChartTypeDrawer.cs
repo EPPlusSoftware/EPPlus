@@ -173,8 +173,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var valValues = valSeries[position];
             
             var yWidth = (isColumn ? ChartRenderer.Plotarea.Rectangle.Width : ChartRenderer.Plotarea.Rectangle.Height);
-
-            var slotSize = (catAx.Max - catAx.Min) / catAx.MajorUnit + 1; //valValues.Count;
+            double slotSize;
+            //if(catAx.IsDateScale)
+            ////{
+            //    slotSize = (catAx.Max - catAx.Min) / catAx.MajorUnit + 1; //valValues.Count
+            //}
+            //else
+            //{
+                 slotSize = catAx.Max - catAx.Min+1;
+            //}
+            //var slotSize = (catAx.Max - catAx.Min) / catAx.MajorUnit + 1; //valValues.Count;
             //Gapwidth has a default value of 150% See ECMA-376 Part 1 page 4063:
             //"<xsd:complexType name="CT_GapAmount">286 <xsd:attribute name="val" type="ST_GapAmount" default="150%"/>287 </xsd:complexType>"
             var gapWidth = chartType.GapWidth == int.MinValue ? 150 : chartType.GapWidth;
@@ -316,8 +324,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color);
-                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, true);
+                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false);
+                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, true, 1.5, false);
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
                 dataPoints.Add(rect.Bounds);

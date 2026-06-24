@@ -123,15 +123,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             if (ls.Marker.Fill.IsEmpty == false)
             {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
+                item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
             }
             else if (ls.Fill.IsEmpty)
             {
-                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, sc.Theme.ColorScheme.Accent1);
+                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, sc.Theme.ColorScheme.Accent1);
             }
             else
             {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
+                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
             }
 
             if (ls.Marker.Border.Width > 0)
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 Width = size,
                 Height = size
             };
-            item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color);
+            item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
             return item;
         }
 

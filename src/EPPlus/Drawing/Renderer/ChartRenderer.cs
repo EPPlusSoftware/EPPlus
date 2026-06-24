@@ -306,7 +306,7 @@ namespace EPPlusImageRenderer
             var item = new ChartAreaRenderer(this);
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, Theme.ColorScheme.Light1);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, Theme.ColorScheme.Light1);
             item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
@@ -398,8 +398,8 @@ namespace EPPlusImageRenderer
             const float LineLength = 21;
 
             var item = new LineRenderItem(parentItem);
-            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, false);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75, false);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;
