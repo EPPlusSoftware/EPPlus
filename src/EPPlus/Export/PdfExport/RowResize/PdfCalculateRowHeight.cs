@@ -24,7 +24,6 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                 ResizeRange(ref range);
                 pdfSheet.Ranges[r] = range;
             }
-
             if (pdfSheet.CommentsAndNotes.Map != null)
             {
                 var cnRange = pdfSheet.CommentsAndNotes;
@@ -36,11 +35,9 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
         public static void ResizeRange(ref PdfRange range)
         {
             double newTotalHeight = 0d;
-
             for (int rowIdx = 0; rowIdx < range.RowHeights.Count; rowIdx++)
             {
                 var rowHeight = range.RowHeights[rowIdx];
-
                 if (rowHeight.Height == 0d)
                     continue;
 
@@ -49,16 +46,13 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                     newTotalHeight += rowHeight.Height;
                     continue;
                 }
-
                 int row = range.Range._fromRow + rowIdx;
                 double maxRequired = rowHeight.Height;
                 bool hasWrappedCell = false;
-
                 for (int colIdx = 0; colIdx < range.ColWidths.Count; colIdx++)
                 {
                     int col = range.Range._fromCol + colIdx;
                     var cell = range.Map[row, col];
-
                     if (cell == null || cell.Hidden)
                         continue;
                     if (cell.Merged)
@@ -75,7 +69,6 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                     if (required > maxRequired)
                         maxRequired = required;
                 }
-
                 if (hasWrappedCell)
                 {
                     rowHeight.Height = maxRequired;
@@ -84,7 +77,6 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                 newTotalHeight += rowHeight.Height;
             }
             range.TotalHeight = newTotalHeight;
-
         }
 
         private static double GetRequiredHeightFromLines(PdfCell cell)

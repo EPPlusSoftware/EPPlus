@@ -19,7 +19,7 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
-    public enum CIDFontSubtype
+    internal enum CIDFontSubtype
     {
         CIDFontType0,
         CIDFontType2
@@ -70,7 +70,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
             if (Gids != null)
             {
-                //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
                 sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
             }
             if (DW2 != null)
@@ -107,7 +106,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
             if (Gids != null)
             {
-                //var widthsStr = string.Join(" ", W.Select(w => w.ToString()).ToArray());
                 sb.AppendFormat($"\n    /W [ {BuildWidthsArray()} ]");
             }
             if (DW2 != null)
@@ -134,7 +132,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         {
             var sortedGids = Gids.OrderBy(g => g).ToList();
             var sb = new StringBuilder();
-
             int i = 0;
             while (i < sortedGids.Count)
             {

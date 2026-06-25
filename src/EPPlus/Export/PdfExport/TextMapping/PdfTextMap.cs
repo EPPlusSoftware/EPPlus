@@ -143,7 +143,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     GetBorderStyles(main, cellStyle, mainCell);
                     GetFillStyles(main, cellStyle);
                     GetFontStyle(main, cellStyle);
-
                     mainCell.ContentAligmnet = GetContentAlignment(main);
                     if (!string.IsNullOrEmpty(main.Text))
                     {
@@ -169,7 +168,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 {
                     // Sort ascending — priority 1 beats priority 2, etc.
                     var ordered = cf.OrderBy(r => r.Priority);
-
                     foreach (var rule in ordered)
                     {
                         // Use the core per-rule evaluator (the same one the HTML exporter
@@ -196,14 +194,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (rule.StopIfTrue) break;
                     }
                 }
-
                 //Table
                 var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {
                     var table = tables[0].Value;
                     var range = table.Range;
-
                     int tableRow = 0;
                     int tableCol = 0;
                     ExcelTableNamedStyle tableStyle;
@@ -254,14 +250,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
         private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell)
         {
-
-            /* Kika på varje del av border top bottom left right
-             * om cell har top använd den
-             * om cell inte har border, gå igenom prio ordning på tabell borders och använd WholeTable om null.
-             * om cellein i tabellen är i mitten av tabellen använd horizontal och vertical border istället.
-             * I fallet top så ska om vi är i header row eller om cell fromrow är samma som table fromrow så ska top border vara top border. annar är det horizontal som gäller
-             * Glöm ej vertical border om fromcol är samma som tabell fromcol.
-             */
             if (cell != null)
             {
                 cellStyle.xfTop = cell.Style.Border.Top;
@@ -451,19 +439,13 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return contentAlignment;
         }
 
-        internal static long subFamilyTicks;
-        internal static long addFontTicks;
-        internal static int subFamilyCount;
-
         private static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
             bool dxfBold, dxfItalic, dxfStrike, dxfUnderline;
             ExcelUnderLineType dxfUnderLineType;
             System.Drawing.Color? dxfColor;
             ReadDxfFontOverrides(cellStyle, out dxfBold, out dxfItalic, out dxfStrike, out dxfUnderline, out dxfUnderLineType, out dxfColor);
-
             string forcedText = ResolveErrorText(pageSettings, cell);
-
             if (cell.IsRichText)
             {
                 return GetTextFragmentsFromRichText(pageSettings, dictionaries, cell.RichText, forcedText,
@@ -483,10 +465,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 var textFrag = new TextFragment();
                 textFrag.Font = new RichTextFormatSimple();
                 textFrag.Text = forcedText == null ? rt.Text : forcedText;
-
                 textFrag.Font.Family = rt.FontName;
                 textFrag.Font.Size = rt.Size;
-
                 textFrag.RichTextOptions.Bold = rt.Bold || dxfBold;
                 textFrag.RichTextOptions.Italic = rt.Italic || dxfItalic;
                 textFrag.RichTextOptions.UnderlineType = MapUnderlineType(rt.UnderLineType);
@@ -494,9 +474,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
                 textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
                 textFrag.RichTextOptions.FontColor = dxfColor ?? rt.Color;
-
                 textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
-
                 textFragments.Add(textFrag);
                 dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
             }
@@ -508,17 +486,13 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         {
             var font = cell.Style.Font;
             var textFragments = new List<TextFragment>(1);
-
             var textFrag = new TextFragment();
             textFrag.Font = new RichTextFormatSimple();
             textFrag.Text = forcedText == null ? cell.Text : forcedText;
-
             textFrag.Font.Family = font.Name;
             textFrag.Font.Size = font.Size;
-
             textFrag.RichTextOptions.Bold = font.Bold || dxfBold;
             textFrag.RichTextOptions.Italic = font.Italic || dxfItalic;
-
             // Cell-style underline; dxf overrides only when the cell itself is not underlined.
             ExcelUnderLineType underLineType;
             if (font.UnderLine)
@@ -534,14 +508,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 underLineType = ExcelUnderLineType.None;
             }
             textFrag.RichTextOptions.UnderlineType = MapUnderlineType(underLineType);
-
             textFrag.RichTextOptions.StrikeType = (font.Strike || dxfStrike) ? 2 : 1;
             textFrag.RichTextOptions.SuperScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
             textFrag.RichTextOptions.SubScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
             textFrag.RichTextOptions.FontColor = dxfColor ?? font.Color.ToColor();
-
             textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
-
             textFragments.Add(textFrag);
             dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
             return textFragments;
@@ -598,7 +569,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return FontSubFamily.Regular;
         }
 
-        public static PdfCellAlignmentData GetAlignmentData(PdfHeaderFooter headerFooter)
+        internal static PdfCellAlignmentData GetAlignmentData(PdfHeaderFooter headerFooter)
         {
             var contentAlignment = new PdfCellAlignmentData();
             switch (headerFooter.Alignment)
@@ -616,7 +587,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return contentAlignment;
         }
 
-        public static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
+        internal static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
             if (textCollection == null || textCollection.Count <= 1) return null;
             var ns = ws.Workbook.Styles.GetNormalStyle();
@@ -628,10 +599,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 var hf = textCollection[i];
                 var textFrag = new TextFragment();
                 textFrag.Font = new RichTextFormatSimple();
-
                 textFrag.Font.Family = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
                 textFrag.Font.Size = hf.FontSize == null ? ns.Style.Font.Size : (float)hf.FontSize;
-
                 textFrag.RichTextOptions.Bold = hf.Bold;
                 textFrag.RichTextOptions.Italic = hf.Italic;
                 //underline
@@ -644,13 +613,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 textFrag.RichTextOptions.UnderlineType = hf.DoubleUnderline ? 4 : textFrag.RichTextOptions.UnderlineType;
                 textFrag.RichTextOptions.StrikeType = hf.Striketrough ? 2 : 1;
                 textFrag.RichTextOptions.FontColor = hf.Color;
-
                 textFrag.Font.SubFamily = ComputeFontStyle(textFrag); 
-                                      //(textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-                                      //(textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
-                                      //(textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-                                      //(textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
-
                 var text = string.Empty;
                 switch (hf.FormatCode)
                 {
@@ -681,9 +644,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         text += hf.Text;
                         break;
                 }
-
                 textFrag.Text = text;
-
                 textFragments.Add(textFrag);
                 dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
                 if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, "1234567890");
@@ -696,7 +657,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         /// </summary>
         /// <param name="ws">The worksheet to check.</param>
         /// <returns>The number of columns to add.</returns>
-        public static int AddColumnsForNonWrappedText(PdfPageSettings pageSettings, ExcelWorksheet ws, PdfWorksheet pdfSheet)
+        internal static int AddColumnsForNonWrappedText(PdfPageSettings pageSettings, ExcelWorksheet ws, PdfWorksheet pdfSheet)
         {
             int columnsToAdd = 0;
             var catalog = new PdfCatalog();
@@ -717,7 +678,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return columnsToAdd;
         }
 
-        public static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
@@ -805,7 +766,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             }
             return top;
         }
-        public static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
@@ -892,7 +853,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             }
             return bottom;
         }
-        public static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
@@ -979,7 +940,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             }
             return left;
         }
-        public static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;

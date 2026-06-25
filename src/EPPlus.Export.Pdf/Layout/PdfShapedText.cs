@@ -19,8 +19,6 @@ namespace EPPlus.Export.Pdf.Layout
     internal struct PdfShapedText
     {
         public IFontProvider FontProvider;
-        //sometimes a font can have other fonts for certain characters. Key as the glyph id, Value is the font label.
-        //public Dictionary<byte, string> FontIDLabel;
         public Dictionary<byte, string> FontIdMap;
         public List<OpenTypeFont> UsedFonts;
         public ShapedText ShapedText;

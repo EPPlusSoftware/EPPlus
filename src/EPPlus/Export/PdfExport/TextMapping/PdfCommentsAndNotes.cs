@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             Comment = comment;
         }
+
         public PdfCommentsAndNotes(ExcelThreadedCommentThread tComment)
         {
             ThreadedComment = tComment;

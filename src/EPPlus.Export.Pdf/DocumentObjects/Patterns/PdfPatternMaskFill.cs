@@ -45,15 +45,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
         {
             const int size = 8;
             var sb = new StringBuilder();
-
-            // Fill the whole tile with the background color.
+            //Fill the whole tile with the background color.
             sb.Append(Background.ToFillCommand());
             sb.Append("\n0 0 ");
             sb.Append(size.ToString());
             sb.Append(" ");
             sb.Append(size.ToString());
             sb.Append(" re\nf\n");
-
             // Draw foreground rectangles. mask value 0 == foreground.
             sb.Append(Foreground.ToFillCommand());
             sb.Append("\n");

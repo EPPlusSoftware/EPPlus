@@ -26,7 +26,8 @@ namespace EPPlus.Export.Pdf.Resources
         // single source of geometry, so BBox and the tiling step are 8x8 for every
         // pattern.
         private static readonly double[] PatternBBox = new double[] { 0d, 0d, 8d, 8d };
-        private const double PatternStep = 8d;
+        private const double PatternStepX = 8d;
+        private const double PatternStepY = 8d;
 
         // The 8x8 pattern space is scaled down to match the physical tile size
         // Excel uses (0.75 pt for a full tile, i.e. 0.75 / 8 per pattern unit).
@@ -45,23 +46,20 @@ namespace EPPlus.Export.Pdf.Resources
         public PdfPattern GetPatternObject(int objectNumber, int version = 0)
         {
             this.objectNumber = objectNumber;
-
-            // None and Solid are not patterns; they are handled as special cases
+                        // None and Solid are not patterns; they are handled as special cases
             // elsewhere in the export.
             if (CellFillData.PatternStyle == ExcelFillStyle.None ||
                 CellFillData.PatternStyle == ExcelFillStyle.Solid)
             {
                 return null;
             }
-
             ExcelPatternMask mask;
             if (!TryGetMask(CellFillData.PatternStyle, out mask))
             {
                 return null;
             }
-
             var fill = new PdfPatternMaskFill(mask, CellFillData.PatternColor, CellFillData.BackgroundColor);
-            var pattern = new PdfTilingPattern(objectNumber, fill, PatternBBox, PatternStep, PatternStep, version);
+            var pattern = new PdfTilingPattern(objectNumber, fill, PatternBBox, PatternStepX, PatternStepY, version);
             pattern.Matrix = PatternMatrix;
             return pattern;
         }

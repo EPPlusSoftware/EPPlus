@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
-using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -74,7 +73,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             else if (cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
                 commands.Add($"% Pattern Start: {cell.Name}");
-
                 // Draw the solid cell background only when one is set. The pattern
                 // tile already fills itself with its own background color, so the
                 // pattern must be rendered regardless of whether the cell has a
@@ -106,30 +104,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             borderRenderer.RenderBorder(this);
         }
 
-
-        //Get font label //need to update this one too for same reasons as AddFontData
-        internal PdfFontResource GetFontResource(PdfDictionaries Dictionaries, PdfPageSettings PageSettings, string fontName, FontSubFamily subFamily, double fontSize)
-        {
-            var lookUpName = fontName + " " + subFamily.ToString();
-            if (!Dictionaries.Fonts.ContainsKey(lookUpName))
-            {
-                int label = 1;
-                if (Dictionaries.Fonts.Count > 0)
-                {
-                    label = Dictionaries.Fonts.Last().Value.labelNumber + 1;
-                }
-                PdfFontResource fr = new PdfFontResource(fontName, subFamily, label, PageSettings);
-                if (fontName != "Courier New")
-                {
-                    //Document.Add(fr.GetFontDescriptorObject(Document.Count + 1));
-                    //Document.Add(fr.GetWidthsObject(Document.Count + 1));
-                }
-                //Document.Add(fr.GetFontObject(Document.Count + 1));
-                Dictionaries.Fonts.Add(fontName, fr);
-            }
-            return Dictionaries.Fonts[lookUpName];
-        }
-
         public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
             double advanceY = 0d;
@@ -147,14 +121,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     case ExcelHorizontalAlignment.Center:
                         lineOffsetX = (line0Width - line.Width) / 2d;
                         break;
-                        // Left / General / Fill: no adjustment needed.
                 }
                 double advanceX = 0;
                 for (int i = 0; i < line.LineFragments.Count; i++)
                 {
-                    //var textFormat = cell.TextFormats[i];
                     var textFormat = line.LineFragments[i];
-
                     // find which ShapedText owns this fragment
                     int shapedTextIndex = 0;
                     int shapedTextCharStart = 0;
@@ -172,16 +143,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
                     // find the starting glyph within that ShapedText using StartRtIdx
                     int glyphStart = 0;
-                    //int rtCharCount = 0;
-                    //for (int g = 0; g < shapedText.ShapedText.Glyphs.Length; g++)
-                    //{
-                    //    if (rtCharCount >= textFormat.StartRtIdx)
-                    //    {
-                    //        glyphStart = g;
-                    //        break;
-                    //    }
-                    //    rtCharCount += shapedText.ShapedText.Glyphs[g].CharCount;
-                    //}
                     int charOffsetInShapedText = textFormat.StartFullTextIdx - shapedTextCharStart;
                     int rtCharCount = 0;
                     for (int g = 0; g < shapedText.ShapedText.Glyphs.Length; g++)
@@ -196,23 +157,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     var originalFragment = ((TextFragment)textFormat.OriginalTextFragment);
                     while (glyphStart < shapedText.ShapedText.Glyphs.Length && shapedText.ShapedText.Glyphs[glyphStart].GlyphId == 0)
                     {
-                        //Console.WriteLine($"[AddText] GlyphId==0 in shapedText {shapedTextIndex} of {cell.ShapedTexts.Count}, advancing. Cell.Text='{cell.cell?.Text}' textFormat.Text='{textFormat.Text}'");
                         shapedTextIndex++;
                         if (shapedTextIndex >= cell.ShapedTexts.Count)
                         {
-                            //Console.WriteLine($"[AddText] OUT OF RANGE! Original text: '{originalFragment.Text}'");
                             break; // temp safety
                         }
                         shapedText = cell.ShapedTexts[shapedTextIndex];
                         glyphStart = 0;
                     }
 
-
                     var richInfo = originalFragment.RichTextOptions;
-
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)richInfo.Size);
                     var color = richInfo.FontColor;
-                    var fontResource = GetFontResource(dictionaries, pageSettings, richInfo.Family, richInfo.SubFamily, richInfo.Size);
+                    var fontResource = dictionaries.GetFont(richInfo.Family, richInfo.SubFamily);
                     double size = richInfo.Size;
                     double scale = textFormat.OriginalTextFragment.RichTextOptions.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
@@ -268,7 +225,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         ? shapedText.FontIdMap[currentFontId]
                         : fontResource.Label;
                     commands.Add($"/{currentFontLabel} {size.ToPdfString()} Tf");
-
                     int fragmentCharCount = textFormat.Text.Length;
                     int charsRendered = 0;
                     var sb = new StringBuilder();
@@ -278,7 +234,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         if (charsRendered >= fragmentCharCount)
                             break;
                         var glyph = shapedText.ShapedText.Glyphs[j];
-
                         if (glyph.FontId != currentFontId)
                         {
                             // Close TJ array, switch font, open new TJ array
@@ -287,16 +242,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                             sb.Append("[");
                             currentFontId = glyph.FontId;
                         }
-
                         sb.Append($"<{glyph.GlyphId:X4}>");
                         int kerning = glyph.XAdvance - glyph.BaseAdvance;
-
                         if (kerning != 0)
                         {
                             double adjustment = -(kerning * 1000.0 / 1000);
                             sb.Append($" {adjustment.ToPdfStringF0()}");
                         }
-
                         if (j < shapedText.ShapedText.Glyphs.Length - 1)
                         {
                             sb.Append(" ");
@@ -310,163 +262,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 advanceY -= (line.LargestAscent + line.LargestDescent);
             }
         }
-
-        //public void AddText(Vector2 position, PdfCellLines lines, PdfCellAlignmentData alignment, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
-        //{
-        //    double rot = alignment.TextRotation * System.Math.PI / 180.0;
-        //    bool isVertical = alignment.IsVertical;
-        //    Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rot), System.Math.Sin(rot), -System.Math.Sin(rot), System.Math.Cos(rot), position.X, position.Y);
-        //    for (int i = 0; i < lines.Lines.Count; i++)
-        //    {
-        //        var line = lines.Lines[i];
-        //        Matrix3x3 textRunMatrix = textMatrix;
-        //        Matrix3x3 modifierMatrix = Matrix3x3.Identity;
-        //        bool useModifiedMatrix = false;
-        //        commands.Add("BT");
-        //        commands.Add($"{textMatrix.A.ToPdfString()} {textMatrix.B.ToPdfString()} {textMatrix.C.ToPdfString()} {textMatrix.D.ToPdfString()} {textMatrix.E.ToPdfString()} {textMatrix.F.ToPdfString()} Tm");
-        //        PdfTextFormat lastCharacter = line.Words[0].Characters[0];
-        //        PdfTextFormat currentStyle = line.Words[0].Characters[0];
-        //        string textRun = string.Empty;
-        //        double textAdvance = 0d;
-        //        double textVAdvance = 0d;
-        //        int wordIndex = 0;
-        //        for (int j = 0; j < line.Words.Count; j++)
-        //        {
-        //            var words = line.Words[j];
-
-        //            for (int k = wordIndex; k < words.Characters.Count; k++, wordIndex++)
-        //            {
-        //                if (!currentStyle.Equals(words.Characters[k]))
-        //                {
-        //                    break;
-        //                }
-        //                textRun += words.Characters[k].Text;
-        //                textAdvance += words.Characters[k].TextLength;
-        //                textVAdvance = words.Characters[k].LineHeight;
-        //                if (isVertical)
-        //                {
-        //                    wordIndex++;
-        //                    break;
-        //                }
-        //            }
-
-        //            if (wordIndex == words.Characters.Count && j < line.Words.Count - 1)
-        //            {
-        //                wordIndex = 0;
-        //                continue;
-        //            }
-
-        //            var font = GetFontResource(dictionaries, pageSettings, currentStyle.FullFontName, currentStyle.SubFamily, currentStyle.FontSize);
-        //            double size = currentStyle.FontSize;
-        //            double scale = currentStyle.FontSize / font.fontData.HeadTable.UnitsPerEm;
-        //            if (currentStyle.Bold)
-        //            {
-        //                commands.Add("0.25 w");
-        //                commands.Add("2 Tr");
-        //                commands.Add(currentStyle.FontColor.ToStrokeCommand());
-        //            }
-        //            else
-        //            {
-        //                commands.Add("0 Tr");
-        //            }
-        //            if (currentStyle.Italic)
-        //            {
-        //                var ia = font.fontData.PostTable.italicAngle.FloatValue;
-        //                if (ia <= 0) ia = 12f * (float)System.Math.PI / 180.0f;
-        //                modifierMatrix.C = System.Math.Tan(ia);
-        //                modifierMatrix = modifierMatrix * textRunMatrix;
-        //                useModifiedMatrix = true;
-        //            }
-        //            if (currentStyle.SuperScript)
-        //            {
-        //                var supOffX = font.fontData.Os2Table.ySuperscriptXOffset * scale;
-        //                var supOffY = font.fontData.Os2Table.ySuperscriptYOffset * scale;
-        //                var supSizeX = font.fontData.Os2Table.ySuperscriptXSize * scale;
-        //                var supSizeY = font.fontData.Os2Table.ySuperscriptYSize * scale;
-        //                modifierMatrix.E = textMatrix.E + supOffX;
-        //                modifierMatrix.F = textMatrix.F + supOffY;
-        //                size = supSizeY;
-        //                useModifiedMatrix = true;
-        //            }
-        //            else if (currentStyle.SubScript)
-        //            {
-        //                var supOffX = font.fontData.Os2Table.ySubscriptXOffset * scale;
-        //                var supOffY = font.fontData.Os2Table.ySubscriptYOffset * scale;
-        //                var supSizeX = font.fontData.Os2Table.ySubscriptXSize * scale;
-        //                var supSizeY = font.fontData.Os2Table.ySubscriptYSize * scale;
-        //                modifierMatrix.E = textMatrix.E + supOffX;
-        //                modifierMatrix.F = textMatrix.F + supOffY;
-        //                size = supSizeY;
-        //                useModifiedMatrix = true;
-        //            }
-        //            if (currentStyle.Underline)
-        //            {
-        //                var underlinePos = font.fontData.PostTable.underlinePosition * scale;
-        //                var underlineWidth = font.fontData.PostTable.underlineThickness * scale;
-        //                var start = textRunMatrix.Transform(new Vector2(0, underlinePos));
-        //                var end = textRunMatrix.Transform(new Vector2(textAdvance, underlinePos));
-        //                commands.Add($"{underlineWidth.ToPdfString()} w");
-        //                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-        //                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-        //                commands.Add($"S");
-        //            }
-        //            if (currentStyle.Strike)
-        //            {
-        //                var strikePos = font.fontData.Os2Table.yStrikeoutPosition * scale;
-        //                var strikeWidth = font.fontData.Os2Table.yStrikeoutSize * scale;
-        //                var start = textRunMatrix.Transform(new Vector2(0, strikePos));
-        //                var end = textRunMatrix.Transform(new Vector2(textAdvance, strikePos));
-        //                commands.Add($"{strikeWidth.ToPdfString()} w");
-        //                commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
-        //                commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
-        //                commands.Add($"S");
-        //            }
-        //            if (useModifiedMatrix)
-        //            {
-        //                commands.Add($"{modifierMatrix.A.ToPdfString()} {modifierMatrix.B.ToPdfString()} {modifierMatrix.C.ToPdfString()} {modifierMatrix.D.ToPdfString()} {modifierMatrix.E.ToPdfString()} {modifierMatrix.F.ToPdfString()} Tm");
-        //                modifierMatrix = Matrix3x3.Identity;
-        //            }
-        //            else if ((isVertical))
-        //            {
-        //                commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
-        //            }
-        //            commands.Add($"/{font.Label} {size.ToPdfString()} Tf");
-        //            commands.Add(currentStyle.FontColor.ToFillCommand());
-        //            commands.Add($"({FixEscapeCharacters(textRun)}) Tj");
-        //            if (isVertical)
-        //            {
-        //                textRunMatrix = textRunMatrix * Matrix3x3.Translation(0, -textVAdvance);
-        //            }
-        //            else
-        //            {
-        //                textRunMatrix = textRunMatrix * Matrix3x3.Translation(textAdvance, 0);
-        //            }
-
-        //            if (useModifiedMatrix) commands.Add($"{textRunMatrix.A.ToPdfString()} {textRunMatrix.B.ToPdfString()} {textRunMatrix.C.ToPdfString()} {textRunMatrix.D.ToPdfString()} {textRunMatrix.E.ToPdfString()} {textRunMatrix.F.ToPdfString()} Tm");
-        //            useModifiedMatrix = false;
-        //            textRun = string.Empty;
-        //            textAdvance = 0;
-
-        //            if (wordIndex < words.Characters.Count)
-        //            {
-        //                currentStyle = words.Characters[wordIndex];
-        //                j--;
-        //            }
-        //        }
-        //        if (i + 1 < lines.Lines.Count)
-        //        {
-        //            if (isVertical)
-        //            {
-        //                textMatrix = textRunMatrix * Matrix3x3.Translation(line.TextLength, line.TextHeight + lines.Lines[i + 1].Offset);
-        //            }
-        //            else
-        //            {
-        //                textMatrix = textRunMatrix * Matrix3x3.Translation(-line.TextLength + lines.Lines[i + 1].Offset, -lines.Lines[i + 1].LineHeight);
-        //            }
-        //        }
-        //        commands.Add("ET");
-        //    }
-        //}
 
         public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
@@ -482,15 +277,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             commands.Add($"{cell.Clipping.X.ToPdfString()} {cell.Clipping.Y.ToPdfString()} {cell.Clipping.Width.ToPdfString()} {cell.Clipping.Height.ToPdfString()} re W n");
         }
-
-        //public void AddCellContentLayout(PdfHeaderFooterLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
-        //{
-        //    commands.Add($"% HeaderFooter Start: {cell.Name}");
-        //    commands.Add("q");
-        //    //AddText(cell, cell.LocalPosition, 0, dictionaries, pageSettings);
-        //    commands.Add("Q");
-        //    commands.Add($"% HeaderFooter End: {cell.Name}");
-        //}
 
         public void AddInnerGridLines(Transform pageLayout)
         {
@@ -575,28 +361,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines Border End");
         }
 
-        //public void AddMarginClipping(PdfPageLayout pageLayout)
-        //{
-        //    if (pageLayout is not PdfPageLayout pl) return;
-        //    if (pageLayout.isCommentsPage) return;
-
-        //    commands.Add($"% Margin Clip Start");
-        //    double y = pageLayout.ContentTop;
-        //    double width = 0d;
-        //    foreach (var line in pl.BorderLines)
-        //    {
-        //        width = System.Math.Max(width, System.Math.Max(line.X1, line.X2));
-        //        y = System.Math.Min(y, System.Math.Min(line.Y1, line.Y2));
-        //    }
-        //    var heightAdjust = y - pageLayout.ContentBottom;
-
-        //    var x = (pageLayout.ContentLeft) - (GridLine.Width * 4 );
-        //    width = width - pageLayout.ContentLeft + (GridLine.Width * 8);
-        //    var height = pageLayout.ContentHeight - heightAdjust + (GridLine.Width * 4);
-
-        //    commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
-        //}
-
         public void AddMarginClipping(PdfPageLayout pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
@@ -624,8 +388,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
         }
 
-
-
         internal override string RenderDictionary()
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
@@ -638,11 +400,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
             WriteAscii(bw, $"<< /Length {bytes.Length} >>\nstream\n{content}\nendstream");
-        }
-
-        private string FixEscapeCharacters(string text)
-        {
-            return text.Replace(@"\", @"\\").Replace(@"(", @"\(").Replace(@")", @"\)");
         }
     }
 }

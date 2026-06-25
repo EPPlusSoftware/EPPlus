@@ -17,6 +17,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
     internal class PdfCidSet : PdfObject
     {
         byte[] CidSet;
+
         public PdfCidSet(int objectNumber, byte[] cidSet , int version = 0) : base(objectNumber, version)
         {
             CidSet = cidSet;

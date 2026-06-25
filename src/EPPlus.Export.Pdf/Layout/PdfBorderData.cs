@@ -15,9 +15,6 @@ using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf.Layout
 {
-    internal class PdfBorderData
-    {
-    }
     internal class PdfCellBordersData
     {
         public PdfCellBorderData Top = new PdfCellBorderData(LineType.Top);

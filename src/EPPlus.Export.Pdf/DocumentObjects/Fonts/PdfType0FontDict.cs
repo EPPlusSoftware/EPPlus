@@ -21,7 +21,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private readonly string BaseFont;
         private readonly string Encoding;
         private readonly int DescendantFontsObjectNumbers;
-
         private readonly int ToUnicodeObjectNumber;
 
         public PdfType0FontDict(int objectNumber, string basefont, string encoding, int descendantFontsObjectNumbers, int toUnicodeObjectNumber = -1, int version = 0)

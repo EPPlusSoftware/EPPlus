@@ -15,7 +15,7 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
-    public enum PdfFontSubType
+    internal enum PdfFontSubType
     {
         Type0,      //Used for embedded fonts
         Type1,      //Used for built-in fonts
@@ -26,7 +26,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         /*TODO*/CIDFontType2,     //
     }
 
-    public enum PdfFontEncoding
+    internal enum PdfFontEncoding
     {
         None,
         WinAnsiEncoding,
@@ -42,8 +42,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private readonly int lastChar;
         private readonly int widthObjectNumber;
         private readonly int fontDescriptorObjectNumber;
-
-
 
         public PdfFont(int objectNumber, string fontName = "Helvetica", PdfFontSubType subType = PdfFontSubType.Type1, int firstChar = -1, int lastChar = -1, int widthObjectNumber = -1, int fontDescObjectNumner = -1, PdfFontEncoding encoding = PdfFontEncoding.WinAnsiEncoding)
             : base(objectNumber, 0)

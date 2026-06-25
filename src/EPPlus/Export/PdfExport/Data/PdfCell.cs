@@ -17,7 +17,6 @@ namespace OfficeOpenXml.Export.PdfExport.Data
     internal class PdfCell : PdfCellBase
     {
         public PdfCellStyle CellStyle;
-
         public bool Merged;
         public PdfCell Main;
         public ExcelAddressBase MergedAddress;

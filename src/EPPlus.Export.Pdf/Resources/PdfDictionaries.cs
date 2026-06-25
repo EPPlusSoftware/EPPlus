@@ -41,13 +41,14 @@ namespace EPPlus.Export.Pdf.Resources
             manger.AddText(Text);
         }
 
-        internal PdfFontResource GetFont(string FontName)
+        internal PdfFontResource GetFont(string fontName, FontSubFamily subFamily)
         {
-            if (!Fonts.ContainsKey(FontName))
+            var lookUpName = fontName + " " + subFamily.ToString();
+            if (!Fonts.ContainsKey(lookUpName))
             {
-                return null;
+                throw new KeyNotFoundException($"Font: {lookUpName} is missing from dictionary.");
             }
-            return Fonts[FontName];
+            return Fonts[lookUpName];
         }
     }
 }

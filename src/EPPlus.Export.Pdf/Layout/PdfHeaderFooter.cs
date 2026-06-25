@@ -40,9 +40,7 @@ namespace EPPlus.Export.Pdf.Layout
         public HeaderFooterType PageType;
         public HeaderFooterAlignment Alignment;
         public HeaderFooterSection Section;
-
         public PdfCellBase Content;
-
         public List<int> NumberOfPagesIndexes = new List<int>();
         public List<int> PageNumberIndexes = new List<int>();
 

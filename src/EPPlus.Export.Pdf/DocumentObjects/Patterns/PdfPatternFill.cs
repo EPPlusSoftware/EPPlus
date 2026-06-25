@@ -19,7 +19,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
     {
         public Color Background;
         public Color Foreground;
-        private readonly List<string> commands = new List<string>();
 
         protected PdfPatternFill(Color foreground, Color background)
         {

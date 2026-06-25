@@ -22,9 +22,6 @@ namespace OfficeOpenXml.Export.PdfExport.Data
 
     internal struct PdfRange
     {
-        public ExcelRangeBase Range { get; set; }
-        public bool ExtendColumns { get; set; }
-        public PdfCellCollection Map { get; set; }
         public List<RowHeight> RowHeights = new List<RowHeight>();
         public List<double> ColWidths = new List<double>();
         public double TotalHeight;
@@ -35,6 +32,10 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public double PrintTitleWidth;
         public int PrintTitleRowTo = -1;
         public int PrintTitleColTo = -1;
+
+        public ExcelRangeBase Range { get; set; }
+        public bool ExtendColumns { get; set; }
+        public PdfCellCollection Map { get; set; }
 
         public PdfRange(ExcelRangeBase range, bool extendColumns)
         {

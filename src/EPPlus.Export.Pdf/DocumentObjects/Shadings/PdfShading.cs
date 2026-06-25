@@ -16,7 +16,7 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
 {
-    public enum DeviceColorSpace
+    internal enum DeviceColorSpace
     {
         DeviceGray,
         DeviceRGB,

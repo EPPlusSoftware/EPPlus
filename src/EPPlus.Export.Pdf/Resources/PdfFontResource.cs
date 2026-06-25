@@ -39,16 +39,12 @@ namespace EPPlus.Export.Pdf.Resources
         private int firstChar = 32;
         private int lastChar = 255;
         private CIDSystemInfo cidSystemInfo = null;
-
         internal string type0Encoding = "Identity-H";
-
         internal TextShaper Shaper = null;
         internal ShapedText ShapedText;
-
         internal HashSet<char> Subset = new HashSet<char>();
         internal HashSet<ushort> Gids = new HashSet<ushort>();
         internal Dictionary<ushort, string> charactermappings = new Dictionary<ushort, string>();
-
         internal FontSubsetManager fontSubsetManager;
 
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
@@ -59,28 +55,6 @@ namespace EPPlus.Export.Pdf.Resources
             fontData = _fontEngine.LoadFont(fontName, subFamily);
             fontSubsetManager = new FontSubsetManager(pageSettings.FontEngine, fontData);
         }
-
-        internal static OpenTypeFont GetFontData(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
-        {
-            return pageSettings.FontEngine.LoadFont(fontName,subFamily);
-        }
-
-        //Get font data from fontResources. If font does not exsist, add it to fontResources.
-        //internal static OpenTypeFont GetFontResourceData(Dictionary<string, PdfFontResource> fontResources, PdfPageSettings pageSettings, PdfTextFormat FontData)
-        //{
-        //    if (!fontResources.ContainsKey(FontData.FullFontName))
-        //    {
-        //        int label = 1;
-        //        if (fontResources.Count > 0)
-        //        {
-        //            label = fontResources.Last().Value.labelNumber + 1;
-        //        }
-        //        PdfFontResource fr = new PdfFontResource(FontData.FontName, FontData.SubFamily, label, pageSettings);
-        //        fontResources.Add(FontData.FullFontName, fr);
-        //        fontResources.Last().Value.fontData = GetFontData(pageSettings, FontData.FontName, FontData.SubFamily);
-        //    }
-        //    return fontResources[FontData.FullFontName].fontData;
-        //}
 
         //Get the Font Descriptor object to write in PDF.
         internal PdfFontDescriptor GetFontDescriptorObject(int objectNumber, int version = 0)
@@ -192,7 +166,6 @@ namespace EPPlus.Export.Pdf.Resources
             cidSystemInfo.Registry = "Adobe";
             cidSystemInfo.Ordering = "Identity";
             cidSystemInfo.Supplement = 0;
-
             return new PdfCIDFont(objectNumber, fontData, Gids, CIDFontSubtype.CIDFontType2, cidSystemInfo, "Identity", fontDescObjectNumber);
         }
 
@@ -207,15 +180,6 @@ namespace EPPlus.Export.Pdf.Resources
             unicodeCMapFontObjectNumber = objectNumber;
             return new PdfToUnicodeCMap(objectNumber, charactermappings);
         }
-        private string ExtractCharactersForGlyph(ShapedGlyph glyph, string textLine)
-        {
-            var chars = new System.Text.StringBuilder();
-            for (int i = 0; i < glyph.CharCount && glyph.ClusterIndex + i < textLine.Length; i++)
-            {
-                chars.Append(textLine[glyph.ClusterIndex + i]);
-            }
-            return chars.ToString();
-        }
 
         internal PdfFontStream GetEmbeddedFontStreamObject(int objectNumber, int version = 0)
         {
@@ -227,11 +191,9 @@ namespace EPPlus.Export.Pdf.Resources
         {
             if (!fontData.IsSubset || Gids.Count == 0)
                 return null;
-
             int maxGid = Gids.Max();
             int numBytes = (maxGid / 8) + 1;
             var cidSet = new byte[numBytes];
-
             foreach (var gid in Gids)
             {
                 int byteIndex = gid / 8;
@@ -240,25 +202,6 @@ namespace EPPlus.Export.Pdf.Resources
             }
             cidSetObjectNumber = objectNumber;
             return new PdfCidSet(objectNumber, cidSet, version);
-        }
-
-        internal void CreateGidsAndCharMaps()
-        {
-            if (ShapedText != null)
-            {
-                foreach (var glyph in ShapedText.Glyphs)
-                {
-                    Gids.Add(glyph.GlyphId);
-                    if (!charactermappings.ContainsKey(glyph.GlyphId))
-                    {
-                        var chars = ExtractCharactersForGlyph(glyph, ShapedText.OriginalText);
-                        if (!string.IsNullOrEmpty(chars))
-                        {
-                            charactermappings.Add(glyph.GlyphId, chars);
-                        }
-                    }
-                }
-            }
         }
     }
 }

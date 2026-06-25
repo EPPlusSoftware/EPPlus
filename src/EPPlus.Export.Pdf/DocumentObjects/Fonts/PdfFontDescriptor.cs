@@ -21,7 +21,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
     /// Font descriptor flags
     /// </summary>
     [Flags]
-    public enum FontDescriptorFlags
+    internal enum FontDescriptorFlags
     {
         FixedPitch = 1,
         Serif = 2,

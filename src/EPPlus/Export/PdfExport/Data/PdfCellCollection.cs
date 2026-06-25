@@ -16,12 +16,12 @@ namespace OfficeOpenXml.Export.PdfExport.Data
 {
     internal class PdfCellCollection
     {
-        private PdfCell[,] Cells;
-
         public readonly int FromRow;
         public readonly int FromColumn;
         public readonly int ToRow;
         public readonly int ToColumn;
+
+        private PdfCell[,] Cells;
 
         public PdfCellCollection(int fromRow, int toRow, int fromColumn, int toColumn)
         {

@@ -33,7 +33,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         public static void CollectText(PdfDictionaries dictionaries, PdfCell cell)
         {
             if (cell == null || cell.TextFragments == null) return;
-
             for (int i = 0; i < cell.TextFragments.Count; i++)
             {
                 var tf = cell.TextFragments[i];
@@ -48,41 +47,33 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             var totalTextLength = 0d;
             var maxLineHeight = 0d;
             if (cell == null || cell.TextFragments == null) return;
-
             cell.ShapedTexts = new List<PdfShapedText>();
-
             for (int i = 0; i < cell.TextFragments.Count; i++)
             {
                 var tf = cell.TextFragments[i];
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
-
                 if (!dictionaries.ShapedProviders.TryGetValue(tf.FullFontName, out var provider))
                 {
                     continue;
                 }
                 st.FontProvider = provider;
-
                 if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
                 {
                     shaper = new TextShaper(st.FontProvider);
                     shaperCache[st.FontProvider] = shaper;
                 }
-
                 if (!layoutEngineCache.TryGetValue(st.FontProvider, out var layoutEngine))
                 {
                     layoutEngine = new TextLayoutEngine(shaper);
                     layoutEngineCache[st.FontProvider] = layoutEngine;
                 }
-
                 var options = ShapingOptions.Default;
                 options.ApplyPositioning = true;
                 options.ApplySubstitutions = true;
-
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
-
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
                 {
                     var font = usedFonts[fontId];
@@ -97,19 +88,15 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
                 }
-
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
-
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
                 maxLineHeight = Math.Max(st.ShapedText.GetLineHeightInPoints((float)tf.Font.Size), maxLineHeight);
-
                 st.FontIdMap = fontIdMap;
                 st.UsedFonts = usedFonts;
                 cell.TextFragments[i] = tf;
                 cell.ShapedTexts[i] = st;
             }
-
             if (cell.TextLayoutEngine != null)
             {
                 double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
@@ -117,7 +104,72 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
                     : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
             }
+            cell.TotalTextLength = totalTextLength;
+        }
 
+        // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
+        public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell)
+        {
+            var totalTextLength = 0d;
+            var maxLineHeight = 0d;
+            if (cell == null || cell.TextFragments == null) return;
+            cell.ShapedTexts = new List<PdfShapedText>();
+            for (int i = 0; i < cell.TextFragments.Count; i++)
+            {
+                var tf = cell.TextFragments[i];
+                cell.ShapedTexts.Add(new PdfShapedText());
+                var st = cell.ShapedTexts[i];
+                if (!dictionaries.ShapedProviders.TryGetValue(tf.FullFontName, out var provider))
+                {
+                    continue;
+                }
+                st.FontProvider = provider;
+                if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
+                {
+                    shaper = new TextShaper(st.FontProvider);
+                    shaperCache[st.FontProvider] = shaper;
+                }
+                if (!layoutEngineCache.TryGetValue(st.FontProvider, out var layoutEngine))
+                {
+                    layoutEngine = new TextLayoutEngine(shaper);
+                    layoutEngineCache[st.FontProvider] = layoutEngine;
+                }
+                var options = ShapingOptions.Default;
+                options.ApplyPositioning = true;
+                options.ApplySubstitutions = true;
+                var shaped = shaper.Shape(tf.Text, options);
+                var usedFonts = shaper.GetUsedFonts().ToList();
+                var fontIdMap = new Dictionary<byte, string>();
+                for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
+                {
+                    var font = usedFonts[fontId];
+                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
+                    {
+                        int label = dictionaries.Fonts.Count > 0
+                            ? dictionaries.Fonts.Last().Value.labelNumber + 1
+                            : 1;
+                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+                        fontResource.fontData = font;
+                        dictionaries.Fonts.Add(font.FullName, fontResource);
+                    }
+                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+                }
+                cell.TextLayoutEngine = layoutEngine;
+                st.ShapedText = shaped;
+                totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
+                maxLineHeight = Math.Max(st.ShapedText.GetLineHeightInPoints((float)tf.Font.Size), maxLineHeight);
+                st.FontIdMap = fontIdMap;
+                st.UsedFonts = usedFonts;
+                cell.TextFragments[i] = tf;
+                cell.ShapedTexts[i] = st;
+            }
+            if (cell.TextLayoutEngine != null)
+            {
+                double wrapWidth = cell.Width;
+                cell.TextLines = cell.ContentAligmnet.WrapText
+                    ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
+                    : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
+            }
             cell.TotalTextLength = totalTextLength;
         }
     }

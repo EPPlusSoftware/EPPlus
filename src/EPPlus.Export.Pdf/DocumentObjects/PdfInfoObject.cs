@@ -32,7 +32,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             string sign = offset < TimeSpan.Zero ? "-" : "+";
             offset = offset.Duration();
             string pdfDate = string.Format("D:{0:yyyyMMddHHmmss}{1}{2:00}'{3:00}'", now, sign, offset.Hours, offset.Minutes);
-
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Title ({Title})\n" +
                             $"   /Author (EPPlus)\n" +
