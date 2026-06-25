@@ -306,7 +306,8 @@ namespace EPPlusImageRenderer
             var item = new ChartAreaRenderer(this);
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, Theme.ColorScheme.Light1);
+            
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true);
             item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);

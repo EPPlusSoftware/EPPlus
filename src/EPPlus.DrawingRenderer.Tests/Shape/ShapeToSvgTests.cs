@@ -15,6 +15,65 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
     [TestClass]
     public sealed class ShapeToSvgTests : TestBase
     {
+
+        [TestMethod]
+        public void GroupFill()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("GroupFill.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var drawings = ws.Drawings;
+
+                int ix = 0;
+
+                foreach (var drawing in drawings)
+                {
+                    if(drawing is ExcelGroupShape)
+                    {
+                        var gShape = (ExcelGroupShape)drawing;
+                        var gDrawings = gShape.Drawings;
+                        foreach(var gDrawing in gDrawings)
+                        {
+                            SaveTextFileToWorkbook($"svg\\GroupFill{ix++}.svg", gDrawing.ToSvg());
+                        }
+                    }
+                    else
+                    {
+                        var shapeCast = drawing.As.Shape;
+                        var filltype = shapeCast.Fill.Style;
+
+                        var svg = drawing.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\GroupFill{ix++}.svg", svg);
+                    }
+                }
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void SeveralFills()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ShapeWithFillNoFillAndDefault.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var drawings = ws.Drawings;
+
+                int ix = 0;
+
+                foreach (var drawing in drawings)
+                {
+                    var shapeCast = drawing.As.Shape;
+                    var filltype = shapeCast.Fill.Style;
+
+                    var svg = drawing.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\manyFills{ix++}.svg", svg);
+                }
+                SaveAndCleanup(p);
+            }
+        }
+
         [TestMethod]
         public void Rect()
         {

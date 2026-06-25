@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal static class DrawingRenderItemExtentions
     {
-        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, bool gradientUserSpace=false, ExcelDrawingThemeColorManager nullColor=null)
+        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, bool gradientUserSpace = false, ExcelDrawingThemeColorManager nullColor = null)
         {
             switch (fill.Style)
             {
@@ -43,7 +43,7 @@ namespace EPPlusImageRenderer.RenderItems
                     item.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
                     break;
                 default:
-                    SetDrawingPropertiesFillBasic(item, theme, fill, color, gradientUserSpace, nullColor ?? theme.ColorScheme.Accent1);
+                    SetDrawingPropertiesFillBasic(item, theme, fill, color, gradientUserSpace, nullColor);
                     break;
             }
         }
@@ -185,15 +185,42 @@ namespace EPPlusImageRenderer.RenderItems
             }
 
             Color fc;
+            fc = tc.ColorConverter.GetThemeColor(nullColor ?? theme.ColorScheme.Accent1);
             if (fill == null || fill.Style == eFillStyle.NoFill)
             {
                 if (styleFillColor == null)
                 {
-                    fc = tc.ColorConverter.GetThemeColor(nullColor ?? theme.ColorScheme.Accent1);
-                }
-                else
-                {
-                    fc = tc.ColorConverter.GetThemeColor(theme, styleFillColor);
+                    //There is no Style-Specified color. Themed Fill should be applied if it exists
+                    //Fallback to theme
+                    if (theme.FormatScheme.BackgroundFillStyle != null)
+                    {
+                        //Usually, at least for chart objects if the theme fill is not NoFill it is Subtle
+                        var subtleBg = theme.FormatScheme.BackgroundFillStyle[0];
+                        if (subtleBg.IsEmpty == false)
+                        {
+                            if (subtleBg.Style == eFillStyle.SolidFill)
+                            {
+                                if (subtleBg.SolidFill.Color.ColorType == eDrawingColorType.Scheme)
+                                {
+                                    //The theme color is PhClr which is fallback color to style.
+                                    //Style does not exist. But The base theme schemecolor does.
+                                    //Hardcoded defaults to solid fill according to docs is Bg1
+                                    //Specifically SolidFill has a fallback to bg1
+
+                                    var bg1 = theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1);
+                                    fc = tc.ColorConverter.GetThemeColor(bg1);
+                                }
+                            }
+                            else
+                            {
+                                //alternatively accent 1
+                                fc = subtleBg.Color;
+                            }
+                            //var style = subtleBg.Style;
+                            //subtleBg.LoadFill();
+                            //subtleBg.Color;
+                        }
+                    }
                 }
             }
             else if (fill.Style == eFillStyle.SolidFill)
