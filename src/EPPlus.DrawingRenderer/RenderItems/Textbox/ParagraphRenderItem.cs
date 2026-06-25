@@ -198,7 +198,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             //This is highly innefficent. Really, LayoutSystem should be 
             //Holding the fragments from the start/wrapping should only be done when textFragments are fully complete
-            _layoutSystem = new LayoutSystem(_textFragments);
+            _layoutSystem = new LayoutSystem(OpenTypeFonts.GetDefaultEngine(), _textFragments);
 
             //if (fragments == null && _layoutSystem == null)
             //{

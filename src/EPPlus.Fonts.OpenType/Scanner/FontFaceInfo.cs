@@ -80,6 +80,14 @@ namespace EPPlus.Fonts.OpenType.Scanner
         public bool IsExactMatch { get; internal set; }
 
         /// <summary>
+        /// True if this face is a variable font (i.e. the file contains an 'fvar' table).
+        /// A variable font can only be relied upon to deliver its default named instance unless
+        /// the variation tables are interpolated, which this library does not yet do. Matching
+        /// therefore treats a variable face as capable of delivering only its default subfamily.
+        /// </summary>
+        public bool IsVariable { get; internal set; }
+
+        /// <summary>
         /// Table directory for this face.
         /// </summary>
         public Dictionary<string, TableRecord> TableRecords { get; internal set; }
@@ -121,6 +129,7 @@ namespace EPPlus.Fonts.OpenType.Scanner
                 Subfamily = Subfamily,
                 FsSelection = FsSelection,
                 IsExactMatch = IsExactMatch,
+                IsVariable = IsVariable, // carry variable-font flag into per-query copy
                 TableRecords = TableRecords, // shared by reference — never mutated post-scan
             };
         }

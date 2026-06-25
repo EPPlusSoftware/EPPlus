@@ -203,7 +203,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var shaper = OpenTypeFonts.GetShaperForFont(font2);
+            var shaper = TestFolderEngine.GetShaperForFont(font2);
             //var shapes = shaper.ShapeLight("WithAbsolutelyNoSpacesAtAllJustToBeDifficult");
             var layout = new TextLayoutEngine(shaper);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);

@@ -230,13 +230,16 @@ namespace EPPlus.Fonts.OpenType.Integration
             return shaped.GetWidthInPoints(fontSize);
         }
 
-        private ITextShaper GetShaperForFont(MeasurementFont font)
-        {
-            return OpenTypeFonts.GetShaperForFont(font);
-        }
-
         private ITextShaper GetShaperForFont(IFontFormatBase font)
         {
+            var ts = _shaper as TextShaper;
+            if (ts != null)
+            {
+                var resolved = ts.GetShaperForFont(font);
+                if (resolved != null)
+                    return resolved;
+            }
+
             return OpenTypeFonts.GetShaperForFont(font);
         }
 

@@ -172,5 +172,10 @@ namespace EPPlus.Fonts.OpenType
         {
             return OpenTypeFontEngine.GetLocationsCollection(fontDirectories, searchSystemDirectories);
         }
+
+        public static OpenTypeFontEngine GetDefaultEngine()
+        {
+            return _default;
+        }
     }
 }

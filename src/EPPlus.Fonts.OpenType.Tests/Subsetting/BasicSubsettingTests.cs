@@ -299,7 +299,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_WithGposKerning_ShouldPreservePositioning()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto Extra Light");
+            var font = TestFolderEngine.LoadFont("Roboto Extra Light");
+            //var font = OpenTypeFonts.LoadFont("Roboto Extra Light");
             var chars = new[] { 'f', 'e', 'c', 'd', 'g', 'E', 'a', 'b', ' ' };
 
             bool foundF_Original = font.CmapTable.TryGetGlyphId('f', out ushort fGlyphOrig);
