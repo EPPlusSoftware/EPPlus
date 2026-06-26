@@ -242,7 +242,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var fontMeasurer = SystemFontsEngine.GetTextLayoutEngineForFont(mf);
             var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello the", strings[0]);

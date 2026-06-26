@@ -40,6 +40,8 @@ namespace EPPlusImageRenderer.Svg
     {
         internal ChartRenderer ChartRenderer;
         internal ExcelChart Chart => (ExcelChart)ChartRenderer.Drawing;
+
+        internal RenderContext RenderContext => ChartRenderer.RenderContext;
         internal ChartDrawingObject(ChartRenderer chart)
         {
             ChartRenderer = chart;

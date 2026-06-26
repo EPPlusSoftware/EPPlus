@@ -178,7 +178,8 @@ namespace TestProject1
 
             ShapingOptions options = new ShapingOptions();
 
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var layout = engine.GetTextLayoutEngineForFont(mf);
 
             //var wrappedStrings = layout.WrapRichText(new List<string>() { text }, new List<MeasurementFont>() { mf }, 39.4f);
 

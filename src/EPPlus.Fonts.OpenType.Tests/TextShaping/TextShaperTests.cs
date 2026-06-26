@@ -685,8 +685,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Shape_SourceSans3_SingleMark_PositionsCorrectly()
         {
-            TestFolderEngine.LeastRequiredAvailability = FontAvailability.NotFound;
-
             // Arrange
             var shaper = TestFolderEngine.GetTextShaper("SourceSans3");
 
@@ -723,7 +721,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 cfg.SearchSystemDirectories = false;
             })).Value;
 
-            tEngine.LeastRequiredAvailability = FontAvailability.NotFound;
             // Arrange
             var shaper = tEngine.GetTextShaper("SourceSans3");
 

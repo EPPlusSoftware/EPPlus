@@ -115,11 +115,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
+        protected RenderContext RenderContext { get; private set; }
+
+
+
         protected TextLineSpacing _lsType;
         protected double? _centerAdjustment;
 
-        protected ParagraphRenderItem(BoundingBox parent, bool setFallbackDefaultFont = true) : base(parent)
+        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, bool setFallbackDefaultFont = true) : base(parent)
         {
+            RenderContext = renderContext;
             Bounds.Name = "Paragraph";
             if (setFallbackDefaultFont)
             {
@@ -129,26 +134,26 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, bool setFallbackDefaultFont = true) : this(parent, setFallbackDefaultFont)
+        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, bool setFallbackDefaultFont = true) : this(renderContext, parent, setFallbackDefaultFont)
         {
             InitBasedOnParent(textBody);
             Bounds.Name = "Paragraph";
         }
 
-        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, string text, bool setFallbackDefaultFont = true) : this(parent, textBody, setFallbackDefaultFont)
+        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, string text, bool setFallbackDefaultFont = true) : this(renderContext, parent, textBody, setFallbackDefaultFont)
         {
             _lsMultiplier = 1d;
             ImportLinesAndTextRunsBase(text);
         }
 
-        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, IRichTextFormatSimple rtFormat) : this(parent, textBody, false)
+        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, IRichTextFormatSimple rtFormat) : this(renderContext, parent, textBody, false)
         {
             _lsMultiplier = 1d;
             DefaultParagraphFont = new FontFormatBase(rtFormat.Family, rtFormat.SubFamily, rtFormat.Size);
             AddRichText(rtFormat);
         }
 
-        protected ParagraphRenderItem(BoundingBox parent, RenderTextBody textBody, IRichTextFormatDrawing rtFormat) : this(parent, textBody, false)
+        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, IRichTextFormatDrawing rtFormat) : this(renderContext, parent, textBody, false)
         {
             AddRichText(rtFormat);
         }

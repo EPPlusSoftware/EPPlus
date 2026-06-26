@@ -10,42 +10,45 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Xml;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.Linq;
-using OfficeOpenXml.VBA;
+using EPPlus.DrawingRenderer;
+using EPPlus.Fonts.OpenType;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Data.Connection;
+using OfficeOpenXml.Data.CustomXml;
+using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Metadata;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Compatibility;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Export.HtmlExport.Interfaces;
-using OfficeOpenXml.Export.HtmlExport.Exporters;
-using OfficeOpenXml.Metadata;
-using OfficeOpenXml.RichData;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils.EnumUtils;
-using OfficeOpenXml.Data.CustomXml;
-using OfficeOpenXml.Data.Connection;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.VBA;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml
 {
@@ -1463,6 +1466,64 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        RenderContext _renderContext = null;
+
+        /// <summary>
+        /// Rendering-wide resources for this workbook (font engine, etc.), flowed down the drawing
+        /// render stack. Created lazily with a default font engine if none has been configured.
+        /// Internal: callers configure fonts via <see cref="ConfigureFonts"/> rather than touching
+        /// this directly.
+        /// </summary>
+        internal RenderContext RenderContext
+        {
+            get
+            {
+                if (_renderContext == null)
+                {
+                    _renderContext = new RenderContext(() => new OpenTypeFontEngine());
+                }
+                return _renderContext;
+            }
+            set
+            {
+                _renderContext = value;
+            }
+        }
+
+        /// <summary>
+        /// Configures the fonts used when rendering drawings (charts, shapes) from this workbook to
+        /// image formats such as SVG. Use this to add font directories, control whether system font
+        /// directories are searched, or register fallback chains.
+        /// </summary>
+        /// <param name="configure">A callback that configures the font settings for this workbook.</param>
+        /// <remarks>
+        /// The configuration is applied when this workbook first renders a drawing. Call this before
+        /// rendering. The font engine is per workbook — configuring one workbook does not affect any
+        /// other workbook or any global state.
+        /// </remarks>
+        public void ConfigureFonts(Action<IEpplusFontConfiguration> configure)
+        {
+            if (configure == null)
+                throw new ArgumentNullException("configure");
+
+            RenderContext = new RenderContext(() => new OpenTypeFontEngine(configure));
+        }
+
+        /// <summary>
+        /// Supplies a pre-built font engine for this workbook's rendering. Intended for advanced
+        /// scenarios and testing where a specific engine instance must be used. Per workbook — never
+        /// global.
+        /// </summary>
+        /// <param name="engine">The font engine to use for this workbook.</param>
+        internal void UseFontEngine(OpenTypeFontEngine engine)
+        {
+            if (engine == null)
+                throw new ArgumentNullException("engine");
+
+            RenderContext = new RenderContext(() => engine);
+        }
+
         bool _fullPrecision;
         /// <summary>
         /// If false, EPPlus will round cell values to the number of decimals as displayed in the cell by using the cells number format when calculating the workbook. 
@@ -2220,6 +2281,11 @@ namespace OfficeOpenXml
             {
                 _formulaParser.Dispose();
                 _formulaParser = null;
+            }
+            if (_renderContext != null)
+            {
+                _renderContext.Dispose();
+                _renderContext = null;
             }
         }
 

@@ -2,6 +2,7 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using System.Drawing;
@@ -119,7 +120,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
         private SvgTextBodyRenderItem GenerateTextBody(GroupRenderItem baseGroup)
         {
-            var textBody = new SvgTextBodyRenderItem(baseGroup.Bounds, true);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var renderContext = new RenderContext(() => engine);
+            var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup.Bounds, true);
             var paragraph = textBody.AddParagraph("Hello");
 
             paragraph.AddText(" There");
@@ -270,7 +273,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             group = GenerateGroupRenderItem();
 
             var textbox = new RenderTextbox(group.Bounds, 500d, 500d);
-            textbox.TextBody = new SvgTextBodyRenderItem(group.Bounds, true);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var rc = new RenderContext(() => engine);
+            textbox.TextBody = new SvgTextBodyRenderItem(rc, group.Bounds, true);
             var paragraph = textbox.TextBody.AddParagraph("Hello");
 
             paragraph.AddText(" There");

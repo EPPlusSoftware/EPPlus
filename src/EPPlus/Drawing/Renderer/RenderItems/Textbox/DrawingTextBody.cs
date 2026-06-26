@@ -1,4 +1,5 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
@@ -26,14 +27,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal ExcelTheme Theme { get; }
 
-        public DrawingTextBody(ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(parent, autoSize)
+        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderContext, parent, autoSize)
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
-        public DrawingTextBody(ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(parent, autoSize)
+        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderContext, parent, autoSize)
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
@@ -205,12 +206,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, BoundingBox parent)
         {
-            return new DrawingParagraphRenderItem(textBody, parent);
+            return new DrawingParagraphRenderItem(RenderContext, textBody, parent);
         }
 
         internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
         {
-            return new DrawingParagraphRenderItem(textBody, parent, paragraph, textIfEmpty);
+            return new DrawingParagraphRenderItem(RenderContext, textBody, parent, paragraph, textIfEmpty);
         }
 
         /// <summary>
@@ -221,12 +222,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <returns></returns>
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "")
         {
-            return new DrawingParagraphRenderItem(this, parent, textIfEmpty);
+            return new DrawingParagraphRenderItem(RenderContext, this, parent, textIfEmpty);
         }
 
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
         {
-            var paragraph = new SvgParagraphRenderItem(this, parent, "", false);
+            var paragraph = new SvgParagraphRenderItem(RenderContext, this, parent, "", false);
             paragraph.AddRichText(richText);
             return paragraph;
         }

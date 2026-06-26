@@ -35,6 +35,7 @@ namespace EPPlus.Fonts.OpenType.Integration
     public partial class TextLayoutEngine : IDisposable
     {
         private readonly ITextShaper _shaper;
+        private readonly OpenTypeFontEngine _engine;
 
         // Space width cache - avoids repeated Shape(" ") calls
         private readonly Dictionary<float, double> _spaceWidthCache;
@@ -57,6 +58,17 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// </summary>
         public TextLayoutEngine(ITextShaper shaper)
         {
+            _shaper = shaper ?? throw new ArgumentNullException(nameof(shaper));
+            _spaceWidthCache = new Dictionary<float, double>();
+        }
+
+        /// <summary>
+        /// Creates a TextLayoutEngine backed by a font engine, enabling per-fragment font resolution
+        /// for multi-font rich text.
+        /// </summary>
+        public TextLayoutEngine(OpenTypeFontEngine engine, ITextShaper shaper)
+        {
+            _engine = engine ?? throw new ArgumentNullException(nameof(engine));
             _shaper = shaper ?? throw new ArgumentNullException(nameof(shaper));
             _spaceWidthCache = new Dictionary<float, double>();
         }
@@ -232,15 +244,13 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         private ITextShaper GetShaperForFont(IFontFormatBase font)
         {
-            var ts = _shaper as TextShaper;
-            if (ts != null)
+            if (_engine != null)
             {
-                var resolved = ts.GetShaperForFont(font);
-                if (resolved != null)
-                    return resolved;
+                return _engine.GetShaperForFont(font);
             }
 
-            return OpenTypeFonts.GetShaperForFont(font);
+            // No engine available (single-font constructor): the only shaper we have is our own.
+            return _shaper;
         }
 
 

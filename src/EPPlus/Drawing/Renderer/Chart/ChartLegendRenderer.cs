@@ -44,7 +44,7 @@ namespace EPPlusImageRenderer.Svg
         internal ChartLegendRenderer(ChartRenderer sc, bool isDataLabelLegend = false) : base(sc)
         {
             var mf = Chart.Font.GetMeasureFont();
-            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
             var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
 
             if (sc.Chart.HasLegend == false && isDataLabelLegend == false || sc.Chart.Series.Count == 0)
@@ -488,7 +488,7 @@ namespace EPPlusImageRenderer.Svg
             tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == entryIndex);
             var headerText = tl.GetName(serieIndex);
@@ -547,7 +547,7 @@ namespace EPPlusImageRenderer.Svg
                 }
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 //var para = sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault();
                 sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
                 sls.SeriesIcon = si;
@@ -592,7 +592,7 @@ namespace EPPlusImageRenderer.Svg
             var tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
             var headerText = s.GetHeaderText(index);
@@ -638,7 +638,7 @@ namespace EPPlusImageRenderer.Svg
             tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = tm.Height;
-            sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);

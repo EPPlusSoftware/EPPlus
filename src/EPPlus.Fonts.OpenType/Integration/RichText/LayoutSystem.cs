@@ -252,7 +252,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             }
             var inputRt = InputFragments[0];
             var shaper = _engine.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
-            var layoutEngine = new TextLayoutEngine(shaper);
+            var layoutEngine = new TextLayoutEngine(_engine, shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
             if(wrappedLines.Count > 1)
