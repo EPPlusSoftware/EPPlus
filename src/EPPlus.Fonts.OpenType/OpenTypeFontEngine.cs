@@ -106,7 +106,7 @@ namespace EPPlus.Fonts.OpenType
         // Public API
         // -----------------------------------------------------------------------------------------
 
-        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.Exact;
+        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.NotFound;
         bool RequireExactFoundFont { get { return LeastRequiredAvailability == FontAvailability.Exact; } }
         bool RequireFamilyFont{ get { return RequireExactFoundFont || LeastRequiredAvailability == FontAvailability.FamilyOnly; } }
 

@@ -168,23 +168,44 @@ namespace OfficeOpenXml.Utils.TypeConversion
         }
         internal static Color ApplyTint(Color ret, double tint)
         {
-            if (tint < 0)
+            if (tint == 0)
             {
-                double shade = 1+tint;
-                var r = (byte)Math.Round(ret.R * shade);
-                var g = (byte)Math.Round(ret.G * shade);
-                var b = (byte)Math.Round(ret.B * shade); 
-                return Color.FromArgb(ret.A, r, g, b);
+                return ret;
+
+
+
+
             }
-            else if(tint > 0)
+            else
             {
-                double blend = 1.0 - tint;
-                var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
-                var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
-                var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
-                return Color.FromArgb(ret.A, r, g, b);
+                ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
+                if (tint < 0)
+                {
+                    l = l * (1.0 + tint);
+                }
+                else if (tint > 0)
+                {
+                    l += (1 - l) * tint;
+                }
+                return ExcelDrawingHslColor.GetRgb(h, s, l);
             }
-            return ret;
+            //if (tint < 0)
+            //{
+            //    double shade = 1+tint;
+            //    var r = (byte)Math.Round(ret.R * shade);
+            //    var g = (byte)Math.Round(ret.G * shade);
+            //    var b = (byte)Math.Round(ret.B * shade); 
+            //    return Color.FromArgb(ret.A, r, g, b);
+            //}
+            //else if(tint > 0)
+            //{
+            //    double blend = 1.0 - tint;
+            //    var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
+            //    var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
+            //    var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
+            //    return Color.FromArgb(ret.A, r, g, b);
+            //}
+            //return ret;
         }
         internal static Color ApplyBlend(Color color, Color blendColor, double percent)
         {

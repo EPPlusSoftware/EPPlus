@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\EPPlus\src\EPPlusTest\EPPlus.Test.csproj" />
     <ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" />
+    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
   </ItemGroup>
 
   <ItemGroup>
