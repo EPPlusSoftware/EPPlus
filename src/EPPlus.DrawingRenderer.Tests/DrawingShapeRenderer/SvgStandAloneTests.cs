@@ -1,6 +1,7 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
+using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
@@ -17,7 +18,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         {
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb);
+            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, new SvgRenderOptions());
 
 
             var baseGroup = new GroupRenderItem(bounds);
@@ -52,7 +53,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         {
 
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb);
+            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, new SvgRenderOptions());
 
             List<RenderItem> renderItems = items.ToList();
             svgShapeRenderer.Render(renderItems);
@@ -95,7 +96,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         private void GenerateTextBodyFile(string fileName, GroupRenderItem baseGroup, SvgTextBodyRenderItem textBody)
         {
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb);
+            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb, new SvgRenderOptions());
 
             var background = new RectRenderItem(baseGroup.Bounds);
 
