@@ -10,42 +10,44 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Xml;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.Linq;
-using OfficeOpenXml.VBA;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Data.Connection;
+using OfficeOpenXml.Data.CustomXml;
+using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
+using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Metadata;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Compatibility;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Export.HtmlExport.Interfaces;
-using OfficeOpenXml.Export.HtmlExport.Exporters;
-using OfficeOpenXml.Metadata;
-using OfficeOpenXml.RichData;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Utils.TypeConversion;
-using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils.EnumUtils;
-using OfficeOpenXml.Data.CustomXml;
-using OfficeOpenXml.Data.Connection;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.VBA;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
 
 namespace OfficeOpenXml
 {
@@ -730,6 +732,39 @@ namespace OfficeOpenXml
                 }
             }
             return new ExcelHtmlWorkbookExporter(ranges);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        public void SaveAsPdf(string fileName)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab+1].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of File.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        public void SaveAsPdf(string fileName, params ExcelWorksheet[] worksheets)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[0].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, worksheets);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        public void SaveAsPdf(string fileName, params ExcelRangeBase[] ranges)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, ranges);
         }
 
         //public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)

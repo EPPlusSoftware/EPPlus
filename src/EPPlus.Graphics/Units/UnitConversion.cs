@@ -52,5 +52,10 @@ namespace EPPlus.Graphics.Units
         {
             return rowHeight; //These values are guessed.
         }
+
+        public static double ToMillimeters(double inches)
+        {
+            return inches * 25.4;
+        }
     }
 }

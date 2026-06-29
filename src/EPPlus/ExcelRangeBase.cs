@@ -17,6 +17,8 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -1113,6 +1115,16 @@ namespace OfficeOpenXml
         public IExcelHtmlRangeExporter CreateHtmlExporter()
         {
             return new OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlRangeExporter(this);
+        }
+
+        /// <summary>
+        /// Save range to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        public void SaveAsPdf(string fileName)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
         }
 
         //public ExcelHtmlRangeExporter CreateHtmlExporter()

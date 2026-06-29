@@ -319,6 +319,46 @@ namespace OfficeOpenXml
         /// </summary>
         OverThenDown
     }
+    /// <summary>
+    /// Specifies how comments and notes will be displayed
+    /// </summary>
+    public enum eCellComments
+    {
+        /// <summary>
+        /// Comments will not be dispalyed
+        /// </summary>
+        None,
+        /// <summary>
+        /// Notes will be displyed in a box next to the cell
+        /// </summary>
+        AsDisplayed,
+        /// <summary>
+        /// Adds pages at the end containing notes and commnets
+        /// </summary>
+        AtEnd
+    }
+    /// <summary>
+    /// Specifies how to display errors
+    /// </summary>
+    public enum ePrintError
+    {
+        /// <summary>
+        /// Show error as it is
+        /// </summary>
+        Displayed,
+        /// <summary>
+        /// Show eror as blank
+        /// </summary>
+        Blank,
+        /// <summary>
+        /// Show error as a dash
+        /// </summary>
+        Dash,
+        /// <summary>
+        /// Show error as N/A
+        /// </summary>
+        NA
+    }
     #endregion
     /// <summary>
     /// Printer settings
@@ -804,6 +844,90 @@ namespace OfficeOpenXml
             set
             {
                 SetXmlNodeString(_paperSizePath, ((int)value).ToString());
+            }
+        }
+        const string _commentPath = "d:pageSetup/@cellComments";
+        /// <summary>
+        /// Specifies how cell comments are printed.
+        /// </summary>
+        public eCellComments CellComments
+        {
+            get
+            {
+                return GetXmlNodeString(_commentPath) switch
+                {
+                    "asDisplayed" => eCellComments.AsDisplayed,
+                    "atEnd" => eCellComments.AtEnd,
+                    _ => eCellComments.None
+                };
+            }
+            set
+            {
+                var xmlValue = value switch
+                {
+                    eCellComments.AsDisplayed => "asDisplayed",
+                    eCellComments.AtEnd => "atEnd",
+                    _ => "none"
+                };
+                SetXmlNodeString(_commentPath, xmlValue == "none" ? null : xmlValue, true);
+            }
+        }
+        const string _errorPath = "d:pageSetup/@errors";
+        /// <summary>
+        /// Specifies how cell error values are printed.
+        /// </summary>
+        public ePrintError Errors
+        {
+            get
+            {
+                return GetXmlNodeString(_errorPath) switch
+                {
+                    "blank" => ePrintError.Blank,
+                    "dash" => ePrintError.Dash,
+                    "NA" => ePrintError.NA,
+                    _ => ePrintError.Displayed
+                };
+            }
+            set
+            {
+                var xmlValue = value switch
+                {
+                    ePrintError.Blank => "blank",
+                    ePrintError.Dash => "dash",
+                    ePrintError.NA => "NA",
+                    _ => "displayed"
+                };
+                SetXmlNodeString(_errorPath, xmlValue == "displayed" ? null : xmlValue, true);
+            }
+        }
+        const string _firstPageNumberPath = "d:pageSetup/@firstPageNumber";
+        const string _useFirstPageNumberPath = "d:pageSetup/@useFirstPageNumber";
+        /// <summary>
+        /// The page number to use for the first printed page.
+        /// Set to 1 or less to revert to automatic page numbering.
+        /// Setting this also controls the useFirstPageNumber attribute automatically.
+        /// </summary>
+        public int FirstPageNumber
+        {
+            get
+            {
+                if (!GetXmlNodeBool(_useFirstPageNumberPath))
+                    return 1; // automatic — return the default
+                return GetXmlNodeInt(_firstPageNumberPath);
+            }
+            set
+            {
+                if (value <= 1)
+                {
+                    // Revert to automatic — remove both attributes
+                    DeleteNode(_firstPageNumberPath);
+                    DeleteNode(_useFirstPageNumberPath);
+                }
+                else
+                {
+                    SetXmlNodeString(_firstPageNumberPath, value.ToString());
+                    SetXmlNodeBool(_useFirstPageNumberPath, true, true);
+                }
             }
         }
         /// <summary>

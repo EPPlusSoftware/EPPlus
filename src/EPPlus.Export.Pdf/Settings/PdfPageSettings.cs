@@ -96,6 +96,16 @@ namespace EPPlus.Export.Pdf.Settings
         public bool ShowHeadings = false;
 
         /// <summary>
+        /// Set to true for to only use black and white.
+        /// </summary>
+        public bool BlackAndWhite = false;
+
+        /// <summary>
+        /// Set to true for to make a draft.
+        /// </summary>
+        public bool Draft = false;
+
+        /// <summary>
         /// Set the range to repeat at the top of the page.
         /// </summary>
         public string RowsToRepeatAtTop = null;
@@ -104,6 +114,11 @@ namespace EPPlus.Export.Pdf.Settings
         /// Set the range to repeat to the left of the page.
         /// </summary>
         public string ColumnsToRepeatAtLeft = null;
+
+        /// <summary>
+        /// Specific range to print.
+        /// </summary>
+        public string PrintArea = null;
 
         /// <summary>
         /// Set if comments and notes should be included.
@@ -257,13 +272,13 @@ namespace EPPlus.Export.Pdf.Settings
         /// </summary>
         None,
         /// <summary>
+        /// Notes will be displayed on the sheet. (Comments will not be shown.)
+        /// </summary>
+        AsDisplayedOnSheet,
+        /// <summary>
         /// Comments and Notes will be displayed on a seprate page at the end.
         /// </summary>
         AtEndOfSheet,
-        /// <summary>
-        /// Notes will be displayed on the sheet. (Comments will not be shown.)
-        /// </summary>
-        AsDisplayedOnSheet
     }
 
     /// <summary>

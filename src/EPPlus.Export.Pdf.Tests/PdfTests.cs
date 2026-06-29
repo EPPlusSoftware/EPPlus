@@ -127,7 +127,7 @@ namespace EPPlusTest.PDF
             pageSettings.PrintAsText = true;
             pageSettings.ShowGridLines = true;
             pageSettings.ShowHeadings = true;
-            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest58.pdf");
+            PdfCatalog catlog = new PdfCatalog("C:\\epplustest\\pdf\\FullPageTest58.pdf", pageSettings, ws);
 
             //line breaks
             //wrap comments
@@ -156,7 +156,7 @@ namespace EPPlusTest.PDF
                 ShowGridLines = false,
                 ShowHeadings = true
             };
-            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\OutputTest1.3.pdf");
+            PdfCatalog catalog = new PdfCatalog("C:\\epplustest\\pdf\\OutputTest1.3.pdf", pageSettings, ws);
             Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
         }
 
@@ -198,7 +198,7 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = false;
             pageSettings.ShowHeadings = false;
 
-            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
+            PdfCatalog catalog = new PdfCatalog(outputPath, pageSettings, ws);
         }
 
         /// <summary>

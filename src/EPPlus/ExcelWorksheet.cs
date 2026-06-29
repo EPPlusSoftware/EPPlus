@@ -15,23 +15,21 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.Data.Connection.IOHandlers;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
-using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -44,6 +42,7 @@ using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Export.PdfExport;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,7 +50,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Permissions;
 using System.Text;
 using System.Xml;
 
@@ -3743,6 +3741,16 @@ namespace OfficeOpenXml
             {
                 return _values == null;
             }
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        public void SaveAsPdf(string fileName)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
         }
 
         ExcelPackage IPictureRelationDocument.Package { get { return _package; } }
