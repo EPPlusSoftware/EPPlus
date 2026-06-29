@@ -4,12 +4,30 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using System.Drawing;
 
 namespace TestProject1
 {
     [TestClass]
     public class TestFontMeasurer
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            _systemFolderEngine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            SystemFolderEngine.Dispose();
+            _systemFolderEngine = null;
+        }
+
+        private OpenTypeFontEngine? _systemFolderEngine;
+
+        private OpenTypeFontEngine SystemFolderEngine => _systemFolderEngine ?? new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+
         [TestMethod]
         public void CompareFontMeasurer3()
         {
@@ -20,7 +38,7 @@ namespace TestProject1
                 Size = 72.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var testStr = "Hello there⁴₂";
 
@@ -56,7 +74,7 @@ namespace TestProject1
                 Style = MeasurementFontStyles.Regular
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var strings = handler.WrapText(testStr, MaxPixelWidth.PixelToPoint());
 
@@ -86,7 +104,7 @@ namespace TestProject1
                 Size = (float)fontSize,
                 Style = MeasurementFontStyles.Regular
             };
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var strings = handler.WrapText(testString, MaxPixelWidth.PixelToPoint());
 
@@ -139,7 +157,7 @@ namespace TestProject1
                 Style = MeasurementFontStyles.Regular,
                 Size = 11.0f,
             };
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var layout = SystemFolderEngine.GetTextLayoutEngineForFont(mf);
             var output = layout.WrapText(text, 11f, 39.4);
 
             var shaper = OpenTypeFonts.GetShaperForFont(mf);
@@ -169,7 +187,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
             //float ptMax = 39.68503937007874015748031496063f;
             //float ptMax = 36.840393700787401574803149606299f - 1.5f;
             //float pixels = 53f;
@@ -232,7 +250,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var wrappedStrings = handler.WrapText(text, pointWidth);
 
@@ -253,7 +271,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             double maxPixelWidth = 72d;
 
@@ -300,7 +318,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             double maxPixelWidth = 72d;
 

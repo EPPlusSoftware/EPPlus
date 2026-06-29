@@ -11,10 +11,12 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         TextShaper _currentShaper;
         TextLayoutEngine _currentLayout;
+        OpenTypeFontEngine _fontEngine;
 
-        public TextHandler(MeasurementFont mf) 
+        public TextHandler(OpenTypeFontEngine fontEngine, MeasurementFont mf) 
         {
             CurrentFontSize = mf.Size;
+            _fontEngine = fontEngine;
             SetFont(mf);
         }
 
@@ -26,8 +28,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         public void SetFont(MeasurementFont mf)
         {
             CurrentFontSize = mf.Size;
-            _currentShaper = (TextShaper)OpenTypeFonts.GetShaperForFont(mf);
-            _currentLayout = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            _currentShaper = (TextShaper)_fontEngine.GetShaperForFont(mf);
+            _currentLayout = _fontEngine.GetTextLayoutEngineForFont(mf);
         }
 
         /// <summary>

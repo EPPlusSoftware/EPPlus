@@ -270,7 +270,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (_ttMeasurer == null)
             {
-                _ttMeasurer = new OpenTypeFontTextMeasurer(OpenTypeFonts.GetShaperForFont(mf));
+                _ttMeasurer = new OpenTypeFontTextMeasurer(RenderContext.FontEngine.GetShaperForFont(mf));
             }
 
             var tm = _ttMeasurer.MeasureText(text, mf);

@@ -2996,6 +2996,20 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Dimension address for the worksheet for cells that has a visible difference from default cells. 
+        /// Top left cell to Bottom right.
+        /// If the worksheet has no cells, null is returned        
+        /// </summary>
+        public ExcelRangeBase DimensionByVisibility
+        {
+            get
+            {
+                return GetDimension(true);
+            }
+        }
+
         /// <summary>
         /// Dimension address for the worksheet for cells with a value different than null. 
         /// Top left cell to Bottom right.
@@ -3005,57 +3019,152 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetTypeAndNotDisposed();
-                if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
-                {
-                    var fvc = FirstValueCell;
-                    var lvc = LastValueCell;
-                    if (fvc.Address == lvc.Address) return Cells[fvc.Address];
-                    var fromRow = fvc._fromRow;
-                    var toRow = lvc._toRow;
-                    int fromCol, toCol;
-
-                    if (fvc._fromCol == fc)
-                    {
-                        fromCol = fvc._fromCol;
-                    }
-                    else
-                    {
-                        int r = fromRow, c = fc;
-                        while (_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
-                        {
-                            if (_values.GetValue(r, c)._value != null)
-                            {
-                                break;
-                            }
-                            r++;
-                        }
-                        fromCol = c;
-                    }
-
-                    if (lvc._toCol == tc)
-                    {
-                        toCol = lvc._toCol;
-                    }
-                    else
-                    {
-                        int r = toRow, c = tc;
-                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
-                        {
-                            if (_values.GetValue(r, c)._value != null)
-                            {
-                                break;
-                            }
-                            r--;
-                        }
-                        toCol = c;
-                    }
-
-                    return Cells[Math.Min(fromRow, toRow), Math.Min(fromCol, toCol), Math.Max(fromRow, toRow), Math.Max(fromCol, toCol)];
-                }
-                return null;
+                return GetDimension(false);
             }
         }
+
+
+        private ExcelRangeBase GetDimension(bool byVisibility)
+        {
+            CheckSheetTypeAndNotDisposed();
+            if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
+            {
+                var fvc = FirstValueCell;
+                var lvc = LastValueCell;
+                // Row range comes from values only — styling never extends the height.
+                var fromRow = fvc._fromRow;
+                var toRow = lvc._toRow;
+
+                // For a single value cell, the value-based dimension is just that cell,
+                // but visible styling on other columns within the same row may still
+                // extend the column range, so we keep going rather than early-returning
+                // when byVisibility is requested.
+                if (byVisibility == false && fvc.Address == lvc.Address)
+                {
+                    return Cells[fvc.Address];
+                }
+
+                int fromCol, toCol;
+
+                // ---- Leftmost column ----
+                if (fvc._fromCol == fc)
+                {
+                    fromCol = fvc._fromCol;
+                }
+                else
+                {
+                    int r = fromRow, c = fc;
+                    while (_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+                    {
+                        if (_values.GetValue(r, c)._value != null)
+                        {
+                            break;
+                        }
+                        r++;
+                    }
+                    fromCol = c;
+                }
+
+                // ---- Rightmost column ----
+                if (lvc._toCol == tc)
+                {
+                    toCol = lvc._toCol;
+                }
+                else
+                {
+                    int r = toRow, c = tc;
+                    while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+                    {
+                        if (_values.GetValue(r, c)._value != null)
+                        {
+                            break;
+                        }
+                        r--;
+                    }
+                    toCol = c;
+                }
+
+                // ---- Extend column range by visible styling (visibility mode only) ----
+                // Scan the whole used column span and pull fromCol/toCol outward to
+                // include any column that has a visible style somewhere in the row range.
+                if (byVisibility)
+                {
+                    for (int c = fc; c <= tc; c++)
+                    {
+                        if (c >= fromCol && c <= toCol)
+                        {
+                            continue; // already inside the range
+                        }
+                        for (int r = fromRow; r <= toRow; r++)
+                        {
+                            if (HasVisibleStyle(r, c))
+                            {
+                                if (c < fromCol) fromCol = c;
+                                if (c > toCol) toCol = c;
+                                break; // this column qualifies; move to the next column
+                            }
+                        }
+                    }
+                }
+
+                return Cells[System.Math.Min(fromRow, toRow), System.Math.Min(fromCol, toCol), System.Math.Max(fromRow, toRow), System.Math.Max(fromCol, toCol)];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns true if the cell at (row, col) has a style that is visible on an
+        /// empty cell: a fill pattern other than None, or a border edge other than
+        /// None. Invisible styling (font, alignment, number format) is ignored.
+        /// The style id is resolved through the cell -> row -> column inheritance
+        /// chain so that fills/borders applied to a whole column or row are detected.
+        /// </summary>
+        private bool HasVisibleStyle(int row, int col)
+        {
+            // Resolve the effective style id, following cell -> row -> column.
+            int styleId = Workbook.Styles.GetStyleId(this, row, col);
+            if (styleId <= 0)
+            {
+                return false; // 0 == the default style, which is not visible
+            }
+
+            var styles = Workbook.Styles;
+            if (styleId >= styles.CellXfs.Count)
+            {
+                return false;
+            }
+            var xf = styles.CellXfs[styleId];
+
+            // --- Fill ---
+            // FillId 0 is always the "None" fill (see EnsureValidFills).
+            if (xf.FillId > 0 && xf.FillId < styles.Fills.Count)
+            {
+                var fill = styles.Fills[xf.FillId];
+                if (fill.PatternType != ExcelFillStyle.None)
+                {
+                    return true;
+                }
+            }
+
+            // --- Border ---
+            // NOTE: verify the member names against the ExcelBorderXml type in core
+            // EPPlus. The edges are expected to expose a Style of type ExcelBorderStyle.
+            if (xf.BorderId > 0 && xf.BorderId < styles.Borders.Count)
+            {
+                var border = styles.Borders[xf.BorderId];
+                if (border.Top.Style != ExcelBorderStyle.None ||
+                    border.Bottom.Style != ExcelBorderStyle.None ||
+                    border.Left.Style != ExcelBorderStyle.None ||
+                    border.Right.Style != ExcelBorderStyle.None ||
+                    border.Diagonal.Style != ExcelBorderStyle.None)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// The first cell with a value in the worksheet that differs from null. 
         /// Normally this is the top-left cell, unless the worksheet is set to RightToLeft mode. 
