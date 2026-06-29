@@ -12,13 +12,14 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
+using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class CssImageTranslator : TranslatorBase
     {
-        HtmlImage _p;
+        HtmlDrawing _p;
         string _encodedImage;
         internal ePictureType? type;
 
@@ -26,6 +27,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             _p = p;
             _encodedImage = ImageEncoder.EncodeImage(p, out type);
+        }
+
+        public CssImageTranslator(HtmlSvgDrawing d)
+        {
+            _p = d;
+            var charArr = d.Drawing.ToSvg().ToCharArray();
+            var byteArr = System.Text.Encoding.UTF8.GetBytes(charArr);
+            _encodedImage = Convert.ToBase64String(byteArr);
+            type = ePictureType.Svg;
         }
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)

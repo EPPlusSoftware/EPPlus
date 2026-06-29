@@ -446,8 +446,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         {
             if (d != null)
             {
-                var child = new HTMLElement(HtmlElements.Svg);
-                var name = d.Drawing.Name;
+                var child = new HTMLElement(HtmlElements.Img);
                 string drawingName = HtmlExportTableUtil.GetClassName(d.Drawing.Name, $"drawing{d.Drawing.Id}");
                 child.AddAttribute("alt", d.Drawing.Name);
                 if (settings.Pictures.AddNameAsId)
@@ -457,6 +456,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                 if (settings.Drawings.Include == ePictureInclude.IncludeInHtmlOnly)
                 {
+                    child = new HTMLElement(HtmlElements.Svg);
                     child.ElementName = "div";
                     child.Content = d.Drawing.ToSvg();
                     //var _encodedImage = ImageEncoder.EncodeImage(image, out type);
@@ -465,7 +465,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
                 else
                 {
-                    child.AddAttribute("class", $"{settings.StyleClassPrefix}drawing-{name} {settings.StyleClassPrefix}drawing-prop-{drawingName}");
+                    child.AddAttribute("class", $"{settings.StyleClassPrefix}drawing-{drawingName} {settings.StyleClassPrefix}drawing-prop-{drawingName}");
                 }
                 parent._childElements.Add(child);
             }
