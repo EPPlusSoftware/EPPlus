@@ -23,6 +23,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public eDrawingInclude DrawTypeInclude = eDrawingInclude.None;
 
+        public ePicturePosition Position = ePicturePosition.Relative;
 
     }
 }

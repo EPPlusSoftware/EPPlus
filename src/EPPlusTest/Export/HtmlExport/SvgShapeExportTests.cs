@@ -87,6 +87,11 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
                 exporter.Settings.Drawings.Include = ePictureInclude.IncludeInHtmlOnly;
                 exporter.Settings.Drawings.DrawTypeInclude = eDrawingInclude.Charts;
 

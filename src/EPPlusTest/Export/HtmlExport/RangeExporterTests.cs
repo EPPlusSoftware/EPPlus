@@ -176,6 +176,70 @@ namespace EPPlusTest.Export.HtmlExport
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public async Task TaskWriteImagesSimple()
+        {
+            using (var p = OpenTemplatePackage("SimpleImageForHtml.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:L17"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+
+                var pictureSettings = exporter.Settings.Pictures;
+
+                pictureSettings.Include = ePictureInclude.Include;
+                pictureSettings.Position = ePicturePosition.Absolute;
+                pictureSettings.KeepOriginalSize = false;
+
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+
+                var outputFile = GetOutputFile("html", "simpleImageSync2.html");
+                var outputFileAsync = GetOutputFile("html", "simpleImageAsync2.html");
+
+                File.WriteAllText(outputFile.FullName, html);
+                File.WriteAllText(outputFileAsync.FullName, htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TaskWriteChartSimple()
+        {
+            using (var p = OpenTemplatePackage("SimpleChartForHtml.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:L17"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+
+                var setting = exporter.Settings.Drawings;
+
+                setting.DrawTypeInclude = eDrawingInclude.Charts;
+                setting.Include = ePictureInclude.Include;
+                setting.Position = ePicturePosition.Absolute;
+
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+
+                var outputFile = GetOutputFile("html", "simpleChartSync.html");
+                var outputFileAsync = GetOutputFile("html", "simpleChartAsync.html");
+
+                File.WriteAllText(outputFile.FullName, html);
+                File.WriteAllText(outputFileAsync.FullName, htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
+
         [TestMethod]
         public async Task WriteImagesAsync()
         {
