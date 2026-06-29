@@ -191,7 +191,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var pictureSettings = exporter.Settings.Pictures;
 
                 pictureSettings.Include = ePictureInclude.Include;
-                pictureSettings.Position = ePicturePosition.Relative;
+                pictureSettings.Position = ePicturePosition.Absolute;
                 pictureSettings.KeepOriginalSize = false;
 
                 exporter.Settings.Minify = false;

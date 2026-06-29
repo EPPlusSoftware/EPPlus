@@ -61,6 +61,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
+
+            if(settings.Drawings.Position != ePicturePosition.DontSet)
+            {
+                _context.Pictures.Position = settings.Drawings.Position;
+            }
         }
 
         internal CssRangeRuleCollection(List<ExcelRangeBase> ranges, HtmlTableExportSettings settings)
@@ -74,6 +79,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _context.Theme = _theme;
             _context.IndentValue = _cssSettings.IndentValue;
             _context.IndentUnit = _cssSettings.IndentUnit;
+
+            if (settings.Drawings.Position != ePicturePosition.DontSet)
+            {
+                _context.Pictures.Position = settings.Drawings.Position;
+            }
         }
 
         private void Init(List<ExcelRangeBase> ranges)

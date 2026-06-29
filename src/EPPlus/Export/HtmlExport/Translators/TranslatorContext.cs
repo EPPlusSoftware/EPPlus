@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         internal CssExportSettings Settings;
         internal HtmlPictureSettings Pictures;
 
+
         private TranslatorBase strategy;
 
         internal bool SharedIconSetRuleAdded = false;
