@@ -1,0 +1,110 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Graphics;
+using System;
+using System.IO;
+using System.Text;
+
+namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
+{
+    /// <summary>
+    /// Font descriptor flags
+    /// </summary>
+    [Flags]
+    internal enum FontDescriptorFlags
+    {
+        FixedPitch = 1,
+        Serif = 2,
+        Symbolic = 4,
+        Script = 8,
+        NonSymbolic = 32,
+        Italic = 64,
+        AllCap = 65536,
+        SmallCap = 131072,
+        ForceBold = 262144,
+    }
+
+    internal class PdfFontDescriptor : PdfObject
+    {
+        private readonly string fontName;
+        private readonly int flags;
+        private readonly Rect fontBBox;
+        private readonly double italicAngle;
+        private readonly int ascent;
+        private readonly int descent;
+        private readonly double stemV;
+        private readonly int capheight;
+        private readonly int CidSetObjectNumber;
+        private readonly int FontFile2ObjectNumber;
+
+
+        public PdfFontDescriptor(int objectNumber, string fontName, int flags, Rect fontBBox, double italicAngle, int ascent, int descent, double stemV, int capHeight, int fontFile2ObjectNumber = -1, int cidSetObjectNumber = -1, int version = 0)
+            : base(objectNumber, version)
+        {
+            this.fontName = fontName;
+            this.flags = flags;
+            this.fontBBox = fontBBox;
+            this.italicAngle = italicAngle;
+            this.ascent = ascent;
+            this.descent = descent;
+            this.stemV = stemV;
+            capheight = capHeight;
+            CidSetObjectNumber = cidSetObjectNumber;
+            FontFile2ObjectNumber = fontFile2ObjectNumber;
+        }
+
+        internal override string RenderDictionary()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
+                            $"    /FontName /{fontName.Replace(" ", "")}\n" +
+                            $"    /Flags {flags}\n" +
+                            $"    /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
+                            $"    /Ascent {ascent}\n" +
+                            $"    /Descent {descent}\n" +
+                            $"    /CapHeight {capheight}\n" +
+                            $"    /ItalicAngle {(int)italicAngle}\n" +
+                            $"    /StemV {(int)stemV}");
+            if (CidSetObjectNumber > 0)
+            {
+                sb.AppendFormat($"\n    /CIDSet {CidSetObjectNumber} 0 R");
+            }
+            if (FontFile2ObjectNumber > 0)
+            {
+                sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber} 0 R");
+            }
+            sb.AppendFormat(" >>");
+            return sb.ToString();
+        }
+
+        internal override void RenderDictionary(BinaryWriter bw)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
+                            $"    /FontName /{fontName.Replace(" ", "")}\n" +
+                            $"    /Flags {flags}\n" +
+                            $"    /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
+                            $"    /Ascent {ascent}\n" +
+                            $"    /Descent {descent}\n" +
+                            $"    /CapHeight {capheight}\n" +
+                            $"    /ItalicAngle {(int)italicAngle}\n" +
+                            $"    /StemV {(int)stemV}");
+            if (FontFile2ObjectNumber > 0)
+            {
+                sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber} 0 R");
+            }
+            sb.AppendFormat(" >>");
+            WriteAscii(bw, sb.ToString());
+        }
+    }
+}
