@@ -11,8 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.Utils;
 using EPPlusImageRenderer;
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
@@ -20,8 +22,8 @@ using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Drawings;
@@ -37,6 +39,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
+using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -2499,24 +2502,43 @@ namespace OfficeOpenXml.Drawing
             //Individual drawings that require certain saving actions do so by overriding this
             
         }
+        /// <summary>
+        /// Converts the drawing to a SVG image. 
+        /// This is currently only supported for shapes, line-, column-, bar- and pie- charts.
+        /// </summary>
+        /// <returns>The svg image.</returns>
+        /// <exception cref="NotSupportedException">If the drawing type is not supported</exception>
         public string ToSvg()
         {
+            return ToSvg(null);
+        }
+        /// <summary>git statu
+        /// Converts the drawing to a SVG image. 
+        /// This is currently only supported for shapes, line-, column-, bar- and pie- charts.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns>The svg image.</returns>
+        /// <exception cref="NotSupportedException">If the drawing type is not supported</exception>
+        public string ToSvg(Action<SvgRenderOptions> options)
+        {
+            var o = new SvgRenderOptions();
+            if(options != null) options.Invoke(o);
             if (this.DrawingType == eDrawingType.Shape)
             {
-                return ((ExcelShape)this).ToSvg();
+                return ((ExcelShape)this).ToSvg(o);
             }
             else if (this.DrawingType == eDrawingType.Chart)
             {
-                var cr = new ChartRenderer((ExcelChart)this);
+                var cr = new ChartRenderer((ExcelChart)this, o);
 
                 var sb = new StringBuilder();
 
-                var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb);
+                var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb, o);
                 shapeRenderer.Render(cr.RenderItems);
 
                 return sb.ToString();
             }
-            throw new InvalidOperationException("Only line-, column-, bar- and pie charts and shapes can be rendered to svg");
+            throw new NotSupportedException("Only line-, column-, bar- and pie charts and shapes can be rendered to svg");
         }
 
     }

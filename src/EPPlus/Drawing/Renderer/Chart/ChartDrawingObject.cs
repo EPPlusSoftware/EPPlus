@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
@@ -26,8 +27,17 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class ChartAreaRenderer : ChartDrawingObject
     {
-        public ChartAreaRenderer(ChartRenderer sc) : base(sc)
+        public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
+            if(options.Size.Width.HasValue)
+            {
+                sc.Bounds.Width = options.Size.WidthPixels;
+            }
+            if (options.Size.Height.HasValue)
+            {
+                sc.Bounds.Height = options.Size.HeightPixels;
+            }
+
             Rectangle = new RectRenderItem(sc.Bounds);
         }
 

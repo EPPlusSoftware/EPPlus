@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)
                 {
-                    var svg = c.ToSvg();
+                    var svg = c.ToSvg(x => { x.Size.Width = 100; x.Size.Height = 100; });
                     SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet1_{ix++}.svg", svg);
                 }
             }

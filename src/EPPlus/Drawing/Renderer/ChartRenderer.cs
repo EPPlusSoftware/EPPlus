@@ -13,6 +13,7 @@
 
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
@@ -30,9 +31,9 @@ namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
     {
-        public ChartRenderer(ExcelChart chart) : base(chart) 
+        public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart) 
         {
-            SetChartArea();
+            SetChartArea(options);
 
             if (chart.HasTitle && chart.Series.Count > 0)
             {
@@ -301,9 +302,9 @@ namespace EPPlusImageRenderer
             }
         }
 
-        private void SetChartArea()
+        private void SetChartArea(SvgRenderOptions options)
         {
-            var item = new ChartAreaRenderer(this);
+            var item = new ChartAreaRenderer(this, options);
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             

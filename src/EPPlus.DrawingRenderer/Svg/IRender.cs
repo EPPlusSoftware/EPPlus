@@ -22,9 +22,20 @@ namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
-        public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream)
+        public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options)
         {
             BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream);
+
+            //Override size.
+            if (options.Size.Width.HasValue)
+            {
+                bounds.Width = options.Size.WidthPixels;
+            }
+            if (options.Size.Height.HasValue)
+            {
+                bounds.Height = options.Size.HeightPixels;
+            }
+
             Bounds = bounds;
             OutputStream = outputStream; 
         }
