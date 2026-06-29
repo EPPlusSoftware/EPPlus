@@ -59,6 +59,7 @@ namespace OfficeOpenXml.Core
 
         internal virtual void InsertAndShift(int fromPosition, int add)
         {
+            if (_count == 0) return;
             var pos = Array.BinarySearch(_index[0], 0, _count, fromPosition);
 
             if (pos < 0)
@@ -66,7 +67,7 @@ namespace OfficeOpenXml.Core
                 pos = ~pos;
             }
 
-            if (_count >= _index[0].Length - 1)
+            if (_count >= _index[0].Length-1)
             {
                 Array.Resize(ref _index[0], _index[0].Length << 1);
                 Array.Resize(ref _index[1], _index[1].Length << 1);
@@ -78,6 +79,23 @@ namespace OfficeOpenXml.Core
 
             _count++;
             for (int i=pos;i<Count;i++)
+            {
+                _index[0][i] += add;
+            }
+            Version++;
+        }
+        internal virtual void Shift(int fromPosition, int add)
+        {
+            if (_count == 0) return;
+            var pos = Array.BinarySearch(_index[0], 0, _count, fromPosition);
+
+            if (pos < 0)
+            {
+                pos = ~pos;
+            }
+            if (pos >= _count) return;
+
+            for (int i = pos; i < Count; i++)
             {
                 _index[0][i] += add;
             }
