@@ -443,6 +443,9 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Pictures.Include = ePictureInclude.Include;
+                exporter.Settings.Pictures.Position = ePicturePosition.Absolute;
+                exporter.Settings.Pictures.AddMarginLeft = true;
+                exporter.Settings.Pictures.AddMarginTop = true;
                 exporter.Settings.Minify = false;
                 var html = exporter.GetSinglePage();
                 var htmlAsync = await exporter.GetSinglePageAsync();

@@ -73,11 +73,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                     AddDeclaration("writing-mode", "vertical-lr");
                     AddDeclaration("text-orientation", "upright");
                 }
-                else
-                {
-                    var rotationvalue = _textRotation > 90 ? _textRotation - 90 : 360 - _textRotation;
-                    AddDeclaration("transform", $"rotate({rotationvalue}deg)");
-                }
             }
             if (_indent > 0 && context.Exclude.Indent == false)
             {

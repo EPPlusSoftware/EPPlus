@@ -1447,7 +1447,7 @@ namespace EPPlusTest.Issues
             using var package = OpenTemplatePackage("s965-Not Calculated.xlsx");
             //package.Workbook.Calculate();
             var ws = package.Workbook.Worksheets["Calculation"];
-            package.Workbook.Calculate(); 
+            package.Workbook.Calculate();
             Assert.AreEqual("72201004296", ws.Cells["J2"].Value);
             Assert.AreEqual("72201024296", ws.Cells["J4"].Value);
             Assert.IsNull(ws.Cells["J5"].Value);
@@ -1537,7 +1537,7 @@ namespace EPPlusTest.Issues
             wb.FullCalcOnLoad = false;
             wb.CalcMode = ExcelCalcMode.Manual;
             ws.Cells["Q2"].Calculate();
-            Assert.AreEqual("365" ,ws.Cells["Q2"].Value);
+            Assert.AreEqual("365", ws.Cells["Q2"].Value);
             Assert.AreEqual("181-365", ws.Cells["Q45"].Value);
             Assert.AreEqual("90", ws.Cells["Q55"].Value);
             Assert.AreEqual(6D, ws.Cells["A34"].Value);
@@ -1645,7 +1645,37 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(702D, wsSummary.Cells["C57"].Value);
                 Assert.AreEqual("Yes!", wsSummary.Cells["E57"].Value);
 
-                SaveWorkbook("S1048-calculated.xlsx",p);
+                SaveWorkbook("S1048-calculated.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void s1050()
+        {
+            using (var p = OpenTemplatePackage("issues\\s1050\\Data File.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet1"];
+                ws.Cells["E2:E2164"].Formula = "VLOOKUP(D2,'[1]LIST'!C:C,1,0)"; //1 is the Linked File position
+                ws.Calculate();
+
+                ws.Cells["E1:E2164"].CopyValues(ws.Cells["AU1"]);
+                Assert.AreEqual(ws.Cells["E172"].Value, 27823D);
+                Assert.AreEqual(ws.Cells["E2113"].Value, 15064D);
+                Assert.AreEqual(ws.Cells["AU172"].Value, 27823D);
+                Assert.AreEqual(ws.Cells["AU2113"].Value, 15064D);
+                SaveWorkbook("s1050-saved.xlsx", p);
+            }
+        }
+
+        [TestMethod]
+        public void s1054()
+        {
+            using (var p = OpenTemplatePackage("issues\\1054\\Payroll and FBL3N.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Journal Calculation"];
+                ws.Cells["E2"].Calculate();
+
+                var result = ws.Cells["E2"].Value;
+                Assert.AreEqual(1258679d, result);
             }
         }
     }

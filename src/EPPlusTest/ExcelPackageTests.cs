@@ -59,7 +59,7 @@ namespace EPPlusTest
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(EncryptionAlgorithm.AES128)]
         [DataRow(EncryptionAlgorithm.AES192)]
         [DataRow(EncryptionAlgorithm.AES256)]

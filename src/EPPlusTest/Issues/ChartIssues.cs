@@ -459,5 +459,39 @@ namespace EPPlusTest.Issues
             }
         }
 
+        [TestMethod]
+        public void ChartAxisTickMarkCaseSensitivity()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                var chart = ws.Drawings.AddChart("chart1", eChartType.ColumnClustered);
+
+                // Fetch Category and Value axes
+                var catAxis = chart.Axis[0];
+                var valAxis = chart.Axis[1];
+
+                // 1. Verify MajorTickMark Case-Insensitive Parsing
+                valAxis.MajorTickMark = eAxisTickMark.In;
+                Assert.AreEqual(eAxisTickMark.In, valAxis.MajorTickMark, "MajorTickMark should be parsed back as 'In' instead of defaulting to 'Cross'.");
+
+                valAxis.MajorTickMark = eAxisTickMark.Out;
+                Assert.AreEqual(eAxisTickMark.Out, valAxis.MajorTickMark, "MajorTickMark should be parsed back as 'Out'.");
+
+                valAxis.MajorTickMark = eAxisTickMark.None;
+                Assert.AreEqual(eAxisTickMark.None, valAxis.MajorTickMark, "MajorTickMark should be parsed back as 'None'.");
+
+                // 2. Verify MinorTickMark Case-Insensitive Parsing
+                valAxis.MinorTickMark = eAxisTickMark.In;
+                Assert.AreEqual(eAxisTickMark.In, valAxis.MinorTickMark, "MinorTickMark should be parsed back as 'In'.");
+
+                valAxis.MinorTickMark = eAxisTickMark.Out;
+                Assert.AreEqual(eAxisTickMark.Out, valAxis.MinorTickMark, "MinorTickMark should be parsed back as 'Out'.");
+
+                valAxis.MinorTickMark = eAxisTickMark.None;
+                Assert.AreEqual(eAxisTickMark.None, valAxis.MinorTickMark, "MinorTickMark should be parsed back as 'None'.");
+            }
+        }
+
     }
 }
