@@ -27,11 +27,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal double rotation = double.NaN;
         internal Graphics.Point rotationPoint = null;
 
+        internal override Color? DefaultFillColor { get; }
+
         public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             _serieIndex = index;
             _dlblSerie = dlblSerie;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
+
+            DefaultFillColor = Color.Empty;
 
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {

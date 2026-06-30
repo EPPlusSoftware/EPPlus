@@ -188,12 +188,8 @@ namespace EPPlusImageRenderer.RenderItems
             if (fill == null || fill.Style == eFillStyle.NoFill)
             {
                 //Set fallback nullcolor
-                if (nullColor != null)
+                if (nullColor != null && fill != null && fill.IsEmpty)
                 {
-                    if (nullColor == Color.Empty)
-                    {
-                        return string.Empty;
-                    }
                     fc = nullColor.Value;
                 }
 
@@ -219,20 +215,16 @@ namespace EPPlusImageRenderer.RenderItems
                                     //However since PhClr could also be a reference to StyleFillColor which does not exist.
                                     //Fallback to nullcolor as extra backup
 
-                                    if (nullColor != null)
-                                    {
-                                        if (nullColor == Color.Empty)
-                                        {
-                                            return string.Empty;
-                                        }
-                                        fc = nullColor.Value;
-                                    }
-                                    else
+                                    if (nullColor == null)
                                     {
                                         //return string.Empty;
 
                                         var bg1 = theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1);
                                         fc = tc.ColorConverter.GetThemeColor(bg1);
+                                    }
+                                    else
+                                    {
+                                        fc = nullColor.Value;
                                     }
                                 }
                                 else 

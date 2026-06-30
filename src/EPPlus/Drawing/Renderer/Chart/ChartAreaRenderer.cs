@@ -33,12 +33,12 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = new RectRenderItem(sc.Bounds);
         }
 
-        internal override Color DefaultFillColor { get => ChartRenderer.Theme.ColorScheme.Light1.GetColor(); }
-        internal override Color DefaultBorderColor
+        internal override Color? DefaultFillColor { get => ChartRenderer.Theme.ColorScheme.Light1.GetColor(); }
+        internal override Color? DefaultBorderColor
         {
             get
             {
-                return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTintDrawing(ChartRenderer.Theme.ColorScheme.Light1.GetColor(), 0.75D);
+                return Color.FromArgb(0x89, 0x89, 0x89);
             }
         }
         public override void AppendRenderItems(List<RenderItem> renderItems)

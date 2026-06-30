@@ -24,13 +24,15 @@ namespace OfficeOpenXml.Drawing.Theme
     /// </summary>
     public class ExcelThemeLineStyles : XmlHelper, IEnumerable<ExcelThemeLine>
     {
+        ExcelThemeBase _theme;
         List<ExcelThemeLine> _list;
-        internal ExcelThemeLineStyles(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        internal ExcelThemeLineStyles(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelThemeBase theme) : base(nameSpaceManager, topNode)
         {
+            _theme = theme; 
             _list = new List<ExcelThemeLine>();
             foreach (XmlElement node in topNode.ChildNodes)
             {
-                _list.Add(new ExcelThemeLine(nameSpaceManager, node));
+                _list.Add(new ExcelThemeLine(nameSpaceManager, node, theme));
             }
         }
         /// <summary>
@@ -65,7 +67,7 @@ namespace OfficeOpenXml.Drawing.Theme
         {
             var node = TopNode.OwnerDocument.CreateElement("a", "ln", ExcelPackage.schemaMain);
             TopNode.AppendChild(node);
-            return new ExcelThemeLine(NameSpaceManager, TopNode);
+            return new ExcelThemeLine(NameSpaceManager, TopNode, _theme);
         }
         /// <summary>
         /// Removes a line item from the collection

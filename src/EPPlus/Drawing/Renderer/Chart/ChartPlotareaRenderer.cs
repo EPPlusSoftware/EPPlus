@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
@@ -225,6 +226,6 @@ namespace EPPlusImageRenderer.Svg
                 drawer.DrawSeries();
             }
         }
-
+        internal override Color? DefaultFillColor { get => null;  }
     }
 }

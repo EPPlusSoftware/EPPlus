@@ -43,10 +43,15 @@ namespace EPPlusImageRenderer.Svg
     internal class ChartAxisRenderer : ChartDrawingObject, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+
+        internal override System.Drawing.Color? DefaultFillColor { get; }
+
         internal ChartAxisRenderer(ChartRenderer sc, ExcelChartAxisStandard ax) : base(sc)
         {
             Axis = ax;
             SetMargins(ax.TextBody);
+
+            DefaultFillColor = System.Drawing.Color.Transparent;
 
             if (sc.Chart.Series.Count == 0)
             {
@@ -107,7 +112,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, null, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
@@ -429,7 +434,7 @@ namespace EPPlusImageRenderer.Svg
                 tb.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
-                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, true);
+                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, true, DefaultFillColor);
 
                 if(widest < tb.Width)
                 {
@@ -701,10 +706,10 @@ namespace EPPlusImageRenderer.Svg
                     tm.Y1 = y1;
                     tm.X2 = x2;
                     tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true);
-                    if(tm.BorderWidth<1) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, DefaultBorderColor, 0.75);
+                    if(tm.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
                     {
-                        tm.BorderWidth = 1;
+                        tm.BorderWidth = 0.75;
                     }
                     tms.Add(tm);
                 }
@@ -768,7 +773,7 @@ namespace EPPlusImageRenderer.Svg
                             points.Add(new Point(xValue, 0f));
                             break;
                         default:
-                            throw new InvalidOperationException("Invalid axis position");
+                            throw new InvalidOperationException("Invalid axis position.");
                     }
                 }
             }
@@ -804,7 +809,8 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, null, lineItem.Width);
+            //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
+            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75);
 
             tm.DefId = id;
 

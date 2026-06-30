@@ -15,13 +15,17 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class ChartAxisTextBoxes : ChartDrawingObject
     {
+        internal override Color? DefaultFillColor { get; }
+
         internal ChartAxisTextBoxes(ChartRenderer chart) : base(chart)
         {
+            DefaultFillColor = Color.Transparent;
         }
 
         internal List<DrawingTextBox> TextBoxes
