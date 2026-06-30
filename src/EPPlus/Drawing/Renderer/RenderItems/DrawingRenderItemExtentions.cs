@@ -226,17 +226,26 @@ namespace EPPlusImageRenderer.RenderItems
                         }
                         else
                         {
-                            return string.Empty;
+                            fc = subtleBg.Color;
                         }
                     }
                     else
                     {
+                        //No style nor theme exists. Return empty
                         return string.Empty;
                     }
                 }
                 else
                 {
-                    return string.Empty;
+                    if (styleFillColor.ColorType == eDrawingColorType.Scheme)
+                    {
+                        var bg1 = theme.ColorScheme.GetColorByEnum(styleFillColor.SchemeColor.Color);
+                        fc = tc.ColorConverter.GetThemeColor(bg1);
+                    }
+                    else
+                    {
+                        fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, styleFillColor);
+                    }
                 }
             }
             else if (fill.Style == eFillStyle.SolidFill)
