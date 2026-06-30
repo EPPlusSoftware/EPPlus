@@ -106,8 +106,8 @@ namespace EPPlus.Fonts.OpenType
         // Public API
         // -----------------------------------------------------------------------------------------
 
-        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.NotFound;
-        bool RequireExactFoundFont { get { return LeastRequiredAvailability == FontAvailability.Exact; } }
+        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.ExactAllowEmbed;
+        bool RequireExactFoundFont { get { return LeastRequiredAvailability == FontAvailability.ExactAllowEmbed || LeastRequiredAvailability == FontAvailability.Exact; } }
         bool RequireFamilyFont{ get { return RequireExactFoundFont || LeastRequiredAvailability == FontAvailability.FamilyOnly; } }
 
         //public FontAvailability FallBackAvailablility = FontAvailability.Exact;
@@ -138,7 +138,19 @@ namespace EPPlus.Fonts.OpenType
                 var availability = GetFontAvailability(fontName, subFamily);
                 if (RequireExactFoundFont && availability != FontAvailability.Exact)
                 {
-                    throw new FileNotFoundException($"Could not find Font: {fontName} fallbacked to font:{font.GetEnglishFontFamilyName()}");
+                    var fullFontName = font.GetEnglishFontFamilyName();
+                    if(LeastRequiredAvailability == FontAvailability.ExactAllowEmbed)
+                    {
+                        //If we fallbacked to the correct embedded font despite not finding it in specified folders there's no reason to throw.
+                        if (fullFontName.Contains(fontName) == false)
+                        {
+                            throw new FileNotFoundException($"Could not find Font: {fontName} fallbacked to font: {fullFontName}");
+                        }
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException($"Could not find Font: {fontName} fallbacked to font: {fullFontName}");
+                    }
                 }
                 else if(RequireFamilyFont && availability != FontAvailability.FamilyOnly && availability !=  FontAvailability.Exact)
                 {

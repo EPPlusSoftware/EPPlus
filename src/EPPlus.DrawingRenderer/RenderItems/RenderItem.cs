@@ -230,7 +230,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
 
         }
-        public override RenderItemType Type => RenderItemType.Rect;
+        public override RenderItemType Type => RenderItemType.Ellipse;
         public double Cx { get; set; }
         public double Cy { get; set; }
         public double Rx { get; set; }
@@ -316,7 +316,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public abstract class DrawingObject
     {
-        public abstract void AppendRenderItems(List<RenderItem> renderItems);
+        public virtual void AppendRenderItems(List<RenderItem> renderItems) { }
     }
     public abstract class RenderItem : RenderItemBase
     {

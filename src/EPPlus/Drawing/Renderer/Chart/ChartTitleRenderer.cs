@@ -102,8 +102,8 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -112,21 +112,29 @@ namespace EPPlusImageRenderer.Svg
             switch (axis.Axis.AxisPosition)
             {
                 case eAxisPosition.Left:
-                    Rectangle.Top = sc.GetPlotAreaTop();
-                    Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : margin;                               
+                    TextBox.Top = sc.GetPlotAreaTop();
+                    TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : margin;                               
                     break;
                 case eAxisPosition.Right:
-                    Rectangle.Top = sc.GetPlotAreaTop();
-                    Rectangle.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width - margin : sc.Bounds.Right - Rectangle.Width - margin;
+                    TextBox.Top = sc.GetPlotAreaTop();
+                    TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Right || sc.Chart.Legend.Position == eLegendPosition.TopRight ? sc.Legend.Rectangle.Left - Rectangle.Width - margin : sc.Bounds.Right - Rectangle.Width - margin;
                     break;
                 case eAxisPosition.Bottom:
-                    Rectangle.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
-                    Rectangle.Left = GetHorizontalLeft(sc);
+                    TextBox.Top = sc.ChartArea.Rectangle.Height - margin - Rectangle.Height;
+                    TextBox.Left = GetHorizontalLeft(sc);
                     break;
                 case eAxisPosition.Top:
-                    Rectangle.Top = sc.Title != null && sc.Title._title.Layout.HasLayout==false ? sc.Title.Rectangle.Bottom+margin : margin;
-                    Rectangle.Left = GetHorizontalLeft(sc);
+                    TextBox.Top = sc.Title != null && sc.Title._title.Layout.HasLayout==false ? sc.Title.Rectangle.Bottom+margin : margin;
+                    TextBox.Left = GetHorizontalLeft(sc);
                     break;
+                //case eActualAxisPosition.BottomSecond:
+                //    Rectangle.Top = sc.HorizontalAxis.Rectangle.Bottom;
+                //    Rectangle.Left = GetHorizontalLeft(sc);
+                //    break;
+                //case eActualAxisPosition.RightSecond:
+                //    Rectangle.Top = sc.GetPlotAreaTop();
+                //    Rectangle.Left = sc.VerticalAxis.Rectangle.Right;
+                //    break;
             }
         }
 
@@ -183,7 +191,6 @@ namespace EPPlusImageRenderer.Svg
         internal void InitTextBox(double maxWidth, double maxHeight)
         {
             TextBox = new DrawingTextBox(_svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
-            Rectangle = TextBox.Rectangle;
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
@@ -191,7 +198,7 @@ namespace EPPlusImageRenderer.Svg
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
-                TextBox.ImportTextBody(_title.TextBody, true, ExcelHorizontalAlignment.Center);
+                TextBox.ImportTextBodyAndParagraphs(_title.TextBody, true, ExcelHorizontalAlignment.Center);
             }
             else
             {
@@ -210,12 +217,16 @@ namespace EPPlusImageRenderer.Svg
         {
             get; private set;
         }
+        internal override RectRenderItem Rectangle { get => TextBox.Rectangle; set => base.Rectangle = value; }
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();
-            TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
-            TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme,_title.Fill, _svgChart.Chart.StyleManager.Style.Title.FillReference.Color);
-            TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            if (p != null)
+            {
+                TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
+                TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color);
+                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            }
             TextBox.AppendRenderItems(renderItems);
         }
 

@@ -105,6 +105,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
             //TranslationOffset.Top = Bounds.Top;
 
             renderItems.Add(this);
+
+            var titleItem = new TitleRenderItem("TextBody group");
+            AddChildItem(titleItem);
             foreach (var item in Paragraphs)
             {
                 AddChildItem(item);
@@ -124,6 +127,70 @@ namespace EPPlus.DrawingRenderer.RenderItems
             AdjustAndAddParagraph(paragraph);
             return paragraph;
         }
+
+        public void ApplyAutoSize()
+        {
+            if (AutoSize)
+            {
+               var currentHeight = 0d;
+               var currentWidth = 0d;
+
+                foreach(var paragraph in Paragraphs)
+                {
+                    currentHeight += paragraph.Bounds.Height;
+
+                    if (currentWidth < paragraph.Bounds.Width || currentWidth == MaxWidth)
+                    {
+                        currentWidth = paragraph.Bounds.Width;
+                    }
+                }
+
+                Bounds.Width = currentWidth;
+                Bounds.Height = currentHeight;
+            }
+        }
+
+        /// <summary>
+        /// If text is added to the first paragraph without using textbody e.g. Paragraphs[0].AddText()
+        /// Subsequent paragraphs must be updated
+        /// </summary>
+        public void RecalculateParagraphs()
+        {
+            if(Paragraphs != null && Paragraphs.Count != 0)
+            {
+                double lastParagraphBottom = Paragraphs[0].Bounds.Top;
+
+                double smallestLeft = double.MaxValue;
+                double largestWidth = double.MinValue;
+                double totalHeight = 0;
+
+                foreach (var paragraph in Paragraphs)
+                {
+                    paragraph.Bounds.Top = lastParagraphBottom;
+                    lastParagraphBottom = paragraph.Bounds.Bottom;
+
+                    smallestLeft = Math.Min(smallestLeft, paragraph.Bounds.Left);
+                    largestWidth = Math.Max(largestWidth, paragraph.Bounds.Width);
+                    totalHeight += paragraph.Bounds.Height;
+                }
+
+                ContentBounds.Top = Paragraphs[0].Bounds.Top;
+                ContentBounds.Left = smallestLeft;
+                ContentBounds.Width = largestWidth;
+                ContentBounds.Height = totalHeight;
+
+                if (AutoSize)
+                {
+                    Bounds.Height = totalHeight;
+                    Bounds.Width = ContentBounds.Width;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The total bounds of all paragraphs without margins
+        /// </summary>
+        protected BoundingBox ContentBounds = new BoundingBox();
 
         private void AdjustAndAddParagraph(ParagraphRenderItem paragraph)
         {
@@ -147,6 +214,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 }
             }
             Paragraphs.Add(paragraph);
+            RecalculateParagraphs();
         }
 
         private double GetTopToAddNextParagraphAt()
@@ -165,7 +233,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// Get the start of text space vertically
         /// </summary>
         /// <returns></returns>
-        protected double GetAlignmentVertical()
+        public double GetAlignmentVertical()
         {
             double alignmentY = 0;
 
@@ -177,10 +245,13 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 //Center means center of a Shape's ENTIRE bounding box height.
                 //Not center of the Inset GetRectangle
                 case TextAnchoringType.Center:
-                    alignmentY = (MaxHeight - Bounds.Height) / 2 + Bounds.Top;
+                    if(AutoSize == false)
+                    {
+                        alignmentY = (Bounds.Height) / 2 - ContentBounds.Height;
+                    }
                     break;
                 case TextAnchoringType.Bottom:
-                    alignmentY = MaxHeight - Bounds.Height;
+                    alignmentY = Bounds.Height - ContentBounds.Height;
                     break;
             }
 

@@ -160,6 +160,58 @@ namespace EPPlusTest.Issues
                 package.Dispose();
             }
         }
+
+        [TestMethod]
+        public void AutofitAutofilterTest()
+        {
+            using var package = OpenPackage("AutofitAutofilterTest.xlsx", true);
+
+            // Two sheets with identical data: one with an autofilter, one without.
+            // After autofit, the filtered columns should be wider than the unfiltered
+            // ones by the reserved width of the dropdown arrow.
+            var wsFilter = package.Workbook.Worksheets.Add("WithFilter");
+            var wsNoFilter = package.Workbook.Worksheets.Add("NoFilter");
+
+            foreach (var ws in new[] { wsFilter, wsNoFilter })
+            {
+                // Headers are the widest text in each column - the data below is deliberately
+                // shorter so the column width is driven by the header (+ the dropdown arrow
+                // on the filtered sheet).
+                ws.Cells["A1"].Value = "Department";
+                ws.Cells["B1"].Value = "Annual Budget";
+                ws.Cells["C1"].Value = "Region Name";
+
+                ws.Cells["A2"].Value = "Sales";
+                ws.Cells["B2"].Value = 1200;
+                ws.Cells["C2"].Value = "North";
+
+                ws.Cells["A3"].Value = "IT";
+                ws.Cells["B3"].Value = 980;
+                ws.Cells["C3"].Value = "West";
+
+                ws.Cells["A4"].Value = "HR";
+                ws.Cells["B4"].Value = 540;
+                ws.Cells["C4"].Value = "East";
+            }
+
+            // Only one sheet gets the autofilter.
+            wsFilter.Cells["A1:C4"].AutoFilter = true;
+
+            wsFilter.Cells["A1:C4"].AutoFitColumns();
+            wsNoFilter.Cells["A1:C4"].AutoFitColumns();
+
+            for (int col = 1; col <= 3; col++)
+            {
+                var filterWidth = wsFilter.Column(col).Width;
+                var noFilterWidth = wsNoFilter.Column(col).Width;
+                System.Diagnostics.Debug.WriteLine($"Column {col}: filter={filterWidth}, noFilter={noFilterWidth}");
+                Assert.IsTrue(filterWidth > noFilterWidth,
+                    $"Column {col}: filtered width ({filterWidth}) should be greater than unfiltered width ({noFilterWidth}).");
+            }
+
+            SaveAndCleanup(package);
+        }
+
         [TestMethod]
         public void i1317()
         {

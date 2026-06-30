@@ -13,9 +13,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("Trendlines.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                //var ix = 2;
+                //var ix = 4;
                 //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
+                //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\Trendline_sheet1_ind{ix++}.svg", svg);
 
                 var ix = 0;
@@ -26,6 +26,28 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+
+        [TestMethod]
+        public void TrendlineAlt()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("TrendlineAlt.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                //var ix = 4;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\Trendline_sheet1_ind{ix++}.svg", svg);
+
+                var ix = 0;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\TrendlineAlt_sheet1_{ix++}.svg", svg);
+                }
+            }
+        }
+
         [TestMethod]
         public void GenerateSvgForTrendlines_Sheet2()
         {
@@ -36,7 +58,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
 
                 //var ix = 3;
                 //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
+                //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\Trendline_sheet1_ind{ix++}.svg", svg);
 
                 var ix = 0;

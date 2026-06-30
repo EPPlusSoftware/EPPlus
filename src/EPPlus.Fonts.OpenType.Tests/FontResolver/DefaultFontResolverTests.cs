@@ -218,6 +218,22 @@ namespace EPPlus.Fonts.OpenType.Tests.FontResolver
 
         #endregion
 
+        #region GetFontAvailability
+
+        [TestMethod]
+        public void ResolveFont_ShouldResolveArchivoNarrowBold()
+        {
+            var scanner = new FakeFontScanner();
+            var reader = new FakeFontFileReader();
+
+            var resolver = new DefaultFontResolver(scanner: scanner, fileReader: reader);
+
+            var availability = resolver.GetFontAvailability("Archivo Narrow", FontSubFamily.Bold);
+            Assert.AreEqual(FontAvailability.Exact, availability);
+        }
+
+        #endregion
+
         #region Built-in chain integrity
 
         [TestMethod]

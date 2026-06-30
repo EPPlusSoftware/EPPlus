@@ -153,12 +153,16 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             // Fallback for unknown platforms
             return Encoding.UTF8;
         }
-
+        private static readonly Dictionary<ushort, Encoding> _fallbackEncodings = new Dictionary<ushort, Encoding>();
         // ADD GetWindowsEncoding() method:
         private static Encoding GetWindowsEncoding(ushort encodingId)
         {
             try
             {
+                if(_fallbackEncodings.TryGetValue(encodingId, out var cached))
+                {
+                    return cached;
+                }
                 switch (encodingId)
                 {
                     case 0:
@@ -204,6 +208,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             {
                 // If encoding doesn't exist (e.g. in .NET Standard without System.Text.Encoding.CodePages)
                 // Fallback to UTF-16BE - this is safe for most modern fonts
+                lock (_fallbackEncodings)
+                {
+                    _fallbackEncodings.Add(encodingId, Encoding.BigEndianUnicode);
+                }
+
                 return Encoding.BigEndianUnicode;
             }
             catch (ArgumentException)

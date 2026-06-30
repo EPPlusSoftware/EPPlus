@@ -22,9 +22,20 @@ namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
-        public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream)
+        public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options)
         {
             BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream);
+
+            //Override size.
+            if (options.Size.Width.HasValue)
+            {
+                bounds.Width = options.Size.WidthPixels;
+            }
+            if (options.Size.Height.HasValue)
+            {
+                bounds.Height = options.Size.HeightPixels;
+            }
+
             Bounds = bounds;
             OutputStream = outputStream; 
         }
@@ -111,7 +122,7 @@ namespace EPPlus.DrawingRenderer
                 var key = item.GradientFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource, true);
+                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource);
                     _defsCache[key] = name;
                 }
                 item.FillColor = $"Url(#{name})";
@@ -147,7 +158,7 @@ namespace EPPlus.DrawingRenderer
                 var key = item.BorderGradientFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource, true);
+                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource);
                     _defsCache[key] = name;
                 }
                 item.BorderColor = $"Url(#{name})";
@@ -249,11 +260,11 @@ namespace EPPlus.DrawingRenderer
             defSb.Append($"</pattern>");
             return name;
         }
-        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderGradientFill gradientFill, PathFillMode fillMode, bool userSpaceOnUse)
+        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderGradientFill gradientFill, PathFillMode fillMode)
         {
             //var gs = gradientFill.Settings;
             var name = $"{namePrefix}{fillMode}";
-            var grUnits = userSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
+            var grUnits = gradientFill.UserSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
             if (gradientFill.ShadePath == ShadePath.Linear && hs.Contains(name) == false)
             {
                 hs.Add(name);
@@ -607,7 +618,7 @@ namespace EPPlus.DrawingRenderer
                 var y = Bounds.Height * blipFill.StretchOffset.TopOffset / 100;
                 var width = Bounds.Width - x - Bounds.Width * blipFill.StretchOffset.RightOffset / 100;
                 var height = Bounds.Height - x - Bounds.Height * blipFill.StretchOffset.BottomOffset / 100;
-                return $" preserveAspectRatio=\"none\" x=\"{x.ToString(CultureInfo.InvariantCulture)}\" y=\"{y.ToString(CultureInfo.InvariantCulture)}\" width=\"{width.ToString(CultureInfo.InvariantCulture)}\" height=\"{height.ToString(CultureInfo.InvariantCulture)}\" ";
+                return $" preserveAspectRatio=\"none\" x=\"{x.ToString(CultureInfo.InvariantCulture)}\" y=\"{y.ToString(CultureInfo.InvariantCulture)}\" width=\"{width.PointToPixelString()}\" height=\"{height.PointToPixelString()}\" ";
             }
             else if (!(blipFill.Tile.HorizontalOffset == 0 && blipFill.Tile.VerticalOffset == 0 &&
                     blipFill.Tile.HorizontalRatio == 100 && blipFill.Tile.VerticalRatio == 100 && blipFill.Tile.FlipMode == TileFlipMode.None))

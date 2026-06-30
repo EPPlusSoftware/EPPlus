@@ -382,33 +382,34 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
-        public void TestSimpleRichText2()
+        public void TestLayoutSystemMultipleParagraphs()
         {
-            //var rtCollection = new RichTextCollectionBase();
-            //var someTextRt = rtCollection.Add("SomeText", true);
-            //var richRt = rtCollection.Add("rich");
-            //var richerRt = rtCollection.Add("richer");
-            //var richestRt = rtCollection.Add("richest");
-            //var wealthyRt = rtCollection.Add("Wealthy");
+            var paragraphEndSymbol = '\u2029';
 
-            //richRt.Info.FontFamily = "Roboto";
-            //richRt.Info.Italic = true;
+            List<string> lstOfRichText = new() { $"Here comes lorem ipsum{paragraphEndSymbol} " +
+                $"Sed ut perspiciatis,{paragraphEndSymbol}", $"u{paragraphEndSymbol}n{paragraphEndSymbol}de{paragraphEndSymbol} omnis" };
+            var font = new FontFormatBase()
+            {
+                Family = "Aptos Narrow",
+                Size = 11,
+                SubFamily = FontSubFamily.Bold
+            };
 
-            //richerRt.Info.FontFamily = "Roboto";
-            //richerRt.Info.Size = 16;
-            //richerRt.Info.Italic = true;
-            //richerRt.Info.UnderlineType = (int)ExcelUnderLineType.Single;
+            var font2 = new FontFormatBase()
+            {
+                Family = "Aptos Narrow",
+                Size = 11,
+                SubFamily = FontSubFamily.Italic
+            };
 
-            //richestRt.Info.FontFamily = "Oi";
-            //richestRt.Info.FontColor = Color.BlueViolet;
-            //richestRt.Info.Bold = true;
-            //richestRt.Info.Italic = true;
-            //richerRt.Info.Size = 18;
+            var fragments = new List<ITextFragmentBase>()
+            {
+                new TextFragment() {Text = lstOfRichText[0], Font = font },
+                new TextFragment() {Text = lstOfRichText[1], Font = font2 }
+            };
 
-
-            //someTextRt.FontData.Family = "Archivo Narrow";
-
-            //richRt
+            var layout = new LayoutSystem(fragments);
+            Assert.AreEqual(5, layout.GetParagraphSeparatorCount());
         }
     }
 }

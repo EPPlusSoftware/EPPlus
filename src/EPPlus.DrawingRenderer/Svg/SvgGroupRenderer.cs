@@ -20,7 +20,16 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             string combinedTransform = GetCombinedTransformString(item);
 
-            OutputStream.Append($"<g {GetTransformOrigin(item)} transform=\"{combinedTransform}\">");
+            //Neccesary as fallback for e.g. DataLabels
+            string fillPropery = "";
+
+            //We may need special handling for fill-color 'none' as it is sometimes transparent and sometimes un-applied.
+            if (string.IsNullOrEmpty(item.FillColor) == false)
+            {
+                fillPropery = $" fill=\"{item.FillColor}\" ";
+            }
+
+            OutputStream.Append($"<g {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
 
             foreach (var childItem in item.RenderItems)
             {

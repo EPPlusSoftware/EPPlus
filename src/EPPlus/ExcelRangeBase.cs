@@ -19,6 +19,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Style;
@@ -867,7 +868,24 @@ namespace OfficeOpenXml
                 }
             }
         }
-
+        /// <summary>
+        /// Returns the Text for a merged cell.
+        /// </summary>
+        internal string TextMerged
+        {
+            get
+            {
+                if(Merge)
+                {
+                    var ma = _worksheet.MergedCells[_fromRow, _fromCol];
+                    if(ma!=null)
+                    {
+                        return _worksheet.Cells[ma].Text;
+                    }
+                }
+                return Text;
+            }
+        }
         /// <summary>
         /// Used to add/remove cell pictures in the range
         /// </summary>

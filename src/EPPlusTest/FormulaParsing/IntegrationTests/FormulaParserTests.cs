@@ -8,7 +8,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
     [TestClass]
     public class FormulaParserTests : FormulaParserTestBase
     {
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(true)]
         [DataRow(false)]
         public void ValidateFormulaParserWithIsWorksheets1Based(bool isWorksheets1Based)

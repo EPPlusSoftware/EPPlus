@@ -1295,5 +1295,12 @@ namespace EPPlusTest.DataValidation
                 SaveAndCleanup(p);
             }
         }
-    }    
+        [TestMethod]
+        public void VerifyClearDataValidationOnEmptyRange()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells[1, 1, 4, 4].DataValidation.ClearDataValidation();
+        }
+    }
 }

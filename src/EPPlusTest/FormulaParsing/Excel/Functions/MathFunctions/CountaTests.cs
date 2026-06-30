@@ -28,7 +28,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             worksheet.Cells["C9"].Formula = "IF(B9,\"\",A9)";
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, null, null, 0d)]
         [DataRow("a", null, null, 1)]
         [DataRow(null, "b", null, 1)]

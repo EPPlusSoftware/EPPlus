@@ -178,46 +178,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             }
             return _lookupRange.Size.NumberOfCols;
         }
-
-        private int FindHorizontal()
-        {
-            var dimensionCols = _lookupRange.Worksheet.Dimension.Columns;
-            var maxCols = _lookupRange.Size.NumberOfCols > dimensionCols ? dimensionCols : _lookupRange.Size.NumberOfCols;
-            int closestBelowIx = -1;
-            int closestAboveIx = -1;
-            object closestBelow = null;
-            object closestAbove = null;
-
-            for (var colIx = 0; colIx < maxCols; colIx++)
-            {
-                var value = _lookupRange.GetOffset(0, colIx);
-                var cr = _comparer.Compare(_lookupValue, value);
-                if (cr == 0)
-                {
-                    return colIx;
-                }
-                else if (cr < 0)
-                {
-                    if (closestBelow == null || _comparer.Compare(closestBelow, value) < 0)
-                    {
-                        closestBelow = value;
-                        closestBelowIx = colIx;
-                    }
-                    if (closestAbove == null || _comparer.Compare(closestAbove, value) < 0)
-                    {
-                        closestAbove = value;
-                        closestAboveIx = colIx;
-                    }
-                }
-            }
-            if (_matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
-            {
-                return closestAboveIx;
-            }
-            else
-            {
-                return closestBelowIx;
-            }
-        }
     }
 }

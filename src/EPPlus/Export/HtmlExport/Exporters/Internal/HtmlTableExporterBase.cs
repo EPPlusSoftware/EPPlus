@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             _table = table;
             _tableExportSettings = settings;
 
-            LoadRangeImages(new List<ExcelRangeBase>() { table.Range });
+            LoadRangeDrawings(new List<ExcelRangeBase>() { table.Range });
         }
 
         protected readonly ExcelTable _table;

@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -47,8 +49,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
-                    Coordinates.Add(new Coordinate(_xSerie[0], GetLinearValueAtPosition(_xSerie[0])));
-                    Coordinates.Add(new Coordinate(_xSerie[_xSerie.Count-1], GetLinearValueAtPosition(_xSerie[_xSerie.Count - 1])));
+                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
+                    Coordinates.Add(new Coordinate(_xSerie.Count-1, GetLinearValueAtPosition(_xSerie.Count)));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();
@@ -90,28 +92,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     //Should not happen unless new trendline types arrive.
                     throw new NotImplementedException("Trendline type not implemented.");
             }
-        }
-
-        /// <summary>
-        /// Get the X serie values. If the values are not numeric, return a serie with the index values (1,2,3,...). Trendline calculation requires numeric X values, but Excel allows non-numeric X values for trendlines, in which case it uses the index values as X for calculation.
-        /// </summary>
-        /// <param name="xSerie">Input values</param>
-        /// <returns>Output doubles</returns>
-        private List<double> GetXSerie(List<object> xSerie)
-        {
-            var l=new List<double>();
-            for(int i=0;i<xSerie.Count;i++)
-            {
-                if (ConvertUtil.IsExcelNumeric(xSerie[i]))
-                {
-                    l.Add(ConvertUtil.GetValueDouble(xSerie[i]));
-                }
-                else
-                {
-                    return xSerie.Select((x, index) => (double)(index + 1)).ToList();
-                }
-            }
-            return l;
         }
 
         private void CreateDatalabel()
@@ -157,7 +137,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 DataLabel.TextBody.AutoSize = true;
             }
-            DataLabel.ImportTextBody(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
+            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
+            DataLabel.ImportTextBodyAndParagraphs(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
             var labelText = "";
             if (_trendline.DisplayEquation)
             {
@@ -171,15 +152,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 labelText += RSquare;
             }
-            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
-            DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, labelText);
+            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
+            //DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, "");
+            AddLblText(DataLabel, labelText);
             DataLabel.LeftMargin = DataLabel.RightMargin = 4;
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
             //Set datalabel position.
-            if(DataLabel.Left - (DataLabel.Width + 5) > ChartRenderer.Bounds.Right)
+            if(DataLabel.Left + 5 > ChartRenderer.Bounds.Right)
             {
-                DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width;
+                DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width - 5;
             }
             else
             {
@@ -206,17 +188,46 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color);
+            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true);
             DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
             DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
+        }
+
+        private void AddLblText(DrawingTextBox lbl, string labelText)
+        {
+            int pIx = 0;
+            var ix = labelText.IndexOf("|ss:");
+
+            while(ix>=0 && ix < labelText.Length)
+            {
+                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, ix - pIx));
+                var endIx = labelText.IndexOf("|", ix + 4);
+                var rt = new RichTextFormatDrawing(lbl.TextBody.Paragraphs[0].DefaultParagraphFont) { SuperScript = true, Text = labelText.Substring(ix+4, endIx-ix-4)};
+                lbl.TextBody.Paragraphs[0].AddRichText(rt);
+                pIx = endIx+1;
+                ix = labelText.IndexOf("|ss:", pIx);
+            }
+
+            //Uncommenting this doubles the line in the case ix <0
+            //Left as comment just in case there is some edge-cases
+            //if (ix < 0)
+            //{
+            //    lbl.TextBody.Paragraphs[0].AddText(labelText);
+            //}
+            if (pIx < labelText.Length)
+            {
+                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, labelText.Length - pIx));
+            }
+
+            //Should probably be a callback
+            lbl.TextBody.RecalculateParagraphs();
+            lbl.TextBody.Top = lbl.TextBody.GetAlignmentVertical();
         }
 
         private void CalculateLinear()
         {
             var n = _xSerie.Count;
             //var sumX = (double)n * (n + 1) / 2;
-            var sumX = _xSerie.Sum(x => x);
-            var sumX2 = _xSerie.Sum(x => x * x);
             var sumY = _ySerie.Sum(y => y);
             //var sumX2 = (double)n * (n + 1) * (2 * n + 1) / 6;
             var sumXY = 0D;
@@ -224,9 +235,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double slope, intercept;
             if (double.IsNaN(_trendline.Intercept))
             {
+                var sumX = (double)n * (n + 1) / 2;
+                var sumX2 = (double)n * (n + 1) * (2 * n + 1) / 6;
                 for (int i = 0; i < _ySerie.Length; i++)
                 {
-                    sumXY += _ySerie[i] * (i + 1);
+                    double x = _xSerie[i];
+                    sumXY += _ySerie[i] * (i+1);
                 }
 
                 //Slope
@@ -236,6 +250,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
+                var sumX = _xSerie.Sum(x => x);
+                var sumX2 = _xSerie.Sum(x => x * x);
                 intercept = _trendline.Intercept;
                 for (int i = 0; i < _ySerie.Length; i++)
                 {
@@ -303,8 +319,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             var r2 = Math.Pow(Pearson.PearsonImpl(_ySerie.Cast<double>(), GetExponentialSerie(slope, intercept)), 2);
             Coefficients = [slope, intercept];
-            Formula = $"y={intercept:G5}|ss:e{slope:G3}|";
-            RSquare = $"R²={r2:N4}";
+            Formula = $"y = {intercept:G5}e|ss:{slope:G3}x| ";
+            RSquare = $"R² = {r2:N4} ";
         }
         private void CalculateLogarithmic()
         {
@@ -330,8 +346,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Coefficients = [slope, intercept];
 
             var r2 = CalculateRSquared(x => slope * Math.Log(x) + intercept, _ySerie, _trendline.Intercept);
-            Formula = $"y={slope:G5}ln(x)+{intercept:G5}";
-            RSquare = $"R²={r2:N4}";
+            Formula = $"y = {slope:G5}ln(x) + {intercept:G5}";
+            RSquare = $"R² = {r2:N4}";
         }
         public void CalculatePolynomial()
         {
@@ -454,9 +470,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     Coefficients[i] = matrix[i, coeffCount];
                 }
             }
-            Formula = "y=" + GetPolynormFormula();
+            Formula = "y = " + GetPolynormFormula();
             var r2 = CalculateRSquared(x => PredictLinear(x), _ySerie, _trendline.Intercept);
-            RSquare = $"R²={r2:N4}";
+            RSquare = $"R² = {r2:N4}";
         }
 
         private void CalculatePower()
@@ -477,10 +493,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var intercept = Math.Pow(Math.E, (sumLnY - slope  * sumLnX) / n);
             Coefficients = [slope, intercept];
 
-            Formula = $"y={intercept:G5}x|ss:{slope:G3}|";
+            Formula = $"y = {intercept:G5} x |ss:{slope:G5}|";
             var ylogSerie = _ySerie.Select(y => Math.Log(y)).ToArray();
             var r2 = CalculateRSquaredPearson(x => intercept * Math.Pow(x, slope), _ySerie);
-            RSquare = $"R²={r2:N4}";
+            RSquare = $"R² = {r2:N4} ";
         }
 
         private void CalculateMoveingAverage()
@@ -509,25 +525,25 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (Coefficients[i-1]>=0) 
                 { 
-                    sb.Insert(0, "+");
+                    sb.Insert(0, " + ");
                 }
                 else
                 {
-                    sb.Insert(0, "-");
+                    sb.Insert(0, " - ");
                 }
 
                 if(i < 2)
                 {
-                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x");
+                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x ");
                 }
                 else
                 {
-                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x|ss:{i}|");
+                    sb.Insert(0, $"{Math.Abs(Coefficients[i]):G5}x|ss:{i}| ");
                 }                    
             }
             if (Coefficients[Coefficients.Length - 1] < 0)
             {
-                sb.Insert(0, "-");
+                sb.Insert(0, " - ");
             }
 
             return sb.ToString();
@@ -647,7 +663,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, _trendline.Border.Width);
             pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
@@ -739,24 +755,25 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             if (_ma == null)
             {
-                CalcMa();
+                CalcMa((int)_trendline.Period);
             }
 
             int ix = (int)(x - _trendline.Period + 1);
             return _ma[ix];
         }
 
-        private void CalcMa()
+        private void CalcMa(int period)
         {
             _ma= new List<double>();
             double sum = 0;
             for (int i=0;i < _ySerie.Length;i++)
             {
                 sum += _ySerie[i];
-                if (i >= _trendline.Period-1)
+                if (i >= period - 1)
                 {
                     
-                    _ma.Add(sum / (i+1));
+                    _ma.Add(sum / period);
+                    sum -= _ySerie[i - period + 1];
                 }
             }
         }

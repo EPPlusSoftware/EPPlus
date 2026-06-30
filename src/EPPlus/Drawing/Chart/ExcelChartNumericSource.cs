@@ -13,6 +13,8 @@
 using System.Xml;
 using System.Globalization;
 using System;
+using System.Collections.Generic;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -40,7 +42,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     case "numRef":
                         _formatCode = GetXmlNodeString(_path + "/c:numRef/c:numCache/c:formatCode");
                         break;
-               }
+                }
             }
         }
         /// <summary>
@@ -163,6 +165,61 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 _formatCode=value;
             }
+        }
+        internal List<double> GetValuesList(ExcelWorkbook wb)
+        {
+            var list = new List<double>();
+            var vs = ValuesSource;
+            if (_sourceElement?.LocalName=="numLit")
+            {
+                if (ValuesSource?.Length > 2)
+                {
+                    var source = ValuesSource.Substring(1, ValuesSource.Length - 2).Split(',');
+                    foreach(var s in source)
+                    {
+                        if(double.TryParse(s.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out double d))
+                        {
+                            list.Add(d);
+                        }
+                        else
+                        {
+                            list.Add(0);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var adr = GetXmlNodeString($"{_path}/c:numRef/c:f");
+                if (!string.IsNullOrEmpty(adr))
+                {
+                    if (ExcelCellBase.IsValidAddress(adr))
+                    {
+                        var address = new ExcelAddressBase(adr);
+                        var ws = wb.Worksheets[address.WorkSheetName];
+                        if (ws != null)
+                        {
+                            var range = ws.Cells[address.Address];
+                            for (var r = 0; r < range.Start.Row; r++)
+                            {
+                                for (var c = 0; c < range.Start.Row; c++)
+                                {
+                                    var v = range.Offset(r, c);
+                                    if (ConvertUtil.IsExcelNumeric(v.Value))
+                                    {
+                                        list.Add(ConvertUtil.GetValueDouble(v.Value, false));
+                                    }
+                                    else
+                                    {
+                                        list.Add(0D);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return list;
         }
     }
 }

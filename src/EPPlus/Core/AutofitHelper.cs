@@ -27,6 +27,8 @@ namespace OfficeOpenXml.Core
 {
     internal class AutofitHelper
     {
+        // Approximate width in pixels (at 96 DPI) of the autofilter dropdown arrow rendered by Excel.
+        private const double AutoFilterArrowWidthPixels = 15d;
         private ExcelRangeBase _range;
         ITextMeasurer _genericMeasurer = new GenericFontMetricsTextMeasurer();
         MeasurementFont _nonExistingFont = new MeasurementFont() { FontFamily = FontSize.NonExistingFont };
@@ -134,9 +136,19 @@ namespace OfficeOpenXml.Core
                 {
                     if (af.Collide(fromRow, col, toRow, col) != eAddressCollition.No)
                     {
-                        var cell = worksheet.Cells[af.Address];
+                        var cell = worksheet.Cells[af._fromRow, col];
                         var cellStyleId = styles.CellXfs[cell.StyleID];
                         currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
+                        // Reserve room for the autofilter dropdown arrow. The arrow is a fixed-size UI
+                        // element (~15px at 96 DPI), so it is added as a constant converted to column
+                        // width units (normalSize = width of the normal font's reference char in pixels).
+                        // It is intentionally not affected by AutofitScaleFactor, since the arrow's
+                        // pixel size does not shrink when the user requests tighter text margins.
+                        currentMaxWidth += AutoFilterArrowWidthPixels / normalSize;
+                        if (currentMaxWidth >= MaximumWidth)
+                        {
+                            currentMaxWidth = MaximumWidth;
+                        }
                     }
                 }
                 foreach (var cell in worksheet.Cells[fromRow, col, toRow, col])

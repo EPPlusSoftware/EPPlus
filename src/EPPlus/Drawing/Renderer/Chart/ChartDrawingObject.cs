@@ -12,20 +12,32 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
     internal class ChartAreaRenderer : ChartDrawingObject
     {
-        public ChartAreaRenderer(ChartRenderer sc) : base(sc)
+        public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
+            if(options.Size.Width.HasValue)
+            {
+                sc.Bounds.Width = options.Size.WidthPixels;
+            }
+            if (options.Size.Height.HasValue)
+            {
+                sc.Bounds.Height = options.Size.HeightPixels;
+            }
+
             Rectangle = new RectRenderItem(sc.Bounds);
         }
 
@@ -56,7 +68,7 @@ namespace EPPlusImageRenderer.Svg
         internal double RightMargin { get; set; }
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
-        internal RectRenderItem Rectangle { get; set; }
+        internal virtual RectRenderItem Rectangle { get; set; }
         protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
             var bounds = parent ?? sc.Bounds;
@@ -88,5 +100,28 @@ namespace EPPlusImageRenderer.Svg
             rect.Height = bounds.Height * ml.GetHeight() / 100;
             return rect;
         }
+        /// <summary>
+        /// Get the X serie values. If the values are not numeric, return a serie with the index values (1,2,3,...). Trendline calculation requires numeric X values, but Excel allows non-numeric X values for trendlines, in which case it uses the index values as X for calculation.
+        /// </summary>
+        /// <param name="xSerie">Input values</param>
+        /// <returns>Output doubles</returns>
+        internal List<double> GetXSerie(List<object> xSerie)
+        {
+            var l = new List<double>();
+            for (int i = 0; i < xSerie.Count; i++)
+            {
+                if (ConvertUtil.IsExcelNumeric(xSerie[i]))
+                {
+                    l.Add(ConvertUtil.GetValueDouble(xSerie[i]));
+                }
+                else
+                {
+                    return xSerie.Select((x, index) => (double)(index + 1)).ToList();
+                }
+            }
+            return l;
+        }
+
+
     }
 }

@@ -1,0 +1,200 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  13/4/2026         EPPlus Software AB           EPPlus v8.6
+ *************************************************************************************************/
+
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.PivotBy
+{
+    internal partial class PivotBy
+    {
+        private void BuildPivotData(
+          PivotByArgs args,
+          ParsingContext context,
+          out List<LeafWithPath> rowLeaves,
+          out List<LeafWithPath> colLeaves,
+          out Dictionary<string, Dictionary<string, List<object[]>>> pivotMap)
+        {
+            var resolvedHeaders = ResolveHeaders(args.Headers, args.Values);
+            bool hasHeaders = resolvedHeaders == FieldHeaders.YesAndShow
+                           || resolvedHeaders == FieldHeaders.YesAndDontShow;
+            int startRow = hasHeaders ? 1 : 0;
+
+            int nRowKeyCols = args.RowFields.Size.NumberOfCols;
+            int nColKeyCols = args.ColFields.Size.NumberOfCols;
+            int nValCols = args.Values.Size.NumberOfCols;
+
+            var rowLeafDict = new Dictionary<string, LeafWithPath>(StringComparer.OrdinalIgnoreCase);
+            var rowLeafOrder = new List<string>();
+            var colLeafDict = new Dictionary<string, LeafWithPath>(StringComparer.OrdinalIgnoreCase);
+            var colLeafOrder = new List<string>();
+            pivotMap = new Dictionary<string, Dictionary<string, List<object[]>>>(StringComparer.OrdinalIgnoreCase);
+
+            int nRows = args.RowFields.Size.NumberOfRows;
+
+            for (int r = startRow; r < nRows; r++)
+            {
+                if (args.FilterArray != null)
+                {
+                    var fv = args.FilterArray.GetOffset(r, 0);
+                    if (IsFilterFalsy(fv)) continue;
+                }
+
+                var rowKeyParts = new object[nRowKeyCols];
+                for (int c = 0; c < nRowKeyCols; c++)
+                    rowKeyParts[c] = args.RowFields.GetOffset(r, c);
+
+                var colKeyParts = new object[nColKeyCols];
+                for (int c = 0; c < nColKeyCols; c++)
+                    colKeyParts[c] = args.ColFields.GetOffset(r, c);
+
+                var vals = new object[nValCols];
+                for (int c = 0; c < nValCols; c++)
+                    vals[c] = args.Values.GetOffset(r, c);
+
+                // Radlöv
+                string rowKey = MakePivotKey(rowKeyParts);
+                if (!rowLeafDict.ContainsKey(rowKey))
+                {
+                    var leaf = new GroupLevel { Key = rowKeyParts[rowKeyParts.Length - 1] };
+                    rowLeafDict[rowKey] = new LeafWithPath(leaf, rowKeyParts, rowKey);
+                    rowLeafOrder.Add(rowKey);
+                }
+                var rowLeafEntry = rowLeafDict[rowKey];
+                GroupRow existingRow;
+                if (rowLeafEntry.Leaf.Rows.Count == 0)
+                {
+                    existingRow = new GroupRow { KeyParts = rowKeyParts };
+                    rowLeafEntry.Leaf.Rows.Add(existingRow);
+                }
+                else
+                {
+                    existingRow = rowLeafEntry.Leaf.Rows[0];
+                }
+                existingRow.Values.Add(vals);
+
+                string colKey = MakePivotKey(colKeyParts);
+                if (!colLeafDict.ContainsKey(colKey))
+                {
+                    var leaf = new GroupLevel { Key = colKeyParts[colKeyParts.Length - 1] };
+                    colLeafDict[colKey] = new LeafWithPath(leaf, colKeyParts, colKey);
+                    colLeafOrder.Add(colKey);
+                }
+
+                if (!pivotMap.TryGetValue(rowKey, out var colMap))
+                {
+                    colMap = new Dictionary<string, List<object[]>>(StringComparer.OrdinalIgnoreCase);
+                    pivotMap[rowKey] = colMap;
+                }
+                if (!colMap.TryGetValue(colKey, out var cellVals))
+                {
+                    cellVals = new List<object[]>();
+                    colMap[colKey] = cellVals;
+                }
+                cellVals.Add(vals);
+                args.AllValuesInOrder.Add(vals);
+            }
+
+            rowLeaves = rowLeafOrder.Select(k => rowLeafDict[k]).ToList();
+            colLeaves = colLeafOrder.Select(k => colLeafDict[k]).ToList();
+
+            foreach (var rl in rowLeaves)
+                AggregateLeaf(rl.Leaf, args, context);
+        }
+
+        private void AggregateLeaf(GroupLevel leaf, PivotByArgs args, ParsingContext context)
+        {
+            var allVals = leaf.Rows.SelectMany(r => r.Values).ToList();
+            leaf.SubtotalValues = args.Functions.Select(f =>
+            {
+                int nValCols = allVals[0].Length;
+                var result = new object[nValCols];
+                for (int col = 0; col < nValCols; col++)
+                {
+                    result[col] = Aggregate(f, allVals, col, context,
+                        f.EtaFunction?.Name == "PERCENTOF" ? args.AllValuesInOrder : null);
+                }
+                return result;
+            }).ToList();
+            leaf.SubtotalValue = leaf.SubtotalValues[0][0];
+        }
+
+
+        private List<LeafWithPath> ApplyRowSort(List<LeafWithPath> rowLeaves, PivotByArgs args) =>
+    ApplyLeafSort(rowLeaves, args.RowSortOrders);
+
+        private List<LeafWithPath> ApplyColSort(List<LeafWithPath> colLeaves, PivotByArgs args) =>
+            ApplyLeafSort(colLeaves, args.ColSortOrders);
+
+        private List<LeafWithPath> ApplyLeafSort(List<LeafWithPath> leaves, int[] sortOrders)
+        {
+            if (sortOrders == null || sortOrders.All(s => s == 0)) return leaves;
+
+            IOrderedEnumerable<LeafWithPath> ordered = null;
+            foreach (var sortOrder in sortOrders.Where(s => s != 0).OrderBy(s => Math.Abs(s)))
+            {
+                if (sortOrder == 0) continue;
+                bool desc = sortOrder < 0;
+                int col = Math.Abs(sortOrder) - 1;
+                var capturedCol = col;
+
+                Func<LeafWithPath, object> keySelector = lp =>
+                    capturedCol < lp.Path.Length ? lp.Path[capturedCol] : null;
+
+                if (ordered == null)
+                    ordered = desc
+                        ? leaves.OrderByDescending(keySelector, _comparer)
+                        : leaves.OrderBy(keySelector, _comparer);
+                else
+                    ordered = desc
+                        ? ordered.ThenByDescending(keySelector, _comparer)
+                        : ordered.ThenBy(keySelector, _comparer);
+            }
+
+            int maxDepth = leaves.Max(l => l.Path.Length);
+            int sortedDepth = sortOrders.Max(s => Math.Abs(s));
+            for (int col = sortedDepth; col < maxDepth; col++)
+            {
+                var capturedCol = col;
+                Func<LeafWithPath, object> keySelector = lp =>
+                    capturedCol < lp.Path.Length ? lp.Path[capturedCol] : null;
+                ordered = ordered.ThenBy(keySelector, _comparer);
+            }
+
+            return ordered?.ToList() ?? leaves;
+        }
+
+        /// <summary>
+        /// Returns true if a filter-array cell should EXCLUDE its row.
+        /// A cell excludes its row when it is FALSE or numerically zero,
+        /// regardless of whether the zero arrived as int, double, long, etc.
+        /// Non-numeric, non-bool, and null values keep the row.
+        /// </summary>
+        private static bool IsFilterFalsy(object fv)
+        {
+            if (fv is bool b) return !b;
+            if (fv == null) return false;
+            try
+            {
+                return Convert.ToDouble(fv, System.Globalization.CultureInfo.InvariantCulture) == 0.0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+}

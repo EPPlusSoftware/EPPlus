@@ -80,6 +80,40 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
         }
 
         [TestMethod]
+        public void DefaultFontProvider_EnsureLastFallbackDoesNotThrowOnExactAllowEmbed()
+        {
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = false;
+                cfg.SetScriptFallback(UnicodeScript.Latin, "Archivo Narrow");
+            });
+
+            engine.LeastRequiredAvailability = FontAvailability.ExactAllowEmbed;
+
+            var shaper = engine.GetTextShaper("Archivo Narrow", FontSubFamily.Regular);
+
+            var shaped = shaper.Shape("Hello There World");
+            var usedFonts = shaper.GetUsedFonts().ToList();
+        }
+
+        [TestMethod]
+        public void DefaultFontProvider_EnsureLastFallbackThrowOnExact()
+        {
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in FontFolders)
+                    cfg.FontDirectories.Add(folder);
+                cfg.SearchSystemDirectories = false;
+                cfg.SetScriptFallback(UnicodeScript.Latin, "Archivo Narrow");
+            });
+
+            engine.LeastRequiredAvailability = FontAvailability.Exact;
+            Assert.ThrowsExactly<FileNotFoundException>(() => { engine.GetTextShaper("Archivo Narrow", FontSubFamily.Regular); });
+        }
+
+        [TestMethod]
         public void TextShaper_SurrogatePair_ShouldMapToSingleGlyph()
         {
             // Arrange

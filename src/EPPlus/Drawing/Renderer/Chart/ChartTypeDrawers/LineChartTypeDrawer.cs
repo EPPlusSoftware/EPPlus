@@ -6,10 +6,12 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -20,6 +22,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
+        internal override bool SupportsErrorBars => true;
         internal LineChartTypeDrawer(ChartRenderer svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
             var isStacked = chartType.IsTypeStacked();
@@ -31,12 +34,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var yValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 var xValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
-
+                if(xValue==null)
+                {
+                    //No x-axis. Create serie from 1..y-items.
+                    xValue = yValue.Select((x, index) => (object)(double)(index + 1)).ToList();
+                }
                 _xValues.Add(xValue);
                 _yValues.Add(yValue);
 
                 serCounter++;
-            }
+             }
 
             if (chartType.IsTypeStacked())
             {
@@ -48,6 +55,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             CreateTrendlines(chartType, _xValues, _yValues);
+            CreateErrorBars(chartType, _xValues, _yValues);
         }
         internal override void DrawSeries()
         {
@@ -134,7 +142,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             var coords = new List<double>();
             var markerItems = new List<RenderItem>();
+            var errorBars = new List<RenderItem>();
 
+            var hasMarker = serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None;
+            var hasErrorBars = serie.HasErrorBars();
             for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
@@ -162,8 +173,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     pt = new BoundingBox(xPos, yPos, 0, 0);
                     pt.Parent = ChartRenderer.Plotarea.Rectangle.Bounds;
                 }
-
-                if (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None)
+                if(hasErrorBars)
+                {
+                    errorBars.AddRange(ErrorBars.GetErrorBarRenderItem(i, xAxis, yAxis, x, y, xPos, yPos));
+                }
+                if (hasMarker)
                 {
                     float mx = (float)xPos;
                     float my = (float)yPos;
@@ -196,14 +210,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
-            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style.SeriesLine.BorderReference.Color, true);
+            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true);
             linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.FillColor = "none";    //No fill for line
             linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
             linePath.LineJoin = LineJoin.Round;
             SeriesRenderItems.Add(linePath);
             SeriesRenderItems.AddRange(markerItems);
+            SeriesRenderItems.AddRange(errorBars);
         }
+
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
