@@ -205,9 +205,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         protected void CreateErrorBars(ExcelChart chartType, List<List<object>> xValues, List<List<object>> yValues)
         {
+            if (!(chartType.IsTypeLine() || chartType.IsTypeColumn() || chartType.IsTypeBar())) return;
+
             var serieIndex = 0;
-            if (!chartType.IsTypeLine()) return;
-            foreach (ExcelLineChartSerie serie in chartType.Series)
+            foreach (ExcelChartSerieWithErrorBars serie in chartType.Series)
             {
                 if (serie.HasErrorBars())
                 {

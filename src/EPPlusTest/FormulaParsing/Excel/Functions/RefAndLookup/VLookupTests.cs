@@ -8,6 +8,131 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
     public class VLookupTests : TestBase
     {
         [TestMethod]
+        public void VLookupShouldReturnResultFromMatchingRow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(2,A1:B2,2)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
+
+                Assert.AreEqual(5, sheet.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VLookupShouldReturnResultFromMatchingRow_Array()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1:F2"].CreateArrayFormula("VLOOKUP(A1:A2,A1:B2,2)");
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
+
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+                Assert.AreEqual(5, sheet.Cells["F2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VLookupShouldReturnResultFromMatchingRow_Wildcard()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(\"*B*\",A1:B2,2,0)";
+                sheet.Cells[1, 1].Value = "ABC";
+                sheet.Cells[1, 2].Value = 2;
+                sheet.Cells[2, 1].Value = "DEF";
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
+
+                Assert.AreEqual(2, sheet.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VLookupShouldReturnClosestValueBelowWhenRangeLookupIsTrue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(4,A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = 3;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 5;
+                sheet.Cells[2, 2].Value = 4;
+                sheet.Calculate();
+
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VLookupShouldReturnClosestStringValueBelowWhenRangeLookupIsTrue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(\"B\",A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = "A";
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = "C";
+                sheet.Cells[2, 2].Value = 4;
+                sheet.Calculate();
+
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VLookupShouldIgnoreCase()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(\"b\",A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = "A";
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = "C";
+                sheet.Cells[2, 2].Value = 4;
+                sheet.Calculate();
+
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
+        }
+        [TestMethod]
+        public void VLookupHeaderIncluded()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("sheet1");
+
+                ws.Cells["A1"].Value = "Header";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["A3"].Value = 2;
+                ws.Cells["A4"].Value = 3;
+                ws.Cells["A5"].Value = 4;
+                ws.Cells["B1"].Value = "Result";
+                ws.Cells["B2"].Value = "Found1";
+                ws.Cells["B3"].Value = "Found2";
+                ws.Cells["B4"].Value = "Found3";
+                ws.Cells["B5"].Value = "Found4";
+
+                var result = ws.Calculate("VLOOKUP(1,A1:B5,2,TRUE)");
+                Assert.AreEqual("Found1", result);
+            }
+        }
+
+        [TestMethod]
         public void VlookupShouldHandleWholeColumn()
         {
             using(var package = new ExcelPackage())
@@ -64,7 +189,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(1, "a")]
         [DataRow(5, "d")]
         public void ApproximateShouldFind(int find, string expected)
@@ -149,7 +274,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(0)]
         [DataRow(-1)]
         public void ApproximateOutOfRangeNonPositiveShouldValueError(int offset)
@@ -444,15 +569,232 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual(13d, ws.Cells["A5"].Value);
             }
         }
-        //[TestMethod]
-        //public void LookupTest()
-        //{
-        //    using (var p = OpenTemplatePackage("LookupTest.xlsx"))
-        //    {
-        //        var ws = p.Workbook.Worksheets[0];
-        //        ws.Calculate();
-        //        Assert.AreEqual(19, ws.Cells["C1"].Value);
-        //    }
-        //}
+
+        [TestMethod]
+        public void VLookupApproximateMatchShouldHandleBlankRowsAroundData()
+        {
+            // Regression test: approximate match (range_lookup = TRUE) over a whole-column
+            // reference where the data is preceded and followed by blank rows.
+            // The lookup column is not trimmed/compacted, so leading blanks must be skipped
+            // while the binary search still partitions the range the same way Excel does.
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            // Blank rows 1-3, data in rows 4-8, blank rows below.
+            ws.Cells["B4"].Value = 10;
+            ws.Cells["B5"].Value = 20;
+            ws.Cells["B6"].Value = 30;
+            ws.Cells["B7"].Value = 40;
+            ws.Cells["B8"].Value = 50;
+            ws.Cells["C4"].Value = 100;
+            ws.Cells["C5"].Value = 200;
+            ws.Cells["C6"].Value = 300;
+            ws.Cells["C7"].Value = 400;
+            ws.Cells["C8"].Value = 500;
+
+            // Approximate match between keys returns the value of the largest key <= lookup.
+            ws.Cells["E1"].Formula = "VLOOKUP(35,B:C,2,TRUE)";
+            // Exact matches at the edges of the data block.
+            ws.Cells["E2"].Formula = "VLOOKUP(10,B:C,2,TRUE)";
+            ws.Cells["E3"].Formula = "VLOOKUP(50,B:C,2,TRUE)";
+            // Lookup value smaller than every key returns #N/A.
+            ws.Cells["E4"].Formula = "VLOOKUP(5,B:C,2,TRUE)";
+            ws.Calculate();
+
+            Assert.AreEqual(300, ws.Cells["E1"].Value);
+            Assert.AreEqual(100, ws.Cells["E2"].Value);
+            Assert.AreEqual(500, ws.Cells["E3"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), ws.Cells["E4"].Value);
+        }
+
+        [TestMethod]
+        public void VLookupApproximateMatch_InnerBlankBeforeLastValue()
+        {
+            // Sorted ascending data with an inner blank immediately before the last value:
+            //   A1=10, A2=20, A3=<blank>, A4=30, A5=40, A6=<blank>, A7=50
+            // VLOOKUP(50, A1:B7, 2, TRUE) must find the exact match 50 and return 500,
+            // as Excel does. The approximate binary search sees past the inner blank at
+            // A6 to the value at A7 instead of treating the blank as a stopping point.
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = 10;
+            ws.Cells["A2"].Value = 20;
+            // A3 intentionally left blank
+            ws.Cells["A4"].Value = 30;
+            ws.Cells["A5"].Value = 40;
+            // A6 intentionally left blank
+            ws.Cells["A7"].Value = 50;
+
+            ws.Cells["B1"].Value = 100;
+            ws.Cells["B2"].Value = 200;
+            ws.Cells["B4"].Value = 300;
+            ws.Cells["B5"].Value = 400;
+            ws.Cells["B7"].Value = 500;
+
+            ws.Cells["D1"].Formula = "VLOOKUP(25,A1:B7,2,TRUE)";
+            ws.Cells["D2"].Formula = "VLOOKUP(45,A1:B7,2,TRUE)";
+            ws.Cells["D3"].Formula = "VLOOKUP(50,A1:B7,2,TRUE)";
+            ws.Calculate();
+
+            // These already agree with Excel.
+            Assert.AreEqual(200, ws.Cells["D1"].Value);
+            Assert.AreEqual(400, ws.Cells["D2"].Value);
+            Assert.AreEqual(500, ws.Cells["D3"].Value);
+        }
+
+        [TestMethod]
+        public void VLookupApproximateMatch_LeadingBlankRows()
+        {
+            // Sorted ascending data preceded by blank rows (e.g. a whole-column
+            // reference where the data starts further down). The leading blanks must
+            // be skipped so the search finds the data, matching Excel.
+            //   A1=<blank>, A2=<blank>, A3=10, A4=20, A5=30, A6=40, A7=50
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            // A1, A2 intentionally left blank
+            ws.Cells["A3"].Value = 10;
+            ws.Cells["A4"].Value = 20;
+            ws.Cells["A5"].Value = 30;
+            ws.Cells["A6"].Value = 40;
+            ws.Cells["A7"].Value = 50;
+
+            ws.Cells["B3"].Value = 100;
+            ws.Cells["B4"].Value = 200;
+            ws.Cells["B5"].Value = 300;
+            ws.Cells["B6"].Value = 400;
+            ws.Cells["B7"].Value = 500;
+
+            ws.Cells["D1"].Formula = "VLOOKUP(5,A1:B7,2,TRUE)";   // below the first value
+            ws.Cells["D2"].Formula = "VLOOKUP(10,A1:B7,2,TRUE)";  // exact, first value
+            ws.Cells["D3"].Formula = "VLOOKUP(15,A1:B7,2,TRUE)";  // approximate -> 10
+            ws.Cells["D4"].Formula = "VLOOKUP(50,A1:B7,2,TRUE)";  // exact, last value
+            ws.Cells["D5"].Formula = "VLOOKUP(55,A1:B7,2,TRUE)";  // above the last value -> 50
+            ws.Calculate();
+
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), ws.Cells["D1"].Value);
+            Assert.AreEqual(100, ws.Cells["D2"].Value);
+            Assert.AreEqual(100, ws.Cells["D3"].Value);
+            Assert.AreEqual(500, ws.Cells["D4"].Value);
+            Assert.AreEqual(500, ws.Cells["D5"].Value);
+        }
+
+        [TestMethod]
+        public void VLookupApproximateMatch_TrailingBlankRows()
+        {
+            // Sorted ascending data followed by blank rows. The trailing blanks must
+            // not affect the result, matching Excel.
+            //   A1=10, A2=20, A3=30, A4=40, A5=50, A6=<blank>, A7=<blank>
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = 10;
+            ws.Cells["A2"].Value = 20;
+            ws.Cells["A3"].Value = 30;
+            ws.Cells["A4"].Value = 40;
+            ws.Cells["A5"].Value = 50;
+            // A6, A7 intentionally left blank
+
+            ws.Cells["B1"].Value = 100;
+            ws.Cells["B2"].Value = 200;
+            ws.Cells["B3"].Value = 300;
+            ws.Cells["B4"].Value = 400;
+            ws.Cells["B5"].Value = 500;
+
+            ws.Cells["D1"].Formula = "VLOOKUP(5,A1:B7,2,TRUE)";   // below the first value
+            ws.Cells["D2"].Formula = "VLOOKUP(10,A1:B7,2,TRUE)";  // exact, first value
+            ws.Cells["D3"].Formula = "VLOOKUP(35,A1:B7,2,TRUE)";  // approximate -> 30
+            ws.Cells["D4"].Formula = "VLOOKUP(50,A1:B7,2,TRUE)";  // exact, last value
+            ws.Cells["D5"].Formula = "VLOOKUP(55,A1:B7,2,TRUE)";  // above the last value -> 50
+            ws.Calculate();
+
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), ws.Cells["D1"].Value);
+            Assert.AreEqual(100, ws.Cells["D2"].Value);
+            Assert.AreEqual(300, ws.Cells["D3"].Value);
+            Assert.AreEqual(500, ws.Cells["D4"].Value);
+            Assert.AreEqual(500, ws.Cells["D5"].Value);
+        }
+
+        [TestMethod]
+        public void VLookupApproximateMatch_UnsortedWithLeadingBlanks_MatchesExcel()
+        {
+            // Approximate match runs as a plain binary search over the whole range with
+            // blanks kept in their original positions, exactly like Excel. On unsorted
+            // data the result is whatever that binary search lands on - it is not
+            // "correct" in a sorted sense, but it matches Excel, which is the contract.
+            //
+            // Data (2 leading blanks, then unsorted keys):
+            //   A1=<blank>, A2=<blank>, A3=30, A4=10, A5=50, A6=20, A7=40
+            //
+            // Verified against Excel:
+            //   VLOOKUP(35) -> key 20 (B6)   - binary search lands here, not on 30
+            //   VLOOKUP(30) -> key 20 (B6)   - the exact 30 is never visited by the search
+            //   VLOOKUP(5)  -> #N/A
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            // A1, A2 intentionally left blank
+            ws.Cells["A3"].Value = 30;
+            ws.Cells["A4"].Value = 10;
+            ws.Cells["A5"].Value = 50;
+            ws.Cells["A6"].Value = 20;
+            ws.Cells["A7"].Value = 40;
+
+            ws.Cells["B3"].Value = 300;
+            ws.Cells["B4"].Value = 100;
+            ws.Cells["B5"].Value = 500;
+            ws.Cells["B6"].Value = 200;
+            ws.Cells["B7"].Value = 400;
+
+            ws.Cells["D1"].Formula = "VLOOKUP(35,A1:B7,2,TRUE)";
+            ws.Cells["D2"].Formula = "VLOOKUP(30,A1:B7,2,TRUE)";
+            ws.Cells["D3"].Formula = "VLOOKUP(5,A1:B7,2,TRUE)";
+            ws.Calculate();
+
+            Assert.AreEqual(200, ws.Cells["D1"].Value);
+            Assert.AreEqual(200, ws.Cells["D2"].Value);
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), ws.Cells["D3"].Value);
+        }
+
+        [TestMethod]
+        public void VLookupApproximateMatch_FullColumn_ScanStopsAtDimension()
+        {
+            // Debugging aid for the inner blank-skipping scan bound.
+            //
+            // A:B is a whole-column reference (1,048,576 rows) but the data only occupies
+            // rows 1-5. For an approximate match the first midpoints land deep in the empty
+            // tail (e.g. row ~524288). Without the dimension bound, the skip-right scan
+            // would walk forward through hundreds of thousands of empty cells looking for a
+            // value. With the bound (scan limited to the last value position), each such
+            // midpoint does a single read and the whole lookup completes in ~20 reads.
+            //
+            // To verify in the debugger: set a breakpoint inside the inner
+            // 'while (probe < scanLimit && cellValue == null)' loop in
+            // LookupBinarySearch.SearchAscFullRange. For the early midpoints you should see
+            // 'mid' in the hundred-thousands while 'scanLimit' equals the last value offset
+            // (4), so the loop body never executes.
+            //
+            // VLOOKUP(35, A:B, 2, TRUE) -> largest key <= 35 is 30 -> 300.
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = 10;
+            ws.Cells["A2"].Value = 20;
+            ws.Cells["A3"].Value = 30;
+            ws.Cells["A4"].Value = 40;
+            ws.Cells["A5"].Value = 50;
+
+            ws.Cells["B1"].Value = 100;
+            ws.Cells["B2"].Value = 200;
+            ws.Cells["B3"].Value = 300;
+            ws.Cells["B4"].Value = 400;
+            ws.Cells["B5"].Value = 500;
+
+            ws.Cells["D1"].Formula = "VLOOKUP(35,A:B,2,TRUE)";
+            ws.Calculate();
+
+            Assert.AreEqual(300, ws.Cells["D1"].Value);
+        }
     }
 }

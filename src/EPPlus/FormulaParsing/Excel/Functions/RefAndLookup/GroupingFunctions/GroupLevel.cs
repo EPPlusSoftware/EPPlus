@@ -10,6 +10,7 @@
  *************************************************************************************************
   19/3/2026         EPPlus Software AB           EPPlus v8.6
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 
 
@@ -18,6 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunc
     internal class GroupLevel
     {
         public object Key { get; set; }
+        public object[] KeyParts { get; set; }
         public List<GroupLevel> Children { get; set; } = new List<GroupLevel>();
         public Dictionary<string, GroupLevel> ChildDict { get; set; } = null;
         public List<string> ChildOrder { get; set; } = null;

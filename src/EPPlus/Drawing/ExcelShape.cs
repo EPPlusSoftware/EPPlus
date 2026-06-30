@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Text;
 using System.Xml;
+using static Microsoft.IO.RecyclableMemoryStreamManager;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -95,11 +96,11 @@ namespace OfficeOpenXml.Drawing
             }
             base.DeleteMe();
         }
-        public string ToSvg()
+        public string ToSvg(SvgRenderOptions options)
         {
             var sr = new ShapeRenderer(this);           
             var sb = new StringBuilder();
-            var svg = new SvgShapeRenderer(this.GetBoundingBox(), sb);
+            var svg = new SvgShapeRenderer(this.GetBoundingBox(), sb, options);
             svg.Render(sr.RenderItems);
             return sb.ToString();
         }

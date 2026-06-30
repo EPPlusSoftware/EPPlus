@@ -26,6 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
        Description = "Converts a supplied number into text, using a currency format")]
     internal class Dollar : ExcelFunction
     {
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
+        {
+            config.SetArrayParameterIndexes(0, 1);
+        }
+
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
@@ -38,15 +45,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             }
             double result;
-            if(decimals >= 0)
+            if (decimals >= 0)
             {
-                result = Math.Round(number, decimals);
+                result = Math.Round(number, decimals, MidpointRounding.AwayFromZero);
             }
             else
             {
-                result = Math.Round(number * System.Math.Pow(10, decimals)) / System.Math.Pow(10, decimals);
+                var factor = Math.Pow(10, decimals);
+                result = Math.Round(number * factor, MidpointRounding.AwayFromZero) / factor;
             }
-            return CreateResult(result.ToString(GetFormatString(decimals), CultureInfo.CurrentCulture), DataType.String);
+            var formatCulture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            formatCulture.NumberFormat.CurrencyNegativePattern = 0;
+            return CreateResult(result.ToString(GetFormatString(decimals), formatCulture), DataType.String);
         }
 
         private string GetFormatString(int decimals)

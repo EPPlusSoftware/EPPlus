@@ -37,7 +37,46 @@ namespace EPPlus.Export.ImageRenderer.Tests
                 SaveTextFileToWorkbook($"svg\\baseThemeChartStyle2.svg", svg);
             }
         }
+        [TestMethod]
+        public void ChangeSeriesTest()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
+            using (var p = OpenTemplatePackage("MyLineIonThemeExcel.xlsx"))
+            {
+                var wbStyles = p.Workbook.Styles;
+                var simpleChart = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
+
+                //simpleChart.StyleManager.ApplyStyles();
+
+                p.Workbook.Worksheets[0].Cells["A3"].Value = 15;
+                p.Workbook.Worksheets[0].Cells["B3"].Value = 2;
+                p.Workbook.Worksheets[0].Cells["C3"].Value = 25;
+
+                var range = p.Workbook.Worksheets[0].Cells["A3:C3"];
+
+                var series = simpleChart.Series.Add(range);
+                series.Header = "MySeries";
+
+                simpleChart.Title.Text = "Hello";
+
+                //simpleChart.StyleManager.ApplyStyles();
+                //var chartDefaultStyle = simpleChart.StyleManager.Style;
+
+                //simpleChart.StyleManager.Style.Title.FontReference.Color.SetPresetColor(Color.CornflowerBlue);
+
+                ////Highest order of styling if datapoint does not exist
+                ////simpleChart.StyleManager.Style.DeleteAllNode("cs:dataPointLine");
+                //simpleChart.StyleManager.Style.DataPointLine.BorderReference.Color.SetPresetColor(Color.Green);
+
+                //simpleChart.StyleManager.ApplyStyles();
+
+                var svg = simpleChart.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChangeSeriesStyleTest.svg", svg);
+                p.SaveAs(GetOutputFile("", "ChangeSeriesStyleTest.xlsx"));
+                //SaveAndCleanup(p);
+            }
+        }
 
         [TestMethod]
         public void ExtractThemeStyleWorks()
@@ -48,6 +87,15 @@ namespace EPPlus.Export.ImageRenderer.Tests
             {
                 var wbStyles = p.Workbook.Styles;
                 var simpleChart = p.Workbook.Worksheets[0].Drawings[0].As.Chart.LineChart;
+
+                //p.Workbook.Worksheets[0].Cells["A3"].Value = 15;
+                //p.Workbook.Worksheets[0].Cells["B3"].Value = 2;
+                //p.Workbook.Worksheets[0].Cells["C3"].Value = 25;
+
+                //var range = p.Workbook.Worksheets[0].Cells["A3:C3"];
+
+                //var series = simpleChart.Series.Add(range);
+                //series.Header = "MySeries";
 
                 simpleChart.Title.Text = "Hello";
 
@@ -68,11 +116,12 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 //context.SetTranslator(fillTranslator);
                 //context.AddDeclarations(styleClass);
+
                 //simpleChart.StyleManager.ApplyStyles();
 
                 //chartDefaultStyle.DataPointLine.FillReference.Color
                 //simpleChart.Title.Font.Color = Color.CornflowerBlue;
-                //simpleChart.StyleManager.Style.Title.FontReference.Color.SetPresetColor(Color.CornflowerBlue);
+                simpleChart.StyleManager.Style.Title.FontReference.Color.SetPresetColor(Color.CornflowerBlue);
 
                 //Highest order of styling if datapoint does not exist
                 //simpleChart.StyleManager.Style.DeleteAllNode("cs:dataPointLine");

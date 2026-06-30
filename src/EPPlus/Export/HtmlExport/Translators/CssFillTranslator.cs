@@ -13,8 +13,11 @@
 
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
+using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -70,10 +73,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 				}
                 else
                 {
-					string bgColor = _fill.GetBackgroundColor(_theme)??"#0";
-					string patternColor = _fill.GetPatternColor(_theme)??"#0";
-
-					var svg = PatternFills.GetPatternSvgConvertedOnly(_fill.PatternType, bgColor, patternColor);
+                    string bgColor, patternColor;
+                    //EPPlus has background and pattern fills swiched for xfs styles, so we need separate handling for them.
+                    if (_fill is FillDxf)
+                    {
+                        bgColor = _fill.GetBackgroundColor(_theme) ?? "#" + ColorConverter.GetThemeColor(_theme.ColorScheme.GetColorByEnum(Drawing.eThemeSchemeColor.Background1)).ToArgb().ToString("x8").Substring(2);
+                        patternColor = _fill.GetPatternColor(_theme) ?? "#" + ColorConverter.GetThemeColor(_theme.ColorScheme.GetColorByEnum(Drawing.eThemeSchemeColor.Text1)).ToArgb().ToString("x8").Substring(2);
+                    }
+                    else
+                    {
+                        patternColor = _fill.GetBackgroundColor(_theme) ?? "#" + ColorConverter.GetThemeColor(_theme.ColorScheme.GetColorByEnum(Drawing.eThemeSchemeColor.Text1)).ToArgb().ToString("x8").Substring(2);
+                        bgColor = _fill.GetPatternColor(_theme) ?? "#" + ColorConverter.GetThemeColor(_theme.ColorScheme.GetColorByEnum(Drawing.eThemeSchemeColor.Background1)).ToArgb().ToString("x8").Substring(2);
+                    }
+                    var svg = PatternFills.GetPatternSvgConvertedOnly(_fill.PatternType, patternColor, bgColor);
 					AddDeclaration("background-repeat", "repeat");
 					//arguably some of the values should be its own declaration...Should still work though.
 					AddDeclaration("background", $"url(data:image/svg+xml;base64,{svg})");

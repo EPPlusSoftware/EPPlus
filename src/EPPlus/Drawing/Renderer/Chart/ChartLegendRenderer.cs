@@ -84,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
             //Bounds.Height = Rectangle.Height;
             //Rectangle.Bounds.Left = Rectangle.Bounds.Top = 0;
 
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, false);
             Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, 0.75);
 
             var pSls = SetLegendSeries(entryWidth, entryHeight);

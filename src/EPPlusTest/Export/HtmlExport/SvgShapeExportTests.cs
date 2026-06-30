@@ -75,7 +75,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var chart = ws.Drawings.AddBarChart("myColChart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
                 chart.Series.Add(ws.Cells["A1:A8"]);
 
-                chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BarChartStyle1);
+                //chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BarChartStyle1);
 
                 //chart.Style = OfficeOpenXml.Drawing.Chart.eChartStyle.Style1;
                 //var theme = ws.Workbook.ThemeManager.GetOrCreateTheme();
@@ -87,6 +87,11 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
                 exporter.Settings.Drawings.Include = ePictureInclude.IncludeInHtmlOnly;
                 exporter.Settings.Drawings.DrawTypeInclude = eDrawingInclude.Charts;
 

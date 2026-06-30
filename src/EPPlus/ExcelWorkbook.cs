@@ -442,7 +442,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Returns true if a calculation was canceled, leaving the workbook in an inconsistent state.
-        /// A workbook in this state must be disposed — saving or recalculating is not permitted.
+        /// A workbook in this state must be disposed ï¿½ saving or recalculating is not permitted.
         /// </summary>
         public bool IsCalculationInconsistent => IsCalculationCanceled;
         #endif
@@ -1199,14 +1199,6 @@ namespace OfficeOpenXml
                 XmlElement workbookView = _workbookXml.CreateElement("workbookView", ExcelPackage.schemaMain);
                 bookViews.AppendChild(workbookView);
 
-                XmlElement calcPr = _workbookXml.CreateElement("calcPr", ExcelPackage.schemaMain);
-                calcPr.SetAttribute("calcId", "191029"); //Set the version of the calc engine to the latest known version. This will make sure that Excel does not downgrade the calculation engine and that new functions are supported.
-                wbElem.AppendChild(calcPr);
-
-                XmlElement extLst = _workbookXml.CreateElement("extLst", ExcelPackage.schemaMain);
-                AddCalculationFeatures(extLst);
-                wbElem.AppendChild(extLst);
-
                 // save it to the package
                 StreamWriter stream = new StreamWriter(partWorkbook.GetStream(FileMode.Create, FileAccess.Write));
                 _workbookXml.Save(stream);
@@ -1402,7 +1394,8 @@ namespace OfficeOpenXml
                         SetXmlNodeString(CALC_MODE_PATH, "autoNoTable");
                         break;
                     case ExcelCalcMode.Manual:
-                        SetXmlNodeString(CALC_MODE_PATH, "manual");
+                        SetXmlNodeString(CALC_MODE_PATH, "manual"); 
+                        SetXmlNodeString("d:calcPr/@calcId", "191029");
                         break;
                     default:
                         SetXmlNodeString(CALC_MODE_PATH, "auto");

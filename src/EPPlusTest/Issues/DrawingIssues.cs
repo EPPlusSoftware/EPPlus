@@ -237,6 +237,13 @@ namespace EPPlusTest.Issues
             Console.WriteLine("Done (no crash).");
             SaveAndCleanup(destPackage);
         }
+
+        [TestMethod]
+        public void s1055()
+        {
+            using var p = OpenTemplatePackage("s1055.xlsx");
+            SaveAndCleanup(p);
+        }
     }
 }
 

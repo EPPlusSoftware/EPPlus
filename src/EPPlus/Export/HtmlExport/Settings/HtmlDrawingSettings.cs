@@ -23,6 +23,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public eDrawingInclude DrawTypeInclude = eDrawingInclude.None;
 
+        /// <summary>
+        /// Is absolute by default for charts
+        /// </summary>
+        public ePicturePosition Position = ePicturePosition.DontSet;
 
     }
 }

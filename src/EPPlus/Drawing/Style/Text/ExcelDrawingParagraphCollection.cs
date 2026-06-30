@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         public ExcelDrawingParagraph Add(string text)
         {
-            XmlNode pn = placeHolderNode;
+            XmlNode pn = PlaceHolderNode;
             if (_paragraphs.Count == 0 && pn == null)
             {
                 CreateTopNode();
@@ -96,9 +96,9 @@ namespace OfficeOpenXml.Drawing
             _paragraphs.Add(p);
             //_addCallback?.Invoke(tr);
 
-            if (placeHolderNode != null)
+            if (PlaceHolderNode != null)
             {
-                placeHolderNode = null;
+                PlaceHolderNode = null;
             }
             return p;
         }
@@ -124,25 +124,32 @@ namespace OfficeOpenXml.Drawing
             return FirstDefaultRunProperties;
         }
 
-        XmlNode placeHolderNode = null;
+        XmlNode PlaceHolderNode = null;
 
         internal void CreateParagraphPlaceHolder()
         {
-            if(placeHolderNode == null && _paragraphs.Count == 0)
+            if(PlaceHolderNode == null && _paragraphs.Count == 0)
             {
                 var pn = CreateNode("a:p", false, true);
-                placeHolderNode = pn;
+                PlaceHolderNode = pn;
             }
         }
 
         internal XmlNode CreateAndReturnParagraphPlaceHolder()
         {
-            if(placeHolderNode == null)
+            if(PlaceHolderNode == null)
             {
                 CreateParagraphPlaceHolder();
             }
-            return placeHolderNode;
+            return PlaceHolderNode;
         }
+
+        internal void SetPlaceHolderNode(XmlNode node)
+        {
+            PlaceHolderNode = node;
+        }
+
+
         /// <summary>
         /// Removes the item at the index from the collection
         /// </summary>
@@ -242,7 +249,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         protected internal void CreateTopNode()
         {
-            if (_paragraphs.Count == 0 && placeHolderNode == null)
+            if (_paragraphs.Count == 0 && PlaceHolderNode == null)
             {
                 if(GetNode(_path) == null)
                 {

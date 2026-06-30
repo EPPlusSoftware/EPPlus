@@ -1,14 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Drawing;
-using OfficeOpenXml.Style;
-using System.Text;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -21,7 +22,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ShouldExportHtmlWithHeadersNoAccessibilityAttributes()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("Test");
                 sheet.Cells["A1"].Value = "Name";
@@ -29,12 +30,12 @@ namespace EPPlusTest.Export.HtmlExport
                 sheet.Cells["A2"].Value = "John Doe";
                 sheet.Cells["B2"].Value = 23;
                 var range = sheet.Cells["A1:B2"];
-                using(var ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
                     var exporter = range.CreateHtmlExporter();
-                    exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes=false;
+                    exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes = false;
                     exporter.Settings.Culture = new CultureInfo("us-en");
-                    exporter.RenderHtml(ms);                    
+                    exporter.RenderHtml(ms);
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
@@ -83,12 +84,12 @@ namespace EPPlusTest.Export.HtmlExport
                 var range = sheet.Cells["A1:B2"];
                 sheet.Cells["A1:B1"].Style.Font.Bold = true;
                 sheet.Cells["A1:B1"].Style.Font.Color.SetColor(Color.Blue);
-                sheet.Cells["A1:B1"].Style.Border.Bottom.Style=ExcelBorderStyle.Thin;
+                sheet.Cells["A1:B1"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                 sheet.Cells["A1:B1"].Style.Border.Bottom.Color.SetColor(Color.Red);
                 sheet.Cells["A1:B1"].Style.Fill.PatternType = ExcelFillStyle.LightGray;
                 sheet.Cells["A1:B1"].Style.Fill.BackgroundColor.SetColor(Color.LightCoral);
                 sheet.Cells["A1:B1"].Style.Fill.PatternColor.SetColor(Color.LightCyan);
-                sheet.Cells["A2:B2"].Style.Font.Italic=true;
+                sheet.Cells["A2:B2"].Style.Font.Italic = true;
                 sheet.Cells["B1:B2"].Style.Font.Name = "Consolas";
 
                 var exporter = range.CreateHtmlExporter();
@@ -97,7 +98,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var result = exporter.GetSinglePage();
 
                 var expected = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{background-repeat:repeat;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0JyBoZWlnaHQ9JzInPjxyZWN0IHdpZHRoPSc0JyBoZWlnaHQ9JzInIGZpbGw9JyNlMGZmZmYnLz48cmVjdCB4PScyJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZjA4MDgwJy8+PHJlY3QgeD0nMCcgeT0nMScgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2YwODA4MCcvPjwvc3ZnPg==);color:#0000ff;font-weight:bolder;border-bottom:thin solid #ff0000;white-space: nowrap;vertical-align:bottom;}.epp-s2{background-repeat:repeat;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0JyBoZWlnaHQ9JzInPjxyZWN0IHdpZHRoPSc0JyBoZWlnaHQ9JzInIGZpbGw9JyNlMGZmZmYnLz48cmVjdCB4PScyJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZjA4MDgwJy8+PHJlY3QgeD0nMCcgeT0nMScgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2YwODA4MCcvPjwvc3ZnPg==);font-family:Consolas;color:#0000ff;font-weight:bolder;border-bottom:thin solid #ff0000;white-space: nowrap;vertical-align:bottom;}.epp-s3{font-style:italic;white-space: nowrap;vertical-align:bottom;}.epp-s4{font-family:Consolas;font-style:italic;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\"><thead><tr><th data-datatype=\"string\" class=\"epp-al epp-s1\">Name</th><th data-datatype=\"number\" class=\"epp-al epp-s2\">Age</th></tr></thead><tbody><tr><td class=\"epp-s3\">John Doe</td><td data-value=\"23\" class=\"epp-ar epp-s4\">23</td></tr></tbody></table></body></html>";
-                
+
                 Assert.AreEqual(expected, result);
                 var resultAsync = await exporter.GetSinglePageAsync();
                 Assert.AreEqual(result, resultAsync);
@@ -171,26 +172,121 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Pictures.Include = ePictureInclude.Include;
-                var html =exporter.GetSinglePage();
+                var html = exporter.GetSinglePage();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public async Task TaskWriteImagesSimple()
+        {
+            using (var p = OpenTemplatePackage("SimpleImageForHtml.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:L17"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+
+                var pictureSettings = exporter.Settings.Pictures;
+
+                pictureSettings.Include = ePictureInclude.Include;
+                pictureSettings.Position = ePicturePosition.Relative;
+                pictureSettings.KeepOriginalSize = false;
+
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+
+                var outputFile = GetOutputFile("html", "simpleImageSync3.html");
+                var outputFileAsync = GetOutputFile("html", "simpleImageAsync3.html");
+
+                File.WriteAllText(outputFile.FullName, html);
+                File.WriteAllText(outputFileAsync.FullName, htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TaskWriteChartAndShape()
+        {
+            using (var p = OpenTemplatePackage("ChartAndShapeHtml.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:L17"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+
+                var setting = exporter.Settings.Drawings;
+
+                setting.DrawTypeInclude = eDrawingInclude.Shapes & eDrawingInclude.Shapes;
+                setting.Include = ePictureInclude.Include;
+                setting.Position = ePicturePosition.Absolute;
+
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+
+                var outputFile = GetOutputFile("html", "chartAndShape.html");
+                var outputFileAsync = GetOutputFile("html", "chartAndShapeAsync.html");
+
+                File.WriteAllText(outputFile.FullName, html);
+                File.WriteAllText(outputFileAsync.FullName, htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TaskWriteChartSimple()
+        {
+            using (var p = OpenTemplatePackage("SimpleChartForHtml.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:L17"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+
+                var setting = exporter.Settings.Drawings;
+
+                setting.DrawTypeInclude = eDrawingInclude.Charts;
+                setting.Include = ePictureInclude.Include;
+                setting.Position = ePicturePosition.Relative;
+
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+
+                var outputFile = GetOutputFile("html", "simpleChartSync.html");
+                var outputFileAsync = GetOutputFile("html", "simpleChartAsync.html");
+
+                File.WriteAllText(outputFile.FullName, html);
+                File.WriteAllText(outputFileAsync.FullName, htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
+
         [TestMethod]
         public async Task WriteImagesAsync()
         {
             using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
             {
-                var sheet = p.Workbook.Worksheets[0];                
+                var sheet = p.Workbook.Worksheets[0];
                 var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
 
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Pictures.Include = ePictureInclude.Include;
                 exporter.Settings.Minify = false;
-                exporter.Settings.Encoding = Encoding.UTF8; 
+                exporter.Settings.Encoding = Encoding.UTF8;
                 var html = exporter.GetSinglePage();
-                var htmlAsync = await exporter.GetSinglePageAsync(); 
+                var htmlAsync = await exporter.GetSinglePageAsync();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
                 File.WriteAllText("c:\\temp\\" + sheet.Name + "-async.html", htmlAsync);
                 Assert.AreEqual(html, htmlAsync);
@@ -224,7 +320,7 @@ namespace EPPlusTest.Export.HtmlExport
             {
                 var sheet1 = p.Workbook.Worksheets[0];
                 var sheet2 = p.Workbook.Worksheets[1];
-                
+
                 var exporter = p.Workbook.CreateHtmlExporter(
                     sheet2.Cells["A1:B13"],
                     sheet2.Cells["A16:B26"],
@@ -565,11 +661,11 @@ namespace EPPlusTest.Export.HtmlExport
                     x.TableId = "asia-toll-free";
                 });
                 var css = exporter.GetCssString();
-                File.WriteAllText("c:\\temp\\html.html",$"<html><head><style type=\"text/css\">{css}</style></head><body>{html1}</body></html>");
+                File.WriteAllText("c:\\temp\\html.html", $"<html><head><style type=\"text/css\">{css}</style></head><body>{html1}</body></html>");
             }
         }
 
-        private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows=1)
+        private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows = 1)
         {
             var sheet = package.Workbook.Worksheets[ws];
             var range = sheet.Cells[address];
@@ -585,7 +681,7 @@ namespace EPPlusTest.Export.HtmlExport
             using (var package = OpenPackage("html_numfRed_text.xlsx", true))
             {
                 var wb = package.Workbook;
-                var aNewWs = wb.Worksheets.Add("NewWs"); 
+                var aNewWs = wb.Worksheets.Add("NewWs");
 
                 var range = aNewWs.Cells["A1:A5"];
                 range.Formula = "ROW()";
@@ -606,6 +702,39 @@ namespace EPPlusTest.Export.HtmlExport
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void S1053()
+        {
+            {
+                using var p = OpenTemplatePackage("R05.xlsx");
+                var ws = p.Workbook.Worksheets[0];
+
+                var range = ws.Cells["A1:AA7"];
+                var exporter = range.CreateHtmlExporter();
+                var settings = exporter.Settings;
+                settings.SetRowHeight = true;
+                settings.SetColumnWidth = true;
+                settings.HeaderRows = 3;
+                settings.Encoding = Encoding.UTF8;
+                var page = exporter.GetSinglePage();
+                var file = GetOutputFile("html", "R05" + ".html");
+                File.WriteAllText(file.FullName, page, Encoding.UTF8);
+            }
+            {
+                using var p = OpenTemplatePackage("CR168.xlsx");
+                var ws = p.Workbook.Worksheets[0];
+
+                var range = ws.Cells["A1:AA36"];
+                var exporter = range.CreateHtmlExporter();
+                var settings = exporter.Settings;
+                settings.SetRowHeight = true;
+                settings.SetColumnWidth = true;
+                var page = exporter.GetSinglePage();
+                var file = GetOutputFile("html", "CR168" + ".html");
+                File.WriteAllText(file.FullName, page, Encoding.UTF8);
+            }
+        }
+
     }
 }
-    

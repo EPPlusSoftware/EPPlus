@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
 
         internal bool ShouldAddWithBorders(int bottomStyleId, int rightStyleId)
         {
-            if (IsAdded(bottomStyleId, rightStyleId))
+            if (IsAdded(bottomStyleId, rightStyleId) && _styleList.Count > 1)
             {
                 return false;
             }
