@@ -23,6 +23,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
@@ -42,7 +43,6 @@ using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
-using OfficeOpenXml.Export.PdfExport;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +51,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace OfficeOpenXml
@@ -3751,6 +3753,22 @@ namespace OfficeOpenXml
         {
             var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, this);
+            }, cancellationToken);
         }
 
         ExcelPackage IPictureRelationDocument.Package { get { return _package; } }

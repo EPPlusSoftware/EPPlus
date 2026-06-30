@@ -33,6 +33,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OfficeOpenXml
 {
@@ -1125,6 +1127,22 @@ namespace OfficeOpenXml
         {
             var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+        }
+
+        /// <summary>
+        /// Save range to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, this);
+            }, cancellationToken);
         }
 
         //public ExcelHtmlRangeExporter CreateHtmlExporter()

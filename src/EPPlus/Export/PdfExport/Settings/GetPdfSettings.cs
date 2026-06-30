@@ -33,10 +33,10 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             //Scaling is not yet implemented.
             settings.Scaling = new PdfScaling(eps.Scale);
             settings.ShowHeadings = eps.ShowHeaders;
-            settings.RowsToRepeatAtTop = eps.RepeatRows.Address;
-            settings.ColumnsToRepeatAtLeft = eps.RepeatColumns.Address;
+            settings.RowsToRepeatAtTop = eps.RepeatRows != null ? eps.RepeatRows.Address : null;
+            settings.ColumnsToRepeatAtLeft = eps.RepeatColumns != null ? eps.RepeatColumns.Address : null;
             //Print area is implemented and uses the defined name instead of this setting. this setting should override the print area defined name.
-            settings.PrintArea = eps.PrintArea.Address;
+            settings.PrintArea = eps.PrintArea != null ? eps.PrintArea.Address : null;
             settings.ShowGridLines = eps.ShowGridLines;
             settings.CenterOnPageHorizontally = eps.HorizontalCentered;
             settings.CenterOnPageVertically = eps.VerticalCentered;

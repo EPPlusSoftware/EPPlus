@@ -47,6 +47,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace OfficeOpenXml
@@ -740,8 +742,8 @@ namespace OfficeOpenXml
         /// <param name="fileName">Name of file.</param>
         public void SaveAsPdf(string fileName)
         {
-            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab+1].PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, settings, this);
         }
 
         /// <summary>
@@ -751,8 +753,8 @@ namespace OfficeOpenXml
         /// <param name="worksheets">Worksheets to export.</param>
         public void SaveAsPdf(string fileName, params ExcelWorksheet[] worksheets)
         {
-            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[0].PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, setttings, worksheets);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(worksheets[0].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, settings, worksheets);
         }
 
         /// <summary>
@@ -762,9 +764,76 @@ namespace OfficeOpenXml
         /// <param name="ranges">Ranges to export.</param>
         public void SaveAsPdf(string fileName, params ExcelRangeBase[] ranges)
         {
-            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, settings, ranges);
+        }
 
-            PdfCatalog catalog = new PdfCatalog(fileName, setttings, ranges);
+        /// <summary>
+        /// Export workbook to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab + 1].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, this);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, params ExcelWorksheet[] worksheets)
+            => SaveAsPdfAsync(fileName, CancellationToken.None, worksheets);
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings( worksheets[0].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, worksheets);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, params ExcelRangeBase[] ranges)
+            => SaveAsPdfAsync(fileName, CancellationToken.None, ranges);
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, ranges);
+            }, cancellationToken);
         }
 
         //public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)

@@ -147,19 +147,23 @@ namespace EPPlus.Export.Pdf.Settings
             }
             set
             {
-                _pageSize = new PdfPageSize(value.Height, value.Width);
-                if (value.Height > value.Width)
+                var size = new PdfPageSize(value.Width, value.Height); // store as authored, no transpose
+                if (_orientationExplicitlySet)
                 {
-                    _orientation = Orientations.Portrait;
+                    size = ApplyOrientation(size, _orientation);
                 }
                 else
                 {
-                    _orientation = Orientations.Landscape;
+                    _orientation = size.Height >= size.Width
+                        ? Orientations.Portrait
+                        : Orientations.Landscape;
                 }
-                ContentBounds.CalculateBounds(Margins, PageSize);
+                _pageSize = size;
+                ContentBounds.CalculateBounds(Margins, _pageSize);
             }
         }
 
+        private bool _orientationExplicitlySet = false;
         private Orientations _orientation = Orientations.Portrait;
         /// <summary>
         /// Set the orientation of the pages.
@@ -172,22 +176,10 @@ namespace EPPlus.Export.Pdf.Settings
             }
             set
             {
-                if (value == Orientations.Portrait)
-                {
-                    if (_pageSize.Height < _pageSize.Width)
-                    {
-                        _pageSize = new PdfPageSize(_pageSize.Height, _pageSize.Width);
-                        _orientation = value;
-                    }
-                }
-                if (value == Orientations.Landscape)
-                {
-                    if (_pageSize.Height > _pageSize.Width)
-                    {
-                        _pageSize = new PdfPageSize(_pageSize.Height, _pageSize.Width);
-                        _orientation = value;
-                    }
-                }
+                _orientation = value;
+                _orientationExplicitlySet = true;
+                _pageSize = ApplyOrientation(_pageSize, value);
+                ContentBounds.CalculateBounds(Margins, _pageSize);
             }
         }
 
@@ -230,6 +222,15 @@ namespace EPPlus.Export.Pdf.Settings
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;
+
+        private static PdfPageSize ApplyOrientation(PdfPageSize size, Orientations orientation)
+        {
+            bool isPortrait = size.Height >= size.Width;
+            bool wantPortrait = orientation == Orientations.Portrait;
+            return isPortrait == wantPortrait
+                ? size
+                : new PdfPageSize(size.Height, size.Width); // swap (ctor is width, height)
+        }
     }
 
     /// <summary>
