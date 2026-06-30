@@ -76,10 +76,10 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 switch(t.Type)
                 {
                     case eColorTransformType.Shade:
-                        c = ApplyTint(c, -(1-v));
+                        c = ApplyTintDrawing(c, -(1-v));
                         break;
                     case eColorTransformType.Tint:
-                        c = ApplyTint(c, v);
+                        c = ApplyTintDrawing(c, v);
                         break;
                     case eColorTransformType.HueMod:
                         c = ApplyHueMod(c, v);
