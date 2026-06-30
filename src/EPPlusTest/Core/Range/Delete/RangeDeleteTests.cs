@@ -1,14 +1,40 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿/*******************************************************************************
+ * You may amend and distribute as you like, but don't remove this header!
+ *
+ * Required Notice: Copyright (C) EPPlus Software AB. 
+ * https://epplussoftware.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+ *
+ * The GNU Lesser General Public License can be viewed at http://www.opensource.org/licenses/lgpl-license.php
+ * If you unfamiliar with this license or have questions about it, here is an http://www.gnu.org/licenses/gpl-faq.html
+ *
+ * All code and executables are provided "" as is "" with no warranty either express or implied. 
+ * The author accepts no liability for any damage or loss of business that this product may cause.
+ *
+ * Code change notes:
+ * 
+  Date               Author                       Change
+ *******************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+ *******************************************************************************/
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range.Delete
 {
@@ -321,7 +347,7 @@ namespace EPPlusTest.Core.Range.Delete
         {
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("DeleteRangeDown");
-            SetValues(ws,3);
+            SetValues(ws, 3);
 
             //Act
             ws.Cells["B2"].Delete(eShiftTypeDelete.Up);
@@ -359,7 +385,7 @@ namespace EPPlusTest.Core.Range.Delete
 
             //Act 2
             ws.Cells["A1:B1"].Delete(eShiftTypeDelete.Left);
-            
+
             //Assert 2
             Assert.AreEqual("C1", ws.Cells["A1"].Value);
             Assert.IsNull(ws.Cells["B1"].Value);
@@ -381,7 +407,7 @@ namespace EPPlusTest.Core.Range.Delete
             AssertIsNull(ws.Cells["B3:C4"]);
 
             Assert.AreEqual("B3", ws.Cells["B1"].Value);
-            Assert.AreEqual("B4", ws.Cells["B2"].Value);            
+            Assert.AreEqual("B4", ws.Cells["B2"].Value);
             Assert.AreEqual("C3", ws.Cells["C1"].Value);
             Assert.AreEqual("C4", ws.Cells["C2"].Value);
         }
@@ -527,7 +553,7 @@ namespace EPPlusTest.Core.Range.Delete
 
             //Assert
             Assert.AreEqual("A2", ws.Cells["B1"].Formula);
-            Assert.AreEqual("",ws.Cells["B2"].Formula);
+            Assert.AreEqual("", ws.Cells["B2"].Formula);
             Assert.AreEqual("#REF!", ws.Cells["C1"].Formula);
             Assert.AreEqual("C1", ws.Cells["D1"].Formula);
             Assert.AreEqual("A1", ws.Cells["C3"].Formula);
@@ -589,25 +615,23 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteIntoMergedCellsPartialLeftThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
-                ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A2"].Delete(eShiftTypeDelete.Left));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteIntoMergedCellsPartialUpThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
-                ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["C1"].Delete(eShiftTypeDelete.Up));
             }
         }
         [TestMethod]
@@ -680,25 +704,23 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromTablePartialLeftThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
-                ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A2"].Delete(eShiftTypeDelete.Left));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromTablePartialUpThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
-                ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["C1"].Delete(eShiftTypeDelete.Up));
             }
         }
         [TestMethod]
@@ -722,7 +744,6 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromPivotTablePartialLeftThrowsException()
         {
             using (var p = new ExcelPackage())
@@ -731,11 +752,10 @@ namespace EPPlusTest.Core.Range.Delete
                 ws.Cells["E5"].Value = "E5";
                 ws.Cells["F5"].Value = "F5";
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
-                ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A2"].Delete(eShiftTypeDelete.Left));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromPivotTablePartialUpThrowsException()
         {
             using (var p = new ExcelPackage())
@@ -744,7 +764,7 @@ namespace EPPlusTest.Core.Range.Delete
                 ws.Cells["E5"].Value = "E5";
                 ws.Cells["F5"].Value = "F5";
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
-                ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["C1"].Delete(eShiftTypeDelete.Up));
             }
         }
         [TestMethod]
@@ -1157,7 +1177,7 @@ namespace EPPlusTest.Core.Range.Delete
             ws.AutoFilter.Address = new ExcelAddressBase("B1:E100");
             ws.Cells["A1:A100"].Delete(eShiftTypeDelete.Left);
             Assert.AreEqual("A1:D100", ws.AutoFilter.Address.Address);
-            ws.Cells["C1:C100"].Delete(eShiftTypeDelete.Left); 
+            ws.Cells["C1:C100"].Delete(eShiftTypeDelete.Left);
             Assert.AreEqual("A1:C100", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
@@ -1193,7 +1213,6 @@ namespace EPPlusTest.Core.Range.Delete
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftUpPartial()
         {
             using (var p = new ExcelPackage())
@@ -1201,11 +1220,10 @@ namespace EPPlusTest.Core.Range.Delete
                 var ws = p.Workbook.Worksheets.Add("AutoFilterShiftUpPart");
                 LoadTestdata(ws);
                 ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-                ws.Cells["A1:C1"].Delete(eShiftTypeDelete.Up);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A1:C1"].Delete(eShiftTypeDelete.Up));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftLeftPartial()
         {
             using (var p = new ExcelPackage())
@@ -1213,7 +1231,7 @@ namespace EPPlusTest.Core.Range.Delete
                 var ws = p.Workbook.Worksheets.Add("AutoFilterShiftLeftPart");
                 LoadTestdata(ws);
                 ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-                ws.Cells["A1:A99"].Delete(eShiftTypeDelete.Left);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A1:A99"].Delete(eShiftTypeDelete.Left));
             }
         }
         [TestMethod]
@@ -1355,12 +1373,12 @@ namespace EPPlusTest.Core.Range.Delete
         [TestMethod]
         public void ValidateDeleteColumnFixedAddresses()
         {
-            using(var p=new ExcelPackage())
+            using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Names.Add("TestName1", ws.Cells["$A$1"]);
-                ws.Names.Add("TestName2", ws.Cells["$B$1"]); 
-                ws.Names.Add("TestName3", ws.Cells["$C$1"]); 
+                ws.Names.Add("TestName2", ws.Cells["$B$1"]);
+                ws.Names.Add("TestName3", ws.Cells["$C$1"]);
                 ws.Names.Add("TestName4", ws.Cells["$B$3:$D$3"]);
                 ws.Names.Add("TestName5", ws.Cells["$A$5:$C$5"]);
                 ws.Names.Add("TestName6", ws.Cells["$B$7:$C$7"]);
@@ -1521,17 +1539,17 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(2d, sheet.Cells["A2"].Value, "Row 3 was not correctly shifted to 2");
             Assert.AreEqual(3d, sheet.Cells["A3"].Value, "Row 4 was not correctly shifted to 3");
         }
-		[TestMethod]
-		public void DeleteRowValidateArrayFormula()
-		{
-			using var package = new ExcelPackage();
-			var sheet = package.Workbook.Worksheets.Add("Sheet 1");
-			sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
+        [TestMethod]
+        public void DeleteRowValidateArrayFormula()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A2"].Formula = "XLOOKUP($A$3,$B:$B,$C:$C)";
             sheet.Calculate();
             sheet.DeleteRow(1);
 
             Assert.AreEqual("XLOOKUP($A$2,$B:$B,$C:$C)", sheet.Cells["A1"].Formula);
-		}
+        }
         [TestMethod]
         //Part of s912 performance fix
         public void EnsureDeleteColumnsWorksWithColumnLookup()

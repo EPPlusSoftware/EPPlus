@@ -2,12 +2,52 @@
 ## Version 9.0.0
 * Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
 
-## Version 8.5.5
-### Minor Features
-* Ranges can now convert their values to richText via ´ConvertToRichText()´ e.g. ´ws.Cells["A1"].ConvertToRichText()´
-### Fixed issues
-* Several issues related to RichText in ranges. Simply looking at the .RichText attribute no longer changes the cell value. Setting a propert e.g. ´range.RichText.Text = "Hi"´ or using ConvertToRichText() actually changes the value.
+## Version 8.6 1
+### Features
+* 3 new functions:
+  * ´REGEXEXTRACT´
+  * ´REGEXREPLACE´
+  * ´REGEXTEST´
+### Fixed issues	
+* Fixed mismatch in conditional formatting when loading a workbook.
+* Fixed several issues in the HTML export
+  * Text rotated vertically in cells now adjusts column widths more appropriately.
+  * Borders sometimes disappeared when having rotate the text.
+  * Fixed bug where the positions/visuals of images would sometimes not appear.
+  * Pattern fills with empty colors did not pick the correct theme color.
+  * Merged cells did not render border correctly on the right and bottom edges.
+* Workbooks with group shapes in charts sometimes failed to load. 
+* Images in charts sometimes got stretched.
+* ´ExcelRangeBase.ClearDataValidation´ threw an ´InvalidOperationException´ if when there were no data validations.
+* Fixed case-sensitivity parsing on ´ExcelChartAxisStandard´ enums, ´MajorTickMark´ and ´MinorTickMark´ (Fix by Lieven De Foor).
+* ´ExcelWorksheets.Delete´ threw ´NotSupportedException´ on chart worksheets. (Fix by Lieven De Foor).
+* Using full row/column addresses in formulas referencing external workbooks caused bad performance.
+* The ´VLOOKUP´ and ´HLOOKUP´ function sometimes returned the wrong value on unsorted data.
 
+## Version 8.6 0
+### Features
+* 9 new functions:
+  * ´GROUPBY´
+  * ´PIVOTBY´
+  * ´TRIMRANGE´
+  * ´WRAPROWS´
+  * ´WRAPCOLS´
+  * ´USDOLLAR´
+  * ´CODE´
+  * ´ENCODEURL´
+  * ´ISFORMULA´
+* Support for the [trim reference operators](https://github.com/EPPlusSoftware/EPPlus/wiki/Trim-reference-operator).
+* Ranges can now convert their values to rich text via ´ConvertToRichText()´ e.g. ´ws.Cells["A1"].ConvertToRichText()´
+* Calculation of dynamic array formulas now support dirty cell recalculation inside other dirty cell calculations.
+### Fixed issues	
+* Fixed a cache issue with the ´IF´ function when recalculation dynamic array formulas with dirty cells.
+* ´ExcelPackage.LoadAsync´ failed with an unhandled exception, if a package had a package part larger than 2GB.
+* Fixed copy of absolute positioned drawings and group shapes.
+* Fixed a performance issue related to copying using full row/column addresses.
+* Fixed stale values when using newer worksheet functions (e.g. ARRAYTOTEXT) by adding required features to the workbook XML.
+* CompareOptions.Culture in RangeSortOptions was not honored when sorting ranges(thanks to lievendf).
+* Copied "Text length data validations" no longer become "Int data validations" in the output workbook.
+* Several issues related to RichText in ranges. Accessing the ´ExcelRangeBase.RichText´ property no longer casts the cell value to string.
 ## Version 8.5.4
 ### Minor Features
 * Added ´IncludeInHtmlOnly´ option to the ´ePictureInclude´ enum. This allows the HTML Exporter to include pictures directly in the HTML output rather than in the CSS.

@@ -1339,5 +1339,62 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void DrawingNameChangeAndRemovalTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("RenameTest");
+                
+                // Add a drawing (shape)
+                var shape = ws.Drawings.AddShape("InitialName", eShapeStyle.Rect);
+                Assert.AreEqual("InitialName", shape.Name);
+                Assert.IsTrue(ws.Drawings._drawingNames.ContainsKey("InitialName"));
+                
+                // Rename drawing
+                shape.Name = "RenamedName";
+                Assert.AreEqual("RenamedName", shape.Name);
+                
+                // Verify the internal dictionary was updated
+                Assert.IsFalse(ws.Drawings._drawingNames.ContainsKey("InitialName"), "Old name key should be removed from dictionary");
+                Assert.IsTrue(ws.Drawings._drawingNames.ContainsKey("RenamedName"), "New name key should be added to dictionary");
+                
+                // Test removing by shape object reference
+                ws.Drawings.Remove(shape);
+                Assert.AreEqual(0, ws.Drawings.Count, "Drawing should be removed successfully");
+                Assert.IsFalse(ws.Drawings._drawingNames.ContainsKey("RenamedName"), "Dictionary should no longer contain renamed name");
+            }
+        }
+
+        [TestMethod]
+        public void GroupedDrawingNameChangeAndRemovalTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("GroupRenameTest");
+                
+                var shape1 = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
+                var shape2 = ws.Drawings.AddShape("Shape2", eShapeStyle.Rect);
+                
+                // Group shapes using public EPPlus API
+                var group = shape1.Group(shape2);
+                
+                Assert.AreEqual("Shape1", shape1.Name);
+                Assert.IsTrue(group.Drawings._drawingNames.ContainsKey("Shape1"));
+                
+                // Rename grouped shape
+                shape1.Name = "GroupedShape1Renamed";
+                Assert.AreEqual("GroupedShape1Renamed", shape1.Name);
+                
+                // Verify the internal group dictionary was updated
+                Assert.IsFalse(group.Drawings._drawingNames.ContainsKey("Shape1"), "Old name key should be removed from group dictionary");
+                Assert.IsTrue(group.Drawings._drawingNames.ContainsKey("GroupedShape1Renamed"), "New name key should be added to group dictionary");
+                
+                // Test removing grouped shape
+                group.Drawings.Remove(shape1);
+                Assert.AreEqual(1, group.Drawings.Count, "One shape should be left in group");
+                Assert.IsFalse(group.Drawings._drawingNames.ContainsKey("GroupedShape1Renamed"), "Group dictionary should no longer contain removed name");
+            }
+        }
     }
 }

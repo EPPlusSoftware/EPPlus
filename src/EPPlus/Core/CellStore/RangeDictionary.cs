@@ -133,6 +133,7 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal List<T> GetValuesFromRange(int fromRow, int fromCol, int toRow, int toCol)
         {
+            if (_addresses.Keys.Count == 0) return new List<T>();
             var hs = new HashSet<T>();
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
             var searchItem = new RangeItem(rowSpan, default);

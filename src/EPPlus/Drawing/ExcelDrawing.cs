@@ -21,11 +21,8 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Export.HtmlExport;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Drawings;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
@@ -36,7 +33,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using static Microsoft.IO.RecyclableMemoryStreamManager;
@@ -351,6 +347,18 @@ namespace OfficeOpenXml.Drawing
                 try
                 {
                     if (_nvPrPath == "") throw new NotImplementedException();
+                    string oldName = GetXmlNodeString(_nvPrPath + "/@name");
+                    // Only perform dictionary synchronization if the name has actually changed
+                    if (!string.IsNullOrEmpty(oldName) && !oldName.Equals(value, StringComparison.Ordinal))
+                    {
+                        // Validate name uniqueness in both worksheet and parent-group drawing collections.
+                        // All checks must pass before any dictionaries are updated, preventing partial desynchronization.
+                        ValidateNameUniquenessInCollections(value);
+
+                        // All uniqueness checks successfully passed! Safe to update name-lookup dictionaries.
+                        UpdateNameInDictionaries(oldName, value);
+                    }
+
                     SetXmlNodeString(_nvPrPath + "/@name", value);
                     if (this is ExcelSlicer<ExcelTableSlicerCache> ts)
                     {
@@ -362,6 +370,10 @@ namespace OfficeOpenXml.Drawing
                         SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
                         pts.SlicerName = value;
                     }
+                }
+                catch (ArgumentException)
+                {
+                    throw;
                 }
                 catch
                 {
@@ -546,7 +558,7 @@ namespace OfficeOpenXml.Drawing
                     DeleteNode(_hyperLinkPath);
                     if (HypRel != null)
                     {
-                        _drawings._package.ZipPackage.DeletePart(UriHelper.ResolvePartUri(HypRel.SourceUri, HypRel.TargetUri));
+                        _drawings.Part.DeleteRelationship(HypRel.Id);
                     }
                 }
 
@@ -561,7 +573,7 @@ namespace OfficeOpenXml.Drawing
                         HypRel = _drawings.Part.CreateRelationship(value, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
                     }
                     SetXmlNodeString(_hyperLinkPath + "/@r:id", HypRel.Id);
-                    if (Hyperlink is ExcelHyperLink excelLink)
+                    if (value is ExcelHyperLink excelLink)
                     {
                         SetXmlNodeString(_hyperLinkPath + "/@tooltip", excelLink.ToolTip);
                     }
@@ -803,7 +815,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     return (int)(Math.Round(From.X * _drawings._screenWidth));
                 }
-                return 0;
+                return Position == null ? 0 : Position.X / EMU_PER_PIXEL;
             }
             if (CellAnchor == eEditAs.Absolute)
             {
@@ -833,7 +845,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     return (int)(Math.Round(From.Y * _drawings._screenHeight));
                 }
-                return 0;
+                return Position == null ? 0 : Position.Y / EMU_PER_PIXEL;
             }
 
             if (CellAnchor == eEditAs.Absolute)
@@ -943,13 +955,20 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                if (_collectionType == DrawingsCollectionType.Worksheet)
+                if (_drawings._collectionType == DrawingsCollectionType.Chart)
                 {
-                    Position.Y = (int)(pixels * EMU_PER_PIXEL);
+                    if (From == null)
+                    {
+                        Position.Y = (int)(pixels * EMU_PER_PIXEL);
+                    }
+                    else
+                    {
+                        From.Y = pixels / _drawings._screenHeight;
+                    }
                 }
                 else
                 {
-                    From.Y= (double)pixels/_drawings._screenHeight;
+                    Position.Y = (int)(pixels * EMU_PER_PIXEL);
                 }
             }
             else
@@ -992,13 +1011,20 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
-                if (_collectionType == DrawingsCollectionType.Worksheet)
+                if (_drawings._collectionType == DrawingsCollectionType.Chart)
                 {
-                    Position.X = (int)(pixels * EMU_PER_PIXEL);
+                    if(From==null)
+                    {
+                        Position.X = (int)(pixels * EMU_PER_PIXEL);
+                    }
+                    else
+                    {
+                        From.X = pixels / _drawings._screenWidth;
+                    }
                 }
                 else
                 {
-                    From.X = (double)pixels / _drawings._screenWidth;
+                    Position.X = (int)(pixels * EMU_PER_PIXEL);
                 }
             }
             else
@@ -1158,7 +1184,7 @@ namespace OfficeOpenXml.Drawing
             double pixOff = pixels - (PixelHelper.GetColumnWidth(ws, fromColumn + 1) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
-            while (pixOff >= 0)
+            while (pixOff >= 0 && col < ExcelPackage.MaxColumns)
             {
                 offset = pixOff;
                 pixOff -= PixelHelper.GetColumnWidth(ws, col++);
@@ -1281,6 +1307,11 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
+                if (EditAs != eEditAs.Absolute)
+                {
+                    To.X = x + To.X - From.X;
+                    To.Y = y + To.Y - From.Y;
+                }
                 From.X = x;
                 From.Y = y;
             }
@@ -1552,8 +1583,18 @@ namespace OfficeOpenXml.Drawing
             }
             if (To != null)
             {
-                To.X = (From.X + PixelWidth / _drawings._screenWidth);
-                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
+                var widthFraction = PixelWidth / _drawings._screenWidth;
+                To.X = From.X + widthFraction;
+                if (To.X > 1)
+                {
+                    To.X = 1;
+                    From.X = Math.Max(0, 1 - widthFraction);
+                }
+                else if (To.X < 0)
+                {
+                    From.X = 0;
+                    To.X = widthFraction;
+                }
             }
             if (Size != null)
             {
@@ -1568,12 +1609,18 @@ namespace OfficeOpenXml.Drawing
             }
             if (To != null)
             {
-                
-                
-                if (To.X > 1) To.X = 1; else if (To.X < 0) To.X = 0;
-
-                To.Y = (From.Y + PixelHeight / _drawings._screenHeight);
-                if (To.Y > 1) To.Y = 1; else if (To.Y < 0) To.Y = 0;
+                var heightFraction = PixelHeight / _drawings._screenHeight;
+                To.Y = From.Y + heightFraction;
+                if (To.Y > 1)
+                {
+                    To.Y = 1;
+                    From.Y = Math.Max(0, 1 - heightFraction);
+                }
+                else if (To.Y < 0)
+                {
+                    From.Y = 0;
+                    To.Y = heightFraction;
+                }
             }
             if (Size != null)
             {
@@ -2488,6 +2535,43 @@ namespace OfficeOpenXml.Drawing
             //Copy Blip Fill
             WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, this, sourceShape.Fill, worksheet._drawings.Part.Uri);
             return drawNode;
+        }
+
+        private void ValidateNameUniqueness(Dictionary<string, int> drawingNames, IEnumerable<ExcelDrawing> collection, string name)
+        {
+            if (drawingNames?.ContainsKey(name) == true)
+            {
+                int index = drawingNames[name];
+                var drawing = collection?.ElementAtOrDefault(index);
+
+                if (drawing != null && drawing != this)
+                {
+                    string collectionDescription = collection is ExcelDrawingsGroup ? "the group drawings collection" : "drawings collection";
+                    throw new ArgumentException($"Name '{name}' already exists in {collectionDescription}.");
+                }
+            }
+        }
+
+        private void ValidateNameUniquenessInCollections(string name)
+        {
+            ValidateNameUniqueness(_drawings?._drawingNames, _drawings?._drawingsList, name);
+            ValidateNameUniqueness(_parent?.Drawings?._drawingNames, _parent?.Drawings, name);
+        }
+
+        private void UpdateNameInDictionary(Dictionary<string, int> drawingNames, string oldName, string newName)
+        {
+            if (drawingNames?.ContainsKey(oldName) == true)
+            {
+                int index = drawingNames[oldName];
+                drawingNames.Remove(oldName);
+                drawingNames[newName] = index;
+            }
+        }
+
+        private void UpdateNameInDictionaries(string oldName, string newName)
+        {
+            UpdateNameInDictionary(_drawings?._drawingNames, oldName, newName);
+            UpdateNameInDictionary(_parent?.Drawings?._drawingNames, oldName, newName);
         }
 
         internal ExcelAddressBase GetAddress()

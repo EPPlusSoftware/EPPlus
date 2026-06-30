@@ -117,6 +117,8 @@ namespace EPPlusTest.Drawing.Chart
             //which causes System.ArgumentException: Negative percentage not allowed
             var serie1 = chart.Series.Add(ws.Cells["D2"]);
             var serie2 = chart.Series.Add(ws.Cells["D2"], ws.Cells["C2"]);
+
+            chart.StyleManager.ColorsManager.Method = OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.Cycle;
         }
 
         [TestMethod]

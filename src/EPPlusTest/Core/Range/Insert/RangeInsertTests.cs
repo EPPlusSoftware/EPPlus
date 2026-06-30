@@ -39,10 +39,10 @@ namespace EPPlusTest.Core.Range.Insert
             ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
             ws2.Cells["A1"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
             ws2.Cells["B1:B2"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
-			ws2.Cells["A2"].Formula = "Sum(InsertRow_Sheet1!#REF!)";
+            ws2.Cells["A2"].Formula = "Sum(InsertRow_Sheet1!#REF!)";
 
-			//Act
-			ws.InsertRow(3, 1);
+            //Act
+            ws.InsertRow(3, 1);
 
             //Assert
             Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -54,9 +54,9 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["A1"].Formula);
             Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["B1"].Formula);
             Assert.AreEqual("Sum(InsertRow_Sheet1!C7:C12)", ws2.Cells["B2"].Formula);
-			Assert.AreEqual("Sum(InsertRow_Sheet1!#REF!)", ws2.Cells["A2"].Formula);
-		}
-		[TestMethod]
+            Assert.AreEqual("Sum(InsertRow_Sheet1!#REF!)", ws2.Cells["A2"].Formula);
+        }
+        [TestMethod]
         public void ValidateFormulasAfterInsert2Rows()
         {
             //Setup
@@ -291,7 +291,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsRight");
-            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");  
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
             ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
             ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
 
@@ -450,25 +450,23 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoMergedCellsPartialRightThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
-                ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A2"].Insert(eShiftTypeInsert.Right));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoMergedCellsPartialDownThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("MergedCells");
                 ws.Cells["B2:D3"].Merge = true;
-                ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["C1"].Insert(eShiftTypeInsert.Down));
             }
         }
         [TestMethod]
@@ -532,25 +530,23 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoTablePartialRightThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
-                ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A2"].Insert(eShiftTypeInsert.Right));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoTablePartialDownThrowsException()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
-                ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["C1"].Insert(eShiftTypeInsert.Down));
             }
         }
         [TestMethod]
@@ -574,7 +570,6 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoPivotTablePartialRightThrowsException()
         {
             using (var p = new ExcelPackage())
@@ -583,11 +578,10 @@ namespace EPPlusTest.Core.Range.Insert
                 ws.Cells["E5"].Value = "E5";
                 ws.Cells["F5"].Value = "F5";
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
-                ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A2"].Insert(eShiftTypeInsert.Right));
             }
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateInsertIntoPivotTablePartialDownThrowsException()
         {
             using (var p = new ExcelPackage())
@@ -596,7 +590,7 @@ namespace EPPlusTest.Core.Range.Insert
                 ws.Cells["E5"].Value = "E5";
                 ws.Cells["F5"].Value = "F5";
                 ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
-                ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
+                Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["C1"].Insert(eShiftTypeInsert.Down));
             }
         }
         [TestMethod]
@@ -629,7 +623,7 @@ namespace EPPlusTest.Core.Range.Insert
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("TableInsertShiftDown");
-                var tbl=ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                var tbl = ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
                 Assert.AreEqual("B3:D4", tbl.Address.Address);
 
@@ -674,8 +668,8 @@ namespace EPPlusTest.Core.Range.Insert
             {
                 var ws = p.Workbook.Worksheets.Add("PivotTableInsertShiftDown");
                 ws.Cells["E5"].Value = "E5";
-                ws.Cells["F5"].Value = "F5";                
-                var pt=ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["F5"].Value = "F5";
+                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
                 ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
                 Assert.AreEqual("B3:D4", pt.Address.Address);
 
@@ -1101,7 +1095,7 @@ namespace EPPlusTest.Core.Range.Insert
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertRow");
             LoadTestdata(ws);
             ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-            ws.InsertRow(1,1);
+            ws.InsertRow(1, 1);
             Assert.AreEqual("A2:D101", ws.AutoFilter.Address.Address);
             ws.InsertRow(5, 2);
             Assert.AreEqual("A2:D103", ws.AutoFilter.Address.Address);
@@ -1112,35 +1106,33 @@ namespace EPPlusTest.Core.Range.Insert
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertCol");
             LoadTestdata(ws);
             ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-            ws.InsertColumn(1,1);
+            ws.InsertColumn(1, 1);
             Assert.AreEqual("B1:E100", ws.AutoFilter.Address.Address);
-            ws.InsertColumn(3,2);
+            ws.InsertColumn(3, 2);
             Assert.AreEqual("B1:G100", ws.AutoFilter.Address.Address);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftDownPartial()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftDownPart");
             LoadTestdata(ws);
             ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-            ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
+            Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down));
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftRightPartial()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftRightPart");
             LoadTestdata(ws);
             ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
-            ws.Cells["A1:A99"].Insert(eShiftTypeInsert.Right);
+            Assert.ThrowsExactly<InvalidOperationException>(() => ws.Cells["A1:A99"].Insert(eShiftTypeInsert.Right));
         }
         [TestMethod]
         public void ValidateSparkLineShiftRight()
         {
             var ws = _pck.Workbook.Worksheets.Add("SparkLineShiftRight");
-            LoadTestdata(ws,10);
+            LoadTestdata(ws, 10);
             ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
             ws.Cells["E5"].Insert(eShiftTypeInsert.Right);
             Assert.AreEqual("F5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
@@ -1214,7 +1206,7 @@ namespace EPPlusTest.Core.Range.Insert
             var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5,D3:E5"));
             cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
 
-            ws.InsertColumn(4,1);
+            ws.InsertColumn(4, 1);
 
             Assert.AreEqual("B2:F5,E3:F5", cf.Address.Address);
         }
