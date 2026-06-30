@@ -13,6 +13,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
     internal class LineMarkerHelper
     {
+
         internal static RenderItem GetMarkerItem(ChartRenderer sc, ExcelLineChartSerie ls, double x, double y, bool isLegend)
         {
             RenderItem item;
@@ -22,6 +23,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var halfSize = size / 2;
             var xPath = x;
             var yPath = y;
+
             //var halfY = halfSize / sc.ChartArea.Rectangle.Height;
             //var halfX = halfSize / sc.ChartArea.Rectangle.Width;
             switch (m.Style)

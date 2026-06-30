@@ -30,6 +30,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             _errorbars = errorbars;
             _xSerie = GetXSerie(xSerie);
             _ySerie = ySerie.Select(y => ConvertUtil.GetValueDouble(y)).ToArray();
+            DefaultBorderColor = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
             //_useSecondaryAxis = chartType.UseSecondaryAxis;
             //_serieCount = _chartType.Series.Count;
             //_seriePos = seriePos;
@@ -228,7 +229,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 if (_errorbars.Border.LineElement == null)
                 {
                     ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultFillColor, 0.75);
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultBorderColor, 0.75d);
                 }
                 else
                 {

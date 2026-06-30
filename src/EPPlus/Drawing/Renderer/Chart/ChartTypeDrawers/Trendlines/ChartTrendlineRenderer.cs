@@ -45,6 +45,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _useSecondaryAxis = chartType.UseSecondaryAxis;
             _serieCount = _chartType.Series.Count;
             _seriePos = seriePos;
+            DefaultBorderColor = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
             double m, b;
             switch (trendline.Type) 
             {
