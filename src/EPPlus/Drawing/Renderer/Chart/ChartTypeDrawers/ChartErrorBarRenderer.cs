@@ -228,6 +228,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 if (_errorbars.Border.LineElement == null)
                 {
                     ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultFillColor, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                 }
                 else
                 {

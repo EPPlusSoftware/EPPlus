@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart

@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using EPPlus.DrawingRenderer.RenderItems;
+using System.Drawing;
 
 namespace EPPlusImageRenderer.Svg
 {
