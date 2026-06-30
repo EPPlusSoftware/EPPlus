@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             else if (ls.Fill.IsEmpty)
             {
-                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, Color.Empty);
+                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, sc.Theme.ColorScheme.Accent1.GetColor());
             }
             else
             {

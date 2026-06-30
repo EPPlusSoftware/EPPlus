@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_fill == null)
                 {
-                    if (!(TopNode.HasChildNodes && TopNode.ChildNodes[0].LocalName.EndsWith("Fill")))
+                    if (TopNode.HasChildNodes && TopNode.ChildNodes[0].LocalName.EndsWith("Fill"))
                     {
                         _fill = new ExcelDrawingFill(_theme, NameSpaceManager, TopNode.ChildNodes[0], "", SchemaNodeOrder);
                     }

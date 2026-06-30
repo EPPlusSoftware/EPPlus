@@ -107,7 +107,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, null, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
