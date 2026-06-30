@@ -227,11 +227,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             {
                 if (_errorbars.Border.LineElement == null)
                 {
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultFillColor, 0.75);
                 }
                 else
                 {
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
                 }
                 ri.SetDrawingPropertiesEffects(ChartRenderer.Theme, _errorbars.Effect);
             }

@@ -188,8 +188,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true);
-            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true, DefaultFillColor);
+            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, DefaultBorderColor, _trendline.Label.Border.Width);
             DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
@@ -663,7 +663,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, DefaultBorderColor, _trendline.Border.Width);
             pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
