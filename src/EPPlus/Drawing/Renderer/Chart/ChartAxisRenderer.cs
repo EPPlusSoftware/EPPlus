@@ -701,10 +701,10 @@ namespace EPPlusImageRenderer.Svg
                     tm.Y1 = y1;
                     tm.X2 = x2;
                     tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true);
-                    if(tm.BorderWidth<1) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, DefaultBorderColor, 0.75);
+                    if(tm.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
                     {
-                        tm.BorderWidth = 1;
+                        tm.BorderWidth = 0.75;
                     }
                     tms.Add(tm);
                 }
@@ -768,7 +768,7 @@ namespace EPPlusImageRenderer.Svg
                             points.Add(new Point(xValue, 0f));
                             break;
                         default:
-                            throw new InvalidOperationException("Invalid axis position");
+                            throw new InvalidOperationException("Invalid axis position.");
                     }
                 }
             }
@@ -804,7 +804,8 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, null, lineItem.Width);
+            //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
+            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75);
 
             tm.DefId = id;
 

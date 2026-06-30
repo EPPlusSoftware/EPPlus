@@ -44,8 +44,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _ySerie = ySerie.Select(y => ConvertUtil.GetValueDouble(y)).ToArray();
             _useSecondaryAxis = chartType.UseSecondaryAxis;
             _serieCount = _chartType.Series.Count;
-            _seriePos = seriePos;
-            DefaultBorderColor = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
+            _seriePos = seriePos;            
             double m, b;
             switch (trendline.Type) 
             {
@@ -784,5 +783,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
+        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
     }
 }

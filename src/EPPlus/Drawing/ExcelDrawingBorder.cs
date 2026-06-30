@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPt(_lineWidth);
+                return GetXmlNodeEmuToPt(_lineWidth, 0);
             }
             set
             {

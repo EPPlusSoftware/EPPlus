@@ -187,12 +187,8 @@ namespace EPPlusImageRenderer.RenderItems
             Color fc;
             if (fill == null || fill.Style == eFillStyle.NoFill)
             {
-                if (nullColor != null)
+                if (nullColor != null && fill != null && fill.IsEmpty)
                 {
-                    if(nullColor==Color.Empty)
-                    {
-                        return string.Empty;
-                    }
                     fc = nullColor.Value;
                 }
                 else if (styleFillColor == null)

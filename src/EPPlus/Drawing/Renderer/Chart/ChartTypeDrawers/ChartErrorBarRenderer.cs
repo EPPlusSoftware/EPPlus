@@ -8,6 +8,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -30,7 +31,6 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             _errorbars = errorbars;
             _xSerie = GetXSerie(xSerie);
             _ySerie = ySerie.Select(y => ConvertUtil.GetValueDouble(y)).ToArray();
-            DefaultBorderColor = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
             //_useSecondaryAxis = chartType.UseSecondaryAxis;
             //_serieCount = _chartType.Series.Count;
             //_seriePos = seriePos;
@@ -239,5 +239,6 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
             return l;
         }
+        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
     }
 }
