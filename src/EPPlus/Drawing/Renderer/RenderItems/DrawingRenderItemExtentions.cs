@@ -75,14 +75,14 @@ namespace EPPlusImageRenderer.RenderItems
                 item.FillOpacity = opacity;
             }
         }
-        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, double defaultWidth = 1.5, bool grandientUserSpaceOnUse=true)
+        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, bool grandientUserSpaceOnUse=true)
         {
             double? opacity = null;
             if (border == null)
             {
                 if (hasBorder)
                 {
-                    item.BorderColor = GetFillColor(theme, null, color, item.BorderColorSource, out opacity, theme.ColorScheme.Dark1.GetColor());
+                    item.BorderColor = GetFillColor(theme, null, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
                 }
             }
             else
@@ -92,7 +92,7 @@ namespace EPPlusImageRenderer.RenderItems
                     case eFillStyle.NoFill:
                         if (border.Fill.IsEmpty)
                         { 
-                            item.BorderColor = GetFillColor(theme, border.Fill, color, item.BorderColorSource, out opacity, theme.ColorScheme.Dark1.GetColor());
+                            item.BorderColor = GetFillColor(theme, border.Fill, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
                         }
                         else
                         {
