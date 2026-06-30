@@ -187,15 +187,18 @@ namespace EPPlusImageRenderer.RenderItems
             Color fc;
             if (fill == null || fill.Style == eFillStyle.NoFill)
             {
+                //Set fallback nullcolor
                 if (nullColor != null)
                 {
-                    if(nullColor==Color.Empty)
+                    if (nullColor == Color.Empty)
                     {
                         return string.Empty;
                     }
                     fc = nullColor.Value;
                 }
-                else if (styleFillColor == null)
+
+
+                if (styleFillColor == null)
                 {
                     //There is no Style-Specified color. Themed Fill should be applied if it exists
                     //Fallback to theme
@@ -210,12 +213,27 @@ namespace EPPlusImageRenderer.RenderItems
                                 if (subtleBg.SolidFill.Color.ColorType == eDrawingColorType.Scheme)
                                 {
                                     //The theme color is PhClr which is fallback color to style.
-                                    //Style does not exist. But The base theme schemecolor does.
+                                    //Style does not exist.
+                                    //But The base theme schemecolor does.
                                     //Hardcoded defaults to solid fill according to docs is Bg1
-                                    //Specifically SolidFill has a fallback to bg1
+                                    //However since PhClr could also be a reference to StyleFillColor which does not exist.
+                                    //Fallback to nullcolor as extra backup
 
-                                    var bg1 = theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1);
-                                    fc = tc.ColorConverter.GetThemeColor(bg1);
+                                    if (nullColor != null)
+                                    {
+                                        if (nullColor == Color.Empty)
+                                        {
+                                            return string.Empty;
+                                        }
+                                        fc = nullColor.Value;
+                                    }
+                                    else
+                                    {
+                                        //return string.Empty;
+
+                                        var bg1 = theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1);
+                                        fc = tc.ColorConverter.GetThemeColor(bg1);
+                                    }
                                 }
                                 else 
                                 {
@@ -235,8 +253,7 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     else
                     {
-                        //No style nor theme exists. Return empty
-                        return string.Empty;
+                       return string.Empty;
                     }
                 }
                 else
@@ -244,7 +261,7 @@ namespace EPPlusImageRenderer.RenderItems
                     if (styleFillColor.ColorType == eDrawingColorType.Scheme)
                     {
                         var bg1 = theme.ColorScheme.GetColorByEnum(styleFillColor.SchemeColor.Color);
-                        fc = tc.ColorConverter.GetThemeColor(bg1);
+                        fc = bg1.GetColor();
                     }
                     else
                     {
