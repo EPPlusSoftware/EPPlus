@@ -130,7 +130,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
-        public void GenerateSvgForCharts_SecondaryAxis()
+        public void GenerateSuperScript()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))

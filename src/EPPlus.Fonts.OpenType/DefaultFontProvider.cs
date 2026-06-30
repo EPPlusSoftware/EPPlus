@@ -13,7 +13,9 @@
   05/20/2026         EPPlus Software AB           Script-classified fallback via engine reference
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontResolver;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 
@@ -142,8 +144,26 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
+        /// Resolves a shaper for a different font through this provider's engine. Used by the
+        /// layout engine to shape rich-text fragments that switch typeface, so the lookup goes
+        /// through the same engine that created this provider — not the global OpenTypeFonts
+        /// singleton. Kept internal: the engine dependency stays encapsulated here rather than
+        /// leaking onto IFontProvider.
+        /// </summary>
+        internal ITextShaper GetShaperForFont(IFontFormatBase font)
+        {
+            return _engine.GetShaperForFont(font);
+        }
+
+        internal ITextShaper GetShaperForFont(MeasurementFont font)
+        {
+            return _engine.GetShaperForFont(font);
+        }
+
+        /// <summary>
         /// Tries to find the glyph in a lazy-loaded embedded fallback font (Noto Emoji / Math).
         /// </summary>
+        /// 
         private bool TryGlyphInLazyFallback(
             LazyFallbackFont lazy,
             uint codePoint,

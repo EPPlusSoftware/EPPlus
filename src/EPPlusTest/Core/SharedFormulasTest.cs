@@ -17,6 +17,7 @@ namespace OfficeOpenXml.FormulaParsing
         public static void Cleanup()
         {
         }
+
         [TestMethod]
         public void SharedFormulasShouldNotEffectFullColumn()
         {

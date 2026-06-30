@@ -131,7 +131,8 @@ namespace EPPlusTest.Drawing.TextMeasuring
             fonts.Add(mf2);
             fonts.Add(mf2);
 
-            var txtMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var txtMeasurer = engine.GetTextLayoutEngineForFont(mf);
 
             var maxWidth = 114d;
 

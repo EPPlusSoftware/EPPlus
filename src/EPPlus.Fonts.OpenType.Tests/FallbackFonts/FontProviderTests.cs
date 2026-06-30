@@ -80,7 +80,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
         }
 
         [TestMethod]
-        public void DefaultFontProvider_EnsureLastFallbackDoesNotThrowOnExactAllowEmbed()
+        public void DefaultFontProvider_DefaultBehavior_DoesNotThrowOnFallback()
         {
             var engine = new OpenTypeFontEngine(cfg =>
             {
@@ -90,7 +90,9 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
                 cfg.SetScriptFallback(UnicodeScript.Latin, "Archivo Narrow");
             });
 
-            engine.LeastRequiredAvailability = FontAvailability.ExactAllowEmbed;
+            // Default behaviour: rendering trusts the fallback chain and does not throw,
+            // even when the requested font resolves only via the embedded fallback.
+            // (RequireExactFont defaults to false.)
 
             var shaper = engine.GetTextShaper("Archivo Narrow", FontSubFamily.Regular);
 
@@ -99,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
         }
 
         [TestMethod]
-        public void DefaultFontProvider_EnsureLastFallbackThrowOnExact()
+        public void DefaultFontProvider_EnsureLastFallbackThrowsWhenExactRequired()
         {
             var engine = new OpenTypeFontEngine(cfg =>
             {
@@ -109,8 +111,8 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
                 cfg.SetScriptFallback(UnicodeScript.Latin, "Archivo Narrow");
             });
 
-            engine.LeastRequiredAvailability = FontAvailability.Exact;
-            Assert.ThrowsExactly<FileNotFoundException>(() => { engine.GetTextShaper("Archivo Narrow", FontSubFamily.Regular); });
+            engine.RequireExactFont = true;
+            Assert.ThrowsExactly<FileNotFoundException>(() => { engine.GetTextShaper("NonExistentFontFamily12345", FontSubFamily.Regular); });
         }
 
         [TestMethod]

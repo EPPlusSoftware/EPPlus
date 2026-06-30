@@ -23,7 +23,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = SystemFontsEngine.GetTextShaper("Calibri");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // Act
             var lines = layout.WrapText("Hello", 11f, 1000);
@@ -40,7 +40,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = SystemFontsEngine.GetTextShaper("Calibri");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // Act - narrow width forces wrapping
             var lines = layout.WrapText("Hello world test", 11f, 50);
@@ -63,7 +63,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // Act
             var lines = layout.WrapText("Line 1\r\nLine 2\nLine 3", 11f, 1000);
@@ -89,7 +89,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var maxWidthPoints = 54d;
 
             ITextShaper shaper = SystemFontsEngine.GetTextShaper("Aptos Narrow");
-            using var layoutEngine = new TextLayoutEngine(shaper);
+            using var layoutEngine = new TextLayoutEngine(SystemFontsEngine, shaper);
             var wrappedLines = layoutEngine.WrapText(
                 text,
                 11f,
@@ -111,7 +111,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var comparison = new List<string>() { "nulla", "efficitur", "commodo", "sit amet non", "lacus. Proin", "viverra enim" };
 
             ITextShaper shaper = SystemFontsEngine.GetTextShaper("Aptos Narrow");
-            using var layoutEngine = new TextLayoutEngine(shaper);
+            using var layoutEngine = new TextLayoutEngine(SystemFontsEngine, shaper);
             var wrappedLines = layoutEngine.WrapText(
                 text,
                 11f,
@@ -134,7 +134,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var savedStrings = SavedComparisonString.Split("\r\n");
 
             ITextShaper shaper = new TextShaper(SystemFontsEngine, font);
-            using var layoutEngine = new TextLayoutEngine(shaper);
+            using var layoutEngine = new TextLayoutEngine(SystemFontsEngine, shaper);
             var wrappedLines = layoutEngine.WrapText(
                 Lorem20Str,
                 11f,
@@ -174,7 +174,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = SystemFontsEngine.GetTextShaper("Calibri");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // Measure "Hello " to get its width
             var testShaper = SystemFontsEngine.GetTextShaper("Calibri");
@@ -196,7 +196,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = SystemFontsEngine.GetTextShaper("Calibri");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // Act
             var lines = layout.WrapText("", 11f, 1000);
@@ -212,7 +212,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = TestFolderEngine.LoadFont("Roboto", FontSubFamily.Regular);
             var shaper = TestFolderEngine.GetTextShaper("Roboto");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(TestFolderEngine, shaper);
 
             // Act - "AV" has kerning in Roboto
             var withKerning = layout.WrapText("AV", 11f, 1000, ShapingOptions.Default);
@@ -244,7 +244,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             //Text containing emoji
             var inputText = "My long and 😝😱 bothersome 😝😱 text";
             var shapedText = (ShapedText)shaper.Shape(inputText);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var text = layout.WrapText(inputText, 12, 20);
 
@@ -262,7 +262,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = SystemFontsEngine.GetTextShaper("Calibri");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
             {
@@ -290,7 +290,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = SystemFontsEngine.GetTextShaper("Calibri");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
             {
@@ -321,7 +321,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
             {
@@ -392,8 +392,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var fragment = new TextFragment() { Text = longWord, Font = mFont };
             var fragLst = new List<TextFragment>() { fragment };
 
-            ITextShaper shaper = OpenTypeFonts.GetShaperForFont(mFont);
-            using var layout = new TextLayoutEngine(shaper);
+            ITextShaper shaper = SystemFontsEngine.GetShaperForFont(mFont);
+            using var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var wrappedLines = layout.WrapRichText(fragLst, 54);
 
@@ -452,7 +452,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             lap = sw.ElapsedMilliseconds;
 
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             lap = sw.ElapsedMilliseconds;
 
@@ -590,7 +590,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var goudyFont = SystemFontsEngine.LoadFont(font22.Family, font22.SubFamily);
 
             ITextShaper shaper2 = new TextShaper(SystemFontsEngine, font);
-            using var layoutEngine = new TextLayoutEngine(shaper);
+            using var layoutEngine = new TextLayoutEngine(SystemFontsEngine, shaper);
             var wrappedLines = layoutEngine.WrapRichTextLines(comparatorFragments, 225d);
 
             Assert.AreEqual(pointsTotal, wrappedLines[0].Width);
@@ -642,7 +642,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var goudyFont = SystemFontsEngine.LoadFont(font22.Family, font22.SubFamily);
 
             ITextShaper shaper2 = new TextShaper(SystemFontsEngine, font);
-            using var layoutEngine = new TextLayoutEngine(shaper);
+            using var layoutEngine = new TextLayoutEngine(SystemFontsEngine, shaper);
             var wrappedLines = layoutEngine.WrapRichTextLines(comparatorFragments, 225d);
 
             Assert.AreEqual(pointsTotal, wrappedLines[0].Width);
@@ -703,7 +703,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var startFont = SystemFontsEngine.LoadFont(font2.FontFamily, GetFontSubType(font2.Style));
 
             var shaper = new TextShaper(SystemFontsEngine, startFont);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
 
@@ -765,7 +765,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
@@ -804,7 +804,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment() {Text = lstOfRichText[0], Font = font }
             };
 
-            var layout = new LayoutSystem(fragments);
+            var layout = new LayoutSystem(SystemFontsEngine, fragments);
             Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
         }
 
@@ -848,7 +848,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
             var wrappedLines = paragraph.Wrap(225d);
 
             var line1 = wrappedLines[0];
@@ -877,7 +877,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
             var wrappedLines = paragraph.Wrap(225d);
 
             Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
@@ -908,9 +908,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             GenerateTextFragments(lstOfRichText, fonts, ref fragments);
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
 
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
+            var layout = SystemFontsEngine.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
             Assert.AreEqual(5, wrappedLines[1].LineFragments[0].StartRtIdx);
@@ -980,7 +980,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var startFont = SystemFontsEngine.LoadFont(font1.FontFamily, GetFontSubType(font1.Style));
 
             var shaper = new TextShaper(SystemFontsEngine, startFont);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var measurer = SystemFontsEngine.GetTextLayoutEngineForFont(font1);
@@ -1033,7 +1033,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // "Hello" split across two fragments with different fonts
             var fragments = new List<TextFragment>
@@ -1066,7 +1066,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
             {
@@ -1100,7 +1100,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
             {
@@ -1137,7 +1137,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             // Act
             var lines = layout.WrapRichText(null, 1000);
@@ -1200,7 +1200,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var longWord = "pellentesquer";
 
             ITextShaper shaper = new TextShaper(SystemFontsEngine, font);
-            using var layoutEngine = new TextLayoutEngine(shaper);
+            using var layoutEngine = new TextLayoutEngine(SystemFontsEngine, shaper);
             var wrappedLines = layoutEngine.WrapText(
                 longWord,
                 11f,
@@ -1220,7 +1220,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             // Arrange
             var font = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine,font);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
             {
@@ -1257,7 +1257,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var maxWidthPt = 31.8125234375d;
             var gottenFont = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, gottenFont);
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             List<TextFragment> fragments = new List<TextFragment>() { new TextFragment() { Font = font1, Text = lstOfRichText[0] } };
 

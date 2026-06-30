@@ -33,16 +33,18 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
     public abstract class RenderTextBody : GroupRenderItem
     {
-        public RenderTextBody(BoundingBox parent, bool autoSize)
+        public RenderTextBody(RenderContext renderContext, BoundingBox parent, bool autoSize)
         {
+            RenderContext = renderContext;
             Bounds.Parent = parent;
             AutoSize = autoSize;
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
             Bounds.Name = "Textbody";
         }
-        public RenderTextBody(BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(parent, autoSize)
+        public RenderTextBody(RenderContext renderContext, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(renderContext, parent, autoSize)
         {
+            RenderContext = renderContext;
             Bounds.Left = left;
             Bounds.Top = top;
             Bounds.Width = maxWidth;
@@ -52,6 +54,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.Name = "Textbody";
         }
 
+        protected RenderContext RenderContext { get; private set; }
         public List<ParagraphRenderItem> Paragraphs { get; set; } = new List<ParagraphRenderItem>();
 
         public TextAnchoringType VerticalAlignment = TextAnchoringType.Top;

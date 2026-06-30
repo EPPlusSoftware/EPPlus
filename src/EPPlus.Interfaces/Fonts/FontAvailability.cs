@@ -26,8 +26,6 @@ namespace OfficeOpenXml.Interfaces.Fonts
         FamilyOnly,
 
         /// <summary>The exact font family and subfamily is available.</summary>
-        Exact,
-        /// <summary>Exact but does not throw if the embedded fallback font is asked for</summary>
-        ExactAllowEmbed
+        Exact
     }
 }

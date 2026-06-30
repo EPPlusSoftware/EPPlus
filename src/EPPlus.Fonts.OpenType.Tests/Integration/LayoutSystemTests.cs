@@ -45,7 +45,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
             var styleRuns = paragraph.GetTextOfAllTextRuns();
 
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
@@ -84,7 +84,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment() {Text = lstOfRichText[0], Font = font }
             };
 
-            var layout = new LayoutSystem(fragments);
+            var layout = new LayoutSystem(SystemFontsEngine, fragments);
             Assert.AreEqual(3, layout.GetParagraphSeparatorCount());
         }
 
@@ -133,7 +133,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
             var wrappedLines = paragraph.Wrap(225d);
 
             var line1 = wrappedLines[0];
@@ -167,7 +167,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(SystemFontsEngine, fragments);
             var wrappedLines = paragraph.Wrap(225d);
 
             Assert.AreEqual("StrikeGoudy size", wrappedLines[1].Text);
@@ -203,12 +203,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var shaper = OpenTypeFonts.GetShaperForFont(font2);
+            var shaper = TestFolderEngine.GetShaperForFont(font2);
             //var shapes = shaper.ShapeLight("WithAbsolutelyNoSpacesAtAllJustToBeDifficult");
-            var layout = new TextLayoutEngine(shaper);
+            var layout = new TextLayoutEngine(TestFolderEngine, shaper);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(TestFolderEngine, fragments);
             var wrappedLines2 = paragraph.Wrap(225d);
             //var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font, FontFolders);
             //var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
@@ -249,7 +249,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 fragments.Add(currentFrag);
             }
 
-            var paragraph = new LayoutSystem(fragments);
+            var paragraph = new LayoutSystem(TestFolderEngine, fragments);
 
             var lines = paragraph.Wrap(92.976377953d);
 
@@ -274,7 +274,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird};
 
-            var paragraph = new LayoutSystem(rtLst);
+            var paragraph = new LayoutSystem(TestFolderEngine, rtLst);
 
             var lines = paragraph.Wrap(92.976377953d);
 
@@ -313,7 +313,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird };
 
-            var paragraph = new LayoutSystem(rtLst);
+            var paragraph = new LayoutSystem(TestFolderEngine, rtLst);
 
             var fulltext = paragraph.GetTextOfAllTextRuns();
 
@@ -337,7 +337,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird, rtFourth };
 
-            var pIndividual = new LayoutSystem(rtLst);
+            var pIndividual = new LayoutSystem(TestFolderEngine, rtLst);
 
             var joinedInput = string.Join("", txtLst.ToArray());
             var joinedOutput = string.Join("", pIndividual.GetTextOfAllTextRuns().ToArray());
@@ -356,7 +356,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var rtFourth = new RichTextFormatBase(txtLstMixed[3], "Archivo Narrow", 18f);
 
             var rtLstMixed = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird, rtFourth };
-            var pMixed = new LayoutSystem(rtLstMixed);
+            var pMixed = new LayoutSystem(TestFolderEngine, rtLstMixed);
 
             var InMix = string.Join("", txtLstMixed.ToArray());
             var OutMix = string.Join("", pMixed.GetTextOfAllTextRuns().ToArray());
@@ -371,7 +371,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             var rt = new RichTextFormatBase(txtLstMixed[0], "Roboto", 12f);
 
             var rtLstMixed = new List<IRichTextFormatEssential>() { rt };
-            var pMixed = new LayoutSystem(rtLstMixed);
+            var pMixed = new LayoutSystem(TestFolderEngine, rtLstMixed);
 
             var InMix = string.Join("", txtLstMixed.ToArray());
             var OutMix = string.Join("", pMixed.GetTextOfAllTextRuns().ToArray());
@@ -408,7 +408,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 new TextFragment() {Text = lstOfRichText[1], Font = font2 }
             };
 
-            var layout = new LayoutSystem(fragments);
+            var layout = new LayoutSystem(SystemFontsEngine, fragments);
             Assert.AreEqual(5, layout.GetParagraphSeparatorCount());
         }
     }
