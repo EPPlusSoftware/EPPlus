@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 {
                     if (p.DefaultRunProperties.Fill != null)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null);
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null, false, textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor());
                     }
                 }
                 else
@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
                     if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null);
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null, false, textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor());
                     }
                     else
                     {
