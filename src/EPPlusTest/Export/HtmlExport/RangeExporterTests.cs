@@ -191,7 +191,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var pictureSettings = exporter.Settings.Pictures;
 
                 pictureSettings.Include = ePictureInclude.Include;
-                pictureSettings.Position = ePicturePosition.Absolute;
+                pictureSettings.Position = ePicturePosition.Relative;
                 pictureSettings.KeepOriginalSize = false;
 
                 exporter.Settings.Minify = false;
@@ -199,8 +199,39 @@ namespace EPPlusTest.Export.HtmlExport
                 var html = exporter.GetSinglePage();
                 var htmlAsync = await exporter.GetSinglePageAsync();
 
-                var outputFile = GetOutputFile("html", "simpleImageSync2.html");
-                var outputFileAsync = GetOutputFile("html", "simpleImageAsync2.html");
+                var outputFile = GetOutputFile("html", "simpleImageSync3.html");
+                var outputFileAsync = GetOutputFile("html", "simpleImageAsync3.html");
+
+                File.WriteAllText(outputFile.FullName, html);
+                File.WriteAllText(outputFileAsync.FullName, htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TaskWriteChartAndShape()
+        {
+            using (var p = OpenTemplatePackage("ChartAndShapeHtml.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Cells["A1:L17"].CreateHtmlExporter();
+
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+
+                var setting = exporter.Settings.Drawings;
+
+                setting.DrawTypeInclude = eDrawingInclude.Shapes & eDrawingInclude.Shapes;
+                setting.Include = ePictureInclude.Include;
+                setting.Position = ePicturePosition.Absolute;
+
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+
+                var outputFile = GetOutputFile("html", "chartAndShape.html");
+                var outputFileAsync = GetOutputFile("html", "chartAndShapeAsync.html");
 
                 File.WriteAllText(outputFile.FullName, html);
                 File.WriteAllText(outputFileAsync.FullName, htmlAsync);
@@ -223,7 +254,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 setting.DrawTypeInclude = eDrawingInclude.Charts;
                 setting.Include = ePictureInclude.Include;
-                setting.Position = ePicturePosition.Absolute;
+                setting.Position = ePicturePosition.Relative;
 
                 exporter.Settings.Minify = false;
                 exporter.Settings.Encoding = Encoding.UTF8;

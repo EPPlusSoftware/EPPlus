@@ -1,4 +1,5 @@
 ﻿using EPPlus.Export.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -29,10 +30,37 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             {
                 _border = d.Drawing.As.Chart.Chart.Border;
             }
+            else if(d.Drawing is ExcelShapeBase)
+            {
+                _border = d.Drawing.As.Shape.Border;
+            }
         }
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
+            if (context.Drawings.Position == ePicturePosition.Relative)
+            {
+                if (_bounds.Left != 0)
+                {
+                    AddDeclaration("left", $"{_bounds.Left.PointToPixel():F0}px");
+                }
+                if (_bounds.Top != 0)
+                {
+                    AddDeclaration("top", $"{_bounds.Top.PointToPixel():F0}px");
+                }
+            }
+            else if (context.Drawings.Position == ePicturePosition.Absolute)
+            {
+                if (_bounds.Left != 0)
+                {
+                    AddDeclaration("left", $"{_bounds.GlobalLeft.PointToPixel():F0}px");
+                }
+                if (_bounds.Top != 0)
+                {
+                    AddDeclaration("top", $"{_bounds.GlobalTop.PointToPixel():F0}px");
+                }
+            }
+
             if (context.Pictures.KeepOriginalSize == false)
             {
                 if (_width != _bounds.Width)

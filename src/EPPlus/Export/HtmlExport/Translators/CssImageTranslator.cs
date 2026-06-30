@@ -22,6 +22,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         HtmlDrawing _p;
         string _encodedImage;
         internal ePictureType? type;
+        bool isDrawing = false;
 
         public CssImageTranslator(HtmlImage p)
         {
@@ -36,6 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             var byteArr = System.Text.Encoding.UTF8.GetBytes(charArr);
             _encodedImage = Convert.ToBase64String(byteArr);
             type = ePictureType.Svg;
+            isDrawing = true;
         }
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
@@ -45,6 +47,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             if (context.Pictures.Position != ePicturePosition.DontSet)
             {
                AddDeclaration("position", $"{context.Pictures.Position.ToString().ToLower()}");
+            }
+
+            if(isDrawing && context.Drawings.Position != ePicturePosition.DontSet)
+            {
+                AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
             }
 
             if (_p.FromColumnOff != 0 && context.Pictures.AddMarginLeft)

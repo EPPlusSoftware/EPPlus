@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         internal CssExclude Exclude;
         internal CssExportSettings Settings;
         internal HtmlPictureSettings Pictures;
-
+        internal HtmlDrawingSettings Drawings;
 
         private TranslatorBase strategy;
 
@@ -54,12 +54,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             Exclude = settings.Css.CssExclude;
             Settings = settings.Css;
             Pictures = settings.Pictures;
+            Drawings = settings.Drawings;
         }
 
         public TranslatorContext(HtmlTableExportSettings settings, CssExclude exclude)
         {
             Settings = settings.Css;
             Pictures = settings.Pictures;
+            Drawings = settings.Drawings;
             Exclude = exclude;
         }
 
