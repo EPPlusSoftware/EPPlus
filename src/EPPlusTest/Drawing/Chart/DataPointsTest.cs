@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.SaveFunctions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
@@ -34,6 +35,7 @@ using OfficeOpenXml.Drawing.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
 using System.Drawing;
+using System.IO;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -65,6 +67,9 @@ namespace EPPlusTest.Drawing.Chart
             point.Border.Fill.Style = eFillStyle.SolidFill;
             point.Fill.Color = Color.Green;
             chart.SetPosition(1, 0, 5, 0);
+            var svg = chart.ToSvg();
+            
+            File.WriteAllText($"{_worksheetPath}svg\\EPPlusLineChart1.svg", svg);
         }
         [TestMethod]
         public void PieChart()

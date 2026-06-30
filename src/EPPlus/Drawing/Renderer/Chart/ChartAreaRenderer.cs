@@ -1,0 +1,49 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.Svg;
+using System.Collections.Generic;
+using System.Drawing;
+
+namespace EPPlusImageRenderer.Svg
+{
+    internal class ChartAreaRenderer : ChartDrawingObject
+    {
+        public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
+        {
+            if(options.Size.Width.HasValue)
+            {
+                sc.Bounds.Width = options.Size.WidthPixels;
+            }
+            if (options.Size.Height.HasValue)
+            {
+                sc.Bounds.Height = options.Size.HeightPixels;
+            }
+
+            Rectangle = new RectRenderItem(sc.Bounds);
+        }
+
+        internal override Color DefaultFillColor { get => ChartRenderer.Theme.ColorScheme.Light1.GetColor(); }
+        internal override Color DefaultBorderColor
+        {
+            get
+            {
+                return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTintDrawing(ChartRenderer.Theme.ColorScheme.Light1.GetColor(), 0.75D);
+            }
+        }
+        public override void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            renderItems.Add(Rectangle);
+        }
+    }
+}

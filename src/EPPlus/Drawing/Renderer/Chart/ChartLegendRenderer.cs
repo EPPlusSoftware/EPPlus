@@ -91,6 +91,9 @@ namespace EPPlusImageRenderer.Svg
             SetLegendTrendlines(entryWidth, entryHeight, pSls);
         }
 
+        public ChartLegendRenderer(ChartRenderer chart) : base(chart)
+        {
+        }
 
         private RectRenderItem GetLegendRectangleAndEntrySize(ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
@@ -828,5 +831,8 @@ namespace EPPlusImageRenderer.Svg
 
         public List<DrawingLegendSerie> SeriesIcon { get; } = new List<DrawingLegendSerie>();
 
+        internal override Color DefaultFillColor => Color.Empty;
+
+        internal override Color DefaultBorderColor => Color.Empty;
     }
 }

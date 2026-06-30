@@ -308,7 +308,7 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, Theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1));
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, Theme.ColorScheme.Light1.GetColor());
             item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
@@ -336,7 +336,7 @@ namespace EPPlusImageRenderer
         { 
             get =>(ExcelChart)Drawing;  
         }
-        internal ChartDrawingObject ChartArea { get; set; }
+        internal ChartAreaRenderer ChartArea { get; set; }
         internal ChartLegendRenderer Legend { get; set; }
         internal ChartTitleRenderer Title { get; set; }
         internal ChartPlotareaRenderer Plotarea { get; set; }

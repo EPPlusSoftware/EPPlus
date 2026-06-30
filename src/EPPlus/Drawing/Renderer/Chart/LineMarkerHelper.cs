@@ -7,6 +7,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
@@ -127,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             else if (ls.Fill.IsEmpty)
             {
-                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, sc.Theme.ColorScheme.Accent1);
+                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, Color.Empty);
             }
             else
             {
