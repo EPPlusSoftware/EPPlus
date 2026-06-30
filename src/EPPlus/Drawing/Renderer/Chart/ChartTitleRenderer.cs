@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using EPPlus.DrawingRenderer.RenderItems;
+using System.Drawing;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -103,7 +104,7 @@ namespace EPPlusImageRenderer.Svg
             }
 
             Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, Color.Empty, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -225,7 +226,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
                 TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color);
-                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75);
             }
             TextBox.AppendRenderItems(renderItems);
         }
