@@ -107,7 +107,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, null, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
@@ -804,7 +804,7 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, lineItem.Width);
+            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, null, lineItem.Width);
 
             tm.DefId = id;
 

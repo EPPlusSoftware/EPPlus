@@ -60,7 +60,7 @@ namespace EPPlusImageRenderer.Svg
             }
 
             rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Light1.GetColor());
-            rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+            rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
             Rectangle = rect;
         }
 

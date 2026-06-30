@@ -336,7 +336,7 @@ namespace EPPlusImageRenderer
         { 
             get =>(ExcelChart)Drawing;  
         }
-        internal ChartAreaRenderer ChartArea { get; set; }
+        internal ChartDrawingObject ChartArea { get; set; }
         internal ChartLegendRenderer Legend { get; set; }
         internal ChartTitleRenderer Title { get; set; }
         internal ChartPlotareaRenderer Plotarea { get; set; }
@@ -401,7 +401,7 @@ namespace EPPlusImageRenderer
 
             var item = new LineRenderItem(parentItem);
             item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, false);
-            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75, false);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, 0.75, false);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;
