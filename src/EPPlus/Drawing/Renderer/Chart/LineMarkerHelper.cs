@@ -139,11 +139,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 if (ls.Marker.Border.Fill.IsEmpty)
                 {
-                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                 }
                 else
                 {
-                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                 }
             }
             return item;

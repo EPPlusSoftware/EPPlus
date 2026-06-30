@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -188,8 +189,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true);
-            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true, Color.Transparent);
+            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, Color.Transparent, _trendline.Label.Border.Width);
             DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
