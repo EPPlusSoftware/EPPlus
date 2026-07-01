@@ -84,6 +84,8 @@ namespace EPPlusTest.Drawing.Chart
             point.Border.Fill.Style = eFillStyle.SolidFill;
             point.Fill.Color = Color.Green;
             chart.SetPosition(1, 0, 5, 0);
+            var svg = chart.ToSvg();
+            File.WriteAllText($"{_worksheetPath}svg\\pieChart.svg", svg);
         }
         [TestMethod]
         public void BarChart()  
