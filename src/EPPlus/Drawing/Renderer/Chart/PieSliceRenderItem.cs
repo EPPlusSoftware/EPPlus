@@ -9,6 +9,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
+
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class PieSliceRenderItem : ChartDrawingObject
@@ -34,6 +35,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         Point _startPoint;
         Point _midPoint;
         Point _endPoint;
+
+        internal override System.Drawing.Color? DefaultFillColor { get; }
 
         /// <summary>
         /// Get copy of start point of slice in local coordinates
@@ -175,6 +178,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
+            DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
             Rectangle.Bounds.Parent = parent;
             _radius = radius;
             _percent = percentOfPie;
@@ -306,10 +310,22 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
 
-        internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
+        internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType, int position)
         {
-            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
-            _slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
+
+            var defaultFill = DefaultFillColor;
+
+            if(chartType.VaryColors)
+            {
+                if(chartType.StyleManager.Style == null)
+                {
+                    var mod5 = position % 5;
+                    //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+                    defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+                }
+            }
+            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
+            _slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
             _slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }
 

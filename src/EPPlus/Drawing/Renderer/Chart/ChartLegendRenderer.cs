@@ -14,7 +14,9 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
@@ -40,6 +42,8 @@ namespace EPPlusImageRenderer.Svg
         const float MinBarLength = 4;
         float _marginItemsWidth;
 
+        eLegendPosition Position { get; }
+
         double _maxWidth, _maxHeight;
         internal ChartLegendRenderer(ChartRenderer sc) : base(sc)
         {
@@ -58,6 +62,9 @@ namespace EPPlusImageRenderer.Svg
             LeftMargin = RightMargin = 3; //4px
             TopMargin = BottomMargin = 3; //4px
             _marginItemsWidth = mf.Size / 2; //We use half the size of the font as margin between items.
+
+            Position = l.Position;
+
             switch (l.Position)
             {
                 case eLegendPosition.Top:
@@ -223,7 +230,7 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Right ||
                         l.Position == eLegendPosition.TopRight)
                     {
-                        rect.Left = ChartRenderer.ChartArea.Rectangle.Width - rect.Width - TopMargin;
+                        rect.Left = ChartRenderer.ChartArea.Rectangle.Width - rect.Width - LeftMargin;
                     }
                     else
                     {
@@ -371,7 +378,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (sls.Textbox.Bounds.Bottom > Rectangle.Height)
+                        if (sls != null && sls.Textbox.Bounds.Bottom > Rectangle.Height )
                         {
                             break;
                         }
@@ -513,6 +520,7 @@ namespace EPPlusImageRenderer.Svg
             var series = ct.Series[0];
             var catSeries = series.XSeries;
             var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, series.NumberLiteralsX, series.StringLiteralsX);
+
             //Excel fallsback to index + 1 if no literals and no series 
             if (catValues == null)
             {
@@ -520,6 +528,35 @@ namespace EPPlusImageRenderer.Svg
                 foreach (var dp in ps.DataPoints)
                 {
                     catValues.Add($"{dp.Index + 1}");
+                }
+            }
+
+           
+            //adjust datapoints if not enough
+            if(catValues.Count > ps.DataPoints.Count)
+            {
+                var prevPointCount = ps.DataPoints.Count;
+                ps.DataPoints.ClearDataPoints();
+                var pieChart = ct.As.Chart.PieChart;
+
+                for (int i = 0; i< catValues.Count; i++)
+                {
+                    ps.DataPoints.Add(i);
+                    var defaultFill = DefaultFillColor;
+
+                    if (ct.VaryColors)
+                    {
+                        if (ct.StyleManager.Style == null)
+                        {
+                            var mod5 = i % 5;
+                            //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+                            defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+                        }
+                    }
+                    if(defaultFill != null && i > prevPointCount-1)
+                    {
+                        ps.DataPoints[i].Fill.Color = defaultFill.Value;
+                    }
                 }
             }
 
@@ -575,8 +612,11 @@ namespace EPPlusImageRenderer.Svg
                 icon.SeriesIcon.Bounds.Top = icon.SeriesIcon.Bounds.Top - ((entryHeight) / 4);
             }
 
-            Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4;
-            Rectangle.Bounds.Left = (ChartRenderer.Bounds.Width / 2) - (totalWidth/2);
+            if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
+            {
+                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4;
+                Rectangle.Bounds.Left = (ChartRenderer.Bounds.Width / 2) - (totalWidth / 2);
+            }
             pSls = null;
             sls = null;
         }
@@ -696,7 +736,6 @@ namespace EPPlusImageRenderer.Svg
         private RectRenderItem GetPieSeriesIcon(ExcelChart ct, ExcelPieChartSerie pcS, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int i)
         {
             var item = new RectRenderItem(Rectangle.Bounds);
-            var pt = pcS.DataPoints[i];
 
             var iconHeight = GetIconLength(ct, entryHeight);
             var icon = pSls?.SeriesIcon as RectRenderItem;

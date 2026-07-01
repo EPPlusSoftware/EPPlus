@@ -55,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var isBar = _chartType.IsTypeBar();
             var count = Math.Min(_catValues.Count, _valValues.Count);
-            for (var i = 0; i < _catValues.Count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var serie = (ExcelBarChartSerie)_chartType.Series[i];
 
@@ -70,7 +70,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var isColumn = ((ExcelBarChart)_chartType).IsTypeColumn();
 
-                if (serie.HasDataLabel)
+                if (serie.HasDataLabel || serie.DataLabel != null)
                 {
                     var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _valValues[i], serCounter++);
                     serieDataLabels.Add(datalabel);

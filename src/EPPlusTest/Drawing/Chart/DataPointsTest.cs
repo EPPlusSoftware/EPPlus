@@ -112,6 +112,47 @@ namespace EPPlusTest.Drawing.Chart
 
             File.WriteAllText($"{_worksheetPath}svg\\EPPlusBarChart1.svg", svg);
         }
+
+
+        [TestMethod]
+        public void DataLabelsMultipleOneSeriesExport()
+        {
+            using (var pck = OpenPackage("DataLabelsMultipleOneSeriesExport.xlsx", true))
+            {
+                var cSheet = pck.Workbook.Worksheets.Add("ColumnChartSheet");
+
+                var range = cSheet.Cells["A1:C3"];
+                var table = cSheet.Tables.Add(range, "DataTable");
+                table.ShowHeader = false;
+
+                range.Formula = "ROW() + COLUMN()";
+
+                cSheet.Calculate();
+
+                var sChart = cSheet.Drawings.AddBarChart("simpleChart", eBarChartType.ColumnStacked);
+
+                sChart.Series.Add(cSheet.Cells["A1:A3"]);
+                sChart.Series.Add(cSheet.Cells["B1:B3"]);
+                sChart.Series.Add(cSheet.Cells["C1:C3"]);
+
+                sChart.Series[2].DataLabel.DataLabels.Add(0);
+                var dlbl = sChart.Series[2].DataLabel.DataLabels.Add(2);
+                sChart.Series[2].DataLabel.DataLabels.Add(1);
+
+
+                dlbl.ShowSeriesName = true;
+                dlbl.Fill.Color = Color.Red;
+
+                var mySvg = sChart.ToSvg();
+
+                var file = GetOutputFile("svg", "DataLabelsMultipleOneSeriesExport.svg");
+
+                File.WriteAllText(file.FullName, mySvg);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
         [TestMethod]
         public void Column3DChart()
         {

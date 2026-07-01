@@ -164,7 +164,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds, 
                 _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
 
-            Slices[position].ImportStlyeInfo(dataPoint, chartType);
+            Slices[position].ImportStlyeInfo(dataPoint, chartType, position);
             Slices[position].AppendGroupItem(_groupItem);
         }
 
