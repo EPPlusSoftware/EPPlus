@@ -613,7 +613,7 @@ namespace EPPlusTest.PDF
             ws.Column(1).Width = columnWidth;
             ws.Cells["A1"].Value = "SOLID";
             ws.Cells["AE50"].Value = "SNAKE";
-            ws.Cells["AF51"].Value = " ";
+            //ws.Cells["AF51"].Value = " ";
             const int startRow = 2;
             const int startCol = 1; // D
             for (int y = 0; y < pixels.Length; y++)

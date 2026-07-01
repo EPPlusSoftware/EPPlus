@@ -458,7 +458,7 @@ namespace OfficeOpenXml.Export.PdfExport
             }
             else
             {
-                var range = worksheet.DimensionByValue;
+                var range = worksheet.DimensionByVisibility;
                 var pdfRange = new PdfRange(range, true);
                 pdfRange.ExtendColumns = true;
                 ranges.Add(pdfRange);

@@ -3029,8 +3029,8 @@ namespace OfficeOpenXml
             CheckSheetTypeAndNotDisposed();
             if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
             {
-                var fvc = FirstValueCell;
-                var lvc = LastValueCell;
+                var fvc =  Cells[fr, fc];
+                var lvc =  Cells[tr, tc];
                 // Row range comes from values only — styling never extends the height.
                 var fromRow = fvc._fromRow;
                 var toRow = lvc._toRow;
@@ -3091,10 +3091,10 @@ namespace OfficeOpenXml
                 {
                     for (int c = fc; c <= tc; c++)
                     {
-                        if (c >= fromCol && c <= toCol)
-                        {
-                            continue; // already inside the range
-                        }
+                        //if (c >= fromCol && c <= toCol)
+                        //{
+                        //    continue; // already inside the range
+                        //}
                         for (int r = fromRow; r <= toRow; r++)
                         {
                             if (HasVisibleStyle(r, c))
