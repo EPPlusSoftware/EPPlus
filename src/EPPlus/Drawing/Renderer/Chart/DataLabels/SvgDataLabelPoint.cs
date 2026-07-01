@@ -1,5 +1,6 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
@@ -120,10 +121,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 if(defaultParagraph == null)
                 {
                     txtBox.TextBody.AddParagraph(finalString);
+                    txtBox.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Center;
                 }
                 else
                 {
                     txtBox.ImportParagraph(defaultParagraph, 0, finalString);
+                    txtBox.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Center;
                 }
                 //txtBox.TextBody.AddParagraph(0, finalString);
             }
