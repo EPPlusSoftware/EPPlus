@@ -31,26 +31,6 @@ namespace EPPlus.Export.Pdf.Settings
         {
             get
             {
-                if(_fontEngine == null)
-                {
-                    _fontEngine = new OpenTypeFontEngine(x =>
-                    {
-                        if(FontDirectories != null && FontDirectories.Any())
-                        {
-                            foreach(var dir in FontDirectories)
-                            {
-                                if (!System.IO.Directory.Exists(dir))
-                                {
-                                    throw new System.IO.DirectoryNotFoundException($"Font directory not found: {dir}");
-                                }
-                                x.FontDirectories.Add(dir);
-                            }
-                            x.SearchSystemDirectories = SearchSystemDirectories;
-
-                        }
-                        
-                    });
-                }
                 return _fontEngine;
             }
         }
@@ -222,6 +202,11 @@ namespace EPPlus.Export.Pdf.Settings
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;
+
+        public PdfPageSettings(OpenTypeFontEngine fontEngine)
+        {
+            _fontEngine = fontEngine;
+        }
 
         private static PdfPageSize ApplyOrientation(PdfPageSize size, Orientations orientation)
         {

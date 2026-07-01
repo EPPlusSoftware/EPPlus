@@ -560,7 +560,7 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             if (pageSettings.CommentsAndNotes == CommentsAndNotes.AtEndOfSheet && pdfSheet.CommentsAndNotesCollections.Count > 0)
             {
-                var cnPageSettings = new PdfPageSettings();
+                var cnPageSettings = new PdfPageSettings(pdfSheet.Worksheet.Workbook.RenderContext.FontEngine);
                 cnPageSettings.CommentsAndNotes = CommentsAndNotes.None;
                 cnPageSettings.ShowHeadings = false;
                 pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);

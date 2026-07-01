@@ -52,37 +52,6 @@ namespace EPPlusTest.PDF
             return long.Parse(text.Substring(start, i - start));
         }
 
-        /* BIG PDF TODO
-         * 
-         * Missing Features:
-         * Embedding pictures as drawings
-         * Embedding pictures as cell content
-         * Embedding pictures as header/footer
-         * Number formatting
-         * Scaling document
-         * Conditional Formatting icons
-         * Vertical text
-         * Equations
-         * Pivot tables
-         * Shapes
-         * Charts
-         * 3D models
-         * Compression
-         * Unique pdf settings per worksheet
-         * 
-         * Bugs:
-         * Merged cell uses full width/height even when columns/rows are hidden.
-         * Conditional formatting not working 100% of the time.
-         * Table could sometimes select wrong style
-         * 
-         * Other
-         * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
-         * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
-         * Text: Set up to use back up techniques when not embedding font
-         * Borders: Adjust and make border look better
-         * 
-         */
-
         protected static string pdfPath = _worksheetPath + "\\PDF\\";
 
         [TestMethod]
@@ -405,7 +374,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var pageSettings = new PdfPageSettings();
+            var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             using var ms = new MemoryStream();
             _ = new PdfCatalog(ms, pageSettings, ws);
             AssertLooksLikePdf(ms.ToArray());
@@ -543,30 +512,6 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
-        public void PerformanceTest()
-        {
-            var sw = new Stopwatch();
-            Console.WriteLine("Starting...");
-            sw.Start();
-            using var p = OpenTemplatePackage("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx");
-            Console.WriteLine($"Read package time elapsed: {sw.ElapsedMilliseconds} ms");
-            sw.Restart();
-            var ws = p.Workbook.Worksheets[0];
-            var dun = ws.Dimension;
-            var pageSettings = new PdfPageSettings
-            {
-                CommentsAndNotes = CommentsAndNotes.AtEndOfSheet,
-                CellErrors = CellErrors.NA,
-                Debug = true,
-                PrintAsText = true,
-                ShowGridLines = false,
-                ShowHeadings = true
-            };
-            PdfCatalog catalog = new PdfCatalog("C:\\epplustest\\pdf\\OutputTest1.3.pdf", pageSettings, ws);
-            Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
-        }
-
-        [TestMethod]
         // works as expected.
         //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
         [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
@@ -594,7 +539,7 @@ namespace EPPlusTest.PDF
             var d = ws.Dimension;
             var d2 = ws.DimensionByValue;
 
-            PdfPageSettings pageSettings = new PdfPageSettings();
+            PdfPageSettings pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
 
             pageSettings.CellErrors = CellErrors.Displayed;
@@ -605,71 +550,6 @@ namespace EPPlusTest.PDF
 
             PdfCatalog catalog = new PdfCatalog(outputPath, pageSettings, ws);
 
-        }
-
-        [TestMethod]
-        public void PerfTest()
-        {
-            var sw = new Stopwatch();
-            Console.WriteLine("Starting...");
-            sw.Start();
-            using var p = OpenTemplatePackage("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx");
-            Console.WriteLine($"Read package time elapsed: {sw.ElapsedMilliseconds} ms");
-            sw.Restart();
-            var ws = p.Workbook.Worksheets[0];
-            var dun = ws.Dimension;
-            var pageSettings = new PdfPageSettings
-            {
-                CommentsAndNotes = CommentsAndNotes.AtEndOfSheet,
-                CellErrors = CellErrors.NA,
-                Debug = true,
-                PrintAsText = true,
-                ShowGridLines = false,
-                ShowHeadings = true
-            };
-            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\OutputTest1.3.pdf");
-            Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
-        }
-
-
-        [TestMethod]
-        // works as expected.
-        //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
-        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
-
-        // Output file: OutputTest1.2.pdf
-        // 1. Minus signs alignment in cells differs from Excel. ------------------------------------------------ Comment: Currently no support for number formats. Requires implementing number formats.
-        // 2. Dimension seems to differ from Excel, Excel stops at row 75, EPPlus goes to row 89. --------------- Fixed
-        // 3. Row headings are sligthly wider in EPPlus than in Excel. ------------------------------------------ Fixed
-        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", "Summary")]
-        // works as expected
-        [DataRow("Aico WiP 120180 FBL3N for 0110 in 2025-04.xlsx", "C:\\epplustest\\pdf\\OutputTest1.4.pdf", "Technical")]
-        [DataRow("Aico KKS1 Variance Calculation for 0105 in 2025-04 (25_4_2025 15_43_40) .xlsx", "C:\\epplustest\\pdf\\OutputTest1.5.pdf", "Technical")]
-
-        // Output file: OutputTest1.6.pdf
-        // 1. Merged cells not working ------------------------------------ Fixed. Comment Merged cells was fine, it was borders being rendered inside merged cells.
-        // 2. Pattern fills looks differnt, in some cases not working -----
-        // 3. Rotation of text in cells not working (the dates). ----------
-        // [DataRow("R05.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
-        [DataRow("R05 - Copy.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
-        //[DataRow("PatternStyles.xlsx", "C:\\epplustest\\pdf\\OutputTest1.8.pdf", "Sheet1")]
-        public void WorkbookTests(string sourceFile, string outputPath, string wsName)
-        {
-            using var p = OpenTemplatePackage(sourceFile);
-            var ws = p.Workbook.Worksheets[wsName];
-            var d = ws.Dimension;
-            var d2 = ws.DimensionByValue;
-
-            PdfPageSettings pageSettings = new PdfPageSettings();
-            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-
-            pageSettings.CellErrors = CellErrors.Displayed;
-            pageSettings.Debug = true;
-            pageSettings.PrintAsText = true;
-            pageSettings.ShowGridLines = false;
-            pageSettings.ShowHeadings = false;
-
-            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
         }
     }
 }

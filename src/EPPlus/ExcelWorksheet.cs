@@ -3751,7 +3751,7 @@ namespace OfficeOpenXml
         /// <param name="fileName">Name of file.</param>
         public void SaveAsPdf(string fileName)
         {
-            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
         }
 
@@ -3763,7 +3763,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3777,7 +3777,7 @@ namespace OfficeOpenXml
         /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
         public void SaveAsPdf(Stream stream)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(stream, settings, this);
         }
 
@@ -3789,7 +3789,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();

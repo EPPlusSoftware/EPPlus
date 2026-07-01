@@ -19,9 +19,9 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
 {
     internal static class GetPdfSettings
     {
-        internal static PdfPageSettings GetPdfSettingsFromPrinterSettings(ExcelPrinterSettings eps)
+        internal static PdfPageSettings GetPdfSettingsFromPrinterSettings(ExcelWorkbook workbook, ExcelPrinterSettings eps)
         {
-            var settings = new PdfPageSettings();
+            var settings = new PdfPageSettings(workbook.RenderContext.FontEngine);
             var leftMargin = UnitConversion.ToMillimeters(eps.LeftMargin);
             var rightMargin = UnitConversion.ToMillimeters(eps.RightMargin);
             var topMargin = UnitConversion.ToMillimeters(eps.TopMargin);

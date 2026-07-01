@@ -296,33 +296,6 @@ namespace EPPlus.Export.Pdf
                     crossRefTable.AddPosition(stream.Position - start);
                     pdfobj.ToPdfBytes(bw);
                     _debugString += pdfobj.ToPdfString();
-                    //Write header
-                    bw.Write(Encoding.ASCII.GetBytes(Header));
-                    debugString += Header;
-                    //Write body
-                    foreach (var pdfobj in _document)
-                    {
-                        crossRefTable.AddPosition(fs.Position);
-                        pdfobj.ToPdfBytes(bw);
-                        debugString += pdfobj.ToPdfString();
-                    }
-                    //Write CrossReference
-                    crossRefTable.Write(bw, fs.Position, _document.Count);
-                    debugString += crossRefTable.WriteString(_document.Count);
-                    // Write trailer
-                    PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                    debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                }
-            }
-            //Write pdf as txt for debug.
-            if (_pageSettings.Debug && _pageSettings.PrintAsText)
-            {
-                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
-                {
-                    using (var wr = new StreamWriter(fs))
-                    {
-                        wr.Write(debugString);
-                    }
                 }
                 //Write CrossReference
                 crossRefTable.Write(bw, stream.Position - start, _document.Count);

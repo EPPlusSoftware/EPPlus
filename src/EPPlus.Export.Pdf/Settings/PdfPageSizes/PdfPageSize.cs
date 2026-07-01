@@ -95,8 +95,5 @@ namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
         public static PdfPageSize A2 => new PdfPageSize(420d, 594d);
         public static PdfPageSize A3Transverse => new PdfPageSize(297d, 420d);
         public static PdfPageSize A3ExtraTransverse => new PdfPageSize(322d, 445d);
-        public static PdfPageSize Legal => new PdfPageSize(215.9d, 355.6d); //(612, 1008);
-        public static PdfPageSize Statement => new PdfPageSize(139.7d, 215.9d);
-        public static PdfPageSize Executive => new PdfPageSize(184.2d, 266.7d);
     }
 }

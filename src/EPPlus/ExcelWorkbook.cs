@@ -748,7 +748,7 @@ namespace OfficeOpenXml
         /// <param name="fileName">Name of file.</param>
         public void SaveAsPdf(string fileName)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(fileName, settings, this);
         }
 
@@ -759,7 +759,7 @@ namespace OfficeOpenXml
         /// <param name="worksheets">Worksheets to export.</param>
         public void SaveAsPdf(string fileName, params ExcelWorksheet[] worksheets)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(worksheets[0].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(fileName, settings, worksheets);
         }
 
@@ -770,7 +770,7 @@ namespace OfficeOpenXml
         /// <param name="ranges">Ranges to export.</param>
         public void SaveAsPdf(string fileName, params ExcelRangeBase[] ranges)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(fileName, settings, ranges);
         }
 
@@ -782,7 +782,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -808,7 +808,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings( worksheets[0].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -834,7 +834,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -848,7 +848,7 @@ namespace OfficeOpenXml
         /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
         public void SaveAsPdf(Stream stream)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(stream, settings, this);
         }
 
@@ -859,7 +859,7 @@ namespace OfficeOpenXml
         /// <param name="worksheets">Worksheets to export.</param>
         public void SaveAsPdf(Stream stream, params ExcelWorksheet[] worksheets)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(worksheets[0].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(stream, settings, worksheets);
         }
 
@@ -870,7 +870,7 @@ namespace OfficeOpenXml
         /// <param name="ranges">Ranges to export.</param>
         public void SaveAsPdf(Stream stream, params ExcelRangeBase[] ranges)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
             PdfCatalog catalog = new PdfCatalog(stream, settings, ranges);
         }
 
@@ -882,7 +882,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -908,7 +908,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(worksheets[0].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -934,7 +934,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
