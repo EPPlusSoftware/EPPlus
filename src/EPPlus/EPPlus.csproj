@@ -5,6 +5,8 @@
 		<FileVersion>8.6.1.0</FileVersion>
 		<Version>8.6.1</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<!-- Include the referenced project binaries in the generated NuGet package -->
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
 		<PackageLicenseFile>license.md</PackageLicenseFile>
@@ -35,7 +37,7 @@
 			* New functions:
 			* GROUPBY, PIVOTBY, TRIMRANGE, WRAPROWS, WRAPCOLS, USDOLLAR, CODE, ENCODEURL, ISFORMULA
 			* Support for [Trim reference operator](https://github.com/EPPlusSoftware/EPPlus/wiki/Trim-reference-operator).
-			* Minor bug fixes. 
+			* Minor bug fixes.
 
 			## Version 8.5.4
 			* Minor bug fixes.
@@ -723,15 +725,32 @@
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
 		<PackageIconUrl />
 	</PropertyGroup>
-	
+
 	<ItemGroup>
-		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj" />
-		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" />
-		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
-		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
+		<!-- PrivateAssets="compile" keeps these referenced binaries out of the generated
+			.nuspec as <dependency> entries, while still letting them flow at runtime so
+			consuming projects (e.g. test projects) get the DLLs copied to their output. -->
+		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj" PrivateAssets="compile" />
+		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" PrivateAssets="compile" />
+		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" PrivateAssets="compile" />
+		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" PrivateAssets="compile" />
+		<!-- EPPlus.Interfaces is published as its own NuGet package and must remain a dependency. -->
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
-	
+
+	<!-- Collect the compiled binaries of the referenced (private) projects and place them
+	     in lib/<tfm>/ inside the NuGet package, next to EPPlus.dll. Uses ReferenceCopyLocalPaths
+	     so the correct per-target-framework output is picked up in the multi-target build. -->
+	<Target Name="IncludeReferencedProjectsInPackage">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('Extension', '.dll'))"
+			                      Condition="'%(FileName)' == 'EPPlus.DrawingRenderer'
+			                              Or '%(FileName)' == 'EPPlus.Export.Pdf'
+			                              Or '%(FileName)' == 'EPPlus.Fonts.OpenType'
+			                              Or '%(FileName)' == 'EPPlus.Graphics'" />
+		</ItemGroup>
+	</Target>
+
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
 	</PropertyGroup>
@@ -780,7 +799,7 @@
 		<Reference Include="System.Threading.Tasks" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Xml" />	
+		<PackageReference Include="System.Security.Cryptography.Xml" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0' and '$(TargetFramework)' != 'net10.0'">
@@ -827,7 +846,7 @@
 		<EmbeddedResource Include="resources\fontsize.zip" />
 		<EmbeddedResource Include="resources\TextMetrics.zip" />
 		<EmbeddedResource Include="resources\SignatureLineTemplates.zip">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
@@ -855,7 +874,7 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="resources\SignatureLineStampTemplate.emf">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="resources\SignatureLineTemplate.emf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
