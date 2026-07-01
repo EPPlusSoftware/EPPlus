@@ -11,6 +11,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -210,7 +211,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
-            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true);
+            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, DefaultBorderColor, 3);
             linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.FillColor = "none";    //No fill for line
             linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
@@ -220,7 +221,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.AddRange(errorBars);
         }
 
-
+        internal override Color? DefaultBorderColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);

@@ -184,7 +184,7 @@ namespace EPPlusImageRenderer.Svg
         private double GetTextWidest(ExcelChartAxisStandard ax)
         {
             var mf = ax.Font.GetMeasureFont();
-            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
             var tm = new OpenTypeFontTextMeasurer(shaper);
             
             var widest = 0f;
@@ -305,7 +305,7 @@ namespace EPPlusImageRenderer.Svg
 
             var mf = Axis.Font.GetMeasureFont();
 
-            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
             var tm = new OpenTypeFontTextMeasurer(shaper);
 
             var axisStyle = GetAxisStyleEntry();

@@ -21,18 +21,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal override bool SupportsTrendlines => true;
         internal override bool SupportsErrorBars => true;
 
-        internal override Color? DefaultFillColor { get; }
-        internal override Color? DefaultBorderColor { get; }
-
         internal BarColumnChartTypeDrawer(ChartRenderer svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
 
             int serCounter = 0;
-
-            DefaultFillColor = svgChart.Theme.ColorScheme.Accent1.GetColor();
-            DefaultBorderColor = Color.Transparent;
 
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {
@@ -379,5 +373,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             renderItems.AddRange(ChartAreaRenderItems);
             SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
+        internal override Color? DefaultFillColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
+        internal override Color? DefaultBorderColor => null;
     }
 }

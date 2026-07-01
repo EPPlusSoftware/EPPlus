@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 
@@ -7,11 +8,11 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 {
     public class SvgParagraphRenderItem : ParagraphRenderItem
     {
-        public SvgParagraphRenderItem(RenderTextBody body, BoundingBox parent, string text, bool setDefaultFont = true) : base(parent, body, text, setDefaultFont)
+        public SvgParagraphRenderItem(RenderContext renderContext, RenderTextBody body, BoundingBox parent, string text, bool setDefaultFont = true) : base(renderContext, parent, body, text, setDefaultFont)
         {
             ImportStyles();
         }
-        public SvgParagraphRenderItem(RenderTextBody textBody, BoundingBox parent, IRichTextFormatSimple rtFormat): base(parent, textBody, rtFormat)
+        public SvgParagraphRenderItem(RenderContext renderContext, RenderTextBody textBody, BoundingBox parent, IRichTextFormatSimple rtFormat) : base(renderContext, parent, textBody, rtFormat)
         {
             ImportStyles();
         }

@@ -84,8 +84,10 @@ namespace EPPlusTest.Drawing.Chart
             point.Border.Fill.Style = eFillStyle.SolidFill;
             point.Fill.Color = Color.Green;
             chart.SetPosition(1, 0, 5, 0);
+
             var svg = chart.ToSvg();
-            File.WriteAllText($"{_worksheetPath}svg\\pieChart.svg", svg);
+
+            File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
         }
         [TestMethod]
         public void BarChart()  
@@ -93,7 +95,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("BarChart");
             LoadTestdata(ws);
 
-            var chart = ws.Drawings.AddBarChart("BarChart1", eBarChartType.Column3D);
+            var chart = ws.Drawings.AddBarChart("BarChart1", eBarChartType.BarClustered);
             var serie = chart.Series.Add("D2:D5", "A2:A5");
             var point = serie.DataPoints.Add(0);
             point.Border.Fill.Color = Color.Blue;
@@ -101,6 +103,28 @@ namespace EPPlusTest.Drawing.Chart
             point.Fill.Style = eFillStyle.SolidFill;
             point.Fill.SolidFill.Color.SetRgbColor(Color.Yellow);
             point.Fill.Transparency = 5;            
+            Assert.AreEqual(eColorTransformType.Alpha, point.Fill.SolidFill.Color.Transforms[0].Type);
+            Assert.AreEqual(95, point.Fill.SolidFill.Color.Transforms[0].Value);
+            chart.SetPosition(1, 0, 5, 0);
+
+            var svg = chart.ToSvg();
+
+            File.WriteAllText($"{_worksheetPath}svg\\EPPlusBarChart1.svg", svg);
+        }
+        [TestMethod]
+        public void Column3DChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Col3dChart");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddBarChart("Col3DChart1", eBarChartType.Column3D);
+            var serie = chart.Series.Add("D2:D5", "A2:A5");
+            var point = serie.DataPoints.Add(0);
+            point.Border.Fill.Color = Color.Blue;
+            point.Border.Fill.Style = eFillStyle.SolidFill;
+            point.Fill.Style = eFillStyle.SolidFill;
+            point.Fill.SolidFill.Color.SetRgbColor(Color.Yellow);
+            point.Fill.Transparency = 5;
             Assert.AreEqual(eColorTransformType.Alpha, point.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(95, point.Fill.SolidFill.Color.Transforms[0].Value);
             chart.SetPosition(1, 0, 5, 0);

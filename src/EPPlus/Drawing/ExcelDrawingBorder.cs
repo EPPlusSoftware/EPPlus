@@ -104,6 +104,13 @@ namespace OfficeOpenXml.Drawing
             }
             isSpInit = true;
         }
+        internal bool IsEmpty
+        {
+            get
+            {
+                return !ExistsNode(_linePath);
+            }
+        }
 
 
         string _compoundLineTypePath = "{0}/@cmpd";

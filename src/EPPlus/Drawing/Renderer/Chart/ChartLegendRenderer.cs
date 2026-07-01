@@ -47,14 +47,15 @@ namespace EPPlusImageRenderer.Svg
         double _maxWidth, _maxHeight;
         internal ChartLegendRenderer(ChartRenderer sc) : base(sc)
         {
-            if (sc.Chart.HasLegend == false || sc.Chart.Series.Count == 0)
+
+            var mf = Chart.Font.GetMeasureFont();
+            var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
+            var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
+
+            if (sc.Chart.HasLegend == false && sc.Chart.Series.Count == 0)
             {
                 return;
             }
-
-            var mf = Chart.Font.GetMeasureFont();
-            var shaper = OpenTypeFonts.GetShaperForFont(mf);
-            var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
 
             var l = ((ExcelChartStandard)sc.Chart).Legend;
 
@@ -276,7 +277,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (_ttMeasurer == null)
             {
-                _ttMeasurer = new OpenTypeFontTextMeasurer(OpenTypeFonts.GetShaperForFont(mf));
+                _ttMeasurer = new OpenTypeFontTextMeasurer(RenderContext.FontEngine.GetShaperForFont(mf));
             }
 
             var tm = _ttMeasurer.MeasureText(text, mf);
@@ -494,7 +495,7 @@ namespace EPPlusImageRenderer.Svg
             tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == entryIndex);
             var headerText = tl.GetName(serieIndex);
@@ -583,7 +584,7 @@ namespace EPPlusImageRenderer.Svg
                 }
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 //var para = sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault();
                 sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
                 sls.SeriesIcon = si;
@@ -631,7 +632,7 @@ namespace EPPlusImageRenderer.Svg
             var tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
             var headerText = s.GetHeaderText(index);
@@ -677,7 +678,7 @@ namespace EPPlusImageRenderer.Svg
             tbWidth = Rectangle.Bounds.Width - tbLeft;
 
             var tbHeight = tm.Height;
-            sls.Textbox = new DrawingTextBody(Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -698,7 +699,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var line = new LineRenderItem(Rectangle.Bounds);
             //line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, ChartRenderer.Theme.ColorScheme.Accent1.GetColor(), 0.75);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, ChartRenderer.Theme.ColorScheme.Accent1.GetColor(), 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 

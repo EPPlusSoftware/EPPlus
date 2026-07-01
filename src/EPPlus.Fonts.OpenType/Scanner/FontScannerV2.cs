@@ -65,7 +65,11 @@ namespace EPPlus.Fonts.OpenType.Scanner
             // callers, and IsExactMatch is per-query state, not a property of the font on disk.
             // Mutating the cached instance creates a race condition between parallel callers.
             var result = bestMatch.Clone();
-            result.IsExactMatch = bestScore >= 9_000;
+            // An exact match requires BOTH the family name and the requested style to match.
+            // Family-normalized (9_000) + exact style (2_000) = 11_000 is the lowest exact score.
+            // A face matching only the family but approximating the style (the +500/+1000 branches)
+            // must not count as exact, or the resolver returns e.g. a Regular face for a Bold request.
+            result.IsExactMatch = bestScore >= 11_000;
             return result;
         }
 
@@ -93,8 +97,17 @@ namespace EPPlus.Fonts.OpenType.Scanner
                      requestedNormalized.IndexOf(faceFamilyNormalized, StringComparison.Ordinal) >= 0)
                 score += 1_000;
 
+            bool styleMatches = face.Subfamily == requestedStyle;
+
+            // A variable font is only trustworthy for its default instance. If the requested style is
+            // not the face's default subfamily, this face cannot deliver it without variation
+            // interpolation (not yet implemented), so it must not win — disqualify it outright.
+            // This is what makes a variable "Archivo Narrow Regular" stop masquerading as a Bold match.
+            if (face.IsVariable && !styleMatches)
+                return -1;
+
             // Style matching
-            if (face.Subfamily == requestedStyle)
+            if (styleMatches)
                 score += 2_000;
             else if (requestedStyle == FontSubFamily.Regular || face.Subfamily == FontSubFamily.Regular)
                 score += 500;

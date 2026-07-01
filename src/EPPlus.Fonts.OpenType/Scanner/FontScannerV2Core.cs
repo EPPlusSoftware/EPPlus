@@ -91,6 +91,12 @@ namespace EPPlus.Fonts.OpenType.Scanner
                     };
                     info.TableRecords[record.Tag.Value] = record;
                 }
+
+                // A font is "variable" if it carries a font variations table. We only need to know that the
+                // table exists — not parse it — to decide that this face cannot be trusted to deliver a
+                // non-default subfamily. No extra I/O: the table directory is already in memory.
+                info.IsVariable = info.TableRecords.ContainsKey("fvar");
+
                 if (info.TableRecords.TryGetValue("OS/2", out TableRecord os2Rec))
                 {
                     try

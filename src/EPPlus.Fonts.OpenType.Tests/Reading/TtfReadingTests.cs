@@ -117,7 +117,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
             OpenTypeFont? calibri = SystemFontsEngine.LoadFont("Calibri", FontSubFamily.Italic);
             OpenTypeFont? aptos = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Bold);
             OpenTypeFont? timesNewRoman = SystemFontsEngine.LoadFont("Times New Roman", FontSubFamily.Regular);
-            OpenTypeFont? SS3 = TestFolderEngine.LoadFont("Source Sans 3", FontSubFamily.Bold);
+            OpenTypeFont? SS3 = TestFolderEngine.LoadFont("Source Sans 3", FontSubFamily.Regular);
 
             Assert.IsNotNull(gothic);
             Assert.AreEqual("BIZ UDGothic Bold", gothic.FullName);
@@ -242,7 +242,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Style = MeasurementFontStyles.Regular
             };
 
-            var fontMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var fontMeasurer = SystemFontsEngine.GetTextLayoutEngineForFont(mf);
             var strings = fontMeasurer.WrapText(testStr, mf.Size, MaxPixelWidth);
 
             Assert.AreEqual("hello the", strings[0]);

@@ -56,6 +56,9 @@
 		<None Update="Fonts\Roboto-BoldItalic.ttf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Fonts\Roboto-ExtraLight.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Fonts\Roboto-Italic.ttf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -65,6 +68,13 @@
 		<None Update="Fonts\SourceSans3-Regular.otf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Fonts\VariableFonts\ArchivoNarrow-VariableFont_wght.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Fonts\VariableFonts\" />
 	</ItemGroup>
 
 </Project>

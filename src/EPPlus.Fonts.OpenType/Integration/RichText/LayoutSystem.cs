@@ -30,16 +30,21 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
 
         TextLineCollection WrappedLineCollection;
+        private readonly OpenTypeFontEngine _engine;
 
-        public LayoutSystem(List<TextFragment> preFragments): this(preFragments.Cast<ITextFragmentBase>().ToList())
+        public LayoutSystem(OpenTypeFontEngine engine, List<TextFragment> preFragments)
+            : this(engine, preFragments.Cast<ITextFragmentBase>().ToList())
         {
         }
 
-        public LayoutSystem(IEnumerable<IRichTextFormatEssential> preFragments)
+        public LayoutSystem(OpenTypeFontEngine engine, IEnumerable<IRichTextFormatEssential> preFragments)
         {
-            InputFragments = new List<ITextFragmentBase>();
+            if (engine == null)
+                throw new ArgumentNullException("engine");
+            _engine = engine;
 
-            foreach(var preFrag in preFragments)
+            InputFragments = new List<ITextFragmentBase>();
+            foreach (var preFrag in preFragments)
             {
                 var frag = new TextFragmentBase(preFrag);
                 InputFragments.Add(frag);
@@ -47,8 +52,12 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             InitializeLayout();
         }
 
-        public LayoutSystem(IEnumerable<ITextFragmentBase> fragments)
+        public LayoutSystem(OpenTypeFontEngine engine, IEnumerable<ITextFragmentBase> fragments)
         {
+            if (engine == null)
+                throw new ArgumentNullException("engine");
+            _engine = engine;
+
             InputFragments = fragments.ToList();
             InitializeLayout();
         }
@@ -186,7 +195,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 foreach (var styleRun in StyleRuns)
                 {
                     var inputFrag = InputFragments[styleRun.FragmentIndex];
-                    var shaper = OpenTypeFonts.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
+                    var shaper = _engine.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
 
                     if (shapeLight)
                     {
@@ -219,7 +228,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
                 var lastFragment = InputFragments[InputFragments.Count - 1];
                 var lastRun = StyleRuns[StyleRuns.Count - 1];
-                var lastShaper = OpenTypeFonts.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
+                var lastShaper = _engine.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
                 var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
                 double[] lastCharWidths = new double[lastRun.Length + 1];
                 lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
@@ -242,8 +251,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 return new TextLineCollection();
             }
             var inputRt = InputFragments[0];
-            var shaper = OpenTypeFonts.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
-            var layoutEngine = new TextLayoutEngine(shaper);
+            var shaper = _engine.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
+            var layoutEngine = new TextLayoutEngine(_engine, shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
             if(wrappedLines.Count > 1)

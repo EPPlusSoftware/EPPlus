@@ -15,6 +15,24 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
     [TestClass]
     public sealed class ShapeToSvgTests : TestBase
     {
+        
+        [TestInitialize]
+        public void Initialize()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+        }
+
+        private OpenTypeFontEngine DefaultFontEngine
+        {
+            get { return new OpenTypeFontEngine(x => x.SearchSystemDirectories = true); }
+        }
+
+        private ExcelPackage GetPackage()
+        {
+            var p = new ExcelPackage();
+            p.Workbook.UseFontEngine(DefaultFontEngine);
+            return p;
+        }
 
         [TestMethod]
         public void GroupFill()
@@ -29,11 +47,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 foreach (var drawing in drawings)
                 {
-                    if(drawing is ExcelGroupShape)
+                    if (drawing is ExcelGroupShape)
                     {
                         var gShape = (ExcelGroupShape)drawing;
                         var gDrawings = gShape.Drawings;
-                        foreach(var gDrawing in gDrawings)
+                        foreach (var gDrawing in gDrawings)
                         {
                             SaveTextFileToWorkbook($"svg\\GroupFill{ix++}.svg", gDrawing.ToSvg());
                         }
@@ -51,35 +69,15 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             }
         }
 
-        [TestMethod]
-        public void SeveralFills()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ShapeWithFillNoFillAndDefault.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var drawings = ws.Drawings;
 
-                int ix = 0;
-
-                foreach (var drawing in drawings)
-                {
-                    var shapeCast = drawing.As.Shape;
-                    var filltype = shapeCast.Fill.Style;
-
-                    var svg = drawing.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\manyFills{ix++}.svg", svg);
-                }
-                SaveAndCleanup(p);
-            }
-        }
 
         [TestMethod]
         public void Rect()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
             using (var p = OpenPackage("svg/rect.xlsx", true))
             {
+                p.Workbook.UseFontEngine(DefaultFontEngine);
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.Rect);
                 d.Text = "Rectangle Rectangle Rectangle Rectangle";
@@ -94,9 +92,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void AddShapeWithPatternFill()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ShapeWithPattern.xlsx"))
             {
+                p.Workbook.UseFontEngine(DefaultFontEngine);
                 var ws = p.Workbook.Worksheets[0];
 
                 var myShape = ws.Drawings[0].As.Shape;
@@ -112,8 +110,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void RoundRect()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = new ExcelPackage())
+            using (var p = GetPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", eShapeStyle.RoundRect);
@@ -130,7 +127,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void Triangle()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -146,7 +143,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void RightArrow()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -160,7 +156,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void SmileyFace()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -174,7 +169,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void VerticalScroll()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -188,7 +182,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void CloudCallout()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -202,7 +195,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void IrregularSeal2()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -216,7 +208,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void LightningBolt()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -230,7 +221,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void FlowChartMagneticTape()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -244,7 +234,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void MathNotEqual()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -258,7 +247,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void Sun()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -274,7 +262,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void Ellipse()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -290,8 +277,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void Heart()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = new ExcelPackage())
+            using (var p = GetPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var d = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.Heart);
@@ -306,7 +292,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void BevelRed()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -322,7 +307,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void Bevel()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -338,7 +322,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void LeftBracket()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -354,7 +337,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void CalloutQuadArrow()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -369,7 +351,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void ActionButtonHome()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -384,7 +365,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void ActionButtonMovie()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -399,7 +379,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void CustomPath()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage(@"svg\CustPath.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -423,7 +402,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateAllShapes()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Shapes");
@@ -446,7 +424,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void TestShapes()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("margins.xlsx"))
             {
                 var drawings = p.Workbook.Worksheets[0].Drawings;
@@ -460,7 +437,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateSvgForGradientFilledShapes()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("GradientFillShapes.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -481,7 +457,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateSvgForGradientRadialFilledShapes()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("GradiantRadial.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -502,7 +477,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateSvgForPatternFilledShapes()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("PatternFills.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -519,7 +493,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateSvgForBlipFillShapes()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("BlipFills.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -538,7 +511,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateSvgForCircle()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("GradientRadialVerifyCircle.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -559,7 +531,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void SuperScriptShape()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("Superscript.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -579,7 +550,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void SuperAndSubScript()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("SuperAndSubScript.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -594,7 +564,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void OpenRightAligned()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("SimpleChartRightAlign.xlsx"))
             {
                 var c = p.Workbook.Worksheets[0].Drawings[0];
@@ -606,7 +575,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void TestStyling()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("MyCellsAdvanced.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -635,7 +603,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void GenerateShapeCenteredParagraph()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenPackage("ShapeTestCentered.xlsx",true))
             {
                 var sheet = p.Workbook.Worksheets.Add("ShapeSheet");
@@ -701,7 +668,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void ChartAndShapeGreen()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ShapeAndChartTestGreen.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -721,7 +687,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         [TestMethod]
         public void CreateChartsWithDifferentSize()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenPackage("ChartWithDifferentSizes.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Chart1");
