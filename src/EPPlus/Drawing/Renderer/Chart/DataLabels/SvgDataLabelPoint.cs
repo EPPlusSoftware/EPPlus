@@ -1,6 +1,5 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
@@ -28,6 +27,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         Coordinate _manualLayoutOffset = new Coordinate (0, 0);
         PointLines _connectionPointLines;
         eLabelPosition _labelPosition;
+        internal double CounterRotation = double.NaN;
 
         //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         //{
@@ -104,22 +104,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var txtBox = new DrawingTextBox(Chart, Rectangle.Bounds, maxBounds.Width, maxBounds.Height);
 
-            txtBox.ImportTextBody(dataLabel.TextBody, false);
+            txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);
 
             txtBox.TextBody.Bounds.Top = 0;
             txtBox.TextBody.AutoSize = true;
 
             if (txtBox.TextBody.Paragraphs.Count == 0)
             {
-                txtBox.TextBody.ImportParagraph(defaultParagraph, 0, finalString);
+                if(defaultParagraph == null)
+                {
+                    txtBox.TextBody.AddParagraph(finalString);
+                }
+                else
+                {
+                    txtBox.ImportParagraph(defaultParagraph, 0, finalString);
+                }
                 //txtBox.TextBody.AddParagraph(0, finalString);
             }
             else if (txtBox.TextBody.Paragraphs.Count == 1)
             {
-                txtBox.TextBody.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
+                txtBox.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
                 //Remove dummy paragraph added by ImportTextBody
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
+
+            txtBox.TextBody.RecalculateParagraphs();
 
             if(txtBox.LeftMargin == 0)
             {
@@ -147,6 +156,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
             }
+            //else
+            //{
+            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+            //    _txtBox.Rectangle.FillColor = "transparent";
+            //}
+
             if (dataLabel.Font.IsEmpty == false)
             {
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
@@ -167,12 +182,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     _hasManualLayout = true;
                     var rect = GetRectFromManualLayout(ChartRenderer, individualLabel.Layout);
-                    Rectangle = rect;
 
-                    _manualLayoutOffset = new Coordinate(Rectangle.Left, Rectangle.Top);
+                    Rectangle.Bounds.Left += rect.Left;
+                    Rectangle.Bounds.Top += rect.Top;
 
-                    Rectangle.Bounds.Left += _manualLayoutOffset.X;
-                    Rectangle.Bounds.Top += _manualLayoutOffset.Y;
+                    _manualLayoutOffset = new Coordinate(rect.Left, rect.Top);
+
+                    if (rect.Bounds.Width != 0)
+                    {
+                        Rectangle.Bounds.Width = rect.Bounds.Width;
+                    }
+                    if (rect.Bounds.Height != 0)
+                    {
+                        Rectangle.Bounds.Height = rect.Bounds.Height;
+                    }
 
                     if (dataLabel.ShowLeaderLines)
                     {
@@ -210,10 +233,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             return smallestIndex;
         }
 
-        BoundingBox _parentShapeBounds = null;
-
-
-
         private void SetPositionBasic(BoundingBox point, eLabelPosition basicPosition)
         {
             switch (basicPosition)
@@ -223,68 +242,192 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //    Bounds.Top = dataLabelCenter.Y;
                 //    break;
                 case eLabelPosition.Left:
-                    Rectangle.Bounds.Left -= _txtBox.Width + (point.Width / 2);
+                    Rectangle.Bounds.Left -= (_txtBox.Width/2) + (point.Width / 2d);
                     break;
                 case eLabelPosition.Right:
                 case eLabelPosition.BestFit:
-                    Rectangle.Bounds.Left += _txtBox.Width / 2 + point.Width;
+                    Rectangle.Bounds.Left += (_txtBox.Width / 2d) + point.Width;
                     break;
                 case eLabelPosition.Top:
-                    Rectangle.Bounds.Top -= (point.Height + _txtBox.Height) / 2;
+                    Rectangle.Bounds.Top -= (point.Height + _txtBox.Height) / 2d;
                     break;
                 case eLabelPosition.Bottom:
-                    Rectangle.Bounds.Top += (point.Height + _txtBox.Height) / 2;
+                    Rectangle.Bounds.Top += (point.Height + _txtBox.Height) / 2d;
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position entered in SetPositionBasic: '{basicPosition}' is not a basic position");
             }
         }
 
-        internal void SetParentPoint(BoundingBox parentPoint, BoundingBox parentShape, Vector2 startToEndDir)
+
+        RectRenderItem originPointRect;
+        RectRenderItem basePositionRect;
+        RectRenderItem endPositionRect;
+        RectRenderItem centerPositionRect;
+
+
+        private RectRenderItem GenerateDebugRenderItem(BoundingBox parent, string fillColor)
+        {
+            var pointRect = new RectRenderItem(parent);
+            pointRect.Width = 10d;
+            pointRect.Height = 10d;
+            pointRect.FillColor = fillColor;
+            pointRect.Left = -5d;
+            pointRect.Top = -5d;
+            return pointRect;
+        }
+
+
+        private void CreateDebugPoints(Transform basePoint, Transform endPoint, Transform centerPoint)
+        {
+            originPointRect = GenerateDebugRenderItem(_parentPoint, "darkRed");
+            basePositionRect = GenerateDebugRenderItem(_parentPoint, "darkGreen");
+            basePositionRect.Left += basePoint.LocalPosition.X;
+            basePositionRect.Top += basePoint.LocalPosition.Y;
+            endPositionRect = GenerateDebugRenderItem(_parentPoint, "darkBlue");
+            endPositionRect.Left += endPoint.LocalPosition.X;
+            endPositionRect.Top += endPoint.LocalPosition.Y;
+            endPositionRect.BorderWidth = 2d;
+            endPositionRect.BorderColor = "cyan";
+            centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
+            centerPositionRect.Left += centerPoint.LocalPosition.X;
+            centerPositionRect.Top += centerPoint.LocalPosition.Y;
+        }
+        private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
+        {
+            if(reverseDirection)
+            {
+                direction *= -1;
+            }
+
+            //Ensure vector is normalized
+            var directionOnly = direction / direction.Length;
+
+            //Get txtbox-size based vector
+            var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+
+            //Apply translation to current position
+            Rectangle.Bounds.Position += directionOnly * txtBoxAdjustVector;
+        }
+
+        private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
+        {
+            //Translate to the translation point
+            Rectangle.Bounds.Position += translation;
+            SetAdjustedTextBoxPosition(direction, reverseDirection);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void SetShapeDimensions(Transform basePoint, Transform endPoint)
+        {
+            if(basePoint.Parent != endPoint.Parent)
+            {
+                throw new InvalidOperationException("basePoint and endPoint have different parents. " +
+                    "Please ensure that they share the same parent");
+            }
+
+
+            //--- Set parent point ---
+            _parentPoint = new BoundingBox();
+            _parentPoint.Parent = basePoint.Parent.Parent;
+            _parentPoint.Left = basePoint.Parent.LocalPosition.X;
+            _parentPoint.Top = basePoint.Parent.LocalPosition.Y;
+            Rectangle.Bounds.Parent = _parentPoint;
+            //---
+
+            //--- Calculate vectors and center point ---
+            var endVector = endPoint.LocalPosition;
+            var baseVector = basePoint.LocalPosition;
+
+            var endToBaseVector = baseVector - endVector;
+            var centerVector = endToBaseVector * 0.5d;
+
+            //Translate from end point towards base point by 50% to find the center point
+            Transform centerPoint = new Transform(endPoint.LocalPosition + centerVector, endPoint.LocalPosition + centerVector);
+            centerPoint.Parent = basePoint.Parent;
+            //--- 
+
+            //At this point our rectangle globally is centered on the top-left of the object.
+            //And endVector is the top center position.
+
+            //--- Visualize positions for debugging purposes
+            //CreateDebugPoints(basePoint, endPoint, centerPoint);
+            //---
+
+            switch (_labelPosition)
+            {
+                case eLabelPosition.Center:
+                    Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
+                    Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
+                    break;
+                case eLabelPosition.Left:
+                    SetPositionBasic(_parentPoint, _labelPosition);
+                    break;
+                case eLabelPosition.Right:
+                    SetPositionBasic(_parentPoint, _labelPosition);
+                    break;
+                case eLabelPosition.Top:
+                    SetPositionBasic(_parentPoint, _labelPosition);
+                    break;
+                case eLabelPosition.Bottom:
+                    SetPositionBasic(_parentPoint, _labelPosition);
+                    break;
+                case eLabelPosition.InBase:
+                    SetInOut(endToBaseVector, basePoint.LocalPosition, true);
+                    break;
+                case eLabelPosition.InEnd:
+                    SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                    break;
+                case eLabelPosition.OutEnd:
+                    SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                    break;
+                //Only available in charts that include pie chart
+                case eLabelPosition.BestFit:
+                    //Try to fit within object if possible. If not then as close to it as possible?
+
+                    //var labelVector = new Vector2(_txtBox.Width, _txtBox.Height);
+                    bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
+                    bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
+                    if (CanFitWidth && CanFitHeight)
+                    {
+                        //TODO: make input parameter in pie chart
+                        bool canFitInCenter = false;
+                        if (canFitInCenter)
+                        {
+                            Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
+                            Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
+                        }
+                        else
+                        {
+                            //Set inside End
+                            SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                        }
+                    }
+                    else
+                    {
+                        //Set outside end
+                        SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                    }
+                    break;
+                default:
+                    throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
+            }
+        }
+
+        internal void SetParentPoint(BoundingBox parentPoint)
         {
             Rectangle.Bounds.Parent = parentPoint;
             _parentPoint = parentPoint;
-            _parentShapeBounds = parentShape;
 
             var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
-            Vector2 startPointDirection = Vector2.Zero;
 
-            if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
+            switch (_labelPosition)
             {
-                startPointDirection = startToEndDir / startToEndDir.Length;
-            }
-
-                //if (_parentShapeBounds != null)
-                //{
-                //    //shapeCenter
-                //    dataLabelCenter = new Graphics.Math.Vector2((_parentShapeBounds.Width / 2)+parentShape.Left, (_parentShapeBounds.Height / 2)+parentShape.Top);
-
-                //    //Get directional vector (in local coords but does not matter since we make it directional)
-                //    startPointDirection = dataLabelCenter - parentPoint.LocalPosition;
-                //    //Divide by length to only get direction
-                //    var startPointDirectionOnly = startPointDirection / startPointDirection.Length;
-
-                //    //var lenX = Math.Abs()
-                //    //////Pythagoran theorem
-                //    var len = Math.Sqrt(Math.Pow(startPointDirection.X, 2) + Math.Pow(startPointDirection.Y, 2));
-                //    startPointDirection = startPointDirectionOnly * len;
-                //}
-                //else
-                //{
-                //    dataLabelCenter = new Graphics.Math.Vector2(Bounds.Left, Bounds.Top);
-                //}
-
-                switch (_labelPosition)
-                {
                 case eLabelPosition.Center:
-
-                    if ((startToEndDir.X == 0 && startToEndDir.Y == 0) == false)
-                    {
-                        //Half and invert
-                        dataLabelCenter = ((startToEndDir*0.5d) * -1d);
-                    }
-                    Rectangle.Bounds.Left += dataLabelCenter.X;
-                    Rectangle.Bounds.Top += dataLabelCenter.Y;
+                    Rectangle.Bounds.Left += Rectangle.Bounds.Left;
+                    Rectangle.Bounds.Top += Rectangle.Bounds.Top;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(parentPoint, _labelPosition);
@@ -298,91 +441,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     break;
                 case eLabelPosition.Bottom:
                     SetPositionBasic(parentPoint, _labelPosition);
-                    break;
-                case eLabelPosition.InEnd:
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
-                    //}
-                    ////if(parentShape == null)
-                    ////{
-                    ////    throw new InvalidOperationException("eLabelPosition.InEnd MUST have a parentShape");
-                    ////}
-                    //startPointDirection = startPointDirection * -1;
-                    //if (startPointDirection.X != 0)
-                    //{
-                    //    //If endPoint is to the right
-                    //    if (startPointDirection.X > 0)
-                    //    {
-                    //        //We must place to the left
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Left);
-                    //    }
-                    //    //if endpoint is to the left
-                    //    else
-                    //    {
-                    //        //We must place to the right
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Right);
-                    //    }
-                    //}
-
-                    //if (startPointDirection.Y != 0)
-                    //{
-                    //    //If endpoint is below
-                    //    if (startPointDirection.Y > 0)
-                    //    {
-                    //        //We must place on Top
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Top);
-                    //    }
-                    //    else
-                    //    {
-                    //        //We must place on Bottom
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                    //    }
-                    //}
-                    break;
-                case eLabelPosition.OutEnd:
-                    //if (startPointDirection.X == 0 && startPointDirection.Y == 0)
-                    //{
-                    //    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a direction." +
-                    //        "Cannot be within End if EndPoint is undefined.");
-                    //}
-                    ////if (parentShape == null)
-                    ////{
-                    ////    throw new InvalidOperationException("eLabelPosition.OutEnd MUST have a parentShape");
-                    ////}
-
-                    //if (startPointDirection.X != 0)
-                    //{
-                    //    //If endPoint is to the left
-                    //    if (startPointDirection.X < 0)
-                    //    {
-                    //        //We must place to the left
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Left);
-                    //    }
-                    //    //if endpoint is to the right
-                    //    else
-                    //    {
-                    //        //We must place to the right
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Right);
-                    //    }
-                    //}
-
-                    //if (startPointDirection.Y != 0)
-                    //{
-                    //    //If endpoint is on Top
-                    //    if (startPointDirection.Y < 0)
-                    //    {
-                    //        //We must place on Top
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Top);
-                    //    }
-                    //    //If endpoint is on bottom
-                    //    else
-                    //    {
-                    //        //We must place on Bottom
-                    //        SetPositionBasic(parentPoint, eLabelPosition.Bottom);
-                    //    }
-                    //}
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
@@ -458,24 +516,50 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var parentPointGroup = new GroupRenderItem(_parentPoint);
-            renderItems.Add(parentPointGroup);
+            parentPointGroup.Left = _parentPoint.Left;
+            parentPointGroup.Top = _parentPoint.Top;
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
-            renderItems.Add(titleItemOrigin);
+            parentPointGroup.AddChildItem(titleItemOrigin);
+
+            if(originPointRect != null)
+            {
+                parentPointGroup.AddChildItem(originPointRect);
+            }
+            if(basePositionRect != null)
+            {
+                parentPointGroup.AddChildItem(basePositionRect);
+            }
+            if(endPositionRect != null)
+            {
+                parentPointGroup.AddChildItem(endPositionRect);
+            }
+            if(centerPositionRect != null)
+            {
+                parentPointGroup.AddChildItem(centerPositionRect);
+            }
+
+            renderItems.Add(parentPointGroup);
 
             var group = new GroupRenderItem(Rectangle.Bounds);
-            parentPointGroup.RenderItems.Add(group);
+            group.Left = Rectangle.Bounds.Left;
+            group.Top = Rectangle.Bounds.Top;
 
             var titleItem = new TitleRenderItem("DataLabel size adjustment");
-            parentPointGroup.RenderItems.Add(titleItem);
+            group.AddChildItem(titleItem);
 
-            _txtBox.AppendRenderItems(parentPointGroup.RenderItems);
+            parentPointGroup.RenderItems.Add(group);
+
+            group.RotationPoint = new Graphics.Point(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
+            group.Rotation = CounterRotation;
+
+            _txtBox.AppendRenderItems(group.RenderItems);
             
             if(_renderConnectionPointLines)
             {
                 if (_connectionPointLines != null)
                 {
-                    _connectionPointLines.AppendRenderItems(parentPointGroup.RenderItems);
+                    _connectionPointLines.AppendRenderItems(group.RenderItems);
                 }
             }
 
@@ -487,7 +571,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     height = _txtBox.Height;
                 }
                 //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Bounds.Left, height / 2 - 2));
+                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Bounds.Left, height / 2));
+                iconGrp.Left = _seriesIcon.Bounds.Left;
+                iconGrp.Top = (height / 2) - 2;
                 group.RenderItems.Add(iconGrp);
                 iconGrp.RenderItems.Add(_seriesIcon);
             }

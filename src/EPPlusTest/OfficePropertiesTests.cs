@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,20 @@ namespace EPPlusTest
 
             p.Dispose();
             p2.Dispose();
+        }
+
+        [TestMethod]
+        public void AppVersion_SetToNull_RemovesNodeWithoutThrowing()
+        {
+            using var package = new ExcelPackage();
+            var props = package.Workbook.Properties;
+            var s = package.Workbook.Worksheets.Add("TestSheet");
+            s.Cells["A1"].Value = "Hej";
+            props.AppVersion = "16.0300";
+            Assert.AreEqual("16.0300", props.AppVersion);
+            
+            props.AppVersion = null;
+            Assert.IsTrue(string.IsNullOrEmpty(props.AppVersion)); 
         }
     }
 }

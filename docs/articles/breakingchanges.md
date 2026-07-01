@@ -230,4 +230,5 @@ The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 
 ### 9.0.0
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
+The misspelled property on drawingFill `Transparancy`  has been renamed to `Transparency`
 The `Richtext.Baseline` property now always return that value in whole percent.

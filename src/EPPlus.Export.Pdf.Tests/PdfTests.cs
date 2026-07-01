@@ -15,6 +15,15 @@ using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
 using System.Diagnostics;
 using System.Text;
+using OfficeOpenXml.Export.PdfExport;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
+using EPPlus.Export.Pdf;
+using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
+using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.RichText;
+using OfficeOpenXml.Style;
+using System.Diagnostics;
 
 namespace EPPlusTest.PDF
 {
@@ -335,7 +344,7 @@ namespace EPPlusTest.PDF
             using var ms = new MemoryStream();
             using var cts = new CancellationTokenSource();
             cts.Cancel();
-            await Assert.ThrowsExactlyAsync<TaskCanceledException>( () => wb.SaveAsPdfAsync(ms, cts.Token));
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => wb.SaveAsPdfAsync(ms, cts.Token));
         }
 
         [TestMethod]
@@ -595,6 +604,72 @@ namespace EPPlusTest.PDF
             pageSettings.ShowHeadings = false;
 
             PdfCatalog catalog = new PdfCatalog(outputPath, pageSettings, ws);
+
+        }
+
+        [TestMethod]
+        public void PerfTest()
+        {
+            var sw = new Stopwatch();
+            Console.WriteLine("Starting...");
+            sw.Start();
+            using var p = OpenTemplatePackage("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx");
+            Console.WriteLine($"Read package time elapsed: {sw.ElapsedMilliseconds} ms");
+            sw.Restart();
+            var ws = p.Workbook.Worksheets[0];
+            var dun = ws.Dimension;
+            var pageSettings = new PdfPageSettings
+            {
+                CommentsAndNotes = CommentsAndNotes.AtEndOfSheet,
+                CellErrors = CellErrors.NA,
+                Debug = true,
+                PrintAsText = true,
+                ShowGridLines = false,
+                ShowHeadings = true
+            };
+            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\OutputTest1.3.pdf");
+            Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
+        }
+
+
+        [TestMethod]
+        // works as expected.
+        //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
+        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
+
+        // Output file: OutputTest1.2.pdf
+        // 1. Minus signs alignment in cells differs from Excel. ------------------------------------------------ Comment: Currently no support for number formats. Requires implementing number formats.
+        // 2. Dimension seems to differ from Excel, Excel stops at row 75, EPPlus goes to row 89. --------------- Fixed
+        // 3. Row headings are sligthly wider in EPPlus than in Excel. ------------------------------------------ Fixed
+        [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.2.pdf", "Summary")]
+        // works as expected
+        [DataRow("Aico WiP 120180 FBL3N for 0110 in 2025-04.xlsx", "C:\\epplustest\\pdf\\OutputTest1.4.pdf", "Technical")]
+        [DataRow("Aico KKS1 Variance Calculation for 0105 in 2025-04 (25_4_2025 15_43_40) .xlsx", "C:\\epplustest\\pdf\\OutputTest1.5.pdf", "Technical")]
+
+        // Output file: OutputTest1.6.pdf
+        // 1. Merged cells not working ------------------------------------ Fixed. Comment Merged cells was fine, it was borders being rendered inside merged cells.
+        // 2. Pattern fills looks differnt, in some cases not working -----
+        // 3. Rotation of text in cells not working (the dates). ----------
+        // [DataRow("R05.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
+        [DataRow("R05 - Copy.xlsx", "C:\\epplustest\\pdf\\OutputTest1.6.pdf", "R05 Arbeitseinteilung")]
+        //[DataRow("PatternStyles.xlsx", "C:\\epplustest\\pdf\\OutputTest1.8.pdf", "Sheet1")]
+        public void WorkbookTests(string sourceFile, string outputPath, string wsName)
+        {
+            using var p = OpenTemplatePackage(sourceFile);
+            var ws = p.Workbook.Worksheets[wsName];
+            var d = ws.Dimension;
+            var d2 = ws.DimensionByValue;
+
+            PdfPageSettings pageSettings = new PdfPageSettings();
+            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
+
+            pageSettings.CellErrors = CellErrors.Displayed;
+            pageSettings.Debug = true;
+            pageSettings.PrintAsText = true;
+            pageSettings.ShowGridLines = false;
+            pageSettings.ShowHeadings = false;
+
+            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
         }
     }
 }

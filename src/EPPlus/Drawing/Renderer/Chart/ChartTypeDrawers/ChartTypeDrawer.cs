@@ -7,6 +7,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -21,6 +22,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         internal protected ExcelChart _chartType;
         internal List<ChartTrendlineRenderer> Trendlines { get; } = new List<ChartTrendlineRenderer>();
+        internal ChartErrorBarRenderer ErrorBars { get; private set; }
         internal virtual bool SupportsTrendlines { get { return false; } }
         internal virtual bool SupportsErrorBars { get { return false; } }
         internal virtual bool SupportsUpDownBars { get { return false; } }
@@ -201,6 +203,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 serieIndex++;
             }
         }
+        protected void CreateErrorBars(ExcelChart chartType, List<List<object>> xValues, List<List<object>> yValues)
+        {
+            if (!(chartType.IsTypeLine() || chartType.IsTypeColumn() || chartType.IsTypeBar())) return;
+
+            var serieIndex = 0;
+            foreach (ExcelChartSerieWithErrorBars serie in chartType.Series)
+            {
+                if (serie.HasErrorBars())
+                {
+                    var xSerie = xValues[serieIndex];
+                    var ySerie = yValues[serieIndex];
+                    ErrorBars = new ChartErrorBarRenderer(ChartRenderer, serie.ErrorBars, xSerie, ySerie, _chartType, serieIndex); 
+                }
+                serieIndex++;
+            }
+        }
+
         internal bool IsOnAxis(ExcelChartAxisStandard ax)
         {
             return _chartType.YAxis==ax || _chartType.XAxis==ax;

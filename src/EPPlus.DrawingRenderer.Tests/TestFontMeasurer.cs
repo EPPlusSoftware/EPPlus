@@ -4,12 +4,30 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using System.Drawing;
 
 namespace TestProject1
 {
     [TestClass]
     public class TestFontMeasurer
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            _systemFolderEngine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            SystemFolderEngine.Dispose();
+            _systemFolderEngine = null;
+        }
+
+        private OpenTypeFontEngine? _systemFolderEngine;
+
+        private OpenTypeFontEngine SystemFolderEngine => _systemFolderEngine ?? new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+
         [TestMethod]
         public void CompareFontMeasurer3()
         {
@@ -20,7 +38,7 @@ namespace TestProject1
                 Size = 72.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var testStr = "Hello there⁴₂";
 
@@ -56,7 +74,7 @@ namespace TestProject1
                 Style = MeasurementFontStyles.Regular
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var strings = handler.WrapText(testStr, MaxPixelWidth.PixelToPoint());
 
@@ -86,7 +104,7 @@ namespace TestProject1
                 Size = (float)fontSize,
                 Style = MeasurementFontStyles.Regular
             };
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var strings = handler.WrapText(testString, MaxPixelWidth.PixelToPoint());
 
@@ -139,7 +157,7 @@ namespace TestProject1
                 Style = MeasurementFontStyles.Regular,
                 Size = 11.0f,
             };
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var layout = SystemFolderEngine.GetTextLayoutEngineForFont(mf);
             var output = layout.WrapText(text, 11f, 39.4);
 
             var shaper = OpenTypeFonts.GetShaperForFont(mf);
@@ -169,7 +187,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
             //float ptMax = 39.68503937007874015748031496063f;
             //float ptMax = 36.840393700787401574803149606299f - 1.5f;
             //float pixels = 53f;
@@ -178,7 +196,8 @@ namespace TestProject1
 
             ShapingOptions options = new ShapingOptions();
 
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(mf);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var layout = engine.GetTextLayoutEngineForFont(mf);
 
             //var wrappedStrings = layout.WrapRichText(new List<string>() { text }, new List<MeasurementFont>() { mf }, 39.4f);
 
@@ -231,7 +250,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             var wrappedStrings = handler.WrapText(text, pointWidth);
 
@@ -252,7 +271,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             double maxPixelWidth = 72d;
 
@@ -260,7 +279,7 @@ namespace TestProject1
 
             const string SavedComparisonString = "Lorem\r\nipsum dolor\r\nsit amet,\r\nconsectetur\r\nadipiscing\r\nelit. Nulla\r\npulvinar\r\ninterdum\r\nimperdiet.\r\nPraesent ut\r\nauctor urna.\r\nPhasellus\r\nsollicitudin\r\nquam vitae\r\nest\r\nconvallis,\r\neu mattis\r\nlorem\r\nefficitur.\r\nMauris nulla\r\nlibero,\r\ntincidunt id\r\nipsum non,\r\nlobortis\r\ntristique\r\nmauris.\r\nDonec ut\r\nenim sed\r\nenim\r\nfermentum\r\nmolestie vel\r\nquis odio.\r\nMorbi a\r\nfermentum\r\nmassa, sit\r\namet\r\nultrices est.\r\nAenean\r\nante mi,\r\nfermentum\r\nnec\r\nrhoncus et,\r\nvulputate\r\nvel sapien.\r\nDonec\r\ntempus, leo\r\nquis luctus\r\nrhoncus,\r\naugue odio\r\npharetra\r\nlibero, ac\r\nblandit urna\r\nturpis sed\r\ndiam.\r\nVivamus\r\naugue\r\npurus,\r\neleifend et\r\njusto\r\nfacilisis,\r\nimperdiet\r\nrhoncus\r\nsem.\r\nQuisque\r\naccumsan\r\npellentesqu\r\ne elit, eget\r\nfinibus\r\nmassa\r\naccumsan\r\nin. Fusce eu\r\naccumsan\r\nenim. Cras\r\npulvinar\r\nenim vel\r\ntellus\r\nlacinia,\r\nconsectetur\r\neuismod\r\ntortor\r\nconsectetur\r\n. Praesent\r\ntincidunt\r\npretium\r\neros, ac\r\nauctor\r\nmagna\r\nluctus sed.\r\nUt porta\r\nlectus\r\nquam, non\r\nornare\r\nmauris\r\nlacinia sit\r\namet.\r\nNullam\r\negestas\r\ndolor quis\r\nmagna\r\nporttitor, ac\r\niaculis nisi\r\nhendrerit.\r\nProin at\r\nmollis\r\nlacus, in\r\nporttitor\r\nnunc.\r\nAliquam\r\nerat\r\nvolutpat.\r\nSed vel\r\negestas\r\nrisus, at\r\naliquam\r\narcu.\r\nVestibulum\r\nquis\r\nlobortis\r\nnulla. Etiam\r\npellentesqu\r\ne auctor\r\nnulla, eget\r\ntincidunt\r\nfelis\r\nrhoncus id.\r\nSed metus\r\nante,\r\nefficitur id\r\ndui eu,\r\nfermentum\r\nmollis odio.\r\nPhasellus\r\nullamcorper\r\niaculis\r\naugue vel\r\nconsequat.\r\nEtiam\r\nfringilla\r\neuismod\r\ninterdum.\r\nUt molestie\r\nmassa id\r\nfringilla\r\nlobortis.\r\nVestibulum\r\nmalesuada,\r\nante vel\r\nmattis\r\nultrices,\r\nsem ante\r\nmolestie\r\naugue, non\r\ntristique dui\r\nmi non\r\nnibh.\r\nMaecenas\r\ndictum,\r\nsem eget\r\nconvallis\r\nrhoncus,\r\nlacus enim\r\nporta\r\nneque, in\r\nposuere dui\r\nex a sapien.\r\nNam lacus\r\nnibh,\r\nposuere sed\r\nelit eget,\r\ncondimentu\r\nm facilisis\r\nligula. Cras\r\nconsectetur\r\nlacus\r\nullamcorper\r\nvelit aliquet\r\nbibendum\r\neget vel\r\nnulla.\r\nAenean\r\nvarius ac\r\nerat quis\r\nullamcorper\r\n. Donec\r\nlaoreet arcu\r\na lorem\r\nvolutpat\r\nfaucibus.\r\nVivamus\r\nvehicula leo\r\nut erat\r\nluctus\r\nscelerisque.\r\nMorbi\r\nposuere ex\r\net magna\r\negestas\r\nfacilisis.\r\nFusce\r\nscelerisque\r\nvolutpat\r\nerat\r\nbibendum\r\nhendrerit.\r\nNam blandit\r\nmi ut metus\r\npulvinar, vel\r\ntempus\r\nlacus\r\neuismod.\r\nQuisque\r\nimperdiet\r\nsit amet\r\nsapien sed\r\nultricies.\r\nPhasellus\r\nsodales,\r\nipsum vitae\r\ntincidunt\r\nfacilisis,\r\nnulla ligula\r\nfaucibus\r\nfelis, eget\r\nvehicula\r\nante lacus\r\neu lorem.\r\nInteger\r\ncongue\r\ndiam ac\r\nviverra\r\ntristique.\r\nCurabitur\r\ntristique\r\ndolor quis\r\nquam\r\npretium, et\r\nscelerisque\r\nquam\r\ndictum.\r\nMaecenas\r\nvitae\r\nsodales\r\nligula.\r\nPellentesqu\r\ne maximus\r\ndiam vel\r\nporta\r\nconvallis. Ut\r\naliquam\r\neros quis\r\nporta\r\npellentesqu\r\ne. Fusce in\r\nex ut mi\r\negestas\r\ncursus.\r\nAliquam\r\nerat\r\nvolutpat.\r\nCras laoreet\r\ncondimentu\r\nm laoreet.\r\nSed eget\r\nfacilisis\r\ntellus.\r\nMorbi\r\nviverra odio\r\nsed odio\r\nplacerat\r\nmollis. Duis\r\nturpis\r\nmetus,\r\ndignissim\r\nvarius urna\r\nquis, viverra\r\ndignissim\r\ndui.\r\nVivamus\r\nviverra at\r\nnisi quis\r\nconvallis.\r\nSuspendiss\r\ne fringilla\r\nrisus et ante\r\nsollicitudin,\r\nsed eleifend\r\nsem\r\nplacerat.\r\nProin\r\npretium\r\nblandit\r\narcu, eget\r\nrhoncus\r\nrisus\r\nhendrerit at.\r\nInterdum et\r\nmalesuada\r\nfames ac\r\nante ipsum\r\nprimis in\r\nfaucibus.\r\nPhasellus\r\nvulputate\r\nefficitur\r\nmaximus.\r\nCras blandit\r\nnulla eu nisi\r\nauctor\r\ntempus.\r\nSed pretium\r\nlacus ac\r\nmagna\r\nvestibulum,\r\naliquam\r\nfaucibus\r\norci luctus.\r\nMauris enim\r\nlorem,\r\nvarius ut\r\nante quis,\r\nvarius\r\nviverra\r\nlectus.\r\nFusce\r\nblandit nibh\r\nvel feugiat\r\nefficitur.\r\nDonec\r\nmaximus id\r\njusto ac\r\nmollis.\r\nVestibulum\r\nante ipsum\r\nprimis in\r\nfaucibus\r\norci luctus\r\net ultrices\r\nposuere\r\ncubilia\r\ncurae; Nulla\r\nplacerat\r\nlectus et\r\npurus\r\ndictum, id\r\ncongue nisi\r\neuismod.\r\nMaecenas\r\neuismod\r\nfermentum\r\ndiam, sit\r\namet\r\ngravida\r\nmagna\r\nsuscipit a.\r\nQuisque\r\nconsectetur\r\narcu eu\r\nnunc\r\nsodales\r\nscelerisque.\r\nNulla non\r\ntincidunt\r\nnulla.\r\nPellentesqu\r\ne ut tortor\r\nvel enim\r\nconvallis\r\nmalesuada.\r\nAliquam\r\nultricies\r\nbibendum\r\nultrices.\r\nMauris\r\nrutrum ac\r\nnisl vel\r\nluctus.\r\nDonec quis\r\nnibh vitae\r\norci ultricies\r\ngravida.\r\nAliquam\r\nvitae velit\r\nporttitor\r\nlorem\r\nbibendum\r\nfringilla\r\nvolutpat a\r\neros.\r\nCurabitur at\r\ncommodo\r\ntortor. Etiam\r\nultricies,\r\nneque et\r\niaculis\r\neuismod,\r\ndiam ligula\r\nluctus mi,\r\nvitae\r\nlobortis felis\r\nlorem eu\r\nnulla. Sed a\r\nsemper ex.\r\nInterdum et\r\nmalesuada\r\nfames ac\r\nante ipsum\r\nprimis in\r\nfaucibus.\r\nNulla\r\nmauris elit,\r\npulvinar ac\r\ntortor et,\r\nluctus\r\nhendrerit\r\nnisl. In\r\negestas\r\nauctor urna\r\nvitae\r\nlaoreet.\r\nPraesent\r\nbibendum\r\negestas\r\nconvallis.\r\nProin non\r\nsuscipit\r\ntellus.\r\nNullam at\r\nnibh in urna\r\nlaoreet\r\nsodales non\r\nvel tellus.\r\nDonec in\r\nenim dui.\r\nPhasellus\r\nquis quam\r\ntincidunt,\r\npellentesqu\r\ne lorem ac,\r\nscelerisque\r\nneque.\r\nInteger nec\r\ntempus\r\nurna. Donec\r\nelit massa,\r\neleifend eu\r\nsapien sit\r\namet,\r\nmollis\r\npellentesqu\r\ne est.\r\nNullam\r\ntristique\r\ntellus\r\niaculis arcu\r\nconsectetur\r\npretium.\r\nSed\r\nvenenatis\r\nconvallis\r\nscelerisque.\r\nSuspendiss\r\ne varius\r\nurna sit\r\namet purus\r\naccumsan,\r\nid ultricies\r\nerat\r\nefficitur.\r\nCras non\r\nipsum eget\r\nnulla\r\nefficitur\r\ncommodo\r\nsit amet non\r\nlacus. Proin\r\nviverra enim\r\nsit amet\r\nenim\r\ntempus\r\nullamcorper\r\n. Class\r\naptent taciti\r\nsociosqu ad\r\nlitora\r\ntorquent per\r\nconubia\r\nnostra, per\r\ninceptos\r\nhimenaeos.\r\nDuis ac\r\nmassa\r\ninterdum,\r\ngravida ex\r\negestas,\r\nfinibus\r\npurus. Nunc\r\nconsectetur\r\ncommodo\r\nlacus, ac\r\nconvallis\r\nquam\r\nlobortis eu.\r\nSed\r\nconvallis\r\ntempor\r\ncommodo.\r\nNulla sed\r\nconvallis\r\nmauris.\r\nDonec\r\nvenenatis\r\nnisi est, ac\r\nullamcorper\r\nmi pretium\r\nquis. Donec\r\nvitae eros at\r\nipsum\r\ninterdum\r\nscelerisque\r\nnec vitae\r\nnisi. Sed\r\nvestibulum\r\nerat ac\r\nbibendum\r\ndapibus.\r\nMorbi nec\r\nelit id quam\r\ntristique\r\ncursus id\r\nsed sem.\r\nPraesent\r\nnon ante\r\nenim.\r\nPellentesqu\r\ne habitant\r\nmorbi\r\ntristique\r\nsenectus et\r\nnetus et\r\nmalesuada\r\nfames ac\r\nturpis\r\negestas.\r\nPraesent\r\nnon mauris\r\ndui.\r\nAliquam\r\nrhoncus\r\nmattis ante\r\nsed\r\nvenenatis.\r\nVivamus\r\nvehicula\r\nsed sapien\r\nsed dictum.\r\nIn aliquet,\r\nurna\r\nefficitur\r\ntincidunt\r\nlobortis,\r\nnibh justo\r\ntristique\r\npurus, sed\r\nvolutpat\r\nrisus magna\r\net\r\nlibero.Susp\r\nendisse\r\nlectus justo,\r\nvarius eget\r\narcu et,\r\nsemper\r\nlaoreet erat.\r\nQuisque\r\neget lacus\r\nornare,\r\npellentesqu\r\ne erat sit\r\namet,\r\nvulputate\r\nfelis. Duis\r\nluctus,\r\nmassa a\r\npellentesqu\r\ne mollis,\r\nmassa elit\r\nconvallis\r\nmi, vel\r\nbibendum\r\nex ex eu\r\npurus.\r\nSuspendiss\r\ne vel\r\nfermentum\r\nurna, ac\r\ncommodo\r\nenim.\r\nMauris\r\ntincidunt\r\ncursus elit,\r\na volutpat\r\nlibero\r\ncommodo\r\net. Etiam\r\ndapibus\r\nlibero\r\nvenenatis\r\ntellus\r\nlobortis, vel\r\nlacinia elit\r\nfaucibus.\r\nMaecenas\r\nsemper sed\r\nquam quis\r\nfinibus.\r\nInteger\r\nefficitur,\r\nlibero\r\nimperdiet\r\nsollicitudin\r\ncommodo,\r\nelit arcu\r\nvulputate\r\nest, eget\r\nfinibus mi\r\nurna sit\r\namet\r\nmagna.\r\nCras\r\nullamcorper\r\nconsequat\r\nornare.\r\nFusce\r\nconvallis\r\nnunc vel\r\nrisus\r\ncursus, at\r\nmaximus\r\nligula\r\ncursus.\r\nPellentesqu\r\ne vulputate\r\nrisus libero,\r\neget cursus\r\nnibh\r\nsodales\r\nsed. Donec\r\naccumsan\r\nsem et\r\nmassa\r\nsemper, id\r\ndignissim\r\nvelit\r\nvehicula.Cr\r\nas cursus\r\nipsum ac\r\nerat\r\nvehicula,\r\nnec iaculis\r\npurus\r\ndictum.\r\nQuisque\r\nlacinia elit\r\nvitae leo\r\ndictum, vel\r\ndignissim\r\nvelit\r\ndapibus.\r\nAenean sem\r\nnisi,\r\nfaucibus\r\ninterdum\r\njusto eu,\r\neuismod\r\nporttitor ex.\r\nMorbi et\r\nlectus\r\nlectus. Duis\r\nneque felis,\r\nsuscipit at\r\nscelerisque\r\neu,\r\nscelerisque\r\nid orci.\r\nCurabitur et\r\nplacerat\r\nipsum.\r\nProin\r\ngravida\r\nsapien nisl,\r\net varius\r\nipsum\r\nmollis nec.\r\nQuisque\r\ndignissim\r\nconsectetur\r\nfeugiat.\r\nAenean\r\neros purus,\r\nlaoreet\r\ninterdum\r\nrutrum at,\r\naliquet sit\r\namet\r\nlectus.\r\nDonec\r\ngravida\r\nlorem ut\r\ntincidunt\r\nlaoreet.\r\nDonec\r\nconsequat\r\nviverra\r\nligula, in\r\naccumsan\r\nmi\r\nbibendum\r\nscelerisque.\r\nQuisque ac\r\nrisus justo.\r\nMorbi\r\nmagna\r\narcu,\r\negestas nec\r\nluctus\r\ncommodo,\r\ncursus eget\r\nnunc.\r\nVivamus\r\neuismod\r\nlorem ex, et\r\nmaximus\r\nfelis\r\nhendrerit\r\neget.\r\nNullam\r\nullamcorper\r\neuismod\r\nligula, et\r\niaculis\r\nligula\r\nultricies a.\r\nFusce\r\naliquam,\r\nenim vel\r\nfermentum\r\nultrices, elit\r\nquam\r\nsemper\r\nerat, vitae\r\nsemper velit\r\naugue non\r\nmagna.Quis\r\nque\r\nmaximus\r\nsemper\r\narcu, id\r\npellentesqu\r\ne est\r\ntempus a.\r\nPhasellus\r\nlacus elit,\r\nauctor sit\r\namet lacinia\r\na, dapibus\r\nvitae velit.\r\nPhasellus ut\r\npharetra\r\njusto, ut\r\nultricies\r\nerat. Sed\r\nmolestie\r\nsapien vel\r\ninterdum\r\nlobortis.\r\nNulla\r\nfacilisi.\r\nVestibulum\r\nante ipsum\r\nprimis in\r\nfaucibus\r\norci luctus\r\net ultrices\r\nposuere\r\ncubilia\r\ncurae; Nulla\r\nnec mauris\r\nquis nisi\r\nvulputate\r\ngravida quis\r\nnec\r\nvelit.Nam et\r\ncongue\r\nipsum.\r\nNulla vel elit\r\nnon dolor\r\nmollis\r\naliquet vel\r\nat magna.\r\nPellentesqu\r\ne nec\r\nfacilisis elit.\r\nIn vulputate\r\nquis sem\r\nporta\r\nsuscipit.\r\nNullam sed\r\nex ornare\r\nnibh\r\nsuscipit\r\nmattis quis\r\nnon lacus.\r\nMauris vel\r\nex urna.\r\nVivamus\r\nultricies\r\nsapien sit\r\namet sapien\r\nvehicula\r\ngravida.\r\nDonec\r\nfeugiat\r\nvolutpat\r\nquam.\r\nVestibulum\r\nauctor\r\ndictum nisl,\r\nid hendrerit\r\nmetus\r\nullamcorper\r\nsed. Nulla\r\nmaximus\r\nlacus vel\r\nmollis\r\nmaximus.\r\nNulla\r\nlaoreet\r\nplacerat\r\nquam eu\r\nviverra.\r\nEtiam\r\nfeugiat\r\naccumsan\r\nnisl a\r\ncondimentu\r\nm. Sed\r\nultricies\r\nante ante,\r\nac auctor\r\nligula\r\ngravida nec.\r\nPraesent a\r\nneque\r\ndignissim,\r\nsagittis felis\r\nsit amet,\r\ncondimentu\r\nm turpis.\r\nFusce at leo\r\nvel est\r\nblandit\r\nmalesuada.\r\nPellentesqu\r\ne et neque\r\nnon metus\r\npellentesqu\r\ne imperdiet.\r\nPraesent\r\npellentesqu\r\ne lacinia\r\nlorem, et\r\ntristique\r\ntellus\r\nefficitur id.\r\nSuspendiss\r\ne aliquet\r\nultricies\r\njusto vitae\r\ninterdum.\r\nCras\r\ntristique\r\nviverra\r\nquam, eget\r\ngravida mi\r\nfermentum\r\nimperdiet.\r\nSed\r\nimperdiet\r\nvitae purus\r\nut volutpat.\r\nNulla\r\nlacinia elit\r\nin\r\nfermentum\r\nconsectetur\r\n. Phasellus\r\ncommodo\r\nut nisl sit\r\namet\r\nsagittis.\r\nDuis ac\r\nornare orci.\r\nVivamus vel\r\nenim\r\nposuere,\r\npharetra ex\r\nvel,\r\nelementum\r\nest.\r\nVestibulum\r\ncommodo\r\nluctus\r\nmetus eget\r\nmaximus.\r\nSuspendiss\r\ne a nulla a\r\nodio\r\neleifend\r\nfaucibus.\r\nSuspendiss\r\ne semper\r\nlacus non\r\nporttitor\r\naliquet.\r\nCras ac\r\nscelerisque\r\nmagna, et\r\npulvinar\r\njusto.\r\nInteger\r\ncursus\r\npulvinar\r\nfringilla.\r\nMauris\r\nimperdiet\r\nnibh sit\r\namet\r\ntempor\r\nlaoreet.\r\nMorbi\r\ntincidunt\r\ntortor ex, sit\r\namet\r\nmaximus\r\npurus\r\ntristique\r\nquis.\r\nQuisque\r\nsed\r\nhendrerit\r\nvelit. Mauris\r\nmattis nibh\r\nut eros\r\nluctus, eget\r\nmattis\r\nmassa\r\nauctor.\r\nPhasellus\r\neu neque at\r\naugue\r\ngravida\r\nsagittis nec\r\nnon tortor.\r\nEtiam\r\nporttitor\r\nsem\r\nsodales mi\r\nullamcorper\r\ngravida. In\r\nin dictum\r\norci. In vitae\r\nvestibulum\r\nquam. Cras\r\naugue eros,\r\ntincidunt ac\r\nelit posuere,\r\nsollicitudin\r\nefficitur\r\nlectus.\r\nPraesent\r\nquis\r\nsodales\r\nnisl. Proin\r\nsit amet\r\nmolestie\r\nest. In\r\ncommodo\r\nmauris vel\r\nmauris\r\nefficitur,\r\nnec mollis\r\nmauris\r\nsagittis.\r\nCras ligula\r\nnibh,\r\negestas sit\r\namet eros\r\nin, lacinia\r\ntristique\r\nmagna.\r\nCras risus\r\nlibero,\r\nlacinia eget\r\nlibero vitae,\r\nmaximus\r\naliquet\r\nnibh. Mauris\r\nid sodales\r\npurus, vitae\r\ndictum\r\nlectus. Cras\r\nconsectetur\r\nligula velit,\r\ntempus\r\npulvinar\r\nlacus\r\nporttitor\r\nvitae.\r\nPhasellus\r\neget tellus\r\nipsum.\r\nDonec\r\ninterdum\r\nlaoreet elit\r\nnon\r\nvestibulum.\r\nCras sed\r\nurna\r\nullamcorper\r\n, aliquam\r\nerat eget,\r\nporta orci.\r\nVestibulum\r\neget congue\r\nnulla. Sed\r\nsem tortor,\r\neuismod at\r\nrutrum id,\r\nsagittis a\r\nnunc. Duis\r\nin nibh\r\nfacilisis,\r\ndignissim\r\npurus ut,\r\nhendrerit\r\nmagna. Sed\r\nsemper\r\nligula id\r\nmassa\r\nelementum,\r\nnon\r\nmalesuada\r\nvelit\r\negestas.\r\nNullam\r\ndictum, mi\r\nnec\r\neuismod\r\nsagittis,\r\nligula leo\r\nullamcorper\r\ndolor, quis\r\nfaucibus\r\nodio metus\r\neget magna.\r\nUt gravida\r\nmetus non\r\nmetus\r\nbibendum\r\nbibendum.\r\nIn sagittis\r\neleifend\r\naliquet.\r\nInterdum et\r\nmalesuada\r\nfames ac\r\nante ipsum\r\nprimis in\r\nfaucibus.\r\nNam mollis\r\nsagittis\r\nfelis, in\r\nfaucibus\r\ntortor\r\npretium vel.\r\nNam nec\r\nenim\r\nmetus.\r\nDonec in\r\naugue arcu.\r\nProin non\r\nlobortis\r\npurus, sit\r\namet lacinia\r\nelit.\r\nSuspendiss\r\ne quis eros\r\ncondimentu\r\nm, blandit\r\njusto sit\r\namet,\r\nlobortis nisl.\r\nSuspendiss\r\ne maximus\r\nmassa sed\r\nurna tempor\r\nornare.\r\nNunc\r\nmalesuada\r\npurus odio,\r\neu luctus\r\nlectus\r\nauctor nec.\r\nMorbi\r\nauctor\r\npellentesqu\r\ne auctor.\r\nSed\r\nullamcorper\r\n, ex vitae\r\naliquam\r\nvulputate,\r\nest diam\r\nfeugiat mi,\r\nid porttitor\r\nlectus orci\r\nac leo.\r\nDonec sit\r\namet velit\r\npulvinar,\r\nvenenatis\r\nturpis ut,\r\ninterdum\r\nligula.\r\nInterdum et\r\nmalesuada\r\nfames ac\r\nante ipsum\r\nprimis in\r\nfaucibus.\r\nVestibulum\r\neu lacus\r\nurna.\r\nMaecenas\r\nsem nulla,\r\naccumsan\r\neu ultricies\r\nsed, tempor\r\nvel magna.\r\nCras aliquet\r\nsollicitudin\r\nsapien ac\r\npulvinar.\r\nPraesent ac\r\nsodales mi.\r\nInteger vitae\r\nmauris\r\nmassa.\r\nMaecenas\r\niaculis orci\r\net faucibus\r\ninterdum.\r\nNunc nec\r\nmaximus\r\nfelis, sed\r\nfinibus\r\nquam.\r\nPellentesqu\r\ne felis\r\nmassa,\r\nvestibulum\r\nin tellus\r\nvitae,\r\ncongue\r\ntincidunt\r\njusto. Nunc\r\nvitae enim\r\nmalesuada,\r\nbibendum\r\nante nec,\r\nvarius\r\ntellus.\r\nPraesent\r\nvitae nisi id\r\nquam\r\nauctor\r\nlacinia at\r\nnon quam.\r\nNam nec\r\nligula sit\r\namet felis\r\nauctor\r\nsagittis.\r\nNunc in\r\nrisus eu\r\nurna varius\r\nlaoreet quis\r\nsit amet\r\nfelis. Morbi\r\nvarius\r\ntempor orci,\r\neu\r\nvestibulum\r\nnunc\r\nvestibulum\r\nac. Nunc\r\nvehicula\r\nvelit\r\neleifend\r\nconsequat\r\nporta.\r\nSuspendiss\r\ne maximus\r\ndapibus\r\norci, in\r\nvulputate\r\nmassa\r\npretium ac.\r\nQuisque\r\nmalesuada\r\naliquet\r\naliquet.";
 
-            var savedStrings = SavedComparisonString.Split("\r\n");
+            var savedStrings = SavedComparisonString.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
             List<string> faultyStrings = new();
             List<string> excpectedStrings = new();
@@ -299,7 +318,7 @@ namespace TestProject1
                 Size = 11.0f,
             };
 
-            var handler = new TextHandler(mf);
+            var handler = new TextHandler(SystemFolderEngine, mf);
 
             double maxPixelWidth = 72d;
 
@@ -311,7 +330,7 @@ namespace TestProject1
             var pointWidth = 54.085732283464566929133858267717f;
 
             var wrappedStrings = handler.WrapText(Lorem20Str, pointWidth);
-            var savedStrings = SavedComparisonString.Split("\r\n");
+            var savedStrings = SavedComparisonString.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
             List<string> differingStrings = new();
 

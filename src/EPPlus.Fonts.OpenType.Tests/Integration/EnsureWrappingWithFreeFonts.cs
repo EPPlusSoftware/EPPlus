@@ -104,8 +104,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 cfg.SearchSystemDirectories = false;
             })).Value;
 
-            tEngine.LeastRequiredAvailability = FontAvailability.NotFound;
-
             var tle = tEngine.GetTextLayoutEngineForFont(mf);
 
             var maxWidth = 54.1420d;

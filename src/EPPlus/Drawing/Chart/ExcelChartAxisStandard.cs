@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -155,6 +156,86 @@ namespace OfficeOpenXml.Drawing.Chart
             internal set
             {
                 SetXmlNodeString(AXIS_POSITION_PATH, value.ToString().ToLower(CultureInfo.InvariantCulture).Substring(0, 1));
+            }
+        }
+        /// <summary>
+        /// Returns the actual position of the axis, taking into account the position and the label position. 
+        /// For example, if the axis position is left and the label position is high, the actual position will be to the right of the plotarea.
+        /// </summary>
+        public eActualAxisPosition ActualAxisPosition
+        {
+            get
+            {
+                var ap = AxisPosition;
+                if (ap == eAxisPosition.Left && LabelPosition == eTickLabelPosition.High)
+                {
+                    return eActualAxisPosition.Right;
+                }
+                else if (ap == eAxisPosition.Bottom)
+                {
+                    if (LabelPosition == eTickLabelPosition.High)
+                    {
+                        return eActualAxisPosition.Top;
+                    }
+                    else
+                    {
+                        return eActualAxisPosition.Bottom;
+                    }
+                }
+                else if (ap == eAxisPosition.Right)
+                {
+                    if (LabelPosition == eTickLabelPosition.Low)
+                    {
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition != eTickLabelPosition.Low)
+                        {
+                            return eActualAxisPosition.Left;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.LeftSecond;
+                        }
+                    }
+                    else
+                    {
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition != eTickLabelPosition.High)
+                        {
+                            return eActualAxisPosition.Right;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.RightSecond;
+                        }
+                    }
+                }
+                else if(ap==eAxisPosition.Top)
+                {
+                    if (LabelPosition == eTickLabelPosition.Low)
+                    {
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition != eTickLabelPosition.Low)
+                        {
+                            return eActualAxisPosition.Bottom;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.BottomSecond;
+                        }
+                    }
+                    else
+                    {
+                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition != eTickLabelPosition.High)
+                        {
+                            return eActualAxisPosition.Top;
+                        }
+                        else
+                        {
+                            return eActualAxisPosition.TopSecond;
+                        }
+                    }
+                }
+                else
+                {
+                    return (eActualAxisPosition)ap;
+                }
             }
         }
         /// <summary>

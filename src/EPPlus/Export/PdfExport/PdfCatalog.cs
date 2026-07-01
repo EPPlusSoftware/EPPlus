@@ -14,6 +14,10 @@ using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
+using EPPlus.Graphics;
+using EPPlus.Export.Pdf;
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Resources;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
@@ -23,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport

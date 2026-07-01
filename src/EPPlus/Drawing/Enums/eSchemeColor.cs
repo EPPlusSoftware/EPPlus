@@ -66,6 +66,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         FollowedHyperlink,
         /// <summary>
+        /// AKA "phClr"
         /// A color used in theme definitions which means to use the color of the style
         /// </summary>
         Style,

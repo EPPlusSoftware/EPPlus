@@ -137,12 +137,21 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
             }
 
-            if (Settings.Pictures.Include == ePictureInclude.Include)
+            if (Settings.Pictures.Include == ePictureInclude.Include || Settings.Pictures.Include == ePictureInclude.IncludeInCssOnly)
             {
-                LoadRangeImages(_ranges._list);
+                LoadRangeDrawings(_ranges._list);
                 foreach (var p in _rangePictures)
                 {
                     cssTranslator.AddPictureToCss(p);
+                }
+            }
+
+            if(Settings.Drawings.Include == ePictureInclude.Include || Settings.Drawings.Include == ePictureInclude.IncludeInCssOnly)
+            {
+                LoadRangeDrawings(_ranges._list);
+                foreach(var d in _rangeDrawings)
+                {
+                    cssTranslator.AddDrawingToCss(d);
                 }
             }
         }

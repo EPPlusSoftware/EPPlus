@@ -148,11 +148,12 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    //var defBody = DefaultTextBody;
-                    //var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:bodyPr/a:p/a:pPr/a:defRPr", TopNode);
+                    var defBody = DefaultTextBody;
+                    var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
-                    //_textBody.Paragraphs.FirstDefaultRunProperties = firstDefaultRunProperties;
-                    //_textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties();
+
+                    //Set property without updating xml
+                    _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
                 }
                 return _textBody;
             }
@@ -249,7 +250,28 @@ namespace OfficeOpenXml.Drawing.Chart
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
             var tb = TextBody;
+
+            //var rtNode = GetNode($"{_richTextPath}");
+            //if(rtNode != null)
+            //{
+            //    //parent node has been created but it is possible it is without a paragraph node
+            //    //If e.g. a file is read in and ApplyStyles is done before anything else
+            //    var paragraphNode = GetNode($"{_richTextPath}/a:p");
+            //    if (paragraphNode == null)
+            //    {
+            //        var runProps = tb.Paragraphs.CreateOrGetDefaultRunProperties($"{_richTextPath}/a:p/a:pPr/a:defRPr", TopNode);
+            //        //var newParagraphNode = GetNode($"{_richTextPath}/a:p");
+            //        tb.Paragraphs.SetPlaceHolderNode(runProps.PathElement.ParentNode.ParentNode);
+            //    }
+            //}
+
             _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont, eTextAlignment.Center);
+
+            //if(tb.Paragraphs.Count == 0)
+            //{
+            //    var para = _richText.Add("");
+            //    _richText.Remove(para);
+            //}
         }
 
         private ExcelChartStyleEntry GetStylePart()
@@ -389,6 +411,29 @@ namespace OfficeOpenXml.Drawing.Chart
             //Textbody cannot exist without a paragraph node
             if(TextBody.Paragraphs.Count == 0)
             {
+
+                var rtNode = GetNode($"{_richTextPath}");
+                if (rtNode != null)
+                {
+                    //parent node has been created but it is possible it is without a paragraph node
+                    //If e.g. a file is read in and ApplyStyles is done before anything else
+                    var paragraphNode = GetNode($"{_richTextPath}/a:p");
+                    if (paragraphNode == null)
+                    {
+                        var runProps = TextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_richTextPath}/a:p/a:pPr/a:defRPr", TopNode);
+                        var newParagraphNode = GetNode($"{_richTextPath}/a:p");
+
+                        //This should already have been done but do anyway for safety
+                        TextBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+
+                        //The above sets it correctly but it does not update the xml. Update xml manually since we are about to set a text value
+                        var defParaProperties = GetNode($"{_defTxBodyPath}/a:p/a:pPr");
+                        var newNode = GetNode($"{_richTextPath}/a:p/a:pPr");
+                        CopyElement((XmlElement)defParaProperties, (XmlElement)newNode);
+
+                        TextBody.Paragraphs.SetPlaceHolderNode(newNode.ParentNode);
+                    }
+                }
                 TextBody.Paragraphs.Add("Title");
             }
 
@@ -437,9 +482,33 @@ namespace OfficeOpenXml.Drawing.Chart
                     CreateRichText();
                 }
                 var applyStyle = (RichText.Count == 0);
+                if(applyStyle)
+                { 
+                    var defaultRunPropertiesRich = TextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_richTextPath}/a:p/a:pPr/a:defRPr", TopNode);
+
+                    //This should already have been done but do anyway for safety
+                    TextBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+
+                    //The above sets it correctly but it does not update the xml. Update xml manually since we are about to set a text value
+                    var defParaProperties = GetNode($"{_defTxBodyPath}/a:p/a:pPr");
+                    var newNode = GetNode($"{_richTextPath}/a:p/a:pPr");
+                    CopyElement((XmlElement)defParaProperties, (XmlElement)newNode);
+
+                    TextBody.Paragraphs.SetPlaceHolderNode(newNode.ParentNode);
+                }
                 RichText.Text = value;
                 _font = null;
-                if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+                if (applyStyle)
+                {
+                    var defRprOld = GetNode($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr");
+                    defRprOld.InnerXml = "";
+                    _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+
+                    //re-apply default values
+                    var defParaProperties = GetNode($"{_defTxBodyPath}/a:p/a:pPr");
+                    var newNode = GetNode($"{_richTextPath}/a:p/a:pPr");
+                    CopyElement((XmlElement)defParaProperties, (XmlElement)newNode);
+                }
             }
         }
         /// <summary>
@@ -463,6 +532,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             combinedString += address.Text + separator;
                         }
+                        return combinedString;
                     }
                     return LinkedCell.Text;
                 }

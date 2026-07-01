@@ -25,6 +25,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 		<ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 		<ProjectReference Include="..\EPPlus\EPPlus.csproj" />
@@ -72,6 +73,15 @@
 		</None>
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\BIZUDGothic-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\OpenSans-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Roboto-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\BitmapImage.gif">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

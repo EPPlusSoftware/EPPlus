@@ -467,5 +467,21 @@ namespace EPPlusTest.LoadFunctions
             }
         }
 
+        [TestMethod]
+        public void ShouldLoadCsvFormatWithTrailingColumns()
+        {
+            // This test verifies that importing a text/CSV file with more columns than specified in DataTypes does not crash.
+            // Previously, an off-by-one bounds check (dataType.Length < col) allowed the loop to attempt accessing dataType[col]
+            // when 'col' was equal to 'dataType.Length', resulting in a System.IndexOutOfRangeException.
+            // With the fix (col >= dataType.Length), trailing columns beyond the DataTypes array are gracefully imported as Unknown (General).
+            AddLine("a;2;extra");
+            _format.Delimiter = ';';
+            _format.DataTypes = new eDataTypes[] { eDataTypes.String, eDataTypes.Number };
+            _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), _format);
+            Assert.AreEqual("a", _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(2d, _worksheet.Cells["B1"].Value);
+            Assert.AreEqual("extra", _worksheet.Cells["C1"].Value);
+        }
+
     }
 }

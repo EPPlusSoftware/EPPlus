@@ -6,7 +6,6 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
@@ -58,11 +57,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <returns></returns>
         internal Coordinate GetEndPointLocal()
         {
-            return new Coordinate(_endPoint.Left, _endPoint.Top);
+            return new Coordinate(_endPoint.LocalPosition.X, _endPoint.LocalPosition.Y);
         }
 
         PathRenderItem _slicePath;
+
+
+        List<RenderItem> DebugItems;
         PathRenderItem _debugBoundsPath;
+        RectRenderItem _debugCircleCenter;
 
         bool ExistWithinRange(double target, double min, double max)
         {
@@ -151,23 +154,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
             ExtremePoints.Parent = _innerGroup.Bounds;
-            //if(Degrees > 0)
-            //{
-
-            //}
-            //if(Degrees)
-            //double xMax = Math.Max(_startPoint.Left, _endPoint.Left);
-            //xMax = Math.Max(xMax, _midPoint.Left);
-
-            //double yMax = Math.Max(_startPoint.Top, _endPoint.Top);
-            //yMax = Math.Max(yMax, _midPoint.Top);
-            //double yMax;
-            //double xMin;
-            //double yMin;
         }
 
         private double _sliceScaleFactor = 1d;
         private double _scaledRadius { get { return _radius * _sliceScaleFactor; } }
+
 
         private void CalculateExplosionDir()
         {
@@ -181,11 +172,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
-
-        //internal Graphics.Math.Vector2 GetVectorCtrToEnd()
-        //{
-        //    //_circleCenter + _sc
-        //}
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
@@ -249,6 +235,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(lineToStart);
             _slicePath.Commands.Add(arcCommand);
 
+            //Change to != -1 to activate debug items
             if (position == -1)
             {
                 //Visualize all points
@@ -266,38 +253,58 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// <param name="moveCenter"></param>
         private void AddDebugLines(PathCommands moveCenter, BoundingBox bounds)
         {
-            //var lineToMidPoint = new PathCommands(PathCommandType.Line, _slicePath, _midPoint.Left, _midPoint.Top);
-            //var lineToEnd = new PathCommands(PathCommandType.Line, _slicePath, _endPoint.Left, _endPoint.Top);
-            //_slicePath.Commands.Add(moveCenter);
-            //_slicePath.Commands.Add(lineToMidPoint);
-            //_slicePath.Commands.Add(moveCenter);
-            //_slicePath.Commands.Add(lineToEnd);
+            DebugItems = new List<RenderItem>();
+
+            //Render bounds for slice
             _debugBoundsPath = new PathRenderItem(bounds);
             _debugBoundsPath.BorderColor = "red";
             _debugBoundsPath.FillColor = "transparent";
             _debugBoundsPath.BorderWidth = 3;
-            var moveCenterDebug = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
+            var moveCenterDebug = new PathCommands(PathCommandType.Move, ExtremePoints.Left, ExtremePoints.Top);
             _debugBoundsPath.Commands.Add(moveCenterDebug);
 
             //Draw extremes/bounds
-            var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
+            //var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
             var lineToTopRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Top);
-
-            //var sliceCenter = GetSliceShapeCenterLocal();
-            //var lineToSliceCenter = new PathCommands(PathCommandType.Line, _debugBoundsPath, sliceCenter.Left, sliceCenter.Top);
 
             var lineToBottomRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Bottom);
             var lineToBottomLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Bottom);
             var end = new PathCommands(PathCommandType.End, ExtremePoints.Left, ExtremePoints.Top);
 
-            _debugBoundsPath.Commands.Add(lineToTopLeft);
             _debugBoundsPath.Commands.Add(lineToTopRight);
-            ////_debugBoundsPath.Commands.Add(lineToSliceCenter);
             _debugBoundsPath.Commands.Add(lineToBottomRight);
             _debugBoundsPath.Commands.Add(lineToBottomLeft);
-            //_debugBoundsPath.Commands.Add(end);
+            _debugBoundsPath.Commands.Add(end);
 
+            DebugItems.Add(_debugBoundsPath);
+
+            //Render green dot at circle center
+            _debugCircleCenter = GenerateDebugPoint(bounds, new Coordinate(_circleCenter.Left, _circleCenter.Top), "green");
+
+            DebugItems.Add(_debugCircleCenter);
+
+            //render dots at points
+            var pointColor = "yellow";
+            
+            var startDebug = GenerateDebugPoint(bounds, GetStartPointPositionLocal(), pointColor);
+            var midDebug = GenerateDebugPoint(bounds, GetMidPointLocal(), pointColor);
+            var endDebug = GenerateDebugPoint(bounds, GetEndPointLocal(), pointColor);
+
+            DebugItems.Add(startDebug);
+            DebugItems.Add(midDebug);
+            DebugItems.Add(endDebug);
         }
+
+        private RectRenderItem GenerateDebugPoint(BoundingBox parent, Coordinate point, string fillColor)
+        {
+            double l = -2.5d;
+            double t = -2.5d;
+            double w = 5d;
+            double h = 5d;
+
+            return new RectRenderItem(parent) { Left = l + point.X, Top = t + point.Y, Width = w, Height = h, FillColor = fillColor };
+        }
+
 
         internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
         {
@@ -308,15 +315,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal void AppendGroupItem(GroupRenderItem group)
         {
+            //Apply translation after all calculations are done
+            _innerGroup.Left += _innerGroup.TranslationOffset.Left;
+            _innerGroup.Top += _innerGroup.TranslationOffset.Top;
+
             //The slice items post transform operations
             _innerItems.AddChildItem(_slicePath);
             //The bounds and translations of the slice
             _innerGroup.AddChildItem(_innerItems);
 
-            if (_debugBoundsPath != null)
+            if (DebugItems != null && DebugItems.Count > 0)
             {
-                //adding the debug lines
-                _innerGroup.AddChildItem(_debugBoundsPath);
+                foreach(var debugItem in DebugItems)
+                {
+                    _innerGroup.AddChildItem(debugItem);
+                }
             }
 
             //The group containing all slices
@@ -476,12 +489,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //The length is within the bounds. No binding neccesary.
                 translationLeft = LocalTranslationVector.X;
                 translationTop = LocalTranslationVector.Y;
-
-                //translationLeft = Math.Min(translateX, maxTranslationXWorld);
-                //translationTop = Math.Min(translateY, maxTranslationY);
-
-                //translationLeft = Math.Max(translationLeft, minTranslationXWorld);
-                //translationTop = Math.Max(translationTop, minTranslationYWorld);
             }
 
             return new Coordinate(translationLeft, translationTop);
@@ -519,6 +526,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return new Coordinate(_midPoint.Position.X, _midPoint.Position.Y);
         }
 
+
+        internal Transform CopyOuterMidPoint()
+        {
+            var transform = new Transform();
+            transform.Parent = _midPoint.Parent;
+            transform.Position = transform.Position + _midPoint.LocalPosition;
+            return transform;
+        }
+
+        internal Transform CopyStartPoint()
+        {
+            var translationVector = GetLocalTranslationVector(100);
+            var transform = new Transform();
+            transform.Parent = _midPoint.Parent;
+            transform.Position = transform.Position + _midPoint.LocalPosition;
+            return transform;
+        }
+
         internal GroupRenderItem GetInnerItemGroup()
         {
             return _innerGroup;
@@ -532,6 +557,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal Coordinate GetInnerGroupTransformOriginTranslated()
         {
             return new Coordinate(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
+        }
+        /// <summary>
+        /// Transform origin in local coordinates
+        /// Translated
+        /// </summary>
+        /// <returns></returns>
+        internal Transform GetInnerGroupWithTransformOriginTranslated()
+        {
+            Transform transform = new Transform();
+            transform.Parent = _innerGroup.Bounds.Parent;
+            transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
+            return transform;
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)

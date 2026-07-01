@@ -24,6 +24,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var mf = ax.Font.GetMeasureFont();
             List<object> displayValues = GetUniqueValues(values).Select(x=>(object)x.ToString()).ToList();
             var uniqeItems = displayValues.Count;
+
             var res = tm.MeasureText(displayValues[0].ToString(), mf);
 
             //Get interval for maximum width with vertical text.

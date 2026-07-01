@@ -34,4 +34,39 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         Top = 3
     }
+    public enum eActualAxisPosition
+    {
+        /// <summary>
+        /// Left
+        /// </summary>
+        Left = 0,
+        /// <summary>
+        /// Bottom
+        /// </summary>
+        Bottom = 1,
+        /// <summary>
+        /// Right
+        /// </summary>
+        Right = 2,
+        /// <summary>
+        /// Top
+        /// </summary>
+        Top = 3,
+        /// <summary>
+        /// If there are two axis on the left side, this is the second axis left (most to the left)
+        /// </summary>
+        LeftSecond = 5,
+        /// <summary>
+        /// If there are two axis on the right side, this is the second axis right (most to the right)
+        /// </summary>
+        RightSecond = 7,
+        /// <summary>
+        /// If there are two axis on the top, this is the second top left (most to the top)
+        /// </summary>
+        TopSecond = 9,
+        /// <summary>
+        /// If there are two axis on the bottom, this is the second bottom left (most to the top)
+        /// </summary>
+        BottomSecond = 11
+    }
 }

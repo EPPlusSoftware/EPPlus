@@ -427,7 +427,31 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.CssRules.Add(contentRule);
         }
 
+        internal void AddDrawingToCss(HtmlSvgDrawing d)
+        {
+            var translator = new CssImageTranslator(d);
 
+            if (translator.type == null) return;
+
+            string imageFileName = HtmlExportTableUtil.GetClassName(d.Drawing.Name, "optional-name");
+            var imgRule = new CssRule($"img.{_settings.StyleClassPrefix}drawing-{imageFileName}", int.MaxValue);
+
+            _context.SetTranslator(translator);
+            _context.AddDeclarations(imgRule);
+            _ruleCollection.AddRule(imgRule);
+
+            AddDrawingPropertiesToCss(d);
+        }
+        internal void AddDrawingPropertiesToCss(HtmlSvgDrawing d)
+        {
+            string imageName = HtmlExportTableUtil.GetClassName(d.Drawing.Name, "optional-name");
+
+            var imgProperties = new CssRule($"img.{_settings.StyleClassPrefix}drawing-prop-{imageName}", int.MaxValue);
+            _context.SetTranslator(new CssDrawingPropertiesTranslator(d));
+            _context.AddDeclarations(imgProperties);
+
+            RuleCollection.AddRule(imgProperties);
+        }
 
         internal void AddPictureToCss(HtmlImage p)
         {

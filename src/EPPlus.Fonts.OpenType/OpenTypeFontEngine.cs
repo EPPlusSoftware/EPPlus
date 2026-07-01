@@ -106,10 +106,13 @@ namespace EPPlus.Fonts.OpenType
         // Public API
         // -----------------------------------------------------------------------------------------
 
-        public FontAvailability LeastRequiredAvailability { get; set; } = FontAvailability.NotFound;
-        bool RequireExactFoundFont { get { return LeastRequiredAvailability == FontAvailability.Exact; } }
-        bool RequireFamilyFont{ get { return RequireExactFoundFont || LeastRequiredAvailability == FontAvailability.FamilyOnly; } }
-
+        /// <summary>
+        /// When true, GetTextShaper throws if the requested font cannot be resolved to an exact match,
+        /// even though a fallback was found. Default is false: rendering trusts the fallback chain
+        /// (which always resolves to at least the embedded font) and never throws. Set to true only
+        /// for diagnostics or validation where a missing exact font should surface as an error.
+        /// </summary>
+        public bool RequireExactFont { get; set; } = false;
         //public FontAvailability FallBackAvailablility = FontAvailability.Exact;
 
         /// <summary>
@@ -135,14 +138,14 @@ namespace EPPlus.Fonts.OpenType
                 if (font == null)
                     return null;
 
-                var availability = GetFontAvailability(fontName, subFamily);
-                if (RequireExactFoundFont && availability != FontAvailability.Exact)
+                if (RequireExactFont)
                 {
-                    throw new FileNotFoundException($"Could not find Font: {fontName} fallbacked to font:{font.GetEnglishFontFamilyName()}");
-                }
-                else if(RequireFamilyFont && availability != FontAvailability.FamilyOnly && availability !=  FontAvailability.Exact)
-                {
-                    throw new FileNotFoundException($"Could not find Font subfamily: {subFamily} fallbacked to familyOnly font:{font.GetEnglishFontFamilyName()} subfamily:{font.SubFamily}");
+                    var availability = GetFontAvailability(fontName, subFamily);
+                    if (availability != FontAvailability.Exact)
+                    {
+                        throw new FileNotFoundException(
+                            $"Could not find Font: {fontName} {subFamily}. Resolved via fallback to: {font.GetEnglishFontFamilyName()} {font.SubFamily}.");
+                    }
                 }
 
                 shaper = new TextShaper(this, font);
@@ -155,12 +158,12 @@ namespace EPPlus.Fonts.OpenType
         public TextLayoutEngine GetTextLayoutEngine(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
             var shaper = GetTextShaper(fontName, subFamily);
-            return new TextLayoutEngine(shaper);
+            return new TextLayoutEngine(this, shaper);
         }
         public TextLayoutEngine GetTextLayoutEngineForFont(IFontFormatBase font)
         {
             var shaper = GetShaperForFont(font);
-            return new TextLayoutEngine(shaper);
+            return new TextLayoutEngine(this, shaper);
         }
 
         public ITextShaper GetShaperForFont(IFontFormatBase font)
@@ -171,7 +174,7 @@ namespace EPPlus.Fonts.OpenType
         public TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font)
         {
             var shaper = GetShaperForFont(font);
-            return new TextLayoutEngine(shaper);
+            return new TextLayoutEngine(this, shaper);
         }
 
         public ITextShaper GetShaperForFont(MeasurementFont font)

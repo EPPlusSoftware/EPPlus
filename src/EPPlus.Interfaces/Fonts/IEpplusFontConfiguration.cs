@@ -17,10 +17,10 @@ using System.Collections.Generic;
 namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
-    /// Global font configuration for EPPlus.
-    /// Accessed exclusively via <c>OpenTypeFonts.Configure(Action&lt;IEpplusFontConfiguration&gt;)</c>.
-    /// Changes made inside a Configure callback are applied as a single transaction —
-    /// when the callback returns, the font resolver is rebuilt and all font caches are cleared.
+    /// Per-workbook font configuration for EPPlus.
+    /// Accessed via <c>ExcelWorkbook.ConfigureFonts(Action&lt;IEpplusFontConfiguration&gt;)</c>.
+    /// Changes made inside a ConfigureFonts callback are applied as a single transaction —
+    /// when the callback returns, the font resolver is rebuilt and the workbook's font caches are cleared.
     /// </summary>
     public interface IEpplusFontConfiguration
     {
@@ -82,4 +82,5 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// </summary>
         void Reset();
     }
+
 }

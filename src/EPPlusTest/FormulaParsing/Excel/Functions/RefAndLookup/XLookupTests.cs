@@ -24,7 +24,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _package.Dispose();
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Brazil", "+55")]
         [DataRow("Sweden", "#N/A")]
         [DataRow("Sweden", "Not found", "Not found")]
@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Brazil", "+55", "Not found", 0)]
         [DataRow("Brasil", "Not found", "Not found", 0)]
         [DataRow("Bazil", "#N/A", null, 0)]
@@ -109,7 +109,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("raz", "+55")]
         [DataRow("United", "+1")]
         [DataRow("desh", "+880")]
@@ -146,7 +146,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("A", "1", 1)]
         [DataRow("A", "3", -1)]
         public void ReverseSearchTest1(string lookupValue, string expected, int searchMode)
@@ -207,7 +207,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(6, _sheet.Cells["E4"].Value);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("*A*", "1", 1)]
         [DataRow("*A*", "3", -1)]
         public void ReverseSearchTestWildcard(string lookupValue, string expected, int searchMode)
@@ -228,7 +228,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("*A*", "1", 1)]
         [DataRow("*A*", "3", -1)]
         public void ReverseSearchTestWildcardLargeRange(string lookupValue, string expected, int searchMode)
@@ -249,7 +249,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(0d, 1d, 0, 1)]
         [DataRow(11d, 2d, -1, 1)]
         [DataRow(11d, 3d, 1, 1)]
@@ -271,7 +271,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(0d, 1d, 0, 1)]
         [DataRow(11d, 2d, -1, 1)]
         [DataRow(11d, 3d, 1, 1)]
@@ -293,7 +293,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F3"].Value);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(11d, 2d, -1, 2)]
         [DataRow(21d, 3d, -1, 2)]
         [DataRow(0d, "Not found", -1, 2)]
@@ -315,7 +315,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(11d, 3d, 1, 2)]
         [DataRow(21d, "Not found", 1, 2)]
         [DataRow(0d, 1d, 1, 2)]
@@ -337,7 +337,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(0d, 1d, 0, -2)]
         [DataRow(11d, 3d, 1, -2)]
         [DataRow(21d, "Not found", 1, -2)]

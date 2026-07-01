@@ -19,12 +19,21 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
         {
         }
 
-        public SvgTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) : base(parent, font, displayText)
+        public SvgTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText, bool renderTextNode = false) : base(parent, font, displayText)
         {
+            RenderTextNode = renderTextNode;
         }
 
         public SvgTextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) : base(parent, text, font, displayText)
         {
         }
+
+
+        /// <summary>
+        /// If set to true will render its own parent Text Node
+        /// Will not work properly within paragraphs
+        /// </summary>
+        internal bool RenderTextNode { get; private set; } = false;
+
     }
 }

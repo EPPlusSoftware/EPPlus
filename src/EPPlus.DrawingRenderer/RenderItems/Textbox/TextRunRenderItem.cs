@@ -1,13 +1,14 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlusImageRenderer.Utils;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.RichText;
 using System.Drawing;
 using System.Text.RegularExpressions;
-using EPPlusImageRenderer.Utils;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 {
@@ -126,7 +127,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected internal bool _isItalic = false;
         protected internal bool _isBold = false;
         protected internal eDrawingUnderLineType _underLineType = eDrawingUnderLineType.None;
-        protected internal eDrawingStrikeType _strikeType;
+        protected internal eDrawingStrikeType _strikeType = eDrawingStrikeType.No;
         protected internal Color _underlineColor;
         protected internal double _baseline;
 
@@ -153,6 +154,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         {
             InitializeBase(rt);
             FillColor = "#" + rt.FontColor.To6CharHexStringImage();
+            _underLineType = (int)rt.UnderlineType == -1 ? eDrawingUnderLineType.None : (eDrawingUnderLineType)rt.UnderlineType;
+            _underlineColor = rt.UnderlineColor;
+        }
+
+        public void ImportRichTextData(IRichTextFormatDrawing rt)
+        {
+            InitializeBase(rt);
+            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
+            _baseline = rt.Baseline;
+            _strikeType = (int)rt.StrikeType == -1 ? eDrawingStrikeType.No : rt.StrikeType;
+            _underLineType = (int)rt.UnderlineType == -1 ? eDrawingUnderLineType.None : rt.UnderlineType;
         }
 
         internal protected void InitializeBase(IFontFormatBase font)

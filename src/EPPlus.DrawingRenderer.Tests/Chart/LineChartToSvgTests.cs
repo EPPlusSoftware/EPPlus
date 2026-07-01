@@ -19,17 +19,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                //var ix = 6;
-                //var c = ws.Drawings[ix];
-                //var svg = c.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                var ix = 6;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{ix++}.svg", svg);
-                }
+                //for (int i = 0; i < ws.Drawings.Count; i++)
+                //{
+                //    var c = ws.Drawings[i];
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{i}.svg", svg);
+                //}
             }
         }
 
@@ -128,36 +128,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
-        [TestMethod]
-        public void GenerateSuperScript()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("Superscript.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
-                var ix = 1;
-                foreach (var c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ss{ix++}.svg", svg);
-                }
-            }
-        }
 
         [TestMethod]
-        public void GenerateSvgForCharts_SecondaryAxis()
+        public void GenerateSuperScript()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                //var ix = 3;
+                //var ix = 1;
                 //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
+                //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
                 var ix = 1;
                 foreach (ExcelChart c in ws.Drawings)
@@ -186,6 +167,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+        [TestMethod]
+        public void GenerateSvgForCharts_SecondaryAxis_sheet3()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[2];
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet3_{ix++}.svg", svg);
+                var ix = 1;
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet3_SecAxis{ix++}.svg", svg);
+                }
+            }
+        }
+
         [TestMethod]
         public void GenerateSimplestChart()
         {
@@ -280,5 +281,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 SaveTextFileToWorkbook($"svg\\defChartLine3Points.svg", svg);
             }
         }
+        [TestMethod]
+        public void GenerateSvgForLineCharts_AxisAlign_sheet1()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("HorizontalAxisAlign.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                //var ix = 3;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{ix++}.svg", svg);
+
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{i}.svg", svg);
+                }
+            }
+        }
+
     }
 }

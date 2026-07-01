@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// <summary>
         /// Textbox from memory
         /// </summary>
-        public DrawingTextbody TextBody{ get; internal set; }
+        public DrawingTextBody TextBody{ get; internal set; }
 
         //public ShapeRenderer(eShapeStyle style, double top, double left, double width, double height, eTextAutofit autofit) : base()
         //{
@@ -232,7 +232,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 return $"{(Bounds.Left).PointToPixelString()},{Bounds.Top.PointToPixelString()},{Bounds.Right.PointToPixelString()},{Bounds.Bottom.PointToPixelString()}";
             }
         }
-        DrawingTextbody CreateTextBodyItem(ExcelTextBody bodyOrig)
+        DrawingTextBody CreateTextBodyItem(ExcelTextBody bodyOrig)
         {
             if (InsetTextBox == null)
             {
@@ -263,7 +263,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             var grp = new GroupRenderItem(MarginTextBox.Bounds);
             RenderItems.Add(grp);
 
-            var txtBodyItem = new DrawingTextbody(Drawing, MarginTextBox.Bounds, MarginTextBox.Left, MarginTextBox.Top, MarginTextBox.Width, MarginTextBox.Height);
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, MarginTextBox.Left, MarginTextBox.Top, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 
             txtBodyItem.AppendRenderItems(grp.RenderItems);

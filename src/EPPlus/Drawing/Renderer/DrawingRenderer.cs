@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Export.Utils;
@@ -33,8 +34,9 @@ namespace OfficeOpenXml.Drawing.Renderer
 
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
+            RenderContext = wb.RenderContext;
 
-            var shaper = OpenTypeFonts.GetTextShaper(Theme.FontScheme.MajorFont[0].Typeface);
+            var shaper = RenderContext.FontEngine.GetTextShaper(Theme.FontScheme.MajorFont[0].Typeface);
             TextMeasurer = new OpenTypeFontTextMeasurer(shaper);
         }
 
@@ -53,6 +55,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         public ExcelTheme Theme { get;}
         public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;
         internal ITextMeasurer TextMeasurer { get; }
+        internal RenderContext RenderContext { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         internal BoundingBox Bounds = new BoundingBox();
     }

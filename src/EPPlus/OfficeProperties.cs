@@ -293,6 +293,14 @@ namespace OfficeOpenXml
             get { return _extendedHelper.GetXmlNodeString(AppVersionPath); }
             set 
             {
+                if (value == null)
+                {                    
+                    if(_extendedHelper.TopNode != null)
+                    {
+                        _extendedHelper.DeleteNode(AppVersionPath);
+                    }
+                    return;
+                }                    
                 var versions = value.Split('.');
                 if(versions.Length!=2 || versions.Any(x=>!x.IsInt()))
                 {

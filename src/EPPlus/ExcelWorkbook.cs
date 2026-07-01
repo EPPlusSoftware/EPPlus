@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Constants;
@@ -27,6 +29,10 @@ using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
@@ -443,7 +449,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Returns true if a calculation was canceled, leaving the workbook in an inconsistent state.
-        /// A workbook in this state must be disposed — saving or recalculating is not permitted.
+        /// A workbook in this state must be disposed ï¿½ saving or recalculating is not permitted.
         /// </summary>
         public bool IsCalculationInconsistent => IsCalculationCanceled;
         #endif
@@ -1400,14 +1406,6 @@ namespace OfficeOpenXml
                 XmlElement workbookView = _workbookXml.CreateElement("workbookView", ExcelPackage.schemaMain);
                 bookViews.AppendChild(workbookView);
 
-                XmlElement calcPr = _workbookXml.CreateElement("calcPr", ExcelPackage.schemaMain);
-                calcPr.SetAttribute("calcId", "191029"); //Set the version of the calc engine to the latest known version. This will make sure that Excel does not downgrade the calculation engine and that new functions are supported.
-                wbElem.AppendChild(calcPr);
-
-                XmlElement extLst = _workbookXml.CreateElement("extLst", ExcelPackage.schemaMain);
-                AddCalculationFeatures(extLst);
-                wbElem.AppendChild(extLst);
-
                 // save it to the package
                 StreamWriter stream = new StreamWriter(partWorkbook.GetStream(FileMode.Create, FileAccess.Write));
                 _workbookXml.Save(stream);
@@ -1603,7 +1601,8 @@ namespace OfficeOpenXml
                         SetXmlNodeString(CALC_MODE_PATH, "autoNoTable");
                         break;
                     case ExcelCalcMode.Manual:
-                        SetXmlNodeString(CALC_MODE_PATH, "manual");
+                        SetXmlNodeString(CALC_MODE_PATH, "manual"); 
+                        SetXmlNodeString("d:calcPr/@calcId", "191029");
                         break;
                     default:
                         SetXmlNodeString(CALC_MODE_PATH, "auto");
@@ -1667,6 +1666,64 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        RenderContext _renderContext = null;
+
+        /// <summary>
+        /// Rendering-wide resources for this workbook (font engine, etc.), flowed down the drawing
+        /// render stack. Created lazily with a default font engine if none has been configured.
+        /// Internal: callers configure fonts via <see cref="ConfigureFonts"/> rather than touching
+        /// this directly.
+        /// </summary>
+        internal RenderContext RenderContext
+        {
+            get
+            {
+                if (_renderContext == null)
+                {
+                    _renderContext = new RenderContext(() => new OpenTypeFontEngine());
+                }
+                return _renderContext;
+            }
+            set
+            {
+                _renderContext = value;
+            }
+        }
+
+        /// <summary>
+        /// Configures the fonts used when rendering drawings (charts, shapes) from this workbook to
+        /// image formats such as SVG. Use this to add font directories, control whether system font
+        /// directories are searched, or register fallback chains.
+        /// </summary>
+        /// <param name="configure">A callback that configures the font settings for this workbook.</param>
+        /// <remarks>
+        /// The configuration is applied when this workbook first renders a drawing. Call this before
+        /// rendering. The font engine is per workbook ï¿½ configuring one workbook does not affect any
+        /// other workbook or any global state.
+        /// </remarks>
+        public void ConfigureFonts(Action<IEpplusFontConfiguration> configure)
+        {
+            if (configure == null)
+                throw new ArgumentNullException("configure");
+
+            RenderContext = new RenderContext(() => new OpenTypeFontEngine(configure));
+        }
+
+        /// <summary>
+        /// Supplies a pre-built font engine for this workbook's rendering. Intended for advanced
+        /// scenarios and testing where a specific engine instance must be used. Per workbook ï¿½ never
+        /// global.
+        /// </summary>
+        /// <param name="engine">The font engine to use for this workbook.</param>
+        internal void UseFontEngine(OpenTypeFontEngine engine)
+        {
+            if (engine == null)
+                throw new ArgumentNullException("engine");
+
+            RenderContext = new RenderContext(() => engine);
+        }
+
         bool _fullPrecision;
         /// <summary>
         /// If false, EPPlus will round cell values to the number of decimals as displayed in the cell by using the cells number format when calculating the workbook. 
@@ -2424,6 +2481,11 @@ namespace OfficeOpenXml
             {
                 _formulaParser.Dispose();
                 _formulaParser = null;
+            }
+            if (_renderContext != null)
+            {
+                _renderContext.Dispose();
+                _renderContext = null;
             }
         }
 

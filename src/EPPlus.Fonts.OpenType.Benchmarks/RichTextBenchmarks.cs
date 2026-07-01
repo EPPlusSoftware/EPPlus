@@ -77,7 +77,7 @@ namespace EPPlus.Fonts.Benchmarks
                 font.FullName, font.SubFamily, font.GlyfTable.Glyphs.Count));
 
             var shaper = new TextShaper(fontEngine, font);
-            _layoutEngine = new TextLayoutEngine(shaper);
+            _layoutEngine = new TextLayoutEngine(fontEngine, shaper);
 
             Console.WriteLine("\nPre-warming font cache (Regular, Bold, Italic)...");
             PrewarmFontCache();

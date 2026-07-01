@@ -212,10 +212,13 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 if (cf.Style.HasValue)
                 {
-                    int ix = dxfs.FindIndexById(cf.Style.Id);
+                    var standardDxfStyle = cf.Style.ToDxfStyle();
+
+                    int ix = dxfs.FindIndexById(standardDxfStyle.Id);
                     if (ix < 0)
                     {
                         ((ExcelConditionalFormattingRule)cf).DxfId = dxfs.Count;
+                        cf.Style.DxfId = ((ExcelConditionalFormattingRule)cf).DxfId;
                         dxfs.Add(cf.Style.Id, cf.Style);
                         var elem = dxfsNode.OwnerDocument.CreateElement("dxf", ExcelPackage.schemaMain);
                         cf.Style.CreateNodes(new XmlHelperInstance(ws.NameSpaceManager, elem), "");
@@ -224,9 +227,12 @@ namespace OfficeOpenXml.Style.Dxf
                     else
                     {
                         ((ExcelConditionalFormattingRule)cf).DxfId = ix;
+                        cf.Style.DxfId = ix;
+                        //cf.Style.DxfId = ix;
                     }
                 }
             }
+            //var num = dxfs._list[129];
         }
         internal static void CopyDxfStylesTable(ExcelTable tblFrom, ExcelTable tblTo)
         {

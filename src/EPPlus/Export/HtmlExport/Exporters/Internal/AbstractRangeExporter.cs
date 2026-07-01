@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.String;
@@ -27,6 +28,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         internal const string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
+        internal List<HtmlSvgDrawing> _rangeDrawings = null;
         protected List<string> _dataTypes = new List<string>();
         protected ExporterContext _exporterContext;
 
@@ -45,13 +47,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
         }
 
-        internal void LoadRangeImages(List<ExcelRangeBase> ranges)
+        internal void LoadRangeDrawings(List<ExcelRangeBase> ranges)
         {
             if (_rangePictures != null)
             {
                 return;
             }
             _rangePictures = new List<HtmlImage>();
+            _rangeDrawings = new List<HtmlSvgDrawing>();
             //Render in-cell images.
             foreach (var worksheet in ranges.Select(x => x.Worksheet).Distinct())
             {
@@ -66,6 +69,44 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         {
                             WorksheetId = worksheet.PositionId,
                             Picture = p,
+                            FromRow = fromRow,
+                            FromRowOff = fromRowOff,
+                            FromColumn = fromCol,
+                            FromColumnOff = fromColOff,
+                            ToRow = toRow,
+                            ToRowOff = toRowOff,
+                            ToColumn = toCol,
+                            ToColumnOff = toColOff
+                        });
+                    }
+                    else if(d is ExcelShape s)
+                    {
+                        s.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
+                        s.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
+
+                        _rangeDrawings.Add(new HtmlSvgDrawing()
+                        {
+                            WorksheetId = worksheet.PositionId,
+                            Drawing = s,
+                            FromRow = fromRow,
+                            FromRowOff = fromRowOff,
+                            FromColumn = fromCol,
+                            FromColumnOff = fromColOff,
+                            ToRow = toRow,
+                            ToRowOff = toRowOff,
+                            ToColumn = toCol,
+                            ToColumnOff = toColOff
+                        });
+                    }
+                    else if(d is ExcelChart)
+                    {
+                        d.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
+                        d.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
+
+                        _rangeDrawings.Add(new HtmlSvgDrawing()
+                        {
+                            WorksheetId = worksheet.PositionId,
+                            Drawing = d,
                             FromRow = fromRow,
                             FromRowOff = fromRowOff,
                             FromColumn = fromCol,
@@ -110,6 +151,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 if (p.FromRow == row - 1 && p.FromColumn == col - 1 && p.WorksheetId == worksheetId)
                 {
                     return p;
+                }
+            }
+            return null;
+        }
+
+        protected HtmlSvgDrawing GetDrawing(int worksheetId, int row, int col)
+        {
+            if (_rangeDrawings == null) return null;
+            foreach (var d in _rangeDrawings)
+            {
+                if (d.FromRow == row - 1 && d.FromColumn == col - 1 && d.WorksheetId == worksheetId)
+                {
+                    return d;
                 }
             }
             return null;
