@@ -16,6 +16,7 @@ using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -228,6 +229,33 @@ namespace EPPlus.Export.Pdf
 
         internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
+            //Write the PDF to the file. The Stream overload does the actual work and
+            //populates _debugString.
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            {
+                CreatePdf(pageSettings, dictionaries, layout, fs);
+            }
+            //Write pdf as txt for debug.
+            if (_pageSettings.Debug && _pageSettings.PrintAsText)
+            {
+                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
+                {
+                    using (var wr = new StreamWriter(fs))
+                    {
+                        wr.Write(_debugString);
+                    }
+                }
+            }
+        }
+
+        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (!stream.CanWrite) throw new ArgumentException("The stream must be writable.", nameof(stream));
+            //The cross-reference table stores byte offsets that the PDF reader uses to
+            //seek to each object, so the target stream has to support querying its position.
+            if (!stream.CanSeek) throw new ArgumentException("The stream must be seekable, because the PDF cross-reference table requires byte offsets.", nameof(stream));
+
             _pageSettings = pageSettings;
             _dictionaries = dictionaries;
             var catalog = AddCatalog(2);
@@ -249,43 +277,96 @@ namespace EPPlus.Export.Pdf
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
             var info = AddInfoObject();
-            string debugString = "";
+            _debugString = "";
             //write to pdf
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-            //start wring pdf binary
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            //Cross-reference offsets are relative to the start of the PDF. A freshly created
+            //FileStream starts at position 0, but a caller-supplied stream may already hold
+            //data, so capture the starting position and make every offset relative to it.
+            long start = stream.Position;
+            //start writing pdf binary. leaveOpen: true so a caller-supplied stream is not closed.
+            using (var bw = new BinaryWriter(stream, Encoding.ASCII, true))
             {
-                using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+                //Write header
+                bw.Write(Encoding.ASCII.GetBytes(Header));
+                _debugString += Header;
+                //Write body
+                foreach (var pdfobj in _document)
                 {
-                    //Write header
-                    bw.Write(Encoding.ASCII.GetBytes(Header));
-                    debugString += Header;
-                    //Write body
-                    foreach (var pdfobj in _document)
-                    {
-                        crossRefTable.AddPosition(fs.Position);
-                        pdfobj.ToPdfBytes(bw);
-                        debugString += pdfobj.ToPdfString();
-                    }
-                    //Write CrossReference
-                    crossRefTable.Write(bw, fs.Position, _document.Count);
-                    debugString += crossRefTable.WriteString(_document.Count);
-                    // Write trailer
-                    PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                    debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                    crossRefTable.AddPosition(stream.Position - start);
+                    pdfobj.ToPdfBytes(bw);
+                    _debugString += pdfobj.ToPdfString();
                 }
-            }
-            //Write pdf as txt for debug.
-            if (_pageSettings.Debug && _pageSettings.PrintAsText)
-            {
-                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
-                {
-                    using (var wr = new StreamWriter(fs))
-                    {
-                        wr.Write(debugString);
-                    }
-                }
+                //Write CrossReference
+                crossRefTable.Write(bw, stream.Position - start, _document.Count);
+                _debugString += crossRefTable.WriteString(_document.Count);
+                // Write trailer
+                PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                _debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+                bw.Flush();
             }
         }
+
+        //internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
+        //{
+        //    _pageSettings = pageSettings;
+        //    _dictionaries = dictionaries;
+        //    var catalog = AddCatalog(2);
+        //    //Create Pages
+        //    var pagesLayout = layout.ChildObjects[0];
+        //    var pages = AddPages();
+        //    //Create Fonts
+        //    AddFontData();
+        //    //Create Patterns
+        //    AddPatternData();
+        //    //Create Shadings
+        //    AddShadingsData();
+        //    //Create Page and Content
+        //    for (int i = 0; i < layout.ChildObjects.Count; i++)
+        //    {
+        //        var pageLayout = layout.ChildObjects[i];
+        //        var page = AddPage(2, new List<int>(), _pageSettings);
+        //        AddContent(pageLayout, page);
+        //        pages.pageObjectNumbers.Add(page.objectNumber);
+        //    }
+        //    var info = AddInfoObject();
+        //    string debugString = "";
+        //    //write to pdf
+        //    PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
+        //    //start wring pdf binary
+        //    using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+        //    {
+        //        using (var bw = new BinaryWriter(fs, Encoding.ASCII))
+        //        {
+        //            //Write header
+        //            bw.Write(Encoding.ASCII.GetBytes(Header));
+        //            debugString += Header;
+        //            //Write body
+        //            foreach (var pdfobj in _document)
+        //            {
+        //                crossRefTable.AddPosition(fs.Position);
+        //                pdfobj.ToPdfBytes(bw);
+        //                debugString += pdfobj.ToPdfString();
+        //            }
+        //            //Write CrossReference
+        //            crossRefTable.Write(bw, fs.Position, _document.Count);
+        //            debugString += crossRefTable.WriteString(_document.Count);
+        //            // Write trailer
+        //            PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+        //            debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+        //        }
+        //    }
+        //    //Write pdf as txt for debug.
+        //    if (_pageSettings.Debug && _pageSettings.PrintAsText)
+        //    {
+        //        using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
+        //        {
+        //            using (var wr = new StreamWriter(fs))
+        //            {
+        //                wr.Write(debugString);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

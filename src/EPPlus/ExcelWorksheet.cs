@@ -3771,6 +3771,32 @@ namespace OfficeOpenXml
             }, cancellationToken);
         }
 
+        /// <summary>
+        /// Export worksheet to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        public void SaveAsPdf(Stream stream)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, this);
+            }, cancellationToken);
+        }
+
         ExcelPackage IPictureRelationDocument.Package { get { return _package; } }
 
         Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();

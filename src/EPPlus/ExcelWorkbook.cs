@@ -776,7 +776,7 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab + 1].PrinterSettings);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -833,6 +833,106 @@ namespace OfficeOpenXml
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 _ = new PdfCatalog(fileName, settings, ranges);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        public void SaveAsPdf(Stream stream)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        public void SaveAsPdf(Stream stream, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(worksheets[0].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, worksheets);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        public void SaveAsPdf(Stream stream, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, ranges);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(Worksheets[View.ActiveTab].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, this);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, params ExcelWorksheet[] worksheets)
+            => SaveAsPdfAsync(stream, CancellationToken.None, worksheets);
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(worksheets[0].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, worksheets);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, params ExcelRangeBase[] ranges)
+            => SaveAsPdfAsync(stream, CancellationToken.None, ranges);
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(ranges[0].Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, ranges);
             }, cancellationToken);
         }
 

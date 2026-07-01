@@ -19,10 +19,11 @@ using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace OfficeOpenXml.Export.PdfExport
 {
@@ -39,20 +40,36 @@ namespace OfficeOpenXml.Export.PdfExport
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
-            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), fileName);
+            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), WriteToFile(pageSettings, fileName));
         }
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
-            HandleWorksheetCollection(pageSettings, worksheets, fileName);
+            HandleWorksheetCollection(pageSettings, worksheets, WriteToFile(pageSettings, fileName));
         }
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
         {
-            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), fileName);
+            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), WriteToFile(pageSettings, fileName));
         }
 
-        private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets, string fileName)
+
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        {
+            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), WriteToStream(pageSettings, stream));
+        }
+
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
+        {
+            HandleWorksheetCollection(pageSettings, worksheets, WriteToStream(pageSettings, stream));
+        }
+
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
+        {
+            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), WriteToStream(pageSettings, stream));
+        }
+
+        private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets, Action<Transform> writePdf)
         {
             // Match the single-worksheet path: resolve the default font before building.
             pageSettings.defaultFontName = worksheets[0].Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
@@ -74,8 +91,7 @@ namespace OfficeOpenXml.Export.PdfExport
                 var layout = GetLayout(pageSettings, pdfSheets);
 
                 // Write the PDF document.
-                ExcelPdf excelPdf = new ExcelPdf();
-                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName);
+                writePdf(layout);
             }
             finally
             {
@@ -101,10 +117,15 @@ namespace OfficeOpenXml.Export.PdfExport
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
-            BuildPdf(pageSettings, worksheet, fileName);
+            BuildPdf(pageSettings, worksheet, WriteToFile(pageSettings, fileName));
         }
 
-        private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, string fileName)
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        {
+            BuildPdf(pageSettings, worksheet, WriteToStream(pageSettings, stream));
+        }
+
+        private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
         {
             //pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
@@ -142,8 +163,7 @@ namespace OfficeOpenXml.Export.PdfExport
                 sw.Start();
 
                 //Write Pdf Document
-                ExcelPdf excelPdf = new ExcelPdf();
-                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName);
+                writePdf(layout);
                 sw.Stop();
                 var CreatePdfTime = sw.ElapsedMilliseconds;
                 sw.Reset();
@@ -166,6 +186,16 @@ namespace OfficeOpenXml.Export.PdfExport
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelRangeBase range)
         {
+            BuildPdfFromRange(pageSettings, range, WriteToFile(pageSettings, fileName));
+        }
+
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelRangeBase range)
+        {
+            BuildPdfFromRange(pageSettings, range, WriteToStream(pageSettings, stream));
+        }
+
+        private void BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range, Action<Transform> writePdf)
+        {
             pageSettings.defaultFontName = range.Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
 
             PdfWorksheet pdfSheet = null;
@@ -176,8 +206,7 @@ namespace OfficeOpenXml.Export.PdfExport
                 PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
                 var layout = GetLayout(pageSettings, pdfSheet);   // single-sheet GetLayout overload
 
-                ExcelPdf excelPdf = new ExcelPdf();
-                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName);
+                writePdf(layout);
             }
             finally
             {
@@ -191,15 +220,25 @@ namespace OfficeOpenXml.Export.PdfExport
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
         {
-            HandleRangeCollection(pageSettings, ranges, fileName);
+            HandleRangeCollection(pageSettings, ranges, WriteToFile(pageSettings, fileName));
         }
 
         public PdfCatalog(string fileName, PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
         {
-            HandleRangeCollection(pageSettings, ranges.ToArray(), fileName);
+            HandleRangeCollection(pageSettings, ranges.ToArray(), WriteToFile(pageSettings, fileName));
         }
 
-        private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, string fileName)
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
+        {
+            HandleRangeCollection(pageSettings, ranges, WriteToStream(pageSettings, stream));
+        }
+
+        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
+        {
+            HandleRangeCollection(pageSettings, ranges.ToArray(), WriteToStream(pageSettings, stream));
+        }
+
+        private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, Action<Transform> writePdf)
         {
             pageSettings.defaultFontName = ranges[0].Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
 
@@ -217,8 +256,7 @@ namespace OfficeOpenXml.Export.PdfExport
 
                 var layout = GetLayout(pageSettings, pdfSheets);
 
-                ExcelPdf excelPdf = new ExcelPdf();
-                excelPdf.CreatePdf(pageSettings, _dictionaries, layout, fileName);
+                writePdf(layout);
             }
             finally
             {
@@ -246,6 +284,15 @@ namespace OfficeOpenXml.Export.PdfExport
 
         //Private Methods
 
+        private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
+        {
+            return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, fileName);
+        }
+
+        private Action<Transform> WriteToStream(PdfPageSettings pageSettings, Stream stream)
+        {
+            return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, stream);
+        }
 
         //Create Layout Methods
 

@@ -11,21 +11,38 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
-using OfficeOpenXml.Export.PdfExport;
-using EPPlus.Export.Pdf.Settings.PdfPageSizes;
-using EPPlus.Export.Pdf;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Integration;
 using OfficeOpenXml;
-using OfficeOpenXml.Interfaces.RichText;
-using OfficeOpenXml.Style;
+using OfficeOpenXml.Export.PdfExport;
 using System.Diagnostics;
+using System.Text;
 
 namespace EPPlusTest.PDF
 {
     [TestClass]
     public class PdfTests : TestBase
     {
+        private static void AssertLooksLikePdf(byte[] bytes)
+        {
+            Assert.IsTrue(bytes.Length > 0, "PDF output is empty.");
+            string head = Encoding.ASCII.GetString(bytes, 0, Math.Min(8, bytes.Length));
+            Assert.IsTrue(head.StartsWith("%PDF-"), $"Missing PDF header. Got: '{head}'");
+            int tailLen = Math.Min(8, bytes.Length);
+            string tail = Encoding.ASCII.GetString(bytes, bytes.Length - tailLen, tailLen);
+            Assert.IsTrue(tail.Contains("%%EOF"), "Missing %%EOF trailer marker.");
+        }
+
+        private static long ParseStartXref(byte[] bytes, int pdfStart)
+        {
+            string text = Encoding.ASCII.GetString(bytes, pdfStart, bytes.Length - pdfStart);
+            int idx = text.LastIndexOf("startxref", StringComparison.Ordinal);
+            Assert.IsTrue(idx >= 0, "startxref keyword not found.");
+            int i = idx + "startxref".Length;
+            while (i < text.Length && (text[i] == '\n' || text[i] == '\r' || text[i] == ' ')) i++;
+            int start = i;
+            while (i < text.Length && char.IsDigit(text[i])) i++;
+            return long.Parse(text.Substring(start, i - start));
+        }
+
         /* BIG PDF TODO
          * 
          * Missing Features:
@@ -46,7 +63,7 @@ namespace EPPlusTest.PDF
          * 
          * Bugs:
          * Merged cell uses full width/height even when columns/rows are hidden.
-         * Conditional formatting not worksing 100% of the time.
+         * Conditional formatting not working 100% of the time.
          * Table could sometimes select wrong style
          * 
          * Other
@@ -59,31 +76,15 @@ namespace EPPlusTest.PDF
 
         protected static string pdfPath = _worksheetPath + "\\PDF\\";
 
-        //ta bort
-        [TestMethod]
-        public void ReadPrintAreas()
-        {
-            //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
-            using var p = OpenTemplatePackage("PDFTest.xlsx");
-            //using var p = OpenTemplatePackage("PDFTest_old.xlsx");
-            //using var p = OpenTemplatePackage("DoubleBorder.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            PdfPageSettings pageSettings = new PdfPageSettings();
-            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-            pageSettings.CellErrors = CellErrors.NA;
-            pageSettings.Debug = true;
-            pageSettings.PrintAsText = true;
-            pageSettings.ShowGridLines = true;
-            pageSettings.ShowHeadings = true;
-            PdfCatalog catlog = new PdfCatalog("C:\\epplustest\\pdf\\FullPageTest59.pdf", pageSettings, ws);
-        }
-
         [TestMethod]
         public void SaveWorksheetAsPdfTest1()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            ws.SaveAsPdf(pdfPath + "WorksheetTest1.pdf");
+            string path = pdfPath + "WorksheetTest1.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
@@ -95,7 +96,10 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.ShowGridLines = false;
             ws.PrinterSettings.ShowHeaders = false;
             ws.PrinterSettings.PaperSize = ePaperSize.A3;
-            ws.SaveAsPdf(pdfPath + "WorksheetTest2.pdf");
+            string path = pdfPath + "WorksheetTest2.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
@@ -103,7 +107,10 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
-            range.SaveAsPdf(pdfPath + "RangeTest1.pdf");
+            string path = pdfPath + "RangeTest1.pdf";
+            range.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
@@ -111,7 +118,10 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var wb = p.Workbook;
-            wb.SaveAsPdf(pdfPath + "WorkbookTest1.pdf");
+            string path = pdfPath + "WorkbookTest1.pdf";
+            wb.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
@@ -122,7 +132,10 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             var ws1 = wb.Worksheets[1];
             var ws2 = wb.Worksheets[2];
-            wb.SaveAsPdf(pdfPath + "WorksheetsTest2.pdf", ws0, ws1, ws2);
+            string path = pdfPath + "WorksheetsTest2.pdf";
+            wb.SaveAsPdf(path, ws0, ws1, ws2);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
@@ -132,7 +145,10 @@ namespace EPPlusTest.PDF
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
             var ws2 = wb.Worksheets[2];
-            wb.SaveAsPdf(pdfPath + "WorksheetsTest1.pdf", ws0, ws2);
+            string path = pdfPath + "WorksheetsTest1.pdf";
+            wb.SaveAsPdf(path, ws0, ws2);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
@@ -145,7 +161,376 @@ namespace EPPlusTest.PDF
             var r2 = ws.Cells["B36:F39"];
             var r3 = ws.Cells["K49:Q58"];
             var r4 = ws.Cells["L142:Q147"];
-            wb.SaveAsPdf(pdfPath + "RangesTest1.pdf", r1, r2, r3, r4);
+            string path = pdfPath + "RangesTest1.pdf";
+            wb.SaveAsPdf(path, r1, r2, r3, r4);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public async Task SaveWorkbookAsPdfAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetsAsPdfAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, ws0, ws2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetsAsPdfAsyncWithTokenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, CancellationToken.None, ws0, ws2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveRangesAsPdfAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, r1, r2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveRangesAsPdfAsyncWithTokenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, CancellationToken.None, r1, r2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveWorkbookAsPdfAsyncWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                using var cts = new CancellationTokenSource();
+                cts.Cancel();
+
+                await Assert.ThrowsExactlyAsync<TaskCanceledException>(
+                    () => wb.SaveAsPdfAsync(tempFile, cts.Token));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public void SaveWorkbookAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveWorksheetsAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms, ws0, ws2);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveRangesAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms, r1, r2);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveWorkbookAsPdfToStreamAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            await wb.SaveAsPdfAsync(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveAsPdfAsyncWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>( () => wb.SaveAsPdfAsync(ms, cts.Token));
+        }
+
+        [TestMethod]
+        public void SaveAsPdfToStreamLeavesStreamOpenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms);
+            Assert.IsTrue(ms.CanWrite, "Stream was closed by the export.");
+            Assert.IsTrue(ms.CanRead, "Stream was closed by the export.");
+            Assert.IsTrue(ms.Length > 0, "Nothing was written to the stream.");
+        }
+
+        [TestMethod]
+        public void StreamOffsetsAreRelativeToPdfStartTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            // Pre-fill the stream so the PDF does not start at offset 0.
+            byte[] preamble = Encoding.ASCII.GetBytes("LEADING BYTES THAT ARE NOT PART OF THE PDF");
+            ms.Write(preamble, 0, preamble.Length);
+            int pdfStart = (int)ms.Position;
+            wb.SaveAsPdf(ms);
+            byte[] all = ms.ToArray();
+            // The PDF itself still starts with the header at the captured position.
+            string header = Encoding.ASCII.GetString(all, pdfStart, 5);
+            Assert.AreEqual("%PDF-", header, "PDF was not written at the stream's current position.");
+            // startxref must point at the xref table relative to the PDF start.
+            long startXref = ParseStartXref(all, pdfStart);
+            string atOffset = Encoding.ASCII.GetString(all, pdfStart + (int)startXref, 4);
+            Assert.AreEqual("xref", atOffset, "startxref offset is not relative to the PDF start.");
+        }
+
+        [TestMethod]
+        public void FileAndStreamProduceSamePdfLengthTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                wb.SaveAsPdf(tempFile);
+                long fileLength = new FileInfo(tempFile).Length;
+                using var ms = new MemoryStream();
+                wb.SaveAsPdf(ms);
+                Assert.AreEqual(fileLength, ms.Length, "Stream output length differs from file output length.");
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public void SaveWorksheetToStreamViaCatalogTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var pageSettings = new PdfPageSettings();
+            using var ms = new MemoryStream();
+            _ = new PdfCatalog(ms, pageSettings, ws);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveAsPdfToNonWritableStreamThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var readOnly = new MemoryStream(new byte[16], writable: false);
+            Assert.ThrowsExactly<ArgumentException>(() => wb.SaveAsPdf(readOnly));
+        }
+
+        [TestMethod]
+        public void SaveWorksheetAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            ws.SaveAsPdf(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetAsPdfToStreamAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            await ws.SaveAsPdfAsync(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveWorksheetAsPdfToStreamLeavesStreamOpenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            ws.SaveAsPdf(ms);
+            Assert.IsTrue(ms.CanWrite, "Stream was closed by the export.");
+            Assert.IsTrue(ms.CanRead, "Stream was closed by the export.");
+            Assert.IsTrue(ms.Length > 0, "Nothing was written to the stream.");
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetAsPdfAsyncToStreamWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => ws.SaveAsPdfAsync(ms, cts.Token));
+        }
+
+        [TestMethod]
+        public void SaveWorksheetToStreamOffsetsAreRelativeToPdfStartTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            byte[] preamble = Encoding.ASCII.GetBytes("LEADING BYTES THAT ARE NOT PART OF THE PDF");
+            ms.Write(preamble, 0, preamble.Length);
+            int pdfStart = (int)ms.Position;
+            ws.SaveAsPdf(ms);
+            byte[] all = ms.ToArray();
+            string header = Encoding.ASCII.GetString(all, pdfStart, 5);
+            Assert.AreEqual("%PDF-", header, "PDF was not written at the stream's current position.");
+            long startXref = ParseStartXref(all, pdfStart);
+            string atOffset = Encoding.ASCII.GetString(all, pdfStart + (int)startXref, 4);
+            Assert.AreEqual("xref", atOffset, "startxref offset is not relative to the PDF start.");
+        }
+
+        [TestMethod]
+        public void SaveWorksheetToNonWritableStreamThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var readOnly = new MemoryStream(new byte[16], writable: false);
+            Assert.ThrowsExactly<ArgumentException>(() => ws.SaveAsPdf(readOnly));
+        }
+
+        [TestMethod]
+        public void SaveRangeAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            range.SaveAsPdf(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveRangeAsPdfToStreamAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            await range.SaveAsPdfAsync(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveRangeAsPdfToStreamLeavesStreamOpenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            range.SaveAsPdf(ms);
+            Assert.IsTrue(ms.CanWrite, "Stream was closed by the export.");
+            Assert.IsTrue(ms.CanRead, "Stream was closed by the export.");
+            Assert.IsTrue(ms.Length > 0, "Nothing was written to the stream.");
+        }
+
+        [TestMethod]
+        public async Task SaveRangeAsPdfAsyncToStreamWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => range.SaveAsPdfAsync(ms, cts.Token));
+        }
+
+        [TestMethod]
+        public void SaveRangeToNonWritableStreamThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var readOnly = new MemoryStream(new byte[16], writable: false);
+            Assert.ThrowsExactly<ArgumentException>(() => range.SaveAsPdf(readOnly));
         }
 
         [TestMethod]
@@ -172,8 +557,7 @@ namespace EPPlusTest.PDF
             Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
         }
 
-
-            [TestMethod]
+        [TestMethod]
         // works as expected.
         //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
         [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
