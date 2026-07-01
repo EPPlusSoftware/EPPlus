@@ -21,7 +21,9 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
@@ -112,30 +114,21 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (ct.GetType() == typeof(ExcelPieChart))
                 {
-                    //Pie chart cares only about first series
-                    if (ct.Series[0].GetType() == typeof(ExcelPieChartSerie))
-                    {
-                        var ps = (ExcelPieChartSerie)ct.Series[0];
-                        var catValues = DrawingExtensions.LoadSeriesValues(ct, ps.XSeries, ps.NumberLiteralsX, ps.StringLiteralsX);
-
-                        //Excel fallsback to index + 1 if no literals and no series 
-                        if (catValues == null)
-                        {
-                            catValues = new List<Object>();
-                            foreach (var dp in ps.DataPoints)
-                            {
-                                catValues.Add($"{dp.Index + 1}");
-                            }
-                        }
-                        for (int i = 0; i < catValues.Count; i++)
-                        {
-                            var text = catValues[i].ToString();
-                            GetSerieSize(l, index, text, ref widest, ref highest);
-                            index++;
-                        }
-                    }
+                    GetSizePieChart(l, ref widest, ref highest, ref index, ct);
                     //Skip the rest
                     break;
+                }
+                else if((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count==1 && ct.Series.Count==1) //Single series bar/column chart, the legend entries are the categories, not the series.
+                {
+                    var s = ct.Series[0];
+                    var catSeries = s.XSeries;
+                    var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, s.NumberLiteralsX, s.StringLiteralsX);
+                    for (int i = 0; i < catValues.Count; i++)
+                    {
+                        var text = catValues[i].ToString();
+                        GetSerieSize(l, index, text, ref widest, ref highest);
+                        index++;
+                    }
                 }
                 else
                 {
@@ -259,6 +252,32 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
+        private void GetSizePieChart(ExcelChartLegend l, ref double widest, ref double highest, ref int index, ExcelChart ct)
+        {
+            //Pie chart cares only about first series
+            if (ct.Series[0].GetType() == typeof(ExcelPieChartSerie))
+            {
+                var ps = (ExcelPieChartSerie)ct.Series[0];
+                var catValues = DrawingExtensions.LoadSeriesValues(ct, ps.XSeries, ps.NumberLiteralsX, ps.StringLiteralsX);
+
+                //Excel fallsback to index + 1 if no literals and no series 
+                if (catValues == null)
+                {
+                    catValues = new List<Object>();
+                    foreach (var dp in ps.DataPoints)
+                    {
+                        catValues.Add($"{dp.Index + 1}");
+                    }
+                }
+                for (int i = 0; i < catValues.Count; i++)
+                {
+                    var text = catValues[i].ToString();
+                    GetSerieSize(l, index, text, ref widest, ref highest);
+                    index++;
+                }
+            }
+        }
+
         private void GetSerieSize(ExcelChartLegend l, int index, string text, ref double widest, ref double highest)
         {
             var entry = l.Entries.FirstOrDefault(x => x.Index == index);
@@ -319,88 +338,94 @@ namespace EPPlusImageRenderer.Svg
             DrawingLegendSerie pSls = null;
             var pos = Chart.Legend.Position;
             var maxIconLength = GetMaxIconLength(Chart, entryHeight);
-            //var isSingleSerie = 
-            foreach (var ct in Chart.PlotArea.ChartTypes)
+            if ((Chart.IsTypeBar() || Chart.IsTypeColumn()) && Chart.PlotArea.ChartTypes.Count == 1 && Chart.PlotArea.ChartTypes[0].Series.Count == 1)
             {
-                int ix, end;
-                if (ct.IsTypeBar())
+                SetBarLegendSingle(entryWidth, entryHeight, maxIconLength);
+            }
+            else
+            {
+                foreach (var ct in Chart.PlotArea.ChartTypes)
                 {
-                    ix = ct.Series.Count - 1;
-                    end = -1;
-                }
-                else
-                {
-                    ix = 0;
-                    end = ct.Series.Count;
-                }
+                    int ix, end;
+                    if (ct.IsTypeBar())
+                    {
+                        ix = ct.Series.Count - 1;
+                        end = -1;
+                    }
+                    else
+                    {
+                        ix = 0;
+                        end = ct.Series.Count;
+                    }
 
-                while (ix != end)
-                {
-                    var s = ct.Series[ix];
-                    var sls = new DrawingLegendSerie();
-                    switch (ct.ChartType)
+                    while (ix != end)
                     {
-                        case eChartType.Line:
-                        case eChartType.LineMarkers:
-                        case eChartType.LineMarkersStacked:
-                        case eChartType.LineMarkersStacked100:
-                        case eChartType.LineStacked:
-                        case eChartType.LineStacked100:
-                            SetLineLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
-                            break;
-                        case eChartType.ColumnClustered:
-                        case eChartType.ColumnStacked:
-                        case eChartType.ColumnStacked100:
-                        case eChartType.BarClustered:
-                        case eChartType.BarStacked:
-                        case eChartType.BarStacked100:
-                            SetBarLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
-                            break;
-                        case eChartType.Pie:
-                        case eChartType.PieExploded:
-                            if (ix == 0)
-                            {
-                                SetPieLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
-                                pSls = null;
-                                sls = null;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    if (Chart.Legend.Position == eLegendPosition.Top ||
-                        Chart.Legend.Position == eLegendPosition.Bottom)
-                    {
-                        //if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
-                        //{
-                        //    break;
-                        //}
-                    }
-                    else
-                    {
-                        if (sls != null && sls.Textbox.Bounds.Bottom > Rectangle.Height )
+                        var s = ct.Series[ix];
+                        var sls = new DrawingLegendSerie();
+                        switch (ct.ChartType)
                         {
-                            break;
+                            case eChartType.Line:
+                            case eChartType.LineMarkers:
+                            case eChartType.LineMarkersStacked:
+                            case eChartType.LineMarkersStacked100:
+                            case eChartType.LineStacked:
+                            case eChartType.LineStacked100:
+                                SetLineLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                break;
+                            case eChartType.ColumnClustered:
+                            case eChartType.ColumnStacked:
+                            case eChartType.ColumnStacked100:
+                            case eChartType.BarClustered:
+                            case eChartType.BarStacked:
+                            case eChartType.BarStacked100:
+                                SetBarLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                break;
+                            case eChartType.Pie:
+                            case eChartType.PieExploded:
+                                if (ix == 0)
+                                {
+                                    SetPieLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                    pSls = null;
+                                    sls = null;
+                                }
+                                break;
+                            default:
+                                break;
                         }
-                    }
-                    if (sls != null)
-                    {
-                        SeriesIcon.Add(sls);
-                    }
-                    //SeriesIcon.Add(sls);
-                    pSls = sls;
-                    //else
-                    //{
-                    //    pSls = null;
-                    //}
-                    index++;
-                    if (ix < end)
-                    {
-                        ix++;
-                    }
-                    else
-                    {
-                        ix--;
+                        if (Chart.Legend.Position == eLegendPosition.Top ||
+                            Chart.Legend.Position == eLegendPosition.Bottom)
+                        {
+                            //if (sls.Textbox.Bounds.Bottom > Rectangle.Bottom)
+                            //{
+                            //    break;
+                            //}
+                        }
+                        else
+                        {
+                            if (sls != null && sls.Textbox.Bounds.Bottom > Rectangle.Height)
+                            {
+                                break;
+                            }
+                        }
+                        if (sls != null)
+                        {
+                            SeriesIcon.Add(sls);
+                        }
+                        //SeriesIcon.Add(sls);
+                        pSls = sls;
+                        //else
+                        //{
+                        //    pSls = null;
+                        //}
+                        index++;
+                        if (ix < end)
+                        {
+                            ix++;
+                        }
+                        else
+                        {
+                            ix--;
+                        }
                     }
                 }
             }
@@ -434,6 +459,50 @@ namespace EPPlusImageRenderer.Svg
             //    }
             //}
             //return pSls;
+        }
+
+        private void SetBarLegendSingle(double entryWidth, double entryHeight, double maxIconLength)
+        {
+            var ct = Chart.PlotArea.ChartTypes[0];
+            var s = ct.Series[0];
+            var series = ct.Series[0];
+            var catSeries = series.XSeries;
+            var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, series.NumberLiteralsX, series.StringLiteralsX);
+            var ix = 0;
+            DrawingLegendSerie pSls = null;
+            foreach(var cv in catValues)
+            {
+                var sls=new DrawingLegendSerie();
+                var bs = (ExcelBarChartSerie)s;
+                var tm = _seriesHeadersMeasure[ix];
+                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight);
+                sls.SeriesIcon = si;
+
+                var tbLeft = si.Left + maxIconLength + MarginIconText;
+                var tbTop = si.Top - (entryHeight - si.Height) / 2;
+                double tbWidth;
+
+                tbWidth = Rectangle.Bounds.Width - tbLeft;
+
+                var tbHeight = tm.Height;
+                sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
+
+                var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == ix);
+                var headerText = cv.ToString();
+                if (entry == null || entry.Font.IsEmpty)
+                {
+                    //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
+                    sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                }
+                else
+                {
+                    //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
+                    sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                }
+                SeriesIcon.Add(sls);
+                pSls = sls;
+            }
         }
 
         private void SetLegendTrendlines(double entryWidth, double entryHeight, DrawingLegendSerie pSls)
