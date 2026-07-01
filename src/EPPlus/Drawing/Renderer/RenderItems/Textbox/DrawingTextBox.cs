@@ -23,7 +23,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             Parent = parent;
             _drawing= drawing;
-            TextBody = new DrawingTextBody(drawing, _marginGroup.Bounds, true);
+            var renderContext = drawing._drawings.Worksheet.Workbook.RenderContext;
+            TextBody = new DrawingTextBody(renderContext, drawing, _marginGroup.Bounds, true);
             TextBody.MaxWidth = maxWidth;
             TextBody.MaxHeight = maxHeight;
         }

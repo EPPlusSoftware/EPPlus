@@ -27,9 +27,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// </summary>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
-        public DrawingParagraphRenderItem(DrawingTextBody textBody, BoundingBox parent) : base(parent, textBody)
+        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent)
+      : base(renderContext, parent, textBody)
         {
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)OpenTypeFonts.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
         }
 
         /// <summary>
@@ -38,7 +39,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="text"></param>
-        public DrawingParagraphRenderItem(DrawingTextBody textBody, BoundingBox parent, string text) : this(textBody, parent)
+        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, string text)
+           : this(renderContext, textBody, parent)
         {
             ImportLinesAndTextRunsDefault(text);
         }
@@ -50,22 +52,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="parent"></param>
         /// <param name="p"></param>
         /// <param name="textIfEmpty"></param>
-        public DrawingParagraphRenderItem(DrawingTextBody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null) : base(parent, textBody, false)
+        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null)
+            : base(renderContext, parent, textBody, false)
         {
             IsFirstParagraph = p == p._paragraphs[0];
             ImportStyleInfo(textBody, p);
             HorizontalAlignment = (TextAlignment)(int)p.HorizontalAlignment;
             ImportMarginAndIndent(p);
-            //ImportAlignment(textBody.AutoSize, textBody.MaxWidth, parent.Width);
-            
-            //---Initialize / calculate lines and runs---
-            //measurer must be set before AddLinesAndRichText
+
             DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont());
 
-            //---Calculate linespacing---
             ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
 
-            //Import textruns or fallback text
             ImportLinesAndTextRuns(p, textIfEmpty);
         }
 
@@ -237,7 +235,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)
         {
             _lsType = (TextLineSpacing)lsType;
-            var shaper = (TextShaper)OpenTypeFonts.GetShaperForFont(DefaultParagraphFont);
+            var shaper = (TextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont);
 
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(
                 lineSpacingValue,

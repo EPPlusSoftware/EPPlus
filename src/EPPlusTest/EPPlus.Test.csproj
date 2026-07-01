@@ -73,6 +73,15 @@
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Fonts\BIZUDGothic-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\OpenSans-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\Roboto-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Resources\BitmapImage.gif">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
