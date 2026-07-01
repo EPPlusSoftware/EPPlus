@@ -134,21 +134,19 @@ namespace EPPlusTest.Drawing.Chart
                 sChart.Series.Add(cSheet.Cells["B1:B3"]);
                 sChart.Series.Add(cSheet.Cells["C1:C3"]);
 
-                var baseLabel = sChart.Series[2].DataLabel.DataLabels.Add(0);
-                //baseLabel.Position = eLabelPosition.Center;
-                //sChart.DataLabel.ShowSeriesName = true;
-                //var dlbl = sChart.DataLabel;
-                //dlbl.Fill.Color = Color.Red;
-                //sChart.Series[2].DataLabel.DataLabels.Add(2);
-                //sChart.Series[2].DataLabel.DataLabels.Add(1);
+                sChart.Series[2].DataLabel.DataLabels.Add(0);
+                var dlbl = sChart.Series[2].DataLabel.DataLabels.Add(2);
+                sChart.Series[2].DataLabel.DataLabels.Add(1);
 
 
-                cSheet.Calculate();
-                //var mySvg = sChart.ToSvg();
+                dlbl.ShowSeriesName = true;
+                dlbl.Fill.Color = Color.Red;
 
-                //var file = GetOutputFile("svg", "DataLabelsMultipleOneSeriesExport.svg");
+                var mySvg = sChart.ToSvg();
 
-                //File.WriteAllText(file.FullName, mySvg);
+                var file = GetOutputFile("svg", "DataLabelsMultipleOneSeriesExport.svg");
+
+                File.WriteAllText(file.FullName, mySvg);
 
                 SaveAndCleanup(pck);
             }

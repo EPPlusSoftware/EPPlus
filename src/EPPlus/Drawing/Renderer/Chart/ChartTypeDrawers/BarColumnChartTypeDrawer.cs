@@ -70,7 +70,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var isColumn = ((ExcelBarChart)_chartType).IsTypeColumn();
 
-                if (serie.HasDataLabel)
+                if (serie.HasDataLabel || serie.DataLabel != null)
                 {
                     var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _valValues[i], serCounter++);
                     serieDataLabels.Add(datalabel);
