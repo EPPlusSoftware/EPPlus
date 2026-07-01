@@ -219,7 +219,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 var _guidId = Guid.NewGuid();
 
                 var extNode2 = GetNode($"{extPath}[2]");
-                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueID");
+                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueId");
                 uniqueIdNode.SetAttribute("val", $"{{{_guidId}}}");
             }
         }

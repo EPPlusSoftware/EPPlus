@@ -55,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var isBar = _chartType.IsTypeBar();
             var count = Math.Min(_catValues.Count, _valValues.Count);
-            for (var i = 0; i < _catValues.Count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var serie = (ExcelBarChartSerie)_chartType.Series[i];
 
