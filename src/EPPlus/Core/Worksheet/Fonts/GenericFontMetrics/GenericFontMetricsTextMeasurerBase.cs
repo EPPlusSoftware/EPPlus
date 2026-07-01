@@ -47,26 +47,50 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return _fonts.ContainsKey(fontKey);
         }
 
-        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, bool wrapText = false)
+        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, bool wrapText = false, float lastLinePadding = 0f)
         {
             var sFont = _fonts[fontKey];
             var width = 0f;
             var maxWidth = 0f;
             var widthEA = 0f;
+            var maxWidthEA = 0f;
             for (var x = 0; x < text.Length; x++)
             {
                 var fnt = sFont;
                 var c = text[x];
-                if(wrapText && (c=='\n' || c=='\r'))
+                
+                // When word-wrap is enabled, split lines on explicit newlines (\n, \r) 
+                // as well as soft wrap boundaries (spaces, tabs, and hyphens) as Excel does.
+                if(wrapText && (c=='\n' || c=='\r' || c==' ' || c=='-' || c=='\t'))
                 {
                     if(x>0 && c=='\r' && text[x-1]=='\n')
                     {
                         continue; //CRLF should be handled as one new line.
                     }
-                    if(width>maxWidth)
+                    
+                    // Hyphens remain visible at the end of the wrapped line.
+                    // Therefore, we measure and add the hyphen width to the current line width before wrapping.
+                    if (c == '-')
+                    {
+                        if (sFont.CharMetrics.ContainsKey(c))
+                        {
+                            width += fnt.ClassWidths[sFont.CharMetrics[c]];
+                        }
+                    }
+                    if ((width + widthEA) > (maxWidth + maxWidthEA))
                     {
                         maxWidth = width;
-                        width = 0;
+                        maxWidthEA = widthEA;
+                    }
+                    
+                    // Reset current line width and East Asian width for the next line
+                    width = 0;
+                    widthEA = 0;
+                    
+                    // Since hyphen is already counted, continue directly to avoid processing it again
+                    if (c == '-')
+                    {
+                        continue;
                     }
                 }
 
@@ -89,15 +113,37 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                     }
                 }
             }
-            if(maxWidth > width)
+            
+            // Only perform separate line measurements if we have active AutoFilter padding AND the text has actually wrapped into multiple lines.
+            if (lastLinePadding > 0f && (maxWidth > 0f || maxWidthEA > 0f))
             {
-                width = maxWidth;
+                // Measure the preceding lines and the last line separately.
+                // Apply the padding ONLY to the last line.
+                float maxPreceding = maxWidth * size;
+                maxPreceding *= _fontScaleFactors.GetScaleFactor(fontKey, maxPreceding);
+                maxPreceding += maxWidthEA * size;
+
+                float lastLine = width * size;
+                lastLine *= _fontScaleFactors.GetScaleFactor(fontKey, lastLine);
+                lastLine += widthEA * size;
+
+                width = Math.Max(maxPreceding, lastLine + lastLinePadding);
             }
-            width *= size;
-            widthEA *= size;
-            var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
-            width *= sf;
-            width += widthEA;
+            else
+            {
+                if ((maxWidth + maxWidthEA) > (width + widthEA))
+                {
+                    width = maxWidth;
+                    widthEA = maxWidthEA;
+                }
+                width *= size;
+                widthEA *= size;
+                var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
+                width *= sf;
+                width += widthEA;
+                width += lastLinePadding;
+            }
+
             var height = sFont.LineHeight1em * size;
             return new TextMeasurement(width, height);
         }

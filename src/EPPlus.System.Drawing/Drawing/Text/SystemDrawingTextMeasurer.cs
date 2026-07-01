@@ -9,8 +9,8 @@ namespace OfficeOpenXml.SystemDrawing.Text
     public class SystemDrawingTextMeasurer : ITextMeasurer, IDisposable
     {
         /// <summary>
-        /// If the text measurer should measure wrap text cells. 
-        /// Only CR, LF or CRLF should be considered.
+        /// If the text measurer should measure wrap text cells during AutoFit calculations.
+        /// Line breaks are considered on explicit newlines (CR, LF, CRLF) as well as soft wrap boundaries (spaces, tabs, and hyphens).
         /// </summary>
         public bool MeasureWrappedTextCells
         {

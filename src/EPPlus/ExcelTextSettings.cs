@@ -87,12 +87,12 @@ namespace OfficeOpenXml
         /// Measures a text with default settings when there is no other option left...
         /// </summary>
         internal DefaultTextMeasurer DefaultTextMeasurer { get; set; }
-        /// <summary>
-        /// Should return true if the text measurer should measure wrap text cells. Only CR, LF or CRLF should be considered
-        /// </summary>
-        /// <returns>True if the measurer can be .</returns>
         bool _measureWrappedTextCells=false;
-        internal bool MeasureWrappedTextCells 
+        /// <summary>
+        /// True if the text measurer should measure wrapped text cells during AutoFit calculations.
+        /// Line breaks are considered on explicit newlines (CR, LF, CRLF) as well as soft wrap boundaries (spaces, tabs, and hyphens).
+        /// </summary>
+        public bool MeasureWrappedTextCells 
         { 
             get
             {

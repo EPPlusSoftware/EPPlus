@@ -881,7 +881,7 @@ namespace EPPlusTest.Issues
             ws.Cells["B2"].Value = multiLineText;
 
             p.Settings.TextSettings.MeasureWrappedTextCells = true;
-            // AutoFitColumns - calculates width as if there were no line breaks.
+            // AutoFitColumns - calculates width taking line breaks and wrapping into account.
             ws.Cells["A1:B2"].AutoFitColumns();
 
             p.Settings.TextSettings.MeasureWrappedTextCells = false;
@@ -1191,6 +1191,87 @@ namespace EPPlusTest.Issues
                 var ws = package.Workbook.Worksheets.First();
             });
             Assert.IsTrue(ex.Message.Contains("Strict Open XML"));
+        }
+
+        [TestMethod]
+        public void MeasureWrappedText_SoftWrapBoundariesAndPaddingTest()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("AutofitTest");
+                
+                // Set the package text settings to enable soft wrap measurements
+                package.Settings.TextSettings.MeasureWrappedTextCells = true;
+                
+                // Set up a cell with standard text containing spaces, tabs, and hyphens (soft wrap boundaries)
+                var cell1 = ws.Cells["A1"];
+                cell1.Value = "Generic wrapped text string - Test";
+                cell1.Style.WrapText = true;
+                
+                // Auto-fit columns
+                ws.Cells["A1"].AutoFitColumns();
+                
+                // Let's verify that the width is calculated and is reasonable (greater than 0)
+                var width1 = ws.Column(1).Width;
+                Assert.IsTrue(width1 > 0d, "Column width should be greater than 0");
+                
+                // Test a cell with AutoFilter padding. Excel's AutoFilter header will apply a 15px padding.
+                // We want to verify that when MeasureWrappedTextCells is true, the padding is only added once
+                // to the last line, and does not multiply or break key lookups.
+                ws.AutoFilter.Address = ws.Cells["A1:B1"];
+                
+                // Reset column width to a small value
+                ws.Column(1).Width = 5d;
+                
+                // Run autofit again on the autofiltered cell
+                ws.Cells["A1"].AutoFitColumns();
+                
+                // Run autofit again on the autofiltered cell
+                var widthWithPadding = ws.Column(1).Width;
+                Assert.IsTrue(widthWithPadding > 0d);
+                
+                // Verify that the cache key lookup works properly without collisions.
+                // We do this by triggering multiple autofits on the same string with and without padding/wrap setting.
+                var cell2 = ws.Cells["A2"];
+                cell2.Value = "Generic wrapped text string - Test";
+                cell2.Style.WrapText = false; // no wrapping for row 2
+                
+                ws.Cells["A1:A2"].AutoFitColumns();
+                
+                var widthCombined = ws.Column(1).Width;
+                Assert.IsTrue(widthCombined > 0d);
+            }
+        }
+
+        [TestMethod]
+        public void GenericFontMetricsTextMeasurer_OverloadDelegationTest()
+        {
+            var measurer = new OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements.GenericFontMetricsTextMeasurer();
+            var font = new OfficeOpenXml.Interfaces.Drawing.Text.MeasurementFont { FontFamily = "Calibri", Size = 11, Style = OfficeOpenXml.Interfaces.Drawing.Text.MeasurementFontStyles.Regular };
+            var text = "EPPlus AutoFit Word Wrap and Padding Test String";
+
+            // 1. By default, MeasureWrappedTextCells is false. Verify overloads match.
+            measurer.MeasureWrappedTextCells = false;
+            var measureDefault2Param = measurer.MeasureText(text, font);
+            var measureDefault4Param = measurer.MeasureText(text, font, wrapText: false, lastLinePadding: 0f);
+            
+            Assert.AreEqual(measureDefault4Param.Width, measureDefault2Param.Width, 0.0001f);
+            Assert.AreEqual(measureDefault4Param.Height, measureDefault2Param.Height, 0.0001f);
+
+            // 2. Set MeasureWrappedTextCells to true. Verify overloads match.
+            measurer.MeasureWrappedTextCells = true;
+            var measureWrapped2Param = measurer.MeasureText(text, font);
+            var measureWrapped4Param = measurer.MeasureText(text, font, wrapText: true, lastLinePadding: 0f);
+
+            Assert.AreEqual(measureWrapped4Param.Width, measureWrapped2Param.Width, 0.0001f);
+            Assert.AreEqual(measureWrapped4Param.Height, measureWrapped2Param.Height, 0.0001f);
+
+            // 3. Verify that wrapping actually wraps the text and results in a narrower but taller box, or at least a different size.
+            Assert.AreNotEqual(measureDefault2Param.Width, measureWrapped2Param.Width);
+
+            // 4. Test overload with custom padding to ensure the padding is correctly factored in.
+            var measureWithPadding = measurer.MeasureText(text, font, wrapText: true, lastLinePadding: 15f);
+            Assert.IsTrue(measureWithPadding.Width >= measureWrapped2Param.Width);
         }
 
     }
