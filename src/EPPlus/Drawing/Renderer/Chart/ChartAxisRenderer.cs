@@ -43,10 +43,15 @@ namespace EPPlusImageRenderer.Svg
     internal class ChartAxisRenderer : ChartDrawingObject, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+
+        internal override System.Drawing.Color? DefaultFillColor { get; }
+
         internal ChartAxisRenderer(ChartRenderer sc, ExcelChartAxisStandard ax) : base(sc)
         {
             Axis = ax;
             SetMargins(ax.TextBody);
+
+            DefaultFillColor = System.Drawing.Color.Transparent;
 
             if (sc.Chart.Series.Count == 0)
             {
@@ -429,7 +434,7 @@ namespace EPPlusImageRenderer.Svg
                 tb.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
-                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, true);
+                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, true, DefaultFillColor);
 
                 if(widest < tb.Width)
                 {

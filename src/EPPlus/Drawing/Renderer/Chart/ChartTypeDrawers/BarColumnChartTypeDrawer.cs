@@ -20,12 +20,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
         internal override bool SupportsErrorBars => true;
+
+        internal override Color? DefaultFillColor { get; }
+        internal override Color? DefaultBorderColor { get; }
+
         internal BarColumnChartTypeDrawer(ChartRenderer svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
 
             int serCounter = 0;
+
+            DefaultFillColor = svgChart.Theme.ColorScheme.Accent1.GetColor();
+            DefaultBorderColor = Color.Transparent;
 
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {

@@ -50,7 +50,7 @@ namespace EPPlusImageRenderer.Svg
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
         internal virtual RectRenderItem Rectangle { get; set; }
-        internal virtual Color? DefaultFillColor { get;  }
+        internal virtual Color? DefaultFillColor { get; }
         internal virtual Color? DefaultBorderColor { get; }
         protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
