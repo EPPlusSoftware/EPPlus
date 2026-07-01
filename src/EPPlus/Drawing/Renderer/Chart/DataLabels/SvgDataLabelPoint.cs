@@ -11,6 +11,7 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -29,6 +30,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         eLabelPosition _labelPosition;
         internal double CounterRotation = double.NaN;
 
+        internal override Color? DefaultFillColor { get; }
+
         //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         //{
         //    var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
@@ -43,6 +46,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabelStandard standard) : base(chart)
         {
+            DefaultFillColor = Color.Transparent;
             _labelPosition = standard.Position;
             Rectangle = new RectRenderItem(chart.Bounds);
         }
@@ -154,13 +158,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (dataLabel.Fill.IsEmpty == false)
             {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
             }
-            //else
-            //{
-            //    _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null);
-            //    _txtBox.Rectangle.FillColor = "transparent";
-            //}
+            else
+            {
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
+                //_txtBox.Rectangle.FillColor = "transparent";
+            }
 
             if (dataLabel.Font.IsEmpty == false)
             {

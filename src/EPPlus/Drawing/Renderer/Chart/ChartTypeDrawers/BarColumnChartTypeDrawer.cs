@@ -15,7 +15,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class BarColumnChartTypeDrawer : ChartTypeDrawer
     {
-        List<List<object>> _catValues, _valValues;
+        List<List<object>> _catValues, _valValues, _origValValues;
         List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
@@ -25,17 +25,26 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
+            _origValValues = new List<List<object>>();
 
             int serCounter = 0;
 
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {
-                List<object> valValue,catValue;
+                List<object> valValue, catValue;
                 valValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 catValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
 
                 _catValues.Add(catValue);
                 _valValues.Add(valValue);
+
+                List<object> origList = new List<object>();
+                for (int i = 0; i < valValue.Count; i++)
+                {
+                    origList.Add(valValue[i]);
+                }
+                //Will not be summed
+                _origValValues.Add(origList);
             }
 
             if(chartType.IsTypeStacked())
@@ -72,7 +81,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel || serie.DataLabel != null)
                 {
-                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _valValues[i], serCounter++);
+                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _origValValues[i], serCounter++);
                     serieDataLabels.Add(datalabel);
 
                     for (int j = 0; j < dataPoints.Count; j++)

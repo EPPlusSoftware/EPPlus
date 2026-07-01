@@ -141,8 +141,36 @@ namespace EPPlusImageRenderer.Svg
                 {
                     foreach (var s in ct.Series)
                     {
+                        if(s.GetType() == typeof(ExcelLineChartSerie))
+                        {
+                            var line = (ExcelLineChartSerie)s;
+
+                            //TODO: this shouldn't technically override unless epplus specifically generates it
+                            var overrideColor = GetAccentBasedOnPos(index);
+                            if (s.Fill.IsEmpty)
+                            {
+                                s.Fill.Color = overrideColor;
+                            }
+
+                            SetDataPointColors(line.DataPoints, ct.VaryColors, ct.StyleManager.Style != null, line, overrideColor);
+                        }
+                        else if(s.GetType() == typeof(ExcelBarChartSerie))
+                        {
+                            var bar = (ExcelBarChartSerie)s;
+
+                            //TODO: this shouldn't technically override unless epplus specifically generates it and user has not assigned colors
+                            var overrideColor = GetAccentBasedOnPos(index);
+                            if (s.Fill.IsEmpty)
+                            {
+                                s.Fill.Color = overrideColor;
+                            }
+
+                            SetDataPointColors(bar.DataPoints, ct.VaryColors, ct.StyleManager.Style != null, bar, overrideColor);
+                        }
+
                         var text = s.GetHeaderText(index);
                         GetSerieSize(l, index, text, ref widest, ref highest);
+
                         index++;
                     }
                 }
@@ -259,6 +287,47 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
+        private Color GetAccentBasedOnPos(int pos)
+        {
+            var mod5 = pos % 5;
+            //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+        }
+
+        private ExcelChartDataPointCollection SetDataPointColors(ExcelChartDataPointCollection dataPoints, bool varyColors, bool hasStyle, ExcelChartStandardSerie serie, Color? overrideColor = null)
+        {
+            if (serie.NumberOfItems > dataPoints.Count)
+            {
+                var prevPointCount = dataPoints.Count;
+                dataPoints.ClearDataPoints();
+
+                for (int i = 0; i < serie.NumberOfItems; i++)
+                {
+                    dataPoints.Add(i);
+                    var defaultFill = DefaultFillColor;
+                    if(overrideColor != null)
+                    {
+                        defaultFill = overrideColor;
+                    }
+
+                    if (varyColors)
+                    {
+                        if (hasStyle == false)
+                        {
+                            defaultFill = GetAccentBasedOnPos(i);
+                        }
+                    }
+                    //Ensures we don't over-write user set style data
+                    if (defaultFill != null && i > prevPointCount - 1)
+                    {
+                        dataPoints[i].Fill.Color = defaultFill.Value;
+                    }
+                }
+            }
+
+            return dataPoints;
+        }
+
         private void GetSerieSize(ExcelChartLegend l, int index, string text, ref double widest, ref double highest)
         {
             var entry = l.Entries.FirstOrDefault(x => x.Index == index);
@@ -319,6 +388,7 @@ namespace EPPlusImageRenderer.Svg
             DrawingLegendSerie pSls = null;
             var pos = Chart.Legend.Position;
             var maxIconLength = GetMaxIconLength(Chart, entryHeight);
+
             foreach (var ct in Chart.PlotArea.ChartTypes)
             {
                 int ix, end;
@@ -337,6 +407,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     var s = ct.Series[ix];
                     var sls = new DrawingLegendSerie();
+
                     switch (ct.ChartType)
                     {
                         case eChartType.Line:
