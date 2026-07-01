@@ -12,6 +12,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -80,7 +81,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (dataLabel.ShowSeriesName)
             {
-                dlblStrings.Add(serie.GetHeaderString());
+                var idx = Array.IndexOf(serie._chart.Series.ToArray(), serie);
+                dlblStrings.Add(serie.GetHeaderText(idx));
             }
             if (dataLabel.ShowCategory)
             {
