@@ -28,11 +28,8 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             var bottomMargin = UnitConversion.ToMillimeters(eps.BottomMargin);
             var headerMargin = UnitConversion.ToMillimeters(eps.HeaderMargin);
             var footerMargin = UnitConversion.ToMillimeters(eps.FooterMargin);
-            if (double.IsNaN(topMargin) || double.IsNaN(bottomMargin) || double.IsNaN(leftMargin) || double.IsNaN(rightMargin) || double.IsNaN(headerMargin) || double.IsNaN(footerMargin))
-                settings.Margins = PdfMargins.Normal;
-            else
-                settings.Margins = new PdfMargins(topMargin, bottomMargin, leftMargin, rightMargin, headerMargin, footerMargin);
-            settings.Orientation = eps.Orientation != null ? (Orientations)eps.Orientation : Orientations.Portrait;
+            settings.Margins = new PdfMargins(topMargin, bottomMargin, leftMargin, rightMargin, headerMargin, footerMargin);
+            settings.Orientation = (Orientations)eps.Orientation;
             //Scaling is not yet implemented.
             settings.Scaling = new PdfScaling(eps.Scale);
             settings.ShowHeadings = eps.ShowHeaders;
@@ -41,6 +38,7 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             //Print area is implemented and uses the defined name instead of this setting. this setting should override the print area defined name.
             settings.PrintArea = eps.PrintArea != null ? eps.PrintArea.Address : null;
             settings.ShowGridLines = eps.ShowGridLines;
+            //Centering is not implemented.
             settings.CenterOnPageHorizontally = eps.HorizontalCentered;
             settings.CenterOnPageVertically = eps.VerticalCentered;
             settings.PageOrders = (PageOrders)eps.PageOrder;

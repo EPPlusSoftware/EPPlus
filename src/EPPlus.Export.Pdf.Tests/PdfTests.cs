@@ -611,8 +611,9 @@ namespace EPPlusTest.PDF
             const double rowHeightPts = 15;
             double columnWidth = rowHeightPts * (96.0 / 72.0) / 7.0;
             ws.Column(1).Width = columnWidth;
-            ws.Cells["A1"].Value = "Solid";
-            ws.Cells["AE50"].Value = "Snake";
+            ws.Cells["A1"].Value = "SOLID";
+            ws.Cells["AE50"].Value = "SNAKE";
+            ws.Cells["AF51"].Value = " ";
             const int startRow = 2;
             const int startCol = 1; // D
             for (int y = 0; y < pixels.Length; y++)
@@ -627,14 +628,12 @@ namespace EPPlusTest.PDF
                 }
                 ws.Row(startRow + y).Height = 15;
             }
-            ws.PrinterSettings.Orientation = eOrientation.Portrait;
-            ws.PrinterSettings.PaperSize = ePaperSize.A4;
-            ws.PrinterSettings.TopMargin = 0.15d;
-            ws.PrinterSettings.BottomMargin = 0.15d;
-            ws.PrinterSettings.LeftMargin = 0.15d;
-            ws.PrinterSettings.RightMargin = 0.15d;
-            ws.PrinterSettings.HeaderMargin = 0.15d;
-            ws.PrinterSettings.FooterMargin = 0.15d;
+            ws.PrinterSettings.TopMargin = 0.1d;
+            ws.PrinterSettings.BottomMargin = 0.1d;
+            ws.PrinterSettings.LeftMargin = 0.1d;
+            ws.PrinterSettings.RightMargin = 0.1d;
+            ws.PrinterSettings.HorizontalCentered = true;
+            ws.PrinterSettings.VerticalCentered = true;
             p.Workbook.SaveAsPdf(pdfPath + "Snake.Pdf");
             p.SaveAs(pdfPath + "Snake.xlsx");
         }

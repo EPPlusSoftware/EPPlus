@@ -382,7 +382,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeDouble(_leftMarginPath);
+                return GetXmlNodeDouble(_leftMarginPath, 0.7480d);
             }
             set
             {
@@ -398,7 +398,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeDouble(_rightMarginPath);
+                return GetXmlNodeDouble(_rightMarginPath, 0.7480d);
             }
             set
             {
@@ -414,7 +414,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeDouble(_topMarginPath);
+                return GetXmlNodeDouble(_topMarginPath, 0.7480d);
             }
             set
             {
@@ -430,7 +430,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeDouble(_bottomMarginPath);
+                return GetXmlNodeDouble(_bottomMarginPath, 0.7480d);
             }
             set
             {
@@ -446,7 +446,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeDouble(_headerMarginPath);
+                return GetXmlNodeDouble(_headerMarginPath, 0.315d);
             }
             set
             {
@@ -462,7 +462,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeDouble(_footerMarginPath);
+                return GetXmlNodeDouble(_footerMarginPath, 0.315d);
             }
             set
             {
@@ -479,7 +479,8 @@ namespace OfficeOpenXml
         {
             get
             {
-                return (eOrientation)Enum.Parse(typeof(eOrientation), GetXmlNodeString(_orientationPath), true);
+                var orientation = GetXmlNodeString(_orientationPath);
+                return string.IsNullOrEmpty( orientation) ? eOrientation.Portrait : (eOrientation)Enum.Parse(typeof(eOrientation), orientation, true);
             }
             set
             {
