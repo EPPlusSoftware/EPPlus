@@ -9,6 +9,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -371,5 +372,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             renderItems.AddRange(ChartAreaRenderItems);
             SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
+        internal override Color? DefaultFillColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
+        internal override Color? DefaultBorderColor => null;
     }
 }
