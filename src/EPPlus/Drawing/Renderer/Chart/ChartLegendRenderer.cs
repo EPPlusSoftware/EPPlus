@@ -312,6 +312,7 @@ namespace EPPlusImageRenderer.Svg
             DrawingLegendSerie pSls = null;
             var pos = Chart.Legend.Position;
             var maxIconLength = GetMaxIconLength(Chart, entryHeight);
+            //var isSingleSerie = 
             foreach (var ct in Chart.PlotArea.ChartTypes)
             {
                 int ix, end;
@@ -338,7 +339,7 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.LineMarkersStacked100:
                         case eChartType.LineStacked:
                         case eChartType.LineStacked100:
-                            SetLineLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            SetLineLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                             break;
                         case eChartType.ColumnClustered:
                         case eChartType.ColumnStacked:
@@ -346,13 +347,13 @@ namespace EPPlusImageRenderer.Svg
                         case eChartType.BarClustered:
                         case eChartType.BarStacked:
                         case eChartType.BarStacked100:
-                            SetBarLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                            SetBarLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                             break;
                         case eChartType.Pie:
                         case eChartType.PieExploded:
                             if (ix == 0)
                             {
-                                SetPieLegend(ct, index, pSls, pos, s, sls, entryWidth, entryHeight, maxIconLength);
+                                SetPieLegend(ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                 pSls = null;
                                 sls = null;
                             }
@@ -503,7 +504,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        private void SetPieLegend(ExcelChart ct, int index, DrawingLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        private void SetPieLegend(ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var ps = (ExcelPieChartSerie)s;
             pSls = null;
@@ -580,7 +581,7 @@ namespace EPPlusImageRenderer.Svg
             sls = null;
         }
 
-        private void SetLineLegend(ExcelChart ct, int index, DrawingLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        private void SetLineLegend(ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var ls = (ExcelLineChartSerie)s;
 
@@ -624,7 +625,7 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private void SetBarLegend(ExcelChart ct, int index, DrawingLegendSerie pSls, eLegendPosition pos, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
+        private void SetBarLegend(ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength)
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
