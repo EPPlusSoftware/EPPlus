@@ -28,8 +28,11 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             var bottomMargin = UnitConversion.ToMillimeters(eps.BottomMargin);
             var headerMargin = UnitConversion.ToMillimeters(eps.HeaderMargin);
             var footerMargin = UnitConversion.ToMillimeters(eps.FooterMargin);
-            settings.Margins = new PdfMargins(topMargin, bottomMargin, leftMargin, rightMargin, headerMargin, footerMargin);
-            settings.Orientation = (Orientations)eps.Orientation;
+            if (double.IsNaN(topMargin) || double.IsNaN(bottomMargin) || double.IsNaN(leftMargin) || double.IsNaN(rightMargin) || double.IsNaN(headerMargin) || double.IsNaN(footerMargin))
+                settings.Margins = PdfMargins.Normal;
+            else
+                settings.Margins = new PdfMargins(topMargin, bottomMargin, leftMargin, rightMargin, headerMargin, footerMargin);
+            settings.Orientation = eps.Orientation != null ? (Orientations)eps.Orientation : Orientations.Portrait;
             //Scaling is not yet implemented.
             settings.Scaling = new PdfScaling(eps.Scale);
             settings.ShowHeadings = eps.ShowHeaders;
