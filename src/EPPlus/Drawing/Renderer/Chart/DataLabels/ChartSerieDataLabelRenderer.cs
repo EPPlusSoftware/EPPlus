@@ -137,11 +137,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
-        internal void SetDimensions(int index, Transform basePoint, Transform endPoint)
+        internal void SetDimensions(int index, Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)
         {
             if (dataLabels.Count > index)
             {
-                dataLabels[index].SetShapeDimensions(basePoint, endPoint);
+                dataLabels[index].SetShapeDimensions(basePoint, endPoint, maxBoundsPieSlice);
             }
         }
 

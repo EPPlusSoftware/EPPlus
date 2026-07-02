@@ -283,6 +283,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         RectRenderItem basePositionRect;
         RectRenderItem endPositionRect;
         RectRenderItem centerPositionRect;
+        RectRenderItem maxBoundsCircle;
+        RectRenderItem endPointCircle;
 
 
         private RectRenderItem GenerateDebugRenderItem(BoundingBox parent, string fillColor)
@@ -297,7 +299,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         }
 
 
-        private void CreateDebugPoints(Transform basePoint, Transform endPoint, Transform centerPoint)
+        private void CreateDebugPoints(Transform basePoint, Transform endPoint, Transform centerPoint, BoundingBox maxboundStart)
         {
             originPointRect = GenerateDebugRenderItem(_parentPoint, "darkRed");
             basePositionRect = GenerateDebugRenderItem(_parentPoint, "darkGreen");
@@ -311,6 +313,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
             centerPositionRect.Left += centerPoint.LocalPosition.X;
             centerPositionRect.Top += centerPoint.LocalPosition.Y;
+
+            if(maxboundStart != null)
+            {
+                maxBoundsCircle = GenerateDebugRenderItem(_parentPoint, "Red");
+                maxBoundsCircle.Left += maxboundStart.LocalPosition.X;
+                maxBoundsCircle.Top += maxboundStart.LocalPosition.Y;
+
+                endPointCircle = GenerateDebugRenderItem(_parentPoint, "Yellow");
+                endPointCircle.Left += maxboundStart.LocalPosition.X - maxboundStart.Width;
+                endPointCircle.Top += maxboundStart.LocalPosition.Y - maxboundStart.Height;
+            }
         }
         private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
         {
@@ -339,7 +352,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         /// <summary>
         /// 
         /// </summary>
-        internal void SetShapeDimensions(Transform basePoint, Transform endPoint)
+        internal void SetShapeDimensions(Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)
         {
             if(basePoint.Parent != endPoint.Parent)
             {
@@ -372,7 +385,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //And endVector is the top center position.
 
             //--- Visualize positions for debugging purposes
-            //CreateDebugPoints(basePoint, endPoint, centerPoint);
+            CreateDebugPoints(basePoint, endPoint, centerPoint, maxBoundsPieSlice);
             //---
 
             switch (_labelPosition)
@@ -407,10 +420,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //Try to fit within object if possible. If not then as close to it as possible?
 
                     //var labelVector = new Vector2(_txtBox.Width, _txtBox.Height);
-                    bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
-                    bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
+                    //bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
+                    //bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
+
+                    bool CanFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
+                    bool CanFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
+
                     if (CanFitWidth && CanFitHeight)
                     {
+                        //maxBoundsPieSlice.Width
+                        //_txtBox.TextBody.Width
+                        //var startLeft =  maxBoundsPieSlice.LocalPosition.X;
+                        //var startY = maxBoundsPieSlice.LocalPosition.Y;
+
+                        //var endRight = maxBoundsPieSlice.LocalPosition.X - maxBoundsPieSlice.Width;
+                        //var endY = maxBoundsPieSlice.LocalPosition.Y - maxBoundsPieSlice.Height;
+
+
+
                         //TODO: make input parameter in pie chart
                         bool canFitInCenter = false;
                         if (canFitInCenter)
@@ -556,6 +583,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if(centerPositionRect != null)
             {
                 parentPointGroup.AddChildItem(centerPositionRect);
+            }
+            if(maxBoundsCircle != null)
+            {
+                parentPointGroup.AddChildItem(maxBoundsCircle);
+            }
+            if (endPointCircle != null)
+            {
+                parentPointGroup.AddChildItem(endPointCircle);
             }
 
             renderItems.Add(parentPointGroup);

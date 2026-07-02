@@ -251,7 +251,30 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             startPt.Parent = innerGroup.Parent;
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
-                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup);
+                            //var maxBoundsForBestFit = new BoundingBox();
+                            //maxBoundsForBestFit.Parent = innerGroup;
+
+                            var bounds = Slices[j].GetBounds();
+                            //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+                            //box.Parent = innerGroup;
+
+                            //var start = Slices[j].GetCenterOfStartPointLine();
+                            //var end = Slices[j].GetCenterOfEndPointLine();
+
+                            //var minX = Math.Min(start.LocalPosition.X, end.LocalPosition.X);
+                            //var width = Math.Max(start.LocalPosition.X, end.LocalPosition.X) - minX;
+
+                            //var minY = Math.Min(start.LocalPosition.Y, end.LocalPosition.Y);
+                            //var height = Math.Max(start.LocalPosition.Y, end.LocalPosition.Y) - minY;
+
+                            //maxBoundsForBestFit.Left += minX;
+                            //maxBoundsForBestFit.Top += minY;
+                            //maxBoundsForBestFit.Width = width;
+                            //maxBoundsForBestFit.Height = height;
+                            ////maxBoundsForBestFit.Width = Math.Abs(start.LocalPosition.X - end.LocalPosition.X);
+                            ////maxBoundsForBestFit.Height = Math.Abs(start.LocalPosition.Y - end.LocalPosition.Y);
+
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds);
                         }
                     }
                 }
