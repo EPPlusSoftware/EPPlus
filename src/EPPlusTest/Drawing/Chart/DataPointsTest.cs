@@ -87,9 +87,9 @@ namespace EPPlusTest.Drawing.Chart
 
             var svg = chart.ToSvg();
 
-            SaveAndCleanup(_pck);
+            //SaveAndCleanup(_pck);
 
-            File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
+            //File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
         }
         [TestMethod]
         public void BarChart()  
