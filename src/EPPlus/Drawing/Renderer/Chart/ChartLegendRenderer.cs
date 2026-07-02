@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
@@ -23,6 +24,7 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -870,7 +872,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index)
+        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index)
         {            
             var item = new RectRenderItem(Rectangle.Bounds);
             var iconHeight = GetIconLength(ct, entryHeight);
@@ -894,70 +896,18 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            if (index>=0 && cStandardSerie.DataPoints.ContainsKey(index))
+            if (index>=0 && chartSerie.DataPoints.ContainsKey(index))
             {
-                var dp = cStandardSerie.DataPoints[index];
-                var color = GetVaryColor(Chart.StyleManager?.ColorsManager, index);
-
-                item.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
-                item.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+                var dp = chartSerie.DataPoints[index];
+                ChartTypeDrawer.SetFillDataPoint(Chart, chartSerie, index, item, dp, Chart.StyleManager.Style?.SeriesLine);
             }
             else
             {
-                if(ct.VaryColors)
-                {
-                    //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-                    var color = GetVaryColor(Chart.StyleManager?.ColorsManager, index);
-                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
-                }
-                else
-                {
-                    var color = GetVaryColor(Chart.StyleManager?.ColorsManager, serieIndex);
-                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
-                    item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
-                }
+                ChartTypeDrawer.SetFillSerie(Chart, ct, chartSerie, serieIndex, index, item);
             }
+
             return item;
         }
-
-        private Color? GetVaryColor(ExcelChartColorsManager colorsManager, int index)
-        {
-            Color baseColor;
-            var baseColorIndex = index % 6;
-            if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
-            {
-                baseColor = ChartRenderer.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
-            }
-            else
-            {
-                baseColor = colorsManager.Colors[baseColorIndex].GetColor();
-            }
-            
-            var variationIndex = index / 6;
-            if (variationIndex == 0)
-            {
-                return baseColor;
-            }
-            else
-            {
-                ExcelColorTransformCollection variation;
-                if (colorsManager == null)
-                {                    
-                    var variations = ExcelColorTransformCollection.GetDefault();
-                    variation = variations[variationIndex % variations.Count];
-                }
-                else
-                {
-                    if (colorsManager.Variations.Count == 0)
-                    {
-                        return baseColor;
-                    }
-                    variation = colorsManager.Colors[variationIndex % colorsManager.Variations.Count].Transforms;
-                }
-                return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
-            }
-        }
-
         private double GetItemPosition(DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y)
         {
             var topOffset = 0D;
