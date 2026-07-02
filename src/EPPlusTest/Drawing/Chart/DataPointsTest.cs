@@ -99,6 +99,7 @@ namespace EPPlusTest.Drawing.Chart
 
             var chart = ws.Drawings.AddBarChart("BarChart1", eBarChartType.BarStacked);
             var serie = chart.Series.Add("D2:D5", "A2:A5");
+            chart.VaryColors = true;
 
             serie.DataLabel.ShowPercent = true;
 

@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
@@ -19,8 +20,11 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -30,6 +34,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
+using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -270,9 +276,9 @@ namespace EPPlusImageRenderer.Svg
 
         private Color GetAccentBasedOnPos(int pos)
         {
-            var mod5 = pos % 5;
+            var mod6 = pos % 6;
             //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod6).GetColor();
         }
 
         private ExcelChartDataPointCollection SetDataPointColors(ExcelChartDataPointCollection dataPoints, bool varyColors, bool hasStyle, ExcelChartStandardSerie serie, Color? overrideColor = null)
@@ -507,7 +513,7 @@ namespace EPPlusImageRenderer.Svg
                 var sls=new DrawingLegendSerie();
                 var bs = (ExcelBarChartSerie)s;
                 var tm = _seriesHeadersMeasure[index];
-                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index);
+                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight,0, index);
                 sls.SeriesIcon = si;
 
                 var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -772,7 +778,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
-            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index);
+            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index, -1);
             sls.SeriesIcon = si;
 
             var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -866,7 +872,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int index)
+        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index)
         {            
             var item = new RectRenderItem(Rectangle.Bounds);
             var iconHeight = GetIconLength(ct, entryHeight);
@@ -890,28 +896,18 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            if (cStandardSerie.DataPoints.ContainsKey(index))
+            if (index>=0 && chartSerie.DataPoints.ContainsKey(index))
             {
-                var dp = cStandardSerie.DataPoints[index];
-                item.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-                item.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+                var dp = chartSerie.DataPoints[index];
+                ChartTypeDrawer.SetFillDataPoint(Chart, chartSerie, index, item, dp, Chart.StyleManager.Style?.SeriesLine);
             }
             else
             {
-                if(ct.VaryColors)
-                {
-                    //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-
-                }
-                else
-                {
-                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-                    item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
-                }
+                ChartTypeDrawer.SetFillSerie(Chart, ct, chartSerie, serieIndex, index, item);
             }
+
             return item;
         }
-
         private double GetItemPosition(DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y)
         {
             var topOffset = 0D;
