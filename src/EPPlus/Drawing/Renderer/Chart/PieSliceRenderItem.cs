@@ -239,6 +239,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Translate and scale path
             _innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
+            CalculateLargestRectWithinCircleSegment();
 
             //Add the actual commands
             _slicePath.Commands.Add(moveCenter);
@@ -535,6 +536,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerGroup.TranslationOffset.Top = finalTranslation.Y;
         }
 
+        internal double LargestWidthRectangle { get; private set; }
+        internal double LargestHeightRectangle { get; private set; }
+
+        void CalculateLargestRectWithinCircleSegment()
+        {
+            //Calculate thetha = alpha/4
+            var angleForTriangle = Degrees / 4d;
+
+            var heightTriangle = Math.Sin(MConverter.DegreesToRadians(angleForTriangle)) * _radius + 1;
+            LargestWidthRectangle = Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius;
+            LargestHeightRectangle = heightTriangle * 2;
+        }
+
         Point CalculateLocalPointOnCircle(double degrees)
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
@@ -629,7 +643,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal BoundingBox GetBounds()
         {
-            return ExtremePoints;
+            BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
+            box.Parent = ExtremePoints.Parent;
+            box.Left = ExtremePoints.Left;
+            box.Top = ExtremePoints.Top;
+            return box;
         }
 
         internal Transform GetCenterOfStartPointLine()

@@ -259,6 +259,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //maxBoundsForBestFit.Parent = innerGroup;
 
                             var bounds = Slices[j].GetBounds();
+                            
                             //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
                             //box.Parent = innerGroup;
 

@@ -678,14 +678,14 @@ namespace EPPlusImageRenderer.Svg
 
 
 
-                if (index >= 0 && ps.DataPoints.ContainsKey(index))
+                if (i >= 0 && ps.DataPoints.ContainsKey(i))
                 {
-                    var dp = ps.DataPoints[index];
-                    ChartTypeDrawer.SetFillDataPoint(Chart, ps, index, sls.SeriesIcon, dp, Chart.StyleManager.Style?.SeriesLine);
+                    var dp = ps.DataPoints[i];
+                    ChartTypeDrawer.SetFillDataPoint(Chart, ps, i, sls.SeriesIcon, dp, Chart.StyleManager.Style?.SeriesLine);
                 }
                 else
                 {
-                    ChartTypeDrawer.SetFillSerie(Chart, ct, ps, 0, index, sls.SeriesIcon);
+                    ChartTypeDrawer.SetFillSerie(Chart, ct, ps, 0, i, sls.SeriesIcon);
                 }
                 //var dp = ps.DataPoints[i];
 
