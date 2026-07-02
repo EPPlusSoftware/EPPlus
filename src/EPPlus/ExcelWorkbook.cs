@@ -24,6 +24,11 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
+using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -48,6 +53,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace OfficeOpenXml
@@ -733,6 +740,206 @@ namespace OfficeOpenXml
                 }
             }
             return new ExcelHtmlWorkbookExporter(ranges);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        public void SaveAsPdf(string fileName)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, settings, this);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of File.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        public void SaveAsPdf(string fileName, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, settings, worksheets);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        public void SaveAsPdf(string fileName, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, settings, ranges);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, this);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, params ExcelWorksheet[] worksheets)
+            => SaveAsPdfAsync(fileName, CancellationToken.None, worksheets);
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, worksheets);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, params ExcelRangeBase[] ranges)
+            => SaveAsPdfAsync(fileName, CancellationToken.None, ranges);
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, ranges);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        public void SaveAsPdf(Stream stream)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        public void SaveAsPdf(Stream stream, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, worksheets);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        public void SaveAsPdf(Stream stream, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, ranges);
+        }
+
+        /// <summary>
+        /// Export workbook to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, this);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, params ExcelWorksheet[] worksheets)
+            => SaveAsPdfAsync(stream, CancellationToken.None, worksheets);
+
+        /// <summary>
+        /// Export selected worksheets to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="worksheets">Worksheets to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, worksheets);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, params ExcelRangeBase[] ranges)
+            => SaveAsPdfAsync(stream, CancellationToken.None, ranges);
+
+        /// <summary>
+        /// Export selected ranges to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <param name="ranges">Ranges to export.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, ranges);
+            }, cancellationToken);
         }
 
         //public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
@@ -1492,7 +1699,7 @@ namespace OfficeOpenXml
         /// <param name="configure">A callback that configures the font settings for this workbook.</param>
         /// <remarks>
         /// The configuration is applied when this workbook first renders a drawing. Call this before
-        /// rendering. The font engine is per workbook — configuring one workbook does not affect any
+        /// rendering. The font engine is per workbook ï¿½ configuring one workbook does not affect any
         /// other workbook or any global state.
         /// </remarks>
         public void ConfigureFonts(Action<IEpplusFontConfiguration> configure)
@@ -1505,7 +1712,7 @@ namespace OfficeOpenXml
 
         /// <summary>
         /// Supplies a pre-built font engine for this workbook's rendering. Intended for advanced
-        /// scenarios and testing where a specific engine instance must be used. Per workbook — never
+        /// scenarios and testing where a specific engine instance must be used. Per workbook ï¿½ never
         /// global.
         /// </summary>
         /// <param name="engine">The font engine to use for this workbook.</param>

@@ -11,6 +11,10 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
+using OfficeOpenXml;
+using OfficeOpenXml.Export.PdfExport;
+using System.Diagnostics;
+using System.Text;
 using OfficeOpenXml.Export.PdfExport;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Export.Pdf;
@@ -26,142 +30,488 @@ namespace EPPlusTest.PDF
     [TestClass]
     public class PdfTests : TestBase
     {
-        /* BIG PDF TODO
-         * 
-         * Missing Features:
-         * Embedding pictures as drawings
-         * Embedding pictures as cell content
-         * Embedding pictures as header/footer
-         * Number formatting
-         * Scaling document
-         * Conditional Formatting icons
-         * Vertical text
-         * Equations
-         * Pivot tables
-         * Shapes
-         * Charts
-         * 3D models
-         * Compression
-         * 
-         * Bugs:
-         * Merged cell uses full width/height even when columns/rows are hidden.
-         * Conditional formatting not worksing 100% of the time.
-         * Table could sometimes select wrong style
-         * 
-         * Other
-         * Cells: Remove stroke from solid fill and adjust size and position of cell more precise and only use fill command.
-         * Gradients: Make diamond gradients instead of radial gradtient in from corner and center gradient
-         * Text: Set up to use back up techniques when not embedding font
-         * Borders: Adjust and make border look better
-         * 
-         */
+        private static void AssertLooksLikePdf(byte[] bytes)
+        {
+            Assert.IsTrue(bytes.Length > 0, "PDF output is empty.");
+            string head = Encoding.ASCII.GetString(bytes, 0, Math.Min(8, bytes.Length));
+            Assert.IsTrue(head.StartsWith("%PDF-"), $"Missing PDF header. Got: '{head}'");
+            int tailLen = Math.Min(8, bytes.Length);
+            string tail = Encoding.ASCII.GetString(bytes, bytes.Length - tailLen, tailLen);
+            Assert.IsTrue(tail.Contains("%%EOF"), "Missing %%EOF trailer marker.");
+        }
 
-        /// <summary>
-        /// Old Test
-        /// </summary>
-        //[TestMethod]
-        //public void TestWritePdf()
-        //{
-        //    using var p = OpenTemplatePackage("PDFTest.xlsx");
-        //    //using var p = OpenTemplatePackage("PdfGrids\\PdfTextTest.xlsx");
-        //    //using var p = OpenTemplatePackage("PdfGrids\\PdfPageBreakTest.xlsx");
-        //    //using var p = OpenTemplatePackage("PDFTest - Copy (2).xlsx");
-        //    //using var p = OpenTemplatePackage("PdfBorders.xlsx");
-        //    //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells.xlsx");
-        //    //using var p = OpenTemplatePackage("PdfGrids\\3 2 Page Crazy Cells Merged.xlsx");
-        //    //using var p = OpenTemplatePackage("Gradient.xlsx");
-        //    //using var p = OpenTemplatePackage("PatternFill.xlsx");
-        //    var ws = p.Workbook.Worksheets[0];
-        //    //var ws = p.Workbook.Worksheets[1];
-        //    PdfPageSettings pageSettings = new PdfPageSettings();
-        //    pageSettings.ShowGridLines = true;
-        //    pageSettings.PageSize = PdfPageSize.A4;
-        //    pageSettings.Orientation = Orientations.Portrait;
-        //    pageSettings.Margins = PdfMargins.Normal;
-        //    pageSettings.ShowGridLines = true;
-        //    pageSettings.CenterOnPageHorizontally = true;
-        //    pageSettings.CenterOnPageVertically = true;
-        //    pageSettings.ShowHeadings = true;
-        //    pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-        //    //Debug Flags
-        //    pageSettings.Debug = true;
-        //    pageSettings.PrintAsText = true;
+        private static long ParseStartXref(byte[] bytes, int pdfStart)
+        {
+            string text = Encoding.ASCII.GetString(bytes, pdfStart, bytes.Length - pdfStart);
+            int idx = text.LastIndexOf("startxref", StringComparison.Ordinal);
+            Assert.IsTrue(idx >= 0, "startxref keyword not found.");
+            int i = idx + "startxref".Length;
+            while (i < text.Length && (text[i] == '\n' || text[i] == '\r' || text[i] == ' ')) i++;
+            int start = i;
+            while (i < text.Length && char.IsDigit(text[i])) i++;
+            return long.Parse(text.Substring(start, i - start));
+        }
 
-        //    ExcelPdf pedeef = new ExcelPdf(ws, pageSettings);
-        //    pedeef.CreatePdf("c:\\epplustest\\pdf\\FullPageTest49.pdf");
-        //}
-
-        /// <summary>
-        /// Old Test
-        /// </summary>
-        //[TestMethod]
-        //public void TestWritePdf2()
-        //{
-        //    using var p = OpenTemplatePackage("PDFTest2.xlsx");
-        //    PdfPageSettings pageSettings = new PdfPageSettings();
-        //    pageSettings.ShowGridLines = true;
-        //    pageSettings.PageSize = PdfPageSize.A4;
-        //    pageSettings.Orientation = Orientations.Portrait;
-        //    pageSettings.Margins = PdfMargins.Normal;
-        //    pageSettings.ShowGridLines = true;
-        //    //Debug Flags
-        //    pageSettings.Debug = true;
-        //    pageSettings.PrintAsText = true;
-
-        //    ExcelPdf pedeef = new ExcelPdf(p.Workbook.Worksheets.First(), pageSettings);
-        //    pedeef.CreatePdf("c:\\epplustest\\pdf\\EmojiTest.pdf");
-        //}
+        protected static string pdfPath = _worksheetPath + "\\PDF\\";
 
         [TestMethod]
-        public void ReadPrintAreas()
+        public void SaveWorksheetAsPdfTest1()
         {
-            //using var p = OpenTemplatePackage("PdfPrintAreas.xlsx");
             using var p = OpenTemplatePackage("PDFTest.xlsx");
-            //using var p = OpenTemplatePackage("PDFTest_old.xlsx");
-            //using var p = OpenTemplatePackage("DoubleBorder.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            PdfPageSettings pageSettings = new PdfPageSettings();
-            pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
-            pageSettings.CellErrors = CellErrors.NA;
-            pageSettings.Debug = true;
-            pageSettings.PrintAsText = true;
-            pageSettings.ShowGridLines = true;
-            pageSettings.ShowHeadings = true;
-            PdfCatalog catlog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\FullPageTest58.pdf");
-
-            //line breaks
-            //wrap comments
-            //text placement
-            //alignment
-            //vertical
+            string path = pdfPath + "WorksheetTest1.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
         [TestMethod]
-        public void PerfTest()
+        public void SaveWorksheetAsPdfTest2()
         {
-            var sw = new Stopwatch();
-            Console.WriteLine("Starting...");
-            sw.Start();
-            using var p = OpenTemplatePackage("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx");
-            Console.WriteLine($"Read package time elapsed: {sw.ElapsedMilliseconds} ms");
-            sw.Restart();
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var dun = ws.Dimension;
-            var pageSettings = new PdfPageSettings
-            {
-                CommentsAndNotes = CommentsAndNotes.AtEndOfSheet,
-                CellErrors = CellErrors.NA,
-                Debug = true,
-                PrintAsText = true,
-                ShowGridLines = false,
-                ShowHeadings = true
-            };
-            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, "C:\\epplustest\\pdf\\OutputTest1.3.pdf");
-            Console.WriteLine($"workbook exported time elapsed: {sw.ElapsedMilliseconds} ms");
+            ws.PrinterSettings.Orientation = eOrientation.Landscape;
+            ws.PrinterSettings.ShowGridLines = false;
+            ws.PrinterSettings.ShowHeaders = false;
+            ws.PrinterSettings.PaperSize = ePaperSize.A3;
+            string path = pdfPath + "WorksheetTest2.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
+        [TestMethod]
+        public void SaveRangeAsPdfTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            string path = pdfPath + "RangeTest1.pdf";
+            range.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
 
-            [TestMethod]
+        [TestMethod]
+        public void SaveWorkbookAsPdfTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string path = pdfPath + "WorkbookTest1.pdf";
+            wb.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void SaveWorksheetsAsPdfTest2()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws1 = wb.Worksheets[1];
+            var ws2 = wb.Worksheets[2];
+            string path = pdfPath + "WorksheetsTest2.pdf";
+            wb.SaveAsPdf(path, ws0, ws1, ws2);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void SaveWorksheetsAsPdfTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            string path = pdfPath + "WorksheetsTest1.pdf";
+            wb.SaveAsPdf(path, ws0, ws2);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void SaveRangesAsPdfTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            var r3 = ws.Cells["K49:Q58"];
+            var r4 = ws.Cells["L142:Q147"];
+            string path = pdfPath + "RangesTest1.pdf";
+            wb.SaveAsPdf(path, r1, r2, r3, r4);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public async Task SaveWorkbookAsPdfAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetsAsPdfAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, ws0, ws2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetsAsPdfAsyncWithTokenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, CancellationToken.None, ws0, ws2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveRangesAsPdfAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, r1, r2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveRangesAsPdfAsyncWithTokenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                await wb.SaveAsPdfAsync(tempFile, CancellationToken.None, r1, r2);
+                AssertLooksLikePdf(File.ReadAllBytes(tempFile));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveWorkbookAsPdfAsyncWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                using var cts = new CancellationTokenSource();
+                cts.Cancel();
+
+                await Assert.ThrowsExactlyAsync<TaskCanceledException>(
+                    () => wb.SaveAsPdfAsync(tempFile, cts.Token));
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public void SaveWorkbookAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveWorksheetsAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            var ws2 = wb.Worksheets[2];
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms, ws0, ws2);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveRangesAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            var ws = wb.Worksheets[0];
+            var r1 = ws.Cells["D3:F6"];
+            var r2 = ws.Cells["B36:F39"];
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms, r1, r2);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveWorkbookAsPdfToStreamAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            await wb.SaveAsPdfAsync(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveAsPdfAsyncWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => wb.SaveAsPdfAsync(ms, cts.Token));
+        }
+
+        [TestMethod]
+        public void SaveAsPdfToStreamLeavesStreamOpenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            wb.SaveAsPdf(ms);
+            Assert.IsTrue(ms.CanWrite, "Stream was closed by the export.");
+            Assert.IsTrue(ms.CanRead, "Stream was closed by the export.");
+            Assert.IsTrue(ms.Length > 0, "Nothing was written to the stream.");
+        }
+
+        [TestMethod]
+        public void StreamOffsetsAreRelativeToPdfStartTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var ms = new MemoryStream();
+            // Pre-fill the stream so the PDF does not start at offset 0.
+            byte[] preamble = Encoding.ASCII.GetBytes("LEADING BYTES THAT ARE NOT PART OF THE PDF");
+            ms.Write(preamble, 0, preamble.Length);
+            int pdfStart = (int)ms.Position;
+            wb.SaveAsPdf(ms);
+            byte[] all = ms.ToArray();
+            // The PDF itself still starts with the header at the captured position.
+            string header = Encoding.ASCII.GetString(all, pdfStart, 5);
+            Assert.AreEqual("%PDF-", header, "PDF was not written at the stream's current position.");
+            // startxref must point at the xref table relative to the PDF start.
+            long startXref = ParseStartXref(all, pdfStart);
+            string atOffset = Encoding.ASCII.GetString(all, pdfStart + (int)startXref, 4);
+            Assert.AreEqual("xref", atOffset, "startxref offset is not relative to the PDF start.");
+        }
+
+        [TestMethod]
+        public void FileAndStreamProduceSamePdfLengthTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            string tempFile = Path.GetTempFileName();
+            try
+            {
+                wb.SaveAsPdf(tempFile);
+                long fileLength = new FileInfo(tempFile).Length;
+                using var ms = new MemoryStream();
+                wb.SaveAsPdf(ms);
+                Assert.AreEqual(fileLength, ms.Length, "Stream output length differs from file output length.");
+            }
+            finally
+            {
+                if (File.Exists(tempFile)) File.Delete(tempFile);
+            }
+        }
+
+        [TestMethod]
+        public void SaveWorksheetToStreamViaCatalogTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
+            using var ms = new MemoryStream();
+            _ = new PdfCatalog(ms, pageSettings, ws);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveAsPdfToNonWritableStreamThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var wb = p.Workbook;
+            using var readOnly = new MemoryStream(new byte[16], writable: false);
+            Assert.ThrowsExactly<ArgumentException>(() => wb.SaveAsPdf(readOnly));
+        }
+
+        [TestMethod]
+        public void SaveWorksheetAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            ws.SaveAsPdf(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetAsPdfToStreamAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            await ws.SaveAsPdfAsync(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveWorksheetAsPdfToStreamLeavesStreamOpenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            ws.SaveAsPdf(ms);
+            Assert.IsTrue(ms.CanWrite, "Stream was closed by the export.");
+            Assert.IsTrue(ms.CanRead, "Stream was closed by the export.");
+            Assert.IsTrue(ms.Length > 0, "Nothing was written to the stream.");
+        }
+
+        [TestMethod]
+        public async Task SaveWorksheetAsPdfAsyncToStreamWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => ws.SaveAsPdfAsync(ms, cts.Token));
+        }
+
+        [TestMethod]
+        public void SaveWorksheetToStreamOffsetsAreRelativeToPdfStartTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var ms = new MemoryStream();
+            byte[] preamble = Encoding.ASCII.GetBytes("LEADING BYTES THAT ARE NOT PART OF THE PDF");
+            ms.Write(preamble, 0, preamble.Length);
+            int pdfStart = (int)ms.Position;
+            ws.SaveAsPdf(ms);
+            byte[] all = ms.ToArray();
+            string header = Encoding.ASCII.GetString(all, pdfStart, 5);
+            Assert.AreEqual("%PDF-", header, "PDF was not written at the stream's current position.");
+            long startXref = ParseStartXref(all, pdfStart);
+            string atOffset = Encoding.ASCII.GetString(all, pdfStart + (int)startXref, 4);
+            Assert.AreEqual("xref", atOffset, "startxref offset is not relative to the PDF start.");
+        }
+
+        [TestMethod]
+        public void SaveWorksheetToNonWritableStreamThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            using var readOnly = new MemoryStream(new byte[16], writable: false);
+            Assert.ThrowsExactly<ArgumentException>(() => ws.SaveAsPdf(readOnly));
+        }
+
+        [TestMethod]
+        public void SaveRangeAsPdfToStreamTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            range.SaveAsPdf(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public async Task SaveRangeAsPdfToStreamAsyncTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            await range.SaveAsPdfAsync(ms);
+            AssertLooksLikePdf(ms.ToArray());
+        }
+
+        [TestMethod]
+        public void SaveRangeAsPdfToStreamLeavesStreamOpenTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            range.SaveAsPdf(ms);
+            Assert.IsTrue(ms.CanWrite, "Stream was closed by the export.");
+            Assert.IsTrue(ms.CanRead, "Stream was closed by the export.");
+            Assert.IsTrue(ms.Length > 0, "Nothing was written to the stream.");
+        }
+
+        [TestMethod]
+        public async Task SaveRangeAsPdfAsyncToStreamWithCanceledTokenThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var ms = new MemoryStream();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => range.SaveAsPdfAsync(ms, cts.Token));
+        }
+
+        [TestMethod]
+        public void SaveRangeToNonWritableStreamThrowsTest()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
+            using var readOnly = new MemoryStream(new byte[16], writable: false);
+            Assert.ThrowsExactly<ArgumentException>(() => range.SaveAsPdf(readOnly));
+        }
+
+        [TestMethod]
         // works as expected.
         //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
         [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
@@ -189,7 +539,7 @@ namespace EPPlusTest.PDF
             var d = ws.Dimension;
             var d2 = ws.DimensionByValue;
 
-            PdfPageSettings pageSettings = new PdfPageSettings();
+            PdfPageSettings pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
 
             pageSettings.CellErrors = CellErrors.Displayed;
@@ -198,95 +548,94 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = false;
             pageSettings.ShowHeadings = false;
 
-            PdfCatalog catalog = new PdfCatalog(pageSettings, ws, outputPath);
+            PdfCatalog catalog = new PdfCatalog(outputPath, pageSettings, ws);
+
         }
 
-        /// <summary>
-        /// This test we can make somehing of.
-        /// </summary>
-        //[TestMethod]
-        //public void CalculatePages()
-        //{
-        //    using var p = new ExcelPackage();
-        //    var ws = p.Workbook.Worksheets.Add("Sheet 1");
-        //    PdfPageSettings pageSettings = new PdfPageSettings();
-        //    pageSettings.ShowHeadings = true;
-        //    PdfWorksheet pws = new PdfWorksheet();
-        //    pws.Worksheet = ws;
-        //    pws.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(ws);
-        //    pws.ToRow = 256;
-        //    PdfRange range = new PdfRange();
-        //    range.TotalWidth = 800;
-        //    range.TotalHeight = 1600;
-
-        //    var result = PdfLayout.GetNumberOfPages(pageSettings, pws, ref range);
-        //}
-
-        /// <summary>
-        /// Old Test
-        /// </summary>
-        //[TestMethod]
-        //public void TestWrapText()
-        //{
-        //    using var p = OpenTemplatePackage("PDFTest.xlsx");
-        //    var cell = p.Workbook.Worksheets[0].Cells["P118"];
-
-        //    List<ITextFragmentBase> TextFragments = GetTextFragments(cell.RichText).Cast<ITextFragmentBase>().ToList();
-
-
-        //    var layout = OpenTypeFonts.GetTextLayoutEngineForFont((IFontFormatBase)TextFragments[0].RichTextOptions);
-
-        //    var TextLines = layout.WrapRichTextLineCollection(TextFragments, 51d);
-        //}
-
-        //private static List<TextFragment> GetTextFragments(ExcelRichTextCollection RichTextCollection, PdfCellStyle cellStyle = null)
-        //{
-        //    var textFragments = new List<TextFragment>();
-        //    bool bold = false, italic = false, underline = false, strike = false;
-        //    ExcelUnderLineType underLineType = ExcelUnderLineType.None;
-        //    if (cellStyle != null && cellStyle.dxfFont != null)
-        //    {
-        //        bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
-        //        italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
-        //        strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
-        //        underline = cellStyle.dxfFont.Underline != null;
-        //        underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
-        //    }
-        //    for (int i = 0; i < RichTextCollection.Count; i++)
-        //    {
-        //        var rt = RichTextCollection[i];
-        //        var textFrag = new TextFragment();
-        //        textFrag.Text = rt.Text;
-
-        //        textFrag.Font.Family = rt.FontName;
-        //        textFrag.Font.Size = rt.Size;
-
-        //        textFrag.RichTextOptions.Bold = rt.Bold || bold;
-        //        textFrag.RichTextOptions.Italic = rt.Italic || italic;
-        //        //underline
-        //        //none   : 12
-        //        //single : 13
-        //        //Double : 4
-        //        //accouting does not exsist
-        //        textFrag.RichTextOptions.UnderlineType = 12;
-        //        textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Single ? 13 : textFrag.RichTextOptions.UnderlineType;
-        //        textFrag.RichTextOptions.UnderlineType = rt.UnderLineType == ExcelUnderLineType.Double ? 4 : textFrag.RichTextOptions.UnderlineType;
-        //        textFrag.RichTextOptions.StrikeType = rt.Strike || strike ? 2 : 1;
-        //        textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-        //        textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-        //        textFrag.RichTextOptions.FontColor = rt.Color;
-
-        //        //Should no longer be neccesary
-        //        //textFrag.Font.Style = (textFrag.RichTextOptions.Bold ? MeasurementFontStyles.Bold : 0) |
-        //        //                      (textFrag.RichTextOptions.Italic ? MeasurementFontStyles.Italic : 0) |
-        //        //                      (textFrag.RichTextOptions.UnderlineType != 12 ? MeasurementFontStyles.Underline : 0) |
-        //        //                      (textFrag.RichTextOptions.StrikeType > 1 ? MeasurementFontStyles.Strikeout : 0);
-
-
-        //        textFragments.Add(textFrag);
-        //    }
-
-        //    return textFragments;
-        //}
+        [TestMethod]
+        public void EPPlusToPdf()
+        {
+            string[][] pixels =
+            {
+                new[] { "#805840", "#805840", "#805840", "#C0A070", "#C0A070", "#C0A070", "#402820", "#402820", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#805840", "#402820", "#000000", "#000000", "#805840", "#402820", "#402820", "#000000", "#402820", "#402820" },
+                new[] { "#805840", "#805840", "#C0A070", "#C0A070", "#402820", "#805840", "#805840", "#402820", "#402820", "#C0A070", "#C0A070", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#805840", "#402820", "#000000", "#805840", "#402820", "#000000", "#402820", "#402820", "#402820" },
+                new[] { "#805840", "#805840", "#C0A070", "#C0A070", "#C0A070", "#402820", "#A87850", "#A87850", "#402820", "#402820", "#C0A070", "#C0A070", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#805840", "#402820", "#402820", "#402820", "#000000", "#402820", "#402820", "#402820", "#402820" },
+                new[] { "#E0C8A0", "#E0C8A0", "#A87850", "#C0A070", "#C0A070", "#402820", "#402820", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#805840", "#805840", "#805840", "#000000", "#402820", "#402820", "#402820", "#000000" },
+                new[] { "#E0C8A0", "#E0C8A0", "#E0C8A0", "#A87850", "#C0A070", "#805840", "#402820", "#402820", "#C0A070", "#A87850", "#805840", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#402820", "#402820", "#805840", "#805840", "#000000", "#406850", "#000000", "#000000", "#384038" },
+                new[] { "#402820", "#402820", "#E0C8A0", "#E0C8A0", "#A87850", "#805840", "#402820", "#402820", "#A87850", "#C0A070", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#402820", "#402820", "#402820", "#406850", "#406850", "#406850", "#406850", "#000000", "#384038", "#384038" },
+                new[] { "#70A070", "#70A070", "#000000", "#000000", "#E0C8A0", "#805840", "#805840", "#402820", "#A87850", "#C0A070", "#C0A070", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#402820", "#384038", "#384038", "#384038", "#406850", "#406850", "#406850", "#406850", "#000000", "#384038", "#384038" },
+                new[] { "#70A070", "#70A070", "#70A070", "#70A070", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#384038", "#384038", "#384038", "#406850", "#406850", "#406850", "#000000", "#384038", "#384038", "#384038" },
+                new[] { "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#384038", "#384038", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#384038", "#384038", "#384038", "#406850", "#406850", "#406850", "#000000", "#384038", "#384038", "#384038" },
+                new[] { "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#384038", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#384038", "#384038", "#384038", "#406850", "#406850", "#384038", "#000000", "#384038", "#384038", "#384038" },
+                new[] { "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#384038", "#000000", "#000000", "#384038", "#384038", "#384038", "#000000", "#406850", "#384038", "#384038" },
+                new[] { "#384038", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#384038", "#000000", "#000000", "#406850", "#406850", "#406850", "#406850", "#406850", "#384038", "#384038" },
+                new[] { "#70A070", "#384038", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#000000", "#000000", "#406850", "#406850", "#406850", "#406850", "#406850", "#384038", "#384038" },
+                new[] { "#70A070", "#70A070", "#384038", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#384038", "#384038", "#384038", "#384038", "#000000", "#384038", "#406850", "#406850", "#406850", "#406850", "#384038", "#384038", "#384038" },
+                new[] { "#406850", "#406850", "#406850", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#384038", "#384038", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#384038", "#384038", "#384038", "#000000", "#384038", "#406850", "#406850", "#406850", "#406850", "#384038", "#384038", "#384038", "#384038" },
+                new[] { "#000000", "#406850", "#406850", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#384038", "#384038", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#384038", "#384038", "#000000", "#000000", "#384038", "#406850", "#406850", "#406850", "#406850", "#406850", "#384038", "#384038", "#000000", "#000000" },
+                new[] { "#000000", "#406850", "#406850", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#70A070", "#384038", "#384038", "#384038", "#384038", "#406850", "#406850", "#000000", "#000000", "#384038", "#000000", "#000000", "#000000", "#384038", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#406850", "#406850", "#406850", "#70A070", "#70A070", "#70A070", "#70A070", "#406850", "#000000", "#406850", "#406850", "#406850", "#000000", "#384038", "#000000", "#406850", "#406850", "#406850", "#406850", "#384038", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#70A070", "#70A070", "#406850", "#000000", "#406850", "#406850", "#406850", "#000000", "#384038", "#000000", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000" },
+                new[] { "#000000", "#000000", "#402820", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#805840", "#805840" },
+                new[] { "#000000", "#000000", "#402820", "#402820", "#000000", "#B8A898", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#805840", "#805840", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#805840", "#C0A070", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#805840", "#805840", "#000000", "#B8A898", "#B8A898", "#000000", "#000000", "#000000", "#000000", "#402820", "#E0C8A0", "#E0C8A0", "#402820", "#402820", "#000000", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#805840", "#C0A070", "#C0A070", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#805840", "#000000", "#000000", "#000000", "#000000", "#000000", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#402820", "#402820", "#000000", "#000000", "#402820", "#402820", "#402820", "#402820", "#402820", "#805840", "#805840", "#805840", "#805840", "#C0A070", "#C0A070", "#805840", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#805840", "#805840", "#805840", "#C0A070", "#C0A070", "#402820", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#805840", "#805840", "#A87850", "#000000", "#000000", "#402820", "#402820", "#402820", "#402820", "#805840", "#805840", "#805840", "#C0A070", "#C0A070", "#C0A070", "#805840", "#000000" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#C0A070", "#805840", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#805840", "#805840", "#A87850", "#805840", "#000000", "#000000", "#402820", "#805840", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#805840", "#000000", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#C0A070", "#805840", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#805840", "#A87850", "#A87850", "#A87850", "#805840", "#000000", "#402820", "#805840", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#805840", "#000000", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#C0A070", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#805840", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#805840", "#A87850", "#A87850", "#A87850", "#805840", "#805840", "#000000", "#000000", "#402820", "#402820", "#C0A070", "#C0A070", "#402820", "#000000", "#000000", "#000000", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#C0A070", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#805840", "#A87850", "#A87850", "#A87850", "#A87850", "#805840", "#805840", "#402820", "#402820", "#402820", "#C0A070", "#402820", "#000000", "#000000", "#805840", "#805840", "#805840" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#C0A070", "#C0A070", "#FFF0E0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#402820", "#A87850", "#A87850", "#A87850", "#C0A070", "#805840", "#805840", "#402820", "#402820", "#402820", "#402820", "#000000", "#000000", "#805840", "#805840", "#E0C8A0", "#A87850" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#E0C8A0", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#402820", "#A87850", "#A87850", "#C0A070", "#C0A070", "#805840", "#805840", "#402820", "#402820", "#000000", "#000000", "#000000", "#805840", "#805840", "#E0C8A0", "#E0C8A0", "#A87850" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#A87850", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#402820", "#A87850", "#A87850", "#402820", "#402820", "#A87850", "#A87850", "#805840", "#805840", "#000000", "#000000", "#000000", "#805840", "#E0C8A0", "#E0C8A0", "#E0C8A0", "#A87850" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#A87850", "#A87850", "#402820", "#402820", "#000000", "#000000", "#000000", "#A87850", "#A87850", "#A87850", "#A87850", "#A87850", "#000000", "#402820", "#402820", "#E0C8A0", "#C0A070", "#C0A070", "#E0C8A0", "#E0C8A0" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#FFF0E0", "#E0C8A0", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#A87850", "#402820", "#000000", "#000000", "#000000", "#A87850", "#A87850", "#A87850", "#402820", "#402820", "#402820", "#000000", "#805840", "#805840", "#C0A070", "#C0A070", "#C0A070", "#E0C8A0", "#E0C8A0" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#A87850", "#FFF0E0", "#E0C8A0", "#FFF0E0", "#A87850", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#000000", "#000000", "#A87850", "#A87850", "#A87850", "#805840", "#000000", "#000000", "#402820", "#000000", "#805840", "#A87850", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#402820" },
+                new[] { "#000000", "#000000", "#000000", "#000000", "#70A070", "#70A070", "#402820", "#FFF0E0", "#E0C8A0", "#FFF0E0", "#000000", "#805840", "#805840", "#402820", "#000000", "#000000", "#805840", "#805840", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#000000", "#000000", "#A87850", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#402820" },
+                new[] { "#000000", "#000000", "#000000", "#70A070", "#70A070", "#70A070", "#406850", "#000000", "#E0C8A0", "#FFF0E0", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#C0A070", "#C0A070", "#C0A070", "#C0A070", "#402820", "#A87850" },
+                new[] { "#000000", "#000000", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#E0C8A0", "#FFF0E0", "#000000", "#000000", "#000000", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#805840", "#805840", "#805840", "#805840", "#000000", "#000000", "#000000", "#000000", "#C0A070", "#E0C8A0", "#C0A070", "#402820", "#A87850", "#A87850" },
+                new[] { "#000000", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#402820", "#A87850", "#805840", "#000000", "#FFF0E0", "#FFF0E0", "#A87850", "#A87850", "#A87850", "#A87850", "#805840", "#805840", "#805840", "#805840", "#402820", "#402820", "#000000", "#000000", "#E0C8A0", "#E0C8A0", "#C0A070", "#402820", "#A87850", "#A87850" },
+                new[] { "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#A87850", "#805840", "#E0C8A0", "#E0C8A0", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#805840", "#805840", "#805840", "#000000", "#000000", "#E0C8A0", "#E0C8A0", "#402820", "#A87850", "#A87850", "#384038" },
+                new[] { "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#805840", "#A87850", "#402820", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#805840", "#402820", "#000000", "#000000", "#E0C8A0", "#000000", "#000000", "#A87850", "#384038", "#384038" },
+                new[] { "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#402820", "#E0C8A0", "#402820", "#402820", "#E0C8A0", "#E0C8A0", "#E0C8A0", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#C0A070", "#000000", "#000000", "#000000", "#A87850", "#000000", "#406850" },
+                new[] { "#384038", "#384038", "#384038", "#384038", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#402820", "#A87850", "#E0C8A0", "#E0C8A0", "#E0C8A0", "#E0C8A0", "#E0C8A0", "#A87850", "#000000", "#000000", "#000000", "#000000", "#000000", "#805840", "#000000", "#C0A070", "#000000", "#000000", "#000000", "#000000", "#406850", "#406850" },
+                new[] { "#70A070", "#406850", "#406850", "#384038", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#402820", "#A87850", "#A87850", "#E0C8A0", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#A87850", "#000000", "#000000", "#000000", "#000000", "#000000", "#805840", "#805840", "#000000", "#000000", "#000000", "#000000", "#406850", "#406850", "#406850" },
+                new[] { "#70A070", "#70A070", "#406850", "#000000", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#A87850", "#A87850", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#000000", "#000000", "#000000", "#000000", "#805840", "#805840", "#000000", "#000000", "#000000", "#000000", "#406850", "#406850", "#406850", "#406850" },
+                new[] { "#70A070", "#70A070", "#70A070", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#A87850", "#000000", "#A87850", "#FFF0E0", "#FFF0E0", "#FFF0E0", "#E0C8A0", "#000000", "#000000", "#000000", "#000000", "#805840", "#000000", "#000000", "#402820", "#000000", "#406850", "#406850", "#406850", "#406850", "#406850" },
+                new[] { "#000000", "#000000", "#70A070", "#384038", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#A87850", "#000000", "#402820", "#402820", "#402820", "#402820", "#402820", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#000000", "#406850", "#406850", "#406850", "#000000", "#000000" },
+                new[] { "#384038", "#384038", "#70A070", "#70A070", "#384038", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#000000", "#A87850", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#000000", "#406850", "#384038", "#000000", "#000000", "#000000", "#000000" },
+                new[] { "#384038", "#384038", "#000000", "#70A070", "#406850", "#406850", "#406850", "#406850", "#000000", "#000000", "#000000", "#000000", "#A87850", "#A87850", "#A87850", "#A87850", "#A87850", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#402820", "#402820", "#000000", "#406850", "#384038", "#000000", "#000000", "#000000", "#000000" },
+            };
+            var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Snake");
+            const double rowHeightPts = 15;
+            double columnWidth = rowHeightPts * (96.0 / 72.0) / 7.0;
+            ws.Column(1).Width = columnWidth;
+            ws.Cells["A1"].Value = "SOLID";
+            ws.Cells["AE50"].Value = "SNAKE";
+            //ws.Cells["AF51"].Value = " ";
+            const int startRow = 2;
+            const int startCol = 1; // D
+            for (int y = 0; y < pixels.Length; y++)
+            {
+                for (int x = 0; x < pixels[y].Length; x++)
+                {
+                    var cell = ws.Cells[startRow + y, startCol + x];
+                    var color = System.Drawing.ColorTranslator.FromHtml(pixels[y][x]);
+                    cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    cell.Style.Fill.BackgroundColor.SetColor(color);
+                    ws.Column(startCol + x).Width = columnWidth;
+                }
+                ws.Row(startRow + y).Height = 15;
+            }
+            ws.PrinterSettings.TopMargin = 0.1d;
+            ws.PrinterSettings.BottomMargin = 0.1d;
+            ws.PrinterSettings.LeftMargin = 0.1d;
+            ws.PrinterSettings.RightMargin = 0.1d;
+            ws.PrinterSettings.HorizontalCentered = true;
+            ws.PrinterSettings.VerticalCentered = true;
+            p.Workbook.SaveAsPdf(pdfPath + "Snake.Pdf");
+            p.SaveAs(pdfPath + "Snake.xlsx");
+        }
     }
 }

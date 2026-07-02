@@ -38,14 +38,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             WriteAscii(bw, $"<< /Length {fontBytes.Length} >>\nstream\n");
             bw.Write(fontBytes);
             WriteAscii(bw, "\nendstream");
-
-            using (var fs = new FileStream("c:\\epplustest\\pdf\\ExportedFont.ttf", FileMode.Create, FileAccess.Write))
-            {
-                using (var bw2 = new BinaryWriter(fs, Encoding.ASCII))
-                {
-                    bw2.Write(fontBytes);
-                }
-            }
         }
     }
 }

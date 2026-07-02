@@ -31,26 +31,6 @@ namespace EPPlus.Export.Pdf.Settings
         {
             get
             {
-                if(_fontEngine == null)
-                {
-                    _fontEngine = new OpenTypeFontEngine(x =>
-                    {
-                        if(FontDirectories != null && FontDirectories.Any())
-                        {
-                            foreach(var dir in FontDirectories)
-                            {
-                                if (!System.IO.Directory.Exists(dir))
-                                {
-                                    throw new System.IO.DirectoryNotFoundException($"Font directory not found: {dir}");
-                                }
-                                x.FontDirectories.Add(dir);
-                            }
-                            x.SearchSystemDirectories = SearchSystemDirectories;
-
-                        }
-                        
-                    });
-                }
                 return _fontEngine;
             }
         }
@@ -96,6 +76,16 @@ namespace EPPlus.Export.Pdf.Settings
         public bool ShowHeadings = false;
 
         /// <summary>
+        /// Set to true for to only use black and white.
+        /// </summary>
+        public bool BlackAndWhite = false;
+
+        /// <summary>
+        /// Set to true for to make a draft.
+        /// </summary>
+        public bool Draft = false;
+
+        /// <summary>
         /// Set the range to repeat at the top of the page.
         /// </summary>
         public string RowsToRepeatAtTop = null;
@@ -104,6 +94,11 @@ namespace EPPlus.Export.Pdf.Settings
         /// Set the range to repeat to the left of the page.
         /// </summary>
         public string ColumnsToRepeatAtLeft = null;
+
+        /// <summary>
+        /// Specific range to print.
+        /// </summary>
+        public string PrintArea = null;
 
         /// <summary>
         /// Set if comments and notes should be included.
@@ -132,19 +127,23 @@ namespace EPPlus.Export.Pdf.Settings
             }
             set
             {
-                _pageSize = new PdfPageSize(value.Height, value.Width);
-                if (value.Height > value.Width)
+                var size = new PdfPageSize(value.Width, value.Height); // store as authored, no transpose
+                if (_orientationExplicitlySet)
                 {
-                    _orientation = Orientations.Portrait;
+                    size = ApplyOrientation(size, _orientation);
                 }
                 else
                 {
-                    _orientation = Orientations.Landscape;
+                    _orientation = size.Height >= size.Width
+                        ? Orientations.Portrait
+                        : Orientations.Landscape;
                 }
-                ContentBounds.CalculateBounds(Margins, PageSize);
+                _pageSize = size;
+                ContentBounds.CalculateBounds(Margins, _pageSize);
             }
         }
 
+        private bool _orientationExplicitlySet = false;
         private Orientations _orientation = Orientations.Portrait;
         /// <summary>
         /// Set the orientation of the pages.
@@ -157,22 +156,10 @@ namespace EPPlus.Export.Pdf.Settings
             }
             set
             {
-                if (value == Orientations.Portrait)
-                {
-                    if (_pageSize.Height < _pageSize.Width)
-                    {
-                        _pageSize = new PdfPageSize(_pageSize.Height, _pageSize.Width);
-                        _orientation = value;
-                    }
-                }
-                if (value == Orientations.Landscape)
-                {
-                    if (_pageSize.Height > _pageSize.Width)
-                    {
-                        _pageSize = new PdfPageSize(_pageSize.Height, _pageSize.Width);
-                        _orientation = value;
-                    }
-                }
+                _orientation = value;
+                _orientationExplicitlySet = true;
+                _pageSize = ApplyOrientation(_pageSize, value);
+                ContentBounds.CalculateBounds(Margins, _pageSize);
             }
         }
 
@@ -215,6 +202,20 @@ namespace EPPlus.Export.Pdf.Settings
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;
+
+        public PdfPageSettings(OpenTypeFontEngine fontEngine)
+        {
+            _fontEngine = fontEngine;
+        }
+
+        private static PdfPageSize ApplyOrientation(PdfPageSize size, Orientations orientation)
+        {
+            bool isPortrait = size.Height >= size.Width;
+            bool wantPortrait = orientation == Orientations.Portrait;
+            return isPortrait == wantPortrait
+                ? size
+                : new PdfPageSize(size.Height, size.Width); // swap (ctor is width, height)
+        }
     }
 
     /// <summary>
@@ -257,13 +258,13 @@ namespace EPPlus.Export.Pdf.Settings
         /// </summary>
         None,
         /// <summary>
+        /// Notes will be displayed on the sheet. (Comments will not be shown.)
+        /// </summary>
+        AsDisplayedOnSheet,
+        /// <summary>
         /// Comments and Notes will be displayed on a seprate page at the end.
         /// </summary>
         AtEndOfSheet,
-        /// <summary>
-        /// Notes will be displayed on the sheet. (Comments will not be shown.)
-        /// </summary>
-        AsDisplayedOnSheet
     }
 
     /// <summary>

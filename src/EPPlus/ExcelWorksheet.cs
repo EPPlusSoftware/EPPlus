@@ -15,23 +15,22 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.Data.Connection.IOHandlers;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
-using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
@@ -51,8 +50,9 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Permissions;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace OfficeOpenXml
@@ -3029,8 +3029,8 @@ namespace OfficeOpenXml
             CheckSheetTypeAndNotDisposed();
             if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
             {
-                var fvc = FirstValueCell;
-                var lvc = LastValueCell;
+                var fvc =  Cells[fr, fc];
+                var lvc =  Cells[tr, tc];
                 // Row range comes from values only — styling never extends the height.
                 var fromRow = fvc._fromRow;
                 var toRow = lvc._toRow;
@@ -3091,10 +3091,10 @@ namespace OfficeOpenXml
                 {
                     for (int c = fc; c <= tc; c++)
                     {
-                        if (c >= fromCol && c <= toCol)
-                        {
-                            continue; // already inside the range
-                        }
+                        //if (c >= fromCol && c <= toCol)
+                        //{
+                        //    continue; // already inside the range
+                        //}
                         for (int r = fromRow; r <= toRow; r++)
                         {
                             if (HasVisibleStyle(r, c))
@@ -3743,6 +3743,58 @@ namespace OfficeOpenXml
             {
                 return _values == null;
             }
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        public void SaveAsPdf(string fileName)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, this);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        public void SaveAsPdf(Stream stream)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+        }
+
+        /// <summary>
+        /// Export worksheet to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, this);
+            }, cancellationToken);
         }
 
         ExcelPackage IPictureRelationDocument.Package { get { return _package; } }
