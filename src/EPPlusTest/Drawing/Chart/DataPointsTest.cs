@@ -89,7 +89,7 @@ namespace EPPlusTest.Drawing.Chart
 
             //SaveAndCleanup(_pck);
 
-            File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
+            //File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
         }
         [TestMethod]
         public void BarChart()  

@@ -173,11 +173,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (dataLabel.Fill.IsEmpty == false)
             {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(CRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
             }
             else
             {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(CRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
                 //_txtBox.Rectangle.FillColor = "transparent";
             }
 
@@ -200,7 +200,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 if (individualLabel.Layout != null && individualLabel.Layout.HasLayout)
                 {
                     _hasManualLayout = true;
-                    var rect = GetRectFromManualLayout(CRenderer, individualLabel.Layout);
+                    var rect = GetRectFromManualLayout(ChartRenderer, individualLabel.Layout);
 
                     Rectangle.Bounds.Left += rect.Left;
                     Rectangle.Bounds.Top += rect.Top;
@@ -473,7 +473,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     var cPoints = new ConnectionPointsMiddle(0, 0, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
 
                     //Ready to draw the lines so that we can visualize the distances to each point
-                    _connectionPointLines = new PointLines(CRenderer, Rectangle.Bounds, cPoints);
+                    _connectionPointLines = new PointLines(ChartRenderer, Rectangle.Bounds, cPoints);
 
                     //Adjust if there is a margin
                     _connectionPointLines.Rectangle.Bounds.Left += LeftMargin;
@@ -492,7 +492,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     {
                         //If Left or Right
                         //Add extra 7 px (5.25pt) line to the given side
-                        var extraLine = new LineRenderItem(CRenderer.Bounds);
+                        var extraLine = new LineRenderItem(ChartRenderer.Bounds);
 
                         xOffset += index == 0 ? -5.25d : 5.25d;
 
@@ -506,7 +506,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                         _leaderLines.Add(extraLine);
                     }
-                    var mainLine = new LineRenderItem(CRenderer.Bounds);
+                    var mainLine = new LineRenderItem(ChartRenderer.Bounds);
                     mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
                     mainLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
                     mainLine.X2 = offsetToParentPoint.X + LeftMargin;

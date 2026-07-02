@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
 
                 //Bottom line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, leftPos, yPos, centerPos, yPos));
-                var bl = new LineRenderItem(CRenderer.Bounds)
+                var bl = new LineRenderItem(ChartRenderer.Bounds)
                 {
                     X1 = leftPos,
                     Y1 = xPos,
@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
 
                 //Top line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, centerPos, yPos, rightPos, yPos));
-                var tl = new LineRenderItem(CRenderer.Bounds)
+                var tl = new LineRenderItem(ChartRenderer.Bounds)
                 {
                     X1 = centerPos,
                     Y1 = xPos,
@@ -153,7 +153,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 {
                     //Bottom cap
                     //path.Commands.Add(new PathCommands(PathCommandType.Move, leftPos, yPos - 3, leftPos, yPos + 3));
-                    var bc = new LineRenderItem(CRenderer.Bounds)
+                    var bc = new LineRenderItem(ChartRenderer.Bounds)
                     {
                         X1 = leftPos,
                         Y1 = xPos - 3,
@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                     };
                     //Top cap
                     //path.Commands.Add(new PathCommands(PathCommandType.Move, rightPos, yPos - 3, rightPos, yPos + 3));
-                    var tc = new LineRenderItem(CRenderer.Bounds)
+                    var tc = new LineRenderItem(ChartRenderer.Bounds)
                     {
                         X1 = rightPos,
                         Y1 = xPos - 3,
@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
 
                 //Bottom line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos, bottomPos, xPos, centerPos));
-                var bl = new LineRenderItem(CRenderer.Bounds)
+                var bl = new LineRenderItem(ChartRenderer.Bounds)
                 {
                     X1 = xPos,
                     Y1 = bottomPos,
@@ -190,7 +190,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 };
                 //Top line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos, topPos, xPos, centerPos));
-                var tl = new LineRenderItem(CRenderer.Bounds)
+                var tl = new LineRenderItem(ChartRenderer.Bounds)
                 {
                     X1 = xPos,
                     Y1 = topPos,
@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 {
                     //Bottom cap
                     //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos-3, bottomPos, xPos+3, bottomPos));
-                    var bc = new LineRenderItem(CRenderer.Bounds)
+                    var bc = new LineRenderItem(ChartRenderer.Bounds)
                     {
                         X1 = xPos - 3,
                         Y1 = bottomPos,
@@ -213,7 +213,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
 
                     //Top cap
                     //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos - 3, topPos, xPos + 3, topPos));
-                    var tc = new LineRenderItem(CRenderer.Bounds)
+                    var tc = new LineRenderItem(ChartRenderer.Bounds)
                     {
                         X1 = xPos - 3,
                         Y1 = topPos,
@@ -228,17 +228,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             {
                 if (_errorbars.Border.LineElement == null)
                 {
-                    ri.SetDrawingPropertiesBorder(CRenderer.Theme, CRenderer.Chart.StyleManager.Style?.ErrorBar.Border, CRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultFillColor, 0.75);
-                    ri.SetDrawingPropertiesBorder(CRenderer.Theme, CRenderer.Chart.StyleManager.Style?.ErrorBar.Border, CRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultBorderColor, 0.75d);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultFillColor, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultBorderColor, 0.75d);
                 }
                 else
                 {
-                    ri.SetDrawingPropertiesBorder(CRenderer.Theme, _errorbars.Border, CRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
                 }
-                ri.SetDrawingPropertiesEffects(CRenderer.Theme, _errorbars.Effect);
+                ri.SetDrawingPropertiesEffects(ChartRenderer.Theme, _errorbars.Effect);
             }
             return l;
         }
-        internal override Color? DefaultBorderColor => CRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
+        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
     }
 }

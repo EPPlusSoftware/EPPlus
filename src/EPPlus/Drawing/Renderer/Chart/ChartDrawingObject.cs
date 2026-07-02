@@ -29,13 +29,13 @@ namespace EPPlusImageRenderer.Svg
 {
     internal abstract class ChartDrawingObject : DrawingObject
     {
-        internal ChartRenderer CRenderer;
-        internal ExcelChart Chart => (ExcelChart)CRenderer.Drawing;
+        internal ChartRenderer ChartRenderer;
+        internal ExcelChart Chart => (ExcelChart)ChartRenderer.Drawing;
 
-        internal RenderContext RenderContext => CRenderer.RenderContext;
+        internal RenderContext RenderContext => ChartRenderer.RenderContext;
         internal ChartDrawingObject(ChartRenderer chart)
         {
-            CRenderer = chart;
+            ChartRenderer = chart;
             //Fixes null ref but might be inaccurate for some objects...
             Rectangle = new RectRenderItem(chart.Bounds);
         }

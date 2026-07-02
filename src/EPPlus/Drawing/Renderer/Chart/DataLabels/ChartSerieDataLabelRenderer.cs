@@ -85,13 +85,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
         {
-            if (CRenderer.Legend == null)
+            if (ChartRenderer.Legend == null)
             {
-                seriesIcon = CRenderer.GetSeriesIcon(serie, _serieIndex, maxBounds);
+                seriesIcon = ChartRenderer.GetSeriesIcon(serie, _serieIndex, maxBounds);
             }
             else
             {
-                var legendItem = CRenderer.Legend;
+                var legendItem = ChartRenderer.Legend;
                 var seriesIconOrig = (LineRenderItem)legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
@@ -114,7 +114,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
-            var newDataLabel = new SvgDataLabelPoint(CRenderer, dataLabel);
+            var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel);
             newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins);
 
             if(dataLabel.ShowLegendKey)
@@ -159,8 +159,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_dlblSerie.Fill.IsEmpty == false)
             {
-                Rectangle.SetDrawingPropertiesFill(CRenderer.Theme, _dlblSerie.Fill, null);
-                plotAreaGroup.SetDrawingPropertiesFill(CRenderer.Theme, _dlblSerie.Fill, null);
+                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
+                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
             }
 
             renderItems.Add(plotAreaGroup);

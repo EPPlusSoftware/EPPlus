@@ -81,7 +81,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel || serie.DataLabel != null)
                 {
-                    var datalabel = new ChartSerieDataLabelRenderer(CRenderer, serie.DataLabel, CRenderer.Bounds, serie, _catValues[i], _origValValues[i], serCounter++);
+                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _origValValues[i], serCounter++);
                     serieDataLabels.Add(datalabel);
 
                     for (int j = 0; j < dataPoints.Count; j++)
@@ -183,7 +183,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var catValues = catSeries[position];
             var valValues = valSeries[position];
             
-            var yWidth = (isColumn ? CRenderer.Plotarea.Rectangle.Width : CRenderer.Plotarea.Rectangle.Height);
+            var yWidth = (isColumn ? ChartRenderer.Plotarea.Rectangle.Width : ChartRenderer.Plotarea.Rectangle.Height);
             double slotSize;
             //if(catAx.IsDateScale)
             ////{
@@ -256,7 +256,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
                 
-                var rect = new RectRenderItem(CRenderer.Plotarea.Rectangle.Bounds);
+                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
                 double xPos;
                 if (isColumn)
@@ -335,9 +335,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                rect.SetDrawingPropertiesFill(CRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false, DefaultFillColor);
-                rect.SetDrawingPropertiesBorder(CRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, serie.Border.IsEmpty==false && serie.Border.Width>0, DefaultBorderColor, 1.5, false);
-                rect.SetDrawingPropertiesEffects(CRenderer.Theme, serie.Effect);
+                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false, DefaultFillColor);
+                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, serie.Border.IsEmpty==false && serie.Border.Width>0, DefaultBorderColor, 1.5, false);
+                rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
                 dataPoints.Add(rect.Bounds);
 
@@ -363,26 +363,26 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             if (chartType.UseSecondaryAxis)
             {
-                yAxis = CRenderer.SecondVerticalAxis;
-                xAxis = CRenderer.SecondHorizontalAxis;
+                yAxis = ChartRenderer.SecondVerticalAxis;
+                xAxis = ChartRenderer.SecondHorizontalAxis;
                 if (xAxis.Axis.Deleted && xAxis.Values == null)
                 {
-                    xAxis = CRenderer.HorizontalAxis;
+                    xAxis = ChartRenderer.HorizontalAxis;
                 }
             }
             else
             {
-                yAxis = CRenderer.VerticalAxis;
-                xAxis = CRenderer.HorizontalAxis;
+                yAxis = ChartRenderer.VerticalAxis;
+                xAxis = ChartRenderer.HorizontalAxis;
             }
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
-            SeriesRenderItems.ForEach(x => CRenderer.Plotarea.Group.AddChildItem(x));
+            SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
-        internal override Color? DefaultFillColor => CRenderer.Theme.ColorScheme.Accent1.GetColor();
+        internal override Color? DefaultFillColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
         internal override Color? DefaultBorderColor => null;
     }
 }

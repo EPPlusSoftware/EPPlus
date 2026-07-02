@@ -98,7 +98,7 @@ namespace EPPlusImageRenderer.Svg
         private RectRenderItem GetLegendRectangleAndEntrySize(ExcelChartLegend l, out double entryWidth, out double entryHeight)
         {
             //var rect = new RectRenderItem(RectanBounds);
-            var rect = Rectangle = new RectRenderItem(CRenderer.Bounds);
+            var rect = Rectangle = new RectRenderItem(ChartRenderer.Bounds);
             var widest = 0d;
             var highest = 0d;
             var index = 0;
@@ -215,14 +215,14 @@ namespace EPPlusImageRenderer.Svg
                         rect.Width = fullLength;
                         rect.Height = entryHeight * 1.5;
                     }
-                    rect.Left = (CRenderer.ChartArea.Rectangle.Width - rect.Width) / 2;
+                    rect.Left = (ChartRenderer.ChartArea.Rectangle.Width - rect.Width) / 2;
                     if (l.Position == eLegendPosition.Top)
                     {                        
-                        rect.Top = CRenderer.Title.Rectangle.Bottom + MarginHeight;
+                        rect.Top = ChartRenderer.Title.Rectangle.Bottom + MarginHeight;
                     }
                     else
                     {
-                        rect.Top = CRenderer.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
+                        rect.Top = ChartRenderer.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -239,7 +239,7 @@ namespace EPPlusImageRenderer.Svg
                     if (l.Position == eLegendPosition.Right ||
                         l.Position == eLegendPosition.TopRight)
                     {
-                        rect.Left = CRenderer.ChartArea.Rectangle.Width - rect.Width - LeftMargin;
+                        rect.Left = ChartRenderer.ChartArea.Rectangle.Width - rect.Width - LeftMargin;
                     }
                     else
                     {
@@ -253,13 +253,13 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (CRenderer.Title == null)
+                        if (ChartRenderer.Title == null)
                         {
                             rect.Top = 8 + 8;
                         }
                         else
                         {
-                            rect.Top = CRenderer.Title.Rectangle.Height + 8 + 8; //Height + Margin Top and Bottom Title
+                            rect.Top = ChartRenderer.Title.Rectangle.Height + 8 + 8; //Height + Margin Top and Bottom Title
                         }
                     }
                     break;
@@ -272,7 +272,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var mod5 = pos % 5;
             //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            return CRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
         }
 
         private ExcelChartDataPointCollection SetDataPointColors(ExcelChartDataPointCollection dataPoints, bool varyColors, bool hasStyle, ExcelChartStandardSerie serie, Color? overrideColor = null)
@@ -700,25 +700,11 @@ namespace EPPlusImageRenderer.Svg
                 totalWidth += tbWidth + si.Width + maxIconLength + MarginIconText;
 
 
-                var defaultFill = CRenderer.Theme.ColorScheme.Accent1.GetColor();
-                if (ct.VaryColors)
-                {
-                    //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-                    defaultFill = GetAccentBasedOnPos(i);
-                }
+                var dp = ps.DataPoints[i];
 
-                if (ps.DataPoints.ContainsKey(i))
-                {
-                    var dp = ps.DataPoints[i];
-                    sls.SeriesIcon.SetDrawingPropertiesFill(CRenderer.Theme, dp.Fill.IsEmpty ? s.Fill : dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, defaultFill);
-                    sls.SeriesIcon.SetDrawingPropertiesBorder(CRenderer.Theme, dp.Border.IsEmpty ? s.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
-                    sls.SeriesIcon.SetDrawingPropertiesEffects(CRenderer.Theme, dp.Effect);
-                }
-                else
-                {
-                    sls.SeriesIcon.SetDrawingPropertiesFill(CRenderer.Theme, ps.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, defaultFill);
-                    sls.SeriesIcon.SetDrawingPropertiesBorder(CRenderer.Theme, ps.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, ps.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
-                }
+                sls.SeriesIcon.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.FillReference.Color);
+                sls.SeriesIcon.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.BorderReference.Color, true);
+                sls.SeriesIcon.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
 
                 SeriesIcon.Add(sls);
                 pSls = sls;
@@ -732,7 +718,7 @@ namespace EPPlusImageRenderer.Svg
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
                 Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4;
-                Rectangle.Bounds.Left = (CRenderer.Bounds.Width / 2) - (totalWidth / 2);
+                Rectangle.Bounds.Left = (ChartRenderer.Bounds.Width / 2) - (totalWidth / 2);
             }
             pSls = null;
             sls = null;
@@ -769,11 +755,11 @@ namespace EPPlusImageRenderer.Svg
                 var l = sls.SeriesIcon as LineRenderItem;
                 var x = l.X1 + (l.X2 - l.X1) / 2;
                 var y = l.Y1;
-                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(CRenderer, ls, x, y, true);
+                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(ChartRenderer, ls, x, y, true);
                 if ((ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
                     ls.Marker.Fill.IsEmpty == false)
                 {
-                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(CRenderer, ls, x, y, true);
+                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(ChartRenderer, ls, x, y, true);
                 }
                 else
                 {
@@ -817,7 +803,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var line = new LineRenderItem(Rectangle.Bounds);
             //line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-            line.SetDrawingPropertiesBorder(CRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, CRenderer.Theme.ColorScheme.Accent1.GetColor(), 3);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, ChartRenderer.Theme.ColorScheme.Accent1.GetColor(), 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -834,8 +820,8 @@ namespace EPPlusImageRenderer.Svg
         private LineRenderItem GetTrendLineSeriesIcon(ExcelChart ct, ExcelChartTrendline tl, DrawingLegendSerie pSls, double entryWidth, double entryHeight)
         {
             var line = new LineRenderItem(Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(CRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, false, DefaultFillColor);
-            line.SetDrawingPropertiesBorder(CRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, false, DefaultFillColor);
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -873,8 +859,8 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(CRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(CRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+            item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
+            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
 
             return item;
         }
@@ -907,8 +893,8 @@ namespace EPPlusImageRenderer.Svg
             if (cStandardSerie.DataPoints.ContainsKey(index))
             {
                 var dp = cStandardSerie.DataPoints[index];
-                item.SetDrawingPropertiesFill(CRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, CRenderer.Theme.ColorScheme.Accent1.GetColor());
-                item.SetDrawingPropertiesBorder(CRenderer.Theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+                item.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
+                item.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             }
             else
             {
@@ -919,8 +905,8 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    item.SetDrawingPropertiesFill(CRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, CRenderer.Theme.ColorScheme.Accent1.GetColor());
-                    item.SetDrawingPropertiesBorder(CRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
+                    item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
                 }
             }
             return item;
@@ -979,7 +965,7 @@ namespace EPPlusImageRenderer.Svg
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            var groupItem = new GroupRenderItem(CRenderer.Bounds);
+            var groupItem = new GroupRenderItem(ChartRenderer.Bounds);
             groupItem.Top = Rectangle.Bounds.Top;
             groupItem.Left = Rectangle.Bounds.Left;
             renderItems.Add(groupItem);

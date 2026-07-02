@@ -35,10 +35,10 @@ namespace EPPlusImageRenderer.Svg
         {
             var pa = Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
-            var rect = new RectRenderItem(CRenderer.Bounds);
+            var rect = new RectRenderItem(ChartRenderer.Bounds);
             if (pa.Layout.HasLayout)
             {
-                rect = GetRectFromManualLayout(CRenderer, pa.Layout);
+                rect = GetRectFromManualLayout(ChartRenderer, pa.Layout);
             }
             else
             {
@@ -48,20 +48,20 @@ namespace EPPlusImageRenderer.Svg
                 rect.Height = GetPlotAreaHeight(rect);
             }
 
-            Group = new GroupRenderItem(CRenderer.Bounds);
+            Group = new GroupRenderItem(ChartRenderer.Bounds);
             Group.Bounds.Top = rect.Top;
             Group.Bounds.Left = rect.Left;           
             rect.Top = rect.Left = 0;
             Group.RenderItems.Add(rect);
 
-            if(CRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
+            if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
                Chart.Legend.Position == eLegendPosition.Left)
             {
-                CRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - CRenderer.Legend.Rectangle.Height / 2;
+                ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
 
-            rect.SetDrawingPropertiesFill(CRenderer.Theme, pa.Fill, CRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, false, DefaultFillColor);
-            rect.SetDrawingPropertiesBorder(CRenderer.Theme, pa.Border, CRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, false, DefaultFillColor);
+            rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             Rectangle = rect;
         }
 
@@ -76,19 +76,19 @@ namespace EPPlusImageRenderer.Svg
             }
             if (Chart.Legend?.Position == eLegendPosition.Bottom)
             {
-                vaHeight += CRenderer.Legend.Rectangle.Height + CRenderer.Legend.TopMargin;
+                vaHeight += ChartRenderer.Legend.Rectangle.Height + ChartRenderer.Legend.TopMargin;
             }
-            return CRenderer.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
+            return ChartRenderer.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
         }
 
         private double GetPlotAreaWidth(RectRenderItem rect)
         {
             var rightAxis = GetAxisActualByPosition(eActualAxisPosition.Right);
             var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.RightSecond);
-            var lp = CRenderer.Chart.Legend?.Position;
-            var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && CRenderer.Legend != null ?
-                        CRenderer.Legend.Rectangle.Bounds.GlobalLeft - RightMargin :
-                        CRenderer.ChartArea.Rectangle.Width - RightMargin);
+            var lp = ChartRenderer.Chart.Legend?.Position;
+            var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null ?
+                        ChartRenderer.Legend.Rectangle.Bounds.GlobalLeft - RightMargin :
+                        ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
 
             double rightAxisWidth;
@@ -103,17 +103,17 @@ namespace EPPlusImageRenderer.Svg
 
             var width = right - rightAxisWidth - rect.GlobalLeft;
             //Reserve space for the last label that will be on the tick label instead of Middle of the category.
-            if (CRenderer.HorizontalAxis != null && CRenderer.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
             {
-                var minusPA = width / CRenderer.HorizontalAxis.AxisValues.Count / 2;
+                var minusPA = width / ChartRenderer.HorizontalAxis.AxisValues.Count / 2;
                 if (minusPA > rightAxisWidth)
                 {
                     rightAxisWidth = minusPA;
                 }
             }
-            if (CRenderer.SecondHorizontalAxis != null && CRenderer.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+            if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
             {
-                var minusSA = width / CRenderer.SecondHorizontalAxis.AxisValues.Count / 2;
+                var minusSA = width / ChartRenderer.SecondHorizontalAxis.AxisValues.Count / 2;
                 if (minusSA > rightAxisWidth)
                 {
                     rightAxisWidth = minusSA;
@@ -125,9 +125,9 @@ namespace EPPlusImageRenderer.Svg
         private double GetPlotAreaLeft()
         {
             var left = LeftMargin;
-            if(CRenderer.Chart.Legend?.Position == eLegendPosition.Left)
+            if(ChartRenderer.Chart.Legend?.Position == eLegendPosition.Left)
             {
-                left += CRenderer.Legend.Rectangle.Bounds.Width + CRenderer.Legend.RightMargin;
+                left += ChartRenderer.Legend.Rectangle.Bounds.Width + ChartRenderer.Legend.RightMargin;
             }
 
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left);
@@ -170,46 +170,46 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? CRenderer.Legend.Rectangle.Bounds.Bottom : CRenderer.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight + TopMargin;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)
         {
-            if (CRenderer.HorizontalAxis != null && CRenderer.HorizontalAxis.Axis.ActualAxisPosition == pos)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.ActualAxisPosition == pos)
             {
-                return CRenderer.HorizontalAxis;
+                return ChartRenderer.HorizontalAxis;
             }
-            else if (CRenderer.VerticalAxis != null && CRenderer.VerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.ActualAxisPosition == pos)
             {
-                return CRenderer.VerticalAxis;
+                return ChartRenderer.VerticalAxis;
             }
-            else if (CRenderer.SecondHorizontalAxis != null && CRenderer.SecondHorizontalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.ActualAxisPosition == pos)
             {
-                return CRenderer.SecondHorizontalAxis;
+                return ChartRenderer.SecondHorizontalAxis;
             }
-            else if (CRenderer.SecondVerticalAxis != null && CRenderer.SecondVerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.ActualAxisPosition == pos)
             {
-                return CRenderer.SecondVerticalAxis;
+                return ChartRenderer.SecondVerticalAxis;
             }
             return null;
         }
         private ChartAxisRenderer GetAxisByPosition(eAxisPosition pos)
         {
-            if (CRenderer.HorizontalAxis != null && CRenderer.HorizontalAxis.Axis.AxisPosition == pos)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.AxisPosition == pos)
             {
-                return CRenderer.HorizontalAxis;
+                return ChartRenderer.HorizontalAxis;
             }
-            else if (CRenderer.VerticalAxis != null && CRenderer.VerticalAxis.Axis.AxisPosition == pos)
+            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.AxisPosition == pos)
             {
-                return CRenderer.VerticalAxis;
+                return ChartRenderer.VerticalAxis;
             }
-            else if (CRenderer.SecondHorizontalAxis != null && CRenderer.SecondHorizontalAxis.Axis.AxisPosition == pos)
+            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisPosition == pos)
             {
-                return CRenderer.SecondHorizontalAxis;
+                return ChartRenderer.SecondHorizontalAxis;
             }
-            else if (CRenderer.SecondVerticalAxis != null && CRenderer.SecondVerticalAxis.Axis.AxisPosition == pos)
+            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisPosition == pos)
             {
-                return CRenderer.SecondVerticalAxis;
+                return ChartRenderer.SecondVerticalAxis;
             }
             return null;
         }
