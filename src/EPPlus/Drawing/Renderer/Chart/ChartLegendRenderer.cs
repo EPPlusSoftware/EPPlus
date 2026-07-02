@@ -274,9 +274,9 @@ namespace EPPlusImageRenderer.Svg
 
         private Color GetAccentBasedOnPos(int pos)
         {
-            var mod5 = pos % 5;
+            var mod6 = pos % 6;
             //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod6).GetColor();
         }
 
         private ExcelChartDataPointCollection SetDataPointColors(ExcelChartDataPointCollection dataPoints, bool varyColors, bool hasStyle, ExcelChartStandardSerie serie, Color? overrideColor = null)
@@ -925,27 +925,7 @@ namespace EPPlusImageRenderer.Svg
             var baseColorIndex = index % 6;
             if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
             {
-                switch (baseColorIndex)
-                {
-                    case 0:
-                        baseColor = ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
-                        break;
-                    case 1:
-                        baseColor = ChartRenderer.Theme.ColorScheme.Accent2.GetColor();
-                        break;
-                    case 2:
-                        baseColor = ChartRenderer.Theme.ColorScheme.Accent3.GetColor();
-                        break;
-                    case 3:
-                        baseColor = ChartRenderer.Theme.ColorScheme.Accent4.GetColor();
-                        break;
-                    case 4:
-                        baseColor = ChartRenderer.Theme.ColorScheme.Accent5.GetColor();
-                        break;
-                    default:
-                        baseColor = ChartRenderer.Theme.ColorScheme.Accent6.GetColor();
-                        break;
-                }
+                baseColor = ChartRenderer.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
             }
             else
             {

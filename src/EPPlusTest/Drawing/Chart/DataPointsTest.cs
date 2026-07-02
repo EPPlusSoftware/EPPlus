@@ -99,6 +99,7 @@ namespace EPPlusTest.Drawing.Chart
 
             var chart = ws.Drawings.AddBarChart("BarChart1", eBarChartType.BarStacked);
             var serie = chart.Series.Add("D2:D5", "A2:A5");
+            chart.VaryColors = true;
             var point = serie.DataPoints.Add(0);
             point.Border.Fill.Color = Color.Blue;
             point.Border.Fill.Style = eFillStyle.SolidFill;
