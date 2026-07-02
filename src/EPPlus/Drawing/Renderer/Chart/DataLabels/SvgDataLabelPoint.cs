@@ -10,6 +10,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -76,7 +77,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins)
+        internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
             List<string> dlblStrings = new List<string>();
 
@@ -98,13 +99,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
             if(dataLabel.ShowPercent)
             {
-
-                //for (int i = 0; i < serie.NumberOfItems; i++)
-                //{
-                //    serie.NumberOfItems
-                //}
-                //serie.NumberOfItems 
-                //dlblStrings.
+                if(summedYValue != null)
+                {
+                    double percent = ConvertUtil.GetValueDouble(yValue) / summedYValue.Value;
+                    percent *= 100;
+                    dlblStrings.Add($"{Math.Round(percent, 0)}%");
+                }
             }
 
             var separator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;

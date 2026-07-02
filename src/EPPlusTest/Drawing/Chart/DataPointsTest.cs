@@ -117,7 +117,7 @@ namespace EPPlusTest.Drawing.Chart
 
 
         [TestMethod]
-        public void PieChartTests()
+        public void GradientPieChart()
         {
             using (var pck = OpenTemplatePackage("2.4-CreateAFileSystemReport.xlsx"))
             {
