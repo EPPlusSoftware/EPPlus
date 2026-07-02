@@ -500,14 +500,14 @@ namespace EPPlusImageRenderer.Svg
             var series = ct.Series[0];
             var catSeries = series.XSeries;
             var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, series.NumberLiteralsX, series.StringLiteralsX);
-            var ix = 0;
+            var index = 0;
             DrawingLegendSerie pSls = null;
             foreach(var cv in catValues)
             {
                 var sls=new DrawingLegendSerie();
                 var bs = (ExcelBarChartSerie)s;
-                var tm = _seriesHeadersMeasure[ix];
-                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight);
+                var tm = _seriesHeadersMeasure[index];
+                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index);
                 sls.SeriesIcon = si;
 
                 var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -520,7 +520,7 @@ namespace EPPlusImageRenderer.Svg
                 sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
-                var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == ix);
+                var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
                 var headerText = cv.ToString();
                 if (entry == null || entry.Font.IsEmpty)
                 {
@@ -534,6 +534,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 SeriesIcon.Add(sls);
                 pSls = sls;
+                index++;
             }
         }
 
@@ -770,7 +771,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
-            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight);
+            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index);
             sls.SeriesIcon = si;
 
             var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -864,7 +865,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight)
+        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int index)
         {            
             var item = new RectRenderItem(Rectangle.Bounds);
             var iconHeight = GetIconLength(ct, entryHeight);
@@ -888,9 +889,25 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+            if (cStandardSerie.DataPoints.ContainsKey(index))
+            {
+                var dp = cStandardSerie.DataPoints[index];
+                item.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
+                item.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            }
+            else
+            {
+                if(ct.VaryColors)
+                {
+                    //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
 
+                }
+                else
+                {
+                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
+                    item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+                }
+            }
             return item;
         }
 
