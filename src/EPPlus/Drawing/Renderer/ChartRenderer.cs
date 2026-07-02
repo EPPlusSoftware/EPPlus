@@ -82,7 +82,7 @@ namespace EPPlusImageRenderer
         }
         private void SetAxisPositionsFromPlotarea()
         {
-             if (VerticalAxis != null)
+            if (VerticalAxis != null)
             {
                 PlaceVerticalAxis(VerticalAxis);
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.

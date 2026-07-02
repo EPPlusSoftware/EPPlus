@@ -88,12 +88,6 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle = GetRectFromManualLayout(sc, l.Layout);
             }
 
-            //Bounds.Left = Rectangle.Left;
-            //Bounds.Top = Rectangle.Top;
-            //Bounds.Width = Rectangle.Width;
-            //Bounds.Height = Rectangle.Height;
-            //Rectangle.Bounds.Left = Rectangle.Bounds.Top = 0;
-
             Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, false, DefaultFillColor);
             Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
 
@@ -155,33 +149,6 @@ namespace EPPlusImageRenderer.Svg
                 {
                     foreach (var s in ct.Series)
                     {
-                        if(s.GetType() == typeof(ExcelLineChartSerie))
-                        {
-                            var line = (ExcelLineChartSerie)s;
-
-                            //TODO: this shouldn't technically override unless epplus specifically generates it
-                            var overrideColor = GetAccentBasedOnPos(index);
-                            if (s.Fill.IsEmpty)
-                            {
-                                s.Fill.Color = overrideColor;
-                            }
-
-                            SetDataPointColors(line.DataPoints, ct.VaryColors, ct.StyleManager.Style != null, line, overrideColor);
-                        }
-                        else if(s.GetType() == typeof(ExcelBarChartSerie))
-                        {
-                            var bar = (ExcelBarChartSerie)s;
-
-                            //TODO: this shouldn't technically override unless epplus specifically generates it and user has not assigned colors
-                            var overrideColor = GetAccentBasedOnPos(index);
-                            if (s.Fill.IsEmpty)
-                            {
-                                s.Fill.Color = overrideColor;
-                            }
-
-                            SetDataPointColors(bar.DataPoints, ct.VaryColors, ct.StyleManager.Style != null, bar, overrideColor);
-                        }
-
                         var text = s.GetHeaderText(index);
                         GetSerieSize(l, index, text, ref widest, ref highest);
 
