@@ -97,7 +97,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("BarChart");
             LoadTestdata(ws);
 
-            var chart = ws.Drawings.AddBarChart("BarChart1", eBarChartType.BarClustered);
+            var chart = ws.Drawings.AddBarChart("BarChart1", eBarChartType.BarStacked);
             var serie = chart.Series.Add("D2:D5", "A2:A5");
             var point = serie.DataPoints.Add(0);
             point.Border.Fill.Color = Color.Blue;
@@ -107,6 +107,7 @@ namespace EPPlusTest.Drawing.Chart
             point.Fill.Transparency = 5;            
             Assert.AreEqual(eColorTransformType.Alpha, point.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(95, point.Fill.SolidFill.Color.Transforms[0].Value);
+            
             chart.SetPosition(1, 0, 5, 0);
 
             var svg = chart.ToSvg();

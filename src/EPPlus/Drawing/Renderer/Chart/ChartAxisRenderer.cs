@@ -73,7 +73,14 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+            if (ax.AxisType==eAxisType.Cat || (dateUnit.HasValue && dateUnit == eTimeUnit.Days))
+            {
+                MinorUnit = 1; 
+            }
+            else
+            {
+                MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+            }
             MajorDateUnit = dateUnit;
             LabelOrientation = orientation;
 
@@ -112,7 +119,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
@@ -276,7 +283,7 @@ namespace EPPlusImageRenderer.Svg
                 MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
             }
 
-            if (Axis.MinorTickMark != eAxisTickMark.None)
+            if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
             {
                 MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
             }
@@ -661,7 +668,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 tickMarkWidthOutside = tickMarkWidth;
             }
-            var diff = max - min + 1;
+            var diff = min == 0 ? max - min : max - min + 1;
             double d = min + addMinor;
             while (d <= max+1)
             {
