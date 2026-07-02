@@ -85,6 +85,7 @@ namespace OfficeOpenXml.Drawing.Chart
             dl.ShowLeaderLines = true;
             dl.ShowValue = true;
             dl.Position = parentDatalabel.Position;
+            dl.Separator = parentDatalabel.Separator;
 
             if (idx < _list.Count)
             {
