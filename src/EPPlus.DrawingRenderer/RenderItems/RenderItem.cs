@@ -125,6 +125,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double GlobalTop => Bounds.GlobalTop;
         public double GlobalRight => Bounds.GlobalLeft + Width;
         public double GlobalBottom => Bounds.GlobalTop + Height;
+        public double RoundedCornerRadius { get; set; }
     }
     public class GroupRenderItem : RenderItem
     {
