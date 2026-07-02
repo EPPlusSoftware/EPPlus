@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
 
         }
 
-        private static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
+        internal static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
         {
             if (transforms==null || transforms.Count == 0) return c;
 

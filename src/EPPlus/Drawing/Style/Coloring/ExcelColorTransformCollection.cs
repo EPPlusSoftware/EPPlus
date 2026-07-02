@@ -392,6 +392,54 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         {
             return _list.GetEnumerator();
         }
+
+        private static List<ExcelColorTransformCollection> _defaultVariations = null;
+        internal static List<ExcelColorTransformCollection> GetDefault()
+        {
+            lock (_defaultVariations)
+            {
+                if (_defaultVariations == null)
+                {
+                    _defaultVariations = new List<ExcelColorTransformCollection>();
+
+                    //variation 1
+                    var v1 = new ExcelColorTransformCollection();
+                    v1.AddLuminanceModulation(60);
+
+                    //variation 2
+                    var v2 = new ExcelColorTransformCollection();
+                    v2.AddLuminanceModulation(80);
+                    v2.AddLuminanceOffset(20);
+
+                    //variation 3
+                    var v3 = new ExcelColorTransformCollection();
+                    v3.AddLuminanceModulation(80);
+
+                    //variation 4
+                    var v4 = new ExcelColorTransformCollection();
+                    v4.AddLuminanceModulation(60);
+                    v4.AddLuminanceOffset(40);
+
+
+                    //variation 4
+                    var v5 = new ExcelColorTransformCollection();
+                    v5.AddLuminanceModulation(50);
+
+                    //variation 4
+                    var v6 = new ExcelColorTransformCollection();
+                    v6.AddLuminanceModulation(70);
+
+                    //variation 4
+                    var v7 = new ExcelColorTransformCollection();
+                    v7.AddLuminanceModulation(60);
+                    v7.AddLuminanceOffset(30);
+
+                    _defaultVariations.AddRange([v1,v2,v3,v4,v5,v6,v7]);
+                }
+            }
+            return _defaultVariations;
+        }
+
         /// <summary>
         /// Number of items in the collection
         /// </summary>

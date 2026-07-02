@@ -19,8 +19,10 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -30,6 +32,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
+using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -507,7 +511,7 @@ namespace EPPlusImageRenderer.Svg
                 var sls=new DrawingLegendSerie();
                 var bs = (ExcelBarChartSerie)s;
                 var tm = _seriesHeadersMeasure[index];
-                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index);
+                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight,0, index);
                 sls.SeriesIcon = si;
 
                 var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -771,7 +775,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = _seriesHeadersMeasure[index];
-            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index);
+            var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, index, -1);
             sls.SeriesIcon = si;
 
             var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -865,7 +869,7 @@ namespace EPPlusImageRenderer.Svg
         }
 
 
-        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int index)
+        private RectRenderItem GetBarSeriesIcon(ExcelChart ct, ExcelBarChartSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index)
         {            
             var item = new RectRenderItem(Rectangle.Bounds);
             var iconHeight = GetIconLength(ct, entryHeight);
@@ -889,10 +893,12 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            if (cStandardSerie.DataPoints.ContainsKey(index))
+            if (index>=0 && cStandardSerie.DataPoints.ContainsKey(index))
             {
                 var dp = cStandardSerie.DataPoints[index];
-                item.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
+                var color = GetVaryColor(Chart.StyleManager?.ColorsManager, index);
+
+                item.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill.IsEmpty?cStandardSerie.Fill:dp.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
                 item.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             }
             else
@@ -900,15 +906,75 @@ namespace EPPlusImageRenderer.Svg
                 if(ct.VaryColors)
                 {
                     //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-
+                    var color = GetVaryColor(Chart.StyleManager?.ColorsManager, index);
+                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
                 }
                 else
                 {
-                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
+                    var color = GetVaryColor(Chart.StyleManager?.ColorsManager, serieIndex);
+                    item.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
                     item.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
                 }
             }
             return item;
+        }
+
+        private Color? GetVaryColor(ExcelChartColorsManager colorsManager, int index)
+        {
+            Color baseColor;
+            var baseColorIndex = index % 6;
+            if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
+            {
+                switch (baseColorIndex)
+                {
+                    case 0:
+                        baseColor = ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
+                        break;
+                    case 1:
+                        baseColor = ChartRenderer.Theme.ColorScheme.Accent2.GetColor();
+                        break;
+                    case 2:
+                        baseColor = ChartRenderer.Theme.ColorScheme.Accent3.GetColor();
+                        break;
+                    case 3:
+                        baseColor = ChartRenderer.Theme.ColorScheme.Accent4.GetColor();
+                        break;
+                    case 4:
+                        baseColor = ChartRenderer.Theme.ColorScheme.Accent5.GetColor();
+                        break;
+                    default:
+                        baseColor = ChartRenderer.Theme.ColorScheme.Accent6.GetColor();
+                        break;
+                }
+            }
+            else
+            {
+                baseColor = colorsManager.Colors[baseColorIndex].GetColor();
+            }
+            
+            var variationIndex = index / 6;
+            if (variationIndex == 0)
+            {
+                return baseColor;
+            }
+            else
+            {
+                ExcelColorTransformCollection variation;
+                if (colorsManager == null)
+                {                    
+                    var variations = ExcelColorTransformCollection.GetDefault();
+                    variation = variations[variationIndex % variations.Count];
+                }
+                else
+                {
+                    if (colorsManager.Variations.Count == 0)
+                    {
+                        return baseColor;
+                    }
+                    variation = colorsManager.Colors[variationIndex % colorsManager.Variations.Count].Transforms;
+                }
+                return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
+            }
         }
 
         private double GetItemPosition(DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y)
