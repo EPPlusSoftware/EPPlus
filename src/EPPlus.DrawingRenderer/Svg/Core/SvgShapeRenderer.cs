@@ -3,20 +3,13 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using OfficeOpenXml.Utils;
+using EPPlus.Fonts.OpenType.Utils;
 
 namespace EPPlus.DrawingRenderer
 {
@@ -37,7 +30,7 @@ namespace EPPlus.DrawingRenderer
             }
 
             Bounds = bounds;
-            OutputStream = outputStream; 
+            OutputStream = outputStream;
         }
         public IBasicIShapesRenderer<StringBuilder> BasicShapesRenderer { get; }
 
@@ -50,9 +43,9 @@ namespace EPPlus.DrawingRenderer
             OutputStream.Clear();
             OutputStream.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
             PreRender(items);
-            foreach(var item in items)
+            foreach (var item in items)
             {
-                switch(item.Type)
+                switch (item.Type)
                 {
                     case RenderItemType.Group:
                         BasicShapesRenderer.GroupRenderer.Render((GroupRenderItem)item);
@@ -142,7 +135,7 @@ namespace EPPlus.DrawingRenderer
             {
                 var key = item.PatternFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
-                { 
+                {
                     name = WritePattern($"Pattern{item.PatternFill.PatternType}{ix}", defSb, hs, item.PatternFill, item.FillColorSource);
                     _defsCache[key] = name;
                 }
@@ -479,7 +472,7 @@ namespace EPPlus.DrawingRenderer
 
         private static object WriteFillColor(Color c)
         {
-            double opacity = -1;            
+            double opacity = -1;
             if (c.A < 255 && c != Color.Empty)
             {
                 opacity = c.A / 255D * 100;
@@ -573,7 +566,7 @@ namespace EPPlus.DrawingRenderer
                 var color = ColorUtils.GetAdjustedColor(fillMode, c.Color);
                 // TODO: check if ix should be increased...?
                 var op = c.Opacity;
-                defSb.Append($"<stop offset=\"{c.Position}%\" stop-color=\"#{color.To6CharHexString()}\" {(op==1?"":"stop-opacity=\"" + (op*100).ToString("N0") + "%\"")} />");
+                defSb.Append($"<stop offset=\"{c.Position}%\" stop-color=\"#{color.To6CharHexString()}\" {(op == 1 ? "" : "stop-opacity=\"" + (op * 100).ToString("N0") + "%\"")} />");
             }
         }
 
@@ -657,103 +650,5 @@ namespace EPPlus.DrawingRenderer
         {
             return $"data:{blipFill.ContentType};base64," + Convert.ToBase64String(blipFill.ImageBytes);
         }
-    }
-
-    public interface IShapeRenderer<T>
-    {
-        IBasicIShapesRenderer<T> BasicShapesRenderer { get; }
-        T OutputStream { get; }
-        bool PreRender(List<RenderItem> items);
-        BoundingBox Bounds { get; }
-        string ViewBox { get; set; }
-        bool Render(List<RenderItem> items);
-    }
-
-    public class SvgBasicShapesRenderer : IBasicIShapesRenderer<StringBuilder>
-    {
-        public SvgBasicShapesRenderer(StringBuilder outputStream)
-        {
-            LineRenderer = new SvgLineRenderer(outputStream);
-            RectangleRenderer = new SvgRectRenderer(outputStream);
-            EllipseRenderer = new SvgEllipseRenderer(outputStream);
-            PathRenderer = new SvgPathRenderer(outputStream);
-            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream);
-            GroupRenderer = new SvgGroupRenderer(this, outputStream);
-            TextRunRenderer = new SvgTextRunRenderer(outputStream);
-            TitleRenderer = new SvgTitleRenderer(outputStream);
-            UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
-
-            // ImageRenderer = new SvgImageRenderer(outputStream);
-        }
-        public BaseRenderer<StringBuilder, GroupRenderItem> GroupRenderer { get; }
-        public BaseRenderer<StringBuilder, RectRenderItem> RectangleRenderer { get; }
-        public BaseRenderer<StringBuilder, EllipseRenderItem> EllipseRenderer { get; }
-        public BaseRenderer<StringBuilder, PathRenderItem> PathRenderer { get; }
-        //public BaseRenderer<StringBuilder> ImageRenderer { get; }
-        public BaseRenderer<StringBuilder, LineRenderItem> LineRenderer { get; }
-        public BaseRenderer<StringBuilder, TitleRenderItem> TitleRenderer { get; }
-        public BaseRenderer<StringBuilder, ParagraphRenderItem> ParagraphRenderer { get; }
-        public BaseRenderer<StringBuilder, TextRunRenderItem> TextRunRenderer { get; }
-        public BaseRenderer<StringBuilder, UseReferenceRenderItem> UseReferenceRenderer { get; }
-
-        public void Render(RenderItem item)
-        {
-            switch(item.Type)
-            {
-                case RenderItemType.Group:
-                    GroupRenderer.Render((GroupRenderItem)item);
-                    break;
-                case RenderItemType.Line:
-                    LineRenderer.Render((LineRenderItem)item);
-                    break;
-                case RenderItemType.Rect:
-                    RectangleRenderer.Render((RectRenderItem)item);
-                    break;
-                case RenderItemType.Ellipse:
-                    EllipseRenderer.Render((EllipseRenderItem)item);
-                    break;
-                case RenderItemType.Path:
-                    PathRenderer.Render((PathRenderItem)item);
-                    break;
-                case RenderItemType.Text:
-                    throw new NotImplementedException();
-                    break;
-                case RenderItemType.CommentTitle:
-                    TitleRenderer.Render((TitleRenderItem)item);
-                    break;
-                case RenderItemType.Paragraph:
-                    ParagraphRenderer.Render((ParagraphRenderItem)item);
-                    break;
-                case RenderItemType.UseReference:
-                    UseReferenceRenderer.Render((UseReferenceRenderItem)item);
-                    break;
-                case RenderItemType.TextRun:
-                    TextRunRenderer.Render((TextRunRenderItem)item);
-                    break;
-            }
-        }
-    }
-    public interface IBasicIShapesRenderer<T>
-    {
-        public BaseRenderer<T, GroupRenderItem> GroupRenderer { get; }
-        public BaseRenderer<T, RectRenderItem> RectangleRenderer { get; }
-        public BaseRenderer<T, EllipseRenderItem> EllipseRenderer { get; }
-        public BaseRenderer<T,PathRenderItem> PathRenderer { get; }
-        //public BaseRenderer<T> ImageRenderer { get; }
-        public BaseRenderer<T,LineRenderItem> LineRenderer { get; }
-        public BaseRenderer<T, TitleRenderItem> TitleRenderer { get; }
-        public BaseRenderer<T,ParagraphRenderItem> ParagraphRenderer { get; }
-        public BaseRenderer<T, UseReferenceRenderItem> UseReferenceRenderer { get; }
-
-        public void Render(RenderItem item);
-    }
-    public abstract class BaseRenderer<T, T2>
-    {
-        protected BaseRenderer(T outputStream)
-        {
-            OutputStream = outputStream;
-        }
-        public T OutputStream { get; }
-        public abstract void Render(T2 item);
     }
 }
