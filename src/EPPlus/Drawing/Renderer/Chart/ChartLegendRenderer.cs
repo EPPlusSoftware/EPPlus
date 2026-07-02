@@ -639,35 +639,6 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-           
-            //adjust datapoints if not enough
-            if(catValues.Count > ps.DataPoints.Count)
-            {
-                //var prevPointCount = ps.DataPoints.Count;
-                //ps.DataPoints.ClearDataPoints();
-                //var pieChart = ct.As.Chart.PieChart;
-
-                //for (int i = 0; i< catValues.Count; i++)
-                //{
-                //    ps.DataPoints.Add(i);
-                //    var defaultFill = DefaultFillColor;
-
-                //    if (ct.VaryColors)
-                //    {
-                //        if (ct.StyleManager.Style == null)
-                //        {
-                //            var mod5 = i % 5;
-                //            //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-                //            defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
-                //        }
-                //    }
-                //    if(defaultFill != null && i > prevPointCount-1)
-                //    {
-                //        ps.DataPoints[i].Fill.Color = defaultFill.Value;
-                //    }
-                //}
-            }
-
             double lastWidth = 0;
             double totalWidth = 0;
 
@@ -706,11 +677,21 @@ namespace EPPlusImageRenderer.Svg
                 totalWidth += tbWidth + si.Width + maxIconLength + MarginIconText;
 
 
-                var dp = ps.DataPoints[i];
 
-                sls.SeriesIcon.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.FillReference.Color);
-                sls.SeriesIcon.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.BorderReference.Color, true);
-                sls.SeriesIcon.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
+                if (index >= 0 && ps.DataPoints.ContainsKey(index))
+                {
+                    var dp = ps.DataPoints[index];
+                    ChartTypeDrawer.SetFillDataPoint(Chart, ps, index, sls.SeriesIcon, dp, Chart.StyleManager.Style?.SeriesLine);
+                }
+                else
+                {
+                    ChartTypeDrawer.SetFillSerie(Chart, ct, ps, 0, index, sls.SeriesIcon);
+                }
+                //var dp = ps.DataPoints[i];
+
+                //sls.SeriesIcon.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.FillReference.Color);
+                //sls.SeriesIcon.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.BorderReference.Color, true);
+                //sls.SeriesIcon.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
 
                 SeriesIcon.Add(sls);
                 pSls = sls;

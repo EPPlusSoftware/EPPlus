@@ -158,13 +158,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         private void UpdateSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, int seriesCount, int position)
         {
-            var dataPoint = serie.DataPoints[position];
+            int explosion = 0;
+            if (serie.DataPoints.ContainsKey(position))
+            {
+                explosion = serie.DataPoints[position].Explosion;
+            }
 
             Slices[position].ImportPathData(
-                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds, 
-                _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
+                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds,
+                _sliceScaleFactor, explosion, _pieExplosionPercent, position);
 
-            Slices[position].ImportStlyeInfo(dataPoint, chartType, position);
+            Slices[position].ImportStlyeInfo(serie, chartType, position);
             Slices[position].AppendGroupItem(_groupItem);
         }
 

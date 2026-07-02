@@ -232,7 +232,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
-        internal static void SetFillDataPoint(ExcelChart chart, ExcelBarChartSerie cStandardSerie, int index, RectRenderItem item, ExcelChartDataPoint dp, ExcelChartStyleEntry entry)
+        internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItem item, ExcelChartDataPoint dp, ExcelChartStyleEntry entry)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);

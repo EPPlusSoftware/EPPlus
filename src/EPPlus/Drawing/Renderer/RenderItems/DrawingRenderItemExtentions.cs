@@ -258,7 +258,14 @@ namespace EPPlusImageRenderer.RenderItems
                     }
                     else
                     {
-                        fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, styleFillColor);
+                        if(fill != null && fill.Style != eFillStyle.NoFill)
+                        {
+                            fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                        }
+                        else
+                        {
+                            return string.Empty;
+                        }
                     }
                 }
             }
