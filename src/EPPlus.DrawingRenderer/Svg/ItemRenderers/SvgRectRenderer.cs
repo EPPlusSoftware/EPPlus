@@ -30,6 +30,10 @@ namespace EPPlus.DrawingRenderer.Svg
                 item.Width.PointToPixelString(),
                 item.Height.PointToPixelString());
             }
+            if(item.RoundedCornerRadius>0)
+            { 
+                OutputStream.AppendFormat("rx=\"{0}\" ry=\"{1}\" ", item.RoundedCornerRadius.PointToPixelString(), item.RoundedCornerRadius.PointToPixelString());
+            }
             RenderBase(item);
             OutputStream.AppendFormat("/>");
         }

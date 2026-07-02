@@ -310,6 +310,7 @@ namespace EPPlusImageRenderer
             
             item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, item.DefaultFillColor);
             item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75);
+            item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
