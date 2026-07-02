@@ -324,7 +324,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
                 }
             }
-            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
+            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, true, defaultFill);
             _slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
             _slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }

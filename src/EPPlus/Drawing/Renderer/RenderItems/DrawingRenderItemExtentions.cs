@@ -67,6 +67,7 @@ namespace EPPlusImageRenderer.RenderItems
                     break;
                 case eFillStyle.GradientFill:
                     item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill, gradientUserSpaceOnUse);
+                    item.FillType = FillType.GradientFill;
                     item.FillColor = null;
                     break;
             }

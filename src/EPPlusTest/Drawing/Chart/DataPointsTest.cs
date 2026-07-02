@@ -87,6 +87,8 @@ namespace EPPlusTest.Drawing.Chart
 
             var svg = chart.ToSvg();
 
+            SaveAndCleanup(_pck);
+
             File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
         }
         [TestMethod]
@@ -114,6 +116,23 @@ namespace EPPlusTest.Drawing.Chart
 
 
         [TestMethod]
+        public void PieChartTests()
+        {
+            using (var pck = OpenTemplatePackage("2.4-CreateAFileSystemReport.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[1];
+
+                int idx = 0;
+                foreach(var drawing in ws.Drawings)
+                {
+                    var file = GetOutputFile("svg", $"{idx}_2.4-CreateAFileSystemReport.svg");
+                    File.WriteAllText(file.FullName, drawing.ToSvg());
+                    idx++;
+                }
+            }
+        }
+
+                [TestMethod]
         public void DataLabelsMultipleOneSeriesExport()
         {
             using (var pck = OpenPackage("DataLabelsMultipleOneSeriesExport.xlsx", true))

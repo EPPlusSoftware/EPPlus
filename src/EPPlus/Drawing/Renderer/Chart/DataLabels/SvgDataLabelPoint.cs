@@ -96,6 +96,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     dlblStrings.Add(yValue.ToString());
                 }
             }
+            if(dataLabel.ShowPercent)
+            {
+
+                //for (int i = 0; i < serie.NumberOfItems; i++)
+                //{
+                //    serie.NumberOfItems
+                //}
+                //serie.NumberOfItems 
+                //dlblStrings.
+            }
 
             var separator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;
 

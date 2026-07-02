@@ -81,6 +81,27 @@ namespace EPPlus.DrawingRenderer
             return true;
         }
 
+
+        public void PreRenderGroup(List<RenderItem> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
+        {
+            foreach (RenderItem item in items)
+            {
+                if (item is GroupRenderItem group)
+                {
+                    PreRenderGroup(group.RenderItems, defSb, hs, ref ix);
+                    //foreach(var child in group.RenderItems)
+                    //{
+                    //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
+                    //}
+                }
+                else
+                {
+                    WriteDefsForRenderItem(defSb, hs, ref ix, item);
+                }
+            }
+        }
+
+
         public bool PreRender(List<RenderItem> items)
         {
             var defSb = new StringBuilder();
@@ -89,17 +110,7 @@ namespace EPPlus.DrawingRenderer
 
             foreach (RenderItem item in items)
             {
-                if(item is GroupRenderItem group)
-                {
-                    foreach(var child in group.RenderItems)
-                    {
-                        WriteDefsForRenderItem(defSb, hs, ref ix, child);
-                    }
-                }
-                else
-                {
-                    WriteDefsForRenderItem(defSb, hs,ref ix, item);
-                }
+                PreRenderGroup(items, defSb, hs, ref ix);
             }
 
             if (defSb.Length > 0)
