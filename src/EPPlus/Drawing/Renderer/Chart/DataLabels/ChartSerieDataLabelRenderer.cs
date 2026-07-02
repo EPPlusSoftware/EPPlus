@@ -35,7 +35,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _dlblSerie = dlblSerie;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
 
-            DefaultFillColor = Color.Empty;
+            DefaultFillColor = Color.Transparent;
 
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {

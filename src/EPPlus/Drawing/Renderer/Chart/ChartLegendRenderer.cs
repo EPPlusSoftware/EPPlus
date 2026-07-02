@@ -114,7 +114,28 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (ct.GetType() == typeof(ExcelPieChart))
                 {
-                    GetSizePieChart(l, ref widest, ref highest, ref index, ct);
+                    //Pie chart cares only about first series
+                    if (ct.Series[0].GetType() == typeof(ExcelPieChartSerie))
+                    {
+                        var ps = (ExcelPieChartSerie)ct.Series[0];
+                        var catValues = DrawingExtensions.LoadSeriesValues(ct, ps.XSeries, ps.NumberLiteralsX, ps.StringLiteralsX);
+
+                        //Excel fallsback to index + 1 if no literals and no series 
+                        if (catValues == null)
+                        {
+                            catValues = new List<Object>();
+                            foreach (var dp in ps.DataPoints)
+                            {
+                                catValues.Add($"{dp.Index + 1}");
+                            }
+                        }
+                        for (int i = 0; i < catValues.Count; i++)
+                        {
+                            var text = catValues[i].ToString();
+                            GetSerieSize(l, index, text, ref widest, ref highest);
+                            index++;
+                        }
+                    }
                     //Skip the rest
                     break;
                 }
@@ -134,8 +155,36 @@ namespace EPPlusImageRenderer.Svg
                 {
                     foreach (var s in ct.Series)
                     {
+                        if(s.GetType() == typeof(ExcelLineChartSerie))
+                        {
+                            var line = (ExcelLineChartSerie)s;
+
+                            //TODO: this shouldn't technically override unless epplus specifically generates it
+                            var overrideColor = GetAccentBasedOnPos(index);
+                            if (s.Fill.IsEmpty)
+                            {
+                                s.Fill.Color = overrideColor;
+                            }
+
+                            SetDataPointColors(line.DataPoints, ct.VaryColors, ct.StyleManager.Style != null, line, overrideColor);
+                        }
+                        else if(s.GetType() == typeof(ExcelBarChartSerie))
+                        {
+                            var bar = (ExcelBarChartSerie)s;
+
+                            //TODO: this shouldn't technically override unless epplus specifically generates it and user has not assigned colors
+                            var overrideColor = GetAccentBasedOnPos(index);
+                            if (s.Fill.IsEmpty)
+                            {
+                                s.Fill.Color = overrideColor;
+                            }
+
+                            SetDataPointColors(bar.DataPoints, ct.VaryColors, ct.StyleManager.Style != null, bar, overrideColor);
+                        }
+
                         var text = s.GetHeaderText(index);
                         GetSerieSize(l, index, text, ref widest, ref highest);
+
                         index++;
                     }
                 }
@@ -252,30 +301,45 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
-        private void GetSizePieChart(ExcelChartLegend l, ref double widest, ref double highest, ref int index, ExcelChart ct)
+        private Color GetAccentBasedOnPos(int pos)
         {
-            //Pie chart cares only about first series
-            if (ct.Series[0].GetType() == typeof(ExcelPieChartSerie))
-            {
-                var ps = (ExcelPieChartSerie)ct.Series[0];
-                var catValues = DrawingExtensions.LoadSeriesValues(ct, ps.XSeries, ps.NumberLiteralsX, ps.StringLiteralsX);
+            var mod5 = pos % 5;
+            //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+        }
 
-                //Excel fallsback to index + 1 if no literals and no series 
-                if (catValues == null)
+        private ExcelChartDataPointCollection SetDataPointColors(ExcelChartDataPointCollection dataPoints, bool varyColors, bool hasStyle, ExcelChartStandardSerie serie, Color? overrideColor = null)
+        {
+            if (serie.NumberOfItems > dataPoints.Count)
+            {
+                var prevPointCount = dataPoints.Count;
+                dataPoints.ClearDataPoints();
+
+                for (int i = 0; i < serie.NumberOfItems; i++)
                 {
-                    catValues = new List<Object>();
-                    foreach (var dp in ps.DataPoints)
+                    dataPoints.Add(i);
+                    var defaultFill = DefaultFillColor;
+                    if(overrideColor != null)
                     {
-                        catValues.Add($"{dp.Index + 1}");
+                        defaultFill = overrideColor;
+                    }
+
+                    if (varyColors)
+                    {
+                        if (hasStyle == false)
+                        {
+                            defaultFill = GetAccentBasedOnPos(i);
+                        }
+                    }
+                    //Ensures we don't over-write user set style data
+                    if (defaultFill != null && i > prevPointCount - 1)
+                    {
+                        dataPoints[i].Fill.Color = defaultFill.Value;
                     }
                 }
-                for (int i = 0; i < catValues.Count; i++)
-                {
-                    var text = catValues[i].ToString();
-                    GetSerieSize(l, index, text, ref widest, ref highest);
-                    index++;
-                }
             }
+
+            return dataPoints;
         }
 
         private void GetSerieSize(ExcelChartLegend l, int index, string text, ref double widest, ref double highest)
@@ -362,6 +426,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         var s = ct.Series[ix];
                         var sls = new DrawingLegendSerie();
+
                         switch (ct.ChartType)
                         {
                             case eChartType.Line:
