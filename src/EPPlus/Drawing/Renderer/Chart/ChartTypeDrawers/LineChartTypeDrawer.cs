@@ -69,7 +69,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 if (serie.HasDataLabel)
                 {
-                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, xSerie, ySerie, i);
+                    var datalabel = new ChartSerieDataLabelRenderer(CRenderer, serie.DataLabel, CRenderer.Bounds, serie, xSerie, ySerie, i);
                     serieDataLabels.Add(datalabel);
                 }
 
@@ -128,19 +128,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             ChartAxisRenderer yAxis, xAxis;
             if (chartType.UseSecondaryAxis)
             {
-                yAxis = ChartRenderer.SecondVerticalAxis;
-                xAxis = ChartRenderer.SecondHorizontalAxis;
+                yAxis = CRenderer.SecondVerticalAxis;
+                xAxis = CRenderer.SecondHorizontalAxis;
                 if(xAxis.Axis.Deleted && xAxis.Values==null)
                 {
-                    xAxis = ChartRenderer.HorizontalAxis;
+                    xAxis = CRenderer.HorizontalAxis;
                 }
             }
             else
             {
-                yAxis = ChartRenderer.VerticalAxis;
-                xAxis = ChartRenderer.HorizontalAxis;
+                yAxis = CRenderer.VerticalAxis;
+                xAxis = CRenderer.HorizontalAxis;
             }
-            var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var linePath = new PathRenderItem(CRenderer.Plotarea.Rectangle.Bounds);
             var coords = new List<double>();
             var markerItems = new List<RenderItem>();
             var errorBars = new List<RenderItem>();
@@ -172,7 +172,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);
-                    pt.Parent = ChartRenderer.Plotarea.Rectangle.Bounds;
+                    pt.Parent = CRenderer.Plotarea.Rectangle.Bounds;
                 }
                 if(hasErrorBars)
                 {
@@ -182,11 +182,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     float mx = (float)xPos;
                     float my = (float)yPos;
-                    var ls = LineMarkerHelper.GetMarkerItem(ChartRenderer, serie, mx, my, false);
+                    var ls = LineMarkerHelper.GetMarkerItem(CRenderer, serie, mx, my, false);
                     if ((serie.Marker.Style == eMarkerStyle.Plus || serie.Marker.Style == eMarkerStyle.X || serie.Marker.Style == eMarkerStyle.Star) &&
                         serie.Marker.Fill.IsEmpty == false)
                     {
-                        markerItems.Add(LineMarkerHelper.GetMarkerBackground(ChartRenderer, serie, mx, my, false));
+                        markerItems.Add(LineMarkerHelper.GetMarkerBackground(CRenderer, serie, mx, my, false));
                     }
                     markerItems.Add(ls);
 
@@ -211,8 +211,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
-            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, DefaultBorderColor, 3);
-            linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
+            linePath.SetDrawingPropertiesBorder(CRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, DefaultBorderColor, 3);
+            linePath.SetDrawingPropertiesEffects(CRenderer.Theme, serie.Effect);
             linePath.FillColor = "none";    //No fill for line
             linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
             linePath.LineJoin = LineJoin.Round;
@@ -221,11 +221,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.AddRange(errorBars);
         }
 
-        internal override Color? DefaultBorderColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
+        internal override Color? DefaultBorderColor => CRenderer.Theme.ColorScheme.Accent1.GetColor();
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
-            SeriesRenderItems.ForEach(x=> ChartRenderer.Plotarea.Group.AddChildItem(x));
+            SeriesRenderItems.ForEach(x=> CRenderer.Plotarea.Group.AddChildItem(x));
         }
     }
 

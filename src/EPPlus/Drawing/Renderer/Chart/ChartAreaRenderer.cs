@@ -33,7 +33,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = new RectRenderItem(sc.Bounds);
         }
 
-        internal override Color? DefaultFillColor { get => ChartRenderer.Theme.ColorScheme.Light1.GetColor(); }
+        internal override Color? DefaultFillColor { get => CRenderer.Theme.ColorScheme.Light1.GetColor(); }
         internal override Color? DefaultBorderColor
         {
             get

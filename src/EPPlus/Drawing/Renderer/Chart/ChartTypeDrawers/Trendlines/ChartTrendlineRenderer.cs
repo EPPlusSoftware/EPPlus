@@ -104,13 +104,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Display the label for the trendline with equation and R² value.
             var lbl = _trendline.Label;
             var coord = RenderCoordinates;
-            var x = ChartRenderer.Plotarea.Group.Left + coord[coord.Length - 2];
-            var y = ChartRenderer.Plotarea.Group.Top + coord[coord.Length - 1];
+            var x = CRenderer.Plotarea.Group.Left + coord[coord.Length - 2];
+            var y = CRenderer.Plotarea.Group.Top + coord[coord.Length - 1];
             double width = 0, height = 0;
 
             if (_trendline.Label.Layout.HasLayout)
             {
-                var mlRect = GetRectFromManualLayout(ChartRenderer, _trendline.Label.Layout);
+                var mlRect = GetRectFromManualLayout(CRenderer, _trendline.Label.Layout);
                 x += mlRect.Left;
                 y += mlRect.Top;
                 if (lbl.Layout.ManualLayout.Width.HasValue && lbl.Layout.ManualLayout.Height.HasValue)
@@ -122,12 +122,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (width > 0 && height > 0)
             {
-                DataLabel = new DrawingTextBox(Chart, ChartRenderer.ChartArea.Rectangle.Bounds, x, y, width, height);
+                DataLabel = new DrawingTextBox(Chart, CRenderer.ChartArea.Rectangle.Bounds, x, y, width, height);
                 DataLabel.TextBody.AutoSize = false;
             }
             else
             {
-                DataLabel = new DrawingTextBox(Chart, ChartRenderer.Bounds, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
+                DataLabel = new DrawingTextBox(Chart, CRenderer.Bounds, CRenderer.Bounds.Width, CRenderer.Bounds.Height);
                 if (x > 0)
                 {
                     DataLabel.Left = x;
@@ -160,9 +160,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
             
             //Set datalabel position.
-            if(DataLabel.Left + 5 > ChartRenderer.Bounds.Right)
+            if(DataLabel.Left + 5 > CRenderer.Bounds.Right)
             {
-                DataLabel.Left = ChartRenderer.Bounds.Right - DataLabel.Width - 5;
+                DataLabel.Left = CRenderer.Bounds.Right - DataLabel.Width - 5;
             }
             else
             {
@@ -174,9 +174,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 DataLabel.Left = 0;
             }
 
-            if(DataLabel.Top - DataLabel.Height / 2 > ChartRenderer.Bounds.Bottom)
+            if(DataLabel.Top - DataLabel.Height / 2 > CRenderer.Bounds.Bottom)
             {
-                DataLabel.Top = ChartRenderer.Bounds.Bottom - DataLabel.Height / 2;
+                DataLabel.Top = CRenderer.Bounds.Bottom - DataLabel.Height / 2;
             }
             else
             {
@@ -189,9 +189,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true, DefaultFillColor);
-            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, DefaultBorderColor, _trendline.Label.Border.Width);
-            DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
+            DataLabel.Rectangle.SetDrawingPropertiesFill(CRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, true, DefaultFillColor);
+            DataLabel.Rectangle.SetDrawingPropertiesBorder(CRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, DefaultBorderColor, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.SetDrawingPropertiesEffects(CRenderer.Theme, _trendline.Label.Effect);
         }
 
         private void AddLblText(DrawingTextBox lbl, string labelText)
@@ -661,11 +661,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var pathItem = new PathRenderItem(CRenderer.Plotarea.Rectangle.Bounds);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, DefaultBorderColor, _trendline.Border.Width);
-            pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
+            pathItem.SetDrawingPropertiesBorder(CRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, DefaultBorderColor, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesEffects(CRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
 
@@ -676,7 +676,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             //We aim for 1 line per point for the trendline.
             var diff = (x2 - x1);
-            var inc = diff / GetXInc(ChartRenderer.Bounds.Width);
+            var inc = diff / GetXInc(CRenderer.Bounds.Width);
             double y;
             for (double d = x1; d < x2; d += inc)
             {
@@ -695,16 +695,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             ChartAxisRenderer catAxis, valAxis;
             if(isBar)
             {
-                valAxis = _useSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
-                catAxis = _useSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
+                valAxis = _useSecondaryAxis ? CRenderer.SecondHorizontalAxis : CRenderer.HorizontalAxis;
+                catAxis = _useSecondaryAxis ? CRenderer.SecondVerticalAxis : CRenderer.VerticalAxis;
             }
             else
             {
-                catAxis = _useSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
-                valAxis = _useSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
+                catAxis = _useSecondaryAxis ? CRenderer.SecondHorizontalAxis : CRenderer.HorizontalAxis;
+                valAxis = _useSecondaryAxis ? CRenderer.SecondVerticalAxis : CRenderer.VerticalAxis;
             }
 
-            var pa = ChartRenderer.Plotarea;
+            var pa = CRenderer.Plotarea;
             var coordinates=new List<double>();
             for (var i=0;i<Coordinates.Count;i++)
             {
@@ -717,7 +717,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     var count = (_xSerie.Count > _ySerie.Length ? _xSerie.Count: _ySerie.Length);
                     var ct = (ExcelBarChart) _chartType;
-                    var yWidth = (isBar ? ChartRenderer.Plotarea.Rectangle.Height : ChartRenderer.Plotarea.Rectangle.Width);
+                    var yWidth = (isBar ? CRenderer.Plotarea.Rectangle.Height : CRenderer.Plotarea.Rectangle.Width);
                     var slotSize = valAxis.Values.Count;
                     var gapPercent = ct.GapWidth / 100D;     // Gap width between bars/columns in percent
                     var overlapPercent = ct.Overlap / 100D;  // Overlap  between bars/columns in percent            
@@ -783,6 +783,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
-        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
+        internal override Color? DefaultBorderColor => CRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
     }
 }

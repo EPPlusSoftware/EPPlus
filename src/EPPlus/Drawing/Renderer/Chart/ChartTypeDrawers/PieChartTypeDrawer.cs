@@ -11,6 +11,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -52,7 +53,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         void RenderDebugEllipse()
         {
-            var circ = new EllipseRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var circ = new EllipseRenderItem(CRenderer.Plotarea.Rectangle.Bounds);
 
             circ.Bounds.Left = _circleCenter.Left;
             circ.Bounds.Top = _circleCenter.Top;
@@ -91,7 +92,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
                 //Create and add slice
-                PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem.Bounds, _circleCenter, _radius, valPercent, prevDegrees);
+                PieSliceRenderItem slice = new PieSliceRenderItem(CRenderer, _groupItem.Bounds, _circleCenter, _radius, valPercent, prevDegrees);
                 Slices.Add(slice);
 
                 //Next slice will need to be calculated starting from the degrees of this slice
@@ -103,8 +104,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         {
             _circleCenter = new Point();
             _circleCenter.Parent = _groupItem.TranslationOffset;
-            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Bounds.Width / 2;
-            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Bounds.Height / 2;
+            _circleCenter.Left = CRenderer.Plotarea.Rectangle.Bounds.Width / 2;
+            _circleCenter.Top = CRenderer.Plotarea.Rectangle.Bounds.Height / 2;
 
             _groupItem.RotationPoint = _circleCenter;
 
@@ -129,7 +130,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     //Add Datalabel
                     if (serie.HasDataLabel)
                     {
-                        var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        var datalabel = new ChartSerieDataLabelRenderer(CRenderer, serie.DataLabel, CRenderer.Bounds, serie, catValues, valValues, _serCounter);
                         serieDataLabels.Add(datalabel);
                     }
                 }
@@ -158,19 +159,27 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         private void UpdateSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, int seriesCount, int position)
         {
-            var dataPoint = serie.DataPoints[position];
+            int explosion = 0;
+            if(serie.DataPoints.ContainsKey(position))
+            {
+                explosion = serie.DataPoints[position].Explosion;
+            }
+
+            //Could potentially not exist yet... Find some way to gurantee generation
+            var icon = CRenderer.Legend.SeriesIcon[position];
+
 
             Slices[position].ImportPathData(
-                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds, 
-                _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
+                CRenderer.Plotarea.Rectangle.Bounds, CRenderer.Bounds, 
+                _sliceScaleFactor, explosion, _pieExplosionPercent, position);
 
-            Slices[position].ImportStlyeInfo(dataPoint, chartType, position);
+            Slices[position].ImportStlyeInfo(icon, chartType, position);
             Slices[position].AppendGroupItem(_groupItem);
         }
 
         internal override void DrawSeries()
         {
-            _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
+            _groupItem = new GroupRenderItem(CRenderer.Plotarea.Group.Bounds);
 
             Rectangle.Bounds.Name = "ChartDrawer";
             _groupItem.Bounds.Name = "OuterGroupChartDrawer";
@@ -270,10 +279,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             //renderItems.AddRange(ChartAreaRenderItems);
-            ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
+            CRenderer.Plotarea.Group.AddChildItem(_groupItem);
             if (SeriesRenderItems != null && SeriesRenderItems.Count > 0)
             {
-                ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
+                CRenderer.RenderItems.Add(SeriesRenderItems[0]);
             }
         }
     }

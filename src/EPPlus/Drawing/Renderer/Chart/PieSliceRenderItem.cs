@@ -310,23 +310,39 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
 
-        internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType, int position)
+        internal void ImportStlyeInfo(DrawingLegendSerie icon, ExcelPieChart chartType, int position)
         {
 
-            var defaultFill = DefaultFillColor;
+            //var defaultFill = DefaultFillColor;
 
-            if(chartType.VaryColors)
+            //if(chartType.VaryColors)
+            //{
+            //    if(chartType.StyleManager.Style == null)
+            //    {
+            //        var mod5 = position % 5;
+            //        //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+            //        defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+            //    }
+            //}
+
+            if(icon.SeriesIcon.GradientFill != null)
             {
-                if(chartType.StyleManager.Style == null)
-                {
-                    var mod5 = position % 5;
-                    //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-                    defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
-                }
+                _slicePath.GradientFill = icon.SeriesIcon.GradientFill;
             }
-            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
-            _slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
-            _slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
+            else
+            {
+                _slicePath.FillColor = icon.SeriesIcon.FillColor;
+            }
+
+            _slicePath.BorderColor = icon.SeriesIcon.BorderColor;
+            _slicePath.BorderWidth = icon.SeriesIcon.BorderWidth;
+
+            //_slicePath.e
+            //_slicePath.FillColor = icon.SeriesIcon.FillColor;
+
+            //_slicePath.SetDrawingPropertiesFill(CRenderer.Theme, icon.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
+            //_slicePath.SetDrawingPropertiesBorder(CRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
+            //_slicePath.SetDrawingPropertiesEffects(CRenderer.Theme, dp.Effect);
         }
 
         internal void AppendGroupItem(GroupRenderItem group)
