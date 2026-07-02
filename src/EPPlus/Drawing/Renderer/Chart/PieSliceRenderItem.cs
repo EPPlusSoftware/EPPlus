@@ -33,8 +33,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal double Degrees { get; private set; }
 
         Point _startPoint;
+        Point _startPointHalf;
         Point _midPoint;
         Point _endPoint;
+        Point _endPointHalf;
 
         internal override System.Drawing.Color? DefaultFillColor { get; }
 
@@ -192,11 +194,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
+            _startPointHalf = CalculateLocalPointOnCircleHalfRadius(prevSliceDegrees);
 
             //The degrees of the midpoint
             var halfDegrees = Degrees / 2;
 
             _endPoint = CalculateLocalPointOnCircle(Degrees + prevSliceDegrees);
+            _endPointHalf = CalculateLocalPointOnCircleHalfRadius(Degrees + prevSliceDegrees);
 
             //We add prev at this point since we don't want to halve the previous angle only the current one
             _midPoint = CalculateLocalPointOnCircle(halfDegrees + prevSliceDegrees);
@@ -240,7 +244,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(arcCommand);
 
             //Change to != -1 to activate debug items
-            if (position == -1)
+            if (position != -1)
             {
                 //Visualize all points
                 AddDebugLines(moveCenter, plotAreaBounds);
@@ -537,6 +541,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return point;
         }
 
+        Point CalculateLocalPointOnCircleHalfRadius(double degrees)
+        {
+            var angleRadians = MConverter.DegreesToRadians(degrees);
+
+            var xPoint = _circleCenter.Left + (_radius/2d * Math.Cos(angleRadians));
+            var yPoint = _circleCenter.Top + (_radius/2d * Math.Sin(angleRadians));
+
+            var point = new Point();
+
+            //Ensure the cx/cy offset
+            point.Parent = _innerGroup.TranslationOffset.Parent;
+            point.Left = xPoint;
+            point.Top = yPoint;
+
+            return point;
+        }
+
         internal Coordinate GetOuterMidpointInGlobalCoords()
         {
             return new Coordinate(_midPoint.Position.X, _midPoint.Position.Y);
@@ -585,6 +606,52 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             transform.Parent = _innerGroup.Bounds.Parent;
             transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
             return transform;
+        }
+
+        //bool CanFitWithinEndPosition()
+        //{
+        //    var test = _startPoint;
+        //    var mid = _midPoint;
+        //    var end = _endPoint;
+        //    var ctr = _circleCenter;
+        //}
+
+        internal BoundingBox GetBounds()
+        {
+            return ExtremePoints;
+        }
+
+        internal Transform GetCenterOfStartPointLine()
+        {
+            //var startToCenter = _startPoint.Position - _circleCenter.Position;
+            //var startToCenterDirOnly = startToCenter / startToCenter.Length;
+
+            //var half = (startToCenterDirOnly * -1) * 0.5d;
+            //var halfPos = _startPoint.LocalPosition * half;
+
+            //Transform transform = new Transform();
+            //transform.Position = _startPoint.Position * half;
+            //transform.Parent = _startPoint.Parent;
+
+            return _startPoint;
+        }
+
+        
+
+        internal Transform GetCenterOfEndPointLine()
+        {
+            //var ctrToEnd = _endPoint.LocalPosition - _circleCenter.LocalPosition;
+            //var ctrToEndDirOnly = ctrToEnd / ctrToEnd.Length;
+
+            //var half = ctrToEndDirOnly * 0.5d;
+            //var halfPos = _circleCenter.LocalPosition * half;
+
+            //Transform transform = new Transform();
+            //transform.Parent = _innerGroup.Bounds;
+            //transform.LocalPosition = halfPos;
+
+            //return transform;
+            return _endPoint;
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)

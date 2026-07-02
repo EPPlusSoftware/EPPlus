@@ -39,6 +39,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Rectangle = new RectRenderItem(svgChart.Bounds);
         }
         internal abstract void DrawSeries();
+
+
+
         protected List<object> LoadSeriesValues(string serieAddressInput, double[] numLiterals, string[] strLiterals)
         {
             string serieAddress = serieAddressInput;

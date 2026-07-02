@@ -714,6 +714,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+
         /// <summary>
         /// Creates a num cach for a chart serie.
         /// Please note that a serie can only have one column to have a cache.        
