@@ -14,10 +14,39 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
     internal class LineMarkerHelper
     {
 
-        internal static RenderItem GetMarkerItem(ChartRenderer sc, ExcelLineChartSerie ls, double x, double y, bool isLegend)
+        internal static RenderItem GetMarkerItem(ChartRenderer sc, ExcelLineChartSerie ls, ExcelChartMarker marker, double x, double y, bool isLegend)
+        {
+            RenderItem item = GetMarkerRenderItem(sc, x, y, isLegend, marker);
+            if (marker.Fill.IsEmpty == false)
+            {
+                item?.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
+            }
+            else if (ls.Fill.IsEmpty)
+            {
+                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, sc.Theme.ColorScheme.Accent1.GetColor());
+            }
+            else
+            {
+                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
+            }
+
+            if (marker.Border.Width > 0)
+            {
+                if (marker.Border.Fill.IsEmpty)
+                {
+                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                }
+                else
+                {
+                    item?.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                }
+            }
+            return item;
+        }
+
+        private static RenderItem GetMarkerRenderItem(ChartRenderer sc, double x, double y, bool isLegend, ExcelChartMarker m)
         {
             RenderItem item;
-            var m = ls.Marker;
             float maxSize = isLegend ? 7f : float.MaxValue;
             var size = m.Size > maxSize ? maxSize : m.Size;
             var halfSize = size / 2;
@@ -30,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 case eMarkerStyle.Circle:
                     item = new EllipseRenderItem(sc.Bounds)
-                    { 
+                    {
                         Rx = halfSize,
                         Ry = halfSize,
                         Cx = x,
@@ -57,7 +86,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     }
                     else
                     {
-                        if(m.Style == eMarkerStyle.Dot)
+                        if (m.Style == eMarkerStyle.Dot)
                         {
                             item = new RectRenderItem(sc.Bounds)
                             {
@@ -124,32 +153,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     item = null;
                     break;
             }
-            if (ls.Marker.Fill.IsEmpty == false)
-            {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
-            }
-            else if (ls.Fill.IsEmpty)
-            {
-                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, sc.Theme.ColorScheme.Accent1.GetColor());
-            }
-            else
-            {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
-            }
 
-            if (ls.Marker.Border.Width > 0)
-            {
-                if (ls.Marker.Border.Fill.IsEmpty)
-                {
-                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
-                }
-                else
-                {
-                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
-                }
-            }
             return item;
         }
+
         internal static RenderItem GetMarkerBackground(ChartRenderer sc, ExcelLineChartSerie ls,  double x, double y, bool isLegend)
         {
             RenderItem item;
