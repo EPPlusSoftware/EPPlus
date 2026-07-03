@@ -137,13 +137,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var checkDimension = !arg2.IsInMemoryRange;
             var fc = arg2.Address.FromCol;
             var dfc = arg2.Dimension.FromCol;
-            for (int c = 0; c < s2.NumberOfCols; c++)
+            var columns = s2.NumberOfCols == 1 ? s1.NumberOfCols : s2.NumberOfCols;
+            for (int c = 0; c < columns; c++)
             {
                 if (checkDimension && fc + c > dfc)
                 {
                     break;
                 }
-                var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(0, c), false, true);
+                int boolIx;
+                if(s2.NumberOfCols == 1)
+                {
+                    boolIx = 0;
+                }
+                else
+                {
+                    boolIx = c;
+                }
+                var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(0, boolIx), false, true);
                 if (double.IsNaN(boolValue))
                 {
                     return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
