@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
@@ -89,5 +90,6 @@ namespace OfficeOpenXml.Drawing
             }
             base.DeleteMe();
         }
+
     }
 }
