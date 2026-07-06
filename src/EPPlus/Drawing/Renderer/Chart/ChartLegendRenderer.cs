@@ -742,7 +742,7 @@ namespace EPPlusImageRenderer.Svg
                 var l = sls.SeriesIcon as LineRenderItem;
                 var x = l.X1 + (l.X2 - l.X1) / 2;
                 var y = l.Y1;
-                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(ChartRenderer, ls, x, y, true);
+                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(ChartRenderer, ls, ls.Marker, x, y, true);
                 if ((ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
                     ls.Marker.Fill.IsEmpty == false)
                 {

@@ -62,7 +62,7 @@ namespace EPPlusTest.Drawing.Chart
 
             var chart=ws.Drawings.AddLineChart("LineChart1", eLineChartType.Line);
             var serie = chart.Series.Add("D2:D100", "A2:A100");
-            var point = serie.DataPoints.Add(3);
+            var point = serie.DataPoints.Add(1);
             point.Border.Fill.Color = Color.Red;
             point.Border.Fill.Style = eFillStyle.SolidFill;
             point.Fill.Color = Color.Green;
