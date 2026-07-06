@@ -349,6 +349,87 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             SetAdjustedTextBoxPosition(direction, reverseDirection);
         }
 
+        private void AdjustPositionIfOutsideChartAndNotManualLayout()
+        {
+            //If there is a manual layout assume this was intentional
+            if(_hasManualLayout == false)
+            {
+                var gLeft = Rectangle.Bounds.GlobalLeft;
+                var gTop = Rectangle.Bounds.GlobalTop;
+
+                var chartBounds = ChartRenderer.ChartArea.Rectangle.Bounds;
+                var plotBounds = ChartRenderer.GetPlotAreaTop();
+
+                var chartMinY = chartBounds.Position.Y - ChartRenderer.GetPlotAreaTop();
+                var chartMinX = chartBounds.Position.X - ChartRenderer.Plotarea.LeftMargin;
+
+                if (gTop < chartMinY)
+                {
+                    Rectangle.Bounds.Position = new Vector2(Rectangle.Bounds.Position.X - (ChartRenderer.Plotarea.LeftMargin/2d), chartMinY);
+                }
+                if (gLeft < chartMinX)
+                {
+                    Rectangle.Bounds.Position = new Vector2(chartMinX, Rectangle.Bounds.Position.Y);
+                }
+            }
+        }
+
+        private void AdjustLeaderLinesForManualLayout()
+        {
+            if (_hasManualLayout)
+            {
+                if (_hasLeaderLines)
+                {
+                    //With origin in top left of current bounds get the connection points
+                    var cPoints = new ConnectionPointsMiddle(0, 0, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
+
+                    //Ready to draw the lines so that we can visualize the distances to each point
+                    _connectionPointLines = new PointLines(ChartRenderer, Rectangle.Bounds, cPoints);
+
+                    //Adjust if there is a margin
+                    _connectionPointLines.Rectangle.Bounds.Left += LeftMargin;
+                    _connectionPointLines.UpdateLines();
+
+                    //Get the offset between those points and the origin point
+                    var offsetToParentPoint = new Coordinate(-(Rectangle.Bounds.Left + LeftMargin), -(Rectangle.Bounds.Top + TopMargin));
+
+                    //Calculate closest point
+                    var index = GetClosestConnectionPointCoordinateIndex(offsetToParentPoint);
+
+                    _leaderLines.Clear();
+
+                    double xOffset = 0;
+                    if (index == 0 || index == 2)
+                    {
+                        //If Left or Right
+                        //Add extra 7 px (5.25pt) line to the given side
+                        var extraLine = new LineRenderItem(ChartRenderer.Bounds);
+
+                        xOffset += index == 0 ? -5.25d : 5.25d;
+
+                        extraLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + LeftMargin;
+                        extraLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
+                        extraLine.Y2 = _connectionPointLines.ConnectionPoints.Points[index].Y;
+                        extraLine.X2 = extraLine.X1 + xOffset;
+
+                        extraLine.BorderColor = "gray";
+                        extraLine.BorderWidth = 0.5;
+
+                        _leaderLines.Add(extraLine);
+                    }
+                    var mainLine = new LineRenderItem(ChartRenderer.Bounds);
+                    mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
+                    mainLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
+                    mainLine.X2 = offsetToParentPoint.X + LeftMargin;
+                    mainLine.Y2 = offsetToParentPoint.Y;
+
+                    mainLine.BorderColor = "gray";
+                    mainLine.BorderWidth = 0.5;
+                    _leaderLines.Add(mainLine);
+                }
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -436,8 +517,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         //var endRight = maxBoundsPieSlice.LocalPosition.X - maxBoundsPieSlice.Width;
                         //var endY = maxBoundsPieSlice.LocalPosition.Y - maxBoundsPieSlice.Height;
 
-
-
                         //TODO: make input parameter in pie chart
                         bool canFitInCenter = false;
                         if (canFitInCenter)
@@ -460,6 +539,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
             }
+
+            AdjustLeaderLinesForManualLayout();
+            AdjustPositionIfOutsideChartAndNotManualLayout();
         }
 
         internal void SetParentPoint(BoundingBox parentPoint)
@@ -492,58 +574,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
             }
 
-            if (_hasManualLayout)
-            {
-                if (_hasLeaderLines)
-                {
-                    //With origin in top left of current bounds get the connection points
-                    var cPoints = new ConnectionPointsMiddle(0, 0, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
-
-                    //Ready to draw the lines so that we can visualize the distances to each point
-                    _connectionPointLines = new PointLines(ChartRenderer, Rectangle.Bounds, cPoints);
-
-                    //Adjust if there is a margin
-                    _connectionPointLines.Rectangle.Bounds.Left += LeftMargin;
-                    _connectionPointLines.UpdateLines();
-
-                    //Get the offset between those points and the origin point
-                    var offsetToParentPoint = new Coordinate(-(Rectangle.Bounds.Left + LeftMargin), -(Rectangle.Bounds.Top + TopMargin));
-
-                    //Calculate closest point
-                    var index = GetClosestConnectionPointCoordinateIndex(offsetToParentPoint);
-
-                    _leaderLines.Clear();
-
-                    double xOffset = 0;
-                    if (index == 0 || index == 2)
-                    {
-                        //If Left or Right
-                        //Add extra 7 px (5.25pt) line to the given side
-                        var extraLine = new LineRenderItem(ChartRenderer.Bounds);
-
-                        xOffset += index == 0 ? -5.25d : 5.25d;
-
-                        extraLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + LeftMargin;
-                        extraLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
-                        extraLine.Y2 = _connectionPointLines.ConnectionPoints.Points[index].Y;
-                        extraLine.X2 = extraLine.X1 + xOffset;
-
-                        extraLine.BorderColor = "gray";
-                        extraLine.BorderWidth = 0.5;
-
-                        _leaderLines.Add(extraLine);
-                    }
-                    var mainLine = new LineRenderItem(ChartRenderer.Bounds);
-                    mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
-                    mainLine.Y1 = _connectionPointLines.ConnectionPoints.Points[index].Y;
-                    mainLine.X2 = offsetToParentPoint.X + LeftMargin;
-                    mainLine.Y2 = offsetToParentPoint.Y;
-
-                    mainLine.BorderColor = "gray";
-                    mainLine.BorderWidth = 0.5;
-                    _leaderLines.Add(mainLine);
-                }
-            }
+            AdjustLeaderLinesForManualLayout();
+            AdjustPositionIfOutsideChartAndNotManualLayout();
         }
 
         private void AppendDebugBounds(List<RenderItem> renderItems)

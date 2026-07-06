@@ -166,6 +166,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private double _sliceScaleFactor = 1d;
         private double _scaledRadius { get { return _radius * _sliceScaleFactor; } }
 
+        double _prevSliceDegrees;
 
         private void CalculateExplosionDir()
         {
@@ -182,6 +183,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
+            _prevSliceDegrees = prevSliceDegrees;
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
             Rectangle.Bounds.Parent = parent;
             _radius = radius;
@@ -222,7 +224,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             _slicePath = new PathRenderItem(plotAreaBounds);
 
-            _slicePath.BorderWidth = 5;
+            _slicePath.BorderWidth = 5d;
 
             //Calculate path commands
             var moveCenter = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
@@ -541,15 +543,47 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         void CalculateLargestRectWithinCircleSegment()
         {
+            //The degrees of the slice
+            var myDegrees = Degrees;
+
+            //Rotate back
+            myDegrees = myDegrees + 90;
+
+            var boundedDegrees = myDegrees % 360d;
+
             if(Degrees < 180d)
             {
                 //Formula for largest (unrotated) rectangle within a circle-section
                 //Calculate thetha = alpha/4
                 var angleForTriangle = Degrees / 4d;
 
-                var heightTriangle = Math.Sin(MConverter.DegreesToRadians(angleForTriangle)) * _radius + 1; // add 1 for small rounding fault making too small
-                LargestWidthRectangle = Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius;
-                LargestHeightRectangle = heightTriangle * 2;
+                var yTriangle = Math.Sin(MConverter.DegreesToRadians(angleForTriangle)) * _radius + 1;// add 1 for small rounding fault making too small
+                var xTriangle = Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius;
+
+                yTriangle *= 2d;
+
+                //Normalize just in case
+                var dirOnly = CtrToOuterMidDir / CtrToOuterMidDir.Length;
+
+                //special case for quadrant -,-
+                //Y positive because of cartesian coord system
+                if(dirOnly.Y > 0 && dirOnly.X < 0)
+                {
+                    //As our starting point is not at the unit circle start. X and Y may need to be switched for width and height.
+                    //Our formula above assumes starting in unit circle and rotating upwards
+
+                    //We start at the "top" and rotate the other direction
+                    //Therefore:
+
+                    //since unit circle has been rotated width and height flip
+                    LargestWidthRectangle = yTriangle;
+                    LargestHeightRectangle = xTriangle;
+                }
+                else
+                {
+                    LargestWidthRectangle = xTriangle;
+                    LargestHeightRectangle = yTriangle;
+                }
             }
             else
             {
