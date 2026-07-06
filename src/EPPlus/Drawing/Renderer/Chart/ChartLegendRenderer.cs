@@ -350,12 +350,12 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private double GetMaxIconLength(ExcelChart ct, double heighestText)
+        private double GetMaxIconLength(ExcelChart ct, double highestText)
         {
             var maxIconLength = 0D;
             foreach(var c in ct.PlotArea.ChartTypes)
             {
-                var il = GetIconLength(c, heighestText);
+                var il = GetIconLength(c, highestText);
                 if (il > maxIconLength)
                 {
                     maxIconLength = il;
@@ -639,8 +639,14 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            double lastWidth = 0;
-            double totalWidth = 0;
+
+
+            Chart.Legend.TextBody.GetInsetsOrDefaults(out double lDefMargin, out double tDefMarg, out double rDefMargin, out double bDefMarg);
+
+            var widestEntry = entryWidth;
+
+            double lastWidth = 0d;
+            double totalWidth = 0d;
 
             for (int i = 0; i < catValues.Count; i++)
             {
@@ -648,8 +654,15 @@ namespace EPPlusImageRenderer.Svg
                 //Step 1: Retrieve Icon
 
                 var si = GetPieSeriesIcon(ct, ps, pSls, lastWidth, entryHeight, i);
+                //The si-width is used as left margin for each entry seemingly
+                si.Left += si.BorderWidth ?? 0d;
+                //if (i == 0)
+                //{
+                //    //The si-width is used as left margin for first entry as well seemingly
+                //    si.Left += si.Width;
+                //}
                 sls = new DrawingLegendSerie();
-                var tbLeft = si.Left + maxIconLength + MarginIconText;
+                var tbLeft = si.Left + si.Width + MarginIconText;
                 var tbTop = si.Top - ((entryHeight) / 2);
                 
                 double tbWidth;
@@ -666,17 +679,29 @@ namespace EPPlusImageRenderer.Svg
                 var tbHeight = tm.Height;
                 sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 //var para = sc.Chart.Legend.TextBody.Paragraphs.FirstOrDefault();
+                //Chart.Legend.TextBody.GetInsetsOrDefaults(out double lMarg, out double tMarg, out double rMarg, out double bMarg);
+
+                //if (sls.Textbox.LeftMargin == 0)
+                //{
+                //    sls.Textbox.LeftMargin = lMarg;
+                //}
+                //if (sls.Textbox.RightMargin == 0)
+                //{
+                //    sls.Textbox.RightMargin = rMarg;
+                //}
+
                 sls.Textbox.ImportParagraph(Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
+
+                //si.Left += sls.Textbox.LeftMargin;
+
                 sls.SeriesIcon = si;
                 sls.Textbox.RecalculateParagraphs();
 
-                tbWidth = sls.Textbox.Width;
+                tbWidth = sls.Textbox.Width + sls.Textbox.RightMargin;
 
                 lastWidth = tbWidth + si.Width;
 
-                totalWidth += tbWidth + si.Width + maxIconLength + MarginIconText;
-
-
+                totalWidth += tbWidth + si.Width + maxIconLength;
 
                 if (i >= 0 && ps.DataPoints.ContainsKey(i))
                 {
@@ -687,11 +712,6 @@ namespace EPPlusImageRenderer.Svg
                 {
                     ChartTypeDrawer.SetFillSerie(Chart, ct, ps, 0, i, sls.SeriesIcon);
                 }
-                //var dp = ps.DataPoints[i];
-
-                //sls.SeriesIcon.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.FillReference.Color);
-                //sls.SeriesIcon.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, ct.As.Chart.PieChart.StyleManager.Style?.DataPoint.BorderReference.Color, true);
-                //sls.SeriesIcon.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
 
                 SeriesIcon.Add(sls);
                 pSls = sls;
@@ -704,8 +724,8 @@ namespace EPPlusImageRenderer.Svg
 
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
-                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4;
-                Rectangle.Bounds.Left = (ChartRenderer.Bounds.Width / 2) - (totalWidth / 2);
+                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d;
+                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d);
             }
             pSls = null;
             sls = null;
@@ -842,9 +862,20 @@ namespace EPPlusImageRenderer.Svg
             {
                 item.Top = y;
             }
+
+            double borderWidth = pcS.Border.Width;
+
+            if (pcS.DataPoints != null && pcS.DataPoints.Count != 0 && i < pcS.DataPoints.Count)
+            {
+                if(borderWidth < pcS.DataPoints[i].Border.Width)
+                {
+                    borderWidth = pcS.DataPoints[i].Border.Width;
+                }
+            }
+
             //item.Top = y;
-            item.Width = iconHeight;
-            item.Height = iconHeight;
+            item.Width = iconHeight + borderWidth;
+            item.Height = iconHeight + borderWidth;
 
             item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);

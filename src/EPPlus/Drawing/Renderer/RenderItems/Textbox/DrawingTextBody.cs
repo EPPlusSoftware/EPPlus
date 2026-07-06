@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             MaxHeight = maxHeight;
         }
 
-        public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)
+        public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null, bool applyDefaultMargins = false)
         {
             bool isFirst = Paragraphs.Count == 0;
             Text = text;

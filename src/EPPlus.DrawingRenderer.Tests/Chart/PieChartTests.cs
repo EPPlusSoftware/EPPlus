@@ -31,6 +31,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
 
+
+        [TestMethod]
+        public void BestExcluded()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("BestFitExcluded.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["bestFit"];
+
+                //for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
+                //{
+                //    ws = p.Workbook.Worksheets[i];
+                    foreach (ExcelChart c in ws.Drawings)
+                    {
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\s{5}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                //}
+            }
+        }
+
         [TestMethod]
         public void SimpleBestFit()
         {

@@ -130,6 +130,26 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
+        public void GenerateSvgForLineCharts3()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("LineChartRenderTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
+                var ix = 2;
+                for(int i = ix; i< ws.Drawings.Count; i++)
+                {
+                    var svg = ws.Drawings[i].ToSvg();
+                    SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
         public void GenerateSuperScript()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
