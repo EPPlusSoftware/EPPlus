@@ -541,12 +541,22 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         void CalculateLargestRectWithinCircleSegment()
         {
-            //Calculate thetha = alpha/4
-            var angleForTriangle = Degrees / 4d;
+            if(Degrees < 180d)
+            {
+                //Formula for largest (unrotated) rectangle within a circle-section
+                //Calculate thetha = alpha/4
+                var angleForTriangle = Degrees / 4d;
 
-            var heightTriangle = Math.Sin(MConverter.DegreesToRadians(angleForTriangle)) * _radius + 1; // add 1 for small rounding fault making too small
-            LargestWidthRectangle = Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius;
-            LargestHeightRectangle = heightTriangle * 2;
+                var heightTriangle = Math.Sin(MConverter.DegreesToRadians(angleForTriangle)) * _radius + 1; // add 1 for small rounding fault making too small
+                LargestWidthRectangle = Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius;
+                LargestHeightRectangle = heightTriangle * 2;
+            }
+            else
+            {
+                //Formula for largest (unrotated) rectangle within a semi-circle
+                LargestWidthRectangle = Math.Sqrt(2d) *_radius;
+                LargestHeightRectangle = (Math.Sqrt(2d)/2) * _radius;
+            }
         }
 
         Point CalculateLocalPointOnCircle(double degrees)
