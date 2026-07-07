@@ -147,7 +147,7 @@ namespace OfficeOpenXml.Core
                 {
                     var cellStyleId = styles.CellXfs[cell.StyleID];
                     if (cell.Merge == true) continue;
-                    if (cellStyleId.WrapText && _textSettings.MeasureWrappedTextCells == false) continue;
+                    if (cellStyleId.WrapText && _textSettings.WrappedTextAutofitMode == eWrappedTextAutofitMode.Skip) continue;
                     currentMaxWidth = GetTextLength(cell, textLengthCache, styles, cellStyleId, normalSize, MaximumWidth, currentMaxWidth);
                     if (currentMaxWidth >= MaximumWidth)
                     {
