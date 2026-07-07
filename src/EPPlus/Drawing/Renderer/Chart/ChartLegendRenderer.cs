@@ -143,7 +143,19 @@ namespace EPPlusImageRenderer.Svg
                 {
                     var s = ct.Series[0];
                     var catSeries = s.XSeries;
+
                     var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, s.NumberLiteralsX, s.StringLiteralsX);
+                    var valValues = DrawingExtensions.LoadSeriesValues(ct, s.Series, s.NumberLiteralsY, s.StringLiteralsY);
+
+                    if (catValues == null)
+                    {
+                        catValues = valValues;
+                        //for(int i = 0; i< catValues.Count; i++)
+                        //{
+                        //    catValues.Add(i);
+                        //}
+                    }
+
                     for (int i = 0; i < catValues.Count; i++)
                     {
                         var text = catValues[i].ToString();
@@ -506,6 +518,16 @@ namespace EPPlusImageRenderer.Svg
             var series = ct.Series[0];
             var catSeries = series.XSeries;
             var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, series.NumberLiteralsX, series.StringLiteralsX);
+
+            if (catValues == null || catValues.Count == 0)
+            {
+                //Blank cat series. Add blank cat
+                var valValues = DrawingExtensions.LoadSeriesValues(ct, s.Series, s.NumberLiteralsY, s.StringLiteralsY);
+                catValues = new List<object>();
+                catValues.Add("");
+                Rectangle.Height = entryHeight + MarginHeight;
+            }
+
             var index = 0;
             DrawingLegendSerie pSls = null;
             foreach(var cv in catValues)
@@ -513,7 +535,7 @@ namespace EPPlusImageRenderer.Svg
                 var sls=new DrawingLegendSerie();
                 var bs = (ExcelBarChartSerie)s;
                 var tm = _seriesHeadersMeasure[index];
-                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight,0, index);
+                var si = GetBarSeriesIcon(ct, bs, pSls, entryWidth, entryHeight, 0, index);
                 sls.SeriesIcon = si;
 
                 var tbLeft = si.Left + maxIconLength + MarginIconText;
@@ -899,11 +921,11 @@ namespace EPPlusImageRenderer.Svg
             item.Left = x;
             if(pSls !=null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
-                item.Top = y - iconHeight / 2;
+                item.Top = y - iconHeight / 2d;
             }
             else
             {
-                item.Top = y - iconHeight / 2;
+                item.Top = y - iconHeight / 2d;
             }
             //item.Top = y;
             item.Width = iconHeight;

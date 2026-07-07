@@ -115,7 +115,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 endPoint.Position = new Vector2(middleRight, dataPoints[j].Top);
                             }
 
-                            serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
+                            datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                         else
                         {
@@ -130,7 +130,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 endPoint.Position = new Vector2(dataPoints[j].Left + dataPoints[j].Width, middleHeight);
                             }
 
-                            serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
+                            datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                     }
 
