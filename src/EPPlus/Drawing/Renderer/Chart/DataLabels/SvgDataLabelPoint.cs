@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -50,8 +51,48 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabelStandard standard) : base(chart)
         {
             DefaultFillColor = Color.Transparent;
-            _labelPosition = standard.Position;
+            _labelPosition = GetDefaultPositionBasedOnChartType(standard);
             Rectangle = new RectRenderItem(chart.Bounds);
+        }
+
+        eLabelPosition GetDefaultPositionBasedOnChartType(ExcelChartDataLabelStandard standardDatalabel)
+        {
+            if(standardDatalabel.Position == eLabelPosition.BestFit && ChartRenderer.Chart.IsTypePie() == false)
+            {
+                switch (ChartRenderer.Chart.ChartType)
+                {
+                    case eChartType.BarClustered:
+                    case eChartType.ColumnClustered:
+                        return eLabelPosition.OutEnd;
+                    case eChartType.BarStacked:
+                    case eChartType.BarStacked100:
+                    case eChartType.ColumnStacked:
+                    case eChartType.ColumnStacked100:
+                        return eLabelPosition.Center;
+                    case eChartType.Line:
+                    case eChartType.LineStacked:
+                    case eChartType.XYScatterLines:
+                    case eChartType.Bubble:
+                    case eChartType.StockHLC:
+                    case eChartType.StockVOHLC:
+                    case eChartType.StockVHLC:
+                    case eChartType.StockOHLC:
+                        return eLabelPosition.Left;
+                    case eChartType.Pie:
+                    case eChartType.PieExploded:
+                    case eChartType.PieOfPie:
+                    case eChartType.BarOfPie:
+                        //Might happen for some pie types otherwise Handled by the else below
+                        return standardDatalabel.Position;
+                    default:
+                        throw new InvalidOperationException($"The chart type '{ChartRenderer.Chart.ChartType}' has not yet been implemented for Svg Datalabels");
+                        break;
+                }
+            }
+            else
+            {
+                return standardDatalabel.Position;
+            }
         }
 
         RenderItem _seriesIcon = null;
@@ -186,7 +227,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
             }
 
-            _labelPosition = dataLabel.Position;
+            _labelPosition = GetDefaultPositionBasedOnChartType(dataLabel);
 
             if (dataLabel is ExcelChartDataLabelItem)
             {

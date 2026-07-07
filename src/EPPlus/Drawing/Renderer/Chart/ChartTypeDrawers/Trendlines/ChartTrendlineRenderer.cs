@@ -783,6 +783,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
-        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
+        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
     }
 }

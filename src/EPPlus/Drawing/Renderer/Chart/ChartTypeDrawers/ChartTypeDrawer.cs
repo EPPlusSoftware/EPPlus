@@ -290,7 +290,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         return baseColor;
                     }
-                    variation = colorsManager.Colors[variationIndex % colorsManager.Variations.Count].Transforms;
+
+                    int colorCount = -1;
+
+                    if(colorsManager.Variations.Count > colorsManager.Colors.Count)
+                    {
+                        colorCount = colorsManager.Colors.Count;
+                    }
+                    else
+                    {
+                        colorCount = colorsManager.Variations.Count;
+                    }
+
+                    variation = colorsManager.Colors[variationIndex % colorCount].Transforms;
                 }
                 return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
             }
