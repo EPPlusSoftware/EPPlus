@@ -255,14 +255,8 @@ namespace OfficeOpenXml.Drawing
                 if (Style != eFillStyle.SolidFill) return Color.Empty;
                 //if (SolidFill.Color.ColorType != eDrawingColorType.Rgb) return Color.Empty;
 
-                var col = Color.Empty;
-
-                //Schemecolor is a placeholder and not handled by GetThemeColor
-                if(SolidFill.Color.ColorType != eDrawingColorType.Scheme)
-                {
-                    col = Utils.TypeConversion.ColorConverter.GetThemeColor(_package.Workbook.ThemeManager.GetOrCreateTheme(), SolidFill.Color);
-                }
-
+                //var col = SolidFill.Color.RgbColor.Color;
+                var col = Utils.TypeConversion.ColorConverter.GetThemeColor(_package.Workbook.ThemeManager.GetOrCreateTheme(), SolidFill.Color);
                 if (col == Color.Empty)
                 {
                     return Color.FromArgb(79, 129, 189);
