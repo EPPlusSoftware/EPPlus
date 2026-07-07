@@ -239,6 +239,27 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
             return l;
         }
-        internal override Color? DefaultBorderColor => ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill.Color;
+        internal override Color? DefaultBorderColor
+        {
+            get
+            {
+                var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
+                if (borderStyleFill.IsEmpty == false)
+                {
+                    if (borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
+                    {
+                        return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
