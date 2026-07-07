@@ -244,16 +244,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             get
             {
                 var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
-                if (borderStyleFill.IsEmpty == false)
+                if (borderStyleFill.IsEmpty == false && borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
                 {
-                    if (borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
-                    {
-                        return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
                 }
                 else
                 {
