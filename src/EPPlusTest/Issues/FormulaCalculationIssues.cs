@@ -1666,6 +1666,88 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("s1050-saved.xlsx", p);
             }
         }
+        [TestMethod]
+        public void s1063()
+        {
+            using (var p = OpenTemplatePackage("issues\\s1063.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                //ws.Calculate();
+
+                // Output from the logger will be written to the following file
+                var logfile = new FileInfo(@"c:\temp\logfiles1063LET.txt");
+                p.Workbook.FormulaParserManager.AttachLogger(logfile);
+
+                ws.Cells["R14"].CreateArrayFormula("LET(wbsElement,CHOOSECOLS(ANCHORARRAY(L14),5),wbsElement)", true);
+
+                //START HERE: This works but adding IfError fucks it up
+                ws.Cells["S14"].CreateArrayFormula("= LET(wbsElement, CHOOSECOLS(ANCHORARRAY(L14),5),LET(" +
+                    "wbsPositionDot1, SEARCH(\".\",wbsElement, 1)," +
+                    "wbsPositionDot2,SEARCH(\".\", wbsElement, wbsPositionDot1+1)," +
+                    "wbsPositionDot3, SEARCH(\".\", wbsElement, wbsPositionDot2+1)," +
+                    "wbsPositionDot1* wbsPositionDot2*wbsPositionDot3))", true);
+
+                //ws.Cells["S14"].CreateArrayFormula("LET" +
+                //    "(" +
+                //        "wbsElement," +
+                //        "CHOOSECOLS(ANCHORARRAY(L14),5)," +
+                //        "LET(" +
+                //            "wbsPositionDot1, " +
+                //            "IFERROR(SEARCH(\".\", wbsElement, 1),0)," +
+                //            "wbsPositionDot2, " +
+                //            "IFERROR(SEARCH(\".\", wbsElement, wbsPositionDot1+1),0)," +
+                //            "wbsPositionDot3, IFERROR(SEARCH(\".\", wbsElement, wbsPositionDot2+1),0)," +
+                //            "wbsPositionDot1*wbsPositionDot2*wbsPositionDot3)" +
+                //    ")"
+                //        , true);
+                //ws.Cells["R14"].Formula = "xlfn.LET(_xlpm.wbsElement,_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY(L14),5),_xlfn.LET( _xlpm.wbsPositionDot1, IFERROR(SEARCH(\".\", _xlpm.wbsElement, 1),0), _xlpm.wbsPositionDot2, IFERROR(SEARCH(\".\", _xlpm.wbsElement, _xlpm.wbsPositionDot1+1),0), _xlpm.wbsPositionDot3, IFERROR(SEARCH(\".\", _xlpm.wbsElement, _xlpm.wbsPositionDot2+1),0), _xlpm.wbsPositionDot1*_xlpm.wbsPositionDot2*_xlpm.wbsPositionDot3))";
+                //ws.Cells["R14"].CreateArrayFormula("xlfn.LET(_xlpm.wbsElement,_xlfn.CHOOSECOLS(_xlfn.ANCHORARRAY(L14),5),_xlfn.LET( _xlpm.wbsPositionDot1, IFERROR(SEARCH(\".\", _xlpm.wbsElement, 1),0), _xlpm.wbsPositionDot2, IFERROR(SEARCH(\".\", _xlpm.wbsElement, _xlpm.wbsPositionDot1+1),0), _xlpm.wbsPositionDot3, IFERROR(SEARCH(\".\", _xlpm.wbsElement, _xlpm.wbsPositionDot2+1),0), _xlpm.wbsPositionDot1*_xlpm.wbsPositionDot2*_xlpm.wbsPositionDot3))", true);
+
+                ws.Cells["R14:R16"].Calculate();
+
+                //ws.Cells["R14"].Calculate();
+                //ws.Cells["R15"].Calculate();
+
+                //var myValue = ws.Cells["R14"].Value;
+                //var secondValue = ws.Cells["R15"].Value;
+                //var firstVal = 
+                //var secondVal
+                //ws.Cells["R14:R16"].Calculate();
+                var myValues = ws.Cells["R14:R16"].Value;
+
+                Assert.AreEqual("RDPMS.CH10.001", ws.Cells["R14"].Value);
+                Assert.AreEqual("R.100.200.300", ws.Cells["R15"].Value);
+                Assert.AreEqual("R.200.300.400", ws.Cells["R16"].Value);
+
+                ws.Cells["S14:S16"].Calculate();
+
+                var value = ws.Cells["S14:S16"].Value;
+
+                ws.Cells["Q15"].Calculate();
+                p.Workbook.FormulaParserManager.DetachLogger();
+                var cellValues2 = ws.Cells["Q15"].Value;
+
+                //ws.Calculate();
+
+                //var cellValues = ws.Cells["A1:A3"].Value;
+
+                //var cellValues2 = ws.Cells["Q15"].Value;
+
+                List<string> extractedValues = new List<string>();
+
+                foreach(var cell in ws.Cells["A1:A3"])
+                {
+                    extractedValues.Add(cell.GetValue<string>());
+                }
+
+                //p.Workbook.FullCalcOnLoad = false;
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                SaveWorkbook("s1063-saved.xlsx", p);
+            }
+        }
+
 
         [TestMethod]
         public void s1054()
