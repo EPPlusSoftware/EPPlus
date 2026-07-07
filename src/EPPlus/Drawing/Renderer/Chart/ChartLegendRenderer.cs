@@ -96,7 +96,7 @@ namespace EPPlusImageRenderer.Svg
 
             Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, false, DefaultFillColor);
             Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
-
+            
             var pSls = SetLegendSeries(entryWidth, entryHeight);
             SetLegendTrendlines(entryWidth, entryHeight, pSls);
         }
@@ -228,7 +228,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        rect.Top = ChartRenderer.ChartArea.Rectangle.Height - rect.Height - BottomMargin;
+                        rect.Top = ChartRenderer.ChartArea.Rectangle.Height - rect.Height - BottomMargin - TopMargin;
                     }
                     break;
                 case eLegendPosition.Right:
@@ -648,6 +648,8 @@ namespace EPPlusImageRenderer.Svg
             double lastWidth = 0d;
             double totalWidth = 0d;
 
+            double firstIconWidth = 0d;
+
             for (int i = 0; i < catValues.Count; i++)
             {
                 var tm = _seriesHeadersMeasure[index + i];
@@ -655,15 +657,14 @@ namespace EPPlusImageRenderer.Svg
 
                 var si = GetPieSeriesIcon(ct, ps, pSls, lastWidth, entryHeight, i);
                 //The si-width is used as left margin for each entry seemingly
-                si.Left += si.BorderWidth ?? 0d;
-                //if (i == 0)
-                //{
-                //    //The si-width is used as left margin for first entry as well seemingly
-                //    si.Left += si.Width;
-                //}
+                si.Left += si.Width + (si.BorderWidth ?? 0d)*2d;
+                if (i == 0)
+                {
+                    firstIconWidth = si.Width;
+                }
                 sls = new DrawingLegendSerie();
-                var tbLeft = si.Left + si.Width + MarginIconText;
-                var tbTop = si.Top - ((entryHeight) / 2);
+                var tbLeft = si.Left + si.Width + MarginIconText + (si.BorderWidth ?? 0d);
+                var tbTop = si.Top - ((entryHeight + MarginIconText) / 2);
                 
                 double tbWidth;
 
@@ -699,9 +700,9 @@ namespace EPPlusImageRenderer.Svg
 
                 tbWidth = sls.Textbox.Width + sls.Textbox.RightMargin;
 
-                lastWidth = tbWidth + si.Width;
+                lastWidth = tbWidth + si.Width - (si.BorderWidth ?? 0d);
 
-                totalWidth += tbWidth + si.Width + maxIconLength;
+                totalWidth += tbWidth + si.Width + (si.BorderWidth ?? 0d) + MarginIconText;
 
                 if (i >= 0 && ps.DataPoints.ContainsKey(i))
                 {
@@ -724,8 +725,8 @@ namespace EPPlusImageRenderer.Svg
 
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
-                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d;
-                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d);
+                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
+                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (Rectangle.Bounds.Width / 2d) + 1.5d;
             }
             pSls = null;
             sls = null;
@@ -874,8 +875,8 @@ namespace EPPlusImageRenderer.Svg
             }
 
             //item.Top = y;
-            item.Width = iconHeight + borderWidth;
-            item.Height = iconHeight + borderWidth;
+            item.Width = iconHeight;
+            item.Height = iconHeight;
 
             item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
             item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
