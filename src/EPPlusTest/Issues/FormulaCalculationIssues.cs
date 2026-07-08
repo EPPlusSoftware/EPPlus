@@ -1679,6 +1679,19 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(1258679d, result);
             }
         }
+
+        [TestMethod]
+        public void s1060()
+        {
+            using (var p = OpenTemplatePackage("s1060.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["A12"].Calculate();
+                var result = ws.Cells["A13"].Value;
+                Assert.AreEqual(4520.75, result);
+            }
+        }
+
     }
 }
 
