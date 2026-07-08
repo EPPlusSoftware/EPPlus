@@ -139,7 +139,9 @@ namespace EPPlusImageRenderer.Svg
                     //Skip the rest
                     break;
                 }
-                else if((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count==1 && ct.Series.Count==1) //Single series bar/column chart, the legend entries are the categories, not the series.
+                //Single series bar/column chart, the legend entries are the categories, not the series.
+                //That's not true if Both Series and XSeries exists on e.g a clustered column chart.
+                else if ((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count == 1 && ct.Series.Count == 1)
                 {
                     var s = ct.Series[0];
                     var catSeries = s.XSeries;
@@ -519,10 +521,11 @@ namespace EPPlusImageRenderer.Svg
             var catSeries = series.XSeries;
             var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, series.NumberLiteralsX, series.StringLiteralsX);
 
+            var valValues = DrawingExtensions.LoadSeriesValues(ct, s.Series, s.NumberLiteralsY, s.StringLiteralsY);
+
             if (catValues == null || catValues.Count == 0)
             {
                 //Blank cat series. Add blank cat
-                var valValues = DrawingExtensions.LoadSeriesValues(ct, s.Series, s.NumberLiteralsY, s.StringLiteralsY);
                 catValues = new List<object>();
                 catValues.Add("");
                 Rectangle.Height = entryHeight + MarginHeight;
@@ -530,6 +533,7 @@ namespace EPPlusImageRenderer.Svg
 
             var index = 0;
             DrawingLegendSerie pSls = null;
+
             foreach(var cv in catValues)
             {
                 var sls=new DrawingLegendSerie();
@@ -1018,8 +1022,8 @@ namespace EPPlusImageRenderer.Svg
 
         public List<DrawingLegendSerie> SeriesIcon { get; } = new List<DrawingLegendSerie>();
 
-        internal override Color? DefaultFillColor => null;
+        internal override Color? DefaultFillColor => Color.Transparent;
 
-        internal override Color? DefaultBorderColor => null;
+        internal override Color? DefaultBorderColor => Color.Transparent;
     }
 }
