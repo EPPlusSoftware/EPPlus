@@ -139,8 +139,12 @@ namespace EPPlusImageRenderer.Svg
                     //Skip the rest
                     break;
                 }
-                //Single series bar/column chart, the legend entries are the categories, not the series.
+                //Single series bar/column chart, the legend entries are the categories, not the series. //J
+                //---
                 //That's not true if Both Series and XSeries exists on e.g a clustered column chart.
+                //Uncertain of what scenario this is helpful for. Most bar and column charts don't appear to work this way even with a single series
+                //It IS the correct way for Pie charts and for a series with only a single point in it and no xSSeries so perhaps that?
+                //See EpplusTest.Export.SvgExport tests especially DtPt tests. //O
                 else if ((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count == 1 && ct.Series.Count == 1)
                 {
                     var s = ct.Series[0];
@@ -149,20 +153,24 @@ namespace EPPlusImageRenderer.Svg
                     var catValues = DrawingExtensions.LoadSeriesValues(ct, catSeries, s.NumberLiteralsX, s.StringLiteralsX);
                     var valValues = DrawingExtensions.LoadSeriesValues(ct, s.Series, s.NumberLiteralsY, s.StringLiteralsY);
 
+                    //If there is no xSeries but there ARE SerieValues we MUST use the serie values
+                    //Same vice-versa
                     if (catValues == null)
                     {
-                        catValues = valValues;
-                        //for(int i = 0; i< catValues.Count; i++)
-                        //{
-                        //    catValues.Add(i);
-                        //}
+                        if(valValues != null)
+                        {
+                            catValues = valValues;
+                        }
                     }
 
-                    for (int i = 0; i < catValues.Count; i++)
+                    if(catValues != null)
                     {
-                        var text = catValues[i].ToString();
-                        GetSerieSize(l, index, text, ref widest, ref highest);
-                        index++;
+                        for (int i = 0; i < catValues.Count; i++)
+                        {
+                            var text = catValues[i].ToString();
+                            GetSerieSize(l, index, text, ref widest, ref highest);
+                            index++;
+                        }
                     }
                 }
                 else
@@ -171,6 +179,15 @@ namespace EPPlusImageRenderer.Svg
                     {
                         var text = s.GetHeaderText(index);
                         GetSerieSize(l, index, text, ref widest, ref highest);
+
+                        if(highest == 0)
+                        {
+                            highest = MinBarLength;
+                        }
+                        if(widest == 0)
+                        {
+                            widest = MinBarLength;
+                        }
 
                         index++;
                     }
@@ -350,7 +367,18 @@ namespace EPPlusImageRenderer.Svg
                 _ttMeasurer = new OpenTypeFontTextMeasurer(RenderContext.FontEngine.GetShaperForFont(mf));
             }
 
-            var tm = _ttMeasurer.MeasureText(text, mf);
+            TextMeasurement tm;
+
+            if(text == "")
+            {
+                //We need at least SOME sort of height or width based on font
+                tm = _ttMeasurer.MeasureText("|", mf);
+            }
+            else
+            {
+                tm = _ttMeasurer.MeasureText(text, mf);
+            }
+
             _seriesHeadersMeasure.Add(tm);
 
             if (tm.Width > widest)

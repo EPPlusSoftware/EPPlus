@@ -262,6 +262,13 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 return GetAddressValue(HeaderAddress);
             }
+            //Headers can and do have empty series names
+            //So called "<blank series>" in excel
+            if(Header == "")
+            {
+                return Header;
+            }
+
             return $"Series{index + 1}";
         }
 

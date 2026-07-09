@@ -40,12 +40,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 _valValues.Add(valValue);
 
                 List<object> origList = new List<object>();
-                for (int i = 0; i < valValue.Count; i++)
+                if(valValue != null)
                 {
-                    origList.Add(valValue[i]);
+                    for (int i = 0; i < valValue.Count; i++)
+                    {
+                        origList.Add(valValue[i]);
+                    }
+                    //Will not be summed
+                    _origValValues.Add(origList);
                 }
-                //Will not be summed
-                _origValValues.Add(origList);
             }
 
             if(chartType.IsTypeStacked())
