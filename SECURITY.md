@@ -31,4 +31,4 @@ We publish detailed security information including vulnerability disclosures, au
 ## See Also
 
 - [EPPlus versioning](https://github.com/EPPlusSoftware/EPPlus/wiki/Releases-versioning)
-- [Security considerations when calculating formulas](Security-considerations-when-calculating-formulas)
+- [Security-considerations-when-calculating-formulas](https://github.com/EPPlusSoftware/EPPlus/wiki/Security-considerations-when-calculating-formulas)
