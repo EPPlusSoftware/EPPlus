@@ -1668,6 +1668,63 @@ namespace EPPlusTest.Issues
         }
 
         [TestMethod]
+        public void s1063_Isolated()
+        {
+            using (var p = OpenPackage("Search3ArgsArrays.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("args");
+
+                ws.Cells["A1:A3"].Formula = "\"I.am.a.Beautiful.Creature\" & ROW()";
+
+                ws.Cells["A1:A3"].Calculate();
+
+                ws.Cells["B1:B3"].Formula = "(ROW()-1)*2 + 1";
+                ws.Cells["B1:B3"].Calculate();
+
+                ws.Cells["C1"].CreateArrayFormula("SEARCH(\".\",A1:A3,B1:B3+1)", true);
+                ws.Cells["C1"].Calculate();
+
+                var range = ws.Cells["C1:C3"];
+
+                var myValues = ws.Cells["C1:C3"].Value;
+
+                List<int> intValues = new List<int>();
+
+                foreach(var cell in range)
+                {
+                    intValues.Add(cell.GetValue<int>());
+                }
+
+                Assert.AreEqual(2, intValues[0]);
+                Assert.AreEqual(5, intValues[1]);
+                Assert.AreEqual(7, intValues[2]);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void s1063()
+        {
+            using (var p = OpenTemplatePackage("issues\\s1063.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                ws.ClearFormulaValues();
+                ws.Calculate();
+
+                Assert.AreEqual(ws.Cells["A1"].Value.ToString(), "R&D Project");
+                Assert.AreEqual(ws.Cells["A2"].Value.ToString(), "Labwerks");
+                Assert.AreEqual(ws.Cells["A3"].Value.ToString(), "R&D Single Order");
+
+                p.Workbook.CalcMode = ExcelCalcMode.Manual;
+
+                SaveWorkbook("s1063-saved.xlsx", p);
+            }
+        }
+
+
+        [TestMethod]
         public void s1054()
         {
             using (var p = OpenTemplatePackage("issues\\1054\\Payroll and FBL3N.xlsx"))
