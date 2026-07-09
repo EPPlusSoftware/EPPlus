@@ -291,5 +291,78 @@ namespace EPPlusTest
             Assert.AreEqual(ws.Columns[2].Width, ws.Columns[1].Width, 0.0001d,
                 "Multi-line CJK column should match its widest line, not the sum of all lines");
         }
+
+        [TestMethod]
+        public void AutoFitTestWithDifferenLengths()
+        {
+            using (var p = OpenPackage("SimpleAutofitTests.xlsx", true))
+            {
+                //p.Settings.TextSettings.WrappedTextAutofitMode = eWrappedTextAutofitMode.SplitWord;
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Little";
+                ws.Cells["A2"].Value = "MEDIUM";
+                ws.Cells["A3"].Value = "Largeeeeeesssst";
+                ws.Cells["A4"].Value = "Larg-ish";
+
+                ws.Cells["B1"].Value = "I should not be autofit";
+
+                var bWidth = ws.Columns[2].Width;
+
+                ws.Cells["A1:A4"].AutoFitColumns();
+
+                var bWidthAfter = ws.Columns[2].Width;
+
+                //Untouched cols should remain untouched
+                Assert.AreEqual(bWidth, bWidthAfter);
+
+                ws.Cells["A5"].Value = "Very large but outside the range of what should be fitted";
+
+                var widthBeforeA = ws.Columns[1].Width;
+
+                ws.Cells["A1:A4"].AutoFitColumns();
+
+                var widthAfterA = ws.Columns[1].Width;
+
+
+                //Untouched cells within same column Probaly should not change the column
+                //technically different from excel but also different syntax
+                Assert.AreEqual(widthBeforeA, widthAfterA);
+
+
+                ws.Cells.AutoFitColumns();
+
+                //Doing all cells should however
+                Assert.AreNotEqual(widthAfterA, ws.Columns[1].Width);
+                Assert.IsTrue(ws.Columns[1].Width > widthAfterA);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void AutofitOneCellCompoundingConfigs()
+        {
+            using (var p = OpenPackage("AutofitCompoundOneCell.xlsx", true))
+            {
+                //p.Settings.TextSettings.WrappedTextAutofitMode = eWrappedTextAutofitMode.SplitWord;
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "aaaaaaaaaaaaaaaaa";
+
+                ws.Cells["A1"].AutoFitColumns();
+
+                ws.Cells["A1"].Value = "aaaaaaaaaaaaaaaaaaaaaaaa";
+                ws.Cells["A1"].Style.WrapText = true;
+
+                ws.Cells["A1"].AutoFitColumns();
+
+                var colWidth = ws.Column(1).Width;;
+
+                SaveAndCleanup(p);
+
+                //Does not appear to match output file
+                //Might still be correct bc OS margins etc.
+                Assert.AreEqual(8.43d, ws.Column(1).Width);
+            }
+        }
     }
 }
