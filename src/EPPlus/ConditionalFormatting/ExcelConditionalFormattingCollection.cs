@@ -462,7 +462,12 @@ namespace OfficeOpenXml.ConditionalFormatting
                 iconArr[i].Type = types[i].ToEnum<eExcelConditionalFormattingValueObjectType>()
                     .GetValueOrDefault();
 
-                if(double.TryParse(values[i], out double result))
+                // A formula cfvo stores its expression in the @val attribute, even
+                // when that expression is a numeric constant. Only assign Value for
+                // the numeric-value types; otherwise route through Formula. This
+                // mirrors ReadIcon and the databar reader.
+                if(iconArr[i].Type != eExcelConditionalFormattingValueObjectType.Formula
+                    && double.TryParse(values[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
                 {
                     iconArr[i].Value = result;
                 }
