@@ -188,6 +188,7 @@ items:
   name: Slicer
   nameWithType: eDrawingType.Slicer
   fullName: OfficeOpenXml.Drawing.eDrawingType.Slicer
+  # Excel has 2 types of Slicers with Pivot tables/charts, but only one is implemented.
   type: Field
   source:
     remote:
