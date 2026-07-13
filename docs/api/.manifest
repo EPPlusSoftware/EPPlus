@@ -4052,6 +4052,7 @@
   "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache": "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.yml",
   "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.Data": "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.yml",
   "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.PivotTables": "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.yml",
+  //Add ability to have timeline slicers.
   "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.SourceType": "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache.yml",
   "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData": "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData.yml",
   "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData.CrossFilter": "OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData.yml",
