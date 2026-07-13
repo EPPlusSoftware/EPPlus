@@ -2,9 +2,11 @@
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 
 namespace EPPlusTest.Issues
@@ -214,6 +216,89 @@ namespace EPPlusTest.Issues
 
                 var file = GetOutputFile("", "Cabinet_template_test_clean_ExcelOutput.xlsx");
                 package.SaveAs(file);
+            }
+        }
+
+        [TestMethod]
+        public void RoundTrip_ExtIconSetWithNumericFormulaCfvo_DoesNotThrow()
+        {
+            // Arrange - build an icon set that is written to the extLst
+            // (3Stars always goes to extLst) with a Formula-type threshold
+            // whose value is a numeric constant. Saving to a stream produces
+            // the exact same OOXML bytes as saving to a file.
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+
+                for (int row = 1; row <= 10; row++)
+                {
+                    ws.Cells[row, 1].Value = row;
+                }
+
+                var iconSet = ws.ConditionalFormatting.AddThreeIconSet(
+                    new ExcelAddress("A1:A10"),
+                    eExcelconditionalFormatting3IconsSetType.Stars);
+
+                // Third threshold: Formula type with a numeric constant.
+                iconSet.Icon3.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                iconSet.Icon3.Formula = "67";
+
+                package.SaveAs(stream);
+            }
+
+            // Act & Assert - reloading must not throw (threw before the fix
+            // in ApplyIconSetExtValues).
+            stream.Position = 0;
+            using (var package = new ExcelPackage(stream))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var iconSet = (IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>)
+                    ws.ConditionalFormatting[0];
+
+                Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Formula, iconSet.Icon3.Type);
+                Assert.AreEqual("67", iconSet.Icon3.Formula);
+            }
+        }
+
+        [TestMethod]
+        public void RoundTrip_RegularIconSetWithNumericFormulaCfvo_DoesNotThrow()
+        {
+            // Arrange - a regular (non-ext) icon set with a Formula-type
+            // threshold whose value is a numeric constant. This exercises the
+            // ReadIcon path, which was already correct, guarding against a
+            // future regression there.
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+
+                for (int row = 1; row <= 10; row++)
+                {
+                    ws.Cells[row, 1].Value = row;
+                }
+
+                var iconSet = ws.ConditionalFormatting.AddThreeIconSet(
+                    new ExcelAddress("A1:A10"),
+                    eExcelconditionalFormatting3IconsSetType.Arrows);   // regular set, not extLst
+
+                iconSet.Icon3.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                iconSet.Icon3.Formula = "67";
+
+                package.SaveAs(stream);
+            }
+
+            stream.Position = 0;
+            using (var package = new ExcelPackage(stream))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var iconSet = (IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>)
+                    ws.ConditionalFormatting[0];
+
+                Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Formula, iconSet.Icon3.Type);
+                Assert.AreEqual("67", iconSet.Icon3.Formula);
             }
         }
     }
