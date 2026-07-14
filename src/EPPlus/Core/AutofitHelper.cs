@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Core
                                                     worksheet.AutoFilter.Address._toCol));
                 afAddr[afAddr.Count - 1]._ws = _range.WorkSheetName;
             }
-            foreach (var tbl in worksheet.Tables)
+                foreach (var tbl in worksheet.Tables)
             {
                 if (tbl.AutoFilterAddress != null)
                 {

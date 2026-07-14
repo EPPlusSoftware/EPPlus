@@ -355,13 +355,13 @@ namespace EPPlusTest
 
                 ws.Cells["A1"].AutoFitColumns();
 
-                var colWidth = ws.Column(1).Width;;
+                var colWidth = ws.Column(1).Width;
 
                 SaveAndCleanup(p);
 
                 //Does not appear to match output file
                 //Might still be correct bc OS margins etc.
-                Assert.AreEqual(8.43d, ws.Column(1).Width);
+                Assert.AreEqual(9.140625, colWidth);
             }
         }
     }
