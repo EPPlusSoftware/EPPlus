@@ -12,11 +12,19 @@ namespace OfficeOpenXml.SystemDrawing.Text
         /// If the text measurer should measure wrap text cells. 
         /// Only CR, LF or CRLF should be considered.
         /// </summary>
+#pragma warning disable 618
         public bool MeasureWrappedTextCells
         {
             get;
             set;
         }
+#pragma warning restore 618
+        public eWrappedTextAutofitMode WrappedTextAutofitMode 
+        { 
+            get; 
+            set; 
+        }
+
         public SystemDrawingTextMeasurer()
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT &&
