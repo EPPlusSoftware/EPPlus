@@ -1,5 +1,16 @@
 # Features / Fixed issues - EPPlus 8
-
+## Version 8.6 2
+### Minor features and fixed issues
+* Added property ´AlwaysRefreshImageFunction´ to ´ParsingConfiguration´, to disable download of external content in the calculation of the IMAGE function.
+* Fixed unhandled ´InvalidOperationException´ when loading an icon set conditional formatting with formula cfvo from extLst.
+* Fixed an issue where the SEARCH function did not handle arrays in the third argument.
+* Fixed ´NullReferenceException´ in GetStyleId after multiple ´InsertColumn´ calls.
+* AppVersion in ´OfficeProperties´ can now be set to null, to remove the value.
+* Fixed drawing hyperlink reassignment crash and tooltip setting. (Fix by Lieven De Foor)
+* Adds a WrappedTextAutofitMode property to ExcelTextSettings, backed by a new eWrappedTextAutofitMode enum, giving control over how cells with WrapText enabled contribute to column width in AutoFitColumns(). (Thanks to Lieven De Foor)
+* Fixed ´KeyNotFoundException´ / ´ArgumentException´ on drawing rename and removal. (Fix by Lieven De Foor)
+* Fixed unhandled ´IndexOutOfRangeException´ when importing text using the ´ExcelRangeBase.LoadFromText´ method, when text file has more columns than specified ´DataTypes´ argument. (Fix by Lieven De Foor)
+* Fixed an issue when positioning shapes in charts.
 ## Version 8.6 1
 ### Features
 * 3 new functions:
