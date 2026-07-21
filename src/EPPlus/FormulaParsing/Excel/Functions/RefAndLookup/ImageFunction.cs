@@ -119,7 +119,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (cellPic == null || context.Configuration.AlwaysRefreshImageFunction)
                 {
                     var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
-                    if (httpsService == null)
+                    if (httpsService == null || context.Configuration.DisableImageFunctionDownloads)
                     {
                     return CreateResult(eErrorType.Name);
                     }
