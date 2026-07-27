@@ -150,5 +150,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var ix = scanner.FindIndex();
             Assert.AreEqual(2, ix);
         }
+
+        [TestMethod]
+        public void ShouldFindExactMatch_WhenRangeStartsBeforeWorksheetDimension()
+        {
+            // Arrange: Leave rows 1-4 empty. Worksheet dimension will start at Row 5.
+            _sheet.Cells[5, 2].Value = "Apple";
+            _sheet.Cells[6, 2].Value = "Pear";
+            // Lookup range B2:B6 starts at row 2 (before worksheet dimension starts).
+            var ri = new RangeInfo(_sheet, _sheet.Cells["B2:B6"]);
+            var scanner = new XlookupScanner("Pear", ri, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatch);
+
+            // Act
+            var ix = scanner.FindIndex();
+
+            // Assert: "Pear" is at index 4 (relative to B2). In EPPlus 8.5.0+ this returns -1 instead.
+            Assert.AreEqual(4, ix);
+        }
     }
 }
