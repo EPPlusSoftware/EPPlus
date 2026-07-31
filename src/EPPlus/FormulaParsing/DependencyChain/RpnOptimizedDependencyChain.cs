@@ -44,6 +44,7 @@ namespace OfficeOpenXml.FormulaParsing
                 config.CacheExpressions = options.CacheExpressions;
                 config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
                 config.AlwaysRefreshImageFunction = options.AlwaysRefreshImageFunction;
+                config.DisableImageFunctionDownloads = options.DisableImageFunctionDownloads;
                 config.EnableUnicodeAwareStringOperations = options.EnableUnicodeAwareStringOperations;
             });
 
