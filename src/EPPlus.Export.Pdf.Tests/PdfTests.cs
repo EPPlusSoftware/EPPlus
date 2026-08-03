@@ -13,17 +13,8 @@
 using EPPlus.Export.Pdf.Settings;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
-using System.Diagnostics;
 using System.Text;
-using OfficeOpenXml.Export.PdfExport;
-using EPPlus.Export.Pdf.Settings.PdfPageSizes;
-using EPPlus.Export.Pdf;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Integration;
-using OfficeOpenXml;
-using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
-using System.Diagnostics;
 
 namespace EPPlusTest.PDF
 {
