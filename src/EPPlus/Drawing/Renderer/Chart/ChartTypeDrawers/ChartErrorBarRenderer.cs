@@ -175,9 +175,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
             else
             {
-                var bottomPos = xAxis.GetPositionInPlotarea(bottomValue);
-                var centerPos = xAxis.GetPositionInPlotarea(Values[index][1]);
-                var topPos = xAxis.GetPositionInPlotarea(topValue);
+                var bottomPos =yAxis.GetPositionInPlotarea(bottomValue);
+                var centerPos = yAxis.GetPositionInPlotarea(Values[index][1]);
+                var topPos = yAxis.GetPositionInPlotarea(topValue);
 
                 //Bottom line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos, bottomPos, xPos, centerPos));
