@@ -47,32 +47,58 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return _fonts.ContainsKey(fontKey);
         }
 
-        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, bool wrapText = false)
+        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, eWrappedTextAutofitMode mode = eWrappedTextAutofitMode.Skip)
         {
             if(text==null)
             {
                return new TextMeasurement(0, 0);
             }
             var sFont = _fonts[fontKey];
+
+            // Width of the current segment (a "segment" is a line in SplitNewLine mode,
+            // or a word in SplitWord mode). In FullText/Skip the whole text is one segment.
             var width = 0f;
-            var maxWidth = 0f;
             var widthEA = 0f;
+
+            // Width of the widest segment seen so far.
+            var maxWidth = 0f;
+            var maxWidthEA = 0f;
+
             for (var x = 0; x < text.Length; x++)
             {
                 var fnt = sFont;
                 var c = text[x];
-                if(wrapText && (c=='\n' || c=='\r'))
+
+                if (IsSegmentBoundary(c, mode))
                 {
-                    if(x>0 && c=='\r' && text[x-1]=='\n')
+                    // A CRLF pair is a single line break, not two.
+                    if (x > 0 && c == '\r' && text[x - 1] == '\n')
                     {
                         continue; //CRLF should be handle
                                   //d as one new line.
                     }
-                    if(width>maxWidth)
+
+                    // A visible boundary character (hyphen) remains at the end of the
+                    // segment it terminates, so its own width is added before the break.
+                    if (IsVisibleBoundary(c) && sFont.CharMetrics.ContainsKey(c))
+                    {
+                        width += fnt.ClassWidths[sFont.CharMetrics[c]];
+                    }
+
+                    // Close the current segment: keep it if it is the widest so far.
+                    if ((width + widthEA) > (maxWidth + maxWidthEA))
                     {
                         maxWidth = width;
-                        width = 0;
+                        maxWidthEA = widthEA;
                     }
+
+                    // Start a new, empty segment.
+                    width = 0f;
+                    widthEA = 0f;
+
+                    // The boundary character itself is not part of the next segment.
+                    // (Visible boundaries were already counted into the closed segment above.)
+                    continue;
                 }
 
                 //If east Asian char use default regardless of actual font.
@@ -88,16 +114,23 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                         if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
                         width += fw;
                     }
-                    else if (char.IsControl(c)==false)
+                    else if (char.IsControl(c) == false)
                     {
                         width += sFont.ClassWidths[fnt.DefaultWidthClass];
                     }
                 }
             }
-            if(maxWidth > width)
+
+            // Close the final segment.
+            if ((width + widthEA) > (maxWidth + maxWidthEA))
             {
-                width = maxWidth;
+                maxWidth = width;
+                maxWidthEA = widthEA;
             }
+
+            width = maxWidth;
+            widthEA = maxWidthEA;
+
             width *= size;
             widthEA *= size;
             var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
@@ -105,6 +138,35 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             width += widthEA;
             var height = sFont.LineHeight1em * size;
             return new TextMeasurement(width, height);
+        }
+
+        /// <summary>
+        /// Returns true if the character ends the current measurement segment for the given mode.
+        /// </summary>
+        private static bool IsSegmentBoundary(char c, eWrappedTextAutofitMode mode)
+        {
+            switch (mode)
+            {
+                case eWrappedTextAutofitMode.SplitNewLine:
+                    return c == '\n' || c == '\r';
+                case eWrappedTextAutofitMode.SplitWord:
+                    return c == '\n' || c == '\r' || c == ' ' || c == '\t'
+                        || c == '\u002D'  // hyphen-minus
+                        || c == '\u2010'; // hyphen
+                default:
+                    // FullText and Skip: the whole string is a single segment.
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the boundary character is visible and therefore contributes
+        /// its own width to the segment it terminates (hyphens). Whitespace and line
+        /// breaks are invisible and contribute no width.
+        /// </summary>
+        private static bool IsVisibleBoundary(char c)
+        {
+            return c == '\u002D' || c == '\u2010';
         }
 
         static Dictionary<char, uint> AlphabetChars = new Dictionary<char, uint>

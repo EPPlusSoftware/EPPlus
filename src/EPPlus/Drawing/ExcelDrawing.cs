@@ -358,18 +358,7 @@ namespace OfficeOpenXml.Drawing
                         // All uniqueness checks successfully passed! Safe to update name-lookup dictionaries.
                         UpdateNameInDictionaries(oldName, value);
                     }
-
-                    SetXmlNodeString(_nvPrPath + "/@name", value);
-                    if (this is ExcelSlicer<ExcelTableSlicerCache> ts)
-                    {
-                        SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
-                        ts.SlicerName = value;
-                    }
-                    else if (this is ExcelSlicer<ExcelPivotTableSlicerCache> pts)
-                    {
-                        SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
-                        pts.SlicerName = value;
-                    }
+                    SetName(value);
                 }
                 catch (ArgumentException)
                 {
@@ -379,6 +368,20 @@ namespace OfficeOpenXml.Drawing
                 {
                     throw new NotImplementedException();
                 }
+            }
+        }
+        internal void SetName(string name)
+        {
+            SetXmlNodeString(_nvPrPath + "/@name", name);
+            if (this is ExcelSlicer<ExcelTableSlicerCache> ts)
+            {
+                SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", name);
+                ts.SlicerName = name;
+            }
+            else if (this is ExcelSlicer<ExcelPivotTableSlicerCache> pts)
+            {
+                SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", name);
+                pts.SlicerName = name;
             }
         }
 
@@ -1738,6 +1741,10 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
+                foreach (var item in _parent.Drawings)
+                {
+                    _drawings.AddDrawingInternal(item);
+                }
                 _parent.Drawings.Clear();
             }
             if (prevParent.Drawings.Count <= 0)
@@ -2507,7 +2514,7 @@ namespace OfficeOpenXml.Drawing
                 drawNode.InnerXml = TopNode.InnerXml;
                 var targetShape = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.Chart) as ExcelShape;
                 targetShape.Id = ++targetChart.Drawings._nextDrawingId;
-                targetShape.Name = targetChart.Drawings.GetUniqueDrawingName(this.Name);
+                targetShape.SetName(targetChart.Drawings.GetUniqueDrawingName(this.Name));
             }
             return drawNode;
         }

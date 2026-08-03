@@ -104,5 +104,6 @@ namespace OfficeOpenXml.Drawing
             svg.Render(sr.RenderItems);
             return sb.ToString();
         }
+
     }
 }

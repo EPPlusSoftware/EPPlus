@@ -83,5 +83,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("Joe", s.Cells["C1"].Value);
             }
         }
+
+        [TestMethod]
+        public void Filter_SingleColumnInclude_BroadcastsAcrossAllValueColumns()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+
+                s.Cells["A1"].Value = "GL-40010 - Office Supplies";
+                s.Cells["B1"].Value = 4520.75d;
+                s.Cells["C1"].Value = "Not Posted";
+
+                s.Cells["E1"].Formula = "FILTER(A1:B1, C1 <> \"Posted!\", 0)";
+                s.Calculate();
+
+                Assert.AreEqual("GL-40010 - Office Supplies", s.Cells["E1"].Value,
+                    "Label-kolumnen ska behållas.");
+                Assert.AreEqual(4520.75d, s.Cells["F1"].Value,
+                    "Beloppskolumnen ska också behållas via broadcast.");
+            }
+        }
     }
 }

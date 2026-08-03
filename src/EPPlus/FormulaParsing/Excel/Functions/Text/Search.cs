@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
-            config.SetArrayParameterIndexes(0, 1);
+            config.SetArrayParameterIndexes(0, 1, 2);
         }
 
         public override int ArgumentMinLength => 2;

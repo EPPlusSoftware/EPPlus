@@ -214,6 +214,7 @@ namespace OfficeOpenXml.Drawing
         {
             var newName = name;
             var index = 1;
+            
             while (_drawingNames.ContainsKey(newName))
             {
                 var split = newName.Split(' ');

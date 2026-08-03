@@ -11,6 +11,8 @@
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
 
+using System;
+
 namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
     /// <summary>
@@ -31,9 +33,15 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// <returns></returns>
         TextMeasurement MeasureText(string text, MeasurementFont font);
         /// <summary>
-        /// If the text measurer should measure wrap text cells. 
-        /// Only CR, LF or CRLF should be considered.
+        /// If the text measurer should measure wrapped text cells.
         /// </summary>
+        [Obsolete("Use WrappedTextAutofitMode instead. This property will be removed in a future major version.")]
         bool MeasureWrappedTextCells { get; set; }
+
+        /// <summary>
+        /// Determines how cells with WrapText enabled are measured when calculating
+        /// column width in AutoFitColumns. Default is <see cref="eWrappedTextAutofitMode.Skip"/>.
+        /// </summary>
+        eWrappedTextAutofitMode WrappedTextAutofitMode { get; set; }
     }
 }

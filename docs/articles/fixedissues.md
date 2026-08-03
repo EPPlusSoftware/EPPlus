@@ -1,7 +1,21 @@
 # Features / Fixed issues - EPPlus 8
 ## Version 9.0.0
 * Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
-
+## Version 8.6.3
+### Security
+* Updated System.Security.Cryptography.Xml to address five security vulnerabilities in the .NET XML signing dependency: four denial of service vulnerabilities (CVE-2026-47302, CVE-2026-50525, CVE-2026-50527, CVE-2026-50648) and one security feature bypass (CVE-2026-47304). The package is updated to 8.0.4 (.NET Framework, .NET 8 and .NET Standard), 9.0.18 (.NET 9) and 10.0.10 (.NET 10).
+## Version 8.6 2
+### Minor features and fixed issues
+* Added property ´AlwaysRefreshImageFunction´ to ´ParsingConfiguration´, to disable download of external content in the calculation of the IMAGE function.
+* Fixed unhandled ´InvalidOperationException´ when loading an icon set conditional formatting with formula cfvo from extLst.
+* Fixed an issue where the SEARCH function did not handle arrays in the third argument.
+* Fixed ´NullReferenceException´ in GetStyleId after multiple ´InsertColumn´ calls.
+* AppVersion in ´OfficeProperties´ can now be set to null, to remove the value.
+* Fixed drawing hyperlink reassignment crash and tooltip setting. (Fix by Lieven De Foor)
+* Adds a WrappedTextAutofitMode property to ExcelTextSettings, backed by a new eWrappedTextAutofitMode enum, giving control over how cells with WrapText enabled contribute to column width in AutoFitColumns(). (Thanks to Lieven De Foor)
+* Fixed ´KeyNotFoundException´ / ´ArgumentException´ on drawing rename and removal. (Fix by Lieven De Foor)
+* Fixed unhandled ´IndexOutOfRangeException´ when importing text using the ´ExcelRangeBase.LoadFromText´ method, when text file has more columns than specified ´DataTypes´ argument. (Fix by Lieven De Foor)
+* Fixed an issue when positioning shapes in charts.
 ## Version 8.6 1
 ### Features
 * 3 new functions:
