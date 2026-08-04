@@ -47,6 +47,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         public void AddCellLayout(PdfCellLayout cell, string label)
         {
+            if (cell.Size.X <= 0d || cell.Size.Y <= 0d) return;
             if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PatternStyle != ExcelFillStyle.Solid)
             {
                 commands.Add($"% Pattern Start: {cell.Name}");
