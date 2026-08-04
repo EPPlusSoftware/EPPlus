@@ -28,6 +28,8 @@ using OfficeOpenXml.Utils.FileUtils;
 
 #if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
+using System.Linq;
+
 #endif
 
 #if (Core)
@@ -881,39 +883,6 @@ namespace OfficeOpenXml
             var xmlWriter = XmlWriter.Create(stream, xmlSettings);
             xmlDoc.Save(xmlWriter);
         }
-        /// <summary>
-		/// Saves the XmlDocument into the package at the specified Uri.
-		/// </summary>
-		/// <param name="uri">The Uri of the component</param>
-		/// <param name="xmlDoc">The XmlDocument to save</param>
-        internal void SaveWorkbook(Uri uri, XmlDocument xmlDoc)
-        {
-            Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
-            if (Workbook.VbaProject == null)
-            {
-                if (part.ContentType != ContentTypes.contentTypeWorkbookDefault)
-                {
-                    part = _zipPackage.CreatePart(uri, ContentTypes.contentTypeWorkbookDefault, Compression);
-                }
-            }
-            else
-            {
-                if (part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-                {
-                    var rels = part.GetRelationships();
-                    _zipPackage.DeletePart(uri);
-                    part = ZipPackage.CreatePart(uri, ContentTypes.contentTypeWorkbookMacroEnabled);
-                    foreach (ZipPackageRelationship rel in rels)
-                    {
-                        ZipPackage.DeleteRelationship(rel.Id);
-                        part.CreateRelationship(rel.TargetUri, rel.TargetMode, rel.RelationshipType);
-                    }
-                }
-            }
-            var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            xmlDoc.Save(stream);
-        }
-
         #endregion
 
         #region Dispose
@@ -1210,6 +1179,49 @@ namespace OfficeOpenXml
                 ZipPackage.Compression = value;
             }
         }
+
+        private eDocumentFormat? _format = null;
+
+        /// <summary>
+        /// Gets or sets the file format used when the package is saved.
+        /// <para>
+        /// When a package is loaded, this property is derived from the content type of the 
+        /// workbook part, so a file opened as a template (.xltx/.xltm) reports 
+        /// <see cref="OfficeOpenXml.eDocumentFormat.Template"/>. 
+        /// <see cref="OfficeOpenXml.eDocumentFormat.Workbook"/>.
+        /// </para>
+        /// <para>
+        /// Setting this property overrides the derived value, allowing a loaded template to be 
+        /// saved as a workbook or vice versa. Whether the workbook is saved as a macro-enabled 
+        /// file is determined automatically by the presence of a VBA project.
+        /// </para>
+        /// </summary>
+        public eDocumentFormat DocumentFormat
+        {
+            get
+            {
+                if (_format == null)
+                {
+                    _format = ResolveFormatFromPackage();
+                }
+                return _format.Value;
+            }
+            set
+            {
+                _format = value;
+            }
+        }
+
+        private eDocumentFormat ResolveFormatFromPackage()
+        {            
+            if (_zipPackage == null) return eDocumentFormat.Workbook;
+
+            var wbPart = _zipPackage.GetPartByContentType(ContentTypes.contentTypeTemplateDefault)
+                      ?? _zipPackage.GetPartByContentType(ContentTypes.contentTypeTemplateMacroEnabled);
+
+            return wbPart != null ? eDocumentFormat.Template : eDocumentFormat.Workbook;
+        }
+
         CompatibilitySettings _compatibility = null;
         /// <summary>
         /// Compatibility settings for older versions of EPPlus.

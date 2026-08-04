@@ -1559,21 +1559,15 @@ namespace OfficeOpenXml
             SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
             
             if(_workbookCreatedInEPPlus == false) EnsureCalculationFeatures();    //Ensure that the calculation features are included in the file to make sure that new functions are supported.
-            
-            if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+
+            bool isMacroEnabled = !(_vba == null &&
+            !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)));
+
+            var targetContentType = GetWorkbookContentType(_package.DocumentFormat, isMacroEnabled);
+
+            if (Part.ContentType != targetContentType)
             {
-                if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
-                    Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-                {
-                    Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
-                }
-            }
-            else
-            {
-                if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-                {
-                    Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
-                }
+                Part.ContentType = targetContentType;
             }
 
             UpdateDefinedNamesXml();
@@ -1702,6 +1696,22 @@ namespace OfficeOpenXml
 
                     _package.ZipPackage.DeletePart(SignatureOriginUri);
                 }
+            }
+        }
+
+        internal string GetWorkbookContentType(eDocumentFormat format, bool isMacroEnabled)
+        {
+            if (format == eDocumentFormat.Template)
+            {
+                return isMacroEnabled
+                    ? ContentTypes.contentTypeTemplateMacroEnabled
+                    : ContentTypes.contentTypeTemplateDefault;
+            }
+            else
+            {
+                return isMacroEnabled
+                    ? ContentTypes.contentTypeWorkbookMacroEnabled
+                    : ContentTypes.contentTypeWorkbookDefault;
             }
         }
 

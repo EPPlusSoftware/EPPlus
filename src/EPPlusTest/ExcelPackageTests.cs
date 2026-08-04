@@ -26,6 +26,8 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Drawing.Chart.Styling;
+using FakeItEasy.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System;
@@ -37,7 +39,7 @@ using System.Text;
 namespace EPPlusTest
 {
     [TestClass]
-    public class ExcelPackageTests
+    public class ExcelPackageTests : TestBase
     {
         [TestMethod, Ignore]
         public void ConstructorWithStringPath()
@@ -85,6 +87,55 @@ namespace EPPlusTest
                     var sheet = decryptedPackage.Workbook.Worksheets.First();
                     Assert.AreEqual(1d, sheet.Cells["A1"].Value);
                 }
+            }
+        }
+
+        [TestMethod]
+        public void SaveAsTemplate_Debug()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Test";
+
+                package.DocumentFormat = eDocumentFormat.Template;
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void SaveAsTemplate_WithVba_SetsTemplateMacroEnabledContentType()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Test";
+
+                package.Workbook.CreateVBAProject();  
+                package.DocumentFormat = eDocumentFormat.Template;
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ReadAndConvertToTemplate()
+        {
+            using (var package = OpenTemplatePackage("ExcelTemplateTest.xltx"))
+            {
+                Assert.AreEqual(eDocumentFormat.Template, package.DocumentFormat);                
+                package.DocumentFormat = eDocumentFormat.Workbook;
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ReadAndConvertWorkbookToTemplate()
+        {
+            using (var package = OpenTemplatePackage("ExcelTemplateTest.xlsx"))
+            {
+                Assert.AreEqual(eDocumentFormat.Workbook, package.DocumentFormat);
+                package.DocumentFormat = eDocumentFormat.Template;
+                SaveAndCleanup(package);
             }
         }
     }

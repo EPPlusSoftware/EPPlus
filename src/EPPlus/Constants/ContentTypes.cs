@@ -19,7 +19,11 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeWorkbookMacroEnabled = "application/vnd.ms-excel.sheet.macroEnabled.main+xml";
         internal const string contentTypeSharedString = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
         internal const string contentTypeMetaData = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheetMetadata+xml";
-        
+
+        //Template
+        internal const string contentTypeTemplateDefault = @"application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml";
+        internal const string contentTypeTemplateMacroEnabled = "application/vnd.ms-excel.template.macroEnabled.main+xml";
+
         //Theme
         internal const string contentTypeThemeOverride = "application/vnd.openxmlformats-officedocument.themeOverride+xml";
         internal const string contentTypeTheme = @"application/vnd.openxmlformats-officedocument.theme+xml";
