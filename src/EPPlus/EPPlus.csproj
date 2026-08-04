@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
+		<TargetFrameworks>$(EPPlusCoreTargetFrameworks)</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<!-- Include the referenced project binaries in the generated NuGet package -->
 		<TargetsForTfmSpecificBuildOutput>
@@ -775,17 +775,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- PrivateAssets="compile" keeps these referenced binaries out of the generated
-			.nuspec as <dependency> entries, while still letting them flow at runtime so
-			consuming projects (e.g. test projects) get the DLLs copied to their output. -->
 		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<!-- EPPlus.Interfaces is published as its own NuGet package and must remain a dependency. -->
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
