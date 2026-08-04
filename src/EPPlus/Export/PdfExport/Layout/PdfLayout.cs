@@ -701,7 +701,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     string key = cell.MergedAddress.Address;
                     if (page.MergedCells.ContainsKey(key)) continue;
                     var addr = cell.MergedAddress;
-                    var mainCell = cell.Main ?? cell; // Main == null means this cell IS the top-left
                     // --- X ---
                     // Start from the current column and walk left to the merge origin.
                     // Columns within the current page come from colX; columns that lie on
@@ -727,12 +726,33 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         if (rangeIdx >= 0 && rangeIdx < range.RowHeights.Count)
                             drawY += range.RowHeights[rangeIdx].Height;
                     }
+                    // --- Width / Height ---
+                    // Size the merge from the SAME arrays that produced X/Y above
+                    // (range.ColWidths / range.RowHeights) rather than from mainCell.
+                    // Those arrays already store 0 for hidden rows/columns and use the
+                    // same unit conversion, default-height and auto-fit values as the
+                    // rest of the grid, so the merge rectangle can never disagree with
+                    // the surrounding cells (which is why columns worked but rows did not).
+                    double mergeWidth = 0d;
+                    for (int c = addr._fromCol; c <= addr._toCol; c++)
+                    {
+                        int rangeIdx = c - range.Range._fromCol;
+                        if (rangeIdx >= 0 && rangeIdx < range.ColWidths.Count)
+                            mergeWidth += range.ColWidths[rangeIdx];
+                    }
+                    double mergeHeight = 0d;
+                    for (int r = addr._fromRow; r <= addr._toRow; r++)
+                    {
+                        int rangeIdx = r - range.Range._fromRow;
+                        if (rangeIdx >= 0 && rangeIdx < range.RowHeights.Count)
+                            mergeHeight += range.RowHeights[rangeIdx].Height;
+                    }
                     page.MergedCells[key] = new MergedCellDrawInfo
                     {
                         X = drawX,
                         Y = drawY,
-                        Width = mainCell.Width,
-                        Height = mainCell.Height
+                        Width = mergeWidth,
+                        Height = mergeHeight
                     };
                 }
             }

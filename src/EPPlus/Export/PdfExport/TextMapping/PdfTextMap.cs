@@ -121,10 +121,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 double totalWidth = 0, totalHeight = 0;
                 for (int k = address._fromRow; k <= address._toRow; k++)
                 {
+                    if (worksheet.Row(k).Hidden) continue;
                     totalHeight += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
                 }
                 for (int l = address._fromCol; l <= address._toCol; l++)
                 {
+                    if (worksheet.Column(l).Hidden) continue;
                     totalWidth += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
                 }
                 checkedMergedCells.Add(mergeAddress);
