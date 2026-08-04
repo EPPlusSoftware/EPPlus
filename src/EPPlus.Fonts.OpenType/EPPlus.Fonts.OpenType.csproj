@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net9.0;net8.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
+		<TargetFrameworks>$(EPPlusCoreTargetFrameworks)</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>license.md</PackageLicenseFile>
 		<RepositoryType>git</RepositoryType>
-		<!--<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>EPPlus.Interfaces.snk</AssemblyOriginatorKeyFile>-->
+		<IsPackable>false</IsPackable>
 		<RootNamespace>EPPlus.Fonts.OpenType</RootNamespace>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
@@ -90,9 +89,9 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\EPPlus\src\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
+	  <Folder Include="TypeSettingSystem\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="TypeSettingSystem\" />
+	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
 </Project>

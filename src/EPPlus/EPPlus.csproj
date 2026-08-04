@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
+		<TargetFrameworks>$(EPPlusCoreTargetFrameworks)</TargetFrameworks>
 		<AssemblyVersion>8.6.3.0</AssemblyVersion>
 		<FileVersion>8.6.3.0</FileVersion>
 		<Version>8.6.3</Version>
@@ -785,17 +785,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- PrivateAssets="compile" keeps these referenced binaries out of the generated
-			.nuspec as <dependency> entries, while still letting them flow at runtime so
-			consuming projects (e.g. test projects) get the DLLs copied to their output. -->
 		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj"
-			PrivateAssets="compile" />
+			PrivateAssets="all" />
 		<!-- EPPlus.Interfaces is published as its own NuGet package and must remain a dependency. -->
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
@@ -839,18 +836,6 @@
 		<None Remove="Utils\RecyclableMemoryStream\**" />
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net35'">
-		<Reference Include="PresentationCore" />
-		<Reference Include="PresentationFramework" />
-		<Reference Include="System" />
-		<Reference Include="System.configuration" />
-		<Reference Include="System.Core" />
-		<Reference Include="System.Data" />
-		<Reference Include="System.Security" />
-		<Reference Include="System.Xml" />
-		<Reference Include="WindowsBase" />
-	</ItemGroup>
-
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
 		<Reference Include="PresentationCore" />
 		<Reference Include="System" />
@@ -866,7 +851,7 @@
 	</ItemGroup>
 
 	<ItemGroup
-		Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0' and '$(TargetFramework)' != 'net10.0'">
+		Condition="'$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0' and '$(TargetFramework)' != 'net10.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="System.Security.Cryptography.Pkcs" />
