@@ -23,11 +23,24 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         /// If the text measurer should measure wrap text cells. 
         /// Only CR, LF or CRLF should be considered.
         /// </summary>
+#pragma warning disable 618
         public bool MeasureWrappedTextCells 
         {
             get; 
             set; 
         }
+#pragma warning restore 618
+        /// 
+        /// <summary>
+        /// 
+        /// </summary>
+        public eWrappedTextAutofitMode WrappedTextAutofitMode 
+        { 
+            get; 
+            set; 
+        }
+
+
         /// <summary>
         /// Measures the supplied text
         /// </summary>
@@ -38,7 +51,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         {
             var fontKey = GetKey(font.FontFamily, font.Style);
             if (!IsValidFont(fontKey)) return TextMeasurement.Empty;
-            return MeasureTextInternal(text, fontKey, font.Style, font.Size, MeasureWrappedTextCells);
+            return MeasureTextInternal(text, fontKey, font.Style, font.Size, WrappedTextAutofitMode);
         }
 
         public bool ValidForEnvironment()

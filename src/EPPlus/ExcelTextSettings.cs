@@ -44,7 +44,7 @@ namespace OfficeOpenXml
             set 
             { 
                 _primaryTextMeasurer = value;
-                _primaryTextMeasurer.MeasureWrappedTextCells = _measureWrappedTextCells;
+                _primaryTextMeasurer.WrappedTextAutofitMode = WrappedTextAutofitMode;
             } 
         }
         /// <summary>
@@ -59,7 +59,10 @@ namespace OfficeOpenXml
             set
             {
                 _fallbackTextMeasurer = value;
-                _fallbackTextMeasurer.MeasureWrappedTextCells = _measureWrappedTextCells;
+                if(value != null)
+                {
+                    _fallbackTextMeasurer.WrappedTextAutofitMode = WrappedTextAutofitMode;
+                }
             }
         }
         /// <summary>
@@ -89,22 +92,25 @@ namespace OfficeOpenXml
         /// Measures a text with default settings when there is no other option left...
         /// </summary>
         internal DefaultTextMeasurer DefaultTextMeasurer { get; set; }
+
+        private eWrappedTextAutofitMode _wrappedTextAutofitMode = eWrappedTextAutofitMode.Skip;
+
         /// <summary>
-        /// Should return true if the text measurer should measure wrap text cells. Only CR, LF or CRLF should be considered
+        /// Determines how cells with <see cref="Style.ExcelStyle.WrapText"/> enabled are measured
+        /// when calculating column width in AutoFitColumns. The default is <see cref="eWrappedTextAutofitMode.Skip"/>,
+        /// which ignores wrapped cells during autofit.
         /// </summary>
-        /// <returns>True if the measurer can be .</returns>
-        bool _measureWrappedTextCells=false;
-        internal bool MeasureWrappedTextCells 
-        { 
+        public eWrappedTextAutofitMode WrappedTextAutofitMode
+        {
             get
             {
-                return _measureWrappedTextCells;
+                return _wrappedTextAutofitMode;
             }
             set
             {
-                _measureWrappedTextCells = value;
-                PrimaryTextMeasurer.MeasureWrappedTextCells = value;
-                if (FallbackTextMeasurer != null) FallbackTextMeasurer.MeasureWrappedTextCells = value;
+                _wrappedTextAutofitMode = value;
+                PrimaryTextMeasurer.WrappedTextAutofitMode = value;
+                if(FallbackTextMeasurer != null) FallbackTextMeasurer.WrappedTextAutofitMode = value;
             }
         }
     }

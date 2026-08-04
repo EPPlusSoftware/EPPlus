@@ -1427,15 +1427,10 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void CopyHeaderFooterPictures(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             if (Copy.TopNode != null && Copy.GetNode("d:headerFooter") == null) return;
-            //Copy the texts
-            if (Copy.HeaderFooter._oddHeader != null) CopyText(Copy.HeaderFooter._oddHeader, added.HeaderFooter.OddHeader);
-            if (Copy.HeaderFooter._oddFooter != null) CopyText(Copy.HeaderFooter._oddFooter, added.HeaderFooter.OddFooter);
-            if (Copy.HeaderFooter._evenHeader != null) CopyText(Copy.HeaderFooter._evenHeader, added.HeaderFooter.EvenHeader);
-            if (Copy.HeaderFooter._evenFooter != null) CopyText(Copy.HeaderFooter._evenFooter, added.HeaderFooter.EvenFooter);
-            if (Copy.HeaderFooter._firstHeader != null) CopyText(Copy.HeaderFooter._firstHeader, added.HeaderFooter.FirstHeader);
-            if (Copy.HeaderFooter._firstFooter != null) CopyText(Copy.HeaderFooter._firstFooter, added.HeaderFooter.FirstFooter);
 
-            //Copy any images;
+            //Copy any images first, so the pictures exist on the target before the
+            //header/footer text is parsed. The text may contain the image code (&G),
+            //and parsing it reads added.HeaderFooter.Pictures.
             if (Copy.HeaderFooter.Pictures.Count > 0)
             {
                 Uri source = Copy.HeaderFooter.Pictures.Uri;
@@ -1456,11 +1451,26 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     foreach (XmlAttribute att in pic.TopNode.Attributes)
                     {
+                        // Skip attributes that Pictures.Add/AddImage already set on the new
+                        // shape node, otherwise we get duplicates (e.g. a second "type"
+                        // attribute, which produces invalid VML that cannot be reopened).
+                        if (att.LocalName == "id" || att.LocalName == "type" || att.LocalName == "style")
+                        {
+                            continue;
+                        }
                         (item.TopNode as XmlElement).SetAttribute(att.Name, att.Value);
                     }
                     item.TopNode.InnerXml = pic.TopNode.InnerXml;
                 }
             }
+
+            //Copy the texts
+            if (Copy.HeaderFooter._oddHeader != null) CopyText(Copy.HeaderFooter._oddHeader, added.HeaderFooter.OddHeader);
+            if (Copy.HeaderFooter._oddFooter != null) CopyText(Copy.HeaderFooter._oddFooter, added.HeaderFooter.OddFooter);
+            if (Copy.HeaderFooter._evenHeader != null) CopyText(Copy.HeaderFooter._evenHeader, added.HeaderFooter.EvenHeader);
+            if (Copy.HeaderFooter._evenFooter != null) CopyText(Copy.HeaderFooter._evenFooter, added.HeaderFooter.EvenFooter);
+            if (Copy.HeaderFooter._firstHeader != null) CopyText(Copy.HeaderFooter._firstHeader, added.HeaderFooter.FirstHeader);
+            if (Copy.HeaderFooter._firstFooter != null) CopyText(Copy.HeaderFooter._firstFooter, added.HeaderFooter.FirstFooter);
         }
         private static void CopyText(ExcelHeaderFooterText from, ExcelHeaderFooterText to)
         {

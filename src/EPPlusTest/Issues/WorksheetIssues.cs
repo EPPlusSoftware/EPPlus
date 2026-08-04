@@ -7,6 +7,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.SystemDrawing.Image;
 using OfficeOpenXml.SystemDrawing.Text;
@@ -880,16 +881,16 @@ namespace EPPlusTest.Issues
 
             ws.Cells["B2"].Value = multiLineText;
 
-            p.Settings.TextSettings.MeasureWrappedTextCells = true;
-            // AutoFitColumns - calculates width as if there were no line breaks.
+            p.Settings.TextSettings.WrappedTextAutofitMode = eWrappedTextAutofitMode.SplitNewLine;
+            // AutoFitColumns - measures the widest newline-separated line.
             ws.Cells["A1:B2"].AutoFitColumns();
 
-            p.Settings.TextSettings.MeasureWrappedTextCells = false;
+            p.Settings.TextSettings.WrappedTextAutofitMode = eWrappedTextAutofitMode.Skip;
             ws.Cells["C1"].Value = multiLineText;
             ws.Cells["C1"].Style.WrapText = true;
             ws.Cells["D2"].Value = multiLineText;
 
-            // AutoFitColumns - calculates width as if there were no line breaks.
+            // AutoFitColumns - wrapped cells are ignored.
             ws.Cells["C1:D2"].AutoFitColumns();
         }
 

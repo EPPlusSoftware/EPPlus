@@ -117,6 +117,13 @@ namespace OfficeOpenXml.FormulaParsing
         } = false;
 
         /// <summary>
+        /// If true the IMAGE function will never download external content in formula calculation.
+        /// It will instead return the NAME error as if the function was not implemented.
+        /// NB! This property overrides the <see cref="AlwaysRefreshImageFunction"/> property if set to true.
+        /// </summary>
+        public bool DisableImageFunctionDownloads { get; set; } = false;
+
+        /// <summary>
         /// Enables Unicode-aware string operations, ensuring correct handling of surrogate pairs for comparisons, substrings, and sorting within the library.
         /// </summary>
         public bool EnableUnicodeAwareStringOperations
