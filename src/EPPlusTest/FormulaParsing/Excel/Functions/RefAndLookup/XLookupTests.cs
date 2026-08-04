@@ -467,5 +467,46 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             ws.Cells["A2"].Calculate();
             Assert.AreEqual("", ws.Cells["A2"].Value);
         }
+
+        [TestMethod]
+        public void ShouldFindValue_WhenRangeStartsBeforeWorksheetDimension()
+        {
+            // Data starts at row 5, but the lookup range starts at row 2 (before the
+            // worksheet dimension). Regression test for lookup ranges whose FromRow
+            // is smaller than Worksheet.Dimension.FromRow (issue in 8.5.0-8.6.3).
+            _sheet.Cells[5, 1].Value = "Apple";
+            _sheet.Cells[5, 2].Value = "+11";
+            _sheet.Cells[6, 1].Value = "Pear";
+            _sheet.Cells[6, 2].Value = "+22";
+
+            _sheet.Cells["E2"].Value = "Pear";
+            _sheet.Cells["F2"].Formula = "XLOOKUP(E2,A2:A6,B2:B6,\"Not found\")";
+
+            _sheet.Calculate();
+
+            Assert.AreEqual("+22", _sheet.Cells["F2"].Value.ToString());
+        }
+
+        [TestMethod]
+        [DataRow(1, "+11")]   // StartingAtFirst
+        [DataRow(-1, "+11")]  // ReverseStartingAtLast
+        public void ShouldFindValue_WhenOpenRangeAndDataStartsFarDown(int searchMode, string expected)
+        {
+            // Open column ranges (A:A) where the data begins far down the sheet.
+            // The scanner must clamp both ends to the worksheet dimension for
+            // performance while still returning a range-relative index, in both
+            // forward and reverse search mode.
+            _sheet.Cells[10000, 1].Value = "Apple";
+            _sheet.Cells[10000, 2].Value = "+11";
+            _sheet.Cells[10001, 1].Value = "Pear";
+            _sheet.Cells[10001, 2].Value = "+22";
+
+            _sheet.Cells["E2"].Value = "Apple";
+            _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A:A,B:B,\"Not found\", 0, {searchMode})";
+
+            _sheet.Calculate();
+
+            Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
+        }
     }
 }

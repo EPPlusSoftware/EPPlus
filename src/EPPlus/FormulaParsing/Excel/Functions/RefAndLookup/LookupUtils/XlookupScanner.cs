@@ -83,39 +83,43 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private int FindIndexInternal()
         {
             var direction = GetLookupDirection();
-            int  maxItems;
+            int maxItems;
+            int startOffset;
             if (direction == LookupRangeDirection.Vertical)
             {
-                maxItems = GetMaxItemsRow(_lookupRange);
+                maxItems = GetMaxItemsRow(_lookupRange, out startOffset);
             }
             else
             {
-                //dimensionItems = _lookupRange.Dimension.ToCol - _lookupRange.Dimension.FromCol + 1;
-                //maxItems = _lookupRange.FontSize.NumberOfCols > dimensionItems ? dimensionItems : _lookupRange.FontSize.NumberOfCols;
-                maxItems = GetMaxItemsColumns(_lookupRange);
+                maxItems = GetMaxItemsColumns(_lookupRange, out startOffset);
             }
             int closestBelowIx = -1;
             int closestAboveIx = -1;
             object closestBelow = null;
             object closestAbove = null;
+            // ix is relative to the clamped start (startOffset). The value read and the
+            // index returned are offset by startOffset so they stay relative to the
+            // range's own FromRow/FromCol, while iteration is limited to the populated
+            // area to preserve performance on open ranges (e.g. A:A).
             var ix = _searchMode == LookupSearchMode.ReverseStartingAtLast ? maxItems - 1 : 0;
 
-            while (ix >= 0)
+            while (ix >= 0 && ix < maxItems)
             {
+                var actualIx = startOffset + ix;
                 object value = direction == LookupRangeDirection.Vertical ?
-                    _lookupRange.GetOffset(ix, 0) :
-                    _lookupRange.GetOffset(0, ix);
+                    _lookupRange.GetOffset(actualIx, 0) :
+                    _lookupRange.GetOffset(0, actualIx);
                 var cr = _comparer.Compare(_lookupValue, value);
                 if (cr == 0)
                 {
-                    return ix;
+                    return actualIx;
                 }
                 else if (cr < 0)
                 {
                     if (closestAbove == null || _comparer.Compare(closestAbove, value) > 0)
                     {
                         closestAbove = value;
-                        closestAboveIx = ix;
+                        closestAboveIx = actualIx;
                     }
                 }
                 else
@@ -123,16 +127,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     if (closestBelow == null || _comparer.Compare(closestBelow, value) < 0)
                     {
                         closestBelow = value;
-                        closestBelowIx = ix;
+                        closestBelowIx = actualIx;
                     }
                 }
                 if (_searchMode == LookupSearchMode.StartingAtFirst)
                 {
                     ix++;
-                    if (ix >= maxItems)
-                    {
-                        ix = -1;
-                    }
                 }
                 else
                 {
@@ -151,11 +151,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         }
 
 
-        private int GetMaxItemsRow(IRangeInfo lookupRange)
+        private int GetMaxItemsRow(IRangeInfo lookupRange, out int startOffset)
         {
+            startOffset = 0;
             var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
             if (adjusted != null)
             {
+                startOffset = adjusted.FromRow - lookupRange.Address.FromRow;
+                if (startOffset < 0) startOffset = 0;
                 return adjusted.ToRow - adjusted.FromRow + 1;
             }
             if (lookupRange.Address.ToRow > lookupRange.Dimension.ToRow)
@@ -165,11 +168,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             return _lookupRange.Size.NumberOfRows;
         }
 
-        private int GetMaxItemsColumns(IRangeInfo lookupRange)
+        private int GetMaxItemsColumns(IRangeInfo lookupRange, out int startOffset)
         {
+            startOffset = 0;
             var adjusted = lookupRange.GetAddressDimensionAdjusted(0);
             if (adjusted != null)
             {
+                startOffset = adjusted.FromCol - lookupRange.Address.FromCol;
+                if (startOffset < 0) startOffset = 0;
                 return adjusted.ToCol - adjusted.FromCol + 1;
             }
             if (lookupRange.Address.ToCol > lookupRange.Dimension.ToCol)

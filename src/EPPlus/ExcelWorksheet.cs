@@ -2269,7 +2269,7 @@ namespace OfficeOpenXml
         public void InsertColumn(int columnFrom, int columns, int copyStylesFromColumn)
         {
             WorksheetRangeInsertHelper.InsertColumn(this, columnFrom, columns, copyStylesFromColumn);
-            ColumnLookup.InsertAndShift(columnFrom, columns);
+            //ColumnLookup.InsertAndShift(columnFrom, columns);
         }
         #endregion
         #region DeleteRow

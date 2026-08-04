@@ -42,6 +42,11 @@ namespace EPPlus.Fonts.OpenType.Integration
         /// Controls whether multi-line text (with CR/LF/CRLF) should be measured.
         /// </summary>
         public bool MeasureWrappedTextCells { get; set; }
+        public eWrappedTextAutofitMode WrappedTextAutofitMode 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Measures text width and height.

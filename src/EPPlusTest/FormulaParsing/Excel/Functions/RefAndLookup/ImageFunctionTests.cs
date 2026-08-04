@@ -133,5 +133,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(1, httpsService.NumberOfCalls);
         }
+
+        [TestMethod]
+        public void ImageTest_ShouldReturnNameErrorWhenServiceIsNull()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "IMAGE(\"https://epplussoftware.com/img/EPPlus-logo-full.png\", \"Alt text\", 1)";
+
+            package.Settings.ImageFunctionService = null;
+
+            sheet.Calculate();
+
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Name), sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void ImageTest_ShouldNotDownloadWhenDownloadsDisabled()
+        {
+            using var package = new ExcelPackage();
+            var httpsService = new TestHttpsService();
+            package.Settings.ImageFunctionService = httpsService;
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "IMAGE(\"https://epplussoftware.com/img/EPPlus-logo-full.png\", \"Alt text\", 1)";
+
+            sheet.Calculate(opt => opt.DisableImageFunctionDownloads = true);
+
+            Assert.AreEqual(0, httpsService.NumberOfCalls, "the download service should not be called when downloads are disabled");
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Name), sheet.Cells["A1"].Value);
+        }
     }
 }
