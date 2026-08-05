@@ -1563,7 +1563,7 @@ namespace OfficeOpenXml
             bool isMacroEnabled = !(_vba == null &&
             !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)));
 
-            var targetContentType = GetWorkbookContentType(_package.DocumentFormat, isMacroEnabled);
+            var targetContentType = GetWorkbookContentType(_package.SaveAsTemplate, isMacroEnabled);
 
             if (Part.ContentType != targetContentType)
             {
@@ -1699,9 +1699,9 @@ namespace OfficeOpenXml
             }
         }
 
-        internal string GetWorkbookContentType(eDocumentFormat format, bool isMacroEnabled)
+        internal string GetWorkbookContentType(bool saveAsTemplate, bool isMacroEnabled)
         {
-            if (format == eDocumentFormat.Template)
+            if (saveAsTemplate)
             {
                 return isMacroEnabled
                     ? ContentTypes.contentTypeTemplateMacroEnabled

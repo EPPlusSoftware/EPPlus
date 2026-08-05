@@ -16,6 +16,14 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.IO;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
+using OfficeOpenXml.Configuration;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+
+
+
+
 
 #if !NET35 && !NET40
 using System.Threading;
@@ -335,6 +343,24 @@ namespace OfficeOpenXml
             await SaveAsync(cancellationToken).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Saves all the components back into the package asynchronously.
+        /// This method recursively calls the Save method on all sub-components.
+        /// The package is closed after it has been saved.
+        /// Supply a password to encrypt the workbook with.
+        /// </summary>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the asynchronous save operation.</returns>
+        public async Task SaveAsync(Action<EPPlusSaveOption> options, CancellationToken cancellationToken = default)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            await SaveAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         #endregion
 
         #region SaveAsAsync
@@ -365,6 +391,22 @@ namespace OfficeOpenXml
         /// Saves the workbook to a new file
         /// The package is closed after it has been saved
         /// </summary>
+        /// <param name="filePath">The file location</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(string filePath, Action<EPPlusSaveOption> options, CancellationToken cancellationToken = default)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            await SaveAsAsync(new FileInfo(filePath), cancellationToken);
+        }
+
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
         /// <param name="file">The file</param>
         /// <param name="password">The password to encrypt the workbook with. 
         /// This parameter overrides the Encryption.Password.</param>
@@ -373,6 +415,24 @@ namespace OfficeOpenXml
         {
             File = file;
             Encryption.Password = password;
+            await SaveAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="file">The file</param>       
+        /// This parameter overrides the Encryption.Password.</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(FileInfo file, Action<EPPlusSaveOption> options, CancellationToken cancellationToken = default)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+            File = file;
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
             await SaveAsync(cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
@@ -398,6 +458,27 @@ namespace OfficeOpenXml
         {
             File = null;
             await SaveAsync(cancellationToken).ConfigureAwait(false); 
+
+            if (OutputStream != _stream)
+            {
+                await StreamUtil.CopyStreamAsync(_stream, OutputStream, cancellationToken).ConfigureAwait(false);
+            }
+        }
+        /// <summary>
+        /// Copies the Package to the Outstream
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="OutputStream">The stream to copy the package to</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(Stream OutputStream, Action<EPPlusSaveOption> options, CancellationToken cancellationToken = default)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+            SaveAsTemplate = o.SaveAsTemplate;
+            Encryption.Password = o.Password;
+            File = null;
+            await SaveAsync(cancellationToken).ConfigureAwait(false);
 
             if (OutputStream != _stream)
             {

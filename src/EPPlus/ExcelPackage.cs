@@ -29,6 +29,8 @@ using OfficeOpenXml.Utils.FileUtils;
 #if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
 using System.Linq;
+using System.Security.AccessControl;
+
 
 #endif
 
@@ -1065,6 +1067,21 @@ namespace OfficeOpenXml
             Save();
         }
         /// <summary>
+        /// Saves all the components back into the package.
+        /// This method recursively calls the Save method on all sub-components.
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void Save(Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            Save();
+        }
+        /// <summary>
         /// Saves the workbook to a new file
         /// The package is closed after it has been saved        
         /// </summary>
@@ -1134,7 +1151,52 @@ namespace OfficeOpenXml
             Encryption.Password = password;
             SaveAs(OutputStream);
         }
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="filePath">The file location</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void SaveAs(string filePath, Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
 
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+
+            SaveAs(new FileInfo(filePath)); 
+        }
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="file">The file</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void SaveAs(FileInfo file, Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+
+            File = file;
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            Save();
+        }
+        /// <summary>
+        /// Copies the Package to the Outstream
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="OutputStream">The stream to copy the package to</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void SaveAs(Stream OutputStream, Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            SaveAs(OutputStream);
+        }
         /// <summary>
         /// The output file. Null if no file is used
         /// </summary>
@@ -1180,47 +1242,17 @@ namespace OfficeOpenXml
             }
         }
 
-        private eDocumentFormat? _format = null;
-
         /// <summary>
-        /// Gets or sets the file format used when the package is saved.
-        /// <para>
-        /// When a package is loaded, this property is derived from the content type of the 
-        /// workbook part, so a file opened as a template (.xltx/.xltm) reports 
-        /// <see cref="OfficeOpenXml.eDocumentFormat.Template"/>. 
-        /// <see cref="OfficeOpenXml.eDocumentFormat.Workbook"/>.
-        /// </para>
-        /// <para>
-        /// Setting this property overrides the derived value, allowing a loaded template to be 
-        /// saved as a workbook or vice versa. Whether the workbook is saved as a macro-enabled 
-        /// file is determined automatically by the presence of a VBA project.
-        /// </para>
+        /// If true, the package is saved as an Excel template (.xltx, or .xltm if the workbook 
+        /// contains a VBA project). If false, it is saved as a standard Excel workbook 
+        /// (.xlsx/.xlsm). Default is false.
         /// </summary>
-        public eDocumentFormat DocumentFormat
-        {
-            get
-            {
-                if (_format == null)
-                {
-                    _format = ResolveFormatFromPackage();
-                }
-                return _format.Value;
-            }
-            set
-            {
-                _format = value;
-            }
-        }
-
-        private eDocumentFormat ResolveFormatFromPackage()
-        {            
-            if (_zipPackage == null) return eDocumentFormat.Workbook;
-
-            var wbPart = _zipPackage.GetPartByContentType(ContentTypes.contentTypeTemplateDefault)
-                      ?? _zipPackage.GetPartByContentType(ContentTypes.contentTypeTemplateMacroEnabled);
-
-            return wbPart != null ? eDocumentFormat.Template : eDocumentFormat.Workbook;
-        }
+        /// <remarks>
+        /// This value is not derived from a loaded package, so a template that is loaded and saved 
+        /// again becomes a standard workbook unless this is set to true. This mirrors how Excel 
+        /// handles templates.
+        /// </remarks>
+        public bool SaveAsTemplate { get; set; } = false;   
 
         CompatibilitySettings _compatibility = null;
         /// <summary>
