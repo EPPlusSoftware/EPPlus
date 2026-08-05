@@ -295,5 +295,83 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("SUM(" + ancillaryCopyName + "[H])", copy.Cells["G2"].Formula);
             }
         }
+
+        [TestMethod]
+        public void Copy_ToDifferentPackage_PreservesTableName_WhenNameIsFree()
+        {
+            using (var sourcePackage = CreatePackageWithTable(out var source))
+            using (var targetPackage = new ExcelPackage())
+            {
+                var copy = targetPackage.Workbook.Worksheets.Add("Copy", source);
+
+                //Different package, name not taken in the target: the original name is kept,
+                //not renamed to a generated Table{n} name.
+                Assert.AreEqual(1, copy.Tables.Count);
+                Assert.IsNotNull(copy.Tables["BoxOffice"]);
+                Assert.AreEqual("BoxOffice", copy.Tables[0].Name);
+            }
+        }
+
+        [TestMethod]
+        public void Copy_ToDifferentPackage_PreservedName_KeepsFormulaReference()
+        {
+            using (var sourcePackage = CreatePackageWithTable(out var source))
+            using (var targetPackage = new ExcelPackage())
+            {
+                source.Cells["C1"].Formula = "SUM(BoxOffice[Header])";
+
+                var copy = targetPackage.Workbook.Worksheets.Add("Copy", source);
+
+                //Name preserved, so the copied formula still references it unchanged.
+                Assert.AreEqual("SUM(BoxOffice[Header])", copy.Cells["C1"].Formula);
+            }
+        }
+
+        [TestMethod]
+        public void Copy_ToDifferentPackage_RenamesTable_WhenNameAlreadyExists()
+        {
+            using (var sourcePackage = CreatePackageWithTable(out var source))
+            using (var targetPackage = new ExcelPackage())
+            {
+                //Pre-existing table with the same name in the target workbook.
+                var existing = targetPackage.Workbook.Worksheets.Add("Existing");
+                existing.Cells["A1"].Value = "Header";
+                existing.Cells["A2"].Value = 1;
+                existing.Tables.Add(existing.Cells["A1:A2"], "BoxOffice");
+
+                var copy = targetPackage.Workbook.Worksheets.Add("Copy", source);
+
+                //Name collision in the target: the copied table must be renamed, and the
+                //original must remain untouched.
+                Assert.AreEqual("BoxOffice", existing.Tables[0].Name);
+                Assert.AreNotEqual("BoxOffice", copy.Tables[0].Name);
+                Assert.IsTrue(copy.Tables[0].Name.StartsWith("Table"));
+            }
+        }
+
+        [TestMethod]
+        public void Copy_TableCopyHandler_NewNameCollidesWithExistingTable_Throws()
+        {
+            using (var package = CreatePackageWithTable(out var source))
+            {
+                //A second, differently named table already in the workbook.
+                var other = package.Workbook.Worksheets.Add("Other");
+                other.Cells["A1"].Value = "Header";
+                other.Cells["A2"].Value = 1;
+                other.Tables.Add(other.Cells["A1:A2"], "ExistingTable");
+
+                Assert.ThrowsExactly<ArgumentException>(() =>
+                {
+                    package.Workbook.Worksheets.Copy(source.Name, "Copy", options =>
+                    {
+                        options.TableCopyHandler = args =>
+                        {
+                            //Collide with a table that already exists in the workbook.
+                            args.NewName = "ExistingTable";
+                        };
+                    });
+                });
+            }
+        }
     }
 }
