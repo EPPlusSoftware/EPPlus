@@ -28,10 +28,6 @@ using OfficeOpenXml.Utils.FileUtils;
 
 #if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
-using System.Linq;
-using System.Security.AccessControl;
-
-
 #endif
 
 #if (Core)

@@ -535,8 +535,8 @@ namespace OfficeOpenXml.Packaging
                     part.ContentType == ContentTypes.contentTypeRichDataValue ||
                     part.ContentType == ContentTypes.contentTypeWorkbookDefault ||
                     part.ContentType == ContentTypes.contentTypeWorkbookMacroEnabled ||
-                    part.ContentType == ContentTypes.contentTypeTemplateDefault ||      // nytt
-                    part.ContentType == ContentTypes.contentTypeTemplateMacroEnabled)   // nytt)
+                    part.ContentType == ContentTypes.contentTypeTemplateDefault ||      
+                    part.ContentType == ContentTypes.contentTypeTemplateMacroEnabled)   
                 {
                     saveAfterParts.Add(part);
                 }

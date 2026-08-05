@@ -20,11 +20,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
 using OfficeOpenXml.Configuration;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-
-
-
-
-
 #if !NET35 && !NET40
 using System.Threading;
 using System.Threading.Tasks;
@@ -422,8 +417,7 @@ namespace OfficeOpenXml
         /// Saves the workbook to a new file
         /// The package is closed after it has been saved
         /// </summary>
-        /// <param name="file">The file</param>       
-        /// This parameter overrides the Encryption.Password.</param>
+        /// <param name="file">The file</param>
         /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task SaveAsAsync(FileInfo file, Action<EPPlusSaveOption> options, CancellationToken cancellationToken = default)

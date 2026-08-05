@@ -252,22 +252,4 @@ namespace OfficeOpenXml
         /// </summary>
         Visible
     }
-    /// <summary>
-    /// Specifies the document format to use when saving a package.
-    /// </summary>
-    /// 
-    //public enum eDocumentFormat
-    //{
-    //    /// <summary>
-    //    /// A standard Excel workbook (.xlsx, or .xlsm if the workbook contains a VBA project).
-    //    /// This is the default format.
-    //    /// </summary>
-    //    Workbook,
-    //    /// <summary>
-    //    /// An Excel template (.xltx, or .xltm if the workbook contains a VBA project).
-    //    /// When opened in Excel, a template creates a new workbook based on its contents 
-    //    /// rather than opening the template file itself for editing.
-    //    /// </summary>
-    //    Template
-    //}
 }
