@@ -955,7 +955,7 @@ namespace OfficeOpenXml
             get
             {
                 CheckSheetTypeAndNotDisposed();
-                return GetXmlNodeBool(outLineSummaryBelowPath);
+                return GetXmlNodeBool(outLineSummaryBelowPath, true);
             }
             set
             {
@@ -972,7 +972,7 @@ namespace OfficeOpenXml
             get
             {
                 CheckSheetTypeAndNotDisposed();
-                return GetXmlNodeBool(outLineSummaryRightPath);
+                return GetXmlNodeBool(outLineSummaryRightPath, true);
             }
             set
             {
