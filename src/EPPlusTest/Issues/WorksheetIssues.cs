@@ -1194,5 +1194,22 @@ namespace EPPlusTest.Issues
             Assert.IsTrue(ex.Message.Contains("Strict Open XML"));
         }
 
+        [TestMethod]
+        public void Sc1061()
+        {
+            var package = OpenTemplatePackage("sample-1061-template-v2.xlsm");
+            var sourceSheet = package.Workbook.Worksheets["market_sheet_template"];
+            var newSheet = package.Workbook.Worksheets.Add("market_sheet_template_copy", sourceSheet);
+            var f35Formula = newSheet.Cells["F35"].Formula;
+            var f35Value = newSheet.Cells["F35"].Value;
+            var f36Formula = newSheet.Cells["F36"].Formula;
+            var f36Value = newSheet.Cells["F36"].Value;
+            var f35FormulaSource = sourceSheet.Cells["F35"].Formula;
+
+            SaveWorkbook("sample-1061-output.xlsm", package);
+
+
+        }
+
     }
 }

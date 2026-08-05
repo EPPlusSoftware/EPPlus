@@ -1,0 +1,41 @@
+﻿/*************************************************************************************************
+ Required Notice: Copyright (C) EPPlus Software AB. 
+ This software is licensed under PolyForm Noncommercial License 1.0.0 
+ and may only be used for noncommercial purposes 
+ https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+ A commercial license to use this software can be purchased at https://epplussoftware.com
+*************************************************************************************************
+ Date               Author                   Change
+*************************************************************************************************
+ 08/05/2026         EPPlus Software AB       Added
+*************************************************************************************************/
+namespace OfficeOpenXml.Core.Worksheet
+{
+    /// <summary>
+    /// Provides context for a table that is being copied to a new worksheet, and allows
+    /// a custom name to be assigned to the copied table.
+    /// </summary>
+    public class ExcelTableCopyEventArgs
+    {
+        /// <summary>
+        /// The name of the table on the source worksheet.
+        /// </summary>
+        public string SourceTableName { get; internal set; }
+
+        /// <summary>
+        /// The name that was assigned to the copied table by default. When the worksheet is
+        /// copied within the same workbook this is a generated name (Table1, Table2, ...).
+        /// When copied to another workbook where the original name is still available, this
+        /// equals <see cref="SourceTableName"/>.
+        /// </summary>
+        public string DefaultName { get; internal set; }
+
+        /// <summary>
+        /// The name to assign to the copied table. Leave as null to keep <see cref="DefaultName"/>.
+        /// Setting this to an existing table name will cause the same validation exception
+        /// as a normal table name assignment.
+        /// </summary>
+        public string NewName { get; set; }
+    }
+}

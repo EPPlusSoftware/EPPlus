@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Core.Worksheet
 {
     internal static class WorksheetCopyHelper
     {
-        internal static ExcelWorksheet Copy(ExcelWorksheets targetWorksheets, string name, ExcelWorksheet sourceWorksheet)
+        internal static ExcelWorksheet Copy(ExcelWorksheets targetWorksheets, string name, ExcelWorksheet sourceWorksheet, ExcelWorksheetCopyOptions options)
         {
             int sheetID;
             Uri uriWorksheet;
@@ -111,9 +111,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopySlicers(sourceWorksheet, targetWorksheet);
                 CopyDrawing(sourceWorksheet, targetWorksheet);
             }
+            List<KeyValuePair<string, string>> copiedTableNames = null;
             if (sourceWorksheet.Tables.Count > 0)
             {
-                CopyTable(sourceWorksheet, targetWorksheet);
+                copiedTableNames = CopyTable(sourceWorksheet, targetWorksheet);
             }
 
             if (sourceWorksheet.PivotTables.Count > 0)
@@ -182,8 +183,48 @@ namespace OfficeOpenXml.Core.Worksheet
                     pageSetup.Attributes.Remove(attr);
                 }
             }
+            //Apply any caller-supplied table names last, once the copy is fully
+            //materialized. Renaming earlier would break internal lookups in
+            //CopyDxfStyles and the slicer copy, which resolve the copied tables
+            //by their default name.
+            ApplyTableCopyOptions(targetWorksheet, options, copiedTableNames);
 
             return targetWorksheet;
+        }
+
+        private static void ApplyTableCopyOptions(ExcelWorksheet added, ExcelWorksheetCopyOptions options, List<KeyValuePair<string, string>> copiedTableNames)
+        {
+            if (options == null || options.TableCopyHandler == null || copiedTableNames == null)
+            {
+                return;
+            }
+
+            foreach (var pair in copiedTableNames)
+            {
+                var sourceTableName = pair.Key;
+                var defaultName = pair.Value;
+                var copiedTable = added.Tables[defaultName];
+                if (copiedTable == null)
+                {
+                    continue;
+                }
+
+                var args = new ExcelTableCopyEventArgs
+                {
+                    SourceTableName = sourceTableName,
+                    DefaultName = defaultName
+                };
+                options.TableCopyHandler.Invoke(args);
+
+                if (!string.IsNullOrEmpty(args.NewName) && args.NewName != defaultName)
+                {
+                    //The copied worksheet is now internally consistent (table and formulas both
+                    //use the default name), so routing through the ExcelTable.Name setter updates
+                    //the table and its references token based, and validates name uniqueness,
+                    //exactly as for a normal rename.
+                    copiedTable.Name = args.NewName;
+                }
+            }
         }
 
         private static void SetTableFunction(ExcelWorksheet added)
@@ -1024,8 +1065,9 @@ namespace OfficeOpenXml.Core.Worksheet
             return false;
         }
 
-        private static void CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static List<KeyValuePair<string, string>> CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            var copiedTableNames = new List<KeyValuePair<string, string>>();
             string prevName = "";
             //First copy the table XML
             foreach (var tbl in Copy.Tables)
@@ -1059,6 +1101,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 int Id = added.Workbook._nextTableID++;
                 prevName = name;
+                copiedTableNames.Add(new KeyValuePair<string, string>(tbl.Name, name));
+
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
                 xmlDoc.SelectSingleNode("//d:table/@id", tbl.NameSpaceManager).Value = Id.ToString();
@@ -1119,6 +1163,27 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                 }
             }
+
+            //The copied worksheet's formula cells were cloned verbatim and still reference
+            //the source table names. Because copied tables are written to XML directly (to
+            //avoid materializing them, for performance), the ExcelTable.Name setter never
+            //runs and the copied formulas are not adjusted. Adjust them here, once every
+            //table part has been written, scoped to the copied worksheet only so the source
+            //worksheet's references to its own tables are left untouched. Deferring until
+            //after the loop also ensures added.Tables is first materialized in its complete
+            //state.
+            foreach (var pair in copiedTableNames)
+            {
+                var sourceName = pair.Key;
+                var copiedName = pair.Value;
+                if (sourceName != copiedName)
+                {
+                    var ta = new TableAdjustFormula(added.Tables[copiedName]);
+                    ta.AdjustFormulas(sourceName, copiedName, added);
+                }
+            }
+
+            return copiedTableNames;
         }
         private static void CopyPivotTable(ExcelWorksheet Copy, ExcelWorksheet added)
         {

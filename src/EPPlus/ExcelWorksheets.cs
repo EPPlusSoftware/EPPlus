@@ -173,16 +173,46 @@ namespace OfficeOpenXml
                 return worksheet;
             }
         }
+
         /// <summary>
         /// Adds a copy of a worksheet
         /// </summary>
-        /// <param name="Name">The name of the workbook</param>
+        /// <param name="Name">The name of the worksheet</param>
         /// <param name="Copy">The worksheet to be copied</param>
+        /// <returns></returns>
         public ExcelWorksheet Add(string Name, ExcelWorksheet Copy)
+        {
+            return Add(Name, Copy, ExcelWorksheetCopyOptions.Default);
+        }
+
+        /// <summary>
+        /// Adds a copy of a worksheet
+        /// </summary>
+        /// <param name="Name">The name of the worksheet</param>
+        /// <param name="Copy">The worksheet to be copied</param>
+        /// <param name="optionsHandler">An action used to configure options for the copy operation</param>
+        /// <returns>The new copy added to the end of the worksheets collection</returns>
+        public ExcelWorksheet Add(string Name, ExcelWorksheet Copy, Action<ExcelWorksheetCopyOptions> optionsHandler)
+        {
+            var options = ExcelWorksheetCopyOptions.Default;
+            if (optionsHandler != null)
+            {
+                optionsHandler.Invoke(options);
+            }
+            return Add(Name, Copy, options);
+        }
+
+        /// <summary>
+        /// Adds a copy of a worksheet
+        /// </summary>
+        /// <param name="Name">The name of the worksheet</param>
+        /// <param name="Copy">The worksheet to be copied</param>
+        /// <param name="options">Options for copying the worksheet</param>
+        internal ExcelWorksheet Add(string Name, ExcelWorksheet Copy, ExcelWorksheetCopyOptions options)
         {
             lock (_worksheets)
             {
-                return WorksheetCopyHelper.Copy(this, Name, Copy);
+                return WorksheetCopyHelper.Copy(this, Name, Copy, options);
             }
         }
         /// <summary>
@@ -645,6 +675,7 @@ namespace OfficeOpenXml
                 return GetByName(Name);
             }
         }
+
         /// <summary>
         /// Copies the named worksheet and creates a new worksheet in the same workbook
         /// </summary>
@@ -653,11 +684,23 @@ namespace OfficeOpenXml
         /// <returns>The new copy added to the end of the worksheets collection</returns>
         public ExcelWorksheet Copy(string Name, string NewName)
         {
+            return Copy(Name, NewName, null);
+        }
+
+        /// <summary>
+        /// Copies the named worksheet and creates a new worksheet in the same workbook
+        /// </summary>
+        /// <param name="Name">The name of the existing worksheet</param>
+        /// <param name="NewName">The name of the new worksheet to create</param>
+        /// <param name="optionsHandler">An action used to configure options for the copy operation</param>
+        /// <returns>The new copy added to the end of the worksheets collection</returns>
+        public ExcelWorksheet Copy(string Name, string NewName, Action<ExcelWorksheetCopyOptions> optionsHandler)
+        {
             ExcelWorksheet Copy = this[Name];
             if (Copy == null)
                 throw new ArgumentException(string.Format("Copy worksheet error: Could not find worksheet to copy '{0}'", Name));
 
-            ExcelWorksheet added = Add(NewName, Copy);
+            ExcelWorksheet added = Add(NewName, Copy, optionsHandler);
             return added;
         }
         #endregion
