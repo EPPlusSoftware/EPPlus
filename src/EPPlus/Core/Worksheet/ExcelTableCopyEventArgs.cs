@@ -24,10 +24,12 @@ namespace OfficeOpenXml.Core.Worksheet
         public string SourceTableName { get; internal set; }
 
         /// <summary>
-        /// The name that was assigned to the copied table by default. When the worksheet is
-        /// copied within the same workbook this is a generated name (Table1, Table2, ...).
-        /// When copied to another workbook where the original name is still available, this
-        /// equals <see cref="SourceTableName"/>.
+        /// The name that was assigned to the copied table by default, before this handler
+        /// runs. When the worksheet is copied within the same workbook, this is a generated
+        /// name (Table1, Table2, ...). When copied to another workbook, the original name is
+        /// kept when it is still available, in which case this equals <see cref="SourceTableName"/>;
+        /// if a table with that name already exists in the target workbook, a generated name
+        /// is used instead.
         /// </summary>
         public string DefaultName { get; internal set; }
 
