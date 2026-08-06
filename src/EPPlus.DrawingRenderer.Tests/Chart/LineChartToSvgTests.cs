@@ -371,6 +371,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
         [TestMethod]
+        public void GenerateEPPlusPieChartsErrorCase()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("2.4-CreateAFileSystemReport_errorpie.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\PieError{i}.svg", svg);
+                }
+            }
+        }
+        [TestMethod]
         public void GenerateLineChartWithDropLine()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
