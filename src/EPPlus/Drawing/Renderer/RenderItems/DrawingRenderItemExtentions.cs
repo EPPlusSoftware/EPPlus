@@ -205,6 +205,7 @@ namespace EPPlusImageRenderer.RenderItems
                     //Fallback to theme
                     if (theme.FormatScheme.BackgroundFillStyle != null)
                     {
+                        
                         //Usually, at least for chart objects if the theme fill is not NoFill it is Subtle
                         var subtleBg = theme.FormatScheme.BackgroundFillStyle[0];
                         if (subtleBg.IsEmpty == false)
