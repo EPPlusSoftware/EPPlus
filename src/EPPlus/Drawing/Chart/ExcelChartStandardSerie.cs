@@ -274,7 +274,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeString(headerPath);
+                return GetXmlNodeString(headerPath, null);
             }
             set
             {

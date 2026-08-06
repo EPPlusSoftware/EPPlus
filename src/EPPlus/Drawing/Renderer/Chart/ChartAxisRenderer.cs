@@ -916,7 +916,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween==eCrossBetween.Between)
                         {
-                            return majorWidth * val + (majorWidth / 2);
+                            return majorWidth * (val-1) + (majorWidth / 2);
                         }
                         else
                         {
