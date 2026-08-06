@@ -1082,7 +1082,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            if(v.Style.Numberformat.IsDateFormat && !(v.Value is DateTime))
+                            if(v.Style.Numberformat.IsDateFormat && !(v.Value is DateTime) && ConvertUtil.IsNumericOrDate(v.Value))
                             {
                                 var d = ConvertUtil.GetValueDouble(v.Value);
                                 list.Add(new object[] { v.Text, a.Address, headerInfo[1], DateTime.FromOADate(d) }); //Last value is for sorting.
