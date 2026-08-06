@@ -557,8 +557,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //Calculate thetha = alpha/4
                 var angleForTriangle = Degrees / 4d;
 
-                var yTriangle = Math.Sin(MConverter.DegreesToRadians(angleForTriangle)) * _radius + 1;// add 1 for small rounding fault making too small
-                var xTriangle = Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius;
+                var angleForYTriangle = angleForTriangle + 1d;
+
+                var yTriangle = (Math.Sin(MConverter.DegreesToRadians(angleForYTriangle)) * _radius);// add 1 for small rounding fault making too small
+                var xTriangle = (Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius);
 
                 yTriangle *= 2d;
 
@@ -581,8 +583,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 else
                 {
-                    LargestWidthRectangle = xTriangle;
-                    LargestHeightRectangle = yTriangle;
+                    if(Degrees < 90d)
+                    {
+                        LargestWidthRectangle = yTriangle;
+                        LargestHeightRectangle = xTriangle;
+                    }
+                    else
+                    {
+                        LargestWidthRectangle = xTriangle;
+                        LargestHeightRectangle = yTriangle;
+                    }
                 }
             }
             else
