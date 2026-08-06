@@ -355,6 +355,23 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
         [TestMethod]
+        public void GenerateLineChartWithDropLine()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("5.3-ChartsAndThemes-IntegralTheme.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\5.3-SampleLines{i}.svg", svg);
+                }
+            }
+        }
+
+        [TestMethod]
         public void GenerateEPPlusPieCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -386,23 +403,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
-        [TestMethod]
-        public void GenerateLineChartWithDropLine()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("5.3-ChartsAndThemes-IntegralTheme.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[1];
-
-                for (int i = 0; i < ws.Drawings.Count; i++)
-                {
-                    var c = ws.Drawings[i];
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\5.3-SampleLines{i}.svg", svg);
-                }
-            }
-        }
-
         //2.4-CreateAFileSystemReport.xlsx
         //3.3-FxReportFromDatabase.xlsx
     }

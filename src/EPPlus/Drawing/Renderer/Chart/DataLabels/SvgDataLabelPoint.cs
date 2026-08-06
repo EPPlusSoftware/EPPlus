@@ -545,6 +545,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
                     //bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
 
+                    //Subtract standard excel margin of 2pt
                     bool CanFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
                     bool CanFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
 
