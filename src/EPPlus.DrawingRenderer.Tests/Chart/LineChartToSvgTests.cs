@@ -71,44 +71,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
-        [TestMethod]
-        public void GenerateSvgForComboCharts_sheet4()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[3];
-                var ix = 1;
-                var c = ws.Drawings[ix];
-                var svg = c.ToSvg();
-                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                //var ix = 1;
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_Combo_Sheet4{ix++}.svg", svg);
-                //}
-            }
-        }
-        [TestMethod]
-        public void GenerateSvgForTrendlineCharts_sheet5()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[4];
-                //var ix = 4;
-                //var c = ws.Drawings[ix];
-                //var svg = renderer.RenderDrawingToSvg(c);
-                //SaveTextFileToWorkbook($"svg\\Trendline_sheet5_{ix++}.svg", svg);
-                var ix = 1;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\Trendline_Sheet5{ix++}.svg", svg);
-                }
-            }
-        }
+
         [TestMethod]
         public void GenerateSvgForLineCharts()
         {
@@ -150,7 +113,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
-        public void GenerateSuperScript()
+        public void GenerateSvgForLineChartSecondaryAxis()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
@@ -313,22 +276,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var c = ws.Drawings[ix];
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{ix++}.svg", svg);
-
-                for (int i = 0; i < ws.Drawings.Count; i++)
-                {
-                    var c = ws.Drawings[i];
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{i}.svg", svg);
-                }
-            }
-        }
-        [TestMethod]
-        public void GenerateEPPlusBarCharts()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datapoints.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
 
                 for (int i = 0; i < ws.Drawings.Count; i++)
                 {
