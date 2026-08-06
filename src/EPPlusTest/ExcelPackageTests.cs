@@ -93,19 +93,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void SaveAsTemplate_Debug()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var ws = package.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = "Test";
-
-                package.SaveAsTemplate = true;
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
         public void SaveAsTemplate_WithVba_SetsTemplateMacroEnabledContentType()
         {
             using (var package = new ExcelPackage())
@@ -115,27 +102,23 @@ namespace EPPlusTest
 
                 package.Workbook.CreateVBAProject();
                 package.SaveAsTemplate = true;
-                SaveAndCleanup(package);
+                SaveWorkbook("SaveTemplate_Vba.xltm", package);
             }
+
+            AssertSavedWorkbookContentType("SaveTemplate_Vba.xltm",
+                ContentTypes.contentTypeTemplateMacroEnabled);
         }
 
         [TestMethod]
-        public void ReadAndConvertToTemplate()
+        public void ReadTemplate_ResaveWithoutOptions_ConvertsToWorkbook()
         {
             using (var package = OpenTemplatePackage("ExcelTemplateTest.xltx"))
-            {                                
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void ReadAndConvertWorkbookToTemplate()
-        {
-            using (var package = OpenTemplatePackage("ExcelTemplateTest.xlsx"))
             {
-                package.SaveAsTemplate = true;
-                SaveAndCleanup(package);
+                SaveWorkbook("ReadTemplate_Resaved.xlsx", package);
             }
+
+            AssertSavedWorkbookContentType("ReadTemplate_Resaved.xlsx",
+                ContentTypes.contentTypeWorkbookDefault);
         }
 
         [TestMethod]
@@ -315,6 +298,13 @@ namespace EPPlusTest
                 {
                     AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
                 }
+            }
+        }
+        private void AssertSavedWorkbookContentType(string fileName, string expectedContentType)
+        {
+            using (var reopened = OpenPackage(fileName))
+            {
+                AssertWorkbookContentType(expectedContentType, reopened);
             }
         }
 
