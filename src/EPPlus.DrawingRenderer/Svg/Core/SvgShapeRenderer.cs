@@ -586,8 +586,8 @@ namespace EPPlus.DrawingRenderer
 
         private string GetXy(RenderItem item, UserSpaceSettings userSpace, double? angle)
         {
-            //if (userSpace == UserSpaceSettings.UserSpaceOnUse_Parent)
-            //{
+            if (userSpace == UserSpaceSettings.UserSpaceOnUse_Parent)
+            {
                 double theta = MathHelper.Radians((angle ?? 90) % 360);
 
                 var l = item.Bounds.Left;
@@ -609,8 +609,8 @@ namespace EPPlus.DrawingRenderer
                 double x2 = cx + halfX, y2 = cy + halfY;
 
                 return $" x1=\"{(x1).PointToPixelString("0.00")}\" x2=\"{(x2).PointToPixelString("0.00")}\" y1=\"{y1.PointToPixelString("0.00")}\" y2=\"{y2.PointToPixelString("0.00")}\"";
-            //}
-            //return "";
+            }
+            return "";
         }
 
         private string GetOpacity(double opacity)
