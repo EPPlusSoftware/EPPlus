@@ -881,39 +881,6 @@ namespace OfficeOpenXml
             var xmlWriter = XmlWriter.Create(stream, xmlSettings);
             xmlDoc.Save(xmlWriter);
         }
-        /// <summary>
-		/// Saves the XmlDocument into the package at the specified Uri.
-		/// </summary>
-		/// <param name="uri">The Uri of the component</param>
-		/// <param name="xmlDoc">The XmlDocument to save</param>
-        internal void SaveWorkbook(Uri uri, XmlDocument xmlDoc)
-        {
-            Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
-            if (Workbook.VbaProject == null)
-            {
-                if (part.ContentType != ContentTypes.contentTypeWorkbookDefault)
-                {
-                    part = _zipPackage.CreatePart(uri, ContentTypes.contentTypeWorkbookDefault, Compression);
-                }
-            }
-            else
-            {
-                if (part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-                {
-                    var rels = part.GetRelationships();
-                    _zipPackage.DeletePart(uri);
-                    part = ZipPackage.CreatePart(uri, ContentTypes.contentTypeWorkbookMacroEnabled);
-                    foreach (ZipPackageRelationship rel in rels)
-                    {
-                        ZipPackage.DeleteRelationship(rel.Id);
-                        part.CreateRelationship(rel.TargetUri, rel.TargetMode, rel.RelationshipType);
-                    }
-                }
-            }
-            var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            xmlDoc.Save(stream);
-        }
-
         #endregion
 
         #region Dispose
@@ -1096,6 +1063,21 @@ namespace OfficeOpenXml
             Save();
         }
         /// <summary>
+        /// Saves all the components back into the package.
+        /// This method recursively calls the Save method on all sub-components.
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void Save(Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            Save();
+        }
+        /// <summary>
         /// Saves the workbook to a new file
         /// The package is closed after it has been saved        
         /// </summary>
@@ -1165,7 +1147,52 @@ namespace OfficeOpenXml
             Encryption.Password = password;
             SaveAs(OutputStream);
         }
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="filePath">The file location</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void SaveAs(string filePath, Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
 
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+
+            SaveAs(new FileInfo(filePath)); 
+        }
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="file">The file</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void SaveAs(FileInfo file, Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+
+            File = file;
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            Save();
+        }
+        /// <summary>
+        /// Copies the Package to the Outstream
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="OutputStream">The stream to copy the package to</param>
+        /// <param name="options">An action used to configure the save options, for example saving the package as an Excel template.</param>
+        public void SaveAs(Stream OutputStream, Action<EPPlusSaveOption> options)
+        {
+            var o = new EPPlusSaveOption();
+            options.Invoke(o);
+            Encryption.Password = o.Password;
+            SaveAsTemplate = o.SaveAsTemplate;
+            SaveAs(OutputStream);
+        }
         /// <summary>
         /// The output file. Null if no file is used
         /// </summary>
@@ -1210,6 +1237,19 @@ namespace OfficeOpenXml
                 ZipPackage.Compression = value;
             }
         }
+
+        /// <summary>
+        /// If true, the package is saved as an Excel template (.xltx, or .xltm if the workbook 
+        /// contains a VBA project). If false, it is saved as a standard Excel workbook 
+        /// (.xlsx/.xlsm). Default is false.
+        /// </summary>
+        /// <remarks>
+        /// This value is not derived from a loaded package, so a template that is loaded and saved 
+        /// again becomes a standard workbook unless this is set to true. This mirrors how Excel 
+        /// handles templates.
+        /// </remarks>
+        public bool SaveAsTemplate { get; set; } = false;   
+
         CompatibilitySettings _compatibility = null;
         /// <summary>
         /// Compatibility settings for older versions of EPPlus.
