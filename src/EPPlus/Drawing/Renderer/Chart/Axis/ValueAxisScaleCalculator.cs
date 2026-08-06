@@ -171,8 +171,8 @@ internal class ValueAxisScaleCalculator
                 roughInterval = (axisMax - axisMin) / desiredTicks;
                 scaleInterval = GetScaleNumber(roughInterval, true);
 
-                if (!axisOptions.LockedMin.HasValue) axisMin = Math.Floor(axisMin / scaleInterval) * scaleInterval;
-                if (!axisOptions.LockedMax.HasValue) axisMax = Math.Ceiling(axisMax / scaleInterval) * scaleInterval;
+                if (!axisOptions.LockedMin.HasValue) axisMin = axisMin == 0 ? 0 : Math.Floor(axisMin / scaleInterval) * scaleInterval;
+                if (!axisOptions.LockedMax.HasValue) axisMax = axisMax==0 ? 0 : Math.Ceiling(axisMax / scaleInterval) * scaleInterval;
             }
             else
             {

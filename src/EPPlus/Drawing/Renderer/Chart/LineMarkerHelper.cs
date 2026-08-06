@@ -1,4 +1,5 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -19,15 +20,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             RenderItem item = GetMarkerRenderItem(sc, x, y, isLegend, marker);
             if (marker.Fill.IsEmpty == false)
             {
-                item?.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
+                item?.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
             }
             else if (ls.Fill.IsEmpty)
             {
-                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, false, sc.Theme.ColorScheme.Accent1.GetColor());
+                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, sc.Theme.ColorScheme.Accent1.GetColor());
             }
             else
             {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
+                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
             }
 
             if (marker.Border.Width > 0)
@@ -170,7 +171,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 Width = size,
                 Height = size
             };
-            item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, false);
+            item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
             return item;
         }
 

@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
@@ -60,7 +61,7 @@ namespace EPPlusImageRenderer.Svg
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
 
-            rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, false, DefaultFillColor);
+            rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
             rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             Rectangle = rect;
         }

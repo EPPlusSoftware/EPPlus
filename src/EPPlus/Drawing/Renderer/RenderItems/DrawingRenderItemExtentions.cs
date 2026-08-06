@@ -31,7 +31,7 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal static class DrawingRenderItemExtentions
     {
-        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, bool gradientUserSpace = false, Color? nullColor = null)
+        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpace = UserSpaceSettings.ObjectBoundingBox, Color? nullColor = null)
         {
             switch (fill.Style)
             {
@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer.RenderItems
                     break;
             }
         }
-        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, bool gradientUserSpaceOnUse, Color? nullColor)
+        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpaceOnUse, Color? nullColor)
         {
             double? opacity = null;
             switch (fill.Style)
@@ -76,7 +76,7 @@ namespace EPPlusImageRenderer.RenderItems
                 item.FillOpacity = opacity;
             }
         }
-        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, bool grandientUserSpaceOnUse=true)
+        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, UserSpaceSettings grandientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
         {
             double? opacity = null;
             if (border == null)
@@ -136,6 +136,10 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 item.GlowRadius = effect.Glow.Radius;
                 var gc = tc.ColorConverter.GetThemeColor(theme, effect.Glow.Color);
+                if(gc.A>0)
+                {
+                    item.GlowOpacity = Math.Round(gc.A / 255D * 100); 
+                }
                 item.GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
             }
             if (effect.HasOuterShadow)

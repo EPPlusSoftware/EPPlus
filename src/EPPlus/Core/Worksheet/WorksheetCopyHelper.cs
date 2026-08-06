@@ -10,36 +10,37 @@
  *************************************************************************************************
   12/14/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.Drawing.OleObject.Structures;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Utils.CompundDocument;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.VBA;
 using System;
 using System.Collections.Generic;
-using OfficeOpenXml.Packaging;
 using System.IO;
-using System.Xml;
-using OfficeOpenXml.ThreadedComments;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.VBA;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
-using OfficeOpenXml.Drawing.OleObject;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.Drawing.OleObject.Structures;
-using System.Xml.Linq;
-using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.X509Certificates;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils.FileUtils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Threading;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -1097,7 +1098,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     relAtt = added.WorksheetXml.SelectSingleNode(string.Format("//d:tableParts/d:tablePart/@r:id[.='{0}']", tbl.RelationshipID), tbl.NameSpaceManager) as XmlAttribute;
                     relAtt.Value = rel.Id;
                 }
-
+                
                 //Copy table slicers
                 foreach (var col in tbl.Columns)
                 {

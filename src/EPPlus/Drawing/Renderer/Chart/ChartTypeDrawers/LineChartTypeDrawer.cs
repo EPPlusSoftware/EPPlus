@@ -60,6 +60,33 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateTrendlines(chartType, _xValues, _yValues);
             CreateErrorBars(chartType, _xValues, _yValues);
         }
+        List<LineRenderItem> _dropLines=null;
+        private void CreateDropLine(ExcelLineChart chartType, List<double> coords)
+        {
+            if (chartType.DropLine == null) return;
+            _dropLines=new List<LineRenderItem>();
+            for (var i = 0; i < coords.Count; i += 2)
+            {
+                var x = coords[i];
+                var yTop = coords[i+1];
+                var catAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
+                var valAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
+                var yBottom = GetAxisBaseY(catAxis, valAxis);
+                var bb = ChartRenderer.Plotarea.Group.Bounds;
+                var dl = new LineRenderItem(bb)
+                {
+                    X1 = x,
+                    X2 = x,
+                    Y1 = yTop,
+                    Y2 = yBottom,                    
+                };
+                dl.Bounds.Name = $"DropLine {i/2 + 1}";
+                dl.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, DefaultBorderColor, 1.5,DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
+                dl.SetDrawingPropertiesEffects(ChartRenderer.Theme, chartType.DropLine.Effect);
+                
+                _dropLines.Add(dl);
+            }
+        }
         internal override void DrawSeries()
         {
             var lct = (ExcelLineChart)_chartType;
@@ -77,7 +104,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
                 var dataPoints = new List<BoundingBox>();
-                AddLine(_chartType, serie, xSerie, ySerie, dataPoints);
+                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -89,7 +116,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
             }
-
 
             //Append Trendline render items.
             foreach (var tr in Trendlines)
@@ -115,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
         }
-        private void SumSeries(List<List<object>> series)
+        private new void SumSeries(List<List<object>> series)
         {
             for(var i=1;i < series.Count;i++)
             {
@@ -125,9 +151,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
+        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
         {            
             ChartAxisRenderer yAxis, xAxis;
+            
             if (chartType.UseSecondaryAxis)
             {
                 yAxis = ChartRenderer.SecondVerticalAxis;
@@ -142,6 +169,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 yAxis = ChartRenderer.VerticalAxis;
                 xAxis = ChartRenderer.HorizontalAxis;
             }
+
             var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             var dataPointOverrides = new List<LineRenderItem>();
             var coords = new List<double>();
@@ -153,7 +181,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
-                if (xValues == null || xAxis.Axis.AxisType==eAxisType.Cat)
+                if (xValues == null || (xAxis.Axis.AxisType==eAxisType.Cat && xValues.Count>0 && !(xValues[0] is double)))
                 {
                     x = (double)i;
                 }
@@ -224,6 +252,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     dataPointOverrides.Add(lineDp);
                 }
             }
+            
+            CreateDropLine(chartType, coords);
 
             linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
             linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, DefaultBorderColor, 3);
@@ -234,6 +264,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.Add(linePath);
             SeriesRenderItems.AddRange(dataPointOverrides);
             SeriesRenderItems.AddRange(markerItems);
+            if(_dropLines!=null) SeriesRenderItems.AddRange(_dropLines);
             SeriesRenderItems.AddRange(errorBars);
         }
 

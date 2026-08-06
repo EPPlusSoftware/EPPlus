@@ -61,7 +61,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             CreateTrendlines(chartType, _catValues, _valValues);
-            CreateErrorBars(chartType, _catValues, _valValues);
+            CreateErrorBars(chartType, _catValues, _valValues);            
         }
 
         internal override void DrawSeries()
@@ -201,7 +201,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Gapwidth has a default value of 150% See ECMA-376 Part 1 page 4063:
             //"<xsd:complexType name="CT_GapAmount">286 <xsd:attribute name="val" type="ST_GapAmount" default="150%"/>287 </xsd:complexType>"
             var gapWidth = chartType.GapWidth == int.MinValue ? 150 : chartType.GapWidth;
-            var gapPercent = gapWidth / 100D;     // Gap width between bars/columns in percent
+            var gapPercent = gapWidth / 100D;               // Gap width between bars/columns in percent
             var overlapPercent = chartType.Overlap / 100D;  // Overlap  between bars/columns in percent            
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + gapWidth);
@@ -209,18 +209,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
 
-            if (catAx.Axis.Crosses == eCrosses.AutoZero)
-            {
-                chartBaseY = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
-            }
-            else if (catAx.Axis.Crosses == eCrosses.Min)
-            {
-                chartBaseY = valAx.GetPositionInPlotarea(valAx.Min, true);
-            }
-            else
-            {
-                chartBaseY = valAx.GetPositionInPlotarea(valAx.Max, true);
-            }
+            chartBaseY = GetAxisBaseY(catAx, valAx);
 
             var isStacked = chartType.IsTypeStacked();
             var isStacked100 = chartType.IsTypePercentStacked();
@@ -373,6 +362,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
+
         private void GetAxis(ExcelBarChart chartType, out ChartAxisRenderer yAxis, out ChartAxisRenderer xAxis)
         {
             if (chartType.UseSecondaryAxis)

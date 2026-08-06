@@ -10,6 +10,8 @@ using System.Globalization;
 using System.Text;
 using OfficeOpenXml.Utils;
 using EPPlus.Fonts.OpenType.Utils;
+using System.Security.Cryptography.Xml;
+using System.ComponentModel;
 
 namespace EPPlus.DrawingRenderer
 {
@@ -126,7 +128,7 @@ namespace EPPlus.DrawingRenderer
                 var key = item.GradientFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource);
+                    name = WriteGradient($"Gradient{ix}", defSb, hs, item, item.GradientFill, item.FillColorSource);
                     _defsCache[key] = name;
                 }
                 item.FillColor = $"Url(#{name})";
@@ -159,10 +161,10 @@ namespace EPPlus.DrawingRenderer
             }
             if (item.BorderGradientFill != null)
             {
-                var key = item.BorderGradientFill.GetKey();
+                var key = item.BorderGradientFill.GetKey() + item.Bounds.UniqueKey;
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource);
+                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item, item.BorderGradientFill, item.BorderColorSource);
                     _defsCache[key] = name;
                 }
                 item.BorderColor = $"Url(#{name})";
@@ -176,9 +178,11 @@ namespace EPPlus.DrawingRenderer
                     {
                         name = GetFilterName(ix);
                         item.FilterName = $"Url(#{name})";
-                        filter = $"<filter id=\"{name}\">";
-                        filter += $"<feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"{item.GlowRadius ?? 0 / 2}\" result=\"blur\"/>" +
-                        $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"0.8\" result=\"glowColor\"/>" +
+                        filter = $"<filter id=\"{name}\" filterUnits=\"userSpaceOnUse\">";
+                        double stdev = (item.GlowRadius??0) / 4D;
+                        filter += $"<feMorphology in=\"SourceAlpha\" operator=\"dilate\" radius=\"{stdev.ToString("#.###", CultureInfo.InvariantCulture)}\" result=\"thick\"/>" +
+                        $"<feGaussianBlur in=\"thick\" stdDeviation=\"{stdev.ToString("#.###",CultureInfo.InvariantCulture)}\" result=\"blur\"/>" +
+                        $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"{item.GlowOpacity}%\" result=\"glowColor\"/>" +
                         $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
                         $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
 
@@ -264,15 +268,15 @@ namespace EPPlus.DrawingRenderer
             defSb.Append($"</pattern>");
             return name;
         }
-        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderGradientFill gradientFill, PathFillMode fillMode)
+        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderItem item, RenderGradientFill? gradientFill, PathFillMode fillMode)
         {
-            //var gs = gradientFill.Settings;
-            var name = $"{namePrefix}{fillMode}";
-            var grUnits = gradientFill.UserSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
+            var name = GetGradientName(namePrefix, fillMode, gradientFill);
+
             if (gradientFill.ShadePath == ShadePath.Linear && hs.Contains(name) == false)
             {
                 hs.Add(name);
-                var xy = GetXy(gradientFill.LinearSettings?.Angle);
+                var grUnits = gradientFill.UserSpaceOnUse != UserSpaceSettings.ObjectBoundingBox ? " gradientUnits=\"userSpaceOnUse\"" : "";
+                var xy = GetXy(item, gradientFill.UserSpaceOnUse, gradientFill.LinearSettings?.Angle);
                 defSb.Append($"<linearGradient id=\"{name}\"{grUnits} {xy}>");
                 SetStopColors(defSb, gradientFill, fillMode);
                 defSb.Append("</linearGradient>");
@@ -287,6 +291,16 @@ namespace EPPlus.DrawingRenderer
 
             return name;
         }
+
+        private string GetGradientName(string namePrefix, PathFillMode fillMode, RenderGradientFill? gradientFill)
+        {
+            //if(gradientFill?.UserSpaceOnUse==UserSpaceSettings.UserSpaceOnUse_Parent || gradientFill?.LinearSettings?.Angle!=0)
+            //{
+            //    return $"{namePrefix}{fillMode}";
+            //}
+            return $"{namePrefix}{fillMode}";
+        }
+
         private string WritePattern(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderPatternFill patternFill, PathFillMode fillMode)
         {
             var name = $"{namePrefix}{fillMode}";
@@ -570,39 +584,33 @@ namespace EPPlus.DrawingRenderer
             }
         }
 
-        private string GetXy(double? angle)
+        private string GetXy(RenderItem item, UserSpaceSettings userSpace, double? angle)
         {
-            if (angle.HasValue && angle != 0)
-            {
-                var x1 = 0D;
-                var x2 = 0D;
-                var y1 = 0D;
-                var y2 = 0D;
-                angle %= 360;
-                if (angle <= 90)
-                {
-                    x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
-                    y2 = Math.Sin(MathHelper.Radians(angle.Value));
-                }
-                else if (angle <= 180)
-                {
-                    y2 = Math.Sin(MathHelper.Radians(angle.Value));
-                    x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
-                }
-                else if (angle <= 270)
-                {
-                    y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
-                    x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
-                }
-                else
-                {
-                    y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
-                    x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
-                }
+            //if (userSpace == UserSpaceSettings.UserSpaceOnUse_Parent)
+            //{
+                double theta = MathHelper.Radians((angle ?? 90) % 360);
 
-                return $" x1=\"{(x1).ToString("0.00%", CultureInfo.InvariantCulture)}\" x2=\"{(x2).ToString("0.00%", CultureInfo.InvariantCulture)}\" y1=\"{y1.ToString("0.00%", CultureInfo.InvariantCulture)}\" y2=\"{y2.ToString("0.00%", CultureInfo.InvariantCulture)}\"";
-            }
-            return "";
+                var l = item.Bounds.Left;
+                var t =  item.Bounds.Top;
+                var w = item.Bounds.Width;
+                var h = item.Bounds.Height;
+
+                double dx = Math.Cos(theta);
+                double dy = Math.Sin(theta);
+                double length = w * Math.Abs(dx) + h * Math.Abs(dy);
+
+                double cx = l + w / 2.0;
+                double cy = t + h / 2.0;
+
+                double halfX = (length / 2.0) * dx;
+                double halfY = (length / 2.0) * dy;
+
+                double x1 = cx - halfX, y1 = cy - halfY;
+                double x2 = cx + halfX, y2 = cy + halfY;
+
+                return $" x1=\"{(x1).PointToPixelString("0.00")}\" x2=\"{(x2).PointToPixelString("0.00")}\" y1=\"{y1.PointToPixelString("0.00")}\" y2=\"{y2.PointToPixelString("0.00")}\"";
+            //}
+            //return "";
         }
 
         private string GetOpacity(double opacity)

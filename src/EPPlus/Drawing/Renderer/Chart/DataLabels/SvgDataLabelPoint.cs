@@ -214,11 +214,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (dataLabel.Fill.IsEmpty == false)
             {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
             }
             else
             {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, false, DefaultFillColor);
+                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
                 //_txtBox.Rectangle.FillColor = "transparent";
             }
 

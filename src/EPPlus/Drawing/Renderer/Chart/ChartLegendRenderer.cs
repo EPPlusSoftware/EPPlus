@@ -13,30 +13,19 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.Utils;
-using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.Drawing.Style.Coloring;
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Linq.Expressions;
-using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
-
+using EPPlus.DrawingRenderer;
 namespace EPPlusImageRenderer.Svg
 {
     internal class ChartLegendRenderer : ChartDrawingObject
@@ -94,7 +83,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle = GetRectFromManualLayout(sc, l.Layout);
             }
 
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, false, DefaultFillColor);
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
             Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             
             var pSls = SetLegendSeries(entryWidth, entryHeight);
@@ -882,7 +871,7 @@ namespace EPPlusImageRenderer.Svg
         private LineRenderItem GetTrendLineSeriesIcon(ExcelChart ct, ExcelChartTrendline tl, DrawingLegendSerie pSls, double entryWidth, double entryHeight)
         {
             var line = new LineRenderItem(Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, false, DefaultFillColor);
+            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
             line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);

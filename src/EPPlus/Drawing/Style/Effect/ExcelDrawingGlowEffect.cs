@@ -51,11 +51,11 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
                 get
                 {
-                    return GetXmlNodeEmuToPtNull(_radiusPath)??0;
+                    return GetXmlNodeEmuToPixelNull(_radiusPath)??0;
                 }
                 set
                 {
-                    SetXmlNodeEmuToPt(_radiusPath, value);
+                    SetXmlNodeEmuToPixel(_radiusPath, value);
                     InitXml();
             }
         }

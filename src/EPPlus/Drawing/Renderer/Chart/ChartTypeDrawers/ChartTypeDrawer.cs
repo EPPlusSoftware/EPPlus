@@ -1,4 +1,5 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer;
@@ -237,7 +238,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
 
-            item.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, false, color);
+            item.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
             item.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
         }
 
@@ -248,12 +249,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
-                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
+                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
             }
             else
             {
                 var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
-                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, color);
+                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
             }
             item.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
         }
@@ -293,7 +294,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     int colorCount = -1;
 
-                    if(colorsManager.Variations.Count > colorsManager.Colors.Count)
+                    if (colorsManager.Variations.Count > colorsManager.Colors.Count)
                     {
                         colorCount = colorsManager.Colors.Count;
                     }
@@ -307,8 +308,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
             }
         }
+        protected double GetAxisBaseY(ChartAxisRenderer catAx, ChartAxisRenderer valAx)
+        {
 
-
+            if (catAx.Axis.Crosses == eCrosses.AutoZero)
+            {
+                return valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+            }
+            else if (catAx.Axis.Crosses == eCrosses.Min)
+            {
+                return valAx.GetPositionInPlotarea(valAx.Min, true);
+            }
+            else
+            {
+                return valAx.GetPositionInPlotarea(valAx.Max, true);
+            }
+        }
     }
-
 }

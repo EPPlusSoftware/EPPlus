@@ -16,6 +16,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -856,7 +857,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     return true;
                 }
-                else if (AxisType != eAxisType.Cat)
+                else
                 {
                     var nf = new ExcelFormatTranslator(Format, 0);
                     if (nf.DataType == eFormatType.DateTime)
@@ -896,14 +897,22 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
         }
-        internal override List<object> GetAxisValues(out bool isCount)
+        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric)
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
             var dl = values.SelectMany(x => x).Distinct().ToList();
-            if (AxisType!=eAxisType.Cat)
+            isNumeric = dl.Any(x => x == null || x.IsNumeric() || (x is object[] a && a[3].IsNumeric()));
+            if (isNumeric)
             {
-                dl.Sort();
+                if (dl[0] is object[])
+                {
+                    dl = dl.OrderBy(x => ((object[])x)[3]).ToList();
+                }
+                else
+                {
+                    dl.Sort();
+                }
             }
             if (Orientation == eAxisOrientation.MaxMin)
             {
@@ -933,7 +942,10 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
+                            if (ct.XAxis.Id == Id || ct.YAxis.Id == Id)
+                            {
+                                AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
+                            }
                         }
                     }
                     else
@@ -1070,7 +1082,15 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            list.Add(new string[] { v.Text, a.Address, headerInfo[1] });
+                            if(v.Style.Numberformat.IsDateFormat && !(v.Value is DateTime))
+                            {
+                                var d = ConvertUtil.GetValueDouble(v.Value);
+                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], DateTime.FromOADate(d) }); //Last value is for sorting.
+                            }
+                            else
+                            {
+                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], v.Value }); //Last value is for sorting.
+                            }
                         }
                     }
                     else

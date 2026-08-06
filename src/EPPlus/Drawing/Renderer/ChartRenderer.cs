@@ -45,8 +45,10 @@ namespace EPPlusImageRenderer
             }
 
             //We need to create the plotarea before the legend and axes, as the trendlines can affect the value axis and should be rendererd in the legend.
-            Plotarea = new ChartPlotareaRenderer(this);
-            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+            Plotarea = new ChartPlotareaRenderer(this)
+            {
+                ChartTypeDrawers = ChartTypeDrawer.Create(this)
+            };
 
             if (chart.HasLegend)
             {
@@ -75,7 +77,7 @@ namespace EPPlusImageRenderer
             SetAxisPositionsFromPlotarea();
 
             Plotarea.DrawSeries();
-
+            
             //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
             AppendItems();
 
@@ -308,7 +310,7 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, item.DefaultFillColor);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.DefaultFillColor);
             item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75);
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
@@ -401,8 +403,8 @@ namespace EPPlusImageRenderer
             const float LineLength = 21;
 
             var item = new LineRenderItem(parentItem);
-            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, false);
-            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, 0.75, false);
+            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, 0.75, UserSpaceSettings.ObjectBoundingBox);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;
