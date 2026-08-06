@@ -1200,7 +1200,6 @@ namespace EPPlusTest.Issues
             var worksheet = package.Workbook.Worksheets.Add("Table1");
             worksheet.Cells["2:5"].EntireRow.Group();
             worksheet.Cells["C:E"].EntireColumn.Group();
-
             Assert.AreEqual(true, worksheet.OutLineSummaryBelow);
             Assert.AreEqual(true, worksheet.OutLineSummaryRight); 
         }

@@ -12,45 +12,50 @@ namespace OfficeOpenXml.Table
             _tbl = tbl;
         }
 
+        internal void AdjustFormulas(string prevName, string name, ExcelWorksheet ws)
+        {
+            foreach (var tbl in ws.Tables)
+            {
+                foreach (var c in tbl.Columns)
+                {
+                    if (!string.IsNullOrEmpty(c.CalculatedColumnFormula))
+                    {
+                        c.CalculatedColumnFormula = ReplaceTableName(c.CalculatedColumnFormula, prevName, name);
+                    }
+                }
+            }
+
+            var wsCse = new CellStoreEnumerator<object>(ws._formulas);
+            while (wsCse.Next())
+            {
+                if (wsCse.Value is string f)
+                {
+                    if (f.IndexOf(prevName, StringComparison.InvariantCultureIgnoreCase) > -1)
+                    {
+                        ws._formulas.SetValue(wsCse.Row, wsCse.Column, ReplaceTableName(f, prevName, name));
+                    }
+                }
+            }
+
+            foreach (var sf in ws._sharedFormulas.Values)
+            {
+                if (sf.Formula.IndexOf(prevName, StringComparison.InvariantCultureIgnoreCase) > -1)
+                {
+                    sf.Formula = ReplaceTableName(sf.Formula, prevName, name);
+                }
+            }
+
+            foreach (var n in ws.Names)
+            {
+                AdjustName(n, prevName, name);
+            }
+        }
+
         internal void AdjustFormulas(string prevName, string name)
         {
             foreach (var ws in _tbl.WorkSheet.Workbook.Worksheets)
             {
-                foreach (var tbl in ws.Tables)
-                {
-                    foreach (var c in tbl.Columns)
-                    {
-                        if (!string.IsNullOrEmpty(c.CalculatedColumnFormula))
-                        {
-                            c.CalculatedColumnFormula = ReplaceTableName(c.CalculatedColumnFormula, prevName, name);
-                        }
-                    }
-                }
-
-                var cse = new CellStoreEnumerator<object>(ws._formulas);
-                while (cse.Next())
-                {
-                    if (cse.Value is string f)
-                    {
-                        if (f.IndexOf(prevName, StringComparison.InvariantCultureIgnoreCase) > -1)
-                        {
-                            ws._formulas.SetValue(cse.Row, cse.Column, ReplaceTableName(f, prevName, name));
-                        }
-                    }
-                }
-
-                foreach (var sf in ws._sharedFormulas.Values)
-                {
-                    if (sf.Formula.IndexOf(prevName, StringComparison.InvariantCultureIgnoreCase) > -1)
-                    {
-                        sf.Formula = ReplaceTableName(sf.Formula, prevName, name);
-                    }
-                }
-
-                foreach (var n in ws.Names)
-                {
-                    AdjustName(n, prevName, name);
-                }
+                AdjustFormulas(prevName, name, ws);
             }
 
             foreach (var n in _tbl.WorkSheet.Workbook.Names)
@@ -97,4 +102,3 @@ namespace OfficeOpenXml.Table
         }
     }
 }
-
