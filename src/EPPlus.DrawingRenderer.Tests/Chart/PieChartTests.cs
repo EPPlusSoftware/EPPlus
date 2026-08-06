@@ -85,6 +85,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+
         [TestMethod]
         public void GenerateEPPlusPieChartsErrorCase()
         {
