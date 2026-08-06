@@ -544,6 +544,16 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
+        public void TableDiff()
+        {
+            using var p = OpenTemplatePackage("TableDiff.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            string path = pdfPath + "TableDiff.pdf";
+            wb.SaveAsPdf(path, ws0);
+        }
+
+        [TestMethod]
         public void EPPlusToPdf()
         {
             string[][] pixels =

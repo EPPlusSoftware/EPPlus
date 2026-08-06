@@ -217,6 +217,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     }
                     tableRow = cell._fromRow - range._fromRow;
                     tableCol = cell._fromCol - range._fromCol;
+                    cellStyle.dxfFill = tableStyle.WholeTable.Style.Fill;
                     if (table.ShowHeader && tableRow == 0)
                     {
                         cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
@@ -235,15 +236,13 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     }
                     else if (table.ShowRowStripes)
                     {
-                        cellStyle.dxfFill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
+                        var fill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
+                        if (fill.HasValue) cellStyle.dxfFill = fill;
                     }
                     else if (table.ShowColumnStripes)
                     {
-                        cellStyle.dxfFill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
-                    }
-                    else
-                    {
-                        cellStyle.dxfFill = tableStyle.WholeTable.Style.Fill;
+                        var fill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
+                        if (fill.HasValue) cellStyle.dxfFill = fill;
                     }
                 }
             }
@@ -319,6 +318,53 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         return rule.Style.Border;
                     }
                     if (rule.StopIfTrue) break;
+                }
+            }
+            return null;
+        }
+
+        private static void GetTableRegionOverride(ExcelRangeBase cell, ExcelTable table,
+            out ExcelDxfStyle colStyle, out ExcelDxfStyle tblStyle)
+        {
+            colStyle = null;
+            tblStyle = null;
+            var range = table.Range;
+            int tableRow = cell._fromRow - range._fromRow;
+            int tableCol = cell._fromCol - range._fromCol;
+            ExcelTableColumn column = (tableCol >= 0 && tableCol < table.Columns.Count) ? table.Columns[tableCol] : null;
+
+            string attr;
+            ExcelDxfStyle tblCandidate, colCandidate;
+            if (table.ShowHeader && tableRow == 0)
+            { attr = "headerRowDxfId"; tblCandidate = table.HeaderRowStyle; colCandidate = column?.HeaderRowStyle; }
+            else if (table.ShowTotal && cell._fromRow == range._toRow)
+            { attr = "totalsRowDxfId"; tblCandidate = table.TotalsRowStyle; colCandidate = column?.TotalsRowStyle; }
+            else
+            { attr = "dataDxfId"; tblCandidate = table.DataStyle; colCandidate = column?.DataStyle; }
+
+            var tableNode = table.TableXml?.DocumentElement;
+            if (tableNode == null) return;   // no raw XML: treat as no override (leaves the style element in place)
+
+            if (tableNode.Attributes?[attr] != null) tblStyle = tblCandidate;
+
+            if (column != null)
+            {
+                var colNode = GetTableColumnNode(tableNode, tableCol);
+                if (colNode?.Attributes?[attr] != null) colStyle = colCandidate;
+            }
+        }
+
+        private static System.Xml.XmlNode GetTableColumnNode(System.Xml.XmlNode tableNode, int index)
+        {
+            foreach (System.Xml.XmlNode child in tableNode.ChildNodes)
+            {
+                if (child.LocalName != "tableColumns") continue;
+                int i = 0;
+                foreach (System.Xml.XmlNode col in child.ChildNodes)
+                {
+                    if (col.LocalName != "tableColumn") continue;
+                    if (i == index) return col;
+                    i++;
                 }
             }
             return null;
@@ -422,7 +468,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         font = tableStyle.FirstColumn.Style.Font;
                     }
                 }
+                GetTableRegionOverride(cell, table, out var ovCol, out var ovTbl);
+                cellStyle.dxfFontOverride = (ovCol?.Font != null && ovCol.Font.HasValue) ? ovCol.Font
+                                          : (ovTbl?.Font != null && ovTbl.Font.HasValue) ? ovTbl.Font
+                                          : null;
                 cellStyle.dxfFont = font;
+
             }
             return cellStyle;
         }
@@ -522,23 +573,30 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
         private static void ReadDxfFontOverrides(PdfCellStyle cellStyle, out bool bold, out bool italic, out bool strike, out bool underline, out ExcelUnderLineType underLineType, out System.Drawing.Color? color)
         {
-            bold = false;
-            italic = false;
-            strike = false;
-            underline = false;
-            underLineType = ExcelUnderLineType.None;
-            color = null;
-            if (cellStyle != null && cellStyle.dxfFont != null)
+            bold = false; italic = false; strike = false; underline = false;
+            underLineType = ExcelUnderLineType.None; color = null;
+            if (cellStyle == null) return;
+
+            var elem = cellStyle.dxfFont;           // style element (or CF font)
+            var ov = cellStyle.dxfFontOverride;   // region override — wins per property
+
+            var b = ov?.Bold ?? elem?.Bold;
+            var i = ov?.Italic ?? elem?.Italic;
+            var st = ov?.Strike ?? elem?.Strike;
+            var un = ov?.Underline ?? elem?.Underline;
+            var cl = (ov?.Color != null && ov.Color.HasValue) ? ov.Color
+                   : (elem?.Color != null && elem.Color.HasValue) ? elem.Color
+                   : null;
+
+            bold = b ?? false;
+            italic = i ?? false;
+            strike = st ?? false;
+            underline = un != null;
+            underLineType = un != null ? (ExcelUnderLineType)un : ExcelUnderLineType.None;
+            if (cl != null && cl.HasValue)
             {
-                bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
-                italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
-                strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
-                underline = cellStyle.dxfFont.Underline != null;
-                underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
-                if (cellStyle.dxfFont.Color != null && cellStyle.dxfFont.Color.HasValue)
-                {
-                    color = cellStyle.dxfFont.Color.GetColorAsColor();
-                }
+                // GetColorAsColor() returns white for an automatic colour; for print it must be black.
+                color = cl.Auto == true ? System.Drawing.Color.Black : cl.GetColorAsColor();
             }
         }
 

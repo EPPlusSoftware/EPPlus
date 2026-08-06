@@ -28,6 +28,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         //Fill
         internal ExcelFill xfFill { get; set; }
         internal ExcelDxfFill dxfFill { get; set; }
+        internal ExcelDxfFontBase dxfFontOverride { get; set; }
 
         //Borders
         internal ExcelBorderItem xfTop { get; set; }
