@@ -479,7 +479,7 @@ namespace EPPlus.DrawingRenderer
 
             defSb.Append($"<rect width=\"{width}\" height=\"{height}\" {WriteFillColor(abc)}");
             defSb.Append("/>");
-            defSb.Append($"<rect x=\"0\" y=\"0\" width=\"1\" height=\"1\" \"/>");
+            defSb.Append($"<rect x=\"0\" y=\"0\" width=\"1\" height=\"1\"/>");
             defSb.Append($"<rect x=\"{Math.Round(width / 2D, 0)}\" y=\"{Math.Round(height / 2D, 0)}\" width=\"1\" height=\"1\" {WriteFillColor(afc)}/>");
             defSb.Append($"</pattern>");
         }
