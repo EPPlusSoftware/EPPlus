@@ -48,6 +48,10 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         internal bool SuppressBottom { get; set; }
         internal bool SuppressLeft { get; set; }
         internal bool SuppressRight { get; set; }
+        internal bool dxfTopIsWholeTable { get; set; }
+        internal bool dxfBottomIsWholeTable { get; set; }
+        internal bool dxfLeftIsWholeTable { get; set; }
+        internal bool dxfRightIsWholeTable { get; set; }
 
         //Fonts
         internal ExcelFont xfFont { get; set; }

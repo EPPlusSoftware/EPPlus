@@ -10,13 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -292,10 +293,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     }
                     if (tableStyle != null)
                     {
-                        var top = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
-                        var bottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle);
-                        var left = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle);
-                        var right = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle);
+                        var top = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle, out var topWT);
+                        var bottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle, out var bottomWT);
+                        var left = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle, out var leftWT);
+                        var right = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle, out var rightWT);
+                        cellStyle.dxfTopIsWholeTable = topWT;
+                        cellStyle.dxfBottomIsWholeTable = bottomWT;
+                        cellStyle.dxfLeftIsWholeTable = leftWT;
+                        cellStyle.dxfRightIsWholeTable = rightWT;
                         cellStyle.dxfTop = top != null && top.HasValue ? top : null;
                         cellStyle.dxfBottom = bottom != null && bottom.HasValue ? bottom : null;
                         cellStyle.dxfLeft = left != null && left.HasValue ? left : null;
@@ -754,13 +759,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return columnsToAdd;
         }
 
-        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             int ts = table.ShowHeader ? 1 : 0;
             var top = tableRow == 0 ? tableStyle.WholeTable.Style.Border.Top : tableStyle.WholeTable.Style.Border.Horizontal;
+            var baseBorder = top;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
@@ -840,14 +846,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     top = tableStyle.FirstColumn.Style.Border.Top;
                 }
             }
+            isWholeTable = ReferenceEquals(top, baseBorder);
             return top;
         }
-        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var bottom = range._toRow == cell._fromRow ? tableStyle.WholeTable.Style.Border.Bottom : null;
+            var baseBorder = bottom;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Bottom.HasValue)
@@ -927,14 +935,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     bottom = tableStyle.FirstColumn.Style.Border.Bottom;
                 }
             }
+            isWholeTable = ReferenceEquals(bottom, baseBorder);
             return bottom;
         }
-        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var left = tableCol == 0 ? tableStyle.WholeTable.Style.Border.Left : tableStyle.WholeTable.Style.Border.Vertical;
+            var baseBorder = left;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Left.HasValue)
@@ -1014,14 +1024,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     left = tableStyle.FirstColumn.Style.Border.Left;
                 }
             }
+            isWholeTable = ReferenceEquals(left, baseBorder);
             return left;
         }
-        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var right = cell._fromCol == range._toCol ? tableStyle.WholeTable.Style.Border.Right : tableStyle.WholeTable.Style.Border.Vertical;
+            var baseBorder = right;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Right.HasValue)
@@ -1101,6 +1113,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     right = tableStyle.FirstColumn.Style.Border.Right;
                 }
             }
+            isWholeTable = ReferenceEquals(right, baseBorder);
             return right;
         }
 
@@ -1118,8 +1131,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         var below = map[row + 1, col];
                         if (below?.CellStyle != null && !below.Merged && !below.Hidden)
                         {
-                            int a = EdgeRank(c.CellStyle.xfBottom, c.CellStyle.dxfBottom);
-                            int b = EdgeRank(below.CellStyle.xfTop, below.CellStyle.dxfTop);
+                            int a = EdgeRank(c.CellStyle.xfBottom, c.CellStyle.dxfBottom, c.CellStyle.dxfBottomIsWholeTable);
+                            int b = EdgeRank(below.CellStyle.xfTop, below.CellStyle.dxfTop, below.CellStyle.dxfTopIsWholeTable);
                             if (a > 0 && b > 0)
                             {
                                 if (a >= b) below.CellStyle.SuppressTop = true;   // top cell's bottom wins ties
@@ -1132,8 +1145,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         var right = map[row, col + 1];
                         if (right?.CellStyle != null && !right.Merged && !right.Hidden)
                         {
-                            int a = EdgeRank(c.CellStyle.xfRight, c.CellStyle.dxfRight);
-                            int b = EdgeRank(right.CellStyle.xfLeft, right.CellStyle.dxfLeft);
+                            int a = EdgeRank(c.CellStyle.xfRight, c.CellStyle.dxfRight, c.CellStyle.dxfRightIsWholeTable);
+                            int b = EdgeRank(right.CellStyle.xfLeft, right.CellStyle.dxfLeft, right.CellStyle.dxfLeftIsWholeTable);
                             if (a > 0 && b > 0)
                             {
                                 if (a >= b) right.CellStyle.SuppressLeft = true;  // left cell's right wins ties
@@ -1153,6 +1166,19 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 var ds = (ExcelBorderStyle)dxf.Style;
                 if (ds != ExcelBorderStyle.None) return 1 + BorderWeight(ds);
+            }
+            return 0;
+        }
+
+        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, bool dxfIsWholeTable)
+        {
+            if (xf != null && xf.Style != ExcelBorderStyle.None)
+                return 300 + BorderWeight(xf.Style);                       // user-set: beats all table borders
+            if (dxf != null && dxf.HasValue && dxf.Style != null)
+            {
+                var ds = (ExcelBorderStyle)dxf.Style;
+                if (ds != ExcelBorderStyle.None)
+                    return (dxfIsWholeTable ? 1 : 100) + BorderWeight(ds);  // override beats wholeTable base
             }
             return 0;
         }
