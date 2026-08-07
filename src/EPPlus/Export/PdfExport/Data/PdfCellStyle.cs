@@ -44,6 +44,10 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         internal ExcelDxfBorderItem dxfRight { get; set; }
         internal ExcelDxfBorderItem dxfHorizontal { get; set; }
         internal ExcelDxfBorderItem dxfVertical { get; set; }
+        internal bool SuppressTop { get; set; }
+        internal bool SuppressBottom { get; set; }
+        internal bool SuppressLeft { get; set; }
+        internal bool SuppressRight { get; set; }
 
         //Fonts
         internal ExcelFont xfFont { get; set; }
