@@ -13,14 +13,16 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Renderer.RenderItems.Fill;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Theme;
 using System;
-using tc = OfficeOpenXml.Utils.TypeConversion;
 using System.Drawing;
-using OfficeOpenXml.Drawing.Renderer.RenderItems.Fill;
+using System.Runtime.InteropServices;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusImageRenderer.RenderItems
 {
     internal enum SvgFillType
@@ -76,7 +78,7 @@ namespace EPPlusImageRenderer.RenderItems
                 item.FillOpacity = opacity;
             }
         }
-        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, UserSpaceSettings grandientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
+        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, UserSpaceSettings grandientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global, eChartStyle styleId = eChartStyle.Style2)
         {
             double? opacity = null;
             if (border == null)
@@ -181,7 +183,7 @@ namespace EPPlusImageRenderer.RenderItems
             return null;
         }
 
-        private static string GetFillColor(ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource, out double? opacity,  Color? nullColor = null)
+        private static string GetFillColor(ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager styleFillColor, PathFillMode fillColorSource, out double? opacity,  Color? nullColor = null, eChartStyle chartStyle = eChartStyle.Style2)
         {
             opacity = null;
             if (fillColorSource == PathFillMode.None)
@@ -201,7 +203,7 @@ namespace EPPlusImageRenderer.RenderItems
 
                 if (styleFillColor == null)
                 {
-                    //There is no Style-Specified color. Themed Fill should be applied if it exists
+                    //There is no Style-Specified color. Or rather. There is no styleSheet inside of the Chart folder. Themed Fill should be applied if it exists
                     //Fallback to theme
                     if (theme.FormatScheme.BackgroundFillStyle != null)
                     {

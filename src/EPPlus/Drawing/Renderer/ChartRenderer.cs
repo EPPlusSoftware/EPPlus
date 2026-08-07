@@ -25,8 +25,10 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using d=OfficeOpenXml.Drawing.Renderer;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
@@ -311,7 +313,22 @@ namespace EPPlusImageRenderer
             item.Rectangle.Height = Bounds.Height;
             
             item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.DefaultFillColor);
-            item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75);
+
+            var borderstyle = Theme.FormatScheme.BorderStyle[0];
+
+            //First check
+            //1. Chart.Border (make sure to note the chart style ID
+            //2. Chart.StyleManager.ChartArea.BorderReference
+            //3. Theme.FormatScheme.BorderStyle[0] for subtle, [1] Moderate [2] Intense
+            //4. If none of these contain even an empty node for the relevant property, Fallback to hardcoded documentation defaults 
+
+            //Starting with: 1.1. noFill 1.2. solidFill (color = schemeColor (bg1)) 1.3. gradFill (gsList(black, white), shade(lin), flip = none, rotWithShape = true )
+
+            //Note that a NoFill node for Charts means Transparent and that no nodes at all become bg1 as shown above
+
+            //var themeColor = tc.ColorConverter.GetThemeColor(Theme, Chart.StyleManager.Style?.ChartArea.BorderReference.Color);
+
+            item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75, UserSpaceSettings.UserSpaceOnUse_Global, Chart.Style);
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
