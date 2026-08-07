@@ -688,7 +688,7 @@ namespace EPPlusImageRenderer.Svg
 
             var diff = min == 0 ? max - min : max - min + 1;
             
-             double d = min + addMinor;
+            double d = min + addMinor;
             while (d <= max)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
@@ -957,6 +957,10 @@ namespace EPPlusImageRenderer.Svg
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount, out bool isNumeric);
+            if(isCount == false && isNumeric && ax.AxisType == eAxisType.Cat)
+            {
+                IsDateAutoAxis = true;
+            }
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,
@@ -969,7 +973,7 @@ namespace EPPlusImageRenderer.Svg
                 ChartSize = rect
             };
 
-             if (AutoAxisType == eAxisType.Cat && isCount == false)
+            if (AutoAxisType == eAxisType.Cat && isCount == false)
             {
                 AxisScale res;
                 if (ax.IsVertical)
