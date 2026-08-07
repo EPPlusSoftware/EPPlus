@@ -33,6 +33,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
             if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
             {
                 var newCm=theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
+                if (newCm == null) return Color.Empty;
                 var nc = GetThemeColor(newCm);
                 return ApplyTransforms(nc, cm.Transforms);
             }

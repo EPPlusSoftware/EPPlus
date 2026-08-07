@@ -298,7 +298,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var mod6 = pos % 6;
             //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod6).GetColor();
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + mod6).GetColor();
         }
 
         private ExcelChartDataPointCollection SetDataPointColors(ExcelChartDataPointCollection dataPoints, bool varyColors, bool hasStyle, ExcelChartStandardSerie serie, Color? overrideColor = null)

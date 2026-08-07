@@ -74,7 +74,7 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            if (ax.AxisType==eAxisType.Cat || (dateUnit.HasValue && dateUnit == eTimeUnit.Days))
+            if (AutoAxisType == eAxisType.Cat || (dateUnit.HasValue && dateUnit == eTimeUnit.Days))
             {
                 MinorUnit = 1; 
             }
@@ -127,7 +127,20 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
-
+        public eAxisType AutoAxisType
+        {
+            get
+            {
+                if(Axis.AxisType == eAxisType.Cat)
+                {
+                    if(IsDateAutoAxis)
+                    {
+                        return eAxisType.Date;
+                    }
+                }
+                return Axis.AxisType;
+            }
+        }
         private double GetAutoMinUnit(double majorUnit)
         {
             return majorUnit / 5;
@@ -647,7 +660,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (Axis.AxisType == eAxisType.Cat)
             {
-                min = 1;
+                min = 0;
                 if (Axis.CrossingAxis==null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                 {
                     max = AxisValues.Count;
@@ -672,9 +685,11 @@ namespace EPPlusImageRenderer.Svg
             {
                 tickMarkWidthOutside = tickMarkWidth;
             }
+
             var diff = min == 0 ? max - min : max - min + 1;
-            double d = min + addMinor;
-            while (d <= max+1)
+            
+             double d = min + addMinor;
+            while (d <= max)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
@@ -747,7 +762,7 @@ namespace EPPlusImageRenderer.Svg
                         break;
                 }
             }
-            return tms;
+                return tms;
         }
         private List<RenderItem> AddGridlines(double units, double parentUnit, ExcelDrawingBorder lineItem, ExcelChartStyleEntry styleEntry)
         {
@@ -878,7 +893,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                if (Axis.AxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis==false)
+                if (AutoAxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis==false)
                 {
                     var majorHeight = ChartRenderer.Plotarea.Rectangle.Height / Max;
                     if(startValue)
@@ -890,7 +905,7 @@ namespace EPPlusImageRenderer.Svg
                         return majorHeight * val + (majorHeight / 2);
                     }
                 }
-                else if ((Axis.AxisType == eAxisType.Date || IsDateAutoAxis) && IsDateScale == false)
+                else if ((AutoAxisType == eAxisType.Date) && IsDateScale == false)
                 {
                     //if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
@@ -921,11 +936,11 @@ namespace EPPlusImageRenderer.Svg
                         else
                         {
                             majorWidth = ChartRenderer.Plotarea.Rectangle.Width / (Max - 1);
-                            return majorWidth * val;
+                            return majorWidth * (val-1);
                         }
                     }
                 }
-                else if((Axis.AxisType == eAxisType.Date || IsDateAutoAxis) && IsDateScale==false)
+                else if((AutoAxisType == eAxisType.Date) && IsDateScale==false)
                 {
                     if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
@@ -954,8 +969,7 @@ namespace EPPlusImageRenderer.Svg
                 ChartSize = rect
             };
 
-            //if ((ax.AxisType == eAxisType.Cat || (ax.IsDate && isNumeric==false)) &&
-            if (isNumeric == false && isCount == false)
+             if (AutoAxisType == eAxisType.Cat && isCount == false)
             {
                 AxisScale res;
                 if (ax.IsVertical)
