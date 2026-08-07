@@ -82,6 +82,8 @@ namespace OfficeOpenXml.Drawing.Theme
                     return Dark1;
                 case eSchemeColor.Dark2:
                     return Dark2;
+                case eSchemeColor.Style:
+                    return null; //Style is the place null;
             }
             throw (new ArgumentOutOfRangeException($"Type {color} is unhandled."));
         }

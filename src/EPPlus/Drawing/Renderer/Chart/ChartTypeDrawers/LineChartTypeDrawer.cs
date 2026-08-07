@@ -181,9 +181,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
-                if (xValues == null || (xAxis.Axis.AxisType==eAxisType.Cat && xValues.Count>0 && !(xValues[0] is double)))
+                if (xValues == null || (xAxis.AutoAxisType==eAxisType.Cat && xValues.Count>0))
                 {
-                    x = (double)i;
+                    x = (double)i + 1;
                 }
                 else
                 {
