@@ -602,9 +602,23 @@ namespace OfficeOpenXml.Drawing
         internal override void SaveDrawing(bool hasLoadedPivotTables)
         {
             base.SaveDrawing(hasLoadedPivotTables);
-            if(_textBody != null)
+            //Its possible there is a textbody without paragraph despite the var not being assigned
+            //Ensure it has an empty paragraph
+            if (_textBody != null)
             {
                 _textBody.SaveTextBody();
+            }
+            else
+            {
+                var txtbdyNode = GetNode("xdr:sp/xdr:txBody");
+                if(txtbdyNode != null)
+                {
+                    if(GetNode("xdr:sp/xdr:txBody/a:p") == null)
+                    {
+                        //Ensure the txtbdy node is not corrupt
+                        CreateNode(txtbdyNode, "a:p");
+                    }
+                }
             }
             //if(_richText != null)
             //{

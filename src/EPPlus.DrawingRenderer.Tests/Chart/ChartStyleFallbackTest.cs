@@ -10,6 +10,53 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
     [TestClass]
     public class ChartStyleFallbackTest : TestBase
     {
+
+        [TestMethod]
+        public void EpplusGeneratedChart()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+
+            using (var p = OpenPackage("StyleExamples\\epplusDefaultTest.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("EpplusGeneratedChart");
+
+                //ws.Workbook.ThemeManager.GetOrCreateTheme();
+
+
+                ws.Cells["A1:A3"].Formula = "ROW()+COLUMN()";
+
+                ws.Calculate();
+
+                var emptyLines = ws.Drawings.AddLineChart("EmptyLineChart", eLineChartType.Line);
+                var generatedBar = ws.Drawings.AddBarChart("EpplusBarChart", eBarChartType.ColumnClustered);
+
+                generatedBar.SetPosition(1, 1000);
+
+                var defaultRect = ws.Drawings.AddShape("MyDefaultShape", OfficeOpenXml.Drawing.eShapeStyle.Round1Rect);
+                var gradientRect = ws.Drawings.AddShape("GradRect", OfficeOpenXml.Drawing.eShapeStyle.Round1Rect);
+
+                defaultRect.SetPosition(300, 1);
+                gradientRect.SetPosition(300, 1000);
+
+                defaultRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
+                gradientRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.GradientFill;
+                generatedBar.Series.Add(ws.Cells["A1:A3"]);
+
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var borderRef = c.StyleManager.Style.ChartArea.BorderReference;
+                //    var borderSetting = c.Border;
+                //    var borderDirectColor = borderSetting.Fill.Color;
+
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\epplusDefault{ws.Name}_{c.Name}.svg", svg);
+                //}
+                //GetOutputFile("StyleExamples", "");
+                SaveAndCleanup(p);
+            }
+        }
+
         [TestMethod]
         public void ReadEmptyDefaultChartStyle()
         {
@@ -22,7 +69,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
 
                 foreach (ExcelChart c in ws.Drawings)
                 {
-                    var borderRef = c.StyleManager.Style.Wall.BorderReference;
+                    var borderRef = c.StyleManager.Style.ChartArea.BorderReference;
                     var borderSetting = c.Border;
                     var borderDirectColor = borderSetting.Fill.Color;
 
