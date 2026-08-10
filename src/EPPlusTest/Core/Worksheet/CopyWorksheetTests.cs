@@ -20,6 +20,19 @@ namespace EPPlusTest.Core.Worksheet
             return package;
         }
 
+        private static ExcelPackage CreatePackageWithPivotTable(out ExcelWorksheet source, string pivotName)
+        {
+            var package = new ExcelPackage();
+            source = package.Workbook.Worksheets.Add("Template");
+            var range = LoadItemData(source);
+            var pt = source.PivotTables.Add(source.Cells["A1"], range, pivotName);
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.DataFields.Add(pt.Fields[3]);
+            return package;
+        }
+
+        #region Copy with Tables
+
         [TestMethod]
         public void Copy_WithTableCopyHandler_RenamesCopiedTable()
         {
@@ -373,5 +386,130 @@ namespace EPPlusTest.Core.Worksheet
                 });
             }
         }
+
+        #endregion
+
+        #region Copy with pivot tables
+        [TestMethod]
+        public void Copy_WithoutHandler_AssignsGeneratedPivotTableName()
+        {
+            using (var package = CreatePackageWithPivotTable(out var source, "SalesPivot"))
+            {
+                var copy = package.Workbook.Worksheets.Copy(source.Name, "Copy");
+
+                Assert.AreEqual(1, copy.PivotTables.Count);
+                //Same workbook copy renames the copied pivot table to a generated name.
+                Assert.AreNotEqual("SalesPivot", copy.PivotTables[0].Name);
+            }
+        }
+
+        [TestMethod]
+        public void Copy_WithPivotTableCopyHandler_RenamesCopiedPivotTable()
+        {
+            using (var package = CreatePackageWithPivotTable(out var source, "SalesPivot"))
+            {
+                var copy = package.Workbook.Worksheets.Copy(source.Name, "BaltimoreMD", options =>
+                {
+                    options.PivotTableCopyHandler = args =>
+                    {
+                        args.NewName = "BaltimoreMD_" + args.SourceTableName;
+                    };
+                });
+
+                Assert.AreEqual(1, copy.PivotTables.Count);
+                Assert.IsNotNull(copy.PivotTables["BaltimoreMD_SalesPivot"]);
+            }
+        }
+
+        [TestMethod]
+        public void Copy_WithPivotTableCopyHandler_ProvidesSourceAndDefaultName()
+        {
+            using (var package = CreatePackageWithPivotTable(out var source, "SalesPivot"))
+            {
+                string capturedSourceName = null;
+                string capturedDefaultName = null;
+
+                package.Workbook.Worksheets.Copy(source.Name, "Copy", options =>
+                {
+                    options.PivotTableCopyHandler = args =>
+                    {
+                        capturedSourceName = args.SourceTableName;
+                        capturedDefaultName = args.DefaultName;
+                    };
+                });
+
+                Assert.AreEqual("SalesPivot", capturedSourceName);
+                Assert.IsNotNull(capturedDefaultName);
+            }
+        }
+
+        [TestMethod]
+        public void Copy_PivotTableCopyHandler_NullNewName_KeepsDefaultName()
+        {
+            using (var package = CreatePackageWithPivotTable(out var source, "SalesPivot"))
+            {
+                string defaultName = null;
+
+                var copy = package.Workbook.Worksheets.Copy(source.Name, "Copy", options =>
+                {
+                    options.PivotTableCopyHandler = args =>
+                    {
+                        defaultName = args.DefaultName;
+                        // NewName left null.
+                    };
+                });
+
+                Assert.IsNotNull(copy.PivotTables[defaultName]);
+            }
+        }
+
+        [TestMethod]
+        public void Copy_PivotTableCopyHandler_RenameToExistingName_Throws()
+        {
+            using (var package = CreatePackageWithPivotTable(out var source, "SalesPivot"))
+            {
+                //A second pivot table in the workbook whose name we will collide with.
+                var other = package.Workbook.Worksheets.Add("Other");
+                var otherPt = other.PivotTables.Add(other.Cells["A1"], source.Cells["K1:N11"], "ExistingPivot");
+                otherPt.RowFields.Add(otherPt.Fields[1]);
+                otherPt.DataFields.Add(otherPt.Fields[3]);
+
+                Assert.ThrowsExactly<ArgumentException>(() =>
+                {
+                    package.Workbook.Worksheets.Copy(source.Name, "Copy", options =>
+                    {
+                        options.PivotTableCopyHandler = args =>
+                        {
+                            args.NewName = "ExistingPivot";
+                        };
+                    });
+                });
+            }
+        }
+
+        [TestMethod]
+        public void Copy_PivotTableCopyHandler_GetPivotDataStillResolvesAfterRename()
+        {
+            using (var package = CreatePackageWithPivotTable(out var source, "SalesPivot"))
+            {
+                //GETPIVOTDATA references the pivot by cell address, not by name, so a rename
+                //must not break the copied formula's resolution.
+                source.Cells["H1"].Formula = "GETPIVOTDATA(\"Stock\",$A$1)";
+
+                var copy = package.Workbook.Worksheets.Copy(source.Name, "Copy", options =>
+                {
+                    options.PivotTableCopyHandler = args =>
+                    {
+                        args.NewName = "RenamedPivot";
+                    };
+                });
+
+                //The copied formula is unchanged (address based) and the pivot was renamed.
+                Assert.AreEqual("GETPIVOTDATA(\"Stock\",$A$1)", copy.Cells["H1"].Formula);
+                Assert.IsNotNull(copy.PivotTables["RenamedPivot"]);
+            }
+        }
+
+        #endregion
     }
 }

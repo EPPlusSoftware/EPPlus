@@ -117,9 +117,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 copiedTableNames = CopyTable(sourceWorksheet, targetWorksheet);
             }
 
+            Dictionary<string, string> copiedPivotTableNames = null;
             if (sourceWorksheet.PivotTables.Count > 0)
             {
-                CopyPivotTable(sourceWorksheet, targetWorksheet);
+                copiedPivotTableNames = CopyPivotTable(sourceWorksheet, targetWorksheet);
             }
 
             CopyDefinedNames(sourceWorksheet, targetWorksheet);
@@ -188,7 +189,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //CopyDxfStyles and the slicer copy, which resolve the copied tables
             //by their default name.
             ApplyTableCopyOptions(targetWorksheet, options, copiedTableNames);
-
+            ApplyPivotTableCopyOptions(targetWorksheet, options, copiedPivotTableNames);
             return targetWorksheet;
         }
 
@@ -223,6 +224,41 @@ namespace OfficeOpenXml.Core.Worksheet
                     //the table and its references token based, and validates name uniqueness,
                     //exactly as for a normal rename.
                     copiedTable.Name = args.NewName;
+                }
+            }
+        }
+
+        private static void ApplyPivotTableCopyOptions(ExcelWorksheet added, ExcelWorksheetCopyOptions options, Dictionary<string, string> copiedPivotTableNames)
+        {
+            if (options == null || options.PivotTableCopyHandler == null || copiedPivotTableNames == null)
+            {
+                return;
+            }
+
+            foreach (var pair in copiedPivotTableNames)
+            {
+                var sourceTableName = pair.Key;
+                var defaultName = pair.Value;
+                var copiedPivotTable = added.PivotTables[defaultName];
+                if (copiedPivotTable == null)
+                {
+                    continue;
+                }
+
+                var args = new ExcelPivotTableCopyEventArgs
+                {
+                    SourceTableName = sourceTableName,
+                    DefaultName = defaultName
+                };
+                options.PivotTableCopyHandler.Invoke(args);
+
+                if (!string.IsNullOrEmpty(args.NewName) && args.NewName != defaultName)
+                {
+                    //Route through the ExcelPivotTable.Name setter so name uniqueness is
+                    //validated, exactly as for a normal rename. Pivot table references in
+                    //GETPIVOTDATA are address based, not name based, so no formula
+                    //adjustment is required.
+                    copiedPivotTable.Name = args.NewName;
                 }
             }
         }
@@ -1185,7 +1221,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             return copiedTableNames;
         }
-        private static void CopyPivotTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
+        private static Dictionary<string, string> CopyPivotTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
             sourceWs._package.Workbook.ReadAllPivotTables();
             string prevName = "";
@@ -1274,6 +1310,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             //Can't have a cell selected when "group editing" avoids pop-up by not selecting sheet.
             destWs.View.SetTabSelected(false);
+            return nameMap;
         }
 
         private static void CreateCacheInNewPackage(ExcelWorksheet sourceWs, ExcelPivotTable tbl, ZipPackagePart partTbl)
