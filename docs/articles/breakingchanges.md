@@ -232,4 +232,4 @@ The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 The misspelled property on drawingFill `Transparancy`  has been renamed to `Transparency`
 The `Richtext.Baseline` property now always return that value in whole percent.
-ExcelChartSerie.Header now returns null instead of empty string, if the underlaying <tx> node does not exist.
+ExcelChartSerie.Header now returns null instead of empty string, if the underlaying "tx/v" node does not exist.
