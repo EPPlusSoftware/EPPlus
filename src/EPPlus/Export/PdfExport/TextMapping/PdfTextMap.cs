@@ -10,13 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -108,6 +109,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             }
             worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
             pdfRange = Range;
+            ReconcileSharedBorders(Map);
             return Map;
         }
 
@@ -204,10 +206,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     var range = table.Range;
                     int tableRow = 0;
                     int tableCol = 0;
-                    ExcelTableNamedStyle tableStyle;
+                    ExcelTableNamedStyle tableStyle = null;
                     if (table.TableStyle == TableStyles.Custom)
                     {
-                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                        if (!string.IsNullOrEmpty(table.StyleName))
+                            tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
                     }
                     else
                     {
@@ -215,35 +218,37 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
                         tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
                     }
-                    tableRow = cell._fromRow - range._fromRow;
-                    tableCol = cell._fromCol - range._fromCol;
-                    if (table.ShowHeader && tableRow == 0)
+                    if (tableStyle != null)
                     {
-                        cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
-                    }
-                    else if (table.ShowTotal && range._toRow == cell._fromRow)
-                    {
-                        cellStyle.dxfFill = tableStyle.TotalRow.Style.Fill;
-                    }
-                    else if (table.ShowFirstColumn && tableCol == 0)
-                    {
-                        cellStyle.dxfFill = tableStyle.FirstColumn.Style.Fill;
-                    }
-                    else if (table.ShowLastColumn && range._toCol == cell._fromCol)
-                    {
-                        cellStyle.dxfFill = tableStyle.LastColumn.Style.Fill;
-                    }
-                    else if (table.ShowRowStripes)
-                    {
-                        cellStyle.dxfFill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
-                    }
-                    else if (table.ShowColumnStripes)
-                    {
-                        cellStyle.dxfFill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
-                    }
-                    else
-                    {
+                        tableRow = cell._fromRow - range._fromRow;
+                        tableCol = cell._fromCol - range._fromCol;
                         cellStyle.dxfFill = tableStyle.WholeTable.Style.Fill;
+                        if (table.ShowHeader && tableRow == 0)
+                        {
+                            cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
+                        }
+                        else if (table.ShowTotal && range._toRow == cell._fromRow)
+                        {
+                            cellStyle.dxfFill = tableStyle.TotalRow.Style.Fill;
+                        }
+                        else if (table.ShowFirstColumn && tableCol == 0)
+                        {
+                            cellStyle.dxfFill = tableStyle.FirstColumn.Style.Fill;
+                        }
+                        else if (table.ShowLastColumn && range._toCol == cell._fromCol)
+                        {
+                            cellStyle.dxfFill = tableStyle.LastColumn.Style.Fill;
+                        }
+                        else if (table.ShowRowStripes)
+                        {
+                            var fill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
+                            if (fill.HasValue) cellStyle.dxfFill = fill;
+                        }
+                        else if (table.ShowColumnStripes)
+                        {
+                            var fill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
+                            if (fill.HasValue) cellStyle.dxfFill = fill;
+                        }
                     }
                 }
             }
@@ -274,10 +279,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 if (tables.Count > 0)
                 {
                     var table = tables[0].Value;
-                    ExcelTableNamedStyle tableStyle;
+                    ExcelTableNamedStyle tableStyle = null;
                     if (table.TableStyle == TableStyles.Custom)
                     {
-                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                        if(!string.IsNullOrEmpty(table.StyleName))
+                            tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
                     }
                     else
                     {
@@ -285,10 +291,21 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
                         tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
                     }
-                    cellStyle.dxfTop = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle);
-                    cellStyle.dxfBottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle);
-                    cellStyle.dxfLeft = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle);
-                    cellStyle.dxfRight = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle);
+                    if (tableStyle != null)
+                    {
+                        var top = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle, out var topWT);
+                        var bottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle, out var bottomWT);
+                        var left = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle, out var leftWT);
+                        var right = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle, out var rightWT);
+                        cellStyle.dxfTopIsWholeTable = topWT;
+                        cellStyle.dxfBottomIsWholeTable = bottomWT;
+                        cellStyle.dxfLeftIsWholeTable = leftWT;
+                        cellStyle.dxfRightIsWholeTable = rightWT;
+                        cellStyle.dxfTop = top != null && top.HasValue ? top : null;
+                        cellStyle.dxfBottom = bottom != null && bottom.HasValue ? bottom : null;
+                        cellStyle.dxfLeft = left != null && left.HasValue ? left : null;
+                        cellStyle.dxfRight = right != null && right.HasValue ? right : null;
+                    }
                 }
                 var cfBorder = GetConditionalFormattingBorder(cell);
                 if (cfBorder != null)
@@ -324,6 +341,53 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return null;
         }
 
+        private static void GetTableRegionOverride(ExcelRangeBase cell, ExcelTable table,
+            out ExcelDxfStyle colStyle, out ExcelDxfStyle tblStyle)
+        {
+            colStyle = null;
+            tblStyle = null;
+            var range = table.Range;
+            int tableRow = cell._fromRow - range._fromRow;
+            int tableCol = cell._fromCol - range._fromCol;
+            ExcelTableColumn column = (tableCol >= 0 && tableCol < table.Columns.Count) ? table.Columns[tableCol] : null;
+
+            string attr;
+            ExcelDxfStyle tblCandidate, colCandidate;
+            if (table.ShowHeader && tableRow == 0)
+            { attr = "headerRowDxfId"; tblCandidate = table.HeaderRowStyle; colCandidate = column?.HeaderRowStyle; }
+            else if (table.ShowTotal && cell._fromRow == range._toRow)
+            { attr = "totalsRowDxfId"; tblCandidate = table.TotalsRowStyle; colCandidate = column?.TotalsRowStyle; }
+            else
+            { attr = "dataDxfId"; tblCandidate = table.DataStyle; colCandidate = column?.DataStyle; }
+
+            var tableNode = table.TableXml?.DocumentElement;
+            if (tableNode == null) return;   // no raw XML: treat as no override (leaves the style element in place)
+
+            if (tableNode.Attributes?[attr] != null) tblStyle = tblCandidate;
+
+            if (column != null)
+            {
+                var colNode = GetTableColumnNode(tableNode, tableCol);
+                if (colNode?.Attributes?[attr] != null) colStyle = colCandidate;
+            }
+        }
+
+        private static System.Xml.XmlNode GetTableColumnNode(System.Xml.XmlNode tableNode, int index)
+        {
+            foreach (System.Xml.XmlNode child in tableNode.ChildNodes)
+            {
+                if (child.LocalName != "tableColumns") continue;
+                int i = 0;
+                foreach (System.Xml.XmlNode col in child.ChildNodes)
+                {
+                    if (col.LocalName != "tableColumn") continue;
+                    if (i == index) return col;
+                    i++;
+                }
+            }
+            return null;
+        }
+
         private static PdfCellStyle GetFontStyle(ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
             var cf = cell.ConditionalFormatting.GetConditionalFormattings();
@@ -351,10 +415,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 var table = tables[0].Value;
                 var range = table.Range;
-                ExcelTableNamedStyle tableStyle;
+                ExcelTableNamedStyle tableStyle = null;
                 if (table.TableStyle == TableStyles.Custom)
                 {
-                    tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                    if (!string.IsNullOrEmpty(table.StyleName))
+                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
                 }
                 else
                 {
@@ -362,67 +427,74 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
                     tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
                 }
-                int tableRow = cell._fromRow - range._fromRow;
-                int tableCol = cell._fromCol - range._fromCol;
-                var font = tableStyle.WholeTable.Style.Font;
-                if (table.ShowHeader && tableRow == 0)
+                if (tableStyle != null)
                 {
-                    if (tableStyle.HeaderRow.Style.Font.HasValue)
+                    int tableRow = cell._fromRow - range._fromRow;
+                    int tableCol = cell._fromCol - range._fromCol;
+                    var font = tableStyle.WholeTable.Style.Font;
+                    if (table.ShowHeader && tableRow == 0)
                     {
-                        font = tableStyle.HeaderRow.Style.Font;
+                        if (tableStyle.HeaderRow.Style.Font.HasValue)
+                        {
+                            font = tableStyle.HeaderRow.Style.Font;
+                        }
+                        if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Font.HasValue)
+                        {
+                            font = tableStyle.FirstHeaderCell.Style.Font;
+                        }
+                        if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Font.HasValue)
+                        {
+                            font = tableStyle.LastHeaderCell.Style.Font;
+                        }
                     }
-                    if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Font.HasValue)
+                    else if (table.ShowTotal && cell._fromRow == range._toRow)
                     {
-                        font = tableStyle.FirstHeaderCell.Style.Font;
+                        if (tableStyle.TotalRow.Style.Font.HasValue)
+                        {
+                            font = tableStyle.TotalRow.Style.Font;
+                        }
+                        if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Font.HasValue)
+                        {
+                            font = tableStyle.FirstTotalCell.Style.Font;
+                        }
+                        if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Font.HasValue)
+                        {
+                            font = tableStyle.LastTotalCell.Style.Font;
+                        }
                     }
-                    if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Font.HasValue)
+                    else
                     {
-                        font = tableStyle.LastHeaderCell.Style.Font;
+                        if (table.ShowColumnStripes && (tableCol & 1) == 0)
+                        {
+                            font = tableStyle.FirstColumnStripe.Style.Font;
+                        }
+                        if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue && (tableCol & 1) != 0)
+                        {
+                            font = tableStyle.SecondColumnStripe.Style.Font;
+                        }
+                        if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Font.HasValue && (tableRow & 1) != 0)
+                        {
+                            font = tableStyle.FirstRowStripe.Style.Font;
+                        }
+                        if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Font.HasValue && (tableRow & 1) == 0)
+                        {
+                            font = tableStyle.SecondRowStripe.Style.Font;
+                        }
+                        if (table.ShowLastColumn && tableStyle.LastColumn.Style.Font.HasValue && cell._fromCol == range._toCol)
+                        {
+                            font = tableStyle.LastColumn.Style.Font;
+                        }
+                        if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Font.HasValue && tableCol == range._toCol)
+                        {
+                            font = tableStyle.FirstColumn.Style.Font;
+                        }
                     }
+                    GetTableRegionOverride(cell, table, out var ovCol, out var ovTbl);
+                    cellStyle.dxfFontOverride = (ovCol?.Font != null && ovCol.Font.HasValue) ? ovCol.Font
+                                              : (ovTbl?.Font != null && ovTbl.Font.HasValue) ? ovTbl.Font
+                                              : null;
+                    cellStyle.dxfFont = font;
                 }
-                else if (table.ShowTotal && cell._fromRow == range._toRow)
-                {
-                    if (tableStyle.TotalRow.Style.Font.HasValue)
-                    {
-                        font = tableStyle.TotalRow.Style.Font;
-                    }
-                    if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Font.HasValue)
-                    {
-                        font = tableStyle.FirstTotalCell.Style.Font;
-                    }
-                    if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Font.HasValue)
-                    {
-                        font = tableStyle.LastTotalCell.Style.Font;
-                    }
-                }
-                else
-                {
-                    if (table.ShowColumnStripes && (tableCol & 1) == 0)
-                    {
-                        font = tableStyle.FirstColumnStripe.Style.Font;
-                    }
-                    if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Top.HasValue && (tableCol & 1) != 0)
-                    {
-                        font = tableStyle.SecondColumnStripe.Style.Font;
-                    }
-                    if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Font.HasValue && (tableRow & 1) != 0)
-                    {
-                        font = tableStyle.FirstRowStripe.Style.Font;
-                    }
-                    if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Font.HasValue && (tableRow & 1) == 0)
-                    {
-                        font = tableStyle.SecondRowStripe.Style.Font;
-                    }
-                    if (table.ShowLastColumn && tableStyle.LastColumn.Style.Font.HasValue && cell._fromCol == range._toCol)
-                    {
-                        font = tableStyle.LastColumn.Style.Font;
-                    }
-                    if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Font.HasValue && tableCol == range._toCol)
-                    {
-                        font = tableStyle.FirstColumn.Style.Font;
-                    }
-                }
-                cellStyle.dxfFont = font;
             }
             return cellStyle;
         }
@@ -522,23 +594,30 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
         private static void ReadDxfFontOverrides(PdfCellStyle cellStyle, out bool bold, out bool italic, out bool strike, out bool underline, out ExcelUnderLineType underLineType, out System.Drawing.Color? color)
         {
-            bold = false;
-            italic = false;
-            strike = false;
-            underline = false;
-            underLineType = ExcelUnderLineType.None;
-            color = null;
-            if (cellStyle != null && cellStyle.dxfFont != null)
+            bold = false; italic = false; strike = false; underline = false;
+            underLineType = ExcelUnderLineType.None; color = null;
+            if (cellStyle == null) return;
+
+            var elem = cellStyle.dxfFont;           // style element (or CF font)
+            var ov = cellStyle.dxfFontOverride;   // region override — wins per property
+
+            var b = ov?.Bold ?? elem?.Bold;
+            var i = ov?.Italic ?? elem?.Italic;
+            var st = ov?.Strike ?? elem?.Strike;
+            var un = ov?.Underline ?? elem?.Underline;
+            var cl = (ov?.Color != null && ov.Color.HasValue) ? ov.Color
+                   : (elem?.Color != null && elem.Color.HasValue) ? elem.Color
+                   : null;
+
+            bold = b ?? false;
+            italic = i ?? false;
+            strike = st ?? false;
+            underline = un != null;
+            underLineType = un != null ? (ExcelUnderLineType)un : ExcelUnderLineType.None;
+            if (cl != null && cl.HasValue)
             {
-                bold = cellStyle.dxfFont.Bold != null ? (bool)cellStyle.dxfFont.Bold : false;
-                italic = cellStyle.dxfFont.Italic != null ? (bool)cellStyle.dxfFont.Italic : false;
-                strike = cellStyle.dxfFont.Strike != null ? (bool)cellStyle.dxfFont.Strike : false;
-                underline = cellStyle.dxfFont.Underline != null;
-                underLineType = cellStyle.dxfFont.Underline != null ? (ExcelUnderLineType)cellStyle.dxfFont.Underline : ExcelUnderLineType.None;
-                if (cellStyle.dxfFont.Color != null && cellStyle.dxfFont.Color.HasValue)
-                {
-                    color = cellStyle.dxfFont.Color.GetColorAsColor();
-                }
+                // GetColorAsColor() returns white for an automatic colour; for print it must be black.
+                color = cl.Auto == true ? System.Drawing.Color.Black : cl.GetColorAsColor();
             }
         }
 
@@ -680,13 +759,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return columnsToAdd;
         }
 
-        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             int ts = table.ShowHeader ? 1 : 0;
             var top = tableRow == 0 ? tableStyle.WholeTable.Style.Border.Top : tableStyle.WholeTable.Style.Border.Horizontal;
+            var baseBorder = top;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
@@ -766,14 +846,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     top = tableStyle.FirstColumn.Style.Border.Top;
                 }
             }
+            isWholeTable = ReferenceEquals(top, baseBorder);
             return top;
         }
-        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var bottom = range._toRow == cell._fromRow ? tableStyle.WholeTable.Style.Border.Bottom : null;
+            var baseBorder = bottom;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Bottom.HasValue)
@@ -853,14 +935,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     bottom = tableStyle.FirstColumn.Style.Border.Bottom;
                 }
             }
+            isWholeTable = ReferenceEquals(bottom, baseBorder);
             return bottom;
         }
-        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var left = tableCol == 0 ? tableStyle.WholeTable.Style.Border.Left : tableStyle.WholeTable.Style.Border.Vertical;
+            var baseBorder = left;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Left.HasValue)
@@ -940,14 +1024,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     left = tableStyle.FirstColumn.Style.Border.Left;
                 }
             }
+            isWholeTable = ReferenceEquals(left, baseBorder);
             return left;
         }
-        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle)
+        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var right = cell._fromCol == range._toCol ? tableStyle.WholeTable.Style.Border.Right : tableStyle.WholeTable.Style.Border.Vertical;
+            var baseBorder = right;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Right.HasValue)
@@ -1027,7 +1113,94 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     right = tableStyle.FirstColumn.Style.Border.Right;
                 }
             }
+            isWholeTable = ReferenceEquals(right, baseBorder);
             return right;
+        }
+
+        private static void ReconcileSharedBorders(PdfCellCollection map)
+        {
+            for (int row = map.FromRow; row <= map.ToRow; row++)
+            {
+                for (int col = map.FromColumn; col <= map.ToColumn; col++)
+                {
+                    var c = map[row, col];
+                    if (c?.CellStyle == null || c.Merged || c.Hidden) continue;
+
+                    if (row < map.ToRow)                                   // horizontal edge with the cell below
+                    {
+                        var below = map[row + 1, col];
+                        if (below?.CellStyle != null && !below.Merged && !below.Hidden)
+                        {
+                            int a = EdgeRank(c.CellStyle.xfBottom, c.CellStyle.dxfBottom, c.CellStyle.dxfBottomIsWholeTable);
+                            int b = EdgeRank(below.CellStyle.xfTop, below.CellStyle.dxfTop, below.CellStyle.dxfTopIsWholeTable);
+                            if (a > 0 && b > 0)
+                            {
+                                if (a >= b) below.CellStyle.SuppressTop = true;   // top cell's bottom wins ties
+                                else c.CellStyle.SuppressBottom = true;
+                            }
+                        }
+                    }
+                    if (col < map.ToColumn)                                // vertical edge with the cell to the right
+                    {
+                        var right = map[row, col + 1];
+                        if (right?.CellStyle != null && !right.Merged && !right.Hidden)
+                        {
+                            int a = EdgeRank(c.CellStyle.xfRight, c.CellStyle.dxfRight, c.CellStyle.dxfRightIsWholeTable);
+                            int b = EdgeRank(right.CellStyle.xfLeft, right.CellStyle.dxfLeft, right.CellStyle.dxfLeftIsWholeTable);
+                            if (a > 0 && b > 0)
+                            {
+                                if (a >= b) right.CellStyle.SuppressLeft = true;  // left cell's right wins ties
+                                else c.CellStyle.SuppressRight = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf)
+        {
+            if (xf != null && xf.Style != ExcelBorderStyle.None)
+                return 100 + BorderWeight(xf.Style);
+            if (dxf != null && dxf.HasValue && dxf.Style != null)
+            {
+                var ds = (ExcelBorderStyle)dxf.Style;
+                if (ds != ExcelBorderStyle.None) return 1 + BorderWeight(ds);
+            }
+            return 0;
+        }
+
+        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, bool dxfIsWholeTable)
+        {
+            if (xf != null && xf.Style != ExcelBorderStyle.None)
+                return 300 + BorderWeight(xf.Style);                       // user-set: beats all table borders
+            if (dxf != null && dxf.HasValue && dxf.Style != null)
+            {
+                var ds = (ExcelBorderStyle)dxf.Style;
+                if (ds != ExcelBorderStyle.None)
+                    return (dxfIsWholeTable ? 1 : 100) + BorderWeight(ds);  // override beats wholeTable base
+            }
+            return 0;
+        }
+
+        private static int BorderWeight(ExcelBorderStyle s)
+        {
+            switch (s)
+            {
+                case ExcelBorderStyle.Hair: return 1;
+                case ExcelBorderStyle.Dotted:
+                case ExcelBorderStyle.DashDot:
+                case ExcelBorderStyle.DashDotDot:
+                case ExcelBorderStyle.Dashed: return 2;
+                case ExcelBorderStyle.Thin: return 3;
+                case ExcelBorderStyle.MediumDashDot:
+                case ExcelBorderStyle.MediumDashDotDot:
+                case ExcelBorderStyle.MediumDashed: return 4;
+                case ExcelBorderStyle.Medium: return 5;
+                case ExcelBorderStyle.Double: return 6;
+                case ExcelBorderStyle.Thick: return 7;
+                default: return 0;
+            }
         }
     }
 }
