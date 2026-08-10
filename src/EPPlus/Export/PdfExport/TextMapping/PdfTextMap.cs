@@ -293,18 +293,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     }
                     if (tableStyle != null)
                     {
-                        var top = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle, out var topWT);
-                        var bottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle, out var bottomWT);
-                        var left = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle, out var leftWT);
-                        var right = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle, out var rightWT);
-                        cellStyle.dxfTopIsWholeTable = topWT;
-                        cellStyle.dxfBottomIsWholeTable = bottomWT;
-                        cellStyle.dxfLeftIsWholeTable = leftWT;
-                        cellStyle.dxfRightIsWholeTable = rightWT;
-                        cellStyle.dxfTop = top != null && top.HasValue ? top : null;
-                        cellStyle.dxfBottom = bottom != null && bottom.HasValue ? bottom : null;
-                        cellStyle.dxfLeft = left != null && left.HasValue ? left : null;
-                        cellStyle.dxfRight = right != null && right.HasValue ? right : null;
+                        cellStyle.dxfTop = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle, out int topOrder);
+                        cellStyle.dxfTopElementOrder = topOrder;
+                        cellStyle.dxfBottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle, out int botOrder);
+                        cellStyle.dxfBottomElementOrder = botOrder;
+                        cellStyle.dxfLeft = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle, out int leftOrder);
+                        cellStyle.dxfLeftElementOrder = leftOrder;
+                        cellStyle.dxfRight = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle, out int rightOrder);
+                        cellStyle.dxfRightElementOrder = rightOrder;
                     }
                 }
                 var cfBorder = GetConditionalFormattingBorder(cell);
@@ -759,361 +755,236 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return columnsToAdd;
         }
 
-        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
+        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             int ts = table.ShowHeader ? 1 : 0;
             var top = tableRow == 0 ? tableStyle.WholeTable.Style.Border.Top : tableStyle.WholeTable.Style.Border.Horizontal;
-            var baseBorder = top;
+            elementOrder = TableEdgeOrder.WholeTable;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
-                {
-                    top = tableStyle.HeaderRow.Style.Border.Top;
-                }
+                { top = tableStyle.HeaderRow.Style.Border.Top; elementOrder = TableEdgeOrder.HeaderRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Top.HasValue)
-                {
-                    top = tableStyle.FirstHeaderCell.Style.Border.Top;
-                }
+                { top = tableStyle.FirstHeaderCell.Style.Border.Top; elementOrder = TableEdgeOrder.FirstHeaderCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Top.HasValue)
-                {
-                    top = tableStyle.LastHeaderCell.Style.Border.Top;
-                }
+                { top = tableStyle.LastHeaderCell.Style.Border.Top; elementOrder = TableEdgeOrder.LastHeaderCell; }
             }
             else if (table.ShowTotal && cell._fromRow == range._toRow)
             {
                 if (tableStyle.TotalRow.Style.Border.Top.HasValue)
-                {
-                    top = tableStyle.TotalRow.Style.Border.Top;
-                }
+                { top = tableStyle.TotalRow.Style.Border.Top; elementOrder = TableEdgeOrder.TotalRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Top.HasValue)
-                {
-                    top = tableStyle.FirstTotalCell.Style.Border.Top;
-                }
+                { top = tableStyle.FirstTotalCell.Style.Border.Top; elementOrder = TableEdgeOrder.FirstTotalCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Top.HasValue)
-                {
-                    top = tableStyle.LastTotalCell.Style.Border.Top;
-                }
+                { top = tableStyle.LastTotalCell.Style.Border.Top; elementOrder = TableEdgeOrder.LastTotalCell; }
             }
             else
             {
-                if (table.ShowColumnStripes &&/* tableStyle.FirstColumnStripe.Style.Border.Top.HasValue &&*/ (tableCol & 1) == 0)
+                if (table.ShowColumnStripes && (tableCol & 1) == 0)
                 {
                     if (cell._fromRow - ts > range._fromRow && cell._fromRow < range._toRow)
-                    {
-                        top = tableStyle.FirstColumnStripe.Style.Border.Horizontal;
-                    }
+                    { top = tableStyle.FirstColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                     else if (cell._fromRow <= range._toRow)
-                    {
-                        top = null;
-                    }
+                    { top = null; }
                     else
-                    {
-                        top = tableStyle.FirstColumnStripe.Style.Border.Top;
-                    }
+                    { top = tableStyle.FirstColumnStripe.Style.Border.Top; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                 }
-                if (table.ShowColumnStripes && /*tableStyle.SecondColumnStripe.Style.Border.Top.HasValue &&*/ (tableCol & 1) != 0)
+                if (table.ShowColumnStripes && (tableCol & 1) != 0)
                 {
                     if (cell._fromRow + ts > range._fromRow && cell._fromRow < range._toRow)
-                    {
-                        top = tableStyle.SecondColumnStripe.Style.Border.Horizontal;
-                    }
+                    { top = tableStyle.SecondColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                     else if (cell._fromRow <= range._toRow)
-                    {
-                        top = null;
-                    }
+                    { top = null; }
                     else
-                    {
-                        top = tableStyle.SecondColumnStripe.Style.Border.Top;
-                    }
+                    { top = tableStyle.SecondColumnStripe.Style.Border.Top; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue && (tableRow & 1) != 0)
-                {
-                    top = tableStyle.FirstRowStripe.Style.Border.Top;
-                }
+                { top = tableStyle.FirstRowStripe.Style.Border.Top; elementOrder = TableEdgeOrder.FirstRowStripe; }
                 if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Top.HasValue && (tableRow & 1) == 0)
-                {
-                    top = tableStyle.SecondRowStripe.Style.Border.Top;
-                }
+                { top = tableStyle.SecondRowStripe.Style.Border.Top; elementOrder = TableEdgeOrder.SecondRowStripe; }
                 if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Top.HasValue && cell._fromCol == range._toCol)
-                {
-                    top = tableStyle.LastColumn.Style.Border.Top;
-                }
+                { top = tableStyle.LastColumn.Style.Border.Top; elementOrder = TableEdgeOrder.LastColumn; }
                 if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Top.HasValue && tableCol == range._toCol)
-                {
-                    top = tableStyle.FirstColumn.Style.Border.Top;
-                }
+                { top = tableStyle.FirstColumn.Style.Border.Top; elementOrder = TableEdgeOrder.FirstColumn; }
             }
-            isWholeTable = ReferenceEquals(top, baseBorder);
+            if (top == null || !top.Style.HasValue || top.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
             return top;
         }
-        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
+
+        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var bottom = range._toRow == cell._fromRow ? tableStyle.WholeTable.Style.Border.Bottom : null;
-            var baseBorder = bottom;
+            elementOrder = TableEdgeOrder.WholeTable;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Bottom.HasValue)
-                {
-                    bottom = tableStyle.HeaderRow.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.HeaderRow.Style.Border.Bottom; elementOrder = TableEdgeOrder.HeaderRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Bottom.HasValue)
-                {
-                    bottom = tableStyle.FirstHeaderCell.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.FirstHeaderCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstHeaderCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Bottom.HasValue)
-                {
-                    bottom = tableStyle.LastHeaderCell.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.LastHeaderCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.LastHeaderCell; }
             }
             else if (table.ShowTotal && cell._fromRow == range._toRow)
             {
                 if (tableStyle.TotalRow.Style.Border.Bottom.HasValue)
-                {
-                    bottom = tableStyle.TotalRow.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.TotalRow.Style.Border.Bottom; elementOrder = TableEdgeOrder.TotalRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Bottom.HasValue)
-                {
-                    bottom = tableStyle.FirstTotalCell.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.FirstTotalCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstTotalCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Bottom.HasValue)
-                {
-                    bottom = tableStyle.LastTotalCell.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.LastTotalCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.LastTotalCell; }
             }
             else
             {
                 if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Bottom.HasValue && (tableCol & 1) != 0)
                 {
                     if (cell._fromRow > range._fromRow && cell._fromRow < range._toRow)
-                    {
-                        bottom = tableStyle.FirstColumnStripe.Style.Border.Horizontal;
-                    }
+                    { bottom = tableStyle.FirstColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                     else if (cell._fromRow < range._toRow)
-                    {
-                        bottom = null;
-                    }
+                    { bottom = null; }
                     else
-                    {
-                        bottom = tableStyle.FirstColumnStripe.Style.Border.Bottom;
-                    }
+                    { bottom = tableStyle.FirstColumnStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                 }
                 if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Bottom.HasValue && (tableCol & 1) == 0)
                 {
                     if (cell._fromRow > range._fromRow && cell._fromRow < range._toRow)
-                    {
-                        bottom = tableStyle.SecondColumnStripe.Style.Border.Horizontal;
-                    }
+                    { bottom = tableStyle.SecondColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                     else if (cell._fromRow < range._toRow)
-                    {
-                        bottom = null;
-                    }
+                    { bottom = null; }
                     else
-                    {
-                        bottom = tableStyle.SecondColumnStripe.Style.Border.Bottom;
-                    }
+                    { bottom = tableStyle.SecondColumnStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Bottom.HasValue && (tableRow & 1) != 0)
-                {
-                    bottom = tableStyle.FirstRowStripe.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.FirstRowStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstRowStripe; }
                 if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Bottom.HasValue && (tableRow & 1) == 0)
-                {
-                    bottom = tableStyle.SecondRowStripe.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.SecondRowStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.SecondRowStripe; }
                 if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Bottom.HasValue && cell._fromCol == range._toCol)
-                {
-                    bottom = tableStyle.LastColumn.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.LastColumn.Style.Border.Bottom; elementOrder = TableEdgeOrder.LastColumn; }
                 if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Bottom.HasValue && tableCol == 0)
-                {
-                    bottom = tableStyle.FirstColumn.Style.Border.Bottom;
-                }
+                { bottom = tableStyle.FirstColumn.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstColumn; }
             }
-            isWholeTable = ReferenceEquals(bottom, baseBorder);
+            if (bottom == null || !bottom.Style.HasValue || bottom.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
             return bottom;
         }
-        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
+
+        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var left = tableCol == 0 ? tableStyle.WholeTable.Style.Border.Left : tableStyle.WholeTable.Style.Border.Vertical;
-            var baseBorder = left;
+            elementOrder = TableEdgeOrder.WholeTable;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Left.HasValue)
-                {
-                    left = tableStyle.HeaderRow.Style.Border.Left;
-                }
+                { left = tableStyle.HeaderRow.Style.Border.Left; elementOrder = TableEdgeOrder.HeaderRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Left.HasValue)
-                {
-                    left = tableStyle.FirstHeaderCell.Style.Border.Left;
-                }
+                { left = tableStyle.FirstHeaderCell.Style.Border.Left; elementOrder = TableEdgeOrder.FirstHeaderCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Left.HasValue)
-                {
-                    left = tableStyle.LastHeaderCell.Style.Border.Left;
-                }
+                { left = tableStyle.LastHeaderCell.Style.Border.Left; elementOrder = TableEdgeOrder.LastHeaderCell; }
             }
             else if (table.ShowTotal && cell._fromRow == range._toRow)
             {
                 if (tableStyle.TotalRow.Style.Border.Left.HasValue)
-                {
-                    left = tableStyle.TotalRow.Style.Border.Left;
-                }
+                { left = tableStyle.TotalRow.Style.Border.Left; elementOrder = TableEdgeOrder.TotalRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Left.HasValue)
-                {
-                    left = tableStyle.FirstTotalCell.Style.Border.Left;
-                }
+                { left = tableStyle.FirstTotalCell.Style.Border.Left; elementOrder = TableEdgeOrder.FirstTotalCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Left.HasValue)
-                {
-                    left = tableStyle.LastTotalCell.Style.Border.Left;
-                }
+                { left = tableStyle.LastTotalCell.Style.Border.Left; elementOrder = TableEdgeOrder.LastTotalCell; }
             }
             else
             {
                 if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Left.HasValue && (tableCol & 1) != 0)
-                {
-                    left = tableStyle.FirstColumnStripe.Style.Border.Left;
-                }
+                { left = tableStyle.FirstColumnStripe.Style.Border.Left; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                 if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Left.HasValue && (tableCol & 1) == 0)
-                {
-                    left = tableStyle.SecondColumnStripe.Style.Border.Left;
-                }
+                { left = tableStyle.SecondColumnStripe.Style.Border.Left; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Left.HasValue && (tableRow & 1) != 0)
                 {
                     if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    {
-                        left = tableStyle.FirstRowStripe.Style.Border.Vertical;
-                    }
+                    { left = tableStyle.FirstRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.FirstRowStripe; }
                     else if (cell._fromCol >= range._toCol)
-                    {
-                        left = null;
-                    }
+                    { left = null; }
                     else
-                    {
-                        left = tableStyle.FirstRowStripe.Style.Border.Left;
-                    }
+                    { left = tableStyle.FirstRowStripe.Style.Border.Left; elementOrder = TableEdgeOrder.FirstRowStripe; }
                 }
                 if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Left.HasValue && (tableRow & 1) == 0)
                 {
                     if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    {
-                        left = tableStyle.SecondRowStripe.Style.Border.Vertical;
-                    }
+                    { left = tableStyle.SecondRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.SecondRowStripe; }
                     else if (cell._fromCol >= range._toCol)
-                    {
-                        left = null;
-                    }
+                    { left = null; }
                     else
-                    {
-                        left = tableStyle.SecondRowStripe.Style.Border.Left;
-                    }
+                    { left = tableStyle.SecondRowStripe.Style.Border.Left; elementOrder = TableEdgeOrder.SecondRowStripe; }
                 }
                 if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Left.HasValue && cell._fromCol == range._toCol)
-                {
-                    left = tableStyle.LastColumn.Style.Border.Left;
-                }
+                { left = tableStyle.LastColumn.Style.Border.Left; elementOrder = TableEdgeOrder.LastColumn; }
                 if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Left.HasValue && tableCol == range._toCol)
-                {
-                    left = tableStyle.FirstColumn.Style.Border.Left;
-                }
+                { left = tableStyle.FirstColumn.Style.Border.Left; elementOrder = TableEdgeOrder.FirstColumn; }
             }
-            isWholeTable = ReferenceEquals(left, baseBorder);
+            if (left == null || !left.Style.HasValue || left.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
             return left;
         }
-        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out bool isWholeTable)
+
+        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
         {
             var range = table.Range;
             int tableRow = cell._fromRow - range._fromRow;
             int tableCol = cell._fromCol - range._fromCol;
             var right = cell._fromCol == range._toCol ? tableStyle.WholeTable.Style.Border.Right : tableStyle.WholeTable.Style.Border.Vertical;
-            var baseBorder = right;
+            elementOrder = TableEdgeOrder.WholeTable;
             if (table.ShowHeader && tableRow == 0)
             {
                 if (tableStyle.HeaderRow.Style.Border.Right.HasValue)
-                {
-                    right = tableStyle.HeaderRow.Style.Border.Right;
-                }
+                { right = tableStyle.HeaderRow.Style.Border.Right; elementOrder = TableEdgeOrder.HeaderRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Right.HasValue)
-                {
-                    right = tableStyle.FirstHeaderCell.Style.Border.Right;
-                }
+                { right = tableStyle.FirstHeaderCell.Style.Border.Right; elementOrder = TableEdgeOrder.FirstHeaderCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Right.HasValue)
-                {
-                    right = tableStyle.LastHeaderCell.Style.Border.Right;
-                }
+                { right = tableStyle.LastHeaderCell.Style.Border.Right; elementOrder = TableEdgeOrder.LastHeaderCell; }
             }
             else if (table.ShowTotal && cell._fromRow == range._toRow)
             {
                 if (tableStyle.TotalRow.Style.Border.Right.HasValue)
-                {
-                    right = tableStyle.TotalRow.Style.Border.Right;
-                }
+                { right = tableStyle.TotalRow.Style.Border.Right; elementOrder = TableEdgeOrder.TotalRow; }
                 if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Right.HasValue)
-                {
-                    right = tableStyle.FirstTotalCell.Style.Border.Right;
-                }
+                { right = tableStyle.FirstTotalCell.Style.Border.Right; elementOrder = TableEdgeOrder.FirstTotalCell; }
                 if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Right.HasValue)
-                {
-                    right = tableStyle.LastTotalCell.Style.Border.Right;
-                }
+                { right = tableStyle.LastTotalCell.Style.Border.Right; elementOrder = TableEdgeOrder.LastTotalCell; }
             }
             else
             {
                 if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Right.HasValue && (tableCol & 1) != 0)
-                {
-                    right = tableStyle.FirstColumnStripe.Style.Border.Right;
-                }
+                { right = tableStyle.FirstColumnStripe.Style.Border.Right; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                 if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Right.HasValue && (tableCol & 1) == 0)
-                {
-                    right = tableStyle.SecondColumnStripe.Style.Border.Right;
-                }
+                { right = tableStyle.SecondColumnStripe.Style.Border.Right; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Right.HasValue && (tableRow & 1) != 0)
                 {
                     if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    {
-                        right = tableStyle.FirstRowStripe.Style.Border.Vertical;
-                    }
+                    { right = tableStyle.FirstRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.FirstRowStripe; }
                     else if (cell._fromCol < range._toCol)
-                    {
-                        right = null;
-                    }
+                    { right = null; }
                     else
-                    {
-                        right = tableStyle.FirstRowStripe.Style.Border.Right;
-                    }
+                    { right = tableStyle.FirstRowStripe.Style.Border.Right; elementOrder = TableEdgeOrder.FirstRowStripe; }
                 }
                 if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Right.HasValue && (tableRow & 1) == 0)
                 {
                     if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    {
-                        right = tableStyle.SecondRowStripe.Style.Border.Vertical;
-                    }
+                    { right = tableStyle.SecondRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.SecondRowStripe; }
                     else if (cell._fromCol < range._toCol)
-                    {
-                        right = null;
-                    }
+                    { right = null; }
                     else
-                    {
-                        right = tableStyle.SecondRowStripe.Style.Border.Right;
-                    }
+                    { right = tableStyle.SecondRowStripe.Style.Border.Right; elementOrder = TableEdgeOrder.SecondRowStripe; }
                 }
                 if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Right.HasValue && cell._fromCol == range._toCol)
-                {
-                    right = tableStyle.LastColumn.Style.Border.Right;
-                }
+                { right = tableStyle.LastColumn.Style.Border.Right; elementOrder = TableEdgeOrder.LastColumn; }
                 if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Right.HasValue && tableCol == range._toCol)
-                {
-                    right = tableStyle.FirstColumn.Style.Border.Right;
-                }
+                { right = tableStyle.FirstColumn.Style.Border.Right; elementOrder = TableEdgeOrder.FirstColumn; }
             }
-            isWholeTable = ReferenceEquals(right, baseBorder);
+            if (right == null || !right.Style.HasValue || right.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
             return right;
         }
 
@@ -1123,84 +994,63 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 for (int col = map.FromColumn; col <= map.ToColumn; col++)
                 {
-                    var c = map[row, col];
-                    if (c?.CellStyle == null || c.Merged || c.Hidden) continue;
+                    var cell = map[row, col];
+                    if (cell == null || cell.Hidden || cell.Merged || cell.CellStyle == null) continue;
+                    var cs = cell.CellStyle;
 
-                    if (row < map.ToRow)                                   // horizontal edge with the cell below
+                    // Vertical shared edge: this cell's right vs the next cell's left.
+                    if (col < map.ToColumn)
                     {
-                        var below = map[row + 1, col];
-                        if (below?.CellStyle != null && !below.Merged && !below.Hidden)
+                        var next = map[row, col + 1];
+                        if (next != null && !next.Hidden && !next.Merged && next.CellStyle != null)
                         {
-                            int a = EdgeRank(c.CellStyle.xfBottom, c.CellStyle.dxfBottom, c.CellStyle.dxfBottomIsWholeTable);
-                            int b = EdgeRank(below.CellStyle.xfTop, below.CellStyle.dxfTop, below.CellStyle.dxfTopIsWholeTable);
-                            if (a > 0 && b > 0)
-                            {
-                                if (a >= b) below.CellStyle.SuppressTop = true;   // top cell's bottom wins ties
-                                else c.CellStyle.SuppressBottom = true;
-                            }
+                            var ns = next.CellStyle;
+                            int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
+                            int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
+                            if (here >= there) ns.SuppressLeft = true;    // this cell's right wins
+                            else cs.SuppressRight = true;   // neighbour's left wins
                         }
                     }
-                    if (col < map.ToColumn)                                // vertical edge with the cell to the right
+
+                    // Horizontal shared edge: this cell's bottom vs the cell below's top.
+                    if (row < map.ToRow)
                     {
-                        var right = map[row, col + 1];
-                        if (right?.CellStyle != null && !right.Merged && !right.Hidden)
+                        var below = map[row + 1, col];
+                        if (below != null && !below.Hidden && !below.Merged && below.CellStyle != null)
                         {
-                            int a = EdgeRank(c.CellStyle.xfRight, c.CellStyle.dxfRight, c.CellStyle.dxfRightIsWholeTable);
-                            int b = EdgeRank(right.CellStyle.xfLeft, right.CellStyle.dxfLeft, right.CellStyle.dxfLeftIsWholeTable);
-                            if (a > 0 && b > 0)
-                            {
-                                if (a >= b) right.CellStyle.SuppressLeft = true;  // left cell's right wins ties
-                                else c.CellStyle.SuppressRight = true;
-                            }
+                            var bs = below.CellStyle;
+                            int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
+                            int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
+                            if (here >= there) bs.SuppressTop = true;     // this cell's bottom wins
+                            else cs.SuppressBottom = true;  // cell-below's top wins
                         }
                     }
                 }
             }
         }
 
-        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf)
+        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, int elementOrder)
         {
+            // User-applied (xf) border is the highest source.
             if (xf != null && xf.Style != ExcelBorderStyle.None)
-                return 100 + BorderWeight(xf.Style);
-            if (dxf != null && dxf.HasValue && dxf.Style != null)
-            {
-                var ds = (ExcelBorderStyle)dxf.Style;
-                if (ds != ExcelBorderStyle.None) return 1 + BorderWeight(ds);
-            }
-            return 0;
+                return TableEdgeOrder.UserSet;
+            // Otherwise rank purely by where it came from (CF or table element order).
+            if (dxf != null && dxf.Style.HasValue && dxf.Style.Value != ExcelBorderStyle.None)
+                return elementOrder;
+            return 0; // no border
         }
 
-        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, bool dxfIsWholeTable)
+        internal static class TableEdgeOrder
         {
-            if (xf != null && xf.Style != ExcelBorderStyle.None)
-                return 300 + BorderWeight(xf.Style);                       // user-set: beats all table borders
-            if (dxf != null && dxf.HasValue && dxf.Style != null)
-            {
-                var ds = (ExcelBorderStyle)dxf.Style;
-                if (ds != ExcelBorderStyle.None)
-                    return (dxfIsWholeTable ? 1 : 100) + BorderWeight(ds);  // override beats wholeTable base
-            }
-            return 0;
-        }
-
-        private static int BorderWeight(ExcelBorderStyle s)
-        {
-            switch (s)
-            {
-                case ExcelBorderStyle.Hair: return 1;
-                case ExcelBorderStyle.Dotted:
-                case ExcelBorderStyle.DashDot:
-                case ExcelBorderStyle.DashDotDot:
-                case ExcelBorderStyle.Dashed: return 2;
-                case ExcelBorderStyle.Thin: return 3;
-                case ExcelBorderStyle.MediumDashDot:
-                case ExcelBorderStyle.MediumDashDotDot:
-                case ExcelBorderStyle.MediumDashed: return 4;
-                case ExcelBorderStyle.Medium: return 5;
-                case ExcelBorderStyle.Double: return 6;
-                case ExcelBorderStyle.Thick: return 7;
-                default: return 0;
-            }
+            public const int None = 0, WholeTable = 1,
+                FirstColumnStripe = 2, SecondColumnStripe = 3,
+                FirstRowStripe = 4, SecondRowStripe = 5,
+                LastColumn = 6, FirstColumn = 7,
+                TotalRow = 8, HeaderRow = 9,
+                FirstHeaderCell = 10, LastHeaderCell = 11,
+                FirstTotalCell = 12, LastTotalCell = 13,
+                ConditionalFormat = 50,   // beats any table element
+                UserSet = 100;            // beats CF and table
         }
     }
 }
