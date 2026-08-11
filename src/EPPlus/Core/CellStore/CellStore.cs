@@ -62,10 +62,6 @@ namespace OfficeOpenXml.Core.CellStore
         {
             _columnIndex = new ColumnIndex<T>[CellStoreSettings.ColSizeMin];
         }
-        ~CellStore()
-        {
-            _columnIndex = null;
-        }
         internal bool HasValues
         {
             get
