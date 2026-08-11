@@ -306,10 +306,26 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 var cfBorder = GetConditionalFormattingBorder(cell);
                 if (cfBorder != null)
                 {
-                    if (cfBorder.Top != null && cfBorder.Top.HasValue) cellStyle.dxfTop = cfBorder.Top;
-                    if (cfBorder.Bottom != null && cfBorder.Bottom.HasValue) cellStyle.dxfBottom = cfBorder.Bottom;
-                    if (cfBorder.Left != null && cfBorder.Left.HasValue) cellStyle.dxfLeft = cfBorder.Left;
-                    if (cfBorder.Right != null && cfBorder.Right.HasValue) cellStyle.dxfRight = cfBorder.Right;
+                    if (cfBorder.Top != null && cfBorder.Top.HasValue)
+                    {
+                        cellStyle.dxfTop = cfBorder.Top;
+                        cellStyle.dxfTopElementOrder = TableEdgeOrder.ConditionalFormat;
+                    }
+                    if (cfBorder.Bottom != null && cfBorder.Bottom.HasValue)
+                    {
+                        cellStyle.dxfBottom = cfBorder.Bottom;
+                        cellStyle.dxfBottomElementOrder = TableEdgeOrder.ConditionalFormat;
+                    }
+                    if (cfBorder.Left != null && cfBorder.Left.HasValue)
+                    {
+                        cellStyle.dxfLeft = cfBorder.Left;
+                        cellStyle.dxfLeftElementOrder = TableEdgeOrder.ConditionalFormat;
+                    }
+                    if (cfBorder.Right != null && cfBorder.Right.HasValue)
+                    {
+                        cellStyle.dxfRight = cfBorder.Right;
+                        cellStyle.dxfRightElementOrder = TableEdgeOrder.ConditionalFormat;
+                    }
                 }
             }
         }
