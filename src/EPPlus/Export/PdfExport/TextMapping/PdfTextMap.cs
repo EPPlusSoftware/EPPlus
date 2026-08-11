@@ -905,21 +905,29 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 { left = tableStyle.SecondColumnStripe.Style.Border.Left; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Left.HasValue && (tableRow & 1) != 0)
                 {
-                    if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    { left = tableStyle.FirstRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                    else if (cell._fromCol >= range._toCol)
-                    { left = null; }
+                    if (cell._fromCol > range._fromCol)
+                    {
+                        left = tableStyle.FirstRowStripe.Style.Border.Vertical;
+                        elementOrder = TableEdgeOrder.FirstRowStripe;
+                    }
                     else
-                    { left = tableStyle.FirstRowStripe.Style.Border.Left; elementOrder = TableEdgeOrder.FirstRowStripe; }
+                    {
+                        left = tableStyle.FirstRowStripe.Style.Border.Left;
+                        elementOrder = TableEdgeOrder.FirstRowStripe;
+                    }
                 }
                 if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Left.HasValue && (tableRow & 1) == 0)
                 {
-                    if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    { left = tableStyle.SecondRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                    else if (cell._fromCol >= range._toCol)
-                    { left = null; }
+                    if (cell._fromCol > range._fromCol)
+                    {
+                        left = tableStyle.SecondRowStripe.Style.Border.Vertical;
+                        elementOrder = TableEdgeOrder.SecondRowStripe;
+                    }
                     else
-                    { left = tableStyle.SecondRowStripe.Style.Border.Left; elementOrder = TableEdgeOrder.SecondRowStripe; }
+                    {
+                        left = tableStyle.SecondRowStripe.Style.Border.Left;
+                        elementOrder = TableEdgeOrder.SecondRowStripe;
+                    }
                 }
                 if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Left.HasValue && cell._fromCol == range._toCol)
                 { left = tableStyle.LastColumn.Style.Border.Left; elementOrder = TableEdgeOrder.LastColumn; }
@@ -963,21 +971,29 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 { right = tableStyle.SecondColumnStripe.Style.Border.Right; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Right.HasValue && (tableRow & 1) != 0)
                 {
-                    if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    { right = tableStyle.FirstRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                    else if (cell._fromCol < range._toCol)
-                    { right = null; }
+                    if (cell._fromCol < range._toCol)
+                    {
+                        right = tableStyle.FirstRowStripe.Style.Border.Vertical;
+                        elementOrder = TableEdgeOrder.FirstRowStripe;
+                    }
                     else
-                    { right = tableStyle.FirstRowStripe.Style.Border.Right; elementOrder = TableEdgeOrder.FirstRowStripe; }
+                    {
+                        right = tableStyle.FirstRowStripe.Style.Border.Right;
+                        elementOrder = TableEdgeOrder.FirstRowStripe;
+                    }
                 }
                 if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Right.HasValue && (tableRow & 1) == 0)
                 {
-                    if (cell._fromCol > range._fromCol && cell._fromCol < range._toCol)
-                    { right = tableStyle.SecondRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                    else if (cell._fromCol < range._toCol)
-                    { right = null; }
+                    if (cell._fromCol < range._toCol)
+                    {
+                        right = tableStyle.FirstRowStripe.Style.Border.Vertical;
+                        elementOrder = TableEdgeOrder.FirstRowStripe;
+                    }
                     else
-                    { right = tableStyle.SecondRowStripe.Style.Border.Right; elementOrder = TableEdgeOrder.SecondRowStripe; }
+                    {
+                        right = tableStyle.FirstRowStripe.Style.Border.Right;
+                        elementOrder = TableEdgeOrder.FirstRowStripe;
+                    }
                 }
                 if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Right.HasValue && cell._fromCol == range._toCol)
                 { right = tableStyle.LastColumn.Style.Border.Right; elementOrder = TableEdgeOrder.LastColumn; }
