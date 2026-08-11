@@ -1,4 +1,5 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.Utils;
 using System.Globalization;
 using System.Text;
 
@@ -39,7 +40,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
             if (string.IsNullOrEmpty(item.FilterName) == false)
             {
-                sb.Append($"filter=\"{item.FilterName}\" ");
+                sb.Append($"filter=\"url(#{item.FilterName})\" ");
             }
 
             if (item.BorderWidth.HasValue)
@@ -99,7 +100,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
             if (li.LineJoin != LineJoin.Miter)
             {
-                sb.AppendFormat(" stroke-linejoin=\"{0}\"", li.LineJoin);
+                sb.AppendFormat(" stroke-linejoin=\"{0}\"", li.LineJoin.ToEnumString());
             }
 
             if (string.IsNullOrEmpty(filter) == false)

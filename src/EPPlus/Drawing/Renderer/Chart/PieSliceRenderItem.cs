@@ -6,9 +6,12 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
+
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class PieSliceRenderItem : ChartDrawingObject
@@ -32,8 +35,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal double Degrees { get; private set; }
 
         Point _startPoint;
+        Point _startPointHalf;
         Point _midPoint;
         Point _endPoint;
+        Point _endPointHalf;
+
+        internal override System.Drawing.Color? DefaultFillColor { get; }
 
         /// <summary>
         /// Get copy of start point of slice in local coordinates
@@ -159,6 +166,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         private double _sliceScaleFactor = 1d;
         private double _scaledRadius { get { return _radius * _sliceScaleFactor; } }
 
+        double _prevSliceDegrees;
 
         private void CalculateExplosionDir()
         {
@@ -175,6 +183,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
+            _prevSliceDegrees = prevSliceDegrees;
+            DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
             Rectangle.Bounds.Parent = parent;
             _radius = radius;
             _percent = percentOfPie;
@@ -188,11 +198,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
+            _startPointHalf = CalculateLocalPointOnCircleHalfRadius(prevSliceDegrees);
 
             //The degrees of the midpoint
             var halfDegrees = Degrees / 2;
 
             _endPoint = CalculateLocalPointOnCircle(Degrees + prevSliceDegrees);
+            _endPointHalf = CalculateLocalPointOnCircleHalfRadius(Degrees + prevSliceDegrees);
 
             //We add prev at this point since we don't want to halve the previous angle only the current one
             _midPoint = CalculateLocalPointOnCircle(halfDegrees + prevSliceDegrees);
@@ -212,7 +224,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             _slicePath = new PathRenderItem(plotAreaBounds);
 
-            _slicePath.BorderWidth = 5;
+            _slicePath.BorderWidth = 5d;
 
             //Calculate path commands
             var moveCenter = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
@@ -229,6 +241,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Translate and scale path
             _innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
+            CalculateLargestRectWithinCircleSegment();
 
             //Add the actual commands
             _slicePath.Commands.Add(moveCenter);
@@ -306,11 +319,32 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
 
-        internal void ImportStlyeInfo(ExcelChartDataPoint dp, ExcelPieChart chartType)
+        internal void ImportStlyeInfo(ExcelPieChartSerie serie, ExcelPieChart chartType, int position)
         {
-            _slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style.DataPoint.FillReference.Color);
-            _slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style.DataPoint.BorderReference.Color, true);
-            _slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
+
+            var defaultFill = DefaultFillColor;
+
+            if (position >= 0 && serie.DataPoints.ContainsKey(position))
+            {
+                var dp = serie.DataPoints[position];
+                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath, dp, Chart.StyleManager.Style?.SeriesLine);
+            }
+            else
+            {
+                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath);
+            }
+            //if(chartType.VaryColors)
+            //{
+            //    if(chartType.StyleManager.Style == null)
+            //    {
+            //        var mod5 = position % 5;
+            //        //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+            //        defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+            //    }
+            //}
+            //_slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
+            //_slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
+            //_slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }
 
         internal void AppendGroupItem(GroupRenderItem group)
@@ -504,12 +538,94 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerGroup.TranslationOffset.Top = finalTranslation.Y;
         }
 
+        internal double LargestWidthRectangle { get; private set; }
+        internal double LargestHeightRectangle { get; private set; }
+
+        void CalculateLargestRectWithinCircleSegment()
+        {
+            //The degrees of the slice
+            var myDegrees = Degrees;
+
+            //Rotate back
+            myDegrees = myDegrees + 90;
+
+            var boundedDegrees = myDegrees % 360d;
+
+            if(Degrees < 180d)
+            {
+                //Formula for largest (unrotated) rectangle within a circle-section
+                //Calculate thetha = alpha/4
+                var angleForTriangle = Degrees / 4d;
+
+                var angleForYTriangle = angleForTriangle + 1d;
+
+                var yTriangle = (Math.Sin(MConverter.DegreesToRadians(angleForYTriangle)) * _radius);// add 1 for small rounding fault making too small
+                var xTriangle = (Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius);
+
+                yTriangle *= 2d;
+
+                //Normalize just in case
+                var dirOnly = CtrToOuterMidDir / CtrToOuterMidDir.Length;
+
+                //special case for quadrant -,-
+                //Y positive because of cartesian coord system
+                if(dirOnly.Y > 0 && dirOnly.X < 0)
+                {
+                    //As our starting point is not at the unit circle start. X and Y may need to be switched for width and height.
+                    //Our formula above assumes starting in unit circle and rotating upwards
+
+                    //We start at the "top" and rotate the other direction
+                    //Therefore:
+
+                    //since unit circle has been rotated width and height flip
+                    LargestWidthRectangle = yTriangle;
+                    LargestHeightRectangle = xTriangle;
+                }
+                else
+                {
+                    if(Degrees < 90d)
+                    {
+                        LargestWidthRectangle = yTriangle;
+                        LargestHeightRectangle = xTriangle;
+                    }
+                    else
+                    {
+                        LargestWidthRectangle = xTriangle;
+                        LargestHeightRectangle = yTriangle;
+                    }
+                }
+            }
+            else
+            {
+                //Formula for largest (unrotated) rectangle within a semi-circle
+                LargestWidthRectangle = Math.Sqrt(2d) *_radius;
+                LargestHeightRectangle = (Math.Sqrt(2d)/2) * _radius;
+            }
+        }
+
         Point CalculateLocalPointOnCircle(double degrees)
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
 
             var xPoint = _circleCenter.Left + (_radius * Math.Cos(angleRadians));
             var yPoint = _circleCenter.Top + (_radius * Math.Sin(angleRadians));
+
+            var point = new Point();
+
+            //Ensure the cx/cy offset
+            point.Parent = _innerGroup.TranslationOffset.Parent;
+            point.Left = xPoint;
+            point.Top = yPoint;
+
+            return point;
+        }
+
+        Point CalculateLocalPointOnCircleHalfRadius(double degrees)
+        {
+            var angleRadians = MConverter.DegreesToRadians(degrees);
+
+            var xPoint = _circleCenter.Left + (_radius/2d * Math.Cos(angleRadians));
+            var yPoint = _circleCenter.Top + (_radius/2d * Math.Sin(angleRadians));
 
             var point = new Point();
 
@@ -569,6 +685,56 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             transform.Parent = _innerGroup.Bounds.Parent;
             transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
             return transform;
+        }
+
+        //bool CanFitWithinEndPosition()
+        //{
+        //    var test = _startPoint;
+        //    var mid = _midPoint;
+        //    var end = _endPoint;
+        //    var ctr = _circleCenter;
+        //}
+
+        internal BoundingBox GetBounds()
+        {
+            BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
+            box.Parent = ExtremePoints.Parent;
+            box.Left = ExtremePoints.Left;
+            box.Top = ExtremePoints.Top;
+            return box;
+        }
+
+        internal Transform GetCenterOfStartPointLine()
+        {
+            //var startToCenter = _startPoint.Position - _circleCenter.Position;
+            //var startToCenterDirOnly = startToCenter / startToCenter.Length;
+
+            //var half = (startToCenterDirOnly * -1) * 0.5d;
+            //var halfPos = _startPoint.LocalPosition * half;
+
+            //Transform transform = new Transform();
+            //transform.Position = _startPoint.Position * half;
+            //transform.Parent = _startPoint.Parent;
+
+            return _startPoint;
+        }
+
+        
+
+        internal Transform GetCenterOfEndPointLine()
+        {
+            //var ctrToEnd = _endPoint.LocalPosition - _circleCenter.LocalPosition;
+            //var ctrToEndDirOnly = ctrToEnd / ctrToEnd.Length;
+
+            //var half = ctrToEndDirOnly * 0.5d;
+            //var halfPos = _circleCenter.LocalPosition * half;
+
+            //Transform transform = new Transform();
+            //transform.Parent = _innerGroup.Bounds;
+            //transform.LocalPosition = halfPos;
+
+            //return transform;
+            return _endPoint;
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)

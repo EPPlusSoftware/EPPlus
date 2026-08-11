@@ -158,13 +158,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         private void UpdateSlice(ExcelPieChart chartType, ExcelPieChartSerie serie, int seriesCount, int position)
         {
-            var dataPoint = serie.DataPoints[position];
+            int explosion = 0;
+            if (serie.DataPoints.ContainsKey(position))
+            {
+                explosion = serie.DataPoints[position].Explosion;
+            }
 
             Slices[position].ImportPathData(
-                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds, 
-                _sliceScaleFactor, dataPoint.Explosion, _pieExplosionPercent, position);
+                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds,
+                _sliceScaleFactor, explosion, _pieExplosionPercent, position);
 
-            Slices[position].ImportStlyeInfo(dataPoint, chartType);
+            Slices[position].ImportStlyeInfo(serie, chartType, position);
             Slices[position].AppendGroupItem(_groupItem);
         }
 
@@ -251,7 +255,31 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             startPt.Parent = innerGroup.Parent;
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
-                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup);
+                            //var maxBoundsForBestFit = new BoundingBox();
+                            //maxBoundsForBestFit.Parent = innerGroup;
+
+                            var bounds = Slices[j].GetBounds();
+                            
+                            //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+                            //box.Parent = innerGroup;
+
+                            //var start = Slices[j].GetCenterOfStartPointLine();
+                            //var end = Slices[j].GetCenterOfEndPointLine();
+
+                            //var minX = Math.Min(start.LocalPosition.X, end.LocalPosition.X);
+                            //var width = Math.Max(start.LocalPosition.X, end.LocalPosition.X) - minX;
+
+                            //var minY = Math.Min(start.LocalPosition.Y, end.LocalPosition.Y);
+                            //var height = Math.Max(start.LocalPosition.Y, end.LocalPosition.Y) - minY;
+
+                            //maxBoundsForBestFit.Left += minX;
+                            //maxBoundsForBestFit.Top += minY;
+                            //maxBoundsForBestFit.Width = width;
+                            //maxBoundsForBestFit.Height = height;
+                            ////maxBoundsForBestFit.Width = Math.Abs(start.LocalPosition.X - end.LocalPosition.X);
+                            ////maxBoundsForBestFit.Height = Math.Abs(start.LocalPosition.Y - end.LocalPosition.Y);
+
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds);
                         }
                     }
                 }
@@ -269,8 +297,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
+            //renderItems.AddRange(ChartAreaRenderItems);
             ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
-            if(SeriesRenderItems != null && SeriesRenderItems.Count > 0)
+            if (SeriesRenderItems != null && SeriesRenderItems.Count > 0)
             {
                 ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
             }

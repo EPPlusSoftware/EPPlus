@@ -26,9 +26,11 @@ namespace OfficeOpenXml.Drawing.Theme
     /// </summary>
     public class ExcelThemeLine : XmlHelper
     {
-        internal ExcelThemeLine(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        ExcelThemeBase _theme;
+        internal ExcelThemeLine(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelThemeBase theme) : base(nameSpaceManager, topNode)
         {
             SchemaNodeOrder = new string[] { "noFill", "solidFill", "gradientFill", "pattFill", "prstDash", "round", "bevel", "miter", "headEnd", " tailEnd" };
+            _theme = theme;
         }
         const string widthPath = "@w";
         /// <summary>
@@ -105,14 +107,14 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_fill == null)
                 {
-                    if (!(TopNode.HasChildNodes && TopNode.ChildNodes[0].LocalName.EndsWith("Fill")))
+                    if (TopNode.HasChildNodes && TopNode.ChildNodes[0].LocalName.EndsWith("Fill"))
                     {
-                        _fill = new ExcelDrawingFill(null, NameSpaceManager, TopNode.ChildNodes[0], "", SchemaNodeOrder);
+                        _fill = new ExcelDrawingFill(_theme, NameSpaceManager, TopNode.ChildNodes[0], "", SchemaNodeOrder);
                     }
                     else
                     {
                         var node = CreateNode("a:solidFill");
-                        _fill = new ExcelDrawingFill(null, NameSpaceManager, TopNode.ChildNodes[0], "", SchemaNodeOrder);
+                        _fill = new ExcelDrawingFill(_theme, NameSpaceManager, TopNode.ChildNodes[0], "", SchemaNodeOrder);
                         Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Style);
                     }
                 }

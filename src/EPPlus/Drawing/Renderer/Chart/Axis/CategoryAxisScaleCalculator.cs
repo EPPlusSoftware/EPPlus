@@ -134,10 +134,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var hs = new HashSet<string>();
             foreach(var v in values)
             {
-                if(v is string[])
+                if(v is object[])
                 {
-                    var s = (string[])v;
-                    var key = s[0] + s[1];
+                    var s = (object[])v;
+                    var key = s[0].ToString() + s[1].ToString();
                     if(hs.Add(key))
                     {
                         ret.Add(s[0]);

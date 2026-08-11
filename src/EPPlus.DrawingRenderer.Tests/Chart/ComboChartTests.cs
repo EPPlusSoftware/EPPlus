@@ -27,5 +27,24 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+        [TestMethod]
+        public void GenerateSvgForComboCharts_sheet4()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("ChartForSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[3];
+                var ix = 1;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                //var ix = 1;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_Combo_Sheet4{ix++}.svg", svg);
+                //}
+            }
+        }
     }
 }

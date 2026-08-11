@@ -125,6 +125,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double GlobalTop => Bounds.GlobalTop;
         public double GlobalRight => Bounds.GlobalLeft + Width;
         public double GlobalBottom => Bounds.GlobalTop + Height;
+        public double RoundedCornerRadius { get; set; }
     }
     public class GroupRenderItem : RenderItem
     {
@@ -208,7 +209,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public void AddChildItem(RenderItem item)
         {
-            item.Bounds.Parent = TranslationOffset; 
+            //item.Bounds.Parent = TranslationOffset;  //This incorrectly sets the parent bounds to zero. Intended?
             RenderItems.Add(item);
 
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;
@@ -298,7 +299,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             var sizeX = Math.Abs(X2 - X1);
             var sizeY = Math.Abs(Y2 - Y1);
 
-            Bounds.Position = new Vector2(px, py);
+            Bounds.LocalPosition = new Vector2(px, py);
             Bounds.Size = new Vector2(sizeX, sizeY);
         }
         public LineRenderItem Clone()
@@ -357,6 +358,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
         public double? GlowRadius { get; set; }
+        public double? GlowOpacity{ get; set; }
         public string GlowColor { get; set; }
         public RenderShadowEffect OuterShadowEffect { get; set; }
 

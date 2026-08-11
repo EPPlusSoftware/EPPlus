@@ -176,5 +176,14 @@ namespace EPPlusTest.Issues
 
             SaveAndCleanup(package);
         }
+        [TestMethod]
+        public void TemplateSaveIssue()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("template.xltx"))
+            {
+                SaveWorkbook("template.xltx", package);
+            }
+        }
+
     }
 }

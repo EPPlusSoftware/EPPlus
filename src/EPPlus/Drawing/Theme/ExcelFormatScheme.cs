@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_lineStyle == null)
                 {
-                    _lineStyle = new ExcelThemeLineStyles(NameSpaceManager, TopNode.SelectSingleNode(lineStylePath, NameSpaceManager));
+                    _lineStyle = new ExcelThemeLineStyles(NameSpaceManager, TopNode.SelectSingleNode(lineStylePath, NameSpaceManager), _theme);
                 }
                 return _lineStyle;
             }

@@ -6,34 +6,49 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class BarColumnChartTypeDrawer : ChartTypeDrawer
     {
-        List<List<object>> _catValues, _valValues;
+        List<List<object>> _catValues, _valValues, _origValValues;
         List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
         internal override bool SupportsErrorBars => true;
+
         internal BarColumnChartTypeDrawer(ChartRenderer svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {
             _catValues = new List<List<object>>();
             _valValues = new List<List<object>>();
+            _origValValues = new List<List<object>>();
 
             int serCounter = 0;
 
             foreach (ExcelBarChartSerie serie in chartType.Series)
             {
-                List<object> valValue,catValue;
+                List<object> valValue, catValue;
                 valValue = LoadSeriesValues(serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY);
                 catValue = LoadSeriesValues(serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX);
 
                 _catValues.Add(catValue);
                 _valValues.Add(valValue);
+
+                List<object> origList = new List<object>();
+                if(valValue != null)
+                {
+                    for (int i = 0; i < valValue.Count; i++)
+                    {
+                        origList.Add(valValue[i]);
+                    }
+                    //Will not be summed
+                    _origValValues.Add(origList);
+                }
             }
 
             if(chartType.IsTypeStacked())
@@ -46,14 +61,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
             CreateTrendlines(chartType, _catValues, _valValues);
-            CreateErrorBars(chartType, _catValues, _valValues);
+            CreateErrorBars(chartType, _catValues, _valValues);            
         }
 
         internal override void DrawSeries()
         {
             var isBar = _chartType.IsTypeBar();
             var count = Math.Min(_catValues.Count, _valValues.Count);
-            for (var i = 0; i < _catValues.Count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var serie = (ExcelBarChartSerie)_chartType.Series[i];
 
@@ -68,9 +83,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var isColumn = ((ExcelBarChart)_chartType).IsTypeColumn();
 
-                if (serie.HasDataLabel)
+                if (serie.HasDataLabel && serie.DataLabel != null)
                 {
-                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _valValues[i], serCounter++);
+                    var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, _catValues[i], _origValValues[i], serCounter++);
                     serieDataLabels.Add(datalabel);
 
                     for (int j = 0; j < dataPoints.Count; j++)
@@ -103,7 +118,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 endPoint.Position = new Vector2(middleRight, dataPoints[j].Top);
                             }
 
-                            serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
+                            datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                         else
                         {
@@ -118,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 endPoint.Position = new Vector2(dataPoints[j].Left + dataPoints[j].Width, middleHeight);
                             }
 
-                            serieDataLabels[i].SetDimensions(j, basePoint, endPoint);
+                            datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                     }
 
@@ -186,7 +201,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Gapwidth has a default value of 150% See ECMA-376 Part 1 page 4063:
             //"<xsd:complexType name="CT_GapAmount">286 <xsd:attribute name="val" type="ST_GapAmount" default="150%"/>287 </xsd:complexType>"
             var gapWidth = chartType.GapWidth == int.MinValue ? 150 : chartType.GapWidth;
-            var gapPercent = gapWidth / 100D;     // Gap width between bars/columns in percent
+            var gapPercent = gapWidth / 100D;               // Gap width between bars/columns in percent
             var overlapPercent = chartType.Overlap / 100D;  // Overlap  between bars/columns in percent            
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + gapWidth);
@@ -194,18 +209,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
             var halfGap = (barWidth * gapPercent) / 2;
 
-            if (catAx.Axis.Crosses == eCrosses.AutoZero)
-            {
-                chartBaseY = valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
-            }
-            else if (catAx.Axis.Crosses == eCrosses.Min)
-            {
-                chartBaseY = valAx.GetPositionInPlotarea(valAx.Min, true);
-            }
-            else
-            {
-                chartBaseY = valAx.GetPositionInPlotarea(valAx.Max, true);
-            }
+            chartBaseY = GetAxisBaseY(catAx, valAx);
 
             var isStacked = chartType.IsTypeStacked();
             var isStacked100 = chartType.IsTypePercentStacked();
@@ -324,8 +328,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false);
-                rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, true, 1.5, false);
+                //rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false, DefaultFillColor);
+                //rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, serie.Border.IsEmpty==false && serie.Border.Width>0, DefaultBorderColor, 1.5, false);
+                if (i >= 0 && serie.DataPoints.ContainsKey(i))
+                {
+                    var dp = serie.DataPoints[i];
+                    SetFillDataPoint(Chart, serie, i, rect, dp, Chart.StyleManager.Style?.SeriesLine);
+                }
+                else
+                {
+                    SetFillSerie(Chart, chartType, serie, position, i, rect);
+                }
+
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
                 dataPoints.Add(rect.Bounds);
@@ -348,6 +362,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
+
         private void GetAxis(ExcelBarChart chartType, out ChartAxisRenderer yAxis, out ChartAxisRenderer xAxis)
         {
             if (chartType.UseSecondaryAxis)
@@ -371,5 +386,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             renderItems.AddRange(ChartAreaRenderItems);
             SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
+        internal override Color? DefaultFillColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
+        internal override Color? DefaultBorderColor => null;
     }
 }

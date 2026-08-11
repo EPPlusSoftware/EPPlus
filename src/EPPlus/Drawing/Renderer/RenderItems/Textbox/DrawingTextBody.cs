@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             MaxHeight = maxHeight;
         }
 
-        public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null)
+        public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null, bool applyDefaultMargins = false)
         {
             bool isFirst = Paragraphs.Count == 0;
             Text = text;
@@ -60,6 +60,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 if (Paragraphs.Count == 0)
                 {
                     Bounds.Height = paragraph.Bounds.Height;
+                    if(Bounds.Height == 0)
+                    {
+                        Bounds.Height = 3d;
+                    }
                 }
                 else
                 {

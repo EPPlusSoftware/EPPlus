@@ -11,39 +11,39 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
-using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml.Drawing.Renderer.TextBox;
+using EPPlus.DrawingRenderer.Svg;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAxisTextBoxes : ChartDrawingObject
+    internal class ChartAreaRenderer : ChartDrawingObject
     {
-        internal override Color? DefaultFillColor { get; }
-
-        internal ChartAxisTextBoxes(ChartRenderer chart) : base(chart)
+        public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
-            DefaultFillColor = Color.Transparent;
-        }
-
-        internal List<DrawingTextBox> TextBoxes
-        {
-            get;
-            set;
-        }=new List<DrawingTextBox>();
-
-        public override void AppendRenderItems(List<RenderItem> renderItems)
-        {
-            if (TextBoxes != null && TextBoxes.Count > 0)
+            if(options.Size.Width.HasValue)
             {
-                foreach (var tb in TextBoxes)
-                {
-                    tb.AppendRenderItems(renderItems);
-                }
+                sc.Bounds.Width = options.Size.WidthPixels;
+            }
+            if (options.Size.Height.HasValue)
+            {
+                sc.Bounds.Height = options.Size.HeightPixels;
             }
 
+            Rectangle = new RectRenderItem(sc.Bounds);
+        }
+
+        internal override Color? DefaultFillColor { get => ChartRenderer.Theme.ColorScheme.Light1.GetColor(); }
+        internal override Color? DefaultBorderColor
+        {
+            get
+            {
+                return Color.FromArgb(0x89, 0x89, 0x89);
+            }
+        }
+        public override void AppendRenderItems(List<RenderItem> renderItems)
+        {
+            renderItems.Add(Rectangle);
         }
     }
 }

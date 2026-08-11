@@ -19,6 +19,7 @@ using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Reflection.Emit;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -129,6 +130,39 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     SourceLinked = false;
                 }
+            }
+        }
+        public string FormatOrFirstValueFormat
+        {
+            get
+            {
+                var f = Format;
+                if (string.IsNullOrEmpty(Format))
+                {
+                    var wb = _chart.WorkSheet._package.Workbook;
+                    foreach (var ct in _chart.PlotArea.ChartTypes)
+                    {
+                        if(ct.XAxis.Id == Id)
+                        {
+                            foreach (var serie in ct.Series)
+                            {
+                                if(string.IsNullOrEmpty(serie.XSeries))
+                                {
+                                    continue;
+                                }
+                                var adr = new ExcelAddressBase(serie.XSeries);
+                                var ws = wb.Worksheets[adr.WorkSheetName];
+                                if(ws!=null)
+                                {
+                                    return ws.Cells[adr.Address].Style.Numberformat.Format;
+                                }
+                            }
+                        }
+                    }
+                    return "";
+                }
+
+                return f;
             }
         }
         /// <summary>
@@ -600,6 +634,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract List<object> GetAxisValues(out bool isCount);
+        internal abstract List<object> GetAxisValues(out bool isCount, out bool isNumeric);
     }
 }

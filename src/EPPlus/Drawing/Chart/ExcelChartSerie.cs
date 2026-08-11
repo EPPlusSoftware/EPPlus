@@ -254,7 +254,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal string GetHeaderText(int index)
         {
             var ret = "";
-            if(string.IsNullOrEmpty(Header) == false)
+            if(Header != null)
             {
                 return Header;
             }
@@ -262,6 +262,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 return GetAddressValue(HeaderAddress);
             }
+
             return $"Series{index + 1}";
         }
 

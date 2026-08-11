@@ -11,7 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System;
+using System.Drawing;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -104,6 +107,13 @@ namespace OfficeOpenXml.Drawing
             }
             isSpInit = true;
         }
+        internal bool IsEmpty
+        {
+            get
+            {
+                return !ExistsNode(_linePath);
+            }
+        }
 
 
         string _compoundLineTypePath = "{0}/@cmpd";
@@ -162,7 +172,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPt(_lineWidth);
+                return GetXmlNodeEmuToPt(_lineWidth, 0);
             }
             set
             {
@@ -293,5 +303,29 @@ namespace OfficeOpenXml.Drawing
             lineElement.InnerXml = copyFromLineElement.InnerXml;
         }
 
+        internal Color? GetDisplayColor(ExcelTheme theme)
+        {
+            if(Fill.Style == eFillStyle.NoFill)
+            {
+                if(IsEmpty == false)
+                {
+                    //intentionally set to NoFill to be transparent
+                    return Color.Empty;
+                }
+                var borderStyle = theme.FormatScheme.BorderStyle[0].Fill;
+                if (borderStyle.Style == eFillStyle.SolidFill)
+                {
+                    if(borderStyle.SolidFill.Color.ColorType == eDrawingColorType.Scheme)
+                    {
+                        if(borderStyle.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

@@ -3,20 +3,15 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Utils;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using OfficeOpenXml.Utils;
+using EPPlus.Fonts.OpenType.Utils;
+using System.Security.Cryptography.Xml;
+using System.ComponentModel;
 
 namespace EPPlus.DrawingRenderer
 {
@@ -37,7 +32,7 @@ namespace EPPlus.DrawingRenderer
             }
 
             Bounds = bounds;
-            OutputStream = outputStream; 
+            OutputStream = outputStream;
         }
         public IBasicIShapesRenderer<StringBuilder> BasicShapesRenderer { get; }
 
@@ -50,9 +45,9 @@ namespace EPPlus.DrawingRenderer
             OutputStream.Clear();
             OutputStream.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
             PreRender(items);
-            foreach(var item in items)
+            foreach (var item in items)
             {
-                switch(item.Type)
+                switch (item.Type)
                 {
                     case RenderItemType.Group:
                         BasicShapesRenderer.GroupRenderer.Render((GroupRenderItem)item);
@@ -81,6 +76,27 @@ namespace EPPlus.DrawingRenderer
             return true;
         }
 
+
+        public void PreRenderGroup(List<RenderItem> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
+        {
+            foreach (RenderItem item in items)
+            {
+                if (item is GroupRenderItem group)
+                {
+                    PreRenderGroup(group.RenderItems, defSb, hs, ref ix);
+                    //foreach(var child in group.RenderItems)
+                    //{
+                    //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
+                    //}
+                }
+                else
+                {
+                    WriteDefsForRenderItem(defSb, hs, ref ix, item);
+                }
+            }
+        }
+
+
         public bool PreRender(List<RenderItem> items)
         {
             var defSb = new StringBuilder();
@@ -89,17 +105,7 @@ namespace EPPlus.DrawingRenderer
 
             foreach (RenderItem item in items)
             {
-                if(item is GroupRenderItem group)
-                {
-                    foreach(var child in group.RenderItems)
-                    {
-                        WriteDefsForRenderItem(defSb, hs, ref ix, child);
-                    }
-                }
-                else
-                {
-                    WriteDefsForRenderItem(defSb, hs,ref ix, item);
-                }
+                PreRenderGroup(items, defSb, hs, ref ix);
             }
 
             if (defSb.Length > 0)
@@ -122,7 +128,7 @@ namespace EPPlus.DrawingRenderer
                 var key = item.GradientFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"Gradient{ix}", defSb, hs, item.GradientFill, item.FillColorSource);
+                    name = WriteGradient($"Gradient{ix}", defSb, hs, item, item.GradientFill, item.FillColorSource);
                     _defsCache[key] = name;
                 }
                 item.FillColor = $"Url(#{name})";
@@ -131,7 +137,7 @@ namespace EPPlus.DrawingRenderer
             {
                 var key = item.PatternFill.GetKey();
                 if (_defsCache.TryGetValue(key, out string? name) == false)
-                { 
+                {
                     name = WritePattern($"Pattern{item.PatternFill.PatternType}{ix}", defSb, hs, item.PatternFill, item.FillColorSource);
                     _defsCache[key] = name;
                 }
@@ -155,10 +161,10 @@ namespace EPPlus.DrawingRenderer
             }
             if (item.BorderGradientFill != null)
             {
-                var key = item.BorderGradientFill.GetKey();
+                var key = item.BorderGradientFill.GetKey() + item.Bounds.UniqueKey;
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
-                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item.BorderGradientFill, item.BorderColorSource);
+                    name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item, item.BorderGradientFill, item.BorderColorSource);
                     _defsCache[key] = name;
                 }
                 item.BorderColor = $"Url(#{name})";
@@ -172,9 +178,11 @@ namespace EPPlus.DrawingRenderer
                     {
                         name = GetFilterName(ix);
                         item.FilterName = $"Url(#{name})";
-                        filter = $"<filter id=\"{name}\">";
-                        filter += $"<feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"{item.GlowRadius ?? 0 / 2}\" result=\"blur\"/>" +
-                        $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"0.8\" result=\"glowColor\"/>" +
+                        filter = $"<filter id=\"{name}\" filterUnits=\"userSpaceOnUse\">";
+                        double stdev = (item.GlowRadius??0) / 4D;
+                        filter += $"<feMorphology in=\"SourceAlpha\" operator=\"dilate\" radius=\"{stdev.ToString("#.###", CultureInfo.InvariantCulture)}\" result=\"thick\"/>" +
+                        $"<feGaussianBlur in=\"thick\" stdDeviation=\"{stdev.ToString("#.###",CultureInfo.InvariantCulture)}\" result=\"blur\"/>" +
+                        $"<feFlood flood-color=\"{item.GlowColor}\" flood-opacity=\"{item.GlowOpacity}%\" result=\"glowColor\"/>" +
                         $"<feComposite in=\"glowColor\" in2=\"blur\" operator=\"in\" result=\"coloredBlur\"/>" +
                         $"<feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>";
 
@@ -260,15 +268,15 @@ namespace EPPlus.DrawingRenderer
             defSb.Append($"</pattern>");
             return name;
         }
-        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderGradientFill gradientFill, PathFillMode fillMode)
+        private string WriteGradient(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderItem item, RenderGradientFill? gradientFill, PathFillMode fillMode)
         {
-            //var gs = gradientFill.Settings;
-            var name = $"{namePrefix}{fillMode}";
-            var grUnits = gradientFill.UserSpaceOnUse ? " gradientUnits=\"userSpaceOnUse\"" : "";
+            var name = GetGradientName(namePrefix, fillMode, gradientFill);
+
             if (gradientFill.ShadePath == ShadePath.Linear && hs.Contains(name) == false)
             {
                 hs.Add(name);
-                var xy = GetXy(gradientFill.LinearSettings?.Angle);
+                var grUnits = gradientFill.UserSpaceOnUse != UserSpaceSettings.ObjectBoundingBox ? " gradientUnits=\"userSpaceOnUse\"" : "";
+                var xy = GetXy(item, gradientFill.UserSpaceOnUse, gradientFill.LinearSettings?.Angle);
                 defSb.Append($"<linearGradient id=\"{name}\"{grUnits} {xy}>");
                 SetStopColors(defSb, gradientFill, fillMode);
                 defSb.Append("</linearGradient>");
@@ -283,6 +291,16 @@ namespace EPPlus.DrawingRenderer
 
             return name;
         }
+
+        private string GetGradientName(string namePrefix, PathFillMode fillMode, RenderGradientFill? gradientFill)
+        {
+            //if(gradientFill?.UserSpaceOnUse==UserSpaceSettings.UserSpaceOnUse_Parent || gradientFill?.LinearSettings?.Angle!=0)
+            //{
+            //    return $"{namePrefix}{fillMode}";
+            //}
+            return $"{namePrefix}{fillMode}";
+        }
+
         private string WritePattern(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderPatternFill patternFill, PathFillMode fillMode)
         {
             var name = $"{namePrefix}{fillMode}";
@@ -461,14 +479,14 @@ namespace EPPlus.DrawingRenderer
 
             defSb.Append($"<rect width=\"{width}\" height=\"{height}\" {WriteFillColor(abc)}");
             defSb.Append("/>");
-            defSb.Append($"<rect x=\"0\" y=\"0\" width=\"1\" height=\"1\" \"/>");
+            defSb.Append($"<rect x=\"0\" y=\"0\" width=\"1\" height=\"1\"/>");
             defSb.Append($"<rect x=\"{Math.Round(width / 2D, 0)}\" y=\"{Math.Round(height / 2D, 0)}\" width=\"1\" height=\"1\" {WriteFillColor(afc)}/>");
             defSb.Append($"</pattern>");
         }
 
         private static object WriteFillColor(Color c)
         {
-            double opacity = -1;            
+            double opacity = -1;
             if (c.A < 255 && c != Color.Empty)
             {
                 opacity = c.A / 255D * 100;
@@ -562,41 +580,35 @@ namespace EPPlus.DrawingRenderer
                 var color = ColorUtils.GetAdjustedColor(fillMode, c.Color);
                 // TODO: check if ix should be increased...?
                 var op = c.Opacity;
-                defSb.Append($"<stop offset=\"{c.Position}%\" stop-color=\"#{color.To6CharHexString()}\" {(op==1?"":"stop-opacity=\"" + (op*100).ToString("N0") + "%\"")} />");
+                defSb.Append($"<stop offset=\"{c.Position}%\" stop-color=\"#{color.To6CharHexString()}\" {(op == 1 ? "" : "stop-opacity=\"" + (op * 100).ToString("N0") + "%\"")} />");
             }
         }
 
-        private string GetXy(double? angle)
+        private string GetXy(RenderItem item, UserSpaceSettings userSpace, double? angle)
         {
-            if (angle.HasValue && angle != 0)
+            if (userSpace == UserSpaceSettings.UserSpaceOnUse_Parent)
             {
-                var x1 = 0D;
-                var x2 = 0D;
-                var y1 = 0D;
-                var y2 = 0D;
-                angle %= 360;
-                if (angle <= 90)
-                {
-                    x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
-                    y2 = Math.Sin(MathHelper.Radians(angle.Value));
-                }
-                else if (angle <= 180)
-                {
-                    y2 = Math.Sin(MathHelper.Radians(angle.Value));
-                    x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
-                }
-                else if (angle <= 270)
-                {
-                    y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
-                    x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
-                }
-                else
-                {
-                    y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
-                    x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
-                }
+                double theta = MathHelper.Radians((angle ?? 90) % 360);
 
-                return $" x1=\"{(x1).ToString("0.00%", CultureInfo.InvariantCulture)}\" x2=\"{(x2).ToString("0.00%", CultureInfo.InvariantCulture)}\" y1=\"{y1.ToString("0.00%", CultureInfo.InvariantCulture)}\" y2=\"{y2.ToString("0.00%", CultureInfo.InvariantCulture)}\"";
+                var l = item.Bounds.Left;
+                var t =  item.Bounds.Top;
+                var w = item.Bounds.Width;
+                var h = item.Bounds.Height;
+
+                double dx = Math.Cos(theta);
+                double dy = Math.Sin(theta);
+                double length = w * Math.Abs(dx) + h * Math.Abs(dy);
+
+                double cx = l + w / 2.0;
+                double cy = t + h / 2.0;
+
+                double halfX = (length / 2.0) * dx;
+                double halfY = (length / 2.0) * dy;
+
+                double x1 = cx - halfX, y1 = cy - halfY;
+                double x2 = cx + halfX, y2 = cy + halfY;
+
+                return $" x1=\"{(x1).PointToPixelString("0.00")}\" x2=\"{(x2).PointToPixelString("0.00")}\" y1=\"{y1.PointToPixelString("0.00")}\" y2=\"{y2.PointToPixelString("0.00")}\"";
             }
             return "";
         }
@@ -646,103 +658,5 @@ namespace EPPlus.DrawingRenderer
         {
             return $"data:{blipFill.ContentType};base64," + Convert.ToBase64String(blipFill.ImageBytes);
         }
-    }
-
-    public interface IShapeRenderer<T>
-    {
-        IBasicIShapesRenderer<T> BasicShapesRenderer { get; }
-        T OutputStream { get; }
-        bool PreRender(List<RenderItem> items);
-        BoundingBox Bounds { get; }
-        string ViewBox { get; set; }
-        bool Render(List<RenderItem> items);
-    }
-
-    public class SvgBasicShapesRenderer : IBasicIShapesRenderer<StringBuilder>
-    {
-        public SvgBasicShapesRenderer(StringBuilder outputStream)
-        {
-            LineRenderer = new SvgLineRenderer(outputStream);
-            RectangleRenderer = new SvgRectRenderer(outputStream);
-            EllipseRenderer = new SvgEllipseRenderer(outputStream);
-            PathRenderer = new SvgPathRenderer(outputStream);
-            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream);
-            GroupRenderer = new SvgGroupRenderer(this, outputStream);
-            TextRunRenderer = new SvgTextRunRenderer(outputStream);
-            TitleRenderer = new SvgTitleRenderer(outputStream);
-            UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
-
-            // ImageRenderer = new SvgImageRenderer(outputStream);
-        }
-        public BaseRenderer<StringBuilder, GroupRenderItem> GroupRenderer { get; }
-        public BaseRenderer<StringBuilder, RectRenderItem> RectangleRenderer { get; }
-        public BaseRenderer<StringBuilder, EllipseRenderItem> EllipseRenderer { get; }
-        public BaseRenderer<StringBuilder, PathRenderItem> PathRenderer { get; }
-        //public BaseRenderer<StringBuilder> ImageRenderer { get; }
-        public BaseRenderer<StringBuilder, LineRenderItem> LineRenderer { get; }
-        public BaseRenderer<StringBuilder, TitleRenderItem> TitleRenderer { get; }
-        public BaseRenderer<StringBuilder, ParagraphRenderItem> ParagraphRenderer { get; }
-        public BaseRenderer<StringBuilder, TextRunRenderItem> TextRunRenderer { get; }
-        public BaseRenderer<StringBuilder, UseReferenceRenderItem> UseReferenceRenderer { get; }
-
-        public void Render(RenderItem item)
-        {
-            switch(item.Type)
-            {
-                case RenderItemType.Group:
-                    GroupRenderer.Render((GroupRenderItem)item);
-                    break;
-                case RenderItemType.Line:
-                    LineRenderer.Render((LineRenderItem)item);
-                    break;
-                case RenderItemType.Rect:
-                    RectangleRenderer.Render((RectRenderItem)item);
-                    break;
-                case RenderItemType.Ellipse:
-                    EllipseRenderer.Render((EllipseRenderItem)item);
-                    break;
-                case RenderItemType.Path:
-                    PathRenderer.Render((PathRenderItem)item);
-                    break;
-                case RenderItemType.Text:
-                    throw new NotImplementedException();
-                    break;
-                case RenderItemType.CommentTitle:
-                    TitleRenderer.Render((TitleRenderItem)item);
-                    break;
-                case RenderItemType.Paragraph:
-                    ParagraphRenderer.Render((ParagraphRenderItem)item);
-                    break;
-                case RenderItemType.UseReference:
-                    UseReferenceRenderer.Render((UseReferenceRenderItem)item);
-                    break;
-                case RenderItemType.TextRun:
-                    TextRunRenderer.Render((TextRunRenderItem)item);
-                    break;
-            }
-        }
-    }
-    public interface IBasicIShapesRenderer<T>
-    {
-        public BaseRenderer<T, GroupRenderItem> GroupRenderer { get; }
-        public BaseRenderer<T, RectRenderItem> RectangleRenderer { get; }
-        public BaseRenderer<T, EllipseRenderItem> EllipseRenderer { get; }
-        public BaseRenderer<T,PathRenderItem> PathRenderer { get; }
-        //public BaseRenderer<T> ImageRenderer { get; }
-        public BaseRenderer<T,LineRenderItem> LineRenderer { get; }
-        public BaseRenderer<T, TitleRenderItem> TitleRenderer { get; }
-        public BaseRenderer<T,ParagraphRenderItem> ParagraphRenderer { get; }
-        public BaseRenderer<T, UseReferenceRenderItem> UseReferenceRenderer { get; }
-
-        public void Render(RenderItem item);
-    }
-    public abstract class BaseRenderer<T, T2>
-    {
-        protected BaseRenderer(T outputStream)
-        {
-            OutputStream = outputStream;
-        }
-        public T OutputStream { get; }
-        public abstract void Render(T2 item);
     }
 }

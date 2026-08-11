@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)
                 {
-                    var svg = c.ToSvg(x => { x.Size.Width = 100; x.Size.Height = 100; });
+                    var svg = c.ToSvg(/*x => { x.Size.Width = 100; x.Size.Height = 100; }*/);
                     SaveTextFileToWorkbook($"svg\\BarChartForSvg_sheet1_{ix++}.svg", svg);
                 }
             }
@@ -79,5 +79,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+        [TestMethod]
+        public void GenerateEPPlusBarCharts()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("datapoints.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\HorizontalAxisChartForSvg{i}.svg", svg);
+                }
+            }
+        }
+
     }
 }
