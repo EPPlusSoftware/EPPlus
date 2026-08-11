@@ -1749,7 +1749,17 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(4520.75, result);
             }
         }
-
+        [TestMethod]
+        public void s1065()
+        {
+            using (var p = OpenTemplatePackage("s1065.xlsx"))
+            {
+                p.Workbook.Calculate();
+                var ws = p.Workbook.Worksheets[1];
+                var result = (double)ws.Cells["D69"].Value;
+                Assert.AreEqual(-310522.61, result, 0.01);
+            }
+        }
     }
 }
 

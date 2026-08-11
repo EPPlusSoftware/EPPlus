@@ -111,15 +111,14 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopySlicers(sourceWorksheet, targetWorksheet);
                 CopyDrawing(sourceWorksheet, targetWorksheet);
             }
-            List<KeyValuePair<string, string>> copiedTableNames = null;
+            Dictionary<string, string> copiedTableNames = null, copiedPivotTableNames=null;
             if (sourceWorksheet.Tables.Count > 0)
             {
-                copiedTableNames = CopyTable(sourceWorksheet, targetWorksheet);
-            }
+                copiedTableNames = CopyTable(sourceWorksheet, targetWorksheet);            }
 
             if (sourceWorksheet.PivotTables.Count > 0)
             {
-                CopyPivotTable(sourceWorksheet, targetWorksheet);
+                copiedPivotTableNames = CopyPivotTable(sourceWorksheet, targetWorksheet);
             }
 
             CopyDefinedNames(sourceWorksheet, targetWorksheet);
@@ -142,7 +141,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //Copy dfx styles used in conditional formatting.
             if (!(sourceWorksheet.Workbook == targetWorksheet.Workbook))
             {
-                CopyDxfStyles(sourceWorksheet, targetWorksheet);
+                CopyDxfStyles(sourceWorksheet, targetWorksheet, copiedTableNames, copiedPivotTableNames);
             }
 
             //Copy the VBA code
@@ -192,7 +191,7 @@ namespace OfficeOpenXml.Core.Worksheet
             return targetWorksheet;
         }
 
-        private static void ApplyTableCopyOptions(ExcelWorksheet added, ExcelWorksheetCopyOptions options, List<KeyValuePair<string, string>> copiedTableNames)
+        private static void ApplyTableCopyOptions(ExcelWorksheet added, ExcelWorksheetCopyOptions options, Dictionary<string, string> copiedTableNames)
         {
             if (options == null || options.TableCopyHandler == null || copiedTableNames == null)
             {
@@ -986,6 +985,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     wbName.IsNameHidden = name.IsNameHidden;
                 }
             }
+ 
             //Copy names from formulas.
             if (sameWorkbook == false)
             {
@@ -1065,9 +1065,9 @@ namespace OfficeOpenXml.Core.Worksheet
             return false;
         }
 
-        private static List<KeyValuePair<string, string>> CopyTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
+        private static Dictionary<string, string> CopyTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
-            var copiedTableNames = new List<KeyValuePair<string, string>>();
+            var copiedTableNames = new Dictionary<string, string>();
             string prevName = "";
             //First copy the table XML
             foreach (var tbl in sourceWs.Tables)
@@ -1101,7 +1101,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 int Id = destWs.Workbook._nextTableID++;
                 prevName = name;
-                copiedTableNames.Add(new KeyValuePair<string, string>(tbl.Name, name));
+                copiedTableNames.Add(tbl.Name, name);
 
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
@@ -1185,7 +1185,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             return copiedTableNames;
         }
-        private static void CopyPivotTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
+        private static Dictionary<string, string> CopyPivotTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
             sourceWs._package.Workbook.ReadAllPivotTables();
             string prevName = "";
@@ -1274,6 +1274,8 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             //Can't have a cell selected when "group editing" avoids pop-up by not selecting sheet.
             destWs.View.SetTabSelected(false);
+
+            return nameMap;
         }
 
         private static void CreateCacheInNewPackage(ExcelWorksheet sourceWs, ExcelPivotTable tbl, ZipPackagePart partTbl)
@@ -1344,32 +1346,32 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void CopyDxfStyles(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
+        private static void CopyDxfStyles(ExcelWorksheet sourceWs, ExcelWorksheet destWs, Dictionary<string, string> copiedTableNames, Dictionary<string, string> copiedPivotTableNames)
         {
             //DxfStyleHandler.UpdateDxfXml(copy.Workbook);
 
             var dxfStyleCashe = new Dictionary<int, int>();
-            CopyDxfStylesTables(sourceWs, destWs);
-            CopyDxfStylesPivotTables(sourceWs, destWs, dxfStyleCashe);
+            CopyDxfStylesTables(sourceWs, destWs, copiedTableNames);
+            CopyDxfStylesPivotTables(sourceWs, destWs, dxfStyleCashe, copiedPivotTableNames);
             CopyDxfStylesConditionalFormatting(sourceWs, destWs, dxfStyleCashe);
         }
-        private static void CopyDxfStylesTables(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
+        private static void CopyDxfStylesTables(ExcelWorksheet sourceWs, ExcelWorksheet destWs, Dictionary<string, string> copiedTableNames)
         {
             //Table formats
             for (int i = 0; i < sourceWs.Tables.Count; i++)
             {
                 var tblFrom = sourceWs.Tables[i];
-                var tblTo = destWs.Tables[i]; //Use Name, as id can differ if the worksheets are in different workbooks.
+                var tblTo = destWs.Tables[copiedTableNames[tblFrom.Name]]; //Use Name, as id can differ if the worksheets are in different workbooks.
                 DxfStyleHandler.CopyDxfStylesTable(tblFrom, tblTo);
             }
         }
-        private static void CopyDxfStylesPivotTables(ExcelWorksheet sourceWs, ExcelWorksheet destWs, Dictionary<int, int> dxfStyleCache)
+        private static void CopyDxfStylesPivotTables(ExcelWorksheet sourceWs, ExcelWorksheet destWs, Dictionary<int, int> dxfStyleCache, Dictionary<string, string> copiedPivotTableNames)
         {
             //Table formats
             foreach (var pt in sourceWs.PivotTables)
             {
                 var ix = 0;
-                var newPt = destWs.PivotTables[pt.Name];
+                var newPt = destWs.PivotTables[copiedPivotTableNames[pt.Name]];
                 foreach (var a in pt.Styles._list)
                 {
                     var addedStyle = newPt.Styles[ix++];

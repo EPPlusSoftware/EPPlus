@@ -1259,9 +1259,11 @@ namespace OfficeOpenXml.FormulaParsing
                                     f._tokenIndex++;
                                     continue;
                                 }
-
                             }
-                            return e.GetAddress();
+                            if (t.TokenType == TokenType.CellAddress || t.TokenType == TokenType.ExcelAddress)  //Full column and full row addresses will be returned when processing the : operator.
+                            {
+                                return e.GetAddress();
+                            }
                         }
                         break;
                     case TokenType.NameValue:
@@ -1281,7 +1283,10 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 if (IsSingleAddress(f))
                                 {
-                                    return nameAddress;
+                                    foreach(var a in nameAddress)
+                                    {
+                                        return GetCriteriaRange(depChain._parsingContext, f, a);
+                                    }
                                 }
                             }
                         }
@@ -1388,7 +1393,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 if ((f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && r.Address != null)
                                 {
-                                    return [r.Address.Clone()];
+                                    return GetCriteriaRange(depChain._parsingContext, f, r.Address.Clone());
                                 }
                             }
                         }
@@ -1419,7 +1424,7 @@ namespace OfficeOpenXml.FormulaParsing
                             var cr = s.Peek().Compile();
                             if (cr.Address != null)
                             {
-                                return [cr.Address];
+                                return GetCriteriaRange(depChain._parsingContext, f, cr.Address);
                             }
                         }
 
@@ -1486,6 +1491,42 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
             return null;
+        }
+
+        private static FormulaRangeAddress[] GetCriteriaRange(ParsingContext ctx,RpnFormula f, FormulaRangeAddress address)
+        {
+
+            if (address.ExternalReferenceIx <=0 && f._funcStack.Count > 0)
+            {
+                var lfe = f._funcStack.Peek();
+                var pi = lfe._function.ParametersInfo.GetParameterInfo(lfe._argPos);
+                if (pi == FunctionParameterInformation.AdjustCriteriaParameterAddress)
+                {
+                    var q = new Queue<FormulaRangeAddress>();
+                    lfe._function.GetNewParameterAddress(CreateArgumentsForParameterAddress(f, lfe),lfe._argPos, ctx, ref q);
+                    return q.ToArray();
+                }
+            }
+            return [address];
+        }
+
+        private static IList<CompileResult> CreateArgumentsForParameterAddress(RpnFormula f, FunctionExpression fe)
+        {
+            var ix = 0;
+            var l = new List<CompileResult>();
+            foreach(var e in f.ExpressionStack.Reverse())
+            {
+                if (fe._function.ParametersInfo.GetParameterInfo(ix)!=FunctionParameterInformation.AdjustParameterAddress)
+                {
+                    l.Add(e.Compile());
+                }
+                else
+                {
+                    l.Add(null);
+                }
+                ix++;
+            }
+            return l;
         }
 
         private static ExpressionCondition GetCondition(CompileResult v)
