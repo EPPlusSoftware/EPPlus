@@ -84,9 +84,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public OffsetRectangle TileRectangle { get; set; } = new OffsetRectangle();
         public RenderLinearGradientSettings LinearSettings { get; private set; } = new RenderLinearGradientSettings();
         /// <summary>
-        /// If the gradient should use the user space as coordinate system or the bounding box of the item. This is only used for gradient fills and is ignored for other fill types. If true, the gradient will use the user space as coordinate system, if false, the gradient will use the bounding box of the item as coordinate system.
+        /// If the gradient should use the user space as coordinate system or the bounding box of the item. 
         /// </summary>
-        public bool UserSpaceOnUse { get; set; }
+        public UserSpaceSettings UserSpaceOnUse { get; set; }
         public override string GetKey()
         {
             var sb = new StringBuilder();

@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                     // A CRLF pair is a single line break, not two.
                     if (x > 0 && c == '\r' && text[x - 1] == '\n')
                     {
-                        continue;
+                        continue; //CRLF should be handle
                                   //d as one new line.
                     }
 

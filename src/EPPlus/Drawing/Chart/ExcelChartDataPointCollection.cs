@@ -105,6 +105,11 @@ namespace OfficeOpenXml.Drawing.Chart
             return pointElement;
         }
 
+        internal void ClearDataPoints()
+        {
+            _dic.Clear();
+        }
+
         private int GetItemBefore(int index)
         {
             if(_dic.ContainsKey(index-1))

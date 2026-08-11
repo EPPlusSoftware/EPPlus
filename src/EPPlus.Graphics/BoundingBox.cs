@@ -124,5 +124,13 @@ namespace EPPlus.Graphics
                 return Position.Y;
             }
         }
-   }
+
+        public string UniqueKey 
+        { 
+            get 
+            { 
+                return $"{Left} {Top} {Width} {Height}";
+            } 
+        }
+    }
 }

@@ -26,6 +26,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             _width = d.Drawing.GetPixelWidth();
             _height = d.Drawing.GetPixelHeight();
             _bounds = d.Drawing.GetBoundingBox();
+
             if(d.Drawing is ExcelChart)
             {
                 _border = d.Drawing.As.Chart.Chart.Border;

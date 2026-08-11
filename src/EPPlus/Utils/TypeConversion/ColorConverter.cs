@@ -33,6 +33,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
             if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
             {
                 var newCm=theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
+                if (newCm == null) return Color.Empty;
                 var nc = GetThemeColor(newCm);
                 return ApplyTransforms(nc, cm.Transforms);
             }
@@ -62,7 +63,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
 
         }
 
-        private static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
+        internal static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
         {
             if (transforms==null || transforms.Count == 0) return c;
 
@@ -76,10 +77,10 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 switch(t.Type)
                 {
                     case eColorTransformType.Shade:
-                        c = ApplyTint(c, -(1-v));
+                        c = ApplyTintDrawing(c, -(1-v));
                         break;
                     case eColorTransformType.Tint:
-                        c = ApplyTint(c, v);
+                        c = ApplyTintDrawing(c, v);
                         break;
                     case eColorTransformType.HueMod:
                         c = ApplyHueMod(c, v);
@@ -192,10 +193,6 @@ namespace OfficeOpenXml.Utils.TypeConversion
             if (tint == 0)
             {
                 return ret;
-
-
-
-
             }
             else
             {
@@ -228,6 +225,44 @@ namespace OfficeOpenXml.Utils.TypeConversion
             //}
             //return ret;
         }
+        internal static Color ApplyTintDrawing(Color ret, double tint)
+        {
+            //if (tint == 0)
+            //{
+            //    return ret;
+            //}
+            //else
+            //{
+            //    ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
+            //    if (tint < 0)
+            //    {
+            //        l = l * (1.0 + tint);
+            //    }
+            //    else if (tint > 0)
+            //    {
+            //        l += (1 - l) * tint;
+            //    }
+            //    return ExcelDrawingHslColor.GetRgb(h, s, l);
+            //}
+            if (tint < 0)
+            {
+                double shade = 1 + tint;
+                var r = (byte)Math.Round(ret.R * shade);
+                var g = (byte)Math.Round(ret.G * shade);
+                var b = (byte)Math.Round(ret.B * shade);
+                return Color.FromArgb(ret.A, r, g, b);
+            }
+            else if (tint > 0)
+            {
+                double blend = 1.0 - tint;
+                var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
+                var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
+                var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
+                return Color.FromArgb(ret.A, r, g, b);
+            }
+            return ret;
+        }
+
         internal static Color ApplyBlend(Color color, Color blendColor, double percent)
         {
             var colorPercent = 1 - percent;

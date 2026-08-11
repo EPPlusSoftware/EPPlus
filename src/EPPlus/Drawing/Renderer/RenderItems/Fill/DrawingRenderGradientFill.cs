@@ -23,7 +23,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 {
     internal class DrawingRenderGradientFill : RenderGradientFill
     {
-        public DrawingRenderGradientFill(ExcelTheme theme, ExcelDrawingGradientFill gradientFill, bool userSpaceOnUse) : base()
+        public DrawingRenderGradientFill(ExcelTheme theme, ExcelDrawingGradientFill gradientFill, UserSpaceSettings userSpaceOnUse) : base()
         {
             //this.Settings = gradientFill;
             for (int i = 0; i < gradientFill.Colors.Count; i++)

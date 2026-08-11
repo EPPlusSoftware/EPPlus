@@ -1,19 +1,25 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -34,6 +40,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Rectangle = new RectRenderItem(svgChart.Bounds);
         }
         internal abstract void DrawSeries();
+
+
+
         protected List<object> LoadSeriesValues(string serieAddressInput, double[] numLiterals, string[] strLiterals)
         {
             string serieAddress = serieAddressInput;
@@ -224,6 +233,96 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
-    }
+        internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItem item, ExcelChartDataPoint dp, ExcelChartStyleEntry entry)
+        {
+            var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
+            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
 
+            item.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
+            item.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+        }
+
+        internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItem item)
+        {
+            var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
+            if (ct.VaryColors)
+            {
+                //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
+                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
+                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
+            }
+            else
+            {
+                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
+                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
+            }
+            item.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+        }
+
+        private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
+        {
+            Color baseColor;
+            var baseColorIndex = index % 6;
+            if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
+            {
+                baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
+            }
+            else
+            {
+                baseColor = colorsManager.Colors[baseColorIndex].GetColor();
+            }
+
+            var variationIndex = index / 6;
+            if (variationIndex == 0)
+            {
+                return baseColor;
+            }
+            else
+            {
+                ExcelColorTransformCollection variation;
+                if (colorsManager == null)
+                {
+                    var variations = ExcelColorTransformCollection.GetDefault();
+                    variation = variations[variationIndex % variations.Count];
+                }
+                else
+                {
+                    if (colorsManager.Variations.Count == 0)
+                    {
+                        return baseColor;
+                    }
+
+                    int colorCount = -1;
+
+                    if (colorsManager.Variations.Count > colorsManager.Colors.Count)
+                    {
+                        colorCount = colorsManager.Colors.Count;
+                    }
+                    else
+                    {
+                        colorCount = colorsManager.Variations.Count;
+                    }
+
+                    variation = colorsManager.Colors[variationIndex % colorCount].Transforms;
+                }
+                return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
+            }
+        }
+        protected double GetAxisBaseY(ChartAxisRenderer catAx, ChartAxisRenderer valAx)
+        {
+
+            if (catAx.Axis.Crosses == eCrosses.AutoZero)
+            {
+                return valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+            }
+            else if (catAx.Axis.Crosses == eCrosses.Min)
+            {
+                return valAx.GetPositionInPlotarea(valAx.Min, true);
+            }
+            else
+            {
+                return valAx.GetPositionInPlotarea(valAx.Max, true);
+            }
+        }
+    }
 }

@@ -297,14 +297,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             };
         }
 
-        internal static AxisScale CalculateByWidthAllowDiagonal(double min, double max, ITextMeasurer tm, AxisOptions options)
+        internal static AxisScale CalculateByWidthAllowDiagonal(List<object> values, double min, double max, ITextMeasurer tm, AxisOptions options)
         {
             var ax = options.Axis;
             var plotAreaWidth = options.ChartSize.Bounds.Width;
             var mf = ax.Font.GetMeasureFont();
             int interval;
             eTimeUnit unit;
-            var minString = DateTime.FromOADate(min).ToString(options.NumberFormat);
+            string format = GetNumberFormat(options);
+            var minString = DateTime.FromOADate(min).ToString(format);
             var res = tm.MeasureText(minString, mf);
             if (options.LockedInterval.HasValue)
             {
@@ -313,13 +314,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
             else
             {
-                interval = 1; 
-                unit = eTimeUnit.Days;
+                GetStartInterval(values.Count, max - min, out interval, out unit);
                 //Get interval for maximum width with vertical text.
                 while (FitAsVerticalDiagonalText(min, max, interval, unit, res.Height, res.Height * 0.3, plotAreaWidth) == false)
                 {
                     AddIntervall(ref interval, ref unit);
                 }
+
                 //Get max text width when using diagonal text
                 var width = mf.Size * Math.Sqrt(2);
                 var margin = mf.Size * 0.5;
@@ -364,8 +365,48 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MajorDateUnit = unit,
                 Min = min,
                 Max = max,
-                TextOrientation = ax.TextBody.VerticalText==OfficeOpenXml.Drawing.eTextVerticalType.Horizontal ? eTextOrientation.Horizontal : eTextOrientation.Vertical,
+                TextOrientation = ax.TextBody.VerticalText == OfficeOpenXml.Drawing.eTextVerticalType.Horizontal ? eTextOrientation.Horizontal : eTextOrientation.Vertical,
             };
+        }
+
+        private static string GetNumberFormat(AxisOptions options)
+        {
+            var format = options.NumberFormat;
+            if (string.IsNullOrEmpty(format))
+            {
+                format = options.Axis.FormatOrFirstValueFormat;
+                if (string.IsNullOrEmpty(format))
+                {
+                    format = "yyyy-MM-dd";
+                }
+            }
+
+            return format;
+        }
+
+        private static void GetStartInterval(double count, double span, out int interval, out eTimeUnit unit)
+        {
+            var blockSize = span / count;
+            if(blockSize<3.5)
+            {
+                interval = 1;
+                unit = eTimeUnit.Days;
+            }
+            if(blockSize < 15)
+            {
+                interval = 7;
+                unit = eTimeUnit.Days;
+            }
+            else if(blockSize < 180)
+            {
+                interval = 1;
+                unit = eTimeUnit.Months;
+            }
+            else
+            {
+                interval = 1;
+                unit = eTimeUnit.Years;
+            }
         }
 
         //private static bool FitAsDiagonalText(double min, double max, int interval, eTimeUnit unit, float size, double plotAreaWidth)

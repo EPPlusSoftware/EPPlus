@@ -110,7 +110,7 @@ namespace EPPlus.Export.Utils
                 {
                     for (int c = address.Start.Column; c <= address.End.Column; c++)
                     {
-                        values.Add(extWs.CellValues[r, c].Value);
+                        values.Add(extWs.CellValues[r, c]);
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace EPPlus.Export.Utils
                 {
                     for (int c = address.Start.Column; c <= address.End.Column; c++)
                     {
-                        values.Add(ws.Cells[r, c].Value);
+                        values.Add(ws.Cells[r, c].Text);
                     }
                 }
             }

@@ -18,34 +18,15 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAreaRenderer : ChartDrawingObject
-    {
-        public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
-        {
-            if(options.Size.Width.HasValue)
-            {
-                sc.Bounds.Width = options.Size.WidthPixels;
-            }
-            if (options.Size.Height.HasValue)
-            {
-                sc.Bounds.Height = options.Size.HeightPixels;
-            }
-
-            Rectangle = new RectRenderItem(sc.Bounds);
-        }
-
-        public override void AppendRenderItems(List<RenderItem> renderItems)
-        {
-            renderItems.Add(Rectangle);
-        }
-    }
     internal abstract class ChartDrawingObject : DrawingObject
     {
         internal ChartRenderer ChartRenderer;
@@ -71,6 +52,8 @@ namespace EPPlusImageRenderer.Svg
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
         internal virtual RectRenderItem Rectangle { get; set; }
+        internal virtual Color? DefaultFillColor { get; }
+        internal virtual Color? DefaultBorderColor { get; }
         protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
             var bounds = parent ?? sc.Bounds;

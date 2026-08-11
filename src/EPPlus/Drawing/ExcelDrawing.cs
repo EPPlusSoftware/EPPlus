@@ -21,7 +21,6 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.Drawings;
 using OfficeOpenXml.Utils.EnumUtils;

@@ -258,7 +258,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             if(wrappedLines.Count > 1)
             {
                 //This could be done during wrapping technically for optimization
-                for (int i = 1; i < wrappedLines.Count; i++)
+                for (int i = 1; i < wrappedLines.Count-1; i++)
                 {
                     var startIdx = wrappedLines[i].InternalLineFragments[0].StartOriginal;
                     var len = wrappedLines[i].Text.Length;

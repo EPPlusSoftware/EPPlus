@@ -23,16 +23,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         string _encodedImage;
         internal ePictureType? type;
         bool isDrawing = false;
+        int drawingId = 0;
 
         public CssImageTranslator(HtmlImage p)
         {
             _p = p;
             _encodedImage = ImageEncoder.EncodeImage(p, out type);
+            drawingId = p.Picture.Id;
         }
 
         public CssImageTranslator(HtmlSvgDrawing d)
         {
             _p = d;
+            drawingId = d.Drawing.Id;
             var charArr = d.Drawing.ToSvg().ToCharArray();
             var byteArr = System.Text.Encoding.UTF8.GetBytes(charArr);
             _encodedImage = Convert.ToBase64String(byteArr);
@@ -65,6 +68,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 var topOffset = _p.FromRowOff / ExcelPicture.EMU_PER_PIXEL;
                 AddDeclaration("margin-top", $"{topOffset}px");
             }
+
+            AddDeclaration("z-index", $"{drawingId}");
 
             return declarations;
         }

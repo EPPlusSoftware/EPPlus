@@ -10,11 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart.DataLabling;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Xml;
-using OfficeOpenXml.Drawing.Chart.DataLabling;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -50,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 _guidId = Guid.NewGuid();
 
                 var extNode2 = GetNode($"{extPath}[2]");
-                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueID");
+                var uniqueIdNode = (XmlElement)CreateNode(extNode2, "c16:uniqueId");
                 uniqueIdNode.SetAttribute("val", $"{{{_guidId}}}");
             }
             else
@@ -75,6 +77,9 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         const string positionPath = "c:dLblPos/@val";
+
+
+
         /// <summary>
         /// Position of the labels
         /// <br/> BE AWARE! For SERIES labels and all underlying labels: <br/> 
@@ -86,7 +91,13 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetPosEnum(GetXmlNodeString(positionPath));
+                var posValue = GetPosEnum(GetXmlNodeString(positionPath));
+                if (_chart.ChartType == eChartType.ColumnStacked && posValue == eLabelPosition.BestFit)
+                {
+                    //BestFit is default and in this case invalid position. Use center
+                    return eLabelPosition.Center;
+                }
+                return posValue;
             }
             set
             {

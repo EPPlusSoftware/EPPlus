@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer;
 using EPPlus.Export.ImageRenderer.RenderItems;
@@ -43,10 +44,15 @@ namespace EPPlusImageRenderer.Svg
     internal class ChartAxisRenderer : ChartDrawingObject, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+
+        internal override System.Drawing.Color? DefaultFillColor { get; }
+
         internal ChartAxisRenderer(ChartRenderer sc, ExcelChartAxisStandard ax) : base(sc)
         {
             Axis = ax;
             SetMargins(ax.TextBody);
+
+            DefaultFillColor = System.Drawing.Color.Transparent;
 
             if (sc.Chart.Series.Count == 0)
             {
@@ -68,7 +74,14 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+            if (AutoAxisType == eAxisType.Cat || (dateUnit.HasValue && dateUnit == eTimeUnit.Days))
+            {
+                MinorUnit = 1; 
+            }
+            else
+            {
+                MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+            }
             MajorDateUnit = dateUnit;
             LabelOrientation = orientation;
 
@@ -107,14 +120,27 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.Fill.Style != eFillStyle.NoFill, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
                 }
             }
         }
-
+        public eAxisType AutoAxisType
+        {
+            get
+            {
+                if(Axis.AxisType == eAxisType.Cat)
+                {
+                    if(IsDateAutoAxis)
+                    {
+                        return eAxisType.Date;
+                    }
+                }
+                return Axis.AxisType;
+            }
+        }
         private double GetAutoMinUnit(double majorUnit)
         {
             return majorUnit / 5;
@@ -125,11 +151,12 @@ namespace EPPlusImageRenderer.Svg
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
         {
             var displayValues = new List<string>();
-            var nf = new ExcelFormatTranslator(ax.Format, 0);
+            var format = ax.FormatOrFirstValueFormat;
+            var nf = new ExcelFormatTranslator(format, 0);
             //Excel replaces the format with a default date format if the axis is date based.
             if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
             {
-                if(ax.Format == "m/d/yyyy")
+                if(format == "m/d/yyyy")
                 {
                     var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
                     nf = new ExcelFormatTranslator(sdFormat, 14);
@@ -214,6 +241,8 @@ namespace EPPlusImageRenderer.Svg
         public double MinorUnit { get; set; }
         public eTimeUnit? MajorDateUnit { get; set; }
         public eTextOrientation LabelOrientation { get; set; }
+        public bool IsDateAutoAxis { get; set; }
+        public bool IsNumericAutoAxis { get; set; }
         public bool IsDateScale
         {
             get;
@@ -271,7 +300,7 @@ namespace EPPlusImageRenderer.Svg
                 MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
             }
 
-            if (Axis.MinorTickMark != eAxisTickMark.None)
+            if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
             {
                 MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
             }
@@ -429,7 +458,7 @@ namespace EPPlusImageRenderer.Svg
                 tb.ImportParagraph(p, 0, v);
 
                 //tb.TextBody.Paragraphs[0].AddText(v, Axis.Font);
-                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, true);
+                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
                 if(widest < tb.Width)
                 {
@@ -631,7 +660,7 @@ namespace EPPlusImageRenderer.Svg
 
             if (Axis.AxisType == eAxisType.Cat)
             {
-                min = 1;
+                min = 0;
                 if (Axis.CrossingAxis==null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                 {
                     max = AxisValues.Count;
@@ -656,9 +685,11 @@ namespace EPPlusImageRenderer.Svg
             {
                 tickMarkWidthOutside = tickMarkWidth;
             }
-            var diff = max - min + 1;
+
+            var diff = min == 0 ? max - min : max - min + 1;
+            
             double d = min + addMinor;
-            while (d <= max+1)
+            while (d <= max)
             {
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
@@ -701,13 +732,14 @@ namespace EPPlusImageRenderer.Svg
                     tm.Y1 = y1;
                     tm.X2 = x2;
                     tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true);
-                    if(tm.BorderWidth<1) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, DefaultBorderColor, 0.75);
+                    if(tm.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
                     {
-                        tm.BorderWidth = 1;
+                        tm.BorderWidth = 0.75;
                     }
                     tms.Add(tm);
                 }
+                if (units == 0) break;
                 switch (dateUnit)
                 {
                     case eTimeUnit.Years:
@@ -730,7 +762,7 @@ namespace EPPlusImageRenderer.Svg
                         break;
                 }
             }
-            return tms;
+                return tms;
         }
         private List<RenderItem> AddGridlines(double units, double parentUnit, ExcelDrawingBorder lineItem, ExcelChartStyleEntry styleEntry)
         {
@@ -768,9 +800,10 @@ namespace EPPlusImageRenderer.Svg
                             points.Add(new Point(xValue, 0f));
                             break;
                         default:
-                            throw new InvalidOperationException("Invalid axis position");
+                            throw new InvalidOperationException("Invalid axis position.");
                     }
                 }
+                if (units == 0) break;
             }
 
             float x1, y1, x2, y2;
@@ -804,7 +837,8 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, lineItem.Width);
+            //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
+            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75);
 
             tm.DefId = id;
 
@@ -859,7 +893,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                if (Axis.AxisType == eAxisType.Cat)
+                if (AutoAxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis==false)
                 {
                     var majorHeight = ChartRenderer.Plotarea.Rectangle.Height / Max;
                     if(startValue)
@@ -868,18 +902,10 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        //if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
-                        //{
-                        //    majorHeight = DrawingChart.Plotarea.Rectangle.Height / (Max - 1);
-                        //    return majorHeight * val;
-                        //}
-                        //else
-                        //{
-                            return majorHeight * val + (majorHeight / 2);
-                        //}
+                        return majorHeight * val + (majorHeight / 2);
                     }
                 }
-                else if (Axis.AxisType == eAxisType.Date && IsDateScale == false)
+                else if ((AutoAxisType == eAxisType.Date) && IsDateScale == false)
                 {
                     //if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
@@ -894,7 +920,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (Axis.AxisType == eAxisType.Cat)
+                if (Axis.AxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis == false)
                 {
                     var majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
                     if (startValue)
@@ -905,16 +931,16 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween==eCrossBetween.Between)
                         {
-                            return majorWidth * val + (majorWidth / 2);
+                            return majorWidth * (val-1) + (majorWidth / 2);
                         }
                         else
                         {
                             majorWidth = ChartRenderer.Plotarea.Rectangle.Width / (Max - 1);
-                            return majorWidth * val;
+                            return majorWidth * (val-1);
                         }
                     }
                 }
-                else if(Axis.AxisType == eAxisType.Date && IsDateScale==false)
+                else if((AutoAxisType == eAxisType.Date) && IsDateScale==false)
                 {
                     if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
@@ -930,8 +956,11 @@ namespace EPPlusImageRenderer.Svg
         }
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
-            var values = ax.GetAxisValues(out bool isCount);
-            var isNumeric = values.Any(x => x == null || x.IsNumeric());
+            var values = ax.GetAxisValues(out bool isCount, out bool isNumeric);
+            if(isCount == false && isNumeric && ax.AxisType == eAxisType.Cat)
+            {
+                IsDateAutoAxis = true;
+            }
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,
@@ -944,8 +973,7 @@ namespace EPPlusImageRenderer.Svg
                 ChartSize = rect
             };
 
-            if ((ax.AxisType == eAxisType.Cat || (ax.IsDate && isNumeric==false)) &&
-                isCount == false)
+            if (AutoAxisType == eAxisType.Cat && isCount == false)
             {
                 AxisScale res;
                 if (ax.IsVertical)
@@ -956,12 +984,21 @@ namespace EPPlusImageRenderer.Svg
                 {
                     res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref values, ChartRenderer.TextMeasurer, options);
                 }
-
-                min = res.Min;
-                max = res.Max;
-                majorUnit = res.MajorInterval;
-                dateUnit = null;
-                orientation = res.TextOrientation;                
+                if (isNumeric)
+                {
+                    min = res.Min;
+                    max = res.Max;
+                    majorUnit = res.MajorInterval;
+                    dateUnit = null;
+                }
+                else
+                {
+                    min = res.Min;
+                    max = res.Max;
+                    majorUnit = res.MajorInterval;
+                    dateUnit = null;
+                }
+                orientation = res.TextOrientation;
 
                 return res.DisplayValues;
             }
@@ -969,9 +1006,24 @@ namespace EPPlusImageRenderer.Svg
             var l = new List<object>();
             min = double.MaxValue;
             max = double.MinValue;
+            var isDate = values.Count > 0;  //If any values set to true so we can check for non-date values.
             foreach (var v in values)
             {
-                var d = ConvertUtil.GetValueDouble(v, false, true);
+                double d;
+                object ov;
+                if(v is object[] o)
+                {
+                    ov = o[3];
+                }
+                else
+                {
+                    ov = v;
+                }
+                if(!(ov is DateTime))
+                {
+                    isDate = false;
+                }
+                d = ConvertUtil.GetValueDouble(ov, false, true);
                 if (double.IsNaN(d))
                 {
                     d = 0;
@@ -1009,7 +1061,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 AdjustminMaxFromChartObjects(ax, ref min, ref max);
             }
-            if (ax.IsDate)
+            if (isDate || ax.IsDate)
             {
                 AxisScale res;
                 if (ax.IsVertical)
@@ -1024,7 +1076,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(min ?? 0D, max ?? 0D, ChartRenderer.TextMeasurer, options);
+                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, ChartRenderer.TextMeasurer, options);
                     }
                 }
 
@@ -1033,6 +1085,7 @@ namespace EPPlusImageRenderer.Svg
                 majorUnit = res.MajorInterval;
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
+                IsDateAutoAxis = true;
                 IsDateScale = (dateUnit != eTimeUnit.Days || majorUnit > 1) && values.Count > 31;
 
                 while (dt <= maxDt)
@@ -1061,6 +1114,7 @@ namespace EPPlusImageRenderer.Svg
                 for (var v = res.Min; v <= res.Max; v += res.MajorInterval)
                 {
                     l.Add(v);
+                    if (res.MajorInterval == 0) break;
                 }
 
                 min = res.Min;
@@ -1068,6 +1122,7 @@ namespace EPPlusImageRenderer.Svg
                 majorUnit = res.MajorInterval;
                 dateUnit= null;
                 orientation = eTextOrientation.Horizontal;
+                IsNumericAutoAxis = true;
             }
 
             return l;

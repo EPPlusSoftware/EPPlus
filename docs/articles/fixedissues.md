@@ -1,4 +1,6 @@
 # Features / Fixed issues - EPPlus 8
+## Version 9.0.0
+* Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
 ## Version 8.6.3
 ### Security
 * Updated System.Security.Cryptography.Xml to address five security vulnerabilities in the .NET XML signing dependency: four denial of service vulnerabilities (CVE-2026-47302, CVE-2026-50525, CVE-2026-50527, CVE-2026-50648) and one security feature bypass (CVE-2026-47304). The package is updated to 8.0.4 (.NET Framework, .NET 8 and .NET Standard), 9.0.18 (.NET 9) and 10.0.10 (.NET 10).
