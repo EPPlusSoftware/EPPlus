@@ -42,15 +42,31 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             _chart = chart;
             LoadStyleAndColors(chart);
+            _theme = chart.WorkSheet.Workbook.ThemeManager;
+            bool loadStyleAndColorsFromDefault = false;
             if (StylePart != null)
             {
                 Style = new ExcelChartStyle(nameSpaceManager, StyleXml.DocumentElement, this);
+            }
+            else if(chart.Style != eChartStyle.None)
+            {
+                //LoadStyles();
+                //if (StyleLibrary.ContainsKey((int)chart.Style))
+                //{
+                //    loadStyleAndColorsFromDefault = true;
+                //}
             }
             if (ColorsPart != null)
             {
                 ColorsManager = new ExcelChartColorsManager(nameSpaceManager, ColorsXml.DocumentElement);
             }
-            _theme = chart.WorkSheet.Workbook.ThemeManager;
+
+            if(loadStyleAndColorsFromDefault)
+            {
+                ////In this case the style and colors are already applied so we just want to read the data in without applying the style
+                LoadStyleAndColorsXml(StyleLibrary[(int)chart.Style].XmlDocument, eChartStyle.Style2, null);
+                //SetChartStyle((int)chart.Style);
+            }
         }
         /// <summary>
         /// A library where chart styles can be loaded for easier access.

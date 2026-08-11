@@ -832,18 +832,27 @@ namespace OfficeOpenXml.Drawing.Chart
                 XmlNode node = ChartXml.SelectSingleNode("c:chartSpace/c:style/@val", NameSpaceManager);
                 if (node == null)
                 {
-                    return eChartStyle.None;
-                }
-                else
-                {
-                    if (int.TryParse(node.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out int v))
-                    {
-                        return (eChartStyle)v;
-                    }
-                    else
+                    //Check if an alternateContent node contains the style node
+                    //TODO: Handle fallback of AlternateContent
+                    node = ChartXml.SelectSingleNode("c:chartSpace/mc:AlternateContent/mc:Choice/c14:style/@val", NameSpaceManager);
+                    if(node == null)
                     {
                         return eChartStyle.None;
                     }
+                }
+
+                if (int.TryParse(node.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out int v))
+                {
+                    //Default
+                    if(v == 102)
+                    {
+                        return eChartStyle.Style102;
+                    }
+                    return (eChartStyle)v;
+                }
+                else
+                {
+                    return eChartStyle.None;
                 }
             }
             set

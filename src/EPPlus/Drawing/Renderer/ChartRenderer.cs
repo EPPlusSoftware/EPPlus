@@ -21,6 +21,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
@@ -28,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using d=OfficeOpenXml.Drawing.Renderer;
 using tc = OfficeOpenXml.Utils.TypeConversion;
@@ -331,17 +333,106 @@ namespace EPPlusImageRenderer
             //var themeColor = tc.ColorConverter.GetThemeColor(Theme, Chart.StyleManager.Style?.ChartArea.BorderReference.Color);
             //var borderFill = Chart.StyleManager.Style.ChartArea.Border.Fill;
             var test = Chart.Border.Fill;
+
+            var styleType = Chart.Style;
+            var myStyleManager = Chart.StyleManager;
             //Chart.StyleManager.load
-            //var chartStyleId = Chart.StyleManager.Style.Id;
+            //var chartStyleId = Chart.StyleManager.;
             //Chart.StyleManager.SetChartStyle(202);
-            item.Rectangle.ResolveStyleFallbackChainBorder(Chart, Theme, Chart.StyleManager.Style?.ChartArea.BorderReference, Chart.Border, 0.75d);
-            
+
+            Color? themeColor = null;
+
+            //if (Chart.StyleManager == null && styleType != eChartStyle.None)
+            //{
+            //    var styleId = (int)styleType;
+            //    if (styleId > (int)eChartStyle.Style48)
+            //    {
+            //        styleId = (int)eChartStyle.Style2;
+            //    }
+            //    //From table2 Default Line Formatting Per Chart Style
+            //    if(styleId <= 40)
+            //    {
+            //        //AKA dk1
+            //        themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
+            //        themeColor = tc.ColorConverter.ApplyTint(themeColor.Value, 0.75d);
+            //        var themedLine = Theme.FormatScheme.BorderStyle[0];
+            //        themedLine.Fill.Color = themeColor.Value;
+            //    }
+            //    else
+            //    {
+            //        //41-48
+            //        //aka light1
+            //        themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+            //    }
+            //}
+
+            var reference = Chart.StyleManager.Style?.ChartArea.BorderReference;
+
+            item.Rectangle.ResolveStyleFallbackChainBorder(
+                Chart, 
+                Theme,
+                reference, 
+                Chart.Border, 
+                1d, 
+                () => GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine));
+
             //item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75, UserSpaceSettings.UserSpaceOnUse_Global, Chart.Style);
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
         }
+
+        private Color? GetChartAreaDefaultColor(int styleId, out ExcelThemeLine themedLine)
+        {
+            themedLine = null;
+            Color? themeColor = null;
+            styleId = styleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : styleId;
+
+            if(styleId == 0)
+            {
+                return Color.Empty;
+            }
+
+
+            themedLine = Theme.FormatScheme.BorderStyle[0];
+
+            //TODO: Fix for colortypes other than solidFill
+            themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
+
+            //From table2 Default Line Formatting Per Chart Style
+            if (styleId <= 40)
+            {
+                ////AKA dk1 (in standard case)
+                //themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
+                //var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
+                ////////Supposedly 75% tint of tx1
+                ////var themedColorAlt = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, (1-0.6d));
+                ////var tintedFill = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
+
+                if(themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
+                {
+                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
+                    var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
+
+                    var prevColor = themedLine.Fill.SolidFill.Color;
+                    var colorPrev = themedLine.Fill.Color;
+
+                    themedLine.Fill.SolidFill.Color.SetRgbColor(themeColor.Value);
+                    themedLine.Fill.SolidFill.Color.Transforms.AddTint(30d);
+
+                    themeColor = themedLine.Fill.Color;
+                }
+            }
+            else
+            {
+                //41-48
+                //aka light1
+                themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+            }
+            return themeColor;
+        }
+
         private ChartAxisRenderer GetAxis(bool vertical, int offset = 0)
         {
             var axis = (ExcelChartAxisStandard)Chart.Axis[offset];

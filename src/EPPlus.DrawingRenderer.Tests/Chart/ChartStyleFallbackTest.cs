@@ -76,8 +76,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                     var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\emptyDefaultStyle{ws.Name}_{c.Name}.svg", svg);
                 }
-                GetOutputFile("StyleExamples", "");
-                SaveAndCleanup(p);
+                var fi = GetOutputFile("StyleExamples", "emptyDefault_out.xlsx");
+                p.SaveAs(fi);
             }
         }
 
@@ -107,9 +107,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
-                GetOutputFile("StyleExamples", "");
-                SaveAndCleanup(p);
-
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
             }
         }
 
@@ -139,9 +138,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
-                GetOutputFile("StyleExamples", "");
-                SaveAndCleanup(p);
-
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
             }
         }
 
@@ -171,8 +169,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
-                GetOutputFile("StyleExamples", "");
-                SaveAndCleanup(p);
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
             }
         }
 
@@ -202,8 +200,39 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
                     }
                 }
-                GetOutputFile("StyleExamples", "");
-                SaveAndCleanup(p);
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
+
+        [TestMethod]
+        public void PureExcelTheme()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            string fileName = "PureExcelTheme";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var borderSetting = c.Border;
+                        var borderDirectColor = borderSetting.Fill.Color;
+                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+
+                        var defaultColorFromTheme = theme.ColorScheme.Dark1;
+
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
             }
         }
     }

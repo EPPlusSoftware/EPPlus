@@ -90,61 +90,16 @@ namespace EPPlusImageRenderer.RenderItems
             return tc.ColorConverter.GetThemeColor(bg1);
         }
 
-        private static Color? GetFillColorFromTheme(ExcelTheme theme, int themeLstIdx)
+        private static Color? GetFillColorFromTheme(ExcelTheme theme, Func<Color?> GetDefaultThemeColor)
         {
-            Color? fc = null;
+            Color? fc = GetDefaultThemeColor();
 
-            //There is no Style-Specified color. Or rather. There is no styleSheet inside of the Chart folder. Themed Fill should be applied if it exists
-            //Fallback to theme
-            if (theme.FormatScheme.BackgroundFillStyle != null)
+            if (fc.HasValue == false)
             {
-                ExcelDrawingFill themeFill = null;
-
-                if(themeLstIdx == 0)
-                {
-                    themeFill = theme.FormatScheme.BackgroundFillStyle[0];
-                }
-                else if(themeLstIdx == 1)
-                {
-                    var bStyle = theme.FormatScheme.BorderStyle[0];
-                    themeFill = bStyle.Fill;
-                }
-
-                if (themeFill.IsEmpty == false)
-                {
-                    if (themeFill.Style == eFillStyle.SolidFill)
-                    {
-                        if (themeFill.SolidFill.Color.ColorType == eDrawingColorType.Scheme)
-                        {
-                            var col = GetSchemeColor(theme, eSchemeColor.Dark1);
-                            //var castInt = (int)(255d * 0.78d);
-                            //fc = Color.FromArgb(castInt, col);
-                            
-                            //if (themeFill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
-                            //{
-                            //    //The definition of this elements color is based on the style of the sheet between 1-48
-                                
-                            //    //eChartStyle.Style2
-                            //}
-                            //else
-                            //{
-                            //    fc = GetSchemeColor(theme, eSchemeColor.Dark1);
-                            //}
-                        }
-                    }
-                }
-
-                if (fc == null)
-                {
-                    //Bg1 or alternatively accent 1
-                    fc = themeFill.Color;
-                }
-                return fc;
+                //Bg1 or alternatively accent 1
+                fc = theme.FormatScheme.BackgroundFillStyle[0].Color;
             }
-            else
-            {
-                return Color.Empty;
-            }
+            return fc;
         }
 
         private static Color? GetFillColorFromReference(ExcelChartStyleReference reference, ExcelTheme theme, ExcelDrawingFillBasic fill)
@@ -174,7 +129,7 @@ namespace EPPlusImageRenderer.RenderItems
             return null;
         }
 
-        private static string GetFillColorNew(ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleReference reference, PathFillMode colorSource, out double opacity, int themeLstIdx = 0)
+        private static string GetFillColorNew(ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleReference reference, PathFillMode colorSource, out double opacity, Func<Color?> GetDefaultThemeColor)
         {
             Color? fc = null;
 
@@ -189,7 +144,7 @@ namespace EPPlusImageRenderer.RenderItems
                 {
                     
                     //Move on to 3. Theme
-                    fc = GetFillColorFromTheme(theme, themeLstIdx);
+                    fc = GetFillColorFromTheme(theme, GetDefaultThemeColor);
 
                 }
             }
@@ -229,7 +184,7 @@ namespace EPPlusImageRenderer.RenderItems
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
 
-        internal static void ResolveStyleFallbackChainBorder(this RenderItem item, ExcelChart chart, ExcelTheme theme, ExcelChartStyleReference reference, ExcelDrawingBorder border, double opacity)
+        internal static void ResolveStyleFallbackChainBorder(this RenderItem item, ExcelChart chart, ExcelTheme theme, ExcelChartStyleReference reference, ExcelDrawingBorder border, double opacity, Func<Color?> GetDefaultThemeColor)
         {
             //The Fallback chain of styles for drawing objects is:
             //1. Chart.Border (make sure to note the chart style ID
@@ -244,7 +199,7 @@ namespace EPPlusImageRenderer.RenderItems
                     if (border.Fill.IsEmpty)
                     {
                         //Fallback to style hierarhy (options 2, 3 or 4)
-                        item.BorderColor = GetFillColorNew(theme, border, reference, item.BorderColorSource, out opacity, 1);
+                        item.BorderColor = GetFillColorNew(theme, border, reference, item.BorderColorSource, out opacity, GetDefaultThemeColor);
                         //item.BorderColorSource = PathFillMode.Lighten;
                     }
                     else
