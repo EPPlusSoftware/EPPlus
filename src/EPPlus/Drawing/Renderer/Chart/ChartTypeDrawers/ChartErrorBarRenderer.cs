@@ -8,6 +8,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -174,9 +175,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
             else
             {
-                var bottomPos = xAxis.GetPositionInPlotarea(bottomValue);
-                var centerPos = xAxis.GetPositionInPlotarea(Values[index][1]);
-                var topPos = xAxis.GetPositionInPlotarea(topValue);
+                var bottomPos =yAxis.GetPositionInPlotarea(bottomValue);
+                var centerPos = yAxis.GetPositionInPlotarea(Values[index][1]);
+                var topPos = yAxis.GetPositionInPlotarea(topValue);
 
                 //Bottom line
                 //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos, bottomPos, xPos, centerPos));
@@ -227,15 +228,31 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             {
                 if (_errorbars.Border.LineElement == null)
                 {
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultFillColor, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, DefaultBorderColor, 0.75d);
                 }
                 else
                 {
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, 0.75);
+                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
                 }
                 ri.SetDrawingPropertiesEffects(ChartRenderer.Theme, _errorbars.Effect);
             }
             return l;
+        }
+        internal override Color? DefaultBorderColor
+        {
+            get
+            {
+                var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
+                if (borderStyleFill.IsEmpty == false && borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
+                {
+                    return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }

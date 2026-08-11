@@ -1648,6 +1648,7 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("S1048-calculated.xlsx", p);
             }
         }
+
         [TestMethod]
         public void s1050()
         {

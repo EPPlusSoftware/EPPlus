@@ -27,11 +27,27 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal double rotation = double.NaN;
         internal Graphics.Point rotationPoint = null;
 
+        internal override Color? DefaultFillColor { get; }
+
+        double? SummedSeries = null;
+
         public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             _serieIndex = index;
             _dlblSerie = dlblSerie;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
+
+            DefaultFillColor = Color.Transparent;
+
+
+            if(yValues != null && yValues.Count != 0)
+            {
+                SummedSeries = 0d;
+                for (var i = 0; i < yValues.Count; i++)
+                {
+                    SummedSeries += ConvertUtil.GetValueDouble(yValues[i]);
+                }
+            }
 
             if (dlblSerie.TextBody.Paragraphs.Count != 0)
             {
@@ -111,7 +127,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
             var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel);
-            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins);
+            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
 
             if(dataLabel.ShowLegendKey)
             {
@@ -121,11 +137,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
-        internal void SetDimensions(int index, Transform basePoint, Transform endPoint)
+        internal void SetDimensions(int index, Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)
         {
             if (dataLabels.Count > index)
             {
-                dataLabels[index].SetShapeDimensions(basePoint, endPoint);
+                dataLabels[index].SetShapeDimensions(basePoint, endPoint, maxBoundsPieSlice);
             }
         }
 

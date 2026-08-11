@@ -23,10 +23,14 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 using d=OfficeOpenXml.Drawing.Renderer;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
@@ -45,8 +49,10 @@ namespace EPPlusImageRenderer
             }
 
             //We need to create the plotarea before the legend and axes, as the trendlines can affect the value axis and should be rendererd in the legend.
-            Plotarea = new ChartPlotareaRenderer(this);
-            Plotarea.ChartTypeDrawers = ChartTypeDrawer.Create(this);
+            Plotarea = new ChartPlotareaRenderer(this)
+            {
+                ChartTypeDrawers = ChartTypeDrawer.Create(this)
+            };
 
             if (chart.HasLegend)
             {
@@ -75,7 +81,7 @@ namespace EPPlusImageRenderer
             SetAxisPositionsFromPlotarea();
 
             Plotarea.DrawSeries();
-
+            
             //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
             AppendItems();
 
@@ -308,8 +314,30 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, true, Theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1));
-            item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.Width > 0);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.DefaultFillColor);
+
+            var borderstyle = Theme.FormatScheme.BorderStyle[0];
+
+            //First check
+            //1. Chart.Border (make sure to note the chart style ID
+            //2. Chart.StyleManager.ChartArea.BorderReference
+            //3. Theme.FormatScheme.BorderStyle[0] for subtle, [1] Moderate [2] Intense
+            //4. If none of these contain even an empty node for the relevant property, Fallback to hardcoded documentation defaults 
+
+            //Starting with: 1.1. noFill 1.2. solidFill (color = schemeColor (bg1)) 1.3. gradFill (gsList(black, white), shade(lin), flip = none, rotWithShape = true ) etc.
+
+            //Note that a NoFill node for Charts means Transparent and that no nodes at all become bg1 as shown above
+
+            //var themeColor = tc.ColorConverter.GetThemeColor(Theme, Chart.StyleManager.Style?.ChartArea.BorderReference.Color);
+            //var borderFill = Chart.StyleManager.Style.ChartArea.Border.Fill;
+            var test = Chart.Border.Fill;
+            //Chart.StyleManager.load
+            //var chartStyleId = Chart.StyleManager.Style.Id;
+            //Chart.StyleManager.SetChartStyle(202);
+            item.Rectangle.ResolveStyleFallbackChainBorder(Chart, Theme, Chart.StyleManager.Style?.ChartArea.BorderReference, Chart.Border, 0.75d);
+            
+            //item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75, UserSpaceSettings.UserSpaceOnUse_Global, Chart.Style);
+            item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
@@ -400,8 +428,8 @@ namespace EPPlusImageRenderer
             const float LineLength = 21;
 
             var item = new LineRenderItem(parentItem);
-            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, false);
-            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, 0.75, false);
+            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, 0.75, UserSpaceSettings.ObjectBoundingBox);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;

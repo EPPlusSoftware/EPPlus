@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Export.HtmlExport;
 using System;
@@ -75,32 +76,32 @@ namespace EPPlusTest.Export.HtmlExport
                 var chart = ws.Drawings.AddBarChart("myColChart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
                 chart.Series.Add(ws.Cells["A1:A8"]);
 
-                //chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BarChartStyle1);
+                ////chart.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BarChartStyle1);
 
-                //chart.Style = OfficeOpenXml.Drawing.Chart.eChartStyle.Style1;
-                //var theme = ws.Workbook.ThemeManager.GetOrCreateTheme();
-                //chart.StyleManager.SetChartStyle(0);
-                //chart.StyleManager.SetChartStyle(0);
-                //chart.StyleManager.ApplyStyles();
-                //chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
-                //chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
+                ////chart.Style = OfficeOpenXml.Drawing.Chart.eChartStyle.Style1;
+                ////var theme = ws.Workbook.ThemeManager.GetOrCreateTheme();
+                ////chart.StyleManager.SetChartStyle(0);
+                ////chart.StyleManager.SetChartStyle(0);
+                ////chart.StyleManager.ApplyStyles();
+                ////chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
+                ////chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
 
-                var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
+                //var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
 
-                exporter.Settings.SetColumnWidth = true;
-                exporter.Settings.SetRowHeight = true;
-                exporter.Settings.Minify = false;
-                exporter.Settings.Encoding = Encoding.UTF8;
-                exporter.Settings.Drawings.Include = ePictureInclude.IncludeInHtmlOnly;
-                exporter.Settings.Drawings.DrawTypeInclude = eDrawingInclude.Charts;
+                //exporter.Settings.SetColumnWidth = true;
+                //exporter.Settings.SetRowHeight = true;
+                //exporter.Settings.Minify = false;
+                //exporter.Settings.Encoding = Encoding.UTF8;
+                //exporter.Settings.Drawings.Include = ePictureInclude.IncludeInHtmlOnly;
+                //exporter.Settings.Drawings.DrawTypeInclude = eDrawingInclude.Charts;
 
-                var htmlPage = exporter.GetSinglePage();
+                //var htmlPage = exporter.GetSinglePage();
 
-                var file = GetOutputFile("html", "myColChart.html");
+                //var file = GetOutputFile("html", "myColChart.html");
                 var svgFile = GetOutputFile("html", "myColChartSvg.svg");
 
-                File.WriteAllText(file.FullName, htmlPage);
+                //File.WriteAllText(file.FullName, htmlPage);
                 File.WriteAllText(svgFile.FullName, chart.ToSvg());
 
                 SaveAndCleanup(package);
@@ -115,27 +116,34 @@ namespace EPPlusTest.Export.HtmlExport
             {
                 var ws = package.Workbook.Worksheets.Add("ShapeWs");
 
-                ws.Cells["A1"].Value = "Value";
-                ws.Cells["B1"].Value = "Title";
+                ws.Cells["A1"].Value = "Profit 2025";
+                ws.Cells["B1"].Value = "Dates";
 
                 for (int i = 0; i < values.Count() * 2; i++)
                 {
                     if (i >= values.Count())
                     {
                         ws.Cells[i + 2, 1].Value = -values[i - values.Count()];
+                        ws.Cells[i + 2, 2].Value = new DateTime(2026, 7, 1).AddDays(i);
                     }
                     else
                     {
                         ws.Cells[i + 2, 1].Value = values[i];
+                        ws.Cells[i + 2, 2].Value = new DateTime(2026, 7, 1).AddDays(i);
                     }
                 }
 
+                ws.Cells["B2:B9"].Style.Numberformat.Format = "d-mmm-yy";
+
                 var chart = ws.Drawings.AddBarChart("myColChart", OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered);
-                chart.Series.Add(ws.Cells["A1:A10"]);
+                chart.XAxis.AxisPosition = OfficeOpenXml.Drawing.Chart.eAxisPosition.Bottom;
+                var mySerie = chart.Series.Add(ws.Cells["A2:B9"].TakeSingleColumn(0), ws.Cells["A2:B9"].TakeSingleColumn(1));
+                mySerie.HeaderAddress = ws.Cells["A1"];
+
 
                 chart.Fill.Color = System.Drawing.Color.BlanchedAlmond;
                 chart.Series[0].Fill.Color = System.Drawing.Color.LightCoral;
-                chart.SetPixelWidth(250);
+                chart.SetPixelWidth(600);
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 

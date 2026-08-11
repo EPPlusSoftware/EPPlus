@@ -12,7 +12,7 @@ namespace OfficeOpenXml.Utils.Drawing
     {
         internal static double DegreesToRadians(double degree)
         {
-            return degree * (Math.Round((double)System.Math.PI, 14) / 180);
+            return degree * (Math.Round((double)System.Math.PI, 14) / 180d);
         }
     }
 }

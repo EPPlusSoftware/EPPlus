@@ -26,18 +26,22 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Drawing.Chart.Styling;
+using FakeItEasy.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Constants;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EPPlusTest
 {
     [TestClass]
-    public class ExcelPackageTests
+    public class ExcelPackageTests : TestBase
     {
         [TestMethod, Ignore]
         public void ConstructorWithStringPath()
@@ -86,6 +90,227 @@ namespace EPPlusTest
                     Assert.AreEqual(1d, sheet.Cells["A1"].Value);
                 }
             }
+        }
+
+        [TestMethod]
+        public void SaveAsTemplate_WithVba_SetsTemplateMacroEnabledContentType()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Test";
+
+                package.Workbook.CreateVBAProject();
+                package.SaveAsTemplate = true;
+                SaveWorkbook("SaveTemplate_Vba.xltm", package);
+            }
+
+            AssertSavedWorkbookContentType("SaveTemplate_Vba.xltm",
+                ContentTypes.contentTypeTemplateMacroEnabled);
+        }
+
+        [TestMethod]
+        public void ReadTemplate_ResaveWithoutOptions_ConvertsToWorkbook()
+        {
+            using (var package = OpenTemplatePackage("ExcelTemplateTest.xltx"))
+            {
+                SaveWorkbook("ReadTemplate_Resaved.xlsx", package);
+            }
+
+            AssertSavedWorkbookContentType("ReadTemplate_Resaved.xlsx",
+                ContentTypes.contentTypeWorkbookDefault);
+        }
+
+        [TestMethod]
+        public void SaveAs_FileInfo_WithOptions_WritesTemplateContentType()
+        {
+            var file = new FileInfo(Path.Combine(_worksheetPath, "SaveTemplate_FileInfo.xltx"));
+
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("Sheet1");
+                package.SaveAs(file, o => o.SaveAsTemplate = true);
+            }
+
+            using (var reopened = new ExcelPackage(file))
+            {
+                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+            }
+        }
+
+        [TestMethod]
+        public void SaveAs_Stream_WithOptions_WritesTemplateContentType()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage())
+                {
+                    package.Workbook.Worksheets.Add("Sheet1");
+                    package.SaveAs(ms, o => o.SaveAsTemplate = true);
+                }
+
+                ms.Position = 0;
+                using (var reopened = new ExcelPackage(ms))
+                {
+                    AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SaveAs_FilePath_WithOptions_WritesTemplateContentType()
+        {
+            var path = Path.Combine(_worksheetPath, "SaveTemplate_Path.xltx");
+
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("Sheet1");
+                package.SaveAs(path, o => o.SaveAsTemplate = true);
+            }
+
+            using (var reopened = new ExcelPackage(new FileInfo(path)))
+            {
+                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+            }
+        }
+
+        [TestMethod]
+        public void Save_WithOptions_WritesTemplateContentType()
+        {
+            var file = new FileInfo(Path.Combine(_worksheetPath, "SaveTemplate_Save.xltx"));
+            if (file.Exists) file.Delete();
+
+            using (var package = new ExcelPackage(file))
+            {
+                package.Workbook.Worksheets.Add("TestSheet");
+                package.Save(o => o.SaveAsTemplate = true);
+            }
+
+            using (var reopened = new ExcelPackage(file))
+            {
+                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+            }
+        }
+
+        [TestMethod]
+        public void SaveAs_WithOptions_DefaultsToWorkbookContentType()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage())
+                {
+                    package.Workbook.Worksheets.Add("Sheet1");
+                    package.SaveAs(ms, o => { });   
+                }
+
+                ms.Position = 0;
+                using (var reopened = new ExcelPackage(ms))
+                {
+                    AssertWorkbookContentType(ContentTypes.contentTypeWorkbookDefault, reopened);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ResaveLoadedTemplate_ConvertsToWorkbook()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = OpenTemplatePackage("ExcelTemplateTest.xltx"))
+                {
+                    package.SaveAs(ms);
+                }
+
+                ms.Position = 0;
+                using (var reopened = new ExcelPackage(ms))
+                {
+                    AssertWorkbookContentType(ContentTypes.contentTypeWorkbookDefault, reopened);
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveAsync_WithOptions_WritesTemplateContentType()
+        {
+            var file = new FileInfo(Path.Combine(_worksheetPath, "SaveTemplate_SaveAsync.xltx"));
+            if (file.Exists) file.Delete();
+
+            using (var package = new ExcelPackage(file))
+            {
+                package.Workbook.Worksheets.Add("Sheet1");
+                await package.SaveAsync(o => o.SaveAsTemplate = true);
+            }
+
+            using (var reopened = new ExcelPackage(file))
+            {
+                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveAsAsync_FileInfo_WithOptions_WritesTemplateContentType()
+        {
+            var file = new FileInfo(Path.Combine(_worksheetPath, "SaveTemplate_AsyncFileInfo.xltx"));
+            if (file.Exists) file.Delete();
+
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("Sheet1");
+                await package.SaveAsAsync(file, o => o.SaveAsTemplate = true);
+            }
+
+            using (var reopened = new ExcelPackage(file))
+            {
+                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveAsAsync_FilePath_WithOptions_WritesTemplateContentType()
+        {
+            var path = Path.Combine(_worksheetPath, "SaveTemplate_AsyncPath.xltx");
+
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("Sheet1");
+                await package.SaveAsAsync(path, o => o.SaveAsTemplate = true);
+            }
+
+            using (var reopened = new ExcelPackage(new FileInfo(path)))
+            {
+                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+            }
+        }
+
+        [TestMethod]
+        public async Task SaveAsAsync_Stream_WithOptions_WritesTemplateContentType()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage())
+                {
+                    package.Workbook.Worksheets.Add("Sheet1");
+                    await package.SaveAsAsync(ms, o => o.SaveAsTemplate = true);
+                }
+
+                ms.Position = 0;
+                using (var reopened = new ExcelPackage(ms))
+                {
+                    AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+                }
+            }
+        }
+        private void AssertSavedWorkbookContentType(string fileName, string expectedContentType)
+        {
+            using (var reopened = OpenPackage(fileName))
+            {
+                AssertWorkbookContentType(expectedContentType, reopened);
+            }
+        }
+
+        private static void AssertWorkbookContentType(string expected, ExcelPackage package)
+        {
+            Assert.AreEqual(expected, package.Workbook.Part.ContentType);
         }
     }
 }

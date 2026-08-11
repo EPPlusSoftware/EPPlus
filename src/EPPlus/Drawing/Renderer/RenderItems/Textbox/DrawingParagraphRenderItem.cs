@@ -15,6 +15,8 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Drawing.Chart.Style;
+using System.Drawing;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -132,6 +134,22 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         private void ImportStyleInfo(DrawingTextBody textBody, ExcelDrawingParagraph p)
         {
+            ExcelChartStyleColorManager colorManager = null;
+
+            if (textBody._drawing != null)
+            {
+                if(textBody._drawing.DrawingType is eDrawingType.Shape)
+                {
+                    colorManager = textBody._drawing.As.Shape.ThemeStyles.FontReference.Color;
+                }
+                else if(textBody._drawing.DrawingType is eDrawingType.Chart)
+                {
+                    //Do nothing. Indivdual parts of the chart have different defaults. Let the chart part that created this textbox set its fill instead.
+                }
+            }
+
+            Color defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
+
             //If this paragraph has defaults of its own enter here
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
             {
@@ -139,7 +157,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 {
                     if (p.DefaultRunProperties.Fill != null)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null);
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
                 else
@@ -147,15 +165,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
                     if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, null);
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else
                     {
-                        var fc = ColorConverter.GetThemeColor(textBody.Theme.ColorScheme.Light1);
-                        fc = ColorConverter.GetAdjustedColor(PathFillMode.Norm, fc);
-                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
-                        //Use shape fill somehow
-                        //Maybe use a name property for fallback theme accent1 color?
+                        this.SetDrawingPropertiesFill(textBody.Theme, p._paragraphs.FirstDefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
             }
@@ -167,15 +181,16 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     if (p._paragraphs[0].DefaultRunProperties != null && p._paragraphs[0].DefaultRunProperties.Fill != null && p._paragraphs[0].DefaultRunProperties.Fill.IsEmpty == false)
                     {
                         var fill = p._paragraphs[0].DefaultRunProperties.Fill;
-                        this.SetDrawingPropertiesFill(textBody.Theme, fill, null);
+                        this.SetDrawingPropertiesFill(textBody.Theme, fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                    }
+                    else if(p.DefaultRunProperties.Fill != null)
+                    {
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else
                     {
-                        var fc = ColorConverter.GetThemeColor(textBody.Theme.ColorScheme.Light1);
-                        fc = ColorConverter.GetAdjustedColor(PathFillMode.Norm, fc);
-                        FillColor = "#" + fc.ToArgb().ToString("x8").Substring(2);
-                        //Use shape fill somehow
-                        //Maybe use a name property for fallback theme accent1 color?
+                        //Should never happen.
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
             }

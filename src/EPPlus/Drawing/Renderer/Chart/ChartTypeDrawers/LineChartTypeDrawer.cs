@@ -5,13 +5,16 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using static OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingConstants;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -57,6 +60,33 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateTrendlines(chartType, _xValues, _yValues);
             CreateErrorBars(chartType, _xValues, _yValues);
         }
+        List<LineRenderItem> _dropLines=null;
+        private void CreateDropLine(ExcelLineChart chartType, List<double> coords)
+        {
+            if (chartType.DropLine == null) return;
+            _dropLines=new List<LineRenderItem>();
+            for (var i = 0; i < coords.Count; i += 2)
+            {
+                var x = coords[i];
+                var yTop = coords[i+1];
+                var catAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
+                var valAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
+                var yBottom = GetAxisBaseY(catAxis, valAxis);
+                var bb = ChartRenderer.Plotarea.Group.Bounds;
+                var dl = new LineRenderItem(bb)
+                {
+                    X1 = x,
+                    X2 = x,
+                    Y1 = yTop,
+                    Y2 = yBottom,                    
+                };
+                dl.Bounds.Name = $"DropLine {i/2 + 1}";
+                dl.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, DefaultBorderColor, 1.5,DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
+                dl.SetDrawingPropertiesEffects(ChartRenderer.Theme, chartType.DropLine.Effect);
+                
+                _dropLines.Add(dl);
+            }
+        }
         internal override void DrawSeries()
         {
             var lct = (ExcelLineChart)_chartType;
@@ -74,7 +104,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
                 var dataPoints = new List<BoundingBox>();
-                AddLine(_chartType, serie, xSerie, ySerie, dataPoints);
+                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -86,7 +116,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
             }
-
 
             //Append Trendline render items.
             foreach (var tr in Trendlines)
@@ -112,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
         }
-        private void SumSeries(List<List<object>> series)
+        private new void SumSeries(List<List<object>> series)
         {
             for(var i=1;i < series.Count;i++)
             {
@@ -122,9 +151,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
+        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
         {            
             ChartAxisRenderer yAxis, xAxis;
+            
             if (chartType.UseSecondaryAxis)
             {
                 yAxis = ChartRenderer.SecondVerticalAxis;
@@ -139,7 +169,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 yAxis = ChartRenderer.VerticalAxis;
                 xAxis = ChartRenderer.HorizontalAxis;
             }
+
             var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var dataPointOverrides = new List<LineRenderItem>();
             var coords = new List<double>();
             var markerItems = new List<RenderItem>();
             var errorBars = new List<RenderItem>();
@@ -149,9 +181,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
-                if (xValues == null || xAxis.Axis.AxisType==eAxisType.Cat)
+                if (xValues == null || (xAxis.AutoAxisType==eAxisType.Cat && xValues.Count>0))
                 {
-                    x = (double)i;
+                    x = (double)i + 1;
                 }
                 else
                 {
@@ -179,22 +211,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if (hasMarker)
                 {
-                    float mx = (float)xPos;
-                    float my = (float)yPos;
-                    var ls = LineMarkerHelper.GetMarkerItem(ChartRenderer, serie, mx, my, false);
-                    if ((serie.Marker.Style == eMarkerStyle.Plus || serie.Marker.Style == eMarkerStyle.X || serie.Marker.Style == eMarkerStyle.Star) &&
-                        serie.Marker.Fill.IsEmpty == false)
-                    {
-                        markerItems.Add(LineMarkerHelper.GetMarkerBackground(ChartRenderer, serie, mx, my, false));
-                    }
-                    markerItems.Add(ls);
-
-                    if (pt != null)
-                    {
-                        pt.Width = ls.Bounds.Width;
-                        pt.Height = ls.Bounds.Height;
-                        dataPoints.Add(pt);
-                    }
+                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt);
                 }
                 else
                 {
@@ -207,20 +224,71 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         dataPoints.Add(pt);
                     }
                 }
+                //Draw individual formatted lines between points, if the previous point has a different formatting than the current point.
+                if (i > 0 && serie.DataPoints.ContainsKey(i))
+                {
+                    var dp = serie.DataPoints[i];
+                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                    lineDp.X1 = coords[coords.Count - 4];
+                    lineDp.Y1 = coords[coords.Count - 3];
+                    lineDp.X2 = xPos;
+                    lineDp.Y2 = yPos;
+
+                    if(dp.HasMarker())
+                    {
+                        if(hasMarker==false)
+                        {
+                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt);
+                        }
+                        else
+                        {
+                            var mi = markerItems[markerItems.Count - 1];
+                            markerItems[i].SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color);
+                            markerItems[i].SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, serie.Border.Fill.Style != eFillStyle.NoFill);
+                        }
+                    }
+                    lineDp.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, DefaultBorderColor, 3);
+                    lineDp.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
+                    dataPointOverrides.Add(lineDp);
+                }
             }
+            
+            CreateDropLine(chartType, coords);
 
             linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
-            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true);
+            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, DefaultBorderColor, 3);
             linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.FillColor = "none";    //No fill for line
             linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
             linePath.LineJoin = LineJoin.Round;
             SeriesRenderItems.Add(linePath);
+            SeriesRenderItems.AddRange(dataPointOverrides);
             SeriesRenderItems.AddRange(markerItems);
+            if(_dropLines!=null) SeriesRenderItems.AddRange(_dropLines);
             SeriesRenderItems.AddRange(errorBars);
         }
 
+        private void SetMarker(ExcelLineChartSerie serie, ExcelChartMarker marker, List<BoundingBox> dataPoints, List<RenderItem> markerItems, double xPos, double yPos, BoundingBox pt)
+        {
+            float mx = (float)xPos;
+            float my = (float)yPos;
+            var ls = LineMarkerHelper.GetMarkerItem(ChartRenderer, serie, marker, mx, my, false);
+            if ((serie.Marker.Style == eMarkerStyle.Plus || serie.Marker.Style == eMarkerStyle.X || serie.Marker.Style == eMarkerStyle.Star) &&
+                serie.Marker.Fill.IsEmpty == false)
+            {
+                markerItems.Add(LineMarkerHelper.GetMarkerBackground(ChartRenderer, serie, mx, my, false));
+            }
+            markerItems.Add(ls);
 
+            if (pt != null)
+            {
+                pt.Width = ls.Bounds.Width;
+                pt.Height = ls.Bounds.Height;
+                dataPoints.Add(pt);
+            }
+        }
+
+        internal override Color? DefaultBorderColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
