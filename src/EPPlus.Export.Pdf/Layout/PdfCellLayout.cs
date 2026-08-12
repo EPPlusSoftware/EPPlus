@@ -53,6 +53,10 @@ namespace EPPlus.Export.Pdf.Layout
         }
         internal void SetGradient(PdfDictionaries dictionaries, ExcelFillGradientType gradientType, Color color1, Color color2, Color color3, double degree, double top, double bottom, double left, double right)
         {
+            if (Size.X <= 0d || Size.Y <= 0d)
+            {
+                return;
+            }
             CellFillData.GradientFillData = new PdfCellGradientFillData();
             CellFillData.GradientFillData.GradientType = gradientType;
             CellFillData.GradientFillData.Color1 = color1;

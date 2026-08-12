@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-		<AssemblyVersion>9.0.0.0</AssemblyVersion>
-	    <FileVersion>9.0.0.0</FileVersion>
-	    <Version>9.0.0.0</Version>
+		<TargetFrameworks>$(EPPlusCoreTargetFrameworks)</TargetFrameworks>
 	    <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 		<Company>EPPlus Software AB</Company>
 		<Product>EPPlus</Product>
 		<Description>A spreadsheet library for .NET framework and .NET core</Description>
+		<IsPackable>false</IsPackable>
 		<NeutralLanguage />
 		<LangVersion>latest</LangVersion>
 		<SignAssembly>True</SignAssembly>

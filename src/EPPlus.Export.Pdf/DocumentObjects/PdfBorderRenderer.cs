@@ -191,7 +191,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             contentStream.AddCommand(border.BorderColor.ToStrokeCommand());
             contentStream.AddCommand($"{width.ToPdfString()} w");
-            contentStream.AddCommand(border.BorderStyle != ExcelBorderStyle.Dotted ? ( border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown ? "0 J" : "2 J" ) : "1 J");
+            //contentStream.AddCommand(border.BorderStyle != ExcelBorderStyle.Dotted ? ( border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown ? "0 J" : "2 J" ) : "1 J");
+            contentStream.AddCommand(border.BorderStyle == ExcelBorderStyle.Dotted ? "1 J" : "0 J");
             contentStream.AddCommand(dash);
         }
 

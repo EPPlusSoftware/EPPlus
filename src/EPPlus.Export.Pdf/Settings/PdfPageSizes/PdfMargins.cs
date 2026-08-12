@@ -39,7 +39,7 @@ namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
             FooterPu = UnitConversion.MmToPoints(Footer);
         }
 
-        public PdfMargins(double Top, double Left, double Right, double Bottom, double Header, double Footer)
+        public PdfMargins(double Top, double Bottom, double Left, double Right, double Header, double Footer)
         {
             this.Top = Top;
             this.Left = Left;

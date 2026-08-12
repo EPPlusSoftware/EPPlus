@@ -105,7 +105,7 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
         // Public API
         // -----------------------------------------------------------------------------------------
-        
+
         /// <summary>
         /// When true, GetTextShaper throws if the requested font cannot be resolved to an exact match,
         /// even though a fallback was found. Default is false: rendering trusts the fallback chain

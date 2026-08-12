@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Core.Worksheet
 {
     internal static class WorksheetCopyHelper
     {
-        internal static ExcelWorksheet Copy(ExcelWorksheets targetWorksheets, string name, ExcelWorksheet sourceWorksheet)
+        internal static ExcelWorksheet Copy(ExcelWorksheets targetWorksheets, string name, ExcelWorksheet sourceWorksheet, ExcelWorksheetCopyOptions options)
         {
             int sheetID;
             Uri uriWorksheet;
@@ -112,9 +112,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopySlicers(sourceWorksheet, targetWorksheet);
                 CopyDrawing(sourceWorksheet, targetWorksheet);
             }
+            List<KeyValuePair<string, string>> copiedTableNames = null;
             if (sourceWorksheet.Tables.Count > 0)
             {
-                CopyTable(sourceWorksheet, targetWorksheet);
+                copiedTableNames = CopyTable(sourceWorksheet, targetWorksheet);
             }
 
             if (sourceWorksheet.PivotTables.Count > 0)
@@ -183,8 +184,48 @@ namespace OfficeOpenXml.Core.Worksheet
                     pageSetup.Attributes.Remove(attr);
                 }
             }
+            //Apply any caller-supplied table names last, once the copy is fully
+            //materialized. Renaming earlier would break internal lookups in
+            //CopyDxfStyles and the slicer copy, which resolve the copied tables
+            //by their default name.
+            ApplyTableCopyOptions(targetWorksheet, options, copiedTableNames);
 
             return targetWorksheet;
+        }
+
+        private static void ApplyTableCopyOptions(ExcelWorksheet added, ExcelWorksheetCopyOptions options, List<KeyValuePair<string, string>> copiedTableNames)
+        {
+            if (options == null || options.TableCopyHandler == null || copiedTableNames == null)
+            {
+                return;
+            }
+
+            foreach (var pair in copiedTableNames)
+            {
+                var sourceTableName = pair.Key;
+                var defaultName = pair.Value;
+                var copiedTable = added.Tables[defaultName];
+                if (copiedTable == null)
+                {
+                    continue;
+                }
+
+                var args = new ExcelTableCopyEventArgs
+                {
+                    SourceTableName = sourceTableName,
+                    DefaultName = defaultName
+                };
+                options.TableCopyHandler.Invoke(args);
+
+                if (!string.IsNullOrEmpty(args.NewName) && args.NewName != defaultName)
+                {
+                    //The copied worksheet is now internally consistent (table and formulas both
+                    //use the default name), so routing through the ExcelTable.Name setter updates
+                    //the table and its references token based, and validates name uniqueness,
+                    //exactly as for a normal rename.
+                    copiedTable.Name = args.NewName;
+                }
+            }
         }
 
         private static void SetTableFunction(ExcelWorksheet added)
@@ -1025,26 +1066,27 @@ namespace OfficeOpenXml.Core.Worksheet
             return false;
         }
 
-        private static void CopyTable(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static List<KeyValuePair<string, string>> CopyTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
+            var copiedTableNames = new List<KeyValuePair<string, string>>();
             string prevName = "";
             //First copy the table XML
-            foreach (var tbl in Copy.Tables)
+            foreach (var tbl in sourceWs.Tables)
             {
                 string xml = tbl.TableXml.OuterXml;
                 string name;
 
-                if (Copy.Workbook == added.Workbook || added.Workbook.ExistsTableName(tbl.Name))
+                if (sourceWs.Workbook == destWs.Workbook || destWs.Workbook.ExistsTableName(tbl.Name))
                 {
                     if (prevName == "")
                     {
-                        name = Copy.Tables.GetNewTableName();
+                        name = sourceWs.Tables.GetNewTableName();
                     }
                     else
                     {
                         int ix = int.Parse(prevName.Substring(5)) + 1;
                         name = string.Format("Table{0}", ix);
-                        while (added._package.Workbook.ExistsPivotTableName(name))
+                        while (destWs._package.Workbook.ExistsPivotTableName(name))
                         {
                             name = string.Format("Table{0}", ++ix);
                         }
@@ -1056,10 +1098,12 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
 
                 //ensure the _nextTableID value has been initialized - Pull request by WillR
-                added.Workbook.ReadAllTables();
+                destWs.Workbook.ReadAllTables();
 
-                int Id = added.Workbook._nextTableID++;
+                int Id = destWs.Workbook._nextTableID++;
                 prevName = name;
+                copiedTableNames.Add(new KeyValuePair<string, string>(tbl.Name, name));
+
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xml);
                 xmlDoc.SelectSingleNode("//d:table/@id", tbl.NameSpaceManager).Value = Id.ToString();
@@ -1068,34 +1112,34 @@ namespace OfficeOpenXml.Core.Worksheet
                 xml = xmlDoc.OuterXml;
 
                 //var uriTbl = new Uri(string.Format("/xl/tables/table{0}.xml", Id), UriKind.Relative);
-                var uriTbl = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/tables/table{0}.xml", ref Id);
-                if (added.Workbook._nextTableID < Id) added.Workbook._nextTableID = Id;
+                var uriTbl = XmlHelper.GetNewUri(destWs._package.ZipPackage, "/xl/tables/table{0}.xml", ref Id);
+                if (destWs.Workbook._nextTableID < Id) destWs.Workbook._nextTableID = Id;
 
-                var part = added._package.ZipPackage.CreatePart(uriTbl, "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml", added._package.Compression);
+                var part = destWs._package.ZipPackage.CreatePart(uriTbl, "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml", destWs._package.Compression);
                 StreamWriter streamTbl = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 streamTbl.Write(xml);
                 //streamTbl.Close();
                 streamTbl.Flush();
 
                 //create the relationship and add the ID to the worksheet xml.
-                var rel = added.Part.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/table");
+                var rel = destWs.Part.CreateRelationship(UriHelper.GetRelativeUri(destWs.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/table");
 
                 if (tbl.RelationshipID == null)
                 {
-                    var topNode = added.WorksheetXml.SelectSingleNode("//d:tableParts", tbl.NameSpaceManager);
+                    var topNode = destWs.WorksheetXml.SelectSingleNode("//d:tableParts", tbl.NameSpaceManager);
                     if (topNode == null)
                     {
-                        added.CreateNode("d:tableParts");
-                        topNode = added.WorksheetXml.SelectSingleNode("//d:tableParts", tbl.NameSpaceManager);
+                        destWs.CreateNode("d:tableParts");
+                        topNode = destWs.WorksheetXml.SelectSingleNode("//d:tableParts", tbl.NameSpaceManager);
                     }
-                    XmlElement elem = added.WorksheetXml.CreateElement("tablePart", ExcelPackage.schemaMain);
+                    XmlElement elem = destWs.WorksheetXml.CreateElement("tablePart", ExcelPackage.schemaMain);
                     topNode.AppendChild(elem);
                     elem.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
                 }
                 else
                 {
                     XmlAttribute relAtt;
-                    relAtt = added.WorksheetXml.SelectSingleNode(string.Format("//d:tableParts/d:tablePart/@r:id[.='{0}']", tbl.RelationshipID), tbl.NameSpaceManager) as XmlAttribute;
+                    relAtt = destWs.WorksheetXml.SelectSingleNode(string.Format("//d:tableParts/d:tablePart/@r:id[.='{0}']", tbl.RelationshipID), tbl.NameSpaceManager) as XmlAttribute;
                     relAtt.Value = rel.Id;
                 }
                 
@@ -1104,8 +1148,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (col.Slicer != null)
                     {
-                        var newCol = added.Tables[name].Columns[col.Position];
-                        foreach (var d in added.Drawings)
+                        var newCol = destWs.Tables[name].Columns[col.Position];
+                        foreach (var d in destWs.Drawings)
                         {
                             if (d is ExcelTableSlicer slicer)
                             {
@@ -1120,30 +1164,51 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                 }
             }
+
+            //The copied worksheet's formula cells were cloned verbatim and still reference
+            //the source table names. Because copied tables are written to XML directly (to
+            //avoid materializing them, for performance), the ExcelTable.Name setter never
+            //runs and the copied formulas are not adjusted. Adjust them here, once every
+            //table part has been written, scoped to the copied worksheet only so the source
+            //worksheet's references to its own tables are left untouched. Deferring until
+            //after the loop also ensures added.Tables is first materialized in its complete
+            //state.
+            foreach (var pair in copiedTableNames)
+            {
+                var sourceName = pair.Key;
+                var copiedName = pair.Value;
+                if (sourceName != copiedName)
+                {
+                    var ta = new TableAdjustFormula(destWs.Tables[copiedName]);
+                    ta.AdjustFormulas(sourceName, copiedName, destWs);
+                }
+            }
+
+            return copiedTableNames;
         }
-        private static void CopyPivotTable(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static void CopyPivotTable(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
-            Copy._package.Workbook.ReadAllPivotTables();
+            sourceWs._package.Workbook.ReadAllPivotTables();
             string prevName = "";
             var worksheetMap = new Dictionary<string, string>();
             var nameMap = new Dictionary<string, string>();
-            var wbAdded = added.Workbook;
-            var isPackageInternal = Copy.Workbook == wbAdded;
-            foreach (var tbl in Copy.PivotTables)
+            var wbAdded = destWs.Workbook;
+            var isPackageInternal = sourceWs.Workbook == wbAdded;
+            foreach (var tbl in sourceWs.PivotTables)
             {
                 string xml = tbl.PivotTableXml.OuterXml;
                 string name;
-                if (isPackageInternal || added.PivotTables._pivotTableNames.ContainsKey(tbl.Name))
+                if (isPackageInternal || destWs.PivotTables._pivotTableNames.ContainsKey(tbl.Name))
                 {
                     if (prevName == "")
                     {
-                        name = added.PivotTables.GetNewTableName();
+                        name = destWs.PivotTables.GetNewTableName();
                     }
                     else
                     {
                         int ix = int.Parse(prevName.Substring(10)) + 1;
                         name = string.Format("PivotTable{0}", ix);
-                        while (added.Workbook.ExistsPivotTableName(name))
+                        while (destWs.Workbook.ExistsPivotTableName(name))
                         {
                             name = string.Format("PivotTable{0}", ++ix);
                         }
@@ -1161,34 +1226,34 @@ namespace OfficeOpenXml.Core.Worksheet
                 xmlDoc.LoadXml(xml);
                 xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@name", tbl.NameSpaceManager).Value = name;
 
-                int Id = added.Workbook._nextPivotTableID++;
-                var uriTbl = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
-                if (added.Workbook._nextPivotTableID < Id) added.Workbook._nextPivotTableID = Id;
+                int Id = destWs.Workbook._nextPivotTableID++;
+                var uriTbl = XmlHelper.GetNewUri(destWs._package.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
+                if (destWs.Workbook._nextPivotTableID < Id) destWs.Workbook._nextPivotTableID = Id;
 
                 xml = xmlDoc.OuterXml;
 
-                var partTbl = added._package.ZipPackage.CreatePart(uriTbl, ContentTypes.contentTypePivotTable, added._package.Compression);
+                var partTbl = destWs._package.ZipPackage.CreatePart(uriTbl, ContentTypes.contentTypePivotTable, destWs._package.Compression);
                 StreamWriter streamTbl = new StreamWriter(partTbl.GetStream(FileMode.Create, FileAccess.Write));
                 streamTbl.Write(xml);
                 streamTbl.Flush();
 
                 //create the relationship and add the ID to the worksheet xml.
-                added.Part.CreateRelationship(UriHelper.ResolvePartUri(added.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
+                destWs.Part.CreateRelationship(UriHelper.ResolvePartUri(destWs.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
                 if (isPackageInternal)
                 {
                     partTbl.CreateRelationship(tbl.CacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
                 }
                 else
                 {
-                    CreateCacheInNewPackage(added, tbl, partTbl);
+                    CreateCacheInNewPackage(destWs, tbl, partTbl);
                 }
 
             }
 
-            added._pivotTables = null;   //Reset collection so it's reloaded when accessing the collection next time.
+            destWs._pivotTables = null;   //Reset collection so it's reloaded when accessing the collection next time.
 
             //Refresh all items in the copied table.
-            foreach (var copiedTbl in added.PivotTables)
+            foreach (var copiedTbl in destWs.PivotTables)
             {
                 if (!copiedTbl.CacheDefinition._cacheReference._pivotTables.Contains(copiedTbl))
                 {
@@ -1202,19 +1267,19 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 if (copiedTbl.CacheDefinition.IsExternalReferernce) continue;
 
-                ChangeToWsLocalPivotTable(added, nameMap);
+                ChangeToWsLocalPivotTable(destWs, nameMap);
                 foreach (var fld in copiedTbl.Fields)
                 {
                     fld.Cache.Refresh();
                 }
             }
             //Can't have a cell selected when "group editing" avoids pop-up by not selecting sheet.
-            added.View.SetTabSelected(false);
+            destWs.View.SetTabSelected(false);
         }
 
-        private static void CreateCacheInNewPackage(ExcelWorksheet added, ExcelPivotTable tbl, ZipPackagePart partTbl)
+        private static void CreateCacheInNewPackage(ExcelWorksheet sourceWs, ExcelPivotTable tbl, ZipPackagePart partTbl)
         {
-            var wbAdded = added.Workbook;
+            var wbAdded = sourceWs.Workbook;
             PivotTableCacheInternal newCache;
             var cacheAddress = tbl.CacheDefinition._cacheReference.GetSourceAddress();
             if (wbAdded._pivotTableCaches.TryGetValue(cacheAddress, out ExcelWorkbook.PivotTableCacheRangeInfo rangeInfo))
@@ -1227,10 +1292,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 rangeInfo = new ExcelWorkbook.PivotTableCacheRangeInfo();
                 string xmlCache = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
                 var cacheId = wbAdded._nextPivotCacheId;
-                var uriCache = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref cacheId);
+                var uriCache = XmlHelper.GetNewUri(sourceWs._package.ZipPackage, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref cacheId);
                 if (wbAdded._nextPivotCacheId < cacheId) wbAdded._nextPivotCacheId = cacheId;
 
-                var partCache = added._package.ZipPackage.CreatePart(uriCache, ContentTypes.contentTypePivotCacheDefinition, added._package.Compression);
+                var partCache = sourceWs._package.ZipPackage.CreatePart(uriCache, ContentTypes.contentTypePivotCacheDefinition, sourceWs._package.Compression);
                 StreamWriter streamCache = new StreamWriter(partCache.GetStream(FileMode.Create, FileAccess.Write));
                 streamCache.Write(xmlCache);
                 streamCache.Flush();
@@ -1243,8 +1308,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (tbl.CacheDefinition.SourceRange.Worksheet != null && tbl.CacheDefinition.SourceRange.Worksheet.Name == tbl.WorkSheet.Name)
                     {
-                        rangeInfo.Address = ExcelCellBase.GetQuotedWorksheetName(added.Name) + "!" + tbl.CacheDefinition.SourceRange.LocalAddress;
-                        newCache.SetXmlNodeString(PivotTableCacheInternal._sourceWorksheetPath, added.Name);
+                        rangeInfo.Address = ExcelCellBase.GetQuotedWorksheetName(sourceWs.Name) + "!" + tbl.CacheDefinition.SourceRange.LocalAddress;
+                        newCache.SetXmlNodeString(PivotTableCacheInternal._sourceWorksheetPath, sourceWs.Name);
                     }
                     else
                     {
@@ -1257,15 +1322,15 @@ namespace OfficeOpenXml.Core.Worksheet
                     var rId = partCache.CreateRelationship(rel.TargetUri, rel.TargetMode, rel.RelationshipType);
                     newCache.SourceRId = rId.Id;
                 }
-                added.Workbook.AddPivotTableCache(newCache, true);
+                sourceWs.Workbook.AddPivotTableCache(newCache, true);
 
                 newCache.AddRecordsXml();
             }
         }
 
-        private static void ChangeToWsLocalPivotTable(ExcelWorksheet added, Dictionary<string, string> nameMap)
+        private static void ChangeToWsLocalPivotTable(ExcelWorksheet sourceWs, Dictionary<string, string> nameMap)
         {
-            foreach (var d in added.Drawings)
+            foreach (var d in sourceWs.Drawings)
             {
                 if (d is ExcelPivotTableSlicer s)
                 {
@@ -1274,38 +1339,38 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if (nameMap.ContainsKey(list[i].Name))
                         {
-                            list[i] = added.PivotTables[nameMap[list[i].Name]];
+                            list[i] = sourceWs.PivotTables[nameMap[list[i].Name]];
                         }
                     }
                 }
             }
         }
-        private static void CopyDxfStyles(ExcelWorksheet copy, ExcelWorksheet added)
+        private static void CopyDxfStyles(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
             //DxfStyleHandler.UpdateDxfXml(copy.Workbook);
 
             var dxfStyleCashe = new Dictionary<int, int>();
-            CopyDxfStylesTables(copy, added);
-            CopyDxfStylesPivotTables(copy, added, dxfStyleCashe);
-            CopyDxfStylesConditionalFormatting(copy, added, dxfStyleCashe);
+            CopyDxfStylesTables(sourceWs, destWs);
+            CopyDxfStylesPivotTables(sourceWs, destWs, dxfStyleCashe);
+            CopyDxfStylesConditionalFormatting(sourceWs, destWs, dxfStyleCashe);
         }
-        private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added)
+        private static void CopyDxfStylesTables(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
             //Table formats
-            for (int i = 0; i < copy.Tables.Count; i++)
+            for (int i = 0; i < sourceWs.Tables.Count; i++)
             {
-                var tblFrom = copy.Tables[i];
-                var tblTo = added.Tables[tblFrom.Name]; //Use Name, as id can differ if the worksheets are in different workbooks.
+                var tblFrom = sourceWs.Tables[i];
+                var tblTo = destWs.Tables[i]; //Use Name, as id can differ if the worksheets are in different workbooks.
                 DxfStyleHandler.CopyDxfStylesTable(tblFrom, tblTo);
             }
         }
-        private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<int, int> dxfStyleCache)
+        private static void CopyDxfStylesPivotTables(ExcelWorksheet sourceWs, ExcelWorksheet destWs, Dictionary<int, int> dxfStyleCache)
         {
             //Table formats
-            foreach (var pt in copy.PivotTables)
+            foreach (var pt in sourceWs.PivotTables)
             {
                 var ix = 0;
-                var newPt = added.PivotTables[pt.Name];
+                var newPt = destWs.PivotTables[pt.Name];
                 foreach (var a in pt.Styles._list)
                 {
                     var addedStyle = newPt.Styles[ix++];
@@ -1314,17 +1379,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<int, int> dxfStyleCache)
+        private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet sourceWs, ExcelWorksheet destWs, Dictionary<int, int> dxfStyleCache)
         {
             //Conditional Formatting
-            for (var i = 0; i < copy.ConditionalFormatting.Count; i++)
+            for (var i = 0; i < sourceWs.ConditionalFormatting.Count; i++)
             {
-                var cfSource = copy.ConditionalFormatting[i];
+                var cfSource = sourceWs.ConditionalFormatting[i];
                 var dxfId = cfSource.DxfId;
                 if (dxfId != -1)
                 {
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCache, dxfId);
-                    added.ConditionalFormatting[i].DxfId = dxfStyleCache[dxfId];
+                    AppendDxf(sourceWs.Workbook.Styles, destWs.Workbook.Styles, dxfStyleCache, dxfId);
+                    destWs.ConditionalFormatting[i].DxfId = dxfStyleCache[dxfId];
                 }
             }
         }
@@ -1339,75 +1404,75 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col, bool hasMetadata, bool sameWorkbook)
+        private static int CopyValues(ExcelWorksheet sourceWs, ExcelWorksheet destWs, int row, int col, bool hasMetadata, bool sameWorkbook)
         {
-            var valueCore = Copy.GetCoreValueInner(row, col);
-            added.SetValueStyleIdInner(row, col, valueCore._value, valueCore._styleId);
+            var valueCore = sourceWs.GetCoreValueInner(row, col);
+            destWs.SetValueStyleIdInner(row, col, valueCore._value, valueCore._styleId);
 
             byte fl = 0;
-            if (Copy._flags.Exists(row, col, ref fl))
+            if (sourceWs._flags.Exists(row, col, ref fl))
             {
-                added._flags.SetValue(row, col, fl);
+                destWs._flags.SetValue(row, col, fl);
             }
 
             if (hasMetadata)
             {
                 ExcelWorksheet.MetaDataReference md = new ExcelWorksheet.MetaDataReference();
-                if (Copy._metadataStore.Exists(row, col, ref md))
+                if (sourceWs._metadataStore.Exists(row, col, ref md))
                 {
                     if (sameWorkbook)
                     {
-                        added._metadataStore.SetValue(row, col, md);
+                        destWs._metadataStore.SetValue(row, col, md);
                     }
                     else
                     {
-                        RichDataCopyHelper.CopyMetadata(Copy, added, Copy.Workbook.RichData, Copy.Cells[row, col]);
+                        RichDataCopyHelper.CopyMetadata(sourceWs, destWs, sourceWs.Workbook.RichData, sourceWs.Cells[row, col]);
                     }
                 }
             }
 
-            var v = Copy._formulas.GetValue(row, col);
+            var v = sourceWs._formulas.GetValue(row, col);
             if (v != null)
             {
-                added.SetFormula(row, col, v);
+                destWs.SetFormula(row, col, v);
             }
 
-            var hyperLink = Copy._hyperLinks.GetValue(row, col);
+            var hyperLink = sourceWs._hyperLinks.GetValue(row, col);
             if (hyperLink != null)
             {
-                added._hyperLinks.SetValue(row, col, hyperLink);
+                destWs._hyperLinks.SetValue(row, col, hyperLink);
             }
             return valueCore._styleId;
         }
 
-        private static void CopyThreadedComments(ExcelWorksheet copy, ExcelWorksheet added)
+        private static void CopyThreadedComments(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
             //Copy the underlaying legacy comments.
-            CopyComment(copy, added);
+            CopyComment(sourceWs, destWs);
 
             //First copy the drawing XML
-            string xml = copy.ThreadedComments.ThreadedCommentsXml.InnerXml;
-            var ix = added.SheetId;
-            var tcUri = UriHelper.ResolvePartUri(added.WorksheetUri, XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/threadedComments/threadedComment{0}.xml", ref ix));
+            string xml = sourceWs.ThreadedComments.ThreadedCommentsXml.InnerXml;
+            var ix = destWs.SheetId;
+            var tcUri = UriHelper.ResolvePartUri(destWs.WorksheetUri, XmlHelper.GetNewUri(destWs._package.ZipPackage, "/xl/threadedComments/threadedComment{0}.xml", ref ix));
 
-            var part = added._package.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml", added._package.Compression);
+            var part = destWs._package.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml", destWs._package.Compression);
 
             StreamWriter streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
             streamDrawing.Write(xml);
             streamDrawing.Flush();
 
             //Add the relationship ID to the worksheet xml.
-            added.Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
+            destWs.Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
 
-            added.LoadThreadedComments();
-            foreach (var t in added.ThreadedComments)
+            destWs.LoadThreadedComments();
+            foreach (var t in destWs.ThreadedComments)
             {
                 for (int i = 0; i < t.Comments.Count; i++)
                 {
                     t.Comments[i].Id = ExcelThreadedComment.NewId();
                     if (i == 0)
                     {
-                        added.Comments[t.CellAddress].Author = "tc=" + t.Comments[i].Id;
+                        destWs.Comments[t.CellAddress].Author = "tc=" + t.Comments[i].Id;
                     }
                     else
                     {
@@ -1416,39 +1481,39 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            if (copy.Workbook != added.Workbook) //Different package. Copy all persons from source package.
+            if (sourceWs.Workbook != destWs.Workbook) //Different package. Copy all persons from source package.
             {
-                var wbDest = added.Workbook;
-                foreach (var p in copy.Workbook.ThreadedCommentPersons)
+                var wbDest = destWs.Workbook;
+                foreach (var p in sourceWs.Workbook.ThreadedCommentPersons)
                 {
                     wbDest.ThreadedCommentPersons.Add(p.DisplayName, p.UserId, p.ProviderId, p.Id);
                 }
             }
         }
-        private static void CopyHeaderFooterPictures(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static void CopyHeaderFooterPictures(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
-            if (Copy.TopNode != null && Copy.GetNode("d:headerFooter") == null) return;
+            if (sourceWs.TopNode != null && sourceWs.GetNode("d:headerFooter") == null) return;
 
             //Copy any images first, so the pictures exist on the target before the
             //header/footer text is parsed. The text may contain the image code (&G),
             //and parsing it reads added.HeaderFooter.Pictures.
-            if (Copy.HeaderFooter.Pictures.Count > 0)
+            if (sourceWs.HeaderFooter.Pictures.Count > 0)
             {
-                Uri source = Copy.HeaderFooter.Pictures.Uri;
-                Uri dest = XmlHelper.GetNewUri(added._package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml");
-                added.DeleteNode("d:legacyDrawingHF");
+                Uri source = sourceWs.HeaderFooter.Pictures.Uri;
+                Uri dest = XmlHelper.GetNewUri(destWs._package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml");
+                destWs.DeleteNode("d:legacyDrawingHF");
 
-                foreach (ExcelVmlDrawingPicture pic in Copy.HeaderFooter.Pictures)
+                foreach (ExcelVmlDrawingPicture pic in sourceWs.HeaderFooter.Pictures)
                 {
                     ExcelVmlDrawingPicture item;
-                    if (Copy._package != added._package)
+                    if (sourceWs._package != destWs._package)
                     {
-                        var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
-                        item = added.HeaderFooter.Pictures.Add(pic.Id, ii.Uri, pic.Title, pic.Width, pic.Height);
+                        var ii = destWs.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
+                        item = destWs.HeaderFooter.Pictures.Add(pic.Id, ii.Uri, pic.Title, pic.Width, pic.Height);
                     }
                     else
                     {
-                        item = added.HeaderFooter.Pictures.Add(pic.Id, ((IPictureContainer)pic).UriPic, pic.Title, pic.Width, pic.Height);
+                        item = destWs.HeaderFooter.Pictures.Add(pic.Id, ((IPictureContainer)pic).UriPic, pic.Title, pic.Width, pic.Height);
                     }
                     foreach (XmlAttribute att in pic.TopNode.Attributes)
                     {
@@ -1466,12 +1531,12 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             //Copy the texts
-            if (Copy.HeaderFooter._oddHeader != null) CopyText(Copy.HeaderFooter._oddHeader, added.HeaderFooter.OddHeader);
-            if (Copy.HeaderFooter._oddFooter != null) CopyText(Copy.HeaderFooter._oddFooter, added.HeaderFooter.OddFooter);
-            if (Copy.HeaderFooter._evenHeader != null) CopyText(Copy.HeaderFooter._evenHeader, added.HeaderFooter.EvenHeader);
-            if (Copy.HeaderFooter._evenFooter != null) CopyText(Copy.HeaderFooter._evenFooter, added.HeaderFooter.EvenFooter);
-            if (Copy.HeaderFooter._firstHeader != null) CopyText(Copy.HeaderFooter._firstHeader, added.HeaderFooter.FirstHeader);
-            if (Copy.HeaderFooter._firstFooter != null) CopyText(Copy.HeaderFooter._firstFooter, added.HeaderFooter.FirstFooter);
+            if (sourceWs.HeaderFooter._oddHeader != null) CopyText(sourceWs.HeaderFooter._oddHeader, destWs.HeaderFooter.OddHeader);
+            if (sourceWs.HeaderFooter._oddFooter != null) CopyText(sourceWs.HeaderFooter._oddFooter, destWs.HeaderFooter.OddFooter);
+            if (sourceWs.HeaderFooter._evenHeader != null) CopyText(sourceWs.HeaderFooter._evenHeader, destWs.HeaderFooter.EvenHeader);
+            if (sourceWs.HeaderFooter._evenFooter != null) CopyText(sourceWs.HeaderFooter._evenFooter, destWs.HeaderFooter.EvenFooter);
+            if (sourceWs.HeaderFooter._firstHeader != null) CopyText(sourceWs.HeaderFooter._firstHeader, destWs.HeaderFooter.FirstHeader);
+            if (sourceWs.HeaderFooter._firstFooter != null) CopyText(sourceWs.HeaderFooter._firstFooter, destWs.HeaderFooter.FirstFooter);
         }
         private static void CopyText(ExcelHeaderFooterText from, ExcelHeaderFooterText to)
         {
@@ -1480,21 +1545,21 @@ namespace OfficeOpenXml.Core.Worksheet
             to.RightAlignedText = from.RightAlignedText;
         }
 
-        private static void CopySlicers(ExcelWorksheet source, ExcelWorksheet target)
+        private static void CopySlicers(ExcelWorksheet sourceWs, ExcelWorksheet destWs)
         {
-            foreach (var slicer in source.SlicerXmlSources._list)
+            foreach (var slicer in sourceWs.SlicerXmlSources._list)
             {
-                var id = target.SheetId;
-                var uri = XmlHelper.GetNewUri(target.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
-                var part = target.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", target.Part.Package.Compression);
-                var rel = target.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
+                var id = destWs.SheetId;
+                var uri = XmlHelper.GetNewUri(destWs.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
+                var part = destWs.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", destWs.Part.Package.Compression);
+                var rel = destWs.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
                 var xml = new XmlDocument();
                 xml.LoadXml(slicer.XmlDocument.OuterXml);
                 var stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 xml.Save(stream);
 
                 //Now create the new relationship between the worksheet and the slicer.
-                var relNode = (XmlElement)(target.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{slicer.Rel.Id}']", target.NameSpaceManager));
+                var relNode = (XmlElement)(destWs.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{slicer.Rel.Id}']", destWs.NameSpaceManager));
                 relNode.Attributes["r:id"].Value = rel.Id;
             }
         }

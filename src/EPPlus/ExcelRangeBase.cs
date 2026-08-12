@@ -17,6 +17,8 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -32,6 +34,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OfficeOpenXml
 {
@@ -1131,6 +1136,58 @@ namespace OfficeOpenXml
         public IExcelHtmlRangeExporter CreateHtmlExporter()
         {
             return new OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlRangeExporter(this);
+        }
+
+        /// <summary>
+        /// Save range to PDF.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        public void SaveAsPdf(string fileName)
+        {
+            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.Workbook, this.Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+        }
+
+        /// <summary>
+        /// Save range to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.Workbook, this.Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(fileName, settings, this);
+            }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Save range to PDF, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        public void SaveAsPdf(Stream stream)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.Workbook, this.Worksheet.PrinterSettings);
+            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+        }
+
+        /// <summary>
+        /// Save range to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.Workbook, this.Worksheet.PrinterSettings);
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _ = new PdfCatalog(stream, settings, this);
+            }, cancellationToken);
         }
 
         //public ExcelHtmlRangeExporter CreateHtmlExporter()

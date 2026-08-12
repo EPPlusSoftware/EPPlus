@@ -10,7 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
@@ -20,6 +19,7 @@ using System;
 using System.Text;
 using System.Xml;
 using static Microsoft.IO.RecyclableMemoryStreamManager;
+using EPPlus.DrawingRenderer;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>

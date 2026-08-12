@@ -21,6 +21,7 @@ using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -420,17 +421,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         private static bool HasBorder(PdfCellStyle cellStyle)
         {
             if (cellStyle == null) return false;
-            bool hasBorders =
-                cellStyle.xfTop.Style != ExcelBorderStyle.None ||
-                cellStyle.xfBottom.Style != ExcelBorderStyle.None ||
-                cellStyle.xfLeft.Style != ExcelBorderStyle.None ||
-                cellStyle.xfRight.Style != ExcelBorderStyle.None ||
-                (cellStyle.dxfTop?.HasValue ?? false) ||
-                (cellStyle.dxfBottom?.HasValue ?? false) ||
-                (cellStyle.dxfLeft?.HasValue ?? false) ||
-                (cellStyle.dxfRight?.HasValue ?? false) ||
-                (cellStyle.Diagonal != null && cellStyle.Diagonal.Style != ExcelBorderStyle.None);
-            return hasBorders;
+            bool SideHas(bool suppress, ExcelBorderItem xf, ExcelDxfBorderItem dxf) =>
+                !suppress && (xf.Style != ExcelBorderStyle.None || (dxf?.HasValue ?? false));
+            return SideHas(cellStyle.SuppressTop, cellStyle.xfTop, cellStyle.dxfTop)
+                || SideHas(cellStyle.SuppressBottom, cellStyle.xfBottom, cellStyle.dxfBottom)
+                || SideHas(cellStyle.SuppressLeft, cellStyle.xfLeft, cellStyle.dxfLeft)
+                || SideHas(cellStyle.SuppressRight, cellStyle.xfRight, cellStyle.dxfRight)
+                || (cellStyle.Diagonal != null && cellStyle.Diagonal.Style != ExcelBorderStyle.None);
         }
 
         private static bool HasDiagonalBorder(PdfCellStyle style) => style?.Diagonal != null && style.Diagonal.Style != ExcelBorderStyle.None;
@@ -609,16 +606,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static void SetBorderStyle(PdfCellStyle style, PdfCellBorderLayout border)
         {
-            var topStyle = style.xfTop.Style == ExcelBorderStyle.None ? ((style.dxfTop != null && style.dxfTop.HasValue) ? (ExcelBorderStyle)style.dxfTop.Style : ExcelBorderStyle.None) : style.xfTop.Style;
+            //var topStyle = style.xfTop.Style == ExcelBorderStyle.None ? ((style.dxfTop != null && style.dxfTop.HasValue) ? (ExcelBorderStyle)style.dxfTop.Style : ExcelBorderStyle.None) : style.xfTop.Style;
+            var topStyle = style.SuppressTop ? ExcelBorderStyle.None : (style.xfTop.Style == ExcelBorderStyle.None ? ((style.dxfTop != null && style.dxfTop.HasValue) ? (ExcelBorderStyle)style.dxfTop.Style : ExcelBorderStyle.None) : style.xfTop.Style);
             var topColor = style.dxfTop != null ? PdfColor.SetColorFromHex(style.dxfTop.Color.LookupColor(style.dxfTop)) : PdfColor.SetColorFromHex(style.xfTop.Color.LookupColor(style.xfTop));
 
-            var bottomStyle = style.xfBottom.Style == ExcelBorderStyle.None ? ((style.dxfBottom != null && style.dxfBottom.HasValue) ? (ExcelBorderStyle)style.dxfBottom.Style : ExcelBorderStyle.None) : style.xfBottom.Style;
+            //var bottomStyle = style.xfBottom.Style == ExcelBorderStyle.None ? ((style.dxfBottom != null && style.dxfBottom.HasValue) ? (ExcelBorderStyle)style.dxfBottom.Style : ExcelBorderStyle.None) : style.xfBottom.Style;
+            var bottomStyle = style.SuppressBottom ? ExcelBorderStyle.None : (style.xfBottom.Style == ExcelBorderStyle.None ? ((style.dxfBottom != null && style.dxfBottom.HasValue) ? (ExcelBorderStyle)style.dxfBottom.Style : ExcelBorderStyle.None) : style.xfBottom.Style);
             var bottomColor = style.dxfBottom != null ? PdfColor.SetColorFromHex(style.dxfBottom.Color.LookupColor(style.dxfBottom)) : PdfColor.SetColorFromHex(style.xfBottom.Color.LookupColor(style.xfBottom));
 
-            var leftStyle = style.xfLeft.Style == ExcelBorderStyle.None ? ((style.dxfLeft != null && style.dxfLeft.HasValue) ? (ExcelBorderStyle)style.dxfLeft.Style : ExcelBorderStyle.None) : style.xfLeft.Style;
+            //var leftStyle = style.xfLeft.Style == ExcelBorderStyle.None ? ((style.dxfLeft != null && style.dxfLeft.HasValue) ? (ExcelBorderStyle)style.dxfLeft.Style : ExcelBorderStyle.None) : style.xfLeft.Style;
+            var leftStyle = style.SuppressLeft ? ExcelBorderStyle.None : (style.xfLeft.Style == ExcelBorderStyle.None ? ((style.dxfLeft != null && style.dxfLeft.HasValue) ? (ExcelBorderStyle)style.dxfLeft.Style : ExcelBorderStyle.None) : style.xfLeft.Style);
             var leftColor = style.dxfLeft != null ? PdfColor.SetColorFromHex(style.dxfLeft.Color.LookupColor(style.dxfLeft)) : PdfColor.SetColorFromHex(style.xfLeft.Color.LookupColor(style.xfLeft));
 
-            var rightStyle = style.xfRight.Style == ExcelBorderStyle.None ? ((style.dxfRight != null && style.dxfRight.HasValue) ? (ExcelBorderStyle)style.dxfRight.Style : ExcelBorderStyle.None) : style.xfRight.Style;
+            //var rightStyle = style.xfRight.Style == ExcelBorderStyle.None ? ((style.dxfRight != null && style.dxfRight.HasValue) ? (ExcelBorderStyle)style.dxfRight.Style : ExcelBorderStyle.None) : style.xfRight.Style;
+            var rightStyle = style.SuppressRight ? ExcelBorderStyle.None : (style.xfRight.Style == ExcelBorderStyle.None ? ((style.dxfRight != null && style.dxfRight.HasValue) ? (ExcelBorderStyle)style.dxfRight.Style : ExcelBorderStyle.None) : style.xfRight.Style);
             var rightColor = style.dxfRight != null ? PdfColor.SetColorFromHex(style.dxfRight.Color.LookupColor(style.dxfRight)) : PdfColor.SetColorFromHex(style.xfRight.Color.LookupColor(style.xfRight));
 
             var diagUpStyle = style.DiagonalUp ? style.Diagonal.Style : ExcelBorderStyle.None;
@@ -701,7 +702,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     string key = cell.MergedAddress.Address;
                     if (page.MergedCells.ContainsKey(key)) continue;
                     var addr = cell.MergedAddress;
-                    var mainCell = cell.Main ?? cell; // Main == null means this cell IS the top-left
                     // --- X ---
                     // Start from the current column and walk left to the merge origin.
                     // Columns within the current page come from colX; columns that lie on
@@ -727,12 +727,33 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         if (rangeIdx >= 0 && rangeIdx < range.RowHeights.Count)
                             drawY += range.RowHeights[rangeIdx].Height;
                     }
+                    // --- Width / Height ---
+                    // Size the merge from the SAME arrays that produced X/Y above
+                    // (range.ColWidths / range.RowHeights) rather than from mainCell.
+                    // Those arrays already store 0 for hidden rows/columns and use the
+                    // same unit conversion, default-height and auto-fit values as the
+                    // rest of the grid, so the merge rectangle can never disagree with
+                    // the surrounding cells (which is why columns worked but rows did not).
+                    double mergeWidth = 0d;
+                    for (int c = addr._fromCol; c <= addr._toCol; c++)
+                    {
+                        int rangeIdx = c - range.Range._fromCol;
+                        if (rangeIdx >= 0 && rangeIdx < range.ColWidths.Count)
+                            mergeWidth += range.ColWidths[rangeIdx];
+                    }
+                    double mergeHeight = 0d;
+                    for (int r = addr._fromRow; r <= addr._toRow; r++)
+                    {
+                        int rangeIdx = r - range.Range._fromRow;
+                        if (rangeIdx >= 0 && rangeIdx < range.RowHeights.Count)
+                            mergeHeight += range.RowHeights[rangeIdx].Height;
+                    }
                     page.MergedCells[key] = new MergedCellDrawInfo
                     {
                         X = drawX,
                         Y = drawY,
-                        Width = mainCell.Width,
-                        Height = mainCell.Height
+                        Width = mergeWidth,
+                        Height = mergeHeight
                     };
                 }
             }

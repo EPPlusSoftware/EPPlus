@@ -21,39 +21,44 @@ jobs:
       with:
         dotnet-version: '9.0.x'
 
-    # --- Read version and TFMs from csproj ---
-    - name: Read version and target frameworks from csproj
-      id: read_csproj
+    # --- Read version and target frameworks from Directory.Build.props ---
+    # Both Version and the shared target framework list are centralized in
+    # src/Directory.Build.props (shared by EPPlus and the four embedded sub-projects:
+    # DrawingRenderer, Export.Pdf, Fonts.OpenType, Graphics). EPPlus.csproj no longer
+    # holds a literal TFM list; it consumes $(EPPlusCoreTargetFrameworks), which a raw
+    # XML parser cannot expand. Therefore both values are read directly from props.
+    - name: Read version and target frameworks
+      id: read_version
       run: |
-        $xml = [xml](Get-Content ./src/EPPlus/EPPlus.csproj)
-        $version = $xml.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
-        $tfms = $xml.Project.PropertyGroup.TargetFrameworks | Where-Object { $_ } | Select-Object -First 1
+        $propsXml = [xml](Get-Content ./src/Directory.Build.props)
+        $version = $propsXml.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+        if ([string]::IsNullOrWhiteSpace($version)) {
+          Write-Error "Failed to read Version from src/Directory.Build.props. Aborting build."
+          exit 1
+        }
+
+        $tfms = $propsXml.Project.PropertyGroup.EPPlusCoreTargetFrameworks | Where-Object { $_ } | Select-Object -First 1
+        if ([string]::IsNullOrWhiteSpace($tfms)) {
+          Write-Error "Failed to read EPPlusCoreTargetFrameworks from src/Directory.Build.props. Aborting build."
+          exit 1
+        }
+
         echo "VERSION=$version" >> $env:GITHUB_ENV
         echo "TFMS=$tfms" >> $env:GITHUB_ENV
+        Write-Host "Version: $version"
+        Write-Host "Target frameworks: $tfms"
       shell: pwsh
 
     - name: Restore dependencies
       run: dotnet restore ./src/EPPlus.sln
 
-    # --- SBOM ---
-    - name: Install CycloneDX
-      run: dotnet tool install --global CycloneDX
-    - name: Read version from csproj
-      id: read_version
-      run: |
-        $version = ([xml](Get-Content ./src/EPPlus/EPPlus.csproj)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
-        echo "VERSION=$version" >> $env:GITHUB_ENV
-      shell: pwsh
-    - name: Generate SBOM
-      run: dotnet CycloneDX ./src/EPPlus/EPPlus.csproj -o ./sbom -F Json -st Library -sv ${{ env.VERSION }} -fn epplus-${{ env.VERSION }}.sbom.json -imp ./src/EPPlus/sbom-metadata-template.xml
-    - name: Generate SHA-256 checksum for SBOM
-      run: |
-        $sbomFile = "./sbom/epplus-${{ env.VERSION }}.sbom.json"
-        $hash = (Get-FileHash -Path $sbomFile -Algorithm SHA256).Hash.ToLower()
-        "$hash  epplus-${{ env.VERSION }}.sbom.json" | Out-File -FilePath "./sbom/epplus-${{ env.VERSION }}.sbom.json.sha256" -Encoding utf8NoBOM
-      shell: pwsh
-    # --- SBOM ---
-
+    # Build the whole solution. Note: the EPPlus NuGet package is produced here, not by a
+    # separate 'dotnet pack' step. EPPlus.csproj has GeneratePackageOnBuild=true and a custom
+    # target (IncludeReferencedProjectsInPackage) that embeds the four sub-project DLLs into
+    # lib/<tfm>/ inside the package. That target only runs correctly as part of a build, because
+    # it depends on ReferenceCopyLocalPaths being populated; a standalone 'dotnet pack' produces
+    # an incomplete package containing only EPPlus.dll. The resulting .nupkg is picked up from
+    # src/EPPlus/bin/Release/ below.
     - name: Build
       run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
     - name: Test
@@ -71,50 +76,162 @@ jobs:
         creds: '{"clientId":"${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }}","clientSecret":"${{ secrets.EPPLUS_CODE_SIGNING_SECRET }}","subscriptionId":"${{ secrets.EPPLUS_CODE_SIGNING_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }}"}'
 
     # --- Sign DLLs ---
-    - name: Sign EPPlus.dll with AzureSignTool
+    # All assemblies that ship inside a NuGet package are signed here, before the package is signed.
+    # EPPlus + the four embedded sub-projects (DrawingRenderer, Export.Pdf, Fonts.OpenType,
+    # Graphics) share the same target frameworks (EPPlusCoreTargetFrameworks, read into env.TFMS).
+    # EPPlus.Interfaces and EPPlus.System.Drawing are separate NuGet packages (unchanged from
+    # earlier versions) and are also signed here, as before.
+    # NOTE: this signs the DLLs in each project's bin/Release/<tfm> output. The embedded copies
+    # inside the EPPlus package are taken from these same signed outputs, so the package verify
+    # step below confirms the embedded DLLs carry a valid signature.
+    - name: Sign assemblies with AzureSignTool
       run: |
+        $projectsToSign = @(
+          "EPPlus",
+          "EPPlus.Interfaces",
+          "EPPlus.System.Drawing",
+          "EPPlus.DrawingRenderer",
+          "EPPlus.Export.Pdf",
+          "EPPlus.Fonts.OpenType",
+          "EPPlus.Graphics"
+        )
+
         $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          $dll = ".\src\EPPlus\bin\Release\$tfm\EPPlus.dll"
-          Write-Host "Signing $dll"
-          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 "$dll"
-        }
-      shell: pwsh
-    - name: Sign EPPlus.Interfaces.dll with AzureSignTool
-      run: |
-        $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          $dll = ".\src\EPPlus.Interfaces\bin\Release\$tfm\EPPlus.Interfaces.dll"
-          Write-Host "Signing $dll"
-          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 "$dll"
-        }
-      shell: pwsh
-    - name: Sign EPPlus.System.Drawing.dll with AzureSignTool
-      run: |
-        $tfms = "${{ env.TFMS }}" -split ";"
-        foreach ($tfm in $tfms) {
-          $tfm = $tfm.Trim()
-          if ([string]::IsNullOrEmpty($tfm)) { continue }
-          $dll = ".\src\EPPlus.System.Drawing\bin\Release\$tfm\EPPlus.System.Drawing.dll"
-          Write-Host "Signing $dll"
-          azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 "$dll"
+
+        foreach ($project in $projectsToSign) {
+          foreach ($tfm in $tfms) {
+            $tfm = $tfm.Trim()
+            if ([string]::IsNullOrEmpty($tfm)) { continue }
+
+            $dll = ".\src\$project\bin\Release\$tfm\$project.dll"
+            if (-not (Test-Path $dll)) {
+              Write-Host "Skipping $dll (not built for this target framework)"
+              continue
+            }
+
+            Write-Host "Signing $dll"
+            azuresigntool.exe sign `
+              -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} `
+              -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} `
+              -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} `
+              -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} `
+              -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} `
+              -tr http://timestamp.globalsign.com/tsa/advanced `
+              -td sha256 `
+              "$dll"
+          }
         }
       shell: pwsh
     # --- Sign DLLs ---
 
-    - name: Pack NuGet package
-      run: dotnet pack ./src/EPPlus.sln --configuration Release --output ./output
-    - name: Sign NuGet package
+    # --- Collect the built packages ---
+    # The packages are produced by the build (GeneratePackageOnBuild), not by 'dotnet pack'.
+    # We copy the three packages we actually ship (EPPlus, EPPlus.Interfaces, EPPlus.System.Drawing)
+    # into ./output for signing and upload. The four sub-projects and the benchmark project have
+    # IsPackable=false and therefore produce no package of their own; the sub-project DLLs ship
+    # embedded inside the EPPlus package.
+    - name: Collect NuGet packages
+      run: |
+        New-Item -ItemType Directory -Force -Path ./output | Out-Null
+
+        $packageProjects = @(
+          "EPPlus",
+          "EPPlus.Interfaces",
+          "EPPlus.System.Drawing"
+        )
+
+        $found = $false
+        foreach ($project in $packageProjects) {
+          $pkgDir = ".\src\$project\bin\Release"
+          $pkgs = Get-ChildItem -Path $pkgDir -Filter "*.nupkg" -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -notmatch "\.symbols\.nupkg$" }
+
+          if ($null -eq $pkgs -or $pkgs.Count -eq 0) {
+            Write-Error "No .nupkg found for $project in $pkgDir. Expected GeneratePackageOnBuild to produce one."
+            exit 1
+          }
+
+          foreach ($pkg in $pkgs) {
+            Write-Host "Collecting $($pkg.Name) from $pkgDir"
+            Copy-Item $pkg.FullName -Destination ./output -Force
+            $found = $true
+          }
+        }
+
+        if (-not $found) {
+          Write-Error "No packages were collected. Aborting."
+          exit 1
+        }
+      shell: pwsh
+    # --- Collect the built packages ---
+
+    - name: Sign NuGet packages
       run: |
         NuGetKeyVaultSignTool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -tr http://timestamp.globalsign.com/tsa/advanced -fd sha256 -td sha256 -own EPPlusSoftware ".\output\*.nupkg"
-    - name: Upload NuGet package as artifact
+
+    # --- Verify the EPPlus package contains the embedded assemblies, correctly signed ---
+    # Automates the manual check that the four sub-projects are present in the final EPPlus
+    # package and signed with the same certificate as EPPlus.dll. This is the primary safety net:
+    # because packaging depends on build behaviour, this step must fail the build if the package
+    # is ever produced without all five embedded assemblies.
+    - name: Verify EPPlus package contents and signatures
+      run: |
+        $nupkg = Get-ChildItem ./output/*.nupkg |
+          Where-Object { $_.Name -notmatch "EPPlus\.Interfaces" -and $_.Name -notmatch "EPPlus\.System\.Drawing" } |
+          Where-Object { $_.Name -notmatch "\.symbols\.nupkg$" } |
+          Select-Object -First 1
+
+        if ($null -eq $nupkg) {
+          Write-Error "Could not locate the main EPPlus .nupkg in ./output."
+          exit 1
+        }
+        Write-Host "Verifying package: $($nupkg.Name)"
+
+        $extractPath = "./nupkg-verify"
+        if (Test-Path $extractPath) { Remove-Item $extractPath -Recurse -Force }
+        Expand-Archive -Path $nupkg.FullName -DestinationPath $extractPath -Force
+
+        # The five assemblies that must ship inside the EPPlus package.
+        $expectedDlls = @(
+          "EPPlus.dll",
+          "EPPlus.DrawingRenderer.dll",
+          "EPPlus.Export.Pdf.dll",
+          "EPPlus.Fonts.OpenType.dll",
+          "EPPlus.Graphics.dll"
+        )
+
+        $hasError = $false
+        foreach ($dllName in $expectedDlls) {
+          $found = Get-ChildItem -Path $extractPath -Recurse -Filter $dllName
+          if ($found.Count -eq 0) {
+            Write-Host "ERROR: $dllName not found anywhere in the package."
+            $hasError = $true
+            continue
+          }
+
+          foreach ($file in $found) {
+            $signature = Get-AuthenticodeSignature $file.FullName
+            if ($signature.Status -ne "Valid") {
+              Write-Host "ERROR: $($file.FullName) is not validly signed (status: $($signature.Status))."
+              $hasError = $true
+            } else {
+              Write-Host "OK: $($file.FullName) present and validly signed."
+            }
+          }
+        }
+
+        if ($hasError) {
+          Write-Error "Package verification failed. See errors above."
+          exit 1
+        }
+        Write-Host "All embedded assemblies are present and validly signed."
+      shell: pwsh
+    # --- Verify package contents ---
+
+    - name: Upload NuGet packages as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: signed-nuget-package
+        name: signed-nuget-packages
         path: ./output/*.nupkg
 
     # --- SBOM (after build to avoid CycloneDX overwriting project.assets.json) ---
@@ -153,9 +270,3 @@ jobs:
             --overwrite
         }
       shell: pwsh
-    - name: Upload all SBOMs as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: sbom
-        path: ./sbom/
-    # --- SBOM ---

@@ -29,23 +29,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         {
             var fontBytes = FontData.Serialize();
             var fontData = Encoding.ASCII.GetString(fontBytes);
-            return $"<< /Length {fontBytes.Length} >>\n" + $"stream\n|BINARY DATA|\nendstream";
+            return $"<< /Length {fontBytes.Length} /Length1 {fontBytes.Length} >>\n" + $"stream\n|BINARY DATA|\nendstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var fontBytes = FontData.Serialize();
-            WriteAscii(bw, $"<< /Length {fontBytes.Length} >>\nstream\n");
+            WriteAscii(bw, $"<< /Length {fontBytes.Length} /Length1 {fontBytes.Length} >>\nstream\n");
             bw.Write(fontBytes);
             WriteAscii(bw, "\nendstream");
-
-            using (var fs = new FileStream("c:\\epplustest\\pdf\\ExportedFont.ttf", FileMode.Create, FileAccess.Write))
-            {
-                using (var bw2 = new BinaryWriter(fs, Encoding.ASCII))
-                {
-                    bw2.Write(fontBytes);
-                }
-            }
         }
     }
 }

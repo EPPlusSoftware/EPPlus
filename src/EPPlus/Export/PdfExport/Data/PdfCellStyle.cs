@@ -28,6 +28,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         //Fill
         internal ExcelFill xfFill { get; set; }
         internal ExcelDxfFill dxfFill { get; set; }
+        internal ExcelDxfFontBase dxfFontOverride { get; set; }
 
         //Borders
         internal ExcelBorderItem xfTop { get; set; }
@@ -43,6 +44,14 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         internal ExcelDxfBorderItem dxfRight { get; set; }
         internal ExcelDxfBorderItem dxfHorizontal { get; set; }
         internal ExcelDxfBorderItem dxfVertical { get; set; }
+        internal bool SuppressTop { get; set; }
+        internal bool SuppressBottom { get; set; }
+        internal bool SuppressLeft { get; set; }
+        internal bool SuppressRight { get; set; }
+        internal bool dxfTopIsWholeTable { get; set; }
+        internal bool dxfBottomIsWholeTable { get; set; }
+        internal bool dxfLeftIsWholeTable { get; set; }
+        internal bool dxfRightIsWholeTable { get; set; }
 
         //Fonts
         internal ExcelFont xfFont { get; set; }
