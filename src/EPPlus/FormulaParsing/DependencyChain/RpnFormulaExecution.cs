@@ -449,6 +449,7 @@ namespace OfficeOpenXml.FormulaParsing
                 rd?.Merge(f._row, f._column);
                 depChain.StartOfChain();
             }
+
         ExecuteFormula:
             try
             {
@@ -497,15 +498,16 @@ namespace OfficeOpenXml.FormulaParsing
                             addresses = f._expressions[f._tokenIndex].GetAddress();
                         }
                         depChain.AddFormulaToChain(f, addresses);
-
                         if (GetAddressesToFollow(depChain, f, options, ref addresses, ref rd, ref ws))
                         {
                             goto FollowChain;
                         }
+
                         f._tokenIndex++;
                         goto ExecuteFormula;
                     }
                 }
+
                 CompileResult cr;
                 if (f._tokenIndex == int.MaxValue) //int.MaxValue means we have an invalid formulas and we should return a name error 
                 {
@@ -518,8 +520,13 @@ namespace OfficeOpenXml.FormulaParsing
 
                 if (cr != null && f.IsLambda == false &&  (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
+                    if (f._ws != null)
+                    {
+                        rd = AddOrGetRDFromWsIx(depChain, f._ws.IndexInList);
+                    }
                     SetValueToWorkbook(depChain, f, rd, cr, options, ref depChainPos);
-                    
+
+
                     //We are in a dirty cell recalculation and have a new position in the chain.
                     //We should return to the caller and let it continue from the new position in the chain.
                     //We use this technique to avoid stack overflow exceptions when recalculating dirty cells with long dependency chains.
@@ -543,6 +550,7 @@ namespace OfficeOpenXml.FormulaParsing
                         f._tokenIndex++;
                         goto ExecuteFormula;
                     }
+
                     rd = AddOrGetRDFromWsIx(depChain, f._enumeratorWorksheetIx);
                     goto NextFormula;
                 }
@@ -565,7 +573,9 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if (depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, firstAddress.FromRow, firstAddress.FromCol)) == false)
                     {
+
                         rd?.Merge(firstAddress.FromRow, firstAddress.FromCol);
+
                         if (ws._formulas.Exists(firstAddress.FromRow, firstAddress.FromCol, ref v) && v != null)
                         {
                             depChain._formulaStack.Push(f);
@@ -574,6 +584,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                     }
                     f._tokenIndex++;
+
                     goto ExecuteFormula;
                 }
                 else
@@ -605,7 +616,6 @@ namespace OfficeOpenXml.FormulaParsing
                         goto NextFormula;
                     }
                 }
-
                 MergeToRd(rd, row, col, rPos, fe, true);
 
                 f._formulaEnumerator = null;
@@ -655,6 +665,12 @@ namespace OfficeOpenXml.FormulaParsing
             var needsClean = false;
             for (int i = 0; i < addresses.Length; i++)
             {
+                if (addresses[i].FromRow<1 || addresses[i].FromCol<1)
+                {
+                    addresses[i] = null;
+                    needsClean = true;
+                    continue;
+                }
                 var address = addresses[i].Clone();
                 if (address.ExternalReferenceIx > 0) //We don't follow dep chain into external references.
                 {
@@ -774,6 +790,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     //Add dynamic array formula support here.
                                     var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
+
                                     if (dirtyRange != null && dirtyRange.Length > 0)
                                     {
                                         RecalculateDirtyCells(dirtyRange, depChain, rd, options);
@@ -791,11 +808,14 @@ namespace OfficeOpenXml.FormulaParsing
                                  (f._flags & FormulaFlags.IsAlwaysDynamic) == FormulaFlags.IsAlwaysDynamic) &&
                                  f.CanBeDynamicArray)
                         {
+
                             var dirtyRange = ArrayFormulaOutput.FillDynamicArraySingleValue(f, cr, rd, depChain);
+
                             if (dirtyRange != null && dirtyRange.Length > 0)
                             {
                                 RecalculateDirtyCells(dirtyRange, depChain, rd, options);
                             }
+
                             depChain.HasAnyArrayFormula = true;
                         }
                         else if (cr.ResultType == CompileResultType.LocalImage)

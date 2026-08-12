@@ -1760,6 +1760,22 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(-310522.61, result, 0.01);
             }
         }
+        [TestMethod]
+        public void s1066()
+        {
+            using (var p = OpenTemplatePackage("s1066.xlsx"))
+            {
+                p.Workbook.Calculate();
+                //var ws = p.Workbook.Worksheets["Balance"];
+                //var ws = p.Workbook.Worksheets["Technical"];
+                //ws.Cells["A14"].Calculate();
+                //var result = ws.Cells["A14"].Value;
+                //Assert.AreEqual("CHT0", result);
+                var ws = p.Workbook.Worksheets["Tax All"];
+                var result = ws.Cells["G15"].Value;
+                Assert.AreEqual("CH-0% output tax foreign/foreign", result);
+            }
+        }
     }
 }
 

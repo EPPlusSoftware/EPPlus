@@ -116,7 +116,6 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 copiedTableNames = CopyTable(sourceWorksheet, targetWorksheet);            }
 
-            Dictionary<string, string> copiedPivotTableNames = null;
             if (sourceWorksheet.PivotTables.Count > 0)
             {
                 copiedPivotTableNames = CopyPivotTable(sourceWorksheet, targetWorksheet);
