@@ -389,49 +389,70 @@ namespace EPPlusImageRenderer
             Color? themeColor = null;
             styleId = styleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : styleId;
 
-            if(styleId == 0)
+            if (styleId == 0)
             {
                 return Color.Empty;
             }
 
-
             themedLine = Theme.FormatScheme.BorderStyle[0];
+            var bg = Theme.FormatScheme.BackgroundFillStyle[0];
 
             //TODO: Fix for colortypes other than solidFill
             themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
 
             //From table2 Default Line Formatting Per Chart Style
-            if (styleId <= 40)
-            {
-                ////AKA dk1 (in standard case)
-                //themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
-                //var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
-                ////////Supposedly 75% tint of tx1
-                ////var themedColorAlt = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, (1-0.6d));
-                ////var tintedFill = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
 
-                if(themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
+            ////AKA dk1 (in standard case)
+            //themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
+            //var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
+            ////////Supposedly 75% tint of tx1
+            ////var themedColorAlt = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, (1-0.6d));
+            ////var tintedFill = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
+
+            if (themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
+            {
+                if (styleId <= 40)
                 {
+                    //Text1 AKA dk1 (in standard case)
                     themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
-                    var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
 
-                    var prevColor = themedLine.Fill.SolidFill.Color;
-                    var colorPrev = themedLine.Fill.Color;
+                    var test = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Accent1);
+                    var shadedTest = tc.ColorConverter.ApplyTint(test, 0.15d);
+                    //themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
 
-                    themedLine.Fill.SolidFill.Color.SetRgbColor(themeColor.Value);
-                    themedLine.Fill.SolidFill.Color.Transforms.AddTint(30d);
+                    if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
+                    {
+                        themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                    }
+                    else
+                    {
+                        Color clr = Color.FromArgb(255, 128, 128, 128);
+                        var tstClr = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
+                        //Default value- Should arguably be 0.75% tint themeColor but something is strange...
+                        //It appears closer to 50 in this specific case
+                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.5375d);
+                    }
+                    ////var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
 
-                    themeColor = themedLine.Fill.Color;
+                    ////var prevColor = themedLine.Fill.SolidFill.Color;
+                    ////var colorPrev = themedLine.Fill.Color;
+
+                    ////themedLine.Fill.SolidFill.Color.SetRgbColor(themeColor.Value);
+                    ////themedLine.Fill.SolidFill.Color.Transforms.AddTint(30d);
+
+                    //themeColor = themedLine.Fill.Color;
                 }
-            }
-            else
-            {
-                //41-48
-                //aka light1
-                themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+                else
+                {
+                    //41-48
+                    //aka light1
+                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+                    themedLine = null;
+                }
             }
             return themeColor;
         }
+        
 
         private ChartAxisRenderer GetAxis(bool vertical, int offset = 0)
         {

@@ -80,12 +80,26 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 p.SaveAs(fi);
             }
         }
+        [TestMethod]
+        public void GenerateSimpleChart()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            string fileName = "EpplusSimpleChart";
+
+            using (var p = OpenPackage($"{fileName}.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("s1");
+                ws.Drawings.AddBarChart("simpleChart", eBarChartType.ColumnClustered);
+
+                SaveAndCleanup(p);
+            }
+        }
 
         [TestMethod]
         public void RemovedStyles()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
 
             string fileName = "emptyManuallyRemovedLnStyles";
 
