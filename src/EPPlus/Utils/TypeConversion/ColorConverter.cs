@@ -246,7 +246,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
             //}
             if (tint < 0)
             {
-                double shade = 1 + tint;
+                double shade = 1d + tint;
                 var r = (byte)Math.Round(ret.R * shade);
                 var g = (byte)Math.Round(ret.G * shade);
                 var b = (byte)Math.Round(ret.B * shade);
@@ -254,10 +254,10 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
             else if (tint > 0)
             {
-                double blend = 1.0 - tint;
-                var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
-                var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
-                var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
+                double blend = 1.0d - tint;
+                var r = (byte)Math.Round(ret.R + (255d - ret.R) * blend);
+                var g = (byte)Math.Round(ret.G + (255d - ret.G) * blend);
+                var b = (byte)Math.Round(ret.B + (255d - ret.B) * blend);
                 return Color.FromArgb(ret.A, r, g, b);
             }
             return ret;

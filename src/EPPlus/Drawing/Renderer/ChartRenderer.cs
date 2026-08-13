@@ -400,15 +400,6 @@ namespace EPPlusImageRenderer
             //TODO: Fix for colortypes other than solidFill
             themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
 
-            //From table2 Default Line Formatting Per Chart Style
-
-            ////AKA dk1 (in standard case)
-            //themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
-            //var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
-            ////////Supposedly 75% tint of tx1
-            ////var themedColorAlt = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, (1-0.6d));
-            ////var tintedFill = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
-
             if (themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
             {
                 if (styleId <= 40)
@@ -416,9 +407,7 @@ namespace EPPlusImageRenderer
                     //Text1 AKA dk1 (in standard case)
                     themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
 
-                    var test = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Accent1);
-                    var shadedTest = tc.ColorConverter.ApplyTint(test, 0.15d);
-                    //themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+                    //var bg1Col = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
 
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
@@ -426,21 +415,15 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        Color clr = Color.FromArgb(255, 128, 128, 128);
-                        var tstClr = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
+                        ////Color clr = Color.FromArgb(255, 128, 128, 128);
+                        //var tstClr = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, (1d -2.5d));
                         //Default value- Should arguably be 0.75% tint themeColor but something is strange...
                         //It appears closer to 50 in this specific case
-                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.5375d);
+                        //It also appears to be tx1 (black) and apply color and tint 0.25 in vba but for us it's 0.5372d...
+                        //0.5372 is however consistent with 137/255 and 137 is our expected result.
+                        themeColor = tc.ColorConverter.ApplyTint(themeColor.Value, 0.5372d);
                     }
-                    ////var tintedColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.3d);
-
-                    ////var prevColor = themedLine.Fill.SolidFill.Color;
-                    ////var colorPrev = themedLine.Fill.Color;
-
-                    ////themedLine.Fill.SolidFill.Color.SetRgbColor(themeColor.Value);
-                    ////themedLine.Fill.SolidFill.Color.Transforms.AddTint(30d);
-
-                    //themeColor = themedLine.Fill.Color;
+                    //themedLine.Fill.SolidFill.Color.Transforms.AddTint
                 }
                 else
                 {
