@@ -225,6 +225,29 @@ namespace OfficeOpenXml.Utils.TypeConversion
             //}
             //return ret;
         }
+
+        internal static Color AlternativeTint(Color ret, double tint)
+        {
+            if (tint < 0)
+            {
+                double shade = 1d + tint;
+                var r = (byte)Math.Round(ret.R * shade);
+                var g = (byte)Math.Round(ret.G * shade);
+                var b = (byte)Math.Round(ret.B * shade);
+                return Color.FromArgb(ret.A, r, g, b);
+            }
+            else if (tint > 0)
+            {
+                double blend = 1.0d - tint;
+                //Docs state 10% input means A 10% tint is 10% of the input color combined with 90% white
+                var r = (byte)Math.Round(ret.R * tint + (254.3d * blend));
+                var g = (byte)Math.Round(ret.G * tint + (254.3d * blend));
+                var b = (byte)Math.Round(ret.B * tint + (254.3d * blend));
+                return Color.FromArgb(ret.A, r, g, b);
+            }
+            return ret;
+        }
+
         internal static Color ApplyTintDrawing(Color ret, double tint)
         {
             //if (tint == 0)

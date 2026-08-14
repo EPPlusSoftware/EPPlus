@@ -416,6 +416,7 @@ namespace EPPlusImageRenderer
 
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
+                        var testAlternative = tc.ColorConverter.AlternativeTint(themeColor.Value, 0.25d);
                         //had to guess/solve equation for values. According to excel it should still be 75%(0.25) but our calc is off bc of rounding or smth.
                         themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.285d);
                         //Arguably we should apply all transforms instead but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
