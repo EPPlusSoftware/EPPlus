@@ -638,5 +638,19 @@ namespace EPPlusTest.PDF
             p.Workbook.SaveAsPdf(pdfPath + "Snake.Pdf");
             p.SaveAs(pdfPath + "Snake.xlsx");
         }
+
+        [TestMethod]
+        public void PrinterSettingsDebug()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                var firstWs = package.Workbook.Worksheets[0];
+                var secondWs = package.Workbook.Worksheets[1];
+                string path = pdfPath + "WorksheetTest1.pdf";
+
+                package.Workbook.SaveAsPdf(path);
+                AssertLooksLikePdf(File.ReadAllBytes(path));
+            }
+        }
     }
 }
