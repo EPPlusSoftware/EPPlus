@@ -733,6 +733,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<ProjectReference Include="..\EPPlus.Compression\EPPlus.Compression.csproj" />
 		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj" />
 		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" />
 		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />

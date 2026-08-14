@@ -593,7 +593,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             // workitem 8460
             byte[] working = new byte[1024];
             var encoding = System.Text.Encoding.UTF8;
-            using (var output = EPPlusMemoryManager.GetStream())
+            using (var output = CompressionStreamFactory.GetStream())
             {
                 using (decompressor)
                 {
@@ -615,7 +615,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         {
             // workitem 8460
             byte[] working = new byte[1024];
-            using (var output = EPPlusMemoryManager.GetStream())
+            using (var output = CompressionStreamFactory.GetStream())
             {
                 using (decompressor)
                 {

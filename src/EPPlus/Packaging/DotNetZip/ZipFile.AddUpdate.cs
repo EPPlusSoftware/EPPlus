@@ -1200,7 +1200,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         {
             // cannot employ a using clause here.  We need the stream to
             // persist after exit from this method.
-            var ms = EPPlusMemoryManager.GetStream();
+            var ms = CompressionStreamFactory.GetStream();
 
             // cannot use a using clause here; StreamWriter takes
             // ownership of the stream and Disposes it before we are ready.
@@ -1859,7 +1859,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         public ZipEntry AddEntry(string entryName, byte[] byteContent)
         {
             if (byteContent == null) throw new ArgumentException("bad argument", "byteContent");
-            using (var ms = EPPlusMemoryManager.GetStream(byteContent))
+            using (var ms = CompressionStreamFactory.GetStream(byteContent))
             {
                 var e = AddEntry(entryName, ms);
                 return e;
