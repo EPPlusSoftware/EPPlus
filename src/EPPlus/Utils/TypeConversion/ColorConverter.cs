@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                         c = ApplyTintDrawing(c, -(1-v));
                         break;
                     case eColorTransformType.Tint:
-                        c = ApplyTintDrawing(c, v);
+                        c = ApplyTintDrawing(c, 1 - v);
                         break;
                     case eColorTransformType.HueMod:
                         c = ApplyHueMod(c, v);

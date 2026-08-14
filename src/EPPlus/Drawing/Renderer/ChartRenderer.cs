@@ -397,6 +397,11 @@ namespace EPPlusImageRenderer
             themedLine = Theme.FormatScheme.BorderStyle[0];
             var bg = Theme.FormatScheme.BackgroundFillStyle[0];
 
+            if(themedLine.HasFill == false)
+            {
+                //Node exists but has no fill. Excel considers this the same as transparent/noFill
+                return Color.Transparent;
+            }
             //TODO: Fix for colortypes other than solidFill
             themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
 
@@ -411,7 +416,10 @@ namespace EPPlusImageRenderer
 
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
-                        themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                        //had to guess/solve equation for values. According to excel it should still be 75%(0.25) but our calc is off bc of rounding or smth.
+                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.285d);
+                        //Arguably we should apply all transforms instead but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
+                        //themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
                     }
                     else
                     {

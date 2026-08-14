@@ -1,11 +1,10 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 
 namespace EPPlus.DrawingRenderer.Tests.Chart
 {
@@ -114,6 +113,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         
                 //100 - input is what excel seems to apply
                 //lChart.StyleManager.Style.ChartArea.BorderReference.Color.Transforms.AddTint(13);
+
+                //Adding Less Tint makes the object Lighter. Which is the inverse of how excel does it.
                 lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.Transforms.AddTint(60);
                 lChart.StyleManager.Style.ChartArea.Border.Width = 10d;
                 lChart.StyleManager.ApplyStyles();
@@ -177,6 +178,14 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
 
                         var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+
+                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                        var themeColor = tc.ColorConverter.GetThemeColor(theme, eThemeSchemeColor.Text1);
+                        var themedLine = theme.FormatScheme.BorderStyle[0];
+                        //themeColor = tc.ColorConverter.ApplyTransforms(themeColor, themedLine.Fill.SolidFill.Color.Transforms);
+                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor, 0.285d);
+                        var ExpectedColor = Color.FromArgb(255, 255, 199, 199);
+                        Assert.AreEqual(ExpectedColor.ToArgb(), themeColor.ToArgb());
                     }
                 }
                 var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
@@ -231,11 +240,11 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 {
                     if (d is ExcelChart c)
                     {
-                        var borderSetting = c.Border;
-                        var borderDirectColor = borderSetting.Fill.Color;
-                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                        //var borderSetting = c.Border;
+                        //var borderDirectColor = borderSetting.Fill.Color;
+                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
 
-                        var defaultColorFromTheme = theme.ColorScheme.Dark1;
+                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
 
                         var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
