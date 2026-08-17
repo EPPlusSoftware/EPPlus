@@ -404,8 +404,5 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }
-
-
-
     }
 }

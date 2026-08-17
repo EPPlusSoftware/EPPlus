@@ -35,11 +35,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            //var fontBytes = FontData.Serialize();
-            //WriteAscii(bw, $"<< /Length {fontBytes.Length} /Length1 {fontBytes.Length} >>\nstream\n");
-            //bw.Write(fontBytes);
-            //WriteAscii(bw, "\nendstream");
-
             var fontBytes = FontData.Serialize();
             var body = PdfFlate.Compress(fontBytes);
             WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} /Length1 {fontBytes.Length} >>\nstream\n");

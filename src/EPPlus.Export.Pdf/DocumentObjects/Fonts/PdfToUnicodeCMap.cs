@@ -56,15 +56,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            //var cmapContent = GenerateCMapContent();
-            //var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
-            //var sb = new StringBuilder();
-            //sb.AppendFormat(($"<< /Length {cmapBytes.Length} >>\n"));
-            //sb.Append("stream\n");
-            //sb.Append(cmapContent);
-            //sb.Append("\nendstream");
-            //WriteAscii(bw, sb.ToString());
-
             var cmapContent = GenerateCMapContent();
             var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
             var body = PdfFlate.Compress(cmapBytes);

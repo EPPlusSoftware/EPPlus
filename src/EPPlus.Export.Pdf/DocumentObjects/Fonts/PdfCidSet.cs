@@ -31,10 +31,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            //WriteAscii(bw, $"<< /Length {CidSet.Length} >>\nstream\n");
-            //bw.Write(CidSet);
-            //WriteAscii(bw, "\nendstream");
-
             var body = PdfFlate.Compress(CidSet);
             if (body.Length < CidSet.Length)
             {
