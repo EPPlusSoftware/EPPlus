@@ -520,12 +520,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                 if (cr != null && f.IsLambda == false &&  (writeToCell || depChain._formulaStack.Count > 0))  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
                 {
-                    if (f._ws != null)
-                    {
-                        rd = AddOrGetRDFromWsIx(depChain, f._ws.IndexInList);
-                    }
-                    SetValueToWorkbook(depChain, f, rd, cr, options, ref depChainPos);
-
+                    SetValueToWorkbook(depChain, f, cr, options, ref depChainPos);
 
                     //We are in a dirty cell recalculation and have a new position in the chain.
                     //We should return to the caller and let it continue from the new position in the chain.
@@ -755,7 +750,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
         }
-        private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr, ExcelCalculationOption options, ref int insertDepChainPos)
+        private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f/*, RangeHashset rd*/, CompileResult cr, ExcelCalculationOption options, ref int insertDepChainPos)
         {
             if(cr.DataType == DataType.LambdaCalculation)
             {
@@ -776,6 +771,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
+                        var rd = AddOrGetRDFromWsIx(depChain, f._ws.IndexInList);
                         if ((cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).Address.IsSingleCell == false)) //A range. When we add support for dynamic array formulas we will alter this.
                         {
                             var ri = (IRangeInfo)cr.Result;
