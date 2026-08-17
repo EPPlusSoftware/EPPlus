@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Packaging.Ionic.Zlib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,15 +12,14 @@ namespace EPPlus.Export.Pdf.Helpers
     {
         internal static byte[] Compress(byte[] data)
         {
-            //using (var ms = new MemoryStream())
-            //{
-            //    using (var zs = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression))
-            //    {
-            //        zs.Write(data, 0, data.Length);
-            //    }
-            //    return ms.ToArray();
-            //}
-            return null;
+            using (var ms = new MemoryStream())
+            {
+                using (var zs = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression))
+                {
+                    zs.Write(data, 0, data.Length);
+                }
+                return ms.ToArray();
+            }
         }
     }
 }

@@ -24,12 +24,8 @@
 //
 // ------------------------------------------------------------------
 //
-
-
 using System;
 using System.IO;
-using System.Collections.Generic;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Packaging.Ionic.Zip
 {

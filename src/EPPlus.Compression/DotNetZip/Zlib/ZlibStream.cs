@@ -25,8 +25,6 @@
 //
 // ------------------------------------------------------------------
 
-using OfficeOpenXml.Utils;
-
 using System;
 using System.IO;
 

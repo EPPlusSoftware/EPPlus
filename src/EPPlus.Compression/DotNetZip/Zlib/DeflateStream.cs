@@ -23,10 +23,6 @@
 // the System.IO.Compression.DeflateStream class in the .NET BCL.
 //
 // ------------------------------------------------------------------
-
-
-using OfficeOpenXml.Utils;
-
 using System;
 
 namespace OfficeOpenXml.Packaging.Ionic.Zlib

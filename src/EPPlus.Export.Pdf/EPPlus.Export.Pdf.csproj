@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EPPlus.Compression\EPPlus.Compression.csproj" />
     <ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
 	  <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
   </ItemGroup>
