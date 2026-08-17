@@ -17,6 +17,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
+            CreatePathIfNotExists("StyleExamples\\");
 
             using (var p = OpenPackage("StyleExamples\\epplusDefaultTest.xlsx",true))
             {
@@ -63,6 +64,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
+            CreatePathIfNotExists("StyleExamples\\");
 
             using (var p = OpenTemplatePackage("StyleExamples\\emptyDefault.xlsx"))
             {
@@ -103,6 +105,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
             var fileName = "ChartBorderThemeTint";
+            CreatePathIfNotExists("StyleExamples\\");
 
             using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
             {
@@ -130,6 +133,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
             string fileName = "emptyManuallyRemovedLnStyles";
+            CreatePathIfNotExists("StyleExamples\\");
 
             using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
             {
@@ -159,6 +163,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
+            CreatePathIfNotExists("StyleExamples\\");
 
             string fileName = "ExcelThemeEdited";
 
@@ -201,6 +206,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
 
             string fileName = "ExcelThemeManualSystemText";
 
+            CreatePathIfNotExists("StyleExamples\\");
+
             using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
@@ -229,6 +236,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         public void ExcelThemeLnDeleted()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            CreatePathIfNotExists("StyleExamples\\");
 
             string fileName = "ExcelThemeLnDeleted";
 
@@ -262,6 +271,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
             string fileName = "PureExcelTheme";
+
+            CreatePathIfNotExists("StyleExamples\\");
 
             using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
             {
