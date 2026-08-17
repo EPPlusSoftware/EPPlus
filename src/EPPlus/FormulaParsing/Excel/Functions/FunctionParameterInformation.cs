@@ -54,5 +54,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// The parameter is a variable which value is calculated by the next parameter.
         /// </summary>
         IsParameterVariable = 0x80,
+        /// <summary>
+        /// A hierarcal criteria
+        /// </summary>
+        AdjustCriteriaParameterAddress = 0x100
     }
 }
