@@ -118,35 +118,6 @@ namespace OfficeOpenXml.Drawing.Slicer
                 SetXmlNodeBool(_customListSortPath, value, true);
             }
         }
-        const string _hideItemsWithNoDataPath = "x15:slicerCacheHideItemsWithNoData";
-        /// <summary>
-        /// If true, items that have no data are not displayed
-        /// </summary>
-        public bool HideItemsWithNoData 
-        { 
-            get
-            {
-                return ExistsNode(_extPath +"/" + _hideItemsWithNoDataPath);
-            }
-            set
-            {
-                if(value)
-                {
-                    var node = CreateNode("x14:extLst/d:ext",false,true);
-                    ((XmlElement)node).SetAttribute("uri", "{470722E0-AACD-4C17-9CDC-17EF765DBC7E}");
-                    var helper = XmlHelperFactory.Create(NameSpaceManager, node);
-                    helper.CreateNode(_hideItemsWithNoDataPath, false, true);
-                }
-                else
-                {
-                    var hideNode = GetNode(_extPath + "/" + _hideItemsWithNoDataPath);
-                    if(hideNode!=null)
-                    {
-                        hideNode.ParentNode.ParentNode.RemoveChild(hideNode.ParentNode);
-                    }
-                }
-            }
-        }
         const string _columnIndexPath = _topPath + "/@column";
         internal int ColumnId
         {

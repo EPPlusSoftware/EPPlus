@@ -15,7 +15,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
     public class PivotTableCalculationSlicerTests : TestBase
     {
         static ExcelPackage _pck;
-        static ExcelTable _tbl1, _tbl2;
+        static ExcelTable _tbl1, _tbl2, _tbl3;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -27,6 +27,10 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             ws = _pck.Workbook.Worksheets.Add("Data2");
             r = LoadItemData(ws);
             _tbl2 = ws.Tables.Add(r, "Table2");
+            ws = _pck.Workbook.Worksheets.Add("Data3");
+            r = LoadItemData(ws);
+            ws.Cells["N10:N11"].Value = null;
+            _tbl3 = ws.Tables.Add(r, "Table3");
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -91,5 +95,25 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			Assert.AreEqual(ErrorValues.RefError, ws.Cells["F7"].Value);
 			Assert.AreEqual(358.8, ws.Cells["F8"].Value);
 		}
-	}
+
+        [TestMethod]
+        public void FilterSlicerMultipleItemsHideWithNoData()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotSlicerWithNoData");
+            var pt = ws.PivotTables.Add(ws.Cells["C3"], _tbl3, "PivotTableSlicerSingle");
+            pt.RowFields.Add(pt.Fields[0]);
+            var slicer = pt.Fields[0].AddSlicer();
+            slicer.SetPosition(1, 0, 8, 0);
+            pt.CacheDefinition.Refresh();
+            var df = pt.DataFields.Add(pt.Fields["Price"]);
+
+            Assert.AreEqual(slicer.Cache.Data.Items.Count, 6);
+
+            slicer.Cache.HideItemsWithNoData = true;
+            slicer.Cache.Data.Items.Refresh();
+
+            Assert.AreEqual(slicer.Cache.Data.Items[4].Hidden, false);
+            Assert.AreEqual(slicer.Cache.Data.Items[5].Hidden, false);
+        }
+    }
 }

@@ -1749,7 +1749,6 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(4520.75, result);
             }
         }
-
     }
 }
 
