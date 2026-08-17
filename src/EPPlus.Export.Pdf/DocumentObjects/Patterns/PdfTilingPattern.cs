@@ -67,6 +67,35 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
+            //var bboxStr = string.Join(" ", BBox.Select(x => x.ToPdfString()).ToArray());
+            //var sb = new StringBuilder();
+            //sb.AppendFormat($"<< /Type /Pattern\n" +
+            //                $"   /PatternType 1\n" +
+            //                $"   /PaintType 1\n" +
+            //                $"   /TilingType 1\n" +
+            //                $"   /BBox [ {bboxStr} ]\n" +
+            //                $"   /XStep {XStep.ToPdfString()}\n" +
+            //                $"   /YStep {YStep.ToPdfString()}\n" +
+            //                $"   /Resources << >>");
+            //if (Matrix != null)
+            //{
+            //    var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());
+            //    sb.AppendFormat($"\n   /Matrix [ {matrixStr} ]");
+            //}
+            //if (fill != null)
+            //{
+            //    var streamContent = fill.CreatePatternResource();
+            //    var bytes = Encoding.ASCII.GetBytes(streamContent);
+            //    sb.AppendFormat($"\n   /Length {bytes.Length}");
+            //    sb.Append(" >>");
+            //    sb.AppendFormat($"\nstream\n{streamContent}\nendstream");
+            //}
+            //else
+            //{
+            //    sb.Append(" >>");
+            //}
+            //WriteAscii(bw, sb.ToString());
+
             var bboxStr = string.Join(" ", BBox.Select(x => x.ToPdfString()).ToArray());
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Pattern\n" +
@@ -85,16 +114,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             if (fill != null)
             {
                 var streamContent = fill.CreatePatternResource();
-                var bytes = Encoding.ASCII.GetBytes(streamContent);
-                sb.AppendFormat($"\n   /Length {bytes.Length}");
+                var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(streamContent));
+                sb.AppendFormat($"\n   /Filter /FlateDecode /Length {body.Length}");
                 sb.Append(" >>");
-                sb.AppendFormat($"\nstream\n{streamContent}\nendstream");
+                WriteAscii(bw, sb.ToString());
+                WriteAscii(bw, "\nstream\n");
+                bw.Write(body);
+                WriteAscii(bw, "\nendstream");
             }
             else
             {
                 sb.Append(" >>");
+                WriteAscii(bw, sb.ToString());
             }
-            WriteAscii(bw, sb.ToString());
         }
     }
 }
