@@ -233,3 +233,4 @@ The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 The misspelled property on drawingFill `Transparancy`  has been renamed to `Transparency`
 The `Richtext.Baseline` property now always return that value in whole percent.
 ExcelChartSerie.Header now returns null instead of empty string, if the underlaying "tx/v" node does not exist.
+The default border.fill.color for Shapes has been changed to apply 15% shade instead of the previous default 50% shade in accordance with modern Excel

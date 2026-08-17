@@ -211,7 +211,7 @@ namespace EPPlusImageRenderer.RenderItems
                 case eFillStyle.SolidFill:
                     //1. Standard case. There is a fill color to apply.
                     //Send in styleFill as well since a solid fill can refer to style color
-                    fc = tc.ColorConverter.GetThemeColor(theme, border.Fill.SolidFill.Color, reference.Color);
+                    fc = tc.ColorConverter.GetThemeColor(theme, border.Fill.SolidFill.Color, reference?.Color);
                     item.BorderColor = GetAdjustmentsAndTransparency(fc.Value, item.BorderColorSource, out opacity);
                     item.BorderGradientFill = null;
                     break;
