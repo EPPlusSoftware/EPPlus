@@ -11,13 +11,14 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.Resources;
-using EPPlus.Export.Pdf.Settings;
-using EPPlus.Graphics;
-using EPPlus.Graphics;
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Graphics;
+using EPPlus.Graphics;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
@@ -25,10 +26,10 @@ using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport
@@ -380,6 +381,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -395,6 +397,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -442,6 +445,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -566,6 +570,21 @@ namespace OfficeOpenXml.Export.PdfExport
                 pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);
                 pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
                 pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
+            }
+        }
+
+        private void ReadDrawings(PdfWorksheet pdfSheet)
+        {
+            var worksheet = pdfSheet.Worksheet;
+            if (worksheet?.Drawings == null) return;
+            foreach (var drawing in worksheet.Drawings)
+            {
+                if (drawing is ExcelPicture picture)
+                {
+                    var image = picture.Image;
+                    if (image?.ImageBytes != null && image.Type.HasValue)
+                        pdfSheet.Drawings.Add(new PdfDrawing(picture));
+                }
             }
         }
     }

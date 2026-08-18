@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
     internal class PdfWorksheet
     {
         public Dictionary<string, PdfCommentsAndNotes> CommentsAndNotesCollections = new Dictionary<string, PdfCommentsAndNotes>();
-
+        public List<PdfDrawing> Drawings = new List<PdfDrawing>();
         public List<PdfRange> Ranges = null; //Rename this
         public PdfRange CommentsAndNotes;
         public PdfHeaderFooterCollection HeaderFooters = null;
