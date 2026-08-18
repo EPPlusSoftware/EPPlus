@@ -216,7 +216,7 @@ namespace EPPlus.DrawingRenderer
                     item.GetOuterShadowColor(out string shadowColor, out double opacity);
                     var dx = Math.Round(item.OuterShadowEffect.Distance * Math.Cos(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
                     var dy = Math.Round(item.OuterShadowEffect.Distance * Math.Sin(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
-                    var blurRadius = item.OuterShadowEffect.BlurRadius ?? 0D / 2;
+                    var blurRadius = (item.OuterShadowEffect.BlurRadius ?? 0D) / 2;
                     filter += $"<feDropShadow dx=\"{dx.PointToPixelString()}\" dy=\"{dy.PointToPixelString()}\" stdDeviation=\"{blurRadius.PointToPixelString()}\" flood-color=\"{shadowColor}\" flood-opacity=\"{opacity.ToString("N2", CultureInfo.InvariantCulture)}\" />";
                 }
             }

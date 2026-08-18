@@ -256,13 +256,6 @@ namespace EPPlusImageRenderer.Svg
             if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) renderItems.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
-            if (MajorGridlinePositions != null)
-            {
-                foreach (var tm in MajorGridlinePositions)
-                {
-                    plotareaGroup.RenderItems.Add(tm);
-                }
-            }
             if (MinorGridlinePositions != null)
             {
                 foreach (var tm in MinorGridlinePositions)
@@ -271,18 +264,27 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
+            if (MajorGridlinePositions != null)
+            {
+                foreach (var tm in MajorGridlinePositions)
+                {
+                    plotareaGroup.RenderItems.Add(tm);
+                }
+            }
+
             if (Line != null) renderItems.Add(Line);
 
-            if (MajorTickMarkPositions != null)
+            if (MinorTickMarkPositions != null)
             {
-                foreach (var tm in MajorTickMarkPositions)
+                foreach (var tm in MinorTickMarkPositions)
                 {
                     renderItems.Add(tm);
                 }
             }
-            if (MinorTickMarkPositions != null)
+
+            if (MajorTickMarkPositions != null)
             {
-                foreach (var tm in MinorTickMarkPositions)
+                foreach (var tm in MajorTickMarkPositions)
                 {
                     renderItems.Add(tm);
                 }
@@ -687,39 +689,41 @@ namespace EPPlusImageRenderer.Svg
             }
 
             var diff = min == 0 ? max - min : max - min + 1;
-            
+            var maxPos = max == 0 ? max : max + 1;
+
             double d = min + addMinor;
-            while (d <= max)
+            while (d <= maxPos)
             {
-                if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
+                var addPosition = (d - min);
+                if (double.IsNaN(parentUnit) || (addPosition % parentUnit != 0))
                 {
                     double x1, y1, x2, y2;
                     switch (Axis.ActualAxisPosition)
                     {
                         case eActualAxisPosition.Left:
                         case eActualAxisPosition.LeftSecond:
-                            y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
+                            y1 = (float)(Rectangle.Top + Rectangle.Height - (addPosition / diff * Rectangle.Height));
                             y2 = y1;                            
                             x1 = (float)Rectangle.Right - tickMarkWidthOutside;
                             x2 = (float)Rectangle.Right + tickMarkWidthInside;
                             break;
                         case eActualAxisPosition.Right:
                         case eActualAxisPosition.RightSecond:
-                            y1 = (float)(Rectangle.Top + Rectangle.Height - ((d - min) / diff * Rectangle.Height));
+                            y1 = (float)(Rectangle.Top + Rectangle.Height - (addPosition / diff * Rectangle.Height));
                             y2 = y1;
                             x1 = (float)Rectangle.Left - tickMarkWidthInside;
                             x2 = (float)Rectangle.Left + tickMarkWidthOutside;
                             break;
                         case eActualAxisPosition.Top:
                         case eActualAxisPosition.TopSecond:
-                            x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
+                            x1 = (float)(Rectangle.Left + (addPosition / diff * Rectangle.Width));
                             x2 = x1;
                             y1 = (float)Rectangle.Bottom - tickMarkWidthOutside;
                             y2 = (float)Rectangle.Bottom + tickMarkWidthInside;
                             break;
                         case eActualAxisPosition.Bottom:
                         case eActualAxisPosition.BottomSecond:
-                            x1 = (float)(Rectangle.Left + ((d - min) / diff * Rectangle.Width));
+                            x1 = (float)(Rectangle.Left + (addPosition / diff * Rectangle.Width));
                             x2 = x1;
                             y1 = (float)Rectangle.Top - tickMarkWidthInside;
                             y2 = (float)Rectangle.Top + tickMarkWidthOutside;

@@ -148,8 +148,15 @@ namespace EPPlusImageRenderer
                 var axisPos = horizontalAxis.Axis.ActualAxisPosition;
                 if (axisPos == eActualAxisPosition.Bottom)
                 {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    if(isSecondary ==false && SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition==eActualAxisPosition.Bottom)
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height - SecondHorizontalAxis.Rectangle.Height;
+                    }
+                    else
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    }
+                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
                 }
                 else if(axisPos == eActualAxisPosition.BottomSecond)
                 {
@@ -214,9 +221,9 @@ namespace EPPlusImageRenderer
                 }
                 else
                 {
-                    if (SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
+                    if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
                     {
-                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - SecondHorizontalAxis.Rectangle.Height - horizontalAxis.Title.TextBox.Height;
+                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
                     }
                     else if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Top)
                     {
@@ -293,15 +300,33 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
+                        if(VerticalAxis == VerticalAxis && 
+                           SecondVerticalAxis.Axis.ActualAxisPosition==eActualAxisPosition.Left || SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.LeftSecond)
+                        {
+                            verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - SecondVerticalAxis.Rectangle.Width - 1.5;
+                        }
+                        else
+                        {
+                            verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
+                        }
                     }
                 }
                 else
                 {
-                    if (verticalAxis.Rectangle == null)
+                    if (verticalAxis.Rectangle == null || verticalAxis == SecondVerticalAxis)
                     {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                    }
+                        var add = 0D;
+                        if(VerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Right)
+                        {
+                            add = VerticalAxis.Rectangle.Width;
+                        }
+                        if(SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Right ||
+                           SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.RightSecond)
+                        {
+                            add += SecondVerticalAxis.Rectangle.Width;
+                        }
+                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width+add;
+                    } 
                     else
                     {
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
