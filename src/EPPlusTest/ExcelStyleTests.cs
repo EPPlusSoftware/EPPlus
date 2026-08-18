@@ -54,5 +54,23 @@ namespace EPPlusTest
                 Assert.AreEqual("1", nodes[cell.StyleID].Attributes["quotePrefix"].Value);
             }
         }
+
+        [TestMethod]
+        public void MultiColumnStyle_WhenSplitBySubRange_ShouldInheritStyle()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TestSheet");
+
+                // 1. Set font size 9 on columns A to J (Columns 1 to 10)
+                ws.Cells["A:J"].Style.Font.Size = 9;
+
+                // 2. Set Font.Bold = true on sub-range B:C (Columns 2 to 3)
+                ws.Cells["B:C"].Style.Font.Bold = true;
+
+                // 3. Check font size of E1 before value assignment
+                Assert.AreEqual(9f, ws.Cells["E1"].Style.Font.Size, "Cell E1 font size should be 9 before value assignment");
+            }
+        }
     }
 }

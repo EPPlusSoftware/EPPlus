@@ -2111,6 +2111,7 @@ namespace OfficeOpenXml
                 {
                     int maxCol = column.ColumnMax;
                     column.ColumnMax = col;
+                    ColumnLookup.UpdateColumn(column.ColumnMin, column); // Sync ColumnLookup with shortened column bounds
                     ExcelColumn copy = CopyColumn(column, col + 1, maxCol);
                 }
             }
@@ -2124,6 +2125,7 @@ namespace OfficeOpenXml
                     if (maxCol >= col)
                     {
                         column.ColumnMax = col - 1;
+                        ColumnLookup.UpdateColumn(column.ColumnMin, column); // Sync ColumnLookup with truncated preceding span
                         if (maxCol > col)
                         {
                             ExcelColumn newC = CopyColumn(column, col + 1, maxCol);
@@ -3764,7 +3766,7 @@ namespace OfficeOpenXml
             }
             if(row == 0)
             {
-                var colValue = GetColumn(col);
+                var colValue = GetValueInner(0, col) as ExcelColumn; // Avoid calling GetColumn(col) which causes recursive span splitting
                 if (colValue != null)
                 {
                     ColumnLookup.UpdateColumn(col, colValue);

@@ -766,6 +766,7 @@ namespace OfficeOpenXml
                 {
                     var newCol = ws.CopyColumn(column, address.End.Column + 1, column.ColumnMax);
                     column.ColumnMax = address.End.Column;
+                    ws.ColumnLookup.UpdateColumn(column.ColumnMin, column); // Sync ColumnLookup with truncated column bounds
                 }
                 var s = ws.GetStyleInner(0, column.ColumnMin);
                 AddNewStyleColumn(sender, e, ws, styleCashe, column, s);
@@ -782,6 +783,7 @@ namespace OfficeOpenXml
                     if (isNew)
                     {
                         column._columnMax = address.End.Column;
+                        ws.ColumnLookup.UpdateColumn(column.ColumnMin, column); // Sync ColumnLookup when updating max column for new spans
                     }
                     else
                     {
