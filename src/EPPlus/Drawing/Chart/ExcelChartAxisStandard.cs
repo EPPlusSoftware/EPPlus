@@ -187,7 +187,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.High)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                        if (ax?.LabelPosition == eTickLabelPosition.High)
                         {
                             return eActualAxisPosition.Left;
                         }
@@ -198,21 +199,23 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition == eTickLabelPosition.Low)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                        if (ax?.LabelPosition == eTickLabelPosition.High)
                         {
-                            return eActualAxisPosition.Right;
+                            return eActualAxisPosition.RightSecond;
                         }
                         else
                         {
-                            return eActualAxisPosition.RightSecond;
+                            return eActualAxisPosition.Right;
                         }
                     }
                 }
                 else if(ap==eAxisPosition.Top)
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
-                    {                        
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.High)
+                    {
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                        if (ax.LabelPosition == eTickLabelPosition.High)
                         {
                             return eActualAxisPosition.Bottom;
                         }
@@ -223,13 +226,14 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition == eTickLabelPosition.Low)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                        if (ax?.LabelPosition==eTickLabelPosition.High)
                         {
-                            return eActualAxisPosition.Top;
+                            return eActualAxisPosition.TopSecond;
                         }
                         else
                         {
-                            return eActualAxisPosition.TopSecond;
+                            return eActualAxisPosition.Top;
                         }
                     }
                 }

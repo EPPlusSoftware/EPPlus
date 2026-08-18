@@ -300,8 +300,8 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        if(VerticalAxis == VerticalAxis && 
-                           SecondVerticalAxis.Axis.ActualAxisPosition==eActualAxisPosition.Left || SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.LeftSecond)
+                        if(verticalAxis == VerticalAxis && 
+                           (SecondVerticalAxis?.Axis.ActualAxisPosition==eActualAxisPosition.Left || SecondVerticalAxis?.Axis.ActualAxisPosition == eActualAxisPosition.LeftSecond))
                         {
                             verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - SecondVerticalAxis.Rectangle.Width - 1.5;
                         }

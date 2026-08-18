@@ -123,12 +123,12 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var c = ws.Drawings[ix];
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 0;
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_SecAxis{ix++}.svg", svg);
-                }
+                //var ix = 0;
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_SecAxis{ix++}.svg", svg);
+                //}
             }
         }
         [TestMethod]
