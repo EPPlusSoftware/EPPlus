@@ -75,13 +75,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 options.ApplySubstitutions = true;
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
-                foreach (var uf in usedFonts)
-                {
-                    System.Diagnostics.Debug.WriteLine(
-                        "ShapeText usedFont: FullName='" + uf.FullName +
-                        "' familyName='" + uf.GetEnglishFontFamilyName() +
-                        "' subfamilyEnum=" + uf.NameTable.GetSubfamilyEnum());
-                }
                 var fontIdMap = new Dictionary<byte, string>();
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
                 {

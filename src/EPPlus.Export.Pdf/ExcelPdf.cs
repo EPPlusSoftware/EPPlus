@@ -70,18 +70,6 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
         {
-            System.Diagnostics.Debug.WriteLine("=== AddFontData: Fonts.Count = " + _dictionaries.Fonts.Count);
-            foreach (var f in _dictionaries.Fonts)
-            {
-                var r = f.Value;
-                System.Diagnostics.Debug.WriteLine(
-                    "  key='" + f.Key + "'" +
-                    " label=" + r.Label +
-                    " subsetCount=" + (r.Subset != null ? r.Subset.Count : -1) +
-                    " gidCount=" + (r.Gids != null ? r.Gids.Count : -1) +
-                    " isSubset=" + (r.fontData != null ? r.fontData.IsSubset.ToString() : "null") +
-                    " charMappings=" + (r.charactermappings != null ? r.charactermappings.Count : -1));
-            }
             if (_pageSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)

@@ -200,8 +200,8 @@ namespace EPPlus.Export.Pdf.Settings
         internal string defaultFontName = "";
 
         //DEBUG
-        internal bool Debug = true;
-        internal bool PrintAsText = true;
+        internal bool Debug = false;
+        internal bool PrintAsText = false;
 
         public PdfPageSettings(OpenTypeFontEngine fontEngine)
         {
