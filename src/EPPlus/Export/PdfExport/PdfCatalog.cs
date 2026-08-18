@@ -320,7 +320,7 @@ namespace OfficeOpenXml.Export.PdfExport
         internal void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             // Pass 1: collect text per font
-            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(_dictionaries, cell));
+            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(pageSettings, _dictionaries, cell));
 
             // Pass 2: build one provider per font
             foreach (var kvp in _dictionaries.Fonts)

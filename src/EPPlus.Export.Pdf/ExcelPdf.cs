@@ -31,7 +31,7 @@ namespace EPPlus.Export.Pdf
     {
         private PdfPageSettings _pageSettings;
         private PdfDictionaries _dictionaries;
-        private List<PdfObject> _document = new List<PdfObject>();
+        internal List<PdfObject> _document = new List<PdfObject>();
         private string _debugString;
 
         internal static string Header
@@ -41,6 +41,16 @@ namespace EPPlus.Export.Pdf
                 return "%PDF-1.7\n";
             }
         }
+
+        internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
+{
+    _pageSettings = pageSettings;
+}
+
+internal void SetDictionariesForTest(PdfDictionaries dictionaries)
+{
+    _dictionaries = dictionaries;
+}
 
         //Get the label to use for pattern.
         private string GetPatternLabel(PdfCellLayout layout)
@@ -58,8 +68,20 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
-        private void AddFontData()
+        internal void AddFontData()
         {
+            System.Diagnostics.Debug.WriteLine("=== AddFontData: Fonts.Count = " + _dictionaries.Fonts.Count);
+            foreach (var f in _dictionaries.Fonts)
+            {
+                var r = f.Value;
+                System.Diagnostics.Debug.WriteLine(
+                    "  key='" + f.Key + "'" +
+                    " label=" + r.Label +
+                    " subsetCount=" + (r.Subset != null ? r.Subset.Count : -1) +
+                    " gidCount=" + (r.Gids != null ? r.Gids.Count : -1) +
+                    " isSubset=" + (r.fontData != null ? r.fontData.IsSubset.ToString() : "null") +
+                    " charMappings=" + (r.charactermappings != null ? r.charactermappings.Count : -1));
+            }
             if (_pageSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)
@@ -72,7 +94,7 @@ namespace EPPlus.Export.Pdf
                     _document.Add(font.Value.GetCIDFontObject(_document.Count + 1));
                     _document.Add(font.Value.GetUnicodeCmapObject(_document.Count + 1));
                     _document.Add(font.Value.GetType0FontDictObject(_document.Count + 1));
-                    font.Value.GetFontObject(_document.Count);
+                    font.Value.fontObjectNumber = font.Value.type0FontObjectNumber;
                 }
             }
             else

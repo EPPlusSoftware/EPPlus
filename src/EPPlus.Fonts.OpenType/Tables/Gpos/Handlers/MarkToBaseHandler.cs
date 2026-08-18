@@ -38,14 +38,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
         /// </summary>
         public void Discover(FontSubsettingContext context, LookupTable lookup, GposSubsetProcessor processor)
         {
-            // Iterate through all subtables in this lookup
-            foreach (var subtableObj in lookup.SubTables)
-            {
-                if (subtableObj is MarkToBaseSubTableFormat1 subtable)
-                {
-                    DiscoverMarkToBaseSubtable(context, subtable);
-                }
-            }
+            // No-op: positioning doesn't require additional glyphs.
+            // Mark glyphs that are actually used are discovered via cmap (they have Unicode
+            // mappings for combining characters). Speculatively pulling in every mark that
+            // could attach to an included base bloats the subset with hundreds of unmapped
+            // glyphs and produces fonts that strict renderers (Edge/PDFium) reject.
         }
 
         /// <summary>
