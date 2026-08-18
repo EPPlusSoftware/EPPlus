@@ -119,10 +119,10 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                //var ix = 3;
-                //var c = ws.Drawings[ix];
-                //var svg = c.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                var ix = 1;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
                 //var ix = 0;
                 //foreach (ExcelChart c in ws.Drawings)
                 //{

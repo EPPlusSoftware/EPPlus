@@ -73,7 +73,15 @@ namespace EPPlusImageRenderer.Svg
             if (bottomAxis!=null)
             {
                 var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.BottomSecond);
-                vaHeight = (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
+                if(bottomSecondAxis==null)
+                {
+                    var secAxis = ChartRenderer.SecondHorizontalAxis;
+                    if (secAxis != null && secAxis.Axis.Deleted==true && secAxis.Axis.Title!=null)  //Secondary axis is deleted, but the axis title is visible. The title will be printed under the primary axis title.
+                    {
+                        vaHeight = secAxis.Title?.Rectangle?.Height??0D;
+                    }
+                }
+                vaHeight += (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
             }
             else
             {

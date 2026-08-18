@@ -188,7 +188,14 @@ namespace EPPlusImageRenderer
             {
                 if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
                 {
-                    horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    if(horizontalAxis==SecondHorizontalAxis)
+                    {
+                        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + (HorizontalAxis?.Rectangle?.Height??0) + (HorizontalAxis?.Title?.Rectangle.Height ?? 0);
+                    }
+                    else
+                    {
+                        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    }
                 }
                 else
                 {
