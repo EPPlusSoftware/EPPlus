@@ -55,14 +55,6 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double AscentPoints { get; set; }
         public double DescentPoints { get; set; }
 
-        public string FullFontName
-        {
-            get
-            {
-                return $"{RichTextOptions.Family} {RichTextOptions.SubFamily.ToString().Replace(", ", " ")}";
-            }
-        }
-
         public TextFragmentBase()
         {
         }
