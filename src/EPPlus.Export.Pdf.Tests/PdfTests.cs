@@ -13,8 +13,12 @@
 using EPPlus.Export.Pdf.Settings;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
-using System.Text;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EPPlusTest.PDF
 {
@@ -640,16 +644,91 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
-        public void PrinterSettingsDebug()
+        public void Testing()
+        {
+            using var p = OpenTemplatePackage("PDFTestKarl.xlsx");
+            var wb = p.Workbook;
+            string path = pdfPath + "WorksheetTest1.pdf";
+            wb.SaveAsPdf(path);
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnOrientation()
         {
             using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
             {
-                var firstWs = package.Workbook.Worksheets[0];
-                var secondWs = package.Workbook.Worksheets[1];
-                string path = pdfPath + "WorksheetTest1.pdf";
+                package.Workbook.Worksheets[0].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[1].PrinterSettings.Orientation = eOrientation.Landscape;
 
-                package.Workbook.SaveAsPdf(path);
-                AssertLooksLikePdf(File.ReadAllBytes(path));
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var matches = Regex.Matches(
+                    Encoding.ASCII.GetString(pdf),
+                    @"/MediaBox\s*\[\s*0\s+0\s+(?<w>[\d.]+)\s+(?<h>[\d.]+)\s*\]");
+
+                Assert.AreEqual(2, matches.Count, "Expected one page per worksheet.");
+
+                var ci = CultureInfo.InvariantCulture;
+                double w1 = double.Parse(matches[0].Groups["w"].Value, ci);
+                double h1 = double.Parse(matches[0].Groups["h"].Value, ci);
+                double w2 = double.Parse(matches[1].Groups["w"].Value, ci);
+                double h2 = double.Parse(matches[1].Groups["h"].Value, ci);
+
+                Assert.IsTrue(h1 > w1, "Page 1 should be portrait.");
+                Assert.IsTrue(w2 > h2, "Page 2 should be landscape.");
+                // Landscape is the same paper transposed, not a different paper size.
+                Assert.AreEqual(w1, h2, 0.01d);
+                Assert.AreEqual(h1, w2, 0.01d);
+            }
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnShowGridLines()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                package.Workbook.Worksheets[0].PrinterSettings.ShowGridLines = false;
+                package.Workbook.Worksheets[1].PrinterSettings.ShowGridLines = true;
+
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var text = Encoding.ASCII.GetString(pdf);
+
+                // One page per worksheet - guards against the count assertion below
+                // being thrown off by pagination or a comments page.
+                Assert.AreEqual(2, Regex.Matches(text, @"/MediaBox\s*\[").Count,
+                    "Expected one page per worksheet.");
+
+                // PdfContentStream.AddInnerGridLines writes this marker whenever the flag
+                // is set, so the number of occurrences equals the number of pages that
+                // asked for gridlines. Exactly one means the flag was read per sheet:
+                // reading sheet 1's flag globally    would give 0, applying it to every page
+                // would give 2.
+                Assert.AreEqual(1, Regex.Matches(text, @"% Gridlines Start").Count,
+                    "Only sheet 2 asked for gridlines.");
+
+                //var text = Encoding.ASCII.GetString(pdf);
+                //Debug.WriteLine($"pages={Regex.Matches(text, @"/MediaBox\s*\[").Count} " +
+                //                $"gridlines={Regex.Matches(text, @"% Gridlines Start").Count}");
             }
         }
     }

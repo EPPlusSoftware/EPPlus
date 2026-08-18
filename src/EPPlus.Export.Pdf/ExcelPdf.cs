@@ -134,8 +134,10 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Content
-        private void AddContent(Transform pageLayout, PdfPage page)
+        private void AddContent(PdfPageLayout pageLayout, PdfPage page)
         {
+            var pageSettings = pageLayout.Settings;
+
             var cells = pageLayout.ChildObjects.Where(t =>
                                                 (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
                                                 !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
@@ -151,7 +153,7 @@ namespace EPPlus.Export.Pdf
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
             contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
-            if (_pageSettings.ShowGridLines)
+            if (pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
@@ -166,7 +168,7 @@ namespace EPPlus.Export.Pdf
                             contentStream.AddCellLayout(layout, GetPatternLabel(layout));
                             break;
                         case PdfCellContentLayout contentLayout:
-                            contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings);
+                            contentStream.AddCellContentLayout(contentLayout, _dictionaries, pageSettings);
                             break;
                         case PdfCellBorderLayout borderLayout:
                             contentStream.AddBorderLayout(borderLayout);
@@ -186,12 +188,12 @@ namespace EPPlus.Export.Pdf
                     case PdfCellLayout layout:
                         contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
                     case PdfCellContentLayout contentLayout:
-                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings); break;
+                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, pageSettings); break;
                     case PdfCellBorderLayout borderLayout:
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
-            if (_pageSettings.ShowGridLines || _pageSettings.ShowHeadings)
+            if (pageSettings.ShowGridLines || pageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
                 contentStream.AddPrintTitleGridLines(pageLayout);
@@ -199,7 +201,7 @@ namespace EPPlus.Export.Pdf
             //Add header and footer.
             foreach (var hf in headerFooterLayouts)
             {
-                contentStream.AddCellContentLayout(hf, _dictionaries, _pageSettings);
+                contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
             }
             foreach (var titleCell in printTitleLayouts)
             {
@@ -209,7 +211,7 @@ namespace EPPlus.Export.Pdf
                     case PdfCellLayout layout:
                         contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
                     case PdfCellContentLayout contentLayout:
-                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings); break;
+                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, pageSettings); break;
                     case PdfCellBorderLayout borderLayout:
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
@@ -271,8 +273,10 @@ namespace EPPlus.Export.Pdf
             //Create Page and Content
             for (int i = 0; i < layout.ChildObjects.Count; i++)
             {
-                var pageLayout = layout.ChildObjects[i];
-                var page = AddPage(2, new List<int>(), _pageSettings);
+                //var pageLayout = layout.ChildObjects[i];
+                var pageLayout = (PdfPageLayout)layout.ChildObjects[i];   // ← ny rad
+                //var page = AddPage(2, new List<int>(), _pageSettings);
+                var page = AddPage(2, new List<int>(), pageLayout.Settings);
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }

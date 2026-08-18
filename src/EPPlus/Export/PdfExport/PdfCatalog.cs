@@ -11,24 +11,25 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.Resources;
-using EPPlus.Export.Pdf.Settings;
-using EPPlus.Graphics;
-using EPPlus.Graphics;
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Graphics;
+using EPPlus.Graphics;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport
@@ -80,21 +81,35 @@ namespace OfficeOpenXml.Export.PdfExport
             // Match the single-worksheet path: resolve the default font before building.
             pageSettings.defaultFontName = worksheets[0].Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
 
+            // NEW: one settings object per worksheet, each from its own printer settings.
+            var sheetSettings = new PdfPageSettings[worksheets.Length];
+            for (int i = 0; i < worksheets.Length; i++)
+            {
+                sheetSettings[i] = GetPdfSettings.GetPdfSettingsForSheet(pageSettings, worksheets[i].PrinterSettings);
+            }
+
             PdfWorksheet[] pdfSheets = null;
             try
             {
-                // Collect text for every worksheet.
-                pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
+                //// Collect text for every worksheet.
+                //pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
 
-                // Shape text and auto-fit rows per sheet.
-                foreach (var pdfSheet in pdfSheets)
+                //// Shape text and auto-fit rows per sheet.
+                //foreach (var pdfSheet in pdfSheets)
+                //{
+                //    ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+                //    PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
+                //}
+                pdfSheets = GetPdfWorksheets(sheetSettings, worksheets);
+
+                for (int i = 0; i < pdfSheets.Length; i++)
                 {
-                    ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                    PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
+                    ShapeTextInPdfWorksheet(sheetSettings[i], pdfSheets[i]);
+                    PdfCalculateRowHeight.ResizeRowHeights(pdfSheets[i]);
                 }
 
                 // One layout spanning all sheets and their ranges.
-                var layout = GetLayout(pageSettings, pdfSheets);
+                var layout = GetLayout(sheetSettings, pdfSheets);
 
                 // Write the PDF document.
                 writePdf(layout);
@@ -259,8 +274,13 @@ namespace OfficeOpenXml.Export.PdfExport
                     ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
                     PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
                 }
-
-                var layout = GetLayout(pageSettings, pdfSheets);
+                var sheetSettings = new PdfPageSettings[pdfSheets.Length];
+                for (int i = 0; i < sheetSettings.Length; i++)
+                {
+                    // Ranges within one export share the same printer settings today.
+                    sheetSettings[i] = pageSettings;
+                }
+                var layout = GetLayout(sheetSettings, pdfSheets);
 
                 writePdf(layout);
             }
@@ -302,16 +322,29 @@ namespace OfficeOpenXml.Export.PdfExport
 
         //Create Layout Methods
 
-        private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
+        //private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
+        //{
+        //    var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
+        //    return Layout;
+        //}
+
+        //private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        //{
+        //    PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
+        //    var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
+        //    return Layout;
+        //}
+
+        private Transform GetLayout(PdfPageSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
         {
-            var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
+            var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }
 
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
-            PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
-            var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
+            // Single sheet: one settings object, one sheet.
+            var Layout = PdfLayout.GetLayout(new[] { pageSettings }, _dictionaries, new[] { pdfSheet });
             return Layout;
         }
 
@@ -434,15 +467,30 @@ namespace OfficeOpenXml.Export.PdfExport
                 pdfSheet.Ranges.Add(new PdfRange(range, false));
             }
 
+            //if (pageSettings.ShowHeadings && _addTextForHeadings)
+            //    _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+            //_addTextForHeadings = false;
             if (pageSettings.ShowHeadings && _addTextForHeadings)
+            {
                 _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
-            _addTextForHeadings = false;
+                _addTextForHeadings = false;
+            }
 
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             return pdfSheet;
+        }
+
+        private PdfWorksheet[] GetPdfWorksheets(PdfPageSettings[] sheetSettings, ExcelWorksheet[] worksheets)
+        {
+            PdfWorksheet[] pdfSheets = new PdfWorksheet[worksheets.Length];
+            for (int i = 0; i < pdfSheets.Length; i++)
+            {
+                pdfSheets[i] = GetPdfWorksheet(sheetSettings[i], worksheets[i]);
+            }
+            return pdfSheets;
         }
 
         private List<PdfRange> GetRanges(ExcelWorksheet worksheet)
