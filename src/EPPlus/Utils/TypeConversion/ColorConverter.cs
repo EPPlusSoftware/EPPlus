@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
                 if (tint < 0)
                 {
-                    l = l * (1.0 + tint);
+                    l = l * (1.0d + tint);
                 }
                 else if (tint > 0)
                 {
@@ -239,13 +239,64 @@ namespace OfficeOpenXml.Utils.TypeConversion
             else if (tint > 0)
             {
                 double blend = 1.0d - tint;
-                //Docs state 10% input means A 10% tint is 10% of the input color combined with 90% white
-                var r = (byte)Math.Round(ret.R * tint + (254.3d * blend));
-                var g = (byte)Math.Round(ret.G * tint + (254.3d * blend));
-                var b = (byte)Math.Round(ret.B * tint + (254.3d * blend));
+                var r = (byte)Math.Round(ret.R + (255d - ret.R) * blend);
+                var g = (byte)Math.Round(ret.G + (255d - ret.G) * blend);
+                var b = (byte)Math.Round(ret.B + (255d - ret.B) * blend);
                 return Color.FromArgb(ret.A, r, g, b);
             }
             return ret;
+            //if (tint == 0)
+            //{
+            //    return ret;
+            //}
+            //else
+            //{
+            //    ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
+            //    if (tint < 0)
+            //    {
+            //        l = (l * (1.0d + tint));
+            //    }
+            //    else if (tint > 0)
+            //    {
+            //        l += (1 - l) * tint;
+            //    }
+            //    return ExcelDrawingHslColor.GetRgb(h, s, l);
+            //}
+            //if (tint < 0)
+            //{
+            //    double shade = 1d + tint;
+            //    var r = (byte)Math.Round(ret.R + (255d - ret.R) * shade);
+            //    var g = (byte)Math.Round(ret.G + (255d - ret.G) * shade);
+            //    var b = (byte)Math.Round(ret.B + (255d - ret.B) * shade);
+            //    return Color.FromArgb(ret.A, r, g, b);
+            //}
+            //else if (tint > 0)
+            //{
+            //    double blend = 1.0d - tint;
+            //    var r = (byte)Math.Round(ret.R + (255d - ret.R) * blend);
+            //    var g = (byte)Math.Round(ret.G + (255d - ret.G) * blend);
+            //    var b = (byte)Math.Round(ret.B + (255d - ret.B) * blend);
+            //    return Color.FromArgb(ret.A, r, g, b);
+            //}
+            //return ret;
+            //if (tint < 0)
+            //{
+            //    double shade = 1d + tint;
+            //    var r = (byte)Math.Round(ret.R * shade);
+            //    var g = (byte)Math.Round(ret.G * shade);
+            //    var b = (byte)Math.Round(ret.B * shade);
+            //    return Color.FromArgb(ret.A, r, g, b);
+            //}
+            //else if (tint > 0)
+            //{
+            //    double blend = 1.0d - tint;
+            //    //Docs state 10% input means A 10% tint is 10% of the input color combined with 90% white
+            //    var r = (byte)Math.Round(ret.R * tint + (254.3d * blend));
+            //    var g = (byte)Math.Round(ret.G * tint + (254.3d * blend));
+            //    var b = (byte)Math.Round(ret.B * tint + (254.3d * blend));
+            //    return Color.FromArgb(ret.A, r, g, b);
+            //}
+            //return ret;
         }
 
         internal static Color ApplyTintDrawing(Color ret, double tint)
@@ -284,6 +335,36 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 return Color.FromArgb(ret.A, r, g, b);
             }
             return ret;
+        }
+
+        // Brighten/darken a color by some factor
+        internal static Color Brighten(Color color, float factor)
+        {
+            if (factor > 0.0f)
+            {
+                // So at 1.0 it's (component * 0) + 1
+                return Color.FromArgb(color.A,
+                (byte)(color.R * (1.0f - factor) + factor),
+                (byte)(color.G * (1.0f - factor) + factor),
+                (byte)(color.B * (1.0f - factor) + factor));
+            }
+            else // Darken
+            {
+                // So at -1.0 it's (component * 0)
+                return Color.FromArgb(color.A,
+                (byte)(color.R * (1.0f + factor)),
+                (byte)(color.G * (1.0f + factor)),
+                (byte)(color.B * (1.0f + factor)));
+            }
+        }
+
+        internal static Color Lerp(Color color0, Color color1, float t)
+        {
+            return Color.FromArgb(
+            (byte)(color0.A * (1.0f - t) + color1.A * t),
+            (byte)(color0.R * (1.0f - t) + color1.R * t),
+            (byte)(color0.G * (1.0f - t) + color1.G * t),
+            (byte)(color0.B * (1.0f - t) + color1.B * t));
         }
 
         internal static Color ApplyBlend(Color color, Color blendColor, double percent)

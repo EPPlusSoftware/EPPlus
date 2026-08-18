@@ -1,7 +1,9 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Coloring;
 using System.Drawing;
 using System.Linq;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 
 namespace EPPlus.Export.ImageRenderer.Tests
 {
@@ -222,6 +224,54 @@ namespace EPPlus.Export.ImageRenderer.Tests
             {
                 var ws = p.Workbook.Worksheets.Add("MyWs");
                 var drawing = ws.Drawings.AddShape("rectangle", eShapeStyle.Rect);
+                var expectedFill = Color.FromArgb(255, 21, 96, 130);
+                var expectedBorder = Color.FromArgb(255, 4, 36, 51);
+
+                var colorLerped = tc.ColorConverter.Lerp(expectedFill, Color.White, 0.15f);
+                var colorLerpedOpposite = tc.ColorConverter.Lerp(expectedFill, Color.White, -0.85f);
+                var colorLerpedInversed = tc.ColorConverter.Lerp(expectedFill, Color.White, -0.15f);
+                var colorLerpedOppositeInversed = tc.ColorConverter.Lerp(expectedFill, Color.White, 0.85f);
+
+                var testTheme = tc.ColorConverter.ApplyTint(expectedFill, -0.85d);
+
+                ExcelDrawingRgbColor.GetHslColor(Color.FromArgb(255,192,80,77), out double h, out double s, out double l);
+
+                //Schemecolor 56 what happens if 15%?
+                //00003366
+                //var test = tc.ColorConverter.ApplyBlend(expectedFill, Color.Black, 0.85d);
+                //var lum = l * 0.15d;
+
+                //var rgb = ExcelDrawingHslColor.GetRgb(h, s, 11.4d);
+                //var rgbAlt = ExcelDrawingHslColor.GetRgb(h, s, lum);
+
+                var test = tc.ColorConverter.ApplyTintDrawing(Color.FromArgb(255, 0, 255, 0), 0.5d);
+
+                var test3 = tc.ColorConverter.ApplyTintDrawing(Color.FromArgb(255, 0, 255, 0), -0.5d);
+
+                var test2 = tc.ColorConverter.ApplyBlend(Color.FromArgb(255, 0, 255, 0), Color.Black, 0.5d);
+
+                var test4 = tc.ColorConverter.AlternativeTint(Color.FromArgb(255, 0, 255, 0), -0.5d);
+
+                var test5 = tc.ColorConverter.Brighten(Color.FromArgb(255, 0, 255, 0), -0.85f);
+
+                var excelWhite = Color.FromArgb(255, 245, 222, 179);
+
+                var test6 = tc.ColorConverter.Brighten(excelWhite, -0.5f);
+
+                var index56 = Color.FromArgb(0, 0, 51, 102);
+
+                var borderColorExcel = Color.FromArgb(0, 4, 36, 51);
+                var Accent1ColorExcel = Color.FromArgb(0, 21, 96, 130);
+
+                //var shaded = tc.ColorConverter.ApplyLumMod(Accent1ColorExcel, 0.85d, 0.15d);
+
+                var appliedTint = tc.ColorConverter.ApplyTint(Accent1ColorExcel, -0.85d);
+
+                var themeFill = tc.ColorConverter.GetThemeColor(ws.Workbook.ThemeManager.GetOrCreateTheme(), drawing.ThemeStyles.FillReference.Color);
+                var themeBorder = tc.ColorConverter.GetThemeColor(ws.Workbook.ThemeManager.GetOrCreateTheme(), drawing.ThemeStyles.BorderReference.Color);
+
+                Assert.AreEqual(expectedFill.ToArgb(), themeFill.ToArgb());
+                Assert.AreEqual(expectedBorder.ToArgb(), themeBorder.ToArgb());
 
                 var svg = drawing.ToSvg();
                 SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{drawing.Name}.svg", svg);
