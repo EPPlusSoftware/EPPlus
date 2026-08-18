@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType;
 using System.IO;
 using System.Text;
@@ -35,8 +36,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var fontBytes = FontData.Serialize();
-            WriteAscii(bw, $"<< /Length {fontBytes.Length} /Length1 {fontBytes.Length} >>\nstream\n");
-            bw.Write(fontBytes);
+            var body = PdfFlate.Compress(fontBytes);
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} /Length1 {fontBytes.Length} >>\nstream\n");
+            bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }
     }
