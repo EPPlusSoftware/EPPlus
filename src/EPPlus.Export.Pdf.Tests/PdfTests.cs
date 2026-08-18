@@ -501,17 +501,6 @@ namespace EPPlusTest.PDF
             Assert.ThrowsExactly<ArgumentException>(() => range.SaveAsPdf(readOnly));
         }
 
-        //[TestMethod]
-        //public void CreateAndExportSimpleWb()
-        //{
-        //    using var package = new ExcelPackage();
-        //    var ws = package.Workbook.Worksheets.Add("Sheet1");
-        //    ws.Cells["A1"].Style.Font.Name = "Arial";
-        //    ws.Cells["A1"].Value = "Hello world!";
-        //    ws.Cells.AutoFitColumns();
-        //    ws.SaveAsPdf(@"c:\Temp\SimpleWb.pdf");
-        //}
-
         [TestMethod]
         // works as expected.
         //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
