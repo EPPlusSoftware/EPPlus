@@ -399,8 +399,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
-            var bytes = Encoding.ASCII.GetBytes(content);
-            WriteAscii(bw, $"<< /Length {bytes.Length} >>\nstream\n{content}\nendstream");
+            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+            bw.Write(body);
+            WriteAscii(bw, "\nendstream");
         }
     }
 }
