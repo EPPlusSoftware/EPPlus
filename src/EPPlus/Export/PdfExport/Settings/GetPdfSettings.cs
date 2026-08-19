@@ -36,7 +36,6 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
 
         private static void ApplyPrinterSettings(PdfPageSettings settings, ExcelPrinterSettings eps)
         {
-            // ← hela den befintliga kroppen flyttas hit, oförändrad
 
             var leftMargin = UnitConversion.ToMillimeters(eps.LeftMargin);
             var rightMargin = UnitConversion.ToMillimeters(eps.RightMargin);

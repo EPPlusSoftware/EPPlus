@@ -304,17 +304,15 @@ namespace OfficeOpenXml.Export.PdfExport
         //Private Methods
 
         private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
-        {
-            //return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, fileName);
+        {            
             return layout => new ExcelPdf().CreatePdf(
-    PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
+                PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
         }
 
         private Action<Transform> WriteToStream(PdfPageSettings pageSettings, Stream stream)
-        {
-            //return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, stream);
+        {            
             return layout => new ExcelPdf().CreatePdf(
-    PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
+                PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
         }
 
         //Create Layout Methods
@@ -451,9 +449,6 @@ namespace OfficeOpenXml.Export.PdfExport
                 pdfSheet.Ranges.Add(new PdfRange(range, false));
             }
 
-            //if (pageSettings.ShowHeadings && _addTextForHeadings)
-            //    _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
-            //_addTextForHeadings = false;
             if (pageSettings.ShowHeadings && _addTextForHeadings)
             {
                 _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
