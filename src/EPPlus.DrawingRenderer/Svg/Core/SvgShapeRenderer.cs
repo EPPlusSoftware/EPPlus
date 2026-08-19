@@ -586,12 +586,26 @@ namespace EPPlus.DrawingRenderer
 
         private string GetXy(RenderItem item, UserSpaceSettings userSpace, double? angle)
         {
-            if (userSpace == UserSpaceSettings.UserSpaceOnUse_Parent)
+            if (userSpace != UserSpaceSettings.ObjectBoundingBox)
             {
                 double theta = MathHelper.Radians((angle ?? 90) % 360);
 
-                var l = item.Bounds.Left;
-                var t =  item.Bounds.Top;
+                double l, t;
+                switch (userSpace)
+                {
+                    case UserSpaceSettings.UserSpaceOnUse_Parent:
+                        l = item.Bounds.Left;
+                        t = item.Bounds.Top;
+                        break;
+                    case UserSpaceSettings.UserSpaceOnUse_Global:
+                        l = item.Bounds.Left;
+                        t = item.Bounds.Top;
+                        break;
+                    default:
+                        l = t = 0;
+                        break;
+                }
+
                 var w = item.Bounds.Width;
                 var h = item.Bounds.Height;
 

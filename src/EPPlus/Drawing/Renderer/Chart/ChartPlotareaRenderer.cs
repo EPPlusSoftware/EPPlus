@@ -36,7 +36,8 @@ namespace EPPlusImageRenderer.Svg
         {
             var pa = Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
-            var rect = new RectRenderItem(ChartRenderer.Bounds);
+            Group = new GroupRenderItem(ChartRenderer.Bounds);
+            var rect = new RectRenderItem(Group.Bounds);
             if (pa.Layout.HasLayout)
             {
                 rect = GetRectFromManualLayout(ChartRenderer, pa.Layout);
@@ -49,7 +50,6 @@ namespace EPPlusImageRenderer.Svg
                 rect.Height = GetPlotAreaHeight(rect);
             }
 
-            Group = new GroupRenderItem(ChartRenderer.Bounds);
             Group.Bounds.Top = rect.Top;
             Group.Bounds.Left = rect.Left;           
             rect.Top = rect.Left = 0;

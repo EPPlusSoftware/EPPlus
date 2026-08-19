@@ -242,7 +242,7 @@ namespace EPPlusImageRenderer.Svg
         public eTimeUnit? MajorDateUnit { get; set; }
         public eTextOrientation LabelOrientation { get; set; }
         public bool IsDateAutoAxis { get; set; }
-        public bool IsNumericAutoAxis { get; set; }
+        public bool IsNumericAutoAxis { get; set; } //TODO: Not used? Removed if not used.
         public bool IsDateScale
         {
             get;
@@ -961,10 +961,10 @@ namespace EPPlusImageRenderer.Svg
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount, out bool isNumeric);
-            if(isCount == false && isNumeric && ax.AxisType == eAxisType.Cat)
-            {
-                IsDateAutoAxis = true;
-            }
+            //if(isCount == false && isNumeric && ax.AxisType == eAxisType.Cat)
+            //{
+            //    IsDateAutoAxis = true;
+            //}
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,
@@ -1047,7 +1047,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 majorUnit = 1;
                 dateUnit = null;
-                for (int i=1;i<=max;i++)
+                for (int i=1;i <= max;i++)
                 {
                     l.Add(i);
                 }
@@ -1126,7 +1126,7 @@ namespace EPPlusImageRenderer.Svg
                 majorUnit = res.MajorInterval;
                 dateUnit= null;
                 orientation = eTextOrientation.Horizontal;
-                IsNumericAutoAxis = true;
+                IsNumericAutoAxis = false;
             }
 
             return l;
