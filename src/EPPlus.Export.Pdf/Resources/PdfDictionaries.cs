@@ -25,6 +25,7 @@ namespace EPPlus.Export.Pdf.Resources
         internal readonly Dictionary<FontKey, PdfFontResource> Fonts = new Dictionary<FontKey, PdfFontResource>();
         internal readonly Dictionary<string, PdfPatternResource> Patterns = new Dictionary<string, PdfPatternResource>();
         internal readonly Dictionary<string, PdfShadingResource> Shadings = new Dictionary<string, PdfShadingResource>();
+        internal readonly Dictionary<string, PdfImageResource> Images = new Dictionary<string, PdfImageResource>();
         internal Dictionary<FontKey, IFontProvider> ShapedProviders = new Dictionary<FontKey, IFontProvider>();
 
         // Cache mapping a requested (family, subfamily) to the canonical FontKey of
@@ -85,6 +86,27 @@ namespace EPPlus.Export.Pdf.Resources
                 throw new KeyNotFoundException("Font: " + key + " is missing from dictionary.");
             }
             return Fonts[key];
+        }
+
+        internal PdfImageResource AddImage(byte[] imageBytes)
+        {
+            var key = GetImageKey(imageBytes);
+            if (!Images.TryGetValue(key, out var res))
+            {
+                int label = 1;
+                if (Images.Count > 0) label = Images.Last().Value.labelNumber + 1;
+                res = new PdfImageResource(label, imageBytes);
+                Images.Add(key, res);
+            }
+            return res;
+        }
+
+        private static string GetImageKey(byte[] bytes)
+        {
+            using (var sha = System.Security.Cryptography.SHA1.Create())
+            {
+                return System.Convert.ToBase64String(sha.ComputeHash(bytes));
+            }
         }
     }
 }

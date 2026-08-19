@@ -119,6 +119,15 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             }
         }
 
+        //Add Images
+        private void AddImageData()
+        {
+            foreach (var image in _dictionaries.Images)
+            {
+                _document.Add(image.Value.GetImageObject(_document.Count + 1));
+            }
+        }
+
         //Create Page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
@@ -178,6 +187,11 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             {
                 contentStream.AddCommand($"% CELL BORDER : {border.Name}");
                 contentStream.AddBorderLayout(border);
+            }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
             }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
@@ -281,6 +295,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
+            AddImageData();
             var info = AddInfoObject();
             _debugString = "";
             //write to pdf

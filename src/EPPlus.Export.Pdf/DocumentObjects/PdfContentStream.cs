@@ -310,6 +310,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines End");
         }
 
+        public void AddImage(string label, double x, double y, double width, double height)
+        {
+            commands.Add($"% Image Start: {label}");
+            commands.Add("q");
+            commands.Add($"{width.ToPdfString()} 0 0 {height.ToPdfString()} {x.ToPdfString()} {y.ToPdfString()} cm");
+            commands.Add($"/{label} Do");
+            commands.Add("Q");
+            commands.Add($"% Image End: {label}");
+        }
         public void AddPrintTitleGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
