@@ -30,6 +30,7 @@ namespace EPPlus.Export.Pdf
     internal class ExcelPdf
     {
         private PdfPageSettings _pageSettings;
+        private PdfDocumentSettings _documentSettings; 
         private PdfDictionaries _dictionaries;
         private List<PdfObject> _document = new List<PdfObject>();
         private string _debugString;
@@ -59,8 +60,8 @@ namespace EPPlus.Export.Pdf
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         private void AddFontData()
-        {
-            if (_pageSettings.EmbeddFonts)
+        {            
+            if (_documentSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)
                 {
@@ -229,16 +230,16 @@ namespace EPPlus.Export.Pdf
             return info;
         }
 
-        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
+        internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
             //Write the PDF to the file. The Stream overload does the actual work and
             //populates _debugString.
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
-                CreatePdf(pageSettings, dictionaries, layout, fs);
+                CreatePdf(documentSettings, dictionaries, layout, fs);
             }
             //Write pdf as txt for debug.
-            if (_pageSettings.Debug && _pageSettings.PrintAsText)
+            if (_documentSettings.Debug && _documentSettings.PrintAsText)
             {
                 using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
                 {
@@ -250,7 +251,7 @@ namespace EPPlus.Export.Pdf
             }
         }
 
-        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
+        internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             if (!stream.CanWrite) throw new ArgumentException("The stream must be writable.", nameof(stream));
@@ -258,7 +259,8 @@ namespace EPPlus.Export.Pdf
             //seek to each object, so the target stream has to support querying its position.
             if (!stream.CanSeek) throw new ArgumentException("The stream must be seekable, because the PDF cross-reference table requires byte offsets.", nameof(stream));
 
-            _pageSettings = pageSettings;
+            //_pageSettings = pageSettings;
+            _documentSettings = documentSettings;
             _dictionaries = dictionaries;
             var catalog = AddCatalog(2);
             //Create Pages
@@ -273,9 +275,7 @@ namespace EPPlus.Export.Pdf
             //Create Page and Content
             for (int i = 0; i < layout.ChildObjects.Count; i++)
             {
-                //var pageLayout = layout.ChildObjects[i];
-                var pageLayout = (PdfPageLayout)layout.ChildObjects[i];   // ← ny rad
-                //var page = AddPage(2, new List<int>(), _pageSettings);
+                var pageLayout = (PdfPageLayout)layout.ChildObjects[i];  
                 var page = AddPage(2, new List<int>(), pageLayout.Settings);
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);

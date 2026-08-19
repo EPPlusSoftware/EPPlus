@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Export.PdfExport
             // Match the single-worksheet path: resolve the default font before building.
             pageSettings.defaultFontName = worksheets[0].Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
 
-            // NEW: one settings object per worksheet, each from its own printer settings.
+            // One settings object per worksheet, each from its own printer settings.
             var sheetSettings = new PdfPageSettings[worksheets.Length];
             for (int i = 0; i < worksheets.Length; i++)
             {
@@ -92,16 +92,9 @@ namespace OfficeOpenXml.Export.PdfExport
             try
             {
                 //// Collect text for every worksheet.
-                //pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
-
-                //// Shape text and auto-fit rows per sheet.
-                //foreach (var pdfSheet in pdfSheets)
-                //{
-                //    ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                //    PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                //}
                 pdfSheets = GetPdfWorksheets(sheetSettings, worksheets);
 
+                //// Shape text and auto-fit rows per sheet.
                 for (int i = 0; i < pdfSheets.Length; i++)
                 {
                     ShapeTextInPdfWorksheet(sheetSettings[i], pdfSheets[i]);
@@ -312,28 +305,19 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
         {
-            return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, fileName);
+            //return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, fileName);
+            return layout => new ExcelPdf().CreatePdf(
+    PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
         }
 
         private Action<Transform> WriteToStream(PdfPageSettings pageSettings, Stream stream)
         {
-            return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, stream);
+            //return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, stream);
+            return layout => new ExcelPdf().CreatePdf(
+    PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
         }
 
         //Create Layout Methods
-
-        //private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
-        //{
-        //    var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
-        //    return Layout;
-        //}
-
-        //private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
-        //{
-        //    PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
-        //    var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
-        //    return Layout;
-        //}
 
         private Transform GetLayout(PdfPageSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
         {

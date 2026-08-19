@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Export.PdfExport.Settings;
@@ -731,5 +732,50 @@ namespace EPPlusTest.PDF
                 //                $"gridlines={Regex.Matches(text, @"% Gridlines Start").Count}");
             }
         }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnPaperSize()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                // Orientation is set explicitly so a transposed page size cannot be
+                // mistaken for a different paper size.
+                package.Workbook.Worksheets[0].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[1].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[0].PrinterSettings.PaperSize = ePaperSize.A4;
+                package.Workbook.Worksheets[1].PrinterSettings.PaperSize = ePaperSize.A3;
+
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var matches = Regex.Matches(
+                    Encoding.ASCII.GetString(pdf),
+                    @"/MediaBox\s*\[\s*0\s+0\s+(?<w>[\d.]+)\s+(?<h>[\d.]+)\s*\]");
+
+                Assert.AreEqual(2, matches.Count, "Expected one page per worksheet.");
+
+                var ci = CultureInfo.InvariantCulture;
+                double w1 = double.Parse(matches[0].Groups["w"].Value, ci);
+                double h1 = double.Parse(matches[0].Groups["h"].Value, ci);
+                double w2 = double.Parse(matches[1].Groups["w"].Value, ci);
+                double h2 = double.Parse(matches[1].Groups["h"].Value, ci);
+
+                // Compare against the source of truth rather than literal point values.
+                // PdfPageSize rounds mm to whole points, so 210x297 mm becomes 595x842.
+                Assert.AreEqual(PdfPageSize.A4.WidthPu, w1, "Page 1 should be A4.");
+                Assert.AreEqual(PdfPageSize.A4.HeightPu, h1, "Page 1 should be A4.");
+                Assert.AreEqual(PdfPageSize.A3.WidthPu, w2, "Page 2 should be A3, not sheet 1's A4.");
+                Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
+            }
+        }
+
     }
 }
