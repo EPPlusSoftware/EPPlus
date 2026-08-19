@@ -230,7 +230,8 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             if (tint < 0)
             {
-                double shade = 1d + tint;
+                var valDouble = ConvertUtil.GetValueDouble(ret.R);
+                double shade = 1 + tint;
                 var r = (byte)Math.Round(ret.R * shade);
                 var g = (byte)Math.Round(ret.G * shade);
                 var b = (byte)Math.Round(ret.B * shade);
@@ -245,58 +246,6 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 return Color.FromArgb(ret.A, r, g, b);
             }
             return ret;
-            //if (tint == 0)
-            //{
-            //    return ret;
-            //}
-            //else
-            //{
-            //    ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
-            //    if (tint < 0)
-            //    {
-            //        l = (l * (1.0d + tint));
-            //    }
-            //    else if (tint > 0)
-            //    {
-            //        l += (1 - l) * tint;
-            //    }
-            //    return ExcelDrawingHslColor.GetRgb(h, s, l);
-            //}
-            //if (tint < 0)
-            //{
-            //    double shade = 1d + tint;
-            //    var r = (byte)Math.Round(ret.R + (255d - ret.R) * shade);
-            //    var g = (byte)Math.Round(ret.G + (255d - ret.G) * shade);
-            //    var b = (byte)Math.Round(ret.B + (255d - ret.B) * shade);
-            //    return Color.FromArgb(ret.A, r, g, b);
-            //}
-            //else if (tint > 0)
-            //{
-            //    double blend = 1.0d - tint;
-            //    var r = (byte)Math.Round(ret.R + (255d - ret.R) * blend);
-            //    var g = (byte)Math.Round(ret.G + (255d - ret.G) * blend);
-            //    var b = (byte)Math.Round(ret.B + (255d - ret.B) * blend);
-            //    return Color.FromArgb(ret.A, r, g, b);
-            //}
-            //return ret;
-            //if (tint < 0)
-            //{
-            //    double shade = 1d + tint;
-            //    var r = (byte)Math.Round(ret.R * shade);
-            //    var g = (byte)Math.Round(ret.G * shade);
-            //    var b = (byte)Math.Round(ret.B * shade);
-            //    return Color.FromArgb(ret.A, r, g, b);
-            //}
-            //else if (tint > 0)
-            //{
-            //    double blend = 1.0d - tint;
-            //    //Docs state 10% input means A 10% tint is 10% of the input color combined with 90% white
-            //    var r = (byte)Math.Round(ret.R * tint + (254.3d * blend));
-            //    var g = (byte)Math.Round(ret.G * tint + (254.3d * blend));
-            //    var b = (byte)Math.Round(ret.B * tint + (254.3d * blend));
-            //    return Color.FromArgb(ret.A, r, g, b);
-            //}
-            //return ret;
         }
 
         internal static Color ApplyTintDrawing(Color ret, double tint)
@@ -320,7 +269,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
             //}
             if (tint < 0)
             {
-                double shade = 1d + tint;
+                double shade = 1 + tint;
                 var r = (byte)Math.Round(ret.R * shade);
                 var g = (byte)Math.Round(ret.G * shade);
                 var b = (byte)Math.Round(ret.B * shade);
@@ -328,10 +277,10 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
             else if (tint > 0)
             {
-                double blend = 1.0d - tint;
-                var r = (byte)Math.Round(ret.R + (255d - ret.R) * blend);
-                var g = (byte)Math.Round(ret.G + (255d - ret.G) * blend);
-                var b = (byte)Math.Round(ret.B + (255d - ret.B) * blend);
+                double blend = 1 - tint;
+                var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
+                var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
+                var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
                 return Color.FromArgb(ret.A, r, g, b);
             }
             return ret;
