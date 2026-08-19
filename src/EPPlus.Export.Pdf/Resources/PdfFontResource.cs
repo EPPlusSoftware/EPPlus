@@ -92,7 +92,7 @@ namespace EPPlus.Export.Pdf.Resources
                 flag |= 1 << 5; // Nonsymbolic
             if (fontData.GetEnglishFontFamilyName().ToLower().Contains("script") || fontData.GetEnglishFontFamilyName().ToLower().Contains("cursive"))
                 flag |= 1 << 3;
-            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & Os2Table.FsSelectionFlags.Italic) != 0)
+            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & FsSelectionFlags.Italic) != 0)
                 flag |= 1 << 6;
             if (((ushort)fontData.Os2Table.fsSelection & 0x100) != 0)
                 flag |= 1 << 16;

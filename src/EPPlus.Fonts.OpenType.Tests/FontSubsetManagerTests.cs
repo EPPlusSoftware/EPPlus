@@ -50,7 +50,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             // Arrange
             var font = LoadTestFont();
             var provider = new DefaultFontProvider(TestFolderEngine, font);
-            var manager = new FontSubsetManager(provider);
+            var manager = new FontSubsetManager(TestFolderEngine, provider);
 
             // Act - Add text with emoji (U+1F600 = 😀, handled by Noto Emoji fallback)
             manager.AddText("Hello 😀");
@@ -102,7 +102,7 @@ namespace EPPlus.Fonts.OpenType.Tests
             // Arrange - DefaultFontProvider has Noto Emoji + Noto Math as fallbacks
             var font = LoadTestFont();
             var provider = new DefaultFontProvider(TestFolderEngine, font);
-            var manager = new FontSubsetManager(provider);
+            var manager = new FontSubsetManager(TestFolderEngine, provider);
 
             // Act - Only ASCII text, no emoji or math symbols
             manager.AddText("Plain text only");

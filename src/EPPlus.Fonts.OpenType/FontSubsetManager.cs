@@ -11,6 +11,7 @@
   02/25/2026         EPPlus Software AB           Font subset manager for PDF export
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Utils;
+using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,21 +32,25 @@ namespace EPPlus.Fonts.OpenType
     public class FontSubsetManager
     {
         private readonly IFontProvider _sourceProvider;
+        private readonly OpenTypeFontEngine _fontEngine;
 
         // Code points collected per font (key = original font instance)
         private readonly Dictionary<OpenTypeFont, HashSet<int>> _codePointsByFont =
             new Dictionary<OpenTypeFont, HashSet<int>>();
 
-        public FontSubsetManager(IFontProvider sourceProvider)
+        public FontSubsetManager(OpenTypeFontEngine engine, IFontProvider sourceProvider)
         {
+            if (engine == null)
+                throw new ArgumentNullException("engine");
             if (sourceProvider == null)
                 throw new ArgumentNullException("sourceProvider");
 
             _sourceProvider = sourceProvider;
+            _fontEngine = engine;
         }
 
         public FontSubsetManager(OpenTypeFontEngine engine, OpenTypeFont font)
-            : this(new DefaultFontProvider(engine, font))
+            : this(engine, new DefaultFontProvider(engine, font))
         {
             
         }
@@ -94,7 +99,6 @@ namespace EPPlus.Fonts.OpenType
             var primaryFont = _sourceProvider.PrimaryFont;
             var allFonts = _sourceProvider.GetAllFonts().ToList();
 
-            // Subset each font that has collected code points
             var subsetMap = new Dictionary<OpenTypeFont, OpenTypeFont>();
 
             foreach (var kvp in _codePointsByFont)
@@ -105,18 +109,43 @@ namespace EPPlus.Fonts.OpenType
                 if (codePoints.Count == 0)
                     continue;
 
-                try
+                // Resolve the embedding decision OUTSIDE the try/catch: a NoEmbedding font
+                // throws intentionally, and that error must reach the caller — not be
+                // swallowed and silently embedded by the fallback below.
+                var decision = _fontEngine.ResolveEmbeddingDecision(originalFont);
+
+                switch (decision)
                 {
-                    var chars = CodePointUtil.CodePointsToString(codePoints);
-                    var subset = originalFont.CreateSubset(chars);
-                    subsetMap[originalFont] = subset;
-                }
-                catch (Exception ex)
-                {
-                    // If subsetting fails, use the original font
-                    System.Diagnostics.Debug.WriteLine(
-                        $"Warning: Could not subset '{originalFont.NameTable?.GetFullFontName()}': {ex.Message}");
-                    subsetMap[originalFont] = originalFont;
+                    case FontEmbeddingDecision.EmbedWhole:
+                        // No-subsetting font (or caller opted to embed whole): embed unmodified.
+                        subsetMap[originalFont] = originalFont;
+                        break;
+
+                    case FontEmbeddingDecision.Skip:
+                        throw new NotSupportedException(
+                            string.Format(
+                                "Font '{0}' resolved to a Skip embedding decision, but the PDF exporter " +
+                                "has no font-substitution path yet. Return Subset or EmbedWhole from " +
+                                "IEpplusFontConfiguration.OnFontEmbedding, or make the font embeddable.",
+                                originalFont.NameTable != null ? originalFont.NameTable.GetFullFontName() : "(unknown)"));
+
+                    case FontEmbeddingDecision.Subset:
+                        try
+                        {
+                            var chars = CodePointUtil.CodePointsToString(codePoints);
+                            subsetMap[originalFont] = originalFont.CreateSubset(chars);
+                        }
+                        catch (Exception ex)
+                        {
+                            // If subsetting itself fails, fall back to the original font.
+                            System.Diagnostics.Debug.WriteLine(
+                                $"Warning: Could not subset '{originalFont.NameTable?.GetFullFontName()}': {ex.Message}");
+                            subsetMap[originalFont] = originalFont;
+                        }
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -127,7 +156,6 @@ namespace EPPlus.Fonts.OpenType
 
             var provider = new CustomFontProvider(subsetPrimary);
 
-            // Add fallback fonts in their original order (skip primary)
             for (int i = 1; i < allFonts.Count; i++)
             {
                 var originalFallback = allFonts[i];
@@ -136,7 +164,6 @@ namespace EPPlus.Fonts.OpenType
                 {
                     provider.AddFallback(subsetMap[originalFallback]);
                 }
-                // If no code points were collected for this fallback, skip it entirely
             }
 
             return provider;
