@@ -17,6 +17,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -197,6 +198,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         y -= rowHeight;
                         x = contentStartX; //pageSettings.ContentBounds.Left;
                     }
+                    AddImages(page, pageLayout, pdfPages[i].Drawings, contentStartX, contentStartY);
                     if (page.HeaderFooters != null)
                     {
                         bool isVeryFirstPage = (i == 0 && j == 0);
@@ -636,6 +638,45 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagUpStyle, diagUpColor,
                             (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagDownStyle, diagDownColor);
         }
+
+        private static void AddImages(Page page, PdfPageLayout pageLayout, List<PdfDrawing> drawings, double contentStartX, double contentStartY)
+        {
+            if (drawings == null) return;
+            foreach (var drawing in drawings)
+            {
+                if (drawing.PictureType != ePictureType.Jpg) continue;   // JPEG first
+                var pic = drawing.Picture;
+                if (pic.From == null) continue;     // only cell-anchored pictures for now
+                int imgRow = pic.From.Row + 1;      // From.Row / From.Column are 0-based
+                int imgCol = pic.From.Column + 1;
+                if (imgRow < page.FromRow || imgRow > page.ToRow) continue;
+                if (imgCol < page.FromColumn || imgCol > page.ToColumn) continue;
+
+                // Left edge: content origin + full widths of the columns before the anchor + EMU offset.
+                double x = contentStartX;
+                for (int c = page.FromColumn; c < imgCol; c++)
+                    x += page.Map[page.FromRow, c]?.ColumnWidth ?? 0d;
+                x += pic.From.ColumnOff / (double)ExcelDrawing.EMU_PER_POINT;
+
+                // Top edge (Y-up): content origin - full heights of the rows above the anchor - EMU offset.
+                double y = contentStartY;
+                for (int r = page.FromRow; r < imgRow; r++)
+                    y -= page.RowHeights[r - page.FromRow];
+                y -= pic.From.RowOff / (double)ExcelDrawing.EMU_PER_POINT;
+
+                // Size: rendered pixel size (already resolved from the anchor by EPPlus) → points.
+                double width = pic.GetPixelWidth() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+                double height = pic.GetPixelHeight() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+
+                var image = new PdfImageLayout(x, y, width, height)
+                {
+                    ImageBytes = drawing.ImageBytes,
+                    Name = "Image_" + pic.Name,
+                };
+                pageLayout.AddChild(image);
+            }
+        }
+
         private static int GetTotalPages(List<Pages> pdfPages)
         {
             int totalPages = 0;
@@ -664,6 +705,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
+                    pages.Drawings = pdfSheet.Drawings;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)

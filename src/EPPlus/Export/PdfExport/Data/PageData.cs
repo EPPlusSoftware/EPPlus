@@ -50,6 +50,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public string HeadingFontName;
         public float HeadingFontSize;
         public ExcelFill HeadingFill;
+        public List<PdfDrawing> Drawings;
         public int Count
         {
             get { return Width * Height; }
