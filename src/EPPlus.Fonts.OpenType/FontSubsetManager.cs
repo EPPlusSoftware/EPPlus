@@ -96,77 +96,96 @@ namespace EPPlus.Fonts.OpenType
         /// </summary>
         public IFontProvider CreateSubsettedProvider()
         {
-            var primaryFont = _sourceProvider.PrimaryFont;
-            var allFonts = _sourceProvider.GetAllFonts().ToList();
+            var originalChain = _sourceProvider.GetAllFonts().ToList();
 
-            var subsetMap = new Dictionary<OpenTypeFont, OpenTypeFont>();
-
-            foreach (var kvp in _codePointsByFont)
+            // --- Step 1: chain-level decision. Call ResolveEmbeddingDecision ONCE per font,
+            // outside try/catch (a NoEmbedding font must throw straight to the caller). ---
+            var decisions = new Dictionary<OpenTypeFont, FontEmbeddingDecision>();
+            var effectiveChain = new List<OpenTypeFont>();   // ordered, skipped fonts removed
+            foreach (var font in originalChain)
             {
-                var originalFont = kvp.Key;
-                var codePoints = kvp.Value;
+                var decision = _fontEngine.ResolveEmbeddingDecision(font);
+                decisions[font] = decision;
+                if (decision != FontEmbeddingDecision.Skip)
+                    effectiveChain.Add(font);
+            }
 
-                if (codePoints.Count == 0)
+            // If everything was skipped, pull in the last-resort font so the chain is never empty.
+            if (effectiveChain.Count == 0)
+                effectiveChain.Add(EmbeddedFonts.LoadArchivoNarrow(FontSubFamily.Regular));
+
+            // --- Step 2: redistribute the skipped fonts' code points over the reduced chain. ---
+            foreach (var font in originalChain)
+            {
+                if (decisions[font] != FontEmbeddingDecision.Skip)
                     continue;
 
-                // Resolve the embedding decision OUTSIDE the try/catch: a NoEmbedding font
-                // throws intentionally, and that error must reach the caller — not be
-                // swallowed and silently embedded by the fallback below.
-                var decision = _fontEngine.ResolveEmbeddingDecision(originalFont);
+                HashSet<int> cps;
+                if (_codePointsByFont.TryGetValue(font, out cps))
+                {
+                    foreach (var cp in cps)
+                    {
+                        var target = ResolveOverChain(effectiveChain, cp); // cmap walk, ultimately chain[0]
+                        HashSet<int> targetCps;
+                        if (!_codePointsByFont.TryGetValue(target, out targetCps))
+                            _codePointsByFont[target] = targetCps = new HashSet<int>();
+                        targetCps.Add(cp);
+                    }
+                }
+                _codePointsByFont.Remove(font);  // a skipped font is never subsetted
+            }
 
-                switch (decision)
+            // --- Step 3: subset loop, now only over fonts in effectiveChain.
+            // Same switch as before BUT the Skip branch is gone — it can no longer occur here. ---
+            var subsetMap = new Dictionary<OpenTypeFont, OpenTypeFont>();
+            foreach (var font in effectiveChain)
+            {
+                HashSet<int> cps;
+                if (!_codePointsByFont.TryGetValue(font, out cps) || cps.Count == 0)
+                    continue;
+
+                switch (decisions.ContainsKey(font) ? decisions[font] : FontEmbeddingDecision.Subset)
                 {
                     case FontEmbeddingDecision.EmbedWhole:
-                        // No-subsetting font (or caller opted to embed whole): embed unmodified.
-                        subsetMap[originalFont] = originalFont;
+                        subsetMap[font] = font;
                         break;
-
-                    case FontEmbeddingDecision.Skip:
-                        throw new NotSupportedException(
-                            string.Format(
-                                "Font '{0}' resolved to a Skip embedding decision, but the PDF exporter " +
-                                "has no font-substitution path yet. Return Subset or EmbedWhole from " +
-                                "IEpplusFontConfiguration.OnFontEmbedding, or make the font embeddable.",
-                                originalFont.NameTable != null ? originalFont.NameTable.GetFullFontName() : "(unknown)"));
-
                     case FontEmbeddingDecision.Subset:
-                        try
-                        {
-                            var chars = CodePointUtil.CodePointsToString(codePoints);
-                            subsetMap[originalFont] = originalFont.CreateSubset(chars);
-                        }
+                        try { subsetMap[font] = font.CreateSubset(CodePointUtil.CodePointsToString(cps)); }
                         catch (Exception ex)
                         {
-                            // If subsetting itself fails, fall back to the original font.
                             System.Diagnostics.Debug.WriteLine(
-                                $"Warning: Could not subset '{originalFont.NameTable?.GetFullFontName()}': {ex.Message}");
-                            subsetMap[originalFont] = originalFont;
+                                $"Warning: could not subset '{font.NameTable?.GetFullFontName()}': {ex.Message}");
+                            subsetMap[font] = font;
                         }
                         break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
             }
 
-            // Build new provider with subsetted fonts, preserving fallback order
-            var subsetPrimary = subsetMap.ContainsKey(primaryFont)
-                ? subsetMap[primaryFont]
-                : primaryFont;
-
-            var provider = new CustomFontProvider(subsetPrimary);
-
-            for (int i = 1; i < allFonts.Count; i++)
-            {
-                var originalFallback = allFonts[i];
-
-                if (subsetMap.ContainsKey(originalFallback))
-                {
-                    provider.AddFallback(subsetMap[originalFallback]);
-                }
-            }
-
+            // --- Step 4: build the provider. effectiveChain[0] becomes the primary — a skipped
+            // primary is already filtered out, so "primary is replaced" is expressed naturally. ---
+            var provider = new CustomFontProvider(Resolved(effectiveChain[0], subsetMap));
+            for (int i = 1; i < effectiveChain.Count; i++)
+                provider.AddFallback(Resolved(effectiveChain[i], subsetMap));
             return provider;
+        }
+
+        private static OpenTypeFont Resolved(OpenTypeFont font, Dictionary<OpenTypeFont, OpenTypeFont> map)
+        {
+            // A font with no collected code points is kept unchanged.
+            OpenTypeFont subset;
+            return map.TryGetValue(font, out subset) ? subset : font;
+        }
+
+        // Chain-local cmap lookup. Last resort: chain[0] (which, in the all-skipped case, IS Archivo Narrow).
+        private static OpenTypeFont ResolveOverChain(List<OpenTypeFont> chain, int codePoint)
+        {
+            foreach (var font in chain)
+            {
+                ushort glyphId;
+                if (font.CmapTable.TryGetGlyphId((uint)codePoint, out glyphId))
+                    return font;
+            }
+            return chain[0];
         }
     }
 }
