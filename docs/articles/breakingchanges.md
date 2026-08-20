@@ -221,3 +221,5 @@ Renaming worksheet's will now change the formula correctly to include single quo
 * `ws.Cells["A1"].RichText` no longer sets cells with `null` to `string.empty`
 * .RichText no longer sets the cell or contents to be RichText automatically.
  This is instead done when properties such as; `.Text`, `.Add` or `.Insert` are set on the .RichText property.
+### 8.7.0
+* The default value of the ´OutLineSummaryRight´ and ´OutLineSummaryBelow´ properties on ExcelWorksheet is now true.
