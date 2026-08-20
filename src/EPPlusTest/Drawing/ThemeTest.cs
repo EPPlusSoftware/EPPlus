@@ -40,7 +40,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
-
+using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusTest.Drawing
 {
     [TestClass]
@@ -346,7 +346,6 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eColorTransformType.SatMod, currentTheme.FormatScheme.BackgroundFillStyle[1].SolidFill.Color.Transforms[1].Type);
             Assert.AreEqual(170, currentTheme.FormatScheme.BackgroundFillStyle[1].SolidFill.Color.Transforms[1].Value);
 
-
             Assert.AreEqual(eFillStyle.GradientFill, currentTheme.FormatScheme.BackgroundFillStyle[2].Style);
             Assert.AreEqual(3, currentTheme.FormatScheme.BackgroundFillStyle[2].GradientFill.Colors.Count);
             Assert.AreEqual(eDrawingColorType.Scheme, currentTheme.FormatScheme.BackgroundFillStyle[2].GradientFill.Colors[0].Color.ColorType);
@@ -379,6 +378,89 @@ namespace EPPlusTest.Drawing
             _pck = OpenPackage("ThemeLoaded.xlsx");
             Assert.IsNotNull(_pck.Workbook.ThemeManager);
             Assert.IsNotNull(_pck.Workbook.ThemeManager.CurrentTheme);
+        }
+
+        [TestMethod]
+        public void Shade50percent()
+        {
+            var color1 = Color.FromArgb(0, 255, 0);
+            var c = tc.ColorConverter.ApplyTintDrawing(color1, -0.5);
+
+            Assert.AreEqual((double)Color.FromArgb(0x0, 0xBC, 0x0).ToArgb(), c.ToArgb());
+        }
+        [TestMethod]
+        public void Shade85percent()
+        {
+            var color1 = Color.FromArgb(0, 255, 0);
+            var c = tc.ColorConverter.ApplyTintDrawing(color1, -0.85);
+
+            Assert.AreEqual((double)Color.FromArgb(0x0, 0xBC, 0x0).ToArgb(), c.ToArgb());
+        }
+        [TestMethod]
+        public void Accent15Dark()
+        {
+            var expectedFill = Color.FromArgb(255, 21, 96, 130);
+            var c = tc.ColorConverter.ApplyTintDrawing(expectedFill, -0.85);
+            var expectedResult = Color.FromArgb(255, 4, 36, 51);
+            Assert.AreEqual((double)expectedResult.ToArgb(), c.ToArgb());
+        }
+
+        [TestMethod]
+
+        public void GreenApply99Dark()
+        {
+            var origColor = Color.FromArgb(255, 0, 255, 0);
+            var c = tc.ColorConverter.ApplyTintDrawing(origColor, -0.99);
+            var expectedResult = Color.FromArgb(255, 0, 25, 0);
+            Assert.AreEqual((double)expectedResult.ToArgb(), c.ToArgb());
+        }
+
+
+        [TestMethod]
+        public void Green25Apply50Light()
+        {
+            var origColor = Color.FromArgb(255, 0, 25, 0);
+            var c = tc.ColorConverter.ApplyTintDrawing(origColor, 0.5);
+            var expectedResult = Color.FromArgb(255, 188, 188, 188);
+            Assert.AreEqual((double)expectedResult.ToArgb(), c.ToArgb());
+        }
+        [TestMethod]
+        public void Tint60Shade60()
+        {
+            var myColorOrig = ColorTranslator.FromHtml("#DB1BC0");
+            var myColorBrightened = tc.ColorConverter.ApplyTintDrawing(myColorOrig, 0.6);
+
+            //darken 0.6 expected output: #910E7F
+            var myColorDarkened = tc.ColorConverter.ApplyTintDrawing(myColorOrig, -0.6);
+
+            Assert.AreEqual(Color.FromArgb(255, 241, 204, 232).ToArgb(), myColorBrightened.ToArgb());
+
+            Assert.AreEqual(Color.FromArgb(255, 145, 14, 127).ToArgb(), myColorDarkened.ToArgb());
+        }
+        [TestMethod]
+        public void colormod()
+        {
+            var accent1 = Color.FromArgb(255, 21, 96, 130);
+            /*             
+<a:lumMod val="60000"/>
+<a:satMod val="103000"/>
+<a:lumMod val="102000"/>
+<a:tint val="94000"/>             
+             */
+            //var lmod1 = tc.ColorConverter.ApplyLumMod(accent1, 0.6);
+            //var smod1 = tc.ColorConverter.ApplySatMod(lmod1, 1.03);
+            //var lmod2 = tc.ColorConverter.ApplyLumMod(smod1, 1.02);
+            //var tint = tc.ColorConverter.ApplyTintDrawing(lmod2, 1-0.94);
+
+            var smod1 = tc.ColorConverter.ApplySatMod(accent1, 1.03);
+            var lmod2 = tc.ColorConverter.ApplyLumMod(smod1, 1.02);
+            var tint = tc.ColorConverter.ApplyTintDrawing(lmod2, 1 - 0.94);
+
+            var expected = ColorTranslator.FromHtml("#497592");
+
+            Assert.AreEqual(expected.ToArgb(), tint.ToArgb());
+
+            //Assert.AreEqual(Color.FromArgb(255, 145, 14, 127).ToArgb(), myColorDarkened.ToArgb());
         }
 
         #region Theme Savon

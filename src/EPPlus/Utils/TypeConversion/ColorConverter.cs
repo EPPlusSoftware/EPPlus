@@ -248,7 +248,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
             return ret;
         }
 
-        internal static Color ApplyTintDrawing(Color ret, double tint)
+        internal static Color ApplyTintDrawing_old(Color ret, double tint)
         {
             //if (tint == 0)
             //{
@@ -285,7 +285,34 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
             return ret;
         }
+        internal static Color ApplyTintDrawing(Color color, double tint)
+        {
+            if (tint > 1) tint = 1;
+            if (tint < -1) tint = -1;
+            byte r = ApplyChannel(color.R, tint);
+            byte g = ApplyChannel(color.G, tint);
+            byte b = ApplyChannel(color.B, tint);
 
+            return Color.FromArgb(color.A, r, g, b);
+        }
+
+        private static byte ApplyChannel(byte channel, double tint)
+        {
+            double linear = SrgbToLinear(channel / 255.0);
+
+            double result = tint <= 0
+                ? linear * (1.0 + tint)          // shade: toward black
+                : linear * (1.0 - tint) + tint;  // tint:  toward white
+
+            return (byte)Math.Round(LinearToSrgb(result) * 255.0);
+        }
+
+        private static double SrgbToLinear(double c) =>
+            c <= 0.04045 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+
+        private static double LinearToSrgb(double c) =>
+            c <= 0.0031308 ? c * 12.92 : 1.055 * Math.Pow(c, 1.0 / 2.4) - 0.055;
+        
         internal static Color ApplyBlend(Color color, Color blendColor, double percent)
         {
             var colorPercent = 1 - percent;
