@@ -270,7 +270,11 @@ namespace OfficeOpenXml.Core.CellStore
                 (_pages[p] as IDisposable)?.Dispose();
             }
             _pages = null;
-            if (_values != null) _values.Clear();
+            if (_values != null)
+            {
+                _values.Clear();
+                _values = null;
+            }
         }
     }
 }
