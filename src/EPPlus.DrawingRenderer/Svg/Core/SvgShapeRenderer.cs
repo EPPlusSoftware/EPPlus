@@ -191,7 +191,7 @@ namespace EPPlus.DrawingRenderer
                 }
                 else
                 {
-                    item.FilterName = name;
+                    item.FilterName = $"Url(#{name})";
                 }
             }
             if (item.OuterShadowEffect != null)
