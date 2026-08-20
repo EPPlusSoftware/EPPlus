@@ -62,10 +62,6 @@ namespace OfficeOpenXml.Core.CellStore
         {
             _columnIndex = new ColumnIndex<T>[CellStoreSettings.ColSizeMin];
         }
-        ~CellStore()
-        {
-            _columnIndex = null;
-        }
         internal bool HasValues
         {
             get
@@ -1159,9 +1155,9 @@ namespace OfficeOpenXml.Core.CellStore
 
         public void Dispose()
         {
-            if (_columnIndex == null) return;
             lock (_syncRoot)
             {
+                if (_columnIndex == null) return;
                 for (var c = 0; c < ColumnCount; c++)
                 {
                     if (_columnIndex[c] != null)

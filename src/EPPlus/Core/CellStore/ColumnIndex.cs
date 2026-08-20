@@ -27,10 +27,6 @@ namespace OfficeOpenXml.Core.CellStore
             _pages = new PageIndex[CellStoreSettings.PagesPerColumnMin];
             PageCount = 0;
         }
-        ~ColumnIndex()
-        {
-            _pages = null;
-        }
         internal int GetPagePosition(int Row)
         {
             var page = (Row >> CellStoreSettings._pageBits);
