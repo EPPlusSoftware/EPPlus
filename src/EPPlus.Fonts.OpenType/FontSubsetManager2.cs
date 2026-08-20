@@ -29,7 +29,7 @@ namespace EPPlus.Fonts.OpenType
     ///   3. Call CreateSubsettedProvider() to get a new IFontProvider with subsetted fonts
     ///   4. Use the returned provider for shaping and PDF rendering
     /// </summary>
-    public class FontSubsetManager
+    public class FontSubsetManager2
     {
         private readonly IFontProvider _sourceProvider;
         private readonly OpenTypeFontEngine _fontEngine;
@@ -38,7 +38,7 @@ namespace EPPlus.Fonts.OpenType
         private readonly Dictionary<OpenTypeFont, HashSet<int>> _codePointsByFont =
             new Dictionary<OpenTypeFont, HashSet<int>>();
 
-        public FontSubsetManager(OpenTypeFontEngine engine, IFontProvider sourceProvider)
+        public FontSubsetManager2(OpenTypeFontEngine engine, IFontProvider sourceProvider)
         {
             if (engine == null)
                 throw new ArgumentNullException("engine");
@@ -49,7 +49,7 @@ namespace EPPlus.Fonts.OpenType
             _fontEngine = engine;
         }
 
-        public FontSubsetManager(OpenTypeFontEngine engine, OpenTypeFont font)
+        public FontSubsetManager2(OpenTypeFontEngine engine, OpenTypeFont font)
             : this(engine, new DefaultFontProvider(engine, font))
         {
             

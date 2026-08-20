@@ -30,15 +30,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
 
         // Pass 1: collect text per font so FontSubsetManager can build subsets once
+        // Pass 1: collect text per requested font into the document-wide subset builder.
         public static void CollectText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
             if (cell == null || cell.TextFragments == null) return;
             for (int i = 0; i < cell.TextFragments.Count; i++)
             {
                 var tf = cell.TextFragments[i];
-                var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
-                if (!dictionaries.Fonts.ContainsKey(key)) continue;
-                dictionaries.Fonts[key].fontSubsetManager.AddText(tf.Text);
+                dictionaries.AddFont(pageSettings, tf.Font.Family, tf.Font.SubFamily, tf.Text);
             }
         }
 

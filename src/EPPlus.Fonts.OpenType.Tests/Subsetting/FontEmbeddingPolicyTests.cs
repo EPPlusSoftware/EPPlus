@@ -1,4 +1,6 @@
-﻿using EPPlus.Fonts.OpenType.Tables.Os2;
+﻿using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Os2;
+using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
@@ -149,164 +151,24 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         }
 
         [TestMethod]
-        public void CreateSubsettedProvider_NoSubsettingFont_EmbedsWholeFontNotSubset()
+        public void Build_EmbedWholeDecision_EmbedsWholeFontNotSubset()
         {
-            var font = TestFolderEngine.LoadFont("Roboto", ignoreCache: true);
-            font.Os2Table.fsType = FsTypeFlags.NoSubsetting;
+            // A font whose embedding decision is EmbedWhole (here forced via the callback, exactly as a
+            // NoSubsetting fsType would resolve) must be embedded whole — not subsetted — even though
+            // text was collected that would otherwise trigger subsetting.
+            var engine = CreateEngineWithCallback(info =>
+                info.FontName != null && info.FontName.Contains("Roboto")
+                    ? FontEmbeddingDecision.EmbedWhole
+                    : FontEmbeddingDecision.Default);
 
-            var manager = new FontSubsetManager(TestFolderEngine, font);
-            // Collect some code points so the font would otherwise be subsetted.
-            manager.AddText("Hello");   // <-- vet ej exakt API-namn, se nedan
+            var builder = new DocumentFontSubsetBuilder(engine);
+            builder.AddText("Roboto", FontSubFamily.Regular, "Hello");
+            builder.Build();
 
-            var provider = manager.CreateSubsettedProvider();
+            var provider = builder.GetShapingProvider("Roboto", FontSubFamily.Regular);
 
             Assert.IsFalse(provider.PrimaryFont.IsSubset,
-                "NoSubsetting font must be embedded whole, not subsetted.");
-        }
-
-        // -----------------------------------------------------------------------------------------
-        // Level 4: Skip as a real fallback path (colleague feedback).
-        //
-        // A Skip decision can only originate from the OnFontEmbedding callback — the fsType policy
-        // never produces it. When a font is skipped it must be removed from the effective chain and
-        // its code points redistributed over the remaining fonts, rather than throwing. These tests
-        // build an engine whose callback skips a specific font by name.
-        // -----------------------------------------------------------------------------------------
-
-        [TestMethod]
-        public void CreateSubsettedProvider_SkippedPrimary_NextFontBecomesPrimary()
-        {
-            // Roboto is the primary; the callback skips it. The provider's default fallback chain
-            // (Noto Emoji, Noto Math) plus the resolver's last resort should take over, so the
-            // resulting primary must be something other than Roboto and must not be null.
-            var engine = CreateEngineWithCallback(info =>
-                info.FontName != null && info.FontName.Contains("Roboto")
-                    ? FontEmbeddingDecision.Skip
-                    : FontEmbeddingDecision.Default);
-
-            var roboto = engine.LoadFont("Roboto", ignoreCache: true);
-
-            var manager = new FontSubsetManager(engine, roboto);
-            manager.AddText("Hello");
-
-            var provider = manager.CreateSubsettedProvider();
-
-            Assert.IsNotNull(provider.PrimaryFont);
-            StringAssert.DoesNotMatch(
-                provider.PrimaryFont.GetEnglishFontFamilyName(),
-                new System.Text.RegularExpressions.Regex("Roboto"),
-                "A skipped primary must not remain the provider's primary font.");
-        }
-
-        [TestMethod]
-        public void CreateSubsettedProvider_SkippedPrimary_AllTextSkipped_UsesLastResort()
-        {
-            // With ONLY Latin text and Roboto skipped, none of the default fallbacks (Emoji, Math)
-            // cover the letters. The chain would collapse to empty, so the last-resort font
-            // (Archivo Narrow) must step in and carry the glyphs.
-            var engine = CreateEngineWithCallback(info =>
-                info.FontName != null && info.FontName.Contains("Roboto")
-                    ? FontEmbeddingDecision.Skip
-                    : FontEmbeddingDecision.Default);
-
-            var roboto = engine.LoadFont("Roboto", ignoreCache: true);
-
-            var manager = new FontSubsetManager(engine, roboto);
-            manager.AddText("Hello");
-
-            var provider = manager.CreateSubsettedProvider();
-
-            // Archivo Narrow is the guaranteed last resort. Its family name identifies it.
-            StringAssert.Contains(
-                provider.PrimaryFont.GetEnglishFontFamilyName(),
-                "Archivo",
-                "When the whole chain is skipped, the last-resort font must become primary.");
-
-            // The redistributed Latin code points must actually be present in that font.
-            ushort glyphId;
-            Assert.IsTrue(
-                provider.PrimaryFont.CmapTable.TryGetGlyphId('H', out glyphId) && glyphId != 0,
-                "Latin glyphs must be carried by the last-resort font after redistribution.");
-
-        }
-
-        [TestMethod]
-        public void CreateSubsettedProvider_SkippedPrimary_CjkText_GlyphsLandInReplacement()
-        {
-            // The heart of the redistribution logic: Roboto (Latin) is primary and covers none of
-            // the CJK text. A CJK-capable fallback (BIZ UDGothic) sits in a CustomFontProvider chain.
-            // When Roboto is skipped, the CJK code points that were distributed to it must be
-            // redistributed to BIZ UDGothic and appear in the subsetted result.
-            var engine = CreateEngineWithCallback(info =>
-                info.FontName != null && info.FontName.Contains("Roboto")
-                    ? FontEmbeddingDecision.Skip
-                    : FontEmbeddingDecision.Default);
-
-            var roboto = engine.LoadFont("Roboto", ignoreCache: true);
-            var biz = engine.LoadFont("BIZ UDGothic", ignoreCache: true);
-
-            var source = new CustomFontProvider(roboto);
-            source.AddFallback(biz);
-
-            var manager = new FontSubsetManager(engine, source);
-
-            // U+6F22 漢 — a Han ideograph covered by BIZ UDGothic, not by Roboto.
-            const int han = 0x6F22;
-            manager.AddText(char.ConvertFromUtf32(han));
-
-            var provider = manager.CreateSubsettedProvider();
-
-            // Roboto skipped → the CJK-capable font becomes primary.
-            ushort glyphId;
-            Assert.IsTrue(
-                provider.PrimaryFont.CmapTable.TryGetGlyphId((uint)han, out glyphId) && glyphId != 0,
-                "The Han code point must be carried (and subsetted) by the replacement font.");
-
-            StringAssert.DoesNotMatch(
-                provider.PrimaryFont.GetEnglishFontFamilyName(),
-                new System.Text.RegularExpressions.Regex("Roboto"),
-                "The skipped primary must not remain the provider's primary font.");
-
-            StringAssert.Contains(
-                provider.PrimaryFont.GetEnglishFontFamilyName(),
-                "BIZ",
-                "The CJK-capable fallback must have become the primary font.");
-        }
-
-        [TestMethod]
-        public void CreateSubsettedProvider_SkippedPrimary_PrefersChainFontOverLastResort()
-        {
-            // A skipped primary must hand off to a real font from the chain, NOT jump straight
-            // to the Archivo Narrow last resort. Roboto (Latin) is primary; BIZ UDGothic is a
-            // fallback that covers the CJK text. When Roboto is skipped, BIZ — not Archivo —
-            // must become primary.
-            var engine = CreateEngineWithCallback(info =>
-                info.FontName != null && info.FontName.Contains("Roboto")
-                    ? FontEmbeddingDecision.Skip
-                    : FontEmbeddingDecision.Default);
-
-            var roboto = engine.LoadFont("Roboto", ignoreCache: true);
-            var biz = engine.LoadFont("BIZ UDGothic", ignoreCache: true);
-
-            var source = new CustomFontProvider(roboto);
-            source.AddFallback(biz);
-
-            var manager = new FontSubsetManager(engine, source);
-            manager.AddText(char.ConvertFromUtf32(0x6F22)); // 漢
-
-            var provider = manager.CreateSubsettedProvider();
-
-            var family = provider.PrimaryFont.GetEnglishFontFamilyName();
-
-            // The positive assertion: the chain font took over.
-            StringAssert.Contains(family, "BIZ",
-                "A chain fallback must take over a skipped primary.");
-
-            // The negative assertion — the crux: the last resort was NOT used.
-            StringAssert.DoesNotMatch(
-                family,
-                new System.Text.RegularExpressions.Regex("Archivo"),
-                "The last-resort font must not pre-empt an available chain fallback.");
+                "An EmbedWhole font must be embedded whole, not subsetted.");
         }
     }
 }

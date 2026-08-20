@@ -86,7 +86,12 @@ namespace OfficeOpenXml.Export.PdfExport
                 // Collect text for every worksheet.
                 pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
 
-                // Shape text and auto-fit rows per sheet.
+                // Pass 1: collect all sheets. Pass 2: one document-wide build. Pass 3: shape all sheets.
+                foreach (var pdfSheet in pdfSheets)
+                    CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+
+                BuildSubsets(pageSettings);
+
                 foreach (var pdfSheet in pdfSheets)
                 {
                     ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
@@ -95,8 +100,6 @@ namespace OfficeOpenXml.Export.PdfExport
 
                 // One layout spanning all sheets and their ranges.
                 var layout = GetLayout(pageSettings, pdfSheets);
-
-                // Write the PDF document.
                 writePdf(layout);
             }
             finally
@@ -148,6 +151,8 @@ namespace OfficeOpenXml.Export.PdfExport
                 sw.Start();
 
                 //Shape Text
+                CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+                BuildSubsets(pageSettings);
                 ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
                 sw.Stop();
                 var ShapeTextTime = sw.ElapsedMilliseconds;
@@ -208,10 +213,11 @@ namespace OfficeOpenXml.Export.PdfExport
             try
             {
                 pdfSheet = GetPdfWorksheet(pageSettings, range);
+                CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+                BuildSubsets(pageSettings);
                 ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
                 PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                var layout = GetLayout(pageSettings, pdfSheet);   // single-sheet GetLayout overload
-
+                var layout = GetLayout(pageSettings, pdfSheet);
                 writePdf(layout);
             }
             finally
@@ -251,8 +257,12 @@ namespace OfficeOpenXml.Export.PdfExport
             PdfWorksheet[] pdfSheets = null;
             try
             {
-                // One PdfWorksheet per worksheet, each carrying all of its ranges.
                 pdfSheets = GetPdfWorksheets(pageSettings, ranges);
+
+                foreach (var pdfSheet in pdfSheets)
+                    CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+
+                BuildSubsets(pageSettings);
 
                 foreach (var pdfSheet in pdfSheets)
                 {
@@ -261,7 +271,6 @@ namespace OfficeOpenXml.Export.PdfExport
                 }
 
                 var layout = GetLayout(pageSettings, pdfSheets);
-
                 writePdf(layout);
             }
             finally
@@ -283,6 +292,8 @@ namespace OfficeOpenXml.Export.PdfExport
         internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
+            CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+            BuildSubsets(pageSettings);
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
             return pdfSheet.Ranges[0].Map;
         }
@@ -317,18 +328,22 @@ namespace OfficeOpenXml.Export.PdfExport
 
         //Shape Text Methods
 
+        // Pass 1: collect text for one sheet. Safe to call for every sheet before any Build.
+        internal void CollectTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(pageSettings, _dictionaries, cell));
+        }
+
+        // Build subsets ONCE for the whole document, after all sheets have been collected.
+        // Replaces the old per-sheet pass-2 loop over _dictionaries.Fonts.
+        internal void BuildSubsets(PdfPageSettings pageSettings)
+        {
+            _dictionaries.BuildSubsets(pageSettings);
+        }
+
+        // Pass 3: shape one sheet using the already-built providers. Call after BuildSubsets.
         internal void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
-            // Pass 1: collect text per font
-            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(pageSettings, _dictionaries, cell));
-
-            // Pass 2: build one provider per font
-            foreach (var kvp in _dictionaries.Fonts)
-            {
-                _dictionaries.ShapedProviders[kvp.Key] = kvp.Value.fontSubsetManager.CreateSubsettedProvider();
-            }
-
-            // Pass 3: shape text using the pre-built providers
             IterateCells(pdfSheet, cell => PdfTextShaper.ShapeText(pageSettings, _dictionaries, cell));
         }
 
