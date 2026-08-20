@@ -142,36 +142,39 @@ namespace EPPlusImageRenderer
             {
                 horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
                 horizontalAxis.Rectangle.Left = Plotarea.Group.Left;
-                horizontalAxis.Line.X1 = (float)horizontalAxis.Rectangle.Left;
-                horizontalAxis.Line.X2 = (float)horizontalAxis.Rectangle.Right;
-                
-                var axisPos = horizontalAxis.Axis.ActualAxisPosition;
-                if (axisPos == eActualAxisPosition.Bottom)
+                horizontalAxis.Line?.X1 = (float)horizontalAxis.Rectangle.Left;
+                horizontalAxis.Line?.X2 = (float)horizontalAxis.Rectangle.Right;
+
+                if (horizontalAxis.Line != null)
                 {
-                    if(isSecondary ==false && SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition==eActualAxisPosition.Bottom)
+                    var axisPos = horizontalAxis.Axis.ActualAxisPosition;
+                    if (axisPos == eActualAxisPosition.Bottom)
                     {
-                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height - SecondHorizontalAxis.Rectangle.Height;
+                        if (isSecondary == false && SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Bottom)
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height - SecondHorizontalAxis.Rectangle.Height;
+                        }
+                        else
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                        }
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
+                    }
+                    else if (axisPos == eActualAxisPosition.BottomSecond)
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + HorizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
+                    }
+                    else if (axisPos == eActualAxisPosition.Top)
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top;
                     }
                     else
                     {
-                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height - HorizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Bottom;
                     }
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
-                }
-                else if(axisPos == eActualAxisPosition.BottomSecond)
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + HorizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
-                }
-                else if(axisPos == eActualAxisPosition.Top)
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top;
-                }
-                else
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height - HorizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Bottom;
                 }
             }
             if (horizontalAxis.Title != null)
@@ -262,29 +265,32 @@ namespace EPPlusImageRenderer
             {
                 verticalAxis.Rectangle.Top = Plotarea.Group.Top;
                 verticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                verticalAxis.Line.Y1 = (float)verticalAxis.Rectangle.Top;
-                verticalAxis.Line.Y2 = (float)verticalAxis.Rectangle.Bottom;
+                verticalAxis.Line?.Y1 = (float)verticalAxis.Rectangle.Top;
+                verticalAxis.Line?.Y2 = (float)verticalAxis.Rectangle.Bottom;
                 var axisPos = verticalAxis.Axis.ActualAxisPosition;
 
-                if (axisPos == eActualAxisPosition.Left)
+                if(verticalAxis.Line != null)
                 {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
-                }
-                else if (axisPos == eActualAxisPosition.LeftSecond)
-                {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - VerticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
-                }
-                else if (axisPos == eActualAxisPosition.Right)
-                {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                }
-                else
-                {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width + VerticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                    if (axisPos == eActualAxisPosition.Left)
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                    }
+                    else if (axisPos == eActualAxisPosition.LeftSecond)
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - VerticalAxis.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                    }
+                    else if (axisPos == eActualAxisPosition.Right)
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                    }
+                    else
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width + VerticalAxis.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                    }
                 }
             }
 
@@ -448,21 +454,25 @@ namespace EPPlusImageRenderer
 
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
-                        var testAlternative = tc.ColorConverter.AlternativeTint(themeColor.Value, 0.25d);
-                        //had to guess/solve equation for values. According to excel it should still be 75%(0.25) but our calc is off bc of rounding or smth.
-                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.285d);
-                        //Arguably we should apply all transforms instead but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
-                        //themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                        //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.15d);
+                        //but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
+                        var convertedTheme = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                        var drawingTint = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.6d);
+                        //themeColor = convertedTheme;
+                        //Arguably we should apply all transforms instead
+                        //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
+                        ////themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.285d);
+                        ////Arguably we should apply all transforms instead but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
+                        ////themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
                     }
                     else
                     {
-                        ////Color clr = Color.FromArgb(255, 128, 128, 128);
-                        //var tstClr = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, (1d -2.5d));
-                        //Default value- Should arguably be 0.75% tint themeColor but something is strange...
-                        //It appears closer to 50 in this specific case
-                        //It also appears to be tx1 (black) and apply color and tint 0.25 in vba but for us it's 0.5372d...
-                        //0.5372 is however consistent with 137/255 and 137 is our expected result.
-                        themeColor = tc.ColorConverter.ApplyTint(themeColor.Value, 0.5372d);
+                        //Default value Should arguably be 75% tint themeColor but something is strange...
+                        //It appears closer to 50% in this specific case
+                        //It also appears to be tx1 (black) and apply color and tint 0.25 in vba
+                        var newTheme = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
+                        themeColor = newTheme;
+
                     }
                     //themedLine.Fill.SolidFill.Color.Transforms.AddTint
                 }

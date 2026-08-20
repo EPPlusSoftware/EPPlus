@@ -11,6 +11,31 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
     [TestClass]
     public class ChartStyleFallbackTest : TestBase
     {
+        [TestMethod]
+        public void ReadExcelFile()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            CreatePathIfNotExists("StyleExamples\\");
+
+            using (var p = OpenTemplatePackage("StyleExamples\\ExcelUnchangedEmptyChart.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var borderRef = c.StyleManager.Style.ChartArea.BorderReference;
+                    var borderSetting = c.Border;
+                    var borderDirectColor = borderSetting.Fill.Color;
+
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ExcelDefault{ws.Name}_{c.Name}.svg", svg);
+                }
+                var fi = GetOutputFile("StyleExamples", "ExcelUnchangedEmptyChart_out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
 
         [TestMethod]
         public void EpplusGeneratedChart()
@@ -188,7 +213,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                         var themeColor = tc.ColorConverter.GetThemeColor(theme, eThemeSchemeColor.Text1);
                         var themedLine = theme.FormatScheme.BorderStyle[0];
                         //themeColor = tc.ColorConverter.ApplyTransforms(themeColor, themedLine.Fill.SolidFill.Color.Transforms);
-                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor, 0.285d);
+                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor, 0.55d);
                         var ExpectedColor = Color.FromArgb(255, 255, 199, 199);
                         Assert.AreEqual(ExpectedColor.ToArgb(), themeColor.ToArgb());
                     }

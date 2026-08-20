@@ -304,7 +304,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 ? linear * (1.0 + tint)          // shade: toward black
                 : linear * (1.0 - tint) + tint;  // tint:  toward white
 
-            return (byte)Math.Round(LinearToSrgb(result) * 255.0);
+            return (byte)Math.Round(LinearToSrgb(result) * 255.0d);
         }
 
         private static double SrgbToLinear(double c) =>
