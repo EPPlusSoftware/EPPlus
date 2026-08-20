@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
-                    pageLayout.Settings = pageSettings;              // ← saknas
+                    pageLayout.Settings = pageSettings;             
                     pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
                     pageLayout.HeadingWidth = page.HeadingWidth;
                     pageLayout.HeadingHeight = page.HeadingHeight;

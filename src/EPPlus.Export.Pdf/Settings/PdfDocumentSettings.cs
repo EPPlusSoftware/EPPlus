@@ -23,7 +23,7 @@ namespace EPPlus.Export.Pdf.Settings
             return new PdfDocumentSettings
             {
                 FontEngine = s.FontEngine,
-                FontDirectories = s.FontDirectories,   // shared by reference
+                FontDirectories = s.FontDirectories,
                 SearchSystemDirectories = s.SearchSystemDirectories,
                 EmbeddFonts = s.EmbeddFonts,
                 defaultFontName = s.defaultFontName,
