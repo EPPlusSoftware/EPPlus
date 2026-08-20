@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.IO;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
@@ -30,8 +31,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            WriteAscii(bw, $"<< /Length {CidSet.Length} >>\nstream\n");
-            bw.Write(CidSet);
+            var body = PdfFlate.Compress(CidSet);
+            if (body.Length < CidSet.Length)
+            {
+                WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+                bw.Write(body);
+            }
+            else
+            {
+                WriteAscii(bw, $"<< /Length {CidSet.Length} >>\nstream\n");
+                bw.Write(CidSet);
+            }
             WriteAscii(bw, "\nendstream");
         }
     }

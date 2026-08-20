@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,12 +58,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         {
             var cmapContent = GenerateCMapContent();
             var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
-            var sb = new StringBuilder();
-            sb.AppendFormat(($"<< /Length {cmapBytes.Length} >>\n"));
-            sb.Append("stream\n");
-            sb.Append(cmapContent);
-            sb.Append("\nendstream");
-            WriteAscii(bw, sb.ToString());
+            var body = PdfFlate.Compress(cmapBytes);
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+            bw.Write(body);
+            WriteAscii(bw, "\nendstream");
         }
 
         private string GenerateCMapContent()

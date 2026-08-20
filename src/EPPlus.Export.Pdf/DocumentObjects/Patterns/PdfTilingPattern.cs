@@ -85,16 +85,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             if (fill != null)
             {
                 var streamContent = fill.CreatePatternResource();
-                var bytes = Encoding.ASCII.GetBytes(streamContent);
-                sb.AppendFormat($"\n   /Length {bytes.Length}");
+                var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(streamContent));
+                sb.AppendFormat($"\n   /Filter /FlateDecode /Length {body.Length}");
                 sb.Append(" >>");
-                sb.AppendFormat($"\nstream\n{streamContent}\nendstream");
+                WriteAscii(bw, sb.ToString());
+                WriteAscii(bw, "\nstream\n");
+                bw.Write(body);
+                WriteAscii(bw, "\nendstream");
             }
             else
             {
                 sb.Append(" >>");
+                WriteAscii(bw, sb.ToString());
             }
-            WriteAscii(bw, sb.ToString());
         }
     }
 }

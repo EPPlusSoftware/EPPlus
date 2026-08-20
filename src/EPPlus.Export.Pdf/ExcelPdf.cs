@@ -32,7 +32,7 @@ namespace EPPlus.Export.Pdf
         private PdfPageSettings _pageSettings;
         private PdfDocumentSettings _documentSettings; 
         private PdfDictionaries _dictionaries;
-        private List<PdfObject> _document = new List<PdfObject>();
+        internal List<PdfObject> _document = new List<PdfObject>();
         private string _debugString;
 
         internal static string Header
@@ -42,6 +42,16 @@ namespace EPPlus.Export.Pdf
                 return "%PDF-1.7\n";
             }
         }
+
+        internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
+{
+    _pageSettings = pageSettings;
+}
+
+internal void SetDictionariesForTest(PdfDictionaries dictionaries)
+{
+    _dictionaries = dictionaries;
+}
 
         //Get the label to use for pattern.
         private string GetPatternLabel(PdfCellLayout layout)
@@ -59,7 +69,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
-        private void AddFontData()
+        internal void AddFontData()
         {            
             if (_documentSettings.EmbeddFonts)
             {
@@ -73,7 +83,7 @@ namespace EPPlus.Export.Pdf
                     _document.Add(font.Value.GetCIDFontObject(_document.Count + 1));
                     _document.Add(font.Value.GetUnicodeCmapObject(_document.Count + 1));
                     _document.Add(font.Value.GetType0FontDictObject(_document.Count + 1));
-                    font.Value.GetFontObject(_document.Count);
+                    font.Value.fontObjectNumber = font.Value.type0FontObjectNumber;
                 }
             }
             else
@@ -140,11 +150,10 @@ namespace EPPlus.Export.Pdf
             var pageSettings = pageLayout.Settings;
 
             var cells = pageLayout.ChildObjects.Where(t =>
-                                                (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
-                                                !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
-                                                !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
-                                                !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).GroupBy(t => t.Name);
-
+                                                     (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
+                                                    !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
+                                                    !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
+                                                    !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
 
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
@@ -158,24 +167,20 @@ namespace EPPlus.Export.Pdf
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
-            foreach (var cell in cells)
+            foreach (PdfCellLayout fill in cells.OfType<PdfCellLayout>())
             {
-                foreach (var cellPart in cell)
-                {
-                    contentStream.AddCommand($"% CELL : {cellPart.Name}");
-                    switch (cellPart)
-                    {
-                        case PdfCellLayout layout:
-                            contentStream.AddCellLayout(layout, GetPatternLabel(layout));
-                            break;
-                        case PdfCellContentLayout contentLayout:
-                            contentStream.AddCellContentLayout(contentLayout, _dictionaries, pageSettings);
-                            break;
-                        case PdfCellBorderLayout borderLayout:
-                            contentStream.AddBorderLayout(borderLayout);
-                            break;
-                    }
-                }
+                contentStream.AddCommand($"% CELL FILL : {fill.Name}");
+                contentStream.AddCellLayout(fill, GetPatternLabel(fill));
+            }
+            foreach (PdfCellContentLayout content in cells.OfType<PdfCellContentLayout>())
+            {
+                contentStream.AddCommand($"% CELL TEXT : {content.Name}");
+                contentStream.AddCellContentLayout(content, _dictionaries, pageSettings);
+            }
+            foreach (PdfCellBorderLayout border in cells.OfType<PdfCellBorderLayout>())
+            {
+                contentStream.AddCommand($"% CELL BORDER : {border.Name}");
+                contentStream.AddBorderLayout(border);
             }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");

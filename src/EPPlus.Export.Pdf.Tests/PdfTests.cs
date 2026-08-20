@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Tests;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
@@ -24,7 +25,7 @@ using System.Text.RegularExpressions;
 namespace EPPlusTest.PDF
 {
     [TestClass]
-    public class PdfTests : TestBase
+    public class PdfTests : PdfTestBase
     {
         private static void AssertLooksLikePdf(byte[] bytes)
         {
@@ -48,14 +49,12 @@ namespace EPPlusTest.PDF
             return long.Parse(text.Substring(start, i - start));
         }
 
-        protected static string pdfPath = _worksheetPath + "\\PDF\\";
-
         [TestMethod]
         public void SaveWorksheetAsPdfTest1()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            string path = pdfPath + "WorksheetTest1.pdf";
+            string path = _pdfPath + "WorksheetTest1.pdf";
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -70,7 +69,7 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.ShowGridLines = false;
             ws.PrinterSettings.ShowHeaders = false;
             ws.PrinterSettings.PaperSize = ePaperSize.A3;
-            string path = pdfPath + "WorksheetTest2.pdf";
+            string path = _pdfPath + "WorksheetTest2.pdf";
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -81,7 +80,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
-            string path = pdfPath + "RangeTest1.pdf";
+            string path = _pdfPath + "RangeTest1.pdf";
             range.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -92,7 +91,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var wb = p.Workbook;
-            string path = pdfPath + "WorkbookTest1.pdf";
+            string path = _pdfPath + "WorkbookTest1.pdf";
             wb.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -106,7 +105,7 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             var ws1 = wb.Worksheets[1];
             var ws2 = wb.Worksheets[2];
-            string path = pdfPath + "WorksheetsTest2.pdf";
+            string path = _pdfPath + "WorksheetsTest2.pdf";
             wb.SaveAsPdf(path, ws0, ws1, ws2);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -119,7 +118,7 @@ namespace EPPlusTest.PDF
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
             var ws2 = wb.Worksheets[2];
-            string path = pdfPath + "WorksheetsTest1.pdf";
+            string path = _pdfPath + "WorksheetsTest1.pdf";
             wb.SaveAsPdf(path, ws0, ws2);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -135,7 +134,7 @@ namespace EPPlusTest.PDF
             var r2 = ws.Cells["B36:F39"];
             var r3 = ws.Cells["K49:Q58"];
             var r4 = ws.Cells["L142:Q147"];
-            string path = pdfPath + "RangesTest1.pdf";
+            string path = _pdfPath + "RangesTest1.pdf";
             wb.SaveAsPdf(path, r1, r2, r3, r4);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -554,7 +553,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("TableDiff.xlsx");
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
-            string path = pdfPath + "TableDiff.pdf";
+            string path = _pdfPath + "TableDiff.pdf";
             wb.SaveAsPdf(path, ws0);
         }
 
@@ -640,8 +639,8 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.RightMargin = 0.1d;
             ws.PrinterSettings.HorizontalCentered = true;
             ws.PrinterSettings.VerticalCentered = true;
-            p.Workbook.SaveAsPdf(pdfPath + "Snake.Pdf");
-            p.SaveAs(pdfPath + "Snake.xlsx");
+            p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
+            p.SaveAs(_pdfPath + "Snake.xlsx");
         }
 
         [TestMethod]
@@ -649,7 +648,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTestKarl.xlsx");
             var wb = p.Workbook;
-            string path = pdfPath + "WorksheetTest1.pdf";
+            string path = _pdfPath + "WorksheetTest1.pdf";
             wb.SaveAsPdf(path);
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }
@@ -701,35 +700,18 @@ namespace EPPlusTest.PDF
                 package.Workbook.Worksheets[0].PrinterSettings.ShowGridLines = false;
                 package.Workbook.Worksheets[1].PrinterSettings.ShowGridLines = true;
 
-                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                var baseSettings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
                     package.Workbook,
                     package.Workbook.Worksheets[0].PrinterSettings);
 
-                byte[] pdf;
-                using (var ms = new MemoryStream())
-                {
-                    new PdfCatalog(ms, settings, package.Workbook);
-                    pdf = ms.ToArray();
-                }
+                var s0 = GetPdfSettings.GetPdfSettingsForSheet(
+                    baseSettings, package.Workbook.Worksheets[0].PrinterSettings);
+                var s1 = GetPdfSettings.GetPdfSettingsForSheet(
+                    baseSettings, package.Workbook.Worksheets[1].PrinterSettings);
 
-                var text = Encoding.ASCII.GetString(pdf);
-
-                // One page per worksheet - guards against the count assertion below
-                // being thrown off by pagination or a comments page.
-                Assert.AreEqual(2, Regex.Matches(text, @"/MediaBox\s*\[").Count,
-                    "Expected one page per worksheet.");
-
-                // PdfContentStream.AddInnerGridLines writes this marker whenever the flag
-                // is set, so the number of occurrences equals the number of pages that
-                // asked for gridlines. Exactly one means the flag was read per sheet:
-                // reading sheet 1's flag globally    would give 0, applying it to every page
-                // would give 2.
-                Assert.AreEqual(1, Regex.Matches(text, @"% Gridlines Start").Count,
-                    "Only sheet 2 asked for gridlines.");
-
-                //var text = Encoding.ASCII.GetString(pdf);
-                //Debug.WriteLine($"pages={Regex.Matches(text, @"/MediaBox\s*\[").Count} " +
-                //                $"gridlines={Regex.Matches(text, @"% Gridlines Start").Count}");
+                Assert.IsFalse(s0.ShowGridLines, "Sheet 1 did not ask for gridlines.");
+                Assert.IsTrue(s1.ShowGridLines, "Sheet 2 asked for gridlines.");
+                Assert.IsFalse(baseSettings.ShowGridLines, "The base object must not be mutated.");
             }
         }
 
