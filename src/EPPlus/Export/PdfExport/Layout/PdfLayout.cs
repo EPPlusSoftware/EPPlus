@@ -703,7 +703,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 pdfPages.Page[i] = PrecomputePageImages(pageSettings, range, pdfPages.Page[i], drawings, colPrefix, rowPrefix);
             return pdfPages;
         }
-
+        private static double PointsFromEmu(long emu) => emu / (double)ExcelDrawing.EMU_PER_POINT;
+        private static double PointsFromPixels(double pixels) => pixels * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+        private static double ColumnEdge(double[] colPrefix, int localCol) => colPrefix[Math.Max(0, Math.Min(localCol, colPrefix.Length - 1))];
+        private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
         private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix)
         {
             page.Images = new List<ImageDrawInfo>();
@@ -731,12 +734,21 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1) continue;
 
                 // Absolute picture rectangle in range-local point space.
-                double imgLeft = colPrefix[imgColLocal] + pic.From.ColumnOff / (double)ExcelDrawing.EMU_PER_POINT;
-                double imgTop = rowPrefix[imgRowLocal] + pic.From.RowOff / (double)ExcelDrawing.EMU_PER_POINT;
-                double width = pic.GetPixelWidth() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
-                double height = pic.GetPixelHeight() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
-                double imgRight = imgLeft + width;
-                double imgBottom = imgTop + height;
+                double imgLeft = colPrefix[imgColLocal] + PointsFromEmu(pic.From.ColumnOff);
+                double imgTop = rowPrefix[imgRowLocal] + PointsFromEmu(pic.From.RowOff);
+                double imgRight, imgBottom;
+                if (pic.To != null)
+                {
+                    imgRight = ColumnEdge(colPrefix, (pic.To.Column + 1) - fromCol) + PointsFromEmu(pic.To.ColumnOff);
+                    imgBottom = RowEdge(rowPrefix, (pic.To.Row + 1) - fromRow) + PointsFromEmu(pic.To.RowOff);
+                }
+                else
+                {
+                    imgRight = imgLeft + PointsFromPixels(pic.GetPixelWidth());
+                    imgBottom = imgTop + PointsFromPixels(pic.GetPixelHeight());
+                }
+                double width = imgRight - imgLeft;
+                double height = imgBottom - imgTop;
 
                 // Only place the picture on pages its rectangle actually overlaps (both axes).
                 if (imgLeft >= pageAbsRight || imgRight <= pageAbsLeft) continue;
