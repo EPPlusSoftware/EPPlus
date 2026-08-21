@@ -128,28 +128,26 @@ namespace EPPlusImageRenderer.RenderItems
         {
             if(styleFillColor != null)
             {
-                Color? fc;
+                Color? fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
 
-                //fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-
-                if (styleFillColor.ColorType == eDrawingColorType.Scheme)
-                {
-                    var bg1 = theme.ColorScheme.GetColorByEnum(styleFillColor.SchemeColor.Color);
-                    fc = bg1.GetColor();
-                    var differentResultMB = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-                    //fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-                }
-                else
-                {
-                    if (fill != null && fill.Style != eFillStyle.NoFill)
-                    {
-                        fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-                    }
-                    else
-                    {
-                        return Color.Empty;
-                    }
-                }
+                //if (styleFillColor.ColorType == eDrawingColorType.Scheme)
+                //{
+                //    var bg1 = theme.ColorScheme.GetColorByEnum(styleFillColor.SchemeColor.Color);
+                //    fc = bg1.GetColor();
+                //    var differentResultMB = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                //    //fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                //}
+                //else
+                //{
+                //    if (fill != null && fill.Style != eFillStyle.NoFill)
+                //    {
+                //        fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                //    }
+                //    else
+                //    {
+                //        return Color.Empty;
+                //    }
+                //}
             }
             return null;
         }
