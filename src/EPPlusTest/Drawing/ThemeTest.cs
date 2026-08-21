@@ -457,11 +457,32 @@ namespace EPPlusTest.Drawing
             var tint = tc.ColorConverter.ApplyTintDrawing(lmod2, 1 - 0.94);
 
             var expected = ColorTranslator.FromHtml("#497592");
-
+            /*#475A67*/
             Assert.AreEqual(expected.ToArgb(), tint.ToArgb());
 
             //Assert.AreEqual(Color.FromArgb(255, 145, 14, 127).ToArgb(), myColorDarkened.ToArgb());
         }
+        [TestMethod]
+        public void ColorTransformMulti()
+        {
+            var accent1 = Color.FromArgb(255, 21, 96, 130); //Accent 1, default theme.
+            /*             
+<a:lumMod val="60000"/>
+<a:satMod val="103000"/>
+<a:lumMod val="102000"/>
+<a:tint val="94000"/>             
+             */
+            var lmod1 = tc.ColorConverter.ApplyLumMod(accent1, 0.6);
+            var smod1 = tc.ColorConverter.ApplySatMod(lmod1, 1.03);
+            var lmod2 = tc.ColorConverter.ApplyLumMod(smod1, 1.02);
+            var tint = tc.ColorConverter.ApplyTintDrawing(lmod2, 1-0.94);
+
+            var expected = ColorTranslator.FromHtml("#475A67");
+            Assert.AreEqual(expected.ToArgb(), tint.ToArgb());
+
+            //Assert.AreEqual(Color.FromArgb(255, 145, 14, 127).ToArgb(), myColorDarkened.ToArgb());
+        }
+
 
         #region Theme Savon
         [TestMethod]
