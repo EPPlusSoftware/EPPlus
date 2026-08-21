@@ -14,6 +14,7 @@ using EPPlus.DrawingRenderer;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -32,8 +33,18 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
             {
-                var newCm=theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
-                if (newCm == null) return Color.Empty;
+                ExcelDrawingThemeColorManager newCm;
+                if (cm.SchemeColor.Color == eSchemeColor.Style)
+                {
+                    //At this stage we have no style and must use
+                    //Hardcoded fallback. For fills (on charts) this is bg1
+                    //For shapes Accent1
+                    newCm = theme.ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
+                }
+                else
+                {
+                    newCm = theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
+                }
                 var nc = GetThemeColor(newCm);
                 return ApplyTransforms(nc, cm.Transforms);
             }
