@@ -21,12 +21,14 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.Xml;
@@ -77,8 +79,13 @@ namespace EPPlusImageRenderer
                 SecondHorizontalAxis = GetAxis(false, 2);
             }
 
-            Plotarea.SetPlotAreaRectangle();
+            if (HasDataTable)
+            {
+                DataTable = new ChartDataTableRenderer(this);
+            }
 
+            Plotarea.SetPlotAreaRectangle();
+            
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea();
 
@@ -520,6 +527,9 @@ namespace EPPlusImageRenderer
         internal ChartAxisRenderer SecondHorizontalAxis { get; set; }
 
         internal List<RenderItem> DefItems { get; } = new List<RenderItem>();
+        public bool HasDataTable { get => Chart.PlotArea.DataTable != null;  }
+        public ChartDataTableRenderer DataTable { get; private set; }
+
         internal void AddDefs(RenderItem item)
         {
             DefItems.Add(item);

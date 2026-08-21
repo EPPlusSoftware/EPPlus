@@ -901,12 +901,20 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
         }
-        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric)
+        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate)
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
             var dl = values.SelectMany(x => x).Distinct().ToList();
             isNumeric = dl.Any(x => x == null || x.IsNumeric() || (x is object[] a && a[3].IsNumeric()));
+            isDate = IsDate;
+            
+            if (isDate == false)
+            {
+                var fv = dl.FirstOrDefault(x => x != null && !(x is object[] a && a[3] == null));
+                isDate = (fv is DateTime) || (fv is object[] a && a[3] is DateTime);
+            }
+
             if (isNumeric)
             {
                 if (dl[0] is object[])

@@ -26,6 +26,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
         internal override bool SupportsErrorBars => true;
+        internal override bool SupportsDataTable => true;
         internal LineChartTypeDrawer(ChartRenderer svgChart, ExcelLineChart chartType) : base(svgChart, chartType)
         {
             var isStacked = chartType.IsTypeStacked();
