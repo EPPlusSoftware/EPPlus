@@ -23,6 +23,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.Xml;
@@ -55,32 +56,53 @@ namespace EPPlusImageRenderer.RenderItems
         }
         internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpaceOnUse, Color? nullColor)
         {
-            double? opacity = null;
-            switch (fill.Style)
+            double opacity = double.NaN;
+
+            var fillNew = GetFillNew(fill, theme, color, item.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill);
+
+            if(gradFill != null)
             {
-                case eFillStyle.NoFill:
-                    if (fill.IsEmpty) //Do NOT remove. This if is required for Shapes
-                    {
-                        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity, nullColor);
-                    }
-                    else
-                    {
-                        item.FillColor = "none";
-                    }
-                    break;
-                case eFillStyle.SolidFill:
-                    item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
-                    break;
-                case eFillStyle.GradientFill:
-                    item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill, gradientUserSpaceOnUse);
-                    item.FillType = FillType.GradientFill;
-                    item.FillColor = null;
-                    break;
+                //Special case for gradFIll as it does not return string
+                item.GradientFill = gradFill;
+                item.FillType = FillType.GradientFill;
+                item.FillColor = null;
             }
-            if (opacity.HasValue)
+            else
+            {
+                item.FillColor = fillNew;
+            }
+
+            if (opacity != double.NaN)
             {
                 item.FillOpacity = opacity;
             }
+
+            //switch (fill.Style)
+            //{
+            //    case eFillStyle.NoFill:
+            //        item.FillColor = GetFillNew(fill)
+            //        //if (fill.IsEmpty) //Do NOT remove. This if is required for Shapes
+            //        //{
+            //        //    item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity, nullColor);
+            //        //}
+            //        //else
+            //        //{
+            //        //    item.FillColor = "none";
+            //        //}
+            //        break;
+            //    case eFillStyle.SolidFill:
+            //        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
+            //        break;
+            //    case eFillStyle.GradientFill:
+            //        item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill, gradientUserSpaceOnUse);
+            //        item.FillType = FillType.GradientFill;
+            //        item.FillColor = null;
+            //        break;
+            //}
+            //if (opacity.HasValue)
+            //{
+            //    item.FillOpacity = opacity;
+            //}
         }
 
         //bg1 is the hard-coded default of solid fill according to ooxml docs (MS-OE376)
@@ -102,17 +124,20 @@ namespace EPPlusImageRenderer.RenderItems
             return fc;
         }
 
-        private static Color? GetFillColorFromReference(ExcelChartStyleReference reference, ExcelTheme theme, ExcelDrawingFillBasic fill)
+        private static Color? GetFillColorFromReference(ExcelDrawingColorManager styleFillColor, ExcelTheme theme, ExcelDrawingFillBasic fill)
         {
-            if(reference != null && reference.HasColor)
+            if(styleFillColor != null)
             {
-                var styleFillColor = reference.Color;
                 Color? fc;
+
+                //fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
 
                 if (styleFillColor.ColorType == eDrawingColorType.Scheme)
                 {
                     var bg1 = theme.ColorScheme.GetColorByEnum(styleFillColor.SchemeColor.Color);
                     fc = bg1.GetColor();
+                    var differentResultMB = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                    //fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
                 }
                 else
                 {
@@ -129,16 +154,17 @@ namespace EPPlusImageRenderer.RenderItems
             return null;
         }
 
-        private static string GetFillColorNew(ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleReference reference, PathFillMode colorSource, out double opacity, Func<Color?> GetDefaultThemeColor)
+        private static string GetFallbackFill(ExcelTheme theme, ExcelDrawingFillBasic itemFill, ExcelDrawingColorManager reference, PathFillMode colorSource, out double opacity, Func<Color?> GetDefaultThemeColor)
         {
             Color? fc = null;
 
+            //We already know the fill has "NoFill"
             //NoFill has two cases. Either the node does not exist. Or it has been set to NoFill specifically
-            if (border.Fill.IsEmpty)
+            if (itemFill.IsEmpty)
             {
                 //The node itself does not exist. It needs to check for potential fallbacks
                 //Move on to 2. StyleManager
-                fc = GetFillColorFromReference(reference, theme, border.Fill);
+                fc = GetFillColorFromReference(reference, theme, itemFill);
 
                 if (fc.HasValue == false)
                 {
@@ -147,12 +173,6 @@ namespace EPPlusImageRenderer.RenderItems
                     fc = GetFillColorFromTheme(theme, GetDefaultThemeColor);
 
                 }
-            }
-            else if (border.Fill.Style == eFillStyle.SolidFill)
-            {
-                //1. Standard case. There is a fill color to apply.
-                //Send in styleFill as well since a solid fill can refer to style color
-                fc = tc.ColorConverter.GetThemeColor(theme, border.Fill.SolidFill.Color, reference.Color);
             }
             else
             {
@@ -184,41 +204,52 @@ namespace EPPlusImageRenderer.RenderItems
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
 
-        internal static void ResolveStyleFallbackChainBorder(this RenderItem item, ExcelChart chart, ExcelTheme theme, ExcelChartStyleReference reference, ExcelDrawingBorder border, double opacity, Func<Color?> GetDefaultThemeColor)
+        internal static string GetFillNew(ExcelDrawingFillBasic fill, ExcelTheme theme, ExcelDrawingColorManager reference, PathFillMode fillMode, out double opacity, Func<Color?> GetHardCodedDefaultForItem, out DrawingRenderGradientFill gradFill)
         {
+            string fillStr = string.Empty;
+            gradFill = null;
+            opacity = 1d;
+
             //The Fallback chain of styles for drawing objects is:
             //1. Chart.Border (make sure to note the chart style ID
             //2. Chart.StyleManager.ChartArea.BorderReference
             //3. Theme.FormatScheme.BorderStyle[0] for subtle, [1] Moderate [2] Intense
             //4. If none of these contain even an empty node for the relevant property, Fallback to hardcoded documentation defaults 
 
-            Color? fc = null;
-            switch (border.Fill.Style)
+            switch (fill.Style)
             {
                 case eFillStyle.NoFill:
-                    if (border.Fill.IsEmpty)
-                    {
-                        //Fallback to style hierarhy (options 2, 3 or 4)
-                        item.BorderColor = GetFillColorNew(theme, border, reference, item.BorderColorSource, out opacity, GetDefaultThemeColor);
-                        //item.BorderColorSource = PathFillMode.Lighten;
-                    }
-                    else
-                    {
-                        //The node has specifically been set to NoFill AKA Transparent
-                        item.BorderColor = "none";
-                    }
+                    //Either transparent or Fallback to style hierarhy (options 2, 3 or 4)
+                    fillStr = GetFallbackFill(theme, fill, reference, fillMode, out opacity, GetHardCodedDefaultForItem);
                     break;
                 case eFillStyle.SolidFill:
                     //1. Standard case. There is a fill color to apply.
                     //Send in styleFill as well since a solid fill can refer to style color
-                    fc = tc.ColorConverter.GetThemeColor(theme, border.Fill.SolidFill.Color, reference?.Color);
-                    item.BorderColor = GetAdjustmentsAndTransparency(fc.Value, item.BorderColorSource, out opacity);
-                    item.BorderGradientFill = null;
+                    var fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, reference);
+                    fillStr = GetAdjustmentsAndTransparency(fc, fillMode, out opacity);
                     break;
                 case eFillStyle.GradientFill:
-                    item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
-                    item.BorderColor = null;
+                    gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
                     break;
+            }
+
+            return fillStr;
+        }
+
+        internal static void SetDrawingBorderPropertiesNew(this RenderItem item, ExcelTheme theme, ExcelChartStyleColorManager reference, ExcelDrawingBorder border, double opacity, Func<Color?> GetHardCodedDefaultForItem)
+        {
+            var fillColorStr = GetFillNew(border.Fill, theme, reference, item.BorderColorSource, out opacity, GetHardCodedDefaultForItem, out DrawingRenderGradientFill gradFill);
+
+            if(gradFill != null)
+            {
+                //Special case as gradfill does not return a string
+                item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
+                item.BorderColor = null;
+            }
+            else
+            {
+                item.BorderColor = fillColorStr;
+                item.BorderGradientFill = null;
             }
 
             item.BorderOpacity = opacity;
@@ -438,6 +469,8 @@ namespace EPPlusImageRenderer.RenderItems
             }
             else if (fill.Style == eFillStyle.SolidFill)
             {
+                fc = fill.Color;
+                tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color);
                 //Send in styleFill as well since a solid fill can refer to style color
                 fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, styleFillColor);
             }

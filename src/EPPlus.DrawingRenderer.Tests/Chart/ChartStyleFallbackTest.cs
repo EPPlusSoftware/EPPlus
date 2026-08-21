@@ -321,5 +321,32 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 p.SaveAs(fi);
             }
         }
+
+
+        [TestMethod]
+        public void ChartWithChartStyle()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            string fileName = "ChartWithChartStyleMEdit";
+
+            CreatePathIfNotExists("StyleExamples\\");
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
     }
 }

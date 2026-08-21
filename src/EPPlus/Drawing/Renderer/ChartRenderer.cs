@@ -368,53 +368,17 @@ namespace EPPlusImageRenderer
 
             //Note that a NoFill node for Charts means Transparent and that no nodes at all become bg1 as shown above
 
-            //var themeColor = tc.ColorConverter.GetThemeColor(Theme, Chart.StyleManager.Style?.ChartArea.BorderReference.Color);
-            //var borderFill = Chart.StyleManager.Style.ChartArea.Border.Fill;
-            var test = Chart.Border.Fill;
-
             var styleType = Chart.Style;
-            var myStyleManager = Chart.StyleManager;
-            //Chart.StyleManager.load
-            //var chartStyleId = Chart.StyleManager.;
-            //Chart.StyleManager.SetChartStyle(202);
-
-            Color? themeColor = null;
-
-            //if (Chart.StyleManager == null && styleType != eChartStyle.None)
-            //{
-            //    var styleId = (int)styleType;
-            //    if (styleId > (int)eChartStyle.Style48)
-            //    {
-            //        styleId = (int)eChartStyle.Style2;
-            //    }
-            //    //From table2 Default Line Formatting Per Chart Style
-            //    if(styleId <= 40)
-            //    {
-            //        //AKA dk1
-            //        themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
-            //        themeColor = tc.ColorConverter.ApplyTint(themeColor.Value, 0.75d);
-            //        var themedLine = Theme.FormatScheme.BorderStyle[0];
-            //        themedLine.Fill.Color = themeColor.Value;
-            //    }
-            //    else
-            //    {
-            //        //41-48
-            //        //aka light1
-            //        themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
-            //    }
-            //}
 
             var reference = Chart.StyleManager.Style?.ChartArea.BorderReference;
 
-            item.Rectangle.ResolveStyleFallbackChainBorder(
-                Chart, 
+            item.Rectangle.SetDrawingBorderPropertiesNew(
                 Theme,
-                reference, 
+                reference?.Color, 
                 Chart.Border, 
                 1d, 
                 () => GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine));
 
-            //item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75, UserSpaceSettings.UserSpaceOnUse_Global, Chart.Style);
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
@@ -456,14 +420,7 @@ namespace EPPlusImageRenderer
                     {
                         //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.15d);
                         //but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
-                        var convertedTheme = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
-                        var drawingTint = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.6d);
-                        //themeColor = convertedTheme;
-                        //Arguably we should apply all transforms instead
-                        //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
-                        ////themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.285d);
-                        ////Arguably we should apply all transforms instead but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
-                        ////themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                        themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
                     }
                     else
                     {
@@ -474,7 +431,6 @@ namespace EPPlusImageRenderer
                         themeColor = newTheme;
 
                     }
-                    //themedLine.Fill.SolidFill.Color.Transforms.AddTint
                 }
                 else
                 {
