@@ -377,6 +377,7 @@ namespace EPPlusImageRenderer
                 reference?.Color, 
                 Chart.Border, 
                 1d, 
+                Chart.Border.Fill.Style != eFillStyle.NoFill,
                 () => GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine));
 
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;

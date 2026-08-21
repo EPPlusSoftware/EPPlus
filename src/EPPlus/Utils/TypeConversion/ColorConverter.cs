@@ -62,16 +62,20 @@ namespace OfficeOpenXml.Utils.TypeConversion
             {
                 ExcelDrawingThemeColorManager newCm;
 
-                if (cmStyle.ColorType == eDrawingColorType.Scheme)
+                if(cmStyle.ColorType != eDrawingColorType.None)
                 {
-                    return GetThemeColor(theme, cmStyle);
+                    if (cmStyle.ColorType == eDrawingColorType.Scheme)
+                    {
+                        return GetThemeColor(theme, cmStyle);
+                    }
+                    else
+                    {
+                        newCm = theme.ColorScheme.GetColorByEnum(cmStyle.SchemeColor.Color);
+                    }
+                    var nc = GetThemeColor(newCm);
+                    return ApplyTransforms(nc, cm.Transforms);
                 }
-                else
-                {
-                    newCm = theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
-                }
-                var nc = GetThemeColor(newCm);
-                return ApplyTransforms(nc, cm.Transforms);
+                return Color.Empty;
             }
 
             var c = GetThemeColor(cm);

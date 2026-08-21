@@ -57,7 +57,9 @@ namespace EPPlusImageRenderer.RenderItems
         internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpaceOnUse, Color? nullColor)
         {
             double opacity = double.NaN;
+            double? opacityOld = double.NaN;
 
+            var oldFill = GetFillColor(theme, fill, color, item.FillColorSource, out opacityOld, nullColor);
             var fillNew = GetFillNew(fill, theme, color, item.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill);
 
             if(gradFill != null)
@@ -118,6 +120,7 @@ namespace EPPlusImageRenderer.RenderItems
 
             if (fc.HasValue == false)
             {
+                //Hardcoded default.
                 //Bg1 or alternatively accent 1
                 fc = theme.FormatScheme.BackgroundFillStyle[0].Color;
             }
@@ -129,25 +132,7 @@ namespace EPPlusImageRenderer.RenderItems
             if(styleFillColor != null)
             {
                 Color? fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-
-                //if (styleFillColor.ColorType == eDrawingColorType.Scheme)
-                //{
-                //    var bg1 = theme.ColorScheme.GetColorByEnum(styleFillColor.SchemeColor.Color);
-                //    fc = bg1.GetColor();
-                //    var differentResultMB = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-                //    //fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-                //}
-                //else
-                //{
-                //    if (fill != null && fill.Style != eFillStyle.NoFill)
-                //    {
-                //        fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
-                //    }
-                //    else
-                //    {
-                //        return Color.Empty;
-                //    }
-                //}
+                return fc;
             }
             return null;
         }
@@ -158,7 +143,7 @@ namespace EPPlusImageRenderer.RenderItems
 
             //We already know the fill has "NoFill"
             //NoFill has two cases. Either the node does not exist. Or it has been set to NoFill specifically
-            if (itemFill.IsEmpty)
+            if (itemFill == null || itemFill.IsEmpty)
             {
                 //The node itself does not exist. It needs to check for potential fallbacks
                 //Move on to 2. StyleManager
@@ -214,29 +199,48 @@ namespace EPPlusImageRenderer.RenderItems
             //3. Theme.FormatScheme.BorderStyle[0] for subtle, [1] Moderate [2] Intense
             //4. If none of these contain even an empty node for the relevant property, Fallback to hardcoded documentation defaults 
 
-            switch (fill.Style)
+            if(fill == null)
             {
-                case eFillStyle.NoFill:
-                    //Either transparent or Fallback to style hierarhy (options 2, 3 or 4)
-                    fillStr = GetFallbackFill(theme, fill, reference, fillMode, out opacity, GetHardCodedDefaultForItem);
-                    break;
-                case eFillStyle.SolidFill:
-                    //1. Standard case. There is a fill color to apply.
-                    //Send in styleFill as well since a solid fill can refer to style color
-                    var fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, reference);
-                    fillStr = GetAdjustmentsAndTransparency(fc, fillMode, out opacity);
-                    break;
-                case eFillStyle.GradientFill:
-                    gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
-                    break;
+                fillStr = GetFallbackFill(theme, fill, reference, fillMode, out opacity, GetHardCodedDefaultForItem);
             }
+            else
+            {
+                switch (fill.Style)
+                {
+                    case eFillStyle.NoFill:
+                        //Either transparent or Fallback to style hierarhy (options 2, 3 or 4)
+                        fillStr = GetFallbackFill(theme, fill, reference, fillMode, out opacity, GetHardCodedDefaultForItem);
+                        break;
+                    case eFillStyle.SolidFill:
+                        //1. Standard case. There is a fill color to apply.
+                        //Send in styleFill as well since a solid fill can refer to style color
+                        var fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill.Color, reference);
+                        fillStr = GetAdjustmentsAndTransparency(fc, fillMode, out opacity);
+                        break;
+                    case eFillStyle.GradientFill:
+                        gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
+                        break;
+                }
 
+            }
             return fillStr;
         }
 
-        internal static void SetDrawingBorderPropertiesNew(this RenderItem item, ExcelTheme theme, ExcelChartStyleColorManager reference, ExcelDrawingBorder border, double opacity, Func<Color?> GetHardCodedDefaultForItem)
+        internal static void SetDrawingBorderPropertiesNew(this RenderItem item, ExcelTheme theme, ExcelChartStyleColorManager reference, ExcelDrawingBorder border, double opacity, bool hasBorder, Func<Color?> GetHardCodedDefaultForItem)
         {
-            var fillColorStr = GetFillNew(border.Fill, theme, reference, item.BorderColorSource, out opacity, GetHardCodedDefaultForItem, out DrawingRenderGradientFill gradFill);
+            string fillColorStr = null;
+            DrawingRenderGradientFill gradFill = null;
+            if (border == null)
+            {
+                if (hasBorder)
+                {
+                    fillColorStr = GetFillNew(null, theme, reference, item.BorderColorSource, out opacity, GetHardCodedDefaultForItem, out gradFill);
+                }
+            }
+            else
+            {
+                fillColorStr = GetFillNew(border.Fill, theme, reference, item.BorderColorSource, out opacity, GetHardCodedDefaultForItem, out gradFill);
+            }
 
             if(gradFill != null)
             {
@@ -270,56 +274,59 @@ namespace EPPlusImageRenderer.RenderItems
         internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global, eChartStyle styleId = eChartStyle.Style2)
         {
             double? opacity = null;
-            if (border == null)
-            {
-                if (hasBorder)
-                {
-                    item.BorderColor = GetFillColor(theme, null, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
-                }
-            }
-            else
-            {
-                switch (border.Fill.Style)
-                {
-                    case eFillStyle.NoFill:
-                        if (border.Fill.IsEmpty)
-                        { 
-                            item.BorderColor = GetFillColor(theme, border.Fill, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
-                        }
-                        else
-                        {
-                            item.BorderColor = "none";
-                        }
-                        break;
-                    case eFillStyle.SolidFill:
-                        item.BorderColor = GetFillColor(theme, border.Fill, color, item.BorderColorSource, out opacity);
-                        item.BorderGradientFill = null;
-                        break;
-                    case eFillStyle.GradientFill:
-                        item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, gradientUserSpaceOnUse);
-                        item.BorderColor = null;
-                        break;
-                }
-            }
+            GetFillColor(theme, null, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
+            opacity = double.NaN;
+            SetDrawingBorderPropertiesNew(item, theme, color, border, opacity.Value, hasBorder, () => { return nullColor; });
+            //if (border == null)
+            //{
+            //    if (hasBorder)
+            //    {
+            //        item.BorderColor = GetFillColor(theme, null, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
+            //    }
+            //}
+            //else
+            //{
+            //    switch (border.Fill.Style)
+            //    {
+            //        case eFillStyle.NoFill:
+            //            if (border.Fill.IsEmpty)
+            //            { 
+            //                item.BorderColor = GetFillColor(theme, border.Fill, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
+            //            }
+            //            else
+            //            {
+            //                item.BorderColor = "none";
+            //            }
+            //            break;
+            //        case eFillStyle.SolidFill:
+            //            item.BorderColor = GetFillColor(theme, border.Fill, color, item.BorderColorSource, out opacity);
+            //            item.BorderGradientFill = null;
+            //            break;
+            //        case eFillStyle.GradientFill:
+            //            item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, gradientUserSpaceOnUse);
+            //            item.BorderColor = null;
+            //            break;
+            //    }
+            //}
 
-            if (opacity.HasValue)
-            {
-                item.BorderOpacity = opacity;
-            }
+            //if (opacity != double.NaN)
+            //{
+            //    item.BorderOpacity = opacity;
+            //}
 
-            if (hasBorder && item.BorderColorSource != PathFillMode.None)
-            {
-                item.BorderWidth = (border?.Width??0D) == 0D ? defaultWidth : border.Width;
-                if (border!=null && border.LineStyle.HasValue && border.LineStyle != eLineStyle.Solid)
-                {
-                    item.BorderDashArray = GetDashArray(border, item.BorderWidth.Value);
-                }
-                if (border != null && border.CompoundLineStyle != eCompoundLineStyle.Single)
-                {
-                    item.CompoundLineStyle = (CompoundLineStyle)border.CompoundLineStyle;
-                    //TODO:Add support double compound borders.
-                }
-            }
+            //if (hasBorder && item.BorderColorSource != PathFillMode.None)
+            //{
+            //    item.BorderWidth = (border?.Width??0D) == 0D ? defaultWidth : border.Width;
+            //    if (border!=null && border.LineStyle.HasValue && border.LineStyle != eLineStyle.Solid)
+            //    {
+            //        item.BorderDashArray = GetDashArray(border, item.BorderWidth.Value);
+            //    }
+            //    if (border != null && border.CompoundLineStyle != eCompoundLineStyle.Single)
+            //    {
+            //        item.CompoundLineStyle = (CompoundLineStyle)border.CompoundLineStyle;
+            //        //TODO:Add support double compound borders.
+            //    }
+            //}
         }
         internal static void SetDrawingPropertiesEffects(this RenderItem item, ExcelTheme theme, ExcelDrawingEffectStyle effect)
         {
