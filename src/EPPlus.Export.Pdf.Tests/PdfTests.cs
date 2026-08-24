@@ -553,6 +553,17 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
+        public void PictureOutside()
+        {
+            using var p = OpenTemplatePackage("Pdf_picture_outside.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            ws0.PrinterSettings.ShowGridLines = true;
+            string path = _pdfPath + "PictureOutside.pdf";
+            wb.SaveAsPdf(path, ws0);
+        }
+
+        [TestMethod]
         public void EPPlusToPdf()
         {
             string[][] pixels =
