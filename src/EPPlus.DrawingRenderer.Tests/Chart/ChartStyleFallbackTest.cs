@@ -5,46 +5,305 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using tc = OfficeOpenXml.Utils.TypeConversion;
+using System.Globalization;
 
 namespace EPPlus.DrawingRenderer.Tests.Chart
 {
     [TestClass]
     public class ChartStyleFallbackTest : TestBase
     {
-        [TestMethod]
-        public void ReadExcelFile()
+
+        [AssemblyInitialize]
+        public static async Task AssemblyInit(TestContext context)
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
             CreatePathIfNotExists("StyleExamples\\");
 
-            using (var p = OpenTemplatePackage("StyleExamples\\ExcelUnchangedEmptyChart.xlsx"))
+        }
+
+        private void CreateStyleExampleAndExportIt(string fileName, Func<List<string>, bool> assertIfTestSuccessful)
+        {
+            bool testSucceded = false;
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var borderRef = c.StyleManager.Style.ChartArea.BorderReference;
-                    var borderSetting = c.Border;
-                    var borderDirectColor = borderSetting.Fill.Color;
+                List<string> outputSvgs = new List<string>();
 
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ExcelDefault{ws.Name}_{c.Name}.svg", svg);
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var svg = c.ToSvg();
+                        outputSvgs.Add(svg);
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
                 }
-                var fi = GetOutputFile("StyleExamples", "ExcelUnchangedEmptyChart_out.xlsx");
+
+                testSucceded = assertIfTestSuccessful(outputSvgs);
+
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+            Assert.IsTrue(testSucceded);
+        }
+
+
+        [TestMethod]
+        public void ReadExcelFile()
+        {
+            CreateStyleExampleAndExportIt("ExcelUnchangedEmptyChart", (List<string> outputSvgs) => 
+            {
+                //Create expected color
+                var col = Color.FromArgb(217, 217, 217);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
+
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 -1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(1d, widthResult);
+
+                return expectedStr == colorResult && 1d == widthResult;
+            });
+        }
+
+        [TestMethod]
+        public void ReadEmptyDefaultChartStyle()
+        {
+            CreateStyleExampleAndExportIt("emptyDefault", (List<string> outputSvgs) =>
+            {
+                //Create expected color
+                var col = Color.FromArgb(217, 217, 217);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
+
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(13.3333d, widthResult, 0.003);
+
+                return expectedStr == colorResult && 13.3333d == Math.Round(widthResult,4);
+            });
+        }
+
+
+        [TestMethod]
+        public void ReadExcelEditedRemovedStyles()
+        {
+            string fileName = "emptyManuallyRemovedLnStyles";
+
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
+            {
+                //Create expected color
+                var col = Color.FromArgb(137, 137, 137);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
+
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(13.3333d, widthResult, 0.003);
+
+                return expectedStr == colorResult && 13.3333d == Math.Round(widthResult, 4);
+            });
+        }
+
+        [TestMethod]
+        public void ReadChartBorderThemeTint()
+        {
+            var fileName = "ChartBorderThemeTint";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var lChart = ws.Drawings[0].As.Chart.LineChart;
+
+                lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor.Accent1);
+        
+                //100 - input is what excel seems to apply
+                //lChart.StyleManager.Style.ChartArea.BorderReference.Color.Transforms.AddTint(13);
+
+                //Adding Less Tint makes the object Lighter. Which is the inverse of how excel does it.
+                lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.Transforms.AddTint(60);
+                lChart.StyleManager.Style.ChartArea.Border.Width = 10d;
+                lChart.StyleManager.ApplyStyles();
+
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
+        [TestMethod]
+        public void EditedTheme()
+        {
+            string fileName = "ExcelThemeEdited";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        //var borderSetting = c.Border;
+                        //var borderDirectColor = borderSetting.Fill.Color;
+                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+
+                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
+
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+
+                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                        var themeColor = tc.ColorConverter.GetThemeColor(theme, eThemeSchemeColor.Text1);
+                        var themedLine = theme.FormatScheme.BorderStyle[0];
+                        //themeColor = tc.ColorConverter.ApplyTransforms(themeColor, themedLine.Fill.SolidFill.Color.Transforms);
+                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor, 0.55d);
+                        var ExpectedColor = Color.FromArgb(255, 255, 199, 199);
+                        Assert.AreEqual(ExpectedColor.ToArgb(), themeColor.ToArgb());
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
                 p.SaveAs(fi);
             }
         }
 
 
         [TestMethod]
-        public void EpplusGeneratedChart()
+        public void ManualSystemText()
+        {
+            string fileName = "ExcelThemeManualSystemText";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
+
+        [TestMethod]
+        public void ExcelThemeLnDeleted()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
 
             CreatePathIfNotExists("StyleExamples\\");
 
-            using (var p = OpenPackage("StyleExamples\\epplusDefaultTest.xlsx",true))
+            string fileName = "ExcelThemeLnDeleted";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
+
+        [TestMethod]
+        public void PureExcelTheme()
+        {
+            string fileName = "PureExcelTheme";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var borderSetting = c.Border;
+                        var borderDirectColor = borderSetting.Fill.Color;
+                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+
+                        var defaultColorFromTheme = theme.ColorScheme.Dark1;
+
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
+
+        [TestMethod]
+        public void ChartWithChartStyle()
+        {
+            string fileName = "ChartWithChartStyleMEdit";
+
+            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (var d in ws.Drawings)
+                {
+                    if (d is ExcelChart c)
+                    {
+                        var svg = c.ToSvg();
+                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                    }
+                }
+                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+                p.SaveAs(fi);
+            }
+        }
+
+        [TestMethod]
+        public void EpplusGeneratedChart()
+        {
+            using (var p = OpenPackage("StyleExamples\\epplusDefaultTest.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("EpplusGeneratedChart");
 
@@ -85,37 +344,11 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         }
 
         [TestMethod]
-        public void ReadEmptyDefaultChartStyle()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            CreatePathIfNotExists("StyleExamples\\");
-
-            using (var p = OpenTemplatePackage("StyleExamples\\emptyDefault.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (ExcelChart c in ws.Drawings)
-                {
-                    var borderRef = c.StyleManager.Style.ChartArea.BorderReference;
-                    var borderSetting = c.Border;
-                    var borderDirectColor = borderSetting.Fill.Color;
-
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\emptyDefaultStyle{ws.Name}_{c.Name}.svg", svg);
-                }
-                var fi = GetOutputFile("StyleExamples", "emptyDefault_out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-        [TestMethod]
         public void GenerateSimpleChart()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
             string fileName = "EpplusSimpleChart";
 
-            using (var p = OpenPackage($"{fileName}.xlsx",true))
+            using (var p = OpenPackage($"{fileName}.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("s1");
                 ws.Drawings.AddBarChart("simpleChart", eBarChartType.ColumnClustered);
@@ -124,229 +357,5 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
             }
         }
 
-        [TestMethod]
-        public void ReadChartBorderThemeTint()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            var fileName = "ChartBorderThemeTint";
-            CreatePathIfNotExists("StyleExamples\\");
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var lChart = ws.Drawings[0].As.Chart.LineChart;
-
-                lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor.Accent1);
-        
-                //100 - input is what excel seems to apply
-                //lChart.StyleManager.Style.ChartArea.BorderReference.Color.Transforms.AddTint(13);
-
-                //Adding Less Tint makes the object Lighter. Which is the inverse of how excel does it.
-                lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.Transforms.AddTint(60);
-                lChart.StyleManager.Style.ChartArea.Border.Width = 10d;
-                lChart.StyleManager.ApplyStyles();
-
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-        [TestMethod]
-        public void RemovedStyles()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            string fileName = "emptyManuallyRemovedLnStyles";
-            CreatePathIfNotExists("StyleExamples\\");
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        //var borderSetting = c.Border;
-                        //var borderDirectColor = borderSetting.Fill.Color;
-                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-
-                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
-
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-        [TestMethod]
-        public void EditedTheme()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            CreatePathIfNotExists("StyleExamples\\");
-
-            string fileName = "ExcelThemeEdited";
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        //var borderSetting = c.Border;
-                        //var borderDirectColor = borderSetting.Fill.Color;
-                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-
-                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
-
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-
-                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-                        var themeColor = tc.ColorConverter.GetThemeColor(theme, eThemeSchemeColor.Text1);
-                        var themedLine = theme.FormatScheme.BorderStyle[0];
-                        //themeColor = tc.ColorConverter.ApplyTransforms(themeColor, themedLine.Fill.SolidFill.Color.Transforms);
-                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor, 0.55d);
-                        var ExpectedColor = Color.FromArgb(255, 255, 199, 199);
-                        Assert.AreEqual(ExpectedColor.ToArgb(), themeColor.ToArgb());
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-
-        [TestMethod]
-        public void ManualSystemText()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            string fileName = "ExcelThemeManualSystemText";
-
-            CreatePathIfNotExists("StyleExamples\\");
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        //var borderSetting = c.Border;
-                        //var borderDirectColor = borderSetting.Fill.Color;
-                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-
-                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
-
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-
-        [TestMethod]
-        public void ExcelThemeLnDeleted()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            CreatePathIfNotExists("StyleExamples\\");
-
-            string fileName = "ExcelThemeLnDeleted";
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        //var borderSetting = c.Border;
-                        //var borderDirectColor = borderSetting.Fill.Color;
-                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-
-                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
-
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-
-        [TestMethod]
-        public void PureExcelTheme()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            string fileName = "PureExcelTheme";
-
-            CreatePathIfNotExists("StyleExamples\\");
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        var borderSetting = c.Border;
-                        var borderDirectColor = borderSetting.Fill.Color;
-                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-
-                        var defaultColorFromTheme = theme.ColorScheme.Dark1;
-
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-
-        [TestMethod]
-        public void ChartWithChartStyle()
-        {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            string fileName = "ChartWithChartStyleMEdit";
-
-            CreatePathIfNotExists("StyleExamples\\");
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
     }
 }
