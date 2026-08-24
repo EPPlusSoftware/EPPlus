@@ -506,8 +506,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 }
             }
         }
-
-
         [TestMethod]
         public void GenerateSvgForCircle()
         {

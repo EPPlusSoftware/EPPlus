@@ -98,6 +98,19 @@ namespace OfficeOpenXml.Drawing.Theme
             }
         }
         ExcelDrawingFill _fill = null;
+
+        public bool HasFill
+        {
+            get
+            {
+                if (_fill != null || ((TopNode.ChildNodes.Count > 0) && TopNode.ChildNodes[0].LocalName.EndsWith("Fill")))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// Access to fill properties
         /// </summary>
@@ -113,6 +126,7 @@ namespace OfficeOpenXml.Drawing.Theme
                     }
                     else
                     {
+                        //TODO: Checking this should not create the node. Many of our getters still create nodes. They should not.
                         var node = CreateNode("a:solidFill");
                         _fill = new ExcelDrawingFill(_theme, NameSpaceManager, TopNode.ChildNodes[0], "", SchemaNodeOrder);
                         Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Style);

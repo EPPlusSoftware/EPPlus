@@ -272,7 +272,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         protected IEnumerable<int> GetMatchingIndicesFromArguments(int argStartIx, IList<CompileResult> args, ParsingContext ctx, int maxIndex = 31, bool convertNumericStrings = true)
         {
             //Return the addresses matching the criteria in the queue
-            var argRanges = new List<RangeOrValue>();
+            var criteriaRanges = new List<RangeOrValue>();
             var criteria = new List<object>();
             for (var ix = argStartIx; ix < maxIndex; ix += 2)
             {
@@ -280,27 +280,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 var arg = args[ix];
                 if (arg.Result is IRangeInfo rangeInfo)
                 {
-                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                    criteriaRanges.Add(new RangeOrValue { Range = rangeInfo });
                 }
                 else
                 {
-                    argRanges.Add(new RangeOrValue { Value = arg.ResultValue });
+                    criteriaRanges.Add(new RangeOrValue { Value = arg.ResultValue });
                 }
 
                 if (args[ix + 1].Result is IRangeInfo critInfo)
                 {
-                    criteria.Add(new RangeOrValue { Range = critInfo });
+                    criteria.Add(critInfo.GetValue(0, 0));
                 }
                 else
                 {
-                    criteria.Add(new RangeOrValue { Value = args[ix + 1].ResultValue });
+                    criteria.Add(args[ix + 1].ResultValue);
                 }
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], ctx, convertNumericStrings);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(criteriaRanges[0], criteria[0], ctx, convertNumericStrings);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
-            for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
+            for (var ix = 1; ix < criteriaRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], ctx, convertNumericStrings);
+                var indexes = GetMatchIndexes(criteriaRanges[ix], criteria[ix], ctx, convertNumericStrings);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 

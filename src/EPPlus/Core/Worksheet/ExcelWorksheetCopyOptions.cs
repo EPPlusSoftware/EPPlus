@@ -31,5 +31,16 @@ namespace OfficeOpenXml.Core.Worksheet
         /// formula references are updated and name uniqueness is validated.
         /// </summary>
         public Action<ExcelTableCopyEventArgs> TableCopyHandler { get; set; }
+
+        /// <summary>
+        /// A handler that is invoked for each pivot table that is copied to the new worksheet.
+        /// Use this to assign a custom name to the copied pivot table. When a worksheet is copied
+        /// within the same workbook, copied pivot tables are otherwise given a generated name
+        /// (PivotTable1, PivotTable2, ...). Set <see cref="ExcelPivotTableCopyEventArgs.NewName"/>
+        /// on the argument to rename the copied pivot table. The rename is applied through the same
+        /// path as a normal <see cref="OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name"/>
+        /// assignment, so name uniqueness is validated.
+        /// </summary>
+        public Action<ExcelPivotTableCopyEventArgs> PivotTableCopyHandler { get; set; }
     }
 }

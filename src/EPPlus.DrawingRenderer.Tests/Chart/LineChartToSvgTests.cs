@@ -19,8 +19,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                //var ix = 0;
-                //var c = ws.Drawings[ix];
+                //var ix = 4;
+                //var c = ws.Drawings[ix]; 
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
@@ -123,7 +123,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var c = ws.Drawings[ix];
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                var ix = 1;
+                var ix = 0;
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = c.ToSvg();
@@ -309,17 +309,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[1];
 
-                var ix = 1;
-                var c = ws.Drawings[ix];
-                var svg = c.ToSvg();
-                SaveTextFileToWorkbook($"svg\\5.3-SampleLines{ix}.svg", svg);
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\5.3-SampleLines{ix}.svg", svg);
 
-                //for (int i = 0; i < ws.Drawings.Count; i++)
-                //{
-                //    var c = ws.Drawings[i];
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\5.3-SampleLines{i}.svg", svg);
-                //}
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\5.3-SampleLines{i}.svg", svg);
+                }
             }
         }
         //2.4-CreateAFileSystemReport.xlsx

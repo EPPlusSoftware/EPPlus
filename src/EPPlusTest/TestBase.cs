@@ -251,6 +251,7 @@ namespace EPPlusTest
             {
                fi.Delete();
             }
+            pck.SaveAs(fi);
         }
         protected static readonly DateTime _loadDataStartDate = new DateTime(2022, 11, 1);
         /// <summary>

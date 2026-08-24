@@ -23,6 +23,7 @@ namespace OfficeOpenXml.Drawing.Slicer
     /// </summary>
     public abstract class ExcelSlicerCache : XmlHelper
     {
+        const string _extPath = "x14:extLst/d:ext";
         internal ExcelSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
         }
@@ -107,6 +108,36 @@ namespace OfficeOpenXml.Drawing.Slicer
             var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
             var element = (XmlElement)xh.CreateNode("x14:slicerCache", false, true);
             element.SetAttribute("id", ExcelPackage.schemaRelationships, CacheRel.Id);
+        }
+
+        const string _hideItemsWithNoDataPath = "x15:slicerCacheHideItemsWithNoData";
+        /// <summary>
+        /// If true, items that have no data are not displayed
+        /// </summary>
+        public bool HideItemsWithNoData
+        {
+            get
+            {
+                return ExistsNode(_extPath + "/" + _hideItemsWithNoDataPath);
+            }
+            set
+            {
+                if (value)
+                {
+                    var node = CreateNode("x14:extLst/d:ext", false, true);
+                    ((XmlElement)node).SetAttribute("uri", ExtLstUris.SlicerCacheHideItemsWithNoDataUri);
+                    var helper = XmlHelperFactory.Create(NameSpaceManager, node);
+                    helper.CreateNode(_hideItemsWithNoDataPath, false, true);
+                }
+                else
+                {
+                    var hideNode = GetNode(_extPath + "/" + _hideItemsWithNoDataPath);
+                    if (hideNode != null)
+                    {
+                        hideNode.ParentNode.ParentNode.RemoveChild(hideNode.ParentNode);
+                    }
+                }
+            }
         }
     }
 }
