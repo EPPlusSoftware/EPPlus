@@ -266,7 +266,8 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 LoadXmlSafe(PivotTableXml, copy.PivotTableXml.OuterXml, Encoding.UTF8);
                 TopNode = PivotTableXml.DocumentElement;
-                Name = name;
+                SetXmlNodeString(NAME_PATH, name);
+                SetXmlNodeString(DISPLAY_NAME_PATH, CleanDisplayName(name));
             }
             PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
 
@@ -361,16 +362,16 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                if (WorkSheet.Workbook.ExistsTableName(value))
+                if (WorkSheet.Workbook.ExistsPivotTableName(value))
                 {
                     throw (new ArgumentException("PivotTable name is not unique"));
                 }
                 string prevName = Name;
-                if (WorkSheet.Tables._tableNames.ContainsKey(prevName))
+                if (WorkSheet.PivotTables._pivotTableNames.ContainsKey(prevName))
                 {
-                    int ix = WorkSheet.Tables._tableNames[prevName];
-                    WorkSheet.Tables._tableNames.Remove(prevName);
-                    WorkSheet.Tables._tableNames.Add(value, ix);
+                    int ix = WorkSheet.PivotTables._pivotTableNames[prevName];
+                    WorkSheet.PivotTables._pivotTableNames.Remove(prevName);
+                    WorkSheet.PivotTables._pivotTableNames.Add(value, ix);
                 }
                 SetXmlNodeString(NAME_PATH, value);
                 SetXmlNodeString(DISPLAY_NAME_PATH, CleanDisplayName(value));

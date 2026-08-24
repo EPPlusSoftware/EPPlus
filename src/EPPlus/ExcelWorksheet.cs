@@ -2144,6 +2144,7 @@ namespace OfficeOpenXml
         {
             ExcelColumn newC = new ExcelColumn(this, col);
             newC.ColumnMax = maxCol < ExcelPackage.MaxColumns ? maxCol : ExcelPackage.MaxColumns;
+            SetValueInner(0, col, newC);
             if (c.StyleName != "")
                 newC.StyleName = c.StyleName;
             else
@@ -2154,7 +2155,7 @@ namespace OfficeOpenXml
             newC.BestFit = c.BestFit;
             newC._width = c._width;
             newC._hidden = c._hidden;
-            SetValueInner(0, col, newC);
+
             return newC;
         }
         /// <summary>

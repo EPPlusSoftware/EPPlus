@@ -128,7 +128,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             
         }
-
+        /// <summary>
+        /// The name of the function. By default the name of the class is used.
+        /// </summary>
         public virtual string Name
         { 
             get 
