@@ -437,7 +437,6 @@ namespace EPPlusImageRenderer
                         //It also appears to be tx1 (black) and apply color and tint 0.25 in vba
                         var newTheme = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
                         themeColor = newTheme;
-
                     }
                 }
                 else

@@ -263,7 +263,7 @@ namespace EPPlusImageRenderer.Svg
             StyleColor2 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.2d);
 
             //Make this go up by 1 per styleID somehow
-            StyleColor3 = GetThemeColorTint(eThemeSchemeColor.Accent1, 1d);
+            StyleColor3 = GetThemeColorTint(eThemeSchemeColor.Accent1, 0.2d);
 
             StyleColor4 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.95d);
         }

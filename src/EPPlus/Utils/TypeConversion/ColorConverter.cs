@@ -24,6 +24,12 @@ namespace OfficeOpenXml.Utils.TypeConversion
 {
     public class ColorConverter
     {
+        public static Color GetSchemeColor(ExcelTheme theme, eSchemeColor sColor)
+        {
+            var cm = theme.ColorScheme.GetColorByEnum(sColor);
+            return GetThemeColor(cm);
+        }
+
         public static Color GetThemeColor(ExcelTheme theme, eThemeSchemeColor tc)
         {
             var cm = theme.ColorScheme.GetColorByEnum(tc);
