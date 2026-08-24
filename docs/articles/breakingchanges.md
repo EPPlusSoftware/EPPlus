@@ -227,9 +227,12 @@ Renaming worksheet's will now change the formula correctly to include single quo
  This is instead done when properties such as; `.Text`, `.Add` or `.Insert` are set on the .RichText property.
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 
+### 8.7.0
+* The default value of the ´OutLineSummaryRight´ and ´OutLineSummaryBelow´ properties on ExcelWorksheet is now true.
 
 ### 9.0.0
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 The misspelled property on drawingFill `Transparancy`  has been renamed to `Transparency`
 The `Richtext.Baseline` property now always return that value in whole percent.
 ExcelChartSerie.Header now returns null instead of empty string, if the underlaying "tx/v" node does not exist.
+The default border.fill.color for Shapes has been changed to apply 15% shade instead of the previous default 50% shade in accordance with modern Excel

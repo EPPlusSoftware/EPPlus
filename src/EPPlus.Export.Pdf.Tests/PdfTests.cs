@@ -639,6 +639,8 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.RightMargin = 0.1d;
             ws.PrinterSettings.HorizontalCentered = true;
             ws.PrinterSettings.VerticalCentered = true;
+            CreatePathIfNotExists(_pdfPath);
+
             p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
             p.SaveAs(_pdfPath + "Snake.xlsx");
         }

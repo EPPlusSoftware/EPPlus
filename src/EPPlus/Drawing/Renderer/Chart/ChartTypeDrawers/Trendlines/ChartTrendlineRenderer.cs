@@ -711,7 +711,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (isLine)
                 {
-                    coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X));
+                    coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X+1));
                     coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
                 }
                 else
@@ -735,7 +735,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X));
+                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X+1));
                         coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
                     }
                 }

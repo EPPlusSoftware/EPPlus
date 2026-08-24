@@ -21,15 +21,19 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.Xml;
 using System.Text;
-using d=OfficeOpenXml.Drawing.Renderer;
+using d = OfficeOpenXml.Drawing.Renderer;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusImageRenderer
 {
@@ -75,8 +79,13 @@ namespace EPPlusImageRenderer
                 SecondHorizontalAxis = GetAxis(false, 2);
             }
 
-            Plotarea.SetPlotAreaRectangle();
+            if (HasDataTable)
+            {
+                DataTable = new ChartDataTableRenderer(this);
+            }
 
+            Plotarea.SetPlotAreaRectangle();
+            
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea();
 
@@ -140,29 +149,39 @@ namespace EPPlusImageRenderer
             {
                 horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
                 horizontalAxis.Rectangle.Left = Plotarea.Group.Left;
-                horizontalAxis.Line.X1 = (float)horizontalAxis.Rectangle.Left;
-                horizontalAxis.Line.X2 = (float)horizontalAxis.Rectangle.Right;
-                
-                var axisPos = horizontalAxis.Axis.ActualAxisPosition;
-                if (axisPos == eActualAxisPosition.Bottom)
+                horizontalAxis.Line?.X1 = (float)horizontalAxis.Rectangle.Left;
+                horizontalAxis.Line?.X2 = (float)horizontalAxis.Rectangle.Right;
+
+                if (horizontalAxis.Line != null)
                 {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top + Plotarea.Rectangle.Height;
-                }
-                else if(axisPos == eActualAxisPosition.BottomSecond)
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + HorizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
-                }
-                else if(axisPos == eActualAxisPosition.Top)
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top;
-                }
-                else
-                {
-                    horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height - HorizontalAxis.Rectangle.Height;
-                    horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Bottom;
+                    var axisPos = horizontalAxis.Axis.ActualAxisPosition;
+                    if (axisPos == eActualAxisPosition.Bottom)
+                    {
+                        if (isSecondary == false && SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Bottom)
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height - SecondHorizontalAxis.Rectangle.Height;
+                        }
+                        else
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                        }
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
+                    }
+                    else if (axisPos == eActualAxisPosition.BottomSecond)
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + HorizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
+                    }
+                    else if (axisPos == eActualAxisPosition.Top)
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top;
+                    }
+                    else
+                    {
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height - HorizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Bottom;
+                    }
                 }
             }
             if (horizontalAxis.Title != null)
@@ -179,7 +198,14 @@ namespace EPPlusImageRenderer
             {
                 if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
                 {
-                    horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    if(horizontalAxis==SecondHorizontalAxis)
+                    {
+                        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + (HorizontalAxis?.Rectangle?.Height??0) + (HorizontalAxis?.Title?.Rectangle.Height ?? 0);
+                    }
+                    else
+                    {
+                        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                    }
                 }
                 else
                 {
@@ -212,9 +238,9 @@ namespace EPPlusImageRenderer
                 }
                 else
                 {
-                    if (SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
+                    if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
                     {
-                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - SecondHorizontalAxis.Rectangle.Height - horizontalAxis.Title.TextBox.Height;
+                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
                     }
                     else if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Top)
                     {
@@ -246,29 +272,32 @@ namespace EPPlusImageRenderer
             {
                 verticalAxis.Rectangle.Top = Plotarea.Group.Top;
                 verticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                verticalAxis.Line.Y1 = (float)verticalAxis.Rectangle.Top;
-                verticalAxis.Line.Y2 = (float)verticalAxis.Rectangle.Bottom;
+                verticalAxis.Line?.Y1 = (float)verticalAxis.Rectangle.Top;
+                verticalAxis.Line?.Y2 = (float)verticalAxis.Rectangle.Bottom;
                 var axisPos = verticalAxis.Axis.ActualAxisPosition;
 
-                if (axisPos == eActualAxisPosition.Left)
+                if(verticalAxis.Line != null)
                 {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
-                }
-                else if (axisPos == eActualAxisPosition.LeftSecond)
-                {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - VerticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
-                }
-                else if (axisPos == eActualAxisPosition.Right)
-                {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                }
-                else
-                {
-                    verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width + VerticalAxis.Rectangle.Width;
-                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                    if (axisPos == eActualAxisPosition.Left)
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                    }
+                    else if (axisPos == eActualAxisPosition.LeftSecond)
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - VerticalAxis.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                    }
+                    else if (axisPos == eActualAxisPosition.Right)
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                    }
+                    else
+                    {
+                        verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width + VerticalAxis.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                    }
                 }
             }
 
@@ -291,15 +320,33 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
+                        if(verticalAxis == VerticalAxis && 
+                           (SecondVerticalAxis?.Axis.ActualAxisPosition==eActualAxisPosition.Left || SecondVerticalAxis?.Axis.ActualAxisPosition == eActualAxisPosition.LeftSecond))
+                        {
+                            verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - SecondVerticalAxis.Rectangle.Width - 1.5;
+                        }
+                        else
+                        {
+                            verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
+                        }
                     }
                 }
                 else
                 {
-                    if (verticalAxis.Rectangle == null)
+                    if (verticalAxis.Rectangle == null || verticalAxis == SecondVerticalAxis)
                     {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                    }
+                        var add = 0D;
+                        if(VerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Right)
+                        {
+                            add = VerticalAxis.Rectangle.Width;
+                        }
+                        if(SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Right ||
+                           SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.RightSecond)
+                        {
+                            add += SecondVerticalAxis.Rectangle.Width;
+                        }
+                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width+add;
+                    } 
                     else
                     {
                         verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
@@ -314,7 +361,7 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.DefaultFillColor);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.GetDefaultFillColor());
 
             var borderstyle = Theme.FormatScheme.BorderStyle[0];
 
@@ -328,20 +375,84 @@ namespace EPPlusImageRenderer
 
             //Note that a NoFill node for Charts means Transparent and that no nodes at all become bg1 as shown above
 
-            //var themeColor = tc.ColorConverter.GetThemeColor(Theme, Chart.StyleManager.Style?.ChartArea.BorderReference.Color);
-            //var borderFill = Chart.StyleManager.Style.ChartArea.Border.Fill;
-            var test = Chart.Border.Fill;
-            //Chart.StyleManager.load
-            //var chartStyleId = Chart.StyleManager.Style.Id;
-            //Chart.StyleManager.SetChartStyle(202);
-            item.Rectangle.ResolveStyleFallbackChainBorder(Chart, Theme, Chart.StyleManager.Style?.ChartArea.BorderReference, Chart.Border, 0.75d);
-            
-            //item.Rectangle.SetDrawingPropertiesBorder(Theme, Chart.Border, Chart.StyleManager.Style?.ChartArea.BorderReference.Color, Chart.Border.IsEmpty || Chart.Border.Width > 0, item.DefaultBorderColor, 0.75, UserSpaceSettings.UserSpaceOnUse_Global, Chart.Style);
+            var styleType = Chart.Style;
+
+            var reference = Chart.StyleManager.Style?.ChartArea.BorderReference;
+
+            var chartBorder = GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine);
+
+            item.Rectangle.SetDrawingBorderPropertiesNew(
+                Theme,
+                reference?.Color, 
+                Chart.Border, 
+                1d, 
+                Chart.Border.Fill.Style != eFillStyle.NoFill,
+                () => item.GetDefaultBorderColor());
+
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
         }
+
+        private Color? GetChartAreaDefaultColor(int styleId, out ExcelThemeLine themedLine)
+        {
+            themedLine = null;
+            Color? themeColor = null;
+            styleId = styleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : styleId;
+
+            if (styleId == 0)
+            {
+                return Color.Empty;
+            }
+
+            themedLine = Theme.FormatScheme.BorderStyle[0];
+            var bg = Theme.FormatScheme.BackgroundFillStyle[0];
+
+            if(themedLine.HasFill == false)
+            {
+                //Node exists but has no fill. Excel considers this the same as transparent/noFill
+                return Color.Transparent;
+            }
+            //TODO: Fix for colortypes other than solidFill
+            themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
+
+            if (themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
+            {
+                if (styleId <= 40)
+                {
+                    //Text1 AKA dk1 (in standard case)
+                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
+
+                    //var bg1Col = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+
+                    if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
+                    {
+                        //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.15d);
+                        //but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
+                        themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                    }
+                    else
+                    {
+                        //Default value Should arguably be 75% tint themeColor but something is strange...
+                        //It appears closer to 50% in this specific case
+                        //It also appears to be tx1 (black) and apply color and tint 0.25 in vba
+                        var newTheme = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
+                        themeColor = newTheme;
+                    }
+                }
+                else
+                {
+                    //41-48
+                    //aka light1
+                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
+                    themedLine = null;
+                }
+            }
+            return themeColor;
+        }
+        
+
         private ChartAxisRenderer GetAxis(bool vertical, int offset = 0)
         {
             var axis = (ExcelChartAxisStandard)Chart.Axis[offset];
@@ -374,6 +485,9 @@ namespace EPPlusImageRenderer
         internal ChartAxisRenderer SecondHorizontalAxis { get; set; }
 
         internal List<RenderItem> DefItems { get; } = new List<RenderItem>();
+        public bool HasDataTable { get => Chart.PlotArea.DataTable != null;  }
+        public ChartDataTableRenderer DataTable { get; private set; }
+
         internal void AddDefs(RenderItem item)
         {
             DefItems.Add(item);

@@ -238,7 +238,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
 
-            item.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
+            item.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             item.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
         }
 
@@ -249,12 +249,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
-                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
+                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             else
             {
                 var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
-                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, color);
+                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             item.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
         }

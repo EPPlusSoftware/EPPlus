@@ -187,7 +187,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition != eTickLabelPosition.Low)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                        if (ax?.LabelPosition == eTickLabelPosition.High)
                         {
                             return eActualAxisPosition.Left;
                         }
@@ -198,13 +199,14 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left)?.LabelPosition != eTickLabelPosition.High)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                        if (ax?.LabelPosition == eTickLabelPosition.High)
                         {
-                            return eActualAxisPosition.Right;
+                            return eActualAxisPosition.RightSecond;
                         }
                         else
                         {
-                            return eActualAxisPosition.RightSecond;
+                            return eActualAxisPosition.Right;
                         }
                     }
                 }
@@ -212,7 +214,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition != eTickLabelPosition.Low)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                        if (ax.LabelPosition == eTickLabelPosition.High)
                         {
                             return eActualAxisPosition.Bottom;
                         }
@@ -223,13 +226,14 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if (_chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom)?.LabelPosition != eTickLabelPosition.High)
+                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                        if (ax?.LabelPosition==eTickLabelPosition.High)
                         {
-                            return eActualAxisPosition.Top;
+                            return eActualAxisPosition.TopSecond;
                         }
                         else
                         {
-                            return eActualAxisPosition.TopSecond;
+                            return eActualAxisPosition.Top;
                         }
                     }
                 }
@@ -897,12 +901,20 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
         }
-        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric)
+        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate)
         {
             List<List<object>> values;
             GetSeriesValues(out isCount, out values);
             var dl = values.SelectMany(x => x).Distinct().ToList();
             isNumeric = dl.Any(x => x == null || x.IsNumeric() || (x is object[] a && a[3].IsNumeric()));
+            isDate = IsDate;
+            
+            if (isDate == false)
+            {
+                var fv = dl.FirstOrDefault(x => x != null && !(x is object[] a && a[3] == null));
+                isDate = (fv is DateTime) || (fv is object[] a && a[3] is DateTime);
+            }
+
             if (isNumeric)
             {
                 if (dl[0] is object[])

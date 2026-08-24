@@ -49,11 +49,6 @@ namespace OfficeOpenXml.Drawing.Vml
                 AddDrawingsFromXml(ws);
             }
         }
-        ~ExcelVmlDrawingCollection()
-        {
-            _drawingsCellStore?.Dispose();
-            _drawingsCellStore = null;
-        }
         protected internal void AddDrawingsFromXml(ExcelWorksheet ws)
         {
             var nodes = VmlDrawingXml.SelectNodes("//v:shape", NameSpaceManager);
@@ -198,7 +193,6 @@ namespace OfficeOpenXml.Drawing.Vml
             node.SetAttribute("id", GetNewId());
             node.SetAttribute("type", "#_x0000_t202");
             node.SetAttribute("style", "position:absolute;z-index:1; visibility:hidden");
-            //node.SetAttribute("style", "position:absolute; margin-left:59.25pt;margin-top:1.5pt;width:108pt;height:59.25pt;z-index:1; visibility:hidden"); 
             node.SetAttribute("fillcolor", "#ffffe1");
             node.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
 
@@ -307,7 +301,6 @@ namespace OfficeOpenXml.Drawing.Vml
         public XmlNode AddDigitalSignatureLineDrawing(Guid id)
         {
             CreateVmlPart(false); //Create the vml part to be able to create related parts (like signatureLine).
-            //var vmlRel = Part.CreateRelationship(mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
@@ -450,14 +443,10 @@ namespace OfficeOpenXml.Drawing.Vml
             vml.Append("<v:fill color2=\"window [65]\" />");
             vml.AppendFormat("<v:imagedata o:relid=\"{0}\" o:title=\"\" />", vmlRel.Id);
             vml.Append("<x:ClientData ObjectType=\"Pict\">");
-            //vml.Append("<x:MoveWithCells />");
             vml.Append("<x:SizeWithCells />");
             vml.AppendFormat("<x:Anchor>0, 0, 0, 0, 1, 32, 3, 12</x:Anchor>"); //SET VALUE BASED ON MEDIA
-            //vml.Append("<x:AutoFill>False</x:AutoFill>");
             vml.Append("<x:CF>Pict</x:CF>");
             vml.Append("<x:AutoPict/>");
-            //vml.Append("<x:DDE />");
-            //vml.Append("<x:Camera />");
             vml.Append("</x:ClientData>");
 
             shapeElement.InnerXml = vml.ToString();
@@ -590,10 +579,8 @@ namespace OfficeOpenXml.Drawing.Vml
                 case eControlType.RadioButton:
                     shapeElement.SetAttribute("fillcolor", "windows [65]");
                     shapeElement.SetAttribute("strokecolor", "windowText [64]");
-                    //shapeElement.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
                     shapeElement.SetAttribute("stroked", "f");
                     shapeElement.SetAttribute("filled", "f");
-                    //style = "position:absolute; margin-left:15pt;margin-top:10.5pt;width:120.75pt;height:23.25pt;z-index:1; mso-wrap-style:tight" type = "#_x0000_t201" >
                     break;
                 case eControlType.ListBox:
                 case eControlType.DropDown:
@@ -718,47 +705,11 @@ namespace OfficeOpenXml.Drawing.Vml
             return _drawings.GetEnumerator();
         }
 
-        ///// <summary>
-        ///// The current range when enumerating
-        ///// </summary>
-        //public ExcelVmlDrawingComment Current
-        //{
-        //    get
-        //    {
-        //        return _enum.Current;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// The current range when enumerating
-        ///// </summary>
-        //object IEnumerator.Current
-        //{
-        //    get
-        //    {
-        //        return _enum.Current;
-        //    }
-        //}
-
-        //public bool MoveNext()
-        //{
-        //    return _enum.Next();
-        //}
-
-        //public void Reset()
-        //{
-        //    if (_enum != null) _enum.Dispose();
-        //     _enum = new CellStoreEnumerator<ExcelVmlDrawingComment>(_drawingsCellStore, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
-        //}
         void IDisposable.Dispose()
         {
-            _drawingsCellStore.Dispose();
+            _drawingsCellStore?.Dispose();
+            _drawingsCellStore = null;
         }
-
-        //public void Dispose()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         internal string GetOuterXmlWithoutSignatureLines()
         {

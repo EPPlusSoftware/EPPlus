@@ -40,7 +40,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
             if (string.IsNullOrEmpty(item.FilterName) == false)
             {
-                sb.Append($"filter=\"url(#{item.FilterName})\" ");
+                sb.Append($"filter=\"{item.FilterName}\" ");
             }
 
             if (item.BorderWidth.HasValue)

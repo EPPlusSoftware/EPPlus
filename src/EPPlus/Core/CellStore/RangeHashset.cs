@@ -136,6 +136,10 @@ namespace OfficeOpenXml.Core.CellStore
         {
             var spillRanges = new List<long>();
             byte isAdded = 0;
+            if(newAddress.FromCol < 1 || newAddress.FromRow < 1)
+            {
+                return false;
+            }
             for (int c = newAddress.FromCol; c <= newAddress.ToCol; c++)
             {
                 var rowSpan = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
