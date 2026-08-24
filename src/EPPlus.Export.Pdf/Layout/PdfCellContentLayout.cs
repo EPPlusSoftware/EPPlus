@@ -224,16 +224,17 @@ namespace EPPlus.Export.Pdf.Layout
                         continue;
 
                     var font = usedFonts[glyph.FontId];
+                    var key = new FontKey(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum());
 
-                    dictionaries.Fonts[font.FullName].Gids.Add(glyph.GlyphId);
-                    dictionaries.Fonts[font.FullName].fontData = font;
+                    dictionaries.Fonts[key].Gids.Add(glyph.GlyphId);
+                    dictionaries.Fonts[key].fontData = font;
 
-                    if (!dictionaries.Fonts[font.FullName].charactermappings.ContainsKey(glyph.GlyphId))
+                    if (!dictionaries.Fonts[key].charactermappings.ContainsKey(glyph.GlyphId))
                     {
                         var chars = ExtractCharactersForGlyph(glyph, tf.ShapedText.OriginalText);
                         if (!string.IsNullOrEmpty(chars))
                         {
-                            dictionaries.Fonts[font.FullName].charactermappings[glyph.GlyphId] = chars;
+                            dictionaries.Fonts[key].charactermappings[glyph.GlyphId] = chars;
                         }
                     }
                 }

@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>$(EPPlusCoreTargetFrameworks)</TargetFrameworks>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<RootNamespace>OfficeOpenXml.Packaging.Ionic</RootNamespace>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>EPPlus.Compression.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
+</Project>
