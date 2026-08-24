@@ -3007,7 +3007,35 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetDimension(true);
+                CheckSheetTypeAndNotDisposed();
+                if (_values.GetDimension(out int fromRow, out int fromCol, out int toRow, out int toCol))
+                {
+                    var fc = fromCol;
+                    var tc = toCol;
+                    // ---- Extend column range by visible styling (visibility mode only) ----
+                    // Scan the whole used column span and pull fromCol/toCol outward to
+                    // include any column that has a visible style somewhere in the row range.
+                    for (int c = fc; c <= tc; c++)
+                    {
+                        //if (c >= fromCol && c <= toCol)
+                        //{
+                        //    continue; // already inside the range
+                        //}
+                        for (int r = fromRow; r <= toRow; r++)
+                        {
+                            if (HasValueOrVisibleStyle(r, c))
+                            {
+                                if (c < fromCol) fromCol = c;
+                                if (c > toCol) toCol = c;
+                                break; // this column qualifies; move to the next column
+                            }
+                        }
+                    }
+
+                    return Cells[System.Math.Min(fromRow, toRow), System.Math.Min(fromCol, toCol), System.Math.Max(fromRow, toRow), System.Math.Max(fromCol, toCol)];
+                }
+                return null;
+
             }
         }
 
@@ -3020,98 +3048,60 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetDimension(false);
-            }
-        }
-
-
-        private ExcelRangeBase GetDimension(bool byVisibility)
-        {
-            CheckSheetTypeAndNotDisposed();
-            if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
-            {
-                var fvc =  Cells[fr, fc];
-                var lvc =  Cells[tr, tc];
-                // Row range comes from values only — styling never extends the height.
-                var fromRow = fvc._fromRow;
-                var toRow = lvc._toRow;
-
-                // For a single value cell, the value-based dimension is just that cell,
-                // but visible styling on other columns within the same row may still
-                // extend the column range, so we keep going rather than early-returning
-                // when byVisibility is requested.
-                if (byVisibility == false && fvc.Address == lvc.Address)
+                //return GetDimension(false);
+                CheckSheetTypeAndNotDisposed();
+                if (_values.GetDimension(out int fr, out int fc, out int tr, out int tc))
                 {
-                    return Cells[fvc.Address];
-                }
+                    var fvc = FirstValueCell;
+                    var lvc = LastValueCell;
+                    if (fvc.Address == lvc.Address) return Cells[fvc.Address];
+                    var fromRow = fvc._fromRow;
+                    var toRow = lvc._toRow;
+                    int fromCol, toCol;
 
-                int fromCol, toCol;
-
-                // ---- Leftmost column ----
-                if (fvc._fromCol == fc)
-                {
-                    fromCol = fvc._fromCol;
-                }
-                else
-                {
-                    int r = fromRow, c = fc;
-                    while (_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+                    if (fvc._fromCol == fc)
                     {
-                        if (_values.GetValue(r, c)._value != null)
-                        {
-                            break;
-                        }
-                        r++;
+                        fromCol = fvc._fromCol;
                     }
-                    fromCol = c;
-                }
-
-                // ---- Rightmost column ----
-                if (lvc._toCol == tc)
-                {
-                    toCol = lvc._toCol;
-                }
-                else
-                {
-                    int r = toRow, c = tc;
-                    while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+                    else
                     {
-                        if (_values.GetValue(r, c)._value != null)
+                        int r = fromRow, c = fc;
+                        while (_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
                         {
-                            break;
-                        }
-                        r--;
-                    }
-                    toCol = c;
-                }
-
-                // ---- Extend column range by visible styling (visibility mode only) ----
-                // Scan the whole used column span and pull fromCol/toCol outward to
-                // include any column that has a visible style somewhere in the row range.
-                if (byVisibility)
-                {
-                    for (int c = fc; c <= tc; c++)
-                    {
-                        //if (c >= fromCol && c <= toCol)
-                        //{
-                        //    continue; // already inside the range
-                        //}
-                        for (int r = fromRow; r <= toRow; r++)
-                        {
-                            if (HasVisibleStyle(r, c))
+                            if (_values.GetValue(r, c)._value != null)
                             {
-                                if (c < fromCol) fromCol = c;
-                                if (c > toCol) toCol = c;
-                                break; // this column qualifies; move to the next column
+                                break;
                             }
+                            r++;
                         }
+                        fromCol = c;
                     }
-                }
 
-                return Cells[System.Math.Min(fromRow, toRow), System.Math.Min(fromCol, toCol), System.Math.Max(fromRow, toRow), System.Math.Max(fromCol, toCol)];
+                    if (lvc._toCol == tc)
+                    {
+                        toCol = lvc._toCol;
+                    }
+                    else
+                    {
+                        int r = toRow, c = tc;
+                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+                        {
+                            if (_values.GetValue(r, c)._value != null)
+                            {
+                                break;
+                            }
+                            r--;
+                        }
+                        toCol = c;
+                    }
+
+                    return Cells[Math.Min(fromRow, toRow), Math.Min(fromCol, toCol), Math.Max(fromRow, toRow), Math.Max(fromCol, toCol)];
+                }
+                return null;
             }
-            return null;
         }
+
+
 
         /// <summary>
         /// Returns true if the cell at (row, col) has a style that is visible on an
@@ -3120,10 +3110,12 @@ namespace OfficeOpenXml
         /// The style id is resolved through the cell -> row -> column inheritance
         /// chain so that fills/borders applied to a whole column or row are detected.
         /// </summary>
-        private bool HasVisibleStyle(int row, int col)
+        private bool HasValueOrVisibleStyle(int row, int col)
         {
             // Resolve the effective style id, following cell -> row -> column.
-            int styleId = Workbook.Styles.GetStyleId(this, row, col);
+            var ev = _values.GetValue(row, col);
+            if (ev._value != null) return true;
+            int styleId = ev._styleId;
             if (styleId <= 0)
             {
                 return false; // 0 == the default style, which is not visible

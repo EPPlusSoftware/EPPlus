@@ -33,7 +33,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.Xml;
 using System.Text;
-using d=OfficeOpenXml.Drawing.Renderer;
+using d = OfficeOpenXml.Drawing.Renderer;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusImageRenderer
 {
