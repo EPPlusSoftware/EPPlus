@@ -23,12 +23,9 @@
 //
 // ------------------------------------------------------------------
 //
-
-
 using System;
 using System.IO;
 using System.Collections.Generic;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Packaging.Ionic.Zip
 {
@@ -606,7 +603,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // write to a memory stream in order to keep the
             // CDR contiguous
             Int64 aLength = 0;
-            using (var ms = EPPlusMemoryManager.GetStream())
+            using (var ms = CompressionStreamFactory.GetStream())
             {
                 foreach (ZipEntry e in entries)
                 {

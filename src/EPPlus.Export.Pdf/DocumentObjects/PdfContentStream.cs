@@ -170,7 +170,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     var richInfo = originalFragment.RichTextOptions;
                     var textLength = shapedText.ShapedText.GetWidthInPoints((float)richInfo.Size);
                     var color = richInfo.FontColor;
-                    var fontResource = dictionaries.GetFont(richInfo.Family, richInfo.SubFamily);
+                    var fontResource = dictionaries.GetFont(pageSettings, richInfo.Family, richInfo.SubFamily);
                     double size = richInfo.Size;
                     double scale = textFormat.OriginalTextFragment.RichTextOptions.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
@@ -399,8 +399,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
-            var bytes = Encoding.ASCII.GetBytes(content);
-            WriteAscii(bw, $"<< /Length {bytes.Length} >>\nstream\n{content}\nendstream");
+            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+            bw.Write(body);
+            WriteAscii(bw, "\nendstream");
         }
     }
 }

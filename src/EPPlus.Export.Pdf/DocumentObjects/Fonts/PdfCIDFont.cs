@@ -62,7 +62,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             sb.AppendFormat($"<<  /Type /Font\n" +
                             $"    /Subtype /{Subtype.ToString()}\n" +
                             $"    /BaseFont /{BaseFont}\n" +
-                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement ({CIDInfoObject.Supplement}) >>\n" +
+                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
                             $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
             if (DW != null)
             {
@@ -98,7 +98,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             sb.AppendFormat($"<<  /Type /Font\n" +
                             $"    /Subtype /{Subtype.ToString()}\n" +
                             $"    /BaseFont /{BaseFont}\n" +
-                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement ({CIDInfoObject.Supplement}) >>\n" +
+                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
                             $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
             if (DW != null)
             {

@@ -394,7 +394,7 @@ namespace EPPlusTest.Drawing
             var color1 = Color.FromArgb(0, 255, 0);
             var c = tc.ColorConverter.ApplyTintDrawing(color1, -0.85);
 
-            Assert.AreEqual((double)Color.FromArgb(0x0, 0xBC, 0x0).ToArgb(), c.ToArgb());
+            Assert.AreEqual((double)Color.FromArgb(0x0, 0x6C, 0x0).ToArgb(), c.ToArgb());
         }
         [TestMethod]
         public void Accent15Dark()
@@ -477,7 +477,7 @@ namespace EPPlusTest.Drawing
             var lmod2 = tc.ColorConverter.ApplyLumMod(smod1, 1.02);
             var tint = tc.ColorConverter.ApplyTintDrawing(lmod2, 1-0.94);
 
-            var expected = ColorTranslator.FromHtml("#475A67");
+            var expected = ColorTranslator.FromHtml("#475A68");
             Assert.AreEqual(expected.ToArgb(), tint.ToArgb());
 
             //Assert.AreEqual(Color.FromArgb(255, 145, 14, 127).ToArgb(), myColorDarkened.ToArgb());

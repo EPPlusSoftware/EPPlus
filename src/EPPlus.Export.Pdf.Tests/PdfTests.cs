@@ -11,15 +11,16 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
-using System.Text;
 using OfficeOpenXml.Style;
+using System.Text;
 
 namespace EPPlusTest.PDF
 {
     [TestClass]
-    public class PdfTests : TestBase
+    public class PdfTests : PdfTestBase
     {
         private static void AssertLooksLikePdf(byte[] bytes)
         {
@@ -43,14 +44,12 @@ namespace EPPlusTest.PDF
             return long.Parse(text.Substring(start, i - start));
         }
 
-        protected static string pdfPath = _worksheetPath + "\\PDF\\";
-
         [TestMethod]
         public void SaveWorksheetAsPdfTest1()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            string path = pdfPath + "WorksheetTest1.pdf";
+            string path = _pdfPath + "WorksheetTest1.pdf";
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -65,7 +64,7 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.ShowGridLines = false;
             ws.PrinterSettings.ShowHeaders = false;
             ws.PrinterSettings.PaperSize = ePaperSize.A3;
-            string path = pdfPath + "WorksheetTest2.pdf";
+            string path = _pdfPath + "WorksheetTest2.pdf";
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -76,7 +75,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
-            string path = pdfPath + "RangeTest1.pdf";
+            string path = _pdfPath + "RangeTest1.pdf";
             range.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -87,7 +86,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var wb = p.Workbook;
-            string path = pdfPath + "WorkbookTest1.pdf";
+            string path = _pdfPath + "WorkbookTest1.pdf";
             wb.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -101,7 +100,7 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             var ws1 = wb.Worksheets[1];
             var ws2 = wb.Worksheets[2];
-            string path = pdfPath + "WorksheetsTest2.pdf";
+            string path = _pdfPath + "WorksheetsTest2.pdf";
             wb.SaveAsPdf(path, ws0, ws1, ws2);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -114,7 +113,7 @@ namespace EPPlusTest.PDF
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
             var ws2 = wb.Worksheets[2];
-            string path = pdfPath + "WorksheetsTest1.pdf";
+            string path = _pdfPath + "WorksheetsTest1.pdf";
             wb.SaveAsPdf(path, ws0, ws2);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -130,7 +129,7 @@ namespace EPPlusTest.PDF
             var r2 = ws.Cells["B36:F39"];
             var r3 = ws.Cells["K49:Q58"];
             var r4 = ws.Cells["L142:Q147"];
-            string path = pdfPath + "RangesTest1.pdf";
+            string path = _pdfPath + "RangesTest1.pdf";
             wb.SaveAsPdf(path, r1, r2, r3, r4);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
@@ -549,7 +548,7 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("TableDiff.xlsx");
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
-            string path = pdfPath + "TableDiff.pdf";
+            string path = _pdfPath + "TableDiff.pdf";
             wb.SaveAsPdf(path, ws0);
         }
 
@@ -635,8 +634,10 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.RightMargin = 0.1d;
             ws.PrinterSettings.HorizontalCentered = true;
             ws.PrinterSettings.VerticalCentered = true;
-            p.Workbook.SaveAsPdf(pdfPath + "Snake.Pdf");
-            p.SaveAs(pdfPath + "Snake.xlsx");
+            CreatePathIfNotExists(_pdfPath);
+
+            p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
+            p.SaveAs(_pdfPath + "Snake.xlsx");
         }
     }
 }

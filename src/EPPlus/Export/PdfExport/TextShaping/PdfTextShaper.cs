@@ -30,14 +30,15 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
 
         // Pass 1: collect text per font so FontSubsetManager can build subsets once
-        public static void CollectText(PdfDictionaries dictionaries, PdfCell cell)
+        public static void CollectText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
             if (cell == null || cell.TextFragments == null) return;
             for (int i = 0; i < cell.TextFragments.Count; i++)
             {
                 var tf = cell.TextFragments[i];
-                if (!dictionaries.Fonts.ContainsKey(tf.FullFontName)) continue;
-                dictionaries.Fonts[tf.FullFontName].fontSubsetManager.AddText(tf.Text);
+                var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
+                if (!dictionaries.Fonts.ContainsKey(key)) continue;
+                dictionaries.Fonts[key].fontSubsetManager.AddText(tf.Text);
             }
         }
 
@@ -53,7 +54,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 var tf = cell.TextFragments[i];
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
-                if (!dictionaries.ShapedProviders.TryGetValue(tf.FullFontName, out var provider))
+                var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
+                if (!dictionaries.ShapedProviders.TryGetValue(key, out var provider))
                 {
                     continue;
                 }
@@ -77,16 +79,17 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
                 {
                     var font = usedFonts[fontId];
-                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
+                    var loadedKey = new FontKey(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum());
+                    if (!dictionaries.Fonts.ContainsKey(loadedKey))
                     {
                         int label = dictionaries.Fonts.Count > 0
                             ? dictionaries.Fonts.Last().Value.labelNumber + 1
                             : 1;
-                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+                        var fontResource = new PdfFontResource(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum(), label, pageSettings);
                         fontResource.fontData = font;
-                        dictionaries.Fonts.Add(font.FullName, fontResource);
+                        dictionaries.Fonts.Add(loadedKey, fontResource);
                     }
-                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+                    fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
@@ -119,7 +122,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 var tf = cell.TextFragments[i];
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
-                if (!dictionaries.ShapedProviders.TryGetValue(tf.FullFontName, out var provider))
+                var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
+                if (!dictionaries.ShapedProviders.TryGetValue(key, out var provider))
                 {
                     continue;
                 }
@@ -143,16 +147,17 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 for (byte fontId = 0; fontId < usedFonts.Count; fontId++)
                 {
                     var font = usedFonts[fontId];
-                    if (!dictionaries.Fonts.ContainsKey(font.FullName))
+                    var loadedKey = new FontKey(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum());
+                    if (!dictionaries.Fonts.ContainsKey(loadedKey))
                     {
                         int label = dictionaries.Fonts.Count > 0
                             ? dictionaries.Fonts.Last().Value.labelNumber + 1
                             : 1;
-                        var fontResource = new PdfFontResource(font.FullName, font.NameTable.GetSubfamilyEnum(), label, pageSettings);
+                        var fontResource = new PdfFontResource(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum(), label, pageSettings);
                         fontResource.fontData = font;
-                        dictionaries.Fonts.Add(font.FullName, fontResource);
+                        dictionaries.Fonts.Add(loadedKey, fontResource);
                     }
-                    fontIdMap[fontId] = dictionaries.Fonts[font.FullName].Label;
+                    fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
