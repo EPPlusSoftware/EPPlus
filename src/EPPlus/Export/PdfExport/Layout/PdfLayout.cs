@@ -17,6 +17,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Units;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
@@ -688,7 +689,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         //    }
         //}
 
-        internal static Pages PrecomputeImages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings)
+        internal static Pages PrecomputeImages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings, double zeroCharWidth)
         {
             if (drawings == null || drawings.Count == 0) return pdfPages;
 
@@ -699,15 +700,27 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             for (int i = 0; i < range.RowHeights.Count; i++)
                 rowPrefix[i + 1] = rowPrefix[i] + range.RowHeights[i].Height;
 
+            // Point distance from cell A1 to the range's top-left, so an absolute-anchored picture
+            // (positioned in EMU from A1) can be shifted into the same range-local space the cell
+            // anchors use. Zero when the range starts at A1, which is the common case. Column widths
+            // use the exporter's basis (ZeroCharWidth); row heights are already points.
+            var ws = range.Range.Worksheet;
+            double rangeOriginX = 0d;
+            for (int c = 1; c < range.Range._fromCol; c++)
+                rangeOriginX += ws.Column(c).Hidden ? 0d : UnitConversion.ExcelColumnWidthToPoints(ws.Column(c).Width, zeroCharWidth);
+            double rangeOriginY = 0d;
+            for (int r = 1; r < range.Range._fromRow; r++)
+                rangeOriginY += ws.Row(r).Hidden ? 0d : ws.Row(r).Height;
+
             for (int i = 0; i < pdfPages.Page.Length; i++)
-                pdfPages.Page[i] = PrecomputePageImages(pageSettings, range, pdfPages.Page[i], drawings, colPrefix, rowPrefix);
+                pdfPages.Page[i] = PrecomputePageImages(pageSettings, range, pdfPages.Page[i], drawings, colPrefix, rowPrefix, rangeOriginX, rangeOriginY);
             return pdfPages;
         }
         private static double PointsFromEmu(long emu) => emu / (double)ExcelDrawing.EMU_PER_POINT;
         private static double PointsFromPixels(double pixels) => pixels * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
         private static double ColumnEdge(double[] colPrefix, int localCol) => colPrefix[Math.Max(0, Math.Min(localCol, colPrefix.Length - 1))];
         private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
-        private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix)
+        private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
         {
             page.Images = new List<ImageDrawInfo>();
             int fromCol = range.Range._fromCol;
@@ -726,26 +739,44 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 if (drawing.PictureType != ePictureType.Jpg) continue;   // JPEG first
                 var pic = drawing.Picture;
-                if (pic.From == null) continue;                          // cell-anchored only
-
-                int imgColLocal = (pic.From.Column + 1) - fromCol;       // From.Row/Column are 0-based
-                int imgRowLocal = (pic.From.Row + 1) - fromRow;
-                if (imgColLocal < 0 || imgColLocal >= colPrefix.Length - 1) continue;   // anchor outside range
-                if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1) continue;
-
-                // Absolute picture rectangle in range-local point space.
-                double imgLeft = colPrefix[imgColLocal] + PointsFromEmu(pic.From.ColumnOff);
-                double imgTop = rowPrefix[imgRowLocal] + PointsFromEmu(pic.From.RowOff);
-                double imgRight, imgBottom;
-                if (pic.To != null)
+                double imgLeft, imgTop, imgRight, imgBottom;
+                if (pic.From != null)
                 {
-                    imgRight = ColumnEdge(colPrefix, (pic.To.Column + 1) - fromCol) + PointsFromEmu(pic.To.ColumnOff);
-                    imgBottom = RowEdge(rowPrefix, (pic.To.Row + 1) - fromRow) + PointsFromEmu(pic.To.RowOff);
+                    // One-cell / two-cell: top-left is a cell + EMU offset. Resolve against the SAME
+                    // column-width and row-height arrays the grid is drawn with, so the picture can't
+                    // disagree with its columns (GetPixelWidth would use a different digit-width basis).
+                    int imgColLocal = (pic.From.Column + 1) - fromCol;   // From.Row/Column are 0-based
+                    int imgRowLocal = (pic.From.Row + 1) - fromRow;
+                    if (imgColLocal < 0 || imgColLocal >= colPrefix.Length - 1) continue;   // anchor outside range
+                    if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1) continue;
+                    imgLeft = colPrefix[imgColLocal] + PointsFromEmu(pic.From.ColumnOff);
+                    imgTop = rowPrefix[imgRowLocal] + PointsFromEmu(pic.From.RowOff);
+                    if (pic.To != null)
+                    {
+                        // Two-cell: bottom-right is another cell + offset (same grid basis).
+                        imgRight = ColumnEdge(colPrefix, (pic.To.Column + 1) - fromCol) + PointsFromEmu(pic.To.ColumnOff);
+                        imgBottom = RowEdge(rowPrefix, (pic.To.Row + 1) - fromRow) + PointsFromEmu(pic.To.RowOff);
+                    }
+                    else
+                    {
+                        // One-cell: size is the intrinsic ext. GetPixelWidth/Height reduces to an exact
+                        // EMU->point conversion here, so there is no digit-width basis to disagree with.
+                        imgRight = imgLeft + PointsFromPixels(pic.GetPixelWidth());
+                        imgBottom = imgTop + PointsFromPixels(pic.GetPixelHeight());
+                    }
+                }
+                else if (pic.Position != null && pic.Size != null)
+                {
+                    // Absolute anchor: fixed EMU position from cell A1 + fixed ext. Shift by the range
+                    // origin so it lands in the same range-local space as the cell anchors.
+                    imgLeft = PointsFromEmu(pic.Position.X) - rangeOriginX;
+                    imgTop = PointsFromEmu(pic.Position.Y) - rangeOriginY;
+                    imgRight = imgLeft + PointsFromEmu(pic.Size.Width);
+                    imgBottom = imgTop + PointsFromEmu(pic.Size.Height);
                 }
                 else
                 {
-                    imgRight = imgLeft + PointsFromPixels(pic.GetPixelWidth());
-                    imgBottom = imgTop + PointsFromPixels(pic.GetPixelHeight());
+                    continue;   // no usable anchor (e.g. grouped / chart-relative)
                 }
                 double width = imgRight - imgLeft;
                 double height = imgBottom - imgTop;
@@ -797,7 +828,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
                     pages = PrecomputeSpillCells(pageSettings, range, pages);
                     pages = PrecomputePrintTitleCells(pageSettings, pdfSheet, range, pages);
-                    pages = PrecomputeImages(pageSettings, range, pages, pdfSheet.Drawings);
+                    pages = PrecomputeImages(pageSettings, range, pages, pdfSheet.Drawings, pdfSheet.ZeroCharWidth);
                     pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
