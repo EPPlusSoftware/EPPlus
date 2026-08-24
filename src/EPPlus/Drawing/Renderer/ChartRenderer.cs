@@ -361,7 +361,7 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.DefaultFillColor);
+            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.GetDefaultFillColor());
 
             var borderstyle = Theme.FormatScheme.BorderStyle[0];
 
@@ -379,13 +379,15 @@ namespace EPPlusImageRenderer
 
             var reference = Chart.StyleManager.Style?.ChartArea.BorderReference;
 
+            var chartBorder = GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine);
+
             item.Rectangle.SetDrawingBorderPropertiesNew(
                 Theme,
                 reference?.Color, 
                 Chart.Border, 
                 1d, 
                 Chart.Border.Fill.Style != eFillStyle.NoFill,
-                () => GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine));
+                () => item.GetDefaultBorderColor());
 
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);

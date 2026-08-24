@@ -2,6 +2,7 @@
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Encryption;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
         OtherLines = 512,
     }
 
-    internal class ChartDrawingObjectWithDefaults : ChartDrawingObject
+    internal abstract class ChartDrawingObjectWithDefaults : ChartDrawingObject
     {
         public ChartDrawingObjectWithDefaults(ChartRenderer chart) : base(chart)
         {
@@ -38,6 +39,14 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
 
         private Color GetSchemeColorTint(eSchemeColor sColor, double tint = 0.0d)
         {
+            if(tint < 0)
+            {
+                tint = 1 + tint;
+            }
+            else if(tint > 0)
+            {
+                tint = 1 - tint;
+            }
             var schemeClr = tc.ColorConverter.GetSchemeColor(ChartRenderer.Theme, sColor);
             var tintedSchemeColor = tc.ColorConverter.ApplyTintDrawing(schemeClr, tint);
             return tintedSchemeColor;
@@ -92,11 +101,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
         /// <exception cref="InvalidOperationException"></exception>
         protected ExcelThemeLine GetThemedLine(ChartElement element, int ChartStyleId, out Color? lineColor)
         {
-            if(element.HasFlag(ChartElement.Floor | ChartElement.ChartArea))
+            //Chart style can only be above 48 if it is Style102 which in this case should be equivalent with style2
+            //Alternatively it's an unkown or unset style which should also default to style2
+            var styleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
+
+            var AreaOrFloor = (ChartElement.ChartArea | ChartElement.Floor);
+            if (AreaOrFloor.HasFlag(element))
             {
-                lineColor = GetDefaultBorderColorForElement(element, ChartStyleId);
+                lineColor = GetDefaultBorderColorForElement(element, styleId);
                 var themedLine = ChartRenderer.Theme.FormatScheme.BorderStyle[0];
 
+                var themeColor = tc.ColorConverter.GetThemeColor(ChartRenderer.Theme, themedLine.Fill.SolidFill.Color);
                 if (themedLine.HasFill == false)
                 {
                     //Node exists but has no fill. Excel considers this the same as transparent/noFill
@@ -104,7 +119,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
                     return themedLine;
                 }
 
-                if (ChartStyleId < 41)
+                if (styleId < 41)
                 {
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
@@ -148,14 +163,18 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
         /// <exception cref="InvalidOperationException"></exception>
         protected ExcelDrawingFill GetThemedFill(ChartElement element, int ChartStyleId, out Color? fillColor)
         {
+            //Chart style can only be above 48 if it is Style102 which in this case should be equivalent with style2
+            //Alternatively it's an unkown or unset style which should also default to style2
+            var styleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
+
             var bg = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
 
-            if (element.HasFlag(ChartElement.Floor | ChartElement.Walls))
+            if ((ChartElement.Floor | ChartElement.Walls).HasFlag(element))
             {
-                fillColor = GetDefaultFillColorForElement(element, ChartStyleId);
+                fillColor = GetDefaultFillColorForElement(element, styleId);
                 var themedFill = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
 
-                if (ChartStyleId > 32)
+                if (styleId > 32)
                 {
                     if (themedFill.SolidFill.Color.Transforms.Count > 0)
                     {
@@ -181,7 +200,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
             {
                 throw new InvalidOperationException(
                     $"The enum option: '{Enum.GetName(typeof(ChartElement), element)}' is invalid. " +
-                    $"Only Walls or Floor has a default themed line");
+                    $"Only Walls or Floor has a default themed fill");
             }
         }
 
@@ -189,7 +208,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
         {
             //return Color.Empty;
 
-            if(element.HasFlag(ChartElement.Axis | ChartElement.MajorGridLines))
+            if((ChartElement.Axis | ChartElement.MajorGridLines).HasFlag(element))
             {
                 //There's only really two options in this particular case
                 if(ChartStyleId <= 32)
@@ -209,7 +228,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);
             }
-            else if (element.HasFlag(ChartElement.ChartArea | ChartElement.DataTable | ChartElement.Floor))
+            else if ((ChartElement.ChartArea | ChartElement.DataTable | ChartElement.Floor).HasFlag(element))
             {
                 var retCol = GetSchemeColorTint(eSchemeColor.Text1, 0.75d);
                 var retCol2and3 = GetSchemeColorTint(eSchemeColor.Background1, 0.75d);
@@ -251,7 +270,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2And3, retCol2And3, retCol4);
             }
-            else if(element.HasFlag(ChartElement.Floor | ChartElement.Walls | ChartElement.PlotArea2d))
+            else if((ChartElement.Floor | ChartElement.Walls | ChartElement.PlotArea2d).HasFlag(element))
             {
                 var retCol = GetSchemeColorTint(eSchemeColor.Background1);
                 var retCol2 = GetSchemeColorTint(eSchemeColor.Background1, 0.2d);
@@ -271,5 +290,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
             throw new NotImplementedException("This method has not been implmented yet");
         }
 
+
+        abstract internal Color? GetDefaultFillColor();
+        abstract internal Color? GetDefaultBorderColor();
     }
 }

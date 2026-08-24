@@ -241,11 +241,11 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 {
                     if (d is ExcelChart c)
                     {
-                        var borderSetting = c.Border;
-                        var borderDirectColor = borderSetting.Fill.Color;
-                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                        //var borderSetting = c.Border;
+                        //var borderDirectColor = borderSetting.Fill.Color;
+                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
 
-                        var defaultColorFromTheme = theme.ColorScheme.Dark1;
+                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
 
                         var svg = c.ToSvg();
                         SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);

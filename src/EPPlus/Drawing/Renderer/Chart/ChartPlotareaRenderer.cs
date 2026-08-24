@@ -252,20 +252,5 @@ namespace EPPlusImageRenderer.Svg
             }
         }
         internal override Color? DefaultFillColor { get => null;  }
-
-        internal void InitStyleColors()
-        {
-            //Plot area has no line
-            //therefore we do not set styleBorderColor
-            var themedFill = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
-
-            StyleColor1 = GetThemeColorTint(eThemeSchemeColor.Background1, 1d);
-            StyleColor2 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.2d);
-
-            //Make this go up by 1 per styleID somehow
-            StyleColor3 = GetThemeColorTint(eThemeSchemeColor.Accent1, 0.2d);
-
-            StyleColor4 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.95d);
-        }
     }
 }

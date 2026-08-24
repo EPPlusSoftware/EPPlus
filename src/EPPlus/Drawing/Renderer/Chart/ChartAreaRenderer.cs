@@ -12,13 +12,14 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables;
 using System.Collections.Generic;
 using System.Drawing;
-using OfficeOpenXml.Drawing;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAreaRenderer : ChartDrawingObject
+    internal class ChartAreaRenderer : ChartDrawingObjectWithDefaults
     {
         public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
@@ -43,27 +44,21 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        internal void InitStyleColors()
-        {
-            StyleBorderColor1 = GetThemeColorTint(eThemeSchemeColor.Text1, 0.75d);
-            StyleBorderColor2 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.75d);
-            StyleBorderColor3 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.75d);
-            StyleBorderColor4 = GetThemeColorTint(eThemeSchemeColor.Text1, 1d);
-
-            var themedFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0];
-
-            StyleColor1 = GetThemeColorTint(eThemeSchemeColor.Background1, 1d);
-            StyleColor2 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.2d);
-
-            //Make this go up by 1 per styleID somehow
-            StyleColor3 = GetThemeColorTint(eThemeSchemeColor.Accent1, 1d);
-
-            StyleColor4 = GetThemeColorTint(eThemeSchemeColor.Background1, 0.95d);
-        }
-
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            //Kept here in case needed in future for effect etc.
+            var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineCol;
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return GetDefaultFillColorForElement(ChartElement.ChartArea, (int)Chart.Style);
         }
     }
 }
