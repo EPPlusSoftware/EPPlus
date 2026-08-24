@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             if (argumentIndex % 2 == 0)
             {
-                return FunctionParameterInformation.AdjustParameterAddress;
+                return FunctionParameterInformation.AdjustCriteriaParameterAddress;
             }
             return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }));

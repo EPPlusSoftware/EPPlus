@@ -227,6 +227,8 @@ Renaming worksheet's will now change the formula correctly to include single quo
  This is instead done when properties such as; `.Text`, `.Add` or `.Insert` are set on the .RichText property.
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.
 
+### 8.7.0
+* The default value of the ´OutLineSummaryRight´ and ´OutLineSummaryBelow´ properties on ExcelWorksheet is now true.
 
 ### 9.0.0
 The misspelled enum eCompundLineStyle has been renamed eCompoundLineStyle.

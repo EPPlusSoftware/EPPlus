@@ -82,7 +82,7 @@ namespace OfficeOpenXml
             try
             {
 #endif
-                var dc =RpnFormulaExecution.Execute(workbook, options);
+                var dc = RpnFormulaExecution.Execute(workbook, options);
                 dc._parsingContext.RangeCriteriaCache?.Clear();
                 if (workbook.FormulaParser.Logger != null)
                 {

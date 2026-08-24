@@ -1,6 +1,20 @@
 # Features / Fixed issues - EPPlus 8
 ## Version 9.0.0
 * Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
+## Version 8.7.0
+### Minor Features
+* The ´ExcelPackage´ Save functions now support saving as a template (.xltx, .xltm), see https://github.com/EPPlusSoftware/EPPlus/wiki/Save-as-template(.xltx,-.xltm).
+* Added support for ´HideItemsWithNoData´ on pivot table slicer caches (Slicer.Cache.HideItemsWithNoData)
+* When copying a worksheet, you can now assign custom names to copied tables and pivot tables through callbacks on ExcelWorksheetCopyOptions (TableCopyHandler / PivotTableCopyHandler), instead of relying on generated names like Table1. Formula references in copied tables are updated automatically. See https://github.com/EPPlusSoftware/EPPlus/wiki/Copy-Ranges-or-Entire-Worksheets#naming-tables-and-pivot-tables-when-copying-a-worksheet
+* The new ´DisableImageFunctionDownloads´ property on ´ExcelCalculationOption´ (default false) lets you turn off the outbound network request that ´IMAGE´ makes during calculation. When true, ´IMAGE´ returns ´#NAME?´ instead of downloading. Useful when calculating untrusted workbooks. Existing images are unaffected. Thanks to Derin (Paranoidgrinch) for reporting this. 
+### Fixed issues
+* When calculating the formulas accessed ranges, EPPlus could sometimes update the wrong worksheet's dictionary after updating dirty ranges for dynamic array formulas.
+* SUMIFS/AVERAGEIFS/COUNTIFS did not create the dependency chain correctly when having multiple criteria ranges, which could cause incorrect circular references.
+* The default value of the ´OutLineSummaryRight´ and ´OutLineSummaryBelow´ properties on ExcelWorksheet is now true.
+* Removed unnecessary finalizers from the cell store- and the ´ExcelVmlDrawingCollection´- classes.
+* Fix for header/footer picture loss when copying worksheets.
+* Fixed a regression (introduced in 8.5.0) where ´XLOOKUP´, ´VLOOKUP´, ´HLOOKUP´ and ´MATCH´ returned ´#N/A´ when the lookup range started before the first populated cell of the worksheet, for example a full-column lookup like A:A on a sheet whose data begins further down.
+* Fixed column style lost on remaining columns when a sub-range column style was modified. Thanks to Lieven De Foor.
 ## Version 8.6.3
 ### Security
 * Updated System.Security.Cryptography.Xml to address five security vulnerabilities in the .NET XML signing dependency: four denial of service vulnerabilities (CVE-2026-47302, CVE-2026-50525, CVE-2026-50527, CVE-2026-50648) and one security feature bypass (CVE-2026-47304). The package is updated to 8.0.4 (.NET Framework, .NET 8 and .NET Standard), 9.0.18 (.NET 9) and 10.0.10 (.NET 10).
