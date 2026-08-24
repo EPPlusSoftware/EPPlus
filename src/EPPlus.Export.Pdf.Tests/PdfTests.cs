@@ -12,10 +12,15 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Tests;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EPPlusTest.PDF
 {
@@ -637,5 +642,122 @@ namespace EPPlusTest.PDF
             p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
             p.SaveAs(_pdfPath + "Snake.xlsx");
         }
+
+        [TestMethod]
+        public void Testing()
+        {
+            using var p = OpenTemplatePackage("PDFTestKarl.xlsx");
+            var wb = p.Workbook;
+            string path = _pdfPath + "WorksheetTest1.pdf";
+            wb.SaveAsPdf(path);
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnOrientation()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                package.Workbook.Worksheets[0].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[1].PrinterSettings.Orientation = eOrientation.Landscape;
+
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var matches = Regex.Matches(
+                    Encoding.ASCII.GetString(pdf),
+                    @"/MediaBox\s*\[\s*0\s+0\s+(?<w>[\d.]+)\s+(?<h>[\d.]+)\s*\]");
+
+                Assert.AreEqual(2, matches.Count, "Expected one page per worksheet.");
+
+                var ci = CultureInfo.InvariantCulture;
+                double w1 = double.Parse(matches[0].Groups["w"].Value, ci);
+                double h1 = double.Parse(matches[0].Groups["h"].Value, ci);
+                double w2 = double.Parse(matches[1].Groups["w"].Value, ci);
+                double h2 = double.Parse(matches[1].Groups["h"].Value, ci);
+
+                Assert.IsTrue(h1 > w1, "Page 1 should be portrait.");
+                Assert.IsTrue(w2 > h2, "Page 2 should be landscape.");
+                // Landscape is the same paper transposed, not a different paper size.
+                Assert.AreEqual(w1, h2, 0.01d);
+                Assert.AreEqual(h1, w2, 0.01d);
+            }
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnShowGridLines()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                package.Workbook.Worksheets[0].PrinterSettings.ShowGridLines = false;
+                package.Workbook.Worksheets[1].PrinterSettings.ShowGridLines = true;
+
+                var baseSettings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                var s0 = GetPdfSettings.GetPdfSettingsForSheet(
+                    baseSettings, package.Workbook.Worksheets[0].PrinterSettings);
+                var s1 = GetPdfSettings.GetPdfSettingsForSheet(
+                    baseSettings, package.Workbook.Worksheets[1].PrinterSettings);
+
+                Assert.IsFalse(s0.ShowGridLines, "Sheet 1 did not ask for gridlines.");
+                Assert.IsTrue(s1.ShowGridLines, "Sheet 2 asked for gridlines.");
+                Assert.IsFalse(baseSettings.ShowGridLines, "The base object must not be mutated.");
+            }
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnPaperSize()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                // Orientation is set explicitly so a transposed page size cannot be
+                // mistaken for a different paper size.
+                package.Workbook.Worksheets[0].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[1].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[0].PrinterSettings.PaperSize = ePaperSize.A4;
+                package.Workbook.Worksheets[1].PrinterSettings.PaperSize = ePaperSize.A3;
+
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var matches = Regex.Matches(
+                    Encoding.ASCII.GetString(pdf),
+                    @"/MediaBox\s*\[\s*0\s+0\s+(?<w>[\d.]+)\s+(?<h>[\d.]+)\s*\]");
+
+                Assert.AreEqual(2, matches.Count, "Expected one page per worksheet.");
+
+                var ci = CultureInfo.InvariantCulture;
+                double w1 = double.Parse(matches[0].Groups["w"].Value, ci);
+                double h1 = double.Parse(matches[0].Groups["h"].Value, ci);
+                double w2 = double.Parse(matches[1].Groups["w"].Value, ci);
+                double h2 = double.Parse(matches[1].Groups["h"].Value, ci);
+
+                // Compare against the source of truth rather than literal point values.
+                // PdfPageSize rounds mm to whole points, so 210x297 mm becomes 595x842.
+                Assert.AreEqual(PdfPageSize.A4.WidthPu, w1, "Page 1 should be A4.");
+                Assert.AreEqual(PdfPageSize.A4.HeightPu, h1, "Page 1 should be A4.");
+                Assert.AreEqual(PdfPageSize.A3.WidthPu, w2, "Page 2 should be A3, not sheet 1's A4.");
+                Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
+            }
+        }
+
     }
 }
