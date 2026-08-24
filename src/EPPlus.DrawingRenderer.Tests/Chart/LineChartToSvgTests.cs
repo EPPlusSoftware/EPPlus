@@ -309,17 +309,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[1];
 
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = c.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\5.3-SampleLines{ix}.svg", svg);
+                var ix = 1;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\5.3-SampleLines{ix}.svg", svg);
 
-                for (int i = 0; i < ws.Drawings.Count; i++)
-                {
-                    var c = ws.Drawings[i];
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\5.3-SampleLines{i}.svg", svg);
-                }
+                //for (int i = 0; i < ws.Drawings.Count; i++)
+                //{
+                //    var c = ws.Drawings[i];
+                //    var svg = c.ToSvg();
+                //    SaveTextFileToWorkbook($"svg\\5.3-SampleLines{i}.svg", svg);
+                //}
             }
         }
         //2.4-CreateAFileSystemReport.xlsx
