@@ -51,9 +51,11 @@ namespace EPPlusImageRenderer.Svg
 
         internal override Color? GetDefaultBorderColor()
         {
-            //Kept here in case needed in future for effect etc.
-            var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
-            return lineCol;
+            //We only get here if the node is null or empty
+            var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, Chart.Border.Fill != null && Chart.Border.Fill.IsEmpty, out Color? lineColor);
+            ////Kept here in case needed in future for effect etc.
+            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineColor;
         }
 
         internal override Color? GetDefaultFillColor()

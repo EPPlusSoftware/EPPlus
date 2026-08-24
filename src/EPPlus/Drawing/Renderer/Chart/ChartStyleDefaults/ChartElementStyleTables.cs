@@ -3,13 +3,8 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Encryption;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
@@ -99,7 +94,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
         /// <param name="lineColor">The line color with fill styles etc applied</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        protected ExcelThemeLine GetThemedLine(ChartElement element, int ChartStyleId, out Color? lineColor)
+        protected ExcelThemeLine GetThemedLine(ChartElement element, int ChartStyleId, bool nodeIsEmpty , out Color? lineColor)
         {
             //Chart style can only be above 48 if it is Style102 which in this case should be equivalent with style2
             //Alternatively it's an unkown or unset style which should also default to style2
@@ -108,8 +103,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
             var AreaOrFloor = (ChartElement.ChartArea | ChartElement.Floor);
             if (AreaOrFloor.HasFlag(element))
             {
-                lineColor = GetDefaultBorderColorForElement(element, styleId);
                 var themedLine = ChartRenderer.Theme.FormatScheme.BorderStyle[0];
+
+                //When the node exists but is empty Excel does not apply default styles
+                //It directly applies the themedLineColor
+                if (nodeIsEmpty)
+                {
+                    lineColor = themedLine.Fill.Color;
+                    return themedLine;
+                }
+
+                lineColor = GetDefaultBorderColorForElement(element, styleId);
 
                 var themeColor = tc.ColorConverter.GetThemeColor(ChartRenderer.Theme, themedLine.Fill.SolidFill.Color);
                 if (themedLine.HasFill == false)
