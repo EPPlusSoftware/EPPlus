@@ -47,11 +47,15 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             if (_built) throw new InvalidOperationException("Cannot AddText after Build().");
             if (string.IsNullOrEmpty(text)) return;
 
-            var key = new FontKey(family, subFamily);
+            var primary = _engine.LoadFont(family, subFamily);
+            // Key on the RESOLVED font's identity, not the requested name. A requested font that
+            // resolves via fallback (e.g. "Arial Black" -> Liberation Sans) must share identity with
+            // how PdfDictionaries and shaping key it, or the provider lookup in BuildSubsets misses.
+            var key = new FontKey(primary.GetEnglishFontFamilyName(), primary.NameTable.GetSubfamilyEnum());
+
             RequestedFont req;
             if (!_requested.TryGetValue(key, out req))
             {
-                var primary = _engine.LoadFont(family, subFamily);
                 req = new RequestedFont(key, primary);
                 _requested[key] = req;
             }

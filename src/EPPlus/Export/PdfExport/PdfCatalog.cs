@@ -86,10 +86,6 @@ namespace OfficeOpenXml.Export.PdfExport
                 // Collect text for every worksheet.
                 pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
 
-                // Pass 1: collect all sheets. Pass 2: one document-wide build. Pass 3: shape all sheets.
-                foreach (var pdfSheet in pdfSheets)
-                    CollectTextInPdfWorksheet(pageSettings, pdfSheet);
-
                 BuildSubsets(pageSettings);
 
                 foreach (var pdfSheet in pdfSheets)
@@ -136,53 +132,30 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
         {
-            //pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             PdfWorksheet pdfSheet = null;
             try
             {
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //Collect Text
+                // Collect Text (GetPdfWorksheet collects into the builder via SetTextMap -> AddFont)
                 pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
-                sw.Stop();
-                var CollectTextTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Shape Text
-                CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+                // Build subsets once, then shape
                 BuildSubsets(pageSettings);
                 ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                sw.Stop();
-                var ShapeTextTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Auto-Fit Rows
+                // Auto-Fit Rows
                 PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                sw.Stop();
-                var AutoFitRowTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Create Layout
+                // Create Layout
                 var layout = GetLayout(pageSettings, pdfSheet);
-                sw.Stop();
-                var CreateLayoutTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Write Pdf Document
+                // Write Pdf Document
                 writePdf(layout);
-                sw.Stop();
-                var CreatePdfTime = sw.ElapsedMilliseconds;
-                sw.Reset();
             }
             finally
             {
-                //Clean up the temporary worksheet used to build the comments/notes pages,
-                //so the source workbook isn't permanently mutated by the PDF export.
+                // Clean up the temporary worksheet used to build the comments/notes pages,
+                // so the source workbook isn't permanently mutated by the PDF export.
                 if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
                 {
                     worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
@@ -213,7 +186,6 @@ namespace OfficeOpenXml.Export.PdfExport
             try
             {
                 pdfSheet = GetPdfWorksheet(pageSettings, range);
-                CollectTextInPdfWorksheet(pageSettings, pdfSheet);
                 BuildSubsets(pageSettings);
                 ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
                 PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
@@ -259,9 +231,6 @@ namespace OfficeOpenXml.Export.PdfExport
             {
                 pdfSheets = GetPdfWorksheets(pageSettings, ranges);
 
-                foreach (var pdfSheet in pdfSheets)
-                    CollectTextInPdfWorksheet(pageSettings, pdfSheet);
-
                 BuildSubsets(pageSettings);
 
                 foreach (var pdfSheet in pdfSheets)
@@ -292,8 +261,8 @@ namespace OfficeOpenXml.Export.PdfExport
         internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
-            CollectTextInPdfWorksheet(pageSettings, pdfSheet);
-            BuildSubsets(pageSettings);
+            //CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+            //BuildSubsets(pageSettings);
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
             return pdfSheet.Ranges[0].Map;
         }
@@ -324,14 +293,6 @@ namespace OfficeOpenXml.Export.PdfExport
             PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
             var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
             return Layout;
-        }
-
-        //Shape Text Methods
-
-        // Pass 1: collect text for one sheet. Safe to call for every sheet before any Build.
-        internal void CollectTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
-        {
-            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(pageSettings, _dictionaries, cell));
         }
 
         // Build subsets ONCE for the whole document, after all sheets have been collected.

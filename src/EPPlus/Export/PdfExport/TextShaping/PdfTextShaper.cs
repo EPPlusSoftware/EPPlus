@@ -29,18 +29,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         private static Dictionary<IFontProvider, TextShaper> shaperCache = new Dictionary<IFontProvider, TextShaper>();
         private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
 
-        // Pass 1: collect text per font so FontSubsetManager can build subsets once
-        // Pass 1: collect text per requested font into the document-wide subset builder.
-        public static void CollectText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
-        {
-            if (cell == null || cell.TextFragments == null) return;
-            for (int i = 0; i < cell.TextFragments.Count; i++)
-            {
-                var tf = cell.TextFragments[i];
-                dictionaries.AddFont(pageSettings, tf.Font.Family, tf.Font.SubFamily, tf.Text);
-            }
-        }
-
         // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
@@ -54,9 +42,15 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
                 var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
-                if (!dictionaries.ShapedProviders.TryGetValue(key, out var provider))
+                IFontProvider provider;
+                if (!dictionaries.ShapedProviders.TryGetValue(key, out provider))
                 {
-                    continue;
+                    // No subset provider was built for this font — this is the measurement path
+                    // (GetCellCollectionFromRange), which does not run BuildSubsets. Shape against the
+                    // whole font instead: advance widths are identical to the subset, so measured width
+                    // is exact, and no subsetting or embedding decision is triggered.
+                    var font = pageSettings.FontEngine.LoadFont(tf.Font.Family, tf.Font.SubFamily);
+                    provider = new DefaultFontProvider(pageSettings.FontEngine, font);
                 }
                 st.FontProvider = provider;
                 if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
