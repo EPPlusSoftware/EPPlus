@@ -272,26 +272,30 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
         {
-            return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, fileName);
+            return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
         }
 
         private Action<Transform> WriteToStream(PdfPageSettings pageSettings, Stream stream)
         {
-            return layout => new ExcelPdf().CreatePdf(pageSettings, _dictionaries, layout, stream);
+            return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
         }
 
         //Create Layout Methods
 
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
         {
-            var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
+            var sheetSettings = new PdfPageSettings[pdfSheets.Length];
+            for (int i = 0; i < pdfSheets.Length; i++)
+                sheetSettings[i] = pageSettings;
+            var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }
 
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
-            var Layout = PdfLayout.GetLayout(pageSettings, _dictionaries, pdfSheets);
+            var sheetSettings = new PdfPageSettings[1] { pageSettings };
+            var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }
 

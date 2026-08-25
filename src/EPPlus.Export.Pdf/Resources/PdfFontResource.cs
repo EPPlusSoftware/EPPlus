@@ -35,7 +35,6 @@ namespace EPPlus.Export.Pdf.Resources
         internal int fontWidthObjectNumber = -1;
         internal int cidSetObjectNumber = -1;
         internal OpenTypeFont fontData;
-        private OpenTypeFontEngine _fontEngine;
         private int firstChar = 32;
         private int lastChar = 255;
         private CIDSystemInfo cidSystemInfo = null;
@@ -50,7 +49,6 @@ namespace EPPlus.Export.Pdf.Resources
      : base("F", labelNumber)
         {
             this.fontName = fontName;
-            _fontEngine = pageSettings.FontEngine;
             // fontData is assigned by the caller (ShapeText / GidsAndCharMap) to the actual, already-
             // subsetted font. The resource must not load a whole font here — for fallback fonts (Noto
             // Emoji, Archivo) a name-based load would be wrong or wasteful.

@@ -104,8 +104,8 @@ namespace EPPlus.Export.Pdf.Tests
 
                 var excelPdf = new ExcelPdf();
                 excelPdf.SetPageSettingsForTest(settings);
+                excelPdf.SetDocumentSettingsForTest(PdfDocumentSettings.From(settings));
                 excelPdf.SetDictionariesForTest(dictionaries);
-
                 excelPdf.AddFontData();
 
                 var fontResource = dictionaries.GetFont(settings, TestFontName, FontSubFamily.Regular);
@@ -153,8 +153,8 @@ namespace EPPlus.Export.Pdf.Tests
 
                 var excelPdf = new ExcelPdf();
                 excelPdf.SetPageSettingsForTest(settings);
+                excelPdf.SetDocumentSettingsForTest(PdfDocumentSettings.From(settings));
                 excelPdf.SetDictionariesForTest(dictionaries);
-
                 excelPdf.AddFontData();
 
                 foreach (var obj in excelPdf._document)
