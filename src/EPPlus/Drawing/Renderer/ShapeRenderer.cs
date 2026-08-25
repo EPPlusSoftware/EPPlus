@@ -182,7 +182,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             var shape = (ExcelShape)Drawing;
             if (drawFill)
             {
-                pi.FillColorSource = path.Fill;                
+                pi.FillColorSource = path.Fill;
                 pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color);
             }
             else

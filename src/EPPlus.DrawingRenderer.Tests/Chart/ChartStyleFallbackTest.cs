@@ -335,6 +335,100 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
             //}
         }
 
+
+        [TestMethod]
+        public void Epp_Gen_DefaultLine()
+        {
+            using (var p = OpenPackage("StyleExamples\\epplusDefaultChart_Line.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Empty");
+
+                ws.Cells["A1:A3"].Formula = "ROW()+COLUMN()";
+
+                ws.Calculate();
+
+                var emptyLines = ws.Drawings.AddLineChart("Chart", eLineChartType.Line);
+                foreach (ExcelDrawing d in ws.Drawings)
+                {
+                    var svg = d.ToSvg();
+
+                    SaveTextFileToWorkbook($"svg\\epplusDefaultChart_Line{ws.Name}_{d.Name}.svg", svg);
+
+                    //Create expected color
+                    var fill = Color.FromArgb(255, 255, 255, 255);
+                    var expectedFill = ColorTranslator.ToHtml(fill).ToLower();
+                    var col = Color.FromArgb(255, 137, 137, 137);
+                    var expectedStroke = ColorTranslator.ToHtml(col).ToLower();
+
+                    var svgSplitOnSpace = svg.Split(' ');
+
+                    //Get the first stroke and extract the hexCode for the expected color
+                    var firstFill = svgSplitOnSpace.First(s => s.StartsWith("fill"));
+                    var fillResult = firstFill.Substring(6, 7).ToLower();
+
+                    //Get the first stroke and extract the hexCode for the expected color
+                    var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                    var strokeResult = firstStroke.Substring(8, 7).ToLower();
+
+                    //Get the resulting width
+                    var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                    var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                    var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                    //Assert
+                    Assert.AreEqual(expectedFill, fillResult);
+                    Assert.AreEqual(expectedStroke, strokeResult);
+                    Assert.AreEqual(1d, widthResult, 0.003);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Epp_Gen_DefaultShape()
+        {
+            string fileName = "epplusShape";
+
+            using (var p = OpenPackage($"StyleExamples\\{fileName}.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ws1");
+
+                var defaultRect = ws.Drawings.AddShape("Default", OfficeOpenXml.Drawing.eShapeStyle.Round1Rect);
+                var gradientRect = ws.Drawings.AddShape("GradRect", OfficeOpenXml.Drawing.eShapeStyle.Round1Rect);
+
+                defaultRect.SetPosition(300, 1);
+                gradientRect.SetPosition(300, 1000);
+
+                var svgDefault = defaultRect.ToSvg();
+                SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{defaultRect.Name}.svg", svgDefault);
+
+                //Create expected color
+                var fill = Color.FromArgb(255, 21, 96, 130);
+                var expectedFill = ColorTranslator.ToHtml(fill).ToLower();
+                var col = Color.FromArgb(255, 4, 36, 51);
+                var expectedStroke = ColorTranslator.ToHtml(col).ToLower();
+
+                var svgSplitOnSpace = svgDefault.Split(' ');
+
+                //Get the first fill and extract the hexCode for the expected color
+                var firstFill = svgSplitOnSpace.First(s => s.StartsWith("fill"));
+                var fillResult = firstFill.Substring(6, 7).ToLower();
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var strokeResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedFill, fillResult);
+                Assert.AreEqual(expectedStroke, strokeResult);
+                Assert.AreEqual(1d, widthResult, 0.003);
+            }
+        }
+
         [TestMethod]
         public void EpplusGeneratedChart()
         {
@@ -364,9 +458,12 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 gradientRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.GradientFill;
                 generatedBar.Series.Add(ws.Cells["A1:A3"]);
 
+                List<string> outputSvgs = new List<string>();
+
                 foreach (ExcelDrawing d in ws.Drawings)
                 {
                     var svg = d.ToSvg();
+                    outputSvgs.Add(svg);
                     SaveTextFileToWorkbook($"svg\\epplusDefault{ws.Name}_{d.Name}.svg", svg);
                 }
                 //GetOutputFile("StyleExamples", "");
