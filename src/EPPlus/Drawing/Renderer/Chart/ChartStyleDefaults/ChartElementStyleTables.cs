@@ -105,13 +105,20 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
             {
                 var themedLine = ChartRenderer.Theme.FormatScheme.BorderStyle[0];
 
-                bool isSchemeColor = themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style;
-
                 //When the node exists but is empty Excel does not apply default styles
                 //It directly applies the themedLineColor
                 if (nodeIsEmpty)
                 {
-                    if(isSchemeColor)
+                    //Is node empty inside the theme
+                    if(themedLine.HasFill == false)
+                    {
+                        lineColor = Color.Transparent;
+                        return themedLine;
+                    }
+
+                    bool isSchemeColor = themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style;
+
+                    if (isSchemeColor)
                     {
                         lineColor = GetDefaultBorderColorForElement(element, styleId);
 

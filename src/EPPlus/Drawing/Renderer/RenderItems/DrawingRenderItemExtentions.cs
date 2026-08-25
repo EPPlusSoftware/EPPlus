@@ -155,6 +155,11 @@ namespace EPPlusImageRenderer.RenderItems
                     //Move on to 3. Theme
                     fc = GetFillColorFromTheme(theme, GetDefaultThemeColor);
 
+                    if(fc.HasValue && fc.Value.ToArgb() == Color.Transparent.ToArgb())
+                    {
+                        opacity = 0d;
+                        return "none";
+                    }
                 }
             }
             else

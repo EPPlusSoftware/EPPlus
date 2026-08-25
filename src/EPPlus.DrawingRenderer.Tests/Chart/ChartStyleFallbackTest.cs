@@ -198,48 +198,53 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             string fileName = "ExcelThemeManualSystemText";
 
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
             {
-                var ws = p.Workbook.Worksheets[0];
+                //Create expected color
+                var col = Color.FromArgb(255, 0, 0, 0);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
 
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(13.3333d, widthResult, 0.003);
+
+                return expectedStr == colorResult && 13.3333d == Math.Round(widthResult, 4);
+            });
         }
 
 
         [TestMethod]
         public void ExcelThemeLnDeleted()
         {
-            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-
-            CreatePathIfNotExists("StyleExamples\\");
-
             string fileName = "ExcelThemeLnDeleted";
 
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
             {
-                var ws = p.Workbook.Worksheets[0];
+                //Create expected color
+                var col = Color.Transparent;
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
 
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 4).ToLower();
+
+                Assert.AreEqual("none", colorResult);
+
+                return "none" == colorResult;
+            });
         }
 
 
