@@ -102,6 +102,23 @@ namespace OfficeOpenXml.Drawing.Theme
             }
         }
 
+        ExcelThemeObjectDefaults _objectDefaults;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal ExcelThemeObjectDefaults ObjectDefaults
+        {
+            get
+            {
+                if (_objectDefaults == null)
+                {
+                    _objectDefaults = new ExcelThemeObjectDefaults(NameSpaceManager, TopNode.SelectSingleNode(_objectDefaultsPath, NameSpaceManager), this);
+                }
+                return _objectDefaults;
+            }
+        }
+
         ExcelPackage IPictureRelationDocument.Package { get => _pck; }
 
         Dictionary<string, HashInfo> IPictureRelationDocument.Hashes { get => _hashes; }
