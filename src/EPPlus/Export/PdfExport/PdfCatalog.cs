@@ -11,12 +11,8 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Settings;
-using EPPlus.Graphics;
 using EPPlus.Graphics;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
@@ -26,8 +22,6 @@ using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using System;
 using System.Collections.Generic;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -463,7 +457,17 @@ namespace OfficeOpenXml.Export.PdfExport
             else
             {
                 var range = worksheet.DimensionByVisibility;
-                var pdfRange = new PdfRange(range, true);
+                int toRow = range?.End.Row ?? 1;
+                int toCol = range?.End.Column ?? 1;
+                foreach (var drawing in worksheet.Drawings)
+                {
+                    drawing.GetToBounds(out int drawToRow, out _, out int drawToCol, out _);
+                    if (drawToRow + 1 > toRow) toRow = drawToRow + 1;
+                    if (drawToCol + 1 > toCol) toCol = drawToCol + 1;
+                }
+                if (toRow > ExcelPackage.MaxRows) toRow = ExcelPackage.MaxRows;
+                if (toCol > ExcelPackage.MaxColumns) toCol = ExcelPackage.MaxColumns;
+                var pdfRange = new PdfRange(worksheet.Cells[1, 1, toRow, toCol], true);
                 pdfRange.ExtendColumns = true;
                 ranges.Add(pdfRange);
             }
