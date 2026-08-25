@@ -167,35 +167,29 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             string fileName = "ExcelThemeEdited";
 
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
             {
-                var ws = p.Workbook.Worksheets[0];
+                //Create expected color
+                var col = Color.FromArgb(255, 255, 199, 199);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
 
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        //var borderSetting = c.Border;
-                        //var borderDirectColor = borderSetting.Fill.Color;
-                        //var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
 
-                        //var defaultColorFromTheme = theme.ColorScheme.Dark1;
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
 
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
 
-                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
-                        var themeColor = tc.ColorConverter.GetThemeColor(theme, eThemeSchemeColor.Text1);
-                        var themedLine = theme.FormatScheme.BorderStyle[0];
-                        //themeColor = tc.ColorConverter.ApplyTransforms(themeColor, themedLine.Fill.SolidFill.Color.Transforms);
-                        themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor, 0.55d);
-                        var ExpectedColor = Color.FromArgb(255, 255, 199, 199);
-                        Assert.AreEqual(ExpectedColor.ToArgb(), themeColor.ToArgb());
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(13.3333d, widthResult, 0.003);
+
+                return expectedStr == colorResult && 13.3333d == Math.Round(widthResult, 4);
+            });
         }
 
 

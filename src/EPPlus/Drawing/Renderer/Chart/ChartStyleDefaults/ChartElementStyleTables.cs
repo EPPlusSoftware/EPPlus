@@ -114,6 +114,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
                     if(isSchemeColor)
                     {
                         lineColor = GetDefaultBorderColorForElement(element, styleId);
+
+                        if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0 && lineColor.HasValue)
+                        {
+                            //var schemeClr = tc.ColorConverter.GetSchemeColor(ChartRenderer.Theme, eSchemeColor.Dark1);
+                            //var tint = GetSchemeColorTint(eSchemeColor.Dark1, 0.45d);
+                            lineColor = tc.ColorConverter.ApplyTransforms(lineColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                        }
+
+                        return themedLine;
                     }
                     else
                     {
