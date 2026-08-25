@@ -14,6 +14,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Style;
 using System.Text;
 
@@ -636,6 +637,17 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.VerticalCentered = true;
             p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
             p.SaveAs(_pdfPath + "Snake.xlsx");
+        }
+        [TestMethod]
+        public void CenterOnPageTest()
+        {
+            using (var p = OpenTemplatePackage("CenterOnPagePdf.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets[0];
+                string path = _pdfPath + "CenterOnPagePdf.pdf";
+                ws.SaveAsPdf(path);
+            }
         }
     }
 }

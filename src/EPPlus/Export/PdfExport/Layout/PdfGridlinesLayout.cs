@@ -50,7 +50,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // colX[ci] = X of left edge of column ci (0-based within page).
             // colX[colCount] = X of right edge of last column.
             var colX = new double[colCount + 1];
-            colX[0] = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            //colX[0] = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            colX[0] = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int ci = 0; ci < colCount; ci++)
             {
                 var cell = page.Map[page.FromRow, page.FromColumn + ci];
@@ -61,9 +62,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // rowY[rowCount] = Y of bottom edge of last row.
             // Y decreases downward (PDF coordinate system used throughout GetCatalog).
             var rowY = new double[rowCount + 1];
-            rowY[0] = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+            //rowY[0] = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+            rowY[0] = PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
 
-           for (int ri = 0; ri < rowCount; ri++)
+            for (int ri = 0; ri < rowCount; ri++)
             {
                 rowY[ri + 1] = rowY[ri] - page.RowHeights[ri];
             }
@@ -72,9 +74,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // Always computed so BorderLines is available for margin clipping regardless of
             // whether ShowGridLines is on. When borderOnly is true we stop here.
 
-            double frameLeft = pageSettings.ContentBounds.Left; //colX[0];
+            //double frameLeft = pageSettings.ContentBounds.Left; //colX[0];
+            //double frameRight = colX[colCount];
+            //double frameTop = pageSettings.ContentBounds.Top; //rowY[0];
+            //double frameBottom = rowY[rowCount];
+            double frameLeft = PdfLayout.GetOriginX(pageSettings, page);
             double frameRight = colX[colCount];
-            double frameTop = pageSettings.ContentBounds.Top; //rowY[0];
+            double frameTop = PdfLayout.GetOriginY(pageSettings, page);
             double frameBottom = rowY[rowCount];
 
             pageLayout.BorderLines.Add(new GridLine(frameLeft, frameTop, frameRight, frameTop));

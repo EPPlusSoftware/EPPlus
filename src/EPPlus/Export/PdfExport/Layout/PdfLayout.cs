@@ -1410,6 +1410,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         page.Map[row, col] = range.Map[row, col];
                     }
                 }
+                double usedWidth = page.HeadingWidth + page.PrintTitleWidth;
+                for (int col = page.FromColumn; col <= page.ToColumn; col++)
+                {
+                    usedWidth += page.Map[page.FromRow, col]?.ColumnWidth ?? 0d;
+                }
+                page.UsedWidth = usedWidth;
+
+                double usedHeight = page.HeadingHeight + page.PrintTitleHeight;
+                for (int ri = 0; ri < page.RowHeights.Length; ri++)
+                {
+                    usedHeight += page.RowHeights[ri];
+                }
+                page.UsedHeight = usedHeight;
+
                 pdfPages.Page[i] = page;
             }
             pdfPages = pages;
@@ -1612,6 +1626,29 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
             }
             if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
+        }
+
+        /// <summary>
+        /// The X coordinate where the page's printed block begins.
+        /// Currently the left content bound; will include the centering offset.
+        /// </summary>
+        internal static double GetOriginX(PdfPageSettings pageSettings, Page page)
+        {
+            if (!pageSettings.CenterOnPageHorizontally) return pageSettings.ContentBounds.Left;
+
+            var offset = (pageSettings.ContentBounds.Width - page.UsedWidth) / 2d;
+            return pageSettings.ContentBounds.Left + Math.Max(0d, offset);
+        }
+
+        /// <summary>
+        /// The Y coordinate where the page's printed block begins (top edge).
+        /// </summary>
+        internal static double GetOriginY(PdfPageSettings pageSettings, Page page)
+        {
+            if (!pageSettings.CenterOnPageVertically) return pageSettings.ContentBounds.Top;
+
+            var offset = (pageSettings.ContentBounds.Height - page.UsedHeight) / 2d;
+            return pageSettings.ContentBounds.Top - Math.Max(0d, offset);
         }
     }
 }
