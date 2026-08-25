@@ -379,7 +379,7 @@ namespace EPPlusImageRenderer
 
             var reference = Chart.StyleManager.Style?.ChartArea.BorderReference;
 
-            var chartBorder = GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine);
+            //var chartBorder = GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine);
 
             item.Rectangle.SetDrawingBorderPropertiesNew(
                 Theme,

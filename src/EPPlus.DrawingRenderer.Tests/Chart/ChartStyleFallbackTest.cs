@@ -138,31 +138,6 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         }
 
         [TestMethod]
-        public void ReadChartBorderThemeTint()
-        {
-            var fileName = "ChartBorderThemeTint";
-
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var lChart = ws.Drawings[0].As.Chart.LineChart;
-
-                lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor.Accent1);
-        
-                //100 - input is what excel seems to apply
-                //lChart.StyleManager.Style.ChartArea.BorderReference.Color.Transforms.AddTint(13);
-
-                //Adding Less Tint makes the object Lighter. Which is the inverse of how excel does it.
-                lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.Transforms.AddTint(60);
-                lChart.StyleManager.Style.ChartArea.Border.Width = 10d;
-                lChart.StyleManager.ApplyStyles();
-
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
-        }
-
-        [TestMethod]
         public void EditedTheme()
         {
             string fileName = "ExcelThemeEdited";
@@ -253,27 +228,30 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             string fileName = "PureExcelTheme";
 
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            //Border and Fill for chartArea expected colors
+            List<string> ExpectedColors = new List<string>() { "#ffcaca", "#bbd7f9" };
+
+            //Test un-edited excel theme with custom colors set in excel
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
             {
-                var ws = p.Workbook.Worksheets[0];
-
-                foreach (var d in ws.Drawings)
+                foreach(var svg in outputSvgs)
                 {
-                    if (d is ExcelChart c)
-                    {
-                        var borderSetting = c.Border;
-                        var borderDirectColor = borderSetting.Fill.Color;
-                        var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                    var svgSplitOnSpace = svg.Split(' ');
 
-                        var defaultColorFromTheme = theme.ColorScheme.Dark1;
+                    //Get the first stroke and extract the hexCode for the expected color
+                    var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                    var borderResult = firstStroke.Substring(8, 7).ToLower();
 
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
+                    //Get the first stroke and extract the hexCode for the expected color
+                    var firstFill = svgSplitOnSpace.First(s => s.StartsWith("fill"));
+                    var fillResult = firstFill.Substring(6, 7).ToLower();
+
+                    Assert.AreEqual(ExpectedColors[0], borderResult);
+                    Assert.AreEqual(ExpectedColors[1], fillResult);
                 }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
+
+                return true;
+            });
         }
 
 
@@ -282,21 +260,79 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
         {
             string fileName = "ChartWithChartStyleMEdit";
 
-            using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            //Read test for if chart style is applied appropriately
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
             {
-                var ws = p.Workbook.Worksheets[0];
+                //Create expected color
+                var col = Color.FromArgb(255, 217, 217, 217);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
 
-                foreach (var d in ws.Drawings)
-                {
-                    if (d is ExcelChart c)
-                    {
-                        var svg = c.ToSvg();
-                        SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{c.Name}.svg", svg);
-                    }
-                }
-                var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
-                p.SaveAs(fi);
-            }
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(1d, widthResult, 0.003);
+
+                return expectedStr == colorResult && 1d == Math.Round(widthResult, 1);
+            });
+        }
+
+        [TestMethod]
+        public void ReadChartBorderThemeTint()
+        {
+            var fileName = "ChartBorderThemeTint";
+
+            //Read test for if chart style is applied appropriately
+            CreateStyleExampleAndExportIt(fileName, (List<string> outputSvgs) =>
+            {
+                //Create expected color
+                var col = Color.FromArgb(255, 217, 217, 217);
+                var expectedStr = ColorTranslator.ToHtml(col).ToLower();
+
+                var svgSplitOnSpace = outputSvgs[0].Split(' ');
+
+                //Get the first stroke and extract the hexCode for the expected color
+                var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                var colorResult = firstStroke.Substring(8, 7).ToLower();
+
+                //Get the resulting width
+                var strokeWidth = svgSplitOnSpace.First(s => s.StartsWith("stroke-width"));
+                var widthStr = strokeWidth.Substring(14, strokeWidth.Length - 14 - 1).ToLower();
+                var widthResult = double.Parse(widthStr, CultureInfo.InvariantCulture);
+
+                //Assert
+                Assert.AreEqual(expectedStr, colorResult);
+                Assert.AreEqual(1d, widthResult, 0.003);
+
+                return expectedStr == colorResult && 1d == Math.Round(widthResult, 1);
+            });
+            //using (var p = OpenTemplatePackage($"StyleExamples\\{fileName}.xlsx"))
+            //{
+            //    var ws = p.Workbook.Worksheets[0];
+            //    var lChart = ws.Drawings[0].As.Chart.LineChart;
+
+            //    lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor.Accent1);
+
+            //    //100 - input is what excel seems to apply
+            //    //lChart.StyleManager.Style.ChartArea.BorderReference.Color.Transforms.AddTint(13);
+
+            //    //Adding Less Tint makes the object Lighter. Which is the inverse of how excel does it.
+            //    lChart.StyleManager.Style.ChartArea.Border.Fill.SolidFill.Color.Transforms.AddTint(60);
+            //    lChart.StyleManager.Style.ChartArea.Border.Width = 10d;
+            //    lChart.StyleManager.ApplyStyles();
+
+            //    var fi = GetOutputFile("StyleExamples", $"{fileName}_Out.xlsx");
+            //    p.SaveAs(fi);
+            //}
         }
 
         [TestMethod]
@@ -328,15 +364,11 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 gradientRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.GradientFill;
                 generatedBar.Series.Add(ws.Cells["A1:A3"]);
 
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var borderRef = c.StyleManager.Style.ChartArea.BorderReference;
-                //    var borderSetting = c.Border;
-                //    var borderDirectColor = borderSetting.Fill.Color;
-
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\epplusDefault{ws.Name}_{c.Name}.svg", svg);
-                //}
+                foreach (ExcelDrawing d in ws.Drawings)
+                {
+                    var svg = d.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\epplusDefault{ws.Name}_{d.Name}.svg", svg);
+                }
                 //GetOutputFile("StyleExamples", "");
                 SaveAndCleanup(p);
             }

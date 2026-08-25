@@ -63,7 +63,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
 
             if (styleId == 0)
             {
-                return Color.Empty;
+                //Set to default instead for export
+                //Otherwise epplus generated get weird.
+                styleId = 2;
+                //return Color.Empty;
             }
 
             if (styleId <= 32)

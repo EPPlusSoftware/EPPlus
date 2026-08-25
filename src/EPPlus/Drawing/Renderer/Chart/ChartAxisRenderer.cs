@@ -688,13 +688,20 @@ namespace EPPlusImageRenderer.Svg
             if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis==false)
             {
                 min = 0;
-                if (Axis.CrossingAxis==null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
+                if(AxisValues != null)
                 {
-                    max = AxisValues.Count;
+                    if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
+                    {
+                        max = AxisValues.Count;
+                    }
+                    else
+                    {
+                        max = AxisValues.Count - 1;
+                    }
                 }
                 else
                 {
-                    max = AxisValues.Count - 1;
+                    max = 0;
                 }
             }
             else
