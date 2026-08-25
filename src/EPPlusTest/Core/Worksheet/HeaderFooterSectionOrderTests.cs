@@ -186,8 +186,15 @@ namespace EPPlusTest.Core.Worksheet
         {
             // Covers the "pos = startPos - 1" part of the fix. With the previous
             // "pos = startPos" the loop's pos++ skipped the character at startPos, so a
-            // section code immediately following an empty section was missed.
-            const string raw = "&C&L&G&R&G";
+            // section code starting immediately after a consumed code - i.e. an empty
+            // section - was missed, and the following section was swallowed by it.
+            //
+            // The empty section must sit in the MIDDLE for this to bite: the first section
+            // code is taken outside the loop, so no skip has happened yet at that point.
+            // "&C&L&G&R&G" therefore parses correctly even without the fix and would not
+            // catch a regression here - the empty Center has to follow a match made inside
+            // the loop, as below.
+            const string raw = "&L&G&C&R&G";
 
             using (var pkg = new ExcelPackage())
             {
@@ -196,12 +203,25 @@ namespace EPPlusTest.Core.Worksheet
 
                 var oddFooter = ws.HeaderFooter.OddFooter;
 
+                Console.WriteLine($"Raw    : \"{Escape(raw)}\"");
+                Console.WriteLine($"Left   : \"{Escape(oddFooter.LeftAlignedText)}\"");
+                Console.WriteLine($"Center : \"{Escape(oddFooter.CenteredText)}\"");
+                Console.WriteLine($"Right  : \"{Escape(oddFooter.RightAlignedText)}\"");
+
                 StringAssert.Contains(oddFooter.LeftAlignedText, ExcelHeaderFooter.Image,
-                    $"Left section not parsed from \"{Escape(raw)}\" - the empty Center " +
-                    $"section should not swallow the following '&L'. Left parsed as " +
-                    $"\"{Escape(oddFooter.LeftAlignedText)}\".");
+                    $"Left section not parsed from \"{Escape(raw)}\".");
+
+                // The empty Center must not swallow the Right section's code.
+                Assert.IsFalse(Contains(oddFooter.CenteredText, "&R"),
+                    $"The empty Center section swallowed the following '&R': " +
+                    $"\"{Escape(oddFooter.CenteredText)}\".");
+
+                // This is the assertion that should fail if "pos = startPos - 1" is reverted:
+                // Right is never set, so RightAlignedText comes back as just "&R".
                 StringAssert.Contains(oddFooter.RightAlignedText, ExcelHeaderFooter.Image,
-                    "Right section not parsed.");
+                    $"Right section not parsed from \"{Escape(raw)}\" - it was most likely " +
+                    $"consumed by the empty Center section. Right parsed as " +
+                    $"\"{Escape(oddFooter.RightAlignedText)}\".");
             }
         }
 
