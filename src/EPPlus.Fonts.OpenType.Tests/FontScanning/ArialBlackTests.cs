@@ -26,6 +26,18 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
         }
 
         [TestMethod]
+        public void ScanAptosNarrow_ShouldReturnArialBlack()
+        {
+            var face = FontScannerV2.FindBestMatch(string.Empty, "Aptos Narrow", FontSubFamily.Regular, true);
+            if (face == null)
+            {
+                Assert.Inconclusive();
+            }
+            Assert.AreEqual("Aptos Narrow", face.FamilyName, $"face.FamilyName was not 'Aptos Narrow' as expected but '{face.FamilyName}'");
+            Assert.IsTrue(face.IsExactMatch, "face.IsExactMatch was false");
+        }
+
+        [TestMethod]
         public void LoadArialBlackFullFont_ShouldReturnArialBlack()
         {
             var factory = new OpenTypeFontEngine();
@@ -37,6 +49,20 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
             var font = factory.LoadFont("Arial Black");
             Assert.IsNotNull(font);
             Assert.AreEqual("Arial Black", font.FullName);
+        }
+
+        [TestMethod]
+        public void LoadAptosNarrowFullFont_ShouldReturnAptosNarrow()
+        {
+            var factory = new OpenTypeFontEngine();
+            var availability = factory.GetFontAvailability("Aptos Narrow");
+            if (availability == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive();
+            }
+            var font = factory.LoadFont("Aptos Narrow");
+            Assert.IsNotNull(font);
+            Assert.AreEqual("Aptos Narrow", font.FullName);
         }
 
         [TestMethod]

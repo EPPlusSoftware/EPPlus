@@ -20,6 +20,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace EPPlus.Fonts.OpenType
@@ -380,6 +381,9 @@ namespace EPPlus.Fonts.OpenType
                 ? font.Os2Table.GetEmbeddingRestriction()
                 : FontEmbeddingRestriction.None;
 
+            if (font.NameTable != null && EmbeddedFonts.IsBundledFamily(font.GetEnglishFontFamilyName()))
+                return FontEmbeddingDecision.Subset;
+
             var fontName = font.NameTable != null ? font.NameTable.GetFullFontName() : null;
             var callback = _configuration.GetEmbeddingCallback();
             if (callback != null)
@@ -388,6 +392,8 @@ namespace EPPlus.Fonts.OpenType
                 if (decision != FontEmbeddingDecision.Default)
                     return decision;   // user override wins
             }
+
+            Debug.WriteLine($"ResolveEmbeddingDecision: {fontName} restriction={restriction} callback={(callback != null)}");
 
             // No callback, or callback returned Default → derive from the restriction.
             switch (restriction)

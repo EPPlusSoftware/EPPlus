@@ -10,16 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Export.Pdf.Resources;
-using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport.TextShaping
@@ -84,6 +85,10 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
+                // I ShapeText, EFTER fontIdMap-loopen (ersätt den nuvarande raden):
+                Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
+                                $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
+                                $"labels=[{string.Join(",", fontIdMap.Values)}]");
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
@@ -152,6 +157,10 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
+                Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
+                $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
+                $"labels=[{string.Join(",", fontIdMap.Values)}]");
+
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);

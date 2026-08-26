@@ -18,6 +18,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -75,7 +76,9 @@ namespace EPPlus.Export.Pdf
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
-        {            
+        {
+            foreach (var f in _dictionaries.Fonts)
+                Debug.WriteLine($"Fonts: {f.Key} → label={f.Value.Label} nr={f.Value.labelNumber}");
             if (_documentSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)

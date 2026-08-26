@@ -98,7 +98,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                     // last-resort font: the provider yields ONE answer per code point, not a ranked
                     // list, so there is no "next best" to fall to.
                     if (DecisionForFont(dest) == FontEmbeddingDecision.Skip)
-                        dest = LastResort();
+                        dest = LastResort(kvp.Key.SubFamily);
 
                     var id = IdentityOf(dest);
 
@@ -118,7 +118,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 // content) still needs a primary to shape against.
                 if (chainIdentities.Count == 0)
                 {
-                    var lr = LastResort();
+                    var lr = LastResort(kvp.Key.SubFamily);
                     var lrId = IdentityOf(lr);
                     if (!fontByIdentity.ContainsKey(lrId))
                         fontByIdentity[lrId] = lr;
@@ -159,9 +159,9 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         // Loads the last-resort font and ensures a decision is registered for it (it bypasses
         // name resolution, so ResolveEmbeddingDecision is never called for it). It must always be
         // subsettable and must never itself be skipped.
-        private OpenTypeFont LastResort()
+        private OpenTypeFont LastResort(FontSubFamily subFamily)
         {
-            var font = EmbeddedFonts.LoadArchivoNarrow(FontSubFamily.Regular);
+            var font = EmbeddedFonts.LoadArchivoNarrow(subFamily);
             _decisionByIdentity[IdentityOf(font)] = FontEmbeddingDecision.Subset;
             return font;
         }
