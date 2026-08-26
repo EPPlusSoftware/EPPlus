@@ -7,6 +7,9 @@ namespace OfficeOpenXml.Drawing.Theme
     {
         private readonly ExcelThemeBase _theme;
         private readonly string _path = "objectDefaults";
+        private readonly string _spDefPath = "a:spDef";
+        private readonly string _lnDefPath = "a:lnDef";
+        private readonly string _txDefPath = "a:txDef";
         public ExcelThemeObjectDefaults(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelThemeBase theme) : base(nameSpaceManager, topNode)
         {
             _theme = theme;
@@ -22,7 +25,8 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_spDef == null)
                 {
-                    _spDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _path +"\\spDef", _theme);
+                    var test = TopNode.SelectSingleNode(_spDefPath, NameSpaceManager);
+                    _spDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _spDefPath, _theme);
                 }
 
                 return _spDef;
@@ -35,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_lnDef == null)
                 {
-                    _lnDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _path + "\\lnDef", _theme);
+                    _lnDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _lnDefPath, _theme);
                 }
 
                 return _lnDef;
@@ -48,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_txDef == null)
                 {
-                    _txDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _path + "\\txDef", _theme);
+                    _txDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _txDefPath, _theme);
                 }
 
                 return _txDef;

@@ -15,7 +15,10 @@ namespace OfficeOpenXml.Drawing.Shape.Style
         private readonly IPictureRelationDocument _pictureRelationDocument;
         internal ExcelShapeStyleEntry(XmlNamespaceManager nsm, XmlNode topNode, string path, IPictureRelationDocument pictureRelationDocument, string prefix = "a") : base(nsm, topNode)
         {
-
+            _fillReferencePath = string.Format(_fillReferencePath, path, prefix);
+            _borderReferencePath = string.Format(_borderReferencePath, path, prefix);
+            _effectReferencePath = string.Format(_effectReferencePath, path, prefix);
+            _fontReferencePath = string.Format(_fontReferencePath, path, prefix);
         }
         private ShapeStyleReference _borderReference = null;
         /// Border reference. 

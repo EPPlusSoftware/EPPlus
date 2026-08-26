@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Shape.Style
         ExcelDrawingColorManager _color;
         /// <summary>
         /// The color to be used for the reference. 
-        /// This will replace any the StyleClr node in the shape style xml.
+        /// simplerForm of Color on ChartNodes
         /// </summary>
         public ExcelDrawingColorManager ShapeColor
         {

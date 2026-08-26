@@ -26,6 +26,10 @@ namespace OfficeOpenXml.Drawing.Shape
         internal DefaultShapeDefinition(XmlNamespaceManager nsm, XmlNode topNode, string path, IPictureRelationDocument pictureRelationDocument, string prefix = "a") : base(nsm, topNode)
         {
             _prefix = prefix;
+
+            _fillPath = string.Format(_fillPath, path, _prefix);
+            _defaultTextBodyPath = string.Format(_defaultTextBodyPath, path, _prefix);
+            _stylePath = string.Format(_stylePath, path, _prefix);
         }
 
 

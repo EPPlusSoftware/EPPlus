@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Theme
         readonly string _colorSchemePath = "{0}a:clrScheme";
         readonly string _fontSchemePath = "{0}a:fontScheme";
         readonly string _fmtSchemePath = "{0}a:fmtScheme";
-        readonly string _objectDefaultsPath = "{0}a:ObjectDefaults";
+        readonly string _objectDefaultsPath = "{0}a:objectDefaults";
 
         readonly ExcelPackage _pck;
         Dictionary<string, HashInfo> _hashes=new Dictionary<string, HashInfo>();
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Drawing.Theme
             }
         }
 
-        ExcelThemeObjectDefaults _objectDefaults;
+        ExcelThemeObjectDefaults _objectDefaults = null;
 
         /// <summary>
         /// 

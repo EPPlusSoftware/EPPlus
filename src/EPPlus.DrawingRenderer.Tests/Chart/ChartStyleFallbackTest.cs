@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 using System.Globalization;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Theme;
 
 namespace EPPlus.DrawingRenderer.Tests.Chart
 {
@@ -487,5 +489,37 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
             }
         }
 
+        [TestMethod]
+        public void ReadObjectDefaults()
+        {
+            string fileName = "ObjectDefaultsChanged";
+
+            using (var p = OpenTemplatePackage($"{fileName}.xlsx"))
+            {
+                var theme = p.Workbook.ThemeManager.GetOrCreateTheme();
+                var shapeStyle = theme.ObjectDefaults.ShapeDefinition.Style;
+                var fillRef = shapeStyle.FillReference;
+
+                var lnRef = shapeStyle.BorderReference;
+
+                Assert.AreEqual(eSchemeColor.Accent2, lnRef.ShapeColor.SchemeColor.Color);
+                Assert.IsTrue(lnRef.ShapeColor.Transforms.Count > 0);
+                Assert.AreEqual(eColorTransformType.Shade, lnRef.ShapeColor.Transforms[0].Type);
+                Assert.AreEqual(15, lnRef.ShapeColor.Transforms[0].Value);
+                Assert.AreEqual(2, lnRef.Index);
+
+                Assert.IsTrue(fillRef.HasColor);
+                var schemeClr = fillRef.ShapeColor.SchemeColor;
+                var col = schemeClr.Color;
+                Assert.AreEqual(eSchemeColor.Accent2, col);
+                Assert.AreEqual(1, fillRef.Index);
+
+                var fontRef = theme.ObjectDefaults.ShapeDefinition.Style.FontReference;
+                Assert.AreEqual(eSchemeColor.Light1, fontRef.Color.SchemeColor.Color);
+                Assert.AreEqual(eThemeFontCollectionType.Minor, fontRef.Index);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
