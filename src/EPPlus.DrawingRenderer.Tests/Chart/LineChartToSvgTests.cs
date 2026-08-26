@@ -322,6 +322,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 }
             }
         }
+        [TestMethod]
+        public void GenerateBlazorSample1()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("BlazorSample1.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\5.3-SampleLines{ix}.svg", svg);
+
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\BlazorSample1{i}.svg", svg);
+                }
+            }   
+        }
         //2.4-CreateAFileSystemReport.xlsx
         //3.3-FxReportFromDatabase.xlsx
     }

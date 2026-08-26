@@ -118,7 +118,7 @@ namespace EPPlusImageRenderer
                 PlaceHorizontalAxis(HorizontalAxis, false);
 
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
+                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D && HorizontalAxis.Axis.Crosses == eCrosses.AutoZero)
                 {
                     var newtop = VerticalAxis.GetPositionInPlotarea(0D) + Plotarea.Group.Top;
                     var topDiff = HorizontalAxis.Rectangle.Top - newtop;
