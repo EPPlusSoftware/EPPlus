@@ -145,6 +145,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return false;
         }
 
+        internal static bool ProducesSoftMask(byte[] imageBytes)
+        {
+            if (!IsPng(imageBytes)) return false;
+            if (!ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
+                return false;
+            if (interlace != 0) return false;
+            return (colorType == 4 || colorType == 6) && bitDepth == 8;
+        }
+
         private static bool IsJpeg(byte[] d) => d != null && d.Length > 2 && d[0] == 0xFF && d[1] == 0xD8;
 
         private static readonly byte[] _pngSignature = { 137, 80, 78, 71, 13, 10, 26, 10 };

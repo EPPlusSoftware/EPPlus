@@ -27,6 +27,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal readonly List<int> contentObjectNumbers;
         PdfDictionaries dictionaries;
         internal PdfPageSize Size;
+        internal bool HasTransparency;
 
         public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, PdfDictionaries dictionaries, int version = 0)
             : base(objectNumber, version)
@@ -96,6 +97,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (hasImage) sb.AppendFormat($"      /XObject << {images} >>\n");
                 sb.AppendFormat($"   >>\n");
             }
+            if (HasTransparency)
+                sb.AppendFormat($"   /Group << /Type /Group /S /Transparency /CS /DeviceRGB >>\n");
             sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
                             $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
             WriteAscii(bw, sb.ToString());

@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -720,7 +721,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         private static double PointsFromPixels(double pixels) => pixels * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
         private static double ColumnEdge(double[] colPrefix, int localCol) => colPrefix[Math.Max(0, Math.Min(localCol, colPrefix.Length - 1))];
         private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
-        private static bool IsSupportedPicture(ePictureType type) => type == ePictureType.Jpg;
         private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
         {
             page.Images = new List<ImageDrawInfo>();
@@ -738,7 +738,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
             foreach (var drawing in drawings)
             {
-                if (!IsSupportedPicture(drawing.PictureType)) continue;
+                if (!PdfImageXObject.CanEmbed(drawing.ImageBytes)) continue;
                 var pic = drawing.Picture;
                 double imgLeft, imgTop, imgRight, imgBottom;
                 if (pic.From != null)

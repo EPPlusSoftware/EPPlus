@@ -204,6 +204,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             {
                 var imageResource = _dictionaries.AddImage(image.ImageBytes);
                 contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
