@@ -132,6 +132,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
+        /// <summary>
+        /// Returns the number format code for the axis. If the axis has no format code, it will return the format code of the first series in the chart that uses this axis. If no series has a format code, it will return an empty string.
+        /// </summary>
         public string FormatOrFirstValueFormat
         {
             get
@@ -144,19 +147,11 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         if(ct.XAxis.Id == Id)
                         {
-                            foreach (var serie in ct.Series)
-                            {
-                                if(string.IsNullOrEmpty(serie.XSeries))
-                                {
-                                    continue;
-                                }
-                                var adr = new ExcelAddressBase(serie.XSeries);
-                                var ws = wb.Worksheets[adr.WorkSheetName];
-                                if(ws!=null)
-                                {
-                                    return ws.Cells[adr.Address].Style.Numberformat.Format;
-                                }
-                            }
+                            return GetFormatFromSeries(ct, true);
+                        }
+                        else if (ct.YAxis.Id == Id)
+                        {
+                            return GetFormatFromSeries(ct, false);
                         }
                     }
                     return "";
@@ -165,6 +160,26 @@ namespace OfficeOpenXml.Drawing.Chart
                 return f;
             }
         }
+
+        private string GetFormatFromSeries(ExcelChart ct, bool isXAxis)
+        {
+            foreach (var serie in ct.Series)
+            {
+                var address = isXAxis ? serie.XSeries : serie.Series;
+                if (string.IsNullOrEmpty(address))
+                {
+                    continue;
+                }
+                var adr = new ExcelAddressBase(address);
+                var ws = _chart.WorkSheet.Workbook.Worksheets[adr.WorkSheetName];
+                if (ws != null)
+                {
+                    return ws.Cells[adr.Address].FirstOrDefault(x=>string.IsNullOrEmpty(x.Style.Numberformat.Format)==false).Style.Numberformat.Format ?? "";
+                }
+            }
+            return "";
+        }
+
         /// <summary>
         /// The Numberformats are linked to the source data.
         /// </summary>

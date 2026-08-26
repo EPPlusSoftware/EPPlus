@@ -74,9 +74,9 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            if (AutoAxisType == eAxisType.Cat || (dateUnit.HasValue && dateUnit == eTimeUnit.Days))
+            if (AutoAxisType == eAxisType.Cat || IsDateAutoAxis || IsDateScale)
             {
-                MinorUnit = 1; 
+                MinorUnit = ax.MinorUnit ?? 1; 
             }
             else
             {
@@ -357,8 +357,13 @@ namespace EPPlusImageRenderer.Svg
                         maxWidth = (Rectangle.Width + Rectangle.Height) / COS45;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
-                    default:
+                    case eTextOrientation.Horizontal:
                         maxWidth = Rectangle.Width / AxisValues.Count;
+                        maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
+                        break;
+                    default: // custom
+                        var radRot = MathHelper.Radians(Axis.TextBody.Rotation.Value);
+                        maxWidth = (Rectangle.Width * Math.Sin(radRot) + Rectangle.Height * Math.Cos(radRot))  ;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                 }
@@ -502,7 +507,7 @@ namespace EPPlusImageRenderer.Svg
                     var min = ConvertUtil.GetValueDouble(Values[0]);
                     var max = ConvertUtil.GetValueDouble(Values.Last());
                     var minUnit = (max - min) / MinorUnit;
-                    majorWidth = (min - min) / minUnit;
+                    majorWidth = Rectangle.Width / minUnit;
                 }
                 else
                 {
@@ -548,7 +553,18 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (!(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat))
                 {
-                    var majorWidth = Rectangle.Width / AxisValues.Count;
+                    double majorWidth;
+                    if (IsDateAutoAxis || IsDateScale)
+                    {
+                        var min = ConvertUtil.GetValueDouble(Values[0]);
+                        var max = ConvertUtil.GetValueDouble(Values.Last());
+                        var minUnit = (max - min) / MinorUnit;
+                        majorWidth = Rectangle.Width / minUnit;
+                    }
+                    else
+                    {
+                        majorWidth = Rectangle.Width / AxisValues.Count;
+                    }
                     foreach (var tb in ret)
                     {
                         tb.Left += majorWidth / 2;
