@@ -124,7 +124,19 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         {
             foreach (var image in _dictionaries.Images)
             {
-                _document.Add(image.Value.GetImageObject(_document.Count + 1));
+                var img = image.Value.GetImageObject(_document.Count + 1);
+                if (img.HasSoftMask)
+                {
+                    // Alpha PNG: the alpha channel is a separate grayscale /SMask object. Add it
+                    // first, then point the image at it and shift the image (and the page /XObject
+                    // reference in image.Value) to the next slot so all three numbers agree.
+                    var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
+                    _document.Add(mask);
+                    img.SoftMaskObjectNumber = mask.objectNumber;
+                    img.objectNumber = _document.Count + 1;
+                    image.Value.objectNumber = img.objectNumber;
+                }
+                _document.Add(img);
             }
         }
 

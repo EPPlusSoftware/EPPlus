@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using OfficeOpenXml.Packaging.Ionic.Zlib;
 using System.IO;
 using System.Text;
 
@@ -114,15 +115,32 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         }
 
+
+        private PdfImageXObject(int objectNumber, int version, byte[] deflatedGray, int width, int height)
+            : base(objectNumber, version)
+        {
+            _bytes = deflatedGray;
+            Width = width;
+            Height = height;
+            BitsPerComponent = 8;
+            ColorSpace = "/DeviceGray";
+            Filter = "FlateDecode";
+        }
+
+        internal static PdfImageXObject CreateSoftMask(int objectNumber, byte[] deflatedGray, int width, int height)
+            => new PdfImageXObject(objectNumber, 0, deflatedGray, width, height);
+
         internal static bool CanEmbed(byte[] imageBytes)
         {
             if (IsJpeg(imageBytes)) return true;
             if (IsPng(imageBytes))
             {
-                if (!ReadPngHeader(imageBytes, out int _, out int _, out int _, out int colorType, out int interlace))
+                if (!ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
                     return false;
-                if (interlace != 0) return false;
-                return colorType == 0 || colorType == 2 || colorType == 3;
+                if (interlace != 0) return false;                             // Adam7 not handled
+                if (colorType == 0 || colorType == 2 || colorType == 3) return true;   // opaque, verbatim
+                if (colorType == 4 || colorType == 6) return bitDepth == 8;   // alpha -> decode + soft mask
+                return false;
             }
             return false;
         }
@@ -140,11 +158,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         private string DictHeader()
         {
+            string smask = HasSoftMask ? $" /SMask {SoftMaskObjectNumber} 0 R" : "";
             string decode = string.IsNullOrEmpty(Decode) ? "" : $" /Decode {Decode}";
             string decodeParms = string.IsNullOrEmpty(DecodeParms) ? "" : $" /DecodeParms {DecodeParms}";
             return "<< /Type /XObject /Subtype /Image" +
                    $" /Width {Width} /Height {Height}" +
                    $" /ColorSpace {ColorSpace} /BitsPerComponent {BitsPerComponent}" +
+                   smask +
                    decode +
                    $" /Filter /{Filter}" + decodeParms +
                    $" /Length {_bytes.Length} >>";
@@ -252,6 +272,100 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     p = dataStart + len + 4;                                 // skip data + 4-byte CRC
                 }
                 return idat.ToArray();
+            }
+        }
+
+        private static void DecodePngWithAlpha(byte[] pngBytes, int width, int height, int colorType,
+                                               out byte[] deflatedColor, out byte[] deflatedAlpha)
+        {
+            int channels = colorType == 6 ? 4 : 2;             // RGBA or grey+alpha
+            int colorChannels = colorType == 6 ? 3 : 1;
+            byte[] filtered = ZlibDecompress(ReadPngIdat(pngBytes, out byte[] _));
+
+            int stride = width * channels;                     // 8-bit: one byte per channel
+            var color = new byte[width * height * colorChannels];
+            var alpha = new byte[width * height];
+            var prev = new byte[stride];
+            var cur = new byte[stride];
+            int pos = 0, ci = 0, ai = 0;
+            for (int y = 0; y < height; y++)
+            {
+                int filter = pos < filtered.Length ? filtered[pos++] : 0;   // per-row filter type byte
+                for (int x = 0; x < stride; x++)
+                {
+                    int raw = pos < filtered.Length ? filtered[pos++] : 0;
+                    int a = x >= channels ? cur[x - channels] : 0;   // reconstructed byte to the left
+                    int b = prev[x];                                 // byte above
+                    int c = x >= channels ? prev[x - channels] : 0;  // byte above-left
+                    int val;
+                    switch (filter)
+                    {
+                        case 1: val = raw + a; break;                        // Sub
+                        case 2: val = raw + b; break;                        // Up
+                        case 3: val = raw + ((a + b) >> 1); break;           // Average
+                        case 4: val = raw + Paeth(a, b, c); break;           // Paeth
+                        default: val = raw; break;                           // None
+                    }
+                    cur[x] = (byte)(val & 0xFF);
+                }
+                // De-interleave this row: colour bytes to the image, the last channel to the mask.
+                for (int x = 0; x < width; x++)
+                {
+                    int p = x * channels;
+                    if (colorType == 6)
+                    {
+                        color[ci++] = cur[p];
+                        color[ci++] = cur[p + 1];
+                        color[ci++] = cur[p + 2];
+                        alpha[ai++] = cur[p + 3];
+                    }
+                    else
+                    {
+                        color[ci++] = cur[p];
+                        alpha[ai++] = cur[p + 1];
+                    }
+                }
+                var swap = prev; prev = cur; cur = swap;    // this row becomes "previous" for the next
+            }
+            deflatedColor = ZlibCompress(color);
+            deflatedAlpha = ZlibCompress(alpha);
+        }
+
+        // PNG Paeth predictor (integer, no Math dependency).
+        private static int Paeth(int a, int b, int c)
+        {
+            int p = a + b - c;
+            int pa = p > a ? p - a : a - p;
+            int pb = p > b ? p - b : b - p;
+            int pc = p > c ? p - c : c - p;
+            if (pa <= pb && pa <= pc) return a;
+            return pb <= pc ? b : c;
+        }
+
+        // zlib (RFC 1950) round-trips: PNG IDAT and PDF /FlateDecode are both zlib streams, so the
+        // same codec decompresses the IDAT and compresses the split colour / alpha back.
+        private static byte[] ZlibDecompress(byte[] data)
+        {
+            using (var input = new MemoryStream(data))
+            using (var z = new ZlibStream(input, CompressionMode.Decompress))
+            using (var output = new MemoryStream())
+            {
+                byte[] buffer = new byte[8192];
+                int n;
+                while ((n = z.Read(buffer, 0, buffer.Length)) > 0) output.Write(buffer, 0, n);
+                return output.ToArray();
+            }
+        }
+
+        private static byte[] ZlibCompress(byte[] data)
+        {
+            using (var output = new MemoryStream())
+            {
+                using (var z = new ZlibStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, true))
+                {
+                    z.Write(data, 0, data.Length);
+                }   // disposing flushes the final bytes + Adler-32 into output
+                return output.ToArray();
             }
         }
 
