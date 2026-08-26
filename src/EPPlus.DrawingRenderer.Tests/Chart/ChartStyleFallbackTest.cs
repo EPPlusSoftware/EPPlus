@@ -430,6 +430,13 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 Assert.AreEqual(expectedFill, fillResult);
                 Assert.AreEqual(expectedStroke, strokeResult);
                 Assert.AreEqual(1d, widthResult, 0.003);
+
+                gradientRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.GradientFill;
+
+                var svgGradient = gradientRect.ToSvg();
+                SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{gradientRect.Name}.svg", svgGradient);
+
+                SaveAndCleanup(p);
             }
         }
 

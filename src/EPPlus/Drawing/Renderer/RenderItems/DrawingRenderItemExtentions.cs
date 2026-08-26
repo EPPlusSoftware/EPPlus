@@ -223,7 +223,12 @@ namespace EPPlusImageRenderer.RenderItems
                         fillStr = GetAdjustmentsAndTransparency(fc, fillMode, out opacity);
                         break;
                     case eFillStyle.GradientFill:
-                        gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
+                        gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, UserSpaceSettings.ObjectBoundingBox);
+
+                        //if(gradFill.Colors.Count == 0)
+                        //{
+
+                        //}
                         break;
                 }
 
@@ -250,7 +255,7 @@ namespace EPPlusImageRenderer.RenderItems
             if(gradFill != null)
             {
                 //Special case as gradfill does not return a string
-                item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, UserSpaceSettings.UserSpaceOnUse_Global);
+                item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, UserSpaceSettings.ObjectBoundingBox);
                 item.BorderColor = null;
             }
             else
