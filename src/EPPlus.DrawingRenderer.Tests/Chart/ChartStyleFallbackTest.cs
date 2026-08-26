@@ -395,6 +395,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 var defaultRect = ws.Drawings.AddShape("Default", OfficeOpenXml.Drawing.eShapeStyle.Round1Rect);
                 var gradientRect = ws.Drawings.AddShape("GradRect", OfficeOpenXml.Drawing.eShapeStyle.Round1Rect);
 
+                var aThemeStyle = defaultRect.ThemeStyles.BorderReference;
+
                 defaultRect.SetPosition(300, 1);
                 gradientRect.SetPosition(300, 1000);
 
@@ -438,7 +440,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
 
                 //ws.Workbook.ThemeManager.GetOrCreateTheme();
 
-
+                //ws.Workbook.ThemeManager.GetOrCreateTheme().FormatScheme.BackgroundFillStyle[0] = true;
                 ws.Cells["A1:A3"].Formula = "ROW()+COLUMN()";
 
                 ws.Calculate();
