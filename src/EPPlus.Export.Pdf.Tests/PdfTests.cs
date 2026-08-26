@@ -14,7 +14,9 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Style;
 using System.Text;
 
@@ -638,6 +640,7 @@ namespace EPPlusTest.PDF
             p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
             p.SaveAs(_pdfPath + "Snake.xlsx");
         }
+
         [TestMethod]
         public void CenterOnPageTest()
         {
@@ -645,9 +648,45 @@ namespace EPPlusTest.PDF
             {
                 var wb = p.Workbook;
                 var ws = wb.Worksheets[0];
+                ws.HeaderFooter.OddFooter.LeftAlignedText = "Confidential Report";
+
                 string path = _pdfPath + "CenterOnPagePdf.pdf";
                 ws.SaveAsPdf(path);
             }
+        }
+
+        [TestMethod]
+        public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
+        {
+            var s = new PdfPageSettings(null);
+            var p = new Page()
+            {
+                FromRow = 1, ToRow = 10, FromColumn = 1, ToColumn = 5,
+                UsedWidth = 100,
+                UsedHeight = 100,
+                RowHeights = new double[10]
+            };
+
+            Assert.AreEqual(s.ContentBounds.Left, PdfLayout.GetOriginX(s, p), 0.0001);
+        }
+
+        [TestMethod]
+        public void GetOrigin_FlagsAreIndependent()
+        {
+            var s = new PdfPageSettings(null);
+            s.CenterOnPageHorizontally = true;
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = s.ContentBounds.Width - 100d,
+                UsedHeight = s.ContentBounds.Height - 200d,
+                RowHeights = new double[10]
+            };
+            Assert.AreEqual(s.ContentBounds.Left + 50d, PdfLayout.GetOriginX(s, p), 0.0001);
+            Assert.AreEqual(s.ContentBounds.Top, PdfLayout.GetOriginY(s, p), 0.0001);
         }
     }
 }
