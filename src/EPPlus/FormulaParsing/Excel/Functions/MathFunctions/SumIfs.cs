@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return FunctionParameterInformation.Normal;
             }
-            return FunctionParameterInformation.AdjustParameterAddress;
+            return FunctionParameterInformation.AdjustCriteriaParameterAddress;
         }));
 
         public override void GetNewParameterAddress(IList<CompileResult> args, int index, ParsingContext ctx, ref Queue<FormulaRangeAddress> addresses)

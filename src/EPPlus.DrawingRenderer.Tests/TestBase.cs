@@ -219,6 +219,7 @@ public abstract class TestBase
     }
     protected static void CreatePathIfNotExists(string path)
     {
+        if (!path.StartsWith(_worksheetPath)) path = Path.Combine(_worksheetPath, path);
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);

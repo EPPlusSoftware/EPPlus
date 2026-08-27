@@ -26,5 +26,9 @@ namespace EPPlus.DrawingRenderer
         /// Will set the user space to the parents coordinates. This is used for gradients and patterns that are inside a group and should be relative to the parent.
         /// </summary>
         UserSpaceOnUse_Parent = 2,
+        /// <summary>
+        /// Will set the user space to the objects coordinates. This is used for gradients and patterns that are inside a group and should be relative to the object.
+        /// </summary>
+        UserSpaceOnUse_Object = 3,
     }
 }

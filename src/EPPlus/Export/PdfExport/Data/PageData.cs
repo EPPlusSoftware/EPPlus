@@ -10,11 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Settings;
+using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
-using EPPlus.Export.Pdf.Layout;
-using OfficeOpenXml.Export.PdfExport.Layout;
 
 
 namespace OfficeOpenXml.Export.PdfExport.Data
@@ -52,6 +53,11 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public string HeadingFontName;
         public float HeadingFontSize;
         public ExcelFill HeadingFill;
+        /// <summary>
+        /// The settings of the worksheet these pages belong to.
+        /// Set in PdfLayout.GetPages, read in PdfLayout.GetCatalog.
+        /// </summary>
+        public PdfPageSettings Settings;
         public int Count
         {
             get { return Width * Height; }

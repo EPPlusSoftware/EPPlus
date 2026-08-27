@@ -191,7 +191,7 @@ namespace EPPlus.DrawingRenderer
                 }
                 else
                 {
-                    item.FilterName = name;
+                    item.FilterName = $"Url(#{name})";
                 }
             }
             if (item.OuterShadowEffect != null)
@@ -216,7 +216,7 @@ namespace EPPlus.DrawingRenderer
                     item.GetOuterShadowColor(out string shadowColor, out double opacity);
                     var dx = Math.Round(item.OuterShadowEffect.Distance * Math.Cos(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
                     var dy = Math.Round(item.OuterShadowEffect.Distance * Math.Sin(MathHelper.Radians(item.OuterShadowEffect.Direction ?? 0D)), 2);
-                    var blurRadius = item.OuterShadowEffect.BlurRadius ?? 0D / 2;
+                    var blurRadius = (item.OuterShadowEffect.BlurRadius ?? 0D) / 2;
                     filter += $"<feDropShadow dx=\"{dx.PointToPixelString()}\" dy=\"{dy.PointToPixelString()}\" stdDeviation=\"{blurRadius.PointToPixelString()}\" flood-color=\"{shadowColor}\" flood-opacity=\"{opacity.ToString("N2", CultureInfo.InvariantCulture)}\" />";
                 }
             }
@@ -586,12 +586,26 @@ namespace EPPlus.DrawingRenderer
 
         private string GetXy(RenderItem item, UserSpaceSettings userSpace, double? angle)
         {
-            if (userSpace == UserSpaceSettings.UserSpaceOnUse_Parent)
+            if (userSpace != UserSpaceSettings.ObjectBoundingBox)
             {
                 double theta = MathHelper.Radians((angle ?? 90) % 360);
 
-                var l = item.Bounds.Left;
-                var t =  item.Bounds.Top;
+                double l, t;
+                switch (userSpace)
+                {
+                    case UserSpaceSettings.UserSpaceOnUse_Parent:
+                        l = item.Bounds.Left;
+                        t = item.Bounds.Top;
+                        break;
+                    case UserSpaceSettings.UserSpaceOnUse_Global:
+                        l = item.Bounds.Left;
+                        t = item.Bounds.Top;
+                        break;
+                    default:
+                        l = t = 0;
+                        break;
+                }
+
                 var w = item.Bounds.Width;
                 var h = item.Bounds.Height;
 

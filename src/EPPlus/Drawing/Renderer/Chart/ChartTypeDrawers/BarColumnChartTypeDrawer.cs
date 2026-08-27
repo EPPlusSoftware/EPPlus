@@ -21,6 +21,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
         internal override bool SupportsTrendlines => true;
         internal override bool SupportsErrorBars => true;
+        internal override bool SupportsDataTable => true;
 
         internal BarColumnChartTypeDrawer(ChartRenderer svgChart, ExcelBarChart chartType) : base(svgChart, chartType)
         {

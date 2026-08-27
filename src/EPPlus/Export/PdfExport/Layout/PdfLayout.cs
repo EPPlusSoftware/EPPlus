@@ -63,25 +63,30 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
     {
         private const double rowHeadingWith1CharWidth = 18d;
 
-        public static Transform GetLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
+        public static Transform GetLayout(PdfPageSettings[] sheetSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
         {
-            var PagesCollection = GetPages(pageSettings, pdfSheets);
-            var Catalog = GetCatalog(pageSettings, dictionaries, PagesCollection);
+            var PagesCollection = GetPages(sheetSettings, pdfSheets);
+            // Page numbering is document-global; sheet 1 supplies it, as before.
+            var Catalog = GetCatalog(sheetSettings[0].FirstPageNumber, dictionaries, PagesCollection);
             return Catalog;
         }
 
-        internal static Transform GetCatalog(PdfPageSettings pageSettings, PdfDictionaries dictionaries, List<Pages> pdfPages)
+        internal static Transform GetCatalog(int firstPageNumber, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
             Transform Catalog = new Transform(0d, 0d, 0d, 0d);
             int totalPages = GetTotalPages(pdfPages);
             for (int i = 0; i < pdfPages.Count; i++)
             {
+                var pageSettings = pdfPages[i].Settings;
+
+
                 var pages = pdfPages[i].Page;
                 int pageNumber = pageSettings.FirstPageNumber;
                 for (int j = 0; j < pages.Length; j++)
                 {
                     var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
+                    pageLayout.Settings = pageSettings;             
                     pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
                     pageLayout.HeadingWidth = page.HeadingWidth;
                     pageLayout.HeadingHeight = page.HeadingHeight;
@@ -646,11 +651,14 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return totalPages;
         }
 
-        internal static List<Pages> GetPages(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
+        internal static List<Pages> GetPages(PdfPageSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
         {
             List<Pages> PagesCollection = new List<Pages>();
-            foreach (var pdfSheet in pdfSheets)
+            for (int si = 0; si < pdfSheets.Length; si++)
             {
+                var pdfSheet= pdfSheets[si];
+                var pageSettings = sheetSettings[si];            
+
                 for (int ri = 0; ri < pdfSheet.Ranges.Count; ri++)
                 {
                     var range = pdfSheet.Ranges[ri];
@@ -664,6 +672,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
+                    pages.Settings = pageSettings;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
@@ -675,6 +684,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
                     pageSettings.ShowHeadings = savedShowHeadings;
                     pages.IsCommentsPage = true;
+                    pages.Settings = pageSettings;                    
                     PagesCollection.Add(pages);
                 }
             }
