@@ -120,6 +120,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         lineOffsetX = line0Width - line.Width;
                         break;
                     case ExcelHorizontalAlignment.Center:
+                    case ExcelHorizontalAlignment.CenterContinuous:
+                    case ExcelHorizontalAlignment.Distributed:
                         lineOffsetX = (line0Width - line.Width) / 2d;
                         break;
                 }

@@ -761,5 +761,15 @@ namespace EPPlusTest.PDF
             }
         }
 
+        [TestMethod]
+        public void HeaderFooterTest1()
+        {
+            using var p = OpenTemplatePackage("1.06-Salesreport.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "HeaderFooterTest1.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
     }
 }

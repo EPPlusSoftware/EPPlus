@@ -81,6 +81,8 @@ namespace EPPlus.Export.Pdf.Layout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
+                case ExcelVerticalAlignment.Distributed:
+                case ExcelVerticalAlignment.Justify:
                     newY = (y + height) - padding - firstAscent;
                     break;
                 case ExcelVerticalAlignment.Center:
@@ -110,9 +112,12 @@ namespace EPPlus.Export.Pdf.Layout
                     }
                     break;
                 case ExcelHorizontalAlignment.Left:
+                case ExcelHorizontalAlignment.Justify:
+                case ExcelHorizontalAlignment.Distributed:
                     newX = x + padding;
                     break;
                 case ExcelHorizontalAlignment.Center:
+                case ExcelHorizontalAlignment.CenterContinuous:
                     newX = x + (width - textLength) / 2d;
                     break;
                 case ExcelHorizontalAlignment.Right:
