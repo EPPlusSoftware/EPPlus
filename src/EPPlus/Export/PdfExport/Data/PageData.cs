@@ -56,6 +56,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         /// Set in PdfLayout.GetPages, read in PdfLayout.GetCatalog.
         /// </summary>
         public PdfPageSettings Settings;
+        public int SheetIndex;
         public int Count
         {
             get { return Width * Height; }

@@ -74,12 +74,21 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static Transform GetCatalog(int firstPageNumber, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
             Transform Catalog = new Transform(0d, 0d, 0d, 0d);
-            int totalPages = GetTotalPages(pdfPages);
+            int totalPages = 0;
+            var sheetTotalPages = GetTotalPagesPerSheet(pdfPages);
+            int displayedPageNumber = 0;
+            int physicalPageIndex = 1;
+            int currentSheetIndex = -1;
             for (int i = 0; i < pdfPages.Count; i++)
             {
                 var pageSettings = pdfPages[i].Settings;
-
-
+                if (pdfPages[i].SheetIndex != currentSheetIndex)
+                {
+                    currentSheetIndex = pdfPages[i].SheetIndex;
+                    displayedPageNumber = pageSettings.FirstPageNumber;
+                    physicalPageIndex = 1;
+                    sheetTotalPages.TryGetValue(currentSheetIndex, out totalPages);
+                }
                 var pages = pdfPages[i].Page;
                 int pageNumber = pageSettings.FirstPageNumber;
                 for (int j = 0; j < pages.Length; j++)
@@ -204,12 +213,14 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     if (page.HeaderFooters != null)
                     {
-                        bool isVeryFirstPage = (i == 0 && j == 0);
-                        var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
+                        //bool isVeryFirstPage = (i == 0 && j == 0);
+                        //var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
+                        //var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                        var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
                         if (leftH != null)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages);
                             var ascent = leftH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -222,7 +233,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
                         if (centerH != null)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages);
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -236,7 +247,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
                         if (rightH != null)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages);
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -249,7 +260,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
                         if (leftF != null)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages);
                             int last = leftF.Content.TextLines.Count - 1;
                             var descent = leftF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.Margins.LeftPu;
@@ -263,7 +274,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
                         if (centerF != null)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages);
                             int last = centerF.Content.TextLines.Count - 1;
                             var descent = centerF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu / 2d;
@@ -277,7 +288,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
                         if (rightF != null)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages);
                             int last = rightF.Content.TextLines.Count - 1;
                             var descent = rightF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
@@ -297,11 +308,24 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
                         return cmp;
                     });
-                    pageNumber++;
+                    displayedPageNumber++;
+                    physicalPageIndex++;
                     Catalog.AddChild(pageLayout);
                 }
             }
             return Catalog;
+        }
+
+        private static Dictionary<int, int> GetTotalPagesPerSheet(List<Pages> pdfPages)
+        {
+            var totals = new Dictionary<int, int>();
+            for (int i = 0; i < pdfPages.Count; i++)
+            {
+                int si = pdfPages[i].SheetIndex;
+                if (!totals.ContainsKey(si)) totals[si] = 0;
+                totals[si] += pdfPages[i].Page.Length;
+            }
+            return totals;
         }
 
         private static void SetFill(PdfDictionaries dictionaries, PdfCellStyle cellStyle, string text, PdfCellLayout fill)
@@ -673,6 +697,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
                     pages.Settings = pageSettings;
+                    pages.SheetIndex = si;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
@@ -684,7 +709,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
                     pageSettings.ShowHeadings = savedShowHeadings;
                     pages.IsCommentsPage = true;
-                    pages.Settings = pageSettings;                    
+                    pages.Settings = pageSettings;
+                    pages.SheetIndex = si;
                     PagesCollection.Add(pages);
                 }
             }
