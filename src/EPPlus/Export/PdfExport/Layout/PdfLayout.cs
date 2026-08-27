@@ -1348,6 +1348,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 // Content-bounds overflow: col doesn't fit, end segment before it and reprocess.
                 if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.ContentBounds.Width)
                 {
+                    if(col == segStartIdx)
+                    {
+                        segments.Add(new PageSegment(range.Map.FromColumn + col, range.Map.FromColumn + col));
+                        segStartIdx = col + 1;
+                        width = 0d;
+                        continue;
+                    }
                     segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col - 1));
                     segStartIdx = col;
                     width = 0d;

@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using FakeItEasy.Configuration;
 
 namespace EPPlusTest.PDF
 {
@@ -761,5 +762,14 @@ namespace EPPlusTest.PDF
             }
         }
 
+        [TestMethod]
+        public void ColLargerThanPrintableArea()
+        {
+            using(var p = OpenTemplatePackage("CenterOnPagePdf.xlsx"))
+            {
+                var ms = p.Workbook;
+                ms.SaveAsPdf(_pdfPath + "test.pdf")
+;            }
+        }
     }
 }
