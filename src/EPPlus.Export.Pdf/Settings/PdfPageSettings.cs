@@ -147,7 +147,7 @@ namespace EPPlus.Export.Pdf.Settings
         private Orientations _orientation = Orientations.Portrait;
         /// <summary>
         /// Set the orientation of the pages.
-        /// </summary>
+        /// </summary>  
         public Orientations Orientation
         {
             get
@@ -215,6 +215,18 @@ namespace EPPlus.Export.Pdf.Settings
             return isPortrait == wantPortrait
                 ? size
                 : new PdfPageSize(size.Height, size.Width); // swap (ctor is width, height)
+        }
+
+        internal PdfPageSettings CloneForSheet()
+        {
+            var c = new PdfPageSettings(_fontEngine);
+            c.FontDirectories = FontDirectories;
+            c.SearchSystemDirectories = SearchSystemDirectories;
+            c.EmbeddFonts = EmbeddFonts;
+            c.defaultFontName = defaultFontName;
+            c.Debug = Debug;
+            c.PrintAsText = PrintAsText;
+            return c;
         }
     }
 
