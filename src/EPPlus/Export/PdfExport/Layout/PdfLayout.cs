@@ -88,7 +88,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pageLayout.PrintTitleWidth = page.PrintTitleWidth;
                     pageLayout.PrintTitleHeight = page.PrintTitleHeight;
                     var drawnMergedCells = new HashSet<string>();
-                    //double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
                     double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
                     double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                     if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
@@ -717,7 +716,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     // --- Y ---
                     // Replace the * 15d line with a sum of real row heights
-                    //double drawY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
                     double drawY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                     for (int r = page.FromRow; r < row; r++)
                     {
@@ -767,7 +765,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             int colCount = page.ToColumn - page.FromColumn + 1;
             var colX = new double[colCount];
-            //double x = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
             double x = GetOriginY(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int col = page.FromColumn; col <= page.ToColumn; col++)
             {

@@ -50,7 +50,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // colX[ci] = X of left edge of column ci (0-based within page).
             // colX[colCount] = X of right edge of last column.
             var colX = new double[colCount + 1];
-            //colX[0] = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
             colX[0] = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int ci = 0; ci < colCount; ci++)
             {
@@ -74,10 +73,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // Always computed so BorderLines is available for margin clipping regardless of
             // whether ShowGridLines is on. When borderOnly is true we stop here.
 
-            //double frameLeft = pageSettings.ContentBounds.Left; //colX[0];
-            //double frameRight = colX[colCount];
-            //double frameTop = pageSettings.ContentBounds.Top; //rowY[0];
-            //double frameBottom = rowY[rowCount];
             double frameLeft = PdfLayout.GetOriginX(pageSettings, page);
             double frameRight = colX[colCount];
             double frameTop = PdfLayout.GetOriginY(pageSettings, page);
