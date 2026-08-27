@@ -22,6 +22,21 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
         internal static PdfPageSettings GetPdfSettingsFromPrinterSettings(ExcelWorkbook workbook, ExcelPrinterSettings eps)
         {
             var settings = new PdfPageSettings(workbook.RenderContext.FontEngine);
+            ApplyPrinterSettings(settings, eps);
+            return settings;
+        }
+
+        internal static PdfPageSettings GetPdfSettingsForSheet(
+    PdfPageSettings baseSettings, ExcelPrinterSettings eps)
+        {
+            var s = baseSettings.CloneForSheet();
+            ApplyPrinterSettings(s, eps);
+            return s;
+        }
+
+        private static void ApplyPrinterSettings(PdfPageSettings settings, ExcelPrinterSettings eps)
+        {
+
             var leftMargin = UnitConversion.ToMillimeters(eps.LeftMargin);
             var rightMargin = UnitConversion.ToMillimeters(eps.RightMargin);
             var topMargin = UnitConversion.ToMillimeters(eps.TopMargin);
@@ -50,7 +65,6 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             settings.CommentsAndNotes = (CommentsAndNotes)eps.CellComments;
             settings.CellErrors = (CellErrors)eps.Errors;
             settings.FirstPageNumber = eps.FirstPageNumber;
-            return settings;
         }
 
         private static PdfPageSize GetPageSize(ePaperSize PaperSize)

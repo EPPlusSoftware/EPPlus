@@ -12,10 +12,15 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Tests;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EPPlusTest.PDF
 {
@@ -639,8 +644,6 @@ namespace EPPlusTest.PDF
             p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
             p.SaveAs(_pdfPath + "Snake.xlsx");
         }
-<<<<<<< Updated upstream
-=======
 
         [TestMethod]
         public void Testing()
@@ -757,6 +760,6 @@ namespace EPPlusTest.PDF
                 Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
             }
         }
->>>>>>> Stashed changes
+
     }
 }
