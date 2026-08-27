@@ -59,8 +59,8 @@ namespace EPPlusImageRenderer.RenderItems
             double opacity = double.NaN;
             double? opacityOld = double.NaN;
 
-            var oldFill = GetFillColor(theme, fill, color, item.FillColorSource, out opacityOld, nullColor);
-            var fillNew = GetFillNew(fill, theme, color, item.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill);
+            //var oldFill = GetFillColor(theme, fill, color, item.FillColorSource, out opacityOld, nullColor);
+            var fillNew = GetFillNew(fill, theme, color, item.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill, gradientUserSpaceOnUse);
 
             if(gradFill != null)
             {
@@ -192,7 +192,7 @@ namespace EPPlusImageRenderer.RenderItems
             return "#" + fc.ToArgb().ToString("x8").Substring(2);
         }
 
-        internal static string GetFillNew(ExcelDrawingFillBasic fill, ExcelTheme theme, ExcelDrawingColorManager reference, PathFillMode fillMode, out double opacity, Func<Color?> GetHardCodedDefaultForItem, out DrawingRenderGradientFill gradFill)
+        internal static string GetFillNew(ExcelDrawingFillBasic fill, ExcelTheme theme, ExcelDrawingColorManager reference, PathFillMode fillMode, out double opacity,  Func<Color?> GetHardCodedDefaultForItem, out DrawingRenderGradientFill gradFill, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
         {
             string fillStr = string.Empty;
             gradFill = null;
@@ -223,12 +223,7 @@ namespace EPPlusImageRenderer.RenderItems
                         fillStr = GetAdjustmentsAndTransparency(fc, fillMode, out opacity);
                         break;
                     case eFillStyle.GradientFill:
-                        gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, UserSpaceSettings.ObjectBoundingBox);
-
-                        //if(gradFill.Colors.Count == 0)
-                        //{
-
-                        //}
+                        gradFill = new DrawingRenderGradientFill(theme, fill.GradientFill, gradientUserSpaceOnUse);
                         break;
                 }
 
@@ -236,7 +231,7 @@ namespace EPPlusImageRenderer.RenderItems
             return fillStr;
         }
 
-        internal static void SetDrawingBorderPropertiesNew(this RenderItem item, ExcelTheme theme, ExcelChartStyleColorManager reference, ExcelDrawingBorder border, double opacity, bool hasBorder, Func<Color?> GetHardCodedDefaultForItem)
+        internal static void SetDrawingBorderPropertiesNew(this RenderItem item, ExcelTheme theme, ExcelChartStyleColorManager reference, ExcelDrawingBorder border, double opacity, bool hasBorder, Func<Color?> GetHardCodedDefaultForItem, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
         {
             string fillColorStr = null;
             DrawingRenderGradientFill gradFill = null;
@@ -255,7 +250,7 @@ namespace EPPlusImageRenderer.RenderItems
             if(gradFill != null)
             {
                 //Special case as gradfill does not return a string
-                item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, UserSpaceSettings.ObjectBoundingBox);
+                item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, gradientUserSpaceOnUse);
                 item.BorderColor = null;
             }
             else
@@ -284,9 +279,9 @@ namespace EPPlusImageRenderer.RenderItems
         internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global, eChartStyle styleId = eChartStyle.Style2)
         {
             double? opacity = null;
-            GetFillColor(theme, null, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor());
+            //GetFillColor(theme, null, color, item.BorderColorSource, out opacity, nullColor ?? theme.ColorScheme.Dark1.GetColor(), styleId);
             opacity = double.NaN;
-            SetDrawingBorderPropertiesNew(item, theme, color, border, opacity.Value, hasBorder, () => { return nullColor; });
+            SetDrawingBorderPropertiesNew(item, theme, color, border, opacity.Value, hasBorder, () => { return nullColor; }, gradientUserSpaceOnUse);
             //if (border == null)
             //{
             //    if (hasBorder)

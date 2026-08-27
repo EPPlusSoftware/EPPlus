@@ -296,19 +296,21 @@ namespace EPPlusImageRenderer.Svg
 
         internal void AddTickmarksAndValues(List<RenderItem> DefItems)
         {
-            if (Axis.Deleted == true) return;
-            if (Axis.MajorTickMark != eAxisTickMark.None)
+            if (Axis.Deleted == false)
             {
-                MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
-            }
+                if (Axis.MajorTickMark != eAxisTickMark.None)
+                {
+                    MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
+                }
 
-            if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
-            {
-                MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
-            }
-            else
-            {
-                MinorTickMarkPositions = null;
+                if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
+                {
+                    MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
+                }
+                else
+                {
+                    MinorTickMarkPositions = null;
+                }
             }
 
             if(Axis.HasMajorGridlines)
