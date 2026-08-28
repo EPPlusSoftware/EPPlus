@@ -13,13 +13,13 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAreaRenderer : ChartDrawingObjectWithDefaults
+    internal class ChartAreaRenderer : ChartDrawingDefaultObject
     {
         public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
@@ -35,18 +35,17 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = new RectRenderItem(sc.Bounds);
         }
 
-        internal override Color? DefaultFillColor { get => ChartRenderer.Theme.ColorScheme.Light1.GetColor(); }
-        internal override Color? DefaultBorderColor
-        {
-            get
-            {
-                return Color.FromArgb(0x89, 0x89, 0x89);
-            }
-        }
+        internal override Color? DefaultFillColor { get => GetDefaultFillColor(); }
+        internal override Color? DefaultBorderColor { get => GetDefaultBorderColor(); }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.Add(Rectangle);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return GetDefaultFillColorForElement(ChartElement.ChartArea, (int)Chart.Style);
         }
 
         internal override Color? GetDefaultBorderColor()
@@ -56,11 +55,6 @@ namespace EPPlusImageRenderer.Svg
             ////Kept here in case needed in future for effect etc.
             //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
             return lineColor;
-        }
-
-        internal override Color? GetDefaultFillColor()
-        {
-            return GetDefaultFillColorForElement(ChartElement.ChartArea, (int)Chart.Style);
         }
     }
 }

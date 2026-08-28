@@ -25,6 +25,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
@@ -36,12 +37,13 @@ using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.AccessControl;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAxisRenderer : ChartDrawingObject, IDrawingChartAxis
+    internal class ChartAxisRenderer : ChartDrawingDefaultObject, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
 
@@ -120,7 +122,7 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 1);
+                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 1);
                 if(Line.BorderWidth < 1)
                 {
                     Line.BorderWidth = 1;
@@ -786,7 +788,7 @@ namespace EPPlusImageRenderer.Svg
                     tm.Y1 = y1;
                     tm.X2 = x2;
                     tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, DefaultBorderColor, 0.75);
+                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
                     if(tm.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
                     {
                         tm.BorderWidth = 0.75;
@@ -835,7 +837,7 @@ namespace EPPlusImageRenderer.Svg
             var pa = ChartRenderer.Plotarea;
             var diff = Max - min;
 
-            List<Point> points = new List<Point>();
+            List<EPPlus.Graphics.Point> points = new List<EPPlus.Graphics.Point>();
             var group = ChartRenderer.Plotarea.Group;
             for (double d = min; d <= Max; d += units)
             {
@@ -846,12 +848,12 @@ namespace EPPlusImageRenderer.Svg
                     {
                         case eAxisPosition.Left:
                         case eAxisPosition.Right:
-                            points.Add(new Point(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
+                            points.Add(new EPPlus.Graphics.Point(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
                             break;
                         case eAxisPosition.Top:
                         case eAxisPosition.Bottom:
                             var xValue = (float)(((d - min) / diff * pa.Rectangle.Width));
-                            points.Add(new Point(xValue, 0f));
+                            points.Add(new EPPlus.Graphics.Point(xValue, 0f));
                             break;
                         default:
                             throw new InvalidOperationException("Invalid axis position.");
@@ -897,7 +899,7 @@ namespace EPPlusImageRenderer.Svg
                 tm.Bounds.Width = pa.Rectangle.Width;
             }
             //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75);
+            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
 
             tm.DefId = id;
 
@@ -1232,6 +1234,16 @@ namespace EPPlusImageRenderer.Svg
         private bool ShouldHavePadding()
         {
             return Axis.AxisType == eAxisType.Val || (Chart.IsTypeLine() && Axis.AxisType == eAxisType.Date);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return GetDefaultFillColorForElement(ChartElement.Axis, (int)Chart.Style);
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return GetDefaultBorderColorForElement(ChartElement.Axis, (int)Chart.Style);
         }
     }
 }

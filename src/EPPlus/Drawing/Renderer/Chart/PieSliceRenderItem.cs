@@ -327,7 +327,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             if (position >= 0 && serie.DataPoints.ContainsKey(position))
             {
                 var dp = serie.DataPoints[position];
-                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath, dp, Chart.StyleManager.Style?.SeriesLine);
+                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
             }
             else
             {

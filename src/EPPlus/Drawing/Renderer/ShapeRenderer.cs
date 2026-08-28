@@ -183,7 +183,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (drawFill)
             {
                 pi.FillColorSource = path.Fill;
-                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color);
+                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, Theme.ObjectDefaults.ShapeDefinition.Style.FillReference.ShapeColor.GetColor());
             }
             else
             {
@@ -194,7 +194,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (drawBorder)
             {
                 pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke);
+                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> Theme.ObjectDefaults.ShapeDefinition.Style.BorderReference.ShapeColor.GetColor());
             }
             else
             {

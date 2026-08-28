@@ -381,11 +381,10 @@ namespace EPPlusImageRenderer
 
             //var chartStyleId = Chart.StyleManager.Style.Id;
 
-            item.Rectangle.SetDrawingBorderPropertiesNew(
+            item.Rectangle.SetDrawingPropertiesBorder(
                 Theme,
-                reference?.Color, 
-                Chart.Border, 
-                1d, 
+                Chart.Border,
+                reference?.Color,
                 Chart.Border.Fill.Style != eFillStyle.NoFill,
                 () => item.GetDefaultBorderColor());
 
@@ -394,64 +393,6 @@ namespace EPPlusImageRenderer
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
         }
-
-        private Color? GetChartAreaDefaultColor(int styleId, out ExcelThemeLine themedLine)
-        {
-            themedLine = null;
-            Color? themeColor = null;
-            styleId = styleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : styleId;
-
-            if (styleId == 0)
-            {
-                return Color.Empty;
-            }
-
-            themedLine = Theme.FormatScheme.BorderStyle[0];
-            var bg = Theme.FormatScheme.BackgroundFillStyle[0];
-
-            if(themedLine.HasFill == false)
-            {
-                //Node exists but has no fill. Excel considers this the same as transparent/noFill
-                return Color.Transparent;
-            }
-            //TODO: Fix for colortypes other than solidFill
-            themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
-
-            if (themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
-            {
-                if (styleId <= 40)
-                {
-                    //Text1 AKA dk1 (in standard case)
-                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
-
-                    //var bg1Col = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
-
-                    if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
-                    {
-                        //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.15d);
-                        //but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
-                        themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
-                    }
-                    else
-                    {
-                        //Default value Should arguably be 75% tint themeColor but something is strange...
-                        //It appears closer to 50% in this specific case
-                        //It also appears to be tx1 (black) and apply color and tint 0.25 in vba
-                        var newTheme = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
-                        themeColor = newTheme;
-                    }
-                }
-                else
-                {
-                    //41-48
-                    //aka light1
-                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
-                    themedLine = null;
-                }
-            }
-            return themeColor;
-        }
-        
 
         private ChartAxisRenderer GetAxis(bool vertical, int offset = 0)
         {

@@ -191,7 +191,7 @@
 			* Minor features and bug fixes.
 
 			## Version 7.4.1
-			* Updated for vulnerability in System.Text.Json - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
+			* Updated for vulnerability in System.Text.Json - Microsoft.Extensions.Configuration.Json 8.0.0 -&gt; 8.0.1
 
 			## Version 7.4.0
 			* Conditional formatting in Pivot Tables.
@@ -758,12 +758,7 @@
 	     rather than hardcoded output paths so it resolves correctly per TFM in a multitarget build. -->
 	<Target Name="IncludeReferencedProjectsInPackage">
 		<ItemGroup>
-			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('Extension', '.dll'))"
-			                      Condition="'%(FileName)' == 'EPPlus.Compression'
-			                              Or '%(FileName)' == 'EPPlus.DrawingRenderer'
-			                              Or '%(FileName)' == 'EPPlus.Export.Pdf'
-			                              Or '%(FileName)' == 'EPPlus.Fonts.OpenType'
-			                              Or '%(FileName)' == 'EPPlus.Graphics'" />
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('Extension', '.dll'))" Condition="'%(FileName)' == 'EPPlus.Compression'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.DrawingRenderer'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.Export.Pdf'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.Fonts.OpenType'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.Graphics'" />
 		</ItemGroup>
 	</Target>
 
