@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
-            if (context.Drawings.Position == ePicturePosition.Relative)
+            if (context.Drawings.Position == eDrawingPosition.Relative)
             {
                 if (_bounds.Left != 0)
                 {
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                     AddDeclaration("top", $"{_bounds.Top.PointToPixel():F0}px");
                 }
             }
-            else if (context.Drawings.Position == ePicturePosition.Absolute)
+            else if (context.Drawings.Position == eDrawingPosition.Absolute)
             {
                 if (_bounds.Left != 0)
                 {
@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 }
             }
 
-            if (context.Pictures.KeepOriginalSize == false)
+            if (context.Drawings.KeepOriginalSizeOnPictures == false)
             {
                 if (_width != _bounds.Width)
                 {
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 }
             }
 
-            if (_border.LineStyle != null && context.Pictures.CssExclude.Border == false)
+            if (_border.LineStyle != null && context.Drawings.PictureCssExclude.Border == false)
             {
                 var border = GetDrawingBorder();
                 AddDeclaration("border", border);

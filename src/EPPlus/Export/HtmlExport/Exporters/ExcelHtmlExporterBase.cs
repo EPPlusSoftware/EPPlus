@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
@@ -73,14 +74,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void AddRange(ExcelRangeBase range)
         {
-            if (range.IsFullColumn && range.IsFullRow)
-            {
-                _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
-            }
-            else
-            {
+            //if (range.IsFullColumn && range.IsFullRow)
+            //{
+            //    _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
+            //}
+            //else
+            //{
                 _ranges.Add(range);
-            }
+            //}
         }
     }
 }

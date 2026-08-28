@@ -83,6 +83,7 @@ public abstract class TestBase
     protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";           //Team shared workbooks for tests
     protected static string _testInputLocalPathOptional = @"c:\epplusTest\workbooks\";      //Local workboks for tests
     protected static string _imagePath = @"c:\epplusTest\images\";
+    protected static string _dataPath = @"c:\epplusTest\data\";
     /// <summary>
     ///Gets or sets the test context which provides
     ///information about and functionality for the current test run.

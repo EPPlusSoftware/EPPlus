@@ -51,13 +51,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (range.Addresses == null)
             {
-                AddRange(range);
+                AddRange(range, settings.Drawings.Include!=eDrawingInclude.Exclude);
             }
             else
             {
                 foreach (var address in range.Addresses)
                 {
-                    AddRange(range.Worksheet.Cells[address.Address]);
+                    AddRange(range.Worksheet.Cells[address.Address], settings.Drawings.Include != eDrawingInclude.Exclude);
                 }
             }
         }
@@ -66,6 +66,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         {
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
+            AdjustRangeForDimensionAndDrawings(ranges._list, settings.Drawings.Include != eDrawingInclude.Exclude);
             _ranges = ranges;
         }
 
@@ -73,16 +74,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
         internal const string TableStyleClassPrefix = "ts-";
 
-        private void AddRange(ExcelRangeBase range)
+        private void AddRange(ExcelRangeBase range, bool includeDrawings)
         {
-            if (range.IsFullColumn && range.IsFullRow)
-            {
-                _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
-            }
-            else
-            {
-                _ranges.Add(range);
-            }
+            //if (range.IsFullColumn && range.IsFullRow)
+            //{
+            //    _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
+            //}
+            //else
+            //{
+            _ranges.Add(AdjustRangeForDimensionAndDrawings(range, includeDrawings));    
+            //}
         }
 
         protected CssRuleCollection CreateRuleCollection(HtmlRangeExportSettings settings)
@@ -137,7 +138,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
             }
 
-            if (Settings.Pictures.Include == ePictureInclude.Include || Settings.Pictures.Include == ePictureInclude.IncludeInCssOnly)
+            if (Settings.Drawings.Include == eDrawingInclude.Include || Settings.Drawings.Include == eDrawingInclude.IncludeInCssOnly)
             {
                 LoadRangeDrawings(_ranges._list);
                 foreach (var p in _rangePictures)
@@ -146,7 +147,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
             }
 
-            if(Settings.Drawings.Include == ePictureInclude.Include || Settings.Drawings.Include == ePictureInclude.IncludeInCssOnly)
+            if(Settings.Drawings.Include == eDrawingInclude.Include || Settings.Drawings.Include == eDrawingInclude.IncludeInCssOnly)
             {
                 LoadRangeDrawings(_ranges._list);
                 foreach(var d in _rangeDrawings)

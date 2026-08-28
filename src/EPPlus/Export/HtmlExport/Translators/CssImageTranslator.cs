@@ -47,23 +47,23 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             AddDeclaration("content", $"url('data:{GetContentType(type.Value)};base64,{_encodedImage}')");
 
-            if (context.Pictures.Position != ePicturePosition.DontSet)
+            if (context.Drawings.Position != eDrawingPosition.DontSet)
             {
-               AddDeclaration("position", $"{context.Pictures.Position.ToString().ToLower()}");
+               AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
             }
 
-            if(isDrawing && context.Drawings.Position != ePicturePosition.DontSet)
+            if(isDrawing && context.Drawings.Position != eDrawingPosition.DontSet)
             {
                 AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
             }
 
-            if (_p.FromColumnOff != 0 && context.Pictures.AddMarginLeft)
+            if (_p.FromColumnOff != 0 && context.Drawings.AddMarginLeft)
             {
                 var leftOffset = _p.FromColumnOff / ExcelPicture.EMU_PER_PIXEL;
                 AddDeclaration("margin-left", $"{leftOffset}px");
             }
 
-            if (_p.FromRowOff != 0 && context.Pictures.AddMarginTop)
+            if (_p.FromRowOff != 0 && context.Drawings.AddMarginTop)
             {
                 var topOffset = _p.FromRowOff / ExcelPicture.EMU_PER_PIXEL;
                 AddDeclaration("margin-top", $"{topOffset}px");

@@ -10,6 +10,7 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using Microsoft.VisualBasic;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
@@ -41,13 +42,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             if (range.Addresses == null)
             {
-                AddRange(range);
+                AddRange(range, settings.Drawings.Include!=eDrawingInclude.Exclude);
             }
             else
             {
                 foreach (var address in range.Addresses)
                 {
-                    AddRange(range.Worksheet.Cells[address.Address]);
+                    AddRange(range.Worksheet.Cells[address.Address], settings.Drawings.Include != eDrawingInclude.Exclude);
                 }
             }
 
@@ -58,6 +59,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         {
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
+            AdjustRangeForDimensionAndDrawings(ranges._list, settings.Drawings.Include!=eDrawingInclude.Exclude);
             _ranges = ranges;
             //TODO: Fix support for all ranges
             LoadRangeDrawings(_ranges._list);
@@ -150,12 +152,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                     AddTableData(table, contentElement, col);
 
-                    if ((Settings.Pictures.Include == ePictureInclude.Include) || (Settings.Pictures.Include == ePictureInclude.IncludeInHtmlOnly))
+                    if ((Settings.Drawings.Include == eDrawingInclude.Include) || (Settings.Drawings.Include == eDrawingInclude.IncludeInHtmlOnly))
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
-                    if ((Settings.Drawings.Include == ePictureInclude.Include) || (Settings.Drawings.Include == ePictureInclude.IncludeInHtmlOnly))
+                    if ((Settings.Drawings.Include == eDrawingInclude.Include) || (Settings.Drawings.Include == eDrawingInclude.IncludeInHtmlOnly))
                     {
                         drawing = GetDrawing(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
@@ -278,12 +280,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                     SetColRowSpan(range, tblData, cell);
 
-                    if ((Settings.Pictures.Include == ePictureInclude.Include) || (Settings.Pictures.Include == ePictureInclude.IncludeInHtmlOnly))
+                    if ((Settings.Drawings.Include == eDrawingInclude.Include) || (Settings.Drawings.Include == eDrawingInclude.IncludeInHtmlOnly))
                     { 
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
-                    if (Settings.Drawings.Include == (ePictureInclude.Include | ePictureInclude.IncludeInHtmlOnly))
+                    if (Settings.Drawings.Include == (eDrawingInclude.Include | eDrawingInclude.IncludeInHtmlOnly))
                     {
                         drawing = GetDrawing(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
@@ -450,12 +452,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 var child = new HTMLElement(HtmlElements.Img);
                 string drawingName = HtmlExportTableUtil.GetClassName(d.Drawing.Name, $"drawing{d.Drawing.Id}");
                 child.AddAttribute("alt", d.Drawing.Name);
-                if (settings.Pictures.AddNameAsId)
+                if (settings.Drawings.AddNameAsId)
                 {
                     child.AddAttribute("id", drawingName);
                 }
 
-                if (settings.Drawings.Include == ePictureInclude.IncludeInHtmlOnly)
+                if (settings.Drawings.Include == eDrawingInclude.IncludeInHtmlOnly)
                 {
                     child = new HTMLElement(HtmlElements.Svg);
                     child.ElementName = "div";
@@ -492,18 +494,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
 
-        private void AddRange(ExcelRangeBase range)
+        private void AddRange(ExcelRangeBase range, bool includeDrawings)
         {
-            if (range.IsFullColumn && range.IsFullRow)
-            {
-                _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
-            }
-            else
-            {
-                _ranges.Add(range);
-            }
+            _ranges.Add(AdjustRangeForDimensionAndDrawings(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address), includeDrawings));
         }
-
         protected void ValidateRangeIndex(int rangeIndex)
         {
             if (rangeIndex < 0 || rangeIndex >= _ranges.Count)

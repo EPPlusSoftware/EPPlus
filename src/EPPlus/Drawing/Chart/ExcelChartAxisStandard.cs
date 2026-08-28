@@ -15,6 +15,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.XmlAccess;
@@ -919,7 +920,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (dl[0] is object[])
                 {
-                    dl = dl.OrderBy(x => ((object[])x)[3]).ToList();
+                    dl = dl.OrderBy(x => ((object[])x)[3], new SortByComparer()).ToList();
                 }
                 else
                 {
