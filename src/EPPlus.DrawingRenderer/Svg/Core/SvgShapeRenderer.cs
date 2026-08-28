@@ -588,6 +588,8 @@ namespace EPPlus.DrawingRenderer
         {
             if (userSpace != UserSpaceSettings.ObjectBoundingBox)
             {
+                var angle2 = angle % 360;
+
                 double theta = MathHelper.Radians((angle ?? 90) % 360);
 
                 double l, t;
@@ -621,6 +623,12 @@ namespace EPPlus.DrawingRenderer
 
                 double x1 = cx - halfX, y1 = cy - halfY;
                 double x2 = cx + halfX, y2 = cy + halfY;
+
+                if(item.DefId == "xGridLine")
+                {
+                    x1 = item.Bounds.Left;
+                    x2 = w - x1;
+                }
 
                 return $" x1=\"{(x1).PointToPixelString("0.00")}\" x2=\"{(x2).PointToPixelString("0.00")}\" y1=\"{y1.PointToPixelString("0.00")}\" y2=\"{y2.PointToPixelString("0.00")}\"";
             }

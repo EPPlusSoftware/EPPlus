@@ -891,6 +891,11 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
+
+            if(id == "xGridLine")
+            {
+                tm.Bounds.Width = pa.Rectangle.Width;
+            }
             //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
             tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75);
 
