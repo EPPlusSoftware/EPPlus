@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -111,7 +112,19 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         {
             foreach (var shading in _dictionaries.Shadings)
             {
-                _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                var gradient = shading.Value.CellFillData.GradientFillData;
+                if (gradient != null && gradient.GradientType == ExcelFillGradientType.Path)
+                {
+                    // Box gradient: ShadingType 1 + Type 4 PostScript function. A Type 4 function is
+                    // a stream object, so it must be its own indirect object referenced by the shading.
+                    var boxFunction = new PdfPostScriptCalculatorFunction(_document.Count + 1, gradient);
+                    _document.Add(boxFunction);
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1, boxFunction.objectNumber));
+                }
+                else
+                {
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                }
                 _document.Add(shading.Value.GetShadingPatternObject(_document.Count + 1, _document.Count));
                 int label = _dictionaries.Patterns.Last().Value.labelNumber + 1;
                 var pr = new PdfPatternResource(label, shading.Value.CellFillData);
