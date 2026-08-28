@@ -104,9 +104,9 @@ namespace EPPlusImageRenderer.Svg
                     SetAxisTitleRect(sc, axis);
                 }
             }
-
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
+            //Default NoFill for title and axis titles if not set
+            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, null);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
