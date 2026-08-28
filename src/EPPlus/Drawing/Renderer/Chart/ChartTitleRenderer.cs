@@ -22,6 +22,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -105,7 +106,7 @@ namespace EPPlusImageRenderer.Svg
             }
 
             Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -227,7 +228,8 @@ namespace EPPlusImageRenderer.Svg
             {
                 TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
                 TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+                //Default is actually NoLine
+                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             }
             TextBox.AppendRenderItems(renderItems);
         }

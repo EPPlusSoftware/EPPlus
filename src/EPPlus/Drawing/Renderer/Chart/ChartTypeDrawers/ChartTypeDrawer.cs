@@ -256,7 +256,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
                 item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
-            item.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+            item.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
         }
 
         private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)

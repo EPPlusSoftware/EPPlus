@@ -84,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
             }
 
             Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             
             var pSls = SetLegendSeries(entryWidth, entryHeight);
             SetLegendTrendlines(entryWidth, entryHeight, pSls);
@@ -854,7 +854,8 @@ namespace EPPlusImageRenderer.Svg
         {
             var line = new LineRenderItem(Rectangle.Bounds);
             //line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, ChartRenderer.Theme.ColorScheme.Accent1.GetColor(), 3);
+            //Default style is NoLine NoFill
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -872,7 +873,8 @@ namespace EPPlusImageRenderer.Svg
         {
             var line = new LineRenderItem(Rectangle.Bounds);
             line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            //Default is actually NoLine
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
