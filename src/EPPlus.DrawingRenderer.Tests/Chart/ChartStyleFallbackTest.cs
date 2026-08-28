@@ -382,6 +382,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                     Assert.AreEqual(expectedStroke, strokeResult);
                     Assert.AreEqual(1d, widthResult, 0.003);
                 }
+
+                SaveAndCleanup(p);
             }
         }
 

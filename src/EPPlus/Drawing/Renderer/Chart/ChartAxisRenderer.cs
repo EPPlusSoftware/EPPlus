@@ -296,19 +296,21 @@ namespace EPPlusImageRenderer.Svg
 
         internal void AddTickmarksAndValues(List<RenderItem> DefItems)
         {
-            if (Axis.Deleted == true) return;
-            if (Axis.MajorTickMark != eAxisTickMark.None)
+            if (Axis.Deleted == false)
             {
-                MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
-            }
+                if (Axis.MajorTickMark != eAxisTickMark.None)
+                {
+                    MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
+                }
 
-            if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
-            {
-                MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
-            }
-            else
-            {
-                MinorTickMarkPositions = null;
+                if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
+                {
+                    MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
+                }
+                else
+                {
+                    MinorTickMarkPositions = null;
+                }
             }
 
             if(Axis.HasMajorGridlines)
@@ -889,6 +891,11 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
+
+            if(id == "xGridLine")
+            {
+                tm.Bounds.Width = pa.Rectangle.Width;
+            }
             //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
             tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75);
 
