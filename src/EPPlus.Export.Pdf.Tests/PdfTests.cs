@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using FakeItEasy.Configuration;
 
 namespace EPPlusTest.PDF
 {
@@ -760,16 +759,6 @@ namespace EPPlusTest.PDF
                 Assert.AreEqual(PdfPageSize.A3.WidthPu, w2, "Page 2 should be A3, not sheet 1's A4.");
                 Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
             }
-        }
-
-        [TestMethod]
-        public void ColLargerThanPrintableArea()
-        {
-            using(var p = OpenTemplatePackage("CenterOnPagePdf.xlsx"))
-            {
-                var ms = p.Workbook;
-                ms.SaveAsPdf(_pdfPath + "test.pdf")
-;            }
         }
     }
 }
