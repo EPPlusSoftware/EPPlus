@@ -588,8 +588,6 @@ namespace EPPlus.DrawingRenderer
         {
             if (userSpace != UserSpaceSettings.ObjectBoundingBox)
             {
-                var angle2 = angle % 360;
-
                 double theta = MathHelper.Radians((angle ?? 90) % 360);
 
                 double l, t;
@@ -626,6 +624,8 @@ namespace EPPlus.DrawingRenderer
 
                 if(item.DefId == "xGridLine")
                 {
+                    //If global, has to stretch the whole length.
+                    //This case is special because it stretches in the same direction as the attempted gradient
                     x1 = item.Bounds.Left;
                     x2 = w - x1;
                 }
