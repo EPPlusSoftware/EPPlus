@@ -48,28 +48,36 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                 }
                 int row = range.Range._fromRow + rowIdx;
                 double maxRequired = rowHeight.Height;
-                bool hasWrappedCell = false;
+                bool grew = false;
                 for (int colIdx = 0; colIdx < range.ColWidths.Count; colIdx++)
                 {
                     int col = range.Range._fromCol + colIdx;
                     var cell = range.Map[row, col];
                     if (cell == null || cell.Hidden)
                         continue;
-                    if (cell.Merged)
-                        continue;
-                    if (cell.ContentAligmnet.ShrinkToFit)
-                        continue;
-                    if (!cell.ContentAligmnet.WrapText)
-                        continue;
                     if (cell.TextLines == null || cell.TextLines.Count == 0)
                         continue;
+                    if (cell.ContentAligmnet == null || cell.ContentAligmnet.ShrinkToFit)
+                        continue;
 
-                    hasWrappedCell = true;
-                    double required = GetRequiredHeightFromLines(cell);
+                    double required;
+                    if (cell.Merged)
+                    {
+                        if (cell.MergedAddress == null || cell.MergedAddress.Start.Row != cell.MergedAddress.End.Row)
+                            continue;
+                        required = GetMaxLineHeight(cell);
+                    }
+                    else
+                    {
+                        required = GetRequiredHeightFromLines(cell);
+                    }
                     if (required > maxRequired)
+                    {
                         maxRequired = required;
+                        grew = true;
+                    }
                 }
-                if (hasWrappedCell)
+                if (grew)
                 {
                     rowHeight.Height = maxRequired;
                     range.RowHeights[rowIdx] = rowHeight;
@@ -87,6 +95,17 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                 total += line.LargestAscent + line.LargestDescent;
             }
             return total;
+        }
+
+        private static double GetMaxLineHeight(PdfCell cell)
+        {
+            double max = 0d;
+            foreach (var line in cell.TextLines)
+            {
+                double h = line.LargestAscent + line.LargestDescent;
+                if (h > max) max = h;
+            }
+            return max;
         }
     }
 }
