@@ -120,6 +120,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         {
                             var map = pages[j].Map[row, col];
                             MergedCellDrawInfo info = new MergedCellDrawInfo();
+                            if (map.Hidden && !map.Merged)
+                            {
+                                x += map.ColumnWidth;
+                                continue;
+                            }
                             //Merged Cell
                             if (map.Merged)
                             {
@@ -707,6 +712,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, ref pdfSheet.CommentsAndNotes);
                     pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
+                    pages = GetHeaderFooter(pdfSheet.CommentsAndNotes, pages, pdfSheet);
                     pageSettings.ShowHeadings = savedShowHeadings;
                     pages.IsCommentsPage = true;
                     pages.Settings = pageSettings;
