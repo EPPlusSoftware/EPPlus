@@ -65,6 +65,12 @@ namespace EPPlus.Export.Pdf.Layout
         public double Y = 0;
         public bool IsHeading = false;
 
+        internal const double DoubleWidth = 0.75d;  // weight of each of the two lines
+        internal const double DoubleOffset = 0.85d;  // offset from the gridline; also the corner miter amount
+
+        public bool PerpAtStart = false;   // Top/Bottom: left end · Left/Right: bottom end
+        public bool PerpAtEnd = false;   // Top/Bottom: right end · Left/Right: top end
+
         public PdfCellBorderData(LineType LineType)
         {
             this.LineType = LineType;

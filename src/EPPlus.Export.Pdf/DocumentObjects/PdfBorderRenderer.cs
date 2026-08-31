@@ -196,43 +196,238 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             contentStream.AddCommand(dash);
         }
 
+        //private void DrawDoubleBorder(PdfContentStream contentStream, PdfCellBorderData border, double x1, double y1, double x2, double y2)
+        //{
+        //    var ix1 = x1;
+        //    var ix2 = x2;
+        //    var iy1 = y1;
+        //    var iy2 = y2;
+        //    var ox1 = x1;
+        //    var ox2 = x2;
+        //    var oy1 = y1;
+        //    var oy2 = y2;
+
+        //    var DiagonalUpFactor = 0d;
+        //    var DiagonalDownFactor = 0d;
+
+        //    if (border.LineType == LineType.Top)
+        //    {
+        //        ////Inner Line
+        //        //ix1 = x1;
+        //        //ix2 = x2;
+        //        //iy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
+        //        //iy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
+        //        //if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
+        //        //if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
+        //        //if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
+        //        //if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+
+        //        ix1 = x1;
+        //        ix2 = x2;
+        //        iy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
+        //        iy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
+        //        if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
+        //        if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
+
+        //        // For a multi-column merged cell the diagonal endpoint sits at the far
+        //        // corner of the full merge, not at the right/left edge of this single
+        //        // cell column.  Applying the indent here would create a gap at the wrong
+        //        // position along the top border, so suppress it.
+        //        bool multiColMerge = IsMerged && info.Width > Width + 0.5d;
+        //        if (!multiColMerge)
+        //        {
+        //            if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
+        //            if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+        //        }
+
+        //        //Outer Line
+        //        ox1 = x1;
+        //        ox2 = x2;
+        //        oy1 = y1 + (PdfCellBorderData.Hair / 0.65d);
+        //        oy2 = y2 + (PdfCellBorderData.Hair / 0.65d);
+        //        if (Left.BorderStyle != ExcelBorderStyle.None) ox1 = x1 - 0.7d;
+        //        if (Right.BorderStyle != ExcelBorderStyle.None) ox2 = x2 + 0.7d;
+        //    }
+        //    if (border.LineType == LineType.Bottom)
+        //    {
+        //        ix1 = x1;
+        //        ix2 = x2;
+        //        iy1 = y1 + (PdfCellBorderData.Hair / 0.65d);
+        //        iy2 = y2 + (PdfCellBorderData.Hair / 0.65d);
+        //        if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
+        //        if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
+        //        if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+        //        if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
+
+        //        ox1 = x1;
+        //        ox2 = x2;
+        //        oy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
+        //        oy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
+        //        if (Left.BorderStyle != ExcelBorderStyle.None) ox1 = x1 - 0.7d;
+        //        if (Right.BorderStyle != ExcelBorderStyle.None) ox2 = x2 + 0.7d;
+        //    }
+        //    else if (border.LineType == LineType.Left)
+        //    {
+        //        //DiagonalUpFactor = 0.5d;
+        //        //DiagonalDownFactor = 0.5d;
+        //        //ix1 = x1 + (PdfCellBorderData.Hair / 0.65d);
+        //        //ix2 = x2 + (PdfCellBorderData.Hair / 0.65d);
+        //        //iy1 = y1;
+        //        //iy2 = y2;
+        //        //if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
+        //        //if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
+        //        //if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
+        //        //if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+
+        //        DiagonalUpFactor = 0.5d;
+        //        DiagonalDownFactor = 0.5d;
+        //        ix1 = x1 + (PdfCellBorderData.Hair / 0.65d);
+        //        ix2 = x2 + (PdfCellBorderData.Hair / 0.65d);
+        //        iy1 = y1;
+        //        iy2 = y2;
+        //        if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
+        //        if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
+
+        //        // For a multi-row merged cell the diagonal endpoint sits at the far
+        //        // corner of the full merge height, not at the bottom/top edge of this
+        //        // single row.  Suppress the indent to avoid a gap at the wrong position.
+        //        bool multiRowMerge = IsMerged && info.Height > Height + 0.5d;
+        //        if (!multiRowMerge)
+        //        {
+        //            if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
+        //            if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+        //        }
+
+        //        ox1 = x1 - (PdfCellBorderData.Hair / 0.65d);
+        //        ox2 = x2 - (PdfCellBorderData.Hair / 0.65d);
+        //        oy1 = y1;
+        //        oy2 = y2;
+        //        if (Top.BorderStyle != ExcelBorderStyle.None) oy2 = y2 + 0.7d;
+        //        if (Bottom.BorderStyle != ExcelBorderStyle.None) oy1 = y1 - 0.7d;
+        //    }
+        //    else if (border.LineType == LineType.Right)
+        //    {
+        //        DiagonalUpFactor = 0.5d;
+        //        DiagonalDownFactor = 0.5d;
+        //        ix1 = x1 - (PdfCellBorderData.Hair / 0.65d);
+        //        ix2 = x2 - (PdfCellBorderData.Hair / 0.65d);
+        //        iy1 = y1;
+        //        iy2 = y2;
+        //        if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
+        //        if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
+        //        if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalUpFactor;
+        //        if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalDownFactor;
+
+        //        ox1 = x1 + (PdfCellBorderData.Hair / 0.65d);
+        //        ox2 = x2 + (PdfCellBorderData.Hair / 0.65d);
+        //        oy1 = y1;
+        //        oy2 = y2;
+        //        if (Top.BorderStyle != ExcelBorderStyle.None) oy2 = y2 + 0.7d;
+        //        if (Bottom.BorderStyle != ExcelBorderStyle.None) oy1 = y1 - 0.7d;
+        //    }
+        //    else if (border.LineType == LineType.DiagonalUp)
+        //    {
+        //        ix1 = x1 + 0.6d;
+        //        ix2 = x2 - 4.87d;
+        //        iy1 = y1 + 0.98d;
+        //        iy2 = y2 - 0.765d;
+        //        ox1 = x1 + 4.87d;
+        //        ox2 = x2 - 0.6d;
+        //        oy1 = y1 + 0.765d;
+        //        oy2 = y2 - 0.98d;
+        //    }
+        //    else if (border.LineType == LineType.DiagonalDown)
+        //    {
+        //        ix1 = x1 + 0.6d;
+        //        ix2 = x2 - 4.87d;
+        //        iy1 = y1 - 0.98d;
+        //        iy2 = y2 + 0.765d;
+        //        ox1 = x1 + 4.87d;
+        //        ox2 = x2 - 0.6d;
+        //        oy1 = y1 - 0.765d;
+        //        oy2 = y2 + 0.98d;
+        //    }
+        //    contentStream.AddCommand(border.BorderColor.ToStrokeCommand());
+        //    contentStream.AddCommand($"{PdfCellBorderData.Hair.ToPdfString()} w");
+        //    contentStream.AddCommand(border.BorderStyle != ExcelBorderStyle.Dotted ? (border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown ? "0 J" : "2 J") : "1 J");
+        //    contentStream.AddCommand(PdfCellBorderData.NoDash);
+        //    if ((border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown) && DiagonalUp.BorderStyle != ExcelBorderStyle.None && DiagonalDown.BorderStyle != ExcelBorderStyle.None)
+        //    {
+
+        //        //break to method.
+        //        double dx = ix2 - ix1;
+        //        double dy = iy2 - iy1;
+        //        double length = System.Math.Sqrt(dx * dx + dy * dy);
+
+        //        double ux = dx / length;
+        //        double uy = dy / length;
+
+        //        double midX = (ix1 + ix2) / 2.0;
+        //        double midY = (iy1 + iy2) / 2.0;
+
+        //        double leftDist = 0.25;
+        //        double rightDist = 2.15;
+
+        //        double xA = midX - leftDist * ux;
+        //        double yA = midY - leftDist * uy;
+        //        double xB = midX + rightDist * ux;
+        //        double yB = midY + rightDist * uy;
+
+        //        contentStream.AddCommand($"{ix1.ToPdfStringF4()} {iy1.ToPdfStringF4()} m");
+        //        contentStream.AddCommand($"{xA.ToPdfStringF4()} {yA.ToPdfStringF4()} l");
+        //        contentStream.AddCommand($"{xB.ToPdfStringF4()} {yB.ToPdfStringF4()} m");
+        //        contentStream.AddCommand($"{ix2.ToPdfStringF4()} {iy2.ToPdfStringF4()} l");
+
+
+        //        dx = ox2 - ox1;
+        //        dy = oy2 - oy1;
+        //        length = System.Math.Sqrt(dx * dx + dy * dy);
+
+        //        ux = dx / length;
+        //        uy = dy / length;
+
+        //        midX = (ox1 + ox2) / 2.0;
+        //        midY = (oy1 + oy2) / 2.0;
+
+        //        leftDist = 2.15;
+        //        rightDist = 0.25;
+
+        //        xA = midX - leftDist * ux;
+        //        yA = midY - leftDist * uy;
+        //        xB = midX + rightDist * ux;
+        //        yB = midY + rightDist * uy;
+
+        //        contentStream.AddCommand($"{ox1.ToPdfStringF4()} {oy1.ToPdfStringF4()} m");
+        //        contentStream.AddCommand($"{xA.ToPdfStringF4()} {yA.ToPdfStringF4()} l");
+        //        contentStream.AddCommand($"{xB.ToPdfStringF4()} {yB.ToPdfStringF4()} m");
+        //        contentStream.AddCommand($"{ox2.ToPdfStringF4()} {oy2.ToPdfStringF4()} l");
+        //    }
+        //    else
+        //    {
+        //        contentStream.AddCommand($"{ix1.ToPdfStringF4()} {iy1.ToPdfStringF4()} m");
+        //        contentStream.AddCommand($"{ix2.ToPdfStringF4()} {iy2.ToPdfStringF4()} l");
+        //        contentStream.AddCommand($"{ox1.ToPdfStringF4()} {oy1.ToPdfStringF4()} m");
+        //        contentStream.AddCommand($"{ox2.ToPdfStringF4()} {oy2.ToPdfStringF4()} l");
+        //    }
+        //    contentStream.AddCommand("S");
+        //}
         private void DrawDoubleBorder(PdfContentStream contentStream, PdfCellBorderData border, double x1, double y1, double x2, double y2)
         {
-            var ix1 = x1;
-            var ix2 = x2;
-            var iy1 = y1;
-            var iy2 = y2;
-            var ox1 = x1;
-            var ox2 = x2;
-            var oy1 = y1;
-            var oy2 = y2;
+            var ix1 = x1; var ix2 = x2; var iy1 = y1; var iy2 = y2;
+            var ox1 = x1; var ox2 = x2; var oy1 = y1; var oy2 = y2;
 
             var DiagonalUpFactor = 0d;
             var DiagonalDownFactor = 0d;
 
+            const double G = PdfCellBorderData.DoubleOffset;   // half-gap AND corner miter amount
+
             if (border.LineType == LineType.Top)
             {
-                ////Inner Line
-                //ix1 = x1;
-                //ix2 = x2;
-                //iy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
-                //iy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
-                //if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
-                //if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
-                //if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
-                //if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
+                // start = left end (x1), end = right end (x2)
+                iy1 = y1 - G; iy2 = y2 - G;
+                if (border.PerpAtStart) ix1 = x1 + G;
+                if (border.PerpAtEnd) ix2 = x2 - G;
 
-                ix1 = x1;
-                ix2 = x2;
-                iy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
-                iy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
-                if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
-                if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
-
-                // For a multi-column merged cell the diagonal endpoint sits at the far
-                // corner of the full merge, not at the right/left edge of this single
-                // cell column.  Applying the indent here would create a gap at the wrong
-                // position along the top border, so suppress it.
                 bool multiColMerge = IsMerged && info.Width > Width + 0.5d;
                 if (!multiColMerge)
                 {
@@ -240,163 +435,90 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 }
 
-                //Outer Line
-                ox1 = x1;
-                ox2 = x2;
-                oy1 = y1 + (PdfCellBorderData.Hair / 0.65d);
-                oy2 = y2 + (PdfCellBorderData.Hair / 0.65d);
-                if (Left.BorderStyle != ExcelBorderStyle.None) ox1 = x1 - 0.7d;
-                if (Right.BorderStyle != ExcelBorderStyle.None) ox2 = x2 + 0.7d;
+                oy1 = y1 + G; oy2 = y2 + G;
+                if (border.PerpAtStart) ox1 = x1 - G;
+                if (border.PerpAtEnd) ox2 = x2 + G;
             }
             if (border.LineType == LineType.Bottom)
             {
-                ix1 = x1;
-                ix2 = x2;
-                iy1 = y1 + (PdfCellBorderData.Hair / 0.65d);
-                iy2 = y2 + (PdfCellBorderData.Hair / 0.65d);
-                if (Left.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 0.7d;
-                if (Right.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 0.7d;
+                iy1 = y1 + G; iy2 = y2 + G;
+                if (border.PerpAtStart) ix1 = x1 + G;
+                if (border.PerpAtEnd) ix2 = x2 - G;
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
 
-                ox1 = x1;
-                ox2 = x2;
-                oy1 = y1 - (PdfCellBorderData.Hair / 0.65d);
-                oy2 = y2 - (PdfCellBorderData.Hair / 0.65d);
-                if (Left.BorderStyle != ExcelBorderStyle.None) ox1 = x1 - 0.7d;
-                if (Right.BorderStyle != ExcelBorderStyle.None) ox2 = x2 + 0.7d;
+                oy1 = y1 - G; oy2 = y2 - G;
+                if (border.PerpAtStart) ox1 = x1 - G;
+                if (border.PerpAtEnd) ox2 = x2 + G;
             }
             else if (border.LineType == LineType.Left)
             {
-                //DiagonalUpFactor = 0.5d;
-                //DiagonalDownFactor = 0.5d;
-                //ix1 = x1 + (PdfCellBorderData.Hair / 0.65d);
-                //ix2 = x2 + (PdfCellBorderData.Hair / 0.65d);
-                //iy1 = y1;
-                //iy2 = y2;
-                //if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
-                //if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
-                //if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
-                //if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+                // start = bottom end (y1), end = top end (y2)
+                DiagonalUpFactor = 0.5d; DiagonalDownFactor = 0.5d;
+                ix1 = x1 + G; ix2 = x2 + G;
+                if (border.PerpAtEnd) iy2 = y2 - G;
+                if (border.PerpAtStart) iy1 = y1 + G;
 
-                DiagonalUpFactor = 0.5d;
-                DiagonalDownFactor = 0.5d;
-                ix1 = x1 + (PdfCellBorderData.Hair / 0.65d);
-                ix2 = x2 + (PdfCellBorderData.Hair / 0.65d);
-                iy1 = y1;
-                iy2 = y2;
-                if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
-                if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
-
-                // For a multi-row merged cell the diagonal endpoint sits at the far
-                // corner of the full merge height, not at the bottom/top edge of this
-                // single row.  Suppress the indent to avoid a gap at the wrong position.
                 bool multiRowMerge = IsMerged && info.Height > Height + 0.5d;
                 if (!multiRowMerge)
                 {
-                    if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalUpFactor;
-                    if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalDownFactor;
+                    if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + G + DiagonalUpFactor;
+                    if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalDownFactor;
                 }
 
-                ox1 = x1 - (PdfCellBorderData.Hair / 0.65d);
-                ox2 = x2 - (PdfCellBorderData.Hair / 0.65d);
-                oy1 = y1;
-                oy2 = y2;
-                if (Top.BorderStyle != ExcelBorderStyle.None) oy2 = y2 + 0.7d;
-                if (Bottom.BorderStyle != ExcelBorderStyle.None) oy1 = y1 - 0.7d;
+                ox1 = x1 - G; ox2 = x2 - G;
+                if (border.PerpAtEnd) oy2 = y2 + G;
+                if (border.PerpAtStart) oy1 = y1 - G;
             }
             else if (border.LineType == LineType.Right)
             {
-                DiagonalUpFactor = 0.5d;
-                DiagonalDownFactor = 0.5d;
-                ix1 = x1 - (PdfCellBorderData.Hair / 0.65d);
-                ix2 = x2 - (PdfCellBorderData.Hair / 0.65d);
-                iy1 = y1;
-                iy2 = y2;
-                if (Top.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d;
-                if (Bottom.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d;
-                if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - 0.7d - DiagonalUpFactor;
-                if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + 0.7d + DiagonalDownFactor;
+                DiagonalUpFactor = 0.5d; DiagonalDownFactor = 0.5d;
+                ix1 = x1 - G; ix2 = x2 - G;
+                if (border.PerpAtEnd) iy2 = y2 - G;
+                if (border.PerpAtStart) iy1 = y1 + G;
+                if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalUpFactor;
+                if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + G + DiagonalDownFactor;
 
-                ox1 = x1 + (PdfCellBorderData.Hair / 0.65d);
-                ox2 = x2 + (PdfCellBorderData.Hair / 0.65d);
-                oy1 = y1;
-                oy2 = y2;
-                if (Top.BorderStyle != ExcelBorderStyle.None) oy2 = y2 + 0.7d;
-                if (Bottom.BorderStyle != ExcelBorderStyle.None) oy1 = y1 - 0.7d;
+                ox1 = x1 + G; ox2 = x2 + G;
+                if (border.PerpAtEnd) oy2 = y2 + G;
+                if (border.PerpAtStart) oy1 = y1 - G;
             }
             else if (border.LineType == LineType.DiagonalUp)
             {
-                ix1 = x1 + 0.6d;
-                ix2 = x2 - 4.87d;
-                iy1 = y1 + 0.98d;
-                iy2 = y2 - 0.765d;
-                ox1 = x1 + 4.87d;
-                ox2 = x2 - 0.6d;
-                oy1 = y1 + 0.765d;
-                oy2 = y2 - 0.98d;
+                ix1 = x1 + 0.6d; ix2 = x2 - 4.87d; iy1 = y1 + 0.98d; iy2 = y2 - 0.765d;
+                ox1 = x1 + 4.87d; ox2 = x2 - 0.6d; oy1 = y1 + 0.765d; oy2 = y2 - 0.98d;
             }
             else if (border.LineType == LineType.DiagonalDown)
             {
-                ix1 = x1 + 0.6d;
-                ix2 = x2 - 4.87d;
-                iy1 = y1 - 0.98d;
-                iy2 = y2 + 0.765d;
-                ox1 = x1 + 4.87d;
-                ox2 = x2 - 0.6d;
-                oy1 = y1 - 0.765d;
-                oy2 = y2 + 0.98d;
+                ix1 = x1 + 0.6d; ix2 = x2 - 4.87d; iy1 = y1 - 0.98d; iy2 = y2 + 0.765d;
+                ox1 = x1 + 4.87d; ox2 = x2 - 0.6d; oy1 = y1 - 0.765d; oy2 = y2 + 0.98d;
             }
+
             contentStream.AddCommand(border.BorderColor.ToStrokeCommand());
-            contentStream.AddCommand($"{PdfCellBorderData.Hair.ToPdfString()} w");
+            contentStream.AddCommand($"{PdfCellBorderData.DoubleWidth.ToPdfString()} w");
             contentStream.AddCommand(border.BorderStyle != ExcelBorderStyle.Dotted ? (border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown ? "0 J" : "2 J") : "1 J");
             contentStream.AddCommand(PdfCellBorderData.NoDash);
             if ((border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown) && DiagonalUp.BorderStyle != ExcelBorderStyle.None && DiagonalDown.BorderStyle != ExcelBorderStyle.None)
             {
-
-                //break to method.
-                double dx = ix2 - ix1;
-                double dy = iy2 - iy1;
+                double dx = ix2 - ix1, dy = iy2 - iy1;
                 double length = System.Math.Sqrt(dx * dx + dy * dy);
-
-                double ux = dx / length;
-                double uy = dy / length;
-
-                double midX = (ix1 + ix2) / 2.0;
-                double midY = (iy1 + iy2) / 2.0;
-
-                double leftDist = 0.25;
-                double rightDist = 2.15;
-
-                double xA = midX - leftDist * ux;
-                double yA = midY - leftDist * uy;
-                double xB = midX + rightDist * ux;
-                double yB = midY + rightDist * uy;
-
+                double ux = dx / length, uy = dy / length;
+                double midX = (ix1 + ix2) / 2.0, midY = (iy1 + iy2) / 2.0;
+                double leftDist = 0.25, rightDist = 2.15;
+                double xA = midX - leftDist * ux, yA = midY - leftDist * uy;
+                double xB = midX + rightDist * ux, yB = midY + rightDist * uy;
                 contentStream.AddCommand($"{ix1.ToPdfStringF4()} {iy1.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{xA.ToPdfStringF4()} {yA.ToPdfStringF4()} l");
                 contentStream.AddCommand($"{xB.ToPdfStringF4()} {yB.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{ix2.ToPdfStringF4()} {iy2.ToPdfStringF4()} l");
 
-
-                dx = ox2 - ox1;
-                dy = oy2 - oy1;
+                dx = ox2 - ox1; dy = oy2 - oy1;
                 length = System.Math.Sqrt(dx * dx + dy * dy);
-
-                ux = dx / length;
-                uy = dy / length;
-
-                midX = (ox1 + ox2) / 2.0;
-                midY = (oy1 + oy2) / 2.0;
-
-                leftDist = 2.15;
-                rightDist = 0.25;
-
-                xA = midX - leftDist * ux;
-                yA = midY - leftDist * uy;
-                xB = midX + rightDist * ux;
-                yB = midY + rightDist * uy;
-
+                ux = dx / length; uy = dy / length;
+                midX = (ox1 + ox2) / 2.0; midY = (oy1 + oy2) / 2.0;
+                leftDist = 2.15; rightDist = 0.25;
+                xA = midX - leftDist * ux; yA = midY - leftDist * uy;
+                xB = midX + rightDist * ux; yB = midY + rightDist * uy;
                 contentStream.AddCommand($"{ox1.ToPdfStringF4()} {oy1.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{xA.ToPdfStringF4()} {yA.ToPdfStringF4()} l");
                 contentStream.AddCommand($"{xB.ToPdfStringF4()} {yB.ToPdfStringF4()} m");
@@ -411,6 +533,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             contentStream.AddCommand("S");
         }
+
         private void DrawSlantDashDotBorder(PdfContentStream contentStream, PdfCellBorderData border, double x1, double y1, double x2, double y2)
         {
             contentStream.AddCommand(border.BorderColor.ToStrokeCommand());

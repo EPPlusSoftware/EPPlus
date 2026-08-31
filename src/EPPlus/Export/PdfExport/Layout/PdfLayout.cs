@@ -209,6 +209,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
                                     if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
                                 }
+                                SetDoubleBorderMiterFlags(pages[j], row, col, border);
                                 pageLayout.AddChild(border);
                             }
                             x += map.ColumnWidth;
@@ -1604,6 +1605,49 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 pdfPages.Page[i] = page;
             }
             return pdfPages;
+        }
+
+        private static PdfCell CellAt(Page page, int row, int col)
+        {
+            if (row < page.FromRow || row > page.ToRow || col < page.FromColumn || col > page.ToColumn) return null;
+            return page.Map[row, col];
+        }
+
+        // A vertical border exists on the gridline to the LEFT of column 'col', in 'row',
+        // if either cell sharing that gridline segment has the matching side border.
+        private static bool VBorderAt(Page page, int row, int col)
+            => CellHasLeftBorder(CellAt(page, row, col)) || CellHasRightBorder(CellAt(page, row, col - 1));
+
+        // A horizontal border on the gridline BELOW 'row' (between row and row+1), in 'col'.
+        private static bool HBorderBelow(Page page, int row, int col)
+            => CellHasBottomBorder(CellAt(page, row, col)) || CellHasTopBorder(CellAt(page, row + 1, col));
+
+        // A horizontal border on the gridline ABOVE 'row' (between row-1 and row), in 'col'.
+        private static bool HBorderAbove(Page page, int row, int col)
+            => CellHasTopBorder(CellAt(page, row, col)) || CellHasBottomBorder(CellAt(page, row - 1, col));
+
+        // Per-edge, per-end "is there a perpendicular border at this vertex" — checking both
+        // gridline segments meeting the vertex (this cell + the relevant neighbours). This is
+        // what lets a double border miter against a partner border owned by an adjacent cell.
+        private static void SetDoubleBorderMiterFlags(Page page, int row, int col, PdfCellBorderLayout border)
+        {
+            var b = border.BorderData;
+
+            // Top edge (gridline above 'row'): ends are left (Start) and right (End).
+            b.Top.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row - 1, col);
+            b.Top.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row - 1, col + 1);
+
+            // Bottom edge (gridline below 'row').
+            b.Bottom.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row + 1, col);
+            b.Bottom.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row + 1, col + 1);
+
+            // Left edge (gridline left of 'col'): ends are bottom (Start) and top (End).
+            b.Left.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col - 1);
+            b.Left.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col - 1);
+
+            // Right edge (gridline right of 'col').
+            b.Right.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col + 1);
+            b.Right.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col + 1);
         }
 
         private static bool CellHasRightBorder(PdfCell cell)
