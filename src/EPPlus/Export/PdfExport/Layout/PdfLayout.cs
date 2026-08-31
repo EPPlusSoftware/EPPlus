@@ -1633,21 +1633,28 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var b = border.BorderData;
 
-            // Top edge (gridline above 'row'): ends are left (Start) and right (End).
+            // --- Perpendicular border present at each end (unchanged) ---
             b.Top.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row - 1, col);
             b.Top.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row - 1, col + 1);
-
-            // Bottom edge (gridline below 'row').
             b.Bottom.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row + 1, col);
             b.Bottom.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row + 1, col + 1);
-
-            // Left edge (gridline left of 'col'): ends are bottom (Start) and top (End).
             b.Left.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col - 1);
             b.Left.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col - 1);
-
-            // Right edge (gridline right of 'col').
             b.Right.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col + 1);
             b.Right.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col + 1);
+
+            // --- Does the SAME border continue collinearly past this end? (NEW) ---
+            // Top/Bottom: Start = left end, End = right end -> look at the horizontal gridline in the
+            // neighbouring column. Left/Right: Start = bottom end, End = top end -> look at the vertical
+            // gridline in the neighbouring row.
+            b.Top.ContAtStart = HBorderAbove(page, row, col - 1);
+            b.Top.ContAtEnd = HBorderAbove(page, row, col + 1);
+            b.Bottom.ContAtStart = HBorderBelow(page, row, col - 1);
+            b.Bottom.ContAtEnd = HBorderBelow(page, row, col + 1);
+            b.Left.ContAtStart = VBorderAt(page, row + 1, col);
+            b.Left.ContAtEnd = VBorderAt(page, row - 1, col);
+            b.Right.ContAtStart = VBorderAt(page, row + 1, col + 1);
+            b.Right.ContAtEnd = VBorderAt(page, row - 1, col + 1);
         }
 
         private static bool CellHasRightBorder(PdfCell cell)

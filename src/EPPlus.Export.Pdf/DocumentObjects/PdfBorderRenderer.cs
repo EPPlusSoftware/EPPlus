@@ -419,14 +419,18 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             var DiagonalUpFactor = 0d;
             var DiagonalDownFactor = 0d;
 
-            const double G = PdfCellBorderData.DoubleOffset;   // half-gap AND corner miter amount
+            const double G = PdfCellBorderData.DoubleOffset;   // parallel offset AND corner miter amount
+
+            // Miter this end only when a perpendicular border meets it (corner) AND the border does
+            // not continue straight through the vertex (so crossings stay open).
+            bool mStart = border.PerpAtStart && !border.ContAtStart;
+            bool mEnd = border.PerpAtEnd && !border.ContAtEnd;
 
             if (border.LineType == LineType.Top)
             {
-                // start = left end (x1), end = right end (x2)
                 iy1 = y1 - G; iy2 = y2 - G;
-                if (border.PerpAtStart) ix1 = x1 + G;
-                if (border.PerpAtEnd) ix2 = x2 - G;
+                if (mStart) ix1 = x1 + G;
+                if (mEnd) ix2 = x2 - G;
 
                 bool multiColMerge = IsMerged && info.Width > Width + 0.5d;
                 if (!multiColMerge)
@@ -436,28 +440,27 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 }
 
                 oy1 = y1 + G; oy2 = y2 + G;
-                if (border.PerpAtStart) ox1 = x1 - G;
-                if (border.PerpAtEnd) ox2 = x2 + G;
+                if (mStart) ox1 = x1 - G;
+                if (mEnd) ox2 = x2 + G;
             }
             if (border.LineType == LineType.Bottom)
             {
                 iy1 = y1 + G; iy2 = y2 + G;
-                if (border.PerpAtStart) ix1 = x1 + G;
-                if (border.PerpAtEnd) ix2 = x2 - G;
+                if (mStart) ix1 = x1 + G;
+                if (mEnd) ix2 = x2 - G;
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
 
                 oy1 = y1 - G; oy2 = y2 - G;
-                if (border.PerpAtStart) ox1 = x1 - G;
-                if (border.PerpAtEnd) ox2 = x2 + G;
+                if (mStart) ox1 = x1 - G;
+                if (mEnd) ox2 = x2 + G;
             }
             else if (border.LineType == LineType.Left)
             {
-                // start = bottom end (y1), end = top end (y2)
                 DiagonalUpFactor = 0.5d; DiagonalDownFactor = 0.5d;
                 ix1 = x1 + G; ix2 = x2 + G;
-                if (border.PerpAtEnd) iy2 = y2 - G;
-                if (border.PerpAtStart) iy1 = y1 + G;
+                if (mEnd) iy2 = y2 - G;   // top end
+                if (mStart) iy1 = y1 + G;   // bottom end
 
                 bool multiRowMerge = IsMerged && info.Height > Height + 0.5d;
                 if (!multiRowMerge)
@@ -467,21 +470,21 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 }
 
                 ox1 = x1 - G; ox2 = x2 - G;
-                if (border.PerpAtEnd) oy2 = y2 + G;
-                if (border.PerpAtStart) oy1 = y1 - G;
+                if (mEnd) oy2 = y2 + G;
+                if (mStart) oy1 = y1 - G;
             }
             else if (border.LineType == LineType.Right)
             {
                 DiagonalUpFactor = 0.5d; DiagonalDownFactor = 0.5d;
                 ix1 = x1 - G; ix2 = x2 - G;
-                if (border.PerpAtEnd) iy2 = y2 - G;
-                if (border.PerpAtStart) iy1 = y1 + G;
+                if (mEnd) iy2 = y2 - G;
+                if (mStart) iy1 = y1 + G;
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalUpFactor;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + G + DiagonalDownFactor;
 
                 ox1 = x1 + G; ox2 = x2 + G;
-                if (border.PerpAtEnd) oy2 = y2 + G;
-                if (border.PerpAtStart) oy1 = y1 - G;
+                if (mEnd) oy2 = y2 + G;
+                if (mStart) oy1 = y1 - G;
             }
             else if (border.LineType == LineType.DiagonalUp)
             {
@@ -500,25 +503,37 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             contentStream.AddCommand(PdfCellBorderData.NoDash);
             if ((border.LineType == LineType.DiagonalUp || border.LineType == LineType.DiagonalDown) && DiagonalUp.BorderStyle != ExcelBorderStyle.None && DiagonalDown.BorderStyle != ExcelBorderStyle.None)
             {
-                double dx = ix2 - ix1, dy = iy2 - iy1;
+                double dx = ix2 - ix1;
+                double dy = iy2 - iy1;
                 double length = System.Math.Sqrt(dx * dx + dy * dy);
-                double ux = dx / length, uy = dy / length;
-                double midX = (ix1 + ix2) / 2.0, midY = (iy1 + iy2) / 2.0;
-                double leftDist = 0.25, rightDist = 2.15;
-                double xA = midX - leftDist * ux, yA = midY - leftDist * uy;
-                double xB = midX + rightDist * ux, yB = midY + rightDist * uy;
+                double ux = dx / length;
+                double uy = dy / length;
+                double midX = (ix1 + ix2) / 2.0;
+                double midY = (iy1 + iy2) / 2.0;
+                double leftDist = 0.25;
+                double rightDist = 2.15;
+                double xA = midX - leftDist * ux;
+                double yA = midY - leftDist * uy;
+                double xB = midX + rightDist * ux;
+                double yB = midY + rightDist * uy;
                 contentStream.AddCommand($"{ix1.ToPdfStringF4()} {iy1.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{xA.ToPdfStringF4()} {yA.ToPdfStringF4()} l");
                 contentStream.AddCommand($"{xB.ToPdfStringF4()} {yB.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{ix2.ToPdfStringF4()} {iy2.ToPdfStringF4()} l");
 
-                dx = ox2 - ox1; dy = oy2 - oy1;
+                dx = ox2 - ox1;
+                dy = oy2 - oy1;
                 length = System.Math.Sqrt(dx * dx + dy * dy);
-                ux = dx / length; uy = dy / length;
-                midX = (ox1 + ox2) / 2.0; midY = (oy1 + oy2) / 2.0;
-                leftDist = 2.15; rightDist = 0.25;
-                xA = midX - leftDist * ux; yA = midY - leftDist * uy;
-                xB = midX + rightDist * ux; yB = midY + rightDist * uy;
+                ux = dx / length;
+                uy = dy / length;
+                midX = (ox1 + ox2) / 2.0;
+                midY = (oy1 + oy2) / 2.0;
+                leftDist = 2.15;
+                rightDist = 0.25;
+                xA = midX - leftDist * ux;
+                yA = midY - leftDist * uy;
+                xB = midX + rightDist * ux;
+                yB = midY + rightDist * uy;
                 contentStream.AddCommand($"{ox1.ToPdfStringF4()} {oy1.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{xA.ToPdfStringF4()} {yA.ToPdfStringF4()} l");
                 contentStream.AddCommand($"{xB.ToPdfStringF4()} {yB.ToPdfStringF4()} m");
