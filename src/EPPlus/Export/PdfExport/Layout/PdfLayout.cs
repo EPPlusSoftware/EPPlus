@@ -163,8 +163,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             }
                             else
                             {
+                                var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
+                                var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
                                 //Fill
-                                var fill = new PdfCellLayout(x, y, map.ColumnWidth, rowHeight);
+                                var fill = new PdfCellLayout(x, y, effectiveWidth, rowHeight);
                                 SetFill(dictionaries, map.CellStyle, map.Text, fill);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
@@ -172,11 +174,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, effectiveWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
                                     if (NeedsClipping(map, pages[j], row, col))
-                                        text.SetupClipping(x, y, map.ColumnWidth, rowHeight);
+                                        text.SetupClipping(x, y, effectiveWidth, rowHeight);
                                     pageLayout.AddChild(text);
                                 }
                             }
@@ -1629,6 +1631,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
             }
             if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
+        }
+        private static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
+        {
+            var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
+            return System.Math.Min(cellWidth, contentRight - cellX);
         }
     }
 }

@@ -162,7 +162,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
             if (pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);

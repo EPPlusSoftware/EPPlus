@@ -760,5 +760,16 @@ namespace EPPlusTest.PDF
                 Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
             }
         }
+
+        [TestMethod]
+        public void ClippingWhenCellIsWiderThanPage()
+        {
+            using(var package = OpenTemplatePackage("CenterOnPagePdf.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                string path = _pdfPath + "ClippingWideCellTest.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
     }
 }
