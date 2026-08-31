@@ -421,24 +421,21 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
             const double G = PdfCellBorderData.DoubleOffset;   // parallel offset AND corner miter amount
 
-            // Miter this end only when a perpendicular border meets it (corner) AND the border does
-            // not continue straight through the vertex (so crossings stay open).
-            bool mStart = border.PerpAtStart && !border.ContAtStart;
-            bool mEnd = border.PerpAtEnd && !border.ContAtEnd;
+            // Miter an end where a perpendicular border meets it (a real corner).
+            bool mStart = border.PerpAtStart;
+            bool mEnd = border.PerpAtEnd;
 
             if (border.LineType == LineType.Top)
             {
                 iy1 = y1 - G; iy2 = y2 - G;
                 if (mStart) ix1 = x1 + G;
                 if (mEnd) ix2 = x2 - G;
-
                 bool multiColMerge = IsMerged && info.Width > Width + 0.5d;
                 if (!multiColMerge)
                 {
                     if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
                     if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 }
-
                 oy1 = y1 + G; oy2 = y2 + G;
                 if (mStart) ox1 = x1 - G;
                 if (mEnd) ox2 = x2 + G;
@@ -450,7 +447,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (mEnd) ix2 = x2 - G;
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
-
                 oy1 = y1 - G; oy2 = y2 - G;
                 if (mStart) ox1 = x1 - G;
                 if (mEnd) ox2 = x2 + G;
@@ -459,16 +455,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             {
                 DiagonalUpFactor = 0.5d; DiagonalDownFactor = 0.5d;
                 ix1 = x1 + G; ix2 = x2 + G;
-                if (mEnd) iy2 = y2 - G;   // top end
-                if (mStart) iy1 = y1 + G;   // bottom end
-
+                if (mEnd) iy2 = y2 - G;
+                if (mStart) iy1 = y1 + G;
                 bool multiRowMerge = IsMerged && info.Height > Height + 0.5d;
                 if (!multiRowMerge)
                 {
                     if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + G + DiagonalUpFactor;
                     if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalDownFactor;
                 }
-
                 ox1 = x1 - G; ox2 = x2 - G;
                 if (mEnd) oy2 = y2 + G;
                 if (mStart) oy1 = y1 - G;
@@ -481,7 +475,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (mStart) iy1 = y1 + G;
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalUpFactor;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + G + DiagonalDownFactor;
-
                 ox1 = x1 + G; ox2 = x2 + G;
                 if (mEnd) oy2 = y2 + G;
                 if (mStart) oy1 = y1 - G;
@@ -541,10 +534,16 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             else
             {
+                // Inner line is always drawn.
                 contentStream.AddCommand($"{ix1.ToPdfStringF4()} {iy1.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{ix2.ToPdfStringF4()} {iy2.ToPdfStringF4()} l");
-                contentStream.AddCommand($"{ox1.ToPdfStringF4()} {oy1.ToPdfStringF4()} m");
-                contentStream.AddCommand($"{ox2.ToPdfStringF4()} {oy2.ToPdfStringF4()} l");
+                // Outer line only when the neighbour across this edge is NOT also double
+                // (otherwise the neighbour supplies the other half of the shared double).
+                if (!border.NeighborDouble)
+                {
+                    contentStream.AddCommand($"{ox1.ToPdfStringF4()} {oy1.ToPdfStringF4()} m");
+                    contentStream.AddCommand($"{ox2.ToPdfStringF4()} {oy2.ToPdfStringF4()} l");
+                }
             }
             contentStream.AddCommand("S");
         }

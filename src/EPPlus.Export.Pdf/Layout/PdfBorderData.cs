@@ -71,10 +71,7 @@ namespace EPPlus.Export.Pdf.Layout
         public bool PerpAtStart = false;   // Top/Bottom: left end · Left/Right: bottom end
         public bool PerpAtEnd = false;   // Top/Bottom: right end · Left/Right: top end
 
-        public bool ContAtStart = false;   // NEW: the border continues collinearly past the start vertex
-        public bool ContAtEnd = false;   // NEW: the border continues collinearly past the end vertex
-                                         //
-                                         // (DoubleWidth = 0.75 and DoubleOffset = 0.85 are already present — keep them.)
+        public bool NeighborDouble = false;
 
         public PdfCellBorderData(LineType LineType)
         {

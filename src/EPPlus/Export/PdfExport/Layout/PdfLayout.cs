@@ -1626,14 +1626,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         private static bool HBorderAbove(Page page, int row, int col)
             => CellHasTopBorder(CellAt(page, row, col)) || CellHasBottomBorder(CellAt(page, row - 1, col));
 
-        // Per-edge, per-end "is there a perpendicular border at this vertex" — checking both
-        // gridline segments meeting the vertex (this cell + the relevant neighbours). This is
-        // what lets a double border miter against a partner border owned by an adjacent cell.
         private static void SetDoubleBorderMiterFlags(Page page, int row, int col, PdfCellBorderLayout border)
         {
             var b = border.BorderData;
 
-            // --- Perpendicular border present at each end (unchanged) ---
+            // Perpendicular border present at each end -> miter (close) a real corner. (unchanged)
             b.Top.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row - 1, col);
             b.Top.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row - 1, col + 1);
             b.Bottom.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row + 1, col);
@@ -1643,18 +1640,43 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             b.Right.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col + 1);
             b.Right.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col + 1);
 
-            // --- Does the SAME border continue collinearly past this end? (NEW) ---
-            // Top/Bottom: Start = left end, End = right end -> look at the horizontal gridline in the
-            // neighbouring column. Left/Right: Start = bottom end, End = top end -> look at the vertical
-            // gridline in the neighbouring row.
-            b.Top.ContAtStart = HBorderAbove(page, row, col - 1);
-            b.Top.ContAtEnd = HBorderAbove(page, row, col + 1);
-            b.Bottom.ContAtStart = HBorderBelow(page, row, col - 1);
-            b.Bottom.ContAtEnd = HBorderBelow(page, row, col + 1);
-            b.Left.ContAtStart = VBorderAt(page, row + 1, col);
-            b.Left.ContAtEnd = VBorderAt(page, row - 1, col);
-            b.Right.ContAtStart = VBorderAt(page, row + 1, col + 1);
-            b.Right.ContAtEnd = VBorderAt(page, row - 1, col + 1);
+            // Does the cell ACROSS this edge also have a double border? If so, this cell draws only
+            // its inner line and the neighbour draws its inner line -> together one shared double,
+            // with no outer line spilling into the neighbour. (Excel behaviour.)
+            b.Top.NeighborDouble = IsDoubleBottom(CellAt(page, row - 1, col));
+            b.Bottom.NeighborDouble = IsDoubleTop(CellAt(page, row + 1, col));
+            b.Left.NeighborDouble = IsDoubleRight(CellAt(page, row, col - 1));
+            b.Right.NeighborDouble = IsDoubleLeft(CellAt(page, row, col + 1));
+        }
+
+        // Effective border style of a side == Double (xf wins over dxf, mirrors SetBorderStyle).
+        private static bool IsDoubleTop(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfTop.Style != ExcelBorderStyle.None ? cs.xfTop.Style
+                  : ((cs.dxfTop != null && cs.dxfTop.HasValue) ? (ExcelBorderStyle)cs.dxfTop.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
+        }
+        private static bool IsDoubleBottom(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfBottom.Style != ExcelBorderStyle.None ? cs.xfBottom.Style
+                  : ((cs.dxfBottom != null && cs.dxfBottom.HasValue) ? (ExcelBorderStyle)cs.dxfBottom.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
+        }
+        private static bool IsDoubleLeft(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfLeft.Style != ExcelBorderStyle.None ? cs.xfLeft.Style
+                  : ((cs.dxfLeft != null && cs.dxfLeft.HasValue) ? (ExcelBorderStyle)cs.dxfLeft.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
+        }
+        private static bool IsDoubleRight(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfRight.Style != ExcelBorderStyle.None ? cs.xfRight.Style
+                  : ((cs.dxfRight != null && cs.dxfRight.HasValue) ? (ExcelBorderStyle)cs.dxfRight.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
         }
 
         private static bool CellHasRightBorder(PdfCell cell)
