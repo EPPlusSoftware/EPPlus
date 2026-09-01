@@ -265,7 +265,7 @@ namespace EPPlusImageRenderer.RenderItems
 
             if (item.BorderColorSource != PathFillMode.None)
             {
-                item.BorderWidth = (border?.Width ?? 0D) == 0D ? 0.75d : border.Width;
+                item.BorderWidth = (border?.Width ?? 0D) == 0D ? defaultWidth : border.Width;
                 if (border != null && border.LineStyle.HasValue && border.LineStyle != eLineStyle.Solid)
                 {
                     item.BorderDashArray = GetDashArray(border, item.BorderWidth.Value);
