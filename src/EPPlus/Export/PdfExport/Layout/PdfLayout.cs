@@ -1647,6 +1647,53 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             b.Bottom.NeighborDouble = IsDoubleTop(CellAt(page, row + 1, col));
             b.Left.NeighborDouble = IsDoubleRight(CellAt(page, row, col - 1));
             b.Right.NeighborDouble = IsDoubleLeft(CellAt(page, row, col + 1));
+
+            // The OUTER line of a double border spills into the neighbour across that edge. If that
+            // neighbour has a diagonal reaching the shared corner, pull the outer line back there so
+            // the neighbour's X stays open (mirrors how the inner line is pulled back for this cell's
+            // own diagonal). Start/End follow the PerpAtStart/PerpAtEnd convention.
+            var nAbove = CellAt(page, row - 1, col);
+            var nBelow = CellAt(page, row + 1, col);
+            var nLeft = CellAt(page, row, col - 1);
+            var nRight = CellAt(page, row, col + 1);
+            b.Top.NeighborDiagAtStart = HasDiagUp(nAbove);      // above's up-diagonal ends at this top-left
+            b.Top.NeighborDiagAtEnd = HasDiagDown(nAbove);      // above's down-diagonal ends at this top-right
+            b.Bottom.NeighborDiagAtStart = HasDiagDown(nBelow); // below's down-diagonal ends at this bottom-left
+            b.Bottom.NeighborDiagAtEnd = HasDiagUp(nBelow);     // below's up-diagonal ends at this bottom-right
+            b.Left.NeighborDiagAtStart = HasDiagDown(nLeft);    // left's down-diagonal ends at this bottom-left
+            b.Left.NeighborDiagAtEnd = HasDiagUp(nLeft);        // left's up-diagonal ends at this top-left
+            b.Right.NeighborDiagAtStart = HasDiagUp(nRight);    // right's up-diagonal ends at this bottom-right
+            b.Right.NeighborDiagAtEnd = HasDiagDown(nRight);    // right's down-diagonal ends at this top-right
+
+            // Diagonal junction: the cell diagonally across a corner has the matching corner (both its
+            // borders meeting there). Cut this cell's outer miter at that corner so the two corners do
+            // not fill the centre into a small square. (Only affects a drawn outer line; on shared edges
+            // the outer is already suppressed.) Corners: TL=(row-1,col-1) BR, TR=(row-1,col+1) BL,
+            // BL=(row+1,col-1) TR, BR=(row+1,col+1) TL.
+            var dTL = CellAt(page, row - 1, col - 1);
+            var dTR = CellAt(page, row - 1, col + 1);
+            var dBL = CellAt(page, row + 1, col - 1);
+            var dBR = CellAt(page, row + 1, col + 1);
+            bool cutTL = CellHasBottomBorder(dTL) && CellHasRightBorder(dTL);
+            bool cutTR = CellHasBottomBorder(dTR) && CellHasLeftBorder(dTR);
+            bool cutBL = CellHasTopBorder(dBL) && CellHasRightBorder(dBL);
+            bool cutBR = CellHasTopBorder(dBR) && CellHasLeftBorder(dBR);
+            b.Top.CutOuterAtStart = cutTL; b.Top.CutOuterAtEnd = cutTR;       // Top: Start=left(TL), End=right(TR)
+            b.Bottom.CutOuterAtStart = cutBL; b.Bottom.CutOuterAtEnd = cutBR; // Bottom: Start=left(BL), End=right(BR)
+            b.Left.CutOuterAtStart = cutBL; b.Left.CutOuterAtEnd = cutTL;     // Left: Start=bottom(BL), End=top(TL)
+            b.Right.CutOuterAtStart = cutBR; b.Right.CutOuterAtEnd = cutTR;   // Right: Start=bottom(BR), End=top(TR)
+        }
+
+        // Does the cell carry an up-/down-diagonal border (any style)? Mirrors SetBorderStyle's diagonal source.
+        private static bool HasDiagUp(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return cs.DiagonalUp && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
+        }
+        private static bool HasDiagDown(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return cs.DiagonalDown && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
         }
 
         // Effective border style of a side == Double (xf wins over dxf, mirrors SetBorderStyle).

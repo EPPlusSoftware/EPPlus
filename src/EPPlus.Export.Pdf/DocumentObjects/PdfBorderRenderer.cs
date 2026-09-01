@@ -437,8 +437,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 }
                 oy1 = y1 + G; oy2 = y2 + G;
-                if (mStart) ox1 = x1 - G;
-                if (mEnd) ox2 = x2 + G;
+                // Normal corner: extend the outer past the gridline (x ∓ G) to close a square corner.
+                // Diagonal junction (CutOuter*): pull the outer IN to x ± G instead, so it ends exactly
+                // on the diagonally-opposite cell's perpendicular outer line (they meet, not cross).
+                ox1 = border.CutOuterAtStart ? x1 + G : (mStart ? x1 - G : ox1);
+                ox2 = border.CutOuterAtEnd ? x2 - G : (mEnd ? x2 + G : ox2);
+                // Pull the outer line back so the diagonal of the cell above stays open.
+                if (border.NeighborDiagAtStart) ox1 = x1 + 4.87d;
+                if (border.NeighborDiagAtEnd) ox2 = x2 - 4.87d;
             }
             if (border.LineType == LineType.Bottom)
             {
@@ -448,8 +454,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) ix1 = x1 + 4.87d;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) ix2 = x2 - 4.87d;
                 oy1 = y1 - G; oy2 = y2 - G;
-                if (mStart) ox1 = x1 - G;
-                if (mEnd) ox2 = x2 + G;
+                // Normal corner: extend the outer past the gridline (x ∓ G) to close a square corner.
+                // Diagonal junction (CutOuter*): pull the outer IN to x ± G instead, so it ends exactly
+                // on the diagonally-opposite cell's perpendicular outer line (they meet, not cross).
+                ox1 = border.CutOuterAtStart ? x1 + G : (mStart ? x1 - G : ox1);
+                ox2 = border.CutOuterAtEnd ? x2 - G : (mEnd ? x2 + G : ox2);
+                // Pull the outer line back so the diagonal of the cell below stays open.
+                if (border.NeighborDiagAtStart) ox1 = x1 + 4.87d;
+                if (border.NeighborDiagAtEnd) ox2 = x2 - 4.87d;
             }
             else if (border.LineType == LineType.Left)
             {
@@ -464,8 +476,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalDownFactor;
                 }
                 ox1 = x1 - G; ox2 = x2 - G;
-                if (mEnd) oy2 = y2 + G;
-                if (mStart) oy1 = y1 - G;
+                // Diagonal junction: pull the outer IN to y ± G so it meets the neighbour's outer line.
+                oy2 = border.CutOuterAtEnd ? y2 - G : (mEnd ? y2 + G : oy2);
+                oy1 = border.CutOuterAtStart ? y1 + G : (mStart ? y1 - G : oy1);
+                // Pull the outer line back so the diagonal of the cell to the left stays open.
+                if (border.NeighborDiagAtStart) oy1 = y1 + G + 0.5d;
+                if (border.NeighborDiagAtEnd) oy2 = y2 - G - 0.5d;
             }
             else if (border.LineType == LineType.Right)
             {
@@ -476,8 +492,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (DiagonalUp.BorderStyle != ExcelBorderStyle.None) iy2 = y2 - G - DiagonalUpFactor;
                 if (DiagonalDown.BorderStyle != ExcelBorderStyle.None) iy1 = y1 + G + DiagonalDownFactor;
                 ox1 = x1 + G; ox2 = x2 + G;
-                if (mEnd) oy2 = y2 + G;
-                if (mStart) oy1 = y1 - G;
+                // Diagonal junction: pull the outer IN to y ± G so it meets the neighbour's outer line.
+                oy2 = border.CutOuterAtEnd ? y2 - G : (mEnd ? y2 + G : oy2);
+                oy1 = border.CutOuterAtStart ? y1 + G : (mStart ? y1 - G : oy1);
+                // Pull the outer line back so the diagonal of the cell to the right stays open.
+                if (border.NeighborDiagAtStart) oy1 = y1 + G + 0.5d;
+                if (border.NeighborDiagAtEnd) oy2 = y2 - G - 0.5d;
             }
             else if (border.LineType == LineType.DiagonalUp)
             {

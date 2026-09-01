@@ -1005,10 +1005,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (next != null && !next.Hidden && !next.Merged && next.CellStyle != null)
                         {
                             var ns = next.CellStyle;
-                            int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
-                            int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
-                            if (here >= there) ns.SuppressLeft = true;    // this cell's right wins
-                            else cs.SuppressRight = true;   // neighbour's left wins
+                            // Two adjacent DOUBLE borders form ONE shared double: keep BOTH sides so each
+                            // cell draws only its inner line (see PdfBorderRenderer.DrawDoubleBorder /
+                            // NeighborDouble). Suppressing either side collapses it to a single line.
+                            if (!(IsDoubleEdge(cs.xfRight, cs.dxfRight) && IsDoubleEdge(ns.xfLeft, ns.dxfLeft)))
+                            {
+                                int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
+                                int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
+                                if (here >= there) ns.SuppressLeft = true;    // this cell's right wins
+                                else cs.SuppressRight = true;   // neighbour's left wins
+                            }
                         }
                     }
 
@@ -1019,14 +1025,26 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (below != null && !below.Hidden && !below.Merged && below.CellStyle != null)
                         {
                             var bs = below.CellStyle;
-                            int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
-                            int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
-                            if (here >= there) bs.SuppressTop = true;     // this cell's bottom wins
-                            else cs.SuppressBottom = true;  // cell-below's top wins
+                            // Two adjacent DOUBLE borders form ONE shared double: keep BOTH sides (inner-only each).
+                            if (!(IsDoubleEdge(cs.xfBottom, cs.dxfBottom) && IsDoubleEdge(bs.xfTop, bs.dxfTop)))
+                            {
+                                int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
+                                int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
+                                if (here >= there) bs.SuppressTop = true;     // this cell's bottom wins
+                                else cs.SuppressBottom = true;  // cell-below's top wins
+                            }
                         }
                     }
                 }
             }
+        }
+
+        // Effective style of one edge is Double (user xf wins over conditional dxf). Mirrors PdfLayout.IsDouble*.
+        private static bool IsDoubleEdge(ExcelBorderItem xf, ExcelDxfBorderItem dxf)
+        {
+            if (xf != null && xf.Style != ExcelBorderStyle.None) return xf.Style == ExcelBorderStyle.Double;
+            if (dxf != null && dxf.Style.HasValue) return dxf.Style.Value == ExcelBorderStyle.Double;
+            return false;
         }
 
         private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, int elementOrder)
