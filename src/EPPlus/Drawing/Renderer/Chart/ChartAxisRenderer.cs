@@ -27,6 +27,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -747,7 +748,9 @@ namespace EPPlusImageRenderer.Svg
             while (d <= maxPos)
             {
                 var addPosition = (d - min);
-                if (double.IsNaN(parentUnit) || (addPosition % parentUnit != 0))
+                if (double.IsNaN(parentUnit) || 
+                    (dateUnit.HasValue==false && addPosition % parentUnit != 0) || 
+                    (dateUnit.HasValue==true && IsMinorDateUnit(dateUnit.Value, parentUnit, d)))
                 {
                     double x1, y1, x2, y2;
                     switch (Axis.ActualAxisPosition)
@@ -820,6 +823,26 @@ namespace EPPlusImageRenderer.Svg
             }
                 return tms;
         }
+
+        private bool IsMinorDateUnit(eTimeUnit dateUnit, double parentUnit, double d)
+        {
+            switch(dateUnit)
+            {
+                case eTimeUnit.Days:
+                    return d % parentUnit != 0;
+                case eTimeUnit.Months:
+                    var minDt = DateTime.FromOADate(Min);
+                    var dt = DateTime.FromOADate(d);
+                    return minDt.Month % parentUnit != dt.Month % parentUnit;
+                case eTimeUnit.Years:
+                    minDt = DateTime.FromOADate(Min);
+                    dt = DateTime.FromOADate(d);
+                    return minDt.Year % parentUnit != dt.Year % parentUnit;
+                default:
+                    throw new InvalidOperationException("Invalid date unit");
+            }
+        }
+
         private List<RenderItem> AddGridlines(double units, double parentUnit, ExcelDrawingBorder lineItem, ExcelChartStyleEntry styleEntry)
         {
             var axisStyle = GetAxisStyleEntry();
