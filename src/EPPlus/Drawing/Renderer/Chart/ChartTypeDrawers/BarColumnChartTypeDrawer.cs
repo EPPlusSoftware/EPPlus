@@ -94,7 +94,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         //var parentHolder = dataPoints[j].Parent;
 
-                        var tmpBounds = dataPoints[j].GetGlobalBoundingbox();
+                        var globalDPBounds = dataPoints[j].GetGlobalBoundingbox();
 
                         //Initialize transforms
                         Transform basePoint = new Transform();
@@ -104,15 +104,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                         if (isColumn == true)
                         {
-                            var middleRight = tmpBounds.Left + (tmpBounds.Width / 2);
+                            var middleRight = globalDPBounds.Left + (globalDPBounds.Width / 2);
 
-                            if (chartBaseY <= tmpBounds.Top)
+                            if (chartBaseY <= globalDPBounds.Top)
                             {
                                 //We are a negative column 
                                 // ----- Base-Axis
                                 //  |_| Col
-                                basePoint.Position = new Vector2(middleRight, tmpBounds.Top);
-                                endPoint.Position = new Vector2(middleRight, tmpBounds.Bottom);
+                                basePoint.Position = new Vector2(middleRight, globalDPBounds.Top);
+                                endPoint.Position = new Vector2(middleRight, globalDPBounds.Bottom);
                             }
                             else
                             {
@@ -120,28 +120,27 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 //   _
                                 //  | |  Col
                                 // ----- Base-Axis
-                                basePoint.Position = new Vector2(middleRight, tmpBounds.Bottom);
-                                endPoint.Position = new Vector2(middleRight, tmpBounds.Top);
+                                basePoint.Position = new Vector2(middleRight, globalDPBounds.Bottom);
+                                endPoint.Position = new Vector2(middleRight, globalDPBounds.Top);
                             }
 
                             datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                         else
                         {
-                            var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
+                            var middleHeight = globalDPBounds.Top + (globalDPBounds.Height / 2);
                             basePoint.Position = new Vector2(chartBaseY, middleHeight);
-                            if (chartBaseY > dataPoints[j].Left)
+                            if (chartBaseY > globalDPBounds.Left)
                             {
-                                endPoint.Position = new Vector2(chartBaseY - dataPoints[j].Width, middleHeight);
+                                endPoint.Position = new Vector2(chartBaseY - globalDPBounds.Width, middleHeight);
                             }
                             else
                             {
-                                endPoint.Position = new Vector2(dataPoints[j].Left + dataPoints[j].Width, middleHeight);
+                                endPoint.Position = new Vector2(globalDPBounds.Left + globalDPBounds.Width, middleHeight);
                             }
 
                             datalabel.SetDimensions(j, basePoint, endPoint);
                         }
-                        //dataPoints[j].Parent = parentHolder;
                     }
                     serCounter++;
                 }
