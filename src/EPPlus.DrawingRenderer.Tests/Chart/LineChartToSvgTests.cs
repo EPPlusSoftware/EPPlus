@@ -386,22 +386,25 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 chart.SetPosition(0, 0);
                 chart.To.Row = 14;
                 chart.To.Column = 10;
-                chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle4);
+                chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle7);
 
                 var exporter = sheet.Cells.CreateHtmlExporter();
                 var settings = exporter.Settings;
-                settings.Drawings.Include = eDrawingInclude.IncludeInHtmlOnly;
+                settings.Drawings.Include = eDrawingInclude.Include;
                 settings.Culture = CultureInfo.InvariantCulture;
+                settings.SetRowHeight = true;
+                settings.SetColumnWidth = true;
                 settings.TableId = "currency-table";
                 settings.AdditionalTableClassNames.Add("table");
                 settings.AdditionalTableClassNames.Add("table-sm");
                 settings.AdditionalTableClassNames.Add("table-borderless");
+                settings.Drawings.Position = eDrawingPosition.Absolute;
                 SaveWorkbook("HtmlExportWithLineChart.xlsx", package);
                 // export css and html
                 //var css = exporter.GetCssString();
                 //var html = exporter.GetHtmlString();
                 var html = exporter.GetSinglePage();
-
+                 
                 SaveSvg("HtmlExportWithLineChart.html", html);
             }
 

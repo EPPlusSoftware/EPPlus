@@ -74,14 +74,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
         private void AddRange(ExcelRangeBase range)
         {
-            //if (range.IsFullColumn && range.IsFullRow)
-            //{
-            //    _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
-            //}
-            //else
-            //{
-                _ranges.Add(range);
-            //}
+            _ranges.Add(range);
         }
     }
 }

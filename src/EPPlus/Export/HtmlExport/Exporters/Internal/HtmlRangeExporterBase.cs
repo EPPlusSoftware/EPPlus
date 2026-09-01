@@ -13,7 +13,9 @@
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Table;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -36,12 +38,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             ValidateRangeIndex(rangeIndex);
             _mergedCells.Clear();
             var range = _ranges[rangeIndex];
+            var rangeAddress = range.DimensionAdjustedAddress;
+            range = range.Worksheet.Cells[rangeAddress.Address];
             GetDataTypes(range, _settings);
 
             ExcelTable table = null;
             if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
             {
                 table = range.GetTable();
+                if(table==null)
+                {
+                    _hasIntersectingTables = HasIntersctingTables(range);
+                }
             }
 
             var tableId = GetTableId(rangeIndex, overrideSettings);
@@ -69,6 +77,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             AddTableRows(htmlTable, range);
 
             return htmlTable;
+        }
+
+        private bool HasIntersctingTables(ExcelRangeBase range)
+        {
+            return range.Worksheet.Tables.GetIntersectingRanges(range).Count>0;
         }
 
         private void AddTableRows(HTMLElement htmlTable, ExcelRangeBase range)

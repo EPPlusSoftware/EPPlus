@@ -52,14 +52,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             }
             else if (context.Drawings.Position == eDrawingPosition.Absolute)
             {
-                if (_bounds.Left != 0)
-                {
-                    AddDeclaration("left", $"{_bounds.GlobalLeft.PointToPixel():F0}px");
-                }
-                if (_bounds.Top != 0)
-                {
-                    AddDeclaration("top", $"{_bounds.GlobalTop.PointToPixel():F0}px");
-                }
+                AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
+                AddDeclaration("left", $"{_bounds.GlobalLeft.PointToPixel():F0}px");
+                AddDeclaration("top", $"{_bounds.GlobalTop.PointToPixel():F0}px");
             }
 
             if (context.Drawings.KeepOriginalSizeOnPictures == false)

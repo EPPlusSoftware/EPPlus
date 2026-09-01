@@ -135,6 +135,26 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             );
                         addedTableStyles.Add(table.TableStyle);
                     }
+                    else
+                    {
+                        var tables = range.Worksheet.Tables.GetIntersectingRanges(range).Select(x=>x.Value).ToList();
+                        if(tables.Count>0)
+                        {
+                            if (tableSettings == null)
+                            {
+                                tableSettings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                            }
+
+                            foreach (var t in tables)
+                            {
+                                cssTranslator.AddOtherCollectionToThisCollection
+                                    (
+                                        CreateRangeTableCssRules(t, tableSettings, _dataTypes).RuleCollection
+                                    );
+                                addedTableStyles.Add(t.TableStyle);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -306,6 +326,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var tableRules = new CssTableRuleCollection(table, settings);
             var tableClass = $"{TableClass}.{TableStyleClassPrefix}";
             tableRules.AddTableToCollection(table, datatypes, tableClass);
+
+            return tableRules;
+        }
+        internal static CssTableRuleCollection CreateRangeTableCssRules(ExcelTable table, HtmlTableExportSettings settings, List<string> datatypes)
+        {
+            var tableRules = new CssTableRuleCollection(table, settings);
+            var tableClass = HtmlExportTableUtil.GetTableBaseClassName(table, true);
+            tableRules.AddRangeTableToCollection(table, datatypes, tableClass);
 
             return tableRules;
         }

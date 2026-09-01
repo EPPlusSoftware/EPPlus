@@ -47,15 +47,15 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         {
             AddDeclaration("content", $"url('data:{GetContentType(type.Value)};base64,{_encodedImage}')");
 
-            if (context.Drawings.Position != eDrawingPosition.DontSet)
-            {
-               AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
-            }
+            //if (context.Drawings.Position != eDrawingPosition.DontSet)
+            //{
+            //   AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
+            //}
 
-            if(isDrawing && context.Drawings.Position != eDrawingPosition.DontSet)
-            {
-                AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
-            }
+            //if(isDrawing && context.Drawings.Position != eDrawingPosition.DontSet)
+            //{
+            //    AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
+            //}
 
             if (_p.FromColumnOff != 0 && context.Drawings.AddMarginLeft)
             {

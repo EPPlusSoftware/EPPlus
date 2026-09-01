@@ -30,6 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         internal const string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
         internal List<HtmlSvgDrawing> _rangeDrawings = null;
+        protected bool _hasIntersectingTables = false; //Intersecting tables;
         protected List<string> _dataTypes = new List<string>();
         protected ExporterContext _exporterContext;
 
