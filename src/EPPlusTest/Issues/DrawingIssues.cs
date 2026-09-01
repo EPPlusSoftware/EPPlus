@@ -9,6 +9,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using System.IO;
 using System.Drawing;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 namespace EPPlusTest.Issues
 {
 	[TestClass]

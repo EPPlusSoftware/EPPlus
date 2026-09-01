@@ -53,7 +53,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var sheet = package.Workbook.Worksheets.Add("Test");
                 sheet.Cells["A1"].Value = "Name";
                 sheet.Cells["B1"].Value = "Age";
-                sheet.Cells["A2"].Value = "John Doe";
+                sheet.Cells["A2"].Value = "John Doe John Doe John Doe";
                 sheet.Cells["B2"].Value = 23;
                 sheet.Cells["A1:A2"].AutoFitColumns();
                 var range = sheet.Cells["A1:C3"];
@@ -65,7 +65,7 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Culture = new CultureInfo("us-en");
                 var result = exporter.GetSinglePage();
-                var expected = "<!DOCTYPE html><html><head><style type=\"text/css\">* {margin:0; padding:0;}table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}</style></head><body><table class=\"epplus-table\"><colgroup><col style=\"width:72px\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>";
+                var expected = "<!DOCTYPE html><html><head><style type=\"text/css\">* {margin:0; padding:0;}table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}</style></head><body><table class=\"epplus-table\"><colgroup><col style=\"width:178px\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe John Doe John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>";
                 Assert.AreEqual(expected, result);
             }
         }

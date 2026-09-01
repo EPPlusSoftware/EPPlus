@@ -10,12 +10,10 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
@@ -271,46 +269,6 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
             uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
             return simplifiedWidth;
-        }
-
-        internal static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
-        {
-            var k1 = (ushort)family;
-            var k2 = (ushort)subFamily;
-            return (uint)((k1 << 16) | ((k2) & 0xffff));
-        }
-
-        internal static uint GetKey(string fontFamily, MeasurementFontStyles fontStyle)
-        {
-            var enumName = fontFamily.Replace(" ", string.Empty);
-            var values = Enum.GetValues(typeof(FontMetricsFamilies));
-            var supported = false;
-            foreach (var enumVal in values)
-            {
-                if (enumVal.ToString() == enumName)
-                {
-                    supported = true;
-                    break;
-                }
-            }
-            if (!supported) return uint.MaxValue;
-            var family = (FontMetricsFamilies)Enum.Parse(typeof(FontMetricsFamilies), enumName);
-            var subFamily = FontSubFamilies.Regular;
-            switch (fontStyle)
-            {
-                case MeasurementFontStyles.Bold:
-                    subFamily = FontSubFamilies.Bold;
-                    break;
-                case MeasurementFontStyles.Italic:
-                    subFamily = FontSubFamilies.Italic;
-                    break;
-                case MeasurementFontStyles.Italic | MeasurementFontStyles.Bold:
-                    subFamily = FontSubFamilies.BoldItalic;
-                    break;
-                default:
-                    break;
-            }
-            return GetKey(family, subFamily);
         }
 
         private static float GetEastAsianCharWidth(int cc, MeasurementFontStyles style)

@@ -56,6 +56,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 
 namespace OfficeOpenXml
 {

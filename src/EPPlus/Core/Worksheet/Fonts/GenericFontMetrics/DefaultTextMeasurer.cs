@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
@@ -23,7 +24,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
     {
         internal TextMeasurement Measure(string text, float size)
         {
-            var fontKey = GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular);
+            var fontKey = GenericTextMeasurerKey.GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular);
             return MeasureTextInternal(text, fontKey, MeasurementFontStyles.Regular, size);
         }
     }

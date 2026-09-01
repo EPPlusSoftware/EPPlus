@@ -9,7 +9,9 @@
   Date               Author                       Change
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
+  09/01/2026         EPPlus Software AB       Resolve missing subfamilies to Regular
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
@@ -24,22 +26,21 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         /// Only CR, LF or CRLF should be considered.
         /// </summary>
 #pragma warning disable 618
-        public bool MeasureWrappedTextCells 
+        public bool MeasureWrappedTextCells
         {
-            get; 
-            set; 
+            get;
+            set;
         }
 #pragma warning restore 618
         /// 
         /// <summary>
         /// 
         /// </summary>
-        public eWrappedTextAutofitMode WrappedTextAutofitMode 
-        { 
-            get; 
-            set; 
+        public eWrappedTextAutofitMode WrappedTextAutofitMode
+        {
+            get;
+            set;
         }
-
 
         /// <summary>
         /// Measures the supplied text
@@ -49,8 +50,14 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         /// <returns>A <see cref="TextMeasurement"/></returns>
         public TextMeasurement MeasureText(string text, MeasurementFont font)
         {
-            var fontKey = GetKey(font.FontFamily, font.Style);
-            if (!IsValidFont(fontKey)) return TextMeasurement.Empty;
+            // ResolveKey rather than GetKey: fifteen family/subfamily combinations have no
+            // metrics because the font is not shipped by Windows at all, and those now fall
+            // back to the family's Regular instead of measuring as zero width.
+            var fontKey = GenericTextMeasurerKey.ResolveKey(font.FontFamily, font.Style);
+            if (fontKey == uint.MaxValue) return TextMeasurement.Empty;
+
+            // The original style is still passed through: it drives the East Asian width
+            // handling, which does not depend on which file the metrics came from.
             return MeasureTextInternal(text, fontKey, font.Style, font.Size, WrappedTextAutofitMode);
         }
 
@@ -61,31 +68,29 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
 
         internal List<uint> MeasureIndividualCharacters(string text, MeasurementFont font, float ppi = 108.73578912433f)
         {
-            var fontKey = GetKey(font.FontFamily, font.Style);
-            if (IsValidFont(fontKey))
+            var fontKey = GenericTextMeasurerKey.ResolveKey(font.FontFamily, font.Style);
+            if (fontKey == uint.MaxValue)
             {
-                return MeasureTextSpacingInternal(text, fontKey, font.Style, font.Size, ppi);
+                throw new InvalidOperationException(
+                    string.Format("No font metrics available for {0} {1}", font.FontFamily, font.Style));
             }
-            else
-            {
-                throw new InvalidOperationException("Font is not valid");
-            }
+            return MeasureTextSpacingInternal(text, fontKey, font.Style, font.Size, ppi);
         }
+
         internal uint MeasureIndividualCharacter(char c, MeasurementFont font, float ppi = 108.73578912433f)
         {
-            var fontKey = GetKey(font.FontFamily, font.Style);
-            if (IsValidFont(fontKey))
+            var fontKey = GenericTextMeasurerKey.ResolveKey(font.FontFamily, font.Style);
+            if (fontKey == uint.MaxValue)
             {
-                float resolutionDifference = ppi / 96f;
-                float ptSize = font.Size * (72f / 96f);
-                float finalFactor = resolutionDifference * ptSize;
+                throw new InvalidOperationException(
+                    string.Format("No font metrics available for {0} {1}", font.FontFamily, font.Style));
+            }
 
-                return MeasureCharacter(c, fontKey, font.Style, ptSize, finalFactor);
-            }
-            else
-            {
-                throw new InvalidOperationException("Font is not valid");
-            }
+            float resolutionDifference = ppi / 96f;
+            float ptSize = font.Size * (72f / 96f);
+            float finalFactor = resolutionDifference * ptSize;
+
+            return MeasureCharacter(c, fontKey, font.Style, ptSize, finalFactor);
         }
     }
 }

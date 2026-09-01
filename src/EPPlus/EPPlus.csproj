@@ -830,16 +830,12 @@
 
 	<ItemGroup>
 		<None Remove="resources\DefaultTableStyles.cst" />
-		<None Remove="resources\fontsize.zip" />
-		<None Remove="resources\TextMetrics.zip" />
 		<None Remove="resources\SignatureLineTemplates.zip" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
 		<EmbeddedResource Include="resources\DefaultTableStyles.cst" />
-		<EmbeddedResource Include="resources\fontsize.zip" />
-		<EmbeddedResource Include="resources\TextMetrics.zip" />
 		<EmbeddedResource Include="resources\SignatureLineTemplates.zip">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
