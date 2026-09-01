@@ -73,6 +73,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     case eChartType.LineStacked:
                     case eChartType.XYScatterLines:
                     case eChartType.Bubble:
+                        return eLabelPosition.Right;
                     case eChartType.StockHLC:
                     case eChartType.StockVOHLC:
                     case eChartType.StockVHLC:
