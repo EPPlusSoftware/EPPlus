@@ -6,6 +6,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -91,6 +92,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     for (int j = 0; j < dataPoints.Count; j++)
                     {
+                        //var parentHolder = dataPoints[j].Parent;
+
+                        var tmpBounds = dataPoints[j].GetGlobalBoundingbox();
+
                         //Initialize transforms
                         Transform basePoint = new Transform();
                         Transform endPoint = new Transform();
@@ -99,15 +104,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                         if (isColumn == true)
                         {
-                            var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
+                            var middleRight = tmpBounds.Left + (tmpBounds.Width / 2);
 
-                            if (chartBaseY <= dataPoints[j].Top)
+                            if (chartBaseY <= tmpBounds.Top)
                             {
                                 //We are a negative column 
                                 // ----- Base-Axis
                                 //  |_| Col
-                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Top);
-                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
+                                basePoint.Position = new Vector2(middleRight, tmpBounds.Top);
+                                endPoint.Position = new Vector2(middleRight, tmpBounds.Bottom);
                             }
                             else
                             {
@@ -115,8 +120,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 //   _
                                 //  | |  Col
                                 // ----- Base-Axis
-                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
-                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Top);
+                                basePoint.Position = new Vector2(middleRight, tmpBounds.Bottom);
+                                endPoint.Position = new Vector2(middleRight, tmpBounds.Top);
                             }
 
                             datalabel.SetDimensions(j, basePoint, endPoint);
@@ -136,8 +141,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                             datalabel.SetDimensions(j, basePoint, endPoint);
                         }
+                        //dataPoints[j].Parent = parentHolder;
                     }
-
                     serCounter++;
                 }
             }
