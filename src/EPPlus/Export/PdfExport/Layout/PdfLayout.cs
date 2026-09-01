@@ -1632,7 +1632,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
             if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
         }
-        private static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
+
+        internal static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
         {
             return System.Math.Min(cellWidth, pageSettings.PageSize.WidthPu - cellX);
         }
