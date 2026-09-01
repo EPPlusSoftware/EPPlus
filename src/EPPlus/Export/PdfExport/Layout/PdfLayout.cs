@@ -1634,8 +1634,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         }
         private static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
         {
-            var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
-            return System.Math.Min(cellWidth, contentRight - cellX);
+            return System.Math.Min(cellWidth, pageSettings.PageSize.WidthPu - cellX);
         }
     }
 }

@@ -362,7 +362,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines Border End");
         }
 
-        //public void AddMarginClipping(PdfPageLayout pageLayout)
         public void AddMarginClipping(PdfPageLayout pageLayout, PdfPageSettings pageSettings)
         {
             if (pageLayout is not PdfPageLayout pl) return;
@@ -383,8 +382,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 left = System.Math.Min(left, System.Math.Min(line.X1, line.X2));
                 right = System.Math.Max(right, System.Math.Max(line.X1, line.X2));
             }
-            right = System.Math.Min(right, left + pageSettings.ContentBounds.Width);
-            bottom = System.Math.Max(bottom, top - pageSettings.ContentBounds.Height);
+            right = System.Math.Min(right, pageSettings.PageSize.WidthPu);
+            bottom = System.Math.Max(bottom, 0d);
             var pad = GridLine.Width * 4;
             var x = left + pl.HeadingWidth + pl.PrintTitleWidth - pad;
             var y = bottom - pad;
