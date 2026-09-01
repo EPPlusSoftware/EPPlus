@@ -102,8 +102,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pageLayout.PrintTitleWidth = page.PrintTitleWidth;
                     pageLayout.PrintTitleHeight = page.PrintTitleHeight;
                     var drawnMergedCells = new HashSet<string>();
-                    double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
-                    double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                    double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+                    double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                     if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
                     {
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
@@ -493,7 +493,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
-            var cornerFill = new PdfCellLayout(pageSettings.ContentBounds.Left, pageSettings.ContentBounds.Top, headingWidth, headingHeight);
+            var cornerFill = new PdfCellLayout(GetOriginX(pageSettings, page), GetOriginY(pageSettings, page), headingWidth, headingHeight);
             SetFill(dictionaries, headingStyle, "", cornerFill);
             cornerFill.Name = "Heading_Corner";
             cornerFill.UpdateShadingPositionMatrix(pageSettings);
@@ -505,7 +505,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (colWidth == 0d) { x += colWidth; continue; }
                 string colLetter = ExcelCellBase.GetColumnLetter(col);
                 AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, colLetter,
-                    x, pageSettings.ContentBounds.Top, colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
+                    x, GetOriginY(pageSettings, page), colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
                 x += colWidth;
             }
             double y = contentStartY;
@@ -515,7 +515,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (rowHeight == 0d) { y -= rowHeight; continue; }
                 string rowNum = row.ToString();
                 AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum,
-                    pageSettings.ContentBounds.Left, y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
+                    GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
                 y -= rowHeight;
             }
         }
@@ -759,7 +759,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     // --- Y ---
                     // Replace the * 15d line with a sum of real row heights
-                    double drawY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                    double drawY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                     for (int r = page.FromRow; r < row; r++)
                     {
                         drawY -= range.RowHeights[r - range.Range._fromRow].Height;
@@ -808,7 +808,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             int colCount = page.ToColumn - page.FromColumn + 1;
             var colX = new double[colCount];
-            double x = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            double x = GetOriginY(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int col = page.FromColumn; col <= page.ToColumn; col++)
             {
                 colX[col - page.FromColumn] = x;
@@ -860,7 +860,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
             // Content-column X: same origin/widths the content loop uses (step-2 origin).
             var contentColX = new Dictionary<int, double>();
-            double cx = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            double cx = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int c = page.FromColumn; c <= page.ToColumn; c++)
             {
                 contentColX[c] = cx;
@@ -868,7 +868,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
             // Content-row Y.
             var contentRowY = new Dictionary<int, double>();
-            double cy = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+            double cy = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
             for (int r = page.FromRow; r <= page.ToRow; r++)
             {
                 contentRowY[r] = cy;
@@ -878,7 +878,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var titleColX = new Dictionary<int, double>();
             if (leftBand)
             {
-                double tx = pageSettings.ContentBounds.Left + page.HeadingWidth;
+                double tx = GetOriginX(pageSettings, page) + page.HeadingWidth;
                 for (int c = pdfSheet.PrintTitleColFrom; c <= pdfSheet.PrintTitleColTo; c++)
                 {
                     titleColX[c] = tx;
@@ -889,7 +889,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var titleRowY = new Dictionary<int, double>();
             if (topBand)
             {
-                double ty = pageSettings.ContentBounds.Top - page.HeadingHeight;
+                double ty = GetOriginY(pageSettings, page) - page.HeadingHeight;
                 for (int r = pdfSheet.PrintTitleRowFrom; r <= pdfSheet.PrintTitleRowTo; r++)
                 {
                     titleRowY[r] = ty;
@@ -932,7 +932,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         {
                             IsRow = true,
                             Index = r,
-                            X = pageSettings.ContentBounds.Left,
+                            X = GetOriginX(pageSettings, page),
                             Y = titleRowY[r],
                             Width = page.HeadingWidth,
                             Height = h
@@ -949,7 +949,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             IsRow = false,
                             Index = c,
                             X = titleColX[c],
-                            Y = pageSettings.ContentBounds.Top,
+                            Y = GetOriginY(pageSettings, page),
                             Width = w,
                             Height = page.HeadingHeight
                         });
@@ -959,24 +959,24 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // repeated title-row text continues onto the next horizontal page's band
             if (topBand)
                 AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth,
-                    pageSettings.ContentBounds.Top - page.HeadingHeight,
+                    GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth,
+                    GetOriginY(pageSettings, page) - page.HeadingHeight,
                     isPrintTitle: true);
 
             // left band: a neighbour whose text spills INTO a title column travels with the repeated column
             if (leftBand)
                 AddIncomingSpill(page, range, page.FromRow, page.ToRow,
                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X (left edge of the title columns)
-                    pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight,           // content-rows origin Y
+                    GetOriginX(pageSettings, page) + page.HeadingWidth,                                  // band origin X (left edge of the title columns)
+                    GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight,           // content-rows origin Y
                     isPrintTitle: true);
 
             // corner: same, for the title-rows × title-columns intersection
             if (topBand && leftBand)
                 AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo,
                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X
-                    pageSettings.ContentBounds.Top - page.HeadingHeight,                                  // title-rows origin Y
+                    GetOriginX(pageSettings, page) + page.HeadingWidth,                                  // band origin X
+                    GetOriginY(pageSettings, page) - page.HeadingHeight,                                  // title-rows origin Y
                     isPrintTitle: true);
 
             return page;
@@ -1453,6 +1453,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         page.Map[row, col] = range.Map[row, col];
                     }
                 }
+                double usedWidth = page.HeadingWidth + page.PrintTitleWidth;
+                for (int col = page.FromColumn; col <= page.ToColumn; col++)
+                {
+                    usedWidth += page.Map[page.FromRow, col]?.ColumnWidth ?? 0d;
+                }
+                page.UsedWidth = usedWidth;
+
+                double usedHeight = page.HeadingHeight + page.PrintTitleHeight;
+                for (int ri = 0; ri < page.RowHeights.Length; ri++)
+                {
+                    usedHeight += page.RowHeights[ri];
+                }
+                page.UsedHeight = usedHeight;
+
                 pdfPages.Page[i] = page;
             }
             pdfPages = pages;
@@ -1599,8 +1613,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 var page = pdfPages.Page[i];
                 page.SpillCells = new List<SpillCellDraw>();
-                double originX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
-                double originY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                double originX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+                double originY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                 AddIncomingSpill(page, range, page.FromRow, page.ToRow, page.FromColumn, page.ToColumn, originX, originY, isPrintTitle: false);
                 pdfPages.Page[i] = page;
             }
@@ -1774,6 +1788,29 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
             }
             if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
+        }
+
+        /// <summary>
+        /// The X coordinate where the page's printed block begins.
+        /// Currently the left content bound; will include the centering offset.
+        /// </summary>
+        internal static double GetOriginX(PdfPageSettings pageSettings, Page page)
+        {
+            if (!pageSettings.CenterOnPageHorizontally) return pageSettings.ContentBounds.Left;
+
+            var offset = (pageSettings.ContentBounds.Width - page.UsedWidth) / 2d;
+            return pageSettings.ContentBounds.Left + Math.Max(0d, offset);
+        }
+
+        /// <summary>
+        /// The Y coordinate where the page's printed block begins (top edge).
+        /// </summary>
+        internal static double GetOriginY(PdfPageSettings pageSettings, Page page)
+        {
+            if (!pageSettings.CenterOnPageVertically) return pageSettings.ContentBounds.Top;
+
+            var offset = (pageSettings.ContentBounds.Height - page.UsedHeight) / 2d;
+            return pageSettings.ContentBounds.Top - Math.Max(0d, offset);
         }
     }
 }

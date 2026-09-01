@@ -16,6 +16,9 @@ using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.Layout;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
@@ -882,6 +885,41 @@ namespace EPPlusTest.PDF
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
+
+        public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
+        {
+            var s = new PdfPageSettings(null);
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = 100,
+                UsedHeight = 100,
+                RowHeights = new double[10]
+            };
+
+            Assert.AreEqual(s.ContentBounds.Left, PdfLayout.GetOriginX(s, p), 0.0001);
+        }
+
+        [TestMethod]
+        public void GetOrigin_FlagsAreIndependent()
+        {
+            var s = new PdfPageSettings(null);
+            s.CenterOnPageHorizontally = true;
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = s.ContentBounds.Width - 100d,
+                UsedHeight = s.ContentBounds.Height - 200d,
+                RowHeights = new double[10]
+            };
+            Assert.AreEqual(s.ContentBounds.Left + 50d, PdfLayout.GetOriginX(s, p), 0.0001);
+            Assert.AreEqual(s.ContentBounds.Top, PdfLayout.GetOriginY(s, p), 0.0001);
         }
     }
 }
