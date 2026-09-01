@@ -35,6 +35,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -774,7 +775,7 @@ namespace OfficeOpenXml
         {
             GetAddressDimensionFullRowAndColumn(out int dimFromRow, out int dimFromCol, out int dimToRow, out int dimToCol);
             //If the range is only full column or full row the dimension of the worksheet, return null.
-            if (dimFromCol==0 || dimFromRow>dimToCol || dimFromCol > dimToCol)
+            if (dimFromCol==0 || dimFromRow>dimToRow || dimFromCol > dimToCol)
             {
                 return null; 
             }
@@ -2942,6 +2943,14 @@ namespace OfficeOpenXml
                     }
                 }
             }
+        }
+        internal ExcelTable GetIntersectingTable()
+        {
+            if (_worksheet == null)
+            {
+                return null;
+            }
+            return _worksheet.Tables.GetIntersectingRanges(this).Select(x => x.Value).FirstOrDefault();
         }
     }
 }

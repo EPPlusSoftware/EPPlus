@@ -11,11 +11,15 @@
   05/11/2021         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 
+using System;
+
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
-    /// How to include picture drawings in the html
+    /// Obsolete: How to include picture drawings in the html
+    /// <see cref="HtmlDrawingSettings.DrawTypeInclude"/>
     /// </summary>
+    [Obsolete("Use general Drawings.Include property to set drawing behaviour.")]
     public enum ePictureInclude
     {
         /// <summary>
