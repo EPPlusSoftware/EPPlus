@@ -20,6 +20,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace EPPlus.Fonts.OpenType
@@ -374,6 +375,44 @@ namespace EPPlus.Fonts.OpenType
                 : FontAvailability.NotFound;
         }
 
+        internal FontEmbeddingDecision ResolveEmbeddingDecision(OpenTypeFont font)
+        {
+            var restriction = font.Os2Table != null
+                ? font.Os2Table.GetEmbeddingRestriction()
+                : FontEmbeddingRestriction.None;
+
+            if (font.NameTable != null && EmbeddedFonts.IsBundledFamily(font.GetEnglishFontFamilyName()))
+                return FontEmbeddingDecision.Subset;
+
+            var fontName = font.NameTable != null ? font.NameTable.GetFullFontName() : null;
+            var callback = _configuration.GetEmbeddingCallback();
+            if (callback != null)
+            {
+                var decision = callback(new FontEmbeddingInfo(fontName, restriction));
+                if (decision != FontEmbeddingDecision.Default)
+                    return decision;   // user override wins
+            }
+
+            Debug.WriteLine($"ResolveEmbeddingDecision: {fontName} restriction={restriction} callback={(callback != null)}");
+
+            // No callback, or callback returned Default → derive from the restriction.
+            switch (restriction)
+            {
+                case FontEmbeddingRestriction.NoEmbedding:
+                    // Default policy: fail loud. User must opt in via the callback.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            "Font '{0}' declares Restricted License embedding (fsType) and may not be embedded. " +
+                            "If you hold a licence permitting embedding, return FontEmbeddingDecision.Subset or " +
+                            "EmbedWhole from IEpplusFontConfiguration.OnFontEmbedding.",
+                            string.IsNullOrWhiteSpace(fontName) ? "(unknown)" : fontName));
+                case FontEmbeddingRestriction.NoSubsetting:
+                    return FontEmbeddingDecision.EmbedWhole;
+                default:
+                    return FontEmbeddingDecision.Subset;
+            }
+        }
+
         // -----------------------------------------------------------------------------------------
         // Internal helpers
         // -----------------------------------------------------------------------------------------
@@ -425,6 +464,7 @@ namespace EPPlus.Fonts.OpenType
             return DefaultFontLocations.GetLocationsCollection(fontDirectories, searchSystemDirectories);
         }
 
+        // I OpenTypeFontEngine
         private void ThrowIfDisposed()
         {
             if (_disposed)

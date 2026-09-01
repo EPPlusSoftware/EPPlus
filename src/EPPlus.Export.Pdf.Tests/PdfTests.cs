@@ -15,6 +15,7 @@ using EPPlus.Export.Pdf.Tests;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
@@ -53,6 +54,7 @@ namespace EPPlusTest.PDF
         public void SaveWorksheetAsPdfTest1()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
+            p.Workbook.ConfigureFonts(x => x.OnFontEmbedding(f => FontEmbeddingDecision.Skip));
             var ws = p.Workbook.Worksheets[0];
             string path = _pdfPath + "WorksheetTest1.pdf";
             ws.SaveAsPdf(path);
@@ -504,6 +506,116 @@ namespace EPPlusTest.PDF
             var range = p.Workbook.Worksheets[0].Cells["D3:F6"];
             using var readOnly = new MemoryStream(new byte[16], writable: false);
             Assert.ThrowsExactly<ArgumentException>(() => range.SaveAsPdf(readOnly));
+        }
+
+        [TestMethod]
+        public void ThreeFonts_NoSkip_RendersAllThreeCorrectly()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("ThreeFonts_NoSkip.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Aptos Narrow";
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Style.Font.Name = "Times New Roman";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Style.Font.Name = "Arial";
+            ws.Cells["C1"].Value = "C1";
+
+            SaveAsPdf(ws, "ThreeFonts_NoSkip.pdf");
+        }
+
+        [TestMethod]
+        public void MultiSheetWorkbook()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("MultiSheetWorkbook.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+
+            var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+            ws2.Cells["A1"].Style.Font.Name = "Times New Roman";
+            ws2.Cells["A1"].Value = "Sheet2:A1";
+
+            SaveAsPdf(p.Workbook, "MultiSheetWorkbook.pdf");
+        }
+
+        [TestMethod]
+        public void MultiRanges()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("MultiRanges.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+            ws.Cells["F100"].Value = "Sheet1:F100";
+
+            SaveAsPdf(p.Workbook, "MultiRanges.pdf", ws.Cells["A1"], ws.Cells["F100"]);
+        }
+
+        [TestMethod]
+        public void SingleRange()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("SingleRange.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+
+            SaveAsPdf(p.Workbook, "SingleRange.pdf", ws.Cells["A1"]);
+        }
+
+        [TestMethod]
+        public void ArialBlack_RendersCorrectly()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("ArialBlack.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Arial Black";
+            ws.Cells["A1"].Value = "A1";
+
+            SaveAsPdf(ws, "ArialBlack.pdf");
+        }
+
+        [TestMethod]
+        public void ThreeFonts_SkipAll_CollapseToSharedLastResort()
+        {
+            // The regression case: three fonts, all skipped via OnFontEmbedding. Expected AFTER the fix:
+            //   - small PDF (one shared Archivo subset, not three whole fonts)
+            //   - A1 / B1 / C1 render DISTINCTLY and correctly (not all "A1")
+            //   - the PDF opens without corruption
+            using var p = OpenPackage("ThreeFonts_SkipAll.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Aptos Narrow";
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Style.Font.Name = "Times New Roman";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Style.Font.Name = "Arial";
+            ws.Cells["C1"].Value = "C1";
+
+            p.Workbook.ConfigureFonts(cfg =>
+            {
+                cfg.OnFontEmbedding(info =>
+                {
+                    System.Diagnostics.Debug.WriteLine("OnFontEmbedding fired for: " + info.FontName);
+                    return FontEmbeddingDecision.Skip;
+                });
+            });
+
+
+            SaveAsPdf(ws, "ThreeFonts_SkipAll.pdf");
         }
 
         [TestMethod]
