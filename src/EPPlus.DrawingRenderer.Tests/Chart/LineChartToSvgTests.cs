@@ -349,7 +349,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }   
         }
         [TestMethod]
-        public void HtmlExportWithLineChart()
+        public async Task HtmlExportWithLineChart()
         {
             using (var package = new ExcelPackage())
             {
@@ -403,7 +403,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 // export css and html
                 //var css = exporter.GetCssString();
                 //var html = exporter.GetHtmlString();
-                var html = exporter.GetSinglePage();
+                var html = await exporter.GetSinglePageAsync();
                  
                 SaveSvg("HtmlExportWithLineChart.html", html);
             }
