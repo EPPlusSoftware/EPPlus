@@ -556,7 +556,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //Calculate thetha = alpha/4
                 var angleForTriangle = Degrees / 4d;
 
-                var angleForYTriangle = angleForTriangle + 1d;
+                var angleForYTriangle = angleForTriangle;
 
                 var yTriangle = (Math.Sin(MConverter.DegreesToRadians(angleForYTriangle)) * _radius);// add 1 for small rounding fault making too small
                 var xTriangle = (Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius);
@@ -598,7 +598,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 //Formula for largest (unrotated) rectangle within a semi-circle
                 LargestWidthRectangle = Math.Sqrt(2d) *_radius;
-                LargestHeightRectangle = (Math.Sqrt(2d)/2) * _radius;
+                LargestHeightRectangle = (Math.Sqrt(2d)/2d) * _radius;
             }
         }
 
@@ -698,7 +698,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
             box.Parent = ExtremePoints.Parent;
-            //box.Left = ExtremePoints.Left;
+            box.Left = ExtremePoints.Left;
             return box;
         }
 
