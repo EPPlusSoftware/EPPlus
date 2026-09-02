@@ -504,7 +504,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         private void AddRange(ExcelRangeBase range, bool includeDrawings)
         {
-            _ranges.Add(AdjustRangeForDimensionAndDrawings(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address), includeDrawings));
+            if (range.IsFullColumn && range.IsFullRow)
+            {
+                _ranges.Add(AdjustRangeForDimensionAndDrawings(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address), includeDrawings));
+            }
+            else
+            {
+                _ranges.Add(range);
+            }
         }
         protected void ValidateRangeIndex(int rangeIndex)
         {

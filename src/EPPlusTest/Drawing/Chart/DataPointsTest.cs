@@ -72,7 +72,7 @@ namespace EPPlusTest.Drawing.Chart
             File.WriteAllText($"{_worksheetPath}svg\\EPPlusLineChart1.svg", svg);
         }
         [TestMethod]
-        public void PieChart()
+linb        public void PieChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("PieChart");
             LoadTestdata(ws);

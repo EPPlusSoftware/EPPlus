@@ -57,11 +57,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
             _rangePictures = new List<HtmlImage>();
             _rangeDrawings = new List<HtmlSvgDrawing>();
+            var processedDrawings = new HashSet<ExcelDrawing>();
             //Render in-cell images.
-            foreach (var worksheet in ranges.Select(x => x.Worksheet).Distinct())
+            foreach (var range in ranges)
             {
+                var worksheet = range.Worksheet;
                 foreach (var d in worksheet.Drawings)
                 {
+                    if (processedDrawings.Contains(d)) continue;
+                    processedDrawings.Add(d);
+                    var drawingAddress = d.GetAddress();
+                    if (drawingAddress.Collide(range) == ExcelAddressBase.eAddressCollition.No) continue;
                     if (d is ExcelPicture p)
                     {
                         p.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
@@ -160,7 +166,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         {
             for(int i=0;i<ranges.Count;i++)
             {
-                ranges[i] = AdjustRangeForDimensionAndDrawings(ranges[i], includeDrawings);
+                if (ranges[i].IsFullColumn && ranges[i].IsFullRow)
+                {
+                    ranges[i] = AdjustRangeForDimensionAndDrawings(ranges[i], includeDrawings);
+                }                
             }
         }
         protected ExcelRangeBase AdjustRangeForDimensionAndDrawings(ExcelRangeBase range, bool includeDrawings)

@@ -261,7 +261,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 for (int i = 1; i < wrappedLines.Count-1; i++)
                 {
                     var startIdx = wrappedLines[i].InternalLineFragments[0].StartOriginal;
-                    var len = wrappedLines[i].Text.Length;
+                    var len = wrappedLines[i].Text?.Length??0;
                     for(int j = startIdx; j< (startIdx + len); j++)
                     {
                         AllChars[j].Line = i;
