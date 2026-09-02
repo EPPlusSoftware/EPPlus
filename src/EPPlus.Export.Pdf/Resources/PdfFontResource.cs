@@ -35,7 +35,6 @@ namespace EPPlus.Export.Pdf.Resources
         internal int fontWidthObjectNumber = -1;
         internal int cidSetObjectNumber = -1;
         internal OpenTypeFont fontData;
-        private OpenTypeFontEngine _fontEngine;
         private int firstChar = 32;
         private int lastChar = 255;
         private CIDSystemInfo cidSystemInfo = null;
@@ -45,15 +44,14 @@ namespace EPPlus.Export.Pdf.Resources
         internal HashSet<char> Subset = new HashSet<char>();
         internal HashSet<ushort> Gids = new HashSet<ushort>();
         internal Dictionary<ushort, string> charactermappings = new Dictionary<ushort, string>();
-        internal FontSubsetManager fontSubsetManager;
 
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
-            : base("F", labelNumber)
+     : base("F", labelNumber)
         {
             this.fontName = fontName;
-            _fontEngine = pageSettings.FontEngine;
-            fontData = _fontEngine.LoadFont(fontName, subFamily);
-            fontSubsetManager = new FontSubsetManager(pageSettings.FontEngine, fontData);
+            // fontData is assigned by the caller (ShapeText / GidsAndCharMap) to the actual, already-
+            // subsetted font. The resource must not load a whole font here — for fallback fonts (Noto
+            // Emoji, Archivo) a name-based load would be wrong or wasteful.
         }
 
         //Get the Font Descriptor object to write in PDF.
@@ -92,7 +90,7 @@ namespace EPPlus.Export.Pdf.Resources
                 flag |= 1 << 5; // Nonsymbolic
             if (fontData.GetEnglishFontFamilyName().ToLower().Contains("script") || fontData.GetEnglishFontFamilyName().ToLower().Contains("cursive"))
                 flag |= 1 << 3;
-            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & Os2Table.FsSelectionFlags.Italic) != 0)
+            if (fontData.PostTable.italicAngle.RawValue != 0 || (fontData.Os2Table.fsSelection & FsSelectionFlags.Italic) != 0)
                 flag |= 1 << 6;
             if (((ushort)fontData.Os2Table.fsSelection & 0x100) != 0)
                 flag |= 1 << 16;
