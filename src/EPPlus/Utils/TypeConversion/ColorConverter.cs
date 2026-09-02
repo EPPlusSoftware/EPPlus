@@ -14,6 +14,7 @@ using EPPlus.DrawingRenderer;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Style;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -23,6 +24,12 @@ namespace OfficeOpenXml.Utils.TypeConversion
 {
     public class ColorConverter
     {
+        public static Color GetSchemeColor(ExcelTheme theme, eSchemeColor sColor)
+        {
+            var cm = theme.ColorScheme.GetColorByEnum(sColor);
+            return GetThemeColor(cm);
+        }
+
         public static Color GetThemeColor(ExcelTheme theme, eThemeSchemeColor tc)
         {
             var cm = theme.ColorScheme.GetColorByEnum(tc);
@@ -32,8 +39,18 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
             {
-                var newCm=theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
-                if (newCm == null) return Color.Empty;
+                ExcelDrawingThemeColorManager newCm;
+                if (cm.SchemeColor.Color == eSchemeColor.Style)
+                {
+                    //At this stage we have no style and must use
+                    //Hardcoded fallback. For fills (on charts) this is bg1
+                    //For shapes Accent1
+                    newCm = theme.ColorScheme.GetColorByEnum(eThemeSchemeColor.Background1);
+                }
+                else
+                {
+                    newCm = theme.ColorScheme.GetColorByEnum(cm.SchemeColor.Color);
+                }
                 var nc = GetThemeColor(newCm);
                 return ApplyTransforms(nc, cm.Transforms);
             }
@@ -58,6 +75,26 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 var nc = GetThemeColor(newCm);
                 return ApplyTransforms(nc, cm.Transforms);
             }
+            else if(cm == null)
+            {
+                ExcelDrawingThemeColorManager newCm;
+
+                if(cmStyle.ColorType != eDrawingColorType.None)
+                {
+                    if (cmStyle.ColorType == eDrawingColorType.Scheme)
+                    {
+                        return GetThemeColor(theme, cmStyle);
+                    }
+                    else
+                    {
+                        newCm = theme.ColorScheme.GetColorByEnum(cmStyle.SchemeColor.Color);
+                    }
+                    var nc = GetThemeColor(newCm);
+                    return ApplyTransforms(nc, cm.Transforms);
+                }
+                return Color.Empty;
+            }
+
             var c = GetThemeColor(cm);
             return ApplyTransforms(c, cm.Transforms);
 
@@ -80,7 +117,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                         c = ApplyTintDrawing(c, -(1-v));
                         break;
                     case eColorTransformType.Tint:
-                        c = ApplyTintDrawing(c, v);
+                        c = ApplyTintDrawing(c, 1 - v);
                         break;
                     case eColorTransformType.HueMod:
                         c = ApplyHueMod(c, v);
@@ -225,7 +262,30 @@ namespace OfficeOpenXml.Utils.TypeConversion
             //}
             //return ret;
         }
-        internal static Color ApplyTintDrawing(Color ret, double tint)
+
+        internal static Color AlternativeTint(Color ret, double tint)
+        {
+            if (tint < 0)
+            {
+                double shade = 1d + tint;
+                var r = (byte)Math.Round(ret.R * shade);
+                var g = (byte)Math.Round(ret.G * shade);
+                var b = (byte)Math.Round(ret.B * shade);
+                return Color.FromArgb(ret.A, r, g, b);
+            }
+            else if (tint > 0)
+            {
+                double blend = 1.0d - tint;
+                //Docs state 10% input means A 10% tint is 10% of the input color combined with 90% white
+                var r = (byte)Math.Round(ret.R * tint + (254.3d * blend));
+                var g = (byte)Math.Round(ret.G * tint + (254.3d * blend));
+                var b = (byte)Math.Round(ret.B * tint + (254.3d * blend));
+                return Color.FromArgb(ret.A, r, g, b);
+            }
+            return ret;
+        }
+
+        internal static Color ApplyTintDrawing_old(Color ret, double tint)
         {
             //if (tint == 0)
             //{
@@ -246,7 +306,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
             //}
             if (tint < 0)
             {
-                double shade = 1 + tint;
+                double shade = 1d + tint;
                 var r = (byte)Math.Round(ret.R * shade);
                 var g = (byte)Math.Round(ret.G * shade);
                 var b = (byte)Math.Round(ret.B * shade);
@@ -254,15 +314,42 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
             else if (tint > 0)
             {
-                double blend = 1.0 - tint;
-                var r = (byte)Math.Round(ret.R + (255 - ret.R) * blend);
-                var g = (byte)Math.Round(ret.G + (255 - ret.G) * blend);
-                var b = (byte)Math.Round(ret.B + (255 - ret.B) * blend);
+                double blend = 1.0d - tint;
+                var r = (byte)Math.Round(ret.R + (255d - ret.R) * blend);
+                var g = (byte)Math.Round(ret.G + (255d - ret.G) * blend);
+                var b = (byte)Math.Round(ret.B + (255d - ret.B) * blend);
                 return Color.FromArgb(ret.A, r, g, b);
             }
             return ret;
         }
+        internal static Color ApplyTintDrawing(Color color, double tint)
+        {
+            if (tint > 1) tint = 1;
+            if (tint < -1) tint = -1;
+            byte r = ApplyChannel(color.R, tint);
+            byte g = ApplyChannel(color.G, tint);
+            byte b = ApplyChannel(color.B, tint);
 
+            return Color.FromArgb(color.A, r, g, b);
+        }
+
+        private static byte ApplyChannel(byte channel, double tint)
+        {
+            double linear = SrgbToLinear(channel / 255.0);
+
+            double result = tint <= 0
+                ? linear * (1.0 + tint)          // shade: toward black
+                : linear * (1.0 - tint) + tint;  // tint:  toward white
+
+            return (byte)Math.Round(LinearToSrgb(result) * 255.0d);
+        }
+
+        private static double SrgbToLinear(double c) =>
+            c <= 0.04045 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+
+        private static double LinearToSrgb(double c) =>
+            c <= 0.0031308 ? c * 12.92 : 1.055 * Math.Pow(c, 1.0 / 2.4) - 0.055;
+        
         internal static Color ApplyBlend(Color color, Color blendColor, double percent)
         {
             var colorPercent = 1 - percent;

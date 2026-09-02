@@ -310,7 +310,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             AddValue("tint", eColorTransformType.Tint, value);
         }
         /// <summary>
-        /// Specifies a lighter version of its input color
+        /// Specifies a darker version of its input color
         /// </summary>
         /// <param name="value">The tint value in percentage 0-100</param>
         public void AddShade(double value)

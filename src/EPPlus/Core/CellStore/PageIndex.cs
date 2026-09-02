@@ -45,10 +45,6 @@ namespace OfficeOpenXml.Core.CellStore
             Index = index;
             Offset = offset;
         }
-        ~PageIndex()
-        {
-            Rows = null;
-        }
         internal int Offset = 0;
         /// <summary>
         /// Rows in the rows collection. 

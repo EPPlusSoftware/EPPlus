@@ -65,6 +65,26 @@ namespace EPPlus.Export.Pdf.Layout
         public double Y = 0;
         public bool IsHeading = false;
 
+        internal const double DoubleWidth = 0.75d;  // weight of each of the two lines
+        internal const double DoubleOffset = 0.85d;  // offset from the gridline; also the corner miter amount
+
+        public bool PerpAtStart = false;   // Top/Bottom: left end · Left/Right: bottom end
+        public bool PerpAtEnd = false;   // Top/Bottom: right end · Left/Right: top end
+
+        public bool NeighborDouble = false;
+
+        // The cell this border's OUTER line spills into has a diagonal reaching that end.
+        // When set, the outer line is pulled back there so the neighbour's X stays open.
+        // (Start/End follow the same convention as PerpAtStart/PerpAtEnd.)
+        public bool NeighborDiagAtStart = false;
+        public bool NeighborDiagAtEnd = false;
+
+        // At a diagonal junction (only the two diagonally-opposite cells have borders meeting at the
+        // corner) the outer line's miter must NOT extend past the gridline, otherwise the two cells'
+        // corners fill the centre into a small solid square. When set, that end's outer miter is cut.
+        public bool CutOuterAtStart = false;
+        public bool CutOuterAtEnd = false;
+
         public PdfCellBorderData(LineType LineType)
         {
             this.LineType = LineType;

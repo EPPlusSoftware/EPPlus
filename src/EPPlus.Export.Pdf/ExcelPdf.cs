@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -18,6 +19,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +32,7 @@ namespace EPPlus.Export.Pdf
     internal class ExcelPdf
     {
         private PdfPageSettings _pageSettings;
+        private PdfDocumentSettings _documentSettings; 
         private PdfDictionaries _dictionaries;
         internal List<PdfObject> _document = new List<PdfObject>();
         private string _debugString;
@@ -43,14 +46,19 @@ namespace EPPlus.Export.Pdf
         }
 
         internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
-{
-    _pageSettings = pageSettings;
-}
+        {
+            _pageSettings = pageSettings;
+        }
 
-internal void SetDictionariesForTest(PdfDictionaries dictionaries)
-{
-    _dictionaries = dictionaries;
-}
+        internal void SetDictionariesForTest(PdfDictionaries dictionaries)
+        {
+            _dictionaries = dictionaries;
+        }
+
+        internal void SetDocumentSettingsForTest(PdfDocumentSettings documentSettings)
+        {
+            _documentSettings = documentSettings;
+        }
 
         //Get the label to use for pattern.
         private string GetPatternLabel(PdfCellLayout layout)
@@ -70,7 +78,9 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
         {
-            if (_pageSettings.EmbeddFonts)
+            foreach (var f in _dictionaries.Fonts)
+                Debug.WriteLine($"Fonts: {f.Key} → label={f.Value.Label} nr={f.Value.labelNumber}");
+            if (_documentSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)
                 {
@@ -110,7 +120,19 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         {
             foreach (var shading in _dictionaries.Shadings)
             {
-                _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                var gradient = shading.Value.CellFillData.GradientFillData;
+                if (gradient != null && gradient.GradientType == ExcelFillGradientType.Path)
+                {
+                    // Box gradient: ShadingType 1 + Type 4 PostScript function. A Type 4 function is
+                    // a stream object, so it must be its own indirect object referenced by the shading.
+                    var boxFunction = new PdfPostScriptCalculatorFunction(_document.Count + 1, gradient);
+                    _document.Add(boxFunction);
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1, boxFunction.objectNumber));
+                }
+                else
+                {
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                }
                 _document.Add(shading.Value.GetShadingPatternObject(_document.Count + 1, _document.Count));
                 int label = _dictionaries.Patterns.Last().Value.labelNumber + 1;
                 var pr = new PdfPatternResource(label, shading.Value.CellFillData);
@@ -165,8 +187,10 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         }
 
         //Create Content
-        private void AddContent(Transform pageLayout, PdfPage page)
+        private void AddContent(PdfPageLayout pageLayout, PdfPage page)
         {
+            var pageSettings = pageLayout.Settings;
+
             var cells = pageLayout.ChildObjects.Where(t =>
                                                      (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
@@ -180,8 +204,8 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
-            if (_pageSettings.ShowGridLines)
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
+            if (pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
             }
@@ -193,7 +217,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             foreach (PdfCellContentLayout content in cells.OfType<PdfCellContentLayout>())
             {
                 contentStream.AddCommand($"% CELL TEXT : {content.Name}");
-                contentStream.AddCellContentLayout(content, _dictionaries, _pageSettings);
+                contentStream.AddCellContentLayout(content, _dictionaries, pageSettings);
             }
             foreach (PdfCellBorderLayout border in cells.OfType<PdfCellBorderLayout>())
             {
@@ -218,12 +242,12 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                     case PdfCellLayout layout:
                         contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
                     case PdfCellContentLayout contentLayout:
-                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings); break;
+                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, pageSettings); break;
                     case PdfCellBorderLayout borderLayout:
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
-            if (_pageSettings.ShowGridLines || _pageSettings.ShowHeadings)
+            if (pageSettings.ShowGridLines || pageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
                 contentStream.AddPrintTitleGridLines(pageLayout);
@@ -231,7 +255,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             //Add header and footer.
             foreach (var hf in headerFooterLayouts)
             {
-                contentStream.AddCellContentLayout(hf, _dictionaries, _pageSettings);
+                contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
             }
             foreach (var titleCell in printTitleLayouts)
             {
@@ -241,7 +265,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                     case PdfCellLayout layout:
                         contentStream.AddCellLayout(layout, GetPatternLabel(layout)); break;
                     case PdfCellContentLayout contentLayout:
-                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, _pageSettings); break;
+                        contentStream.AddCellContentLayout(contentLayout, _dictionaries, pageSettings); break;
                     case PdfCellBorderLayout borderLayout:
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
@@ -259,16 +283,16 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             return info;
         }
 
-        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
+        internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
             //Write the PDF to the file. The Stream overload does the actual work and
             //populates _debugString.
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
-                CreatePdf(pageSettings, dictionaries, layout, fs);
+                CreatePdf(documentSettings, dictionaries, layout, fs);
             }
             //Write pdf as txt for debug.
-            if (_pageSettings.Debug && _pageSettings.PrintAsText)
+            if (_documentSettings.Debug && _documentSettings.PrintAsText)
             {
                 using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
                 {
@@ -280,7 +304,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             }
         }
 
-        internal void CreatePdf(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
+        internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             if (!stream.CanWrite) throw new ArgumentException("The stream must be writable.", nameof(stream));
@@ -288,7 +312,8 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             //seek to each object, so the target stream has to support querying its position.
             if (!stream.CanSeek) throw new ArgumentException("The stream must be seekable, because the PDF cross-reference table requires byte offsets.", nameof(stream));
 
-            _pageSettings = pageSettings;
+            //_pageSettings = pageSettings;
+            _documentSettings = documentSettings;
             _dictionaries = dictionaries;
             var catalog = AddCatalog(2);
             //Create Pages
@@ -303,8 +328,8 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             //Create Page and Content
             for (int i = 0; i < layout.ChildObjects.Count; i++)
             {
-                var pageLayout = layout.ChildObjects[i];
-                var page = AddPage(2, new List<int>(), _pageSettings);
+                var pageLayout = (PdfPageLayout)layout.ChildObjects[i];  
+                var page = AddPage(2, new List<int>(), pageLayout.Settings);
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }

@@ -12,6 +12,7 @@
   05/06/2026         EPPlus Software AB           Property-based transactional configuration
   05/20/2026         EPPlus Software AB           Added per-script glyph fallback configuration
  *************************************************************************************************/
+using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.Interfaces.Fonts
@@ -81,6 +82,20 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// </list>
         /// </summary>
         void Reset();
+
+        /// <summary>
+        /// Registers a callback invoked for each font that is about to be embedded, letting the
+        /// caller override how EPPlus handles the font's declared embedding restriction (fsType).
+        /// Return <see cref="FontEmbeddingDecision.Default"/> to keep EPPlus's standard behaviour.
+        /// </summary>
+        /// <remarks>
+        /// A font may declare that it must not be embedded (Restricted License) or must not be
+        /// subsetted. By returning <see cref="FontEmbeddingDecision.Subset"/> or
+        /// <see cref="FontEmbeddingDecision.EmbedWhole"/>, the caller asserts they hold the rights
+        /// to do so; EPPlus cannot verify any licence the caller may have obtained from the font's
+        /// owner. Only one callback is active; a later call replaces the earlier one.
+        /// </remarks>
+        void OnFontEmbedding(Func<FontEmbeddingInfo, FontEmbeddingDecision> callback);
     }
 
 }

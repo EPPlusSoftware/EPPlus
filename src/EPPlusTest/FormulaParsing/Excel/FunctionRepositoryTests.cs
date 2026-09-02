@@ -61,14 +61,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             {
                 var myFunction = new MyFunction();
                 var customCompiler = new MyFunctionCompiler(myFunction);
-                base.Functions.Add(MyFunction.Name, myFunction);
+                base.Functions.Add(myFunction.Name, myFunction);
                 base.CustomCompilers.Add(typeof(MyFunction), customCompiler);
             }
         }
 
         public class MyFunction : ExcelFunction
         {
-            public const string Name = "MyFunction";
+            public override string Name => "MyFunction";
             public override int ArgumentMinLength => 0;
             public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
             {

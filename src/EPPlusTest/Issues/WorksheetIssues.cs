@@ -1212,5 +1212,25 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(true, worksheet.OutLineSummaryBelow);
             Assert.AreEqual(true, worksheet.OutLineSummaryRight); 
         }
+
+        [TestMethod]
+        public void MultiColumnStyle_WhenSplitBySubRange_ShouldInheritStyle()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TestSheet");
+                var e1 = ws.Cells["E1"];
+                // 1. Set font size 9 on columns A to J
+                ws.Cells["A:J"].Style.Font.Size = 9;
+                // 2. Modify a style property on sub-range B:C
+                ws.Cells["B:C"].Style.Font.Bold = true;
+                // 3. Populate cell E1 in column E
+                ws.Cells["E1"].Value = "Test";
+                // Expected: Font size 9
+                // Actual:   Font size 11 (Assert.AreEqual failed. Expected:<9>. Actual:<11>.)
+                Assert.AreEqual(9f, ws.Cells["E1"].Style.Font.Size, "Cell E1 font size should be 9");
+            }
+        }
+
     }
 }

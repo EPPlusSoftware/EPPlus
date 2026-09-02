@@ -19,11 +19,13 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using tc = OfficeOpenXml.Utils.TypeConversion;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -38,6 +40,7 @@ namespace EPPlusImageRenderer.Svg
             ChartRenderer = chart;
             //Fixes null ref but might be inaccurate for some objects...
             Rectangle = new RectRenderItem(chart.Bounds);
+            //InitStyleColors();
         }
         internal void SetMargins(ExcelTextBody tb)
         {
@@ -106,7 +109,5 @@ namespace EPPlusImageRenderer.Svg
             }
             return l;
         }
-
-
     }
 }

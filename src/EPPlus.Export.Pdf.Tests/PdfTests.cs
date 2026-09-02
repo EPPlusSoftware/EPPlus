@@ -11,11 +11,20 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.Layout;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EPPlusTest.PDF
 {
@@ -502,6 +511,116 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
+        public void ThreeFonts_NoSkip_RendersAllThreeCorrectly()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("ThreeFonts_NoSkip.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Aptos Narrow";
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Style.Font.Name = "Times New Roman";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Style.Font.Name = "Arial";
+            ws.Cells["C1"].Value = "C1";
+
+            SaveAsPdf(ws, "ThreeFonts_NoSkip.pdf");
+        }
+
+        [TestMethod]
+        public void MultiSheetWorkbook()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("MultiSheetWorkbook.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+
+            var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+            ws2.Cells["A1"].Style.Font.Name = "Times New Roman";
+            ws2.Cells["A1"].Value = "Sheet2:A1";
+
+            SaveAsPdf(p.Workbook, "MultiSheetWorkbook.pdf");
+        }
+
+        [TestMethod]
+        public void MultiRanges()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("MultiRanges.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+            ws.Cells["F100"].Value = "Sheet1:F100";
+
+            SaveAsPdf(p.Workbook, "MultiRanges.pdf", ws.Cells["A1"], ws.Cells["F100"]);
+        }
+
+        [TestMethod]
+        public void SingleRange()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("SingleRange.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+
+            SaveAsPdf(p.Workbook, "SingleRange.pdf", ws.Cells["A1"]);
+        }
+
+        [TestMethod]
+        public void ArialBlack_RendersCorrectly()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("ArialBlack.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Arial Black";
+            ws.Cells["A1"].Value = "A1";
+
+            SaveAsPdf(ws, "ArialBlack.pdf");
+        }
+
+        [TestMethod]
+        public void ThreeFonts_SkipAll_CollapseToSharedLastResort()
+        {
+            // The regression case: three fonts, all skipped via OnFontEmbedding. Expected AFTER the fix:
+            //   - small PDF (one shared Archivo subset, not three whole fonts)
+            //   - A1 / B1 / C1 render DISTINCTLY and correctly (not all "A1")
+            //   - the PDF opens without corruption
+            using var p = OpenPackage("ThreeFonts_SkipAll.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Aptos Narrow";
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Style.Font.Name = "Times New Roman";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Style.Font.Name = "Arial";
+            ws.Cells["C1"].Value = "C1";
+
+            p.Workbook.ConfigureFonts(cfg =>
+            {
+                cfg.OnFontEmbedding(info =>
+                {
+                    System.Diagnostics.Debug.WriteLine("OnFontEmbedding fired for: " + info.FontName);
+                    return FontEmbeddingDecision.Skip;
+                });
+            });
+
+
+            SaveAsPdf(ws, "ThreeFonts_SkipAll.pdf");
+        }
+
+        [TestMethod]
         // works as expected.
         //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
         [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
@@ -645,8 +764,183 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.RightMargin = 0.1d;
             ws.PrinterSettings.HorizontalCentered = true;
             ws.PrinterSettings.VerticalCentered = true;
+            CreatePathIfNotExists(_pdfPath);
+
             p.Workbook.SaveAsPdf(_pdfPath + "Snake.Pdf");
             p.SaveAs(_pdfPath + "Snake.xlsx");
         }
+
+        [TestMethod]
+        public void Testing()
+        {
+            using var p = OpenTemplatePackage("PDFTestKarl.xlsx");
+            var wb = p.Workbook;
+            string path = _pdfPath + "WorksheetTest1.pdf";
+            wb.SaveAsPdf(path);
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnOrientation()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                package.Workbook.Worksheets[0].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[1].PrinterSettings.Orientation = eOrientation.Landscape;
+
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var matches = Regex.Matches(
+                    Encoding.ASCII.GetString(pdf),
+                    @"/MediaBox\s*\[\s*0\s+0\s+(?<w>[\d.]+)\s+(?<h>[\d.]+)\s*\]");
+
+                Assert.AreEqual(2, matches.Count, "Expected one page per worksheet.");
+
+                var ci = CultureInfo.InvariantCulture;
+                double w1 = double.Parse(matches[0].Groups["w"].Value, ci);
+                double h1 = double.Parse(matches[0].Groups["h"].Value, ci);
+                double w2 = double.Parse(matches[1].Groups["w"].Value, ci);
+                double h2 = double.Parse(matches[1].Groups["h"].Value, ci);
+
+                Assert.IsTrue(h1 > w1, "Page 1 should be portrait.");
+                Assert.IsTrue(w2 > h2, "Page 2 should be landscape.");
+                // Landscape is the same paper transposed, not a different paper size.
+                Assert.AreEqual(w1, h2, 0.01d);
+                Assert.AreEqual(h1, w2, 0.01d);
+            }
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnShowGridLines()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                package.Workbook.Worksheets[0].PrinterSettings.ShowGridLines = false;
+                package.Workbook.Worksheets[1].PrinterSettings.ShowGridLines = true;
+
+                var baseSettings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                var s0 = GetPdfSettings.GetPdfSettingsForSheet(
+                    baseSettings, package.Workbook.Worksheets[0].PrinterSettings);
+                var s1 = GetPdfSettings.GetPdfSettingsForSheet(
+                    baseSettings, package.Workbook.Worksheets[1].PrinterSettings);
+
+                Assert.IsFalse(s0.ShowGridLines, "Sheet 1 did not ask for gridlines.");
+                Assert.IsTrue(s1.ShowGridLines, "Sheet 2 asked for gridlines.");
+                Assert.IsFalse(baseSettings.ShowGridLines, "The base object must not be mutated.");
+            }
+        }
+
+        [TestMethod]
+        public void EachWorksheetUsesItsOwnPaperSize()
+        {
+            using (var package = OpenTemplatePackage("PDFTestKarl.xlsx"))
+            {
+                // Orientation is set explicitly so a transposed page size cannot be
+                // mistaken for a different paper size.
+                package.Workbook.Worksheets[0].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[1].PrinterSettings.Orientation = eOrientation.Portrait;
+                package.Workbook.Worksheets[0].PrinterSettings.PaperSize = ePaperSize.A4;
+                package.Workbook.Worksheets[1].PrinterSettings.PaperSize = ePaperSize.A3;
+
+                var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(
+                    package.Workbook,
+                    package.Workbook.Worksheets[0].PrinterSettings);
+
+                byte[] pdf;
+                using (var ms = new MemoryStream())
+                {
+                    new PdfCatalog(ms, settings, package.Workbook);
+                    pdf = ms.ToArray();
+                }
+
+                var matches = Regex.Matches(
+                    Encoding.ASCII.GetString(pdf),
+                    @"/MediaBox\s*\[\s*0\s+0\s+(?<w>[\d.]+)\s+(?<h>[\d.]+)\s*\]");
+
+                Assert.AreEqual(2, matches.Count, "Expected one page per worksheet.");
+
+                var ci = CultureInfo.InvariantCulture;
+                double w1 = double.Parse(matches[0].Groups["w"].Value, ci);
+                double h1 = double.Parse(matches[0].Groups["h"].Value, ci);
+                double w2 = double.Parse(matches[1].Groups["w"].Value, ci);
+                double h2 = double.Parse(matches[1].Groups["h"].Value, ci);
+
+                // Compare against the source of truth rather than literal point values.
+                // PdfPageSize rounds mm to whole points, so 210x297 mm becomes 595x842.
+                Assert.AreEqual(PdfPageSize.A4.WidthPu, w1, "Page 1 should be A4.");
+                Assert.AreEqual(PdfPageSize.A4.HeightPu, h1, "Page 1 should be A4.");
+                Assert.AreEqual(PdfPageSize.A3.WidthPu, w2, "Page 2 should be A3, not sheet 1's A4.");
+                Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
+            }
+        }
+
+        [TestMethod]
+        public void HeaderFooterTest1()
+        {
+            using var p = OpenTemplatePackage("1.06-Salesreport.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "HeaderFooterTest1.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
+        {
+            var s = new PdfPageSettings(null);
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = 100,
+                UsedHeight = 100,
+                RowHeights = new double[10]
+            };
+
+            Assert.AreEqual(s.ContentBounds.Left, PdfLayout.GetOriginX(s, p), 0.0001);
+        }
+
+        [TestMethod]
+        public void GetOrigin_FlagsAreIndependent()
+        {
+            var s = new PdfPageSettings(null);
+            s.CenterOnPageHorizontally = true;
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = s.ContentBounds.Width - 100d,
+                UsedHeight = s.ContentBounds.Height - 200d,
+                RowHeights = new double[10]
+            };
+            Assert.AreEqual(s.ContentBounds.Left + 50d, PdfLayout.GetOriginX(s, p), 0.0001);
+            Assert.AreEqual(s.ContentBounds.Top, PdfLayout.GetOriginY(s, p), 0.0001);
+        }
+
+        [TestMethod]
+        public void GetClampedCellWidth_CellFitsWithinPage_ReturnsCellWidthUnchanged()
+        {
+            var s = new PdfPageSettings(null);
+
+            Assert.AreEqual(51.71d, PdfLayout.GetClampedCellWidth(s, 126.31d, 51.71d), 0.0001);
+        }
+
     }
 }

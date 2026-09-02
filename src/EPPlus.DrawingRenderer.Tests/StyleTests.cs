@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using System.Drawing;
 using System.Linq;
 
@@ -209,6 +210,45 @@ namespace EPPlus.Export.ImageRenderer.Tests
             //{
 
             //}
+        }
+
+        [TestMethod]
+        public void EpplusGeneratedShape()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            var fileName = "Style_Epp_Rect.xlsx";
+            using (var p = OpenPackage(fileName, true))
+            {
+                var ws = p.Workbook.Worksheets.Add("MyWs");
+                var drawing = ws.Drawings.AddShape("rectangle", eShapeStyle.Rect);
+
+                var svg = drawing.ToSvg();
+                SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{drawing.Name}.svg", svg);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void EpplusGeneratedShapeWithTheme()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            var fileName = "Style_Theme_Epp_Rect.xlsx";
+            using (var p = OpenPackage(fileName, true))
+            {
+                var ws = p.Workbook.Worksheets.Add("MyWsWithTheme");
+                var myThemeFile = GetTemplateFile("StyleExamples\\ParalaxTheme.thmx");
+                p.Workbook.ThemeManager.Load(myThemeFile);
+
+                var drawing = ws.Drawings.AddShape("rectangle", eShapeStyle.Rect);
+
+                //var svg = drawing.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\{fileName}_{ws.Name}_{drawing.Name}.svg", svg);
+
+                SaveAndCleanup(p);
+            }
         }
 
         ///// <summary>

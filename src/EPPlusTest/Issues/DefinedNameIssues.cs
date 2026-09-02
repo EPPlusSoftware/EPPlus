@@ -184,8 +184,8 @@ namespace EPPlusTest.Issues
 
             RunTest("Mode A: ws.Calculate(formula-string) is wrong", ctx =>
             {
-                object? inWs2;
-                object? inWs1;
+                object inWs2;
+                object inWs1;
                 try { inWs2 = ctx.ws2.Calculate(ctx.ws2.Cells["C1"].Formula); }
                 catch (Exception ex) { inWs2 = $"EXCEPTION: {ex.GetType().Name}: {ex.Message}"; }
                 Assert.AreEqual(inWs2, 10);
@@ -224,8 +224,8 @@ namespace EPPlusTest.Issues
 
             RunTest("Mode C: ws.Calculate(address) is right", ctx =>
             {
-                object? fromWs2;
-                object? fromWs1;
+                object fromWs2;
+                object fromWs1;
                 try { fromWs2 = ctx.ws2.Calculate("'Sheet2'!C1"); }
                 catch (Exception ex) { fromWs2 = $"EXCEPTION: {ex.GetType().Name}: {ex.Message}"; }
                 Assert.AreEqual(fromWs2, 10);
@@ -238,8 +238,8 @@ namespace EPPlusTest.Issues
             RunTest("Sanity: removing sheet-scoped name fixes formula-string eval", ctx =>
             {
                 // Demonstrate the fix within one workbook instance.
-                object? before;
-                object? after;
+                object before;
+                object after;
                 try { before = ctx.ws2.Calculate(ctx.ws2.Cells["C1"].Formula); }
                 catch (Exception ex) { before = $"EXCEPTION: {ex.GetType().Name}: {ex.Message}"; }
 
