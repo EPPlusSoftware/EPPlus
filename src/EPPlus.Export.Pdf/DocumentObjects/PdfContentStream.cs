@@ -364,11 +364,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines Border End");
         }
 
-        public void AddMarginClipping(PdfPageLayout pageLayout)
+        public void AddMarginClipping(PdfPageLayout pageLayout, PdfPageSettings pageSettings)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pageLayout.isCommentsPage) return;
             commands.Add($"% Margin Clip Start");
+            if (pl.BorderLines.Count == 0) return;
             // Derive the tight bounding box directly from BorderLines.
             // pageLayout is created with all-zero dimensions so ContentTop/Bottom/Left/Height
             // cannot be used here — they are always 0.
@@ -383,6 +384,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 left = System.Math.Min(left, System.Math.Min(line.X1, line.X2));
                 right = System.Math.Max(right, System.Math.Max(line.X1, line.X2));
             }
+            right = System.Math.Min(right, pageSettings.PageSize.WidthPu);
+            bottom = System.Math.Max(bottom, 0d);
             var pad = GridLine.Width * 4;
             var x = left + pl.HeadingWidth + pl.PrintTitleWidth - pad;
             var y = bottom - pad;

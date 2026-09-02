@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Drawing;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
-{ 
+{
     internal struct PrintTitleCellDraw
     {
         public PdfCell Cell;
@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
-                    pageLayout.Settings = pageSettings;             
+                    pageLayout.Settings = pageSettings;
                     pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
                     pageLayout.HeadingWidth = page.HeadingWidth;
                     pageLayout.HeadingHeight = page.HeadingHeight;
@@ -177,8 +177,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             }
                             else
                             {
+                                var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
+                                var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
                                 //Fill
-                                var fill = new PdfCellLayout(x, y, map.ColumnWidth, rowHeight);
+                                var fill = new PdfCellLayout(x, y, effectiveWidth, rowHeight);
                                 SetFill(dictionaries, map.CellStyle, map.Text, fill);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
@@ -186,11 +188,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, effectiveWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
                                     if (NeedsClipping(map, pages[j], row, col))
-                                        text.SetupClipping(x, y, map.ColumnWidth, rowHeight);
+                                        text.SetupClipping(x, y, effectiveWidth, rowHeight);
                                     pageLayout.AddChild(text);
                                 }
                             }
@@ -343,7 +345,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 var patternStyle = dxfFill.PatternType != null ? (ExcelFillStyle)dxfFill.PatternType : ExcelFillStyle.Solid;
                 if (patternStyle == ExcelFillStyle.Solid)
                 {
-                    fill.SetFill( PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor()));
+                    fill.SetFill(PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor()));
                 }
                 else if (patternStyle != ExcelFillStyle.None)
                 {
@@ -361,7 +363,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     var top = dxfFill.Gradient.Top == null ? 0 : (double)dxfFill.Gradient.Top;
                     var bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
                     var left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
-                    var right  = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
+                    var right = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
                     fill.SetGradient(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillGradientType)gradientType, color1, color2, color3, degree, top, bottom, left, right);
                 }
             }
@@ -382,7 +384,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 }
                 else if (xfFill.PatternType != ExcelFillStyle.None)
                 {
-                    var  patternStyle = xfFill.PatternType;
+                    var patternStyle = xfFill.PatternType;
                     var bkgc = PdfColor.SetColorFromHex(xfFill.PatternColor.Rgb == null ? "#FFFFFFFF" : xfFill.PatternColor.LookupColor());
                     var patc = PdfColor.SetColorFromHex(xfFill.BackgroundColor.LookupColor());
                     fill.SetPattern(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillStyle)patternStyle, bkgc, patc);
@@ -686,8 +688,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             List<Pages> PagesCollection = new List<Pages>();
             for (int si = 0; si < pdfSheets.Length; si++)
             {
-                var pdfSheet= pdfSheets[si];
-                var pageSettings = sheetSettings[si];            
+                var pdfSheet = pdfSheets[si];
+                var pageSettings = sheetSettings[si];
 
                 for (int ri = 0; ri < pdfSheet.Ranges.Count; ri++)
                 {
@@ -1381,6 +1383,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 // Content-bounds overflow: col doesn't fit, end segment before it and reprocess.
                 if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.ContentBounds.Width)
                 {
+                    if (col == segStartIdx)
+                    {
+                        segments.Add(new PageSegment(range.Map.FromColumn + col, range.Map.FromColumn + col));
+                        segStartIdx = col + 1;
+                        width = 0d;
+                        continue;
+                    }
                     segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col - 1));
                     segStartIdx = col;
                     width = 0d;
@@ -1811,6 +1820,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
             var offset = (pageSettings.ContentBounds.Height - page.UsedHeight) / 2d;
             return pageSettings.ContentBounds.Top - Math.Max(0d, offset);
+        }
+
+        internal static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
+        {
+            return System.Math.Min(cellWidth, pageSettings.PageSize.WidthPu - cellX);
         }
     }
 }

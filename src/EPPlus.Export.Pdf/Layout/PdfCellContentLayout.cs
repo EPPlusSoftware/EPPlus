@@ -55,7 +55,7 @@ namespace EPPlus.Export.Pdf.Layout
             }
             double firstLineAscent = TextLines[0].LargestAscent;
             double lastLineAscent = TextLines[TextLines.Count - 1].LargestAscent;
-            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, cell.Width, height);
+            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height);
         }
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)

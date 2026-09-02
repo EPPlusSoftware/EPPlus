@@ -11,8 +11,8 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Tests;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
+using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -886,6 +886,7 @@ namespace EPPlusTest.PDF
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }
 
+        [TestMethod]
         public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
         {
             var s = new PdfPageSettings(null);
@@ -921,5 +922,14 @@ namespace EPPlusTest.PDF
             Assert.AreEqual(s.ContentBounds.Left + 50d, PdfLayout.GetOriginX(s, p), 0.0001);
             Assert.AreEqual(s.ContentBounds.Top, PdfLayout.GetOriginY(s, p), 0.0001);
         }
+
+        [TestMethod]
+        public void GetClampedCellWidth_CellFitsWithinPage_ReturnsCellWidthUnchanged()
+        {
+            var s = new PdfPageSettings(null);
+
+            Assert.AreEqual(51.71d, PdfLayout.GetClampedCellWidth(s, 126.31d, 51.71d), 0.0001);
+        }
+
     }
 }
