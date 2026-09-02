@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Core
     internal class AutofitHelper
     {
         // Approximate width in pixels (at 96 DPI) of the autofilter dropdown arrow rendered by Excel.
-        private const double AutoFilterArrowWidthPixels = 15d;
+        private const double AutoFilterArrowWidthPixels = 19d;
         private ExcelRangeBase _range;
         ITextMeasurer _genericMeasurer = new GenericFontMetricsTextMeasurer();
         MeasurementFont _nonExistingFont = new MeasurementFont() { FontFamily = FontSize.NonExistingFont };
