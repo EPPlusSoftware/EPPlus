@@ -57,7 +57,6 @@ namespace EPPlusTest.PDF
         public void SaveWorksheetAsPdfTest1()
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
-            p.Workbook.ConfigureFonts(x => x.OnFontEmbedding(f => FontEmbeddingDecision.Skip));
             var ws = p.Workbook.Worksheets[0];
             string path = _pdfPath + "WorksheetTest1.pdf";
             ws.SaveAsPdf(path);
@@ -885,6 +884,7 @@ namespace EPPlusTest.PDF
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
 
         public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
         {
