@@ -40,6 +40,8 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public double[] RowHeights;
         public double HeadingWidth;
         public double HeadingHeight;
+        public double UsedWidth;
+        public double UsedHeight;
     }
 
     internal struct Pages
@@ -56,6 +58,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         /// Set in PdfLayout.GetPages, read in PdfLayout.GetCatalog.
         /// </summary>
         public PdfPageSettings Settings;
+        public int SheetIndex;
         public int Count
         {
             get { return Width * Height; }

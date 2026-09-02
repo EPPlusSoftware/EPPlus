@@ -28,7 +28,7 @@ namespace EPPlus.Export.Pdf.Resources
             CellFillData = cellFillData;
         }
 
-        public PdfShading GetShadingObject(int objectNumber, int version = 0)
+        public PdfShading GetShadingObject(int objectNumber, int functionObjectNumber = 0, int version = 0)
         {
             this.objectNumber = objectNumber;
             if (CellFillData.GradientFillData != null)
@@ -41,9 +41,9 @@ namespace EPPlus.Export.Pdf.Resources
                 }
                 else if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
                 {
-                    var prs = new PdfRadialShading(objectNumber, CellFillData.GradientFillData, version);
-                    prs.Coords = CellFillData.GradientFillData.coords;
-                    return prs;
+                    var fbs = new PdfFunctionBasedShading(objectNumber, CellFillData.GradientFillData, version);
+                    fbs.FunctionObjectNumber = functionObjectNumber;
+                    return fbs;
                 }
             }
             return null;
