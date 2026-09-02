@@ -2,6 +2,7 @@
 using OfficeOpenXml.Drawing.Style.Coloring;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -52,7 +53,6 @@ namespace OfficeOpenXml.Drawing.Shape.Style
                 return _color;
             }
         }
-
         /// <summary>
         /// If the reference has a color
         /// </summary>
