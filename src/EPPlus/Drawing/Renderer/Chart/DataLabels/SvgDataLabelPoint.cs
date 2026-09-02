@@ -378,7 +378,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var directionOnly = direction / direction.Length;
 
             //Get txtbox-size based vector
-            var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+            var txtBoxAdjustVector = new Vector2(Rectangle.Width / 2d, Rectangle.Height / 2d );
 
             //Apply translation to current position
             Rectangle.Bounds.Position += directionOnly * txtBoxAdjustVector;
@@ -402,7 +402,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 var chartBounds = ChartRenderer.ChartArea.Rectangle.Bounds;
                 var plotBounds = ChartRenderer.GetPlotAreaTop();
 
-                var chartMinY = chartBounds.Position.Y - ChartRenderer.GetPlotAreaTop();
+                var chartMinY = ChartRenderer.Bounds.GlobalTop;
                 var chartMinX = chartBounds.Position.X - ChartRenderer.Plotarea.LeftMargin;
 
                 if (gTop < chartMinY)
@@ -570,13 +570,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         else
                         {
                             //Set inside End
-                            SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                            SetInOut(endToBaseVector, endPoint.LocalPosition, true);
                         }
                     }
                     else
                     {
                         //Set outside end
-                        SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                        SetInOut(endToBaseVector, endPoint.LocalPosition, false);
                     }
                     break;
                 default:

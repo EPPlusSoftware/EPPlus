@@ -87,7 +87,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         void CalculateWidthHeight(double prevSliceDegrees)
         {
-
             var endPointDegrees = prevSliceDegrees + Degrees;
             if (endPointDegrees < 0)
             {
@@ -107,7 +106,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double minY;
             double minX;
 
-            if (ExistWithinRange(90, startPointDegrees, endPointDegrees))
+            if (/*endPointDegrees < startPointDegrees || */ExistWithinRange(90, startPointDegrees, endPointDegrees))
             {
                 maxY = _circleCenter.Top + _radius;
             }
@@ -683,7 +682,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             Transform transform = new Transform();
             transform.Parent = _innerGroup.Bounds.Parent;
-            transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top);
+            transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left - _innerGroup.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top- _innerGroup.Top);
             return transform;
         }
 
@@ -700,7 +699,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
             box.Parent = ExtremePoints.Parent;
             box.Left = ExtremePoints.Left;
-            box.Top = ExtremePoints.Top;
             return box;
         }
 
