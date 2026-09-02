@@ -570,13 +570,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         else
                         {
                             //Set inside End
-                            SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                            SetInOut(endToBaseVector, endPoint.LocalPosition, false);
                         }
                     }
                     else
                     {
                         //Set outside end
-                        SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                        SetInOut(endToBaseVector, endPoint.LocalPosition, true);
                     }
                     break;
                 default:

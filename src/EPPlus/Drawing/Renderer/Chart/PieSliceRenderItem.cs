@@ -698,7 +698,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
             box.Parent = ExtremePoints.Parent;
-            box.Left = ExtremePoints.Left;
+            //box.Left = ExtremePoints.Left;
             return box;
         }
 
