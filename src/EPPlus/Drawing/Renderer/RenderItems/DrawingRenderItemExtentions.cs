@@ -57,9 +57,6 @@ namespace EPPlusImageRenderer.RenderItems
         internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpaceOnUse, Color? nullColor)
         {
             double opacity = double.NaN;
-            double? opacityOld = double.NaN;
-
-            //var oldFill = GetFillColor(theme, fill, color, item.FillColorSource, out opacityOld, nullColor);
             var fillNew = GetFillNew(fill, theme, color, item.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill, gradientUserSpaceOnUse);
 
             if(gradFill != null)
@@ -78,33 +75,6 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 item.FillOpacity = opacity;
             }
-
-            //switch (fill.Style)
-            //{
-            //    case eFillStyle.NoFill:
-            //        item.FillColor = GetFillNew(fill)
-            //        //if (fill.IsEmpty) //Do NOT remove. This if is required for Shapes
-            //        //{
-            //        //    item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity, nullColor);
-            //        //}
-            //        //else
-            //        //{
-            //        //    item.FillColor = "none";
-            //        //}
-            //        break;
-            //    case eFillStyle.SolidFill:
-            //        item.FillColor = GetFillColor(theme, fill, color, item.FillColorSource, out opacity);
-            //        break;
-            //    case eFillStyle.GradientFill:
-            //        item.GradientFill = new DrawingRenderGradientFill(theme, fill.GradientFill, gradientUserSpaceOnUse);
-            //        item.FillType = FillType.GradientFill;
-            //        item.FillColor = null;
-            //        break;
-            //}
-            //if (opacity.HasValue)
-            //{
-            //    item.FillOpacity = opacity;
-            //}
         }
 
         //bg1 is the hard-coded default of solid fill according to ooxml docs (MS-OE376)
@@ -157,14 +127,14 @@ namespace EPPlusImageRenderer.RenderItems
 
                     if(fc.HasValue && fc.Value.ToArgb() == Color.Transparent.ToArgb())
                     {
-                        opacity = 0d;
+                        opacity = 1d;
                         return "none";
                     }
                 }
             }
             else
             {
-                opacity = 0d;
+                opacity = 1d;
                 //The node has specifically been set to NoFill AKA Transparent
                 return "none";
             }
@@ -230,7 +200,7 @@ namespace EPPlusImageRenderer.RenderItems
             }
             return fillStr;
         }
-       // this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager color, bool hasBorder, Color? nullColor=null, double defaultWidth = 1.5, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global, eChartStyle styleId = eChartStyle.Style2
+
         internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager reference, bool hasBorder, Func<Color?> GetStyleDefaultColor, double defaultWidth = 1.5d, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
         {
             string fillColorStr = null;

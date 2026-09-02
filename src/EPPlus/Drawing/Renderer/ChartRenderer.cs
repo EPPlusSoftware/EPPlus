@@ -386,7 +386,7 @@ namespace EPPlusImageRenderer
                 Chart.Border,
                 reference?.Color,
                 Chart.Border.Fill.Style != eFillStyle.NoFill,
-                () => item.GetDefaultBorderColor());
+                () => item.GetDefaultBorderColor(), 0.75d);
 
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);

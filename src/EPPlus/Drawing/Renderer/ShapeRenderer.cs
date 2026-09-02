@@ -194,7 +194,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (drawBorder)
             {
                 pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> Theme.ObjectDefaults.ShapeDefinition.Style.BorderReference.ShapeColor.GetColor());
+                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> Theme.ObjectDefaults.ShapeDefinition.Style.BorderReference.ShapeColor.GetColor(), 0.75d);
             }
             else
             {

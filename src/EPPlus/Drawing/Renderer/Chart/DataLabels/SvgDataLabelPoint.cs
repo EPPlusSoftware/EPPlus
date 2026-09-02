@@ -9,6 +9,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -130,12 +131,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
             if (dataLabel.ShowCategory)
             {
+                if (xValue.IsNumeric())
+                {
+                    xValue = Math.Round((double)xValue, 6);
+                }
                 dlblStrings.Add(xValue.ToString());
             }
             if (dataLabel.ShowValue)
             {
                 if (yValue != null)
                 {
+                    if(yValue.IsNumeric())
+                    {
+                        yValue = Math.Round((double)yValue,6);
+                    }
                     dlblStrings.Add(yValue.ToString());
                 }
             }
