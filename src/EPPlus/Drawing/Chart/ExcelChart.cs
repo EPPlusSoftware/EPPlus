@@ -73,6 +73,23 @@ namespace OfficeOpenXml.Drawing.Chart
 
         #endregion
         internal ExcelChartStyleManager _styleManager = null;
+        internal readonly static HashSet<eChartType> _svgSupportedChartTypes = new HashSet<eChartType>()
+        {
+            eChartType.Line,
+            eChartType.LineMarkers,
+            eChartType.LineMarkersStacked,
+            eChartType.LineStacked,
+            eChartType.LineStacked100,
+            eChartType.LineMarkersStacked100,
+            eChartType.ColumnClustered,
+            eChartType.ColumnStacked,
+            eChartType.ColumnStacked100,
+            eChartType.BarClustered,
+            eChartType.BarStacked,
+            eChartType.BarStacked100,
+            eChartType.Pie,
+            eChartType.PieExploded,
+        };
         /// <summary>
         /// Manage style settings for the chart
         /// </summary>
@@ -1240,5 +1257,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 cs.Drawings.DrawingXml.Save(xrd);
             }
         }
+        /// <summary>
+        /// Returns true if the chart supports svg export via the <see cref="ToSvg()" method./>.
+        /// </summary>
+        public override bool SupportsSvgExport => _svgSupportedChartTypes.Contains(ChartType);
     }
 }

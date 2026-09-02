@@ -76,14 +76,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         private void AddRange(ExcelRangeBase range, bool includeDrawings)
         {
-            //if (range.IsFullColumn && range.IsFullRow)
-            //{
-            //    _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
-            //}
-            //else
-            //{
-            _ranges.Add(AdjustRangeForDimensionAndDrawings(range, includeDrawings));    
-            //}
+            if (range.IsFullColumn && range.IsFullRow)
+            {
+                _ranges.Add(AdjustRangeForDimensionAndDrawings(range, includeDrawings));
+            }
+            else
+            {
+                _ranges.Add(range);    
+            }
         }
 
         protected CssRuleCollection CreateRuleCollection(HtmlRangeExportSettings settings)

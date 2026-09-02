@@ -120,11 +120,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             get
             {
-                return _drawingsSettings.AddMarginLeft;
+                return _drawingsSettings.AddNameAsId;
             }
             set
             {
-                _drawingsSettings.AddMarginLeft = value;
+                _drawingsSettings.AddNameAsId = value;
             }
         }
         /// <summary>

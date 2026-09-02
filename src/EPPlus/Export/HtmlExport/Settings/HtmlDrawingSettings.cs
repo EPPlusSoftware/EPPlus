@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public Func<ExcelDrawing, bool> ExcludeDrawingHandler { get; set; } = null;
         /// <summary>
-        /// If a drawing should be included in the export or not.
+        /// If a drawing should be included in the export or not. Only pictures and drawings with <see cref="ExcelDrawing.SupportsSvgExport"/> set to true will be included.
         /// </summary>
         public eDrawingInclude Include = eDrawingInclude.Exclude;
         /// <summary>

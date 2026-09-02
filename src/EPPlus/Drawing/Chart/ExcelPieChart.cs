@@ -123,10 +123,5 @@ namespace OfficeOpenXml.Drawing.Chart
         /// A collection of series for a Pie Chart
         /// </summary>
         public new ExcelChartSeries<ExcelPieChartSerie> Series { get; } = new ExcelChartSeries<ExcelPieChartSerie>();
-        /// <summary>
-        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
-        /// </summary>
-        public override bool SupportsSvgExport => true;
-
     }
 }

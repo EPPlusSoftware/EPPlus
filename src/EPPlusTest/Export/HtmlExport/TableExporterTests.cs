@@ -497,7 +497,7 @@ namespace EPPlusTest.Export.HtmlExport
                 exporterRange.Settings.SetRowHeight = true;
                 exporterRange.Settings.Minify = false;
                 exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.Include;
-                exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
+                exporterRange.Settings.Drawings.Include = eDrawingInclude.Include;
 
                 var html1 = exporterRange.GetHtmlString(0);
                 var html2 = exporterRange.GetHtmlString(1);
@@ -509,7 +509,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var outputHtml = string.Format("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{4}</style></head>\r\n<body>\r\n{0}<hr>{1}<hr>{2}<hr>{3}<hr></body>\r\n</html>", html1, html2, html3, html4, css);
 
-                File.WriteAllText("${_htmlOutput}RangeAndThreeTables.html", outputHtml);
+                File.WriteAllText($"{_htmlOutput}RangeAndThreeTables.html", outputHtml);
 
                 Assert.AreEqual(css, cssAsync);
             }

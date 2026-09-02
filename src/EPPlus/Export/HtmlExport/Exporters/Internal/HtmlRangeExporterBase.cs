@@ -38,8 +38,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             ValidateRangeIndex(rangeIndex);
             _mergedCells.Clear();
             var range = _ranges[rangeIndex];
-            var rangeAddress = range.DimensionAdjustedAddress;
-            range = range.Worksheet.Cells[rangeAddress.Address];
             GetDataTypes(range, _settings);
 
             ExcelTable table = null;
@@ -73,6 +71,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 AddHeaderRow(range, htmlTable, table, headers);
             }
+
             // table rows
             AddTableRows(htmlTable, range);
 

@@ -386,7 +386,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 chart.SetPosition(0, 0);
                 chart.To.Row = 14;
                 chart.To.Column = 10;
-                chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle7);
+                chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle5);
 
                 var exporter = sheet.Cells.CreateHtmlExporter();
                 var settings = exporter.Settings;
