@@ -232,13 +232,21 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     }
                     else if (table.ShowRowStripes)
                     {
-                        var fill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
-                        if (fill.HasValue) cellStyle.dxfFill = fill;
+                        var stripe = (tableRow & 1) == 0
+                            ? tableStyle.SecondRowStripe.Style.Fill
+                            : tableStyle.FirstRowStripe.Style.Fill;
+                        cellStyle.dxfFill = FillIsPaintable(stripe)
+                            ? stripe
+                            : tableStyle.WholeTable.Style.Fill;
                     }
                     else if (table.ShowColumnStripes)
                     {
-                        var fill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
-                        if (fill.HasValue) cellStyle.dxfFill = fill;
+                        var stripe = (tableCol & 1) != 0
+                            ? tableStyle.SecondColumnStripe.Style.Fill
+                            : tableStyle.FirstColumnStripe.Style.Fill;
+                        cellStyle.dxfFill = FillIsPaintable(stripe)
+                            ? stripe
+                            : tableStyle.WholeTable.Style.Fill;
                     }
                 }
             }
@@ -1091,6 +1099,25 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
             cache[table] = tableStyle;
             return tableStyle;
+        }
+
+        private static bool FillIsPaintable(ExcelDxfFill fill)
+        {
+            if (fill == null || !fill.HasValue)
+                return false;
+
+            // SetFill treats a null PatternType as Solid.
+            var pattern = fill.PatternType != null
+                ? (ExcelFillStyle)fill.PatternType
+                : ExcelFillStyle.Solid;
+
+            if (pattern == ExcelFillStyle.None)
+                return fill.Gradient != null;                               // only a gradient paints when pattern is None
+
+            if (pattern == ExcelFillStyle.Solid)
+                return !string.IsNullOrEmpty(fill.BackgroundColor?.LookupColor());  // Solid needs a real colour
+
+            return true;                                                    // any other pattern type paints
         }
     }
 }
