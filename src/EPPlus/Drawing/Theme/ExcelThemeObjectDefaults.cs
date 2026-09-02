@@ -10,6 +10,8 @@ namespace OfficeOpenXml.Drawing.Theme
         private readonly string _spDefPath = "a:spDef";
         private readonly string _lnDefPath = "a:lnDef";
         private readonly string _txDefPath = "a:txDef";
+        private const string defaultSpDefInnerXml = "<a:spPr/><a:bodyPr/><a:lstStyle/><a:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"15000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></a:style>";
+
         public ExcelThemeObjectDefaults(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelThemeBase theme) : base(nameSpaceManager, topNode)
         {
             _theme = theme;
@@ -25,7 +27,14 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_spDef == null)
                 {
-                    var test = TopNode.SelectSingleNode(_spDefPath, NameSpaceManager);
+                    var spDefNode = TopNode.SelectSingleNode(_spDefPath, NameSpaceManager);
+                    //Despite there being no SpDef node/no child nodes Excel Acts as if the @defaultSpDefXml is there.
+                    //Therefore if the node is not there or if it is empty create the default 
+                    if (spDefNode == null || spDefNode.HasChildNodes == false)
+                    {
+                        spDefNode = CreateNode(_spDefPath);
+                        spDefNode.InnerXml = defaultSpDefInnerXml;
+                    }
                     _spDef = new DefaultShapeDefinition(NameSpaceManager, TopNode, _spDefPath, _theme);
                 }
 

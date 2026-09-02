@@ -363,10 +363,14 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                     var expectedStroke = ColorTranslator.ToHtml(col).ToLower();
 
                     var svgSplitOnSpace = svg.Split(' ');
+                    var fills = svgSplitOnSpace.Where(s => s.StartsWith("fill")).ToArray();
 
-                    //Get the first stroke and extract the hexCode for the expected color
-                    var firstFill = svgSplitOnSpace.First(s => s.StartsWith("fill"));
+                    //Get the first fill and extract the hexCode for the expected color
+                    var firstFill = fills[0];
                     var fillResult = firstFill.Substring(6, 7).ToLower();
+
+                    var secondFill = fills[1];
+                    var secondResult = secondFill.Substring(6, 7).ToLower();
 
                     //Get the first stroke and extract the hexCode for the expected color
                     var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
@@ -381,6 +385,8 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                     Assert.AreEqual(expectedFill, fillResult);
                     Assert.AreEqual(expectedStroke, strokeResult);
                     Assert.AreEqual(1d, widthResult, 0.003);
+                    //Plot area should also be white as in Excel
+                    Assert.AreEqual(expectedFill, secondResult);
                 }
 
                 SaveAndCleanup(p);
@@ -415,8 +421,10 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
 
                 var svgSplitOnSpace = svgDefault.Split(' ');
 
+                var fills = svgSplitOnSpace.Where(s => s.StartsWith("fill")).ToArray();
+
                 //Get the first fill and extract the hexCode for the expected color
-                var firstFill = svgSplitOnSpace.First(s => s.StartsWith("fill"));
+                var firstFill = fills[0];
                 var fillResult = firstFill.Substring(6, 7).ToLower();
 
                 //Get the first stroke and extract the hexCode for the expected color
@@ -467,7 +475,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                 defaultRect.SetPosition(300, 1);
                 gradientRect.SetPosition(300, 1000);
 
-                defaultRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
+                //defaultRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
                 gradientRect.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.GradientFill;
                 generatedBar.Series.Add(ws.Cells["A1:A3"]);
 

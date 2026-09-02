@@ -263,7 +263,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal override Color? GetDefaultBorderColor()
         {
-            return GetDefaultBorderColorForElement(ChartElement.PlotArea2d, (int)Chart.Style);
+            return null;
         }
 
         internal override Color? DefaultFillColor { get => GetDefaultFillColor();  }

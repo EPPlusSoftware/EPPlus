@@ -87,9 +87,8 @@ linb        public void PieChart()
 
             var svg = chart.ToSvg();
 
+            File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
             //SaveAndCleanup(_pck);
-
-            //File.WriteAllText($"{_worksheetPath}svg\\EPPlusPieChart1.svg", svg);
         }
         [TestMethod]
         public void BarChart()  
