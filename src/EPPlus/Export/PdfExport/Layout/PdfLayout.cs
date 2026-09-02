@@ -322,6 +322,31 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
+                        double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                        foreach (var hfSection in new[] { HeaderFooterSection.Header, HeaderFooterSection.Footer })
+                        {
+                            foreach (var hfAlign in new[] { HeaderFooterAlignment.Left, HeaderFooterAlignment.Center, HeaderFooterAlignment.Right })
+                            {
+                                var hfImg = page.HeaderFooters.GetImage(hfType, hfSection, hfAlign);
+                                if (hfImg == null) continue;
+                                if (!PdfImageXObject.CanEmbed(hfImg.ImageBytes)) continue;   // only formats we can embed
+                                double iw = hfImg.Width, ih = hfImg.Height;
+                                double ix = hfAlign == HeaderFooterAlignment.Left
+                                                ? pageSettings.Margins.LeftPu
+                                                : hfAlign == HeaderFooterAlignment.Right
+                                                    ? pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu - iw
+                                                    : pageSettings.Margins.LeftPu + (hfContentWidth - iw) / 2d;
+                                double iTop = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu
+                                                : pageSettings.Margins.FooterPu + ih;
+                                pageLayout.AddChild(new PdfImageLayout(ix, iTop, iw, ih)
+                                {
+                                    ImageBytes = hfImg.ImageBytes,
+                                    IsHeaderFooter = true,
+                                    Name = $"{hfSection}{hfAlign}Image",
+                                });
+                            }
+                        }
                     }
                     PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
                     pageLayout.ChildObjects.Sort((a, b) =>

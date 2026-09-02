@@ -226,6 +226,7 @@ namespace EPPlus.Export.Pdf
             }
             foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
             {
+                if (image.IsHeaderFooter) continue;
                 var imageResource = _dictionaries.AddImage(image.ImageBytes);
                 contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
                 if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
@@ -256,6 +257,13 @@ namespace EPPlus.Export.Pdf
             foreach (var hf in headerFooterLayouts)
             {
                 contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
+            }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (!image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
             foreach (var titleCell in printTitleLayouts)
             {

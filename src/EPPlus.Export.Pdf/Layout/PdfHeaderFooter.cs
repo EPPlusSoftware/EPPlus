@@ -55,4 +55,23 @@ namespace EPPlus.Export.Pdf.Layout
             Section = section;
         }
     }
+
+    internal class PdfHeaderFooterImage
+    {
+        public HeaderFooterType PageType;
+        public HeaderFooterAlignment Alignment;
+        public HeaderFooterSection Section;
+        public byte[] ImageBytes;
+        public double Width;
+        public double Height;
+
+        public PdfHeaderFooterImage(byte[] imageBytes, double width, double height, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
+        {
+            ImageBytes = imageBytes;
+            Width = width;
+            Height = height;
+            PageType = type;
+            Alignment = alignment;
+            Section = section; }
+    }
 }

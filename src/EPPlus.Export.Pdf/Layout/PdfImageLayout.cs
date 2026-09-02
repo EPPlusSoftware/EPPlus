@@ -20,6 +20,8 @@ namespace EPPlus.Export.Pdf.Layout
     {
         public byte[] ImageBytes;
 
+        public bool IsHeaderFooter;
+
         public PdfImageLayout(double x, double y, double width, double height)
             : base(x, y - height, width, height)
         {
