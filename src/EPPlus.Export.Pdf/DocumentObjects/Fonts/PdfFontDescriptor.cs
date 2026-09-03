@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Graphics;
 using System;
 using System.IO;
@@ -69,7 +70,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
                             $"    /FontName /{fontName.Replace(" ", "")}\n" +
                             $"    /Flags {flags}\n" +
-                            $"    /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
+                            $"    /FontBBox [{fontBBox.X.ToPdfStringF0()} {fontBBox.Y.ToPdfStringF0()} {fontBBox.Width.ToPdfStringF0()} {fontBBox.Height.ToPdfStringF0()}]\n" +
                             $"    /Ascent {ascent}\n" +
                             $"    /Descent {descent}\n" +
                             $"    /CapHeight {capheight}\n" +
@@ -93,12 +94,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
                             $"    /FontName /{fontName.Replace(" ", "")}\n" +
                             $"    /Flags {flags}\n" +
-                            $"    /FontBBox [{fontBBox.X} {fontBBox.Y} {fontBBox.Width} {fontBBox.Height}]\n" +
-                            $"    /Ascent {ascent}\n" +
-                            $"    /Descent {descent}\n" +
-                            $"    /CapHeight {capheight}\n" +
-                            $"    /ItalicAngle {(int)italicAngle}\n" +
-                            $"    /StemV {(int)stemV}");
+                            $"    /FontBBox [{fontBBox.X.ToPdfStringF0()} {fontBBox.Y.ToPdfStringF0()} {fontBBox.Width.ToPdfStringF0()} {fontBBox.Height.ToPdfStringF0()}]\n" +
+                            $"    /Ascent {ascent.ToPdfStringF0()}\n" +
+                            $"    /Descent {descent.ToPdfStringF0()}\n" +
+                            $"    /CapHeight {capheight.ToPdfStringF0()}\n" +
+                            $"    /ItalicAngle {((int)italicAngle).ToPdfStringF0()}\n" +
+                            $"    /StemV {((int)stemV).ToPdfStringF0()}");
             if (FontFile2ObjectNumber > 0)
             {
                 sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber} 0 R");
