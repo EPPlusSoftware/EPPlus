@@ -6,6 +6,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -91,6 +92,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     for (int j = 0; j < dataPoints.Count; j++)
                     {
+                        //var parentHolder = dataPoints[j].Parent;
+
+                        var globalDPBounds = dataPoints[j].GetGlobalBoundingbox();
+
                         //Initialize transforms
                         Transform basePoint = new Transform();
                         Transform endPoint = new Transform();
@@ -99,15 +104,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                         if (isColumn == true)
                         {
-                            var middleRight = dataPoints[j].Left + (dataPoints[j].Width / 2);
+                            var middleRight = globalDPBounds.Left + (globalDPBounds.Width / 2);
 
-                            if (chartBaseY <= dataPoints[j].Top)
+                            if (chartBaseY <= globalDPBounds.Top)
                             {
                                 //We are a negative column 
                                 // ----- Base-Axis
                                 //  |_| Col
-                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Top);
-                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
+                                basePoint.Position = new Vector2(middleRight, globalDPBounds.Top);
+                                endPoint.Position = new Vector2(middleRight, globalDPBounds.Bottom);
                             }
                             else
                             {
@@ -115,29 +120,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                                 //   _
                                 //  | |  Col
                                 // ----- Base-Axis
-                                basePoint.Position = new Vector2(middleRight, dataPoints[j].Bottom);
-                                endPoint.Position = new Vector2(middleRight, dataPoints[j].Top);
+                                basePoint.Position = new Vector2(middleRight, globalDPBounds.Bottom);
+                                endPoint.Position = new Vector2(middleRight, globalDPBounds.Top);
                             }
 
                             datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                         else
                         {
-                            var middleHeight = dataPoints[j].Top + (dataPoints[j].Height / 2);
+                            var middleHeight = globalDPBounds.Top + (globalDPBounds.Height / 2);
                             basePoint.Position = new Vector2(chartBaseY, middleHeight);
-                            if (chartBaseY > dataPoints[j].Left)
+                            if (chartBaseY > globalDPBounds.Left)
                             {
-                                endPoint.Position = new Vector2(chartBaseY - dataPoints[j].Width, middleHeight);
+                                endPoint.Position = new Vector2(chartBaseY - globalDPBounds.Width, middleHeight);
                             }
                             else
                             {
-                                endPoint.Position = new Vector2(dataPoints[j].Left + dataPoints[j].Width, middleHeight);
+                                endPoint.Position = new Vector2(globalDPBounds.Left + globalDPBounds.Width, middleHeight);
                             }
 
                             datalabel.SetDimensions(j, basePoint, endPoint);
                         }
                     }
-
                     serCounter++;
                 }
             }
@@ -207,7 +211,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + gapWidth);
             var step = 1 - overlapPercent;
-            var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
+
+            //Bar can't be displayed if it's less than one pixel wide.
+            //Svg will try to do this by applying percentual transparency to one pixel.
+            var minWidth = 0.75d;//0.75 points == 1 pixel
+            var barWidth = Math.Max(slotWidth / (1 + (seriesCount - 1) * step + gapPercent), minWidth);
             var halfGap = (barWidth * gapPercent) / 2;
 
             chartBaseY = GetAxisBaseY(catAx, valAx);
@@ -217,7 +225,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (var i = 0; i < valValues.Count; i++)
             {
                 double x;
-                if (catValues == null || catAx.Axis.AxisType == eAxisType.Cat)
+                if (catValues == null || (catAx.Axis.AxisType == eAxisType.Cat && catAx.IsDateAutoAxis==false))
                 {
                     if (isColumn)
                     {
@@ -248,7 +256,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
+                var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
                 
                 var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
@@ -303,7 +311,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     if (isColumn)
                     {
-                        if (y < 0)
+                        if (y < 0 && catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt ?? valAx.Min) > y)) //Below axis
                         {
                             rect.Top = chartBaseY;
                             rect.Height = yPos - chartBaseY;
@@ -316,7 +324,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (y < 0)
+                        if (y < 0 && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt??valAx.Min) > y)) //Below axis
                         {
                             rect.Left = yPos;
                             rect.Width = chartBaseY - yPos;

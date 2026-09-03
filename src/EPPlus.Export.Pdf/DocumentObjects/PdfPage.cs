@@ -40,18 +40,18 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal override string RenderDictionary()
         {
-            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
+            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber.ToPdfStringF0()} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
-            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber} 0 R").ToArray();
+            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var patterns = string.Join(" ", patternEntries);
-            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber} 0 R").ToArray();
+            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var shadings = string.Join(" ", shadingEntries);
-            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber} 0 R").ToArray();
+            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var images = string.Join(" ", imageEntries);
-            var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
+            var contentEntries = contentObjectNumbers.Select(con => $"{con.ToPdfStringF0()} 0 R").ToArray();
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Page\n" +
-                            $"   /Parent {parentObjectNumber} 0 R\n");
+                            $"   /Parent {parentObjectNumber.ToPdfStringF0()} 0 R\n");
             bool hasFont = !string.IsNullOrEmpty(fonts);
             bool hasPattern = !string.IsNullOrEmpty(patterns);
             bool hasShading = !string.IsNullOrEmpty(shadings);
@@ -72,18 +72,18 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
+            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber.ToPdfStringF0()} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
-            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber} 0 R").ToArray();
+            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var patterns = string.Join(" ", patternEntries);
-            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber} 0 R").ToArray();
+            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var shadings = string.Join(" ", shadingEntries);
-            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber} 0 R").ToArray();
+            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var images = string.Join(" ", imageEntries);
-            var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
+            var contentEntries = contentObjectNumbers.Select(con => $"{con.ToPdfStringF0()} 0 R").ToArray();
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Page\n" +
-                           $"   /Parent {parentObjectNumber} 0 R\n");
+                           $"   /Parent {parentObjectNumber.ToPdfStringF0()} 0 R\n");
             bool hasFont = !string.IsNullOrEmpty(fonts);
             bool hasPattern = !string.IsNullOrEmpty(patterns);
             bool hasShading = !string.IsNullOrEmpty(shadings);

@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using OfficeOpenXml.Packaging.Ionic.Zlib;
 using System.IO;
 using System.Text;
@@ -167,22 +168,22 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         private string DictHeader()
         {
-            string smask = HasSoftMask ? $" /SMask {SoftMaskObjectNumber} 0 R" : "";
+            string smask = HasSoftMask ? $" /SMask {SoftMaskObjectNumber.ToPdfStringF0()} 0 R" : "";
             string decode = string.IsNullOrEmpty(Decode) ? "" : $" /Decode {Decode}";
             string decodeParms = string.IsNullOrEmpty(DecodeParms) ? "" : $" /DecodeParms {DecodeParms}";
             return "<< /Type /XObject /Subtype /Image" +
-                   $" /Width {Width} /Height {Height}" +
-                   $" /ColorSpace {ColorSpace} /BitsPerComponent {BitsPerComponent}" +
+                   $" /Width {Width.ToPdfStringF0()} /Height {Height.ToPdfStringF0()}" +
+                   $" /ColorSpace {ColorSpace} /BitsPerComponent {BitsPerComponent.ToPdfStringF0()}" +
                    smask +
                    decode +
                    $" /Filter /{Filter}" + decodeParms +
-                   $" /Length {_bytes.Length} >>";
+                   $" /Length {_bytes.Length.ToPdfStringF0()} >>";
         }
 
         internal override string RenderDictionary()
         {
             // Debug/text dump only — never the real output — so the binary body is elided.
-            return DictHeader() + $"\nstream\n<{_bytes.Length} bytes of image data>\nendstream";
+            return DictHeader() + $"\nstream\n<{_bytes.Length.ToPdfStringF0()} bytes of image data>\nendstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)

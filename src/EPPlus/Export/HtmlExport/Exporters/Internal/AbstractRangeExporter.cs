@@ -15,6 +15,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.String;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         internal const string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
         internal List<HtmlSvgDrawing> _rangeDrawings = null;
+        protected bool _hasIntersectingTables = false; //Intersecting tables;
         protected List<string> _dataTypes = new List<string>();
         protected ExporterContext _exporterContext;
 
@@ -55,11 +57,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
             _rangePictures = new List<HtmlImage>();
             _rangeDrawings = new List<HtmlSvgDrawing>();
+            var processedDrawings = new HashSet<ExcelDrawing>();
             //Render in-cell images.
-            foreach (var worksheet in ranges.Select(x => x.Worksheet).Distinct())
+            foreach (var range in ranges)
             {
+                var worksheet = range.Worksheet;
                 foreach (var d in worksheet.Drawings)
                 {
+                    if (processedDrawings.Contains(d)) continue;
+                    processedDrawings.Add(d);
+                    var drawingAddress = d.GetAddress();
+                    if (drawingAddress.Collide(range) == ExcelAddressBase.eAddressCollition.No) continue;
                     if (d is ExcelPicture p)
                     {
                         p.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
@@ -79,26 +87,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             ToColumnOff = toColOff
                         });
                     }
-                    else if(d is ExcelShape s)
-                    {
-                        s.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
-                        s.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
-
-                        _rangeDrawings.Add(new HtmlSvgDrawing()
-                        {
-                            WorksheetId = worksheet.PositionId,
-                            Drawing = s,
-                            FromRow = fromRow,
-                            FromRowOff = fromRowOff,
-                            FromColumn = fromCol,
-                            FromColumnOff = fromColOff,
-                            ToRow = toRow,
-                            ToRowOff = toRowOff,
-                            ToColumn = toCol,
-                            ToColumnOff = toColOff
-                        });
-                    }
-                    else if(d is ExcelChart)
+                    else if(d.SupportsSvgExport && (d is ExcelShape || d is ExcelChart))
                     {
                         d.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
                         d.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
@@ -167,6 +156,72 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
             }
             return null;
+        }
+        /// <summary>
+        /// Adjust all drawings for the worksheets dimension and include any draings that are outside the dimension.
+        /// </summary>
+        /// <param name="ranges"></param>
+        /// <param name="includeDrawings"></param>
+        protected void AdjustRangeForDimensionAndDrawings(List<ExcelRangeBase> ranges, bool includeDrawings)
+        {
+            for(int i=0;i<ranges.Count;i++)
+            {
+                if (ranges[i].IsFullColumn && ranges[i].IsFullRow)
+                {
+                    ranges[i] = AdjustRangeForDimensionAndDrawings(ranges[i], includeDrawings);
+                }                
+            }
+        }
+        protected ExcelRangeBase AdjustRangeForDimensionAndDrawings(ExcelRangeBase range, bool includeDrawings)
+        {
+            var newRange = range.DimensionAdjustedAddress;
+            if (includeDrawings)
+            {
+                var drawMinRow = int.MaxValue;
+                var drawMinCol = int.MaxValue;
+                var drawMaxRow = int.MinValue;
+                var drawMaxCol = int.MinValue;
+
+                foreach (var d in range.Worksheet.Drawings)
+                {
+                    if (d.SupportsSvgExport && (d.IncludeInHtmlExport == eDrawingInclude.Include || d.IncludeInHtmlExport == eDrawingInclude.IncludeInHtmlOnly))
+                    {
+                        d.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
+                        d.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
+
+                        //Bounds are 0 based;                        
+                        fromRow++;
+                        fromCol++;
+
+                        if (fromRow > drawMinRow)
+                        {
+                            if (toRowOff > 0) toRow++;
+                            if (toColOff > 0) toCol++;
+                        }
+
+                        if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollition.Inside)
+                        {
+                            if (fromRow < drawMinRow) drawMinRow = fromRow;
+                            if (fromCol < drawMinCol) drawMinCol = fromCol;
+                            if (toRow > drawMaxRow) drawMaxRow = toRow;
+                            if (toCol > drawMaxCol) drawMaxCol = toCol;
+                        }
+                    }
+                }
+
+                if (newRange != null &&
+                    newRange._fromRow > drawMinRow ||
+                    newRange._fromCol > drawMinCol ||
+                    newRange._toRow > drawMinRow ||
+                    newRange._toCol > drawMinCol)
+                {
+                    return range.Worksheet.Cells[drawMinRow < newRange._fromRow ? Math.Max(drawMinRow, range._fromRow) : newRange._fromRow,
+                                 drawMinCol < newRange._fromCol ? Math.Max(drawMinCol, range._fromCol) : newRange._fromCol,
+                                 drawMaxRow > newRange._toRow ? Math.Min(drawMaxRow, range._toRow) : newRange._toRow,
+                                 drawMaxCol > newRange._toCol ? Math.Min(drawMaxCol, range._toCol) : newRange._toCol];
+                }
+            }
+            return range.Worksheet.Cells[newRange.Address];
         }
     }
 }

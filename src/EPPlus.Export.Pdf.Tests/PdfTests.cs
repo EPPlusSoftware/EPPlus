@@ -942,10 +942,6 @@ namespace EPPlusTest.PDF
             Assert.AreEqual(51.71d, PdfLayout.GetClampedCellWidth(s, 126.31d, 51.71d), 0.0001);
         }
 
-
-
-
-
         [TestMethod]
         public void LargeTableTest1()
         {
@@ -955,7 +951,6 @@ namespace EPPlusTest.PDF
             ws.SaveAsPdf(path);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
-        }   
-
+        }
     }
 }

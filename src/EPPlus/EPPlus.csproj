@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-		<AssemblyVersion>9.0.0.0</AssemblyVersion>
-		<FileVersion>9.0.0.0</FileVersion>
+		<AssemblyVersion>9.0.0.2</AssemblyVersion>
+		<FileVersion>9.0.0.2</FileVersion>
 		<Version>9.0.0-preview</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<!-- Include the referenced project binaries in the generated NuGet package -->
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
 		<PackageLicenseFile>license.md</PackageLicenseFile>
@@ -736,16 +738,30 @@
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
 		<PackageIconUrl />
 	</PropertyGroup>
-	
+
 	<ItemGroup>
-		<ProjectReference Include="..\EPPlus.Compression\EPPlus.Compression.csproj" />
-		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj" />
-		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" />
-		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" />
-		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
+		<!-- These five projects are embedded as DLLs inside the EPPlus package by the
+		     IncludeReferencedProjectsInPackage target below. PrivateAssets="compile" keeps them
+		     out of the generated .nuspec as <dependency> entries, while still letting them flow
+		     at runtime so consuming projects (e.g. test projects) get the DLLs copied to output. -->
+		<ProjectReference Include="..\EPPlus.Compression\EPPlus.Compression.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\EPPlus.DrawingRenderer\EPPlus.DrawingRenderer.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\EPPlus.Export.Pdf\EPPlus.Export.Pdf.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\EPPlus.Fonts.OpenType\EPPlus.Fonts.OpenType.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" PrivateAssets="all" />
+		<!-- EPPlus.Interfaces is published as its own NuGet package and must remain a dependency. -->
 		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
-	
+
+	<!-- Collect the embedded sub-project DLLs (per target framework) and place them next to
+	     EPPlus.dll in lib/<tfm>/ inside the generated package. ReferenceCopyLocalPaths is used
+	     rather than hardcoded output paths so it resolves correctly per TFM in a multitarget build. -->
+	<Target Name="IncludeReferencedProjectsInPackage">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('Extension', '.dll'))" Condition="'%(FileName)' == 'EPPlus.Compression'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.DrawingRenderer'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.Export.Pdf'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.Fonts.OpenType'&#xD;&#xA;			                              Or '%(FileName)' == 'EPPlus.Graphics'" />
+		</ItemGroup>
+	</Target>
+
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
 	</PropertyGroup>
@@ -771,18 +787,6 @@
 		<None Remove="Utils\RecyclableMemoryStream\**" />
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net35'">
-		<Reference Include="PresentationCore" />
-		<Reference Include="PresentationFramework" />
-		<Reference Include="System" />
-		<Reference Include="System.configuration" />
-		<Reference Include="System.Core" />
-		<Reference Include="System.Data" />
-		<Reference Include="System.Security" />
-		<Reference Include="System.Xml" />
-		<Reference Include="WindowsBase" />
-	</ItemGroup>
-
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
 		<Reference Include="PresentationCore" />
 		<Reference Include="System" />
@@ -794,7 +798,7 @@
 		<Reference Include="System.Threading.Tasks" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Xml" />	
+		<PackageReference Include="System.Security.Cryptography.Xml" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0' and '$(TargetFramework)' != 'net10.0'">
@@ -841,7 +845,7 @@
 		<EmbeddedResource Include="resources\fontsize.zip" />
 		<EmbeddedResource Include="resources\TextMetrics.zip" />
 		<EmbeddedResource Include="resources\SignatureLineTemplates.zip">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
@@ -869,7 +873,7 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="resources\SignatureLineStampTemplate.emf">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="resources\SignatureLineTemplate.emf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

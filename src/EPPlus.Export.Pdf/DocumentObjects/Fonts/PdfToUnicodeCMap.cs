@@ -47,7 +47,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             var cmapContent = GenerateCMapContent();
             var length = Encoding.UTF8.GetByteCount(cmapContent);
             var sb = new StringBuilder();
-            sb.AppendLine(string.Format("<< /Length {0} >>", length));
+            sb.AppendLine(string.Format("<< /Length {0} >>", length.ToPdfStringF0()));
             sb.AppendLine("stream");
             sb.Append(cmapContent);
             sb.Append("\nendstream");
@@ -59,7 +59,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             var cmapContent = GenerateCMapContent();
             var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
             var body = PdfFlate.Compress(cmapBytes);
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
             bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }

@@ -633,7 +633,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         private static FontSubFamily ComputeFontStyle(TextFragment textFrag)
         {
             if (textFrag.RichTextOptions.Bold && textFrag.RichTextOptions.Italic) return FontSubFamily.BoldItalic;
-            if(textFrag.RichTextOptions.Bold) return FontSubFamily.Bold;
+            if (textFrag.RichTextOptions.Bold) return FontSubFamily.Bold;
             if (textFrag.RichTextOptions.Italic) return FontSubFamily.Italic;
             return FontSubFamily.Regular;
         }
@@ -697,7 +697,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 textFrag.RichTextOptions.UnderlineType = hf.DoubleUnderline ? 4 : textFrag.RichTextOptions.UnderlineType;
                 textFrag.RichTextOptions.StrikeType = hf.Striketrough ? 2 : 1;
                 textFrag.RichTextOptions.FontColor = hf.Color;
-                textFrag.Font.SubFamily = ComputeFontStyle(textFrag); 
+                textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
                 var text = string.Empty;
                 switch (hf.FormatCode)
                 {
@@ -712,11 +712,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         break;
                     case ExcelHeaderFooterFormattingCodes.NumberOfPages:
                         text += "000";
-                        NumberOfPagesIndexes.Add(i-1);
+                        NumberOfPagesIndexes.Add(i - 1);
                         break;
                     case ExcelHeaderFooterFormattingCodes.PageNumber:
                         text += "000";
-                        PageNumberIndexes.Add(i-1);
+                        PageNumberIndexes.Add(i - 1);
                         break;
                     case ExcelHeaderFooterFormattingCodes.CurrentTime:
                         text += DateTime.Now.ToString("HH:mm");
