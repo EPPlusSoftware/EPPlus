@@ -924,7 +924,7 @@ namespace EPPlusImageRenderer.Svg
             item.Height = iconHeight;
 
             item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
+            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 1.5d);
 
             return item;
         }
