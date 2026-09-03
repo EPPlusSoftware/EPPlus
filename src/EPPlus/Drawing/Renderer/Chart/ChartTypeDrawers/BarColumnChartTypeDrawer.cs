@@ -211,7 +211,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var slotWidth = yWidth / slotSize;
             var clusterWidth = slotWidth * 100 / (100 + gapWidth);
             var step = 1 - overlapPercent;
-            var barWidth = slotWidth / (1 + (seriesCount - 1) * step + gapPercent);
+
+            //Bar can't be displayed if it's less than one pixel wide.
+            //Svg will try to do this by applying percentual transparency to one pixel.
+            var minWidth = 0.75d;//0.75 points == 1 pixel
+            var barWidth = Math.Max(slotWidth / (1 + (seriesCount - 1) * step + gapPercent), minWidth);
             var halfGap = (barWidth * gapPercent) / 2;
 
             chartBaseY = GetAxisBaseY(catAx, valAx);
