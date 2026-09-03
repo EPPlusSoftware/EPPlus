@@ -663,9 +663,24 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             var textFragments = new List<TextFragment>();
             List<int> NumberOfPagesIndexes = new List<int>();
             List<int> PageNumberIndexes = new List<int>();
+            byte[] imageBytes = null;
+            double imageWidth = 0, imageHeight = 0;
+            int imageFragmentIndex = -1;
             for (int i = 1; i < textCollection.Count; i++)
             {
                 var hf = textCollection[i];
+                if (hf.FormatCode == ExcelHeaderFooterFormattingCodes.Image)
+                {
+                    var pic = textCollection.Picture;
+                    if (pic?.Image?.ImageBytes != null)
+                    {
+                        imageBytes = pic.Image.ImageBytes;
+                        imageWidth = pic.Width;
+                        imageHeight = pic.Height;
+                        imageFragmentIndex = textFragments.Count;
+                    }
+                    continue;
+                }
                 var textFrag = new TextFragment();
                 textFrag.Font = new RichTextFormatSimple();
                 textFrag.Font.Family = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
@@ -718,7 +733,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
                 if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, "1234567890");
             }
-            return new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
+            var result = new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
+            result.ImageBytes = imageBytes;
+            result.ImageWidth = imageWidth;
+            result.ImageHeight = imageHeight;
+            result.ImageFragmentIndex = imageFragmentIndex;
+            return result;
         }
 
         /// <summary>

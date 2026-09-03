@@ -23,7 +23,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
     internal class PdfHeaderFooterCollection
     {
         public List<PdfHeaderFooter> PdfHeaderFooterEntries = new List<PdfHeaderFooter>();
-        public List<PdfHeaderFooterImage> PdfHeaderFooterImages = new List<PdfHeaderFooterImage>();
         public bool ScaleWithDocument = false;
         public bool AlignWithMargins = false;
         public bool HasFirstPage = false;
@@ -158,53 +157,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 entry.Content.ContentAligmnet = PdfTextMap.GetAlignmentData(entry);
                 PdfHeaderFooterEntries.Add(entry);
             }
-            if (headerFooter?.Pictures != null)
-            {
-                foreach (ExcelVmlDrawingPicture picture in headerFooter.Pictures)
-                {
-                    var bytes = picture?.Image?.ImageBytes;
-                    if (bytes == null) continue;
-                    if (!TryDecodeSlot(picture.Id, out var type, out var section, out var alignment)) continue;
-                    PdfHeaderFooterImages.Add(new PdfHeaderFooterImage(bytes, picture.Width, picture.Height, type, alignment, section));
-                }
-            }
-        }
-
-        public PdfHeaderFooterImage GetImage(HeaderFooterType type, HeaderFooterSection section, HeaderFooterAlignment alignment)
-        {
-            return PdfHeaderFooterImages.FirstOrDefault(e =>
-                e.PageType == type && e.Section == section && e.Alignment == alignment);
-        }
-
-        // Decode a header/footer picture Id (e.g. "LH", "CFEVEN", "RHFIRST") into its slot.
-        // Layout: [alignment L/C/R][section H/F][optional variant EVEN|FIRST]; no variant = Odd.
-        private static bool TryDecodeSlot(string id, out HeaderFooterType type, out HeaderFooterSection section, out HeaderFooterAlignment alignment)
-        {
-            type = HeaderFooterType.Odd;
-            section = HeaderFooterSection.Header;
-            alignment = HeaderFooterAlignment.Left;
-            if (string.IsNullOrEmpty(id) || id.Length < 2) return false;
-
-            switch (id[0])
-            {
-                case 'L': alignment = HeaderFooterAlignment.Left; break;
-                case 'C': alignment = HeaderFooterAlignment.Center; break;
-                case 'R': alignment = HeaderFooterAlignment.Right; break;
-                default: return false;
-            }
-
-            string code = id.Substring(1);
-            if (code[0] == 'H') section = HeaderFooterSection.Header;
-            else if (code[0] == 'F') section = HeaderFooterSection.Footer;
-            else return false;
-
-            string variant = code.Substring(1);
-            if (variant.Length == 0) type = HeaderFooterType.Odd;
-            else if (variant == "EVEN") type = HeaderFooterType.Even;
-            else if (variant == "FIRST") type = HeaderFooterType.First;
-            else return false;
-
-            return true;
         }
 
         public PdfHeaderFooter Get(HeaderFooterType type, HeaderFooterSection section, HeaderFooterAlignment alignment)

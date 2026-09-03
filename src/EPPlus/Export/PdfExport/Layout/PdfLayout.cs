@@ -241,7 +241,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         //var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
                         var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        if (leftH != null)
+                        if (leftH != null && !leftH.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages);
                             var ascent = leftH.Content.TextLines[0].LargestAscent;
@@ -254,7 +254,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if (centerH != null)
+                        if (centerH != null && !centerH.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages);
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
@@ -268,7 +268,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if (rightH != null)
+                        if (rightH != null && !rightH.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages);
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
@@ -281,7 +281,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if (leftF != null)
+                        if (leftF != null && !leftF.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages);
                             int last = leftF.Content.TextLines.Count - 1;
@@ -295,7 +295,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if (centerF != null)
+                        if (centerF != null && !centerF.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages);
                             int last = centerF.Content.TextLines.Count - 1;
@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if (rightF != null)
+                        if (rightF != null && !rightF.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages);
                             int last = rightF.Content.TextLines.Count - 1;
@@ -322,29 +322,95 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
+                        double hfContentLeft = pageSettings.Margins.LeftPu;
                         double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
                         foreach (var hfSection in new[] { HeaderFooterSection.Header, HeaderFooterSection.Footer })
                         {
                             foreach (var hfAlign in new[] { HeaderFooterAlignment.Left, HeaderFooterAlignment.Center, HeaderFooterAlignment.Right })
                             {
-                                var hfImg = page.HeaderFooters.GetImage(hfType, hfSection, hfAlign);
-                                if (hfImg == null) continue;
-                                if (!PdfImageXObject.CanEmbed(hfImg.ImageBytes)) continue;   // only formats we can embed
-                                double iw = hfImg.Width, ih = hfImg.Height;
-                                double ix = hfAlign == HeaderFooterAlignment.Left
-                                                ? pageSettings.Margins.LeftPu
-                                                : hfAlign == HeaderFooterAlignment.Right
-                                                    ? pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu - iw
-                                                    : pageSettings.Margins.LeftPu + (hfContentWidth - iw) / 2d;
-                                double iTop = hfSection == HeaderFooterSection.Header
-                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu
-                                                : pageSettings.Margins.FooterPu + ih;
-                                pageLayout.AddChild(new PdfImageLayout(ix, iTop, iw, ih)
+                                var hf = page.HeaderFooters.Get(hfType, hfSection, hfAlign);
+                                if (hf == null || !hf.HasImage) continue;
+
+                                // Fill page-number placeholders before measuring/splitting;
+                                // the recorded indexes are into the full fragment list.
+                                ApplyPageNumbers(hf, displayedPageNumber, totalPages);
+
+                                // ── horizontal: split the run at the image ──
+                                var frags = hf.Content.TextFragments;
+                                int splitAt = hf.ImageFragmentIndex;
+                                if (splitAt < 0 || splitAt > frags.Count) splitAt = frags.Count;
+                                var beforeFrags = frags.GetRange(0, splitAt);
+                                var afterFrags = frags.GetRange(splitAt, frags.Count - splitAt);
+
+                                double beforeWidth, beforeAscent, beforeDescent;
+                                double afterWidth, afterAscent, afterDescent;
+                                var beforeRun = ShapeHeaderFooterRun(pageSettings, dictionaries, beforeFrags, hfSection, out beforeWidth, out beforeAscent, out beforeDescent);
+                                var afterRun = ShapeHeaderFooterRun(pageSettings, dictionaries, afterFrags, hfSection, out afterWidth, out afterAscent, out afterDescent);
+
+                                bool canEmbed = PdfImageXObject.CanEmbed(hf.ImageBytes);
+                                double imgW = canEmbed ? hf.ImageWidth : 0d;
+                                double imgH = canEmbed ? hf.ImageHeight : 0d;
+
+                                double runWidth = beforeWidth + imgW + afterWidth;
+                                double runStart;
+                                switch (hfAlign)
                                 {
-                                    ImageBytes = hfImg.ImageBytes,
-                                    IsHeaderFooter = true,
-                                    Name = $"{hfSection}{hfAlign}Image",
-                                });
+                                    case HeaderFooterAlignment.Left:
+                                        runStart = hfContentLeft;
+                                        break;
+                                    case HeaderFooterAlignment.Right:
+                                        runStart = hfContentLeft + hfContentWidth - runWidth;
+                                        break;
+                                    default: // Center
+                                        runStart = hfContentLeft + (hfContentWidth - runWidth) / 2d;
+                                        break;
+                                }
+
+                                // ── vertical: image anchored at the margin, text dropped to the image bottom ──
+                                // Shared text metrics so the before-text and after-text sit on one line.
+                                double ascent = System.Math.Max(beforeAscent, afterAscent);
+                                double descent = System.Math.Max(beforeDescent, afterDescent);
+
+                                // The image is anchored at the outer margin edge and grows inward, so no margin     ◄──── this whole
+                                // space is lost: a header image's top sits on the header line, a footer image's     ◄──── block is the
+                                // bottom on the footer line. (This is also where an image-only section sits.)       ◄──── latest change
+                                double imgTop = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu
+                                                : pageSettings.Margins.FooterPu + imgH;
+                                double imgBottom = imgTop - imgH;
+
+                                // Text baseline: line the text's bottom up with the image's bottom, but never let
+                                // the text rise past the normal top-of-band position (only matters when an image is
+                                // shorter than the text). With no embeddable image (imgH == 0) this reduces to the
+                                // normal header/footer text position.
+                                double naturalBaseline = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent
+                                                : pageSettings.Margins.FooterPu + descent;
+                                double textY = System.Math.Min(naturalBaseline, imgBottom + descent);            // ◄──── end of latest change
+
+                                // ── emit before-text, image, after-text left-to-right ──
+                                double cursor = runStart;
+                                if (beforeRun != null)
+                                {
+                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, beforeRun, cursor, textY));
+                                }
+                                cursor += beforeWidth;
+
+                                if (canEmbed)
+                                {
+                                    pageLayout.AddChild(new PdfImageLayout(cursor, imgTop, imgW, imgH)   // ◄──── imgTop now the margin-anchored value above
+                                    {
+                                        ImageBytes = hf.ImageBytes,
+                                        IsHeaderFooter = true,
+                                        Name = $"{hfSection}{hfAlign}Image",
+                                    });
+                                }
+                                cursor += imgW;
+
+                                if (afterRun != null)
+                                {
+                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, afterRun, cursor, textY));
+                                }
                             }
                         }
                     }
@@ -1689,20 +1755,68 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
+        //private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        //{
+        //    if (hf == null) return;
+        //    if (hf.PageNumberIndexes.Count > 0)
+        //    {
+        //        foreach (var idx in hf.PageNumberIndexes)
+        //            hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+        //    }
+        //    if (hf.NumberOfPagesIndexes.Count > 0)
+        //    {
+        //        foreach (var idx in hf.NumberOfPagesIndexes)
+        //            hf.Content.TextFragments[idx].Text = totalPages.ToString();
+        //    }
+        //    PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        //}
         private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
         {
             if (hf == null) return;
-            if (hf.PageNumberIndexes.Count > 0)
-            {
-                foreach (var idx in hf.PageNumberIndexes)
-                    hf.Content.TextFragments[idx].Text = pageNumber.ToString();
-            }
-            if (hf.NumberOfPagesIndexes.Count > 0)
-            {
-                foreach (var idx in hf.NumberOfPagesIndexes)
-                    hf.Content.TextFragments[idx].Text = totalPages.ToString();
-            }
+            ApplyPageNumbers(hf, pageNumber, totalPages);          // ◄──── was two inline foreach loops
             PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        }
+
+        // Fills the page-number / number-of-pages placeholders in place, without shaping. Used both by the   ◄──── new method
+        // plain-text path (which shapes afterwards) and the inline-image path (which shapes the split sub-runs).
+        private static void ApplyPageNumbers(PdfHeaderFooter hf, int pageNumber, int totalPages)
+        {
+            if (hf == null) return;
+            foreach (var idx in hf.PageNumberIndexes)
+                hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+            foreach (var idx in hf.NumberOfPagesIndexes)
+                hf.Content.TextFragments[idx].Text = totalPages.ToString();
+        }
+
+        private static PdfHeaderFooter ShapeHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries,
+    List<TextFragment> frags, HeaderFooterSection section,
+    out double width, out double ascent, out double descent)
+        {
+            width = 0d; ascent = 0d; descent = 0d;
+            if (frags == null || frags.Count == 0) return null;
+            var sub = new PdfHeaderFooter(frags, new List<int>(), new List<int>(), HeaderFooterType.Odd, HeaderFooterAlignment.Left, section);
+            sub.Content.ContentAligmnet = new PdfCellAlignmentData
+            {
+                HorizontalAlignment = EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Left
+            };
+            PdfTextShaper.ShapeText(pageSettings, dictionaries, sub.Content);
+            if (sub.Content.TextLines == null || sub.Content.TextLines.Count == 0
+                || sub.Content.TextLines.LineFragments == null || sub.Content.TextLines.LineFragments.Count == 0
+                || sub.Content.TotalTextLength <= 0d)
+                return null;
+            width = sub.Content.TextLines[0].Width;
+            ascent = sub.Content.TextLines[0].LargestAscent;
+            descent = sub.Content.TextLines[0].LargestDescent;
+            return sub;
+        }
+
+        private static PdfCellContentLayout PlaceHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries,
+    PdfHeaderFooter run, double x, double baselineY)
+        {
+            var layout = new PdfCellContentLayout(pageSettings, dictionaries, run, x, baselineY, 0, 0);
+            layout.IsHeaderFooter = true;
+            layout.GidsAndCharMap(dictionaries);
+            return layout;
         }
 
         private static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)

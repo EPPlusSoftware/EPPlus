@@ -44,6 +44,12 @@ namespace EPPlus.Export.Pdf.Layout
         public List<int> NumberOfPagesIndexes = new List<int>();
         public List<int> PageNumberIndexes = new List<int>();
 
+        public byte[] ImageBytes;
+        public double ImageWidth;
+        public double ImageHeight;
+        public int ImageFragmentIndex = -1;
+        public bool HasImage => ImageBytes != null;
+
         public PdfHeaderFooter(List<TextFragment> textFormats, List<int> pageNumberIndexes, List<int> numberOfPagesIndexes, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
             Content = new PdfCellBase();
