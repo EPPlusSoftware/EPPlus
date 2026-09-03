@@ -51,6 +51,27 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
+        public void ManySlices()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            //Same as PieChartSvgALL but seperatated out explosionBestFit chart
+            using (var p = OpenTemplatePackage("BestFitPie.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Dlbls"];
+
+                var manySlices = ws.Drawings["ManySlices_Rot"];
+
+                var svg = manySlices.ToSvg();
+                SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\ManySlicesSeperated{ws.Name}_{manySlices.Name}.svg", svg);
+                //foreach (ExcelChart c in ws.Drawings)
+                //{
+
+                //}
+            }
+        }
+
+        [TestMethod]
         public void SimpleBestFit()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");

@@ -37,6 +37,7 @@ namespace EPPlusImageRenderer.Svg
         const float MarginHeight = 7.5f;
         const float LineLength = 21;
         const float MinBarLength = 4;
+        float MinPieLength = 5.25f;
         float _marginItemsWidth;
 
         eLegendPosition Position { get; }
@@ -124,6 +125,18 @@ namespace EPPlusImageRenderer.Svg
                             GetSerieSize(l, index, text, ref widest, ref highest);
                             index++;
                         }
+                        Chart.Legend.TextBody.GetInsetsOrDefaults(out double lDefMargin, out double tDefMarg, out double rDefMargin, out double bDefMarg);
+
+                        //In Excel VBA the margins for legend.TextFrame2 appear to always be 7.2:
+                        //RightMargin = rDefMargin;
+                        LeftMargin = lDefMargin;
+
+                        //widest += rDefMargin;
+
+                        //if (MinPieLength < highest * 0.5d)
+                        //{
+                        //    MinPieLength = (float)(highest * 0.5d);
+                        //}
                     }
                     //Skip the rest
                     break;
@@ -390,6 +403,10 @@ namespace EPPlusImageRenderer.Svg
                 if (il > maxIconLength)
                 {
                     maxIconLength = il;
+                }
+                if (c.ChartType == eChartType.Pie && maxIconLength < MinPieLength)
+                {
+                    maxIconLength = MinPieLength;
                 }
             }
             return maxIconLength;
@@ -700,7 +717,12 @@ namespace EPPlusImageRenderer.Svg
 
                 var si = GetPieSeriesIcon(ct, ps, pSls, lastWidth, entryHeight, i);
                 //The si-width is used as left margin for each entry seemingly
-                si.Left += si.Width + (si.BorderWidth ?? 0d)*2d;
+                //si.Left += (si.BorderWidth ?? 0d)*2d;
+                if(si.Left < 4.5d)
+                {
+                    si.Left = 4.5d;
+                }
+
                 if (i == 0)
                 {
                     firstIconWidth = si.Width;
@@ -741,7 +763,7 @@ namespace EPPlusImageRenderer.Svg
                 sls.SeriesIcon = si;
                 sls.Textbox.RecalculateParagraphs();
 
-                tbWidth = sls.Textbox.Width + sls.Textbox.RightMargin;
+                tbWidth = sls.Textbox.Width + rDefMargin; /*+ lDefMargin + rDefMargin;*/
 
                 lastWidth = tbWidth + si.Width - (si.BorderWidth ?? 0d);
 
@@ -768,8 +790,8 @@ namespace EPPlusImageRenderer.Svg
 
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
-                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
-                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (Rectangle.Bounds.Width / 2d) + 1.5d;
+                //Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
+                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
             }
             pSls = null;
             sls = null;
@@ -902,7 +924,7 @@ namespace EPPlusImageRenderer.Svg
             item.Left = x;
             if (pSls != null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
-                item.Top = y + (entryHeight - iconHeight) / 2;
+                item.Top = y - (iconHeight / 2d);
             }
             else
             {
