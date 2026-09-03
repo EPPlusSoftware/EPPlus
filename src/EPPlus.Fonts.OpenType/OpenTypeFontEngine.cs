@@ -342,6 +342,23 @@ namespace EPPlus.Fonts.OpenType
 
         private ITextShaper CreateMeasurementShaper(string key, string fontName, FontSubFamily subFamily)
         {
+            var fallbackMode = _configuration.MetricsFallback;
+
+            // Always: short-circuit before LoadFont so no font file is opened at all. This is
+            // what makes measurement reproducible across machines — the result cannot depend on
+            // what happens to be installed. RequireExactFont wins, since a diagnostic mode that
+            // wants a missing font to throw must not be silenced by a metrics substitution.
+            if (fallbackMode == MetricsFallbackMode.Always && !RequireExactFont)
+            {
+                GenericFontTextShaper alwaysShaper;
+                if (GenericFontTextShaper.TryCreate(fontName, FontSubFamilyConverter.ToStyles(subFamily), out alwaysShaper))
+                {
+                    return alwaysShaper;
+                }
+                // No metrics for this family. Fall through to normal resolution rather than
+                // failing — Always is a preference, not a constraint.
+            }
+
             // If the rendering path already parsed this font on this thread, reuse that shaper.
             // A real font is the better measurement source and the instance is identical.
             TextShaper alreadyParsed;
@@ -352,7 +369,9 @@ namespace EPPlus.Fonts.OpenType
 
             var font = _fontStore.LoadFont(fontName, subFamily, false);
 
-            if (!RequireExactFont && ResolvedToLastResort(fontName, font))
+            if (fallbackMode != MetricsFallbackMode.Disabled
+                && !RequireExactFont
+                && ResolvedToLastResort(fontName, font))
             {
                 GenericFontTextShaper metricsShaper;
                 if (GenericFontTextShaper.TryCreate(fontName, FontSubFamilyConverter.ToStyles(subFamily), out metricsShaper))

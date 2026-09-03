@@ -303,6 +303,53 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
         }
 
+
+        [TestMethod]
+        public void EnsureWrappingRichTextAndGettingLineSpacing_OfficeFonts()
+        {
+            List<string> txtLst = new List<string>() { "Hi ", "I am rich ", "But I am Even Richer " };
+            var rt = new RichTextFormatBase(txtLst[0], "Aptos Narrow", 12f);
+            var rtSecond = new RichTextFormatBase(txtLst[1], "Times New Roman", 11f);
+            var rtThird = new RichTextFormatBase(txtLst[2], "Arial", 18f);
+
+            rtThird.Italic = true;
+            rtThird.Bold = true;
+
+            List<IRichTextFormatEssential> rtLst = new List<IRichTextFormatEssential>() { rt, rtSecond, rtThird };
+
+            var fontEngine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+                cfg.MetricsFallback = MetricsFallbackMode.WhenFontMissing;
+            });
+
+            var paragraph = new LayoutSystem(fontEngine, rtLst);
+
+            var lines = paragraph.Wrap(92.976377953d);
+
+            //Assert correct wrapping
+            Assert.AreEqual("Hi I am rich But", lines[0].Text);
+            Assert.AreEqual("I am Even", lines[1].Text);
+            Assert.AreEqual("Richer", lines[2].Text);
+
+            //Assert line segments correct count
+            Assert.AreEqual(3, lines[0].LineFragments.Count);
+            Assert.AreEqual(3, lines[0].InternalLineFragments.Count);
+            Assert.AreEqual(1, lines[1].LineFragments.Count);
+            Assert.AreEqual(1, lines[1].InternalLineFragments.Count);
+            Assert.AreEqual(1, lines[2].LineFragments.Count);
+            Assert.AreEqual(1, lines[2].InternalLineFragments.Count);
+
+            //Assert correct fragment in correct spot
+            Assert.AreEqual(rtLst[0], (IRichTextFormatEssential)lines[0].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[1], (IRichTextFormatEssential)lines[0].LineFragments[1].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[0].LineFragments[2].OriginalTextFragment.RichTextOptions);
+
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[1].LineFragments[0].OriginalTextFragment.RichTextOptions);
+            Assert.AreEqual(rtLst[2], (IRichTextFormatEssential)lines[2].LineFragments[0].OriginalTextFragment.RichTextOptions);
+        }
+
+
         [TestMethod]
         public void TestGetSection()
         {

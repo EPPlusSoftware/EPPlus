@@ -20,10 +20,18 @@ namespace EPPlus.Fonts.OpenType.FontResolver
 {
     /// <summary>
     /// Concrete implementation of <see cref="IEpplusFontConfiguration"/>.
-    /// Managed exclusively by <see cref="OpenTypeFonts"/> — not instantiated by user code.
-    /// Mutations are intended to happen inside an <c>OpenTypeFonts.Configure</c> callback,
-    /// after which <see cref="OpenTypeFonts"/> reads the resulting state as a snapshot and
-    /// rebuilds the resolver.
+    /// Created by <see cref="OpenTypeFontEngine"/> — not instantiated by user code.
+    /// Mutations are intended to happen inside the configuration callback passed to the engine
+    /// constructor, or to <c>ExcelWorkbook.ConfigureFonts</c>, which forwards to it.
+    ///
+    /// The engine keeps a reference to this instance rather than copying it, and reads different
+    /// properties at different times: <see cref="FontDirectories"/> and
+    /// <see cref="SearchSystemDirectories"/> are read once while the resolver is built, so
+    /// changing them after the callback returns has no effect, whereas
+    /// <see cref="FontFallbacks"/>, the per-script chains and
+    /// <see cref="MetricsFallback"/> are read on each font resolution and so do take effect.
+    /// Callers should not rely on either behaviour; treat the configuration as fixed once the
+    /// callback returns and create a new engine to change it.
     /// </summary>
     internal class EpplusFontConfiguration : IEpplusFontConfiguration
     {
@@ -36,6 +44,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
         public EpplusFontConfiguration()
         {
             SearchSystemDirectories = true;
+            MetricsFallback = MetricsFallbackMode.WhenFontMissing;
             ApplyDefaultScriptFallbacks();
         }
 
@@ -56,6 +65,9 @@ namespace EPPlus.Fonts.OpenType.FontResolver
         {
             get { return _fontFallbacks; }
         }
+
+        /// <inheritdoc/>
+        public MetricsFallbackMode MetricsFallback { get; set; }
 
         /// <inheritdoc/>
         public void SetScriptFallback(UnicodeScript script, params string[] fallbackFontNames)
@@ -80,6 +92,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             FontResolver = null;
             _fontFallbacks.Clear();
             _scriptFallbacks.Clear();
+            MetricsFallback = MetricsFallbackMode.WhenFontMissing;
             ApplyDefaultScriptFallbacks();
         }
 
