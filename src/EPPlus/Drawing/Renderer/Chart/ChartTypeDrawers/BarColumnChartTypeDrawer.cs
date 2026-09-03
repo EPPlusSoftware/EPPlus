@@ -221,7 +221,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             for (var i = 0; i < valValues.Count; i++)
             {
                 double x;
-                if (catValues == null || catAx.Axis.AxisType == eAxisType.Cat)
+                if (catValues == null || (catAx.Axis.AxisType == eAxisType.Cat && catAx.IsDateAutoAxis==false))
                 {
                     if (isColumn)
                     {
@@ -252,7 +252,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                var y = ConvertUtil.GetValueDouble(valValues[i], false, true);
+                var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
                 
                 var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
                 var yPos = valAx.GetPositionInPlotarea(y);
@@ -307,7 +307,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     if (isColumn)
                     {
-                        if (y < 0)
+                        if (y < 0 && catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt ?? valAx.Min) > y)) //Below axis
                         {
                             rect.Top = chartBaseY;
                             rect.Height = yPos - chartBaseY;
@@ -320,7 +320,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (y < 0)
+                        if (y < 0 && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt??valAx.Min) > y)) //Below axis
                         {
                             rect.Left = yPos;
                             rect.Width = chartBaseY - yPos;
