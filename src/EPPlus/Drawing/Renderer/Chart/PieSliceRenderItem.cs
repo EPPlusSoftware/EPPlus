@@ -556,7 +556,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 //Calculate thetha = alpha/4
                 var angleForTriangle = Degrees / 4d;
 
-                var angleForYTriangle = angleForTriangle;
+                var angleForYTriangle = angleForTriangle + 0.64d;
 
                 var yTriangle = (Math.Sin(MConverter.DegreesToRadians(angleForYTriangle)) * _radius);// add 1 for small rounding fault making too small
                 var xTriangle = (Math.Cos(MConverter.DegreesToRadians(angleForTriangle)) * _radius);
