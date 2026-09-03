@@ -72,7 +72,7 @@ namespace EPPlusTest.Drawing.Chart
             File.WriteAllText($"{_worksheetPath}svg\\EPPlusLineChart1.svg", svg);
         }
         [TestMethod]
-linb        public void PieChart()
+        public void PieChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("PieChart");
             LoadTestdata(ws);
@@ -136,7 +136,7 @@ linb        public void PieChart()
             }
         }
 
-                [TestMethod]
+        [TestMethod]
         public void DataLabelsMultipleOneSeriesExport()
         {
             using (var pck = OpenPackage("DataLabelsMultipleOneSeriesExport.xlsx", true))
