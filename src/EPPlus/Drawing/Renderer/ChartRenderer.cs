@@ -103,12 +103,16 @@ namespace EPPlusImageRenderer
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
                 if (VerticalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && HorizontalAxis.Axis.AxisType == eAxisType.Val && HorizontalAxis.Min < 0D)
                 {
-                    Plotarea.Rectangle.Width += VerticalAxis.Rectangle.Width;
-                    Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
-                    var newRight = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(0D);
-                    var rightDiff = newRight - VerticalAxis.Rectangle.Width;
-                    VerticalAxis.Rectangle.Left = rightDiff;
-                    VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = newRight;
+                    var CrossValue = HorizontalAxis.GetCrossesValue();
+                    var newRight = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(CrossValue);
+                    if(newRight > Plotarea.Group.Left)
+                    {
+                        Plotarea.Rectangle.Width += VerticalAxis.Rectangle.Width;
+                        Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
+                        var rightDiff = newRight - VerticalAxis.Rectangle.Width;
+                        VerticalAxis.Rectangle.Left = rightDiff;
+                        VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = newRight;
+                    }
                 }
                 VerticalAxis.AddTickmarksAndValues(DefItems);
             }
@@ -120,11 +124,15 @@ namespace EPPlusImageRenderer
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
                 if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D && HorizontalAxis.Axis.Crosses == eCrosses.AutoZero)
                 {
-                    var newtop = VerticalAxis.GetPositionInPlotarea(0D) + Plotarea.Group.Top;
-                    var topDiff = HorizontalAxis.Rectangle.Top - newtop;
-                    HorizontalAxis.Rectangle.Top = newtop;
-                    HorizontalAxis.Rectangle.Height += topDiff;
-                    HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                    var CrossValue = HorizontalAxis.GetCrossesValue();
+                    var newtop = VerticalAxis.GetPositionInPlotarea(CrossValue) + Plotarea.Group.Top;
+                    if (newtop > Plotarea.Group.Top)
+                    {
+                        var topDiff = HorizontalAxis.Rectangle.Top - newtop;
+                        HorizontalAxis.Rectangle.Top = newtop;
+                        HorizontalAxis.Rectangle.Height += topDiff;
+                        HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                    }
                 }
 
                 HorizontalAxis.AddTickmarksAndValues(DefItems);

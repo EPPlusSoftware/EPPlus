@@ -1268,5 +1268,25 @@ namespace EPPlusImageRenderer.Svg
         {
             return GetDefaultBorderColorForElement(ChartElement.Axis, (int)Chart.Style);
         }
+
+        internal double GetCrossesValue()
+        {
+            if (Axis.CrossingAxis.CrossesAt.HasValue)
+            {
+                return Axis.CrossingAxis.CrossesAt.Value;
+            }
+            else
+            {
+                switch (Axis.CrossingAxis.Crosses)
+                {
+                    case eCrosses.Min:
+                        return Min;
+                    case eCrosses.Max:
+                        return Max;
+                    default:
+                        return 0D;
+                }
+            }
+        }
     }
 }
