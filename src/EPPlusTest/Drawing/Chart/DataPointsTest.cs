@@ -136,7 +136,7 @@ namespace EPPlusTest.Drawing.Chart
             }
         }
 
-                [TestMethod]
+        [TestMethod]
         public void DataLabelsMultipleOneSeriesExport()
         {
             using (var pck = OpenPackage("DataLabelsMultipleOneSeriesExport.xlsx", true))
