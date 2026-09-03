@@ -33,6 +33,8 @@ using OfficeOpenXml.Utils.FileUtils;
 using OfficeOpenXml.Data.QueryTable;
 using OfficeOpenXml.Data.Connection.IOHandlers;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Style.Table;
+
 
 
 
@@ -1522,5 +1524,23 @@ namespace OfficeOpenXml.Table
             Range.Copy(range);
             return WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
         }
+
+        internal ExcelTableNamedStyle GetTableNamedStyle()
+        {
+            ExcelTableNamedStyle tblStyle;
+            if (TableStyle == TableStyles.Custom)
+            {
+                tblStyle = WorkSheet.Workbook.Styles.TableStyles[StyleName].As.TableStyle;
+            }
+            else
+            {
+                var tmpNode = WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                tblStyle = new ExcelTableNamedStyle(WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, WorkSheet.Workbook.Styles);
+                tblStyle.SetFromTemplate(TableStyle);
+            }
+
+            return tblStyle;
+        }
     }
 }
+

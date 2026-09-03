@@ -622,7 +622,45 @@ namespace EPPlus.DrawingRenderer
                 double x1 = cx - halfX, y1 = cy - halfY;
                 double x2 = cx + halfX, y2 = cy + halfY;
 
+                if(item.DefId == "xGridLine")
+                {
+                    //If global, has to stretch the whole length.
+                    //This case is special because it stretches in the same direction as the attempted gradient
+                    x1 = item.Bounds.Left;
+                    x2 = w - x1;
+                }
+
                 return $" x1=\"{(x1).PointToPixelString("0.00")}\" x2=\"{(x2).PointToPixelString("0.00")}\" y1=\"{y1.PointToPixelString("0.00")}\" y2=\"{y2.PointToPixelString("0.00")}\"";
+            }
+            else if (angle.HasValue && angle != 0)
+            {
+                    var x1 = 0D;
+                    var x2 = 0D;
+                    var y1 = 0D;
+                    var y2 = 0D;
+                    angle %= 360;
+                    if (angle <= 90)
+                    {
+                        x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
+                        y2 = Math.Sin(MathHelper.Radians(angle.Value));
+                    }
+                    else if (angle <= 180)
+                    {
+                        y2 = Math.Sin(MathHelper.Radians(angle.Value));
+                        x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
+                    }
+                    else if (angle <= 270)
+                    {
+                        y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
+                        x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
+                    }
+                    else
+                    {
+                        y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
+                        x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
+                    }
+
+                    return $" x1=\"{(x1).ToString("0.00%", CultureInfo.InvariantCulture)}\" x2=\"{(x2).ToString("0.00%", CultureInfo.InvariantCulture)}\" y1=\"{y1.ToString("0.00%", CultureInfo.InvariantCulture)}\" y2=\"{y2.ToString("0.00%", CultureInfo.InvariantCulture)}\"";
             }
             return "";
         }

@@ -16,6 +16,7 @@ using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ using System.Linq;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartPlotareaRenderer : ChartDrawingObject
+    internal class ChartPlotareaRenderer : ChartDrawingDefaultObject
     {
         public ChartPlotareaRenderer(ChartRenderer sc) : base(sc)
         {
@@ -32,15 +33,18 @@ namespace EPPlusImageRenderer.Svg
         }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
         public GroupRenderItem Group { get; private set; }
+
+        ExcelChartPlotArea _pa;
+
         internal void SetPlotAreaRectangle()
         {
-            var pa = Chart.PlotArea;
+            _pa = Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
             Group = new GroupRenderItem(ChartRenderer.Bounds);
             var rect = new RectRenderItem(Group.Bounds);
-            if (pa.Layout.HasLayout)
+            if (_pa.Layout.HasLayout)
             {
-                rect = GetRectFromManualLayout(ChartRenderer, pa.Layout);
+                rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
             }
             else
             {
@@ -61,8 +65,8 @@ namespace EPPlusImageRenderer.Svg
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
 
-            rect.SetDrawingPropertiesFill(ChartRenderer.Theme, pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, pa.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            rect.SetDrawingPropertiesFill(ChartRenderer.Theme, _pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
+            rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, _pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, _pa.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
             Rectangle = rect;
         }
 
@@ -195,7 +199,7 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? 0d) + haHeight;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? TopMargin) + haHeight;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)
@@ -251,6 +255,17 @@ namespace EPPlusImageRenderer.Svg
                 drawer.DrawSeries();
             }
         }
-        internal override Color? DefaultFillColor { get => null;  }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return GetDefaultFillColorForElement(ChartElement.PlotArea2d, (int)Chart.Style);
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return null;
+        }
+
+        internal override Color? DefaultFillColor { get => GetDefaultFillColor();  }
     }
 }

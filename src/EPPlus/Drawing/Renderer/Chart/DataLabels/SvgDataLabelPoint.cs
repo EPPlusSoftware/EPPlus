@@ -9,6 +9,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -48,9 +49,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         //    TxtBox = txtBox;
         //}
 
-        public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabelStandard standard) : base(chart)
+        public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabelStandard standard, Color? defaultFillColor = null) : base(chart)
         {
-            DefaultFillColor = Color.Transparent;
+            DefaultFillColor = defaultFillColor.HasValue ? defaultFillColor : Color.Transparent;
             _labelPosition = GetDefaultPositionBasedOnChartType(standard);
             Rectangle = new RectRenderItem(chart.Bounds);
         }
@@ -73,6 +74,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     case eChartType.LineStacked:
                     case eChartType.XYScatterLines:
                     case eChartType.Bubble:
+                        return eLabelPosition.Right;
                     case eChartType.StockHLC:
                     case eChartType.StockVOHLC:
                     case eChartType.StockVHLC:
@@ -129,12 +131,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
             if (dataLabel.ShowCategory)
             {
+                if (xValue.IsNumeric())
+                {
+                    xValue = Math.Round((double)xValue, 6);
+                }
                 dlblStrings.Add(xValue.ToString());
             }
             if (dataLabel.ShowValue)
             {
                 if (yValue != null)
                 {
+                    if(yValue.IsNumeric())
+                    {
+                        yValue = Math.Round((double)yValue,6);
+                    }
                     dlblStrings.Add(yValue.ToString());
                 }
             }
@@ -211,16 +221,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle.Bounds.Height = txtBox.Rectangle.Bounds.Height;
 
             _txtBox = txtBox;
-
-            if (dataLabel.Fill.IsEmpty == false)
-            {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            }
-            else
-            {
-                _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-                //_txtBox.Rectangle.FillColor = "transparent";
-            }
+            _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
 
             if (dataLabel.Font.IsEmpty == false)
             {
@@ -377,7 +378,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var directionOnly = direction / direction.Length;
 
             //Get txtbox-size based vector
-            var txtBoxAdjustVector = new Vector2(_txtBox.Width / 2d, _txtBox.Height / 2d);
+            var txtBoxAdjustVector = new Vector2(Rectangle.Width / 2d, Rectangle.Height / 2d );
 
             //Apply translation to current position
             Rectangle.Bounds.Position += directionOnly * txtBoxAdjustVector;
@@ -401,7 +402,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 var chartBounds = ChartRenderer.ChartArea.Rectangle.Bounds;
                 var plotBounds = ChartRenderer.GetPlotAreaTop();
 
-                var chartMinY = chartBounds.Position.Y - ChartRenderer.GetPlotAreaTop();
+                var chartMinY = ChartRenderer.Bounds.GlobalTop;
                 var chartMinX = chartBounds.Position.X - ChartRenderer.Plotarea.LeftMargin;
 
                 if (gTop < chartMinY)

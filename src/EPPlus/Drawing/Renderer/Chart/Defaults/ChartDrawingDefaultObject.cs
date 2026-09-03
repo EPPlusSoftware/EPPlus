@@ -7,7 +7,7 @@ using System;
 using System.Drawing;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 
-namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
+namespace OfficeOpenXml.Drawing.Renderer.Chart.Defaults
 {
     [Flags]
     enum ChartElement
@@ -25,9 +25,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
         OtherLines = 512,
     }
 
-    internal abstract class ChartDrawingObjectWithDefaults : ChartDrawingObject
+    internal abstract class ChartDrawingDefaultObject : ChartDrawingObject
     {
-        public ChartDrawingObjectWithDefaults(ChartRenderer chart) : base(chart)
+        public ChartDrawingDefaultObject(ChartRenderer chart) : base(chart)
         {
 
         }
@@ -63,7 +63,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
 
             if (styleId == 0)
             {
-                return Color.Empty;
+                //Set to default instead for export
+                //Otherwise epplus generated get weird.
+                styleId = 2;
+                //return Color.Empty;
             }
 
             if (styleId <= 32)
@@ -100,8 +103,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
             //Alternatively it's an unkown or unset style which should also default to style2
             var styleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
 
-            var AreaOrFloor = (ChartElement.ChartArea | ChartElement.Floor);
-            if (AreaOrFloor.HasFlag(element))
+            //Everything defaults to subtle style except Area and Floor at certain styles
+            var AreaOrFloorOrOther = (ChartElement.ChartArea | ChartElement.Floor | ChartElement.OtherLines);
+            if (AreaOrFloorOrOther.HasFlag(element))
             {
                 var themedLine = ChartRenderer.Theme.FormatScheme.BorderStyle[0];
 
@@ -109,7 +113,32 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
                 //It directly applies the themedLineColor
                 if (nodeIsEmpty)
                 {
-                    lineColor = themedLine.Fill.Color;
+                    //Is node empty inside the theme
+                    if(themedLine.HasFill == false)
+                    {
+                        lineColor = Color.Transparent;
+                        return themedLine;
+                    }
+
+                    bool isSchemeColor = themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style;
+
+                    if (isSchemeColor)
+                    {
+                        lineColor = GetDefaultBorderColorForElement(element, styleId);
+
+                        if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0 && lineColor.HasValue)
+                        {
+                            //var schemeClr = tc.ColorConverter.GetSchemeColor(ChartRenderer.Theme, eSchemeColor.Dark1);
+                            //var tint = GetSchemeColorTint(eSchemeColor.Dark1, 0.45d);
+                            lineColor = tc.ColorConverter.ApplyTransforms(lineColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
+                        }
+
+                        return themedLine;
+                    }
+                    else
+                    {
+                        lineColor = themedLine.Fill.Color;
+                    }
                     return themedLine;
                 }
 
@@ -123,7 +152,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
                     return themedLine;
                 }
 
-                if (styleId < 41)
+                if (styleId < 41 || element == ChartElement.OtherLines)
                 {
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
@@ -266,6 +295,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
 
         protected Color? GetDefaultFillColorForElement(ChartElement element, int ChartStyleId)
         {
+            ChartStyleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
+
             if (element.HasFlag(ChartElement.ChartArea))
             {
                 var retCol = GetSchemeColorTint(eSchemeColor.Background1);
@@ -278,7 +309,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartElementStyleTables
             {
                 var retCol = GetSchemeColorTint(eSchemeColor.Background1);
                 var retCol2 = GetSchemeColorTint(eSchemeColor.Background1, 0.2d);
-                var retCol3 = GetDefaultAccent(ChartStyleId);
+                Color? retCol3 = Color.Empty;
+                if(ChartStyleId > 35 && ChartStyleId < 40)
+                {
+                    retCol3 = GetDefaultAccent(ChartStyleId);
+                }
                 var retCol4 = GetSchemeColorTint(eSchemeColor.Background1, 0.95d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2, retCol3.Value, retCol4);
