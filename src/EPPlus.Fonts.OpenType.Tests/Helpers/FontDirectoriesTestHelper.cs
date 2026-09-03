@@ -76,7 +76,6 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
                             _testOutputAvailable = false;
                         }
 
-                        OpenTypeFonts.ClearFontCache();
                         _initialized = true;
                     }
                 }

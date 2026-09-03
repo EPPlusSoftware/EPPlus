@@ -118,7 +118,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_RoundtripHelper_ShouldWork()
         {
-            var parsedFont = FontTestHelper.RoundtripSubset("Roboto", "test", FontFolders);
+            var parsedFont = FontTestHelper.RoundtripSubset(TestFolderEngine, "Roboto", "test");
 
             SaveFontForCurrentTest(parsedFont);
 
@@ -129,7 +129,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Check_Original_Roboto_Ligatures()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             font.CmapTable.TryGetGlyphId('f', out ushort fGlyph);
             font.CmapTable.TryGetGlyphId('i', out ushort iGlyph);
@@ -168,7 +168,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_Ligatures_ShouldStillWork()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             Debug.WriteLine("=== ORIGINAL ROBOTO ===");
             if (font.GsubTable != null)
@@ -373,7 +373,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_WithGposSingleAdjustment_ShouldPreserve()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var chars = new[] {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                 'A', 'B', 'C', 'D', 'E', ' '
@@ -405,7 +405,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
         [TestMethod]
         public void Subset_WithGposMarkToBase_ShouldPreserveAccents()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var chars = new[] {
                 'e', 'a', 'o', 'u', 'i', 'n',
                 'é', 'à', 'ö', 'ü', 'ñ', ' ',

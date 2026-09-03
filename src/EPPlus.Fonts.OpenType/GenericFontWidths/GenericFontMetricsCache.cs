@@ -15,59 +15,77 @@ using System.Collections.Generic;
 namespace EPPlus.Fonts.OpenType.GenericFontWidths
 {
     /// <summary>
-    /// Process wide cache of the serialized font metrics loaded from
-    /// Resources/TextMetrics.zip, and the single place that decides which font key a request
-    /// resolves to.
+    /// Process wide cache of the serialized font metrics, and the single place that decides
+    /// which font key a request resolves to.
     ///
-    /// GenericFontMetricsTextMeasurerBase keeps its own static dictionary populated from
-    /// <see cref="GenericFontMetricsLoader"/>. Adding a second consumer would otherwise mean a
-    /// second copy of all font entries in memory, so both should be pointed at this cache.
+    /// Fonts are loaded on first use rather than all at once. The set of available keys is read
+    /// from the archive's file names, so IsValidFont and ResolveFontKey can answer without
+    /// decompressing anything; only fonts that are actually measured get parsed. A workbook
+    /// using two fonts holds a few kB here rather than the whole library.
     /// </summary>
     internal static class GenericFontMetricsCache
     {
-        private static Dictionary<uint, SerializedFontMetrics> _fonts;
+        private static readonly Dictionary<uint, SerializedFontMetrics> _loaded =
+            new Dictionary<uint, SerializedFontMetrics>();
+        private static HashSet<uint> _availableKeys;
         private static readonly object _syncRoot = new object();
 
-        /// <summary>
-        /// All loaded font metrics, keyed by family and subfamily.
-        /// </summary>
-        internal static Dictionary<uint, SerializedFontMetrics> Fonts
+        private static HashSet<uint> AvailableKeys
         {
             get
             {
-                if (_fonts == null)
+                if (_availableKeys == null)
                 {
                     lock (_syncRoot)
                     {
-                        if (_fonts == null)
+                        if (_availableKeys == null)
                         {
-                            _fonts = GenericFontMetricsLoader.LoadFontMetrics();
+                            _availableKeys = GenericFontMetricsLoader.LoadAvailableFontKeys();
                         }
                     }
                 }
-                return _fonts;
+                return _availableKeys;
             }
         }
 
         /// <summary>
-        /// Returns the metrics for a font key, or null when the font has no serialized metrics.
+        /// Returns the metrics for a font key, or null when the archive holds no such font.
         /// </summary>
         internal static SerializedFontMetrics GetMetrics(uint fontKey)
         {
             SerializedFontMetrics metrics;
-            if (Fonts.TryGetValue(fontKey, out metrics))
+            lock (_syncRoot)
             {
-                return metrics;
+                if (_loaded.TryGetValue(fontKey, out metrics))
+                {
+                    return metrics;
+                }
             }
-            return null;
+
+            if (!AvailableKeys.Contains(fontKey)) return null;
+
+            // Parsed outside the lock; a duplicate parse under contention is cheaper than
+            // holding the lock across the decompression, and the result is identical either way.
+            var parsed = GenericFontMetricsLoader.LoadFontMetrics(fontKey);
+            if (parsed == null) return null;
+
+            lock (_syncRoot)
+            {
+                if (_loaded.TryGetValue(fontKey, out metrics))
+                {
+                    return metrics;
+                }
+                _loaded[fontKey] = parsed;
+                return parsed;
+            }
         }
 
         /// <summary>
-        /// Returns true when serialized metrics exist for the font key.
+        /// True when the archive contains metrics for the font key. Does not load them.
         /// </summary>
         internal static bool IsValidFont(uint fontKey)
         {
-            return Fonts.ContainsKey(fontKey);
+            return AvailableKeys.Contains(fontKey);
         }
 
         /// <summary>
@@ -78,24 +96,22 @@ namespace EPPlus.Fonts.OpenType.GenericFontWidths
         /// Not every family ships all four subfamilies. Windows has no Arial Black Bold, no
         /// Impact Italic, no Calibri Light Bold and no Tahoma Italic, among others - fifteen
         /// combinations in total. Those used to be generated anyway, by taking the Regular
-        /// font's advance widths and writing them out under the requested subfamily, which is
-        /// why a third of the shipped library carried Regular's metrics. Now those files are
-        /// simply absent, and the substitution happens here where it is visible instead of
-        /// being baked into the data.
+        /// font's advance widths and writing them out under the requested subfamily. Now those
+        /// files are simply absent, and the substitution happens here where it is visible
+        /// instead of being baked into the data.
         ///
         /// The fallback deliberately does not widen anything for Bold. The generator's old
         /// attempt at that had no effect on the reported widths, so falling straight through to
-        /// Regular reproduces the previous behaviour exactly. Applying a real bold correction
-        /// would be a separate, measured change.
+        /// Regular reproduces the previous behaviour exactly.
         /// </summary>
         internal static uint ResolveFontKey(uint requestedKey)
         {
             if (requestedKey == uint.MaxValue) return uint.MaxValue;
-            if (Fonts.ContainsKey(requestedKey)) return requestedKey;
+            if (AvailableKeys.Contains(requestedKey)) return requestedKey;
 
             // The low 16 bits hold the subfamily; clearing them gives the Regular variant.
             var regularKey = requestedKey & 0xFFFF0000;
-            if (regularKey != requestedKey && Fonts.ContainsKey(regularKey))
+            if (regularKey != requestedKey && AvailableKeys.Contains(regularKey))
             {
                 return regularKey;
             }

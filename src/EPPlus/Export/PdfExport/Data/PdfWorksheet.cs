@@ -59,10 +59,10 @@ namespace OfficeOpenXml.Export.PdfExport.Data
             }
         }
 
-        public static double GetThemeFont0Width(ExcelWorksheet ws)
+        public static double GetThemeFont0Width(ExcelWorksheet ws, OpenTypeFontEngine engine)
         {
             var ns = ws.Workbook.Styles.GetNormalStyle();
-            TextShaper shaper = OpenTypeFonts.GetTextShaper(ns.Style.Font.Name, FontSubFamily.Regular);
+            var shaper = engine.GetTextShaper(ns.Style.Font.Name, FontSubFamily.Regular);
             var shapedText = shaper.ShapeLight("0");
             return shapedText.GetWidthInPoints(ns.Style.Font.Size);
         }

@@ -78,10 +78,12 @@ namespace EPPlus.Export.Pdf.Tests
             {
                 var settings = CreateSettings(engine, true);
                 var dictionaries = CreateDictionariesWithSingleFont(settings);
+                var docSettings = PdfDocumentSettings.From(settings);
 
                 var excelPdf = new ExcelPdf();
                 excelPdf.SetPageSettingsForTest(settings);
                 excelPdf.SetDictionariesForTest(dictionaries);
+                excelPdf.SetDocumentSettingsForTest(docSettings);
 
                 excelPdf.AddFontData();
 
@@ -127,10 +129,12 @@ namespace EPPlus.Export.Pdf.Tests
             {
                 var settings = CreateSettings(engine, true);
                 var dictionaries = CreateDictionariesWithSingleFont(settings);
+                var docSettings = PdfDocumentSettings.From(settings);
 
                 var excelPdf = new ExcelPdf();
                 excelPdf.SetPageSettingsForTest(settings);
                 excelPdf.SetDictionariesForTest(dictionaries);
+                excelPdf.SetDocumentSettingsForTest(docSettings);
 
                 excelPdf.AddFontData();
 

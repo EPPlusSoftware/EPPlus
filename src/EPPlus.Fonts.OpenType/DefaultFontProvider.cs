@@ -12,6 +12,7 @@
   02/24/2026         EPPlus Software AB           Dynamic fallback chain with lazy loading
   05/20/2026         EPPlus Software AB           Script-classified fallback via engine reference
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -39,6 +40,8 @@ namespace EPPlus.Fonts.OpenType
     {
         private readonly OpenTypeFontEngine _engine;
         private readonly OpenTypeFont _primaryFont;
+
+        private readonly IFontSource _fontSource;
 
         // Embedded fallbacks, lazy-loaded on first use.
         private readonly LazyFallbackFont _notoEmoji;
@@ -70,13 +73,27 @@ namespace EPPlus.Fonts.OpenType
         /// <param name="engine">The engine to use for resolving named fallback fonts.</param>
         /// <param name="primaryFont">The primary font for text in the user's chosen typeface.</param>
         public DefaultFontProvider(OpenTypeFontEngine engine, OpenTypeFont primaryFont)
+            : this(engine == null ? null : engine.FontStore, primaryFont)
         {
+            // The initializer runs first, so the null guard has to be in the expression above.
+            // This check exists only so the exception names 'engine' rather than 'fontSource' —
+            // the caller passed an engine and should be told about an engine.
             if (engine == null)
                 throw new ArgumentNullException("engine");
+        }
+
+        /// <summary>
+        /// Creates a font provider over a font source. Used by the engine, which passes its own
+        /// store rather than itself — a glyph provider has no business reaching a shaper factory.
+        /// </summary>
+        internal DefaultFontProvider(IFontSource fontSource, OpenTypeFont primaryFont)
+        {
+            if (fontSource == null)
+                throw new ArgumentNullException("fontSource");
             if (primaryFont == null)
                 throw new ArgumentNullException("primaryFont");
 
-            _engine = engine;
+            _fontSource = fontSource;
             _primaryFont = primaryFont;
             _notoEmoji = new LazyFallbackFont(EmbeddedFonts.LoadNotoEmoji);
             _notoMath = new LazyFallbackFont(EmbeddedFonts.LoadNotoMath);
@@ -142,23 +159,6 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
         // Internal helpers
         // -----------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Resolves a shaper for a different font through this provider's engine. Used by the
-        /// layout engine to shape rich-text fragments that switch typeface, so the lookup goes
-        /// through the same engine that created this provider — not the global OpenTypeFonts
-        /// singleton. Kept internal: the engine dependency stays encapsulated here rather than
-        /// leaking onto IFontProvider.
-        /// </summary>
-        internal ITextShaper GetShaperForFont(IFontFormatBase font)
-        {
-            return _engine.GetShaperForFont(font);
-        }
-
-        internal ITextShaper GetShaperForFont(MeasurementFont font)
-        {
-            return _engine.GetShaperForFont(font);
-        }
 
         /// <summary>
         /// Tries to find the glyph in a lazy-loaded embedded fallback font (Noto Emoji / Math).
@@ -236,7 +236,7 @@ namespace EPPlus.Fonts.OpenType
         {
             var result = new List<OpenTypeFont>();
 
-            var chainNames = _engine.GetScriptFallback(script);
+            var chainNames = _fontSource.GetScriptFallback(script);
             if (chainNames == null || chainNames.Length == 0)
                 return result;
 
@@ -248,13 +248,13 @@ namespace EPPlus.Fonts.OpenType
                 // Only accept exact matches — falling back from "Microsoft YaHei" to Archivo
                 // Narrow defeats the purpose of script fallback. We rely on the engine's
                 // availability check rather than blindly loading.
-                var availability = _engine.GetFontAvailability(fontName, FontSubFamily.Regular);
+                var availability = _fontSource.GetFontAvailability(fontName, FontSubFamily.Regular);
                 if (availability != FontAvailability.Exact)
                     continue;
 
                 try
                 {
-                    var font = _engine.LoadFont(fontName, FontSubFamily.Regular);
+                    var font = _fontSource.LoadFont(fontName, FontSubFamily.Regular);
                     if (font != null)
                         result.Add(font);
                 }

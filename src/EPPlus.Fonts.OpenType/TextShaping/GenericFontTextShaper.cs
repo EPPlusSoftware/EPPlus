@@ -65,20 +65,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         private const float PixelsPerPointToEm = 72f / 96f;
 
-        /// <summary>
-        /// Fraction of the total font height that lies above the baseline.
-        ///
-        /// The .fmtr format stores only a single line height and carries no ascender or
-        /// descender, so the split has to be approximated. 0.81 is the middle of the range
-        /// observed in the OS/2 tables of the supported families (Arial 0.810,
-        /// Times New Roman 0.805, Segoe UI 0.811, Verdana 0.827).
-        ///
-        /// This is an approximation and will place baselines slightly wrong. Adding
-        /// ascender, descender and lineGap to a version 2 of the .fmtr format would remove
-        /// the guess; the exporter already reads the OS/2 table.
-        /// </summary>
-        private const float AscentRatio = 0.81f;
-
         private readonly SerializedFontMetrics _metrics;
         private readonly uint _fontKey;
         private readonly ushort _defaultAdvance;
@@ -97,14 +83,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             _metrics = metrics;
             _fontKey = metrics.GetKey();
 
-            float defaultWidth;
-            if (!_metrics.ClassWidths.TryGetValue(_metrics.DefaultWidthClass, out defaultWidth))
-            {
-                // Should not happen for well formed files, but a font whose default class is
-                // missing from ClassWidths would otherwise throw on every character.
-                defaultWidth = 0f;
-            }
-            _defaultAdvance = ToDesignUnits(defaultWidth);
+            _defaultAdvance = ToDesignUnits(_metrics.DefaultWidth);
             _lineHeightDesignUnits = ToDesignUnits(_metrics.LineHeight1em);
         }
 
@@ -120,7 +99,9 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 return false;
             }
 
-            var fontKey = GenericTextMeasurerKey.GetKey(fontFamily, style);
+            // ResolveKey rather than GetKey so a missing subfamily falls back to the family's
+            // Regular, matching what the measurer does.
+            var fontKey = GenericTextMeasurerKey.ResolveKey(fontFamily, style);
             if (fontKey == uint.MaxValue)
             {
                 return false;
@@ -147,6 +128,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public ushort UnitsPerEm
         {
             get { return GENERIC_UNITS_PER_EM; }
+        }
+
+        /// <inheritdoc/>
+        public bool HasGlyphIds
+        {
+            get { return false; }
         }
 
         #region Horizontal shaping
@@ -298,19 +285,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 return GetEastAsianAdvance(c);
             }
 
-            FontMetricsClass widthClass;
-            if (!_metrics.CharMetrics.TryGetValue(c, out widthClass))
-            {
-                return _defaultAdvance;
-            }
-
-            float width;
-            if (!_metrics.ClassWidths.TryGetValue(widthClass, out width))
-            {
-                return _defaultAdvance;
-            }
-
-            return ToDesignUnits(width);
+            return ToDesignUnits(_metrics.GetCharacterWidth(c));
         }
 
         /// <summary>
@@ -512,29 +487,34 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         }
 
         /// <summary>
-        /// Total font height. The .fmtr format stores a single line height only, so ascent
-        /// plus descent cannot be distinguished from baseline to baseline distance here and
-        /// the same value is returned as <see cref="GetLineHeightInPoints"/>.
+        /// Total font height, ascent plus descent, excluding the line gap. This is the same
+        /// distinction TextShaper makes: GetLineHeightInPoints includes the leading between
+        /// lines, this does not.
         /// </summary>
         public float GetFontHeightInPoints(float fontSize)
         {
-            return GetLineHeightInPoints(fontSize);
+            return (_metrics.Ascender1em + _metrics.Descender1em) * PixelsPerPointToEm * fontSize;
         }
 
         /// <summary>
-        /// Approximated. See <see cref="AscentRatio"/>.
+        /// Distance from the top of the line box down to the baseline.
+        ///
+        /// Exact for version 2 metrics. For version 1 files the value is split out of the line
+        /// height by a fixed ratio in SerializedFontMetrics, which is out by up to 7% of the
+        /// font height for the extremes of the shipped library.
         /// </summary>
         public float GetAscentInPoints(float fontSize)
         {
-            return GetFontHeightInPoints(fontSize) * AscentRatio;
+            return _metrics.Ascender1em * PixelsPerPointToEm * fontSize;
         }
 
         /// <summary>
-        /// Approximated. See <see cref="AscentRatio"/>.
+        /// Distance from the baseline down to the bottom of the line box. See
+        /// <see cref="GetAscentInPoints"/> for the version 1 caveat.
         /// </summary>
         public float GetDescentInPoints(float fontSize)
         {
-            return GetFontHeightInPoints(fontSize) * (1f - AscentRatio);
+            return _metrics.Descender1em * PixelsPerPointToEm * fontSize;
         }
 
         #endregion

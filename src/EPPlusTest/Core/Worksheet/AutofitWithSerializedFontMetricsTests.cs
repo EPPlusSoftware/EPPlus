@@ -60,6 +60,7 @@ namespace EPPlusTest.Core.Worksheet
         [DataRow("Tw Cen MT")]
         [DataRow("Tw Cen MT Condensed")]
         [DataRow("Segoe UI")]
+        [DataRow("Tahoma")]
         public void AutofitWithSerializedFonts(string fontFamily)
         {
             var columns = AutofitCorpus.GetLength(0);

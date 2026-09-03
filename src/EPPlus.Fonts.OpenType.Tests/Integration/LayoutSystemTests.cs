@@ -51,8 +51,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             Assert.AreEqual(lstOfRichText[0], styleRuns[0]);
             Assert.AreEqual(lstOfRichText[1], styleRuns[1]);
 
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(font);
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+            });
+            var layout = engine.GetTextLayoutEngineForFont(font);
             var wrappedLines = layout.WrapRichTextLines(fragments, 225d);
 
             var wrappedLinesPara = paragraph.Wrap(225d);

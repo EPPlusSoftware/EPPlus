@@ -21,8 +21,11 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var fragments = GetTextFragments();
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+            });
+            var layout = engine.GetTextLayoutEngineForFont(fragments[0].Font);
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
 
@@ -37,8 +40,11 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             var fragments = GetTextFragments();
 
             fragments[4].RichTextOptions.FontColor = Color.DarkRed;
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+            });
+            var layout = engine.GetTextLayoutEngineForFont(fragments[0].Font);
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);

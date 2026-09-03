@@ -44,14 +44,19 @@ namespace EPPlus.Export.Pdf
         }
 
         internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
-{
-    _pageSettings = pageSettings;
-}
+        {
+            _pageSettings = pageSettings;
+        }
 
-internal void SetDictionariesForTest(PdfDictionaries dictionaries)
-{
-    _dictionaries = dictionaries;
-}
+        internal void SetDictionariesForTest(PdfDictionaries dictionaries)
+        {
+            _dictionaries = dictionaries;
+        }
+
+        internal void SetDocumentSettingsForTest(PdfDocumentSettings documentSettings)
+        {
+            _documentSettings = documentSettings;
+        }
 
         //Get the label to use for pattern.
         private string GetPatternLabel(PdfCellLayout layout)
