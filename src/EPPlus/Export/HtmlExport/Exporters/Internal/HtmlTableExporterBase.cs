@@ -146,6 +146,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             var address = _table.Address;
             HtmlImage image = null;
+            ExcelTable inRangeTable = null;
             foreach (var col in _columns)
             {
                 var tblData = new HTMLElement(HtmlElements.TableData);
@@ -155,7 +156,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 {
                     tblData.AddAttribute("role", "cell");
                 }
-                GetClassData(tblData, true, image, cell, Settings, _exporterContext, out HTMLElement contentElement);
+                if (Settings.TableStyle == eHtmlRangeTableInclude.Include && _hasIntersectingTables)
+                {
+                    inRangeTable = cell.GetIntersectingTable();
+                }
+
+                GetClassData(tblData, true, image, cell, Settings, _exporterContext, inRangeTable, out HTMLElement contentElement);
 
                 AddImage(contentElement, Settings, image, cell.Value);
 

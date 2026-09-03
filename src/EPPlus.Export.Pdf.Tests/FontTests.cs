@@ -12,6 +12,7 @@ using EPPlus.Export.Pdf.DocumentObjects.Fonts;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.Integration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -57,11 +58,33 @@ namespace EPPlus.Export.Pdf.Tests
             return settings;
         }
 
-        private static PdfDictionaries CreateDictionariesWithSingleFont(PdfPageSettings settings)
+        private static PdfDictionaries CreateDictionariesWithSingleFont(PdfPageSettings settings, OpenTypeFontEngine engine)
         {
             var dictionaries = new PdfDictionaries();
-            // Register one font with some text so a subset is produced.
-            dictionaries.AddFont(settings, TestFontName, FontSubFamily.Regular, "Hello world!");
+
+            // In the new model Fonts is populated during shaping (ShapeText creates the resource,
+            // GidsAndCharMap fills gids + charmap), NOT by AddFont. Reproduce that end state directly
+            // so AddFontData has a realistic embedded resource to emit, without running a full export.
+            var font = engine.LoadFont(TestFontName, FontSubFamily.Regular);
+            var key = new FontKey(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum());
+
+            var resource = new PdfFontResource(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum(), 1, settings);
+            resource.fontData = font;
+
+            // Populate a few glyphs as shaping would, so the embedded path (CIDSet, font stream subset)
+            // has real glyph ids to work with.
+            ushort gid;
+            foreach (var ch in "Hi")
+            {
+                if (font.CmapTable.TryGetGlyphId(ch, out gid) && gid != 0)
+                {
+                    resource.Gids.Add(gid);
+                    if (!resource.charactermappings.ContainsKey(gid))
+                        resource.charactermappings[gid] = ch.ToString();
+                }
+            }
+
+            dictionaries.Fonts[key] = resource;
             return dictionaries;
         }
 
@@ -77,14 +100,14 @@ namespace EPPlus.Export.Pdf.Tests
             using (var engine = CreateEngine())
             {
                 var settings = CreateSettings(engine, true);
-                var dictionaries = CreateDictionariesWithSingleFont(settings);
+                var dictionaries = CreateDictionariesWithSingleFont(settings, engine);
                 var docSettings = PdfDocumentSettings.From(settings);
 
                 var excelPdf = new ExcelPdf();
                 excelPdf.SetPageSettingsForTest(settings);
+                excelPdf.SetDocumentSettingsForTest(PdfDocumentSettings.From(settings));
                 excelPdf.SetDictionariesForTest(dictionaries);
                 excelPdf.SetDocumentSettingsForTest(docSettings);
-
                 excelPdf.AddFontData();
 
                 var fontResource = dictionaries.GetFont(settings, TestFontName, FontSubFamily.Regular);
@@ -128,14 +151,14 @@ namespace EPPlus.Export.Pdf.Tests
             using (var engine = CreateEngine())
             {
                 var settings = CreateSettings(engine, true);
-                var dictionaries = CreateDictionariesWithSingleFont(settings);
+                var dictionaries = CreateDictionariesWithSingleFont(settings, engine);
                 var docSettings = PdfDocumentSettings.From(settings);
 
                 var excelPdf = new ExcelPdf();
                 excelPdf.SetPageSettingsForTest(settings);
+                excelPdf.SetDocumentSettingsForTest(PdfDocumentSettings.From(settings));
                 excelPdf.SetDictionariesForTest(dictionaries);
                 excelPdf.SetDocumentSettingsForTest(docSettings);
-
                 excelPdf.AddFontData();
 
                 foreach (var obj in excelPdf._document)

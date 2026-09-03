@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.Scanner;
+using EPPlus.Fonts.OpenType.Tables.Os2;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -60,7 +61,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         struct LicenseDataHolder()
         {
             public string? FontName;
-            public ushort LicenseType;
+            public FsTypeFlags LicenseType;
             public string? LTypeString;
         }
 
@@ -71,20 +72,20 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened "read-only"; no edits can be applied to the document.
         /// 8: Editable embedding: the font may be embedded, and may be temporarily loaded on other systems. As with Preview & Print embedding, documents containing Editable fonts may be opened for reading. In addition, editing is permitted, including ability to format new text using the embedded font, and changes may be saved.
         /// </summary>
-        string GetFsString(ushort fsId)
+        string GetFsString(FsTypeFlags fsType)
         {
-            switch (fsId)
+            switch (fsType & (FsTypeFlags)Os2Table.FsTypeUsageMask)
             {
-                case 0:
+                case FsTypeFlags.Installable:
                     return "Installable Embedding";
-                case 2:
+                case FsTypeFlags.RestrictedLicense:
                     return "Restricted Licence Embedding";
-                case 4:
+                case FsTypeFlags.PreviewPrint:
                     return "Preview & Print Embedding";
-                case 8:
+                case FsTypeFlags.Editable:
                     return "Editable Embedding";
                 default:
-                    return $"UNKNOWN VALUE: '{fsId}' POTENTIALLY CORRUPT FONT";
+                    return $"UNKNOWN VALUE: '{(ushort)fsType}' POTENTIALLY CORRUPT FONT";
             }
         }
 
@@ -160,7 +161,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Assert.AreEqual(Scanner.FontFormat.Otf, allFontsList[i].Format);
             }
 
-            var fontsThatCannotBeEmbedded = dataHolder.Where(x => x.LicenseType == 2);
+            var fontsThatCannotBeEmbedded = dataHolder.Where(
+                 x => (x.LicenseType & (FsTypeFlags)Os2Table.FsTypeUsageMask) == FsTypeFlags.RestrictedLicense);
 
             Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
         }
@@ -211,7 +213,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
                 Assert.AreEqual(Scanner.FontFormat.Ttf, allFontsList[i].Format);
             }
 
-            var fontsThatCannotBeEmbedded = dataHolder.Where(x => x.LicenseType == 2);
+            var fontsThatCannotBeEmbedded = dataHolder.Where(
+                x => (x.LicenseType & (FsTypeFlags)Os2Table.FsTypeUsageMask) == FsTypeFlags.RestrictedLicense);
 
             Assert.AreEqual(0, fontsThatCannotBeEmbedded.Count());
         }

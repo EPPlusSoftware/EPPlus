@@ -10,16 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Export.Pdf.Resources;
-using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport.TextShaping
@@ -28,19 +29,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
     {
         private static Dictionary<IFontProvider, TextShaper> shaperCache = new Dictionary<IFontProvider, TextShaper>();
         private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
-
-        // Pass 1: collect text per font so FontSubsetManager can build subsets once
-        public static void CollectText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
-        {
-            if (cell == null || cell.TextFragments == null) return;
-            for (int i = 0; i < cell.TextFragments.Count; i++)
-            {
-                var tf = cell.TextFragments[i];
-                var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
-                if (!dictionaries.Fonts.ContainsKey(key)) continue;
-                dictionaries.Fonts[key].fontSubsetManager.AddText(tf.Text);
-            }
-        }
 
         // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
@@ -55,9 +43,15 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
                 var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
-                if (!dictionaries.ShapedProviders.TryGetValue(key, out var provider))
+                IFontProvider provider;
+                if (!dictionaries.ShapedProviders.TryGetValue(key, out provider))
                 {
-                    continue;
+                    // No subset provider was built for this font — this is the measurement path
+                    // (GetCellCollectionFromRange), which does not run BuildSubsets. Shape against the
+                    // whole font instead: advance widths are identical to the subset, so measured width
+                    // is exact, and no subsetting or embedding decision is triggered.
+                    var font = pageSettings.FontEngine.LoadFont(tf.Font.Family, tf.Font.SubFamily);
+                    provider = new DefaultFontProvider(pageSettings.FontEngine, font);
                 }
                 st.FontProvider = provider;
                 if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
@@ -91,6 +85,10 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
+                // I ShapeText, EFTER fontIdMap-loopen (ersätt den nuvarande raden):
+                Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
+                                $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
+                                $"labels=[{string.Join(",", fontIdMap.Values)}]");
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
@@ -159,6 +157,10 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
+                Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
+                $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
+                $"labels=[{string.Join(",", fontIdMap.Values)}]");
+
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);

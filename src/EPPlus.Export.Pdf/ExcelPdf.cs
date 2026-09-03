@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -18,6 +19,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -75,7 +77,9 @@ namespace EPPlus.Export.Pdf
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
-        {            
+        {
+            foreach (var f in _dictionaries.Fonts)
+                Debug.WriteLine($"Fonts: {f.Key} → label={f.Value.Label} nr={f.Value.labelNumber}");
             if (_documentSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)
@@ -116,7 +120,19 @@ namespace EPPlus.Export.Pdf
         {
             foreach (var shading in _dictionaries.Shadings)
             {
-                _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                var gradient = shading.Value.CellFillData.GradientFillData;
+                if (gradient != null && gradient.GradientType == ExcelFillGradientType.Path)
+                {
+                    // Box gradient: ShadingType 1 + Type 4 PostScript function. A Type 4 function is
+                    // a stream object, so it must be its own indirect object referenced by the shading.
+                    var boxFunction = new PdfPostScriptCalculatorFunction(_document.Count + 1, gradient);
+                    _document.Add(boxFunction);
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1, boxFunction.objectNumber));
+                }
+                else
+                {
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                }
                 _document.Add(shading.Value.GetShadingPatternObject(_document.Count + 1, _document.Count));
                 int label = _dictionaries.Patterns.Last().Value.labelNumber + 1;
                 var pr = new PdfPatternResource(label, shading.Value.CellFillData);
@@ -167,7 +183,7 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
             if (pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);

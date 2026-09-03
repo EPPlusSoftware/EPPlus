@@ -222,9 +222,8 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var setting = exporter.Settings.Drawings;
 
-                setting.DrawTypeInclude = eDrawingInclude.Shapes & eDrawingInclude.Shapes;
-                setting.Include = ePictureInclude.Include;
-                setting.Position = ePicturePosition.Absolute;
+                setting.Include = eDrawingInclude.Include;
+                setting.Position = eDrawingPosition.Absolute;
 
                 exporter.Settings.Minify = false;
                 exporter.Settings.Encoding = Encoding.UTF8;
@@ -253,9 +252,8 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var setting = exporter.Settings.Drawings;
 
-                setting.DrawTypeInclude = eDrawingInclude.Charts;
-                setting.Include = ePictureInclude.Include;
-                setting.Position = ePicturePosition.Relative;
+                setting.Include = eDrawingInclude.Include;
+                setting.Position = eDrawingPosition.Relative;
 
                 exporter.Settings.Minify = false;
                 exporter.Settings.Encoding = Encoding.UTF8;
@@ -282,7 +280,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                exporter.Settings.Pictures.Include = ePictureInclude.Include;
+                exporter.Settings.Drawings.Include = eDrawingInclude.Include;
                 exporter.Settings.Minify = false;
                 exporter.Settings.Encoding = Encoding.UTF8;
                 var html = exporter.GetSinglePage();
@@ -303,7 +301,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                exporter.Settings.Pictures.Include = ePictureInclude.IncludeInHtmlOnly;
+                exporter.Settings.Drawings.Include = eDrawingInclude.IncludeInHtmlOnly;
                 exporter.Settings.Minify = false;
                 exporter.Settings.Encoding = Encoding.UTF8;
 

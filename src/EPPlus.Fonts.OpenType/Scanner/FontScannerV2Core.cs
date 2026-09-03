@@ -99,14 +99,28 @@ namespace EPPlus.Fonts.OpenType.Scanner
 
                 if (info.TableRecords.TryGetValue("OS/2", out TableRecord os2Rec))
                 {
-                    try
+                    // fsSelection sits at byte offset 62 in the OS/2 table, after sFamilyClass (30),
+                    // panose[10] (32-41), ulUnicodeRange1-4 (42-57) and achVendID (58-61).
+                    // Reading at offset 32 returns the first two PANOSE bytes instead.
+                    const int fsSelectionOffset = 62;
+
+                    // Every OS/2 version (0 and up) is at least 78 bytes, so a table too short to hold
+                    // fsSelection is malformed. Check up front rather than relying on the read throwing.
+                    if (os2Rec.Length >= fsSelectionOffset + 2)
                     {
-                        fs.Position = info.OffsetInFile + os2Rec.Offset + 32;
-                        info.FsSelection = reader.ReadUInt16BigEndian();
+                        try
+                        {
+                            fs.Position = info.OffsetInFile + os2Rec.Offset + fsSelectionOffset;
+                            info.FsSelection = reader.ReadUInt16BigEndian();
+                        }
+                        catch
+                        {
+                            // Om tabellen är korrupt eller för kort → ignorera, behåll 0
+                            info.FsSelection = 0;
+                        }
                     }
-                    catch
+                    else
                     {
-                        // Om tabellen är korrupt eller för kort → ignorera, behåll 0
                         info.FsSelection = 0;
                     }
                 }

@@ -41,6 +41,9 @@ namespace EPPlus.Fonts.OpenType.FontResolver
         private readonly Dictionary<UnicodeScript, string[]> _scriptFallbacks =
             new Dictionary<UnicodeScript, string[]>();
 
+        private Func<FontEmbeddingInfo, FontEmbeddingDecision> _onFontEmbedding;
+
+
         public EpplusFontConfiguration()
         {
             SearchSystemDirectories = true;
@@ -59,6 +62,21 @@ namespace EPPlus.Fonts.OpenType.FontResolver
 
         /// <inheritdoc/>
         public IFontResolver FontResolver { get; set; }
+
+        /// <inheritdoc/>
+        public void OnFontEmbedding(Func<FontEmbeddingInfo, FontEmbeddingDecision> callback)
+        {
+            _onFontEmbedding = callback;
+        }
+
+        /// <summary>
+        /// Returns the registered embedding-decision callback, or null if none is configured.
+        /// Consumed by the font engine when resolving how a font should be embedded.
+        /// </summary>
+        internal Func<FontEmbeddingInfo, FontEmbeddingDecision> GetEmbeddingCallback()
+        {
+            return _onFontEmbedding;
+        }
 
         /// <inheritdoc/>
         public IDictionary<string, string[]> FontFallbacks

@@ -34,6 +34,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
     {
         public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
         {
+            var tableStyleCache = new Dictionary<ExcelTable, ExcelTableNamedStyle>();
             var Range = pdfRange;
             var worksheet = Range.Range.Worksheet;
             var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet, pageSettings.FontEngine);
@@ -75,14 +76,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     tempMap.Name = cell.Address;
                     if (cell.Merge)
                     {
-                        HandleMergedCell(pageSettings, dictionaries, cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth);
+                        HandleMergedCell(pageSettings, dictionaries, cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth, tableStyleCache);
                     }
                     var cellStyle = new PdfCellStyle();
-                    GetBorderStyles(cell, cellStyle, tempMap);
+                    GetBorderStyles(cell, cellStyle, tempMap, tableStyleCache);
                     if (tempMap.Main == null)
                     {
-                        GetFillStyles(cell, cellStyle);
-                        GetFontStyle(cell, cellStyle);
+                        GetFillStyles(cell, cellStyle, tableStyleCache);
+                        GetFontStyle(cell, cellStyle, tableStyleCache);
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
                         if (!string.IsNullOrEmpty(cell.Text))
                         {
@@ -113,7 +114,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return Map;
         }
 
-        private static void HandleMergedCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth)
+        private static void HandleMergedCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
         {
             var worksheet = cell.Worksheet;
             string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
@@ -144,9 +145,9 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     var main = worksheet.Cells[address._fromRow, address._fromCol];
                     PdfCell mainCell = new PdfCell();
                     var cellStyle = new PdfCellStyle();
-                    GetBorderStyles(main, cellStyle, mainCell);
-                    GetFillStyles(main, cellStyle);
-                    GetFontStyle(main, cellStyle);
+                    GetBorderStyles(main, cellStyle, mainCell, tableStyleCache);
+                    GetFillStyles(main, cellStyle, tableStyleCache);
+                    GetFontStyle(main, cellStyle, tableStyleCache);
                     mainCell.ContentAligmnet = GetContentAlignment(main);
                     if (!string.IsNullOrEmpty(main.Text))
                     {
@@ -162,7 +163,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             tempMap.Merged = true;
         }
 
-        private static void GetFillStyles(ExcelRangeBase cell, PdfCellStyle cellStyle)
+        private static void GetFillStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
         {
             if (cell.Style.Fill.IsEmpty())
             {
@@ -206,56 +207,45 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     var range = table.Range;
                     int tableRow = 0;
                     int tableCol = 0;
-                    ExcelTableNamedStyle tableStyle = null;
-                    if (table.TableStyle == TableStyles.Custom)
+                    ExcelTableNamedStyle tableStyle = GetTableStyle(table, tableStyleCache);
+                    tableRow = cell._fromRow - range._fromRow;
+                    tableCol = cell._fromCol - range._fromCol;
+                    if (table.ShowHeader && tableRow == 0)
                     {
-                        if (!string.IsNullOrEmpty(table.StyleName))
-                            tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+                        cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
                     }
-                    else
+                    if (table.ShowHeader && tableRow == 0)
                     {
-                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
-                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+                        cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
                     }
-                    if (tableStyle != null)
+                    else if (table.ShowTotal && range._toRow == cell._fromRow)
                     {
-                        tableRow = cell._fromRow - range._fromRow;
-                        tableCol = cell._fromCol - range._fromCol;
-                        cellStyle.dxfFill = tableStyle.WholeTable.Style.Fill;
-                        if (table.ShowHeader && tableRow == 0)
-                        {
-                            cellStyle.dxfFill = tableStyle.HeaderRow.Style.Fill;
-                        }
-                        else if (table.ShowTotal && range._toRow == cell._fromRow)
-                        {
-                            cellStyle.dxfFill = tableStyle.TotalRow.Style.Fill;
-                        }
-                        else if (table.ShowFirstColumn && tableCol == 0)
-                        {
-                            cellStyle.dxfFill = tableStyle.FirstColumn.Style.Fill;
-                        }
-                        else if (table.ShowLastColumn && range._toCol == cell._fromCol)
-                        {
-                            cellStyle.dxfFill = tableStyle.LastColumn.Style.Fill;
-                        }
-                        else if (table.ShowRowStripes)
-                        {
-                            var fill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
-                            if (fill.HasValue) cellStyle.dxfFill = fill;
-                        }
-                        else if (table.ShowColumnStripes)
-                        {
-                            var fill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
-                            if (fill.HasValue) cellStyle.dxfFill = fill;
-                        }
+                        cellStyle.dxfFill = tableStyle.TotalRow.Style.Fill;
+                    }
+                    else if (table.ShowFirstColumn && tableCol == 0)
+                    {
+                        cellStyle.dxfFill = tableStyle.FirstColumn.Style.Fill;
+                    }
+                    else if (table.ShowLastColumn && range._toCol == cell._fromCol)
+                    {
+                        cellStyle.dxfFill = tableStyle.LastColumn.Style.Fill;
+                    }
+                    else if (table.ShowRowStripes)
+                    {
+                        var fill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
+                        if (fill.HasValue) cellStyle.dxfFill = fill;
+                    }
+                    else if (table.ShowColumnStripes)
+                    {
+                        var fill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
+                        if (fill.HasValue) cellStyle.dxfFill = fill;
                     }
                 }
             }
             cellStyle.xfFill = cell.Style.Fill;
         }
 
-        private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell)
+        private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
         {
             if (cell != null)
             {
@@ -275,22 +265,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     cellStyle.DiagonalUp = false;
                     cellStyle.DiagonalDown = false;
                 }
-                    var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
+                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {
                     var table = tables[0].Value;
-                    ExcelTableNamedStyle tableStyle = null;
-                    if (table.TableStyle == TableStyles.Custom)
-                    {
-                        if(!string.IsNullOrEmpty(table.StyleName))
-                            tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-                    }
-                    else
-                    {
-                        var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                        tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
-                        tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
-                    }
+                    ExcelTableNamedStyle tableStyle = GetTableStyle(table, tableStyleCache);
                     if (tableStyle != null)
                     {
                         cellStyle.dxfTop = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle, out int topOrder);
@@ -400,7 +379,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return null;
         }
 
-        private static PdfCellStyle GetFontStyle(ExcelRangeBase cell, PdfCellStyle cellStyle)
+        private static PdfCellStyle GetFontStyle(ExcelRangeBase cell, PdfCellStyle cellStyle, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
         {
             var cf = cell.ConditionalFormatting.GetConditionalFormattings();
             if (cf != null && cf.Count > 0)
@@ -427,18 +406,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 var table = tables[0].Value;
                 var range = table.Range;
-                ExcelTableNamedStyle tableStyle = null;
-                if (table.TableStyle == TableStyles.Custom)
-                {
-                    if (!string.IsNullOrEmpty(table.StyleName))
-                        tableStyle = cell.Worksheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-                }
-                else
-                {
-                    var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                    tableStyle = new ExcelTableNamedStyle(cell.Worksheet.Workbook.Styles.NameSpaceManager, tmpNode, cell.Worksheet.Workbook.Styles);
-                    tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
-                }
+                ExcelTableNamedStyle tableStyle = GetTableStyle(table, tableStyleCache);
                 if (tableStyle != null)
                 {
                     int tableRow = cell._fromRow - range._fromRow;
@@ -1037,10 +1005,16 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (next != null && !next.Hidden && !next.Merged && next.CellStyle != null)
                         {
                             var ns = next.CellStyle;
-                            int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
-                            int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
-                            if (here >= there) ns.SuppressLeft = true;    // this cell's right wins
-                            else cs.SuppressRight = true;   // neighbour's left wins
+                            // Two adjacent DOUBLE borders form ONE shared double: keep BOTH sides so each
+                            // cell draws only its inner line (see PdfBorderRenderer.DrawDoubleBorder /
+                            // NeighborDouble). Suppressing either side collapses it to a single line.
+                            if (!(IsDoubleEdge(cs.xfRight, cs.dxfRight) && IsDoubleEdge(ns.xfLeft, ns.dxfLeft)))
+                            {
+                                int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
+                                int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
+                                if (here >= there) ns.SuppressLeft = true;    // this cell's right wins
+                                else cs.SuppressRight = true;   // neighbour's left wins
+                            }
                         }
                     }
 
@@ -1051,14 +1025,26 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (below != null && !below.Hidden && !below.Merged && below.CellStyle != null)
                         {
                             var bs = below.CellStyle;
-                            int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
-                            int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
-                            if (here >= there) bs.SuppressTop = true;     // this cell's bottom wins
-                            else cs.SuppressBottom = true;  // cell-below's top wins
+                            // Two adjacent DOUBLE borders form ONE shared double: keep BOTH sides (inner-only each).
+                            if (!(IsDoubleEdge(cs.xfBottom, cs.dxfBottom) && IsDoubleEdge(bs.xfTop, bs.dxfTop)))
+                            {
+                                int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
+                                int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
+                                if (here >= there) bs.SuppressTop = true;     // this cell's bottom wins
+                                else cs.SuppressBottom = true;  // cell-below's top wins
+                            }
                         }
                     }
                 }
             }
+        }
+
+        // Effective style of one edge is Double (user xf wins over conditional dxf). Mirrors PdfLayout.IsDouble*.
+        private static bool IsDoubleEdge(ExcelBorderItem xf, ExcelDxfBorderItem dxf)
+        {
+            if (xf != null && xf.Style != ExcelBorderStyle.None) return xf.Style == ExcelBorderStyle.Double;
+            if (dxf != null && dxf.Style.HasValue) return dxf.Style.Value == ExcelBorderStyle.Double;
+            return false;
         }
 
         private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, int elementOrder)
@@ -1083,6 +1069,28 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 FirstTotalCell = 12, LastTotalCell = 13,
                 ConditionalFormat = 50,   // beats any table element
                 UserSet = 100;            // beats CF and table
+        }
+
+        private static ExcelTableNamedStyle GetTableStyle(ExcelTable table, Dictionary<ExcelTable, ExcelTableNamedStyle> cache)
+        {
+            if (cache.TryGetValue(table, out var cached))
+                return cached;
+
+            ExcelTableNamedStyle tableStyle;
+            if (table.TableStyle == TableStyles.Custom)
+            {
+                tableStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
+            }
+            else
+            {
+                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                tableStyle = new ExcelTableNamedStyle(
+                    table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
+                tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
+            }
+
+            cache[table] = tableStyle;
+            return tableStyle;
         }
     }
 }

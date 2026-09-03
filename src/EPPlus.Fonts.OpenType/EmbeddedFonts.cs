@@ -76,6 +76,31 @@ namespace EPPlus.Fonts.OpenType
             }
         }
 
+        // The families EPPlus ships as embedded resources. Kept as names rather than instances:
+        // a bundled font also reaches the engine as a fresh OpenTypeFont built from
+        // IFontResolver.ResolveFont's byte[], which is not reference-equal to the cached instance.
+        private static readonly string[] _bundledFamilies = new string[]
+        {
+            "Archivo Narrow",
+            "Noto Emoji",
+            "Noto Sans Math"
+        };
+
+        /// <summary>
+        /// True if the family is one EPPlus distributes as an embedded resource. All four
+        /// Archivo Narrow styles are covered by the family name alone.
+        /// </summary>
+        internal static bool IsBundledFamily(string familyName)
+        {
+            if (string.IsNullOrEmpty(familyName)) return false;
+            for (int i = 0; i < _bundledFamilies.Length; i++)
+            {
+                if (string.Equals(_bundledFamilies[i], familyName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Reads all bytes from a stream into a byte array.
         /// .NET 3.5 compatible (no CopyTo available).
