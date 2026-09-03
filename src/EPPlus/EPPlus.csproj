@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-		<AssemblyVersion>9.0.0.1</AssemblyVersion>
-		<FileVersion>9.0.0.1</FileVersion>
-		<Version>9.0.0-preview2</Version>
+		<AssemblyVersion>9.0.0.2</AssemblyVersion>
+		<FileVersion>9.0.0.2</FileVersion>
+		<Version>9.0.0-preview</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<!-- Include the referenced project binaries in the generated NuGet package -->
 		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
