@@ -1,16 +1,4 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/20/2025         EPPlus Software AB           Initial implementation
- *************************************************************************************************/
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
@@ -24,6 +12,12 @@ namespace EPPlus.Fonts.Benchmarks
     {
         private List<string> _fontFolders;
 
+        // Kept across iterations: its font cache is warm after the first load.
+        private OpenTypeFontEngine _warmEngine;
+
+        // Rebuilt before every cold iteration by IterationSetup.
+        private OpenTypeFontEngine _coldEngine;
+
         [GlobalSetup]
         public void Setup()
         {
@@ -35,41 +29,68 @@ namespace EPPlus.Fonts.Benchmarks
             }
 
             _fontFolders = new List<string> { fontsPath };
+
+            _warmEngine = CreateEngine();
+            _warmEngine.LoadFont("Roboto", FontSubFamily.Regular);
+        }
+
+        [GlobalCleanup]
+        public void Cleanup()
+        {
+            _warmEngine?.Dispose();
+            _coldEngine?.Dispose();
+        }
+
+        private OpenTypeFontEngine CreateEngine()
+        {
+            return new OpenTypeFontEngine(cfg =>
+            {
+                foreach (var folder in _fontFolders)
+                {
+                    cfg.FontDirectories.Add(folder);
+                }
+                // The benchmark measures loading the test fonts, not whatever happens to be
+                // installed on the machine running it.
+                cfg.SearchSystemDirectories = false;
+            });
+        }
+
+        [IterationSetup(Target = nameof(Load_ColdCache))]
+        public void ColdSetup()
+        {
+            _coldEngine?.Dispose();
+            _coldEngine = CreateEngine();
         }
 
         [Benchmark]
-        public OpenTypeFont Load_Roboto_Regular_ColdCache()
+        [Arguments(FontSubFamily.Regular)]
+        [Arguments(FontSubFamily.Bold)]
+        [Arguments(FontSubFamily.Italic)]
+        [Arguments(FontSubFamily.BoldItalic)]
+        public OpenTypeFont Load_ColdCache(FontSubFamily subFamily)
         {
-            OpenTypeFonts.ClearFontCache(); // Clear INNE i benchmark
-            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            return _coldEngine.LoadFont("Roboto", subFamily);
         }
 
         [Benchmark]
         public OpenTypeFont Load_Roboto_Regular_WarmCache()
         {
-            // Load UTAN att cleara - använder cache från GlobalSetup eller warmup
-            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Regular);
+            return _warmEngine.LoadFont("Roboto", FontSubFamily.Regular);
         }
 
         [Benchmark]
-        public OpenTypeFont Load_Roboto_Bold_ColdCache()
+        public OpenTypeFont[] Load_FromCache_AllSubFamilies()
         {
-            OpenTypeFonts.ClearFontCache();
-            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Bold);
-        }
-
-        [Benchmark]
-        public OpenTypeFont Load_Roboto_Italic_ColdCache()
-        {
-            OpenTypeFonts.ClearFontCache();
-            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.Italic);
-        }
-
-        [Benchmark]
-        public OpenTypeFont Load_Roboto_BoldItalic_ColdCache()
-        {
-            OpenTypeFonts.ClearFontCache();
-            return OpenTypeFonts.LoadFont("Roboto", FontSubFamily.BoldItalic);
+            // Four distinct cache keys in sequence — the pattern a document with all four
+            // styles produces. Unlike the single-font warm benchmark, this measures four
+            // separate lookups rather than one repeated.
+            return new[]
+            {
+                _warmEngine.LoadFont("Roboto", FontSubFamily.Regular),
+                _warmEngine.LoadFont("Roboto", FontSubFamily.Bold),
+                _warmEngine.LoadFont("Roboto", FontSubFamily.Italic),
+                _warmEngine.LoadFont("Roboto", FontSubFamily.BoldItalic)
+            };
         }
     }
 }

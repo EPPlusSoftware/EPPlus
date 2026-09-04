@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             var tableStyleCache = new Dictionary<ExcelTable, ExcelTableNamedStyle>();
             var Range = pdfRange;
             var worksheet = Range.Range.Worksheet;
-            var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet);
+            var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet, pageSettings.FontEngine);
             int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(pageSettings, worksheet, pdfSheet) : 0;
             var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol + addedColumns);
             pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;

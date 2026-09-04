@@ -22,6 +22,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Fonts.OpenType;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 
 namespace OfficeOpenXml.Core
 {

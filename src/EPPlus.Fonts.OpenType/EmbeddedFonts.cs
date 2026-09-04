@@ -68,7 +68,8 @@ namespace EPPlus.Fonts.OpenType
                             "This is a bug in EPPlus.Fonts.OpenType - please report it.");
                     }
 
-                    font = OpenTypeFonts.GetFromBytes(bytes: ReadStreamFully(stream));
+                    font = new OpenTypeFont(fontBytes: ReadStreamFully(stream));
+                    font.EnsureFullyLoaded();
                     _cache[resourceName] = font;
                     return font;
                 }

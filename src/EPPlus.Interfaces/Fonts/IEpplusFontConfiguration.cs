@@ -81,6 +81,17 @@ namespace OfficeOpenXml.Interfaces.Fonts
         ///   <item>Restores the default per-script glyph fallback chains.</item>
         /// </list>
         /// </summary>
+    
+        /// <summary>
+        /// Whether text measurement may fall back to serialized font metrics when the requested
+        /// font is not available as a font file. Defaults to
+        /// <see cref="MetricsFallbackMode.WhenFontMissing"/>.
+        ///
+        /// Measurement and line breaking only. Rendering and font embedding always require a real
+        /// font file, so PDF export is unaffected by this setting.
+        /// </summary>
+        MetricsFallbackMode MetricsFallback { get; set; }
+
         void Reset();
 
         /// <summary>

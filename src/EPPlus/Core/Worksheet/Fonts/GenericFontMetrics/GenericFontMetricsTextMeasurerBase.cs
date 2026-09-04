@@ -9,51 +9,53 @@
   Date               Author                       Change
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
+  09/01/2026         EPPlus Software AB       Use shared cache and compact character lookup
  *************************************************************************************************/
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 {
     internal abstract class GenericFontMetricsTextMeasurerBase
     {
-        private FontScaleFactors _fontScaleFactors = new FontScaleFactors();
-        private static Dictionary<uint, SerializedFontMetrics> _fonts;
-        private static object _syncRoot = new object();
+        /// <summary>
+        /// Shared rather than per instance. The table holds 116 entries and never changes, and
+        /// every measurer was allocating its own copy.
+        /// </summary>
+        private static readonly FontScaleFactors _fontScaleFactors = new FontScaleFactors();
 
         public GenericFontMetricsTextMeasurerBase()
         {
-            Initialize();
-        }
-
-        private static void Initialize()
-        {
-            lock (_syncRoot)
-            {
-                if (_fonts == null)
-                {
-                    _fonts = GenericFontMetricsLoader.LoadFontMetrics();
-                }
-            }
+            // Nothing to do. Metrics load on first use through GenericFontMetricsCache, which
+            // replaces the static dictionary this class used to populate eagerly - that read
+            // every font in the archive the first time anything was measured.
         }
 
         internal protected bool IsValidFont(uint fontKey)
         {
-            return _fonts.ContainsKey(fontKey);
+            return GenericFontMetricsCache.IsValidFont(fontKey);
+        }
+
+        private static SerializedFontMetrics GetFont(uint fontKey)
+        {
+            var font = GenericFontMetricsCache.GetMetrics(fontKey);
+            if (font == null)
+            {
+                throw new InvalidOperationException(
+                    string.Format("No font metrics loaded for key {0}.", fontKey));
+            }
+            return font;
         }
 
         internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size, eWrappedTextAutofitMode mode = eWrappedTextAutofitMode.Skip)
         {
-            if(text==null)
+            if (text == null)
             {
-               return new TextMeasurement(0, 0);
+                return new TextMeasurement(0, 0);
             }
-            var sFont = _fonts[fontKey];
+            var sFont = GetFont(fontKey);
 
             // Width of the current segment (a "segment" is a line in SplitNewLine mode,
             // or a word in SplitWord mode). In FullText/Skip the whole text is one segment.
@@ -66,7 +68,6 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
             for (var x = 0; x < text.Length; x++)
             {
-                var fnt = sFont;
                 var c = text[x];
 
                 if (IsSegmentBoundary(c, mode))
@@ -74,15 +75,15 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                     // A CRLF pair is a single line break, not two.
                     if (x > 0 && c == '\r' && text[x - 1] == '\n')
                     {
-                        continue; //CRLF should be handle
-                                  //d as one new line.
+                        continue;
                     }
 
                     // A visible boundary character (hyphen) remains at the end of the
                     // segment it terminates, so its own width is added before the break.
-                    if (IsVisibleBoundary(c) && sFont.CharMetrics.ContainsKey(c))
+                    FontMetricsClass boundaryClass;
+                    if (IsVisibleBoundary(c) && sFont.TryGetClass(c, out boundaryClass))
                     {
-                        width += fnt.ClassWidths[sFont.CharMetrics[c]];
+                        width += sFont.GetClassWidth(boundaryClass);
                     }
 
                     // Close the current segment: keep it if it is the widest so far.
@@ -95,9 +96,6 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                     // Start a new, empty segment.
                     width = 0f;
                     widthEA = 0f;
-
-                    // The boundary character itself is not part of the next segment.
-                    // (Visible boundaries were already counted into the closed segment above.)
                     continue;
                 }
 
@@ -108,15 +106,16 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                 }
                 else
                 {
-                    if (sFont.CharMetrics.ContainsKey(c))
+                    FontMetricsClass cls;
+                    if (sFont.TryGetClass(c, out cls))
                     {
-                        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
+                        var fw = sFont.GetClassWidth(cls);
                         if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
                         width += fw;
                     }
                     else if (char.IsControl(c) == false)
                     {
-                        width += sFont.ClassWidths[fnt.DefaultWidthClass];
+                        width += sFont.DefaultWidth;
                     }
                 }
             }
@@ -169,91 +168,18 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return c == '\u002D' || c == '\u2010';
         }
 
-        static Dictionary<char, uint> AlphabetChars = new Dictionary<char, uint>
-        {
-            {'a', 0x06 },
-            {'b', 0x07 },
-            {'c', 0x05 },
-            {'d', 0x07 },
-            {'e', 0x06 },
-            {'f', 0x04 },
-            {'g', 0x07 },
-            {'h', 0x07 },
-            {'i', 0x03 },
-            {'j', 0x03 },
-            {'k', 0x06 },
-            {'l', 0x03 },
-            {'m', 0x09 },
-            {'n', 0x07 },
-            {'o', 0x07 },
-            {'p', 0x07 },
-            {'q', 0x07 },
-            {'r', 0x04 },
-            {'s', 0x05 },
-            {'t', 0x04 },
-            {'u', 0x07 },
-            {'v', 0x05 },
-            {'w', 0x09 },
-            {'x', 0x05 },
-            {'y', 0x05 },
-            {'z', 0x05 },
-            {'A', 0x07 },
-            {'B', 0x06 },
-            {'C', 0x07 },
-            {'D', 0x08 },
-            {'E', 0x06 },
-            {'F', 0x06 },
-            {'G', 0x08 },
-            {'H', 0x08 },
-            {'I', 0x03 },
-            {'J', 0x04 },
-            {'K', 0x06 },
-            {'L', 0x05 },
-            {'M', 0x0A },
-            {'N', 0x08 },
-            {'O', 0x09 },
-            {'P', 0x06 },
-            {'Q', 0x08 },
-            {'R', 0x07 },
-            {'S', 0x06 },
-            {'T', 0x06 },
-            {'U', 0x08 },
-            {'V', 0x07 },
-            {'W', 0x0B },
-            {'X', 0x06 },
-            {'Y', 0x05 },
-            {'Z', 0x06 }
-        };
-
         internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size, float ppi = 108.73578912433f)
         {
-            var sFont = _fonts[fontKey];
-            var chars = text.ToCharArray();
-
-            var spacingBuffer = new List<uint>();
-
-            var widthDefault = sFont.ClassWidths[sFont.DefaultWidthClass];
+            var sFont = GetFont(fontKey);
+            var spacingBuffer = new List<uint>(text.Length);
 
             float resolutionDifference = ppi / 96f;
             float ptSize = size * (72f / 96f);
-
             float finalFactor = resolutionDifference * ptSize;
 
-            for (var x = 0; x < chars.Length; x++)
+            for (var x = 0; x < text.Length; x++)
             {
-                var fnt = sFont;
-                var c = chars[x];
-
-                var fntClass = sFont.CharMetrics.ContainsKey(c) ? sFont.CharMetrics[c] : fnt.DefaultWidthClass;
-                float adjustmentFactor = 0.012f * ptSize * ((int)fntClass);
-
-                float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
-
-                var rounded = Math.Round(deviceUnits * 10, MidpointRounding.AwayFromZero);
-                var final = rounded / 10;
-
-                uint simplifiedWidth = (uint)(Math.Round(deviceUnits, MidpointRounding.AwayFromZero));
-                spacingBuffer.Add(simplifiedWidth);
+                spacingBuffer.Add(MeasureCharacterInternal(sFont, text[x], ptSize, finalFactor));
             }
 
             return spacingBuffer;
@@ -261,56 +187,21 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
         internal uint MeasureCharacter(char c, uint fontKey, MeasurementFontStyles style, float ptSize, float finalFactor)
         {
-            var sFont = _fonts[fontKey];
-            var fnt = sFont;
+            return MeasureCharacterInternal(GetFont(fontKey), c, ptSize, finalFactor);
+        }
 
-            var fntClass = sFont.CharMetrics.ContainsKey(c) ? sFont.CharMetrics[c] : fnt.DefaultWidthClass;
+        private static uint MeasureCharacterInternal(SerializedFontMetrics sFont, char c, float ptSize, float finalFactor)
+        {
+            FontMetricsClass fntClass;
+            if (!sFont.TryGetClass(c, out fntClass))
+            {
+                fntClass = sFont.DefaultWidthClass;
+            }
+
             float adjustmentFactor = 0.012f * ptSize * ((int)fntClass);
+            float deviceUnits = sFont.GetClassWidth(fntClass) * finalFactor - adjustmentFactor;
 
-            float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
-
-            uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
-            return simplifiedWidth;
-        }
-
-        internal static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
-        {
-            var k1 = (ushort)family;
-            var k2 = (ushort)subFamily;
-            return (uint)((k1 << 16) | ((k2) & 0xffff));
-        }
-
-        internal static uint GetKey(string fontFamily, MeasurementFontStyles fontStyle)
-        {
-            var enumName = fontFamily.Replace(" ", string.Empty);
-            var values = Enum.GetValues(typeof(FontMetricsFamilies));
-            var supported = false;
-            foreach (var enumVal in values)
-            {
-                if (enumVal.ToString() == enumName)
-                {
-                    supported = true;
-                    break;
-                }
-            }
-            if (!supported) return uint.MaxValue;
-            var family = (FontMetricsFamilies)Enum.Parse(typeof(FontMetricsFamilies), enumName);
-            var subFamily = FontSubFamilies.Regular;
-            switch (fontStyle)
-            {
-                case MeasurementFontStyles.Bold:
-                    subFamily = FontSubFamilies.Bold;
-                    break;
-                case MeasurementFontStyles.Italic:
-                    subFamily = FontSubFamilies.Italic;
-                    break;
-                case MeasurementFontStyles.Italic | MeasurementFontStyles.Bold:
-                    subFamily = FontSubFamilies.BoldItalic;
-                    break;
-                default:
-                    break;
-            }
-            return GetKey(family, subFamily);
+            return (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
         }
 
         private static float GetEastAsianCharWidth(int cc, MeasurementFontStyles style)
@@ -323,12 +214,23 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return emWidth * (96F / 72F) * FontScaleFactors.JapaneseKanjiDefaultScalingFactor;
         }
 
+        /// <summary>
+        /// Returns true when the character falls inside one of the Japanese/Kanji ranges.
+        ///
+        /// The LINQ version this replaces allocated an enumerator and a closure for every
+        /// character measured. The early return covers Latin and most of the BMP below the CJK
+        /// blocks, which is the overwhelming majority of cell content.
+        /// </summary>
         private static bool IsEastAsianChar(char c)
         {
             var cc = (int)c;
+            if (cc < 0x2E80) return false;
 
-            return UniCodeRange.JapaneseKanji.Any(x => x.IsInRange(cc));
+            foreach (var range in UniCodeRange.JapaneseKanji)
+            {
+                if (range.IsInRange(cc)) return true;
+            }
+            return false;
         }
-
     }
 }

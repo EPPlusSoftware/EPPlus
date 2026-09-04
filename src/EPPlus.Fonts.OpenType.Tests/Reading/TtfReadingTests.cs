@@ -144,7 +144,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadAllOTFFonts()
         {
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Otf);
+            var allFontsList = FontDiscovery.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Otf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
 
@@ -170,7 +170,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod]
         public void ReadAllTestTTFFontsAndVerifyUseIsOkay()
         {
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, false, Scanner.FontFormat.Ttf);
+            var allFontsList = FontDiscovery.GetAllBaseFontData(FontFolders, false, Scanner.FontFormat.Ttf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
 
@@ -196,7 +196,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         [TestMethod, Ignore("This test takes a long time and should not run in quick regression tests")]
         public void ReadAllTTFFonts()
         {
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Ttf);
+            var allFontsList = FontDiscovery.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Otf);
 
             List<LicenseDataHolder> dataHolder = new List<LicenseDataHolder>();
 
@@ -224,7 +224,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Reading
         {
             var sw = new Stopwatch();
             sw.Start();
-            List<OpenTypeFont> allFontsList = OpenTypeFonts.GetAllBaseFontData(FontFolders, true);
+            var allFontsList = FontDiscovery.GetAllBaseFontData(FontFolders, true, Scanner.FontFormat.Otf);
             sw.Stop();
 
             Trace.WriteLine(sw.ElapsedMilliseconds);

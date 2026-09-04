@@ -160,7 +160,11 @@ namespace TestProject1
             var layout = SystemFolderEngine.GetTextLayoutEngineForFont(mf);
             var output = layout.WrapText(text, 11f, 39.4);
 
-            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+            });
+            var shaper = engine.GetShaperForFont(mf);
             var shapes2 = shaper.ShapeLight("nec rhoncus");
             var width= shapes2.GetWidthInPoints(11f);
             //var shaper = OpenTypeFonts.GetShaperForFont(mf);
@@ -198,10 +202,7 @@ namespace TestProject1
 
             var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
             var layout = engine.GetTextLayoutEngineForFont(mf);
-
-            //var wrappedStrings = layout.WrapRichText(new List<string>() { text }, new List<MeasurementFont>() { mf }, 39.4f);
-
-            var shaper = OpenTypeFonts.GetShaperForFont(mf);
+            var shaper = engine.GetShaperForFont(mf);
 
             var wrappedStrings = layout.WrapText(text, 11f, 39.4);
 

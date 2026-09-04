@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EPPlus.Fonts.OpenType.GenericFontWidths;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
@@ -14,6 +15,31 @@ namespace EPPlusTest.Core.Worksheet
     [TestClass]
     public class AutofitWithSerializedFontMetricsTests : TestBase
     {
+        private const float AutofitCorpusFontSize = 9f;
+
+        private static readonly string[] AutofitCorpusHeaders =
+       {
+            "Narrow", "Wide", "Words", "Digits", "Punctuation", "Sentence", "Long mixed", "Short", "East Asian"
+        };
+
+        private static readonly string[,] AutofitCorpus =
+       {
+            // Narrow glyphs - the bottom width classes.
+            { "illij", "lililili", "iilltjfi lliftj", "jlitfi.ijltf ilfjti" },
+            // Wide glyphs - the top width classes.
+            { "WMQ", "WWMMQQ", "MWQOGWM WQMOW", "WMOQGWM QWMOGW WMQOG" },
+            // Ordinary words, the case that actually matters most.
+            { "Name", "Stockholm", "Invoice number", "Quarterly revenue report" },
+            // Digits get their own scaling factor in the measurer.
+            { "23", "1234567", "1 234 567,89", "0123456789 0123456789" },
+            { ".,!-", "-.,!?:;", "!!! ??? ...", "Hello, world! - (again); yes?" },
+            { "One two", "The quick brown fox", "Jumps over the lazy dog", "Pack my box with five dozen jugs" },
+            { "Ab1.", "Xy9! Zq2?", "Order 4711 - shipped, 12 pcs", "Ref: AB-1234/2026 (rev 3) - approved 12,5%" },
+            { "A", "Hi", "OK", "End" },
+            // Measured as full width regardless of font; the half width Katakana block is half.
+            { "日本語", "日本語のテキスト", "ﾊﾝｶｸ ｶﾀｶﾅ", "日本語とﾊﾝｶｸの混在テキスト" }
+        };
+
         [TestMethod]
         [DataRow("Calibri")]
         [DataRow("Aptos Narrow")]
@@ -34,60 +60,70 @@ namespace EPPlusTest.Core.Worksheet
         [DataRow("Tw Cen MT")]
         [DataRow("Tw Cen MT Condensed")]
         [DataRow("Segoe UI")]
+        [DataRow("Tahoma")]
         public void AutofitWithSerializedFonts(string fontFamily)
         {
+            var columns = AutofitCorpus.GetLength(0);
+            var rows = AutofitCorpus.GetLength(1);
+
             using (var package = new ExcelPackage())
             {
-                for(var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
+                var measurements = package.Workbook.Worksheets.Add("Measurements");
+                measurements.Cells[1, 1].Value = "Font";
+                measurements.Cells[1, 2].Value = "Style";
+                measurements.Cells[1, 3].Value = "Column";
+                measurements.Cells[1, 4].Value = "Category";
+                measurements.Cells[1, 5].Value = "Widest cell";
+                measurements.Cells[1, 6].Value = "EPPlus width (chars)";
+                measurements.Cells[1, 7].Value = "Excel width (chars)";
+                measurements.Cells[1, 1, 1, 7].Style.Font.Bold = true;
+                var measurementRow = 2;
+
+                for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
                 {
                     var sheet = package.Workbook.Worksheets.Add(style.ToString());
-                    var range = sheet.Cells[1, 1, 5, 10];
+                    var range = sheet.Cells[1, 1, rows + 1, columns];
                     range.Style.Font.Name = fontFamily;
-                    range.Style.Font.Size = 9f;
-                    range.Style.Font.Italic = (style == FontSubFamilies.Italic || style == FontSubFamilies.BoldItalic);
-                    range.Style.Font.Bold = (style == FontSubFamilies.Bold || style == FontSubFamilies.BoldItalic);
-                    var rnd = new Random();
-                    for (var col = 1; col < 10; col++)
-                    {
-                        for (var row = 1; row < 5; row++)
-                        {
-                            var sb = new StringBuilder();
-                            var maxLength = 40 - (col * 2);
-                            var nLetters = rnd.Next(4, maxLength);
-                            for (var x = 0; x < nLetters; x++)
-                            {
-                                var n = 65;
-                                if (x % 2 == 0)
-                                {
-                                    n = rnd.Next(65, 90);
-                                }
-                                else if(x % 5 == 0)
-                                {
-                                    var charArr = new int[] { (int)'.', (int)',', (int)'!', (int)'-' };
-                                    var cix = rnd.Next(0, charArr.Length - 1);
-                                    n = charArr[cix];
-                                }
-                                else if(x % 7 == 0)
-                                {
-                                    n = (int)' ';
-                                }
-                                else
-                                {
-                                    n = rnd.Next(97, 122);
-                                }
+                    range.Style.Font.Size = AutofitCorpusFontSize;
+                    range.Style.Font.Italic = style == FontSubFamilies.Italic || style == FontSubFamilies.BoldItalic;
+                    range.Style.Font.Bold = style == FontSubFamilies.Bold || style == FontSubFamilies.BoldItalic;
 
-                                sb.Append((char)n);
-                            }
-                            sheet.Cells[row, col].Value = sb.ToString();
+                    for (var col = 0; col < columns; col++)
+                    {
+                        sheet.Cells[1, col + 1].Value = AutofitCorpusHeaders[col];
+                        for (var row = 0; row < rows; row++)
+                        {
+                            sheet.Cells[row + 2, col + 1].Value = AutofitCorpus[col, row];
                         }
                     }
-                    var sw = new Stopwatch();
-                    sw.Start();
-                    sheet.Columns[1, 9].AutoFit();
-                    sw.Stop();
-                    var ms = sw.ElapsedMilliseconds;
+
+                    sheet.Columns[1, columns].AutoFit();
+
+                    for (var col = 0; col < columns; col++)
+                    {
+                        var widest = string.Empty;
+                        for (var row = 0; row < rows; row++)
+                        {
+                            if (AutofitCorpus[col, row].Length > widest.Length)
+                            {
+                                widest = AutofitCorpus[col, row];
+                            }
+                        }
+
+                        measurements.Cells[measurementRow, 1].Value = fontFamily;
+                        measurements.Cells[measurementRow, 2].Value = style.ToString();
+                        measurements.Cells[measurementRow, 3].Value = col + 1;
+                        measurements.Cells[measurementRow, 4].Value = AutofitCorpusHeaders[col];
+                        measurements.Cells[measurementRow, 5].Value = widest;
+                        measurements.Cells[measurementRow, 6].Value = Math.Round(sheet.Column(col + 1).Width, 2);
+                        measurementRow++;
+                    }
                 }
-                
+
+                // Column 7 is left empty on purpose - fill it in from Excel after running
+                // Excel's own autofit on the same columns, so the two sit side by side.
+                measurements.Cells[1, 1, measurementRow - 1, 7].AutoFitColumns();
+
                 SaveWorkbook($"Autofit_SerializedFont_{fontFamily.Replace(" ", string.Empty)}.xlsx", package);
             }
         }

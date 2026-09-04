@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -116,7 +117,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] CalculateDxSpacing(string targetString)
         {
             var aMesurement = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
-            aMesurement.MeasureTextInternal(targetString, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
+            aMesurement.MeasureTextInternal(targetString, GenericTextMeasurerKey.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
             var values = aMesurement.MeasureIndividualCharacters(targetString, Font.elw.mFont, Ppi);
 
             var measurement = aMesurement.MeasureText(targetString, Font.elw.mFont);

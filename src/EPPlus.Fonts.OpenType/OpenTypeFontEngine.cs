@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   05/13/2026         EPPlus Software AB           Per-instance font engine. Replaces static OpenTypeFonts.
+  09/02/2026         EPPlus Software AB           Extracted FontStore and ShaperCache; added measurement shaper
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
@@ -26,33 +27,21 @@ using System.IO;
 namespace EPPlus.Fonts.OpenType
 {
     /// <summary>
-    /// An OpenType font engine instance. Owns its own configuration, resolver, and font cache —
-    /// two engines do not share parsed fonts and can have different configurations simultaneously.
-    /// Scanner-level data (file system listings, per-file FontFaceInfo) is shared globally
-    /// because that data describes the filesystem and is identical regardless of engine.
+    /// An OpenType font engine instance. Produces shapers and layout engines, and owns the
+    /// configuration, the font store and the shaper cache for its own lifetime. Two engines do
+    /// not share parsed fonts and can have different configurations simultaneously.
+    ///
     /// Configuration is set at construction time and is immutable for the lifetime of the engine.
     /// To use a different configuration, create a new engine.
+    ///
+    /// The engine holds the policy for which kind of shaper a request gets; the store and the
+    /// cache hold no policy at all.
     /// </summary>
     public class OpenTypeFontEngine : IDisposable
     {
-        private readonly object _syncRoot = new object();
-        private readonly Dictionary<string, object> _fontLocks = new Dictionary<string, object>();
-
-        // Active resolver. Set at construction; never replaced.
-        private readonly IFontResolver _fontResolver;
-
-        // Configuration snapshot. Held to support GetFontAvailability and similar queries.
         private readonly EpplusFontConfiguration _configuration;
-
-        // Per-engine cache of parsed fonts.
-        private readonly OpenTypeFontCache _fontCache = new OpenTypeFontCache();
-
-        // Thread-local TextShaper cache. Each thread gets its own dictionary, keyed by the engine
-        // instance to avoid collisions if multiple engines are used on the same thread.
-        // We use a ThreadStatic Dictionary<OpenTypeFontEngine, Dictionary<string, TextShaper>>
-        // so each engine has its own per-thread shaper namespace.
-        [ThreadStatic]
-        private static Dictionary<OpenTypeFontEngine, Dictionary<string, TextShaper>> _threadLocalShaperCaches;
+        private readonly FontStore _fontStore;
+        private readonly ShaperCache _shaperCache = new ShaperCache();
 
         private bool _disposed;
 
@@ -89,18 +78,16 @@ namespace EPPlus.Fonts.OpenType
 
             // If the user installed a custom resolver, use it as-is. Otherwise build a
             // DefaultFontResolver from the configuration.
-            var userResolver = _configuration.FontResolver;
-            if (userResolver != null)
+            var resolver = _configuration.FontResolver;
+            if (resolver == null)
             {
-                _fontResolver = userResolver;
-            }
-            else
-            {
-                _fontResolver = new DefaultFontResolver(
+                resolver = new DefaultFontResolver(
                     fontDirectories: _configuration.FontDirectories,
                     searchSystemDirectories: _configuration.SearchSystemDirectories,
                     config: _configuration);
             }
+
+            _fontStore = new FontStore(resolver, _configuration);
         }
 
         // -----------------------------------------------------------------------------------------
@@ -108,19 +95,41 @@ namespace EPPlus.Fonts.OpenType
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
-        /// When true, GetTextShaper throws if the requested font cannot be resolved to an exact match,
-        /// even though a fallback was found. Default is false: rendering trusts the fallback chain
-        /// (which always resolves to at least the embedded font) and never throws. Set to true only
-        /// for diagnostics or validation where a missing exact font should surface as an error.
+        /// When true, shaper resolution throws if the requested font cannot be resolved to an
+        /// exact match, even though a fallback was found. Default is false: rendering trusts the
+        /// fallback chain (which always resolves to at least the embedded font) and never throws.
+        /// Set to true only for diagnostics or validation where a missing exact font should
+        /// surface as an error.
+        ///
+        /// It also suppresses the metrics fallback on the measurement path, since silently
+        /// substituting serialized metrics would defeat the purpose of the mode.
         /// </summary>
         public bool RequireExactFont { get; set; } = false;
-        //public FontAvailability FallBackAvailablility = FontAvailability.Exact;
 
         /// <summary>
-        /// Gets a TextShaper for the given font, reusing a thread-local cached instance.
-        /// The underlying OpenTypeFont is shared within this engine (but not between engines),
-        /// while each thread gets its own TextShaper instance to avoid locking.
+        /// The font store backing this engine. Internal: it is how the engine hands an
+        /// <see cref="IFontSource"/> to the providers it constructs, and how the public
+        /// <see cref="DefaultFontProvider"/> constructor forwards to its internal one.
+        /// </summary>
+        internal FontStore FontStore
+        {
+            get { return _fontStore; }
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // Shapers — this is the policy
+        // -----------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Gets a <see cref="TextShaper"/> for the given font, reusing a thread-local cached
+        /// instance. The underlying OpenTypeFont is shared within this engine (but not between
+        /// engines), while each thread gets its own TextShaper to avoid locking.
         /// Returns null if the font cannot be resolved.
+        ///
+        /// The returned shaper is always backed by a real font file, so its output carries glyph
+        /// ids, glyph outlines and font references. Use this when the caller needs glyph data:
+        /// PDF export, subsetting, embedding. For measurement and line breaking use
+        /// <see cref="GetMeasurementShaper"/> instead.
         /// </summary>
         public TextShaper GetTextShaper(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
@@ -128,48 +137,93 @@ namespace EPPlus.Fonts.OpenType
             if (fontName == null)
                 throw new ArgumentNullException("fontName");
 
-            var perEngineMap = GetOrCreateThreadLocalShaperMap();
+            return GetOrCreateRenderingShaper(FontStore.BuildCacheKey(fontName, subFamily), fontName, subFamily);
+        }
 
-            string key = BuildCacheKey(fontName, subFamily);
+        /// <summary>
+        /// Gets a shaper for measuring text and breaking lines.
+        ///
+        /// Unlike <see cref="GetTextShaper"/> this may return a shaper that is not backed by a
+        /// font file. When the requested font cannot be resolved and font resolution has fallen
+        /// all the way through to the embedded last-resort font, the serialized font metrics
+        /// (.fmtr) for the requested family are used instead, when they exist. Measuring the
+        /// requested family from quantized metrics is closer to the truth than measuring a
+        /// different family exactly.
+        ///
+        /// The returned shaper may have no glyph ids, no kerning and no OpenType layout tables;
+        /// see <see cref="ITextShaper.HasGlyphIds"/>. The narrower return type is deliberate — it
+        /// exposes no glyph-level API, so a glyph consumer cannot reach for this method by
+        /// accident.
+        ///
+        /// Returns null only when neither a font file nor serialized metrics can be found, which
+        /// requires a custom <see cref="IFontResolver"/> that returns null.
+        /// </summary>
+        public ITextShaper GetMeasurementShaper(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
+        {
+            ThrowIfDisposed();
+            if (fontName == null)
+                throw new ArgumentNullException("fontName");
 
-            TextShaper shaper;
-            if (!perEngineMap.TryGetValue(key, out shaper))
+            var key = FontStore.BuildCacheKey(fontName, subFamily);
+
+            ITextShaper cached;
+            if (_shaperCache.TryGetMeasurement(key, out cached))
             {
-                var font = LoadFont(fontName, subFamily);
-                if (font == null)
-                    return null;
+                return cached;
+            }
 
-                if (RequireExactFont)
-                {
-                    var availability = GetFontAvailability(fontName, subFamily);
-                    if (availability != FontAvailability.Exact)
-                    {
-                        throw new FileNotFoundException(
-                            $"Could not find Font: {fontName} {subFamily}. Resolved via fallback to: {font.GetEnglishFontFamilyName()} {font.SubFamily}.");
-                    }
-                }
+            var shaper = CreateMeasurementShaper(key, fontName, subFamily);
 
-                shaper = new TextShaper(this, font);
-                perEngineMap[key] = shaper;
+            // A null result is not cached. It only happens with a custom resolver that gives up,
+            // and caching it would make a later change in resolver state unobservable.
+            if (shaper != null)
+            {
+                _shaperCache.AddMeasurement(key, shaper);
             }
 
             return shaper;
         }
 
+        /// <summary>
+        /// Gets a shaper for measuring text in the given font. May return a metrics-only shaper;
+        /// see <see cref="GetMeasurementShaper"/>.
+        /// </summary>
+        public ITextShaper GetShaperForFont(IFontFormatBase font)
+        {
+            if (font == null)
+                throw new ArgumentNullException("font");
+
+            return GetMeasurementShaper(font.Family, font.SubFamily);
+        }
+
+        /// <summary>
+        /// Gets a shaper for measuring text in the given font. May return a metrics-only shaper;
+        /// see <see cref="GetMeasurementShaper"/>.
+        /// </summary>
+        public ITextShaper GetShaperForFont(MeasurementFont font)
+        {
+            if (font == null)
+                throw new ArgumentNullException("font");
+
+            return GetMeasurementShaper(font.FontFamily, FontSubFamilyConverter.ToSubFamily(font.Style));
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // Layout engines
+        //
+        // A TextLayoutEngine only ever measures, so all three of these take the measurement path.
+        // -----------------------------------------------------------------------------------------
+
         public TextLayoutEngine GetTextLayoutEngine(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
         {
-            var shaper = GetTextShaper(fontName, subFamily);
+            var shaper = GetMeasurementShaper(fontName, subFamily);
             return new TextLayoutEngine(this, shaper);
         }
+
         public TextLayoutEngine GetTextLayoutEngineForFont(IFontFormatBase font)
         {
             var shaper = GetShaperForFont(font);
             return new TextLayoutEngine(this, shaper);
-        }
-
-        public ITextShaper GetShaperForFont(IFontFormatBase font)
-        {
-            return GetTextShaper(font.Family, font.SubFamily);
         }
 
         public TextLayoutEngine GetTextLayoutEngineForFont(MeasurementFont font)
@@ -178,52 +232,8 @@ namespace EPPlus.Fonts.OpenType
             return new TextLayoutEngine(this, shaper);
         }
 
-        public ITextShaper GetShaperForFont(MeasurementFont font)
-        {
-            return GetTextShaper(font.FontFamily, GetFontSubFamily(font.Style));
-        }
-
-        public static FontSubFamily GetFontSubFamily(MeasurementFontStyles style)
-        {
-            if ((style & (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic)) ==
-                (MeasurementFontStyles.Bold | MeasurementFontStyles.Italic))
-            {
-                return FontSubFamily.BoldItalic;
-            }
-            else if ((style & MeasurementFontStyles.Bold) == MeasurementFontStyles.Bold)
-            {
-                return FontSubFamily.Bold;
-            }
-            else if ((style & MeasurementFontStyles.Italic) == MeasurementFontStyles.Italic)
-            {
-                return FontSubFamily.Italic;
-            }
-
-            return FontSubFamily.Regular;
-        }
-
-        /// <summary>
-        /// Clears this engine's parsed-font cache, per-font locks, and the calling thread's
-        /// TextShaper cache for this engine. Does not affect scanner-level caches (which are
-        /// global and reflect filesystem state, not engine configuration).
-        /// </summary>
-        public void ClearFontCache()
-        {
-            ThrowIfDisposed();
-            lock (_syncRoot)
-            {
-                _fontCache.Clear();
-                _fontLocks.Clear();
-            }
-
-            // Clear this engine's shaper cache for the calling thread.
-            // Other threads' caches will be lazily rebuilt on next use.
-            if (_threadLocalShaperCaches != null)
-                _threadLocalShaperCaches.Remove(this);
-        }
-
         // -----------------------------------------------------------------------------------------
-        // Font loading
+        // Font queries — delegating to the store
         // -----------------------------------------------------------------------------------------
 
         /// <summary>
@@ -236,106 +246,25 @@ namespace EPPlus.Fonts.OpenType
             bool ignoreCache = false)
         {
             ThrowIfDisposed();
-
-            if (ignoreCache)
-                return ResolveAndCreate(_fontResolver, fontName, subFamily);
-
-            string lockKey = BuildCacheKey(fontName, subFamily);
-            object fontLock;
-            lock (_syncRoot)
-            {
-                if (!_fontLocks.TryGetValue(lockKey, out fontLock))
-                {
-                    fontLock = new object();
-                    _fontLocks[lockKey] = fontLock;
-                }
-            }
-
-            lock (fontLock)
-            {
-                var cached = _fontCache.GetFromCache(lockKey);
-                if (cached != null && cached.Font != null && cached.IsLoaded)
-                {
-                    cached.Font.EnsureFullyLoaded();
-                    return cached.Font;
-                }
-
-                _fontCache.BeginCache(lockKey);
-
-                var font = ResolveAndCreate(_fontResolver, fontName, subFamily);
-                if (font == null)
-                    return null;
-
-                font.EnsureFullyLoaded();
-                font.IsReadOnly = true;
-                _fontCache.AddToCache(font, lockKey);
-                return font;
-            }
+            return _fontStore.LoadFont(fontName, subFamily, ignoreCache);
         }
 
         /// <summary>
-        /// Returns all available font faces as fully loaded OpenTypeFont instances.
-        /// Skips corrupt or unreadable fonts, but logs detailed information for diagnostics.
-        /// This method is NOT cached and may take significant time to complete.
-        /// Note: takes fontDirectories as a parameter; this is a diagnostic / discovery API
-        /// independent of the engine's configured resolver.
+        /// Checks whether a font is available in this engine's configured font system.
+        /// See <see cref="FontStore.GetFontAvailability"/> for the accuracy caveats.
         /// </summary>
-        public List<OpenTypeFont> GetAllBaseFontData(
-            List<string> fontDirectories,
-            bool searchSystemDirectories = true,
-            FontFormat? formatTarget = null)
+        public FontAvailability GetFontAvailability(
+            string fontName,
+            FontSubFamily subFamily = FontSubFamily.Regular)
         {
             ThrowIfDisposed();
-
-            var locations = DefaultFontLocations.GetLocationsCollection(fontDirectories, searchSystemDirectories);
-            var faces = FontScannerV2.EnumerateAllFaces(locations);
-
-            var result = new List<OpenTypeFont>(faces.Count);
-            var failures = 0;
-
-            foreach (var face in faces)
-            {
-                if (formatTarget.HasValue)
-                {
-                    string ext = Path.GetExtension(face.FilePath);
-                    if (!string.IsNullOrEmpty(ext))
-                    {
-                        ext = ext.ToLowerInvariant();
-                        var format = (ext == ".otf" || ext == ".cff")
-                            ? FontFormat.Otf
-                            : FontFormat.Ttf;
-
-                        if (format != formatTarget.Value)
-                            continue;
-                    }
-                }
-
-                try
-                {
-                    var font = new OpenTypeFont(File.ReadAllBytes(face.FilePath));
-                    font.EnsureFullyLoaded();
-                    result.Add(font);
-                }
-                catch (Exception ex)
-                {
-                    failures++;
-                    System.Diagnostics.Debug.WriteLine(
-                        string.Format("[OpenTypeFontEngine] Failed to load font: {0} => {1}: {2}",
-                            face.FilePath, ex.GetType().Name, ex.Message));
-                }
-            }
-
-            if (failures > 0)
-                System.Diagnostics.Debug.WriteLine(
-                    string.Format("[OpenTypeFontEngine] {0} font(s) failed to load.", failures));
-
-            return result;
+            return _fontStore.GetFontAvailability(fontName, subFamily);
         }
 
         /// <summary>
         /// Creates an OpenTypeFont directly from raw font bytes.
         /// Font format (TTF/OTF) is detected automatically from the SFNT header.
-        /// Independent of engine configuration — does not consult the resolver or cache.
+        /// Independent of engine configuration — consults neither the resolver nor the cache.
         /// </summary>
         public OpenTypeFont GetFromBytes(byte[] bytes)
         {
@@ -347,32 +276,46 @@ namespace EPPlus.Fonts.OpenType
             return font;
         }
 
+
+        // -----------------------------------------------------------------------------------------
+        // Lifecycle
+        // -----------------------------------------------------------------------------------------
+
         /// <summary>
-        /// Checks whether a font is available in this engine's configured font system.
-        /// Returns <see cref="FontAvailability.Exact"/> if the exact family and subfamily exist,
-        /// <see cref="FontAvailability.FamilyOnly"/> if the family exists but not in the requested
-        /// subfamily, and <see cref="FontAvailability.NotFound"/> otherwise.
-        ///
-        /// If the engine has a custom resolver that implements <see cref="IFontAvailabilityProvider"/>,
-        /// the call delegates to the resolver. Otherwise it probes via <see cref="IFontResolver.ResolveFont"/>,
-        /// which can only distinguish "found" from "not found" — never <see cref="FontAvailability.FamilyOnly"/>.
+        /// Clears this engine's parsed-font cache, per-font locks, and the calling thread's
+        /// shaper cache for this engine. Does not affect scanner-level caches, which are global
+        /// and reflect filesystem state rather than engine configuration.
         /// </summary>
-        public FontAvailability GetFontAvailability(
-            string fontName,
-            FontSubFamily subFamily = FontSubFamily.Regular)
+        public void ClearFontCache()
         {
             ThrowIfDisposed();
-            if (fontName == null)
-                throw new ArgumentNullException("fontName");
 
-            var provider = _fontResolver as IFontAvailabilityProvider;
-            if (provider != null)
-                return provider.GetFontAvailability(fontName, subFamily);
+            // Shapers first. Each retained shaper holds a reference to a parsed font, so
+            // clearing the fonts first would leave live shapers pointing at fonts that are no
+            // longer in the cache and would be re-parsed on the next miss.
+            _shaperCache.ClearCurrentThread();
+            _fontStore.Clear();
+        }
 
-            // Fallback: probe via ResolveFont. Cannot distinguish FamilyOnly.
-            return _fontResolver.ResolveFont(fontName, subFamily) != null
-                ? FontAvailability.Exact
-                : FontAvailability.NotFound;
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+
+            // Best-effort cleanup of this engine's shaper entries on the disposing thread.
+            // Entries on other threads are dropped when those threads next touch their map,
+            // since they will find no entry for this cache and rebuild.
+            _shaperCache.ClearCurrentThread();
+
+            // Marks the store disposed as well as clearing it, so a DefaultFontProvider that
+            // holds the store directly cannot keep loading fonts after this point.
+            _fontStore.MarkDisposed();
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+                throw new ObjectDisposedException("OpenTypeFontEngine");
         }
 
         internal FontEmbeddingDecision ResolveEmbeddingDecision(OpenTypeFont font)
@@ -414,80 +357,128 @@ namespace EPPlus.Fonts.OpenType
         }
 
         // -----------------------------------------------------------------------------------------
-        // Internal helpers
+        // Shaper resolution — policy
         // -----------------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Returns the configured fallback chain for the given Unicode script, or null if
-        /// none is configured. An empty array means fallback is explicitly disabled for the
-        /// script. Used by DefaultFontProvider to look up script-level glyph fallbacks.
-        /// </summary>
-        internal string[] GetScriptFallback(UnicodeScript script)
+        private TextShaper GetOrCreateRenderingShaper(string key, string fontName, FontSubFamily subFamily)
         {
-            return _configuration.GetScriptFallback(script);
-        }
+            TextShaper shaper;
+            if (_shaperCache.TryGetRendering(key, out shaper))
+            {
+                return shaper;
+            }
 
-        internal static string BuildCacheKey(string fontName, FontSubFamily subFamily)
-        {
-            return string.Format("{0}_{1}", fontName, subFamily);
-        }
-
-        private static OpenTypeFont ResolveAndCreate(IFontResolver resolver, string fontName, FontSubFamily subFamily)
-        {
-            var bytes = resolver.ResolveFont(fontName, subFamily);
-            if (bytes == null)
+            var font = _fontStore.LoadFont(fontName, subFamily, false);
+            if (font == null)
                 return null;
 
-            return new OpenTypeFont(bytes);
+            ThrowIfNotExactWhenRequired(fontName, subFamily, font);
+
+            shaper = CreateShaper(font);
+            _shaperCache.AddRendering(key, shaper);
+            return shaper;
         }
 
-        private Dictionary<string, TextShaper> GetOrCreateThreadLocalShaperMap()
+        private ITextShaper CreateMeasurementShaper(string key, string fontName, FontSubFamily subFamily)
         {
-            // [ThreadStatic] field initializers only run on the primary thread.
-            // All other threads see null and must initialize on first use.
-            if (_threadLocalShaperCaches == null)
-                _threadLocalShaperCaches = new Dictionary<OpenTypeFontEngine, Dictionary<string, TextShaper>>();
+            var fallbackMode = _configuration.MetricsFallback;
 
-            Dictionary<string, TextShaper> map;
-            if (!_threadLocalShaperCaches.TryGetValue(this, out map))
+            // Always: short-circuit before LoadFont so no font file is opened at all. This is
+            // what makes measurement reproducible across machines — the result cannot depend on
+            // what happens to be installed. RequireExactFont wins, since a diagnostic mode that
+            // wants a missing font to throw must not be silenced by a metrics substitution.
+            if (fallbackMode == MetricsFallbackMode.Always && !RequireExactFont)
             {
-                map = new Dictionary<string, TextShaper>();
-                _threadLocalShaperCaches[this] = map;
-            }
-            return map;
-        }
-
-        internal static List<string> GetLocationsCollection(
-            IEnumerable<string> fontDirectories,
-            bool searchSystemDirectories)
-        {
-            return DefaultFontLocations.GetLocationsCollection(fontDirectories, searchSystemDirectories);
-        }
-
-        // I OpenTypeFontEngine
-        private void ThrowIfDisposed()
-        {
-            if (_disposed)
-                throw new ObjectDisposedException("OpenTypeFontEngine");
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-            _disposed = true;
-
-            lock (_syncRoot)
-            {
-                _fontCache.Clear();
-                _fontLocks.Clear();
+                GenericFontTextShaper alwaysShaper;
+                if (GenericFontTextShaper.TryCreate(fontName, FontSubFamilyConverter.ToStyles(subFamily), out alwaysShaper))
+                {
+                    return alwaysShaper;
+                }
+                // No metrics for this family. Fall through to normal resolution rather than
+                // failing — Always is a preference, not a constraint.
             }
 
-            // Best-effort cleanup of this engine's shaper map on the disposing thread.
-            // Maps on other threads will be cleaned up when those threads next touch their map,
-            // since they will see no entry for this engine and rebuild fresh. The lingering
-            // entries are small (empty dictionaries) and held only by the disposing-time references.
-            if (_threadLocalShaperCaches != null)
-                _threadLocalShaperCaches.Remove(this);
+            // If the rendering path already parsed this font on this thread, reuse that shaper.
+            // A real font is the better measurement source and the instance is identical.
+            TextShaper alreadyParsed;
+            if (_shaperCache.TryGetRendering(key, out alreadyParsed))
+            {
+                return alreadyParsed;
+            }
+
+            var font = _fontStore.LoadFont(fontName, subFamily, false);
+
+            if (fallbackMode != MetricsFallbackMode.Disabled
+                && !RequireExactFont
+                && ResolvedToLastResort(fontName, font))
+            {
+                GenericFontTextShaper metricsShaper;
+                if (GenericFontTextShaper.TryCreate(fontName, FontSubFamilyConverter.ToStyles(subFamily), out metricsShaper))
+                {
+                    return metricsShaper;
+                }
+            }
+
+            if (font == null)
+                return null;
+
+            ThrowIfNotExactWhenRequired(fontName, subFamily, font);
+
+            var shaper = CreateShaper(font);
+            _shaperCache.AddRendering(key, shaper);
+            return shaper;
+        }
+
+        /// <summary>
+        /// Builds the provider and shaper for a parsed font. The provider gets the store rather
+        /// than this engine, so nothing the engine creates holds a reference back to it.
+        /// </summary>
+        private TextShaper CreateShaper(OpenTypeFont font)
+        {
+            return new TextShaper(new DefaultFontProvider(_fontStore, font));
+        }
+
+        private void ThrowIfNotExactWhenRequired(string fontName, FontSubFamily subFamily, OpenTypeFont font)
+        {
+            if (!RequireExactFont)
+                return;
+
+            var availability = _fontStore.GetFontAvailability(fontName, subFamily);
+            if (availability != FontAvailability.Exact)
+            {
+                throw new FileNotFoundException(
+                    $"Could not find Font: {fontName} {subFamily}. Resolved via fallback to: {font.GetEnglishFontFamilyName()} {font.SubFamily}.");
+            }
+        }
+
+        /// <summary>
+        /// True when font resolution produced the embedded last-resort font for a request that did
+        /// not ask for it, or produced nothing at all.
+        ///
+        /// Deliberately not expressed as GetFontAvailability returning NotFound. That reports only
+        /// on the requested family and knows nothing about the user-configured and built-in
+        /// fallback chains in DefaultFontResolver, so it reports NotFound even when a
+        /// metric-compatible substitute was found and used. A real substitute font is a better
+        /// measurement source than quantized metrics, so the metrics fallback must engage only
+        /// after those chains are exhausted — that is, at the point resolution gives up and loads
+        /// the embedded font.
+        /// </summary>
+        private static bool ResolvedToLastResort(string requestedFontName, OpenTypeFont resolvedFont)
+        {
+            // The caller asked for the last-resort font itself and got it. Not a fallback.
+            if (IsLastResortFamily(requestedFontName))
+                return false;
+
+            // A custom IFontResolver returned null. Nothing was resolved at all.
+            if (resolvedFont == null)
+                return true;
+
+            return IsLastResortFamily(resolvedFont.GetEnglishFontFamilyName());
+        }
+
+        private static bool IsLastResortFamily(string fontName)
+        {
+            return string.Equals("archivo narrow", fontName, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
