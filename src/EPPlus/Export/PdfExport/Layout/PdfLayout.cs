@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -17,6 +18,8 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Units;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -219,6 +222,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         y -= rowHeight;
                         x = contentStartX; //pageSettings.ContentBounds.Left;
                     }
+                    //AddImages(page, pageLayout, pdfPages[i].Drawings, contentStartX, contentStartY);
+                    if (page.Images != null)
+                    {
+                        foreach (var img in page.Images)
+                        {
+                            pageLayout.AddChild(new PdfImageLayout(img.X, img.Y, img.Width, img.Height)
+                            {
+                                ImageBytes = img.ImageBytes,
+                                Name = img.Name,
+                            });
+                        }
+                    }
                     if (page.HeaderFooters != null)
                     {
                         //bool isVeryFirstPage = (i == 0 && j == 0);
@@ -226,7 +241,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         //var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
                         var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        if (leftH != null)
+                        if (leftH != null && !leftH.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages);
                             var ascent = leftH.Content.TextLines[0].LargestAscent;
@@ -239,7 +254,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if (centerH != null)
+                        if (centerH != null && !centerH.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages);
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
@@ -253,7 +268,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if (rightH != null)
+                        if (rightH != null && !rightH.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages);
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
@@ -266,7 +281,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if (leftF != null)
+                        if (leftF != null && !leftF.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages);
                             int last = leftF.Content.TextLines.Count - 1;
@@ -280,7 +295,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if (centerF != null)
+                        if (centerF != null && !centerF.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages);
                             int last = centerF.Content.TextLines.Count - 1;
@@ -294,7 +309,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if (rightF != null)
+                        if (rightF != null && !rightF.HasImage)
                         {
                             SubstitutePageNumbers(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages);
                             int last = rightF.Content.TextLines.Count - 1;
@@ -306,6 +321,97 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             text.IsHeaderFooter = true;
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
+                        }
+                        double hfContentLeft = pageSettings.Margins.LeftPu;
+                        double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                        foreach (var hfSection in new[] { HeaderFooterSection.Header, HeaderFooterSection.Footer })
+                        {
+                            foreach (var hfAlign in new[] { HeaderFooterAlignment.Left, HeaderFooterAlignment.Center, HeaderFooterAlignment.Right })
+                            {
+                                var hf = page.HeaderFooters.Get(hfType, hfSection, hfAlign);
+                                if (hf == null || !hf.HasImage) continue;
+
+                                // Fill page-number placeholders before measuring/splitting;
+                                // the recorded indexes are into the full fragment list.
+                                ApplyPageNumbers(hf, displayedPageNumber, totalPages);
+
+                                // ── horizontal: split the run at the image ──
+                                var frags = hf.Content.TextFragments;
+                                int splitAt = hf.ImageFragmentIndex;
+                                if (splitAt < 0 || splitAt > frags.Count) splitAt = frags.Count;
+                                var beforeFrags = frags.GetRange(0, splitAt);
+                                var afterFrags = frags.GetRange(splitAt, frags.Count - splitAt);
+
+                                double beforeWidth, beforeAscent, beforeDescent;
+                                double afterWidth, afterAscent, afterDescent;
+                                var beforeRun = ShapeHeaderFooterRun(pageSettings, dictionaries, beforeFrags, hfSection, out beforeWidth, out beforeAscent, out beforeDescent);
+                                var afterRun = ShapeHeaderFooterRun(pageSettings, dictionaries, afterFrags, hfSection, out afterWidth, out afterAscent, out afterDescent);
+
+                                bool canEmbed = PdfImageXObject.CanEmbed(hf.ImageBytes);
+                                double imgW = canEmbed ? hf.ImageWidth : 0d;
+                                double imgH = canEmbed ? hf.ImageHeight : 0d;
+
+                                double runWidth = beforeWidth + imgW + afterWidth;
+                                double runStart;
+                                switch (hfAlign)
+                                {
+                                    case HeaderFooterAlignment.Left:
+                                        runStart = hfContentLeft;
+                                        break;
+                                    case HeaderFooterAlignment.Right:
+                                        runStart = hfContentLeft + hfContentWidth - runWidth;
+                                        break;
+                                    default: // Center
+                                        runStart = hfContentLeft + (hfContentWidth - runWidth) / 2d;
+                                        break;
+                                }
+
+                                // ── vertical: image anchored at the margin, text dropped to the image bottom ──
+                                // Shared text metrics so the before-text and after-text sit on one line.
+                                double ascent = System.Math.Max(beforeAscent, afterAscent);
+                                double descent = System.Math.Max(beforeDescent, afterDescent);
+
+                                // The image is anchored at the outer margin edge and grows inward, so no margin     ◄──── this whole
+                                // space is lost: a header image's top sits on the header line, a footer image's     ◄──── block is the
+                                // bottom on the footer line. (This is also where an image-only section sits.)       ◄──── latest change
+                                double imgTop = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu
+                                                : pageSettings.Margins.FooterPu + imgH;
+                                double imgBottom = imgTop - imgH;
+
+                                // Text baseline: line the text's bottom up with the image's bottom, but never let
+                                // the text rise past the normal top-of-band position (only matters when an image is
+                                // shorter than the text). With no embeddable image (imgH == 0) this reduces to the
+                                // normal header/footer text position.
+                                double naturalBaseline = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent
+                                                : pageSettings.Margins.FooterPu + descent;
+                                double textY = System.Math.Min(naturalBaseline, imgBottom + descent);            // ◄──── end of latest change
+
+                                // ── emit before-text, image, after-text left-to-right ──
+                                double cursor = runStart;
+                                if (beforeRun != null)
+                                {
+                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, beforeRun, cursor, textY));
+                                }
+                                cursor += beforeWidth;
+
+                                if (canEmbed)
+                                {
+                                    pageLayout.AddChild(new PdfImageLayout(cursor, imgTop, imgW, imgH)   // ◄──── imgTop now the margin-anchored value above
+                                    {
+                                        ImageBytes = hf.ImageBytes,
+                                        IsHeaderFooter = true,
+                                        Name = $"{hfSection}{hfAlign}Image",
+                                    });
+                                }
+                                cursor += imgW;
+
+                                if (afterRun != null)
+                                {
+                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, afterRun, cursor, textY));
+                                }
+                            }
                         }
                     }
                     PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
@@ -673,6 +779,159 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagUpStyle, diagUpColor,
                             (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagDownStyle, diagDownColor);
         }
+
+        //private static void AddImages(Page page, PdfPageLayout pageLayout, List<PdfDrawing> drawings, double contentStartX, double contentStartY)
+        //{
+        //    if (drawings == null) return;
+        //    foreach (var drawing in drawings)
+        //    {
+        //        if (drawing.PictureType != ePictureType.Jpg) continue;   // JPEG first
+        //        var pic = drawing.Picture;
+        //        if (pic.From == null) continue;     // only cell-anchored pictures for now
+        //        int imgRow = pic.From.Row + 1;      // From.Row / From.Column are 0-based
+        //        int imgCol = pic.From.Column + 1;
+        //        if (imgRow < page.FromRow || imgRow > page.ToRow) continue;
+        //        if (imgCol < page.FromColumn || imgCol > page.ToColumn) continue;
+
+        //        // Left edge: content origin + full widths of the columns before the anchor + EMU offset.
+        //        double x = contentStartX;
+        //        for (int c = page.FromColumn; c < imgCol; c++)
+        //            x += page.Map[page.FromRow, c]?.ColumnWidth ?? 0d;
+        //        x += pic.From.ColumnOff / (double)ExcelDrawing.EMU_PER_POINT;
+
+        //        // Top edge (Y-up): content origin - full heights of the rows above the anchor - EMU offset.
+        //        double y = contentStartY;
+        //        for (int r = page.FromRow; r < imgRow; r++)
+        //            y -= page.RowHeights[r - page.FromRow];
+        //        y -= pic.From.RowOff / (double)ExcelDrawing.EMU_PER_POINT;
+
+        //        // Size: rendered pixel size (already resolved from the anchor by EPPlus) → points.
+        //        double width = pic.GetPixelWidth() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+        //        double height = pic.GetPixelHeight() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+
+        //        var image = new PdfImageLayout(x, y, width, height)
+        //        {
+        //            ImageBytes = drawing.ImageBytes,
+        //            Name = "Image_" + pic.Name,
+        //        };
+        //        pageLayout.AddChild(image);
+        //    }
+        //}
+
+        internal static Pages PrecomputeImages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings, double zeroCharWidth)
+        {
+            if (drawings == null || drawings.Count == 0) return pdfPages;
+
+            var colPrefix = new double[range.ColWidths.Count + 1];
+            for (int i = 0; i < range.ColWidths.Count; i++)
+                colPrefix[i + 1] = colPrefix[i] + range.ColWidths[i];
+            var rowPrefix = new double[range.RowHeights.Count + 1];
+            for (int i = 0; i < range.RowHeights.Count; i++)
+                rowPrefix[i + 1] = rowPrefix[i] + range.RowHeights[i].Height;
+
+            // Point distance from cell A1 to the range's top-left, so an absolute-anchored picture
+            // (positioned in EMU from A1) can be shifted into the same range-local space the cell
+            // anchors use. Zero when the range starts at A1, which is the common case. Column widths
+            // use the exporter's basis (ZeroCharWidth); row heights are already points.
+            var ws = range.Range.Worksheet;
+            double rangeOriginX = 0d;
+            for (int c = 1; c < range.Range._fromCol; c++)
+                rangeOriginX += ws.Column(c).Hidden ? 0d : UnitConversion.ExcelColumnWidthToPoints(ws.Column(c).Width, zeroCharWidth);
+            double rangeOriginY = 0d;
+            for (int r = 1; r < range.Range._fromRow; r++)
+                rangeOriginY += ws.Row(r).Hidden ? 0d : ws.Row(r).Height;
+
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+                pdfPages.Page[i] = PrecomputePageImages(pageSettings, range, pdfPages.Page[i], drawings, colPrefix, rowPrefix, rangeOriginX, rangeOriginY);
+            return pdfPages;
+        }
+        private static double PointsFromEmu(long emu) => emu / (double)ExcelDrawing.EMU_PER_POINT;
+        private static double PointsFromPixels(double pixels) => pixels * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+        private static double ColumnEdge(double[] colPrefix, int localCol) => colPrefix[Math.Max(0, Math.Min(localCol, colPrefix.Length - 1))];
+        private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
+        private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
+        {
+            page.Images = new List<ImageDrawInfo>();
+            int fromCol = range.Range._fromCol;
+            int fromRow = range.Range._fromRow;
+
+            // This page's window in absolute (range-local) point space.
+            double pageAbsLeft = colPrefix[page.FromColumn - fromCol];
+            double pageAbsRight = colPrefix[page.ToColumn - fromCol + 1];
+            double pageAbsTop = rowPrefix[page.FromRow - fromRow];
+            double pageAbsBottom = rowPrefix[page.ToRow - fromRow + 1];
+
+            double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+
+            foreach (var drawing in drawings)
+            {
+                if (!PdfImageXObject.CanEmbed(drawing.ImageBytes)) continue;
+                var pic = drawing.Picture;
+                double imgLeft, imgTop, imgRight, imgBottom;
+                if (pic.From != null)
+                {
+                    // One-cell / two-cell: top-left is a cell + EMU offset. Resolve against the SAME
+                    // column-width and row-height arrays the grid is drawn with, so the picture can't
+                    // disagree with its columns (GetPixelWidth would use a different digit-width basis).
+                    int imgColLocal = (pic.From.Column + 1) - fromCol;   // From.Row/Column are 0-based
+                    int imgRowLocal = (pic.From.Row + 1) - fromRow;
+                    if (imgColLocal < 0 || imgColLocal >= colPrefix.Length - 1) continue;   // anchor outside range
+                    if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1) continue;
+                    imgLeft = colPrefix[imgColLocal] + PointsFromEmu(pic.From.ColumnOff);
+                    imgTop = rowPrefix[imgRowLocal] + PointsFromEmu(pic.From.RowOff);
+                    if (pic.To != null)
+                    {
+                        // Two-cell: bottom-right is another cell + offset (same grid basis).
+                        imgRight = ColumnEdge(colPrefix, (pic.To.Column + 1) - fromCol) + PointsFromEmu(pic.To.ColumnOff);
+                        imgBottom = RowEdge(rowPrefix, (pic.To.Row + 1) - fromRow) + PointsFromEmu(pic.To.RowOff);
+                    }
+                    else
+                    {
+                        // One-cell: size is the intrinsic ext. GetPixelWidth/Height reduces to an exact
+                        // EMU->point conversion here, so there is no digit-width basis to disagree with.
+                        imgRight = imgLeft + PointsFromPixels(pic.GetPixelWidth());
+                        imgBottom = imgTop + PointsFromPixels(pic.GetPixelHeight());
+                    }
+                }
+                else if (pic.Position != null && pic.Size != null)
+                {
+                    // Absolute anchor: fixed EMU position from cell A1 + fixed ext. Shift by the range
+                    // origin so it lands in the same range-local space as the cell anchors.
+                    imgLeft = PointsFromEmu(pic.Position.X) - rangeOriginX;
+                    imgTop = PointsFromEmu(pic.Position.Y) - rangeOriginY;
+                    imgRight = imgLeft + PointsFromEmu(pic.Size.Width);
+                    imgBottom = imgTop + PointsFromEmu(pic.Size.Height);
+                }
+                else
+                {
+                    continue;   // no usable anchor (e.g. grouped / chart-relative)
+                }
+                double width = imgRight - imgLeft;
+                double height = imgBottom - imgTop;
+
+                // Only place the picture on pages its rectangle actually overlaps (both axes).
+                if (imgLeft >= pageAbsRight || imgRight <= pageAbsLeft) continue;
+                if (imgTop >= pageAbsBottom || imgBottom <= pageAbsTop) continue;
+
+                // Position relative to THIS page's content origin. When the picture starts on an
+                // earlier page the offset is negative; the page's margin clip trims the overflow.
+                double x = contentStartX + (imgLeft - pageAbsLeft);
+                double y = contentStartY - (imgTop - pageAbsTop);
+
+                page.Images.Add(new ImageDrawInfo
+                {
+                    X = x,
+                    Y = y,
+                    Width = width,
+                    Height = height,
+                    ImageBytes = drawing.ImageBytes,
+                    Name = "Image_" + pic.Name,
+                });
+            }
+            return page;
+        }
+
         private static int GetTotalPages(List<Pages> pdfPages)
         {
             int totalPages = 0;
@@ -701,6 +960,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
                     pages = PrecomputeSpillCells(pageSettings, range, pages);
                     pages = PrecomputePrintTitleCells(pageSettings, pdfSheet, range, pages);
+                    pages = PrecomputeImages(pageSettings, range, pages, pdfSheet.Drawings, pdfSheet.ZeroCharWidth);
                     pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
@@ -1495,20 +1755,68 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
+        //private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        //{
+        //    if (hf == null) return;
+        //    if (hf.PageNumberIndexes.Count > 0)
+        //    {
+        //        foreach (var idx in hf.PageNumberIndexes)
+        //            hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+        //    }
+        //    if (hf.NumberOfPagesIndexes.Count > 0)
+        //    {
+        //        foreach (var idx in hf.NumberOfPagesIndexes)
+        //            hf.Content.TextFragments[idx].Text = totalPages.ToString();
+        //    }
+        //    PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        //}
         private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
         {
             if (hf == null) return;
-            if (hf.PageNumberIndexes.Count > 0)
-            {
-                foreach (var idx in hf.PageNumberIndexes)
-                    hf.Content.TextFragments[idx].Text = pageNumber.ToString();
-            }
-            if (hf.NumberOfPagesIndexes.Count > 0)
-            {
-                foreach (var idx in hf.NumberOfPagesIndexes)
-                    hf.Content.TextFragments[idx].Text = totalPages.ToString();
-            }
+            ApplyPageNumbers(hf, pageNumber, totalPages);          // ◄──── was two inline foreach loops
             PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        }
+
+        // Fills the page-number / number-of-pages placeholders in place, without shaping. Used both by the   ◄──── new method
+        // plain-text path (which shapes afterwards) and the inline-image path (which shapes the split sub-runs).
+        private static void ApplyPageNumbers(PdfHeaderFooter hf, int pageNumber, int totalPages)
+        {
+            if (hf == null) return;
+            foreach (var idx in hf.PageNumberIndexes)
+                hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+            foreach (var idx in hf.NumberOfPagesIndexes)
+                hf.Content.TextFragments[idx].Text = totalPages.ToString();
+        }
+
+        private static PdfHeaderFooter ShapeHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries,
+    List<TextFragment> frags, HeaderFooterSection section,
+    out double width, out double ascent, out double descent)
+        {
+            width = 0d; ascent = 0d; descent = 0d;
+            if (frags == null || frags.Count == 0) return null;
+            var sub = new PdfHeaderFooter(frags, new List<int>(), new List<int>(), HeaderFooterType.Odd, HeaderFooterAlignment.Left, section);
+            sub.Content.ContentAligmnet = new PdfCellAlignmentData
+            {
+                HorizontalAlignment = EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Left
+            };
+            PdfTextShaper.ShapeText(pageSettings, dictionaries, sub.Content);
+            if (sub.Content.TextLines == null || sub.Content.TextLines.Count == 0
+                || sub.Content.TextLines.LineFragments == null || sub.Content.TextLines.LineFragments.Count == 0
+                || sub.Content.TotalTextLength <= 0d)
+                return null;
+            width = sub.Content.TextLines[0].Width;
+            ascent = sub.Content.TextLines[0].LargestAscent;
+            descent = sub.Content.TextLines[0].LargestDescent;
+            return sub;
+        }
+
+        private static PdfCellContentLayout PlaceHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries,
+    PdfHeaderFooter run, double x, double baselineY)
+        {
+            var layout = new PdfCellContentLayout(pageSettings, dictionaries, run, x, baselineY, 0, 0);
+            layout.IsHeaderFooter = true;
+            layout.GidsAndCharMap(dictionaries);
+            return layout;
         }
 
         private static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)

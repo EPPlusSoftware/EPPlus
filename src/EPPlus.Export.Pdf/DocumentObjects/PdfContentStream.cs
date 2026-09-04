@@ -312,6 +312,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines End");
         }
 
+        public void AddImage(string label, double x, double y, double width, double height)
+        {
+            commands.Add($"% Image Start: {label}");
+            commands.Add("q");
+            commands.Add($"{width.ToPdfString()} 0 0 {height.ToPdfString()} {x.ToPdfString()} {y.ToPdfString()} cm");
+            commands.Add($"/{label} Do");
+            commands.Add("Q");
+            commands.Add($"% Image End: {label}");
+        }
         public void AddPrintTitleGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
@@ -398,14 +407,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
-            return $"<< /Length {bytes.Length} >>\n" + $"stream\n{content}endstream";
+            return $"<< /Length {bytes.Length.ToPdfStringF0()} >>\n" + $"stream\n{content}endstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
             bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }

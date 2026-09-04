@@ -104,7 +104,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
         {
             var bytes = Encoding.ASCII.GetBytes(_code);
             WriteAscii(bw, "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
-                           $"/Length {bytes.Length} >>\nstream\n");
+                           $"/Length {bytes.Length.ToPdfStringF0()} >>\nstream\n");
             bw.Write(bytes);
             WriteAscii(bw, "\nendstream");
         }

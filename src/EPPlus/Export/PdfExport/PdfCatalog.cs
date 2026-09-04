@@ -14,6 +14,7 @@ using EPPlus.Export.Pdf;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
@@ -354,6 +355,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -369,6 +371,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -416,6 +419,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -433,7 +437,17 @@ namespace OfficeOpenXml.Export.PdfExport
             else
             {
                 var range = worksheet.DimensionByVisibility;
-                var pdfRange = new PdfRange(range, true);
+                int toRow = range?.End.Row ?? 1;
+                int toCol = range?.End.Column ?? 1;
+                foreach (var drawing in worksheet.Drawings)
+                {
+                    drawing.GetToBounds(out int drawToRow, out _, out int drawToCol, out _);
+                    if (drawToRow + 1 > toRow) toRow = drawToRow + 1;
+                    if (drawToCol + 1 > toCol) toCol = drawToCol + 1;
+                }
+                if (toRow > ExcelPackage.MaxRows) toRow = ExcelPackage.MaxRows;
+                if (toCol > ExcelPackage.MaxColumns) toCol = ExcelPackage.MaxColumns;
+                var pdfRange = new PdfRange(worksheet.Cells[1, 1, toRow, toCol], true);
                 pdfRange.ExtendColumns = true;
                 ranges.Add(pdfRange);
             }
@@ -540,6 +554,21 @@ namespace OfficeOpenXml.Export.PdfExport
                 pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);
                 pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
                 pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
+            }
+        }
+
+        private void ReadDrawings(PdfWorksheet pdfSheet)
+        {
+            var worksheet = pdfSheet.Worksheet;
+            if (worksheet?.Drawings == null) return;
+            foreach (var drawing in worksheet.Drawings)
+            {
+                if (drawing is ExcelPicture picture)
+                {
+                    var image = picture.Image;
+                    if (image?.ImageBytes != null && image.Type.HasValue)
+                        pdfSheet.Drawings.Add(new PdfDrawing(picture));
+                }
             }
         }
     }

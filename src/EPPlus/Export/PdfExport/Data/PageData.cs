@@ -32,6 +32,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public PdfCellCollection Map;
         public PdfHeaderFooterCollection HeaderFooters;
         public Dictionary<string, MergedCellDrawInfo> MergedCells;
+        public List<ImageDrawInfo> Images;
         public List<PrintTitleCellDraw> PrintTitleCells;
         public List<GridLine> PrintTitleGridLines;
         public List<PrintTitleHeadingDraw> PrintTitleHeadings;
@@ -53,6 +54,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public string HeadingFontName;
         public float HeadingFontSize;
         public ExcelFill HeadingFill;
+
         /// <summary>
         /// The settings of the worksheet these pages belong to.
         /// Set in PdfLayout.GetPages, read in PdfLayout.GetCatalog.

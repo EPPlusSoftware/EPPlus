@@ -43,7 +43,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
                             $"   /ShadingType 1\n" +
                             $"   /ColorSpace /{ColorSpace.ToString()}\n" +
                             $"   /Domain [ {domainStr} ]\n" +
-                            $"   /Function {FunctionObjectNumber} 0 R >>");
+                            $"   /Function {FunctionObjectNumber.ToPdfStringF0()} 0 R >>");
             return sb.ToString();
         }
 

@@ -232,13 +232,21 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     }
                     else if (table.ShowRowStripes)
                     {
-                        var fill = (tableRow & 1) == 0 ? tableStyle.SecondRowStripe.Style.Fill : tableStyle.FirstRowStripe.Style.Fill;
-                        if (fill.HasValue) cellStyle.dxfFill = fill;
+                        var stripe = (tableRow & 1) == 0
+                            ? tableStyle.SecondRowStripe.Style.Fill
+                            : tableStyle.FirstRowStripe.Style.Fill;
+                        cellStyle.dxfFill = FillIsPaintable(stripe)
+                            ? stripe
+                            : tableStyle.WholeTable.Style.Fill;
                     }
                     else if (table.ShowColumnStripes)
                     {
-                        var fill = (tableCol & 1) != 0 ? tableStyle.SecondColumnStripe.Style.Fill : tableStyle.FirstColumnStripe.Style.Fill;
-                        if (fill.HasValue) cellStyle.dxfFill = fill;
+                        var stripe = (tableCol & 1) != 0
+                            ? tableStyle.SecondColumnStripe.Style.Fill
+                            : tableStyle.FirstColumnStripe.Style.Fill;
+                        cellStyle.dxfFill = FillIsPaintable(stripe)
+                            ? stripe
+                            : tableStyle.WholeTable.Style.Fill;
                     }
                 }
             }
@@ -625,7 +633,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         private static FontSubFamily ComputeFontStyle(TextFragment textFrag)
         {
             if (textFrag.RichTextOptions.Bold && textFrag.RichTextOptions.Italic) return FontSubFamily.BoldItalic;
-            if(textFrag.RichTextOptions.Bold) return FontSubFamily.Bold;
+            if (textFrag.RichTextOptions.Bold) return FontSubFamily.Bold;
             if (textFrag.RichTextOptions.Italic) return FontSubFamily.Italic;
             return FontSubFamily.Regular;
         }
@@ -655,9 +663,24 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             var textFragments = new List<TextFragment>();
             List<int> NumberOfPagesIndexes = new List<int>();
             List<int> PageNumberIndexes = new List<int>();
+            byte[] imageBytes = null;
+            double imageWidth = 0, imageHeight = 0;
+            int imageFragmentIndex = -1;
             for (int i = 1; i < textCollection.Count; i++)
             {
                 var hf = textCollection[i];
+                if (hf.FormatCode == ExcelHeaderFooterFormattingCodes.Image)
+                {
+                    var pic = textCollection.Picture;
+                    if (pic?.Image?.ImageBytes != null)
+                    {
+                        imageBytes = pic.Image.ImageBytes;
+                        imageWidth = pic.Width;
+                        imageHeight = pic.Height;
+                        imageFragmentIndex = textFragments.Count;
+                    }
+                    continue;
+                }
                 var textFrag = new TextFragment();
                 textFrag.Font = new RichTextFormatSimple();
                 textFrag.Font.Family = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
@@ -674,7 +697,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 textFrag.RichTextOptions.UnderlineType = hf.DoubleUnderline ? 4 : textFrag.RichTextOptions.UnderlineType;
                 textFrag.RichTextOptions.StrikeType = hf.Striketrough ? 2 : 1;
                 textFrag.RichTextOptions.FontColor = hf.Color;
-                textFrag.Font.SubFamily = ComputeFontStyle(textFrag); 
+                textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
                 var text = string.Empty;
                 switch (hf.FormatCode)
                 {
@@ -689,11 +712,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         break;
                     case ExcelHeaderFooterFormattingCodes.NumberOfPages:
                         text += "000";
-                        NumberOfPagesIndexes.Add(i-1);
+                        NumberOfPagesIndexes.Add(i - 1);
                         break;
                     case ExcelHeaderFooterFormattingCodes.PageNumber:
                         text += "000";
-                        PageNumberIndexes.Add(i-1);
+                        PageNumberIndexes.Add(i - 1);
                         break;
                     case ExcelHeaderFooterFormattingCodes.CurrentTime:
                         text += DateTime.Now.ToString("HH:mm");
@@ -710,7 +733,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
                 if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, "1234567890");
             }
-            return new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
+            var result = new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
+            result.ImageBytes = imageBytes;
+            result.ImageWidth = imageWidth;
+            result.ImageHeight = imageHeight;
+            result.ImageFragmentIndex = imageFragmentIndex;
+            return result;
         }
 
         /// <summary>
@@ -1091,6 +1119,25 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
             cache[table] = tableStyle;
             return tableStyle;
+        }
+
+        private static bool FillIsPaintable(ExcelDxfFill fill)
+        {
+            if (fill == null || !fill.HasValue)
+                return false;
+
+            // SetFill treats a null PatternType as Solid.
+            var pattern = fill.PatternType != null
+                ? (ExcelFillStyle)fill.PatternType
+                : ExcelFillStyle.Solid;
+
+            if (pattern == ExcelFillStyle.None)
+                return fill.Gradient != null;                               // only a gradient paints when pattern is None
+
+            if (pattern == ExcelFillStyle.Solid)
+                return !string.IsNullOrEmpty(fill.BackgroundColor?.LookupColor());  // Solid needs a real colour
+
+            return true;                                                    // any other pattern type paints
         }
     }
 }

@@ -26,7 +26,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         internal override string RenderDictionary()
         {
-            return $"<< /Length {CidSet.Length} >>\n" + $"stream\n|BINARY DATA|\nendstream";
+            return $"<< /Length {CidSet.Length.ToPdfStringF0()} >>\n" + $"stream\n|BINARY DATA|\nendstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
@@ -34,12 +34,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             var body = PdfFlate.Compress(CidSet);
             if (body.Length < CidSet.Length)
             {
-                WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+                WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
                 bw.Write(body);
             }
             else
             {
-                WriteAscii(bw, $"<< /Length {CidSet.Length} >>\nstream\n");
+                WriteAscii(bw, $"<< /Length {CidSet.Length.ToPdfStringF0()} >>\nstream\n");
                 bw.Write(CidSet);
             }
             WriteAscii(bw, "\nendstream");

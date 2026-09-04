@@ -11,8 +11,9 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Layout;
-using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
+using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Export.PdfExport.Data;
 using System.Collections.Generic;
 using System.Linq;

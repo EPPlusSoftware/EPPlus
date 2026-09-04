@@ -141,6 +141,27 @@ namespace EPPlus.Export.Pdf
             }
         }
 
+        //Add Images
+        private void AddImageData()
+        {
+            foreach (var image in _dictionaries.Images)
+            {
+                var img = image.Value.GetImageObject(_document.Count + 1);
+                if (img.HasSoftMask)
+                {
+                    // Alpha PNG: the alpha channel is a separate grayscale /SMask object. Add it
+                    // first, then point the image at it and shift the image (and the page /XObject
+                    // reference in image.Value) to the next slot so all three numbers agree.
+                    var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
+                    _document.Add(mask);
+                    img.SoftMaskObjectNumber = mask.objectNumber;
+                    img.objectNumber = _document.Count + 1;
+                    image.Value.objectNumber = img.objectNumber;
+                }
+                _document.Add(img);
+            }
+        }
+
         //Create Page
         private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
         {
@@ -203,6 +224,13 @@ namespace EPPlus.Export.Pdf
                 contentStream.AddCommand($"% CELL BORDER : {border.Name}");
                 contentStream.AddBorderLayout(border);
             }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
+            }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
@@ -229,6 +257,13 @@ namespace EPPlus.Export.Pdf
             foreach (var hf in headerFooterLayouts)
             {
                 contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
+            }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (!image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
             foreach (var titleCell in printTitleLayouts)
             {
@@ -306,6 +341,7 @@ namespace EPPlus.Export.Pdf
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
+            AddImageData();
             var info = AddInfoObject();
             _debugString = "";
             //write to pdf
