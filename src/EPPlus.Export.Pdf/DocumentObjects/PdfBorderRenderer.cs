@@ -18,17 +18,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 {
     internal class PdfBorderRenderer
     {
-        private readonly PdfCellBorderData Top;
-        private readonly PdfCellBorderData Bottom;
-        private readonly PdfCellBorderData Left;
-        private readonly PdfCellBorderData Right;
-        private readonly PdfCellBorderData DiagonalUp;
-        private readonly PdfCellBorderData DiagonalDown;
+        private PdfCellBorderData Top;
+        private PdfCellBorderData Bottom;
+        private PdfCellBorderData Left;
+        private PdfCellBorderData Right;
+        private PdfCellBorderData DiagonalUp;
+        private PdfCellBorderData DiagonalDown;
         private readonly double X;
         private readonly double Y;
         private readonly string Name;
         private readonly bool IsMerged;
-        private readonly MergedCellDrawInfo info;
+        private MergedCellDrawInfo info;
         private readonly double Width;
         private readonly double Height;
 
