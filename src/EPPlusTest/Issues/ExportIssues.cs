@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,5 +53,15 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(cell, "<span style=\"font-size:11pt;font-family:Aptos Narrow;\">this\nis\na\nbug</span>");
             }
         }
+        [TestMethod]
+        public void GlyphPositioning_KerningAndMarkOffsets()
+        {
+            using var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = "Test";
+            ws.Cells["A1:A2"].AutoFitColumns();
+            ws.SaveAsPdf(@"c:\epplusTest\Testoutput\GlyphPositioning.pdf");
+        }
+
     }
 }

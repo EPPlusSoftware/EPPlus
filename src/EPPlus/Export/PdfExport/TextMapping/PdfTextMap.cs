@@ -748,6 +748,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         /// <returns>The number of columns to add.</returns>
         internal static int AddColumnsForNonWrappedText(PdfPageSettings pageSettings, ExcelWorksheet ws, PdfWorksheet pdfSheet)
         {
+            if (ws.Dimension == null) return 0; //If dimension is null, there are no cells to check, so return 0.
             int columnsToAdd = 0;
             var catalog = new PdfCatalog();
             var lastColumn = ws.Dimension.End.Column;
