@@ -38,7 +38,6 @@ namespace EPPlus.Fonts.OpenType
     /// </summary>
     public class DefaultFontProvider : IFontProvider
     {
-        private readonly OpenTypeFontEngine _engine;
         private readonly OpenTypeFont _primaryFont;
 
         private readonly IFontSource _fontSource;
