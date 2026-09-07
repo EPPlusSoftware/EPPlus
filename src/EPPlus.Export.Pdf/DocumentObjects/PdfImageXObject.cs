@@ -35,13 +35,33 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         public PdfImageXObject(int objectNumber, byte[] imageBytes, int version = 0)
             : base(objectNumber, version)
         {
-            if (IsJpeg(imageBytes))
+            byte[] icoDib = null;
+            if (IcoDecoder.IsIco(imageBytes) && IcoDecoder.TryGetBestFrame(imageBytes, out byte[] icoFrame, out bool icoSelfContained))
+            {
+                if (icoSelfContained) imageBytes = icoFrame;   // PNG/JPEG frame → handled by JPEG/PNG branch below
+                else icoDib = icoFrame;                        // DIB frame → decoded by the branch just below
+            }
+            if (icoDib != null && IcoDecoder.TryDecodeDib(icoDib, out int icoW, out int icoH, out byte[] icoRgb, out byte[] icoAlpha))
+            {
+                Width = icoW;
+                Height = icoH;
+                BitsPerComponent = 8;
+                ColorSpace = "/DeviceRGB";
+                Filter = "FlateDecode";
+                _bytes = PdfFlate.CompressLeaveOpen(icoRgb);
+                if (icoAlpha != null)
+                {
+                    SoftMaskData = PdfFlate.CompressLeaveOpen(icoAlpha);
+                    HasSoftMask = true;
+                }
+            }
+            else if (JpegDecoder.IsJpeg(imageBytes))
             {
                 _bytes = imageBytes;
                 // A JPEG embeds verbatim: /DCTDecode is exactly the JPEG's own coding.
                 Filter = "DCTDecode";
                 BitsPerComponent = 8;
-                ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
+                JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
                 Width = width;
                 Height = height;
                 if (components == 4)
@@ -56,9 +76,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     ColorSpace = components == 1 ? "/DeviceGray" : "/DeviceRGB";
                 }
             }
-            else if (IsPng(imageBytes))
+            else if (PngDecoder.IsPng(imageBytes))
             {
-                ReadPngHeader(imageBytes, out int width, out int height, out int bitDepth, out int colorType, out int _);
+                PngDecoder.ReadPngHeader(imageBytes, out int width, out int height, out int bitDepth, out int colorType, out int _);
                 Width = width;
                 Height = height;
                 Filter = "FlateDecode";
@@ -68,7 +88,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     // samples become this image; the alpha rides along as a grayscale soft mask.
                     BitsPerComponent = 8;
                     ColorSpace = colorType == 6 ? "/DeviceRGB" : "/DeviceGray";
-                    DecodePngWithAlpha(imageBytes, width, height, colorType, out byte[] color, out byte[] alpha);
+                    PngDecoder.DecodePngWithAlpha(imageBytes, width, height, colorType, out byte[] color, out byte[] alpha);
                     _bytes = color;            // raw colour samples, re-deflated (no PNG predictor)
                     SoftMaskData = alpha;      // raw alpha, re-deflated -> companion /SMask object
                     HasSoftMask = true;
@@ -79,7 +99,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     // complete zlib stream of PNG-filtered rows — exactly what /FlateDecode + a PNG
                     // predictor expect — so the viewer does the inflate and un-filter for us.
                     BitsPerComponent = bitDepth;
-                    _bytes = ReadPngIdat(imageBytes, out byte[] palette);
+                    _bytes = PngDecoder.ReadPngIdat(imageBytes, out byte[] palette);
                     int colors;
                     switch (colorType)
                     {
@@ -89,7 +109,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                             break;
                         case 3:   // palette index -> RGB lookup table carried inline
                             int hival = palette == null || palette.Length < 3 ? 0 : (palette.Length / 3) - 1;
-                            ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + ToHex(palette) + "> ]";
+                            ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + PngDecoder.ToHex(palette) + "> ]";
                             colors = 1;
                             break;
                         default:  // colour type 2 (truecolour RGB)
@@ -104,6 +124,27 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                                   " /Columns " + width + " >>";
                 }
             }
+            else if (BmpDecoder.TryDecode(imageBytes, out int bmpW, out int bmpH, out byte[] bmpRgb))
+            {
+                Width = bmpW;
+                Height = bmpH;
+                BitsPerComponent = 8;
+                ColorSpace = "/DeviceRGB";
+                Filter = "FlateDecode";
+                _bytes = PdfFlate.CompressLeaveOpen(bmpRgb);
+            }
+            else if (GifDecoder.TryDecode(imageBytes, out int gifW, out int gifH, out byte[] gifRgb, out byte[] gifAlpha))
+            {
+                // GIF is decoded to RGB and emitted through /FlateDecode. A transparent GIF carries its
+                // 1-bit transparency as an 8-bit grayscale soft mask, the same companion-object mechanism
+                // the alpha PNG uses.
+                Width = gifW; Height = gifH;
+                BitsPerComponent = 8;
+                ColorSpace = "/DeviceRGB";
+                Filter = "FlateDecode";
+                _bytes = PdfFlate.CompressLeaveOpen(gifRgb);
+                if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha); HasSoftMask = true; }
+            }
             else
             {
                 // Unsupported encodings are screened out in PrecomputeImages; keep a safe default so
@@ -115,7 +156,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
 
         }
-
 
         private PdfImageXObject(int objectNumber, int version, byte[] deflatedGray, int width, int height)
             : base(objectNumber, version)
@@ -133,37 +173,42 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal static bool CanEmbed(byte[] imageBytes)
         {
-            if (IsJpeg(imageBytes)) return true;
-            if (IsPng(imageBytes))
+            if (IcoDecoder.IsIco(imageBytes))
             {
-                if (!ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
+                if (!IcoDecoder.TryGetBestFrame(imageBytes, out byte[] frame, out bool selfContained)) return false;
+                return selfContained ? CanEmbed(frame) : IcoDecoder.CanDecodeDib(frame);
+            }
+            if (JpegDecoder.IsJpeg(imageBytes)) return true;
+            if (PngDecoder.IsPng(imageBytes))
+            {
+                if (!PngDecoder.ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
                     return false;
                 if (interlace != 0) return false;                             // Adam7 not handled
                 if (colorType == 0 || colorType == 2 || colorType == 3) return true;   // opaque, verbatim
                 if (colorType == 4 || colorType == 6) return bitDepth == 8;   // alpha -> decode + soft mask
                 return false;
             }
+            if (BmpDecoder.IsBmp(imageBytes)) return BmpDecoder.CanDecode(imageBytes);
+            if (GifDecoder.IsGif(imageBytes)) return GifDecoder.CanDecode(imageBytes);
             return false;
         }
 
         internal static bool ProducesSoftMask(byte[] imageBytes)
         {
-            if (!IsPng(imageBytes)) return false;
-            if (!ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
-                return false;
-            if (interlace != 0) return false;
-            return (colorType == 4 || colorType == 6) && bitDepth == 8;
-        }
-
-        private static bool IsJpeg(byte[] d) => d != null && d.Length > 2 && d[0] == 0xFF && d[1] == 0xD8;
-
-        private static readonly byte[] _pngSignature = { 137, 80, 78, 71, 13, 10, 26, 10 };
-        private static bool IsPng(byte[] d)
-        {
-            if (d == null || d.Length<_pngSignature.Length) return false;
-            for (int i = 0; i<_pngSignature.Length; i++)
-                if (d[i] != _pngSignature[i]) return false;
-            return true;
+            if (IcoDecoder.IsIco(imageBytes))
+            {
+                if (!IcoDecoder.TryGetBestFrame(imageBytes, out byte[] frame, out bool selfContained)) return false;
+                return selfContained ? ProducesSoftMask(frame) : IcoDecoder.DibHasTransparency(frame);
+            }
+            if (PngDecoder.IsPng(imageBytes))
+            {
+                if (!PngDecoder.ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
+                    return false;
+                if (interlace != 0) return false;
+                return (colorType == 4 || colorType == 6) && bitDepth == 8;
+            }
+            if (GifDecoder.IsGif(imageBytes)) return GifDecoder.HasTransparency(imageBytes);
+            return false;
         }
 
         private string DictHeader()
@@ -192,208 +237,5 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             bw.Write(_bytes);                 // raw JPEG — not Flate-compressed (already DCT-coded)
             WriteAscii(bw, "\nendstream");
         }
-
-        // Minimal JPEG reader: walk the marker segments to the Start-Of-Frame and read the frame's
-        // height, width and component count. Handles baseline and progressive SOFs.
-        private static void ReadJpegInfo(byte[] d, out int width, out int height, out int components, out bool adobe)
-        {
-            width = 0; height = 0; components = 3; adobe = false;
-            if (d == null || d.Length < 4 || d[0] != 0xFF || d[1] != 0xD8) return;   // not a JPEG
-            int i = 2;
-            while (i + 1 < d.Length)
-            {
-                if (d[i] != 0xFF) { i++; continue; }
-                byte marker = d[i + 1];
-                if (marker == 0xFF) { i++; continue; }                               // fill byte
-                // Standalone markers without a length: SOI, EOI, RSTn, TEM.
-                if (marker == 0xD8 || marker == 0xD9 || (marker >= 0xD0 && marker <= 0xD7) || marker == 0x01)
-                {
-                    i += 2; continue;
-                }
-                if (i + 3 >= d.Length) return;
-                int segLen = (d[i + 2] << 8) | d[i + 3];
-                // Adobe APP14 marker (FF EE) with an "Adobe" payload: Adobe-written, so 4-channel
-                // data is stored inverted (the caller adds /Decode to correct it). APP14 precedes SOF.
-                if (marker == 0xEE && i + 8 < d.Length &&
-                    d[i + 4] == (byte)'A' && d[i + 5] == (byte)'d' && d[i + 6] == (byte)'o' &&
-                    d[i + 7] == (byte)'b' && d[i + 8] == (byte)'e')
-                {
-                    adobe = true;
-                }
-                // SOF markers hold the frame size: C0..CF except C4 (DHT), C8 (JPG ext), CC (DAC).
-                if (marker >= 0xC0 && marker <= 0xCF && marker != 0xC4 && marker != 0xC8 && marker != 0xCC)
-                {
-                    if (i + 9 >= d.Length) return;
-                    height = (d[i + 5] << 8) | d[i + 6];
-                    width = (d[i + 7] << 8) | d[i + 8];
-                    components = d[i + 9];
-                    return;
-                }
-                if (segLen < 2) return;                                               // malformed
-                i += 2 + segLen;
-            }
-        }
-
-        private static bool ReadPngHeader(byte[] d, out int width, out int height, out int bitDepth, out int colorType, out int interlace)
-        {
-            width = height = bitDepth = colorType = interlace = 0;
-            if (!IsPng(d)) return false;
-            int p = _pngSignature.Length;                        // first chunk starts after the signature
-            if (p + 8 + 13 > d.Length) return false;
-            if (Ascii(d, p + 4, 4) != "IHDR") return false;
-            int q = p + 8;                                       // IHDR chunk data
-            width = ReadBE32(d, q);
-            height = ReadBE32(d, q + 4);
-            bitDepth = d[q + 8];
-            colorType = d[q + 9];
-            // q+10 compression, q+11 filter (both always 0), q+12 interlace (0 none, 1 Adam7).
-            interlace = d[q + 12];
-            return true;
-        }
-
-        // Walk the chunk list and return the concatenated IDAT data (the zlib pixel stream) plus the
-        // palette, if any. The zlib stream can be split across several IDAT chunks, so it is stitched
-        // back together in order.
-        private static byte[] ReadPngIdat(byte[] d, out byte[] palette)
-        {
-            palette = null;
-            using (var idat = new MemoryStream())
-            {
-                int p = _pngSignature.Length;
-                while (p + 8 <= d.Length)
-                {
-                    int len = ReadBE32(d, p);
-                    string type = Ascii(d, p + 4, 4);
-                    int dataStart = p + 8;
-                    if (len < 0 || dataStart + len + 4 > d.Length) break;   // truncated / malformed
-                    if (type == "PLTE")
-                    {
-                        palette = new byte[len];
-                        System.Array.Copy(d, dataStart, palette, 0, len);
-                    }
-                    else if (type == "IDAT")
-                    {
-                        idat.Write(d, dataStart, len);
-                    }
-                    else if (type == "IEND")
-                    {
-                        break;
-                    }
-                    p = dataStart + len + 4;                                 // skip data + 4-byte CRC
-                }
-                return idat.ToArray();
-            }
-        }
-
-        private static void DecodePngWithAlpha(byte[] pngBytes, int width, int height, int colorType,
-                                               out byte[] deflatedColor, out byte[] deflatedAlpha)
-        {
-            int channels = colorType == 6 ? 4 : 2;             // RGBA or grey+alpha
-            int colorChannels = colorType == 6 ? 3 : 1;
-            byte[] filtered = ZlibDecompress(ReadPngIdat(pngBytes, out byte[] _));
-
-            int stride = width * channels;                     // 8-bit: one byte per channel
-            var color = new byte[width * height * colorChannels];
-            var alpha = new byte[width * height];
-            var prev = new byte[stride];
-            var cur = new byte[stride];
-            int pos = 0, ci = 0, ai = 0;
-            for (int y = 0; y < height; y++)
-            {
-                int filter = pos < filtered.Length ? filtered[pos++] : 0;   // per-row filter type byte
-                for (int x = 0; x < stride; x++)
-                {
-                    int raw = pos < filtered.Length ? filtered[pos++] : 0;
-                    int a = x >= channels ? cur[x - channels] : 0;   // reconstructed byte to the left
-                    int b = prev[x];                                 // byte above
-                    int c = x >= channels ? prev[x - channels] : 0;  // byte above-left
-                    int val;
-                    switch (filter)
-                    {
-                        case 1: val = raw + a; break;                        // Sub
-                        case 2: val = raw + b; break;                        // Up
-                        case 3: val = raw + ((a + b) >> 1); break;           // Average
-                        case 4: val = raw + Paeth(a, b, c); break;           // Paeth
-                        default: val = raw; break;                           // None
-                    }
-                    cur[x] = (byte)(val & 0xFF);
-                }
-                // De-interleave this row: colour bytes to the image, the last channel to the mask.
-                for (int x = 0; x < width; x++)
-                {
-                    int p = x * channels;
-                    if (colorType == 6)
-                    {
-                        color[ci++] = cur[p];
-                        color[ci++] = cur[p + 1];
-                        color[ci++] = cur[p + 2];
-                        alpha[ai++] = cur[p + 3];
-                    }
-                    else
-                    {
-                        color[ci++] = cur[p];
-                        alpha[ai++] = cur[p + 1];
-                    }
-                }
-                var swap = prev; prev = cur; cur = swap;    // this row becomes "previous" for the next
-            }
-            deflatedColor = ZlibCompress(color);
-            deflatedAlpha = ZlibCompress(alpha);
-        }
-
-        // PNG Paeth predictor (integer, no Math dependency).
-        private static int Paeth(int a, int b, int c)
-        {
-            int p = a + b - c;
-            int pa = p > a ? p - a : a - p;
-            int pb = p > b ? p - b : b - p;
-            int pc = p > c ? p - c : c - p;
-            if (pa <= pb && pa <= pc) return a;
-            return pb <= pc ? b : c;
-        }
-
-        // zlib (RFC 1950) round-trips: PNG IDAT and PDF /FlateDecode are both zlib streams, so the
-        // same codec decompresses the IDAT and compresses the split colour / alpha back.
-        private static byte[] ZlibDecompress(byte[] data)
-        {
-            using (var input = new MemoryStream(data))
-            using (var z = new ZlibStream(input, CompressionMode.Decompress))
-            using (var output = new MemoryStream())
-            {
-                byte[] buffer = new byte[8192];
-                int n;
-                while ((n = z.Read(buffer, 0, buffer.Length)) > 0) output.Write(buffer, 0, n);
-                return output.ToArray();
-            }
-        }
-
-        private static byte[] ZlibCompress(byte[] data)
-        {
-            using (var output = new MemoryStream())
-            {
-                using (var z = new ZlibStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, true))
-                {
-                    z.Write(data, 0, data.Length);
-                }   // disposing flushes the final bytes + Adler-32 into output
-                return output.ToArray();
-            }
-        }
-
-        private static readonly char[] _hex = "0123456789ABCDEF".ToCharArray();
-        private static string ToHex(byte[] bytes)
-        {
-            if (bytes == null) return "";
-            var sb = new StringBuilder(bytes.Length * 2);
-            foreach (var b in bytes)
-            {
-                sb.Append(_hex[b >> 4]);
-                sb.Append(_hex[b & 0x0F]);
-            }
-            return sb.ToString();
-        }
-
-        // Big-endian 32-bit read (PNG stores all integers most-significant byte first).
-        private static int ReadBE32(byte[] d, int i) => (d[i] << 24) | (d[i + 1] << 16) | (d[i + 2] << 8) | d[i + 3];
-        private static string Ascii(byte[] d, int i, int len) => Encoding.ASCII.GetString(d, i, len);
     }
 }

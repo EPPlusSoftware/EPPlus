@@ -176,7 +176,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     double size = richInfo.Size;
                     double scale = textFormat.OriginalTextFragment.RichTextOptions.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
-                    commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
                     if (richInfo.SuperScript)
                     {
@@ -216,9 +215,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                         commands.Add($"S");
                     }
+                    commands.Add("BT");
                     commands.Add(color.ToFillCommand());
                     commands.Add($"{textMatrix.A.ToPdfStringF4()} {textMatrix.B.ToPdfStringF4()} {textMatrix.C.ToPdfStringF4()} {textMatrix.D.ToPdfStringF4()} {textMatrix.E.ToPdfStringF4()} {textMatrix.F.ToPdfStringF4()} Tm");
-
                     // FIX: Always use fontIdMap to determine the initial font.
                     // FontId=0 does NOT always mean "primary font" — when the text starts
                     // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
