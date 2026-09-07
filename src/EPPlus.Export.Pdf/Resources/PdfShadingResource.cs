@@ -41,9 +41,10 @@ namespace EPPlus.Export.Pdf.Resources
                 }
                 else if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
                 {
-                    var fbs = new PdfFunctionBasedShading(objectNumber, CellFillData.GradientFillData, version);
-                    fbs.FunctionObjectNumber = functionObjectNumber;
-                    return fbs;
+                //    var fbs = new PdfFunctionBasedShading(objectNumber, CellFillData.GradientFillData, version);
+                //    fbs.FunctionObjectNumber = functionObjectNumber;
+                //    return fbs;
+                    return new PdfMeshShading(objectNumber, CellFillData.GradientFillData, version);
                 }
             }
             return null;
