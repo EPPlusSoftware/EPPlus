@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  09/07/2026         EPPlus Software AB           Scale TJ kerning adjustments with units per em
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
@@ -249,7 +250,16 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         int kerning = glyph.XAdvance - glyph.BaseAdvance;
                         if (kerning != 0)
                         {
-                            double adjustment = -(kerning * 1000.0 / 1000);
+                            // Glyph metrics are in font units, TJ numbers are in 1/1000 em, so
+                            // the adjustment has to be scaled by 1000 / unitsPerEm. The em square
+                            // is resolved per glyph because a fallback font can use a different
+                            // one than the primary font. Same scaling as /W in PdfCIDFont.
+                            ushort unitsPerEm = GetUnitsPerEm(
+                                shapedText.ShapedText.FontUnitsPerEm,
+                                glyph.FontId,
+                                fontResource.fontData.HeadTable.UnitsPerEm);
+
+                            double adjustment = -(kerning * 1000.0 / unitsPerEm);
                             sb.Append($" {adjustment.ToPdfStringF0()}");
                         }
                         if (j < shapedText.ShapedText.Glyphs.Length - 1)
@@ -264,6 +274,32 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 }
                 advanceY -= (line.LargestAscent + line.LargestDescent);
             }
+        }
+
+        /// <summary>
+        /// Resolves the em square to use when converting font units to text space units for a
+        /// single glyph. Fallback fonts are allowed to have a different units per em than the
+        /// primary font, which is why the value is indexed by the font id of the glyph.
+        /// </summary>
+        /// <param name="fontUnitsPerEm">Units per em indexed by font id, from the shaping result.</param>
+        /// <param name="fontId">The font id of the glyph being written.</param>
+        /// <param name="defaultUnitsPerEm">Units per em of the primary font, used as a fallback.</param>
+        private static ushort GetUnitsPerEm(ushort[] fontUnitsPerEm, byte fontId, ushort defaultUnitsPerEm)
+        {
+            if (fontUnitsPerEm != null && fontUnitsPerEm.Length > 0)
+            {
+                if (fontId < fontUnitsPerEm.Length && fontUnitsPerEm[fontId] > 0)
+                {
+                    return fontUnitsPerEm[fontId];
+                }
+
+                if (fontUnitsPerEm[0] > 0)
+                {
+                    return fontUnitsPerEm[0];
+                }
+            }
+
+            return defaultUnitsPerEm > 0 ? defaultUnitsPerEm : (ushort)1000;
         }
 
         public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
