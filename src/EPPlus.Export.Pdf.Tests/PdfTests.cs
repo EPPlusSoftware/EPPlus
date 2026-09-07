@@ -375,7 +375,8 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             using var ms = new MemoryStream();
-            _ = new PdfCatalog(ms, pageSettings, ws);
+            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            pdfCatalog.Save(ms);
             AssertLooksLikePdf(ms.ToArray());
         }
 
@@ -657,7 +658,8 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = false;
             pageSettings.ShowHeadings = false;
 
-            PdfCatalog catalog = new PdfCatalog(outputPath, pageSettings, ws);
+            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            pdfCatalog.Save(outputPath);
 
         }
 
@@ -795,7 +797,8 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    new PdfCatalog(ms, settings, package.Workbook);
+                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
 
@@ -861,7 +864,8 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    new PdfCatalog(ms, settings, package.Workbook);
+                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
 
