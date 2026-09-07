@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   01/12/2026         EPPlus Software AB           GPOS Type 2 (PairPos) handler
+  09/07/2026         EPPlus Software AB           Sort expanded pair records by second glyph
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
@@ -244,6 +245,13 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
                 // Only include if we found pairs
                 if (pairRecords.Count > 0)
                 {
+                    // PairValueRecords must be ordered by SecondGlyph. Both the OpenType
+                    // specification and PairPosSubTableFormat1.TryGetPairAdjustment, which
+                    // binary searches the list, rely on it. The records are collected by
+                    // iterating context.IncludedGlyphs, which is a HashSet with no defined
+                    // enumeration order, so the list has to be sorted explicitly here.
+                    pairRecords.Sort(CompareBySecondGlyph);
+
                     newCoverageGlyphs.Add(firstMapping.NewGlyphId);
                     newPairSets.Add(new PairSet
                     {
@@ -275,8 +283,22 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos.Handlers
         }
 
         /// <summary>
+        /// Orders pair value records by second glyph id.
+        /// </summary>
+        private static int CompareBySecondGlyph(PairValueRecord a, PairValueRecord b)
+        {
+            return a.SecondGlyph.CompareTo(b.SecondGlyph);
+        }
+
+        /// <summary>
         /// Filters a PairSet to only include pairs where second glyph is in subset.
         /// Remaps second glyph IDs.
+        /// <para>
+        /// No re-sorting is needed here. The input is ordered by original glyph id, and
+        /// SubsetFontBuilder.BuildGlyphMapping assigns new ids in ascending order of the old
+        /// ones, so the remapping is monotonic and preserves the ordering the binary search in
+        /// PairPosSubTableFormat1.TryGetPairAdjustment depends on.
+        /// </para>
         /// </summary>
         private PairSet FilterPairSet(FontSubsettingContext context, PairSet original)
         {
