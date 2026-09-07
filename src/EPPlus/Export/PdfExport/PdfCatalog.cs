@@ -28,10 +28,23 @@ using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport
 {
+    /// <summary>
+    /// Collects the text/layout information required to render a workbook, a set of worksheets or a
+    /// set of ranges as a PDF document.
+    /// 
+    /// The constructors only store the input - they do not perform any work. Call <see cref="Save(string)"/>
+    /// or <see cref="Save(Stream)"/> to actually build the PDF and write it to disk/stream.
+    /// </summary>
     internal class PdfCatalog
     {
         internal PdfDictionaries _dictionaries = new PdfDictionaries();
         private bool _addTextForHeadings = true;
+
+        // Captures which "build" method to run (worksheet collection, single worksheet or range
+        // collection) together with the data it needs, but NOT the destination (file/stream).
+        // The destination is supplied later, when Save(...) is called.
+        private readonly PdfPageSettings _pageSettings;
+        private readonly Action<Action<Transform>> _build;
 
         public PdfCatalog() { }
 
@@ -39,35 +52,22 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR MULTIPLE WORKSHEETS AS INPUT
         //
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
-            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), WriteToFile(pageSettings, fileName));
+            _pageSettings = pageSettings;
+            var worksheets = workbook.Worksheets.ToArray();
+            _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
-            HandleWorksheetCollection(pageSettings, worksheets, WriteToFile(pageSettings, fileName));
+            _pageSettings = pageSettings;
+            _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
+        public PdfCatalog(PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
+            : this(pageSettings, worksheets.ToArray())
         {
-            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), WriteToFile(pageSettings, fileName));
-        }
-
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorkbook workbook)
-        {
-            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), WriteToStream(pageSettings, stream));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
-        {
-            HandleWorksheetCollection(pageSettings, worksheets, WriteToStream(pageSettings, stream));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
-        {
-            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), WriteToStream(pageSettings, stream));
         }
 
         private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets, Action<Transform> writePdf)
@@ -115,14 +115,10 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR SINGLE WORKSHEET AS INPUT
         //
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
-            BuildPdf(pageSettings, worksheet, WriteToFile(pageSettings, fileName));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorksheet worksheet)
-        {
-            BuildPdf(pageSettings, worksheet, WriteToStream(pageSettings, stream));
+            _pageSettings = pageSettings;
+            _build = writePdf => BuildPdf(pageSettings, worksheet, writePdf);
         }
 
         private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
@@ -163,14 +159,10 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR RANGE AS INPUT
         //
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelRangeBase range)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
-            BuildPdfFromRange(pageSettings, range, WriteToFile(pageSettings, fileName));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelRangeBase range)
-        {
-            BuildPdfFromRange(pageSettings, range, WriteToStream(pageSettings, stream));
+            _pageSettings = pageSettings;
+            _build = writePdf => BuildPdfFromRange(pageSettings, range, writePdf);
         }
 
         private void BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range, Action<Transform> writePdf)
@@ -197,24 +189,15 @@ namespace OfficeOpenXml.Export.PdfExport
             }
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
         {
-            HandleRangeCollection(pageSettings, ranges, WriteToFile(pageSettings, fileName));
+            _pageSettings = pageSettings;
+            _build = writePdf => HandleRangeCollection(pageSettings, ranges, writePdf);
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
+        public PdfCatalog(PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
+            : this(pageSettings, ranges.ToArray())
         {
-            HandleRangeCollection(pageSettings, ranges.ToArray(), WriteToFile(pageSettings, fileName));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
-        {
-            HandleRangeCollection(pageSettings, ranges, WriteToStream(pageSettings, stream));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
-        {
-            HandleRangeCollection(pageSettings, ranges.ToArray(), WriteToStream(pageSettings, stream));
         }
 
         private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, Action<Transform> writePdf)
@@ -251,6 +234,33 @@ namespace OfficeOpenXml.Export.PdfExport
                     }
                 }
             }
+        }
+
+        //
+        // SAVE - this is where the actual work happens. Every constructor above only stores the
+        // input; nothing is built until one of these is called.
+        //
+
+        /// <summary>
+        /// Builds the PDF and writes it to the given file.
+        /// </summary>
+        public void Save(string fileName)
+        {
+            if (_build == null)
+                throw new InvalidOperationException("This PdfCatalog instance was not constructed with any input to build a PDF from.");
+
+            _build(WriteToFile(_pageSettings, fileName));
+        }
+
+        /// <summary>
+        /// Builds the PDF and writes it to the given stream.
+        /// </summary>
+        public void Save(Stream stream)
+        {
+            if (_build == null)
+                throw new InvalidOperationException("This PdfCatalog instance was not constructed with any input to build a PDF from.");
+
+            _build(WriteToStream(_pageSettings, stream));
         }
 
         internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
