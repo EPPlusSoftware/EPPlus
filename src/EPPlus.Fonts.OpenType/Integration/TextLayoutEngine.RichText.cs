@@ -21,6 +21,7 @@ using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -108,6 +109,72 @@ namespace EPPlus.Fonts.OpenType.Integration
         {
             var frags = fragments.Cast<ITextFragmentBase>().ToList();
             return WrapRichTextLineCollection(frags, maxWidthPoints);
+        }
+
+        public TextLineCollection BuildVerticalLineCollection(List<ITextFragmentBase> fragments)
+        {
+            var lines = new List<TextLineSimple>();
+            if (fragments == null || fragments.Count == 0)
+            {
+                return new TextLineCollection(lines, fragments ?? new List<ITextFragmentBase>(), true);
+            }
+
+            int globalIdx = 0;
+            for (int fragIdx = 0; fragIdx < fragments.Count; fragIdx++)
+            {
+                var fragment = fragments[fragIdx];
+                if (string.IsNullOrEmpty(fragment.Text)) continue;
+
+                var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
+                var options = fragment.Options ?? ShapingOptions.Default;
+                int len = fragment.Text.Length;
+
+                var charWidths = GetCharWidthBuffer(len);
+                Array.Clear(charWidths, 0, len);
+                shaper.ShapeLight(fragment.Text, options).FillCharWidths(fragment.Size, charWidths, len);
+
+                // Same side effect as ProcessFragment — line heights are read from these later.
+                fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
+                fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
+
+                var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
+
+                int i = 0;
+                while (i < len)
+                {
+                    if (IsLineBreak(fragment.Text[i]))
+                    {
+                        int start = i;
+                        SkipLineBreakChars(fragment.Text, ref i);
+                        globalIdx += i - start;
+                        continue;
+                    }
+
+                    // Absorb following zero-width chars: same cluster, same stacked slot.
+                    int count = 1;
+                    while (i + count < len && charWidths[i + count] == 0d) count++;
+
+                    var lf = new LineFragment(fragIdx, 0, i, globalIdx);
+                    lf.Width = charWidths[i];
+                    lf.SpaceWidth = spaceWidth;
+
+                    var line = new TextLineSimple();
+                    line.Text = fragment.Text.Substring(i, count);
+                    line.Width = charWidths[i];
+                    line.InternalLineFragments.Add(lf);
+                    lines.Add(line);
+
+                    i += count;
+                    globalIdx += count;
+                }
+            }
+
+            return new TextLineCollection(lines, fragments, finalizeLineFragments: true);
+        }
+
+        public TextLineCollection BuildVerticalLineCollection(List<TextFragment> fragments)
+        {
+            return BuildVerticalLineCollection(fragments.Cast<ITextFragmentBase>().ToList());
         }
 
         public List<TextLineSimple> WrapRichTextLines(List<TextFragment> fragments, double maxWidthPoints)

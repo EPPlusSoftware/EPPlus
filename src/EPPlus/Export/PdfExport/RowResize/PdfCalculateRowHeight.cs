@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
                         continue;
                     if (cell.ContentAligmnet.ShrinkToFit)
                         continue;
-                    if (!cell.ContentAligmnet.WrapText)
+                    if (!cell.ContentAligmnet.WrapText && !cell.ContentAligmnet.IsVertical)
                         continue;
                     if (cell.TextLines == null || cell.TextLines.Count == 0)
                         continue;

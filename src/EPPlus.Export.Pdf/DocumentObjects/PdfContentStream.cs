@@ -109,19 +109,32 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             double advanceY = 0d;
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
+            bool isVertical = cell.CellAlignmentData.IsVertical;
+            double stackWidth = isVertical ? cell.TextLines.GetWidthOfCollection() : 0d;
+
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int k = 0; k < cell.TextLines.Count; k++)
             {
                 var line = cell.TextLines[k];
                 double lineOffsetX = 0d;
-                switch (cell.CellAlignmentData.HorizontalAlignment)
+                //double verticalLineStep = 0d;
+                if (isVertical)
                 {
-                    case ExcelHorizontalAlignment.Right:
-                        lineOffsetX = line0Width - line.Width;
-                        break;
-                    case ExcelHorizontalAlignment.Center:
-                        lineOffsetX = (line0Width - line.Width) / 2d;
-                        break;
+                    // Glyphs are centred on the stack axis regardless of the cell's horizontal
+                    // alignment (verified against Excel's own export).
+                    lineOffsetX = (stackWidth - line.Width) / 2d;
+                }
+                else
+                {
+                    switch (cell.CellAlignmentData.HorizontalAlignment)
+                    {
+                        case ExcelHorizontalAlignment.Right:
+                            lineOffsetX = line0Width - line.Width;
+                            break;
+                        case ExcelHorizontalAlignment.Center:
+                            lineOffsetX = (line0Width - line.Width) / 2d;
+                            break;
+                    }
                 }
                 double advanceX = 0;
                 for (int i = 0; i < line.LineFragments.Count; i++)

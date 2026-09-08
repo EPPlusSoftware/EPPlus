@@ -761,5 +761,30 @@ namespace EPPlusTest.PDF
             }
         }
 
+        [TestMethod]
+        public void VerticalTextPdf()
+        {
+            using(var package = OpenTemplatePackage("VerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var path = _pdfPath + "resultVerticalText.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+
+        [TestMethod]
+        public void VerticalTextTest()
+        {
+            using(var package = OpenPackage("TestPackage"))
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "iiW";
+                ws.Cells["A1"].Style.TextRotation = 255;
+                ws.Cells["A2"].Value = "marker";
+
+                var path = _pdfPath + "verticalTextTest.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
     }
 }
