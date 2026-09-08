@@ -23,6 +23,7 @@ using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Globalization;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 
