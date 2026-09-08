@@ -133,7 +133,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                 Array.Clear(charWidths, 0, len);
                 shaper.ShapeLight(fragment.Text, options).FillCharWidths(fragment.Size, charWidths, len);
 
-                // Same side effect as ProcessFragment — line heights are read from these later.
                 fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
                 fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
 
@@ -150,7 +149,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                         continue;
                     }
 
-                    // Absorb following zero-width chars: same cluster, same stacked slot.
                     int count = 1;
                     while (i + count < len && charWidths[i + count] == 0d) count++;
 
