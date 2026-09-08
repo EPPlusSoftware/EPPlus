@@ -457,19 +457,19 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             // Phase 1: Single Substitution (Type 1)
             if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {
-                glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures);
+                glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
             // Phase 2: Chaining Contextual Substitution (Type 6)
             if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
             {
-                glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, "liga");
+                glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, "liga", options.Script, options.Language);
             }
 
             // Phase 3: Simple Ligatures (Type 4)
             if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
             {
-                _ligatureProcessor.ApplyLigaturesInPlace(glyphs);
+                _ligatureProcessor.ApplyLigaturesInPlace(glyphs, options.Script, options.Language);
             }
 
             return glyphs;
@@ -499,11 +499,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             // Phase 2: Kerning (GPOS Type 2 / kern table) - primary font only
             if (applyAllFeatures || (options.GposFeatures != null && options.GposFeatures.Contains("kern")))
             {
-                ApplyKerning(glyphs);
+                ApplyKerning(glyphs, options);
             }
 
             // Phase 3: Mark-to-Base positioning (GPOS Type 4) - primary font only
-            _markToBaseProvider.ApplyMarkPositioning(glyphs);
+            _markToBaseProvider.ApplyMarkPositioning(glyphs, options.Script, options.Language);
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
                 ushort glyphId = glyphs[i].GlyphId;
 
-                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, features, out var valueRecord))
+                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, features, options.Script, options.Language, out var valueRecord))
                 {
                     var glyph = glyphs[i];
 
@@ -544,7 +544,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// Applies kerning adjustments to glyph pairs.
         /// Only kerns between primary font glyphs (FontId == 0).
         /// </summary>
-        private void ApplyKerning(List<ShapedGlyph> glyphs)
+        private void ApplyKerning(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
             for (int i = 1; i < glyphs.Count; i++)
             {
@@ -555,7 +555,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ushort leftGlyph = glyphs[i - 1].GlyphId;
                 ushort rightGlyph = glyphs[i].GlyphId;
 
-                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph);
+                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph, options.Script, options.Language);
 
                 if (kernValue != 0)
                 {
@@ -674,7 +674,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
             if (options.ApplyPositioning)
             {
-                ApplyKerningOnly(glyphs);
+                ApplyKerningOnly(glyphs, options);
             }
 
             return new ShapedLightText
@@ -693,7 +693,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return BuildFontUnitsPerEm();
         }
 
-        private void ApplyKerningOnly(List<ShapedGlyph> glyphs)
+        private void ApplyKerningOnly(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
             for (int i = 1; i < glyphs.Count; i++)
             {
@@ -704,7 +704,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ushort leftGlyph = glyphs[i - 1].GlyphId;
                 ushort rightGlyph = glyphs[i].GlyphId;
 
-                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph);
+                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph, options.Script, options.Language);
 
                 if (kernValue != 0)
                 {

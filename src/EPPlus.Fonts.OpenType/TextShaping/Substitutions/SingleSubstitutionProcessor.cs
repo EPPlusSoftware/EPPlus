@@ -9,7 +9,9 @@
   Date               Author                       Change
  *************************************************************************************************
   01/19/2026         EPPlus Software AB           GSUB Single Substitution support
+  09/07/2026         EPPlus Software AB           Filter by ScriptList/LangSys, not just tag
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -23,15 +25,33 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
     /// </summary>
     internal class SingleSubstitutionProcessor
     {
+        private readonly struct IndexedSubtable
+        {
+            public readonly int FeatureIndex;
+            public readonly SingleSubstSubTable Subtable;
+
+            public IndexedSubtable(int featureIndex, SingleSubstSubTable subtable)
+            {
+                FeatureIndex = featureIndex;
+                Subtable = subtable;
+            }
+        }
+
         private readonly OpenTypeFont _font;
         private readonly GsubTable _gsubTable;
-        private readonly Dictionary<string, List<SingleSubstSubTable>> _featureSubtables;
+
+        // Feature tag -> every (FeatureList index, subtable) pair recorded under that tag, across
+        // ALL scripts. The FeatureList index lets ApplySubstitutions filter down to the ones the
+        // requested script can actually reach - unlike the tag alone, which collapses every
+        // script's data for the same tag into one bucket.
+        private readonly Dictionary<string, List<IndexedSubtable>> _featureSubtables;
+        private readonly Dictionary<string, HashSet<int>> _activeIndexCache = new Dictionary<string, HashSet<int>>();
 
         public SingleSubstitutionProcessor(OpenTypeFont font)
         {
             _font = font;
             _gsubTable = font?.GsubTable;
-            _featureSubtables = new Dictionary<string, List<SingleSubstSubTable>>();
+            _featureSubtables = new Dictionary<string, List<IndexedSubtable>>();
 
             if (_gsubTable != null)
             {
@@ -40,13 +60,19 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
         }
 
         /// <summary>
-        /// Applies single substitution to the glyph list.
+        /// Applies single substitution to the glyph list, restricted to the features reachable
+        /// from the given script and language.
         /// This processes all glyphs and replaces them according to the active features.
         /// </summary>
         /// <param name="glyphs">List of shaped glyphs to process</param>
         /// <param name="activeFeatures">List of feature tags to apply (e.g., "smcp", "onum")</param>
+        /// <param name="script">
+        /// OpenType script tag (e.g. "latn"). Pass null to fall back to unfiltered lookup, which
+        /// reproduces the previous behavior for callers that have no script to give.
+        /// </param>
+        /// <param name="language">OpenType language-system tag, or null for the script's default.</param>
         /// <returns>Modified glyph list with substitutions applied</returns>
-        public List<ShapedGlyph> ApplySubstitutions(List<ShapedGlyph> glyphs, List<string> activeFeatures)
+        public List<ShapedGlyph> ApplySubstitutions(List<ShapedGlyph> glyphs, List<string> activeFeatures, string script, string language)
         {
             if (glyphs == null || glyphs.Count == 0)
                 return glyphs;
@@ -54,13 +80,28 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
             if (activeFeatures == null || activeFeatures.Count == 0)
                 return glyphs;
 
+            HashSet<int> activeIndices = GetActiveIndices(script, language);
+
             // Collect all subtables for the active features
             var subtablesToApply = new List<SingleSubstSubTable>();
             foreach (var feature in activeFeatures)
             {
-                if (_featureSubtables.TryGetValue(feature, out var subtables))
+                if (!_featureSubtables.TryGetValue(feature, out var entries))
                 {
-                    subtablesToApply.AddRange(subtables);
+                    continue;
+                }
+
+                foreach (var entry in entries)
+                {
+                    // null activeIndices means "no ScriptList to filter by" - keep every entry,
+                    // matching the previous behavior rather than discarding features we cannot
+                    // resolve.
+                    if (activeIndices != null && !activeIndices.Contains(entry.FeatureIndex))
+                    {
+                        continue;
+                    }
+
+                    subtablesToApply.Add(entry.Subtable);
                 }
             }
 
@@ -75,20 +116,33 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
                 // Try to find a substitution for this glyph in the active subtables
                 if (TryGetSubstitution(originalGlyphId, subtablesToApply, out ushort newGlyphId))
                 {
-                    // ✅ FIX: Update both GlyphId AND BaseAdvance for the new glyph
+                    // Update both GlyphId and BaseAdvance for the new glyph
                     var glyph = glyphs[i];
                     glyph.GlyphId = newGlyphId;
 
                     // Get the new glyph's advance width from hmtx
                     var newAdvance = (short)_font.HmtxTable.GetAdvanceWidth(newGlyphId);
-                    glyph.BaseAdvance = newAdvance;  // ✅ Update base advance
-                    glyph.XAdvance = newAdvance;     // ✅ Reset to base (kerning will be reapplied)
+                    glyph.BaseAdvance = newAdvance;  // Update base advance
+                    glyph.XAdvance = newAdvance;     // Reset to base (kerning will be reapplied)
 
                     glyphs[i] = glyph;
                 }
             }
 
             return glyphs;
+        }
+
+        private HashSet<int> GetActiveIndices(string script, string language)
+        {
+            string cacheKey = (script ?? string.Empty) + "|" + (language ?? string.Empty);
+
+            if (!_activeIndexCache.TryGetValue(cacheKey, out var indices))
+            {
+                indices = ScriptFeatureResolver.GetActiveFeatureIndices(_gsubTable?.ScriptList, script, language);
+                _activeIndexCache[cacheKey] = indices;
+            }
+
+            return indices;
         }
 
         /// <summary>
@@ -122,22 +176,23 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
         }
 
         /// <summary>
-        /// Builds a map of feature tags to their Single Substitution subtables.
-        /// This allows us to only apply substitutions for active features.
+        /// Builds a map of feature tags to their Single Substitution subtables, keeping each
+        /// subtable's original FeatureList index so ApplySubstitutions can filter by script later.
+        /// Entries are APPENDED rather than overwritten per tag: two FeatureRecords can
+        /// legitimately share a tag (one per script), and both must survive so the script filter
+        /// has something to choose between at lookup time.
         /// </summary>
         private void BuildFeatureSubtableMap()
         {
             if (_gsubTable?.FeatureList?.FeatureRecords == null)
                 return;
 
-            foreach (var featureRecord in _gsubTable.FeatureList.FeatureRecords)
-            {
-                string featureTag = featureRecord.FeatureTag.Value;
+            var featureRecords = _gsubTable.FeatureList.FeatureRecords;
 
-                if (!_featureSubtables.ContainsKey(featureTag))
-                {
-                    _featureSubtables[featureTag] = new List<SingleSubstSubTable>();
-                }
+            for (int featureIndex = 0; featureIndex < featureRecords.Count; featureIndex++)
+            {
+                var featureRecord = featureRecords[featureIndex];
+                string featureTag = featureRecord.FeatureTag.Value;
 
                 var feature = featureRecord.FeatureTable;
 
@@ -154,7 +209,13 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
                             {
                                 if (subtable is SingleSubstSubTable singleSubst)
                                 {
-                                    _featureSubtables[featureTag].Add(singleSubst);
+                                    if (!_featureSubtables.TryGetValue(featureTag, out var list))
+                                    {
+                                        list = new List<IndexedSubtable>();
+                                        _featureSubtables[featureTag] = list;
+                                    }
+
+                                    list.Add(new IndexedSubtable(featureIndex, singleSubst));
                                 }
                             }
                         }

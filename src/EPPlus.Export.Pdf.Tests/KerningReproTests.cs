@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   09/07/2026         EPPlus Software AB           WP1 kerning repro sheet
+  09/07/2026         EPPlus Software AB           Removed the per-character reference row
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
@@ -20,41 +21,46 @@ using System.Text;
 namespace EPPlusTest.PDF
 {
     /// <summary>
-    /// Reproduces the reference sheet the WP1 kerning work was measured against.
+    /// Reproduces the reference sheet the kerning and mark-to-base work is measured against.
     ///
     /// This is a VISUAL repro, not an automated regression test. It produces a PDF that has to be
-    /// opened and measured by hand, because the kerning adjustments live inside a Flate compressed
+    /// opened and measured by hand, because the adjustments live inside a Flate compressed
     /// content stream and there is no decompression helper in the test project yet.
     ///
-    /// What to measure in the output, at Calibri 48 pt and 3.3299 px/pt:
+    /// What to measure in the output, at Calibri 48 pt:
     ///
-    ///   A2  "AVATAR Wa To"  The A to A pen step is the reference measurement. It was 184 px
-    ///                       before WP1 and should now be close to 170 px, which is 2358 font
-    ///                       units down to 2184. The pairs that carry kerning here are A+V, V+A,
-    ///                       A+T, T+A, W+a and T+o.
+    ///   A2  "AVATAR Wa To"  The kerned string. The pairs that carry kerning are A+V, V+A, A+T,
+    ///                       T+A, W+a and T+o. There are TWO A-to-A pen steps in this string,
+    ///                       over different pairs and with different values - measure the first
+    ///                       one (over A+V) or it will not match the reference numbers.
     ///
-    ///   A4  "AVATAR Wa To"  Same string with kerning suppressed by putting every character in its
-    ///   A5                  own cell, as a side by side reference for the pen steps. Not affected
-    ///                       by WP1.
+    ///                       Unkerned, the string's pen width is 12634 font units; kerned it is
+    ///                       11876. Those come from hmtx plus the kern values in the embedded
+    ///                       subset, not from this sheet - there is deliberately no unkerned
+    ///                       reference row. One character per cell does NOT give one: each cell
+    ///                       starts a new text run at the cell origin, so the spacing would be
+    ///                       the column width rather than the glyph advance.
     ///
-    ///   A7  "A" + U+0301    The accent cells are expected to be UNCHANGED by WP1. XOffset and
-    ///   A8  "a" + U+0301    YOffset are still not read by the renderer, so the accent over the
-    ///                       capital A should still sit about 7 px too far right and 23 px too low
-    ///                       and collide with the apex, while the accent over the lower case a
-    ///                       still looks correct by coincidence. Both moving is a sign that WP1
-    ///                       touched something it should not have. That is WP2.
+    ///   A4  "A" + U+0301    The mark-to-base cells. Column A is DECOMPOSED (base glyph plus
+    ///   A5  "a" + U+0301    combining acute) and goes through mark positioning. Column B is the
+    ///   B4  precomposed A   PRECOMPOSED single glyph, which resolves in cmap and never reaches
+    ///   B5  precomposed a   the mark code, so it carries the font's own accent placement.
     ///
-    /// The decomposed sequences in A7 and A8 are the ones that exercise mark to base positioning.
-    /// The precomposed characters in B7 and B8 resolve to a single glyph in cmap and never reach
-    /// the mark positioning code, so they are included only as a visual baseline.
+    ///                       Column B is therefore the control: once mark-to-base offsets reach
+    ///                       the renderer, the accent in A4 must line up with B4 to within a
+    ///                       pixel. Before that, A4's accent sits 287 font units lower.
+    ///
+    ///                       A5 is expected to end up roughly 44 font units HIGHER than B5. That
+    ///                       is not a defect - the anchor and the precomposed glyph disagree
+    ///                       slightly, and the anchor is what shaping must follow.
     /// </summary>
     [TestClass]
     public class KerningReproTests : PdfTestBase
     {
         /// <summary>
         /// Calibri is a system font, so this test is only meaningful on a machine that has it.
-        /// It is the font the original measurements were taken with, and its kern lookups are
-        /// extension wrapped, which is the failure mode WP1 fixes.
+        /// It is the font the original measurements were taken with; its kern lookups are
+        /// extension wrapped and it has a type 4 mark lookup for the combining acute.
         /// </summary>
         private const string ReferenceFontName = "Calibri";
 
@@ -89,46 +95,29 @@ namespace EPPlusTest.PDF
 
         private static void BuildReproSheet(ExcelWorksheet sheet)
         {
-            sheet.Cells["A1"].Value = "Kerned pen steps";
+            sheet.Cells["A1"].Value = "Kerned pen steps, measure the first A to A step";
             StyleHeader(sheet.Cells["A1"]);
 
             sheet.Cells["A2"].Value = KernedText;
             StyleReference(sheet.Cells["A2"]);
 
-            sheet.Cells["A3"].Value = "Unkerned reference, one character per cell";
+            sheet.Cells["A3"].Value = "Mark to base. Column A decomposed, column B precomposed control";
             StyleHeader(sheet.Cells["A3"]);
 
-            // One character per cell removes every pair boundary, so these advances are the raw
-            // hmtx widths regardless of whether kerning works.
-            for (int i = 0; i < KernedText.Length; i++)
-            {
-                var cell = sheet.Cells[4, i + 1];
-                cell.Value = KernedText[i].ToString();
-                StyleReference(cell);
-            }
+            // Decomposed: base glyph plus combining acute accent, U+0301. Goes through
+            // MarkToBaseProvider.
+            sheet.Cells["A4"].Value = "A\u0301";
+            sheet.Cells["A5"].Value = "a\u0301";
 
-            sheet.Cells["A6"].Value = "Mark to base, expected unchanged by WP1";
-            StyleHeader(sheet.Cells["A6"]);
+            // Precomposed, a single glyph in cmap. Carries the font's own accent placement and
+            // is the control the decomposed cells must line up with.
+            sheet.Cells["B4"].Value = "\u00C1";
+            sheet.Cells["B5"].Value = "\u00E1";
 
-            // Decomposed: base glyph plus combining acute accent, U+0301.
-            sheet.Cells["A7"].Value = "A\u0301";
-            sheet.Cells["A8"].Value = "a\u0301";
+            StyleReference(sheet.Cells["A4:B5"]);
+            sheet.Cells.AutoFitColumns();
 
-            // Precomposed, single glyph in cmap. Visual baseline only.
-            sheet.Cells["B7"].Value = "\u00C1";
-            sheet.Cells["B8"].Value = "\u00E1";
-
-            StyleReference(sheet.Cells["A7:B8"]);
-
-            // Wide enough that autofit or clipping never influences the measurement. Kerning that
-            // starts working narrows the measured text, so a fixed width keeps the pen steps the
-            // only thing that changes between runs.
-            for (int column = 1; column <= KernedText.Length; column++)
-            {
-                sheet.Column(column).Width = 20;
-            }
-
-            for (int row = 1; row <= 8; row++)
+            for (int row = 1; row <= 5; row++)
             {
                 sheet.Row(row).CustomHeight = true;
                 sheet.Row(row).Height = 70;
