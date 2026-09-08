@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -18,6 +19,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -44,14 +46,19 @@ namespace EPPlus.Export.Pdf
         }
 
         internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
-{
-    _pageSettings = pageSettings;
-}
+        {
+            _pageSettings = pageSettings;
+        }
 
-internal void SetDictionariesForTest(PdfDictionaries dictionaries)
-{
-    _dictionaries = dictionaries;
-}
+        internal void SetDictionariesForTest(PdfDictionaries dictionaries)
+        {
+            _dictionaries = dictionaries;
+        }
+
+        internal void SetDocumentSettingsForTest(PdfDocumentSettings documentSettings)
+        {
+            _documentSettings = documentSettings;
+        }
 
         //Get the label to use for pattern.
         private string GetPatternLabel(PdfCellLayout layout)
@@ -70,7 +77,9 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
-        {            
+        {
+            foreach (var f in _dictionaries.Fonts)
+                Debug.WriteLine($"Fonts: {f.Key} → label={f.Value.Label} nr={f.Value.labelNumber}");
             if (_documentSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)
@@ -111,12 +120,45 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         {
             foreach (var shading in _dictionaries.Shadings)
             {
-                _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                var gradient = shading.Value.CellFillData.GradientFillData;
+                if (gradient != null && gradient.GradientType == ExcelFillGradientType.Path)
+                {
+                    // Box gradient: ShadingType 1 + Type 4 PostScript function. A Type 4 function is
+                    // a stream object, so it must be its own indirect object referenced by the shading.
+                    var boxFunction = new PdfPostScriptCalculatorFunction(_document.Count + 1, gradient);
+                    _document.Add(boxFunction);
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1, boxFunction.objectNumber));
+                }
+                else
+                {
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                }
                 _document.Add(shading.Value.GetShadingPatternObject(_document.Count + 1, _document.Count));
                 int label = _dictionaries.Patterns.Last().Value.labelNumber + 1;
                 var pr = new PdfPatternResource(label, shading.Value.CellFillData);
                 pr.objectNumber = _document.Count;
                 _dictionaries.Patterns.Add(shading.Value.CellFillData.id, pr);
+            }
+        }
+
+        //Add Images
+        private void AddImageData()
+        {
+            foreach (var image in _dictionaries.Images)
+            {
+                var img = image.Value.GetImageObject(_document.Count + 1);
+                if (img.HasSoftMask)
+                {
+                    // Alpha PNG: the alpha channel is a separate grayscale /SMask object. Add it
+                    // first, then point the image at it and shift the image (and the page /XObject
+                    // reference in image.Value) to the next slot so all three numbers agree.
+                    var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
+                    _document.Add(mask);
+                    img.SoftMaskObjectNumber = mask.objectNumber;
+                    img.objectNumber = _document.Count + 1;
+                    image.Value.objectNumber = img.objectNumber;
+                }
+                _document.Add(img);
             }
         }
 
@@ -162,7 +204,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Add clipping rectangle around page content.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
             if (pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
@@ -181,6 +223,13 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             {
                 contentStream.AddCommand($"% CELL BORDER : {border.Name}");
                 contentStream.AddBorderLayout(border);
+            }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
@@ -208,6 +257,13 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             foreach (var hf in headerFooterLayouts)
             {
                 contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
+            }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (!image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
             foreach (var titleCell in printTitleLayouts)
             {
@@ -285,6 +341,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
+            AddImageData();
             var info = AddInfoObject();
             _debugString = "";
             //write to pdf

@@ -327,42 +327,56 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
         }
 
         /// <summary>
-        /// Returns the preferred font family name using OpenType specification priority.
-        /// Prefers Typographic Family (16) over regular Family (1).
+        /// Returns the font family name in the legacy/RIBBI naming system (nameID 1), which pairs
+        /// with GetSubfamilyName()'s nameID 2. Together they form the family+style view that Windows,
+        /// GDI and Excel present, and the one FontSubFamily's four values are defined against.
+        ///
+        /// nameID 16 (Typographic Family) is deliberately NOT preferred, even though it is the newer
+        /// field: it belongs to the *other* naming system, paired with nameID 17. Arial Black reads
+        /// "Arial Black" + "Regular" as (1+2) but "Arial" + "Black" as (16+17). Preferring 16 here
+        /// while GetSubfamilyName() reads 2 (or vice versa) mixes the two systems and produces a pair
+        /// that exists in neither, breaking font matching. nameID 16 is used only as a last resort,
+        /// for fonts that omit nameID 1 entirely.
         /// </summary>
         public string GetFamilyName()
         {
-            //// Typographic Family (16) first
-            //string name = GetFirstNonEmpty(NameRecordTypes.TypographicFamilyName);
-            //if (!string.IsNullOrEmpty(name))
-            //    return name;
-
-            // Then regular Family Name (1)
-            string name = GetFirstNonEmpty(NameRecordTypes.FontFamilyName);
+            // Legacy Family Name (1), English first: NameRecords can hold one localized nameID 1
+            // per language, and GetFirstNonEmpty returns whichever comes first in file order.
+            string name = GetEnglishName(NameRecordTypes.FontFamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
 
-            // Typographic Family (16) first
-            name = GetFirstNonEmpty(NameRecordTypes.TypographicFamilyName);
+            name = GetFirstNonEmpty(NameRecordTypes.FontFamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
 
-
-            // Fallback to English
+            // Last resort only: the typographic family, for fonts that omit nameID 1.
             name = GetEnglishName(NameRecordTypes.TypographicFamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
 
-            return GetEnglishName(NameRecordTypes.FontFamilyName) ?? "Unknown Family";
+            return GetFirstNonEmpty(NameRecordTypes.TypographicFamilyName) ?? "Unknown Family";
         }
 
         /// <summary>
-        /// Returns the preferred subfamily name.
-        /// Prefers Typographic Subfamily (17) over regular Subfamily (2).
+        /// Returns the subfamily name in the legacy/RIBBI naming system (nameID 2), which pairs
+        /// with GetFamilyName()'s nameID 1. nameID 2 is guaranteed by the OpenType spec to be one
+        /// of "Regular"/"Bold"/"Italic"/"Bold Italic", which is exactly the FontSubFamily model.
+        ///
+        /// nameID 17 (Typographic Subfamily) is deliberately NOT preferred: it belongs to the
+        /// *other* naming system, paired with nameID 16. Arial Black reads "Arial Black" + "Regular"
+        /// as (1+2) but "Arial" + "Black" as (16+17). Mixing them yields the pair "Arial Black" +
+        /// "Black", which exists in neither system and matches no style request.
+        ///
+        /// Returns null when the font carries no subfamily name at all. Callers that need a display
+        /// string apply their own default; GetSubfamilyEnum relies on null to know it should fall
+        /// back to OS/2 fsSelection instead.
         /// </summary>
         public string GetSubfamilyName()
         {
-            string name = GetFirstNonEmpty(NameRecordTypes.TypographicSubfamilyName);
+            // Legacy Subfamily (2), English first: a font can carry one localized nameID 2 per
+            // language, and GetFirstNonEmpty returns whichever happens to come first in file order.
+            string name = GetEnglishName(NameRecordTypes.FontSubfamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
 
@@ -370,19 +384,21 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             if (!string.IsNullOrEmpty(name))
                 return name;
 
+            // Last resort only: the typographic subfamily, for fonts that omit nameID 2.
             name = GetEnglishName(NameRecordTypes.TypographicSubfamilyName);
             if (!string.IsNullOrEmpty(name))
                 return name;
 
-            return GetEnglishName(NameRecordTypes.FontSubfamilyName) ?? "Regular";
+            return GetFirstNonEmpty(NameRecordTypes.TypographicSubfamilyName);
         }
 
         public FontSubFamily GetSubfamilyEnum()
         {
             string subfamily = GetSubfamilyName();
 
+            // No subfamily name in the name table at all → fall back to OS/2 fsSelection.
             if (string.IsNullOrEmpty(subfamily))
-                goto UseFsSelection;
+                return GetSubfamilyFromFsSelection();
 
             string lower = subfamily.ToLowerInvariant();
 
@@ -398,14 +414,24 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
 
             if (lower.Contains("bold") && lower.Contains("italic"))
                 return FontSubFamily.BoldItalic;
-            if (lower.Contains("bold") || lower.Contains("heavy") || lower.Contains("black") || lower.Contains("demi"))
+            if (lower.Contains("bold"))
                 return FontSubFamily.Bold;
             if (lower.Contains("italic") || lower.Contains("oblique"))
                 return FontSubFamily.Italic;
 
-            // Om name-tabellen är konstig → fallback till OS/2
-            UseFsSelection:
-            return GetSubfamilyFromFsSelection();
+            // Weight names beyond "Bold" (Black, Heavy, Demi, Light, Medium, etc.) don't fit the
+            // 4-value RIBBI model and are NOT treated as Bold here. Fonts using these names
+            // (e.g. "Arial Black", "Segoe UI Black") already distinguish themselves via FamilyName,
+            // so their base instance is Regular within FontSubFamily. Mapping them to Bold would
+            // falsely disqualify an exact match against a Regular request, sending the resolver
+            // into the fallback chain even though the font is installed.
+            //
+            // Note that we return Regular here rather than consulting fsSelection: the name table
+            // did give us an answer, it just isn't expressible in four values. fsSelection is not a
+            // tie-breaker for that case — vendors commonly set its BOLD bit on Black/Heavy faces as
+            // a legacy hint for apps that can't read the name table, so consulting it here would
+            // silently re-introduce this exact bug through a different path.
+            return FontSubFamily.Regular;
         }
 
         private FontSubFamily GetSubfamilyFromFsSelection()

@@ -628,5 +628,9 @@ namespace OfficeOpenXml.Drawing
         internal PictureLocation LocationType = PictureLocation.None;
 
         internal ZipPackageRelationship LinkedImageRel = null;
+        /// <summary>
+        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// </summary>
+        public override bool SupportsSvgExport => true;
     }
 }

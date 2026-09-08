@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -17,6 +18,8 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Units;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -27,7 +30,7 @@ using System.Collections.Generic;
 using System.Drawing;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
-{ 
+{
     internal struct PrintTitleCellDraw
     {
         public PdfCell Cell;
@@ -74,27 +77,36 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static Transform GetCatalog(int firstPageNumber, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
             Transform Catalog = new Transform(0d, 0d, 0d, 0d);
-            int totalPages = GetTotalPages(pdfPages);
+            int totalPages = 0;
+            var sheetTotalPages = GetTotalPagesPerSheet(pdfPages);
+            int displayedPageNumber = 0;
+            int physicalPageIndex = 1;
+            int currentSheetIndex = -1;
             for (int i = 0; i < pdfPages.Count; i++)
             {
                 var pageSettings = pdfPages[i].Settings;
-
-
+                if (pdfPages[i].SheetIndex != currentSheetIndex)
+                {
+                    currentSheetIndex = pdfPages[i].SheetIndex;
+                    displayedPageNumber = pageSettings.FirstPageNumber;
+                    physicalPageIndex = 1;
+                    sheetTotalPages.TryGetValue(currentSheetIndex, out totalPages);
+                }
                 var pages = pdfPages[i].Page;
                 int pageNumber = pageSettings.FirstPageNumber;
                 for (int j = 0; j < pages.Length; j++)
                 {
                     var page = pages[j];
                     PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
-                    pageLayout.Settings = pageSettings;             
+                    pageLayout.Settings = pageSettings;
                     pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
                     pageLayout.HeadingWidth = page.HeadingWidth;
                     pageLayout.HeadingHeight = page.HeadingHeight;
                     pageLayout.PrintTitleWidth = page.PrintTitleWidth;
                     pageLayout.PrintTitleHeight = page.PrintTitleHeight;
                     var drawnMergedCells = new HashSet<string>();
-                    double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
-                    double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                    double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+                    double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                     if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
                     {
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
@@ -111,6 +123,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         {
                             var map = pages[j].Map[row, col];
                             MergedCellDrawInfo info = new MergedCellDrawInfo();
+                            if (map.Hidden && !map.Merged)
+                            {
+                                x += map.ColumnWidth;
+                                continue;
+                            }
                             //Merged Cell
                             if (map.Merged)
                             {
@@ -163,8 +180,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             }
                             else
                             {
+                                var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
+                                var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
                                 //Fill
-                                var fill = new PdfCellLayout(x, y, map.ColumnWidth, rowHeight);
+                                var fill = new PdfCellLayout(x, y, effectiveWidth, rowHeight);
                                 SetFill(dictionaries, map.CellStyle, map.Text, fill);
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
@@ -172,11 +191,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, map.ColumnWidth, rowHeight);
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, effectiveWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
                                     if (NeedsClipping(map, pages[j], row, col))
-                                        text.SetupClipping(x, y, map.ColumnWidth, rowHeight);
+                                        text.SetupClipping(x, y, effectiveWidth, rowHeight);
                                     pageLayout.AddChild(text);
                                 }
                             }
@@ -195,6 +214,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
                                     if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
                                 }
+                                SetDoubleBorderMiterFlags(pages[j], row, col, border);
                                 pageLayout.AddChild(border);
                             }
                             x += map.ColumnWidth;
@@ -202,14 +222,28 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         y -= rowHeight;
                         x = contentStartX; //pageSettings.ContentBounds.Left;
                     }
+                    //AddImages(page, pageLayout, pdfPages[i].Drawings, contentStartX, contentStartY);
+                    if (page.Images != null)
+                    {
+                        foreach (var img in page.Images)
+                        {
+                            pageLayout.AddChild(new PdfImageLayout(img.X, img.Y, img.Width, img.Height)
+                            {
+                                ImageBytes = img.ImageBytes,
+                                Name = img.Name,
+                            });
+                        }
+                    }
                     if (page.HeaderFooters != null)
                     {
-                        bool isVeryFirstPage = (i == 0 && j == 0);
-                        var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
+                        //bool isVeryFirstPage = (i == 0 && j == 0);
+                        //var hfType = isVeryFirstPage ? HeaderFooterType.First : (pageNumber % 2 == 0 ? HeaderFooterType.Even : HeaderFooterType.Odd);
+                        //var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                        var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        if (leftH != null)
+                        if (leftH != null && !leftH.HasImage)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages);
                             var ascent = leftH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -220,9 +254,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if (centerH != null)
+                        if (centerH != null && !centerH.HasImage)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages);
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -234,9 +268,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if (rightH != null)
+                        if (rightH != null && !rightH.HasImage)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages);
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -247,9 +281,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if (leftF != null)
+                        if (leftF != null && !leftF.HasImage)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages);
                             int last = leftF.Content.TextLines.Count - 1;
                             var descent = leftF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.Margins.LeftPu;
@@ -261,9 +295,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if (centerF != null)
+                        if (centerF != null && !centerF.HasImage)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages);
                             int last = centerF.Content.TextLines.Count - 1;
                             var descent = centerF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu / 2d;
@@ -275,9 +309,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if (rightF != null)
+                        if (rightF != null && !rightF.HasImage)
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, pageNumber, totalPages);
+                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages);
                             int last = rightF.Content.TextLines.Count - 1;
                             var descent = rightF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
@@ -288,6 +322,97 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             text.GidsAndCharMap(dictionaries);
                             pageLayout.AddChild(text);
                         }
+                        double hfContentLeft = pageSettings.Margins.LeftPu;
+                        double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                        foreach (var hfSection in new[] { HeaderFooterSection.Header, HeaderFooterSection.Footer })
+                        {
+                            foreach (var hfAlign in new[] { HeaderFooterAlignment.Left, HeaderFooterAlignment.Center, HeaderFooterAlignment.Right })
+                            {
+                                var hf = page.HeaderFooters.Get(hfType, hfSection, hfAlign);
+                                if (hf == null || !hf.HasImage) continue;
+
+                                // Fill page-number placeholders before measuring/splitting;
+                                // the recorded indexes are into the full fragment list.
+                                ApplyPageNumbers(hf, displayedPageNumber, totalPages);
+
+                                // ── horizontal: split the run at the image ──
+                                var frags = hf.Content.TextFragments;
+                                int splitAt = hf.ImageFragmentIndex;
+                                if (splitAt < 0 || splitAt > frags.Count) splitAt = frags.Count;
+                                var beforeFrags = frags.GetRange(0, splitAt);
+                                var afterFrags = frags.GetRange(splitAt, frags.Count - splitAt);
+
+                                double beforeWidth, beforeAscent, beforeDescent;
+                                double afterWidth, afterAscent, afterDescent;
+                                var beforeRun = ShapeHeaderFooterRun(pageSettings, dictionaries, beforeFrags, hfSection, out beforeWidth, out beforeAscent, out beforeDescent);
+                                var afterRun = ShapeHeaderFooterRun(pageSettings, dictionaries, afterFrags, hfSection, out afterWidth, out afterAscent, out afterDescent);
+
+                                bool canEmbed = PdfImageXObject.CanEmbed(hf.ImageBytes);
+                                double imgW = canEmbed ? hf.ImageWidth : 0d;
+                                double imgH = canEmbed ? hf.ImageHeight : 0d;
+
+                                double runWidth = beforeWidth + imgW + afterWidth;
+                                double runStart;
+                                switch (hfAlign)
+                                {
+                                    case HeaderFooterAlignment.Left:
+                                        runStart = hfContentLeft;
+                                        break;
+                                    case HeaderFooterAlignment.Right:
+                                        runStart = hfContentLeft + hfContentWidth - runWidth;
+                                        break;
+                                    default: // Center
+                                        runStart = hfContentLeft + (hfContentWidth - runWidth) / 2d;
+                                        break;
+                                }
+
+                                // ── vertical: image anchored at the margin, text dropped to the image bottom ──
+                                // Shared text metrics so the before-text and after-text sit on one line.
+                                double ascent = System.Math.Max(beforeAscent, afterAscent);
+                                double descent = System.Math.Max(beforeDescent, afterDescent);
+
+                                // The image is anchored at the outer margin edge and grows inward, so no margin     ◄──── this whole
+                                // space is lost: a header image's top sits on the header line, a footer image's     ◄──── block is the
+                                // bottom on the footer line. (This is also where an image-only section sits.)       ◄──── latest change
+                                double imgTop = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu
+                                                : pageSettings.Margins.FooterPu + imgH;
+                                double imgBottom = imgTop - imgH;
+
+                                // Text baseline: line the text's bottom up with the image's bottom, but never let
+                                // the text rise past the normal top-of-band position (only matters when an image is
+                                // shorter than the text). With no embeddable image (imgH == 0) this reduces to the
+                                // normal header/footer text position.
+                                double naturalBaseline = hfSection == HeaderFooterSection.Header
+                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent
+                                                : pageSettings.Margins.FooterPu + descent;
+                                double textY = System.Math.Min(naturalBaseline, imgBottom + descent);            // ◄──── end of latest change
+
+                                // ── emit before-text, image, after-text left-to-right ──
+                                double cursor = runStart;
+                                if (beforeRun != null)
+                                {
+                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, beforeRun, cursor, textY));
+                                }
+                                cursor += beforeWidth;
+
+                                if (canEmbed)
+                                {
+                                    pageLayout.AddChild(new PdfImageLayout(cursor, imgTop, imgW, imgH)   // ◄──── imgTop now the margin-anchored value above
+                                    {
+                                        ImageBytes = hf.ImageBytes,
+                                        IsHeaderFooter = true,
+                                        Name = $"{hfSection}{hfAlign}Image",
+                                    });
+                                }
+                                cursor += imgW;
+
+                                if (afterRun != null)
+                                {
+                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, afterRun, cursor, textY));
+                                }
+                            }
+                        }
                     }
                     PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
                     pageLayout.ChildObjects.Sort((a, b) =>
@@ -297,11 +422,24 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
                         return cmp;
                     });
-                    pageNumber++;
+                    displayedPageNumber++;
+                    physicalPageIndex++;
                     Catalog.AddChild(pageLayout);
                 }
             }
             return Catalog;
+        }
+
+        private static Dictionary<int, int> GetTotalPagesPerSheet(List<Pages> pdfPages)
+        {
+            var totals = new Dictionary<int, int>();
+            for (int i = 0; i < pdfPages.Count; i++)
+            {
+                int si = pdfPages[i].SheetIndex;
+                if (!totals.ContainsKey(si)) totals[si] = 0;
+                totals[si] += pdfPages[i].Page.Length;
+            }
+            return totals;
         }
 
         private static void SetFill(PdfDictionaries dictionaries, PdfCellStyle cellStyle, string text, PdfCellLayout fill)
@@ -313,7 +451,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 var patternStyle = dxfFill.PatternType != null ? (ExcelFillStyle)dxfFill.PatternType : ExcelFillStyle.Solid;
                 if (patternStyle == ExcelFillStyle.Solid)
                 {
-                    fill.SetFill( PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor()));
+                    fill.SetFill(PdfColor.SetColorFromHex(dxfFill.BackgroundColor.LookupColor()));
                 }
                 else if (patternStyle != ExcelFillStyle.None)
                 {
@@ -331,7 +469,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     var top = dxfFill.Gradient.Top == null ? 0 : (double)dxfFill.Gradient.Top;
                     var bottom = dxfFill.Gradient.Bottom == null ? 0 : (double)dxfFill.Gradient.Bottom;
                     var left = dxfFill.Gradient.Left == null ? 0 : (double)dxfFill.Gradient.Left;
-                    var right  = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
+                    var right = dxfFill.Gradient.Right == null ? 0 : (double)dxfFill.Gradient.Right;
                     fill.SetGradient(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillGradientType)gradientType, color1, color2, color3, degree, top, bottom, left, right);
                 }
             }
@@ -352,7 +490,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 }
                 else if (xfFill.PatternType != ExcelFillStyle.None)
                 {
-                    var  patternStyle = xfFill.PatternType;
+                    var patternStyle = xfFill.PatternType;
                     var bkgc = PdfColor.SetColorFromHex(xfFill.PatternColor.Rgb == null ? "#FFFFFFFF" : xfFill.PatternColor.LookupColor());
                     var patc = PdfColor.SetColorFromHex(xfFill.BackgroundColor.LookupColor());
                     fill.SetPattern(dictionaries, (EPPlus.Export.Pdf.Enums.ExcelFillStyle)patternStyle, bkgc, patc);
@@ -463,7 +601,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
-            var cornerFill = new PdfCellLayout(pageSettings.ContentBounds.Left, pageSettings.ContentBounds.Top, headingWidth, headingHeight);
+            var cornerFill = new PdfCellLayout(GetOriginX(pageSettings, page), GetOriginY(pageSettings, page), headingWidth, headingHeight);
             SetFill(dictionaries, headingStyle, "", cornerFill);
             cornerFill.Name = "Heading_Corner";
             cornerFill.UpdateShadingPositionMatrix(pageSettings);
@@ -475,7 +613,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (colWidth == 0d) { x += colWidth; continue; }
                 string colLetter = ExcelCellBase.GetColumnLetter(col);
                 AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, colLetter,
-                    x, pageSettings.ContentBounds.Top, colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
+                    x, GetOriginY(pageSettings, page), colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
                 x += colWidth;
             }
             double y = contentStartY;
@@ -485,7 +623,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (rowHeight == 0d) { y -= rowHeight; continue; }
                 string rowNum = row.ToString();
                 AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum,
-                    pageSettings.ContentBounds.Left, y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
+                    GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
                 y -= rowHeight;
             }
         }
@@ -641,6 +779,159 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagUpStyle, diagUpColor,
                             (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)diagDownStyle, diagDownColor);
         }
+
+        //private static void AddImages(Page page, PdfPageLayout pageLayout, List<PdfDrawing> drawings, double contentStartX, double contentStartY)
+        //{
+        //    if (drawings == null) return;
+        //    foreach (var drawing in drawings)
+        //    {
+        //        if (drawing.PictureType != ePictureType.Jpg) continue;   // JPEG first
+        //        var pic = drawing.Picture;
+        //        if (pic.From == null) continue;     // only cell-anchored pictures for now
+        //        int imgRow = pic.From.Row + 1;      // From.Row / From.Column are 0-based
+        //        int imgCol = pic.From.Column + 1;
+        //        if (imgRow < page.FromRow || imgRow > page.ToRow) continue;
+        //        if (imgCol < page.FromColumn || imgCol > page.ToColumn) continue;
+
+        //        // Left edge: content origin + full widths of the columns before the anchor + EMU offset.
+        //        double x = contentStartX;
+        //        for (int c = page.FromColumn; c < imgCol; c++)
+        //            x += page.Map[page.FromRow, c]?.ColumnWidth ?? 0d;
+        //        x += pic.From.ColumnOff / (double)ExcelDrawing.EMU_PER_POINT;
+
+        //        // Top edge (Y-up): content origin - full heights of the rows above the anchor - EMU offset.
+        //        double y = contentStartY;
+        //        for (int r = page.FromRow; r < imgRow; r++)
+        //            y -= page.RowHeights[r - page.FromRow];
+        //        y -= pic.From.RowOff / (double)ExcelDrawing.EMU_PER_POINT;
+
+        //        // Size: rendered pixel size (already resolved from the anchor by EPPlus) → points.
+        //        double width = pic.GetPixelWidth() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+        //        double height = pic.GetPixelHeight() * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+
+        //        var image = new PdfImageLayout(x, y, width, height)
+        //        {
+        //            ImageBytes = drawing.ImageBytes,
+        //            Name = "Image_" + pic.Name,
+        //        };
+        //        pageLayout.AddChild(image);
+        //    }
+        //}
+
+        internal static Pages PrecomputeImages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings, double zeroCharWidth)
+        {
+            if (drawings == null || drawings.Count == 0) return pdfPages;
+
+            var colPrefix = new double[range.ColWidths.Count + 1];
+            for (int i = 0; i < range.ColWidths.Count; i++)
+                colPrefix[i + 1] = colPrefix[i] + range.ColWidths[i];
+            var rowPrefix = new double[range.RowHeights.Count + 1];
+            for (int i = 0; i < range.RowHeights.Count; i++)
+                rowPrefix[i + 1] = rowPrefix[i] + range.RowHeights[i].Height;
+
+            // Point distance from cell A1 to the range's top-left, so an absolute-anchored picture
+            // (positioned in EMU from A1) can be shifted into the same range-local space the cell
+            // anchors use. Zero when the range starts at A1, which is the common case. Column widths
+            // use the exporter's basis (ZeroCharWidth); row heights are already points.
+            var ws = range.Range.Worksheet;
+            double rangeOriginX = 0d;
+            for (int c = 1; c < range.Range._fromCol; c++)
+                rangeOriginX += ws.Column(c).Hidden ? 0d : UnitConversion.ExcelColumnWidthToPoints(ws.Column(c).Width, zeroCharWidth);
+            double rangeOriginY = 0d;
+            for (int r = 1; r < range.Range._fromRow; r++)
+                rangeOriginY += ws.Row(r).Hidden ? 0d : ws.Row(r).Height;
+
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+                pdfPages.Page[i] = PrecomputePageImages(pageSettings, range, pdfPages.Page[i], drawings, colPrefix, rowPrefix, rangeOriginX, rangeOriginY);
+            return pdfPages;
+        }
+        private static double PointsFromEmu(long emu) => emu / (double)ExcelDrawing.EMU_PER_POINT;
+        private static double PointsFromPixels(double pixels) => pixels * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+        private static double ColumnEdge(double[] colPrefix, int localCol) => colPrefix[Math.Max(0, Math.Min(localCol, colPrefix.Length - 1))];
+        private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
+        private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
+        {
+            page.Images = new List<ImageDrawInfo>();
+            int fromCol = range.Range._fromCol;
+            int fromRow = range.Range._fromRow;
+
+            // This page's window in absolute (range-local) point space.
+            double pageAbsLeft = colPrefix[page.FromColumn - fromCol];
+            double pageAbsRight = colPrefix[page.ToColumn - fromCol + 1];
+            double pageAbsTop = rowPrefix[page.FromRow - fromRow];
+            double pageAbsBottom = rowPrefix[page.ToRow - fromRow + 1];
+
+            double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+
+            foreach (var drawing in drawings)
+            {
+                if (!PdfImageXObject.CanEmbed(drawing.ImageBytes)) continue;
+                var pic = drawing.Picture;
+                double imgLeft, imgTop, imgRight, imgBottom;
+                if (pic.From != null)
+                {
+                    // One-cell / two-cell: top-left is a cell + EMU offset. Resolve against the SAME
+                    // column-width and row-height arrays the grid is drawn with, so the picture can't
+                    // disagree with its columns (GetPixelWidth would use a different digit-width basis).
+                    int imgColLocal = (pic.From.Column + 1) - fromCol;   // From.Row/Column are 0-based
+                    int imgRowLocal = (pic.From.Row + 1) - fromRow;
+                    if (imgColLocal < 0 || imgColLocal >= colPrefix.Length - 1) continue;   // anchor outside range
+                    if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1) continue;
+                    imgLeft = colPrefix[imgColLocal] + PointsFromEmu(pic.From.ColumnOff);
+                    imgTop = rowPrefix[imgRowLocal] + PointsFromEmu(pic.From.RowOff);
+                    if (pic.To != null)
+                    {
+                        // Two-cell: bottom-right is another cell + offset (same grid basis).
+                        imgRight = ColumnEdge(colPrefix, (pic.To.Column + 1) - fromCol) + PointsFromEmu(pic.To.ColumnOff);
+                        imgBottom = RowEdge(rowPrefix, (pic.To.Row + 1) - fromRow) + PointsFromEmu(pic.To.RowOff);
+                    }
+                    else
+                    {
+                        // One-cell: size is the intrinsic ext. GetPixelWidth/Height reduces to an exact
+                        // EMU->point conversion here, so there is no digit-width basis to disagree with.
+                        imgRight = imgLeft + PointsFromPixels(pic.GetPixelWidth());
+                        imgBottom = imgTop + PointsFromPixels(pic.GetPixelHeight());
+                    }
+                }
+                else if (pic.Position != null && pic.Size != null)
+                {
+                    // Absolute anchor: fixed EMU position from cell A1 + fixed ext. Shift by the range
+                    // origin so it lands in the same range-local space as the cell anchors.
+                    imgLeft = PointsFromEmu(pic.Position.X) - rangeOriginX;
+                    imgTop = PointsFromEmu(pic.Position.Y) - rangeOriginY;
+                    imgRight = imgLeft + PointsFromEmu(pic.Size.Width);
+                    imgBottom = imgTop + PointsFromEmu(pic.Size.Height);
+                }
+                else
+                {
+                    continue;   // no usable anchor (e.g. grouped / chart-relative)
+                }
+                double width = imgRight - imgLeft;
+                double height = imgBottom - imgTop;
+
+                // Only place the picture on pages its rectangle actually overlaps (both axes).
+                if (imgLeft >= pageAbsRight || imgRight <= pageAbsLeft) continue;
+                if (imgTop >= pageAbsBottom || imgBottom <= pageAbsTop) continue;
+
+                // Position relative to THIS page's content origin. When the picture starts on an
+                // earlier page the offset is negative; the page's margin clip trims the overflow.
+                double x = contentStartX + (imgLeft - pageAbsLeft);
+                double y = contentStartY - (imgTop - pageAbsTop);
+
+                page.Images.Add(new ImageDrawInfo
+                {
+                    X = x,
+                    Y = y,
+                    Width = width,
+                    Height = height,
+                    ImageBytes = drawing.ImageBytes,
+                    Name = "Image_" + pic.Name,
+                });
+            }
+            return page;
+        }
+
         private static int GetTotalPages(List<Pages> pdfPages)
         {
             int totalPages = 0;
@@ -656,8 +947,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             List<Pages> PagesCollection = new List<Pages>();
             for (int si = 0; si < pdfSheets.Length; si++)
             {
-                var pdfSheet= pdfSheets[si];
-                var pageSettings = sheetSettings[si];            
+                var pdfSheet = pdfSheets[si];
+                var pageSettings = sheetSettings[si];
 
                 for (int ri = 0; ri < pdfSheet.Ranges.Count; ri++)
                 {
@@ -669,10 +960,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
                     pages = PrecomputeSpillCells(pageSettings, range, pages);
                     pages = PrecomputePrintTitleCells(pageSettings, pdfSheet, range, pages);
+                    pages = PrecomputeImages(pageSettings, range, pages, pdfSheet.Drawings, pdfSheet.ZeroCharWidth);
                     pages.HeadingFontName = pdfSheet.NormalStyle.Style.Font.Name;
                     pages.HeadingFontSize = pdfSheet.NormalStyle.Style.Font.Size;
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
                     pages.Settings = pageSettings;
+                    pages.SheetIndex = si;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
@@ -682,9 +975,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     var pages = GetNumberOfPages(pageSettings, pdfSheet, ref pdfSheet.CommentsAndNotes);
                     pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
+                    pages = GetHeaderFooter(pdfSheet.CommentsAndNotes, pages, pdfSheet);
                     pageSettings.ShowHeadings = savedShowHeadings;
                     pages.IsCommentsPage = true;
-                    pages.Settings = pageSettings;                    
+                    pages.Settings = pageSettings;
+                    pages.SheetIndex = si;
                     PagesCollection.Add(pages);
                 }
             }
@@ -726,7 +1021,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     // --- Y ---
                     // Replace the * 15d line with a sum of real row heights
-                    double drawY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                    double drawY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                     for (int r = page.FromRow; r < row; r++)
                     {
                         drawY -= range.RowHeights[r - range.Range._fromRow].Height;
@@ -775,7 +1070,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             int colCount = page.ToColumn - page.FromColumn + 1;
             var colX = new double[colCount];
-            double x = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            double x = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int col = page.FromColumn; col <= page.ToColumn; col++)
             {
                 colX[col - page.FromColumn] = x;
@@ -827,7 +1122,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
             // Content-column X: same origin/widths the content loop uses (step-2 origin).
             var contentColX = new Dictionary<int, double>();
-            double cx = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
+            double cx = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int c = page.FromColumn; c <= page.ToColumn; c++)
             {
                 contentColX[c] = cx;
@@ -835,7 +1130,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
             // Content-row Y.
             var contentRowY = new Dictionary<int, double>();
-            double cy = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+            double cy = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
             for (int r = page.FromRow; r <= page.ToRow; r++)
             {
                 contentRowY[r] = cy;
@@ -845,7 +1140,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var titleColX = new Dictionary<int, double>();
             if (leftBand)
             {
-                double tx = pageSettings.ContentBounds.Left + page.HeadingWidth;
+                double tx = GetOriginX(pageSettings, page) + page.HeadingWidth;
                 for (int c = pdfSheet.PrintTitleColFrom; c <= pdfSheet.PrintTitleColTo; c++)
                 {
                     titleColX[c] = tx;
@@ -856,7 +1151,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var titleRowY = new Dictionary<int, double>();
             if (topBand)
             {
-                double ty = pageSettings.ContentBounds.Top - page.HeadingHeight;
+                double ty = GetOriginY(pageSettings, page) - page.HeadingHeight;
                 for (int r = pdfSheet.PrintTitleRowFrom; r <= pdfSheet.PrintTitleRowTo; r++)
                 {
                     titleRowY[r] = ty;
@@ -899,7 +1194,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         {
                             IsRow = true,
                             Index = r,
-                            X = pageSettings.ContentBounds.Left,
+                            X = GetOriginX(pageSettings, page),
                             Y = titleRowY[r],
                             Width = page.HeadingWidth,
                             Height = h
@@ -916,7 +1211,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             IsRow = false,
                             Index = c,
                             X = titleColX[c],
-                            Y = pageSettings.ContentBounds.Top,
+                            Y = GetOriginY(pageSettings, page),
                             Width = w,
                             Height = page.HeadingHeight
                         });
@@ -926,24 +1221,24 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             // repeated title-row text continues onto the next horizontal page's band
             if (topBand)
                 AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth,
-                    pageSettings.ContentBounds.Top - page.HeadingHeight,
+                    GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth,
+                    GetOriginY(pageSettings, page) - page.HeadingHeight,
                     isPrintTitle: true);
 
             // left band: a neighbour whose text spills INTO a title column travels with the repeated column
             if (leftBand)
                 AddIncomingSpill(page, range, page.FromRow, page.ToRow,
                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X (left edge of the title columns)
-                    pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight,           // content-rows origin Y
+                    GetOriginX(pageSettings, page) + page.HeadingWidth,                                  // band origin X (left edge of the title columns)
+                    GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight,           // content-rows origin Y
                     isPrintTitle: true);
 
             // corner: same, for the title-rows × title-columns intersection
             if (topBand && leftBand)
                 AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo,
                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                    pageSettings.ContentBounds.Left + page.HeadingWidth,                                  // band origin X
-                    pageSettings.ContentBounds.Top - page.HeadingHeight,                                  // title-rows origin Y
+                    GetOriginX(pageSettings, page) + page.HeadingWidth,                                  // band origin X
+                    GetOriginY(pageSettings, page) - page.HeadingHeight,                                  // title-rows origin Y
                     isPrintTitle: true);
 
             return page;
@@ -1348,6 +1643,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 // Content-bounds overflow: col doesn't fit, end segment before it and reprocess.
                 if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.ContentBounds.Width)
                 {
+                    if (col == segStartIdx)
+                    {
+                        segments.Add(new PageSegment(range.Map.FromColumn + col, range.Map.FromColumn + col));
+                        segStartIdx = col + 1;
+                        width = 0d;
+                        continue;
+                    }
                     segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col - 1));
                     segStartIdx = col;
                     width = 0d;
@@ -1420,6 +1722,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         page.Map[row, col] = range.Map[row, col];
                     }
                 }
+                double usedWidth = page.HeadingWidth + page.PrintTitleWidth;
+                for (int col = page.FromColumn; col <= page.ToColumn; col++)
+                {
+                    usedWidth += page.Map[page.FromRow, col]?.ColumnWidth ?? 0d;
+                }
+                page.UsedWidth = usedWidth;
+
+                double usedHeight = page.HeadingHeight + page.PrintTitleHeight;
+                for (int ri = 0; ri < page.RowHeights.Length; ri++)
+                {
+                    usedHeight += page.RowHeights[ri];
+                }
+                page.UsedHeight = usedHeight;
+
                 pdfPages.Page[i] = page;
             }
             pdfPages = pages;
@@ -1439,20 +1755,68 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
+        //private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        //{
+        //    if (hf == null) return;
+        //    if (hf.PageNumberIndexes.Count > 0)
+        //    {
+        //        foreach (var idx in hf.PageNumberIndexes)
+        //            hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+        //    }
+        //    if (hf.NumberOfPagesIndexes.Count > 0)
+        //    {
+        //        foreach (var idx in hf.NumberOfPagesIndexes)
+        //            hf.Content.TextFragments[idx].Text = totalPages.ToString();
+        //    }
+        //    PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        //}
         private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
         {
             if (hf == null) return;
-            if (hf.PageNumberIndexes.Count > 0)
-            {
-                foreach (var idx in hf.PageNumberIndexes)
-                    hf.Content.TextFragments[idx].Text = pageNumber.ToString();
-            }
-            if (hf.NumberOfPagesIndexes.Count > 0)
-            {
-                foreach (var idx in hf.NumberOfPagesIndexes)
-                    hf.Content.TextFragments[idx].Text = totalPages.ToString();
-            }
+            ApplyPageNumbers(hf, pageNumber, totalPages);          // ◄──── was two inline foreach loops
             PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        }
+
+        // Fills the page-number / number-of-pages placeholders in place, without shaping. Used both by the   ◄──── new method
+        // plain-text path (which shapes afterwards) and the inline-image path (which shapes the split sub-runs).
+        private static void ApplyPageNumbers(PdfHeaderFooter hf, int pageNumber, int totalPages)
+        {
+            if (hf == null) return;
+            foreach (var idx in hf.PageNumberIndexes)
+                hf.Content.TextFragments[idx].Text = pageNumber.ToString();
+            foreach (var idx in hf.NumberOfPagesIndexes)
+                hf.Content.TextFragments[idx].Text = totalPages.ToString();
+        }
+
+        private static PdfHeaderFooter ShapeHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries,
+    List<TextFragment> frags, HeaderFooterSection section,
+    out double width, out double ascent, out double descent)
+        {
+            width = 0d; ascent = 0d; descent = 0d;
+            if (frags == null || frags.Count == 0) return null;
+            var sub = new PdfHeaderFooter(frags, new List<int>(), new List<int>(), HeaderFooterType.Odd, HeaderFooterAlignment.Left, section);
+            sub.Content.ContentAligmnet = new PdfCellAlignmentData
+            {
+                HorizontalAlignment = EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Left
+            };
+            PdfTextShaper.ShapeText(pageSettings, dictionaries, sub.Content);
+            if (sub.Content.TextLines == null || sub.Content.TextLines.Count == 0
+                || sub.Content.TextLines.LineFragments == null || sub.Content.TextLines.LineFragments.Count == 0
+                || sub.Content.TotalTextLength <= 0d)
+                return null;
+            width = sub.Content.TextLines[0].Width;
+            ascent = sub.Content.TextLines[0].LargestAscent;
+            descent = sub.Content.TextLines[0].LargestDescent;
+            return sub;
+        }
+
+        private static PdfCellContentLayout PlaceHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries,
+    PdfHeaderFooter run, double x, double baselineY)
+        {
+            var layout = new PdfCellContentLayout(pageSettings, dictionaries, run, x, baselineY, 0, 0);
+            layout.IsHeaderFooter = true;
+            layout.GidsAndCharMap(dictionaries);
+            return layout;
         }
 
         private static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)
@@ -1566,12 +1930,131 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 var page = pdfPages.Page[i];
                 page.SpillCells = new List<SpillCellDraw>();
-                double originX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
-                double originY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+                double originX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+                double originY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                 AddIncomingSpill(page, range, page.FromRow, page.ToRow, page.FromColumn, page.ToColumn, originX, originY, isPrintTitle: false);
                 pdfPages.Page[i] = page;
             }
             return pdfPages;
+        }
+
+        private static PdfCell CellAt(Page page, int row, int col)
+        {
+            if (row < page.FromRow || row > page.ToRow || col < page.FromColumn || col > page.ToColumn) return null;
+            return page.Map[row, col];
+        }
+
+        // A vertical border exists on the gridline to the LEFT of column 'col', in 'row',
+        // if either cell sharing that gridline segment has the matching side border.
+        private static bool VBorderAt(Page page, int row, int col)
+            => CellHasLeftBorder(CellAt(page, row, col)) || CellHasRightBorder(CellAt(page, row, col - 1));
+
+        // A horizontal border on the gridline BELOW 'row' (between row and row+1), in 'col'.
+        private static bool HBorderBelow(Page page, int row, int col)
+            => CellHasBottomBorder(CellAt(page, row, col)) || CellHasTopBorder(CellAt(page, row + 1, col));
+
+        // A horizontal border on the gridline ABOVE 'row' (between row-1 and row), in 'col'.
+        private static bool HBorderAbove(Page page, int row, int col)
+            => CellHasTopBorder(CellAt(page, row, col)) || CellHasBottomBorder(CellAt(page, row - 1, col));
+
+        private static void SetDoubleBorderMiterFlags(Page page, int row, int col, PdfCellBorderLayout border)
+        {
+            var b = border.BorderData;
+
+            // Perpendicular border present at each end -> miter (close) a real corner. (unchanged)
+            b.Top.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row - 1, col);
+            b.Top.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row - 1, col + 1);
+            b.Bottom.PerpAtStart = VBorderAt(page, row, col) || VBorderAt(page, row + 1, col);
+            b.Bottom.PerpAtEnd = VBorderAt(page, row, col + 1) || VBorderAt(page, row + 1, col + 1);
+            b.Left.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col - 1);
+            b.Left.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col - 1);
+            b.Right.PerpAtStart = HBorderBelow(page, row, col) || HBorderBelow(page, row, col + 1);
+            b.Right.PerpAtEnd = HBorderAbove(page, row, col) || HBorderAbove(page, row, col + 1);
+
+            // Does the cell ACROSS this edge also have a double border? If so, this cell draws only
+            // its inner line and the neighbour draws its inner line -> together one shared double,
+            // with no outer line spilling into the neighbour. (Excel behaviour.)
+            b.Top.NeighborDouble = IsDoubleBottom(CellAt(page, row - 1, col));
+            b.Bottom.NeighborDouble = IsDoubleTop(CellAt(page, row + 1, col));
+            b.Left.NeighborDouble = IsDoubleRight(CellAt(page, row, col - 1));
+            b.Right.NeighborDouble = IsDoubleLeft(CellAt(page, row, col + 1));
+
+            // The OUTER line of a double border spills into the neighbour across that edge. If that
+            // neighbour has a diagonal reaching the shared corner, pull the outer line back there so
+            // the neighbour's X stays open (mirrors how the inner line is pulled back for this cell's
+            // own diagonal). Start/End follow the PerpAtStart/PerpAtEnd convention.
+            var nAbove = CellAt(page, row - 1, col);
+            var nBelow = CellAt(page, row + 1, col);
+            var nLeft = CellAt(page, row, col - 1);
+            var nRight = CellAt(page, row, col + 1);
+            b.Top.NeighborDiagAtStart = HasDiagUp(nAbove);      // above's up-diagonal ends at this top-left
+            b.Top.NeighborDiagAtEnd = HasDiagDown(nAbove);      // above's down-diagonal ends at this top-right
+            b.Bottom.NeighborDiagAtStart = HasDiagDown(nBelow); // below's down-diagonal ends at this bottom-left
+            b.Bottom.NeighborDiagAtEnd = HasDiagUp(nBelow);     // below's up-diagonal ends at this bottom-right
+            b.Left.NeighborDiagAtStart = HasDiagDown(nLeft);    // left's down-diagonal ends at this bottom-left
+            b.Left.NeighborDiagAtEnd = HasDiagUp(nLeft);        // left's up-diagonal ends at this top-left
+            b.Right.NeighborDiagAtStart = HasDiagUp(nRight);    // right's up-diagonal ends at this bottom-right
+            b.Right.NeighborDiagAtEnd = HasDiagDown(nRight);    // right's down-diagonal ends at this top-right
+
+            // Diagonal junction: the cell diagonally across a corner has the matching corner (both its
+            // borders meeting there). Cut this cell's outer miter at that corner so the two corners do
+            // not fill the centre into a small square. (Only affects a drawn outer line; on shared edges
+            // the outer is already suppressed.) Corners: TL=(row-1,col-1) BR, TR=(row-1,col+1) BL,
+            // BL=(row+1,col-1) TR, BR=(row+1,col+1) TL.
+            var dTL = CellAt(page, row - 1, col - 1);
+            var dTR = CellAt(page, row - 1, col + 1);
+            var dBL = CellAt(page, row + 1, col - 1);
+            var dBR = CellAt(page, row + 1, col + 1);
+            bool cutTL = CellHasBottomBorder(dTL) && CellHasRightBorder(dTL);
+            bool cutTR = CellHasBottomBorder(dTR) && CellHasLeftBorder(dTR);
+            bool cutBL = CellHasTopBorder(dBL) && CellHasRightBorder(dBL);
+            bool cutBR = CellHasTopBorder(dBR) && CellHasLeftBorder(dBR);
+            b.Top.CutOuterAtStart = cutTL; b.Top.CutOuterAtEnd = cutTR;       // Top: Start=left(TL), End=right(TR)
+            b.Bottom.CutOuterAtStart = cutBL; b.Bottom.CutOuterAtEnd = cutBR; // Bottom: Start=left(BL), End=right(BR)
+            b.Left.CutOuterAtStart = cutBL; b.Left.CutOuterAtEnd = cutTL;     // Left: Start=bottom(BL), End=top(TL)
+            b.Right.CutOuterAtStart = cutBR; b.Right.CutOuterAtEnd = cutTR;   // Right: Start=bottom(BR), End=top(TR)
+        }
+
+        // Does the cell carry an up-/down-diagonal border (any style)? Mirrors SetBorderStyle's diagonal source.
+        private static bool HasDiagUp(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return cs.DiagonalUp && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
+        }
+        private static bool HasDiagDown(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            return cs.DiagonalDown && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
+        }
+
+        // Effective border style of a side == Double (xf wins over dxf, mirrors SetBorderStyle).
+        private static bool IsDoubleTop(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfTop.Style != ExcelBorderStyle.None ? cs.xfTop.Style
+                  : ((cs.dxfTop != null && cs.dxfTop.HasValue) ? (ExcelBorderStyle)cs.dxfTop.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
+        }
+        private static bool IsDoubleBottom(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfBottom.Style != ExcelBorderStyle.None ? cs.xfBottom.Style
+                  : ((cs.dxfBottom != null && cs.dxfBottom.HasValue) ? (ExcelBorderStyle)cs.dxfBottom.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
+        }
+        private static bool IsDoubleLeft(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfLeft.Style != ExcelBorderStyle.None ? cs.xfLeft.Style
+                  : ((cs.dxfLeft != null && cs.dxfLeft.HasValue) ? (ExcelBorderStyle)cs.dxfLeft.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
+        }
+        private static bool IsDoubleRight(PdfCell cell)
+        {
+            var cs = cell?.CellStyle; if (cs == null) return false;
+            var s = cs.xfRight.Style != ExcelBorderStyle.None ? cs.xfRight.Style
+                  : ((cs.dxfRight != null && cs.dxfRight.HasValue) ? (ExcelBorderStyle)cs.dxfRight.Style : ExcelBorderStyle.None);
+            return s == ExcelBorderStyle.Double;
         }
 
         private static bool CellHasRightBorder(PdfCell cell)
@@ -1622,6 +2105,34 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
             }
             if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
+        }
+
+        /// <summary>
+        /// The X coordinate where the page's printed block begins.
+        /// Currently the left content bound; will include the centering offset.
+        /// </summary>
+        internal static double GetOriginX(PdfPageSettings pageSettings, Page page)
+        {
+            if (!pageSettings.CenterOnPageHorizontally) return pageSettings.ContentBounds.Left;
+
+            var offset = (pageSettings.ContentBounds.Width - page.UsedWidth) / 2d;
+            return pageSettings.ContentBounds.Left + Math.Max(0d, offset);
+        }
+
+        /// <summary>
+        /// The Y coordinate where the page's printed block begins (top edge).
+        /// </summary>
+        internal static double GetOriginY(PdfPageSettings pageSettings, Page page)
+        {
+            if (!pageSettings.CenterOnPageVertically) return pageSettings.ContentBounds.Top;
+
+            var offset = (pageSettings.ContentBounds.Height - page.UsedHeight) / 2d;
+            return pageSettings.ContentBounds.Top - Math.Max(0d, offset);
+        }
+
+        internal static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
+        {
+            return System.Math.Min(cellWidth, pageSettings.PageSize.WidthPu - cellX);
         }
     }
 }

@@ -56,6 +56,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 
 namespace OfficeOpenXml
 {
@@ -749,7 +750,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(string fileName)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, settings, this);
+            PdfCatalog catalog = new PdfCatalog(settings, this);
+            catalog.Save(fileName);
         }
 
         /// <summary>
@@ -760,7 +762,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(string fileName, params ExcelWorksheet[] worksheets)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, settings, worksheets);
+            PdfCatalog catalog = new PdfCatalog(settings, worksheets);
+            catalog.Save(fileName);
         }
 
         /// <summary>
@@ -771,7 +774,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(string fileName, params ExcelRangeBase[] ranges)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, settings, ranges);
+            PdfCatalog catalog = new PdfCatalog(settings, ranges);
+            catalog.Save(fileName);
         }
 
         /// <summary>
@@ -786,7 +790,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(fileName, settings, this);
+                var pdfCatalog = new PdfCatalog(settings, this);
+                pdfCatalog.Save(fileName);
             }, cancellationToken);
         }
 
@@ -812,7 +817,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(fileName, settings, worksheets);
+                var pdfCatalog = new PdfCatalog(settings, worksheets);
+                pdfCatalog.Save(fileName);
             }, cancellationToken);
         }
 
@@ -838,7 +844,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(fileName, settings, ranges);
+                var pdfCatalog = new PdfCatalog(settings, ranges);
+                pdfCatalog.Save(fileName);
             }, cancellationToken);
         }
 
@@ -849,7 +856,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(Stream stream)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+            PdfCatalog catalog = new PdfCatalog(settings, this);
+            catalog.Save(stream);
         }
 
         /// <summary>
@@ -860,7 +868,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(Stream stream, params ExcelWorksheet[] worksheets)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(stream, settings, worksheets);
+            PdfCatalog catalog = new PdfCatalog(settings, worksheets);
+            catalog.Save(stream);
         }
 
         /// <summary>
@@ -871,7 +880,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(Stream stream, params ExcelRangeBase[] ranges)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(stream, settings, ranges);
+            PdfCatalog catalog = new PdfCatalog(settings, ranges);
+            catalog.Save(stream);
         }
 
         /// <summary>
@@ -886,7 +896,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(stream, settings, this);
+                var pdfCatalog = new PdfCatalog(settings, this);
+                pdfCatalog.Save(stream);
             }, cancellationToken);
         }
 
@@ -912,7 +923,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(stream, settings, worksheets);
+                var pdfCatalog = new PdfCatalog(settings, worksheets);
+                pdfCatalog.Save(stream);
             }, cancellationToken);
         }
 
@@ -938,7 +950,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(stream, settings, ranges);
+                var pdfCatalog = new PdfCatalog(settings, ranges);
+                pdfCatalog.Save(stream);
             }, cancellationToken);
         }
 

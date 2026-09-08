@@ -55,6 +55,12 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
         }
 
+        /// <inheritdoc/>
+        public bool HasGlyphIds
+        {
+            get { return true; }
+        }
+
         /// <summary>
         /// Creates a TextShaper with automatic emoji fallback (DefaultFontProvider).
         /// NOTE: In most cases, prefer OpenTypeFonts.GetTextShaper() over creating
@@ -89,30 +95,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             _singleAdjustmentProvider = new SingleAdjustmentProvider(_primaryFont);
             _singleSubstitutionProcessor = new SingleSubstitutionProcessor(_primaryFont);
             _chainingContextualProcessor = new ChainingContextualProcessor(_primaryFont, _singleSubstitutionProcessor, _ligatureProcessor);
-        }
-
-        /// <summary>
-        /// Resolves a shaper for a different font via this shaper's font provider. Returns null
-        /// when the provider is not engine-backed (e.g. a custom IFontProvider), in which case the
-        /// caller is expected to fall back. This lets a TextLayoutEngine shape multi-font rich text
-        /// through the engine that produced this shaper instead of the global singleton.
-        /// </summary>
-        internal ITextShaper GetShaperForFont(IFontFormatBase font)
-        {
-            var dfp = _fontProvider as DefaultFontProvider;
-            if (dfp != null)
-                return dfp.GetShaperForFont(font);
-
-            return null;
-        }
-
-        internal ITextShaper GetShaperForFont(MeasurementFont font)
-        {
-            var dfp = _fontProvider as DefaultFontProvider;
-            if (dfp != null)
-                return dfp.GetShaperForFont(font);
-
-            return null;
         }
 
         #region Font Tracking API

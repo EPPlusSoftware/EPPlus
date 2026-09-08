@@ -6,28 +6,25 @@ using System.Text;
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
-    /// What drawings to include in html export
+    /// How to include picture drawings in the html
     /// </summary>
-    [Flags]
     public enum eDrawingInclude
     {
         /// <summary>
-        /// Include no drawings
+        /// Do not include supported drawing objects in the html export. Default
         /// </summary>
-        None = 0,
+        Exclude,
         /// <summary>
-        /// Include Shapes
+        /// Include in css only, so they drawing images can be added manually. 
         /// </summary>
-        Shapes = 2,
+        IncludeInCssOnly,
         /// <summary>
-        /// Include Charts
+        /// Include the drawings as images in the html export.
         /// </summary>
-        Charts = 4,
-
-        //TODO: This is already handled by image enum. We may need restructure here
+        Include,
         /// <summary>
-        /// Include Images ?
+        /// Include the drawings as images in the HTML only .
         /// </summary>
-        Images = 8,
+        IncludeInHtmlOnly
     }
 }

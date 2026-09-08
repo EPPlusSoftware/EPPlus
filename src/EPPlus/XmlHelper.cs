@@ -1141,7 +1141,7 @@ namespace OfficeOpenXml
         internal double GetXmlNodeAngle(string path, double defaultValue = 0)
         {
             int a = GetXmlNodeInt(path);
-            if (a < 0) return defaultValue;
+            if (a == int.MinValue) return defaultValue;
             return a / 60000D;
         }
         internal double GetXmlNodeEmuToPt(string path, double defaultValue = 0)

@@ -5,7 +5,8 @@ using System.Collections.Generic;
 namespace EPPlus.Fonts.OpenType.TextShaping.Kerning
 {
     /// <summary>
-    /// Provides kerning from GPOS PairPos lookups (Type 2).
+    /// Provides kerning from GPOS PairPos lookups (Type 2), including lookups that are
+    /// extension wrapped (Type 9) in the font file and unwrapped by GposTableLoader.
     /// Supports both Format 1 (individual pairs) and Format 2 (class-based).
     /// Uses lazy per-query lookup via TryGetPairAdjustment instead of
     /// pre-expanding all possible glyph pairs.
@@ -62,14 +63,16 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Kerning
 
                         var lookup = gpos.LookupList.Lookups[lookupIndex];
 
-                        if (lookup.LookupType == 2)
+                        // No lookup type check here. Extension positioning (type 9) is resolved
+                        // by GposTableLoader, which stores the wrapped subtable directly in the
+                        // lookup while leaving LookupType at 9. Requiring LookupType == 2 would
+                        // therefore discard all extension wrapped kerning. The subtable type
+                        // test below is what actually identifies pair positioning data.
+                        foreach (var subtable in lookup.SubTables)
                         {
-                            foreach (var subtable in lookup.SubTables)
+                            if (subtable is PairPosSubTable pairPos)
                             {
-                                if (subtable is PairPosSubTable pairPos)
-                                {
-                                    subtables.Add(pairPos);
-                                }
+                                subtables.Add(pairPos);
                             }
                         }
                     }

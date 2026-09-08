@@ -54,7 +54,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             {
                 var streamContent = fill.CreatePatternResource();
                 var bytes = Encoding.ASCII.GetBytes(streamContent);
-                sb.AppendFormat($"\n   /Length {bytes.Length}");
+                sb.AppendFormat($"\n   /Length {bytes.Length.ToPdfStringF0()}");
                 sb.Append(" >>");
                 sb.AppendFormat($"\nstream\n{streamContent}\nendstream");
             }
@@ -86,7 +86,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             {
                 var streamContent = fill.CreatePatternResource();
                 var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(streamContent));
-                sb.AppendFormat($"\n   /Filter /FlateDecode /Length {body.Length}");
+                sb.AppendFormat($"\n   /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()}");
                 sb.Append(" >>");
                 WriteAscii(bw, sb.ToString());
                 WriteAscii(bw, "\nstream\n");

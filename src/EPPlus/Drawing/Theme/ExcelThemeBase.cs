@@ -27,6 +27,8 @@ namespace OfficeOpenXml.Drawing.Theme
         readonly string _colorSchemePath = "{0}a:clrScheme";
         readonly string _fontSchemePath = "{0}a:fontScheme";
         readonly string _fmtSchemePath = "{0}a:fmtScheme";
+        readonly string _objectDefaultsPath = "{0}a:objectDefaults";
+
         readonly ExcelPackage _pck;
         Dictionary<string, HashInfo> _hashes=new Dictionary<string, HashInfo>();
         internal ExcelThemeBase(ExcelPackage package, XmlNamespaceManager nsm, ZipPackageRelationship rel, string path)
@@ -42,6 +44,8 @@ namespace OfficeOpenXml.Drawing.Theme
             _colorSchemePath = string.Format(_colorSchemePath, path);
             _fontSchemePath = string.Format(_fontSchemePath, path);
             _fmtSchemePath = string.Format(_fmtSchemePath, path);
+            //ObjectDefaults is part of the Theme node rather than themeElements
+            _objectDefaultsPath = string.Format(_objectDefaultsPath, ""); 
             _pck = package;
             if (!NameSpaceManager.HasNamespace("a")) NameSpaceManager.AddNamespace("a", ExcelPackage.schemaDrawings);
         }
@@ -95,6 +99,23 @@ namespace OfficeOpenXml.Drawing.Theme
                     _formatScheme = new ExcelFormatScheme(NameSpaceManager, TopNode.SelectSingleNode(_fmtSchemePath, NameSpaceManager), this);
                 }
                 return _formatScheme;
+            }
+        }
+
+        ExcelThemeObjectDefaults _objectDefaults = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal ExcelThemeObjectDefaults ObjectDefaults
+        {
+            get
+            {
+                if (_objectDefaults == null)
+                {
+                    _objectDefaults = new ExcelThemeObjectDefaults(NameSpaceManager, TopNode.SelectSingleNode(_objectDefaultsPath, NameSpaceManager), this);
+                }
+                return _objectDefaults;
             }
         }
 

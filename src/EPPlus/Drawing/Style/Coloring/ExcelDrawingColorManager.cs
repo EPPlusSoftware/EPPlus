@@ -14,6 +14,7 @@ using System.Xml;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace OfficeOpenXml.Drawing.Style.Coloring
 {

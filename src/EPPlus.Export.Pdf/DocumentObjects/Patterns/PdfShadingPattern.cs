@@ -34,7 +34,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Pattern\n" +
                             $"   /PatternType 2\n" +
-                            $"   /Shading {shadingObjectNumber} 0 R");
+                            $"   /Shading {shadingObjectNumber.ToPdfStringF0()} 0 R");
             if (Matrix != null)
             {
                 var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());
@@ -49,7 +49,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Pattern\n" +
                             $"   /PatternType 2\n" +
-                            $"   /Shading {shadingObjectNumber} 0 R");
+                            $"   /Shading {shadingObjectNumber.ToPdfStringF0()} 0 R");
             if (Matrix != null)
             {
                 var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());

@@ -39,7 +39,7 @@
 //                    var c = System.Drawing.Color.FromName(color);
 //                    if (c.IsEmpty)
 //                    {
-//                        var sc = Enum.Parse<eSchemeColor>(color);
+//                        var sc = (eSchemeColor)Enum.Parse(typeof(eSchemeColor), color);
 //                        fill.SolidFill.Color.SetSchemeColor(sc);
 //                    }
 //                    else
@@ -49,7 +49,7 @@
 //                }
 //                catch
 //                {
-//                    var sc = Enum.Parse<eSchemeColor>(color);
+//                    var sc = (eSchemeColor)Enum.Parse(typeof(eSchemeColor), color);
 //                    fill.SolidFill.Color.SetSchemeColor(sc);
 //                }
 //            }
@@ -76,13 +76,13 @@
 //        //        fontSizes.Add(runFont.Size);
 //        //    }
 
-           
+
 //        //    return new TextFragmentCollectionSimple(fonts, runContents);
 //        //}
 
 //        //List<TextLineSimple> GetWrappedText(ExcelDrawingTextRunCollection runs, TextFragmentCollectionSimple fragments)
 //        //{
-            
+
 //        //    List<MeasurementFont> fonts = new List<MeasurementFont>();
 
 //        //    for (int i = 0; i < runs.Count(); i++)
@@ -146,7 +146,7 @@
 //                Style = MeasurementFontStyles.Regular
 //            };
 
-//            List<MeasurementFont> fonts = new() { /*font1,*/ font2, font3, font4, font5, font6};
+//            List<MeasurementFont> fonts = new() { /*font1,*/ font2, font3, font4, font5, font6 };
 
 //            var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 //            var ttMeasurer = OpenTypeFonts.GetTextLayoutEngineForFont(font2);
@@ -224,14 +224,14 @@
 
 //                var txtRuns2 = tbItem.Paragraphs[1].Runs;
 
-//                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width.PointToPixel(),0.2);
+//                Assert.AreEqual(53.20963541666667d, txtRuns2[0].Bounds.Width.PointToPixel(), 0.2);
 //                var currentLineWidth = txtRuns2[0].Bounds.Width.PointToPixel();
 
-//                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left.PointToPixel(),0.2);
-//                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width.PointToPixel(),0.2);
+//                Assert.AreEqual(currentLineWidth, txtRuns2[1].Bounds.Left.PointToPixel(), 0.2);
+//                Assert.AreEqual(69.55924479166667d, txtRuns2[1].Bounds.Width.PointToPixel(), 0.2);
 //                currentLineWidth += txtRuns2[1].Bounds.Width.PointToPixel();
 
-//                Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left.PointToPixel(),0.0001);
+//                Assert.AreEqual(currentLineWidth, txtRuns2[2].Bounds.Left.PointToPixel(), 0.0001);
 //                Assert.AreEqual(49.89388020833334, txtRuns2[2].Bounds.Width.PointToPixel(), 0.0001);
 //                currentLineWidth += txtRuns2[2].Bounds.Width.PointToPixel();
 
@@ -328,7 +328,7 @@
 
 
 //            //Appears off by 1-2 px bc of border width
-//            Assert.AreEqual(190d, tbItem.Bounds.GlobalTop.PointToPixel() , 1.0);
+//            Assert.AreEqual(190d, tbItem.Bounds.GlobalTop.PointToPixel(), 1.0);
 //        }
 
 
@@ -379,7 +379,7 @@
 
 //            //var trItem = new SvgTextRunItem(svgShape, lastpara.Bounds, font, "MyText");
 //            //lastpara.Runs.Add(trItem);
-//            lastpara.AddOwnText(new TextFragment() {Text = "my new text", Font = font });
+//            lastpara.AddOwnText(new TextFragment() { Text = "my new text", Font = font });
 //            svgShape.Render(sb);
 
 //            var str = sb.ToString();

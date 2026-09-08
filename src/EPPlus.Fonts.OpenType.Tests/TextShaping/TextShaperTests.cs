@@ -812,7 +812,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 {
                     try
                     {
-                        var font = OpenTypeFonts.LoadFont(fontName, subFamily);
+                        var font = SystemFontsEngine.LoadFont(fontName, subFamily);
 
                         if (font.GposTable == null)
                         {

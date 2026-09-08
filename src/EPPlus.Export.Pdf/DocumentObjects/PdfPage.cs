@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -26,6 +27,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal readonly List<int> contentObjectNumbers;
         PdfDictionaries dictionaries;
         internal PdfPageSize Size;
+        internal bool HasTransparency;
 
         public PdfPage(int objectNumber, int parentObjectNumber, List<int> contentObjectNumbers, PdfPageSize size, PdfDictionaries dictionaries, int version = 0)
             : base(objectNumber, version)
@@ -38,25 +40,29 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal override string RenderDictionary()
         {
-            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
+            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber.ToPdfStringF0()} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
-            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber} 0 R").ToArray();
+            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var patterns = string.Join(" ", patternEntries);
-            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber} 0 R").ToArray();
+            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var shadings = string.Join(" ", shadingEntries);
-            var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
+            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
+            var images = string.Join(" ", imageEntries);
+            var contentEntries = contentObjectNumbers.Select(con => $"{con.ToPdfStringF0()} 0 R").ToArray();
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Page\n" +
-                            $"   /Parent {parentObjectNumber} 0 R\n");
+                            $"   /Parent {parentObjectNumber.ToPdfStringF0()} 0 R\n");
             bool hasFont = !string.IsNullOrEmpty(fonts);
             bool hasPattern = !string.IsNullOrEmpty(patterns);
             bool hasShading = !string.IsNullOrEmpty(shadings);
+            bool hasImage = !string.IsNullOrEmpty(images);
             if (hasFont || hasPattern || hasShading)
             {
                 sb.AppendFormat($"   /Resources <<\n");
                 if (hasFont   ) sb.AppendFormat($"      /Font << {fonts} >>\n");
                 if (hasPattern) sb.AppendFormat($"      /Pattern << {patterns} >>\n");
                 if (hasShading) sb.AppendFormat($"      /Shading << {shadings} >>\n");
+                if (hasImage) sb.AppendFormat($"      /XObject << {images} >>\n");
                 sb.AppendFormat($"   >>\n");
             }
             sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
@@ -66,27 +72,33 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber} 0 R").ToArray();
+            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber.ToPdfStringF0()} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
-            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber} 0 R").ToArray();
+            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var patterns = string.Join(" ", patternEntries);
-            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber} 0 R").ToArray();
+            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
             var shadings = string.Join(" ", shadingEntries);
-            var contentEntries = contentObjectNumbers.Select(con => $"{con} 0 R").ToArray();
+            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
+            var images = string.Join(" ", imageEntries);
+            var contentEntries = contentObjectNumbers.Select(con => $"{con.ToPdfStringF0()} 0 R").ToArray();
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Page\n" +
-                           $"   /Parent {parentObjectNumber} 0 R\n");
+                           $"   /Parent {parentObjectNumber.ToPdfStringF0()} 0 R\n");
             bool hasFont = !string.IsNullOrEmpty(fonts);
             bool hasPattern = !string.IsNullOrEmpty(patterns);
             bool hasShading = !string.IsNullOrEmpty(shadings);
+            bool hasImage = !string.IsNullOrEmpty(images);
             if (hasFont || hasPattern || hasShading)
             {
                 sb.AppendFormat($"   /Resources <<\n");
                 if (hasFont   ) sb.AppendFormat($"      /Font << {fonts} >>\n");
                 if (hasPattern) sb.AppendFormat($"      /Pattern << {patterns} >>\n");
                 if (hasShading) sb.AppendFormat($"      /Shading << {shadings} >>\n");
+                if (hasImage) sb.AppendFormat($"      /XObject << {images} >>\n");
                 sb.AppendFormat($"   >>\n");
             }
+            if (HasTransparency)
+                sb.AppendFormat($"   /Group << /Type /Group /S /Transparency /CS /DeviceRGB >>\n");
             sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
                             $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
             WriteAscii(bw, sb.ToString());

@@ -195,7 +195,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 foreach (var styleRun in StyleRuns)
                 {
                     var inputFrag = InputFragments[styleRun.FragmentIndex];
-                    var shaper = _engine.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
+                    var shaper = _engine.GetMeasurementShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
 
                     if (shapeLight)
                     {
@@ -228,7 +228,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
 
                 var lastFragment = InputFragments[InputFragments.Count - 1];
                 var lastRun = StyleRuns[StyleRuns.Count - 1];
-                var lastShaper = _engine.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
+                var lastShaper = _engine.GetMeasurementShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
                 var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
                 double[] lastCharWidths = new double[lastRun.Length + 1];
                 lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
@@ -251,7 +251,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 return new TextLineCollection();
             }
             var inputRt = InputFragments[0];
-            var shaper = _engine.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
+            var shaper = _engine.GetMeasurementShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
             var layoutEngine = new TextLayoutEngine(_engine, shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
@@ -261,7 +261,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 for (int i = 1; i < wrappedLines.Count-1; i++)
                 {
                     var startIdx = wrappedLines[i].InternalLineFragments[0].StartOriginal;
-                    var len = wrappedLines[i].Text.Length;
+                    var len = wrappedLines[i].Text?.Length??0;
                     for(int j = startIdx; j< (startIdx + len); j++)
                     {
                         AllChars[j].Line = i;

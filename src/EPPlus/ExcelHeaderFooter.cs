@@ -65,14 +65,14 @@ namespace OfficeOpenXml
             string text = TextNode.InnerText;
             string code = text.Substring(0, 2);
             int startPos = 2;
-            for (int pos = startPos; pos < text.Length - 2; pos++)
+            for (int pos = startPos; pos < text.Length - 1; pos++)
             {
                 string newCode = text.Substring(pos, 2);
-                if (newCode == "&C" || newCode == "&R")
+                if (newCode == "&L" || newCode == "&C" || newCode == "&R")
                 {
                     SetText(code, text.Substring(startPos, pos - startPos));
                     startPos = pos + 2;
-                    pos = startPos;
+                    pos = startPos - 1;
                     code = newCode;
                 }
             }

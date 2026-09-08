@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,19 +30,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal override string RenderDictionary()
         {
-            var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n} 0 R").ToArray());
+            var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n.ToPdfStringF0()} 0 R").ToArray());
             return $"<< /Type /Pages\n" +
                    $"   /Kids [ {kids} ]\n" +
-                   $"   /Count {pageObjectNumbers.Count} >>";
+                   $"   /Count {pageObjectNumbers.Count.ToPdfStringF0()} >>";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
-            var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n} 0 R").ToArray());
+            var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n.ToPdfStringF0()} 0 R").ToArray());
             StringBuilder sb = new StringBuilder();
             WriteAscii(bw, $"<< /Type /Pages\n" +
                            $"   /Kids [ {kids} ]\n" +
-                           $"   /Count {pageObjectNumbers.Count} >>");
+                           $"   /Count {pageObjectNumbers.Count.ToPdfStringF0()} >>");
         }
     }
 }

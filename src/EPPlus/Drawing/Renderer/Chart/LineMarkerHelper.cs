@@ -35,11 +35,13 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 if (marker.Border.Fill.IsEmpty)
                 {
-                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                    //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
+                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                 }
                 else
                 {
-                    item?.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                    //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
+                    item?.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                 }
             }
             return item;

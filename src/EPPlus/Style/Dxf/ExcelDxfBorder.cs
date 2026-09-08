@@ -205,14 +205,36 @@ namespace OfficeOpenXml.Style.Dxf
                 Horizontal = (ExcelDxfBorderItem)Horizontal.Clone(),
             };
         }
+
+        private bool BorderItemExists(ExcelDxfBorderItem bi)
+        {
+            if (bi.Style != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal bool AtLeastOneBorderExists()
+        {
+            if (BorderItemExists(Left)) return true;
+            if (BorderItemExists(Right)) return true;
+            if (BorderItemExists(Bottom)) return true;
+            if (BorderItemExists(Top)) return true;
+            if (BorderItemExists(Vertical)) return true;
+            if (BorderItemExists(Horizontal)) return true;
+
+            return false;
+        }
+
         internal override void SetValuesFromXml(XmlHelper helper)
         {
             if (helper.ExistsNode("d:border"))
             {
                 Left = GetBorderItem(helper, "d:border/d:left", eStyleClass.BorderLeft);
-                Right = GetBorderItem(helper, "d:border/d:right", eStyleClass.BorderLeft);
-                Bottom = GetBorderItem(helper, "d:border/d:bottom", eStyleClass.BorderLeft);
-                Top = GetBorderItem(helper, "d:border/d:top", eStyleClass.BorderLeft);
+                Right = GetBorderItem(helper, "d:border/d:right", eStyleClass.BorderRight);
+                Bottom = GetBorderItem(helper, "d:border/d:bottom", eStyleClass.BorderBottom);
+                Top = GetBorderItem(helper, "d:border/d:top", eStyleClass.BorderTop);
                 Vertical = GetBorderItem(helper, "d:border/d:vertical", eStyleClass.Border);
                 Horizontal = GetBorderItem(helper, "d:border/d:horizontal", eStyleClass.Border);
             }
@@ -224,7 +246,8 @@ namespace OfficeOpenXml.Style.Dxf
             if (exists)
             {
                 var style = helper.GetXmlNodeString(path + "/@style");
-                bi.Style = GetBorderStyleEnum(style);
+                //When exists and border has no style the CT_BorderPr\ST_BorderStyle node defaults to BorderNone if the node exists even when empty
+                bi.Style = GetBorderStyleEnum(style) ?? ExcelBorderStyle.None;
                 bi.Color = GetColor(helper, path + "/d:color", styleClass);
             }
             return bi;

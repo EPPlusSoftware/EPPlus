@@ -37,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _dlblSerie = dlblSerie;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
 
-            DefaultFillColor = Color.Transparent;
+            DefaultFillColor =  dlblSerie.Fill != null && dlblSerie.Fill.Color.IsEmpty == false ? dlblSerie.Fill.Color : Color.Transparent;
 
 
             if(yValues != null && yValues.Count != 0)
@@ -126,7 +126,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
-            var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel);
+            var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
             newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
 
             if(dataLabel.ShowLegendKey)

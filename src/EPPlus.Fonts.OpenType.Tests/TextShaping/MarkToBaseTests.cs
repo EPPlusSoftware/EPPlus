@@ -19,7 +19,6 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestInitialize]
         public void TestSetup()
         {
-            OpenTypeFonts.ClearFontCache();
             
         }
 

@@ -22,6 +22,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
@@ -180,10 +181,11 @@ namespace OfficeOpenXml.Drawing.Renderer
                 pi.Commands[pi.Commands.Count - 1].Coordinates = coordinates.ToArray();
             }
             var shape = (ExcelShape)Drawing;
+            var shapeDefaultStyle = Theme.ObjectDefaults.ShapeDefinition.Style;
             if (drawFill)
             {
-                pi.FillColorSource = path.Fill;                
-                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color);
+                pi.FillColorSource = path.Fill;
+                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.FillReference.ShapeColor));
             }
             else
             {
@@ -194,7 +196,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             if (drawBorder)
             {
                 pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke);
+                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.BorderReference.ShapeColor), 0.75d);
             }
             else
             {

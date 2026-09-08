@@ -16,7 +16,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Validation
         [DataRow("NotoEmoji")]
         public void GsubTableValidation_Test(string fontName)
         {
-            var font = OpenTypeFonts.LoadFont(fontName);
+            var font = TestFolderEngine.LoadFont(fontName);
             var validator = new GsubTableValidator();
             var context = new FontValidationContext(font);
             var result = validator.Validate(font.GsubTable, context);

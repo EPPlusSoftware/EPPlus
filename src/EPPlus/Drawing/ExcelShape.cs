@@ -104,6 +104,9 @@ namespace OfficeOpenXml.Drawing
             svg.Render(sr.RenderItems);
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// </summary>
+        public override bool SupportsSvgExport => true;
     }
 }

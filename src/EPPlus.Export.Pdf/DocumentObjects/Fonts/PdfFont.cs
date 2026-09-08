@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.IO;
 using System.Text;
 
@@ -72,19 +73,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
             if (firstChar > -1)
             {
-                sb.AppendFormat($"   /FirstChar {firstChar}\n");
+                sb.AppendFormat($"   /FirstChar {firstChar.ToPdfStringF0()}\n");
             }
             if(lastChar > -1)
             {
-                sb.AppendFormat($"   /LastChar {lastChar}\n");
+                sb.AppendFormat($"   /LastChar {lastChar.ToPdfStringF0()}\n");
             }
             if (widthObjectNumber > -1)
             {
-                sb.AppendFormat($"   /Widths {widthObjectNumber } 0 R\n");
+                sb.AppendFormat($"   /Widths {widthObjectNumber.ToPdfStringF0()} 0 R\n");
             }
             if (fontDescriptorObjectNumber > -1)
             {
-                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber} 0 R\n");
+                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber.ToPdfStringF0()} 0 R\n");
             }
             sb.AppendFormat($"   /Encoding /{encoding} >>");
             return sb.ToString();
@@ -108,19 +109,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
             if (firstChar > -1)
             {
-                sb.AppendFormat($"   /FirstChar {firstChar}\n");
+                sb.AppendFormat($"   /FirstChar {firstChar.ToPdfStringF0()}\n");
             }
             if (lastChar > -1)
             {
-                sb.AppendFormat($"   /LastChar {lastChar}\n");
+                sb.AppendFormat($"   /LastChar {lastChar.ToPdfStringF0()}\n");
             }
             if (widthObjectNumber > -1)
             {
-                sb.AppendFormat($"   /Widths {widthObjectNumber} 0 R\n");
+                sb.AppendFormat($"   /Widths {widthObjectNumber.ToPdfStringF0()} 0 R\n");
             }
             if (fontDescriptorObjectNumber > -1)
             {
-                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber} 0 R\n");
+                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber.ToPdfStringF0()} 0 R\n");
             }
             sb.AppendFormat($"   /Encoding /{encoding} >>");
             WriteAscii(bw, sb.ToString());

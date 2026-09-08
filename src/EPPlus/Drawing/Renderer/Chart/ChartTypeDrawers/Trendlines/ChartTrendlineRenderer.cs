@@ -19,6 +19,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -29,7 +30,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class ChartTrendlineRenderer : ChartDrawingObject
+    internal class ChartTrendlineRenderer : ChartDrawingDefaultObject
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
@@ -191,7 +192,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, DefaultBorderColor, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
             DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
@@ -665,7 +666,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, DefaultBorderColor, _trendline.Border.Width);
+            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);
             pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
@@ -784,19 +785,34 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            //We only get here if the node is null or empty
+            var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
+            ////Kept here in case needed in future for effect etc.
+            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineColor;
+        }
         internal override Color? DefaultBorderColor
         {
             get
             {
-                var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
-                if (borderStyleFill.IsEmpty == false && borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
-                {
-                    return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
-                }
-                else
-                {
-                    return null;
-                }
+                return GetDefaultBorderColor();
+                //var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
+                //if (borderStyleFill.IsEmpty == false && borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
+                //{
+                //    return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
+                //}
+                //else
+                //{
+                //    return null;
+                //}
             }
         }
     }

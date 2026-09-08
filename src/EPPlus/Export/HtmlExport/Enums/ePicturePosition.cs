@@ -11,11 +11,14 @@
   05/11/2021         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 
+using System;
+
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
     /// If the Blip is absolut or relative to the table cell
     /// </summary>
+    [Obsolete("Use eDrawingPosition on the Drawing.Position property instead.")]
     public enum ePicturePosition
     {
         /// <summary>
@@ -31,4 +34,23 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         Relative
     }
+    /// <summary>
+    /// If the drawing image is absolut or relative to the table cell
+    /// </summary>
+    public enum eDrawingPosition
+    {
+        /// <summary>
+        /// No CSS is added for Position
+        /// </summary>
+        DontSet,
+        /// <summary>
+        /// Position is Absolute in the CSS
+        /// </summary>
+        Absolute,
+        /// <summary>
+        /// Position is Relative in the CSS
+        /// </summary>
+        Relative
+    }
+
 }

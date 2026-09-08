@@ -69,10 +69,12 @@
 	  <EmbeddedResource Include="Resources\ArchivoNarrow-BoldItalic.ttf" />
 	  <EmbeddedResource Include="Resources\ArchivoNarrow-Italic.ttf" />
 	  <EmbeddedResource Include="Resources\ArchivoNarrow-Regular.ttf" />
+	  <EmbeddedResource Include="Resources\fontsize.zip" />
 	  <EmbeddedResource Include="Resources\NotoEmoji-Regular.ttf">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="Resources\NotoSansMath-Regular.ttf" />
+	  <EmbeddedResource Include="Resources\TextMetrics.zip" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="EPPlusLogo.png">
@@ -92,6 +94,7 @@
 	  <Folder Include="TypeSettingSystem\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\EPPlus.Compression\EPPlus.Compression.csproj" />
 	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
 </Project>

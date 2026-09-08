@@ -11,33 +11,40 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf;
-using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
-using EPPlus.Graphics;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
-using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using System;
 using System.Collections.Generic;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport
 {
+    /// <summary>
+    /// Collects the text/layout information required to render a workbook, a set of worksheets or a
+    /// set of ranges as a PDF document.
+    /// 
+    /// The constructors only store the input - they do not perform any work. Call <see cref="Save(string)"/>
+    /// or <see cref="Save(Stream)"/> to actually build the PDF and write it to disk/stream.
+    /// </summary>
     internal class PdfCatalog
     {
         internal PdfDictionaries _dictionaries = new PdfDictionaries();
         private bool _addTextForHeadings = true;
+
+        // Captures which "build" method to run (worksheet collection, single worksheet or range
+        // collection) together with the data it needs, but NOT the destination (file/stream).
+        // The destination is supplied later, when Save(...) is called.
+        private readonly PdfPageSettings _pageSettings;
+        private readonly Action<Action<Transform>> _build;
 
         public PdfCatalog() { }
 
@@ -45,35 +52,22 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR MULTIPLE WORKSHEETS AS INPUT
         //
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
-            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), WriteToFile(pageSettings, fileName));
+            _pageSettings = pageSettings;
+            var worksheets = workbook.Worksheets.ToArray();
+            _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
-            HandleWorksheetCollection(pageSettings, worksheets, WriteToFile(pageSettings, fileName));
+            _pageSettings = pageSettings;
+            _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
+        public PdfCatalog(PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
+            : this(pageSettings, worksheets.ToArray())
         {
-            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), WriteToFile(pageSettings, fileName));
-        }
-
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorkbook workbook)
-        {
-            HandleWorksheetCollection(pageSettings, workbook.Worksheets.ToArray(), WriteToStream(pageSettings, stream));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
-        {
-            HandleWorksheetCollection(pageSettings, worksheets, WriteToStream(pageSettings, stream));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
-        {
-            HandleWorksheetCollection(pageSettings, worksheets.ToArray(), WriteToStream(pageSettings, stream));
         }
 
         private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets, Action<Transform> writePdf)
@@ -81,30 +75,22 @@ namespace OfficeOpenXml.Export.PdfExport
             // Match the single-worksheet path: resolve the default font before building.
             pageSettings.defaultFontName = worksheets[0].Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
 
-            // One settings object per worksheet, each from its own printer settings.
-            var sheetSettings = new PdfPageSettings[worksheets.Length];
-            for (int i = 0; i < worksheets.Length; i++)
-            {
-                sheetSettings[i] = GetPdfSettings.GetPdfSettingsForSheet(pageSettings, worksheets[i].PrinterSettings);
-            }
-
             PdfWorksheet[] pdfSheets = null;
             try
             {
-                //// Collect text for every worksheet.
-                pdfSheets = GetPdfWorksheets(sheetSettings, worksheets);
+                // Collect text for every worksheet.
+                pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
 
-                //// Shape text and auto-fit rows per sheet.
-                for (int i = 0; i < pdfSheets.Length; i++)
+                BuildSubsets(pageSettings);
+
+                foreach (var pdfSheet in pdfSheets)
                 {
-                    ShapeTextInPdfWorksheet(sheetSettings[i], pdfSheets[i]);
-                    PdfCalculateRowHeight.ResizeRowHeights(pdfSheets[i]);
+                    ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+                    PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
                 }
 
                 // One layout spanning all sheets and their ranges.
-                var layout = GetLayout(sheetSettings, pdfSheets);
-
-                // Write the PDF document.
+                var layout = GetLayout(pageSettings, pdfSheets);
                 writePdf(layout);
             }
             finally
@@ -129,63 +115,38 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR SINGLE WORKSHEET AS INPUT
         //
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
-            BuildPdf(pageSettings, worksheet, WriteToFile(pageSettings, fileName));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelWorksheet worksheet)
-        {
-            BuildPdf(pageSettings, worksheet, WriteToStream(pageSettings, stream));
+            _pageSettings = pageSettings;
+            _build = writePdf => BuildPdf(pageSettings, worksheet, writePdf);
         }
 
         private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
         {
-            //pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.CurrentTheme.FontScheme.MinorFont[0].Typeface;
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             PdfWorksheet pdfSheet = null;
             try
             {
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //Collect Text
+                // Collect Text (GetPdfWorksheet collects into the builder via SetTextMap -> AddFont)
                 pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
-                sw.Stop();
-                var CollectTextTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Shape Text
+                // Build subsets once, then shape
+                BuildSubsets(pageSettings);
                 ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                sw.Stop();
-                var ShapeTextTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Auto-Fit Rows
+                // Auto-Fit Rows
                 PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                sw.Stop();
-                var AutoFitRowTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Create Layout
+                // Create Layout
                 var layout = GetLayout(pageSettings, pdfSheet);
-                sw.Stop();
-                var CreateLayoutTime = sw.ElapsedMilliseconds;
-                sw.Reset();
-                sw.Start();
 
-                //Write Pdf Document
+                // Write Pdf Document
                 writePdf(layout);
-                sw.Stop();
-                var CreatePdfTime = sw.ElapsedMilliseconds;
-                sw.Reset();
             }
             finally
             {
-                //Clean up the temporary worksheet used to build the comments/notes pages,
-                //so the source workbook isn't permanently mutated by the PDF export.
+                // Clean up the temporary worksheet used to build the comments/notes pages,
+                // so the source workbook isn't permanently mutated by the PDF export.
                 if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
                 {
                     worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
@@ -198,14 +159,10 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR RANGE AS INPUT
         //
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelRangeBase range)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
-            BuildPdfFromRange(pageSettings, range, WriteToFile(pageSettings, fileName));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelRangeBase range)
-        {
-            BuildPdfFromRange(pageSettings, range, WriteToStream(pageSettings, stream));
+            _pageSettings = pageSettings;
+            _build = writePdf => BuildPdfFromRange(pageSettings, range, writePdf);
         }
 
         private void BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range, Action<Transform> writePdf)
@@ -216,10 +173,10 @@ namespace OfficeOpenXml.Export.PdfExport
             try
             {
                 pdfSheet = GetPdfWorksheet(pageSettings, range);
+                BuildSubsets(pageSettings);
                 ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
                 PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                var layout = GetLayout(pageSettings, pdfSheet);   // single-sheet GetLayout overload
-
+                var layout = GetLayout(pageSettings, pdfSheet);
                 writePdf(layout);
             }
             finally
@@ -232,24 +189,15 @@ namespace OfficeOpenXml.Export.PdfExport
             }
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
+        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
         {
-            HandleRangeCollection(pageSettings, ranges, WriteToFile(pageSettings, fileName));
+            _pageSettings = pageSettings;
+            _build = writePdf => HandleRangeCollection(pageSettings, ranges, writePdf);
         }
 
-        public PdfCatalog(string fileName, PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
+        public PdfCatalog(PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
+            : this(pageSettings, ranges.ToArray())
         {
-            HandleRangeCollection(pageSettings, ranges.ToArray(), WriteToFile(pageSettings, fileName));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
-        {
-            HandleRangeCollection(pageSettings, ranges, WriteToStream(pageSettings, stream));
-        }
-
-        public PdfCatalog(Stream stream, PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
-        {
-            HandleRangeCollection(pageSettings, ranges.ToArray(), WriteToStream(pageSettings, stream));
         }
 
         private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, Action<Transform> writePdf)
@@ -259,22 +207,17 @@ namespace OfficeOpenXml.Export.PdfExport
             PdfWorksheet[] pdfSheets = null;
             try
             {
-                // One PdfWorksheet per worksheet, each carrying all of its ranges.
                 pdfSheets = GetPdfWorksheets(pageSettings, ranges);
+
+                BuildSubsets(pageSettings);
 
                 foreach (var pdfSheet in pdfSheets)
                 {
                     ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
                     PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
                 }
-                var sheetSettings = new PdfPageSettings[pdfSheets.Length];
-                for (int i = 0; i < sheetSettings.Length; i++)
-                {
-                    // Ranges within one export share the same printer settings today.
-                    sheetSettings[i] = pageSettings;
-                }
-                var layout = GetLayout(sheetSettings, pdfSheets);
 
+                var layout = GetLayout(pageSettings, pdfSheets);
                 writePdf(layout);
             }
             finally
@@ -293,9 +236,38 @@ namespace OfficeOpenXml.Export.PdfExport
             }
         }
 
+        //
+        // SAVE - this is where the actual work happens. Every constructor above only stores the
+        // input; nothing is built until one of these is called.
+        //
+
+        /// <summary>
+        /// Builds the PDF and writes it to the given file.
+        /// </summary>
+        public void Save(string fileName)
+        {
+            if (_build == null)
+                throw new InvalidOperationException("This PdfCatalog instance was not constructed with any input to build a PDF from.");
+
+            _build(WriteToFile(_pageSettings, fileName));
+        }
+
+        /// <summary>
+        /// Builds the PDF and writes it to the given stream.
+        /// </summary>
+        public void Save(Stream stream)
+        {
+            if (_build == null)
+                throw new InvalidOperationException("This PdfCatalog instance was not constructed with any input to build a PDF from.");
+
+            _build(WriteToStream(_pageSettings, stream));
+        }
+
         internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
+            //CollectTextInPdfWorksheet(pageSettings, pdfSheet);
+            //BuildSubsets(pageSettings);
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
             return pdfSheet.Ranges[0].Map;
         }
@@ -304,46 +276,44 @@ namespace OfficeOpenXml.Export.PdfExport
         //Private Methods
 
         private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
-        {            
-            return layout => new ExcelPdf().CreatePdf(
-                PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
+        {
+            return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
         }
 
         private Action<Transform> WriteToStream(PdfPageSettings pageSettings, Stream stream)
-        {            
-            return layout => new ExcelPdf().CreatePdf(
-                PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
+        {
+            return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
         }
 
         //Create Layout Methods
 
-        private Transform GetLayout(PdfPageSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
+        private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet[] pdfSheets)
         {
+            var sheetSettings = new PdfPageSettings[pdfSheets.Length];
+            for (int i = 0; i < pdfSheets.Length; i++)
+                sheetSettings[i] = pageSettings;
             var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }
 
         private Transform GetLayout(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
-            // Single sheet: one settings object, one sheet.
-            var Layout = PdfLayout.GetLayout(new[] { pageSettings }, _dictionaries, new[] { pdfSheet });
+            PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
+            var sheetSettings = new PdfPageSettings[1] { pageSettings };
+            var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }
 
-        //Shape Text Methods
+        // Build subsets ONCE for the whole document, after all sheets have been collected.
+        // Replaces the old per-sheet pass-2 loop over _dictionaries.Fonts.
+        internal void BuildSubsets(PdfPageSettings pageSettings)
+        {
+            _dictionaries.BuildSubsets(pageSettings);
+        }
 
+        // Pass 3: shape one sheet using the already-built providers. Call after BuildSubsets.
         internal void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
-            // Pass 1: collect text per font
-            IterateCells(pdfSheet, cell => PdfTextShaper.CollectText(pageSettings, _dictionaries, cell));
-
-            // Pass 2: build one provider per font
-            foreach (var kvp in _dictionaries.Fonts)
-            {
-                _dictionaries.ShapedProviders[kvp.Key] = kvp.Value.fontSubsetManager.CreateSubsettedProvider();
-            }
-
-            // Pass 3: shape text using the pre-built providers
             IterateCells(pdfSheet, cell => PdfTextShaper.ShapeText(pageSettings, _dictionaries, cell));
         }
 
@@ -395,6 +365,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -410,6 +381,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
         }
 
@@ -450,26 +422,15 @@ namespace OfficeOpenXml.Export.PdfExport
             }
 
             if (pageSettings.ShowHeadings && _addTextForHeadings)
-            {
                 _dictionaries.AddFont(pageSettings, pdfSheet.NormalStyle.Style.Font.Name, pdfSheet.GetSubFamilyFromNormalStyle, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
-                _addTextForHeadings = false;
-            }
+            _addTextForHeadings = false;
 
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
+            ReadDrawings(pdfSheet);
             return pdfSheet;
-        }
-
-        private PdfWorksheet[] GetPdfWorksheets(PdfPageSettings[] sheetSettings, ExcelWorksheet[] worksheets)
-        {
-            PdfWorksheet[] pdfSheets = new PdfWorksheet[worksheets.Length];
-            for (int i = 0; i < pdfSheets.Length; i++)
-            {
-                pdfSheets[i] = GetPdfWorksheet(sheetSettings[i], worksheets[i]);
-            }
-            return pdfSheets;
         }
 
         private List<PdfRange> GetRanges(ExcelWorksheet worksheet)
@@ -486,7 +447,17 @@ namespace OfficeOpenXml.Export.PdfExport
             else
             {
                 var range = worksheet.DimensionByVisibility;
-                var pdfRange = new PdfRange(range, true);
+                int toRow = range?.End.Row ?? 1;
+                int toCol = range?.End.Column ?? 1;
+                foreach (var drawing in worksheet.Drawings)
+                {
+                    drawing.GetToBounds(out int drawToRow, out _, out int drawToCol, out _);
+                    if (drawToRow + 1 > toRow) toRow = drawToRow + 1;
+                    if (drawToCol + 1 > toCol) toCol = drawToCol + 1;
+                }
+                if (toRow > ExcelPackage.MaxRows) toRow = ExcelPackage.MaxRows;
+                if (toCol > ExcelPackage.MaxColumns) toCol = ExcelPackage.MaxColumns;
+                var pdfRange = new PdfRange(worksheet.Cells[1, 1, toRow, toCol], true);
                 pdfRange.ExtendColumns = true;
                 ranges.Add(pdfRange);
             }
@@ -593,6 +564,21 @@ namespace OfficeOpenXml.Export.PdfExport
                 pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);
                 pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
                 pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
+            }
+        }
+
+        private void ReadDrawings(PdfWorksheet pdfSheet)
+        {
+            var worksheet = pdfSheet.Worksheet;
+            if (worksheet?.Drawings == null) return;
+            foreach (var drawing in worksheet.Drawings)
+            {
+                if (drawing is ExcelPicture picture)
+                {
+                    var image = picture.Image;
+                    if (image?.ImageBytes != null && image.Type.HasValue)
+                        pdfSheet.Drawings.Add(new PdfDrawing(picture));
+                }
             }
         }
     }

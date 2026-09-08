@@ -35,6 +35,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -774,7 +775,7 @@ namespace OfficeOpenXml
         {
             GetAddressDimensionFullRowAndColumn(out int dimFromRow, out int dimFromCol, out int dimToRow, out int dimToCol);
             //If the range is only full column or full row the dimension of the worksheet, return null.
-            if (dimFromCol==0 || dimFromRow>dimToCol || dimFromCol > dimToCol)
+            if (dimFromCol==0 || dimFromRow>dimToRow || dimFromCol > dimToCol)
             {
                 return null; 
             }
@@ -1145,7 +1146,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(string fileName)
         {
             var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.Workbook, this.Worksheet.PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+            var pdfCatalog = new PdfCatalog(setttings, this);
+            pdfCatalog.Save(fileName);
         }
 
         /// <summary>
@@ -1160,7 +1162,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(fileName, settings, this);
+                var pdfCatalog = new PdfCatalog(settings, this);
+                pdfCatalog.Save(fileName);
             }, cancellationToken);
         }
 
@@ -1171,7 +1174,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(Stream stream)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Worksheet.Workbook, this.Worksheet.PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+            var pdfCatalog = new PdfCatalog(settings, this);
+            pdfCatalog.Save(stream);
         }
 
         /// <summary>
@@ -1186,7 +1190,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(stream, settings, this);
+                var pdfCatalog = new PdfCatalog(settings, this);
+                pdfCatalog.Save(stream);
             }, cancellationToken);
         }
 
@@ -2942,6 +2947,14 @@ namespace OfficeOpenXml
                     }
                 }
             }
+        }
+        internal ExcelTable GetIntersectingTable()
+        {
+            if (_worksheet == null)
+            {
+                return null;
+            }
+            return _worksheet.Tables.GetIntersectingRanges(this).Select(x => x.Value).FirstOrDefault();
         }
     }
 }

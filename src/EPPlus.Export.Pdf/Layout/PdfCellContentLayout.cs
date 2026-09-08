@@ -55,7 +55,7 @@ namespace EPPlus.Export.Pdf.Layout
             }
             double firstLineAscent = TextLines[0].LargestAscent;
             double lastLineAscent = TextLines[TextLines.Count - 1].LargestAscent;
-            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, cell.Width, height);
+            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height);
         }
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
@@ -81,6 +81,8 @@ namespace EPPlus.Export.Pdf.Layout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
+                case ExcelVerticalAlignment.Distributed:
+                case ExcelVerticalAlignment.Justify:
                     newY = (y + height) - padding - firstAscent;
                     break;
                 case ExcelVerticalAlignment.Center:
@@ -110,9 +112,12 @@ namespace EPPlus.Export.Pdf.Layout
                     }
                     break;
                 case ExcelHorizontalAlignment.Left:
+                case ExcelHorizontalAlignment.Justify:
+                case ExcelHorizontalAlignment.Distributed:
                     newX = x + padding;
                     break;
                 case ExcelHorizontalAlignment.Center:
+                case ExcelHorizontalAlignment.CenterContinuous:
                     newX = x + (width - textLength) / 2d;
                     break;
                 case ExcelHorizontalAlignment.Right:

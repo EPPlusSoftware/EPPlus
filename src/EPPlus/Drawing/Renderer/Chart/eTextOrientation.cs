@@ -17,5 +17,6 @@ namespace EPPlus.Export.Renderer
         Horizontal,
         Diagonal,
         Vertical,
+        Custom
     }
 }

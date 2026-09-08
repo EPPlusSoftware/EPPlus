@@ -20,6 +20,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.Drawings;
@@ -1764,7 +1765,11 @@ namespace OfficeOpenXml.Drawing
         }
 
         internal ExcelDrawingCustomGeometry CustomGeom { get; private set; }
-
+        /// <summary>
+        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// </summary>
+        public virtual bool SupportsSvgExport { get => false; }
+        internal eDrawingInclude? IncludeInHtmlExport { get; set; } = eDrawingInclude.Include;
         internal virtual void DeleteMe()
         {
             TopNode.ParentNode.RemoveChild(TopNode);
@@ -2595,6 +2600,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Converts the drawing to a SVG image. 
         /// This is currently only supported for shapes, line-, column-, bar- and pie- charts.
+        /// Please use <see cref="SupportsSvgExport"/> to verify svg export is supported.
         /// </summary>
         /// <returns>The svg image.</returns>
         /// <exception cref="NotSupportedException">If the drawing type is not supported</exception>

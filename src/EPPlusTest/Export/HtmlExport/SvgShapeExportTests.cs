@@ -40,8 +40,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
-                exporter.Settings.Drawings.Include = ePictureInclude.IncludeInHtmlOnly;
-                exporter.Settings.Drawings.DrawTypeInclude = eDrawingInclude.Shapes;
+                exporter.Settings.Drawings.Include = eDrawingInclude.IncludeInHtmlOnly;
 
                 var htmlPage = exporter.GetSinglePage();
 
@@ -147,8 +146,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var exporter = ws.Cells["A1:C20"].CreateHtmlExporter();
 
-                exporter.Settings.Drawings.Include = ePictureInclude.IncludeInHtmlOnly;
-                exporter.Settings.Drawings.DrawTypeInclude = eDrawingInclude.Charts;
+                exporter.Settings.Drawings.Include = eDrawingInclude.IncludeInHtmlOnly;
 
                 var htmlPage = exporter.GetSinglePage();
 
