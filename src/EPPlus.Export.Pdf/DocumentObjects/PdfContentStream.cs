@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
   09/07/2026         EPPlus Software AB           Scale TJ kerning adjustments with units per em
+  09/07/2026         EPPlus Software AB           Render glyph XOffset/YOffset (mark-to-base)
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
@@ -233,6 +234,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     int charsRendered = 0;
                     var sb = new StringBuilder();
                     sb.Append("[");
+
+                    // Text rise currently in effect inside the TJ sequence below, in unscaled
+                    // text space units. Text rise is part of the text state and is NOT reset by
+                    // BT/ET, so it has to be put back to zero before leaving this block.
+                    double currentRise = 0.0;
+
                     for (int j = glyphStart; j < shapedText.ShapedText.Glyphs.Length; j++)
                     {
                         if (charsRendered >= fragmentCharCount)
@@ -246,19 +253,47 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                             sb.Append("[");
                             currentFontId = glyph.FontId;
                         }
+
+                        // Glyph metrics are in font units, TJ numbers are in 1/1000 em, so
+                        // offsets and advances have to be scaled by 1000 / unitsPerEm. The em
+                        // square is resolved per glyph because a fallback font can use a
+                        // different one than the primary font. Same scaling as /W in PdfCIDFont.
+                        ushort unitsPerEm = GetUnitsPerEm(
+                            shapedText.ShapedText.FontUnitsPerEm,
+                            glyph.FontId,
+                            fontResource.fontData.HeadTable.UnitsPerEm);
+
+                        // A vertical offset cannot be expressed inside a TJ array, which only
+                        // adjusts horizontally. Ts (text rise) shifts the baseline without
+                        // touching the text matrix, so the horizontal position accumulated by
+                        // the preceding TJ advances is preserved. Ts is a text state operator
+                        // and must sit outside the array, hence the close and reopen.
+                        double rise = glyph.YOffset == 0 ? 0.0 : glyph.YOffset * size / unitsPerEm;
+                        if (rise != currentRise)
+                        {
+                            sb.Append($"] TJ\n{rise.ToPdfStringF4()} Ts\n[");
+                            currentRise = rise;
+                        }
+
+                        // A horizontal offset IS a pen displacement, so TJ can express it. It is
+                        // applied before the glyph and taken back after it, leaving the pen where
+                        // it would have been. Positive TJ numbers move left, hence the negation.
+                        double xOffset = glyph.XOffset == 0 ? 0.0 : glyph.XOffset * 1000.0 / unitsPerEm;
+                        if (xOffset != 0.0)
+                        {
+                            sb.Append($"{(-xOffset).ToPdfStringF0()} ");
+                        }
+
                         sb.Append($"<{glyph.GlyphId:X4}>");
+
+                        if (xOffset != 0.0)
+                        {
+                            sb.Append($" {xOffset.ToPdfStringF0()}");
+                        }
+
                         int kerning = glyph.XAdvance - glyph.BaseAdvance;
                         if (kerning != 0)
                         {
-                            // Glyph metrics are in font units, TJ numbers are in 1/1000 em, so
-                            // the adjustment has to be scaled by 1000 / unitsPerEm. The em square
-                            // is resolved per glyph because a fallback font can use a different
-                            // one than the primary font. Same scaling as /W in PdfCIDFont.
-                            ushort unitsPerEm = GetUnitsPerEm(
-                                shapedText.ShapedText.FontUnitsPerEm,
-                                glyph.FontId,
-                                fontResource.fontData.HeadTable.UnitsPerEm);
-
                             double adjustment = -(kerning * 1000.0 / unitsPerEm);
                             sb.Append($" {adjustment.ToPdfStringF0()}");
                         }
@@ -270,6 +305,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     }
                     advanceX += textLength;
                     commands.Add(sb.ToString() + "] TJ");
+                    if (currentRise != 0.0)
+                    {
+                        commands.Add("0 Ts");
+                    }
                     commands.Add("ET");
                 }
                 advanceY -= (line.LargestAscent + line.LargestDescent);

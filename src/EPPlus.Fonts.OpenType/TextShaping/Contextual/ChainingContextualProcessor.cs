@@ -11,6 +11,7 @@
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using EPPlus.Fonts.OpenType.TextShaping.Ligatures;
@@ -37,18 +38,26 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
         }
 
         /// <summary>
-        /// Applies chaining contextual substitutions for a specific feature.
+        /// Applies chaining contextual substitutions for a specific feature, restricted to the
+        /// FeatureRecords reachable from the given script and language.
         /// </summary>
+        /// <param name="script">
+        /// OpenType script tag (e.g. "latn"). Pass null to fall back to unfiltered lookup, which
+        /// reproduces the previous behavior for callers that have no script to give.
+        /// </param>
+        /// <param name="language">OpenType language-system tag, or null for the script's default.</param>
         internal List<ShapedGlyph> ApplyContextualSubstitutions(
             List<ShapedGlyph> glyphs,
-            string featureTag)
+            string featureTag,
+            string script,
+            string language)
         {
             var gsub = _font.GsubTable;
             if (gsub == null)
                 return glyphs;
 
             // Find all Type 6 lookups for this feature
-            var contextualLookups = FindContextualLookupsForFeature(gsub, featureTag);
+            var contextualLookups = FindContextualLookupsForFeature(gsub, featureTag, script, language);
             if (contextualLookups.Count == 0)
                 return glyphs;
 
@@ -62,40 +71,54 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Contextual
         }
 
         /// <summary>
-        /// Finds all Type 6 lookups associated with a feature tag.
+        /// Finds all Type 6 lookups associated with a feature tag, restricted to the
+        /// FeatureRecords reachable from the given script and language. Two FeatureRecords can
+        /// legitimately share a tag (one per script); the ScriptList/LangSys lookup is what tells
+        /// them apart, since the tag alone does not.
         /// </summary>
-        private List<LookupTable> FindContextualLookupsForFeature(GsubTable gsub, string featureTag)
+        private List<LookupTable> FindContextualLookupsForFeature(
+            GsubTable gsub, string featureTag, string script, string language)
         {
             var lookups = new List<LookupTable>();
 
-            foreach (var featureRecord in gsub.FeatureList.FeatureRecords)
+            var activeIndices = ScriptFeatureResolver.GetActiveFeatureIndices(gsub.ScriptList, script, language);
+            var featureRecords = gsub.FeatureList.FeatureRecords;
+
+            for (int featureIndex = 0; featureIndex < featureRecords.Count; featureIndex++)
             {
-                if (featureRecord.FeatureTag.Value == featureTag)
+                var featureRecord = featureRecords[featureIndex];
+
+                if (featureRecord.FeatureTag.Value != featureTag)
+                    continue;
+
+                // null activeIndices means "no ScriptList to filter by" - keep every entry,
+                // matching the previous behavior rather than discarding features we cannot resolve.
+                if (activeIndices != null && !activeIndices.Contains(featureIndex))
+                    continue;
+
+                var feature = featureRecord.FeatureTable;
+
+                foreach (var lookupIndex in feature.LookupListIndices)
                 {
-                    var feature = featureRecord.FeatureTable;
-
-                    foreach (var lookupIndex in feature.LookupListIndices)
+                    if (lookupIndex < gsub.LookupList.Lookups.Count)
                     {
-                        if (lookupIndex < gsub.LookupList.Lookups.Count)
-                        {
-                            var lookup = gsub.LookupList.Lookups[lookupIndex];
+                        var lookup = gsub.LookupList.Lookups[lookupIndex];
 
-                            // Only Type 6 (Chaining Contextual) or Type 7 (Extension wrapping Type 6)
-                            if (lookup.LookupType == 6)
+                        // Only Type 6 (Chaining Contextual) or Type 7 (Extension wrapping Type 6)
+                        if (lookup.LookupType == 6)
+                        {
+                            lookups.Add(lookup);
+                        }
+                        else if (lookup.LookupType == 7)
+                        {
+                            // Check if extension wraps a Type 6
+                            foreach (var subtable in lookup.SubTables)
                             {
-                                lookups.Add(lookup);
-                            }
-                            else if (lookup.LookupType == 7)
-                            {
-                                // Check if extension wraps a Type 6
-                                foreach (var subtable in lookup.SubTables)
+                                if (subtable is ExtensionSubstSubTable ext &&
+                                    ext.ExtensionLookupType == 6)
                                 {
-                                    if (subtable is ExtensionSubstSubTable ext &&
-                                        ext.ExtensionLookupType == 6)
-                                    {
-                                        lookups.Add(lookup);
-                                        break;
-                                    }
+                                    lookups.Add(lookup);
+                                    break;
                                 }
                             }
                         }

@@ -9,8 +9,10 @@
   Date               Author                       Change
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
+  09/07/2026         EPPlus Software AB           Filter by ScriptList/LangSys, not just tag
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -21,7 +23,21 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
 {
     internal class LigatureProcessor
     {
-        private readonly List<LookupTable> _ligaLookups;
+        private readonly struct IndexedLookup
+        {
+            public readonly int FeatureIndex;
+            public readonly LookupTable Lookup;
+
+            public IndexedLookup(int featureIndex, LookupTable lookup)
+            {
+                FeatureIndex = featureIndex;
+                Lookup = lookup;
+            }
+        }
+
+        private readonly OpenTypeFont _font;
+        private readonly List<IndexedLookup> _ligaLookups;
+        private readonly Dictionary<string, HashSet<int>> _activeIndexCache = new Dictionary<string, HashSet<int>>();
 
         public LigatureProcessor(OpenTypeFont font)
         {
@@ -32,42 +48,44 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
             }
             else
             {
-                _ligaLookups = new List<LookupTable>();
+                _ligaLookups = new List<IndexedLookup>();
             }
         }
-
-        private readonly OpenTypeFont _font;
 
         /// <summary>
         /// Applies standard ligature substitutions (fi, ff, ffi, ffl, etc.).
         /// Processes glyphs left-to-right, replacing sequences with ligature glyphs.
         /// </summary>
-        internal List<ShapedGlyph> ApplyLigatures(List<ShapedGlyph> glyphs)
+        internal List<ShapedGlyph> ApplyLigatures(List<ShapedGlyph> glyphs, string script, string language)
         {
             var gsub = _font.GsubTable;
             if (gsub == null)
                 return glyphs;
 
-            // Find "liga" feature
-            var ligaLookups = FindLookupsForFeature(gsub, "liga");
-            if (ligaLookups.Count == 0)
+            if (_ligaLookups.Count == 0)
                 return glyphs;
 
-            // Apply each lookup in order
-            foreach (var lookup in ligaLookups)
-            {
-                ApplyLigaturesInPlace(glyphs);
-            }
+            ApplyLigaturesInPlace(glyphs, script, language);
 
             return glyphs;
         }
 
-        internal void ApplyLigaturesInPlace(List<ShapedGlyph> glyphs)
+        internal void ApplyLigaturesInPlace(List<ShapedGlyph> glyphs, string script, string language)
         {
             if (_ligaLookups.Count == 0) return;
 
-            foreach (var lookup in _ligaLookups)
+            HashSet<int> activeIndices = GetActiveIndices(script, language);
+
+            foreach (var entry in _ligaLookups)
             {
+                // null activeIndices means "no ScriptList to filter by" - keep every entry,
+                // matching the previous behavior rather than discarding ligatures we cannot resolve.
+                if (activeIndices != null && !activeIndices.Contains(entry.FeatureIndex))
+                {
+                    continue;
+                }
+
+                var lookup = entry.Lookup;
                 if (lookup.LookupType != 4) continue;
 
                 int i = 0;
@@ -82,14 +100,27 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
                         if (TryApplyLigatureInPlace(glyphs, i, subtable, out int consumed))
                         {
                             substituted = true;
-                            i += consumed; // Oftast 1 efter ersättning
-                            break;         // Första match vinner – hoppa ur
+                            i += consumed; // Usually 1 after a substitution
+                            break;         // First match wins - break out
                         }
                     }
 
                     if (!substituted) i++;
                 }
             }
+        }
+
+        private HashSet<int> GetActiveIndices(string script, string language)
+        {
+            string cacheKey = (script ?? string.Empty) + "|" + (language ?? string.Empty);
+
+            if (!_activeIndexCache.TryGetValue(cacheKey, out var indices))
+            {
+                indices = ScriptFeatureResolver.GetActiveFeatureIndices(_font.GsubTable?.ScriptList, script, language);
+                _activeIndexCache[cacheKey] = indices;
+            }
+
+            return indices;
         }
 
         private bool TryApplyLigatureInPlace(
@@ -109,7 +140,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
             if (!subtable.LigatureSets.TryGetValue(first, out var ligSet) || ligSet?.Ligatures.Count == 0)
                 return false;
 
-            // Försök längre ligaturer först (rekommenderas av OpenType-spec)
+            // Try longer ligatures first, as recommended by the OpenType spec
             var sortedLigs = ligSet.Ligatures
                 .OrderByDescending(l => 1 + (l.Components?.Length ?? 0))
                 .ToList();
@@ -133,11 +164,11 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
                 {
                     var ligGlyph = CreateLigatureGlyph(glyphs, startIndex, (byte)compCount, lig.LigatureGlyph);
 
-                    // MUTERA DIREKT
+                    // MUTATE IN PLACE
                     glyphs.RemoveRange(startIndex, compCount);
                     glyphs.Insert(startIndex, ligGlyph);
 
-                    componentsConsumed = 1; // ligatur tar platsen → nästa steg flyttar förbi den
+                    componentsConsumed = 1; // the ligature takes its place - the next step moves past it
                     return true;
                 }
             }
@@ -147,27 +178,35 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
 
 
         /// <summary>
-        /// Finds all lookups associated with a feature tag.
+        /// Finds all lookups associated with a feature tag, together with each one's original
+        /// FeatureList index, across all scripts. Two FeatureRecords can legitimately share a
+        /// tag (one per script); both are kept so ApplyLigaturesInPlace can filter by script at
+        /// call time instead of the constructor baking in whichever script happened to be active
+        /// when this processor was built.
         /// </summary>
-        private List<LookupTable> FindLookupsForFeature(GsubTable gsub, string featureTag)
+        private List<IndexedLookup> FindLookupsForFeature(GsubTable gsub, string featureTag)
         {
-            var lookups = new List<LookupTable>();
+            var lookups = new List<IndexedLookup>();
 
             if (gsub?.FeatureList?.FeatureRecords == null)
                 return lookups;
 
-            foreach (var featureRecord in gsub.FeatureList.FeatureRecords)
-            {
-                if (featureRecord.FeatureTag.Value == featureTag)
-                {
-                    var feature = featureRecord.FeatureTable;
+            var featureRecords = gsub.FeatureList.FeatureRecords;
 
-                    foreach (var lookupIndex in feature.LookupListIndices)
+            for (int featureIndex = 0; featureIndex < featureRecords.Count; featureIndex++)
+            {
+                var featureRecord = featureRecords[featureIndex];
+
+                if (featureRecord.FeatureTag.Value != featureTag)
+                    continue;
+
+                var feature = featureRecord.FeatureTable;
+
+                foreach (var lookupIndex in feature.LookupListIndices)
+                {
+                    if (lookupIndex < gsub.LookupList.Lookups.Count)
                     {
-                        if (lookupIndex < gsub.LookupList.Lookups.Count)
-                        {
-                            lookups.Add(gsub.LookupList.Lookups[lookupIndex]);
-                        }
+                        lookups.Add(new IndexedLookup(featureIndex, gsub.LookupList.Lookups[lookupIndex]));
                     }
                 }
             }
@@ -191,8 +230,8 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Ligatures
             return new ShapedGlyph
             {
                 GlyphId = ligatureGlyphId,
-                BaseAdvance = baseAdvance,      // ← Base advance for ligature
-                XAdvance = baseAdvance,         // ← Will be adjusted by positioning
+                BaseAdvance = baseAdvance,      // Base advance for ligature
+                XAdvance = baseAdvance,         // Will be adjusted by positioning
                 YAdvance = 0,
                 XOffset = 0,
                 YOffset = 0,

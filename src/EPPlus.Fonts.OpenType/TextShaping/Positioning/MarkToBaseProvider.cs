@@ -9,7 +9,10 @@
   Date               Author                       Change
  *************************************************************************************************
   01/20/2025         EPPlus Software AB           Mark-to-Base positioning
+  09/07/2026         EPPlus Software AB           Pen-relative, additive mark offsets
+  09/07/2026         EPPlus Software AB           Filter by ScriptList/LangSys, not just tag
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Tables.Gpos;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -24,17 +27,33 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
     /// </summary>
     internal class MarkToBaseProvider
     {
-        private readonly List<MarkToBaseSubTableFormat1> _subtables;
+        private readonly struct IndexedSubtable
+        {
+            public readonly int FeatureIndex;
+            public readonly MarkToBaseSubTableFormat1 Subtable;
+
+            public IndexedSubtable(int featureIndex, MarkToBaseSubTableFormat1 subtable)
+            {
+                FeatureIndex = featureIndex;
+                Subtable = subtable;
+            }
+        }
+
+        private readonly GposTable _gpos;
+        private readonly List<IndexedSubtable> _subtables;
+        private readonly Dictionary<string, HashSet<int>> _activeIndexCache = new Dictionary<string, HashSet<int>>();
 
         public MarkToBaseProvider(OpenTypeFont font)
         {
-            if (font.GposTable != null)
+            _gpos = font.GposTable;
+
+            if (_gpos != null)
             {
-                _subtables = FindAllMarkToBaseSubtables(font.GposTable);
+                _subtables = FindAllMarkToBaseSubtables(_gpos);
             }
             else
             {
-                _subtables = new List<MarkToBaseSubTableFormat1>();
+                _subtables = new List<IndexedSubtable>();
             }
         }
 
@@ -43,10 +62,17 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
         /// Marks are positioned relative to the preceding base glyph.
         /// </summary>
         /// <param name="glyphs">List of shaped glyphs to process</param>
-        public void ApplyMarkPositioning(List<ShapedGlyph> glyphs)
+        /// <param name="script">
+        /// OpenType script tag (e.g. "latn"). Pass null to fall back to unfiltered lookup, which
+        /// reproduces the previous behavior for callers that have no script to give.
+        /// </param>
+        /// <param name="language">OpenType language-system tag, or null for the script's default.</param>
+        public void ApplyMarkPositioning(List<ShapedGlyph> glyphs, string script, string language)
         {
             if (_subtables.Count == 0 || glyphs.Count < 2)
                 return;
+
+            HashSet<int> activeIndices = GetActiveIndices(script, language);
 
             // Process glyphs left-to-right
             for (int i = 1; i < glyphs.Count; i++)
@@ -54,18 +80,35 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
                 var baseGlyph = glyphs[i - 1];
                 var markGlyph = glyphs[i];
 
-                bool positioned = false;
-
-                // Try each subtable until we find positioning
-                foreach (var subtable in _subtables)
+                // Try each subtable reachable from the active script until we find positioning
+                foreach (var entry in _subtables)
                 {
-                    if (TryPositionMark(subtable, baseGlyph, markGlyph))
+                    // null activeIndices means "no ScriptList to filter by" - keep every entry,
+                    // matching the previous behavior rather than discarding marks we cannot resolve.
+                    if (activeIndices != null && !activeIndices.Contains(entry.FeatureIndex))
                     {
-                        positioned = true;
+                        continue;
+                    }
+
+                    if (TryPositionMark(entry.Subtable, baseGlyph, markGlyph))
+                    {
                         break;
                     }
                 }
             }
+        }
+
+        private HashSet<int> GetActiveIndices(string script, string language)
+        {
+            string cacheKey = (script ?? string.Empty) + "|" + (language ?? string.Empty);
+
+            if (!_activeIndexCache.TryGetValue(cacheKey, out var indices))
+            {
+                indices = ScriptFeatureResolver.GetActiveFeatureIndices(_gpos?.ScriptList, script, language);
+                _activeIndexCache[cacheKey] = indices;
+            }
+
+            return indices;
         }
 
         /// <summary>
@@ -105,14 +148,19 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
             if (baseAnchor == null || markAnchor == null)
                 return false;
 
-            // Calculate mark position relative to base
-            // Mark is positioned so its anchor aligns with base anchor
-            var xOffset = baseAnchor.XCoordinate - markAnchor.XCoordinate;
+            // Calculate mark position relative to the PEN, not to the base glyph's origin
+            // (HarfBuzz convention). The pen has already moved by the base glyph's advance when
+            // the mark is drawn, so that advance has to be taken back out of the offset.
+            // baseGlyph.XAdvance is used rather than the raw hmtx advance because kerning has
+            // already been applied at this point - ApplyPositioning orders SinglePos, then
+            // kerning, then mark positioning.
+            var xOffset = baseAnchor.XCoordinate - markAnchor.XCoordinate - baseGlyph.XAdvance;
             var yOffset = baseAnchor.YCoordinate - markAnchor.YCoordinate;
 
-            // Apply positioning to mark glyph
-            markGlyph.XOffset = (short)xOffset;
-            markGlyph.YOffset = (short)yOffset;
+            // Accumulate rather than assign, so an XPlacement/YPlacement already written by
+            // SinglePos (TextShaper, ApplyValueRecord) is not discarded.
+            markGlyph.XOffset += (short)xOffset;
+            markGlyph.YOffset += (short)yOffset;
 
             // Mark should not advance (it's positioned over base)
             markGlyph.XAdvance = 0;
@@ -122,34 +170,43 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Positioning
         }
 
         /// <summary>
-        /// Finds all Mark-to-Base subtables in the "mark" feature.
+        /// Finds all Mark-to-Base subtables in "mark"-tagged FeatureRecords, together with each
+        /// one's original FeatureList index, across all scripts. Two FeatureRecords can
+        /// legitimately share the "mark" tag (one per script); both are kept so
+        /// ApplyMarkPositioning can filter by script at call time.
         /// </summary>
-        private List<MarkToBaseSubTableFormat1> FindAllMarkToBaseSubtables(GposTable gpos)
+        private List<IndexedSubtable> FindAllMarkToBaseSubtables(GposTable gpos)
         {
-            var subtables = new List<MarkToBaseSubTableFormat1>();
-            if (gpos == null)
+            var subtables = new List<IndexedSubtable>();
+
+            if (gpos?.FeatureList == null)
                 return subtables;
 
-            foreach (var featureRecord in gpos.FeatureList.FeatureRecords)
+            var featureRecords = gpos.FeatureList.FeatureRecords;
+
+            for (int featureIndex = 0; featureIndex < featureRecords.Count; featureIndex++)
             {
-                if (featureRecord.FeatureTag.Value == "mark")
+                var featureRecord = featureRecords[featureIndex];
+
+                if (featureRecord.FeatureTag.Value != "mark")
+                    continue;
+
+                var feature = featureRecord.FeatureTable;
+
+                foreach (var lookupIndex in feature.LookupListIndices)
                 {
-                    var feature = featureRecord.FeatureTable;
+                    if (lookupIndex >= gpos.LookupList.Lookups.Count)
+                        continue;
 
-                    foreach (var lookupIndex in feature.LookupListIndices)
+                    var lookup = gpos.LookupList.Lookups[lookupIndex];
+
+                    // Only the subtable content is checked, not LookupType - extension wrapped
+                    // (type 9) mark lookups are unwrapped by GposTableLoader but keep LookupType 9.
+                    foreach (var subtable in lookup.SubTables)
                     {
-                        if (lookupIndex >= gpos.LookupList.Lookups.Count)
-                            continue;
-
-                        var lookup = gpos.LookupList.Lookups[lookupIndex];
-
-                        // ✅ Kolla bara innehållet, ignorera LookupType
-                        foreach (var subtable in lookup.SubTables)
+                        if (subtable is MarkToBaseSubTableFormat1 markToBase)
                         {
-                            if (subtable is MarkToBaseSubTableFormat1 markToBase)
-                            {
-                                subtables.Add(markToBase);
-                            }
+                            subtables.Add(new IndexedSubtable(featureIndex, markToBase));
                         }
                     }
                 }
