@@ -117,11 +117,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             {
                 var line = cell.TextLines[k];
                 double lineOffsetX = 0d;
-                //double verticalLineStep = 0d;
                 if (isVertical)
-                {
-                    // Glyphs are centred on the stack axis regardless of the cell's horizontal
-                    // alignment (verified against Excel's own export).
+                {                    
                     lineOffsetX = (stackWidth - line.Width) / 2d;
                 }
                 else

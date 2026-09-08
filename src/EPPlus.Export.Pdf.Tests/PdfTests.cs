@@ -11,14 +11,15 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Tests;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
+using EPPlus.Export.Pdf.Tests;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Globalization;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -784,6 +785,18 @@ namespace EPPlusTest.PDF
 
                 var path = _pdfPath + "verticalTextTest.pdf";
                 ws.SaveAsPdf(path);
+
+                var content = File.ReadAllText(path, Encoding.ASCII);
+
+                var ys = Regex.Matches(content, @"[\d.]+ ([\d.]+) Tm")
+                                .Cast<Match>()
+                                .Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture))
+                                .ToList();
+
+                Assert.AreEqual(4, ys.Count);
+                Assert.AreEqual(13.4277d, ys[0] - ys[1], 0.01d);
+                Assert.AreEqual(13.4277d, ys[1] - ys[2], 0.01d);
+
             }
         }
     }

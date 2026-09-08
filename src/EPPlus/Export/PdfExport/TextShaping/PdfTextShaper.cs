@@ -100,13 +100,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 cell.TextFragments[i] = tf;
                 cell.ShapedTexts[i] = st;
             }
-            //if (cell.TextLayoutEngine != null)
-            //{
-            //    double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
-            //    cell.TextLines = cell.ContentAligmnet.WrapText
-            //        ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
-            //        : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
-            //}
             if (cell.TextLayoutEngine != null)
             {
                 double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
