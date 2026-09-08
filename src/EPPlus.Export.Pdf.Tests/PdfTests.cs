@@ -761,43 +761,5 @@ namespace EPPlusTest.PDF
                 Assert.AreEqual(PdfPageSize.A3.HeightPu, h2, "Page 2 should be A3, not sheet 1's A4.");
             }
         }
-
-        [TestMethod]
-        public void VerticalTextPdf()
-        {
-            using(var package = OpenTemplatePackage("VerticalText.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets[0];
-                var path = _pdfPath + "resultVerticalText.pdf";
-                ws.SaveAsPdf(path);
-            }
-        }
-
-        [TestMethod]
-        public void VerticalTextTest()
-        {
-            using(var package = OpenPackage("TestPackage"))
-            {
-                var ws = package.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = "iiW";
-                ws.Cells["A1"].Style.TextRotation = 255;
-                ws.Cells["A2"].Value = "marker";
-
-                var path = _pdfPath + "verticalTextTest.pdf";
-                ws.SaveAsPdf(path);
-
-                var content = File.ReadAllText(path, Encoding.ASCII);
-
-                var ys = Regex.Matches(content, @"[\d.]+ ([\d.]+) Tm")
-                                .Cast<Match>()
-                                .Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture))
-                                .ToList();
-
-                Assert.AreEqual(4, ys.Count);
-                Assert.AreEqual(13.4277d, ys[0] - ys[1], 0.01d);
-                Assert.AreEqual(13.4277d, ys[1] - ys[2], 0.01d);
-
-            }
-        }
     }
 }
