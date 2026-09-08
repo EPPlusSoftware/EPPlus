@@ -11,9 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
 using System.IO;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -145,6 +143,22 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 _bytes = PdfFlate.CompressLeaveOpen(gifRgb);
                 if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha); HasSoftMask = true; }
             }
+            else if (TiffDecoder.TryDecode(imageBytes, out int tifW, out int tifH, out byte[] tifRgb, out byte[] tifAlpha))   // ◄──── TIFF branch
+            {
+                // TIFF is decoded to RGB and emitted through /FlateDecode; an RGBA TIFF rides its alpha
+                // along as an 8-bit grayscale soft mask, the same path the alpha PNG uses.
+                Width = tifW;
+                Height = tifH;
+                BitsPerComponent = 8;
+                ColorSpace = "/DeviceRGB";
+                Filter = "FlateDecode";
+                _bytes = PdfFlate.CompressLeaveOpen(tifRgb);
+                if (tifAlpha != null)
+                {
+                    SoftMaskData = PdfFlate.CompressLeaveOpen(tifAlpha);
+                    HasSoftMask = true;
+                }
+            }
             else
             {
                 // Unsupported encodings are screened out in PrecomputeImages; keep a safe default so
@@ -190,6 +204,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             if (BmpDecoder.IsBmp(imageBytes)) return BmpDecoder.CanDecode(imageBytes);
             if (GifDecoder.IsGif(imageBytes)) return GifDecoder.CanDecode(imageBytes);
+            if (TiffDecoder.IsTiff(imageBytes)) return TiffDecoder.CanDecode(imageBytes);
             return false;
         }
 
@@ -208,6 +223,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 return (colorType == 4 || colorType == 6) && bitDepth == 8;
             }
             if (GifDecoder.IsGif(imageBytes)) return GifDecoder.HasTransparency(imageBytes);
+            if (TiffDecoder.IsTiff(imageBytes)) return TiffDecoder.HasTransparency(imageBytes);
             return false;
         }
 
