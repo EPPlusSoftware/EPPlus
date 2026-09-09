@@ -70,29 +70,40 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                 writer.Write(new byte[8]); // placeholder
             }
 
-            // Precompute offsets for unique subtables
+            // Precompute offsets for unique subtables. Deduplication is keyed by the SUBTABLE
+            // INSTANCE, not by SubtableOffset: for a freshly-built cmap (e.g. a subset's cmap),
+            // every EncodingRecord starts out with the same placeholder SubtableOffset (0), so
+            // keying on that value would wrongly alias two DIFFERENT subtables (e.g. a subset's
+            // format 4 and format 12 tables) onto the same bytes the first time this ran with two
+            // fresh tables sharing that placeholder. Keying by the actual object reference only
+            // dedups encoding records that genuinely point at the SAME subtable (e.g. (3,1) and
+            // (0,3) both referencing one shared Unicode BMP subtable), which is what this is for.
             var subtableOffsetsMap = new Dictionary<CmapSubtableBase, uint>();
             var subTableStartIndex = writer.BaseStream.Position;
             var encRecordsToSerialize = EncodingRecords.OrderBy(er => er.SubtableOffset);
-            var usedSubtables = new Dictionary<uint, uint>();
-            foreach(var encRecord in encRecordsToSerialize)
+            foreach (var encRecord in encRecordsToSerialize)
             {
-                // Skip format 14 and any explicitly marked skipped records
-                if (encRecord.IsSkipped || (encRecord.Subtable?.Format == 14))
+                // Skip any explicitly marked skipped records. Format 14 (Unicode Variation
+                // Sequences) subtables ARE serialized like any other format now - they used to be
+                // unconditionally dropped here, which silently discarded variation-sequence data
+                // from every embedded font.
+                if (encRecord.IsSkipped)
                 {
                     continue;
                 }
-                if (usedSubtables.ContainsKey(encRecord.SubtableOffset))
+                uint existingOffset;
+                if (encRecord.Subtable != null && subtableOffsetsMap.TryGetValue(encRecord.Subtable, out existingOffset))
                 {
-                    encRecord.SubtableOffset = usedSubtables[encRecord.SubtableOffset];
+                    encRecord.SubtableOffset = existingOffset;
                     continue;
                 }
                 var subTableBytes = encRecord.Subtable.Serialize();
                 writer.Write(subTableBytes);
-                usedSubtables.Add(encRecord.SubtableOffset, (uint)subTableStartIndex);
+                if (encRecord.Subtable != null)
+                    subtableOffsetsMap[encRecord.Subtable] = (uint)subTableStartIndex;
                 encRecord.SubtableOffset = (uint)subTableStartIndex;
                 subTableStartIndex += subTableBytes.Length;
-                
+
             }
 
             // Go back and write encoding records with correct offsets
@@ -219,7 +230,75 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
             return false;
         }
 
+        /// <summary>
+        /// Looks up a Unicode Variation Sequence - a (base character, variation selector) pair -
+        /// against the font's cmap format 14 subtable (Unicode Variation Sequences, see the
+        /// OpenType spec's "Format 14" section). Returns true only if the sequence is actually
+        /// registered in the font:
+        ///   - a "non-default" entry supplies an explicit override glyph for the base character, or
+        ///   - a "default" entry means the sequence is registered but carries no glyph of its own -
+        ///     the base character's ordinary glyph (as <see cref="TryGetGlyphId(uint, out ushort)"/>
+        ///     would return) should be used.
+        /// Returns false when there is no format 14 subtable at all, the variation selector isn't
+        /// registered in it, or the selector is registered but this particular base character is not
+        /// listed under it. In every false case the pair is not a known variation sequence, and the
+        /// caller should fall back to treating the base character on its own.
+        /// </summary>
+        public bool TryGetGlyphId(uint baseCodePoint, uint variationSelector, out ushort glyphId)
+        {
+            glyphId = 0;
 
+            CmapSubtable14 subtable14 = null;
+            foreach (var subtable in SubTables)
+            {
+                if (subtable.Format == 14)
+                {
+                    subtable14 = subtable as CmapSubtable14;
+                    break;
+                }
+            }
+            if (subtable14 == null)
+                return false;
+
+            foreach (var selector in subtable14.VariationSelectors)
+            {
+                if (selector.VarSelector != variationSelector)
+                    continue;
+
+                if (selector.NonDefaultUvsTable != null)
+                {
+                    foreach (var mapping in selector.NonDefaultUvsTable.Mappings)
+                    {
+                        if (mapping.UnicodeValue == baseCodePoint)
+                        {
+                            glyphId = mapping.GlyphId;
+                            return true;
+                        }
+                    }
+                }
+
+                if (selector.DefaultUvsTable != null)
+                {
+                    foreach (var range in selector.DefaultUvsTable.Ranges)
+                    {
+                        uint rangeEnd = range.StartUnicodeValue + (uint)range.AdditionalCount;
+                        if (baseCodePoint >= range.StartUnicodeValue && baseCodePoint <= rangeEnd)
+                        {
+                            // A "default" entry carries no glyph of its own - it just confirms the
+                            // sequence is registered, so fall back to the base character's ordinary glyph.
+                            return TryGetGlyphId(baseCodePoint, out glyphId);
+                        }
+                    }
+                }
+
+                // The selector itself is registered in this font, but this base character is not
+                // listed under it in either table - not a known sequence.
+                return false;
+            }
+
+            // No entry at all for this variation selector.
+            return false;
+        }
 
         public CmapSubtableBase GetPreferredSubtable()
         {
