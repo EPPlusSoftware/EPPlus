@@ -111,21 +111,31 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             double advanceY = 0d;
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
+            bool isVertical = cell.CellAlignmentData.IsVertical;
+            double stackWidth = isVertical ? cell.TextLines.GetWidthOfCollection() : 0d;
+
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int k = 0; k < cell.TextLines.Count; k++)
             {
                 var line = cell.TextLines[k];
                 double lineOffsetX = 0d;
-                switch (cell.CellAlignmentData.HorizontalAlignment)
+                if (isVertical)
+                {                    
+                    lineOffsetX = (stackWidth - line.Width) / 2d;
+                }
+                else
                 {
-                    case ExcelHorizontalAlignment.Right:
-                        lineOffsetX = line0Width - line.Width;
-                        break;
-                    case ExcelHorizontalAlignment.Center:
-                    case ExcelHorizontalAlignment.CenterContinuous:
-                    case ExcelHorizontalAlignment.Distributed:
+                    switch (cell.CellAlignmentData.HorizontalAlignment)
+                    {
+                        case ExcelHorizontalAlignment.Right:
+                            lineOffsetX = line0Width - line.Width;
+                            break;
+                        case ExcelHorizontalAlignment.Center:
+                        case ExcelHorizontalAlignment.CenterContinuous:
+                        case ExcelHorizontalAlignment.Distributed:
                         lineOffsetX = (line0Width - line.Width) / 2d;
-                        break;
+                            break;
+                    }
                 }
                 double advanceX = 0;
                 for (int i = 0; i < line.LineFragments.Count; i++)

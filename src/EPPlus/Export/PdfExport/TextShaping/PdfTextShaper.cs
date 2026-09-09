@@ -99,9 +99,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             if (cell.TextLayoutEngine != null)
             {
                 double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
-                cell.TextLines = cell.ContentAligmnet.WrapText
-                    ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
-                    : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
+                cell.TextLines = cell.ContentAligmnet?.IsVertical == true
+                    ? cell.TextLayoutEngine.BuildVerticalLineCollection(cell.TextFragments)
+                    : cell.ContentAligmnet.WrapText
+                        ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
+                        : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
             }
             cell.TotalTextLength = totalTextLength;
         }
