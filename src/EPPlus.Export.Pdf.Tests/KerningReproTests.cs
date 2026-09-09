@@ -18,7 +18,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace EPPlusTest.PDF
+namespace EPPlus.Export.Pdf.Tests
 {
     /// <summary>
     /// Reproduces the reference sheet the kerning and mark-to-base work is measured against.

@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Interfaces.Fonts
                     ApplySubstitutions = true,
                     GsubFeatures = new List<string> { "liga", "clig" },
                     ApplyPositioning = true,
-                    GposFeatures = new List<string> { "kern" },
+                    GposFeatures = new List<string> { "kern", "mark" },
                     Script = "latn",
                     Language = null
                 };

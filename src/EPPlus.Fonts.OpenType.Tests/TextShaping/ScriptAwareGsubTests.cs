@@ -64,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 new ShapedGlyph { GlyphId = GlyphB }
             };
 
-            processor.ApplyLigaturesInPlace(glyphs, "latn", null);
+            processor.ApplyLigaturesInPlace(glyphs, new List<string> { "liga" }, "latn", null);
 
             Assert.AreEqual(
                 2,
@@ -210,6 +210,73 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                     // SubstLookupRecord.LookupListIndex, not by any FeatureRecord.
                     Lookups = new List<LookupTable> { latinLookup, arabLookup, singleSubstLookup }
                 }
+            };
+        }
+
+        [TestMethod]
+        public void SingleSubstitution_ExtensionWrapped_IsApplied()
+        {
+            var font = LoadHostFont();
+            font.AddOrReplaceTable(BuildExtensionWrappedSingleSubstGsubTable());
+
+            var processor = new SingleSubstitutionProcessor(font);
+
+            var glyphs = new List<ShapedGlyph>
+            {
+                new ShapedGlyph { GlyphId = GlyphA, BaseAdvance = 500, XAdvance = 500 }
+            };
+
+            var result = processor.ApplySubstitutions(
+                glyphs, new List<string> { "smcp" }, "latn", null);
+
+            Assert.AreEqual(
+                SubstituteGlyph,
+                result[0].GlyphId,
+                "GlyphA must be substituted even though the \"smcp\" lookup is Extension "
+                + "Substitution (Type 7) wrapping a SingleSubstSubTable, not a direct Type 1 lookup");
+        }
+
+        /// <summary>
+        /// One "smcp" FeatureRecord -> a Type 7 (Extension) lookup wrapping a Type 1
+        /// SingleSubstSubTable substituting GlyphA -> SubstituteGlyph. No ScriptList: this test
+        /// is about extension unwrapping, not script filtering.
+        /// </summary>
+        private static GsubTable BuildExtensionWrappedSingleSubstGsubTable()
+        {
+            var singleSubst = new SingleSubstSubTableFormat2
+            {
+                Coverage = new CoverageTableFormat1 { GlyphArray = new ushort[] { GlyphA } },
+                SubstituteGlyphIDs = new ushort[] { SubstituteGlyph }
+            };
+
+            var extensionWrapper = new ExtensionSubstSubTable
+            {
+                ExtensionLookupType = 1,
+                ExtendedSubTable = singleSubst
+            };
+
+            var lookup = new LookupTable
+            {
+                LookupType = 7,
+                SubTables = new List<Tables.FontTableElement> { extensionWrapper }
+            };
+
+            var featureList = new FeatureListTable
+            {
+                FeatureRecords = new List<FeatureRecord>
+                {
+                    new FeatureRecord
+                    {
+                        FeatureTag = new Tag("smcp"),
+                        FeatureTable = new FeatureTable { LookupListIndices = new ushort[] { 0 } }
+                    }
+                }
+            };
+
+            return new GsubTable
+            {
+                FeatureList = featureList,
+                LookupList = new LookupListTable { Lookups = new List<LookupTable> { lookup } }
             };
         }
 

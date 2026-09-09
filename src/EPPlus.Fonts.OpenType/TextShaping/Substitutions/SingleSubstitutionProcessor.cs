@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/19/2026         EPPlus Software AB           GSUB Single Substitution support
   09/07/2026         EPPlus Software AB           Filter by ScriptList/LangSys, not just tag
+  09/07/2026         EPPlus Software AB           Unwrap extension-wrapped (Type 7) lookups
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Scripts;
 using EPPlus.Fonts.OpenType.Tables.Gsub;
@@ -176,6 +177,28 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
         }
 
         /// <summary>
+        /// Returns the SingleSubstSubTable a GSUB subtable represents, unwrapping Extension
+        /// Substitution (Type 7) if needed. Returns null for anything that is not, directly or
+        /// via unwrapping, a SingleSubstSubTable.
+        /// </summary>
+        private static SingleSubstSubTable UnwrapSingleSubstSubtable(Tables.FontTableElement subtableObj)
+        {
+            if (subtableObj is SingleSubstSubTable direct)
+            {
+                return direct;
+            }
+
+            if (subtableObj is ExtensionSubstSubTable extension
+                && extension.ExtensionLookupType == 1
+                && extension.ExtendedSubTable is SingleSubstSubTable wrapped)
+            {
+                return wrapped;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Builds a map of feature tags to their Single Substitution subtables, keeping each
         /// subtable's original FeatureList index so ApplySubstitutions can filter by script later.
         /// Entries are APPENDED rather than overwritten per tag: two FeatureRecords can
@@ -202,21 +225,26 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Substitutions
                     {
                         var lookup = _gsubTable.LookupList.Lookups[lookupIndex];
 
-                        // Only process Type 1 (Single Substitution) lookups
-                        if (lookup.LookupType == 1)
+                        // Type 1 (Single Substitution) directly, or Type 7 (Extension) wrapping
+                        // one. Unlike GPOS, whose loader flattens extension-wrapped lookups so
+                        // Type 9 never actually appears on a loaded lookup, GSUB keeps the
+                        // wrapper - an extension-wrapped single-substitution lookup has
+                        // LookupType 7 with ExtensionSubstSubTable entries in SubTables, each
+                        // pointing at the real subtable via ExtendedSubTable.
+                        if (lookup.LookupType == 1 || lookup.LookupType == 7)
                         {
-                            foreach (var subtable in lookup.SubTables)
+                            foreach (var subtableObj in lookup.SubTables)
                             {
-                                if (subtable is SingleSubstSubTable singleSubst)
-                                {
-                                    if (!_featureSubtables.TryGetValue(featureTag, out var list))
-                                    {
-                                        list = new List<IndexedSubtable>();
-                                        _featureSubtables[featureTag] = list;
-                                    }
+                                var singleSubst = UnwrapSingleSubstSubtable(subtableObj);
+                                if (singleSubst == null) continue;
 
-                                    list.Add(new IndexedSubtable(featureIndex, singleSubst));
+                                if (!_featureSubtables.TryGetValue(featureTag, out var list))
+                                {
+                                    list = new List<IndexedSubtable>();
+                                    _featureSubtables[featureTag] = list;
                                 }
+
+                                list.Add(new IndexedSubtable(featureIndex, singleSubst));
                             }
                         }
                     }
