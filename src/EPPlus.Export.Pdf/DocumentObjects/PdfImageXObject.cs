@@ -36,8 +36,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             byte[] icoDib = null;
             if (IcoDecoder.IsIco(imageBytes) && IcoDecoder.TryGetBestFrame(imageBytes, out byte[] icoFrame, out bool icoSelfContained))
             {
-                if (icoSelfContained) imageBytes = icoFrame;   // PNG/JPEG frame → handled by JPEG/PNG branch below
-                else icoDib = icoFrame;                        // DIB frame → decoded by the branch just below
+                if (icoSelfContained) imageBytes = icoFrame;
+                else icoDib = icoFrame;
             }
             if (icoDib != null && IcoDecoder.TryDecodeDib(icoDib, out int icoW, out int icoH, out byte[] icoRgb, out byte[] icoAlpha))
             {
@@ -56,7 +56,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             else if (JpegDecoder.IsJpeg(imageBytes))
             {
                 _bytes = imageBytes;
-                // A JPEG embeds verbatim: /DCTDecode is exactly the JPEG's own coding.
                 Filter = "DCTDecode";
                 BitsPerComponent = 8;
                 JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
@@ -65,8 +64,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (components == 4)
                 {
                     ColorSpace = "/DeviceCMYK";
-                    // Adobe writes CMYK JPEGs with every channel inverted; flip them back so the
-                    // picture doesn't render as a negative. Straight (non-Adobe) CMYK is left as-is.
                     if (adobe) Decode = "[ 1 0 1 0 1 0 1 0 ]";
                 }
                 else
@@ -82,41 +79,34 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 Filter = "FlateDecode";
                 if (colorType == 6 || colorType == 4)
                 {
-                    // Alpha channel present: decode the PNG and split colour from alpha. The colour
-                    // samples become this image; the alpha rides along as a grayscale soft mask.
                     BitsPerComponent = 8;
                     ColorSpace = colorType == 6 ? "/DeviceRGB" : "/DeviceGray";
                     PngDecoder.DecodePngWithAlpha(imageBytes, width, height, colorType, out byte[] color, out byte[] alpha);
-                    _bytes = color;            // raw colour samples, re-deflated (no PNG predictor)
-                    SoftMaskData = alpha;      // raw alpha, re-deflated -> companion /SMask object
+                    _bytes = color;
+                    SoftMaskData = alpha;
                     HasSoftMask = true;
                 }
                 else
                 {
-                    // Opaque (0/2/3): keep the compressed pixel data as-is. The concatenated IDAT is a
-                    // complete zlib stream of PNG-filtered rows — exactly what /FlateDecode + a PNG
-                    // predictor expect — so the viewer does the inflate and un-filter for us.
                     BitsPerComponent = bitDepth;
                     _bytes = PngDecoder.ReadPngIdat(imageBytes, out byte[] palette);
                     int colors;
                     switch (colorType)
                     {
-                        case 0:   // greyscale
+                        case 0:
                             ColorSpace = "/DeviceGray";
                             colors = 1;
                             break;
-                        case 3:   // palette index -> RGB lookup table carried inline
+                        case 3:
                             int hival = palette == null || palette.Length < 3 ? 0 : (palette.Length / 3) - 1;
                             ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + PngDecoder.ToHex(palette) + "> ]";
                             colors = 1;
                             break;
-                        default:  // colour type 2 (truecolour RGB)
+                        default:
                             ColorSpace = "/DeviceRGB";
                             colors = 3;
                             break;
                     }
-                    // Predictor 15 = "PNG optimum" (any of the five row filters), described by the
-                    // pixel layout so the viewer can reverse the per-row filtering.
                     DecodeParms = "<< /Predictor 15 /Colors " + colors +
                                   " /BitsPerComponent " + bitDepth +
                                   " /Columns " + width + " >>";
@@ -133,9 +123,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             else if (GifDecoder.TryDecode(imageBytes, out int gifW, out int gifH, out byte[] gifRgb, out byte[] gifAlpha))
             {
-                // GIF is decoded to RGB and emitted through /FlateDecode. A transparent GIF carries its
-                // 1-bit transparency as an 8-bit grayscale soft mask, the same companion-object mechanism
-                // the alpha PNG uses.
                 Width = gifW; Height = gifH;
                 BitsPerComponent = 8;
                 ColorSpace = "/DeviceRGB";
@@ -143,10 +130,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 _bytes = PdfFlate.CompressLeaveOpen(gifRgb);
                 if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha); HasSoftMask = true; }
             }
-            else if (TiffDecoder.TryDecode(imageBytes, out int tifW, out int tifH, out byte[] tifRgb, out byte[] tifAlpha))   // ◄──── TIFF branch
+            else if (TiffDecoder.TryDecode(imageBytes, out int tifW, out int tifH, out byte[] tifRgb, out byte[] tifAlpha))
             {
-                // TIFF is decoded to RGB and emitted through /FlateDecode; an RGBA TIFF rides its alpha
-                // along as an 8-bit grayscale soft mask, the same path the alpha PNG uses.
                 Width = tifW;
                 Height = tifH;
                 BitsPerComponent = 8;
@@ -161,8 +146,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             else
             {
-                // Unsupported encodings are screened out in PrecomputeImages; keep a safe default so
-                // an unexpected byte stream can't crash the export (future formats add a branch above).
                 _bytes = imageBytes;
                 Filter = "DCTDecode";
                 BitsPerComponent = 8;
@@ -182,29 +165,44 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             Filter = "FlateDecode";
         }
 
-        internal static PdfImageXObject CreateSoftMask(int objectNumber, byte[] deflatedGray, int width, int height)
-            => new PdfImageXObject(objectNumber, 0, deflatedGray, width, height);
+        internal static PdfImageXObject CreateSoftMask(int objectNumber, byte[] deflatedGray, int width, int height) => new PdfImageXObject(objectNumber, 0, deflatedGray, width, height);
 
         internal static bool CanEmbed(byte[] imageBytes)
         {
             if (IcoDecoder.IsIco(imageBytes))
             {
-                if (!IcoDecoder.TryGetBestFrame(imageBytes, out byte[] frame, out bool selfContained)) return false;
+                if (!IcoDecoder.TryGetBestFrame(imageBytes, out byte[] frame, out bool selfContained))
+                    return false;
                 return selfContained ? CanEmbed(frame) : IcoDecoder.CanDecodeDib(frame);
             }
-            if (JpegDecoder.IsJpeg(imageBytes)) return true;
+            if (JpegDecoder.IsJpeg(imageBytes))
+            {
+                return true;
+            }
             if (PngDecoder.IsPng(imageBytes))
             {
                 if (!PngDecoder.ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
                     return false;
-                if (interlace != 0) return false;                             // Adam7 not handled
-                if (colorType == 0 || colorType == 2 || colorType == 3) return true;   // opaque, verbatim
-                if (colorType == 4 || colorType == 6) return bitDepth == 8;   // alpha -> decode + soft mask
+                if (interlace != 0) 
+                    return false;
+                if (colorType == 0 || colorType == 2 || colorType == 3) 
+                    return true;
+                if (colorType == 4 || colorType == 6) 
+                    return bitDepth == 8;
                 return false;
             }
-            if (BmpDecoder.IsBmp(imageBytes)) return BmpDecoder.CanDecode(imageBytes);
-            if (GifDecoder.IsGif(imageBytes)) return GifDecoder.CanDecode(imageBytes);
-            if (TiffDecoder.IsTiff(imageBytes)) return TiffDecoder.CanDecode(imageBytes);
+            if (BmpDecoder.IsBmp(imageBytes))
+            {
+                return BmpDecoder.CanDecode(imageBytes);
+            }
+            if (GifDecoder.IsGif(imageBytes))
+            {
+                return GifDecoder.CanDecode(imageBytes);
+            }
+            if (TiffDecoder.IsTiff(imageBytes))
+            {
+                return TiffDecoder.CanDecode(imageBytes);
+            }
             return false;
         }
 
@@ -222,8 +220,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (interlace != 0) return false;
                 return (colorType == 4 || colorType == 6) && bitDepth == 8;
             }
-            if (GifDecoder.IsGif(imageBytes)) return GifDecoder.HasTransparency(imageBytes);
-            if (TiffDecoder.IsTiff(imageBytes)) return TiffDecoder.HasTransparency(imageBytes);
+            if (GifDecoder.IsGif(imageBytes))
+            {
+                return GifDecoder.HasTransparency(imageBytes);
+            }
+            if (TiffDecoder.IsTiff(imageBytes))
+            {
+                return TiffDecoder.HasTransparency(imageBytes);
+            }
             return false;
         }
 
@@ -234,23 +238,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             string decodeParms = string.IsNullOrEmpty(DecodeParms) ? "" : $" /DecodeParms {DecodeParms}";
             return "<< /Type /XObject /Subtype /Image" +
                    $" /Width {Width.ToPdfStringF0()} /Height {Height.ToPdfStringF0()}" +
-                   $" /ColorSpace {ColorSpace} /BitsPerComponent {BitsPerComponent.ToPdfStringF0()}" +
-                   smask +
-                   decode +
+                   $" /ColorSpace {ColorSpace} /BitsPerComponent {BitsPerComponent.ToPdfStringF0()}" + smask + decode +
                    $" /Filter /{Filter}" + decodeParms +
                    $" /Length {_bytes.Length.ToPdfStringF0()} >>";
         }
 
         internal override string RenderDictionary()
         {
-            // Debug/text dump only — never the real output — so the binary body is elided.
             return DictHeader() + $"\nstream\n<{_bytes.Length.ToPdfStringF0()} bytes of image data>\nendstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
             WriteAscii(bw, DictHeader() + "\nstream\n");
-            bw.Write(_bytes);                 // raw JPEG — not Flate-compressed (already DCT-coded)
+            bw.Write(_bytes);
             WriteAscii(bw, "\nendstream");
         }
     }

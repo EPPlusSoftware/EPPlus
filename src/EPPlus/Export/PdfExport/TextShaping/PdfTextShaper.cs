@@ -30,7 +30,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         private static Dictionary<IFontProvider, TextShaper> shaperCache = new Dictionary<IFontProvider, TextShaper>();
         private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
 
-        // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
             var totalTextLength = 0d;
@@ -46,10 +45,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 IFontProvider provider;
                 if (!dictionaries.ShapedProviders.TryGetValue(key, out provider))
                 {
-                    // No subset provider was built for this font — this is the measurement path
-                    // (GetCellCollectionFromRange), which does not run BuildSubsets. Shape against the
-                    // whole font instead: advance widths are identical to the subset, so measured width
-                    // is exact, and no subsetting or embedding decision is triggered.
                     var font = pageSettings.FontEngine.LoadFont(tf.Font.Family, tf.Font.SubFamily);
                     provider = new DefaultFontProvider(pageSettings.FontEngine, font);
                 }
@@ -85,7 +80,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
-                // I ShapeText, EFTER fontIdMap-loopen (ersätt den nuvarande raden):
                 Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
                                 $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
                                 $"labels=[{string.Join(",", fontIdMap.Values)}]");
@@ -108,7 +102,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             cell.TotalTextLength = totalTextLength;
         }
 
-        // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell)
         {
             var totalTextLength = 0d;

@@ -74,10 +74,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             else if (cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
                 commands.Add($"% Pattern Start: {cell.Name}");
-                // Draw the solid cell background only when one is set. The pattern
-                // tile already fills itself with its own background color, so the
-                // pattern must be rendered regardless of whether the cell has a
-                // separate background fill (it may be Color.Empty).
                 if (cell.CellFillData.BackgroundColor != Color.Empty)
                 {
                     commands.Add("q");
@@ -218,10 +214,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     commands.Add("BT");
                     commands.Add(color.ToFillCommand());
                     commands.Add($"{textMatrix.A.ToPdfStringF4()} {textMatrix.B.ToPdfStringF4()} {textMatrix.C.ToPdfStringF4()} {textMatrix.D.ToPdfStringF4()} {textMatrix.E.ToPdfStringF4()} {textMatrix.F.ToPdfStringF4()} Tm");
-                    // FIX: Always use fontIdMap to determine the initial font.
-                    // FontId=0 does NOT always mean "primary font" — when the text starts
-                    // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
-                    // The fontIdMap correctly maps FontId → PDF font label in all cases.
                     byte currentFontId = shapedText.ShapedText.Glyphs.Length > 0 ? shapedText.ShapedText.Glyphs[0].FontId : (byte)0;
                     string currentFontLabel = shapedText.FontIdMap.ContainsKey(currentFontId)
                         ? shapedText.FontIdMap[currentFontId]
@@ -378,9 +370,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (pageLayout.isCommentsPage) return;
             commands.Add($"% Margin Clip Start");
             if (pl.BorderLines.Count == 0) return;
-            // Derive the tight bounding box directly from BorderLines.
-            // pageLayout is created with all-zero dimensions so ContentTop/Bottom/Left/Height
-            // cannot be used here — they are always 0.
             double top = double.MinValue;
             double bottom = double.MaxValue;
             double left = double.MaxValue;

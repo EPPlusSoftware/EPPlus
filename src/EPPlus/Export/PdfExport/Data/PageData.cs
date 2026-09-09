@@ -54,11 +54,6 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public string HeadingFontName;
         public float HeadingFontSize;
         public ExcelFill HeadingFill;
-
-        /// <summary>
-        /// The settings of the worksheet these pages belong to.
-        /// Set in PdfLayout.GetPages, read in PdfLayout.GetCatalog.
-        /// </summary>
         public PdfPageSettings Settings;
         public int SheetIndex;
         public int Count

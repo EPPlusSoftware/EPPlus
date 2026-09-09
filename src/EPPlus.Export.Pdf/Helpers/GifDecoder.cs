@@ -18,17 +18,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
     {
         private const int MaxDimension = 30000;
 
-        internal static bool IsGif(byte[] d)
-            => d != null && d.Length > 13 &&
-               d[0] == 'G' && d[1] == 'I' && d[2] == 'F' && d[3] == '8' &&
-               (d[4] == '7' || d[4] == '9') && d[5] == 'a';
+        internal static bool IsGif(byte[] d)  => d != null && d.Length > 13 && d[0] == 'G' && d[1] == 'I' && d[2] == 'F' && d[3] == '8' && (d[4] == '7' || d[4] == '9') && d[5] == 'a';
 
-        // A full decode is the only honest gate (LZW can fail on truncated data), and GIFs in a sheet are
-        // few and small, so CanEmbed simply attempts the decode.
         internal static bool CanDecode(byte[] d) => TryDecode(d, out _, out _, out _, out _);
 
-        // True when the first frame declares a transparent colour, which drives the page transparency
-        // group the same way an alpha PNG does. A cheap scan of the blocks before the first image.
         internal static bool HasTransparency(byte[] d)
         {
             if (!IsGif(d)) return false;
@@ -43,11 +36,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             alpha = null;
             if (!TryReadScreen(d, out int screenW, out int screenH, out int pos, out byte[] gct, out int _))
                 return false;
-            if (screenW <= 0 || screenH <= 0 || screenW > MaxDimension || screenH > MaxDimension) return false;
+            if (screenW <= 0 || screenH <= 0 || screenW > MaxDimension || screenH > MaxDimension)
+                return false;
+            if (!ScanToFirstImage(d, ref pos, out int transparentIndex))
+                return false;
 
-            if (!ScanToFirstImage(d, ref pos, out int transparentIndex)) return false;
-
-            // Image Descriptor: 0x2C, left, top, w, h (all LE16), packed.
             if (pos + 10 > d.Length || d[pos] != 0x2C) return false;
             int left = ReadLE16(d, pos + 1);
             int top = ReadLE16(d, pos + 3);
@@ -55,7 +48,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             int fh = ReadLE16(d, pos + 7);
             int packed = d[pos + 9];
             pos += 10;
-            if (fw <= 0 || fh <= 0 || fw > MaxDimension || fh > MaxDimension) return false;
+            if (fw <= 0 || fh <= 0 || fw > MaxDimension || fh > MaxDimension)
+                return false;
 
             bool lctFlag = (packed & 0x80) != 0;
             bool interlace = (packed & 0x40) != 0;
@@ -63,30 +57,32 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (lctFlag)
             {
                 int lctSize = 2 << (packed & 7);
-                if (pos + lctSize * 3 > d.Length) return false;
+                if (pos + lctSize * 3 > d.Length)
+                    return false;
                 palette = new byte[lctSize * 3];
                 System.Array.Copy(d, pos, palette, 0, lctSize * 3);
                 pos += lctSize * 3;
             }
-            if (palette == null) return false;                 // no colour table at all
+            if (palette == null)
+                return false;
+
             int paletteCount = palette.Length / 3;
+            if (pos >= d.Length)
+                return false;
 
-            if (pos >= d.Length) return false;
             int minCodeSize = d[pos++];
-            if (minCodeSize < 2 || minCodeSize > 8) return false;
+            if (minCodeSize < 2 || minCodeSize > 8)
+                return false;
 
-            byte[] lzw = ReadSubBlocks(d, ref pos);            // concatenated LZW data
+            byte[] lzw = ReadSubBlocks(d, ref pos);
             var indices = new byte[fw * fh];
-            if (!LzwDecode(lzw, minCodeSize, indices)) return false;
+            if (!LzwDecode(lzw, minCodeSize, indices))
+                return false;
 
             if (interlace) indices = Deinterlace(indices, fw, fh);
-
-            // Composite the frame onto a logical-screen canvas. With a transparent colour the canvas is
-            // fully transparent to start (so any uncovered margin stays clear); without one it is opaque
-            // and there is no soft mask.
             bool hasAlpha = transparentIndex >= 0;
             rgb = new byte[screenW * screenH * 3];
-            if (hasAlpha) alpha = new byte[screenW * screenH];   // 0 = transparent everywhere to begin with
+            if (hasAlpha) alpha = new byte[screenW * screenH];
 
             for (int fy = 0; fy < fh; fy++)
             {
@@ -99,12 +95,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     int index = indices[fy * fw + fx];
                     int canvas = cy * screenW + cx;
                     if (hasAlpha && index == transparentIndex)
-                        continue;                                // leave transparent (alpha already 0)
+                        continue;
                     int p = index < paletteCount ? index * 3 : 0;
                     rgb[canvas * 3] = palette[p];
                     rgb[canvas * 3 + 1] = palette[p + 1];
                     rgb[canvas * 3 + 2] = palette[p + 2];
-                    if (hasAlpha) alpha[canvas] = 255;           // opaque where the frame paints
+                    if (hasAlpha) alpha[canvas] = 255;
                 }
             }
             width = screenW;
@@ -112,18 +108,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return true;
         }
 
-        // Header + Logical Screen Descriptor; returns the global colour table (or null) and the position
-        // of the first block after it.
         private static bool TryReadScreen(byte[] d, out int width, out int height, out int pos, out byte[] gct, out int bgIndex)
         {
             width = height = 0; pos = 0; gct = null; bgIndex = 0;
-            if (!IsGif(d)) return false;
+            if (!IsGif(d))
+                return false;
             width = ReadLE16(d, 6);
             height = ReadLE16(d, 8);
             int packed = d[10];
             bgIndex = d[11];
             pos = 13;
-            if ((packed & 0x80) != 0)                            // global colour table present
+            if ((packed & 0x80) != 0)
             {
                 int gctSize = 2 << (packed & 7);
                 if (pos + gctSize * 3 > d.Length) return false;
@@ -134,22 +129,22 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return true;
         }
 
-        // Walk extensions until the first Image Descriptor (0x2C), capturing a Graphic Control Extension's
-        // transparent colour index along the way. Leaves pos at the Image Descriptor. -1 = no transparency.
         private static bool ScanToFirstImage(byte[] d, ref int pos, out int transparentIndex)
         {
             transparentIndex = -1;
             while (pos < d.Length)
             {
                 int b = d[pos];
-                if (b == 0x2C) return true;                      // image descriptor
-                if (b == 0x3B) return false;                     // trailer: no image
-                if (b == 0x21)                                   // extension
+                if (b == 0x2C) return true;
+                if (b == 0x3B) return false;
+                if (b == 0x21)
                 {
-                    if (pos + 2 > d.Length) return false;
+                    if (pos + 2 > d.Length)
+                        return false;
+
                     int label = d[pos + 1];
                     pos += 2;
-                    if (label == 0xF9)                           // Graphic Control Extension
+                    if (label == 0xF9)
                     {
                         if (pos >= d.Length) return false;
                         int size = d[pos];
@@ -162,18 +157,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     }
                     else
                     {
-                        SkipSubBlocks(d, ref pos);               // comment / plain text / application
+                        SkipSubBlocks(d, ref pos);
                     }
                 }
                 else
                 {
-                    return false;                                // unexpected byte
+                    return false;
                 }
             }
             return false;
         }
 
-        // Skip a chain of sub-blocks (each: length byte + that many bytes), ending at the 0x00 terminator.
         private static void SkipSubBlocks(byte[] d, ref int pos)
         {
             while (pos < d.Length)
@@ -184,7 +178,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
         }
 
-        // Read a chain of sub-blocks into one contiguous buffer (the LZW code stream).
         private static byte[] ReadSubBlocks(byte[] d, ref int pos)
         {
             using (var ms = new MemoryStream())
@@ -201,8 +194,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
         }
 
-        // Variable-width LZW as used by GIF (codes packed least-significant-bit first). Fills outIndices;
-        // a short stream just leaves the tail as zeroes rather than failing.
         private static bool LzwDecode(byte[] data, int minCodeSize, byte[] outIndices)
         {
             const int MaxCodes = 4096;
@@ -210,7 +201,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             int endCode = clearCode + 1;
             var prefix = new int[MaxCodes];
             var suffix = new byte[MaxCodes];
-            for (int i = 0; i < clearCode; i++) { prefix[i] = -1; suffix[i] = (byte)i; }
+            for (int i = 0; i < clearCode; i++)
+            {
+                prefix[i] = -1; suffix[i] = (byte)i;
+            }
 
             int codeSize = minCodeSize + 1;
             int nextCode = endCode + 1;
@@ -222,7 +216,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             while (true)
             {
                 int code = ReadCode(data, ref bitPos, codeSize);
-                if (code < 0) break;                             // out of data
+                if (code < 0)
+                    break;
                 if (code == clearCode)
                 {
                     codeSize = minCodeSize + 1;
@@ -230,35 +225,45 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     prev = -1;
                     continue;
                 }
-                if (code == endCode) break;
-
+                if (code == endCode)
+                    break;
                 if (prev < 0)
                 {
-                    if (code >= clearCode) return false;         // first code must be a literal
+                    if (code >= clearCode)
+                        return false;
                     if (outPos < outIndices.Length) outIndices[outPos++] = (byte)code;
                     prev = code;
                     continue;
                 }
-
                 int emit;
                 bool kwk = false;
-                if (code < nextCode) emit = code;
-                else if (code == nextCode) { emit = prev; kwk = true; }   // KwKwK special case
-                else return false;                               // code beyond the dictionary
-
+                if (code < nextCode)
+                {
+                    emit = code;
+                }
+                else if (code == nextCode)
+                {
+                    emit = prev;
+                    kwk = true;
+                }
+                else
+                {
+                    return false;
+                }
                 int sp = 0;
                 int c = emit;
                 while (c >= 0)
                 {
-                    if (sp >= stack.Length) return false;
+                    if (sp >= stack.Length)
+                        return false;
                     stack[sp++] = suffix[c];
                     c = prefix[c];
                 }
                 byte firstByte = stack[sp - 1];
                 for (int i = sp - 1; i >= 0 && outPos < outIndices.Length; i--)
                     outIndices[outPos++] = stack[i];
-                if (kwk && outPos < outIndices.Length) outIndices[outPos++] = firstByte;
-
+                if (kwk && outPos < outIndices.Length)
+                    outIndices[outPos++] = firstByte;
                 if (nextCode < MaxCodes)
                 {
                     prefix[nextCode] = prev;
@@ -267,19 +272,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     if (nextCode == (1 << codeSize) && codeSize < 12) codeSize++;
                 }
                 prev = code;
-                if (outPos >= outIndices.Length) break;
+                if (outPos >= outIndices.Length)
+                    break;
             }
             return true;
         }
 
-        // Read one LZW code of the current width, least-significant-bit first. -1 when the stream is spent.
         private static int ReadCode(byte[] data, ref int bitPos, int codeSize)
         {
             int code = 0;
             for (int i = 0; i < codeSize; i++)
             {
                 int bytePos = bitPos >> 3;
-                if (bytePos >= data.Length) return -1;
+                if (bytePos >= data.Length)
+                    return -1;
                 int bit = (data[bytePos] >> (bitPos & 7)) & 1;
                 code |= bit << i;
                 bitPos++;
@@ -287,7 +293,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return code;
         }
 
-        // GIF interlacing: rows arrive in four passes (starts 0,4,2,1 / steps 8,8,4,2). Reorder to linear.
         private static byte[] Deinterlace(byte[] src, int w, int h)
         {
             var dst = new byte[w * h];

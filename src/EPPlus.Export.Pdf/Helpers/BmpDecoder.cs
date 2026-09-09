@@ -18,27 +18,23 @@ namespace EPPlus.Export.Pdf.Helpers
         private const int BI_RGB = 0;
         private const int BI_RLE8 = 1;
         private const int BI_RLE4 = 2;
-        private const int FileHeaderSize = 14;   // "BM" + size + reserved*2 + pixel-data offset
-        private const int MaxDimension = 30000;  // guard against absurd headers driving huge allocations
+        private const int FileHeaderSize = 14;
+        private const int MaxDimension = 30000;
 
-        internal static bool IsBmp(byte[] d)
-            => d != null && d.Length >= FileHeaderSize + 40 && d[0] == (byte)'B' && d[1] == (byte)'M';
+        internal static bool IsBmp(byte[] d) => d != null && d.Length >= FileHeaderSize + 40 && d[0] == (byte)'B' && d[1] == (byte)'M';
 
-        internal static bool CanDecode(byte[] d)
-            => TryReadHeader(d, out _);
+        internal static bool CanDecode(byte[] d) => TryReadHeader(d, out _);
 
-        // Decodes to top-to-bottom RGB (3 bytes/pixel). Returns false for anything outside the
-        // supported subset or for malformed data.
         internal static bool TryDecode(byte[] d, out int width, out int height, out byte[] rgb)
         {
             width = height = 0;
             rgb = null;
-            if (!TryReadHeader(d, out var h)) return false;
+            if (!TryReadHeader(d, out var h))
+                return false;
 
             width = h.Width;
             height = h.Height;
             var outRgb = new byte[width * height * 3];
-
             if (h.Compression == BI_RLE8 || h.Compression == BI_RLE4)
             {
                 DecodeRle(d, h, outRgb);
@@ -47,12 +43,23 @@ namespace EPPlus.Export.Pdf.Helpers
             {
                 switch (h.BitCount)
                 {
-                    case 24: DecodeTrueColor(d, h, 3, outRgb); break;
-                    case 32: DecodeTrueColor(d, h, 4, outRgb); break;
-                    case 8: DecodeIndexed(d, h, outRgb); break;
-                    case 4: DecodeIndexed(d, h, outRgb); break;
-                    case 1: DecodeIndexed(d, h, outRgb); break;
-                    default: return false;
+                    case 24:
+                        DecodeTrueColor(d, h, 3, outRgb);
+                        break;
+                    case 32:
+                        DecodeTrueColor(d, h, 4, outRgb);
+                        break;
+                    case 8:
+                        DecodeIndexed(d, h, outRgb);
+                        break;
+                    case 4:
+                        DecodeIndexed(d, h, outRgb);
+                        break;
+                    case 1:
+                        DecodeIndexed(d, h, outRgb);
+                        break;
+                    default:
+                        return false;
                 }
             }
             rgb = outRgb;
@@ -79,47 +86,53 @@ namespace EPPlus.Export.Pdf.Helpers
 
             int pixelOffset = ReadLE32(d, 10);
             int dibSize = ReadLE32(d, FileHeaderSize);
-            // BITMAPINFOHEADER and every later version (V2/V3/V4/V5) start with the same 40-byte layout.
-            if (dibSize < 40 || FileHeaderSize + dibSize > d.Length) return false;
+            if (dibSize < 40 || FileHeaderSize + dibSize > d.Length)
+                return false;
 
             int width = ReadLE32(d, FileHeaderSize + 4);
             int rawHeight = ReadLE32(d, FileHeaderSize + 8);
             int bitCount = ReadLE16(d, FileHeaderSize + 14);
             int compression = ReadLE32(d, FileHeaderSize + 16);
             int colorsUsed = ReadLE32(d, FileHeaderSize + 32);
-
-            // BI_RGB for every depth; BI_RLE8 pairs with 8-bit and BI_RLE4 with 4-bit.
             bool rle = (compression == BI_RLE8 && bitCount == 8) || (compression == BI_RLE4 && bitCount == 4);
-            if (compression != BI_RGB && !rle) return false;         // BITFIELDS / embedded JPEG-PNG not handled
-            if (width <= 0 || rawHeight == 0) return false;
+            if (compression != BI_RGB && !rle)
+                return false;
+            if (width <= 0 || rawHeight == 0)
+                return false;
+
             bool topDown = rawHeight < 0;
             int height = rawHeight < 0 ? -rawHeight : rawHeight;
-            if (width > MaxDimension || height > MaxDimension) return false;
-            if (bitCount != 1 && bitCount != 4 && bitCount != 8 && bitCount != 24 && bitCount != 32) return false;
-            if (rle && topDown) return false;                        // RLE bitmaps are always bottom-up
+            if (width > MaxDimension || height > MaxDimension)
+                return false;
+            if (bitCount != 1 && bitCount != 4 && bitCount != 8 && bitCount != 24 && bitCount != 32)
+                return false;
+            if (rle && topDown)
+                return false;
 
-            if (pixelOffset <= 0) pixelOffset = FileHeaderSize + dibSize; // some writers leave the offset at 0
-
-            // Uncompressed rows are padded to a 4-byte boundary and can be validated up front; RLE data is
-            // variable-length and is bounds-checked as it is decoded, so only its start offset is validated.
+            if (pixelOffset <= 0) pixelOffset = FileHeaderSize + dibSize;
             int rowSize = 0;
             if (!rle)
             {
                 rowSize = ((bitCount * width + 31) / 32) * 4;
                 long pixelSpan = (long)rowSize * height;
-                if (pixelOffset < 0 || pixelOffset + pixelSpan > d.Length) return false;
+                if (pixelOffset < 0 || pixelOffset + pixelSpan > d.Length)
+                    return false;
             }
-            else if (pixelOffset < 0 || pixelOffset >= d.Length) return false;
+            else if (pixelOffset < 0 || pixelOffset >= d.Length)
+            {
+                return false;
+            }
 
             int paletteOffset = FileHeaderSize + dibSize;
             int paletteCount = 0;
             if (bitCount <= 8)
             {
                 paletteCount = colorsUsed > 0 ? colorsUsed : (1 << bitCount);
-                if (paletteCount < 0 || paletteCount > 256) return false;
-                if (paletteOffset + paletteCount * 4 > d.Length) return false;
+                if (paletteCount < 0 || paletteCount > 256)
+                    return false;
+                if (paletteOffset + paletteCount * 4 > d.Length)
+                    return false;
             }
-
             h = new Header
             {
                 Width = width,
@@ -135,25 +148,23 @@ namespace EPPlus.Export.Pdf.Helpers
             return true;
         }
 
-        // 24/32-bit: pixels are stored B,G,R (plus an ignored 4th byte at 32-bit).
         private static void DecodeTrueColor(byte[] d, Header h, int bytesPerPixel, byte[] outRgb)
         {
             for (int y = 0; y < h.Height; y++)
             {
-                int srcRow = h.TopDown ? y : (h.Height - 1 - y);   // BMP rows are bottom-up unless TopDown
+                int srcRow = h.TopDown ? y : (h.Height - 1 - y);
                 int src = h.PixelOffset + srcRow * h.RowSize;
                 int dst = y * h.Width * 3;
                 for (int x = 0; x < h.Width; x++)
                 {
                     int p = src + x * bytesPerPixel;
-                    outRgb[dst++] = d[p + 2];   // R
-                    outRgb[dst++] = d[p + 1];   // G
-                    outRgb[dst++] = d[p];       // B
+                    outRgb[dst++] = d[p + 2];
+                    outRgb[dst++] = d[p + 1];
+                    outRgb[dst++] = d[p];
                 }
             }
         }
 
-        // 1/4/8-bit: each sample is an index into the RGBQUAD (B,G,R,reserved) palette.
         private static void DecodeIndexed(byte[] d, Header h, byte[] outRgb)
         {
             for (int y = 0; y < h.Height; y++)
@@ -164,16 +175,15 @@ namespace EPPlus.Export.Pdf.Helpers
                 for (int x = 0; x < h.Width; x++)
                 {
                     int index = SampleIndex(d, src, x, h.BitCount);
-                    if (index >= h.PaletteCount) index = 0;         // clamp a bad index to the first entry
+                    if (index >= h.PaletteCount) index = 0;
                     int pal = h.PaletteOffset + index * 4;
-                    outRgb[dst++] = d[pal + 2];   // R
-                    outRgb[dst++] = d[pal + 1];   // G
-                    outRgb[dst++] = d[pal];       // B
+                    outRgb[dst++] = d[pal + 2];
+                    outRgb[dst++] = d[pal + 1];
+                    outRgb[dst++] = d[pal];
                 }
             }
         }
 
-        // Pull the palette index for column x out of a packed row (MSB-first within each byte).
         private static int SampleIndex(byte[] d, int rowStart, int x, int bitCount)
         {
             switch (bitCount)
@@ -183,12 +193,12 @@ namespace EPPlus.Export.Pdf.Helpers
                 case 4:
                     {
                         byte b = d[rowStart + (x >> 1)];
-                        return (x & 1) == 0 ? (b >> 4) : (b & 0x0F);   // high nibble is the first pixel
+                        return (x & 1) == 0 ? (b >> 4) : (b & 0x0F);
                     }
                 case 1:
                     {
                         byte b = d[rowStart + (x >> 3)];
-                        int shift = 7 - (x & 7);                        // bit 7 is the first pixel
+                        int shift = 7 - (x & 7);
                         return (b >> shift) & 1;
                     }
                 default:
@@ -200,17 +210,15 @@ namespace EPPlus.Export.Pdf.Helpers
         {
             int w = h.Width, height = h.Height;
             bool rle4 = h.Compression == BI_RLE4;
-            var index = new byte[w * height];           // palette indices, row 0 = bottom (BMP order)
+            var index = new byte[w * height];
             int pos = h.PixelOffset;
             int x = 0, row = 0;
-
             while (pos + 1 < d.Length)
             {
                 int count = d[pos++];
                 int val = d[pos++];
                 if (count > 0)
                 {
-                    // Encoded run: 'count' pixels of 'val' (RLE4 alternates the two nibbles of 'val').
                     for (int i = 0; i < count; i++)
                     {
                         if (row < height && x < w)
@@ -221,9 +229,16 @@ namespace EPPlus.Export.Pdf.Helpers
                         x++;
                     }
                 }
-                else if (val == 0) { x = 0; row++; }    // end of line
-                else if (val == 1) break;               // end of bitmap
-                else if (val == 2)                      // delta: skip right dx and up dy
+                else if (val == 0)
+                {
+                    x = 0;
+                    row++;
+                }
+                else if (val == 1)
+                {
+                    break;
+                }
+                else if (val == 2)
                 {
                     if (pos + 1 >= d.Length) break;
                     x += d[pos++];
@@ -231,7 +246,6 @@ namespace EPPlus.Export.Pdf.Helpers
                 }
                 else
                 {
-                    // Absolute run of 'val' literal pixels.
                     int n = val;
                     if (!rle4)
                     {
@@ -242,7 +256,7 @@ namespace EPPlus.Export.Pdf.Helpers
                             if (row < height && x < w) index[row * w + x] = (byte)idx;
                             x++;
                         }
-                        if ((n & 1) != 0) pos++;        // byte count padded to a word boundary
+                        if ((n & 1) != 0) pos++;
                     }
                     else
                     {
@@ -256,12 +270,10 @@ namespace EPPlus.Export.Pdf.Helpers
                             if (row < height && x < w) index[row * w + x] = (byte)idx;
                             x++;
                         }
-                        pos += bytesNeeded + (bytesNeeded & 1);   // advance, padded to a word boundary
+                        pos += bytesNeeded + (bytesNeeded & 1);
                     }
                 }
             }
-
-            // Map indices to RGB, flipping the bottom-up rows to top-to-bottom output.
             for (int y = 0; y < height; y++)
             {
                 int srcRow = height - 1 - y;
@@ -271,9 +283,9 @@ namespace EPPlus.Export.Pdf.Helpers
                     int idx = index[srcRow * w + xx];
                     if (idx >= h.PaletteCount) idx = 0;
                     int pal = h.PaletteOffset + idx * 4;
-                    outRgb[dst++] = d[pal + 2];   // R
-                    outRgb[dst++] = d[pal + 1];   // G
-                    outRgb[dst++] = d[pal];       // B
+                    outRgb[dst++] = d[pal + 2];
+                    outRgb[dst++] = d[pal + 1];
+                    outRgb[dst++] = d[pal];
                 }
             }
         }

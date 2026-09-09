@@ -53,7 +53,8 @@ namespace EPPlus.Export.Pdf.Layout
         internal const string MediumDashDot = "[6 3 2 3] 0 d";
         internal const string MediumDashDotDot = "[6 3 2 3 2 3] 0 d";
         internal const string MediumDashed = "[6 4] 0 d";
-
+        internal const double DoubleWidth = 0.75d;
+        internal const double DoubleOffset = 0.85d;
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
         public readonly LineType LineType;
         public Color BorderColor = Color.Black;
@@ -64,24 +65,11 @@ namespace EPPlus.Export.Pdf.Layout
         public double X = 0;
         public double Y = 0;
         public bool IsHeading = false;
-
-        internal const double DoubleWidth = 0.75d;  // weight of each of the two lines
-        internal const double DoubleOffset = 0.85d;  // offset from the gridline; also the corner miter amount
-
-        public bool PerpAtStart = false;   // Top/Bottom: left end · Left/Right: bottom end
-        public bool PerpAtEnd = false;   // Top/Bottom: right end · Left/Right: top end
-
+        public bool PerpAtStart = false;
+        public bool PerpAtEnd = false;
         public bool NeighborDouble = false;
-
-        // The cell this border's OUTER line spills into has a diagonal reaching that end.
-        // When set, the outer line is pulled back there so the neighbour's X stays open.
-        // (Start/End follow the same convention as PerpAtStart/PerpAtEnd.)
         public bool NeighborDiagAtStart = false;
         public bool NeighborDiagAtEnd = false;
-
-        // At a diagonal junction (only the two diagonally-opposite cells have borders meeting at the
-        // corner) the outer line's miter must NOT extend past the gridline, otherwise the two cells'
-        // corners fill the centre into a small solid square. When set, that end's outer miter is cut.
         public bool CutOuterAtStart = false;
         public bool CutOuterAtEnd = false;
 

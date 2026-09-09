@@ -12,9 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
-using OfficeOpenXml;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Export.Pdf.Settings
 {

@@ -10,7 +10,6 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using OfficeOpenXml.Packaging.Ionic.Zlib;
 using System.IO;
 using System.Text;
 
@@ -31,22 +30,18 @@ namespace EPPlus.Export.Pdf.Helpers
         {
             width = height = bitDepth = colorType = interlace = 0;
             if (!IsPng(d)) return false;
-            int p = _pngSignature.Length;                        // first chunk starts after the signature
+            int p = _pngSignature.Length;
             if (p + 8 + 13 > d.Length) return false;
             if (Ascii(d, p + 4, 4) != "IHDR") return false;
-            int q = p + 8;                                       // IHDR chunk data
+            int q = p + 8;
             width = ReadBE32(d, q);
             height = ReadBE32(d, q + 4);
             bitDepth = d[q + 8];
             colorType = d[q + 9];
-            // q+10 compression, q+11 filter (both always 0), q+12 interlace (0 none, 1 Adam7).
             interlace = d[q + 12];
             return true;
         }
 
-        // Walk the chunk list and return the concatenated IDAT data (the zlib pixel stream) plus the
-        // palette, if any. The zlib stream can be split across several IDAT chunks, so it is stitched
-        // back together in order.
         internal static byte[] ReadPngIdat(byte[] d, out byte[] palette)
         {
             palette = null;
@@ -58,7 +53,7 @@ namespace EPPlus.Export.Pdf.Helpers
                     int len = ReadBE32(d, p);
                     string type = Ascii(d, p + 4, 4);
                     int dataStart = p + 8;
-                    if (len < 0 || dataStart + len + 4 > d.Length) break;   // truncated / malformed
+                    if (len < 0 || dataStart + len + 4 > d.Length) break;
                     if (type == "PLTE")
                     {
                         palette = new byte[len];
@@ -72,7 +67,7 @@ namespace EPPlus.Export.Pdf.Helpers
                     {
                         break;
                     }
-                    p = dataStart + len + 4;                                 // skip data + 4-byte CRC
+                    p = dataStart + len + 4;
                 }
                 return idat.ToArray();
             }
@@ -80,11 +75,11 @@ namespace EPPlus.Export.Pdf.Helpers
 
         internal static void DecodePngWithAlpha(byte[] pngBytes, int width, int height, int colorType, out byte[] deflatedColor, out byte[] deflatedAlpha)
         {
-            int channels = colorType == 6 ? 4 : 2;             // RGBA or grey+alpha
+            int channels = colorType == 6 ? 4 : 2;
             int colorChannels = colorType == 6 ? 3 : 1;
             byte[] filtered = PdfFlate.Decompress(ReadPngIdat(pngBytes, out byte[] _));
 
-            int stride = width * channels;                     // 8-bit: one byte per channel
+            int stride = width * channels;
             var color = new byte[width * height * colorChannels];
             var alpha = new byte[width * height];
             var prev = new byte[stride];
@@ -92,25 +87,34 @@ namespace EPPlus.Export.Pdf.Helpers
             int pos = 0, ci = 0, ai = 0;
             for (int y = 0; y < height; y++)
             {
-                int filter = pos < filtered.Length ? filtered[pos++] : 0;   // per-row filter type byte
+                int filter = pos < filtered.Length ? filtered[pos++] : 0;
                 for (int x = 0; x < stride; x++)
                 {
                     int raw = pos < filtered.Length ? filtered[pos++] : 0;
-                    int a = x >= channels ? cur[x - channels] : 0;   // reconstructed byte to the left
-                    int b = prev[x];                                 // byte above
-                    int c = x >= channels ? prev[x - channels] : 0;  // byte above-left
+                    int a = x >= channels ? cur[x - channels] : 0;
+                    int b = prev[x];
+                    int c = x >= channels ? prev[x - channels] : 0;
                     int val;
                     switch (filter)
                     {
-                        case 1: val = raw + a; break;                        // Sub
-                        case 2: val = raw + b; break;                        // Up
-                        case 3: val = raw + ((a + b) >> 1); break;           // Average
-                        case 4: val = raw + Paeth(a, b, c); break;           // Paeth
-                        default: val = raw; break;                           // None
+                        case 1: //Sub
+                            val = raw + a;
+                            break;
+                        case 2: //Up
+                            val = raw + b;
+                            break;
+                        case 3: //Average
+                            val = raw + ((a + b) >> 1);
+                            break;
+                        case 4: //Paeth
+                            val = raw + Paeth(a, b, c);
+                            break;
+                        default: //None
+                            val = raw;
+                            break;
                     }
                     cur[x] = (byte)(val & 0xFF);
                 }
-                // De-interleave this row: colour bytes to the image, the last channel to the mask.
                 for (int x = 0; x < width; x++)
                 {
                     int p = x * channels;
@@ -127,13 +131,12 @@ namespace EPPlus.Export.Pdf.Helpers
                         alpha[ai++] = cur[p + 1];
                     }
                 }
-                var swap = prev; prev = cur; cur = swap;    // this row becomes "previous" for the next
+                var swap = prev; prev = cur; cur = swap;
             }
             deflatedColor = PdfFlate.CompressLeaveOpen(color);
             deflatedAlpha = PdfFlate.CompressLeaveOpen(alpha);
         }
 
-        // PNG Paeth predictor (integer, no Math dependency).
         internal static int Paeth(int a, int b, int c)
         {
             int p = a + b - c;
@@ -143,10 +146,6 @@ namespace EPPlus.Export.Pdf.Helpers
             if (pa <= pb && pa <= pc) return a;
             return pb <= pc ? b : c;
         }
-
-        // zlib (RFC 1950) round-trips: PNG IDAT and PDF /FlateDecode are both zlib streams, so the
-        // same codec decompresses the IDAT and compresses the split colour / alpha back.
-
 
         private static readonly char[] _hex = "0123456789ABCDEF".ToCharArray();
         internal static string ToHex(byte[] bytes)
@@ -161,7 +160,6 @@ namespace EPPlus.Export.Pdf.Helpers
             return sb.ToString();
         }
 
-        // Big-endian 32-bit read (PNG stores all integers most-significant byte first).
         internal static int ReadBE32(byte[] d, int i) => (d[i] << 24) | (d[i + 1] << 16) | (d[i + 2] << 8) | d[i + 3];
         internal static string Ascii(byte[] d, int i, int len) => Encoding.ASCII.GetString(d, i, len);
     }

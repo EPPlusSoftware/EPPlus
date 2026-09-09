@@ -20,15 +20,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         internal static bool IsIco(byte[] d)
         {
-            // ICONDIR: reserved(0), type(1 = icon), count(>=1). Enough entries must fit.
             if (d == null || d.Length < 6 + DirEntrySize) return false;
             if (ReadLE16(d, 0) != 0 || ReadLE16(d, 2) != 1) return false;
             int count = ReadLE16(d, 4);
             return count >= 1 && 6 + count * DirEntrySize <= d.Length;
         }
 
-        // Picks the best frame and returns its raw bytes. selfContained == true for a PNG/JPEG frame
-        // (the caller routes it through the existing image branches); false for a DIB decoded here.
         internal static bool TryGetBestFrame(byte[] d, out byte[] frame, out bool selfContained)
         {
             frame = null;
@@ -40,12 +37,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             for (int i = 0; i < count; i++)
             {
                 int e = 6 + i * DirEntrySize;
-                int w = d[e]; if (w == 0) w = 256;      // 0 encodes 256
+                int w = d[e]; if (w == 0) w = 256;
                 int h = d[e + 1]; if (h == 0) h = 256;
                 int bits = ReadLE16(d, e + 6);
                 int size = ReadLE32(d, e + 8);
                 int offset = ReadLE32(d, e + 12);
-                if (size <= 0 || offset < 0 || (long)offset + size > d.Length) continue;   // bad entry
+                if (size <= 0 || offset < 0 || (long)offset + size > d.Length) continue;
                 int area = w * h;
                 if (area > bestArea || (area == bestArea && bits > bestBits))
                 {
@@ -60,14 +57,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return true;
         }
 
-        // Gate for CanEmbed: can the best frame's DIB be decoded?
         internal static bool CanDecodeDib(byte[] d) => TryDecodeDib(d, out _, out _, out _, out _);
 
-        // For ProducesSoftMask: does the best frame's DIB carry transparency?
-        internal static bool DibHasTransparency(byte[] d)
-            => TryDecodeDib(d, out _, out _, out _, out byte[] a) && a != null;
+        internal static bool DibHasTransparency(byte[] d) => TryDecodeDib(d, out _, out _, out _, out byte[] a) && a != null;
 
-        // Decode a headerless ICO DIB to top-to-bottom RGB (+ soft mask when transparent).
         internal static bool TryDecodeDib(byte[] d, out int width, out int height, out byte[] rgb, out byte[] alpha)
         {
             width = height = 0;
@@ -76,16 +69,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (d == null || d.Length < 40) return false;
 
             int dibSize = ReadLE32(d, 0);
-            if (dibSize < 40 || dibSize > 124 || dibSize > d.Length) return false;   // BITMAPINFOHEADER..V5
+            if (dibSize < 40 || dibSize > 124 || dibSize > d.Length) return false;
             int w = ReadLE32(d, 4);
             int doubledHeight = ReadLE32(d, 8);
             int bitCount = ReadLE16(d, 14);
             int compression = ReadLE32(d, 16);
             int colorsUsed = ReadLE32(d, 32);
-
-            if (compression != 0) return false;                         // only BI_RGB
+            if (compression != 0) return false;
             if (w <= 0 || doubledHeight <= 0 || (doubledHeight & 1) != 0) return false;
-            int h = doubledHeight / 2;                                   // AND mask is stacked underneath
+            int h = doubledHeight / 2;
             if (w > MaxDimension || h > MaxDimension || h <= 0) return false;
             if (bitCount != 1 && bitCount != 4 && bitCount != 8 && bitCount != 24 && bitCount != 32) return false;
 
@@ -97,24 +89,21 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (paletteCount < 0 || paletteCount > 256) return false;
                 if (paletteOffset + paletteCount * 4 > d.Length) return false;
             }
-
             int colorOffset = paletteOffset + paletteCount * 4;
             int colorRow = ((bitCount * w + 31) / 32) * 4;
             long colorSize = (long)colorRow * h;
             if (colorOffset + colorSize > d.Length) return false;
 
             int andOffset = colorOffset + (int)colorSize;
-            int andRow = ((w + 31) / 32) * 4;                           // 1 bit per pixel, padded
-            bool hasAnd = andOffset + (long)andRow * h <= d.Length;     // some 32-bit icons omit / truncate it
-
+            int andRow = ((w + 31) / 32) * 4;
+            bool hasAnd = andOffset + (long)andRow * h <= d.Length;
             var outRgb = new byte[w * h * 3];
             var outAlpha = new byte[w * h];
             bool anyTransparent = false;
             int colorAlphaMax = 0;
-
             for (int y = 0; y < h; y++)
             {
-                int srcRow = h - 1 - y;                                 // DIB rows are bottom-up
+                int srcRow = h - 1 - y;
                 int cRow = colorOffset + srcRow * colorRow;
                 int aRow = andOffset + srcRow * andRow;
                 int dst = y * w;
@@ -138,8 +127,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     outRgb[dst * 3] = (byte)r;
                     outRgb[dst * 3 + 1] = (byte)g;
                     outRgb[dst * 3 + 2] = (byte)b;
-
-                    // AND mask: bit set -> transparent (MSB-first within each byte).
                     int andBit = 0;
                     if (hasAnd)
                     {
@@ -153,9 +140,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     dst++;
                 }
             }
-
-            // Broken 32-bit frame: every colour-alpha is 0. Fall back to the AND mask alone so the icon
-            // isn't rendered fully transparent.
             if (bitCount == 32 && colorAlphaMax == 0)
             {
                 anyTransparent = false;
@@ -177,11 +161,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     }
                 }
             }
-
             width = w;
             height = h;
             rgb = outRgb;
-            alpha = anyTransparent ? outAlpha : null; // no mask when fully opaque
+            alpha = anyTransparent ? outAlpha : null;
             return true;
         }
 

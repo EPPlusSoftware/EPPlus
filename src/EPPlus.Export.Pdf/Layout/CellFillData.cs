@@ -21,7 +21,6 @@ namespace EPPlus.Export.Pdf.Layout
         public Color BackgroundColor = Color.Empty;
         public ExcelFillStyle PatternStyle = ExcelFillStyle.None;
         public Color PatternColor = Color.Black;
-        //Fill Effects
         public PdfCellGradientFillData GradientFillData = null;
         public bool enhanceGridLine = false;
         public PdfCellFillData() { }

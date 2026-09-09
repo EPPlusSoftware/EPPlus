@@ -19,18 +19,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
     {
         private const int MaxDimension = 30000;
 
-        internal static bool IsTiff(byte[] d)
-            => d != null && d.Length >= 8 &&
-               ((d[0] == 'I' && d[1] == 'I' && d[2] == 42 && d[3] == 0) ||
-                (d[0] == 'M' && d[1] == 'M' && d[2] == 0 && d[3] == 42));
+        internal static bool IsTiff(byte[] d) => d != null && d.Length >= 8 && ((d[0] == 'I' && d[1] == 'I' && d[2] == 42 && d[3] == 0) || (d[0] == 'M' && d[1] == 'M' && d[2] == 0 && d[3] == 42));
 
-        // TIFF has too many variants to gate cheaply, and images in a sheet are few, so CanEmbed just
-        // attempts the decode.
         internal static bool CanDecode(byte[] d) => TryDecode(d, out _, out _, out _, out _);
 
-        // For ProducesSoftMask: does the image carry (non-opaque) alpha?
-        internal static bool HasTransparency(byte[] d)
-            => TryDecode(d, out _, out _, out _, out byte[] a) && a != null;
+        internal static bool HasTransparency(byte[] d) => TryDecode(d, out _, out _, out _, out byte[] a) && a != null;
 
         internal static bool TryDecode(byte[] d, out int width, out int height, out byte[] rgb, out byte[] alpha)
         {
@@ -41,11 +34,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (ifd + 2 > d.Length) return false;
             int entries = ReadU16(d, be, ifd);
             if (entries <= 0 || (long)ifd + 2 + entries * 12 + 4 > d.Length) return false;
-
             long imgW = 0, imgH = 0, compression = 1, photometric = -1, spp = 1, rowsPerStrip = 0, planar = 1, predictor = 1;
             long[] bitsPerSample = null, stripOffsets = null, stripByteCounts = null, colorMap = null, extraSamples = null;
             bool tiled = false;
-
             for (int i = 0; i < entries; i++)
             {
                 int e = ifd + 2 + i * 12;
@@ -54,20 +45,51 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 int cnt = (int)ReadU32(d, be, e + 4);
                 switch (tag)
                 {
-                    case 256: imgW = ReadValue(d, be, type, e + 8); break;             // ImageWidth
-                    case 257: imgH = ReadValue(d, be, type, e + 8); break;             // ImageLength
-                    case 258: bitsPerSample = ReadValues(d, be, type, cnt, e + 8); break;
-                    case 259: compression = ReadValue(d, be, type, e + 8); break;
-                    case 262: photometric = ReadValue(d, be, type, e + 8); break;
-                    case 273: stripOffsets = ReadValues(d, be, type, cnt, e + 8); break;
-                    case 277: spp = ReadValue(d, be, type, e + 8); break;              // SamplesPerPixel
-                    case 278: rowsPerStrip = ReadValue(d, be, type, e + 8); break;
-                    case 279: stripByteCounts = ReadValues(d, be, type, cnt, e + 8); break;
-                    case 284: planar = ReadValue(d, be, type, e + 8); break;
-                    case 317: predictor = ReadValue(d, be, type, e + 8); break;
-                    case 320: colorMap = ReadValues(d, be, type, cnt, e + 8); break;
-                    case 322: case 323: case 324: case 325: tiled = true; break;       // tile tags
-                    case 338: extraSamples = ReadValues(d, be, type, cnt, e + 8); break;
+                    case 256:
+                        imgW = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 257:
+                        imgH = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 258:
+                        bitsPerSample = ReadValues(d, be, type, cnt, e + 8);
+                        break;
+                    case 259:
+                        compression = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 262:
+                        photometric = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 273:
+                        stripOffsets = ReadValues(d, be, type, cnt, e + 8);
+                        break;
+                    case 277:
+                        spp = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 278:
+                        rowsPerStrip = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 279:
+                        stripByteCounts = ReadValues(d, be, type, cnt, e + 8);
+                        break;
+                    case 284:
+                        planar = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 317:
+                        predictor = ReadValue(d, be, type, e + 8);
+                        break;
+                    case 320:
+                        colorMap = ReadValues(d, be, type, cnt, e + 8);
+                        break;
+                    case 322:
+                    case 323:
+                    case 324:
+                    case 325:
+                        tiled = true;
+                        break;
+                    case 338:
+                        extraSamples = ReadValues(d, be, type, cnt, e + 8);
+                        break;
                 }
             }
 
@@ -75,13 +97,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (tiled || planar != 1) return false;
             if (stripOffsets == null || stripByteCounts == null) return false;
             if (predictor != 1 && predictor != 2) return false;
-            // none / LZW / Deflate (Adobe 8 and 32946) / PackBits.
             if (compression != 1 && compression != 5 && compression != 8 && compression != 32946 && compression != 32773) return false;
-
             int w = (int)imgW, h = (int)imgH, samples = (int)spp;
             int bits = (bitsPerSample != null && bitsPerSample.Length > 0) ? (int)bitsPerSample[0] : 1;
             if (bitsPerSample != null)
-                foreach (var b in bitsPerSample) if (b != bits) return false;         // uniform depth only
+                foreach (var b in bitsPerSample) 
+                    if (b != bits) return false;
 
             bool isRgb = photometric == 2;
             bool isPalette = photometric == 3;
@@ -92,7 +113,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             else return false;
 
             int rowSize = (w * samples * bits + 7) / 8;
-            if (rowsPerStrip <= 0) rowsPerStrip = h;                                    // default: single strip
+            if (rowsPerStrip <= 0) rowsPerStrip = h;
             int strips = (int)((h + rowsPerStrip - 1) / rowsPerStrip);
             if (stripOffsets.Length < strips || stripByteCounts.Length < strips) return false;
 
@@ -113,7 +134,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     case 1: strip = raw; break;
                     case 5: strip = LzwDecode(raw, expected); break;
                     case 32773: strip = PackBits(raw, expected); break;
-                    default: strip = Inflate(raw); break;                              // 8 or 32946
+                    default: strip = Inflate(raw); break;
                 }
                 if (strip == null) return false;
                 int copy = System.Math.Min(expected, strip.Length);
@@ -125,8 +146,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (predictor == 2 && bits == 8)
                 ApplyHorizontalPredictor(image, w, h, samples, rowSize);
 
-            // Build the palette lookup once (16-bit colour map values, or 8-bit if the writer stored them
-            // small). Layout is all reds, then all greens, then all blues.
             byte[] palR = null, palG = null, palB = null;
             if (isPalette) BuildPalette(colorMap, out palR, out palG, out palB);
 
@@ -146,7 +165,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         int gray;
                         if (bits == 8) gray = image[row + x];
                         else gray = ((image[row + (x >> 3)] >> (7 - (x & 7))) & 1) * 255;
-                        if (photometric == 0) gray = 255 - gray;                       // WhiteIsZero
+                        if (photometric == 0) gray = 255 - gray;
                         rgb[di] = rgb[di + 1] = rgb[di + 2] = (byte)gray;
                     }
                     else if (isPalette)
@@ -161,7 +180,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         if (samples == 4)
                         {
                             int al = image[si + 3];
-                            if (premultiplied && al > 0)                               // straighten premultiplied colour
+                            if (premultiplied && al > 0)
                             {
                                 r = System.Math.Min(255, r * 255 / al);
                                 g = System.Math.Min(255, g * 255 / al);
@@ -174,10 +193,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     }
                 }
             }
-
             width = w;
             height = h;
-            alpha = anyAlpha ? a : null;                                               // no mask when fully opaque
+            alpha = anyAlpha ? a : null;
             return true;
         }
 
@@ -197,8 +215,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
         }
 
-        // Horizontal differencing (predictor 2): each 8-bit sample is stored as its difference from the
-        // sample one pixel to the left (per channel), reset at the start of each row.
         private static void ApplyHorizontalPredictor(byte[] image, int w, int h, int spp, int rowSize)
         {
             for (int y = 0; y < h; y++)
@@ -210,7 +226,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
         }
 
-        // PackBits run-length decoding (TIFF 32773).
         private static byte[] PackBits(byte[] s, int expected)
         {
             var outBuf = new byte[expected];
@@ -232,7 +247,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         for (int i = 0; i < cnt && o < expected; i++) outBuf[o++] = v;
                     }
                 }
-                // n == -128 is a no-op
             }
             return outBuf;
         }
@@ -254,8 +268,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             catch { return null; }
         }
 
-        // TIFF LZW (compression 5): codes are packed most-significant-bit first, and the code width steps
-        // up one code early — when the next code reaches 2^width - 1 rather than 2^width.
         private static byte[] LzwDecode(byte[] s, int expected)
         {
             const int Clear = 256, Eoi = 257, MaxCodes = 4096;
@@ -280,7 +292,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 }
                 if (prev < 0)
                 {
-                    if (code >= 256) return null;                       // first code after a clear is a literal
+                    if (code >= 256) return null;
                     if (outPos < expected) outBuf[outPos++] = (byte)code;
                     prev = code;
                     continue;
@@ -307,7 +319,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     prefix[nextCode] = prev;
                     suffix[nextCode] = first;
                     nextCode++;
-                    if (nextCode == (1 << codeWidth) - 1 && codeWidth < 12) codeWidth++;   // early change
+                    if (nextCode == (1 << codeWidth) - 1 && codeWidth < 12) codeWidth++;
                 }
                 prev = code;
                 if (outPos >= expected) break;
@@ -322,7 +334,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             for (int i = 0; i < width; i++)
             {
                 int bytePos = bitPos >> 3;
-                int bit = (s[bytePos] >> (7 - (bitPos & 7))) & 1;      // most-significant bit first
+                int bit = (s[bytePos] >> (7 - (bitPos & 7))) & 1;
                 code = (code << 1) | bit;
                 bitPos++;
             }
@@ -382,10 +394,23 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             switch (type)
             {
-                case 1: case 2: case 6: case 7: return 1;   // BYTE / ASCII / SBYTE / UNDEFINED
-                case 3: case 8: return 2;                   // SHORT / SSHORT
-                case 4: case 9: case 11: return 4;          // LONG / SLONG / FLOAT
-                default: return 0;                          // RATIONAL/DOUBLE etc. not needed here
+                // BYTE / ASCII / SBYTE / UNDEFINED
+                case 1:
+                case 2:
+                case 6:
+                case 7:
+                    return 1;
+                // SHORT / SSHORT
+                case 3:
+                case 8:
+                    return 2;
+                // LONG / SLONG / FLOAT
+                case 4:
+                case 9:
+                case 11:
+                    return 4;
+                default:
+                    return 0;
             }
         }
 

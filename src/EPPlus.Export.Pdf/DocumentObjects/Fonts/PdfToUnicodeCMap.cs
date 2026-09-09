@@ -67,29 +67,23 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private string GenerateCMapContent()
         {
             var sb = new StringBuilder();
-            // CMap header
             sb.Append("/CIDInit /ProcSet findresource begin\n");
             sb.Append("12 dict begin\n");
             sb.Append("begincmap\n");
-            // CIDSystemInfo - required for ToUnicode CMaps
             sb.Append("/CIDSystemInfo\n");
             sb.Append("<< /Registry (Adobe)\n");
             sb.Append("   /Ordering (UCS)\n");
             sb.Append("   /Supplement 0\n");
             sb.Append(">> def\n");
-            // CMap name and type
             sb.Append("/CMapName /Adobe-Identity-UCS def\n");
             sb.Append("/CMapType 2 def\n");
-            // Define codespace range
             sb.Append("1 begincodespacerange\n");
             sb.AppendFormat($"<{FormatCode(CodeSpaceMin)}> <{FormatCode(CodeSpaceMax)}>\n");
             sb.Append("endcodespacerange\n");
-            // Generate character mappings
             if (CharacterMappings.Count > 0)
             {
                 GenerateCharacterMappings(sb);
             }
-            // CMap footer
             sb.Append("endcmap\n");
             sb.Append("CMapName currentdict /CMap defineresource pop\n");
             sb.Append("end\n");
@@ -99,15 +93,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         private void GenerateCharacterMappings(StringBuilder sb)
         {
-            // Group mappings into ranges where possible for efficiency
             var sortedMappings = CharacterMappings.OrderBy(kvp => kvp.Key).ToList();
             var ranges = new List<CharacterRange>();
             var individualMappings = new List<CharacterMapping>();
-            // Try to identify consecutive ranges
             for (int i = 0; i < sortedMappings.Count; i++)
             {
                 var current = sortedMappings[i];
-                // Try to parse as simple Unicode value for range detection
                 int unicodeValue;
                 if (TryParseSimpleUnicode(current.Value, out unicodeValue))
                 {
@@ -131,14 +122,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                             break;
                         }
                     }
-                    // If we found a range of 3 or more, use beginbfrange
                     if (rangeEnd - rangeStart >= 2)
                     {
                         ranges.Add(new CharacterRange(rangeStart, rangeEnd, unicodeStart));
                     }
                     else
                     {
-                        // Add individual mappings
                         for (int j = rangeStart; j <= rangeEnd; j++)
                         {
                             var mapping = sortedMappings.FirstOrDefault(m => m.Key == j);
@@ -148,7 +137,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                 }
                 else
                 {
-                    // Complex mapping (ligatures, etc.) - must be individual
                     individualMappings.Add(new CharacterMapping(current.Key, current.Value));
                 }
             }
@@ -165,7 +153,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             // Output individual character mappings
             if (individualMappings.Count > 0)
             {
-                // Process in batches of 100 (PDF best practice)
                 const int batchSize = 100;
                 for (int i = 0; i < individualMappings.Count; i += batchSize)
                 {
@@ -184,7 +171,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private bool TryParseSimpleUnicode(string hexString, out int unicodeValue)
         {
             unicodeValue = 0;
-            // Check if it's a simple 4-digit hex Unicode value (e.g., "0041" for 'A')
             if (hexString.Length == 4 && int.TryParse(hexString, System.Globalization.NumberStyles.HexNumber, null, out unicodeValue))
             {
                 return true;
@@ -209,22 +195,18 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
             else
             {
-                // Default to 2 bytes
                 return code.ToString("X4");
             }
         }
 
         private string FormatUnicode(int unicodeValue)
         {
-            // Format Unicode value in UTF-16BE hex format
-            // For BMP characters (U+0000 to U+FFFF), use 4 hex digits
             if (unicodeValue <= 0xFFFF)
             {
                 return unicodeValue.ToString("X4");
             }
             else
             {
-                // For supplementary characters, convert to UTF-16 surrogate pair
                 unicodeValue -= 0x10000;
                 int highSurrogate = 0xD800 + (unicodeValue >> 10);
                 int lowSurrogate = 0xDC00 + (unicodeValue & 0x3FF);
@@ -232,7 +214,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
         }
 
-        // Helper classes to replace tuples
         private class CharacterRange
         {
             public int Start { get; private set; }
