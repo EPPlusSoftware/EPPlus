@@ -174,6 +174,18 @@ namespace EPPlus.Fonts.OpenType.Integration
             return state.Lines;
         }
 
+        public List<TextLineSimple> WrapRichTextLineLineCollectionVertical(List<TextFragment> fragments, int maxHeightPoints)
+        {
+            var frags = fragments.Cast<ITextFragmentBase>().ToList();
+            var innerLines = WrapVerticalTextTichTextLines(frags, maxHeightPoints);
+            return new TextLineCollection(innerLines, frags);
+        }
+
+        private List<TextLineSimple> WrapVerticalTextTichTextLines(List<ITextFragmentBase> frags, int maxHeightPoints)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<TextLineSimple> WrapRichTextRuns(
             List<StyleRun> fragments,
             double maxWidthPoints)

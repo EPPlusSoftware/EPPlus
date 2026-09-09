@@ -267,7 +267,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     LargestWidthWithoutSpace = Math.Max(LargestWidthWithoutSpace, line.GetWidthWithoutTrailingSpaces());
                     SpaceWidthsPerLine.Add(line.LastFontSpaceWidth);
                     lineIdx++;
-                }
+                }                
             }
 
             _originalFragments = originalFragments;
