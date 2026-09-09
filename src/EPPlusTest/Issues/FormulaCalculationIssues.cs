@@ -1807,6 +1807,42 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(20D, ws.Cells["F1"].Value);
             }
         }
+
+        [TestMethod]
+        public void i1069()
+        {
+            using(var package = OpenTemplatePackage("PrecisionTest.xlsx"))
+            {
+                var setPrecision = package.Workbook.FullPrecision;
+                Assert.AreEqual(setPrecision, false);
+
+                SaveWorkbook("precisionTextResult.xlsx", package);
+                Assert.AreEqual(false, package.Workbook.FullPrecision);
+            }
+        }  
+
+        [TestMethod]
+        public void i1069_roundtrip()
+        {
+            var file = "fp.xlsx";
+
+            using (var p = OpenPackage(file, true))
+            {
+                p.Workbook.Worksheets.Add("Sheet1");
+                p.Workbook.FullPrecision = false;
+                p.Save();
+            }
+            using (var p = OpenPackage(file))
+                Assert.IsFalse(p.Workbook.FullPrecision);
+            
+            using (var p = OpenPackage(file))
+            {
+                p.Workbook.FullPrecision = true;
+                p.Save();
+            }
+            using (var p = OpenPackage(file))
+                Assert.IsTrue(p.Workbook.FullPrecision);
+        }
     }
 }
 
