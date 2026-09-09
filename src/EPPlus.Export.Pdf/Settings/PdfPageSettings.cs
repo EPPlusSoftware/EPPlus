@@ -13,6 +13,7 @@
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -195,6 +196,32 @@ namespace EPPlus.Export.Pdf.Settings
                 _scaling = value;
             }
         }
+
+        /// <summary>
+        /// GSUB (glyph substitution) features to request when shaping text for this export, e.g.
+        /// ligatures. Defaults to <see cref="GsubFeature.Liga"/> | <see cref="GsubFeature.Clig"/>,
+        /// matching the shaping engine's own default.
+        /// </summary>
+        /// <remarks>
+        /// This setting applies to the whole export - there is currently no per-cell or
+        /// per-range override. Whether a requested feature has any visible effect still depends
+        /// on the font actually defining it; see <see cref="GsubFeature"/> for what each flag
+        /// means and which fonts typically support it.
+        /// </remarks>
+        public GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig;
+
+        /// <summary>
+        /// GPOS (glyph positioning) features to request when shaping text for this export, e.g.
+        /// kerning and mark attachment. Defaults to <see cref="GposFeature.Kern"/> | <see cref="GposFeature.Mark"/>, 
+        /// matching the shaping engine's own default.
+        /// </summary>
+        /// <remarks>
+        /// This setting applies to the whole export - there is currently no per-cell or
+        /// per-range override. Whether a requested feature has any visible effect still depends
+        /// on the font actually defining it; see <see cref="GposFeature"/> for what each flag
+        /// means.
+        /// </remarks>
+        public GposFeature GposFeatures { get; set; } = GposFeature.Kern | GposFeature.Mark;
 
         internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
         internal string defaultFontName = "";

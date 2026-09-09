@@ -460,16 +460,21 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
-            // Phase 2: Chaining Contextual Substitution (Type 6)
-            if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
+            // Phase 2: Chaining Contextual Substitution (Type 6) - once per active feature tag,
+            // not just "liga". A font can define calt/clig/rlig contextual rules too.
+            if (options.GsubFeatures != null)
             {
-                glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, "liga", options.Script, options.Language);
+                foreach (var tag in options.GsubFeatures)
+                {
+                    glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, tag, options.Script, options.Language);
+                }
             }
 
-            // Phase 3: Simple Ligatures (Type 4)
-            if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
+            // Phase 3: Ligatures (Type 4, including Type 7 extension-wrapped) - across every
+            // active feature tag (liga, dlig, clig, ...), not just "liga".
+            if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {
-                _ligatureProcessor.ApplyLigaturesInPlace(glyphs, options.Script, options.Language);
+                _ligatureProcessor.ApplyLigaturesInPlace(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
             return glyphs;
@@ -503,7 +508,10 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             // Phase 3: Mark-to-Base positioning (GPOS Type 4) - primary font only
-            _markToBaseProvider.ApplyMarkPositioning(glyphs, options.Script, options.Language);
+            if (applyAllFeatures || (options.GposFeatures != null && options.GposFeatures.Contains("mark")))
+            {
+                _markToBaseProvider.ApplyMarkPositioning(glyphs, options.Script, options.Language);
+            }
         }
 
         /// <summary>

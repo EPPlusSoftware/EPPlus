@@ -64,9 +64,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     layoutEngine = new TextLayoutEngine(shaper);
                     layoutEngineCache[st.FontProvider] = layoutEngine;
                 }
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
+                var options = BuildShapingOptions(pageSettings);
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
@@ -136,9 +134,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     layoutEngine = new TextLayoutEngine(shaper);
                     layoutEngineCache[st.FontProvider] = layoutEngine;
                 }
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
+                var options = BuildShapingOptions(pageSettings);
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
@@ -178,6 +174,35 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
             }
             cell.TotalTextLength = totalTextLength;
+        }
+
+        /// <summary>
+        /// Builds the ShapingOptions used for one text fragment, from the caller's requested
+        /// GsubFeature/GposFeature flags.
+        /// </summary>
+        /// <remarks>
+        /// GsubFeature.None / GposFeature.None need special handling here rather than a plain
+        /// pass-through of ToTagList's empty list. TextShaper.ApplyPositioning treats an empty or
+        /// null GposFeatures list as "apply every GPOS feature" for kerning and mark positioning
+        /// (though NOT for single adjustment, which treats it as "apply nothing" - the two
+        /// disagree on empty/null already, independently of this method). That documented
+        /// contract has other, unrelated callers (measurement, rich text default, benchmarks) and
+        /// is not changed here. Instead, None is handled at the source: when the caller asks for
+        /// no GPOS/GSUB features at all, ApplyPositioning/ApplySubstitutions are turned off
+        /// outright, which is unambiguous regardless of what an empty tag list would otherwise be
+        /// interpreted as further down.
+        /// </remarks>
+        internal static ShapingOptions BuildShapingOptions(PdfPageSettings pageSettings)
+        {
+            var options = ShapingOptions.Default;
+
+            options.GsubFeatures = GsubFeatureTags.ToTagList(pageSettings.GsubFeatures);
+            options.GposFeatures = GposFeatureTags.ToTagList(pageSettings.GposFeatures);
+
+            options.ApplySubstitutions = pageSettings.GsubFeatures != GsubFeature.None;
+            options.ApplyPositioning = pageSettings.GposFeatures != GposFeature.None;
+
+            return options;
         }
     }
 }

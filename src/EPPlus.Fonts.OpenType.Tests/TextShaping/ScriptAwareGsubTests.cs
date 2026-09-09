@@ -64,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 new ShapedGlyph { GlyphId = GlyphB }
             };
 
-            processor.ApplyLigaturesInPlace(glyphs, "latn", null);
+            processor.ApplyLigaturesInPlace(glyphs, new List<string> { "liga" }, "latn", null);
 
             Assert.AreEqual(
                 2,
