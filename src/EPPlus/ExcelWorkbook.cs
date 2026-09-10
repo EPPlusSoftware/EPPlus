@@ -1556,7 +1556,7 @@ namespace OfficeOpenXml
 
             DeleteCalcChain();
 
-            SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
+            SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, true);
             
             if(_workbookCreatedInEPPlus == false) EnsureCalculationFeatures();    //Ensure that the calculation features are included in the file to make sure that new functions are supported.
 
