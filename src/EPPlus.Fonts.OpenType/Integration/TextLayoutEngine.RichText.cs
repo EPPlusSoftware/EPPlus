@@ -181,8 +181,15 @@ namespace EPPlus.Fonts.OpenType.Integration
             return new TextLineCollection(innerLines, frags);
         }
 
-        private List<TextLineSimple> WrapVerticalTextTichTextLines(List<ITextFragmentBase> frags, int maxHeightPoints)
+        private List<TextLineSimple> WrapVerticalTextTichTextLines(List<ITextFragmentBase> fragments, int maxHeightPoints)
         {
+            var frags = fragments.Cast<ITextFragmentBase>().ToList();
+            return WrapRichTextLines(frags, maxHeightPoints);            
+        }
+
+        private void ProcessFragmentVertical()
+        {
+
             throw new NotImplementedException();
         }
 
@@ -291,12 +298,26 @@ namespace EPPlus.Fonts.OpenType.Integration
             ITextFragmentBase fragment,
             double maxWidthPoints,
             StringBuilder lineBuilder,
-            WrapStateRichText state)
+            WrapStateRichText state,
+            bool isVertical)
         {
             state.CharIdxRt = 0;
             var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
+
+            fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
+            fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
+
+            double[] charWidth = null;
+            double verticalStep = 0d;
+            double spaceWidth;
+
+            if (isVertical)
+            {
+
+            }
+
             var charWidths = GetCharWidthBuffer(len);
             Array.Clear(charWidths, 0, len);
 
