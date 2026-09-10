@@ -49,14 +49,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         //    TxtBox = txtBox;
         //}
 
-        public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabelStandard standard, Color? defaultFillColor = null) : base(chart)
+        public SvgDataLabelPoint(ChartRenderer chart, ExcelChartDataLabel standard, Color? defaultFillColor = null) : base(chart)
         {
             DefaultFillColor = defaultFillColor.HasValue ? defaultFillColor : Color.Transparent;
             _labelPosition = GetDefaultPositionBasedOnChartType(standard);
             Rectangle = new RectRenderItem(chart.Bounds);
         }
 
-        eLabelPosition GetDefaultPositionBasedOnChartType(ExcelChartDataLabelStandard standardDatalabel)
+        eLabelPosition GetDefaultPositionBasedOnChartType(ExcelChartDataLabel standardDatalabel)
         {
             if(standardDatalabel.Position == eLabelPosition.BestFit && ChartRenderer.Chart.IsTypePie() == false)
             {
@@ -88,7 +88,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         return standardDatalabel.Position;
                     default:
                         throw new InvalidOperationException($"The chart type '{ChartRenderer.Chart.ChartType}' has not yet been implemented for Svg Datalabels");
-                        break;
                 }
             }
             else
@@ -120,7 +119,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
+        internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
             List<string> dlblStrings = new List<string>();
 

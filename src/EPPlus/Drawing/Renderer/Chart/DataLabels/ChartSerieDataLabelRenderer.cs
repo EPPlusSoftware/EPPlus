@@ -22,7 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         ExcelDrawingParagraph defaultParagraph;
         BoundingBox plotAreaBounds;
         BoundingBox _defaultMargins;
-        ExcelChartSerieDataLabel _dlblSerie;
+        ExcelChartDataLabel _dlbl;
 
         internal double rotation = double.NaN;
         internal Graphics.Point rotationPoint = null;
@@ -31,13 +31,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         double? SummedSeries = null;
 
-        public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
+        public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartDataLabel dlbl, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             _serieIndex = index;
-            _dlblSerie = dlblSerie;
+            _dlbl = dlbl;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
 
-            DefaultFillColor =  dlblSerie.Fill != null && dlblSerie.Fill.Color.IsEmpty == false ? dlblSerie.Fill.Color : Color.Transparent;
+            DefaultFillColor =  dlbl.Fill != null && dlbl.Fill.Color.IsEmpty == false ? dlbl.Fill.Color : Color.Transparent;
 
 
             if(yValues != null && yValues.Count != 0)
@@ -49,21 +49,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            if (dlblSerie.TextBody.Paragraphs.Count != 0)
+            if (dlbl.TextBody.Paragraphs.Count != 0)
             {
-                defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
+                defaultParagraph = dlbl.TextBody.Paragraphs[0];
             }
 
-            dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
+            dlbl.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
             _defaultMargins = new BoundingBox(l, top, right, bottom);
 
-            if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
+            var dlblSerie = dlbl as ExcelChartSerieDataLabel;
+            if (dlblSerie == null || dlblSerie.DataLabels.Count == 0)
             {
                 for (int i = 0; i < serie.NumberOfItems; i++)
                 {
                     var yVal = yValues == null ? null : yValues[i];
                     var xVal = xValues == null ? null : xValues[i];
-                    AddDatalabel(serie, dlblSerie, xVal, yValues[i], maxBounds);
+                    AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
                 }
             }
             else
@@ -94,7 +95,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
         }
-
+        
         private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
         {
             if (ChartRenderer.Legend == null)
@@ -104,11 +105,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             else
             {
                 var legendItem = ChartRenderer.Legend;
-                var seriesIconOrig = (LineRenderItem)legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+                var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
-                clonedIcon.Y1 = 0;
-                clonedIcon.Y2 = 0;
+                if(clonedIcon is LineRenderItem lineIcon)
+                {
+                    lineIcon.Y1 = 0;
+                    lineIcon.Y2 = 0;
+                }
+                else if (clonedIcon is RectRenderItem rectIcon)
+                {
+                    rectIcon.Left = 0;
+                    rectIcon.Top = 0;
+                }
+
 
                 seriesIcon = clonedIcon;
             }
@@ -124,7 +134,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             return seriesIcon;
         }
 
-        private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
+        private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
             var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
             newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
@@ -169,10 +179,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 plotAreaGroup.Rotation = rotation;
             }
 
-            if (_dlblSerie.Fill.IsEmpty == false)
+            if (_dlbl.Fill.IsEmpty == false)
             {
-                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
+                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
             }
 
             renderItems.Add(plotAreaGroup);

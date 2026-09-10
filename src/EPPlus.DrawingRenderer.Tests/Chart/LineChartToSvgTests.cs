@@ -109,7 +109,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var svg = c.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\LineChartForSvg_Single{ix++}.svg", svg);
                 var ix = 2;
-                for(int i = ix; i< ws.Drawings.Count; i++)
+                for (int i = ix; i < ws.Drawings.Count; i++)
                 {
                     var svg = ws.Drawings[i].ToSvg();
                     SaveTextFileToWorkbook($"svg\\LineChartForSvg{ix++}.svg", svg);
@@ -346,7 +346,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                     var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\BlazorSample1{i}.svg", svg);
                 }
-            }   
+            }
         }
         [TestMethod]
         public async Task HtmlExportWithLineChart()
@@ -374,7 +374,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 table.ShowFirstColumn = true;
                 var chart = sheet.Drawings.AddLineChart("LineChart1", eLineChartType.Line);
 
-                var serie1 = chart.Series.Add(tableRange.TakeColumnsBetween(1,1).SkipRows(1), tableRange.TakeColumns(1).SkipRows(1));
+                var serie1 = chart.Series.Add(tableRange.TakeColumnsBetween(1, 1).SkipRows(1), tableRange.TakeColumns(1).SkipRows(1));
                 serie1.HeaderAddress = sheet.Cells["B15"];
 
                 var serie2 = chart.Series.Add(tableRange.TakeColumnsBetween(2, 1).SkipRows(1), tableRange.TakeColumns(1).SkipRows(1));
@@ -399,17 +399,105 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 settings.AdditionalTableClassNames.Add("table-sm");
                 settings.AdditionalTableClassNames.Add("table-borderless");
                 settings.Drawings.Position = eDrawingPosition.Absolute;
-                SaveWorkbook("HtmlExportWithLineChart.xlsx", package);
+                //SaveWorkbook("HtmlExportWithLineChart.xlsx", package);
                 // export css and html
-                //var css = exporter.GetCssString();
-                //var html = exporter.GetHtmlString();
-                var html = await exporter.GetSinglePageAsync();
-                 
+                var html = exporter.GetHtmlString();
+                var css = exporter.GetCssString();
+                //var html = await exporter.GetSinglePageAsync();
+
                 SaveSvg("HtmlExportWithLineChart.html", html);
             }
 
         }
-        //2.4-CreateAFileSystemReport.xlsx
-        //3.3-FxReportFromDatabase.xlsx
+        [TestMethod]
+        public async Task HtmlExportWithColumnGradient()
+        {
+            using var package = CreateWorkbook(eChartType.ColumnClustered, ePresetChartStyleMultiSeries.ColumnChartStyle9);
+            var ws = package.Workbook.Worksheets[0];
+            var svg = ws.Drawings[0].ToSvg();
+            SaveSvg("ColumnGradient.svg", svg);
+        }
+        [TestMethod]
+        public async Task HtmlExportWithPieWithDatalabels()
+        {
+            using var package = CreateWorkbook(eChartType.PieExploded, ePresetChartStyleMultiSeries.PieChartStyle7);
+            var ws = package.Workbook.Worksheets[0];
+            var svg = ws.Drawings[0].ToSvg();
+            SaveSvg("ColumnGradient.svg", svg);
+        }
+
+        public class RegionalSales
+        {
+            public string Region { get; set; }
+            public int SoldUnits { get; set; }
+            public double TotalSales { get; set; }
+            public double Margin { get; set; }
+        }
+
+        private static List<RegionalSales> _salesData = new List<RegionalSales>()
+        {
+                new RegionalSales(){ Region = "North", SoldUnits=500, TotalSales=4800, Margin=0.200 },
+                new RegionalSales(){ Region = "Central", SoldUnits=900, TotalSales=7330, Margin=0.333 },
+                new RegionalSales(){ Region = "South", SoldUnits=400, TotalSales=3700, Margin=0.150 },
+                new RegionalSales(){ Region = "East", SoldUnits=350, TotalSales=4400, Margin=0.102 },
+                new RegionalSales(){ Region = "West", SoldUnits=700, TotalSales=6900, Margin=0.218 },
+                new RegionalSales(){ Region = "Stockholm", SoldUnits=1200, TotalSales=8250, Margin=0.350 }
+        };
+
+        public static ExcelPackage CreateWorkbook(eChartType? chartType, ePresetChartStyleMultiSeries chartStyle)
+        {
+            var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Html export with svg chart");
+
+            var range = sheet.Cells["A1"].LoadFromCollection(_salesData, true, TableStyles.Dark3);
+            sheet.Cells["B2:C7"].Style.Numberformat.Format = "#,##0";
+            sheet.Cells["D2:D7"].Style.Numberformat.Format = "#,##0.00%";
+            ExcelChart chart;
+            switch (chartType)
+            {
+                case eChartType.LineMarkers:
+                    chart = sheet.Drawings.AddChart("RegionalSalesChart", eChartType.LineMarkers);
+                    chart.Series.Add(sheet.Cells["D2:D7"], sheet.Cells["A2:A7"]);
+                    break;
+                case eChartType.ColumnClustered:
+                    chart = sheet.Drawings.AddChart("RegionalSalesChart", eChartType.ColumnClustered);
+                    chart.Series.Add(sheet.Cells["B2:B7"], sheet.Cells["A2:A7"]);
+                    chart.Series.Add(sheet.Cells["C2:C7"], sheet.Cells["A2:A7"]);
+                    break;
+                case eChartType.BarClustered:
+                    chart = sheet.Drawings.AddChart("RegionalSalesChart", eChartType.BarClustered);
+                    chart.Series.Add(sheet.Cells["B2:B7"], sheet.Cells["A2:A7"]);
+                    chart.Series.Add(sheet.Cells["C2:C7"], sheet.Cells["A2:A7"]);
+                    break;
+                case eChartType.PieExploded:
+                    chart = sheet.Drawings.AddChart("RegionalSalesChart", eChartType.PieExploded);
+                    chart.Series.Add(sheet.Cells["D2:D7"], sheet.Cells["A2:A7"]);
+                    var pieChart = chart as ExcelPieChart;
+                    chart.StyleManager.SetChartStyle(chartStyle);
+                    pieChart.DataLabel.ShowLegendKey = true;
+                    pieChart.DataLabel.ShowPercent = true;
+                    chart.SetPosition(2, 0, 5, 0);
+                    chart.SetSize(1100, 300);
+                    return package;
+                    break;
+                default:
+                    chart = sheet.Drawings.AddChart("RegionalSalesChart", eChartType.ColumnClustered);
+                    chart.Series.Add(sheet.Cells["B2:B7"], sheet.Cells["A2:A7"]);
+                    chart.Series.Add(sheet.Cells["C2:C7"], sheet.Cells["A2:A7"]);
+                    var lineChartType = chart.PlotArea.ChartTypes.Add(eChartType.Line);
+
+                    lineChartType.UseSecondaryAxis = true;
+                    lineChartType.Series.Add(sheet.Cells["D2:D7"], sheet.Cells["A2:A7"]);
+                    break;
+
+            }
+
+            chart.StyleManager.SetChartStyle(chartStyle);
+            chart.SetPosition(2, 0, 5, 0);
+            chart.SetSize(1100, 400);
+
+            return package;
+        }
+
     }
 }

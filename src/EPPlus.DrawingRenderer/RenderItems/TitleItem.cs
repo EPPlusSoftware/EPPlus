@@ -11,5 +11,11 @@
 
         public override RenderItemType Type => RenderItemType.CommentTitle;
 
+        public override RenderItem Clone()
+        {
+            var clone = new TitleRenderItem(Title);
+            CloneBase(clone);
+            return clone;
+        }
     }
 }

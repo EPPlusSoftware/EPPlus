@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             if (toColOff > 0) toCol++;
                         }
 
-                        if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollition.Inside)
+                            if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollition.Inside)
                         {
                             if (fromRow < drawMinRow) drawMinRow = fromRow;
                             if (fromCol < drawMinCol) drawMinCol = fromCol;
@@ -210,10 +210,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
 
                 if (newRange != null &&
-                    newRange._fromRow > drawMinRow ||
+                    (newRange._fromRow > drawMinRow ||
                     newRange._fromCol > drawMinCol ||
                     newRange._toRow > drawMinRow ||
-                    newRange._toCol > drawMinCol)
+                    newRange._toCol > drawMinCol))
                 {
                     return range.Worksheet.Cells[drawMinRow < newRange._fromRow ? Math.Max(drawMinRow, range._fromRow) : newRange._fromRow,
                                  drawMinCol < newRange._fromCol ? Math.Max(drawMinCol, range._fromCol) : newRange._fromCol,
