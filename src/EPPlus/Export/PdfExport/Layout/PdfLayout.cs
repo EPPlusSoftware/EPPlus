@@ -22,6 +22,8 @@ using EPPlus.Graphics.Units;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -141,6 +143,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     fill.Name = map.Name;
                                     fill.UpdateShadingPositionMatrix(pageSettings);
                                     pageLayout.AddChild(fill);
+                                    //In-cell picture
+                                    var picMap = (map.CellPictureBytes != null) ? map : (map.Main != null && map.Main.CellPictureBytes != null) ? map.Main : null;
+                                    if (picMap != null)
+                                    {
+                                        AddCellPicture(pageLayout, picMap, info.X, info.Y, info.Width, info.Height);
+                                    }
                                     //Text
                                     var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
                                     if (sourceMap != null)
@@ -186,6 +194,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 fill.UpdateShadingPositionMatrix(pageSettings);
                                 fill.Name = map.Name;
                                 pageLayout.AddChild(fill);
+                                //In-cell picture
+                                AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
@@ -406,6 +416,61 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 }
             }
             return Catalog;
+        }
+
+        private static void AddCellPicture(PdfPageLayout pageLayout, PdfCell map, double x, double y, double effectiveWidth, double rowHeight)
+        {
+            if (map.CellPictureBytes != null && map.CellPicturePixelWidth > 0 && map.CellPicturePixelHeight > 0)
+            {
+                const double inset = 1d;
+                double availW = effectiveWidth - 2 * inset;
+                double availH = rowHeight - 2 * inset;
+                if (availW > 0 && availH > 0)
+                {
+                    double scale = System.Math.Min(availW / map.CellPicturePixelWidth, availH / map.CellPicturePixelHeight);
+                    double dispW = map.CellPicturePixelWidth * scale;
+                    double dispH = map.CellPicturePixelHeight * scale;
+                    double imgX = x + inset + CellImageOffsetX(map.ContentAligmnet, availW - dispW);
+                    double imgTop = y - inset - CellImageOffsetY(map.ContentAligmnet, availH - dispH);
+                    pageLayout.AddChild(new PdfImageLayout(imgX, imgTop, dispW, dispH)
+                    {
+                        ImageBytes = map.CellPictureBytes,
+                        Name = "CellImage_" + map.Name,
+                    });
+                }
+            }
+        }
+
+        private static double CellImageOffsetX(PdfCellAlignmentData align, double slack)
+        {
+            if (slack <= 0d || align == null) return slack > 0d ? slack / 2d : 0d;
+            switch (align.HorizontalAlignment)
+            {
+                case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.General:
+                case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Left:
+                case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Fill:
+                case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Justify:
+                case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Distributed:
+                    return 0d;
+                case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Right:
+                    return slack;
+                default: // Center / CenterContinuous
+                    return slack / 2d;
+            }
+        }
+
+        private static double CellImageOffsetY(PdfCellAlignmentData align, double slack)
+        {
+            if (slack <= 0d || align == null) return slack > 0d ? slack / 2d : 0d;
+            switch (align.VerticalAlignment)
+            {
+                case EPPlus.Export.Pdf.Enums.ExcelVerticalAlignment.Top:
+                    return 0d;
+                case EPPlus.Export.Pdf.Enums.ExcelVerticalAlignment.Bottom:
+                    return slack;
+                default: // Center / Distributed / Justify
+                    return slack / 2d;
+            }
         }
 
         private static Dictionary<int, int> GetTotalPagesPerSheet(List<Pages> pdfPages)
@@ -1846,7 +1911,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             b.Right.CutOuterAtStart = cutBR; b.Right.CutOuterAtEnd = cutTR;
         }
 
-        // Does the cell carry an up-/down-diagonal border (any style)? Mirrors SetBorderStyle's diagonal source.
         private static bool HasDiagUp(PdfCell cell)
         {
             var cs = cell?.CellStyle; if (cs == null) return false;
@@ -1858,7 +1922,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return cs.DiagonalDown && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
         }
 
-        // Effective border style of a side == Double (xf wins over dxf, mirrors SetBorderStyle).
         private static bool IsDoubleTop(PdfCell cell)
         {
             var cs = cell?.CellStyle; if (cs == null) return false;

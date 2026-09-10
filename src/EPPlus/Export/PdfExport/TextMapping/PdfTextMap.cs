@@ -10,14 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
@@ -37,6 +40,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             var Range = pdfRange;
             var worksheet = Range.Range.Worksheet;
             var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet, pageSettings.FontEngine);
+            var cellPictures = new CellPicturesManager(worksheet);
             int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(pageSettings, worksheet, pdfSheet) : 0;
             var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol + addedColumns);
             pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
@@ -84,7 +88,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         GetFillStyles(cell, cellStyle, tableStyleCache);
                         GetFontStyle(cell, cellStyle, tableStyleCache);
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
-                        if (!string.IsNullOrEmpty(cell.Text))
+                        var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
+                        if (cellPicture != null)
+                        {
+                            LoadCellPicture(cellPicture, tempMap);
+                        }
+                        else if (!string.IsNullOrEmpty(cell.Text))
                         {
                             tempMap.Text = cell.Text;
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
@@ -111,6 +120,24 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             pdfRange = Range;
             ReconcileSharedBorders(Map);
             return Map;
+        }
+
+        private static void LoadCellPicture(ExcelCellPicture picture, PdfCell target)
+        {
+            try
+            {
+                var bytes = picture.GetImageBytes();
+                if (bytes == null || !PdfImageXObject.CanEmbed(bytes)) return;
+                var bounds = picture.GetImage().Bounds;
+                if (bounds.Width <= 0 || bounds.Height <= 0) return;
+                target.CellPictureBytes = bytes;
+                target.CellPicturePixelWidth = bounds.Width;
+                target.CellPicturePixelHeight = bounds.Height;
+            }
+            catch
+            {
+                // Corrupt or unreadable image — leave the cell blank rather than throwing.
+            }
         }
 
         private static void HandleMergedCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
