@@ -120,7 +120,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 var line = cell.TextLines[k];
                 double lineOffsetX = 0d;
                 if (isVertical)
-                {                    
+                {
                     lineOffsetX = (stackWidth - line.Width) / 2d;
                 }
                 else
@@ -133,7 +133,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         case ExcelHorizontalAlignment.Center:
                         case ExcelHorizontalAlignment.CenterContinuous:
                         case ExcelHorizontalAlignment.Distributed:
-                        lineOffsetX = (line0Width - line.Width) / 2d;
+                            lineOffsetX = (line0Width - line.Width) / 2d;
                             break;
                     }
                 }
@@ -252,9 +252,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
                     for (int j = glyphStart; j < shapedText.ShapedText.Glyphs.Length; j++)
                     {
-                        if (charsRendered >= fragmentCharCount)
-                            break;
                         var glyph = shapedText.ShapedText.Glyphs[j];
+
+                        // Stop once this fragment's characters are all accounted for - but only
+                        // at a glyph that actually consumes a character. A glyph with CharCount 0
+                        // is a CONTINUATION of the preceding glyph's cluster (GSUB Multiple
+                        // Substitution expands one character into several glyphs, and the whole
+                        // CharCount sits on the first of them). Breaking on it would drop the
+                        // tail of the cluster whenever the expansion falls at the end of a
+                        // fragment - e.g. rendering only the first glyph of a decomposed
+                        // character.
+                        if (charsRendered >= fragmentCharCount && glyph.CharCount > 0)
+                            break;
+
                         if (glyph.FontId != currentFontId)
                         {
                             // Close TJ array, switch font, open new TJ array

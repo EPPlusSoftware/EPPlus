@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 {
@@ -32,7 +33,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             // Arrange
             var font = TestFolderEngine.LoadFont("Roboto");
-            var shaper = new TextShaper(TestFolderEngine,font);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("");
@@ -83,7 +84,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             // Arrange
             var font = TestFolderEngine.LoadFont("Roboto");
-            var shaper = new TextShaper(TestFolderEngine,font);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("Hello");
@@ -100,7 +101,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             // Arrange
             var font = TestFolderEngine.LoadFont("Roboto");
-            var shaper = new TextShaper(TestFolderEngine,font);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("A B");
@@ -518,7 +519,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             // Arrange
             var font = TestFolderEngine.LoadFont("Roboto");
-            var shaper = new TextShaper(TestFolderEngine,font);
+            var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
             var shaped = shaper.Shape("Hello");
@@ -639,7 +640,16 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             // Act
             // U+0065 = 'e', U+0301 = combining acute accent
-            var decomposed = shaper.Shape("e\u0301");  // e + ´
+            //
+            // Shaped WITHOUT "ccmp" on purpose. This test is about mark POSITIONING, which needs
+            // the pair to still be two glyphs when GPOS runs. Roboto's ccmp composes
+            // e + U+0301 into the precomposed eacute glyph, which is correct rendering but
+            // leaves nothing for mark positioning to do - the assertions below would then be
+            // measuring a single precomposed glyph instead.
+            var options = ShapingOptions.Default;
+            options.GsubFeatures = options.GsubFeatures.Where(t => t != "ccmp").ToList();
+
+            var decomposed = shaper.Shape("e\u0301", options);  // e + ´
 
             // Assert
             Assert.AreEqual(2, decomposed.Glyphs.Length, "Should have 2 glyphs (base + mark)");
@@ -713,7 +723,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestMethod]
         public void Shape_Cafe_HandlesDecomposed()
         {
-            var tEngine  =
+            var tEngine =
             new Lazy<OpenTypeFontEngine>(() => new OpenTypeFontEngine(cfg =>
             {
                 foreach (var folder in FontFolders)

@@ -34,6 +34,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private readonly MarkToBaseProvider _markToBaseProvider;
         private readonly SingleAdjustmentProvider _singleAdjustmentProvider;
         private readonly SingleSubstitutionProcessor _singleSubstitutionProcessor;
+        private readonly MultipleSubstitutionProcessor _multipleSubstitutionProcessor;
         private readonly ChainingContextualProcessor _chainingContextualProcessor;
         private readonly IFontProvider _fontProvider;
 
@@ -94,6 +95,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             _markToBaseProvider = new MarkToBaseProvider(_primaryFont);
             _singleAdjustmentProvider = new SingleAdjustmentProvider(_primaryFont);
             _singleSubstitutionProcessor = new SingleSubstitutionProcessor(_primaryFont);
+            _multipleSubstitutionProcessor = new MultipleSubstitutionProcessor(_primaryFont);
             _chainingContextualProcessor = new ChainingContextualProcessor(_primaryFont, _singleSubstitutionProcessor, _ligatureProcessor);
         }
 
@@ -502,13 +504,21 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         private List<ShapedGlyph> ApplyGsubSubstitutionsInternal(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // Phase 1: Single Substitution (Type 1)
+            // Phase 1: Multiple Substitution (Type 2) - one glyph expanding into several. Applied
+            // first, before anything that narrows the glyph list (Type 1/4/6), matching how fonts
+            // typically use it for "ccmp" decomposition ahead of other substitution/positioning.
+            if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
+            {
+                glyphs = _multipleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures, options.Script, options.Language);
+            }
+
+            // Phase 2: Single Substitution (Type 1)
             if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {
                 glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
-            // Phase 2: Chaining Contextual Substitution (Type 6) - once per active feature tag,
+            // Phase 3: Chaining Contextual Substitution (Type 6) - once per active feature tag,
             // not just "liga". A font can define calt/clig/rlig contextual rules too.
             if (options.GsubFeatures != null)
             {
@@ -518,7 +528,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 }
             }
 
-            // Phase 3: Ligatures (Type 4, including Type 7 extension-wrapped) - across every
+            // Phase 4: Ligatures (Type 4, including Type 7 extension-wrapped) - across every
             // active feature tag (liga, dlig, clig, ...), not just "liga".
             if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {

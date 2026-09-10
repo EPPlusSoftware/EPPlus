@@ -54,6 +54,27 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// unless explicitly requested, since they are a stylistic choice rather than a
         /// correctness requirement.
         /// </summary>
-        Dlig = 1 << 2
+        Dlig = 1 << 2,
+
+        /// <summary>
+        /// Contextual alternates ("calt"). Glyph substitutions a font applies based on
+        /// surrounding context rather than unconditionally. Connected or cursive script fonts
+        /// commonly rely on this to join adjacent letterforms - without it, such fonts can
+        /// render as visibly disconnected glyphs rather than a flowing script. Unlike
+        /// <see cref="Dlig"/>, this is generally a correctness expectation rather than a
+        /// stylistic choice, which is why it is included by default.
+        /// </summary>
+        Calt = 1 << 3,
+
+        /// <summary>
+        /// Glyph composition and decomposition ("ccmp"). Rearranges glyphs so that other
+        /// features and mark positioning can work on them - most often by DECOMPOSING a
+        /// precomposed glyph into a base glyph plus separate combining marks, but composition
+        /// in the other direction is equally valid. The OpenType specification treats this as
+        /// an always-on feature that shaping engines apply before other substitutions, rather
+        /// than an optional stylistic choice, which is why it is included by default and runs
+        /// first.
+        /// </summary>
+        Ccmp = 1 << 4
     }
 }

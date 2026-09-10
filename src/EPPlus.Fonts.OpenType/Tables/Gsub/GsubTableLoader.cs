@@ -135,6 +135,9 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub
                     case 1: // Single Substitution
                         subTable = new SingleSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
                         break;
+                    case 2: // Multiple Substitution
+                        subTable = new MultipleSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
+                        break;
                     case 4: // Ligature Substitution
                         subTable = new LigatureSubstSubTableDeserializer(_reader).Deserialize(subTableAbsoluteStart);
                         break;

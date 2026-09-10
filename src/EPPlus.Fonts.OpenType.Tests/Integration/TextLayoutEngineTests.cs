@@ -84,7 +84,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             //'sit amet non' is EXACTLY 72 pixels (54 points) in excel at 100% size/display
             //So an added space should push 'non' over the edge to the next line
             var text = "sit amet  non lacus.";
-            var comparison = new List<string>() {"sit amet", "non lacus."};
+            var comparison = new List<string>() { "sit amet", "non lacus." };
 
             var maxWidthPoints = 54d;
 
@@ -94,7 +94,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 text,
                 11f,
                 maxWidthPoints,
-                ShapingOptions.Full
+                ShapingOptions.Default
             );
 
             Assert.IsTrue(comparison.SequenceEqual(wrappedLines));
@@ -116,7 +116,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 text,
                 11f,
                 54,
-                ShapingOptions.Full
+                ShapingOptions.Default
             );
 
             Assert.IsTrue(comparison.SequenceEqual(wrappedLines));
@@ -139,7 +139,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 Lorem20Str,
                 11f,
                 54,
-                ShapingOptions.Full
+                ShapingOptions.Default
             );
 
             List<string> faultyStrings = new();
@@ -165,7 +165,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             Assert.AreEqual(0, faultyStrings.Count);
         }
-        
+
         [TestMethod]
         public void WrapText_WithPreExistingWidth_AccountsForIt()
         {
@@ -513,22 +513,22 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizeInPoints);
 
-            var txtWidthsingle = shaper.MeasureTextInPixels("E", 16, 96, ShapingOptions.Full);
-            var txtWidth = shaper.MeasureTextInPixels("EEEEEEEEEE", 16, 96, ShapingOptions.Full);
+            var txtWidthsingle = shaper.MeasureTextInPixels("E", 16, 96, ShapingOptions.Default);
+            var txtWidth = shaper.MeasureTextInPixels("EEEEEEEEEE", 16, 96, ShapingOptions.Default);
             var txtWidthAlt = shaper.MeasureTextInPixels("EEEEEEEEEE", 16, 96, ShapingOptions.Fast);
 
             var txtWidthLowSize = shaper.MeasureTextInPixels("E", 11, 96, ShapingOptions.Fast);
-            var txtWidthHighSize= shaper.MeasureTextInPixels("E", 72, 96, ShapingOptions.Fast);
+            var txtWidthHighSize = shaper.MeasureTextInPixels("E", 72, 96, ShapingOptions.Fast);
             var txtWidthHighSize10 = shaper.MeasureTextInPixels("EEEEEEEEEE", 72, 96, ShapingOptions.Fast);
 
             var pts16 = shaper.MeasureTextInPoints("E", 16);
             var pts = shaper.MeasureTextInPoints("E", 72);
             var pts2 = shaper.MeasureTextInPoints("E", 96);
 
-            var txtWidthMaxSizeSingle = shaper.MeasureTextInPixels("E", 96, 72, ShapingOptions.Full);
+            var txtWidthMaxSizeSingle = shaper.MeasureTextInPixels("E", 96, 72, ShapingOptions.Default);
             var txtWidthMaxSizeSingleFast = shaper.MeasureTextInPixels("E", 96, 72, ShapingOptions.Fast);
 
-            var txtWidthMaxSizeSingle96 = shaper.MeasureTextInPixels("E", 96, 96, ShapingOptions.Full);
+            var txtWidthMaxSizeSingle96 = shaper.MeasureTextInPixels("E", 96, 96, ShapingOptions.Default);
             var txtWidthMaxSizeSingleFast96 = shaper.MeasureTextInPixels("E", 96, 96, ShapingOptions.Fast);
 
             //Assert.AreEqual(16, txtWidthLowSize);
@@ -551,7 +551,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
             RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
 
-            List<string> comparatorLst = new() { "Strike", "Goudy size"};
+            List<string> comparatorLst = new() { "Strike", "Goudy size" };
             var font = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
             var shaper = new TextShaper(SystemFontsEngine, font);
             var points1 = shaper.MeasureTextInPoints(comparatorLst[0], 11);
@@ -573,7 +573,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 StrikeType = 1
             };
 
-           
+
 
             var font22 = new RichTextFormatSimple()
             {
@@ -655,11 +655,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         [TestMethod]
         public void EnsureLineFragmentsAreMeasuredCorrectlyWhenWrapping()
         {
-            RequireFont(SystemFontsEngine,"Aptos Narrow", FontSubFamily.Regular);
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Bold);
             RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
 
-            List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16"};
+            List<string> lstOfRichText = new() { "TextBox2", "ra underline", "La Strike", "Goudy size 16" };
             var font2 = new MeasurementFont()
             {
                 FontFamily = "Aptos Narrow",
@@ -689,12 +689,12 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             };
 
 
-            List<MeasurementFont> fonts = new() { font2, font3, font4, font5};
+            List<MeasurementFont> fonts = new() { font2, font3, font4, font5 };
             var fragments = new List<TextFragment>();
 
             for (int i = 0; i < lstOfRichText.Count(); i++)
             {
-                var currentFrag = new TextFragment() { Text = lstOfRichText[i]};
+                var currentFrag = new TextFragment() { Text = lstOfRichText[i] };
                 currentFrag.RichTextOptions.SetFont(fonts[i]);
                 fragments.Add(currentFrag);
             }
@@ -713,9 +713,9 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
             List<string> smallestTextFragments = new List<string>();
 
             //Ensure each linefragment can get correct text
-            foreach(var line in wrappedLines)
+            foreach (var line in wrappedLines)
             {
-                foreach(var lf in line.InternalLineFragments)
+                foreach (var lf in line.InternalLineFragments)
                 {
                     var text = line.GetLineFragmentText(lf);
                     smallestTextFragments.Add(text);
@@ -923,7 +923,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         public void WrapRichTextDifficultCaseCompare()
         {
             List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
-            
+
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
             RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Bold);
             RequireFont(SystemFontsEngine, "Goudy Stout", FontSubFamily.Regular);
@@ -1205,7 +1205,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
                 longWord,
                 11f,
                 54,
-                ShapingOptions.Full
+                ShapingOptions.Default
             );
 
             Assert.AreEqual("pellentesqu", wrappedLines[0]);
@@ -1219,7 +1219,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
 
             // Arrange
             var font = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
-            var shaper = new TextShaper(SystemFontsEngine,font);
+            var shaper = new TextShaper(SystemFontsEngine, font);
             var layout = new TextLayoutEngine(SystemFontsEngine, shaper);
 
             var fragments = new List<TextFragment>
