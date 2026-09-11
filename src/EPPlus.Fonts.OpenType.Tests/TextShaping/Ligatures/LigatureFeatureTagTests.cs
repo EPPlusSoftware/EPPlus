@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/07/2026         EPPlus Software AB           Ligature feature-tag plumbing (WP3/WP4)
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
@@ -122,7 +123,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping.Ligatures
             var lookup = new LookupTable
             {
                 LookupType = 4,
-                SubTables = new List<Tables.FontTableElement> { ligatureSubtable }
+                SubTables = new List<FontTableElement> { ligatureSubtable }
             };
 
             var featureList = new FeatureListTable
@@ -164,7 +165,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping.Ligatures
             var lookup = new LookupTable
             {
                 LookupType = 7,
-                SubTables = new List<Tables.FontTableElement> { extensionWrapper }
+                SubTables = new List<FontTableElement> { extensionWrapper }
             };
 
             var featureList = new FeatureListTable
