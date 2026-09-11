@@ -161,7 +161,7 @@ namespace EPPlus.Export.Pdf.Resources
             cidSystemInfo.Registry = "Adobe";
             cidSystemInfo.Ordering = "Identity";
             cidSystemInfo.Supplement = 0;
-            return new PdfCIDFont(objectNumber, fontData, Gids, CIDFontSubtype.CIDFontType2, cidSystemInfo, "Identity", fontDescObjectNumber);
+            return new PdfCIDFont(objectNumber, fontData, Gids, CIDFontSubtype.CIDFontType2, cidSystemInfo, "/Identity", fontDescObjectNumber);
         }
 
         internal PdfType0FontDict GetType0FontDictObject(int objectNumber, int version = 0)

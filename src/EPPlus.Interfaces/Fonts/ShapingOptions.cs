@@ -54,7 +54,12 @@ namespace OfficeOpenXml.Interfaces.Fonts
         public string Language { get; set; }
 
         /// <summary>
-        /// Default shaping options: ligatures and kerning enabled.
+        /// Default shaping options: glyph composition/decomposition, ligatures, contextual
+        /// alternates, and kerning enabled.
+        /// This is the shaping engine's own default - every feature that is safe to apply
+        /// unconditionally without a specific reason to hold it back. Use <see cref="Fast"/>
+        /// to explicitly trade some of this off for speed, or <see cref="None"/> for a plain
+        /// character-to-glyph mapping with no shaping at all.
         /// </summary>
         public static ShapingOptions Default
         {
@@ -63,9 +68,10 @@ namespace OfficeOpenXml.Interfaces.Fonts
                 return new ShapingOptions
                 {
                     ApplySubstitutions = true,
-                    GsubFeatures = new List<string> { "liga", "clig" },
+                    // "ccmp" first - it is specified to run before other substitutions.
+                    GsubFeatures = new List<string> { "ccmp", "liga", "calt", "clig" },
                     ApplyPositioning = true,
-                    GposFeatures = new List<string> { "kern" },
+                    GposFeatures = new List<string> { "kern", "mark" },
                     Script = "latn",
                     Language = null
                 };
@@ -86,26 +92,6 @@ namespace OfficeOpenXml.Interfaces.Fonts
                     GsubFeatures = null,
                     ApplyPositioning = true,
                     GposFeatures = new List<string> { "kern" },
-                    Script = "latn",
-                    Language = null
-                };
-            }
-        }
-
-        /// <summary>
-        /// Full shaping: all features enabled.
-        /// Use for high-quality rendering.
-        /// </summary>
-        public static ShapingOptions Full
-        {
-            get
-            {
-                return new ShapingOptions
-                {
-                    ApplySubstitutions = true,
-                    GsubFeatures = new List<string> { "liga", "calt", "clig" },
-                    ApplyPositioning = true,
-                    GposFeatures = new List<string> { "kern", "mark" },
                     Script = "latn",
                     Language = null
                 };

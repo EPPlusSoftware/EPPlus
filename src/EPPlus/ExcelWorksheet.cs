@@ -3744,8 +3744,9 @@ namespace OfficeOpenXml
         /// <param name="fileName">Name of file.</param>
         public void SaveAsPdf(string fileName)
         {
-            var setttings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(fileName, setttings, this);
+            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
+            var pdfCatalog = new PdfCatalog(settings, this);
+            pdfCatalog.Save(fileName);
         }
 
         /// <summary>
@@ -3760,7 +3761,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(fileName, settings, this);
+                var pdfCatalog = new PdfCatalog(settings, this);
+                pdfCatalog.Save(fileName);
             }, cancellationToken);
         }
 
@@ -3771,7 +3773,8 @@ namespace OfficeOpenXml
         public void SaveAsPdf(Stream stream)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            PdfCatalog catalog = new PdfCatalog(stream, settings, this);
+            var pdfCatalog = new PdfCatalog(settings, this);
+            pdfCatalog.Save(stream);
         }
 
         /// <summary>
@@ -3786,7 +3789,8 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _ = new PdfCatalog(stream, settings, this);
+                var pdfCatalog = new PdfCatalog(settings, this);
+                pdfCatalog.Save(stream);
             }, cancellationToken);
         }
 

@@ -33,7 +33,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private readonly CIDSystemInfo CIDInfoObject;
         private readonly int FontDescriptorObjectNumber;
 
-        private readonly int? DW;                               // Default width
+        private int? DW;                                        // Default width
         private readonly List<object> W;                        // Width array
         private readonly int[] DW2;                             // Default metrics for vertical writing (2 numbers)
         private readonly List<object> W2;                       // Vertical writing metrics
@@ -85,9 +85,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             if (Subtype == CIDFontSubtype.CIDFontType2)
             {
                 if(string.IsNullOrEmpty( CIDToGIDMap ))
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
-                else
                     sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
+                else
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
             }
             sb.Append(" >>");
             return sb.ToString();
@@ -121,9 +121,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             if (Subtype == CIDFontSubtype.CIDFontType2)
             {
                 if (string.IsNullOrEmpty(CIDToGIDMap))
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
-                else
                     sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
+                else
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
             }
             sb.Append(" >>");
             WriteAscii(bw, sb.ToString());

@@ -34,6 +34,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         private readonly MarkToBaseProvider _markToBaseProvider;
         private readonly SingleAdjustmentProvider _singleAdjustmentProvider;
         private readonly SingleSubstitutionProcessor _singleSubstitutionProcessor;
+        private readonly MultipleSubstitutionProcessor _multipleSubstitutionProcessor;
         private readonly ChainingContextualProcessor _chainingContextualProcessor;
         private readonly IFontProvider _fontProvider;
 
@@ -94,6 +95,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             _markToBaseProvider = new MarkToBaseProvider(_primaryFont);
             _singleAdjustmentProvider = new SingleAdjustmentProvider(_primaryFont);
             _singleSubstitutionProcessor = new SingleSubstitutionProcessor(_primaryFont);
+            _multipleSubstitutionProcessor = new MultipleSubstitutionProcessor(_primaryFont);
             _chainingContextualProcessor = new ChainingContextualProcessor(_primaryFont, _singleSubstitutionProcessor, _ligatureProcessor);
         }
 
@@ -317,44 +319,40 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             {
                 uint codePoint;
                 int charCount;
-
-                // Check if this is a surrogate pair
-                if (i < text.Length - 1 && char.IsHighSurrogate(text[i]))
-                {
-                    // Potential surrogate pair: 2 chars → 1 Unicode code point
-                    char high = text[i];
-                    char low = text[i + 1];
-
-                    if (char.IsLowSurrogate(low))
-                    {
-                        // Valid pair - convert to code point
-                        codePoint = (uint)char.ConvertToUtf32(high, low);
-                        charCount = 2;
-                    }
-                    else
-                    {
-                        // Invalid surrogate pair - treat as .notdef and skip high surrogate
-                        codePoint = 0;
-                        charCount = 1;
-                    }
-                }
-                else if (char.IsSurrogate(text[i]))
-                {
-                    // Lone surrogate (invalid) - treat as .notdef
-                    codePoint = 0;
-                    charCount = 1;
-                }
-                else
-                {
-                    // Normal BMP character
-                    codePoint = text[i];
-                    charCount = 1;
-                }
+                DecodeCodePoint(text, i, out codePoint, out charCount);
 
                 // Use font provider to find glyph (with fallback support)
                 OpenTypeFont font;
                 ushort glyphId;
                 _fontProvider.TryGetGlyphFont(codePoint, out font, out glyphId);
+
+                // Unicode Variation Sequence lookahead: if the next code point is a variation
+                // selector, check whether (codePoint, selector) is a registered sequence in the
+                // SAME font that resolved the base character. Variation sequences are font-specific
+                // data (cmap format 14), so this is checked directly against that font's own
+                // CmapTable rather than routed back through the fallback provider.
+                int nextIndex = i + charCount;
+                if (nextIndex < text.Length)
+                {
+                    uint nextCodePoint;
+                    int nextCharCount;
+                    DecodeCodePoint(text, nextIndex, out nextCodePoint, out nextCharCount);
+
+                    if (IsVariationSelector(nextCodePoint))
+                    {
+                        ushort variantGlyphId;
+                        if (font.CmapTable.TryGetGlyphId(codePoint, nextCodePoint, out variantGlyphId))
+                        {
+                            // Registered sequence: consume both the base character and the
+                            // selector into this single glyph.
+                            glyphId = variantGlyphId;
+                            charCount += nextCharCount;
+                        }
+                        // Not a registered sequence: leave the selector unconsumed - it is mapped on
+                        // its own in the next loop iteration (normally to .notdef, since variation
+                        // selectors have no ordinary cmap entry of their own).
+                    }
+                }
 
                 // Get font ID for multi-font tracking
                 byte fontId = GetOrRegisterFontId(font);
@@ -380,6 +378,58 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             return glyphs;
+        }
+
+        /// <summary>
+        /// Decodes the Unicode code point starting at <paramref name="index"/>, correctly combining
+        /// a valid UTF-16 surrogate pair into a single supplementary-plane code point. Lone/invalid
+        /// surrogates decode as .notdef (code point 0) and consume 1 char - matching MapToGlyphs'
+        /// original surrogate handling exactly, so this is a pure refactor of that logic, reusable
+        /// for lookahead.
+        /// </summary>
+        private static void DecodeCodePoint(string text, int index, out uint codePoint, out int charCount)
+        {
+            if (index < text.Length - 1 && char.IsHighSurrogate(text[index]))
+            {
+                char high = text[index];
+                char low = text[index + 1];
+
+                if (char.IsLowSurrogate(low))
+                {
+                    // Valid pair - convert to code point
+                    codePoint = (uint)char.ConvertToUtf32(high, low);
+                    charCount = 2;
+                }
+                else
+                {
+                    // Invalid surrogate pair - treat as .notdef and skip high surrogate
+                    codePoint = 0;
+                    charCount = 1;
+                }
+            }
+            else if (char.IsSurrogate(text[index]))
+            {
+                // Lone surrogate (invalid) - treat as .notdef
+                codePoint = 0;
+                charCount = 1;
+            }
+            else
+            {
+                // Normal BMP character
+                codePoint = text[index];
+                charCount = 1;
+            }
+        }
+
+        /// <summary>
+        /// True if <paramref name="codePoint"/> is a Unicode variation selector - either in the BMP
+        /// block (U+FE00-FE0F) or the supplementary-plane block (U+E0100-E01EF, always encoded as a
+        /// surrogate pair in UTF-16).
+        /// </summary>
+        private static bool IsVariationSelector(uint codePoint)
+        {
+            return (codePoint >= 0xFE00 && codePoint <= 0xFE0F)
+                || (codePoint >= 0xE0100 && codePoint <= 0xE01EF);
         }
 
         #endregion
@@ -454,22 +504,35 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// </summary>
         private List<ShapedGlyph> ApplyGsubSubstitutionsInternal(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
-            // Phase 1: Single Substitution (Type 1)
+            // Phase 1: Multiple Substitution (Type 2) - one glyph expanding into several. Applied
+            // first, before anything that narrows the glyph list (Type 1/4/6), matching how fonts
+            // typically use it for "ccmp" decomposition ahead of other substitution/positioning.
             if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {
-                glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures);
+                glyphs = _multipleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
-            // Phase 2: Chaining Contextual Substitution (Type 6)
-            if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
+            // Phase 2: Single Substitution (Type 1)
+            if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
             {
-                glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, "liga");
+                glyphs = _singleSubstitutionProcessor.ApplySubstitutions(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
-            // Phase 3: Simple Ligatures (Type 4)
-            if (options.GsubFeatures != null && options.GsubFeatures.Contains("liga"))
+            // Phase 3: Chaining Contextual Substitution (Type 6) - once per active feature tag,
+            // not just "liga". A font can define calt/clig/rlig contextual rules too.
+            if (options.GsubFeatures != null)
             {
-                _ligatureProcessor.ApplyLigaturesInPlace(glyphs);
+                foreach (var tag in options.GsubFeatures)
+                {
+                    glyphs = _chainingContextualProcessor.ApplyContextualSubstitutions(glyphs, tag, options.Script, options.Language);
+                }
+            }
+
+            // Phase 4: Ligatures (Type 4, including Type 7 extension-wrapped) - across every
+            // active feature tag (liga, dlig, clig, ...), not just "liga".
+            if (options.GsubFeatures != null && options.GsubFeatures.Count > 0)
+            {
+                _ligatureProcessor.ApplyLigaturesInPlace(glyphs, options.GsubFeatures, options.Script, options.Language);
             }
 
             return glyphs;
@@ -499,11 +562,14 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             // Phase 2: Kerning (GPOS Type 2 / kern table) - primary font only
             if (applyAllFeatures || (options.GposFeatures != null && options.GposFeatures.Contains("kern")))
             {
-                ApplyKerning(glyphs);
+                ApplyKerning(glyphs, options);
             }
 
             // Phase 3: Mark-to-Base positioning (GPOS Type 4) - primary font only
-            _markToBaseProvider.ApplyMarkPositioning(glyphs);
+            if (applyAllFeatures || (options.GposFeatures != null && options.GposFeatures.Contains("mark")))
+            {
+                _markToBaseProvider.ApplyMarkPositioning(glyphs, options.Script, options.Language);
+            }
         }
 
         /// <summary>
@@ -522,7 +588,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
                 ushort glyphId = glyphs[i].GlyphId;
 
-                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, features, out var valueRecord))
+                if (_singleAdjustmentProvider.TryGetAdjustment(glyphId, features, options.Script, options.Language, out var valueRecord))
                 {
                     var glyph = glyphs[i];
 
@@ -544,7 +610,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         /// Applies kerning adjustments to glyph pairs.
         /// Only kerns between primary font glyphs (FontId == 0).
         /// </summary>
-        private void ApplyKerning(List<ShapedGlyph> glyphs)
+        private void ApplyKerning(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
             for (int i = 1; i < glyphs.Count; i++)
             {
@@ -555,7 +621,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ushort leftGlyph = glyphs[i - 1].GlyphId;
                 ushort rightGlyph = glyphs[i].GlyphId;
 
-                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph);
+                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph, options.Script, options.Language);
 
                 if (kernValue != 0)
                 {
@@ -674,7 +740,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
             if (options.ApplyPositioning)
             {
-                ApplyKerningOnly(glyphs);
+                ApplyKerningOnly(glyphs, options);
             }
 
             return new ShapedLightText
@@ -693,7 +759,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             return BuildFontUnitsPerEm();
         }
 
-        private void ApplyKerningOnly(List<ShapedGlyph> glyphs)
+        private void ApplyKerningOnly(List<ShapedGlyph> glyphs, ShapingOptions options)
         {
             for (int i = 1; i < glyphs.Count; i++)
             {
@@ -704,7 +770,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
                 ushort leftGlyph = glyphs[i - 1].GlyphId;
                 ushort rightGlyph = glyphs[i].GlyphId;
 
-                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph);
+                short kernValue = _kerningProvider.GetKerning(leftGlyph, rightGlyph, options.Script, options.Language);
 
                 if (kernValue != 0)
                 {
