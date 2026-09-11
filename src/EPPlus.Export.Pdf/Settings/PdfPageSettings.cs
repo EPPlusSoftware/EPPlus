@@ -15,7 +15,6 @@ using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Export.Pdf.Settings
 {
@@ -109,7 +108,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Sets how to display errors in cells.
         /// </summary>
-        public CellErrors CellErrors = CellErrors.Displayed; 
+        public CellErrors CellErrors = CellErrors.Displayed;
 
         /// <summary>
         /// Set the starting page number.
@@ -123,7 +122,7 @@ namespace EPPlus.Export.Pdf.Settings
         public PdfPageSize PageSize
         {
             get
-            { 
+            {
                 return _pageSize;
             }
             set

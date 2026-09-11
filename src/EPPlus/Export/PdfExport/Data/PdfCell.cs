@@ -20,5 +20,9 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public bool Merged;
         public PdfCell Main;
         public ExcelAddressBase MergedAddress;
+
+        public byte[] CellPictureBytes;
+        public double CellPicturePixelWidth;
+        public double CellPicturePixelHeight;
     }
 }

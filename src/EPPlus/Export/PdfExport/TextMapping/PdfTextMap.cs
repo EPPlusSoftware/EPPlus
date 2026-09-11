@@ -10,15 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
@@ -38,6 +40,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             var Range = pdfRange;
             var worksheet = Range.Range.Worksheet;
             var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet, pageSettings.FontEngine);
+            var cellPictures = new CellPicturesManager(worksheet);
             int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(pageSettings, worksheet, pdfSheet) : 0;
             var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol + addedColumns);
             pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
@@ -85,7 +88,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         GetFillStyles(cell, cellStyle, tableStyleCache);
                         GetFontStyle(cell, cellStyle, tableStyleCache);
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
-                        if (!string.IsNullOrEmpty(cell.Text))
+                        var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
+                        if (cellPicture != null)
+                        {
+                            LoadCellPicture(cellPicture, tempMap);
+                        }
+                        else if (!string.IsNullOrEmpty(cell.Text))
                         {
                             tempMap.Text = cell.Text;
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
@@ -112,6 +120,24 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             pdfRange = Range;
             ReconcileSharedBorders(Map);
             return Map;
+        }
+
+        private static void LoadCellPicture(ExcelCellPicture picture, PdfCell target)
+        {
+            try
+            {
+                var bytes = picture.GetImageBytes();
+                if (bytes == null || !PdfImageXObject.CanEmbed(bytes)) return;
+                var bounds = picture.GetImage().Bounds;
+                if (bounds.Width <= 0 || bounds.Height <= 0) return;
+                target.CellPictureBytes = bytes;
+                target.CellPicturePixelWidth = bounds.Width;
+                target.CellPicturePixelHeight = bounds.Height;
+            }
+            catch
+            {
+                // Corrupt or unreadable image — leave the cell blank rather than throwing.
+            }
         }
 
         private static void HandleMergedCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
@@ -171,29 +197,21 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 var cf = cell.ConditionalFormatting.GetConditionalFormattings();
                 if (cf != null && cf.Count > 0)
                 {
-                    // Sort ascending — priority 1 beats priority 2, etc.
+                    // Sort ascending
                     var ordered = cf.OrderBy(r => r.Priority);
                     foreach (var rule in ordered)
                     {
-                        // Use the core per-rule evaluator (the same one the HTML exporter
-                        // calls). It correctly handles every rule type — comparisons, text,
-                        // blanks/errors, top/bottom, above/below average, duplicate/unique,
-                        // time periods and formula expressions — including the range-wide
-                        // aggregates, which the previous hand-rolled evaluator stubbed out.
                         if (!rule.ShouldApplyToCell(cell))
                         {
-                            if (rule.StopIfTrue) break; // higher-priority rule fired but had no fill — stop anyway
+                            if (rule.StopIfTrue) break;
                             continue;
                         }
 
                         if (rule.Style?.Fill != null && rule.Style.Fill.HasValue)
                         {
                             cellStyle.dxfFill = rule.Style.Fill;
-                            // xfFill must be non-null for the downstream dxf path
-                            // (PdfCellLayout checks xfFill.IsEmpty()); the cell's own fill
-                            // is empty here, which is exactly what selects the dxf fill.
                             cellStyle.xfFill = cell.Style.Fill;
-                            return; // CF fill wins — skip table and xf entirely
+                            return;
                         }
 
                         if (rule.StopIfTrue) break;
@@ -360,7 +378,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             { attr = "dataDxfId"; tblCandidate = table.DataStyle; colCandidate = column?.DataStyle; }
 
             var tableNode = table.TableXml?.DocumentElement;
-            if (tableNode == null) return;   // no raw XML: treat as no override (leaves the style element in place)
+            if (tableNode == null) return;
 
             if (tableNode.Attributes?[attr] != null) tblStyle = tblCandidate;
 
@@ -392,7 +410,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             var cf = cell.ConditionalFormatting.GetConditionalFormattings();
             if (cf != null && cf.Count > 0)
             {
-                // Sort ascending — priority 1 beats priority 2, etc.
+                // Sort ascending
                 var ordered = cf.OrderBy(r => r.Priority);
                 foreach (var rule in ordered)
                 {
@@ -404,7 +422,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     if (rule.Style?.Font != null && rule.Style.Font.HasValue)
                     {
                         cellStyle.dxfFont = rule.Style.Font;
-                        return cellStyle; // CF font wins over the table font
+                        return cellStyle;
                     }
                     if (rule.StopIfTrue) break;
                 }
@@ -555,7 +573,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             textFrag.Font.Size = font.Size;
             textFrag.RichTextOptions.Bold = font.Bold || dxfBold;
             textFrag.RichTextOptions.Italic = font.Italic || dxfItalic;
-            // Cell-style underline; dxf overrides only when the cell itself is not underlined.
             ExcelUnderLineType underLineType;
             if (font.UnderLine)
             {
@@ -586,17 +603,13 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             underLineType = ExcelUnderLineType.None; color = null;
             if (cellStyle == null) return;
 
-            var elem = cellStyle.dxfFont;           // style element (or CF font)
-            var ov = cellStyle.dxfFontOverride;   // region override — wins per property
-
+            var elem = cellStyle.dxfFont;
+            var ov = cellStyle.dxfFontOverride;
             var b = ov?.Bold ?? elem?.Bold;
             var i = ov?.Italic ?? elem?.Italic;
             var st = ov?.Strike ?? elem?.Strike;
             var un = ov?.Underline ?? elem?.Underline;
-            var cl = (ov?.Color != null && ov.Color.HasValue) ? ov.Color
-                   : (elem?.Color != null && elem.Color.HasValue) ? elem.Color
-                   : null;
-
+            var cl = (ov?.Color != null && ov.Color.HasValue) ? ov.Color : (elem?.Color != null && elem.Color.HasValue) ? elem.Color : null;
             bold = b ?? false;
             italic = i ?? false;
             strike = st ?? false;
@@ -604,7 +617,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             underLineType = un != null ? (ExcelUnderLineType)un : ExcelUnderLineType.None;
             if (cl != null && cl.HasValue)
             {
-                // GetColorAsColor() returns white for an automatic colour; for print it must be black.
                 color = cl.Auto == true ? System.Drawing.Color.Black : cl.GetColorAsColor();
             }
         }
@@ -1026,41 +1038,33 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     var cell = map[row, col];
                     if (cell == null || cell.Hidden || cell.Merged || cell.CellStyle == null) continue;
                     var cs = cell.CellStyle;
-
-                    // Vertical shared edge: this cell's right vs the next cell's left.
                     if (col < map.ToColumn)
                     {
                         var next = map[row, col + 1];
                         if (next != null && !next.Hidden && !next.Merged && next.CellStyle != null)
                         {
                             var ns = next.CellStyle;
-                            // Two adjacent DOUBLE borders form ONE shared double: keep BOTH sides so each
-                            // cell draws only its inner line (see PdfBorderRenderer.DrawDoubleBorder /
-                            // NeighborDouble). Suppressing either side collapses it to a single line.
                             if (!(IsDoubleEdge(cs.xfRight, cs.dxfRight) && IsDoubleEdge(ns.xfLeft, ns.dxfLeft)))
                             {
                                 int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
                                 int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
-                                if (here >= there) ns.SuppressLeft = true;    // this cell's right wins
-                                else cs.SuppressRight = true;   // neighbour's left wins
+                                if (here >= there) ns.SuppressLeft = true;
+                                else cs.SuppressRight = true;
                             }
                         }
                     }
-
-                    // Horizontal shared edge: this cell's bottom vs the cell below's top.
                     if (row < map.ToRow)
                     {
                         var below = map[row + 1, col];
                         if (below != null && !below.Hidden && !below.Merged && below.CellStyle != null)
                         {
                             var bs = below.CellStyle;
-                            // Two adjacent DOUBLE borders form ONE shared double: keep BOTH sides (inner-only each).
                             if (!(IsDoubleEdge(cs.xfBottom, cs.dxfBottom) && IsDoubleEdge(bs.xfTop, bs.dxfTop)))
                             {
                                 int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
                                 int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
-                                if (here >= there) bs.SuppressTop = true;     // this cell's bottom wins
-                                else cs.SuppressBottom = true;  // cell-below's top wins
+                                if (here >= there) bs.SuppressTop = true;
+                                else cs.SuppressBottom = true;
                             }
                         }
                     }
@@ -1068,7 +1072,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             }
         }
 
-        // Effective style of one edge is Double (user xf wins over conditional dxf). Mirrors PdfLayout.IsDouble*.
         private static bool IsDoubleEdge(ExcelBorderItem xf, ExcelDxfBorderItem dxf)
         {
             if (xf != null && xf.Style != ExcelBorderStyle.None) return xf.Style == ExcelBorderStyle.Double;
@@ -1078,13 +1081,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
         private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, int elementOrder)
         {
-            // User-applied (xf) border is the highest source.
             if (xf != null && xf.Style != ExcelBorderStyle.None)
                 return TableEdgeOrder.UserSet;
-            // Otherwise rank purely by where it came from (CF or table element order).
             if (dxf != null && dxf.Style.HasValue && dxf.Style.Value != ExcelBorderStyle.None)
                 return elementOrder;
-            return 0; // no border
+            return 0;
         }
 
         internal static class TableEdgeOrder
@@ -1096,15 +1097,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 TotalRow = 8, HeaderRow = 9,
                 FirstHeaderCell = 10, LastHeaderCell = 11,
                 FirstTotalCell = 12, LastTotalCell = 13,
-                ConditionalFormat = 50,   // beats any table element
-                UserSet = 100;            // beats CF and table
+                ConditionalFormat = 50,
+                UserSet = 100;
         }
 
         private static ExcelTableNamedStyle GetTableStyle(ExcelTable table, Dictionary<ExcelTable, ExcelTableNamedStyle> cache)
         {
             if (cache.TryGetValue(table, out var cached))
                 return cached;
-
             ExcelTableNamedStyle tableStyle;
             if (table.TableStyle == TableStyles.Custom)
             {
@@ -1117,7 +1117,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
                 tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
             }
-
             cache[table] = tableStyle;
             return tableStyle;
         }
@@ -1126,19 +1125,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         {
             if (fill == null || !fill.HasValue)
                 return false;
-
-            // SetFill treats a null PatternType as Solid.
-            var pattern = fill.PatternType != null
-                ? (ExcelFillStyle)fill.PatternType
-                : ExcelFillStyle.Solid;
-
+            var pattern = fill.PatternType != null ? (ExcelFillStyle)fill.PatternType : ExcelFillStyle.Solid;
             if (pattern == ExcelFillStyle.None)
-                return fill.Gradient != null;                               // only a gradient paints when pattern is None
-
+                return fill.Gradient != null;
             if (pattern == ExcelFillStyle.Solid)
-                return !string.IsNullOrEmpty(fill.BackgroundColor?.LookupColor());  // Solid needs a real colour
-
-            return true;                                                    // any other pattern type paints
+                return !string.IsNullOrEmpty(fill.BackgroundColor?.LookupColor());
+            return true;
         }
     }
 }

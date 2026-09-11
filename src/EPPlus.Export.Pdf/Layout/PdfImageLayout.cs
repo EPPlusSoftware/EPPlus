@@ -25,7 +25,7 @@ namespace EPPlus.Export.Pdf.Layout
         public PdfImageLayout(double x, double y, double width, double height)
             : base(x, y - height, width, height)
         {
-            Z = 5; // paint above cell fills, text and borders
+            Z = 5;
         }
     }
 }

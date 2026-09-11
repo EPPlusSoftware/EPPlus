@@ -52,8 +52,10 @@ namespace EPPlus.Export.Pdf.Layout
 
         public PdfHeaderFooter(List<TextFragment> textFormats, List<int> pageNumberIndexes, List<int> numberOfPagesIndexes, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
-            Content = new PdfCellBase();
-            Content.TextFragments = textFormats;
+            Content = new PdfCellBase
+            {
+                TextFragments = textFormats
+            };
             PageNumberIndexes = pageNumberIndexes;
             NumberOfPagesIndexes = numberOfPagesIndexes;
             PageType = type;

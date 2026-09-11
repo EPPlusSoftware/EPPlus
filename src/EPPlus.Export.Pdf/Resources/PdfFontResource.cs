@@ -46,12 +46,9 @@ namespace EPPlus.Export.Pdf.Resources
         internal Dictionary<ushort, string> charactermappings = new Dictionary<ushort, string>();
 
         public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
-     : base("F", labelNumber)
+            : base("F", labelNumber)
         {
             this.fontName = fontName;
-            // fontData is assigned by the caller (ShapeText / GidsAndCharMap) to the actual, already-
-            // subsetted font. The resource must not load a whole font here — for fallback fonts (Noto
-            // Emoji, Archivo) a name-based load would be wrong or wasteful.
         }
 
         //Get the Font Descriptor object to write in PDF.

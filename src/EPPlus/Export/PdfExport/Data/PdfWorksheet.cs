@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style.XmlAccess;
@@ -23,7 +22,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
     {
         public Dictionary<string, PdfCommentsAndNotes> CommentsAndNotesCollections = new Dictionary<string, PdfCommentsAndNotes>();
         public List<PdfDrawing> Drawings = new List<PdfDrawing>();
-        public List<PdfRange> Ranges = null; //Rename this
+        public List<PdfRange> Ranges = null;
         public PdfRange CommentsAndNotes;
         public PdfHeaderFooterCollection HeaderFooters = null;
         public double ZeroCharWidth;

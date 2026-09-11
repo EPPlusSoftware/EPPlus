@@ -57,16 +57,18 @@ namespace EPPlus.Export.Pdf.Layout
             {
                 return;
             }
-            CellFillData.GradientFillData = new PdfCellGradientFillData();
-            CellFillData.GradientFillData.GradientType = gradientType;
-            CellFillData.GradientFillData.Color1 = color1;
-            CellFillData.GradientFillData.Color2 = color2;
-            CellFillData.GradientFillData.Color3 = color3;
-            CellFillData.GradientFillData.Degree = degree;
-            CellFillData.GradientFillData.Top = top;
-            CellFillData.GradientFillData.Bottom = bottom;
-            CellFillData.GradientFillData.Left = left;
-            CellFillData.GradientFillData.Right = right;
+            CellFillData.GradientFillData = new PdfCellGradientFillData
+            {
+                GradientType = gradientType,
+                Color1 = color1,
+                Color2 = color2,
+                Color3 = color3,
+                Degree = degree,
+                Top = top,
+                Bottom = bottom,
+                Left = left,
+                Right = right
+            };
             CellFillData.id = CellFillData.GradientFillData.ToString() + $"_{Position.X:F4}_{(Position.Y - Size.Y):F4}_{Size.X:F4}_{Size.Y:F4}";
             AddShadingResourceData(dictionaries.Shadings, CellFillData.id);
         }

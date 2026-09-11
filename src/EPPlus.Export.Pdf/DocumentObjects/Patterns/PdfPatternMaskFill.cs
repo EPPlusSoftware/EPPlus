@@ -16,21 +16,6 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
 {
-    /// <summary>
-    /// Renders a cell fill pattern from an 8x8 <see cref="ExcelPatternMask"/>.
-    /// Replaces the former per-pattern PdfPatternFill subclasses: the geometry now
-    /// comes from a single verified mask catalog (taken from Excel's own PDF output)
-    /// instead of hand-coded rectangle coordinates.
-    ///
-    /// The whole 8x8 tile is filled with the Background color, then a rectangle is
-    /// drawn with the Foreground color for every foreground cell of the mask.
-    ///
-    /// The mask stores row 0 as the TOP row, while a PDF content stream has its
-    /// origin at the bottom-left with y increasing upward. The mask row r is
-    /// therefore emitted at PDF y = 7 - r (a mirror in y). Horizontally adjacent
-    /// foreground cells on the same row are merged into a single wider rectangle
-    /// to keep the content stream small.
-    /// </summary>
     internal class PdfPatternMaskFill : PdfPatternFill
     {
         private readonly byte[,] _mask;
