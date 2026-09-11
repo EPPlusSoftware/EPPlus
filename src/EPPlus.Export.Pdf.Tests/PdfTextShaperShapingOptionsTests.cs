@@ -45,13 +45,13 @@ namespace EPPlus.Export.Pdf.Tests
         public void BuildShapingOptions_Default_AppliesBothAndUsesDefaultTags()
         {
             var settings = CreateSettings();
-            // Defaults per PdfPageSettings: GsubFeatures = Liga|Clig, GposFeatures = Kern|Mark.
+            // Defaults per PdfPageSettings: GsubFeatures = Liga|Clig|Calt|Ccmp, GposFeatures = Kern|Mark.
 
             var options = PdfTextShaper.BuildShapingOptions(settings);
 
             Assert.IsTrue(options.ApplySubstitutions);
             Assert.IsTrue(options.ApplyPositioning);
-            CollectionAssert.AreEquivalent(new[] { "liga", "clig" }, options.GsubFeatures.ToList());
+            CollectionAssert.AreEquivalent(new[] { "liga", "clig", "calt", "ccmp" }, options.GsubFeatures.ToList());
             CollectionAssert.AreEquivalent(new[] { "kern", "mark" }, options.GposFeatures.ToList());
         }
 

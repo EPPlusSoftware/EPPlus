@@ -9,11 +9,13 @@
   Date               Author                       Change
  *************************************************************************************************
   09/07/2026         EPPlus Software AB           Mark-to-base offset convention
+  09/09/2026         EPPlus Software AB           Shape without ccmp to keep the sequence decomposed
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.TextShaping.Positioning;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 {
@@ -170,13 +172,27 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
         /// <summary>
         /// Shapes a base character followed by a combining acute and returns the two glyphs.
+        ///
+        /// Shaping runs WITHOUT "ccmp" on purpose. These tests are about the offset convention in
+        /// <see cref="MarkToBaseProvider"/> - they need the base and the mark to reach mark
+        /// positioning as the two glyphs the expected anchor values were read from. Fonts commonly
+        /// use ccmp to swap a combining mark for a cap-height variant after an uppercase letter
+        /// (Mulish does exactly this for the acute), which is correct rendering but silently
+        /// changes which anchors mark positioning uses - the mark would then sit at cap height and
+        /// YOffset would come out 0 instead of the lifted value these tests assert.
+        ///
+        /// The other features are left at their defaults; only ccmp is dropped, since that is the
+        /// one that rewrites this particular sequence.
         /// </summary>
         private static List<ShapedGlyph> ShapeBaseAndMark(string family, char baseChar)
         {
             var font = TestFolderEngine.LoadFont(family, FontSubFamily.Regular);
             Assert.IsNotNull(font, $"{family} must be present in the test font folder");
 
-            var shaped = new TextShaper(TestFolderEngine, font!).Shape($"{baseChar}{CombiningAcute}");
+            var options = ShapingOptions.Default;
+            options.GsubFeatures = options.GsubFeatures.Where(t => t != "ccmp").ToList();
+
+            var shaped = new TextShaper(TestFolderEngine, font!).Shape($"{baseChar}{CombiningAcute}", options);
 
             Assert.AreEqual(
                 2,

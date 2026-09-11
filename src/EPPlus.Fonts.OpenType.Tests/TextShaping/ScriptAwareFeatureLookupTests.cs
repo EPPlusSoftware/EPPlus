@@ -64,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             var provider = new SingleAdjustmentProvider(font);
 
-            // "latn" is what ShapingOptions.Default/.Fast/.Full all pass. Previously,
+            // "latn" is what ShapingOptions.Default/.Fast both pass. Previously,
             // TryGetAdjustment had no script parameter at all and always searched every
             // FeatureRecord tagged "kern"; now it must restrict to the script given here.
             bool found = provider.TryGetAdjustment(

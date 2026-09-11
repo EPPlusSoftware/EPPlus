@@ -199,8 +199,8 @@ namespace EPPlus.Export.Pdf.Settings
 
         /// <summary>
         /// GSUB (glyph substitution) features to request when shaping text for this export, e.g.
-        /// ligatures. Defaults to <see cref="GsubFeature.Liga"/> | <see cref="GsubFeature.Clig"/>,
-        /// matching the shaping engine's own default.
+        /// ligatures and contextual alternates. Defaults to <see cref="GsubFeature.Liga"/> |
+        /// <see cref="GsubFeature.Clig"/> | <see cref="GsubFeature.Calt"/> | <see cref="GsubFeature.Ccmp"/>.
         /// </summary>
         /// <remarks>
         /// This setting applies to the whole export - there is currently no per-cell or
@@ -208,12 +208,11 @@ namespace EPPlus.Export.Pdf.Settings
         /// on the font actually defining it; see <see cref="GsubFeature"/> for what each flag
         /// means and which fonts typically support it.
         /// </remarks>
-        public GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig;
+        public GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig | GsubFeature.Calt | GsubFeature.Ccmp;
 
         /// <summary>
         /// GPOS (glyph positioning) features to request when shaping text for this export, e.g.
-        /// kerning and mark attachment. Defaults to <see cref="GposFeature.Kern"/> | <see cref="GposFeature.Mark"/>, 
-        /// matching the shaping engine's own default.
+        /// kerning and mark attachment. Defaults to <see cref="GposFeature.Kern"/> | <see cref="GposFeature.Mark"/>.
         /// </summary>
         /// <remarks>
         /// This setting applies to the whole export - there is currently no per-cell or

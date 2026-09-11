@@ -19,7 +19,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         [TestInitialize]
         public void TestSetup()
         {
-            
+
         }
 
         [TestMethod]
@@ -27,14 +27,14 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
         {
             var font = TestFolderEngine.LoadFont("EB Garamond", FontSubFamily.Regular, ignoreCache: true);
 
-            var shaper = new TextShaper(TestFolderEngine,font);
+            var shaper = new TextShaper(TestFolderEngine, font);
             string test = "e\u0301"; // e + combining acute
 
-            var shaped = shaper.Shape(test, ShapingOptions.Full);
+            var shaped = shaper.Shape(test, ShapingOptions.Default);
 
             Assert.IsTrue(shaped.Glyphs.Any(x => x.XOffset != 0),
                 $"Expected XOffset != 0. Got: {string.Join(", ", shaped.Glyphs.Select(g => $"X={g.XOffset}"))}");
         }
-       
+
     }
 }
