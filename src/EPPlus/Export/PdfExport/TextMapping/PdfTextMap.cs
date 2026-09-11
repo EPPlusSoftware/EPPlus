@@ -26,6 +26,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -684,9 +685,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 if (hf.FormatCode == ExcelHeaderFooterFormattingCodes.Image)
                 {
                     var pic = textCollection.Picture;
-                    if (pic?.Image?.ImageBytes != null)
+                    var picUri = pic == null ? null : ((IPictureContainer)pic).UriPic;
+                    var picBytes = picUri == null ? null : ws._package.PictureStore.GetImageBytes(picUri);
+                    if (picBytes != null)
                     {
-                        imageBytes = pic.Image.ImageBytes;
+                        imageBytes = picBytes;
                         imageWidth = pic.Width;
                         imageHeight = pic.Height;
                         imageFragmentIndex = textFragments.Count;
