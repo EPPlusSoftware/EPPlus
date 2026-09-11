@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Export.HtmlExport;
@@ -6,6 +7,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -423,7 +425,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using var package = CreateWorkbook(eChartType.PieExploded, ePresetChartStyleMultiSeries.PieChartStyle7);
             var ws = package.Workbook.Worksheets[0];
             var svg = ws.Drawings[0].ToSvg();
-            SaveSvg("ColumnGradient.svg", svg);
+            SaveSvg("PieWithDataLabels.svg", svg);
         }
 
         public class RegionalSales
@@ -474,8 +476,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                     chart.Series.Add(sheet.Cells["D2:D7"], sheet.Cells["A2:A7"]);
                     var pieChart = chart as ExcelPieChart;
                     chart.StyleManager.SetChartStyle(chartStyle);
-                    pieChart.DataLabel.ShowLegendKey = true;
                     pieChart.DataLabel.ShowPercent = true;
+                    pieChart.DataLabel.Border.Fill.Style = eFillStyle.SolidFill;
+                    pieChart.DataLabel.Border.Fill.Color = Color.Black;
+                    pieChart.DataLabel.Fill.Style = eFillStyle.SolidFill;
+                    pieChart.DataLabel.Fill.Color = Color.LightCoral;
                     chart.SetPosition(2, 0, 5, 0);
                     chart.SetSize(1100, 300);
                     return package;

@@ -221,7 +221,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             _txtBox = txtBox;
             _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-
+            _txtBox.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, dataLabel.Border, ChartRenderer.Chart.StyleManager.Style?.DataLabel.BorderReference.Color, dataLabel.Border.IsEmpty, null, 0.75);
             if (dataLabel.Font.IsEmpty == false)
             {
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
