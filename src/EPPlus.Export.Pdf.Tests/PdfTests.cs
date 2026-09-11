@@ -957,5 +957,14 @@ namespace EPPlusTest.PDF
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }
+
+        [TestMethod]
+        public void headerFooterImage()
+        {
+            using var p = OpenTemplatePackage("EPPlus Sample 3.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "EPPlus Sample 3.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }

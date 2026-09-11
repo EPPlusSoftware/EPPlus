@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/07/2026         EPPlus Software AB           Script-aware feature lookup
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
@@ -143,11 +144,11 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 }
             };
 
-            var latinLookup = new LookupTable { LookupType = 4, SubTables = new List<Tables.FontTableElement>() };
+            var latinLookup = new LookupTable { LookupType = 4, SubTables = new List<FontTableElement>() };
             var arabLookup = new LookupTable
             {
                 LookupType = 4,
-                SubTables = new List<Tables.FontTableElement> { arabLigature }
+                SubTables = new List<FontTableElement> { arabLigature }
             };
 
             return new GsubTable
@@ -185,16 +186,16 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 }
             };
 
-            var latinLookup = new LookupTable { LookupType = 6, SubTables = new List<Tables.FontTableElement>() };
+            var latinLookup = new LookupTable { LookupType = 6, SubTables = new List<FontTableElement>() };
             var arabLookup = new LookupTable
             {
                 LookupType = 6,
-                SubTables = new List<Tables.FontTableElement> { contextualRule }
+                SubTables = new List<FontTableElement> { contextualRule }
             };
             var singleSubstLookup = new LookupTable
             {
                 LookupType = 1,
-                SubTables = new List<Tables.FontTableElement> { singleSubst }
+                SubTables = new List<FontTableElement> { singleSubst }
             };
 
             return new GsubTable
@@ -258,7 +259,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             var lookup = new LookupTable
             {
                 LookupType = 7,
-                SubTables = new List<Tables.FontTableElement> { extensionWrapper }
+                SubTables = new List<FontTableElement> { extensionWrapper }
             };
 
             var featureList = new FeatureListTable
@@ -293,11 +294,11 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
                 SubstituteGlyphIDs = new ushort[] { SubstituteGlyph }
             };
 
-            var latinLookup = new LookupTable { LookupType = 1, SubTables = new List<Tables.FontTableElement>() };
+            var latinLookup = new LookupTable { LookupType = 1, SubTables = new List<FontTableElement>() };
             var arabLookup = new LookupTable
             {
                 LookupType = 1,
-                SubTables = new List<Tables.FontTableElement> { arabSubst }
+                SubTables = new List<FontTableElement> { arabSubst }
             };
 
             return new GsubTable

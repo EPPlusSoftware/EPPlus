@@ -36,9 +36,15 @@ namespace OfficeOpenXml.Interfaces.Fonts
         {
             var tags = new List<string>();
 
+            // "ccmp" is emitted FIRST deliberately. The shaping pipeline applies chaining
+            // contextual and ligature lookups once per tag in the order this list gives, and
+            // ccmp is specified to run before other substitutions - it rearranges glyphs so the
+            // later features have something well-formed to match against.
+            if ((features & GsubFeature.Ccmp) != 0) tags.Add("ccmp");
             if ((features & GsubFeature.Liga) != 0) tags.Add("liga");
             if ((features & GsubFeature.Clig) != 0) tags.Add("clig");
             if ((features & GsubFeature.Dlig) != 0) tags.Add("dlig");
+            if ((features & GsubFeature.Calt) != 0) tags.Add("calt");
 
             return tags;
         }

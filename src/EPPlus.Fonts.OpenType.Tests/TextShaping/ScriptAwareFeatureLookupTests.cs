@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/07/2026         EPPlus Software AB           Script-aware feature lookup
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
@@ -63,7 +64,7 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             var provider = new SingleAdjustmentProvider(font);
 
-            // "latn" is what ShapingOptions.Default/.Fast/.Full all pass. Previously,
+            // "latn" is what ShapingOptions.Default/.Fast both pass. Previously,
             // TryGetAdjustment had no script parameter at all and always searched every
             // FeatureRecord tagged "kern"; now it must restrict to the script given here.
             bool found = provider.TryGetAdjustment(
@@ -114,8 +115,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 Lookups = new List<LookupTable>
                 {
-                    new LookupTable { LookupType = 1, SubTables = new List<Tables.FontTableElement> { arabSubtable } },
-                    new LookupTable { LookupType = 1, SubTables = new List<Tables.FontTableElement> { latinSubtable } }
+                    new LookupTable { LookupType = 1, SubTables = new List<FontTableElement> { arabSubtable } },
+                    new LookupTable { LookupType = 1, SubTables = new List<FontTableElement> { latinSubtable } }
                 }
             };
 

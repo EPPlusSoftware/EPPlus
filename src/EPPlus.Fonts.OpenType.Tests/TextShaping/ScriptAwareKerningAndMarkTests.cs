@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/07/2026         EPPlus Software AB           Script-aware feature lookup
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Features;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
@@ -133,8 +134,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 Lookups = new List<LookupTable>
                 {
-                    new LookupTable { LookupType = 2, SubTables = new List<Tables.FontTableElement> { latinPair } },
-                    new LookupTable { LookupType = 2, SubTables = new List<Tables.FontTableElement> { arabPair } }
+                    new LookupTable { LookupType = 2, SubTables = new List<FontTableElement> { latinPair } },
+                    new LookupTable { LookupType = 2, SubTables = new List<FontTableElement> { arabPair } }
                 }
             };
 
@@ -226,8 +227,8 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             {
                 Lookups = new List<LookupTable>
                 {
-                    new LookupTable { LookupType = 4, SubTables = new List<Tables.FontTableElement> { latinMark } },
-                    new LookupTable { LookupType = 4, SubTables = new List<Tables.FontTableElement> { arabMark } }
+                    new LookupTable { LookupType = 4, SubTables = new List<FontTableElement> { latinMark } },
+                    new LookupTable { LookupType = 4, SubTables = new List<FontTableElement> { arabMark } }
                 }
             };
 

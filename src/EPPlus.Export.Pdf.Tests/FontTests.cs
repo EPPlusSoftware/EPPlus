@@ -104,7 +104,6 @@ namespace EPPlus.Export.Pdf.Tests
                 var docSettings = PdfDocumentSettings.From(settings);
 
                 var excelPdf = new ExcelPdf();
-                excelPdf.SetPageSettingsForTest(settings);
                 excelPdf.SetDocumentSettingsForTest(PdfDocumentSettings.From(settings));
                 excelPdf.SetDictionariesForTest(dictionaries);
                 excelPdf.SetDocumentSettingsForTest(docSettings);
@@ -155,7 +154,6 @@ namespace EPPlus.Export.Pdf.Tests
                 var docSettings = PdfDocumentSettings.From(settings);
 
                 var excelPdf = new ExcelPdf();
-                excelPdf.SetPageSettingsForTest(settings);
                 excelPdf.SetDocumentSettingsForTest(PdfDocumentSettings.From(settings));
                 excelPdf.SetDictionariesForTest(dictionaries);
                 excelPdf.SetDocumentSettingsForTest(docSettings);

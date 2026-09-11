@@ -76,10 +76,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             else if (cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
                 commands.Add($"% Pattern Start: {cell.Name}");
-                // Draw the solid cell background only when one is set. The pattern
-                // tile already fills itself with its own background color, so the
-                // pattern must be rendered regardless of whether the cell has a
-                // separate background fill (it may be Color.Empty).
                 if (cell.CellFillData.BackgroundColor != Color.Empty)
                 {
                     commands.Add("q");
@@ -120,7 +116,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 var line = cell.TextLines[k];
                 double lineOffsetX = 0d;
                 if (isVertical)
-                {                    
+                {
                     lineOffsetX = (stackWidth - line.Width) / 2d;
                 }
                 else
@@ -133,7 +129,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         case ExcelHorizontalAlignment.Center:
                         case ExcelHorizontalAlignment.CenterContinuous:
                         case ExcelHorizontalAlignment.Distributed:
-                        lineOffsetX = (line0Width - line.Width) / 2d;
+                            lineOffsetX = (line0Width - line.Width) / 2d;
                             break;
                     }
                 }
@@ -188,7 +184,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     double size = richInfo.Size;
                     double scale = textFormat.OriginalTextFragment.RichTextOptions.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
-                    commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
                     if (richInfo.SuperScript)
                     {
@@ -228,13 +223,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                         commands.Add($"S");
                     }
+                    commands.Add("BT");
                     commands.Add(color.ToFillCommand());
                     commands.Add($"{textMatrix.A.ToPdfStringF4()} {textMatrix.B.ToPdfStringF4()} {textMatrix.C.ToPdfStringF4()} {textMatrix.D.ToPdfStringF4()} {textMatrix.E.ToPdfStringF4()} {textMatrix.F.ToPdfStringF4()} Tm");
-
-                    // FIX: Always use fontIdMap to determine the initial font.
-                    // FontId=0 does NOT always mean "primary font" — when the text starts
-                    // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
-                    // The fontIdMap correctly maps FontId → PDF font label in all cases.
                     byte currentFontId = shapedText.ShapedText.Glyphs.Length > 0 ? shapedText.ShapedText.Glyphs[0].FontId : (byte)0;
                     string currentFontLabel = shapedText.FontIdMap.ContainsKey(currentFontId)
                         ? shapedText.FontIdMap[currentFontId]
@@ -252,9 +243,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
                     for (int j = glyphStart; j < shapedText.ShapedText.Glyphs.Length; j++)
                     {
-                        if (charsRendered >= fragmentCharCount)
-                            break;
                         var glyph = shapedText.ShapedText.Glyphs[j];
+
+                        // Stop once this fragment's characters are all accounted for - but only
+                        // at a glyph that actually consumes a character. A glyph with CharCount 0
+                        // is a CONTINUATION of the preceding glyph's cluster (GSUB Multiple
+                        // Substitution expands one character into several glyphs, and the whole
+                        // CharCount sits on the first of them). Breaking on it would drop the
+                        // tail of the cluster whenever the expansion falls at the end of a
+                        // fragment - e.g. rendering only the first glyph of a decomposed
+                        // character.
+                        if (charsRendered >= fragmentCharCount && glyph.CharCount > 0)
+                            break;
+
                         if (glyph.FontId != currentFontId)
                         {
                             // Close TJ array, switch font, open new TJ array
@@ -464,9 +465,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (pageLayout.isCommentsPage) return;
             commands.Add($"% Margin Clip Start");
             if (pl.BorderLines.Count == 0) return;
-            // Derive the tight bounding box directly from BorderLines.
-            // pageLayout is created with all-zero dimensions so ContentTop/Bottom/Left/Height
-            // cannot be used here — they are always 0.
             double top = double.MinValue;
             double bottom = double.MaxValue;
             double left = double.MaxValue;

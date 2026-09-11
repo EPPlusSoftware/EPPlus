@@ -29,30 +29,15 @@ namespace EPPlus.Export.Pdf.Resources
         internal readonly Dictionary<string, PdfShadingResource> Shadings = new Dictionary<string, PdfShadingResource>();
         internal readonly Dictionary<string, PdfImageResource> Images = new Dictionary<string, PdfImageResource>();
         internal Dictionary<FontKey, IFontProvider> ShapedProviders = new Dictionary<FontKey, IFontProvider>();
-
-        // One document-wide subset builder, replacing the per-font FontSubsetManager. Owns all
-        // fallback resolution, embedding-restriction decisions, and shared subset construction.
         private DocumentFontSubsetBuilder _subsetBuilder;
-
-        // Cache mapping a requested (family, subfamily) to the canonical FontKey of
-        // the loaded font. Case-insensitive on the requested family so casing in the
-        // source workbook resolves to the same key. Ensures the font is only loaded
-        // once per distinct request.
-        private readonly Dictionary<string, FontKey> _requestedToKey =
-            new Dictionary<string, FontKey>();
+        private readonly Dictionary<string, FontKey> _requestedToKey = new Dictionary<string, FontKey>();
 
         private static string BuildRequestCacheKey(string family, FontSubFamily subFamily)
         {
-            // Lower-case the requested family for case-insensitive lookup; subfamily
-            // is an enum so its numeric value is stable.
             string fam = family == null ? string.Empty : family.ToLowerInvariant();
             return fam + "|" + ((int)subFamily);
         }
 
-        /// <summary>
-        /// Resolves a requested (family, subfamily) to the canonical FontKey of the
-        /// loaded font, loading the font at most once per distinct request.
-        /// </summary>
         internal FontKey ResolveFontKey(PdfPageSettings pageSettings, string family, FontSubFamily subFamily)
         {
             var cacheKey = BuildRequestCacheKey(family, subFamily);
@@ -61,20 +46,16 @@ namespace EPPlus.Export.Pdf.Resources
             {
                 return key;
             }
-
             var font = pageSettings.FontEngine.LoadFont(family, subFamily);
             key = new FontKey(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum());
             _requestedToKey[cacheKey] = key;
             return key;
         }
 
-        // CHANGE 1: AddFont now only feeds the builder. It no longer creates a PdfFontResource —
-        // resources are created later, per ACTUAL font, during shaping. We still resolve the
-        // requested key so it is registered in _requestedToKey for later provider wiring.
         public void AddFont(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily, string text)
         {
             EnsureBuilder(pageSettings);
-            ResolveFontKey(pageSettings, fontName, subFamily);   // register the requested key
+            ResolveFontKey(pageSettings, fontName, subFamily);
             _subsetBuilder.AddText(fontName, subFamily, text);
         }
 
@@ -84,12 +65,9 @@ namespace EPPlus.Export.Pdf.Resources
                 _subsetBuilder = new DocumentFontSubsetBuilder(pageSettings.FontEngine);
         }
 
-        // CHANGE 2: new. Runs the single document-wide build, then wires one shaping provider per
-        // requested font. Call once, after all text is collected, before shaping. Replaces the
-        // old per-font CreateSubsettedProvider loop in PdfCatalog.
         internal void BuildSubsets(PdfPageSettings pageSettings)
         {
-            if (_subsetBuilder == null) return;   // no text was collected
+            if (_subsetBuilder == null) return;
             _subsetBuilder.Build();
 
             foreach (var requestedKey in _requestedToKey.Values.Distinct())
@@ -100,15 +78,9 @@ namespace EPPlus.Export.Pdf.Resources
             }
         }
 
-        // CHANGE 3: GetFont is used by the renderer for METRICS only (glyph font selection is done
-        // per-glyph via FontIdMap). After skipping, the requested font may not be embedded, so we
-        // translate the requested font to the ACTUAL primary that renders it (the shaping
-        // provider's primary) and return that resource.
         internal PdfFontResource GetFont(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
             var requestedKey = ResolveFontKey(pageSettings, fontName, subFamily);
-
-            // Preferred path: translate requested -> actual via the shaping provider's primary.
             IFontProvider provider;
             if (ShapedProviders.TryGetValue(requestedKey, out provider) && provider.PrimaryFont != null)
             {
@@ -118,12 +90,10 @@ namespace EPPlus.Export.Pdf.Resources
                 if (Fonts.TryGetValue(actualKey, out viaProvider))
                     return viaProvider;
             }
-
-            // Fallback: the requested font was embedded under its own identity (not skipped).
+            // Fallback
             PdfFontResource direct;
             if (Fonts.TryGetValue(requestedKey, out direct))
                 return direct;
-
             throw new KeyNotFoundException("Font: " + requestedKey + " is missing from dictionary.");
         }
 

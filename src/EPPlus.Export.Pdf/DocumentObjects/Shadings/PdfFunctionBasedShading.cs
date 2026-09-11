@@ -18,12 +18,6 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
 {
-    /// <summary>
-    /// ShadingType 1 (function-based). The colour at each point comes from a 2-in / 3-out
-    /// function of (u,v) evaluated over the unit Domain; the shading pattern's Matrix maps that
-    /// unit square onto the cell. Used for Excel path (rectangular / "box") gradients, which have
-    /// no native PDF shading. The Function is a stream object referenced indirectly.
-    /// </summary>
     internal class PdfFunctionBasedShading : PdfShading
     {
         internal double[] Domain = [0d, 1d, 0d, 1d];

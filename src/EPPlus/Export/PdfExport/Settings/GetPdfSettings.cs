@@ -26,8 +26,7 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             return settings;
         }
 
-        internal static PdfPageSettings GetPdfSettingsForSheet(
-    PdfPageSettings baseSettings, ExcelPrinterSettings eps)
+        internal static PdfPageSettings GetPdfSettingsForSheet(PdfPageSettings baseSettings, ExcelPrinterSettings eps)
         {
             var s = baseSettings.CloneForSheet();
             ApplyPrinterSettings(s, eps);
@@ -36,7 +35,6 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
 
         private static void ApplyPrinterSettings(PdfPageSettings settings, ExcelPrinterSettings eps)
         {
-
             var leftMargin = UnitConversion.ToMillimeters(eps.LeftMargin);
             var rightMargin = UnitConversion.ToMillimeters(eps.RightMargin);
             var topMargin = UnitConversion.ToMillimeters(eps.TopMargin);

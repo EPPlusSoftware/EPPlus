@@ -65,8 +65,8 @@ namespace EPPlusTest.PDF
 
                 var sheet = BuildReproSheet(workbook);
 
-                // Default GsubFeatures is Liga | Clig - "dlig" is not requested, so this is the
-                // "before" state: "Th" renders as two separate glyphs.
+                // Default GsubFeatures is Liga | Clig | Calt - "dlig" is not requested, so this
+                // is the "before" state: "Th" renders as two separate glyphs.
                 SaveAsPdf(sheet, "WP3DligRepro_Off");
 
                 SaveWorkbook("WP3DligRepro_Off.xlsx", package);
