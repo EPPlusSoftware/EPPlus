@@ -245,9 +245,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     {
                         var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        if (leftH != null && !leftH.HasImage)
+                        if (leftH != null && !leftH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages))
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages);
                             var ascent = leftH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -258,9 +257,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if (centerH != null && !centerH.HasImage)
+                        if (centerH != null && !centerH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages))
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages);
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -272,9 +270,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if (rightH != null && !rightH.HasImage)
+                        if (rightH != null && !rightH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages))
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages);
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
@@ -285,9 +282,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if (leftF != null && !leftF.HasImage)
+                        if (leftF != null && !leftF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages))
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages);
                             int last = leftF.Content.TextLines.Count - 1;
                             var descent = leftF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.Margins.LeftPu;
@@ -299,9 +295,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if (centerF != null && !centerF.HasImage)
+                        if (centerF != null && !centerF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages))
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages);
                             int last = centerF.Content.TextLines.Count - 1;
                             var descent = centerF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu / 2d;
@@ -313,9 +308,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             pageLayout.AddChild(text);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if (rightF != null && !rightF.HasImage)
+                        if (rightF != null && !rightF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages))
                         {
-                            SubstitutePageNumbers(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages);
                             int last = rightF.Content.TextLines.Count - 1;
                             var descent = rightF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
@@ -1701,6 +1695,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             if (hf == null) return;
             ApplyPageNumbers(hf, pageNumber, totalPages);
             PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
+        }
+
+        private static bool ShapeHeaderFooterText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        {
+            SubstitutePageNumbers(pageSettings, dictionaries, hf, pageNumber, totalPages);
+            return hf.Content != null && hf.Content.TextLines != null && hf.Content.TextLines.Count > 0;
         }
 
         private static void ApplyPageNumbers(PdfHeaderFooter hf, int pageNumber, int totalPages)
