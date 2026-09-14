@@ -138,7 +138,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         {
                             datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
                         }
-                        
+
                         serieDataLabels.Add(datalabel);
                     }
                 }

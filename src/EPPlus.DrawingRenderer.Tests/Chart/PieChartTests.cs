@@ -64,10 +64,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
 
                 var svg = manySlices.ToSvg();
                 SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\ManySlicesSeperated{ws.Name}_{manySlices.Name}.svg", svg);
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-
-                //}
             }
         }
 

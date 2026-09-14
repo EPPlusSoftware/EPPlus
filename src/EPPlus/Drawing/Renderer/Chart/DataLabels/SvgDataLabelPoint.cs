@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RoundingHelper;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -221,7 +222,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             _txtBox = txtBox;
             _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            _txtBox.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, dataLabel.Border, ChartRenderer.Chart.StyleManager.Style?.DataLabel.BorderReference.Color, dataLabel.Border.IsEmpty, null, 0.75);
+
+            //Border should be decided by series if it has no specified color of its own
+            //Therefore it is not set here unless specified as we set a fill color on the group it belongs to
+            //If there is no series to inherit from we should apply the default by setting it here
+            if(dataLabel.Border.Fill.Color.IsEmpty == false || serie == null)
+            {
+                _txtBox.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, dataLabel.Border, ChartRenderer.Chart.StyleManager.Style?.DataLabel.BorderReference.Color, dataLabel.Border.IsEmpty, () => Color.Transparent, 0.75);
+            }
             if (dataLabel.Font.IsEmpty == false)
             {
                 txtBox.TextBody.FontColorString = "#" + dataLabel.Font.Color.ToColorString();
@@ -366,21 +374,37 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 endPointCircle.Top += maxboundStart.LocalPosition.Y - maxboundStart.Height;
             }
         }
-        private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
+
+        private void ApplyBestFitExtraMargin(Vector2 direction, bool reverseDirection, double margin = 2.2d)
         {
-            if(reverseDirection)
+            if (reverseDirection)
             {
                 direction *= -1;
             }
 
             //Ensure vector is normalized
             var directionOnly = direction / direction.Length;
+            Rectangle.Bounds.Position += directionOnly * margin;
+        }
 
-            //Get txtbox-size based vector
-            var txtBoxAdjustVector = new Vector2(Rectangle.Width / 2d, Rectangle.Height / 2d );
 
-            //Apply translation to current position
-            Rectangle.Bounds.Position += directionOnly * txtBoxAdjustVector;
+
+        private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
+        {
+            if (reverseDirection)
+            {
+                direction *= -1;
+            }
+
+            var triangleWidth = (Rectangle.Width / 2d);
+            var triangleHeight = (Rectangle.Height / 2d);
+
+            var scalar = Math.Sqrt(Math.Pow(triangleWidth, 2) + Math.Pow(triangleHeight, 2));
+
+            //Ensure vector is normalized
+            var directionOnly = direction / direction.Length;
+
+            Rectangle.Bounds.Position += directionOnly * scalar;
         }
 
         private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
@@ -570,12 +594,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         {
                             //Set inside End
                             SetInOut(endToBaseVector, endPoint.LocalPosition, false);
+                            ApplyBestFitExtraMargin(endToBaseVector, false, 2.2d);
                         }
                     }
                     else
                     {
                         //Set outside end
                         SetInOut(endToBaseVector, endPoint.LocalPosition, true);
+                        ApplyBestFitExtraMargin(endToBaseVector, true, 2.2d);
                     }
                     break;
                 default:
