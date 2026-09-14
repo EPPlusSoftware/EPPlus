@@ -13,6 +13,7 @@
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Export.Pdf.Tests;
+using EPPlus.Export.Pdf.Tests.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Export.PdfExport.Data;
@@ -530,6 +531,21 @@ namespace EPPlusTest.PDF
             ws.Cells["C1"].Value = "C1";
 
             SaveAsPdf(ws, "ThreeFonts_NoSkip.pdf");
+        }
+
+        [TestMethod]
+        public void PdfColorIssue_WithCopiedWorksheet()
+        {
+            var helper = new ColorIssueTestHelper();
+            using var package = helper.CreateWorkbook();
+            SaveAsPdf(package.Workbook, "Allsvenskan2001.pdf");
+        }
+
+        [TestMethod]
+        public void PdfColorIssue2_WithSingleWorkbook()
+        {
+            using var package = OpenTemplatePackage("Allsvenskan2001.xlsx");
+            SaveAsPdf(package.Workbook, "Allsvenskan2001.pdf");
         }
 
         [TestMethod]
