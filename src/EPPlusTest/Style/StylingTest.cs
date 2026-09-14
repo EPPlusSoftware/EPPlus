@@ -111,7 +111,6 @@ namespace EPPlusTest.Style
             Assert.AreEqual(255, ws.Cells[181, 1].Style.TextRotation);
             Assert.AreEqual(255, ws.Cells[182, 1].Style.TextRotation);
         }
-
         [TestMethod]
         public void ValidateGradient()
         {
