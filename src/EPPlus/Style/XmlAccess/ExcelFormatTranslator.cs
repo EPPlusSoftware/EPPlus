@@ -834,12 +834,7 @@ namespace OfficeOpenXml.Style.XmlAccess
 
             return isColor;
         }
-        /// <summary>
-        /// Counts trailing commas in a number format that act as scaling commas
-        /// (each divides the displayed value by 1000). Commas used as grouping
-        /// separators (those with digit placeholders after them) do not count —
-        /// only commas at the very end of the numeric part.
-        /// </summary>
+
         private static int GetScaleCommas(string netFormat)
         {
             var inString = false;
