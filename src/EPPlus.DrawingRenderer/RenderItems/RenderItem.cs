@@ -136,10 +136,14 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double RoundedCornerRadius { get; set; }
         public override RenderItem Clone()
         {
-            var clone =  new RectRenderItem((BoundingBox)Bounds.Parent)
+            var clone = new RectRenderItem((BoundingBox)Bounds.Parent)
             {
-                RoundedCornerRadius = RoundedCornerRadius
+                RoundedCornerRadius = RoundedCornerRadius,
             };
+
+            clone.Bounds.Width = Bounds.Width;
+            clone.Bounds.Height = Bounds.Height;
+
             CloneBase(clone);
             return clone;
         }

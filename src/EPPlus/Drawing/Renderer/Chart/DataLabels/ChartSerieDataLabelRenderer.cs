@@ -19,6 +19,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private RenderItem seriesIcon = null;
         private int _serieIndex = -1;
+        private int _origIndex = -1;
         ExcelDrawingParagraph defaultParagraph;
         BoundingBox plotAreaBounds;
         BoundingBox _defaultMargins;
@@ -34,6 +35,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartDataLabel dlbl, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             _serieIndex = index;
+            _origIndex = index;
             _dlbl = dlbl;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
 
@@ -54,8 +56,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 defaultParagraph = dlbl.TextBody.Paragraphs[0];
             }
 
-            dlbl.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
-            _defaultMargins = new BoundingBox(l, top, right, bottom);
+            dlbl.TextBody.GetInsetsInPointsNullable(out double? nullL, out double? nullT, out double? nullR, out double? nullB);
+
+            //Datalabels have different default margins than standard Rectangle shape
+            double l = nullL ?? 3.1181102362d;
+            double t = nullT ?? 1.4173228346d;
+            double r = nullR ?? 3.1181102362d;
+            double b = nullB ?? 1.4173228346d;
+
+            _defaultMargins = new BoundingBox(l, t, r, b);
 
             var dlblSerie = dlbl as ExcelChartSerieDataLabel;
             if (dlblSerie == null || dlblSerie.DataLabels.Count == 0)
@@ -65,6 +74,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     var yVal = yValues == null ? null : yValues[i];
                     var xVal = xValues == null ? null : xValues[i];
                     AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
+                    //Bit strange but in e.g. pie charts each datapoint counts as a new series for the purposes of legendIcons etc.
+                    _serieIndex++;
                 }
             }
             else
@@ -105,10 +116,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             else
             {
                 var legendItem = ChartRenderer.Legend;
+
                 var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
-                if(clonedIcon is LineRenderItem lineIcon)
+                if (seriesIconOrig.FillColor == null && seriesIconOrig.GradientFill != null)
+                {
+                    clonedIcon.GradientFill = seriesIconOrig.GradientFill;
+                }
+
+                if (clonedIcon is LineRenderItem lineIcon)
                 {
                     lineIcon.Y1 = 0;
                     lineIcon.Y2 = 0;
@@ -126,7 +143,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private RenderItem GetSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
         {
-            if(seriesIcon == null)
+            //We MUST create a new icon per series. For pie chart each data point is a new series
+            //Therefore check if _origIndex matches
+            if (seriesIcon == null || _origIndex != _serieIndex)
             {
                 CreateSeriesIcon(serie, maxBounds);
             }

@@ -425,7 +425,20 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using var package = CreateWorkbook(eChartType.PieExploded, ePresetChartStyleMultiSeries.PieChartStyle7);
             var ws = package.Workbook.Worksheets[0];
             var svg = ws.Drawings[0].ToSvg();
+
+            var of = GetOutputFile("", "PieChartHtml_dlbls.xlsx");
+            package.SaveAs(of);
+
+            var pChart = ws.Drawings[0].As.Chart.PieChart;
+            pChart.DataLabel.ShowLegendKey = true;
+
+            var svgWithLegendKey = ws.Drawings[0].ToSvg();
+
+            var of2 = GetOutputFile("", "PieChartHtml_dlbls_legendKey.xlsx");
+            package.SaveAs(of2);
+
             SaveSvg("PieWithDataLabels.svg", svg);
+            SaveSvg("PieWithDataLabels_WithLegendKey.svg", svgWithLegendKey);
         }
 
         public class RegionalSales

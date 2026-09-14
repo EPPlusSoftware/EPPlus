@@ -116,6 +116,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 LeftMargin -= 2.25d + 4d;
                 Rectangle.Bounds.Width += iconWidth + 2.25d;
 
+                //Hardcoded top margin
+                Rectangle.Bounds.Height += iconHeight + 1.4173228346d;
+
                 _haveAdjustedForIcon = true;
             }
         }

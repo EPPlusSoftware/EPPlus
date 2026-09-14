@@ -428,7 +428,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        //Excel default values for Top/Bottom and Right/Left translated to points
+        //Excel default values for Top/Bottom and Right/Left translated to points (for Rectangle MSO shape)
         //They are equivalent to 0.25cm and 0.13cm
         internal const double DefaultTopBot = 45720d / ExcelDrawing.EMU_PER_POINT;
         internal const double DefaultRightLeft = 91440d / ExcelDrawing.EMU_PER_POINT;
@@ -454,6 +454,14 @@ namespace OfficeOpenXml.Drawing
             top = (TopInsert ?? 0);
             right = (RightInsert ?? 0);
             bottom = (BottomInsert ?? 0);
+        }
+
+        internal void GetInsetsInPointsNullable(out double? left, out double? top, out double? right, out double? bottom)
+        {
+            left = LeftInsert;
+            top = TopInsert;
+            right = RightInsert;
+            bottom = BottomInsert;
         }
 
         ExcelDrawingParagraphCollection _paragraphs = null;
