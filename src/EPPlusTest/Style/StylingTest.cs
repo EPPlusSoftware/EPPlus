@@ -30,6 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -110,6 +111,7 @@ namespace EPPlusTest.Style
             Assert.AreEqual(255, ws.Cells[181, 1].Style.TextRotation);
             Assert.AreEqual(255, ws.Cells[182, 1].Style.TextRotation);
         }
+
         [TestMethod]
         public void ValidateGradient()
         {
@@ -633,7 +635,151 @@ namespace EPPlusTest.Style
                 File.WriteAllText(outputFile.FullName, singlePage);
             }
         }
+
+        [DataTestMethod]
+        [DataRow("0.00", 1.005, 1.01, "Midpoint vid 15 signifikanta siffror rundar från noll")]
+        [DataRow("0", 2.5, 3.0, "Exakt midpoint rundar från noll, inte till jämn")]
+        [DataRow("#,##0,,", 1234567.0, 1000000.0, "Skalningskomma delar det visade värdet")]
+        [DataRow("0%", 0.12345, 0.12, "Procentfaktor tillämpas utan decimalavskiljare")]
+        [DataRow("0.00E+00", 1234.5678, 1230.0, "Scientific rundar significand")]
+        [DataRow("#,##0.00;[Red]-#,##0.00", -1234.5678, -1234.57, "Multi-section-format rundar också")]
+        [DataRow("@", 1234.5678, 1234.5678, "Textformat rundas inte")]
+        [DataRow(@"dd\.mm\.yyyy", 45000.5678, 45000.5678, "Datum rundas inte")]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStores(
+            string format, double stored, double excel, string because)
+        {
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual, 1e-9,
+                $"format \"{format}\" med {stored.ToString("R", CultureInfo.InvariantCulture)}: {because}");
+        }
+
+        // En datumformaterad cell kommer tillbaka som DateTime → tillbaka till serienumret.
+        private static double AsNumber(object value) =>
+            value is DateTime date ? date.ToOADate() : Convert.ToDouble(value, CultureInfo.InvariantCulture);
+
+        [TestMethod]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStoresSingle1()
+        {
+            string format = "0.00";
+            double stored = 1.005;
+            double excel = 1.01;
+            string because = "Midpoint vid 15 signifikanta siffror rundar från noll";
+
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual);
+        }
+
+        [TestMethod]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStoresSingle2()
+        {
+            string format = "#,##0,,";
+            double stored = 1234567;
+            double excel = 1000000.0;
+            string because = "Skalningskomma delar det visade värdet";
+
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual);
+        }
+
+        [TestMethod]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStoresSingle3()
+        {
+            string format = "0%";
+            double stored = 0.12345;
+            double excel = 0.12;
+
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual);
+        }
+
+        [TestMethod]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStoresSingle4()
+        {
+            string format = "#,##0.00;[Red]-#,##0.00";
+            double stored = -1234.5678;
+            double excel = -1234.57;
+
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual);
+        }
+
+        [TestMethod]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStoresSingle5()
+        {
+            string format = "@";
+            double stored = 1234.5678;
+            double excel = 1234.5678;
+
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual);
+        }
+
+        [TestMethod]
+        public void Calculate_PrecisionAsDisplayed_StoresWhatExcelStoresSingle6()
+        {
+            string format = "0.00E+00";
+            double stored = 1234.5678;
+            double excel = 1230;
+
+            using var package = new ExcelPackage();
+            var cell = package.Workbook.Worksheets.Add("Sheet").Cells["A1"];
+            cell.Style.Numberformat.Format = format;
+            cell.Value = stored;
+
+            package.Workbook.FullPrecision = false;
+            package.Workbook.Calculate();
+
+            var actual = AsNumber(cell.Value);
+            Assert.AreEqual(excel, actual);
+        }
     }
 }
-
 

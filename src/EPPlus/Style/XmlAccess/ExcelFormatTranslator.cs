@@ -707,12 +707,58 @@ namespace OfficeOpenXml.Style.XmlAccess
                     var q = Math.Round((double)_numerator / (double)_denomerator, 6);
                     return ((int)d) + q;
                 }
+<<<<<<< HEAD
                 else if (f.SpecialDateFormat == eSystemDateFormat.None)
+=======
+                else if (f.SpecialDateFormat == eSystemDateFormat.None ||
+         f.SpecialDateFormat == eSystemDateFormat.Conditional)
+>>>>>>> 5b54795d9b399f66b6537a1350c19e066b7ce010
                 {
+                    if (f.ContainsTextPlaceholder)
+                    {
+                        return value;   // text format (@) — never round
+                    }
+                    if (IsScientific(f.NetFormat, out int significandDecimals))
+                    {
+                        if (d == 0d) return 0d;
+                        var exp = (int)Math.Floor(Math.Log10(Math.Abs(d)));   // 1234.5678 -> 3
+                        var mantissa = d / Math.Pow(10, exp);                 // -> 1.2345678
+                        var roundedMantissa = (double)Math.Round(
+                            (decimal)mantissa, significandDecimals, MidpointRounding.AwayFromZero); // -> 1.23
+                        return roundedMantissa * Math.Pow(10, exp);           // -> 1230
+                    }
                     var decimals = GetDecimalsFromFormat(f.NetFormat);
                     if (decimals >= 0)
                     {
-                        return Math.Round(d, decimals);
+                        //Cast to decimal for the rounding to get Excel-compatible midpoint behaviour.
+                        //A double like 1.005 is actually 1.00499999999999989, which Math.Round on a
+                        //double rounds down; (decimal)d lifts it to a true 1.005 so away-from-zero gives 1.01.
+                        //Same approach as the ROUND function (see the 39.285 note there).
+                        var scaleCommas = GetScaleCommas(f.NetFormat);
+                        try
+                        {
+                            var dec = (decimal)d;
+                            if (scaleCommas > 0)
+                            {
+                                // e.g. "#,##0,," -> divide by 1000^2, round on the displayed
+                                // (scaled) value, then multiply back so magnitude is preserved.
+                                // 1234567 -> 1.234567 -> 1 -> 1000000 (matches Excel).
+                                var factor = (decimal)Math.Pow(1000, scaleCommas);
+                                var scaled = Math.Round(dec / factor, decimals, MidpointRounding.AwayFromZero);
+                                return (double)(scaled * factor);
+                            }
+                            return (double)Math.Round(dec, decimals, MidpointRounding.AwayFromZero);
+                        }
+                        catch (OverflowException)
+                        {
+                            if (scaleCommas > 0)
+                            {
+                                var factor = Math.Pow(1000, scaleCommas);
+                                var scaled = Math.Round(d / factor, decimals, MidpointRounding.AwayFromZero);
+                                return scaled * factor;
+                            }
+                            return Math.Round(d, decimals, MidpointRounding.AwayFromZero);
+                        }
                     }
                 }
                 return value;
@@ -736,35 +782,36 @@ namespace OfficeOpenXml.Style.XmlAccess
             var lastIsDecimal = false;
             var decimals = 0;
             var isNumericFormat = false;
+            var hasPercent = false;
+
             foreach (var c in netFormat)
             {
                 if (c == '\"')
                 {
                     isInString = !isInString;
+                    continue;
                 }
-                if (isInString == false && c == '0' || c == '#')
+                if (isInString) continue;
+
+                if (c == '0' || c == '#')
                 {
                     isNumericFormat = true;
+                    if (lastIsDecimal) decimals++;
                 }
-                if (isInString == false && c == '.')
+                else if (c == '.')
                 {
                     lastIsDecimal = true;
                 }
+                else if (c == '%')
+                {
+                    hasPercent = true;      // percent always scales by 100 -> +2 decimals
+                }
                 else if (lastIsDecimal)
                 {
-                    if (c == '0' || c == '#')
-                    {
-                        decimals++;
-                    }
-                    else if (c == '%')
-                    {
-                        return decimals + 2;
-                    }
-                    else
-                    {
-                        return decimals;
-                    }
+                    // a non-digit, non-percent char ends the decimal run
+                    lastIsDecimal = false;
                 }
+<<<<<<< HEAD
                 var pc = c;
             }
             if (isNumericFormat)
@@ -774,7 +821,12 @@ namespace OfficeOpenXml.Style.XmlAccess
             else
             {
                 return -1;
+=======
+>>>>>>> 5b54795d9b399f66b6537a1350c19e066b7ce010
             }
+
+            if (!isNumericFormat) return -1;
+            return decimals + (hasPercent ? 2 : 0);
         }
 
         private bool IsStringNumFtColor(string text, out ExcelIndexedColor? indexColor)
@@ -804,6 +856,55 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
 
             return isColor;
+        }
+        /// <summary>
+        /// Counts trailing commas in a number format that act as scaling commas
+        /// (each divides the displayed value by 1000). Commas used as grouping
+        /// separators (those with digit placeholders after them) do not count —
+        /// only commas at the very end of the numeric part.
+        /// </summary>
+        private static int GetScaleCommas(string netFormat)
+        {
+            var inString = false;
+            var inBracket = false;
+            var count = 0;
+
+            // Walk from the end; skip anything after the numeric part is complicated,
+            // so instead find the last digit placeholder and count commas that follow it.
+            int lastDigit = -1;
+            for (int i = 0; i < netFormat.Length; i++)
+            {
+                var c = netFormat[i];
+                if (c == '"') inString = !inString;
+                else if (!inString && c == '[') inBracket = true;
+                else if (!inString && c == ']') inBracket = false;
+                else if (!inString && !inBracket && (c == '0' || c == '#' || c == '?'))
+                    lastDigit = i;
+            }
+            if (lastDigit < 0) return 0;
+
+            for (int i = lastDigit + 1; i < netFormat.Length; i++)
+            {
+                if (netFormat[i] == ',') count++;
+                else break; // only consecutive trailing commas scale
+            }
+            return count;
+        }
+        private static bool IsScientific(string netFormat, out int significandDecimals)
+        {
+            significandDecimals = 0;
+            var inString = false;
+            var afterDot = false;
+            var hasE = false;
+            foreach (var c in netFormat)
+            {
+                if (c == '"') { inString = !inString; continue; }
+                if (inString) continue;
+                if (c == 'E' || c == 'e') { hasE = true; break; }
+                if (c == '.') { afterDot = true; }
+                else if (afterDot && (c == '0' || c == '#')) significandDecimals++;
+            }
+            return hasE;
         }
     }
 }
