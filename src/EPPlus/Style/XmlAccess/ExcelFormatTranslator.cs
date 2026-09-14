@@ -712,33 +712,26 @@ namespace OfficeOpenXml.Style.XmlAccess
                 {
                     if (f.ContainsTextPlaceholder)
                     {
-                        return value;   // text format (@) — never round
+                        return value; 
                     }
                     if (IsScientific(f.NetFormat, out int significandDecimals))
                     {
                         if (d == 0d) return 0d;
-                        var exp = (int)Math.Floor(Math.Log10(Math.Abs(d)));   // 1234.5678 -> 3
-                        var mantissa = d / Math.Pow(10, exp);                 // -> 1.2345678
+                        var exp = (int)Math.Floor(Math.Log10(Math.Abs(d)));   
+                        var mantissa = d / Math.Pow(10, exp);                 
                         var roundedMantissa = (double)Math.Round(
-                            (decimal)mantissa, significandDecimals, MidpointRounding.AwayFromZero); // -> 1.23
-                        return roundedMantissa * Math.Pow(10, exp);           // -> 1230
+                            (decimal)mantissa, significandDecimals, MidpointRounding.AwayFromZero); 
+                        return roundedMantissa * Math.Pow(10, exp);           
                     }
                     var decimals = GetDecimalsFromFormat(f.NetFormat);
                     if (decimals >= 0)
-                    {
-                        //Cast to decimal for the rounding to get Excel-compatible midpoint behaviour.
-                        //A double like 1.005 is actually 1.00499999999999989, which Math.Round on a
-                        //double rounds down; (decimal)d lifts it to a true 1.005 so away-from-zero gives 1.01.
-                        //Same approach as the ROUND function (see the 39.285 note there).
+                    {                        
                         var scaleCommas = GetScaleCommas(f.NetFormat);
                         try
                         {
                             var dec = (decimal)d;
                             if (scaleCommas > 0)
                             {
-                                // e.g. "#,##0,," -> divide by 1000^2, round on the displayed
-                                // (scaled) value, then multiply back so magnitude is preserved.
-                                // 1234567 -> 1.234567 -> 1 -> 1000000 (matches Excel).
                                 var factor = (decimal)Math.Pow(1000, scaleCommas);
                                 var scaled = Math.Round(dec / factor, decimals, MidpointRounding.AwayFromZero);
                                 return (double)(scaled * factor);
@@ -852,9 +845,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             var inString = false;
             var inBracket = false;
             var count = 0;
-
-            // Walk from the end; skip anything after the numeric part is complicated,
-            // so instead find the last digit placeholder and count commas that follow it.
+       
             int lastDigit = -1;
             for (int i = 0; i < netFormat.Length; i++)
             {
@@ -870,7 +861,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             for (int i = lastDigit + 1; i < netFormat.Length; i++)
             {
                 if (netFormat[i] == ',') count++;
-                else break; // only consecutive trailing commas scale
+                else break; 
             }
             return count;
         }
