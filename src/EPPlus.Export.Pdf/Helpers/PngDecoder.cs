@@ -137,6 +137,111 @@ namespace EPPlus.Export.Pdf.Helpers
             deflatedAlpha = PdfFlate.CompressLeaveOpen(alpha);
         }
 
+        internal static bool TryReadChunk(byte[] d, string chunkType, out byte[] data)
+        {
+            data = null;
+            if (!IsPng(d)) return false;
+            int p = _pngSignature.Length;
+            while (p + 8 <= d.Length)
+            {
+                int len = ReadBE32(d, p);
+                string type = Ascii(d, p + 4, 4);
+                int dataStart = p + 8;
+                if (len < 0 || dataStart + len + 4 > d.Length) break;
+                if (type == chunkType)
+                {
+                    data = new byte[len];
+                    System.Array.Copy(d, dataStart, data, 0, len);
+                    return true;
+                }
+                if (type == "IEND") break;
+                p = dataStart + len + 4;
+            }
+            return false;
+        }
+
+        internal static bool DecodeIndexedAlpha(byte[] pngBytes, int width, int height, int bitDepth, out byte[] deflatedAlpha)
+        {
+            deflatedAlpha = null;
+            if (!TryReadChunk(pngBytes, "tRNS", out byte[] trns) || trns == null || trns.Length == 0)
+                return false;
+
+            byte[] filtered = PdfFlate.Decompress(ReadPngIdat(pngBytes, out byte[] _));
+            const int bpp = 1;
+            int stride = (width * bitDepth + 7) / 8;
+            var prev = new byte[stride];
+            var cur = new byte[stride];
+            var alpha = new byte[width * height];
+            int pos = 0, ai = 0;
+            for (int y = 0; y < height; y++)
+            {
+                int filter = pos < filtered.Length ? filtered[pos++] : 0;
+                for (int x = 0; x < stride; x++)
+                {
+                    int raw = pos < filtered.Length ? filtered[pos++] : 0;
+                    int a = x >= bpp ? cur[x - bpp] : 0;
+                    int b = prev[x];
+                    int c = x >= bpp ? prev[x - bpp] : 0;
+                    int val;
+                    switch (filter)
+                    {
+                        case 1: //Sub
+                            val = raw + a;
+                            break;
+                        case 2: //Up
+                            val = raw + b;
+                            break;
+                        case 3: //Average
+                            val = raw + ((a + b) >> 1);
+                            break;
+                        case 4: //Paeth
+                            val = raw + Paeth(a, b, c);
+                            break;
+                        default: //None
+                            val = raw;
+                            break;
+                    }
+                    cur[x] = (byte)(val & 0xFF);
+                }
+                for (int x = 0; x < width; x++)
+                {
+                    int index = GetSample(cur, x, bitDepth);
+                    alpha[ai++] = index < trns.Length ? trns[index] : (byte)255;
+                }
+                var swap = prev; prev = cur; cur = swap;
+            }
+            deflatedAlpha = PdfFlate.CompressLeaveOpen(alpha);
+            return true;
+        }
+
+        private static int GetSample(byte[] scanline, int x, int bitDepth)
+        {
+            switch (bitDepth)
+            {
+                case 8:
+                    return scanline[x];
+                case 4:
+                    {
+                        int b = scanline[x >> 1];
+                        return (x & 1) == 0 ? (b >> 4) & 0x0F : b & 0x0F;
+                    }
+                case 2:
+                    {
+                        int b = scanline[x >> 2];
+                        int shift = 6 - 2 * (x & 3);
+                        return (b >> shift) & 0x03;
+                    }
+                case 1:
+                    {
+                        int b = scanline[x >> 3];
+                        int shift = 7 - (x & 7);
+                        return (b >> shift) & 0x01;
+                    }
+                default:
+                    return scanline[x];
+            }
+        }
+
         internal static int Paeth(int a, int b, int c)
         {
             int p = a + b - c;
