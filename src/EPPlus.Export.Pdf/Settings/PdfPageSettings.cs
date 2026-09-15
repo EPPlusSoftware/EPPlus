@@ -249,6 +249,8 @@ namespace EPPlus.Export.Pdf.Settings
             c.SearchSystemDirectories = SearchSystemDirectories;
             c.EmbeddFonts = EmbeddFonts;
             c.defaultFontName = defaultFontName;
+            c.GsubFeatures = GsubFeatures;
+            c.GposFeatures = GposFeatures;
             c.Debug = Debug;
             c.PrintAsText = PrintAsText;
             return c;

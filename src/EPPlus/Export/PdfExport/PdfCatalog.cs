@@ -18,6 +18,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.RowResize;
+using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using System;
@@ -289,7 +290,7 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             var sheetSettings = new PdfPageSettings[pdfSheets.Length];
             for (int i = 0; i < pdfSheets.Length; i++)
-                sheetSettings[i] = pageSettings;
+                sheetSettings[i] = GetPdfSettings.GetPdfSettingsForSheet(pageSettings, pdfSheets[i].Worksheet.PrinterSettings);
             var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }
