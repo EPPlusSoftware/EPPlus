@@ -19,14 +19,11 @@ using OfficeOpenXml.Export.PdfExport;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.Settings;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System.Data;
-using System.Diagnostics;
 using System.Globalization;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -1120,6 +1117,15 @@ namespace EPPlusTest.PDF
             _dataTable.Rows.Add("New Zealand", 5084300, 268838);
             _dataTable.Rows.Add("Thailand", 69950850, 513120);
             _dataTable.Rows.Add("Vietnam", 98168833, 331212);
+        }
+
+        [TestMethod]
+        public void PngTransparentTest()
+        {
+            using var p = OpenTemplatePackage("Allsvenskan2001.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "Allsvenskan2001.pdf";
+            ws.SaveAsPdf(path);
         }
     }
 }

@@ -101,6 +101,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                             int hival = palette == null || palette.Length < 3 ? 0 : (palette.Length / 3) - 1;
                             ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + PngDecoder.ToHex(palette) + "> ]";
                             colors = 1;
+                            if (PngDecoder.DecodeIndexedAlpha(imageBytes, width, height, bitDepth, out byte[] indexedAlpha))
+                            {
+                                SoftMaskData = indexedAlpha;
+                                HasSoftMask = true;
+                            }
                             break;
                         default:
                             ColorSpace = "/DeviceRGB";
@@ -217,8 +222,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             {
                 if (!PngDecoder.ReadPngHeader(imageBytes, out int _, out int _, out int bitDepth, out int colorType, out int interlace))
                     return false;
-                if (interlace != 0) return false;
-                return (colorType == 4 || colorType == 6) && bitDepth == 8;
+                if (interlace != 0)
+                    return false;
+                if ((colorType == 4 || colorType == 6) && bitDepth == 8)
+                    return true;
+                if (colorType == 3)
+                    return PngDecoder.TryReadChunk(imageBytes, "tRNS", out byte[] _);
+                return false;
             }
             if (GifDecoder.IsGif(imageBytes))
             {
