@@ -67,12 +67,19 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.85;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
+                    if(sc.Chart.IsTypePie())
+                    {
+                        _maxWidth = sc.ChartArea.Rectangle.Width * 0.95d;
+                    }
+                    else
+                    {
+                        _maxWidth = sc.ChartArea.Rectangle.Width * 0.85d;
+                    }
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6d;
                     break;
                 default:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85;
+                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6d;
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85d;
                     break;
             }
             double entryWidth, entryHeight;
@@ -790,8 +797,14 @@ namespace EPPlusImageRenderer.Svg
 
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
-                //Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
+                //Rectangle.Bounds.Width = totalWidth;
+                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
                 Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
+
+                if(Rectangle.Bounds.Width < _maxWidth)
+                {
+                    Rectangle.Bounds.Height = entryHeight + TopMargin + BottomMargin;
+                }
             }
             pSls = null;
             sls = null;
