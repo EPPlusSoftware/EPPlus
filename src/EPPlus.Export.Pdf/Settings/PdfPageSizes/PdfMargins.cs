@@ -16,6 +16,8 @@ namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
 {
     public class PdfMargins
     {
+        //Suffix Pu is short hand for PdfUnits.
+
         public double Header { get; set; } = 7.6;
         public double Footer { get; set; } = 7.6d;
         public double Top { get; set; } = 19.1d;

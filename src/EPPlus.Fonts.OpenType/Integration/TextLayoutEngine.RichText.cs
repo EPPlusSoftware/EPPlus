@@ -21,6 +21,7 @@ using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace EPPlus.Fonts.OpenType.Integration
@@ -64,7 +65,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
+                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state, false);
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
@@ -92,14 +93,14 @@ namespace EPPlus.Fonts.OpenType.Integration
             double maxWidthPoints)
         {
             var tCollection = new TextFragmentCollectionSimple(new List<MeasurementFont>() { font }, new List<string> { text });
-            return WrapRichTextLines(tCollection, maxWidthPoints);
+            return WrapRichTextLines(tCollection, maxWidthPoints, isVertical : false);
         }
 
         public TextLineCollection WrapRichTextLineCollection(
             List<ITextFragmentBase> fragments,
             double maxWidthPoints)
         {
-            var innerLines = WrapRichTextLines(fragments, maxWidthPoints);
+            var innerLines = WrapRichTextLines(fragments, maxWidthPoints, false);
             var collection = new TextLineCollection(innerLines, fragments);
             return collection;
         }
@@ -110,15 +111,80 @@ namespace EPPlus.Fonts.OpenType.Integration
             return WrapRichTextLineCollection(frags, maxWidthPoints);
         }
 
+        public TextLineCollection BuildVerticalLineCollection(List<ITextFragmentBase> fragments)
+        {
+            var lines = new List<TextLineSimple>();
+            if (fragments == null || fragments.Count == 0)
+            {
+                return new TextLineCollection(lines, fragments ?? new List<ITextFragmentBase>(), true);
+            }
+
+            int globalIdx = 0;
+            for (int fragIdx = 0; fragIdx < fragments.Count; fragIdx++)
+            {
+                var fragment = fragments[fragIdx];
+                if (string.IsNullOrEmpty(fragment.Text)) continue;
+
+                var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
+                var options = fragment.Options ?? ShapingOptions.Default;
+                int len = fragment.Text.Length;
+
+                var charWidths = GetCharWidthBuffer(len);
+                Array.Clear(charWidths, 0, len);
+                shaper.ShapeLight(fragment.Text, options).FillCharWidths(fragment.Size, charWidths, len);
+
+                fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
+                fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
+
+                var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
+
+                int i = 0;
+                while (i < len)
+                {
+                    if (IsLineBreak(fragment.Text[i]))
+                    {
+                        int start = i;
+                        SkipLineBreakChars(fragment.Text, ref i);
+                        globalIdx += i - start;
+                        continue;
+                    }
+
+                    int count = 1;
+                    while (i + count < len && charWidths[i + count] == 0d) count++;
+
+                    var lf = new LineFragment(fragIdx, 0, i, globalIdx);
+                    lf.Width = charWidths[i];
+                    lf.SpaceWidth = spaceWidth;
+
+                    var line = new TextLineSimple();
+                    line.Text = fragment.Text.Substring(i, count);
+                    line.Width = charWidths[i];
+                    line.InternalLineFragments.Add(lf);
+                    lines.Add(line);
+
+                    i += count;
+                    globalIdx += count;
+                }
+            }
+
+            return new TextLineCollection(lines, fragments, finalizeLineFragments: true);
+        }
+
+        public TextLineCollection BuildVerticalLineCollection(List<TextFragment> fragments)
+        {
+            return BuildVerticalLineCollection(fragments.Cast<ITextFragmentBase>().ToList());
+        }
+
         public List<TextLineSimple> WrapRichTextLines(List<TextFragment> fragments, double maxWidthPoints)
         {
             var frags = fragments.Cast<ITextFragmentBase>().ToList();
-            return WrapRichTextLines(frags, maxWidthPoints);
+            return WrapRichTextLines(frags, maxWidthPoints, false);
         }
 
         public List<TextLineSimple> WrapRichTextLines(
             List<ITextFragmentBase> fragments,
-            double maxWidthPoints)
+            double maxWidthPoints,
+            bool isVertical)
         {
             if (fragments == null || fragments.Count == 0)
             {
@@ -136,7 +202,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
+                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state, isVertical);
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
@@ -174,23 +240,17 @@ namespace EPPlus.Fonts.OpenType.Integration
             return state.Lines;
         }
 
-        public List<TextLineSimple> WrapRichTextLineLineCollectionVertical(List<TextFragment> fragments, int maxHeightPoints)
+        public List<TextLineSimple> WrapRichTextLineLineCollectionVertical(List<TextFragment> fragments, double maxHeightPoints)
         {
             var frags = fragments.Cast<ITextFragmentBase>().ToList();
-            var innerLines = WrapVerticalTextTichTextLines(frags, maxHeightPoints);
+            var innerLines = WrapVerticalRichTextLines(frags, maxHeightPoints);
             return new TextLineCollection(innerLines, frags);
         }
 
-        private List<TextLineSimple> WrapVerticalTextTichTextLines(List<ITextFragmentBase> fragments, int maxHeightPoints)
+        public List<TextLineSimple> WrapVerticalRichTextLines(List<ITextFragmentBase> fragments, double maxHeightPoints)
         {
             var frags = fragments.Cast<ITextFragmentBase>().ToList();
-            return WrapRichTextLines(frags, maxHeightPoints);            
-        }
-
-        private void ProcessFragmentVertical()
-        {
-
-            throw new NotImplementedException();
+            return WrapRichTextLines(frags, maxHeightPoints, isVertical: true);
         }
 
         public List<TextLineSimple> WrapRichTextRuns(
@@ -306,32 +366,33 @@ namespace EPPlus.Fonts.OpenType.Integration
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
 
+            //Store for after everything is done
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
 
-            double[] charWidth = null;
+            double[] charWidths = null;
             double verticalStep = 0d;
             double spaceWidth;
 
             if (isVertical)
             {
+                verticalStep = fragment.AscentPoints + fragment.DescentPoints;
+                spaceWidth = verticalStep;
+            }
+            else
+            {
+                charWidths = GetCharWidthBuffer(len);
+                Array.Clear(charWidths, 0, len);
 
+                // ShapeLight applies only kerning (sufficient for line-breaking).
+                // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
+                // is ~250x slower and irrelevant for wrapping decisions.
+                var shaped = shaper.ShapeLight(fragment.Text, options);
+                shaped.FillCharWidths(fragment.Size, charWidths, len);
+
+                spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
             }
 
-            var charWidths = GetCharWidthBuffer(len);
-            Array.Clear(charWidths, 0, len);
-
-            // ShapeLight applies only kerning (sufficient for line-breaking).
-            // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
-            // is ~250x slower and irrelevant for wrapping decisions.
-            var shaped = shaper.ShapeLight(fragment.Text, options);
-            shaped.FillCharWidths(fragment.Size, charWidths, len);
-
-            //Store for after everything is done
-            fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
-            fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
-
-            var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
             state.LineFrag.SpaceWidth = spaceWidth;
 
@@ -354,9 +415,11 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 state.CharIdxRt = i;
 
-                state.CurrentLineWidth += charWidths[i];
-                state.CurrentWordWidth += charWidths[i];
-                state.LineFrag.Width += charWidths[i];
+                double advance = isVertical ? verticalStep : charWidths[i];
+
+                state.CurrentLineWidth += advance;
+                state.CurrentWordWidth += advance;
+                state.LineFrag.Width += advance;
 
                 lineBuilder.Append(c);
 
@@ -367,18 +430,11 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 if (state.CurrentLineWidth > maxWidthPoints)
                 {
-                    WrapCurrentLine(lineBuilder, state, maxWidthPoints, charWidths[i]);
+                    WrapCurrentLine(lineBuilder, state, maxWidthPoints, advance);
                 }
                 i++;
                 state.CharIdxWithinOriginal++;
             }
-
-            if (state.LineFrag.Width > 0)
-            {
-                state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
-            }
-
-            state.CurrentFragmentIdx++;
         }
 
         /// <summary>

@@ -22,20 +22,11 @@ namespace EPPlus.Export.Pdf.Resources
         internal int objectNumber;
         internal PdfCellFillData CellFillData;
 
-        // All mask-based patterns use an 8x8 tile in pattern space. The mask is the
-        // single source of geometry, so BBox and the tiling step are 8x8 for every
-        // pattern.
         private static readonly double[] PatternBBox = new double[] { 0d, 0d, 8d, 8d };
         private const double PatternStepX = 8d;
         private const double PatternStepY = 8d;
-
-        // The 8x8 pattern space is scaled down to match the physical tile size
-        // Excel uses (0.75 pt for a full tile, i.e. 0.75 / 8 per pattern unit).
-        // The scale is positive on both axes: the renderer already mirrors the
-        // mask in y, so no y-flip is applied here (that would double-flip).
         private const double PatternScale = 0.75d / 8d;
-        private static readonly double[] PatternMatrix =
-            new double[] { PatternScale, 0d, 0d, PatternScale, 0d, 0d };
+        private static readonly double[] PatternMatrix = new double[] { PatternScale, 0d, 0d, PatternScale, 0d, 0d };
 
         public PdfPatternResource(int labelNumber, PdfCellFillData cellFillData)
             : base("P", labelNumber)
@@ -46,8 +37,6 @@ namespace EPPlus.Export.Pdf.Resources
         public PdfPattern GetPatternObject(int objectNumber, int version = 0)
         {
             this.objectNumber = objectNumber;
-                        // None and Solid are not patterns; they are handled as special cases
-            // elsewhere in the export.
             if (CellFillData.PatternStyle == ExcelFillStyle.None ||
                 CellFillData.PatternStyle == ExcelFillStyle.Solid)
             {
@@ -66,9 +55,10 @@ namespace EPPlus.Export.Pdf.Resources
 
         /// <summary>
         /// Maps an Excel cell fill style to the corresponding 8x8 pattern mask.
-        /// Returns false for styles that have no mask (e.g. None/Solid, or any
-        /// style not rendered as a tiling pattern).
         /// </summary>
+        /// <param name="style">Cell style to evaluate.</param>
+        /// <param name="mask">References the pattern mask.</param>
+        /// <returns>Returns false for styles that have no mask.</returns>
         private static bool TryGetMask(ExcelFillStyle style, out ExcelPatternMask mask)
         {
             switch (style)

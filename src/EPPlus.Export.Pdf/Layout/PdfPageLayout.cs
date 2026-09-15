@@ -28,10 +28,6 @@ namespace EPPlus.Export.Pdf.Layout
         public double PrintTitleWidth;
         public double PrintTitleHeight;
         public bool isCommentsPage = false;
-        /// <summary>
-        /// The settings of the worksheet this page belongs to.
-        /// Set in PdfLayout.GetCatalog, read in ExcelPdf when writing the page.
-        /// </summary>
         internal PdfPageSettings Settings;
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height)

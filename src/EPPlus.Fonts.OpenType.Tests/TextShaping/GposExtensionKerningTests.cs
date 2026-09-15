@@ -69,12 +69,12 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             Assert.AreEqual(
                 GaramondKerningAV,
-                (int)provider.GetKerning(font.CmapTable.GetGlyphId('A'), font.CmapTable.GetGlyphId('V')),
+                (int)provider.GetKerning(font.CmapTable.GetGlyphId('A'), font.CmapTable.GetGlyphId('V'), "latn", null),
                 "A+V kerning must be found even though the kern lookup is extension wrapped");
 
             Assert.AreEqual(
                 GaramondKerningTo,
-                (int)provider.GetKerning(font.CmapTable.GetGlyphId('T'), font.CmapTable.GetGlyphId('o')),
+                (int)provider.GetKerning(font.CmapTable.GetGlyphId('T'), font.CmapTable.GetGlyphId('o'), "latn", null),
                 "T+o kerning must be found even though the kern lookup is extension wrapped");
         }
 
@@ -90,12 +90,12 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
 
             Assert.AreEqual(
                 RobotoKerningAV,
-                (int)provider.GetKerning(font.CmapTable.GetGlyphId('A'), font.CmapTable.GetGlyphId('V')),
+                (int)provider.GetKerning(font.CmapTable.GetGlyphId('A'), font.CmapTable.GetGlyphId('V'), "latn", null),
                 "A+V comes from a class based subtable");
 
             Assert.AreEqual(
                 RobotoKerningFa,
-                (int)provider.GetKerning(font.CmapTable.GetGlyphId('F'), font.CmapTable.GetGlyphId('a')),
+                (int)provider.GetKerning(font.CmapTable.GetGlyphId('F'), font.CmapTable.GetGlyphId('a'), "latn", null),
                 "F+a comes from an individual pair subtable");
         }
 
@@ -169,12 +169,12 @@ namespace EPPlus.Fonts.OpenType.Tests.TextShaping
             // Glyph ids are the subset ones here, which is exactly what the PDF path shapes with.
             Assert.AreEqual(
                 GaramondKerningAV,
-                (int)provider.GetKerning(subset.CmapTable.GetGlyphId('A'), subset.CmapTable.GetGlyphId('V')),
+                (int)provider.GetKerning(subset.CmapTable.GetGlyphId('A'), subset.CmapTable.GetGlyphId('V'), "latn", null),
                 "A+V kerning must survive subsetting and glyph id remapping");
 
             Assert.AreEqual(
                 GaramondKerningTo,
-                (int)provider.GetKerning(subset.CmapTable.GetGlyphId('T'), subset.CmapTable.GetGlyphId('o')),
+                (int)provider.GetKerning(subset.CmapTable.GetGlyphId('T'), subset.CmapTable.GetGlyphId('o'), "latn", null),
                 "T+o kerning must survive subsetting and glyph id remapping");
         }
 

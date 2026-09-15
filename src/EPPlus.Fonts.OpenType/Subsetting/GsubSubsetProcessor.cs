@@ -27,6 +27,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             var handlers = new IGsubLookupHandler[]
             {
                 new SingleSubstHandler(),
+                new MultipleSubstHandler(),
                 new LigatureSubstHandler(),
                 new ExtensionSubstHandler(),
                 new ChainingContextualHandler()

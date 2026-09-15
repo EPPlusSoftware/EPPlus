@@ -39,6 +39,42 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 }
             }
 
+            // --- Unicode Variation Sequences (cmap format 14) ---
+            // context.UsedCodePoints is a flat set of code points with no notion of "this selector
+            // followed this base char in the text" - CodePointUtil.ExtractCodePoints just decodes
+            // UTF-16 to scalar values, so a base char and a variation selector that appeared
+            // together in the text are indistinguishable here from two that never did. So for every
+            // variation selector actually present in the used code points, every OTHER used code
+            // point is checked against the original font's format-14 table, and any pair that IS
+            // registered there is kept. A pair that's registered in the font but never actually
+            // adjacent in the real text is a harmless false positive - a few extra bytes/glyphs in
+            // the subset - because TextShaper only ever looks up a pair it finds truly adjacent, so
+            // an over-included pair is simply never queried at render time.
+            var subtable14 = FindFormat14Subtable(context.OriginalFont);
+            if (subtable14 != null)
+            {
+                foreach (var selector in subtable14.VariationSelectors)
+                {
+                    if (!context.UsedCodePoints.Contains(selector.VarSelector))
+                        continue;
+
+                    foreach (uint baseCodePoint in context.UsedCodePoints)
+                    {
+                        if (baseCodePoint == selector.VarSelector)
+                            continue;
+
+                        ushort variantGid;
+                        if (context.OriginalFont.CmapTable.TryGetGlyphId(baseCodePoint, selector.VarSelector, out variantGid))
+                        {
+                            if (!context.IncludedGlyphs.Contains(variantGid))
+                            {
+                                context.IncludedGlyphs.Add(variantGid);
+                            }
+                        }
+                    }
+                }
+            }
+
             // Ensure GID 0 (.notdef) is always included
             if (!context.IncludedGlyphs.Contains(0))
             {
@@ -121,7 +157,111 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 newCmap.NumTables = 2;
             }
 
+            // --- Unicode Variation Sequences (cmap format 14) ---
+            // Preserve the (base, selector) pairs that Discover found registered in the original
+            // font and that are actually used in this subset, remapped to the subset's new glyph
+            // IDs. Without this, TextShaper's format-14 lookahead (which runs against whichever
+            // font it's actually shaping - full or subset) would silently fall back to the base
+            // character's default glyph when shaping against the embedded subset, even though the
+            // full font correctly picked a variant.
+            var originalSubtable14 = FindFormat14Subtable(context.OriginalFont);
+            if (originalSubtable14 != null)
+            {
+                var newSubtable14 = BuildSubsetFormat14Subtable(originalSubtable14, context);
+                if (newSubtable14 != null)
+                {
+                    // (0,5) - Unicode Variation Sequences: the platform/encoding combination the
+                    // OpenType spec registers for format 14.
+                    EncodingRecord uvsRecord = new EncodingRecord(Platforms.Unicode, 5, 0);
+                    uvsRecord.Subtable = newSubtable14;
+                    newCmap.EncodingRecords.Add(uvsRecord);
+                    newCmap.SubTables.Add(newSubtable14);
+                    newCmap.NumTables++;
+                }
+            }
+
             context.SubsetFont.AddOrReplaceTable(newCmap);
+        }
+
+        private static CmapSubtable14 FindFormat14Subtable(OpenTypeFont font)
+        {
+            foreach (var subtable in font.CmapTable.SubTables)
+            {
+                if (subtable.Format == 14)
+                    return subtable as CmapSubtable14;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Rebuilds a format-14 subtable containing only the variation selectors, base characters
+        /// and glyph IDs that are both registered in <paramref name="original"/> AND actually
+        /// present in this subset's used code points / retained glyph mapping. Returns null if
+        /// nothing survives the filter (e.g. the text used no variation sequences at all).
+        /// </summary>
+        private CmapSubtable14 BuildSubsetFormat14Subtable(CmapSubtable14 original, FontSubsettingContext context)
+        {
+            var newSubtable14 = new CmapSubtable14();
+
+            foreach (var selector in original.VariationSelectors)
+            {
+                if (!context.UsedCodePoints.Contains(selector.VarSelector))
+                    continue;
+
+                NonDefaultUvsTable newNonDefault = null;
+                if (selector.NonDefaultUvsTable != null)
+                {
+                    foreach (var mapping in selector.NonDefaultUvsTable.Mappings)
+                    {
+                        ushort newGid;
+                        if (context.UsedCodePoints.Contains(mapping.UnicodeValue) &&
+                            context.OldToNewGlyphId.TryGetValue(mapping.GlyphId, out newGid))
+                        {
+                            if (newNonDefault == null)
+                                newNonDefault = new NonDefaultUvsTable { Mappings = new List<UvsMapping>() };
+
+                            newNonDefault.Mappings.Add(new UvsMapping { UnicodeValue = mapping.UnicodeValue, GlyphId = newGid });
+                        }
+                    }
+                }
+
+                DefaultUvsTable newDefault = null;
+                if (selector.DefaultUvsTable != null)
+                {
+                    foreach (var range in selector.DefaultUvsTable.Ranges)
+                    {
+                        // A default-UVS range can span many code points; only the ones actually used
+                        // in this subset are kept, each re-emitted as its own single-value range
+                        // (AdditionalCount = 0). This produces more, smaller ranges than the original
+                        // font might use, but keeps the logic simple and correct - re-compacting
+                        // adjacent surviving code points back into wider ranges isn't worth the
+                        // complexity here.
+                        uint rangeEnd = range.StartUnicodeValue + (uint)range.AdditionalCount;
+                        for (uint cp = range.StartUnicodeValue; cp <= rangeEnd; cp++)
+                        {
+                            if (context.UsedCodePoints.Contains(cp))
+                            {
+                                if (newDefault == null)
+                                    newDefault = new DefaultUvsTable { Ranges = new List<UnicodeRange>() };
+
+                                newDefault.Ranges.Add(new UnicodeRange { StartUnicodeValue = cp, AdditionalCount = 0 });
+                            }
+                        }
+                    }
+                }
+
+                if (newNonDefault == null && newDefault == null)
+                    continue;
+
+                newSubtable14.VariationSelectors.Add(new VariationSelector
+                {
+                    VarSelector = selector.VarSelector,
+                    NonDefaultUvsTable = newNonDefault,
+                    DefaultUvsTable = newDefault
+                });
+            }
+
+            return newSubtable14.VariationSelectors.Count == 0 ? null : newSubtable14;
         }
 
         private CmapSubtable12 CreateFormat12Subtable(Dictionary<uint, ushort> mapping)

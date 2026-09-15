@@ -164,8 +164,6 @@ namespace EPPlus.Export.Pdf.Layout
             double theta = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
             double cos = System.Math.Cos(theta);
             double sin = System.Math.Sin(theta);
-            // Bounding box of the rotated block. Reading direction spans [0, textLength];
-            // the cross (line-height) direction spans [-descent, ascent].
             double[] gx = { 0d, textLength, 0d, textLength };
             double[] gy = { ascent, ascent, -descent, -descent };
             double minX = double.MaxValue, maxX = double.MinValue, minY = double.MaxValue, maxY = double.MinValue;
@@ -200,18 +198,16 @@ namespace EPPlus.Export.Pdf.Layout
                 default: // Center / Justify / Distributed
                     by = y + (height - blockHeight) / 2d; break;
             }
-            // Convert the bounding-box lower-left back to the baseline origin the matrix expects.
             return new Vector2(bx - minX, by - minY);
         }
 
-        // Set clipping to the cell's own bounds. cellY is the top edge (same convention as the constructor).
         internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight)
         {
             Clip = true;
             Clipping = new Rect()
             {
                 X = cellX + rightMargin,
-                Y = cellY - cellHeight,   // bottom-left corner in PDF space
+                Y = cellY - cellHeight,
                 Width = cellWidth - rightMargin * 2,
                 Height = cellHeight
             };

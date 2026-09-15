@@ -17,11 +17,7 @@ using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType1;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
-using EPPlus.Fonts.OpenType.Tests.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace EPPlus.Fonts.OpenType.Tests.Serialization
 {

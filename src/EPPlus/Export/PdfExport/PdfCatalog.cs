@@ -266,8 +266,6 @@ namespace OfficeOpenXml.Export.PdfExport
         internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             PdfWorksheet pdfSheet = GetPdfWorksheet(pageSettings, range);
-            //CollectTextInPdfWorksheet(pageSettings, pdfSheet);
-            //BuildSubsets(pageSettings);
             ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
             return pdfSheet.Ranges[0].Map;
         }
@@ -483,19 +481,17 @@ namespace OfficeOpenXml.Export.PdfExport
         private void GetPrintTitles(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             var worksheet = pdfSheet.Worksheet;
-            // --- Step 1: auto-detect from the worksheet's _xlnm.Print_Titles defined name ---
+            //Check the worksheet's _xlnm.Print_Titles defined name.
             if (worksheet.Names.ContainsKey("_xlnm.Print_Titles"))
             {
                 var printTitlesName = worksheet.Names["_xlnm.Print_Titles"];
                 foreach (var address in printTitlesName.Addresses)
                 {
-                    // A full-row reference spans every column  (e.g. $1:$3  →  _toCol == MaxColumns)
                     if (address._toCol >= ExcelPackage.MaxColumns)
                     {
                         pdfSheet.PrintTitleRowFrom = address._fromRow;
                         pdfSheet.PrintTitleRowTo = address._toRow;
                     }
-                    // A full-column reference spans every row  (e.g. $A:$B  →  _toRow == MaxRows)
                     else if (address._toRow >= ExcelPackage.MaxRows)
                     {
                         pdfSheet.PrintTitleColFrom = address._fromCol;
@@ -503,7 +499,7 @@ namespace OfficeOpenXml.Export.PdfExport
                     }
                 }
             }
-            // --- Step 2: PdfPageSettings overrides take precedence over the defined name ---
+            //Check PdfPageSettings overrides
             if (pageSettings.RowsToRepeatAtTop != null)
             {
                 ExcelAddressBase repeatRows = new ExcelAddressBase(pageSettings.RowsToRepeatAtTop);
@@ -516,8 +512,6 @@ namespace OfficeOpenXml.Export.PdfExport
                 pdfSheet.PrintTitleColFrom = repeatCols._fromCol;
                 pdfSheet.PrintTitleColTo = repeatCols._toCol;
             }
-
-            // --- Step 3: mark cells so the renderer can identify them instantly ---
             foreach (var range in pdfSheet.Ranges)
                 MarkPrintTitleCells(pdfSheet, range);
         }

@@ -31,7 +31,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
         public PdfAxialShading(int objectNumber, PdfCellGradientFillData GradientFillData, int version = 0)
             : base(objectNumber, version)
         {
-            //Fun test later for diagonal gradients. Diagonal gradients are set to 45 degrees, but in excel they go from corner to corner. To replicate this we could create out 45 in a square that we then scale to fill the dell.
             ColorSpace = DeviceColorSpace.DeviceRGB;
             Coords = [0, 0, 1, 0];
             if (!GradientFillData.Color3.Equals(Color.Empty))

@@ -31,7 +31,6 @@ namespace EPPlus.Export.Pdf
     /// </summary>
     internal class ExcelPdf
     {
-        private PdfPageSettings _pageSettings;
         private PdfDocumentSettings _documentSettings; 
         private PdfDictionaries _dictionaries;
         internal List<PdfObject> _document = new List<PdfObject>();
@@ -43,11 +42,6 @@ namespace EPPlus.Export.Pdf
             {
                 return "%PDF-1.7\n";
             }
-        }
-
-        internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
-        {
-            _pageSettings = pageSettings;
         }
 
         internal void SetDictionariesForTest(PdfDictionaries dictionaries)
@@ -84,7 +78,6 @@ namespace EPPlus.Export.Pdf
             {
                 foreach (var font in _dictionaries.Fonts)
                 {
-                    //font.Value.CreateGidsAndCharMaps();
                     var cidSet = font.Value.GetCidSet(_document.Count + 1);
                     if (cidSet != null) _document.Add(cidSet);
                     _document.Add(font.Value.GetEmbeddedFontStreamObject(_document.Count + 1));
@@ -123,8 +116,6 @@ namespace EPPlus.Export.Pdf
                 var gradient = shading.Value.CellFillData.GradientFillData;
                 if (gradient != null && gradient.GradientType == ExcelFillGradientType.Path)
                 {
-                    // Box gradient: ShadingType 1 + Type 4 PostScript function. A Type 4 function is
-                    // a stream object, so it must be its own indirect object referenced by the shading.
                     var boxFunction = new PdfPostScriptCalculatorFunction(_document.Count + 1, gradient);
                     _document.Add(boxFunction);
                     _document.Add(shading.Value.GetShadingObject(_document.Count + 1, boxFunction.objectNumber));
@@ -141,7 +132,7 @@ namespace EPPlus.Export.Pdf
             }
         }
 
-        //Add Images
+        //Add Image Data
         private void AddImageData()
         {
             foreach (var image in _dictionaries.Images)
@@ -149,9 +140,6 @@ namespace EPPlus.Export.Pdf
                 var img = image.Value.GetImageObject(_document.Count + 1);
                 if (img.HasSoftMask)
                 {
-                    // Alpha PNG: the alpha channel is a separate grayscale /SMask object. Add it
-                    // first, then point the image at it and shift the image (and the page /XObject
-                    // reference in image.Value) to the next slot so all three numbers agree.
                     var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
                     _document.Add(mask);
                     img.SoftMaskObjectNumber = mask.objectNumber;
@@ -190,19 +178,17 @@ namespace EPPlus.Export.Pdf
         private void AddContent(PdfPageLayout pageLayout, PdfPage page)
         {
             var pageSettings = pageLayout.Settings;
-
             var cells = pageLayout.ChildObjects.Where(t =>
                                                      (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
                                                     !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
                                                     !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
-
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
             var contentStream = new PdfContentStream(_document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
-            //Add clipping rectangle around page content.
+            //Start page content clipping rectangle.
             contentStream.AddCommand("q");
             contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
             if (pageSettings.ShowGridLines)
@@ -234,7 +220,7 @@ namespace EPPlus.Export.Pdf
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
-            // Heading cells render outside the clip — no merged-cell content can obscure them.
+            //Add headings
             foreach (var heading in headingLayouts)
             {
                 contentStream.AddCommand($"% HEADING : {heading.Name}");
@@ -248,6 +234,7 @@ namespace EPPlus.Export.Pdf
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
+            //Add outer gridlines
             if (pageSettings.ShowGridLines || pageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
@@ -258,6 +245,7 @@ namespace EPPlus.Export.Pdf
             {
                 contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
             }
+            //Add images
             foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
             {
                 if (!image.IsHeaderFooter) continue;
@@ -265,6 +253,7 @@ namespace EPPlus.Export.Pdf
                 contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
                 if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
+            //Add print titles
             foreach (var titleCell in printTitleLayouts)
             {
                 contentStream.AddCommand($"% PRINT TITLE : {titleCell.Name}");
@@ -291,10 +280,10 @@ namespace EPPlus.Export.Pdf
             return info;
         }
 
+        //Creates the Pdf document
         internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
-            //Write the PDF to the file. The Stream overload does the actual work and
-            //populates _debugString.
+            //Write the PDF to the file.
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 CreatePdf(documentSettings, dictionaries, layout, fs);
@@ -312,6 +301,7 @@ namespace EPPlus.Export.Pdf
             }
         }
 
+        //Creates the Pdf document
         internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -319,8 +309,6 @@ namespace EPPlus.Export.Pdf
             //The cross-reference table stores byte offsets that the PDF reader uses to
             //seek to each object, so the target stream has to support querying its position.
             if (!stream.CanSeek) throw new ArgumentException("The stream must be seekable, because the PDF cross-reference table requires byte offsets.", nameof(stream));
-
-            //_pageSettings = pageSettings;
             _documentSettings = documentSettings;
             _dictionaries = dictionaries;
             var catalog = AddCatalog(2);
@@ -344,13 +332,12 @@ namespace EPPlus.Export.Pdf
             AddImageData();
             var info = AddInfoObject();
             _debugString = "";
-            //write to pdf
+            //Write to pdf
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-            //Cross-reference offsets are relative to the start of the PDF. A freshly created
-            //FileStream starts at position 0, but a caller-supplied stream may already hold
-            //data, so capture the starting position and make every offset relative to it.
+            //Cross-reference offsets are relative to the start of the PDF.
+            //A freshly created FileStream starts at position 0, but a caller-supplied stream may already hold data, so capture the starting position and make every offset relative to it.
             long start = stream.Position;
-            //start writing pdf binary. leaveOpen: true so a caller-supplied stream is not closed.
+            //Start writing pdf binary. leaveOpen: true so a caller-supplied stream is not closed.
             using (var bw = new BinaryWriter(stream, Encoding.ASCII, true))
             {
                 //Write header
