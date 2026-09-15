@@ -441,6 +441,24 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             SaveSvg("PieWithDataLabels_WithLegendKey.svg", svgWithLegendKey);
         }
 
+        [TestMethod]
+        public async Task SavingWorkbookPieChartDatalabels()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("ws1");
+            ws.Cells["A1"].Value = 5;
+            ws.Cells["A2"].Value = 10;
+            ws.Cells["A3"].Value = 15;
+
+            var myPie = ws.Drawings.AddPieChart("myPie", ePieChartType.Pie);
+            myPie.Series.Add(ws.Cells["A1:A3"].TakeSingleColumn(0));
+
+            myPie.DataLabel.ShowPercent = true;
+
+            var of = GetOutputFile("", "PieChartHtml_dlbls_simple.xlsx");
+            p.SaveAs(of);
+        }
+
         public class RegionalSales
         {
             public string Region { get; set; }
