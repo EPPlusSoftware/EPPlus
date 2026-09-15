@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Drawing.Chart.Style;
 using System.Drawing;
+using EPPlus.DrawingRenderer.RenderItems;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -279,6 +280,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         protected override TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx)
         {
             return new DrawingTextRunRenderItem(Bounds, displayText, origRtIdx);
+        }
+
+        public override RenderItem Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

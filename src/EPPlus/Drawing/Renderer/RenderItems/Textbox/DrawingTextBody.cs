@@ -231,7 +231,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
         {
-            var paragraph = new SvgParagraphRenderItem(RenderContext, this, parent, "", false);
+            var paragraph = new SvgParagraphRenderItem(RenderContext, this, parent, "");
             paragraph.AddRichText(richText);
             return paragraph;
         }
