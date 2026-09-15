@@ -17,8 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RoundingHelper;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -112,6 +110,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 _txtBox.Left += iconWidth;
                 _seriesIcon.Bounds.Left -= 0.75d;
+                Rectangle.Bounds.Width += iconWidth + 0.75d;
 
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
 
