@@ -44,18 +44,19 @@ namespace EPPlus.Export.Pdf.Tests
 
         private static TextLayoutEngine CreateEngine(params string[] textsToRegister)
         {
-            var pageSettings = new PdfPageSettings();
-            var dictionaries = new PdfDictionaries();
+            throw new NotImplementedException();
+            //var pageSettings = new PdfPageSettings();
+            //var dictionaries = new PdfDictionaries();
 
-            foreach (var text in textsToRegister)
-            {
-                dictionaries.AddFont(pageSettings, FontName, FontSubFamily.Regular, text);
-            }
+            //foreach (var text in textsToRegister)
+            //{
+            //    dictionaries.AddFont(pageSettings, FontName, FontSubFamily.Regular, text);
+            //}
 
-            var fullFontName = FontName + " " + FontSubFamily.Regular.ToString();
-            var provider = dictionaries.Fonts[fullFontName].fontSubsetManager.CreateSubsettedProvider();
+            //var fullFontName = FontName + " " + FontSubFamily.Regular.ToString();
+            //var provider = dictionaries.Fonts[fullFontName].fontSubsetManager.CreateSubsettedProvider();
 
-            return new TextLayoutEngine(new TextShaper(provider));
+            //return new TextLayoutEngine(new TextShaper(provider));
         }
 
         private static List<ITextFragmentBase> Fragments(params string[] texts)
