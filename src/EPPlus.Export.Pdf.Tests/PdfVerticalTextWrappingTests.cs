@@ -1,5 +1,9 @@
-﻿using EPPlus.Fonts.OpenType.Integration;
+﻿using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Fonts.OpenType.TextShaping;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
@@ -38,10 +42,20 @@ namespace EPPlus.Export.Pdf.Tests
                 "Break positions must be identical for narrow and wide glyphs.");
         }
 
-        private static TextLayoutEngine CreateEngine()
+        private static TextLayoutEngine CreateEngine(params string[] textsToRegister)
         {
-            Assert.Inconclusive("Fill in TextLayoutEngine construction before running these tests.");
-            return null;
+            var pageSettings = new PdfPageSettings();
+            var dictionaries = new PdfDictionaries();
+
+            foreach (var text in textsToRegister)
+            {
+                dictionaries.AddFont(pageSettings, FontName, FontSubFamily.Regular, text);
+            }
+
+            var fullFontName = FontName + " " + FontSubFamily.Regular.ToString();
+            var provider = dictionaries.Fonts[fullFontName].fontSubsetManager.CreateSubsettedProvider();
+
+            return new TextLayoutEngine(new TextShaper(provider));
         }
 
         private static List<ITextFragmentBase> Fragments(params string[] texts)
