@@ -412,75 +412,41 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
         {
-            if (reverseDirection)
-            {
-                direction *= -1;
-            }
-
-            //////Ensure vector is normalized
+            //Ensure vector is normalized
             var directionOnly = direction / direction.Length;
 
-            //var outwardDir = directionOnly *= -1;
+            double percentWidth;
+            double percentHeight;
 
+            if (reverseDirection)
+            {
+                directionOnly *= -1;
+            }
 
-            //var topLeft = Rectangle.Bounds.Position;
-            //var topRight = Rectangle.Bounds.Position + new Vector2(Rectangle.Width, 0);
-            //var bottomRight = Rectangle.Bounds.Position + new Vector2(Rectangle.Width, Rectangle.Height);
-            //var bottomLeft = Rectangle.Bounds.Position + new Vector2(0, Rectangle.Height);
+            //At 0.5 direction we have diagonal "maximum distance"
+            //We want to create a system where 0.5 is 100% distance And where 1 is 100% distance.
+            //Both going towards zero and going towards 1 shrinks the total distance compared to the maximum at 0.5
+            //When horizontal we are at 100% width and 0% height and vice versa
+            //No matter negative or positive if a direction value is over 0.5 then we use the entire value.
+            percentWidth = Math.Abs(directionOnly.X) >= 0.5d ? 1d : Math.Abs(directionOnly.X) * 2;
+            percentHeight = Math.Abs(directionOnly.Y) >= 0.5d ? 1d : Math.Abs(directionOnly.Y) * 2;
 
-
-            //var outwardDir = directionOnly *= -1;
-
-
-
+            //Only half the rect can be outside as it is centered on the point
             var rectWidth = (Rectangle.Width / 2d);
             var rectHeight = (Rectangle.Height / 2d);
+            double actualDistance;
 
-
-
-            //if (directionOnly.X < 0)
-            //{
-            //    triangleWidth *= -1;
-            //}
-            //if (directionOnly.Y < 0)
-            //{
-            //    triangleHeight *= -1;
-            //}
-
-            ////var vectorTxtboxWidthHeight = new Vector2(triangleWidth, triangleHeight);
-
-            //The furthest we Might have to move
+            //The furthest we Might have to move if both directions contain a value of 0.5 (sign does not matter)
+            //Then the distance to move would be the diagonal between width and height
             double MaxPossibleDistance = Math.Sqrt(Math.Pow(rectWidth, 2d) + Math.Pow(rectHeight, 2d));
-
-            //double minPossibleDistance = Math.Max(Math.Abs(triangleWidth), Math.Abs(triangleHeight));
-            //double minPossibleX = triangleWidth;
-            //double minPossibleY = 
-
-            //At 0.5 direction we have diagonal "maximum distance" when 0 we have 0 when we have 1 we have width or height (for the given direction)
-            double percentWidth =  Math.Abs(directionOnly.X) >= 0.5d ? 1d : Math.Abs(directionOnly.X) * 2;
-            double percentHeight = Math.Abs(directionOnly.Y) >= 0.5d ? 1d : Math.Abs(directionOnly.Y) * 2;
 
             double triangleWidth = rectWidth * percentWidth;
             double triangleHeight = rectHeight * percentHeight;
 
             //Calculate diagonal between two sides using basic trig
-            double ActualDistance = Math.Sqrt(Math.Pow(triangleWidth, 2d) + Math.Pow(triangleHeight, 2d));
+            actualDistance = Math.Sqrt(Math.Pow(triangleWidth, 2d) + Math.Pow(triangleHeight, 2d));
 
-            //var lengthVariance = MaxPossibleDistance - minPossibleDistance;
-
-            //if (directionOnly.X > 0 && directionOnly.Y > 0 || directionOnly.X < 0 && directionOnly.Y < 0)
-            //{
-            //    //One of the verticies of the rect is the point furthest outside the circle
-            //    scalar = Math.Sqrt(Math.Pow(triangleWidth, 2d) + Math.Pow(triangleHeight, 2d));
-            //}
-            //else
-            //{
-            //    //One of the sides is the point furthest outside the circle
-            //}
-
-
-
-            Rectangle.Bounds.Position += directionOnly * ActualDistance;
+            Rectangle.Bounds.Position += directionOnly * actualDistance;
         }
 
         private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
@@ -610,8 +576,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //CreateDebugPoints(basePoint, endPoint, centerPoint, maxBoundsPieSlice);
             //---
 
-            _labelPosition = eLabelPosition.InEnd;
-
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
@@ -672,14 +636,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         {
                             //Set inside End
                             SetInOut(endToBaseVector, endPoint.LocalPosition, false);
-                            //ApplyBestFitExtraMargin(endToBaseVector, false, 2.2d);
+                            ApplyBestFitExtraMargin(endToBaseVector, false, 5d);
                         }
                     }
                     else
                     {
                         //Set outside end
                         SetInOut(endToBaseVector, endPoint.LocalPosition, true);
-                        //ApplyBestFitExtraMargin(endToBaseVector, true, 2.2d);
+                        ApplyBestFitExtraMargin(endToBaseVector, true, 5d);
                     }
                     break;
                 default:
