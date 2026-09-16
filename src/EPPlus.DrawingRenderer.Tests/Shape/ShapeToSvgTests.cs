@@ -399,6 +399,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         }
 
 
+
         [TestMethod]
         public void GenerateAllShapes()
         {
@@ -406,6 +407,19 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             {
                 var ws = p.Workbook.Worksheets.Add("Shapes");
                 int y = 100, i = 1;
+
+
+
+                //var shape = ws.Drawings.AddShape(eShapeStyle.SmileyFace.ToString(), eShapeStyle.SmileyFace);
+                //shape.Text = eShapeStyle.SmileyFace.ToString();
+                //Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
+                //shape.SetPosition(y, 100);
+                //shape.SetSize(600, 600);
+                //y += 700;
+
+                //var shapeSvg = shape.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
+
                 foreach (eShapeStyle style in Enum.GetValues(typeof(eShapeStyle)))
                 {
                     if (style == eShapeStyle.CustomShape) continue;
@@ -415,6 +429,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                     shape.SetPosition(y, 100);
                     shape.SetSize(600, 600);
                     y += 700;
+
+                    var shapeSvg = shape.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
                     i++;
                 }
                 SaveWorkbook("shapes.xlsx", p);
