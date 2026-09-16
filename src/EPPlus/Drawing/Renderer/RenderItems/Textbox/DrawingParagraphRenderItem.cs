@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 }
             }
 
-            Color defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Background1).GetColor();
+            Color defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
 
             //If this paragraph has defaults of its own enter here
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
