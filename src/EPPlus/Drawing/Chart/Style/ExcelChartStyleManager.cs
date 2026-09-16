@@ -211,11 +211,17 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                         var item = new ExcelChartStyleLibraryItem() { Id = id, XmlString = uncompressedContent };
                         if (name[0] == 'c') //Colors
                         {
-                            ColorsLibrary.Add(item.Id, item);
+                            if (ColorsLibrary.ContainsKey(item.Id) == false)
+                            {
+                                ColorsLibrary.Add(item.Id, item);
+                            }
                         }
                         else
                         {
-                            StyleLibrary.Add(item.Id, item);
+                            if (StyleLibrary.ContainsKey(item.Id)==false)
+                            {
+                                StyleLibrary.Add(item.Id, item);
+                            }
                         }
                     }
                 }
