@@ -23,13 +23,13 @@ namespace EPPlusImageRenderer.Svg
     {
         public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
-            if(options.Size.Width.HasValue)
+            if(options.Width.HasValue)
             {
-                sc.Bounds.Width = options.Size.WidthPixels;
+                sc.Bounds.Width = options.Width.Value;
             }
-            if (options.Size.Height.HasValue)
+            if (options.Height.HasValue)
             {
-                sc.Bounds.Height = options.Size.HeightPixels;
+                sc.Bounds.Height = options.Height.Value;
             }
 
             Rectangle = new RectRenderItem(sc.Bounds);

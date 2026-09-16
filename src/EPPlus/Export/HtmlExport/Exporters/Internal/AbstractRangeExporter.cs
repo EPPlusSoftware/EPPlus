@@ -94,6 +94,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
                         _rangeDrawings.Add(new HtmlSvgDrawing()
                         {
+                            Range=range,
                             WorksheetId = worksheet.PositionId,
                             Drawing = d,
                             FromRow = fromRow,
@@ -199,7 +200,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             if (toColOff > 0) toCol++;
                         }
 
-                            if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollition.Inside)
+                        if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollition.No)
                         {
                             if (fromRow < drawMinRow) drawMinRow = fromRow;
                             if (fromCol < drawMinCol) drawMinCol = fromCol;

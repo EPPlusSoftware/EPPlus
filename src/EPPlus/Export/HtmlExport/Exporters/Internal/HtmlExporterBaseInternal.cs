@@ -238,7 +238,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             ExcelTable inRangeTable=null;
             var ws = range.Worksheet;
             HtmlImage image = null;
-            HtmlDrawing drawing = null;
+            HtmlSvgDrawing drawing = null;
             bool hasFooter = table != null && table.ShowTotal;
             while (row <= endRow)
             {
@@ -292,7 +292,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
-                    if (Settings.Drawings.Include == (eDrawingInclude.Include | eDrawingInclude.IncludeInHtmlOnly))
+                    if (Settings.Drawings.Include == eDrawingInclude.Include || Settings.Drawings.Include == eDrawingInclude.IncludeInHtmlOnly)
                     {
                         drawing = GetDrawing(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
@@ -301,13 +301,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     {
                         var t = table ?? inRangeTable;
                         var addRowScope = t == null ? false : t.ShowFirstColumn && col == t.Address._fromCol || t.ShowLastColumn && col == t.Address._toCol;
-                        AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext, inRangeTable);
+                        AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, drawing, _exporterContext, inRangeTable);
                     }
                     else
                     {
                         GetClassData(tblData, table != null, image, cell, Settings, _exporterContext, inRangeTable, out HTMLElement contentElement);
 
                         AddImage(contentElement, Settings, image, cell.Value);
+                        AddDrawing(contentElement, Settings, drawing, cell.Value);
                         AddHyperlink(contentElement, cell, Settings);
                     }
                     tr.AddChildElement(tblData);
@@ -834,7 +835,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         }
 
 
-        public void AddTableDataFromCell(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, ExporterContext content, ExcelTable inRangeTable)
+        public void AddTableDataFromCell(ExcelRangeBase cell, string dataType, HTMLElement element, HtmlExportSettings settings, bool addRowScope, HtmlImage image, HtmlSvgDrawing drawing, ExporterContext content, ExcelTable inRangeTable)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -856,6 +857,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             GetClassData(element, true, image, cell, settings, content, inRangeTable, out HTMLElement contentElement);
 
             AddImage(contentElement, settings, image, cell.Value);
+            AddDrawing(contentElement, Settings, drawing, cell.Value);
 
             if (cell.IsRichText)
             {

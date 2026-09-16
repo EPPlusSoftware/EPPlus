@@ -18,7 +18,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Text;
 using System.Xml;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 using EPPlus.DrawingRenderer;
 namespace OfficeOpenXml.Drawing
 {

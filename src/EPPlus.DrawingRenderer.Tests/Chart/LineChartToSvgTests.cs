@@ -390,6 +390,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 chart.To.Column = 10;
                 chart.StyleManager.SetChartStyle(ePresetChartStyle.LineChartStyle5);
 
+                var textBox = sheet.Drawings.AddShape("InfoBox", eShapeStyle.RoundRect);
+                textBox.RichText.Add("This is a line chart with data from the table below. The chart is exported as SVG when exporting to HTML. Sizes and positions in this export are absolute.");
+                textBox.SetPosition(2, 0, 12, 0);
+                textBox.SetSize(300, 200);
+
                 var exporter = sheet.Cells.CreateHtmlExporter();
                 var settings = exporter.Settings;
                 settings.Drawings.Include = eDrawingInclude.Include;
@@ -403,9 +408,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 settings.Drawings.Position = eDrawingPosition.Absolute;
                 //SaveWorkbook("HtmlExportWithLineChart.xlsx", package);
                 // export css and html
-                var html = exporter.GetHtmlString();
-                var css = exporter.GetCssString();
-                //var html = await exporter.GetSinglePageAsync();
+                //var html = exporter.GetHtmlString();
+                //var css = exporter.GetCssString();
+                var html = await exporter.GetSinglePageAsync();
 
                 SaveSvg("HtmlExportWithLineChart.html", html);
             }

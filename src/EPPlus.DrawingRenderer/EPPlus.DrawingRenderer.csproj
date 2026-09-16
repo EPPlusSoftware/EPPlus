@@ -22,9 +22,16 @@
 	  <Compile Remove="RenderItems\Shared\TextRunItem.cs" />
 	  <Compile Remove="RenderItems\Shared\TransformGroup.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="resource\psd.zip" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="resource\psd.zip" />
+	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" />
+	  <ProjectReference Include="..\EPPlus.Compression\EPPlus.Compression.csproj" PrivateAssets="all" />
+	  <ProjectReference Include="..\EPPlus.Graphics\EPPlus.Graphics.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

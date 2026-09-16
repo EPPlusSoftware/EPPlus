@@ -10,25 +10,46 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.DrawingRenderer.Utils;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Reflection;
+using System.Xml;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using System.Runtime.CompilerServices;
 namespace EPPlus.DrawingRenderer.ShapeDefinitions
 {
     public partial class PresetShapeDefinitions
     {
         public static void LoadPresetShapeDefinitionFromXml()
         {
-            var xmlFile = Directory.GetCurrentDirectory() + "\\resource\\presetShapeDefinitions.xml";
+            var assembly = Assembly.GetExecutingAssembly();
+            using Stream stream = assembly.GetManifestResourceStream("EPPlus.DrawingRenderer.resource.psd.zip");
 
+            using (var zipStream = new ZipInputStream(stream))
+            {
+                ZipEntry entry;
+                while ((entry = zipStream.GetNextEntry()) != null)
+                {
+                    if (entry.FileName.Equals("psd-min.xml"))
+                    {
+                        var br = new BinaryReader(zipStream);
+                        var bytes = br.ReadBytes((int)entry.UncompressedSize);
+                        Read(bytes);
+                    }
+                }
+            }
+        }
+
+        private static void Read(byte[] bytes)
+        {
             try
             {
-                var ms = new MemoryStream(File.ReadAllBytes(xmlFile));
+                var ms = new MemoryStream(bytes);
 #if NET35
                 var xr = XmlReader.Create(ms, new XmlReaderSettings()
                 {
@@ -51,6 +72,43 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                         if (xr.LocalName != "presetShapeDefinitons")
                         {
                             var item = LoadPresetShapeDefinition(xr);
+                            _shapeDefinitions.Add(item.Style, item);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (new IOException("Cannot preset shape definitions file:presetShapeDefinitions.xml", ex));
+            }
+        }
+        private static async Task ReadAsync(byte[] bytes)
+        {
+            try
+            {
+                var ms = new MemoryStream(bytes);
+#if NET35
+                var xr = XmlReader.Create(ms, new XmlReaderSettings()
+                {
+                    ProhibitDtd=true,
+                    IgnoreWhitespace = true
+                });
+#else
+                var xr = XmlReader.Create(ms, new XmlReaderSettings()
+                {
+                    DtdProcessing = DtdProcessing.Prohibit,
+                    IgnoreWhitespace = true,
+                    Async = true
+                });
+#endif
+
+                while (await xr.ReadAsync())
+                {
+                    if (xr.NodeType == XmlNodeType.Element)
+                    {
+                        if (xr.LocalName != "presetShapeDefinitons")
+                        {
+                            var item = await LoadPresetShapeDefinitionAsync(xr);
                             _shapeDefinitions.Add(item.Style, item);
                         }
                     }

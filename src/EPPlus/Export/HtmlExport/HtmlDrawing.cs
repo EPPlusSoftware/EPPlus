@@ -8,6 +8,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class HtmlDrawing
     {
+        public ExcelRangeBase Range{ get; set; }
         public int WorksheetId { get; set; }
         public int FromRow { get; set; }
         public int FromRowOff { get; set; }
