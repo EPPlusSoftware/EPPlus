@@ -23,7 +23,7 @@ jobs:
 
     # --- Read version and target frameworks from Directory.Build.props ---
     # Both Version and the shared target framework list are centralized in
-    # src/Directory.Build.props (shared by EPPlus and the four embedded sub-projects:
+    # src/Directory.Build.props (shared by EPPlus and the five embedded sub-projects:
     # DrawingRenderer, Export.Pdf, Fonts.OpenType, Graphics). EPPlus.csproj no longer
     # holds a literal TFM list; it consumes $(EPPlusCoreTargetFrameworks), which a raw
     # XML parser cannot expand. Therefore both values are read directly from props.
@@ -77,8 +77,8 @@ jobs:
 
     # --- Sign DLLs ---
     # All assemblies that ship inside a NuGet package are signed here, before the package is signed.
-    # EPPlus + the four embedded sub-projects (DrawingRenderer, Export.Pdf, Fonts.OpenType,
-    # Graphics) share the same target frameworks (EPPlusCoreTargetFrameworks, read into env.TFMS).
+    # EPPlus + the five embedded sub-projects (DrawingRenderer, Export.Pdf, Fonts.OpenType,
+    # Graphics, Compression) share the same target frameworks (EPPlusCoreTargetFrameworks, read into env.TFMS).
     # EPPlus.Interfaces and EPPlus.System.Drawing are separate NuGet packages (unchanged from
     # earlier versions) and are also signed here, as before.
     # NOTE: this signs the DLLs in each project's bin/Release/<tfm> output. The embedded copies
@@ -93,7 +93,8 @@ jobs:
           "EPPlus.DrawingRenderer",
           "EPPlus.Export.Pdf",
           "EPPlus.Fonts.OpenType",
-          "EPPlus.Graphics"
+          "EPPlus.Graphics",
+          "EPPlus.Compression"
         )
 
         $tfms = "${{ env.TFMS }}" -split ";"
@@ -173,7 +174,7 @@ jobs:
     # Automates the manual check that the four sub-projects are present in the final EPPlus
     # package and signed with the same certificate as EPPlus.dll. This is the primary safety net:
     # because packaging depends on build behaviour, this step must fail the build if the package
-    # is ever produced without all five embedded assemblies.
+    # is ever produced without all six embedded assemblies.
     - name: Verify EPPlus package contents and signatures
       run: |
         $nupkg = Get-ChildItem ./output/*.nupkg |
@@ -191,13 +192,14 @@ jobs:
         if (Test-Path $extractPath) { Remove-Item $extractPath -Recurse -Force }
         Expand-Archive -Path $nupkg.FullName -DestinationPath $extractPath -Force
 
-        # The five assemblies that must ship inside the EPPlus package.
+        # The six assemblies that must ship inside the EPPlus package.
         $expectedDlls = @(
           "EPPlus.dll",
           "EPPlus.DrawingRenderer.dll",
           "EPPlus.Export.Pdf.dll",
           "EPPlus.Fonts.OpenType.dll",
-          "EPPlus.Graphics.dll"
+          "EPPlus.Graphics.dll",
+          "EPPlus.Compression.dll"
         )
 
         $hasError = $false
