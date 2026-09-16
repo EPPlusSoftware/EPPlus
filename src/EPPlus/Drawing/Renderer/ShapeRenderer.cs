@@ -266,19 +266,23 @@ namespace OfficeOpenXml.Drawing.Renderer
             MarginTextBox.Width = InsetTextBox.Width - r - l;
             MarginTextBox.Height = InsetTextBox.Height - b - t;
 
-            var grp = new GroupRenderItem(InsetTextBox.Bounds);
-            grp.TranslationOffset = new Point(InsetTextBox.Left, InsetTextBox.Top);
+            var grp = new GroupRenderItem(this.Bounds);
+            grp.Bounds.Position = MarginTextBox.Bounds.Position;
+            //grp.TranslationOffset = new Point(InsetTextBox.Left, InsetTextBox.Top);
             //grp.Bounds.Position = new EPPlus.Graphics.Geometry.Vector2(InsetTextBox.GlobalLeft, InsetTextBox.GlobalRight);
             //grp.AddChildItem(InsetTextBox);
             //grp.AddChildItem(MarginTextBox);
             RenderItems.Add(grp);
 
-            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, MarginTextBox.Left, MarginTextBox.Top, MarginTextBox.Width, MarginTextBox.Height);
+            //RenderItems.Add(InsetTextBox);
+            //RenderItems.Add(MarginTextBox);
+
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, t, MarginTextBox.Width, MarginTextBox.Height, true);
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 
             txtBodyItem.AppendRenderItems(grp.RenderItems);
-            txtBodyItem.Left += InsetTextBox.Left;
-            txtBodyItem.Top += InsetTextBox.Top;
+            //txtBodyItem.Left += InsetTextBox.Left;
+            //txtBodyItem.Top += InsetTextBox.Top;
 
             //ChartAreaRenderItems.Add(new SvgEndGroupItem(this, Bounds));
             

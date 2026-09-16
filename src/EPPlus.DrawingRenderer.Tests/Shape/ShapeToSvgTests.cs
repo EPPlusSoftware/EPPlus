@@ -410,8 +410,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
 
 
-                //var shape = ws.Drawings.AddShape(eShapeStyle.SmileyFace.ToString(), eShapeStyle.SmileyFace);
-                //shape.Text = eShapeStyle.SmileyFace.ToString();
+                //var shape = ws.Drawings.AddShape(eShapeStyle.Gear6.ToString(), eShapeStyle.Gear6);
+                //shape.Text = eShapeStyle.Gear9.ToString();
                 //Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
                 //shape.SetPosition(y, 100);
                 //shape.SetSize(600, 600);
