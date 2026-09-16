@@ -10,10 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -25,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using EPPlus.DrawingRenderer;
 namespace EPPlusImageRenderer.Svg
 {
     internal class ChartLegendRenderer : ChartDrawingObject
@@ -804,6 +805,7 @@ namespace EPPlusImageRenderer.Svg
                 if(Rectangle.Bounds.Width < _maxWidth)
                 {
                     Rectangle.Bounds.Height = entryHeight + TopMargin + BottomMargin;
+                    Rectangle.Bounds.Top = ChartRenderer.ChartArea.Rectangle.Height - Rectangle.Height - BottomMargin - TopMargin;
                 }
             }
             pSls = null;
