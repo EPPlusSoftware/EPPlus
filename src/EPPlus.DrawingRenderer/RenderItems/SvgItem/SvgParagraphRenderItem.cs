@@ -42,5 +42,10 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
         {
             return new SvgTextRunRenderItem(parent, displayText, origRtIdx);
         }
+
+        public override RenderItem Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

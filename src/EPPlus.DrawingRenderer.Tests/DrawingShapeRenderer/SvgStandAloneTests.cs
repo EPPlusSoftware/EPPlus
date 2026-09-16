@@ -97,7 +97,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         private void GenerateTextBodyFile(string fileName, GroupRenderItem baseGroup, SvgTextBodyRenderItem textBody)
         {
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb, new SvgRenderOptions());
+            var options = new SvgRenderOptions();
+            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb, options);
 
             var background = new RectRenderItem(baseGroup.Bounds);
 

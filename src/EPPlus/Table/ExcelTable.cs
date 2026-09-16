@@ -720,6 +720,7 @@ namespace OfficeOpenXml.Table
             set
             {
                 _tableStyle=value;
+                _tblStyleHandler = null;
                 if (value != TableStyles.Custom)
                 {
                     SetXmlNodeString(STYLENAME_PATH, "TableStyle" + value.ToString());
@@ -1525,21 +1526,23 @@ namespace OfficeOpenXml.Table
             return WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
         }
 
+        ExcelTableNamedStyle _tblStyleHandler=null;
         internal ExcelTableNamedStyle GetTableNamedStyle()
         {
-            ExcelTableNamedStyle tblStyle;
-            if (TableStyle == TableStyles.Custom)
+            if (_tblStyleHandler == null)
             {
-                tblStyle = WorkSheet.Workbook.Styles.TableStyles[StyleName].As.TableStyle;
+                if (TableStyle == TableStyles.Custom)
+                {
+                    _tblStyleHandler = WorkSheet.Workbook.Styles.TableStyles[StyleName].As.TableStyle;
+                }
+                else
+                {
+                    var tmpNode = WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                    _tblStyleHandler = new ExcelTableNamedStyle(WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, WorkSheet.Workbook.Styles);
+                    _tblStyleHandler.SetFromTemplate(TableStyle);
+                }
             }
-            else
-            {
-                var tmpNode = WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                tblStyle = new ExcelTableNamedStyle(WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, WorkSheet.Workbook.Styles);
-                tblStyle.SetFromTemplate(TableStyle);
-            }
-
-            return tblStyle;
+            return _tblStyleHandler;
         }
     }
 }

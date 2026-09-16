@@ -17,7 +17,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
+                var ws = p.Workbook.Worksheets[4];
+
+                var explosion = ws.Drawings["ExplosionAll"];
+
+                var explodeSvg = explosion.ToSvg();
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
@@ -47,6 +51,23 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                     var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\ExplosionOwnSheet_{ws.Name}_{c.Name}.svg", svg);
                 }
+            }
+        }
+
+        [TestMethod]
+        public void ManySlices()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            //Same as PieChartSvgALL but seperatated out explosionBestFit chart
+            using (var p = OpenTemplatePackage("BestFitPie.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Dlbls"];
+
+                var manySlices = ws.Drawings["ManySlices_Rot"];
+
+                var svg = manySlices.ToSvg();
+                SaveTextFileToWorkbook($"svg\\PieChartSvgALL\\ManySlicesSeperated{ws.Name}_{manySlices.Name}.svg", svg);
             }
         }
 

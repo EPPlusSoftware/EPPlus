@@ -19,10 +19,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private RenderItem seriesIcon = null;
         private int _serieIndex = -1;
+        private int _origIndex = -1;
         ExcelDrawingParagraph defaultParagraph;
         BoundingBox plotAreaBounds;
         BoundingBox _defaultMargins;
-        ExcelChartSerieDataLabel _dlblSerie;
+        ExcelChartDataLabel _dlbl;
 
         internal double rotation = double.NaN;
         internal Graphics.Point rotationPoint = null;
@@ -31,13 +32,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         double? SummedSeries = null;
 
-        public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartSerieDataLabel dlblSerie, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
+        public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartDataLabel dlbl, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
             _serieIndex = index;
-            _dlblSerie = dlblSerie;
+            _origIndex = index;
+            _dlbl = dlbl;
             plotAreaBounds = chart.Plotarea.Group.Bounds;
 
-            DefaultFillColor =  dlblSerie.Fill != null && dlblSerie.Fill.Color.IsEmpty == false ? dlblSerie.Fill.Color : Color.Transparent;
+            DefaultFillColor =  dlbl.Fill != null && dlbl.Fill.Color.IsEmpty == false ? dlbl.Fill.Color : Color.Transparent;
 
 
             if(yValues != null && yValues.Count != 0)
@@ -49,21 +51,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            if (dlblSerie.TextBody.Paragraphs.Count != 0)
+            if (dlbl.TextBody.Paragraphs.Count != 0)
             {
-                defaultParagraph = dlblSerie.TextBody.Paragraphs[0];
+                defaultParagraph = dlbl.TextBody.Paragraphs[0];
             }
 
-            dlblSerie.TextBody.GetInsetsInPoints(out double l, out double top, out double right, out double bottom);
-            _defaultMargins = new BoundingBox(l, top, right, bottom);
+            dlbl.TextBody.GetInsetsInPointsNullable(out double? nullL, out double? nullT, out double? nullR, out double? nullB);
 
-            if (dlblSerie.DataLabels.Count == 0 && serie.NumberOfItems > 0)
+            //Datalabels have different default margins than standard Rectangle shape
+            double l = nullL ?? 3.1181102362d;
+            double t = nullT ?? 1.4173228346d;
+            double r = nullR ?? 3.1181102362d;
+            double b = nullB ?? 1.4173228346d;
+
+            _defaultMargins = new BoundingBox(l, t, r, b);
+
+            var dlblSerie = dlbl as ExcelChartSerieDataLabel;
+            if (dlblSerie == null || dlblSerie.DataLabels.Count == 0)
             {
                 for (int i = 0; i < serie.NumberOfItems; i++)
                 {
                     var yVal = yValues == null ? null : yValues[i];
                     var xVal = xValues == null ? null : xValues[i];
-                    AddDatalabel(serie, dlblSerie, xVal, yValues[i], maxBounds);
+                    AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
+                    //Bit strange but in e.g. pie charts each datapoint counts as a new series for the purposes of legendIcons etc.
+                    _serieIndex++;
                 }
             }
             else
@@ -94,7 +106,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
         }
-
+        
         private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
         {
             if (ChartRenderer.Legend == null)
@@ -104,11 +116,26 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             else
             {
                 var legendItem = ChartRenderer.Legend;
-                var seriesIconOrig = (LineRenderItem)legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+
+                var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
-                clonedIcon.Y1 = 0;
-                clonedIcon.Y2 = 0;
+                if (seriesIconOrig.FillColor == null && seriesIconOrig.GradientFill != null)
+                {
+                    clonedIcon.GradientFill = seriesIconOrig.GradientFill;
+                }
+
+                if (clonedIcon is LineRenderItem lineIcon)
+                {
+                    lineIcon.Y1 = 0;
+                    lineIcon.Y2 = 0;
+                }
+                else if (clonedIcon is RectRenderItem rectIcon)
+                {
+                    rectIcon.Left = 0;
+                    rectIcon.Top = 0;
+                }
+
 
                 seriesIcon = clonedIcon;
             }
@@ -116,7 +143,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private RenderItem GetSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
         {
-            if(seriesIcon == null)
+            //We MUST create a new icon per series. For pie chart each data point is a new series
+            //Therefore check if _origIndex matches
+            if (seriesIcon == null || _origIndex != _serieIndex)
             {
                 CreateSeriesIcon(serie, maxBounds);
             }
@@ -124,7 +153,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             return seriesIcon;
         }
 
-        private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabelStandard dataLabel, object xValue, object yValue, BoundingBox maxBounds)
+        private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
             var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
             newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
@@ -169,10 +198,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 plotAreaGroup.Rotation = rotation;
             }
 
-            if (_dlblSerie.Fill.IsEmpty == false)
+            if (_dlbl.Fill.IsEmpty == false)
             {
-                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
-                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlblSerie.Fill, null);
+                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
             }
 
             renderItems.Add(plotAreaGroup);

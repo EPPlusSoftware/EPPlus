@@ -14,28 +14,25 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.Utils;
 using EPPlusImageRenderer;
-using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Export.HtmlExport;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.Drawings;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.FileUtils;
-using OfficeOpenXml.Utils.TypeConversion;
 using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -809,7 +806,7 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
-        internal int GetPixelLeft()
+        internal int GetPixelLeft(int fromCol = 0)
         {
             int pix = 0;
             if (_collectionType == DrawingsCollectionType.Chart)
@@ -830,7 +827,7 @@ namespace OfficeOpenXml.Drawing
                 double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = 0;
-                for (int col = 0; col < From.Column; col++)
+                for (int col = fromCol; col < From.Column; col++)
                 {
                     pix += ws.GetColumnWidthPixels(col, mdw);
                 }
@@ -839,7 +836,12 @@ namespace OfficeOpenXml.Drawing
 
             return pix;
         }
-        internal int GetPixelTop()
+        /// <summary>
+        /// Returns Pixels 
+        /// </summary>
+        /// <param name="fromRow">The from row. Zero based</param>
+        /// <returns></returns>
+        internal int GetPixelTop(int fromRow=0)
         {
             int pix = 0;
             if (_collectionType == DrawingsCollectionType.Chart)
@@ -860,7 +862,7 @@ namespace OfficeOpenXml.Drawing
                 if (From != null)
                 {
                     var cache = _drawings.Worksheet.RowHeightCache;
-                    for (int row = 0; row < From.Row; row++)
+                    for (int row = fromRow; row < From.Row; row++)
                     {
                         lock (cache)
                         {

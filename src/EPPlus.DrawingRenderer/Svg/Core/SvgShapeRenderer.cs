@@ -17,18 +17,19 @@ namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
+        SvgRenderOptions _options;
         public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options)
         {
             BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream);
-
+            _options = options;
             //Override size.
-            if (options.Size.Width.HasValue)
+            if (options.Width.HasValue)
             {
-                bounds.Width = options.Size.WidthPixels;
+                bounds.Width = (double)options.Width;
             }
-            if (options.Size.Height.HasValue)
+            if (options.Height.HasValue)
             {
-                bounds.Height = options.Size.HeightPixels;
+                bounds.Height = (double)options.Height;
             }
 
             Bounds = bounds;
@@ -43,7 +44,7 @@ namespace EPPlus.DrawingRenderer
         public bool Render(List<RenderItem> items)
         {
             OutputStream.Clear();
-            OutputStream.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\"{GetViewBoxAttr()}>");
             PreRender(items);
             foreach (var item in items)
             {
@@ -76,6 +77,11 @@ namespace EPPlus.DrawingRenderer
             return true;
         }
 
+        private string GetViewBoxAttr()
+        {
+            if (string.IsNullOrEmpty(ViewBox)) return $" viewbox=\"0 0 {Math.Round(Bounds.Width + 1,0).PointToPixelString()} {Math.Round(Bounds.Height + 1).PointToPixelString()}\""; // +1 here is to make sure outer borders are not clipped. This should be fixed for when the full calculation for the viewbox is implemented. For now, we just add 1 pixel to the width and height to make sure the outer border is not clipped.
+            return $" viewbox=\"{ViewBox}\"";
+        }
 
         public void PreRenderGroup(List<RenderItem> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
         {

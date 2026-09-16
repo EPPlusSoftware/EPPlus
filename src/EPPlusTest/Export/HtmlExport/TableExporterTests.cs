@@ -1,14 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Drawing;
-using OfficeOpenXml.Style;
-using System.Text;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EPPlusTest.Export.HtmlExport
