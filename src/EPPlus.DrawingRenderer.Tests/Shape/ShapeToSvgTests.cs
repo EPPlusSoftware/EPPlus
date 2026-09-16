@@ -612,7 +612,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 _currentShape.Fill.Style = eFillStyle.SolidFill;
                 _currentShape.Fill.Color = System.Drawing.Color.BlueViolet;
-                _currentShape.Font.Color = System.Drawing.Color.Goldenrod;
+                //_currentShape.Font.Color = System.Drawing.Color.Goldenrod;
 
                 _currentShape.TextBody.TopInsert = 0;
                 _currentShape.TextBody.BottomInsert = 0;
@@ -620,6 +620,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 _currentShape.TextBody.LeftInsert = 0;
 
                 var para1 = _currentShape.TextBody.Paragraphs.Add("TextBodySvg\r\na");
+                para1.DefaultRunProperties.Color = System.Drawing.Color.Goldenrod;
                 //var test = _currentShape.TextBody.AnchorCenter;
 
                 para1.LeftMargin = 5;
