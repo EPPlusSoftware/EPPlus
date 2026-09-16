@@ -10,10 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -25,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using EPPlus.DrawingRenderer;
 namespace EPPlusImageRenderer.Svg
 {
     internal class ChartLegendRenderer : ChartDrawingObject
@@ -67,12 +68,19 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.85;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
+                    if(sc.Chart.IsTypePie())
+                    {
+                        _maxWidth = sc.ChartArea.Rectangle.Width * 0.95d;
+                    }
+                    else
+                    {
+                        _maxWidth = sc.ChartArea.Rectangle.Width * 0.85d;
+                    }
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6d;
                     break;
                 default:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85;
+                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6d;
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85d;
                     break;
             }
             double entryWidth, entryHeight;
@@ -790,8 +798,15 @@ namespace EPPlusImageRenderer.Svg
 
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
-                //Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
+                //Rectangle.Bounds.Width = totalWidth;
+                Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
                 Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
+
+                if(Rectangle.Bounds.Width < _maxWidth)
+                {
+                    Rectangle.Bounds.Height = entryHeight + TopMargin + BottomMargin;
+                    Rectangle.Bounds.Top = ChartRenderer.ChartArea.Rectangle.Height - Rectangle.Height - BottomMargin - TopMargin;
+                }
             }
             pSls = null;
             sls = null;

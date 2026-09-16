@@ -311,7 +311,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     if (isColumn)
                     {
-                        if (y < 0 && catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt ?? valAx.Min) > y)) //Below axis
+                        if (y < 0 && catAx.Axis.Crosses != eCrosses.Min && ((catAx.Axis.CrossesAt ?? valAx.Min) < y)) //Below axis
                         {
                             rect.Top = chartBaseY;
                             rect.Height = yPos - chartBaseY;
@@ -324,7 +324,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (y < 0 && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt??valAx.Min) > y)) //Below axis
+                        if (y < 0 && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt??valAx.Min) < y)) //Below axis
                         {
                             rect.Left = yPos;
                             rect.Width = chartBaseY - yPos;

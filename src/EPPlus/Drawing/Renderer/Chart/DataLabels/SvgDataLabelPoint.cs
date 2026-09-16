@@ -1,6 +1,7 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
@@ -16,8 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RoundingHelper;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -111,13 +110,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 _txtBox.Left += iconWidth;
                 _seriesIcon.Bounds.Left -= 0.75d;
-                //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
-                Rectangle.Bounds.Left += 4d + 2.25d;
-                LeftMargin -= 2.25d + 4d;
-                Rectangle.Bounds.Width += iconWidth + 2.25d;
+                Rectangle.Bounds.Width += iconWidth + 0.75d;
 
-                //Hardcoded top margin
-                Rectangle.Bounds.Height += iconHeight + 1.4173228346d;
+                //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
+
+                //Increase width by iconWidth + right margin of icon
+                //Rectangle.Bounds.Width += iconWidth + 2.25d;
+                //Move the starting bounds to origin point since width increased by that much
+                //LeftMargin -= 2.25;
+                //Excel appears to simply add icon width rightwards after applying everything else instead of truly considering the icon
+                //it only considers the new location of the Textbox with Its margins for bestfit
+                //LeftMargin += 2.25d + iconWidth;
+
+                ////Hardcoded top margin
+                //Rectangle.Bounds.Height += iconHeight + 1.4173228346d;
+                //TopMargin -= 1.4173228346d + 3d;
+                //_txtBox.Top += iconHeight;
 
                 _haveAdjustedForIcon = true;
             }
@@ -184,7 +192,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 if(defaultParagraph == null)
                 {
-                    txtBox.TextBody.AddParagraph(finalString);
+                    //Default font size for an item within a drawing is 10pt if unspecified
+                    var rtItem = new RichTextFormatSimple(finalString, "Aptos Narrow", 10f);
+                    rtItem.FontColor = Color.Black;
+                    txtBox.TextBody.AddParagraph(rtItem);
                     txtBox.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Center;
                 }
                 else
@@ -201,9 +212,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
             }
 
+            //Ensure nothing has defaulted to 11
+            foreach(var paragraph in txtBox.TextBody.Paragraphs)
+            {
+                paragraph.DefaultParagraphFont.Size = 10f;
+            }
+
             txtBox.TextBody.RecalculateParagraphs();
 
-            if(txtBox.LeftMargin == 0)
+            if (txtBox.LeftMargin == 0)
             {
                 txtBox.LeftMargin = defaultMargins.Left;
                 txtBox.RightMargin = defaultMargins.Width;
@@ -394,20 +411,41 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void SetAdjustedTextBoxPosition(Vector2 direction, bool reverseDirection)
         {
-            if (reverseDirection)
-            {
-                direction *= -1;
-            }
-
-            var triangleWidth = (Rectangle.Width / 2d);
-            var triangleHeight = (Rectangle.Height / 2d);
-
-            var scalar = Math.Sqrt(Math.Pow(triangleWidth, 2) + Math.Pow(triangleHeight, 2));
-
             //Ensure vector is normalized
             var directionOnly = direction / direction.Length;
 
-            Rectangle.Bounds.Position += directionOnly * scalar;
+            double percentWidth;
+            double percentHeight;
+
+            if (reverseDirection)
+            {
+                directionOnly *= -1;
+            }
+
+            //At 0.5 direction we have diagonal "maximum distance"
+            //We want to create a system where 0.5 is 100% distance And where 1 is 100% distance.
+            //Both going towards zero and going towards 1 shrinks the total distance compared to the maximum at 0.5
+            //When horizontal we are at 100% width and 0% height and vice versa
+            //No matter negative or positive if a direction value is over 0.5 then we use the entire value.
+            percentWidth = Math.Abs(directionOnly.X) >= 0.5d ? 1d : Math.Abs(directionOnly.X) * 2;
+            percentHeight = Math.Abs(directionOnly.Y) >= 0.5d ? 1d : Math.Abs(directionOnly.Y) * 2;
+
+            //Only half the rect can be outside as it is centered on the point
+            var rectWidth = (Rectangle.Width / 2d);
+            var rectHeight = (Rectangle.Height / 2d);
+            double actualDistance;
+
+            //The furthest we Might have to move if both directions contain a value of 0.5 (sign does not matter)
+            //Then the distance to move would be the diagonal between width and height
+            double MaxPossibleDistance = Math.Sqrt(Math.Pow(rectWidth, 2d) + Math.Pow(rectHeight, 2d));
+
+            double triangleWidth = rectWidth * percentWidth;
+            double triangleHeight = rectHeight * percentHeight;
+
+            //Calculate diagonal between two sides using basic trig
+            actualDistance = Math.Sqrt(Math.Pow(triangleWidth, 2d) + Math.Pow(triangleHeight, 2d));
+
+            Rectangle.Bounds.Position += directionOnly * actualDistance;
         }
 
         private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
@@ -597,14 +635,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         {
                             //Set inside End
                             SetInOut(endToBaseVector, endPoint.LocalPosition, false);
-                            ApplyBestFitExtraMargin(endToBaseVector, false, 2.2d);
+                            ApplyBestFitExtraMargin(endToBaseVector, false, 5d);
                         }
                     }
                     else
                     {
                         //Set outside end
                         SetInOut(endToBaseVector, endPoint.LocalPosition, true);
-                        ApplyBestFitExtraMargin(endToBaseVector, true, 2.2d);
+                        ApplyBestFitExtraMargin(endToBaseVector, true, 5d);
                     }
                     break;
                 default:

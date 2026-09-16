@@ -181,8 +181,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     //Fallback to the defaults of the first paragraph
                     if (p._paragraphs[0].DefaultRunProperties != null && p._paragraphs[0].DefaultRunProperties.Fill != null && p._paragraphs[0].DefaultRunProperties.Fill.IsEmpty == false)
                     {
-                        var fill = p._paragraphs[0].DefaultRunProperties.Fill;
-                        this.SetDrawingPropertiesFill(textBody.Theme, fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        ExcelDrawingFill fill;
+                        if (p.DefaultRunProperties.Fill != null)
+                        {
+                            //If possible use theme defaults using the fill of the current paragraph
+                            fill = p.DefaultRunProperties.Fill;
+                        }
+                        else
+                        {
+                            //Otherwise use the default fill of the first paragraph
+                            fill = p._paragraphs[0].DefaultRunProperties.Fill;
+                        }
+                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else if(p.DefaultRunProperties.Fill != null)
                     {
