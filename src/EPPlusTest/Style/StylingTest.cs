@@ -62,8 +62,8 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void VerifyColumnStyle()
         {
-            var ws=_pck.Workbook.Worksheets.Add("RangeStyle");
-            LoadTestdata(ws, 100,2,2);
+            var ws = _pck.Workbook.Worksheets.Add("RangeStyle");
+            LoadTestdata(ws, 100, 2, 2);
 
             ws.Row(3).Style.Fill.SetBackground(ExcelIndexedColor.Indexed5);
             ws.Column(3).Style.Fill.SetBackground(ExcelIndexedColor.Indexed7);
@@ -99,10 +99,10 @@ namespace EPPlusTest.Style
         {
             var ws = _pck.Workbook.Worksheets.Add("TextRotation");
 
-            ws.Cells["A1:A182"].Value="RotatedText";
-            for(int i=1;i<=180;i++)
+            ws.Cells["A1:A182"].Value = "RotatedText";
+            for (int i = 1; i <= 180; i++)
             {
-                ws.Cells[i,1].Style.TextRotation = i;
+                ws.Cells[i, 1].Style.TextRotation = i;
             }
             ws.Cells[181, 1].Style.TextRotation = 255;
             ws.Cells[182, 1].Style.SetTextVertical();
@@ -128,9 +128,9 @@ namespace EPPlusTest.Style
 
                 Assert.IsNull(gradient.Color1.Rgb);
                 Assert.IsNull(gradient.Color1.Theme);
-                Assert.AreEqual(-1,gradient.Color1.Indexed);
+                Assert.AreEqual(-1, gradient.Color1.Indexed);
                 Assert.IsFalse(gradient.Color1.Auto);
-                
+
                 //Validate Inititialized values.
                 gradient.Type = ExcelFillGradientType.Linear;
                 Assert.AreEqual(ExcelFillGradientType.Linear, gradient.Type);
@@ -161,7 +161,7 @@ namespace EPPlusTest.Style
 
             Assert.IsNull(ws.Cells["A1"].Style.Font.Charset);
 
-            ws.Cells["A1"].Style.Font.Charset=2;
+            ws.Cells["A1"].Style.Font.Charset = 2;
 
             Assert.AreEqual(2, ws.Cells["A1"].Style.Font.Charset);
         }
@@ -479,7 +479,8 @@ namespace EPPlusTest.Style
                 cell.Value = -28868;
                 Assert.AreEqual("(28 868)", cell.Text);
                 Thread.CurrentThread.CurrentCulture = cci;
-            };
+            }
+            ;
         }
 
         [TestMethod]
@@ -601,7 +602,7 @@ namespace EPPlusTest.Style
                 var singlePage = exporter.GetSinglePage();
 
                 var fontName = ws.Cells["A1"].Style.Font.Name;
-                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:"+ fontName + ";font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:" + fontName + ";font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
                 Assert.AreEqual(origString, singlePage);
 
                 var outputFile = GetOutputFile("", "CheckboxesColoured.html");

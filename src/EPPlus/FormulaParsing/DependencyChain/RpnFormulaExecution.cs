@@ -1144,14 +1144,13 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static bool IsSingleAddress(RpnFormula f)
         {
-            var t = f._tokenIndex + 1;
-            while (t < f._tokens.Count && f._tokens[t].TokenTypeIsAddressToken)
+            var t = f._tokenIndex + 2;
+            if(t < f._tokens.Count && f._tokens[t-1].TokenTypeIsAddressToken)
             {
                 if (f._tokens[t].TokenType == TokenType.Operator && f._tokens[t].Value == ":")
                 {
                     return false;
                 }
-                t++;
             }
             return true;
         }
