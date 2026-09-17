@@ -44,7 +44,7 @@ namespace EPPlus.DrawingRenderer
         public bool Render(List<RenderItem> items)
         {
             OutputStream.Clear();
-            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\"{GetViewBoxAttr()}>");
+            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()}>");
             PreRender(items);
             foreach (var item in items)
             {

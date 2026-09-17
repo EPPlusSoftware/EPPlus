@@ -445,6 +445,25 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             SaveSvg("PieWithDataLabels.svg", svg);
             SaveSvg("PieWithDataLabels_WithLegendKey.svg", svgWithLegendKey);
         }
+        [TestMethod]
+        public async Task HtmlExportCombo()
+        {
+            using var package = CreateWorkbook(eChartType.Area, ePresetChartStyleMultiSeries.ComboChartStyle1);
+            var sheet = package.Workbook.Worksheets[0];
+            var exporter = sheet.Cells.CreateHtmlExporter();
+            var settings = exporter.Settings;
+            settings.Drawings.Include = eDrawingInclude.IncludeInCssOnly; // Exclude the chart from the HTML export, we will export it as a separate SVG. Optinally you could use the eDrawingInclude.IncludeAsClass option to include the chart in the HTML export as a class.
+            settings.Culture = CultureInfo.InvariantCulture;
+
+            settings.TableId = "currency-table";
+            settings.AdditionalTableClassNames.Add("table");
+            settings.AdditionalTableClassNames.Add("table-sm");
+            settings.AdditionalTableClassNames.Add("table-borderless");
+
+            var Html = await exporter.GetHtmlStringAsync(); // Get the HTML string for the worksheet without the chart as a table.
+            var Css = await exporter.GetCssStringAsync();   //Get the CSS string for the worksheet without the chart as a table. You could include the drawing in the css as a class, but in this case we want to export the chart as a separate SVG.
+            var SvgChart = sheet.Drawings[0].ToSvg(x => { x.SvgSize.Width.SetPercent(100); x.SvgSize.Height.Remove(); });       //Get the chart as a separate SVG string.
+        }
 
         [TestMethod]
         public async Task SavingWorkbookPieChartDatalabels()

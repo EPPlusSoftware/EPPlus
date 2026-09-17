@@ -1,0 +1,30 @@
+version: 9.0.0-preview.{build}
+branches:
+  only:
+  - develop8
+configuration: release
+image: Visual Studio 2026
+install:
+init:
+- ps: >-
+    $packageVersion = "9.0.0-preview.$env:appveyor_build_number"
+
+    Update-AppveyorBuild -Version $packageVersion
+
+    Write-Host "Package version: $packageVersion"
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: 9.0.0.{build}
+  file_version: 9.0.0.{build}
+nuget:
+  project_feed: true
+before_build:
+- cmd: dotnet restore ./src/EPPlus.sln
+build:
+  verbosity: minimal
+artifacts:
+- path: '**\*.nupkg'
+  name: EPPlus Nuget Package
