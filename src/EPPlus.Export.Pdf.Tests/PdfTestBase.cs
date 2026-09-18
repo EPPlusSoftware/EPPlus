@@ -56,6 +56,10 @@ namespace EPPlus.Export.Pdf.Tests
             {
                 pdfFileName += ".pdf";
             }
+            if(Directory.Exists(_pdfPath)==false)
+            {
+                Directory.CreateDirectory(_pdfPath);
+            }
             var path = Path.Combine(_pdfPath, pdfFileName);
             new PdfCatalog(settings, sheet).Save(path);
         }
