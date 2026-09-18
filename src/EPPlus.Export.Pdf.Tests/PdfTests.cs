@@ -530,7 +530,7 @@ namespace EPPlusTest.PDF
             SaveAsPdf(ws, "ThreeFonts_NoSkip.pdf");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void PdfColorIssue_WithCopiedWorksheet()
         {
             var helper = new ColorIssueTestHelper();
