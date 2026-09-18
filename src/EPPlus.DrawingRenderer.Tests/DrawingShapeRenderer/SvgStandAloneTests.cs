@@ -6,6 +6,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Drawing;
 using System.Text;
 
@@ -123,6 +124,10 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         private SvgTextBodyRenderItem GenerateTextBody(GroupRenderItem baseGroup)
         {
             var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            if (engine.GetFontAvailability("Archivo Narrow") == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive("Font not found. This is expected behaviour on web.");
+            }
             var renderContext = new RenderContext(() => engine);
             var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup.Bounds, true);
             var paragraph = textBody.AddParagraph("Hello");
