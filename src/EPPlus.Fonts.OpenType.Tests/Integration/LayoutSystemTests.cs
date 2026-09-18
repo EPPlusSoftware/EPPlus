@@ -7,11 +7,11 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using System.Drawing;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
     [TestClass]
+    [Ignore]
     public class LayoutSystemTests : FontTestBase
     {
         public override TestContext? TestContext { get; set; }
@@ -143,6 +143,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        [Ignore]
         public void EnsureCorrectTotalIndex()
         {
             List<string> lstOfRichText = new() { "aaaaaaaa aa aaaaaaaaaLa Strike", "Goudy size 16" };

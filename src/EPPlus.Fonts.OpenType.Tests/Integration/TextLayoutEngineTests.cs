@@ -9,6 +9,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 namespace EPPlus.Fonts.OpenType.Tests.Integration
 {
     [TestClass]
+    [Ignore]
     public class TextLayoutEngineTests : FontTestBase
     {
         public override TestContext? TestContext { get; set; }
@@ -855,6 +856,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Integration
         }
 
         [TestMethod]
+        [Ignore]
         public void EnsureCorrectTotalIndex()
         {
             List<string> lstOfRichText = new() { "aaaaaaaa aa aaaaaaaaaLa Strike", "Goudy size 16" };

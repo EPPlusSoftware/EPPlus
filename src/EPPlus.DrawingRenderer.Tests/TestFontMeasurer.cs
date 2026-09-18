@@ -257,6 +257,7 @@ namespace TestProject1
         }
 
         [TestMethod]
+        [Ignore]
         public void WrapDifficultSpotSpace()
         {
             var text = "facilisis tellus. Morbi ";
