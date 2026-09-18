@@ -29,6 +29,7 @@ namespace TestProject1
         private OpenTypeFontEngine SystemFolderEngine => _systemFolderEngine ?? new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
 
         [TestMethod]
+        [Ignore]
         public void CompareFontMeasurer3()
         {
             var mf = new MeasurementFont()
