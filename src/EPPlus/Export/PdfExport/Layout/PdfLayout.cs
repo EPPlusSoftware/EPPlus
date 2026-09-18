@@ -112,8 +112,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     {
                         AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
                         AddPrintTitleHeadings(pageSettings, dictionaries, page, pageLayout, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
-                        AddSpillCells(pageSettings, dictionaries, page, pageLayout);
                     }
+                    AddSpillCells(pageSettings, dictionaries, page, pageLayout);
                     AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
                     double y = contentStartY;
                     double x = contentStartX;
@@ -1459,8 +1459,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static PdfCell RangeCell(PdfRange range, int row, int col)
         {
-            if (row < range.Range._fromRow || row > range.Range._toRow) return null;
-            if (col < range.Range._fromCol || col > range.Range._toCol) return null;
+            //if (row < range.Range._fromRow || row > range.Range._toRow) return null;
+            //if (col < range.Range._fromCol || col > range.Range._toCol) return null;
+            //return range.Map[row, col];
+            if (row < range.Map.FromRow || row > range.Map.ToRow) return null;
+            if (col < range.Map.FromColumn || col > range.Map.ToColumn) return null;
             return range.Map[row, col];
         }
 
