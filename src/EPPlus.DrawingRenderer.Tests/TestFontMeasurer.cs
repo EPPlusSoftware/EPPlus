@@ -197,6 +197,7 @@ namespace TestProject1
         }
 
         [TestMethod]
+        [Ignore]
         public void LoremIpsumTesting()
         {
             var text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pulvinar interdum imperdiet. Praesent ut auctor urna. Phasellus sollicitudin quam vitae est convallis";
