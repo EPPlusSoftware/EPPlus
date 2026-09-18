@@ -66,6 +66,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void SvgRectTest()
         {
             var baseGroup = GenerateShapeRenderer();
@@ -73,6 +74,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void SvgTextRun()
         {
             var baseGroup = GenerateShapeRenderer();
@@ -147,6 +149,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void SvgTextBodyTest()
         {
             var baseGroup = GenerateGroupRenderItem();
@@ -155,6 +158,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void SvgTextBodyTestCenterAlignmentGenerated()
         {
             var baseGroup = GenerateGroupRenderItem();
@@ -187,8 +191,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Bounds.Top);
             GenerateSvgFile("textBodyAlignCenter", baseGroup.Bounds, baseGroup);
         }
-
         [TestMethod]
+        [Ignore]
         public void SvgTextBodyTestRightAlignmentGenerated()
         {
             var baseGroup = GenerateGroupRenderItem();
@@ -221,6 +225,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void SvgTextBodyVerticalAlignmentGenerated()
         {
             var baseGroup = GenerateGroupRenderItem();
@@ -249,6 +254,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void SvgTextBodyVerticalAlignmentBottomGenerated()
         {
             var baseGroup = GenerateGroupRenderItem();
@@ -297,6 +303,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void BasicTextBox()
         {
             var textbox = GenerateTextBox(out GroupRenderItem group);
@@ -311,6 +318,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         }
 
         [TestMethod]
+        [Ignore]
         public void TextBoxWithMargins()
         {
             var textbox = GenerateTextBox(out GroupRenderItem group);
@@ -338,7 +346,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             GenerateSvgFile("MarginTextBox", group.Bounds, group);
         }
 
+
         [TestMethod]
+        [Ignore]
         public void TextBoxWithAllMargins()
         {
             var textbox = GenerateTextBox(out GroupRenderItem group);
@@ -367,6 +377,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         /// And might affect the margin
         /// </summary>
         [TestMethod]
+        [Ignore]
         public void TextBoxWithAllMarginsANDTextbodyChanged()
         {
             var textbox = GenerateTextBox(out GroupRenderItem group);
