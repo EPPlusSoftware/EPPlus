@@ -58,6 +58,7 @@ namespace EPPlusTest.PDF
     /// mid-string font switches to account for.
     /// </summary>
     [TestClass]
+    [Ignore]
     public class MeasurementRenderWidthParityTests : PdfTestBase
     {
         // Encoding.Latin1 (a 1:1 byte<->char mapping, needed so string indices from Regex

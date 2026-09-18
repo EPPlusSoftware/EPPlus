@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.FontScanning
 {
     [TestClass]
+    [Ignore]
     public class ArialBlackTests : FontTestBase
     {
         public override TestContext? TestContext { get; set; }

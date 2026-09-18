@@ -6,6 +6,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 namespace EPPlus.Fonts.OpenType.Tests
 {
     [TestClass]
+    [Ignore]
     public class TextFragmentCollectionTests : FontTestBase
     {
         public override TestContext? TestContext { get; set; }

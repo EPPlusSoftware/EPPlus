@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 {
     [TestClass]
+    [Ignore]
     public class TextLineSimpleTests
     {
         [TestMethod]

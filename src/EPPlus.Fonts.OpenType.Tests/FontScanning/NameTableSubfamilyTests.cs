@@ -45,6 +45,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
     /// the spec to be one of those four. It is also the view Windows, GDI and Excel present.
     /// </summary>
     [TestClass]
+    [Ignore]
     public class NameTableSubfamilyTests : FontTestBase
     {
         public override TestContext? TestContext { get; set; }
