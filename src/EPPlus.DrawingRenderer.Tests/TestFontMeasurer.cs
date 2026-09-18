@@ -76,6 +76,11 @@ namespace TestProject1
 
             var handler = new TextHandler(SystemFolderEngine, mf);
 
+            if (handler.FontFound == false)
+            {
+                Assert.Inconclusive("Could not find correct font. Test inconclusive");
+            }
+
             var strings = handler.WrapText(testStr, MaxPixelWidth.PixelToPoint());
 
             Assert.AreEqual("hello the", strings[0]);
@@ -105,6 +110,11 @@ namespace TestProject1
                 Style = MeasurementFontStyles.Regular
             };
             var handler = new TextHandler(SystemFolderEngine, mf);
+
+            if(handler.FontFound == false)
+            {
+                Assert.Inconclusive("Could not find correct font. Test inconclusive");
+            }
 
             var strings = handler.WrapText(testString, MaxPixelWidth.PixelToPoint());
 
@@ -164,6 +174,12 @@ namespace TestProject1
             {
                 cfg.SearchSystemDirectories = true;
             });
+
+            if(engine.GetFontAvailability(mf.FontFamily) == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive("Font not found. This is expected behaviour on web.");
+            }
+
             var shaper = engine.GetShaperForFont(mf);
             var shapes2 = shaper.ShapeLight("nec rhoncus");
             var width= shapes2.GetWidthInPoints(11f);
@@ -273,6 +289,10 @@ namespace TestProject1
             };
 
             var handler = new TextHandler(SystemFolderEngine, mf);
+            if (SystemFolderEngine.GetFontAvailability(mf.FontFamily) == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive("Font not found. This is expected behaviour on web.");
+            }
 
             double maxPixelWidth = 72d;
 
@@ -320,6 +340,11 @@ namespace TestProject1
             };
 
             var handler = new TextHandler(SystemFolderEngine, mf);
+            if (SystemFolderEngine.GetFontAvailability(mf.FontFamily) == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive("Font not found. This is expected behaviour on web.");
+            }
+
 
             double maxPixelWidth = 72d;
 

@@ -2,6 +2,7 @@
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType.Integration
 {
@@ -12,6 +13,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         TextShaper _currentShaper;
         TextLayoutEngine _currentLayout;
         OpenTypeFontEngine _fontEngine;
+
+        public bool FontFound { get; private set; }
 
         public TextHandler(OpenTypeFontEngine fontEngine, MeasurementFont mf) 
         {
@@ -30,6 +33,9 @@ namespace EPPlus.Fonts.OpenType.Integration
             CurrentFontSize = mf.Size;
             _currentShaper = (TextShaper)_fontEngine.GetShaperForFont(mf);
             _currentLayout = _fontEngine.GetTextLayoutEngineForFont(mf);
+            var usedFonts = _currentShaper.GetUsedFonts().ToList();
+
+            FontFound = _fontEngine.GetFontAvailability(mf.FontFamily) != FontAvailability.NotFound;
         }
 
         /// <summary>
