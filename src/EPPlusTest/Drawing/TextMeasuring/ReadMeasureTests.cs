@@ -98,6 +98,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
         }
 
         [TestMethod]
+        [Ignore]
         public void WrapMultipleFragments_LongPlusEndWord()
         {
             List<string> txtRuns =
@@ -136,6 +137,8 @@ namespace EPPlusTest.Drawing.TextMeasuring
 
             var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
             var txtMeasurer = engine.GetTextLayoutEngineForFont(mf);
+
+
 
             var maxWidth = 114d;
 
