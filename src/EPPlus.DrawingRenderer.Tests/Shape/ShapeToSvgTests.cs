@@ -399,6 +399,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         }
 
 
+
         [TestMethod]
         public void GenerateAllShapes()
         {
@@ -406,6 +407,19 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             {
                 var ws = p.Workbook.Worksheets.Add("Shapes");
                 int y = 100, i = 1;
+
+
+
+                //var shape = ws.Drawings.AddShape(eShapeStyle.Gear6.ToString(), eShapeStyle.Gear6);
+                //shape.Text = eShapeStyle.Gear9.ToString();
+                //Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
+                //shape.SetPosition(y, 100);
+                //shape.SetSize(600, 600);
+                //y += 700;
+
+                //var shapeSvg = shape.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
+
                 foreach (eShapeStyle style in Enum.GetValues(typeof(eShapeStyle)))
                 {
                     if (style == eShapeStyle.CustomShape) continue;
@@ -415,6 +429,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                     shape.SetPosition(y, 100);
                     shape.SetSize(600, 600);
                     y += 700;
+
+                    var shapeSvg = shape.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
                     i++;
                 }
                 SaveWorkbook("shapes.xlsx", p);
@@ -612,7 +629,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
 
                 _currentShape.Fill.Style = eFillStyle.SolidFill;
                 _currentShape.Fill.Color = System.Drawing.Color.BlueViolet;
-                _currentShape.Font.Color = System.Drawing.Color.Goldenrod;
+                //_currentShape.Font.Color = System.Drawing.Color.Goldenrod;
 
                 _currentShape.TextBody.TopInsert = 0;
                 _currentShape.TextBody.BottomInsert = 0;
@@ -620,6 +637,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 _currentShape.TextBody.LeftInsert = 0;
 
                 var para1 = _currentShape.TextBody.Paragraphs.Add("TextBodySvg\r\na");
+                para1.DefaultRunProperties.Color = System.Drawing.Color.Goldenrod;
                 //var test = _currentShape.TextBody.AnchorCenter;
 
                 para1.LeftMargin = 5;

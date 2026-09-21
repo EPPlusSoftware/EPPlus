@@ -127,9 +127,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     _pieExplosionPercent = serie.Explosion == int.MinValue ? 0 : serie.Explosion;
 
                     //Add Datalabel
-                    if (serie.HasDataLabel)
+                    if (chartType.HasDataLabel || serie.HasDataLabel)
                     {
-                        var datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        ChartSerieDataLabelRenderer datalabel;
+                        if (serie.HasDataLabel)
+                        {
+                            datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        }
+                        else
+                        {
+                            datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        }
+
                         serieDataLabels.Add(datalabel);
                     }
                 }
@@ -244,7 +253,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         //Update the initialized slice with path, style and group data
                         UpdateSlice(chartType, serie, dataPointCount, j);
 
-                        if (serie.HasDataLabel)
+                        if (chartType.HasDataLabel || serie.HasDataLabel)
                         {
                             var innerGroup = Slices[j].GetInnerGroupWithTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
@@ -259,7 +268,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //maxBoundsForBestFit.Parent = innerGroup;
 
                             var bounds = Slices[j].GetBounds();
-                            
+
                             //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
                             //box.Parent = innerGroup;
 

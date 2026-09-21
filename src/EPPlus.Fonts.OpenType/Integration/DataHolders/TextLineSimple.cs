@@ -57,7 +57,7 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double GetWidthWithoutTrailingSpaces()
         {
             var trailingSpaceCount = 0;
-
+            if (string.IsNullOrEmpty(Text)) return 0D;
             for (int i = Text.Count() - 1; i > 0; i--)
             {
                 if (Text[i] != ' ')

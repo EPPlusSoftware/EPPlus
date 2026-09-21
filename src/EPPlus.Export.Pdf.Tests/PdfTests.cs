@@ -11,13 +11,18 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Tests;
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
+using EPPlus.Export.Pdf.Tests;
+using EPPlus.Export.Pdf.Tests.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Export.PdfExport;
+using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.Layout;
 using OfficeOpenXml.Export.PdfExport.Settings;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
-using System.Diagnostics;
+using OfficeOpenXml.Table;
+using System.Data;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -371,7 +376,8 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             using var ms = new MemoryStream();
-            _ = new PdfCatalog(ms, pageSettings, ws);
+            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            pdfCatalog.Save(ms);
             AssertLooksLikePdf(ms.ToArray());
         }
 
@@ -507,6 +513,131 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
+        public void ThreeFonts_NoSkip_RendersAllThreeCorrectly()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("ThreeFonts_NoSkip.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Aptos Narrow";
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Style.Font.Name = "Times New Roman";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Style.Font.Name = "Arial";
+            ws.Cells["C1"].Value = "C1";
+
+            SaveAsPdf(ws, "ThreeFonts_NoSkip.pdf");
+        }
+
+        [TestMethod, Ignore("Only for local testing")]
+        public void PdfColorIssue_WithCopiedWorksheet()
+        {
+            var helper = new ColorIssueTestHelper();
+            using var package = helper.CreateWorkbook();
+            SaveAsPdf(package.Workbook, "Allsvenskan2001.pdf");
+        }
+
+        [TestMethod]
+        public void PdfColorIssue2_WithSingleWorkbook()
+        {
+            using var package = OpenTemplatePackage("Allsvenskan2001.xlsx");
+            SaveAsPdf(package.Workbook, "Allsvenskan2001.pdf");
+        }
+
+        [TestMethod]
+        public void MultiSheetWorkbook()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("MultiSheetWorkbook.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+
+            var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+            ws2.Cells["A1"].Style.Font.Name = "Times New Roman";
+            ws2.Cells["A1"].Value = "Sheet2:A1";
+
+            SaveAsPdf(p.Workbook, "MultiSheetWorkbook.pdf");
+        }
+
+        [TestMethod]
+        public void MultiRanges()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("MultiRanges.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+            ws.Cells["F100"].Value = "Sheet1:F100";
+
+            SaveAsPdf(p.Workbook, "MultiRanges.pdf", ws.Cells["A1"], ws.Cells["F100"]);
+        }
+
+        [TestMethod]
+        public void SingleRange()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("SingleRange.xlsx", true);
+            p.Workbook.ConfigureFonts(x => x.SearchSystemDirectories = true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = "Sheet1:A1";
+
+            SaveAsPdf(p.Workbook, "SingleRange.pdf", ws.Cells["A1"]);
+        }
+
+        [TestMethod]
+        public void ArialBlack_RendersCorrectly()
+        {
+            // Baseline: three different fonts, no skipping. Verifies the normal path still works
+            // after the subsetting rewrite. Open the PDF and confirm A1/B1/C1 read correctly.
+            using var p = OpenPackage("ArialBlack.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Arial Black";
+            ws.Cells["A1"].Value = "A1";
+
+            SaveAsPdf(ws, "ArialBlack.pdf");
+        }
+
+        [TestMethod]
+        public void ThreeFonts_SkipAll_CollapseToSharedLastResort()
+        {
+            // The regression case: three fonts, all skipped via OnFontEmbedding. Expected AFTER the fix:
+            //   - small PDF (one shared Archivo subset, not three whole fonts)
+            //   - A1 / B1 / C1 render DISTINCTLY and correctly (not all "A1")
+            //   - the PDF opens without corruption
+            using var p = OpenPackage("ThreeFonts_SkipAll.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Style.Font.Name = "Aptos Narrow";
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Style.Font.Name = "Times New Roman";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Style.Font.Name = "Arial";
+            ws.Cells["C1"].Value = "C1";
+
+            p.Workbook.ConfigureFonts(cfg =>
+            {
+                cfg.OnFontEmbedding(info =>
+                {
+                    System.Diagnostics.Debug.WriteLine("OnFontEmbedding fired for: " + info.FontName);
+                    return FontEmbeddingDecision.Skip;
+                });
+            });
+
+
+            SaveAsPdf(ws, "ThreeFonts_SkipAll.pdf");
+        }
+
+        [TestMethod]
         // works as expected.
         //[DataRow("PDFTest.xlsx", "C:\\epplustest\\pdf\\FullPageTest56.pdf", "Sheet1")]
         [DataRow("Aico_0105_S_ALR_87011990_AICO_ASSET_ITE_2025-04_BS.xlsx", "C:\\epplustest\\pdf\\OutputTest1.1.pdf", "SAP Data")]
@@ -543,7 +674,8 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = false;
             pageSettings.ShowHeadings = false;
 
-            PdfCatalog catalog = new PdfCatalog(outputPath, pageSettings, ws);
+            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            pdfCatalog.Save(outputPath);
 
         }
 
@@ -554,6 +686,17 @@ namespace EPPlusTest.PDF
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
             string path = _pdfPath + "TableDiff.pdf";
+            wb.SaveAsPdf(path, ws0);
+        }
+
+        [TestMethod]
+        public void PictureOutside()
+        {
+            using var p = OpenTemplatePackage("Pdf_picture_outside.xlsx");
+            var wb = p.Workbook;
+            var ws0 = wb.Worksheets[0];
+            ws0.PrinterSettings.ShowGridLines = true;
+            string path = _pdfPath + "PictureOutside.pdf";
             wb.SaveAsPdf(path, ws0);
         }
 
@@ -670,7 +813,8 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    new PdfCatalog(ms, settings, package.Workbook);
+                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
 
@@ -736,7 +880,8 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    new PdfCatalog(ms, settings, package.Workbook);
+                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
 
@@ -761,5 +906,226 @@ namespace EPPlusTest.PDF
             }
         }
 
+        [TestMethod]
+        public void HeaderFooterTest1()
+        {
+            using var p = OpenTemplatePackage("1.06-Salesreport.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "HeaderFooterTest1.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
+        {
+            var s = new PdfPageSettings(null);
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = 100,
+                UsedHeight = 100,
+                RowHeights = new double[10]
+            };
+
+            Assert.AreEqual(s.ContentBounds.Left, PdfLayout.GetOriginX(s, p), 0.0001);
+        }
+
+        [TestMethod]
+        public void GetOrigin_FlagsAreIndependent()
+        {
+            var s = new PdfPageSettings(null);
+            s.CenterOnPageHorizontally = true;
+            var p = new Page()
+            {
+                FromRow = 1,
+                ToRow = 10,
+                FromColumn = 1,
+                ToColumn = 5,
+                UsedWidth = s.ContentBounds.Width - 100d,
+                UsedHeight = s.ContentBounds.Height - 200d,
+                RowHeights = new double[10]
+            };
+            Assert.AreEqual(s.ContentBounds.Left + 50d, PdfLayout.GetOriginX(s, p), 0.0001);
+            Assert.AreEqual(s.ContentBounds.Top, PdfLayout.GetOriginY(s, p), 0.0001);
+        }
+
+        [TestMethod]
+        public void GetClampedCellWidth_CellFitsWithinPage_ReturnsCellWidthUnchanged()
+        {
+            var s = new PdfPageSettings(null);
+
+            Assert.AreEqual(51.71d, PdfLayout.GetClampedCellWidth(s, 126.31d, 51.71d), 0.0001);
+        }
+
+        [TestMethod]
+        public void LargeTableTest1()
+        {
+            using var p = OpenTemplatePackage("BlazorSample1 (12).xlsx");
+            var ws = p.Workbook.Worksheets[1];
+            string path = _pdfPath + "LargeTableTest.pdf";
+            ws.SaveAsPdf(path);
+            Assert.IsTrue(File.Exists(path), "PDF file was not created.");
+            AssertLooksLikePdf(File.ReadAllBytes(path));
+        }
+
+        [TestMethod]
+        public void headerFooterImage()
+        {
+            using var p = OpenTemplatePackage("EPPlus Sample 3.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "EPPlus Sample 3.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void headerFooterImage2()
+        {
+            using var p = CreateWorkbook();
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "EPPlus Sample 3.pdf";
+            ws.SaveAsPdf(path);
+        }
+        public ExcelPackage CreateWorkbook()
+        {
+            InitDataTable();
+            var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Html export sample 2");
+            var tableRange = sheet.Cells["A1"].LoadFromDataTable(_dataTable, true, TableStyles.Dark3);
+
+            //Configure the table
+            var table = sheet.Tables.GetFromRange(tableRange);
+            table.Sort(x => x.SortBy.ColumnNamed("Population", eSortOrder.Descending));
+            table.ShowTotal = true;
+            table.Columns[0].TotalsRowLabel = "Total";
+            table.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+            table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+
+            //Add column for population density
+            table.Columns.Add(1);
+            tableRange = table.Range;
+            table.Columns[3].CalculatedColumnFormula = $"{table.Name}[[#This Row],[Population]]/{table.Name}[[#This Row],[Area (km2)]]";
+            table.Columns[3].Name = "Density";
+            table.Columns[3].TotalsRowFunction = RowFunctions.Average;
+            sheet.Calculate();
+
+            //// format the header
+            table.Range.TakeColumnsBetween(1, 3).SkipRows(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            // format the rows
+            var lastDataRow = tableRange.End.Row - 1;
+            sheet.Cells[tableRange.Start.Row, 1, lastDataRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            sheet.Cells[tableRange.Start.Row, 2, lastDataRow, 2].Style.Numberformat.Format = "#,##0";
+            sheet.Cells[tableRange.Start.Row, 3, lastDataRow, 3].Style.Numberformat.Format = "#,##0 \"km2\"";
+            sheet.Cells[tableRange.Start.Row, 4, lastDataRow, 4].Style.Numberformat.Format = "#,##0.0";
+
+            // format the total row
+            var totalRow = tableRange.End.Row;
+            sheet.Cells[totalRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            sheet.Cells[totalRow, 2].Style.Numberformat.Format = "#,##0";
+            sheet.Cells[totalRow, 3].Style.Numberformat.Format = "#,##0 \"km2\"";
+            sheet.Cells[totalRow, 4].Style.Numberformat.Format = "\"Avg: \"#,##0.0 ";
+            sheet.Cells.AutoFitColumns();
+
+            //Set the header and footer values
+            var text = sheet.HeaderFooter.OddHeader.Centered.AddText("EPPlus Sample 3");
+            text.FontSize = 18;
+            var imageFile = Path.Combine(_imagePath, "EPPlus-logo-small.jpg");
+            if (File.Exists(imageFile))
+            {
+                //sheet.HeaderFooter.OddHeader.LeftAligned.AddText("Logo:");
+                sheet.HeaderFooter.OddHeader.LeftAligned.AddImage(new FileInfo(imageFile));
+            }
+
+            sheet.HeaderFooter.OddFooter.Centered.AddPageNumber();
+            sheet.HeaderFooter.OddFooter.Centered.AddText(" of ");
+            sheet.HeaderFooter.OddFooter.Centered.AddNumberOfPages();
+            return package;
+        }
+        private DataTable _dataTable = null;
+
+        private void InitDataTable()
+        {
+            if (_dataTable != null) return;
+            _dataTable = new DataTable();
+            _dataTable.Columns.Add("Country", typeof(string));
+            _dataTable.Columns.Add("Population", typeof(int));
+            var areaCol = _dataTable.Columns.Add("Area", typeof(int));
+            areaCol.Caption = "Area (km2)";
+
+
+            _dataTable.Rows.Add("Sweden", 10409248, 450295);
+            _dataTable.Rows.Add("Norway", 5402171, 385178);
+            _dataTable.Rows.Add("Netherlands", 17553530, 41198);
+            _dataTable.Rows.Add("Finland", 5541806, 338145);
+            _dataTable.Rows.Add("Belgium", 11521238, 30510);
+            _dataTable.Rows.Add("Denmark", 5850189, 44493);
+            _dataTable.Rows.Add("Lithuania", 2801264, 65300);
+            _dataTable.Rows.Add("Greece", 10718565, 131940);
+            _dataTable.Rows.Add("Russia", 145734038, 3972400);
+            _dataTable.Rows.Add("Germany", 83124418, 357386);
+            _dataTable.Rows.Add("France", 64990511, 551695);
+            _dataTable.Rows.Add("Czech Republic", 10665677, 78866);
+            _dataTable.Rows.Add("Slovakia", 5459781, 49036);
+            _dataTable.Rows.Add("Spain", 47394223, 498468);
+            _dataTable.Rows.Add("Portugal", 10256193, 91568);
+            _dataTable.Rows.Add("United Kingdom", 67141684, 242495);
+            _dataTable.Rows.Add("Poland", 37921592, 312685);
+            _dataTable.Rows.Add("Albania", 2882740, 28748);
+            _dataTable.Rows.Add("Estonia", 1322920, 45339);
+            _dataTable.Rows.Add("Hungary", 9707499, 93030);
+            _dataTable.Rows.Add("Romania", 19186000, 238397);
+            _dataTable.Rows.Add("Italy", 60627291, 301338);
+            _dataTable.Rows.Add("Bulgaria", 7051608, 110994);
+            _dataTable.Rows.Add("Belarus", 9452617, 207600);
+            _dataTable.Rows.Add("Austria", 8891388, 83858);
+            _dataTable.Rows.Add("Switzerland", 8525611, 41290);
+            _dataTable.Rows.Add("Ireland", 4818690, 70273);
+            _dataTable.Rows.Add("Ukraine", 44246156, 603628);
+            _dataTable.Rows.Add("Iceland", 336713, 102775);
+            _dataTable.Rows.Add("Serbia", 6871547, 77453);
+            _dataTable.Rows.Add("Croatia", 4156405, 56594);
+            _dataTable.Rows.Add("Latvia", 1928459, 64589);
+            _dataTable.Rows.Add("Bosnia and Herzegovina", 3323925, 51129);
+            _dataTable.Rows.Add("Montenegro", 627809, 13812);
+            _dataTable.Rows.Add("Cyrprus", 1189265, 9251);
+            _dataTable.Rows.Add("Kosovo", 1798506, 10908);
+            _dataTable.Rows.Add("Slovenia", 2055496, 20273);
+            _dataTable.Rows.Add("Moldova", 4033963, 33846);
+            _dataTable.Rows.Add("North Macedonia", 2083374, 25713);
+            _dataTable.Rows.Add("United States", 331002651, 9833517);
+            _dataTable.Rows.Add("China", 1412600000, 9596961);
+            _dataTable.Rows.Add("India", 1417173173, 3287263);
+            _dataTable.Rows.Add("Japan", 125681593, 377975);
+            _dataTable.Rows.Add("Brazil", 214326223, 8515767);
+            _dataTable.Rows.Add("Canada", 38246108, 9984670);
+            _dataTable.Rows.Add("Australia", 25788215, 7692024);
+            _dataTable.Rows.Add("Mexico", 126014024, 1964375);
+            _dataTable.Rows.Add("South Africa", 59308690, 1221037);
+            _dataTable.Rows.Add("Egypt", 104258327, 1001450);
+            _dataTable.Rows.Add("Nigeria", 218541212, 923768);
+            _dataTable.Rows.Add("Argentina", 45808747, 2780400);
+            _dataTable.Rows.Add("Indonesia", 273523615, 1904569);
+            _dataTable.Rows.Add("South Korea", 51780579, 100210);
+            _dataTable.Rows.Add("Turkey", 84339067, 783562);
+            _dataTable.Rows.Add("Saudi Arabia", 34813871, 2149690);
+            _dataTable.Rows.Add("Israel", 9053300, 20770);
+            _dataTable.Rows.Add("New Zealand", 5084300, 268838);
+            _dataTable.Rows.Add("Thailand", 69950850, 513120);
+            _dataTable.Rows.Add("Vietnam", 98168833, 331212);
+        }
+
+        [TestMethod]
+        public void PngTransparentTest()
+        {
+            using var p = OpenTemplatePackage("Allsvenskan2001.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "Allsvenskan2001.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }

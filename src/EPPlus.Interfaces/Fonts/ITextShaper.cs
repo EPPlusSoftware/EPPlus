@@ -92,5 +92,16 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// Gets the font's units per em (for manual conversions).
         /// </summary>
         ushort UnitsPerEm { get; }
+
+        /// <summary>
+        /// True when this shaper is backed by a real font file and its shaped output carries
+        /// usable glyph ids, glyph outlines and font references.
+        ///
+        /// False for metrics-only shapers, whose output is valid for measurement and line
+        /// breaking but carries no glyph identity. Consumers that subset, embed or otherwise
+        /// resolve glyphs must check this and refuse rather than emit glyph ids that do not
+        /// correspond to any font.
+        /// </summary>
+        bool HasGlyphIds { get; }
     }
 }

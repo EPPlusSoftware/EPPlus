@@ -178,5 +178,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
             }
         }
+
+        public override RenderItem Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

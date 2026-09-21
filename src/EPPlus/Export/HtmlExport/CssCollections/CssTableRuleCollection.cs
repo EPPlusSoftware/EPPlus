@@ -19,6 +19,8 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System.Collections.Generic;
+using System.Data;
+using System.Text;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
 namespace OfficeOpenXml.Export.HtmlExport.CssCollections
@@ -104,13 +106,22 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
         }
 
-        internal void AddToCollection(string name, ExcelTableStyleElement element, string htmlElement)
+        internal void AddToCollection(string name, ExcelTableStyleElement element, string htmlElement, bool isRangeName=false)
         {
             if (element.Style.HasValue == false) return; //Dont add empty elements
 
             var s = element.Style;
 
-            var styleClass = new CssRule($"table.{name}{htmlElement}",int.MaxValue);
+            string rule;
+            if (isRangeName)
+            {
+                rule = $".{name}";
+            }
+            else
+            {
+                rule = $"table.{name}{htmlElement}";
+            }
+            var styleClass = new CssRule(rule,int.MaxValue);
 
             var translators = new List<TranslatorBase>();
 
@@ -202,7 +213,45 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             var tableClassFC = $"{tableClass}-first-column";
             AddToCollection($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
         }
+        internal void AddRangeTableToCollection(ExcelTable table, List<string> datatypes, string tableClassPreset)
+        {
+            var tblStyle = table.GetTableNamedStyle();
 
+            var tableClass = HtmlExportTableUtil.GetTableBaseClassName(table, true);
+
+            //AddHyperlink($"{tableClass}-default", tblStyle.WholeTable);
+            //AddAlignment($"{tableClass}", datatypes);
+
+            AddToCollection($"{tableClass}-default", tblStyle.WholeTable,"", true);
+            //            AddToCollectionVH($"{tableClass}", tblStyle.WholeTable, "");
+
+            //Header
+            AddToCollection($"{tableClass}-header", tblStyle.HeaderRow, "", true);
+            //AddToCollectionVH($"{tableClass}", tblStyle.HeaderRow, "");
+
+            AddToCollection($"{tableClass}-last-header-cell", tblStyle.LastHeaderCell, "", true);
+            AddToCollection($"{tableClass}-first-header-cell", tblStyle.FirstHeaderCell, "", true);
+
+            //Total
+            AddToCollection($"{tableClass}-total", tblStyle.TotalRow, "", true);
+            //AddToCollectionVH($"{tableClass}", tblStyle.TotalRow, "");
+            AddToCollection($"{tableClass}-last-total-cell", tblStyle.LastTotalCell, "", true);
+            AddToCollection($"{tableClass}-first-total-cell", tblStyle.FirstTotalCell, "", true);
+
+            //Columns stripes
+            AddToCollection($"{tableClass}-first-col-stripe", tblStyle.FirstColumnStripe, "", true);
+            AddToCollection($"{tableClass}-second-col-stripe", tblStyle.SecondColumnStripe, "", true);
+
+            //Row stripes
+            AddToCollection($"{tableClass}-first-row-stripe", tblStyle.FirstRowStripe, "", true);
+            AddToCollection($"{tableClass}-second-row-stripe", tblStyle.SecondRowStripe, "", true);
+
+            //Last column
+            AddToCollection($"{tableClass}-last-col", tblStyle.LastColumn, "", true);
+
+            //First column
+            AddToCollection($"{tableClass}-first-col", tblStyle.FirstColumn, "", true);
+        }
         internal void AddOtherCollectionToThisCollection(CssRuleCollection otherCollection)
         {
             foreach (var otherRule in otherCollection)

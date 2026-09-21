@@ -13,8 +13,8 @@
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EPPlus.Export.Pdf.Settings
 {
@@ -108,7 +108,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Sets how to display errors in cells.
         /// </summary>
-        public CellErrors CellErrors = CellErrors.Displayed; 
+        public CellErrors CellErrors = CellErrors.Displayed;
 
         /// <summary>
         /// Set the starting page number.
@@ -122,7 +122,7 @@ namespace EPPlus.Export.Pdf.Settings
         public PdfPageSize PageSize
         {
             get
-            { 
+            {
                 return _pageSize;
             }
             set
@@ -196,6 +196,31 @@ namespace EPPlus.Export.Pdf.Settings
             }
         }
 
+        /// <summary>
+        /// GSUB (glyph substitution) features to request when shaping text for this export, e.g.
+        /// ligatures and contextual alternates. Defaults to <see cref="GsubFeature.Liga"/> |
+        /// <see cref="GsubFeature.Clig"/> | <see cref="GsubFeature.Calt"/> | <see cref="GsubFeature.Ccmp"/>.
+        /// </summary>
+        /// <remarks>
+        /// This setting applies to the whole export - there is currently no per-cell or
+        /// per-range override. Whether a requested feature has any visible effect still depends
+        /// on the font actually defining it; see <see cref="GsubFeature"/> for what each flag
+        /// means and which fonts typically support it.
+        /// </remarks>
+        public GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig | GsubFeature.Calt | GsubFeature.Ccmp;
+
+        /// <summary>
+        /// GPOS (glyph positioning) features to request when shaping text for this export, e.g.
+        /// kerning and mark attachment. Defaults to <see cref="GposFeature.Kern"/> | <see cref="GposFeature.Mark"/>.
+        /// </summary>
+        /// <remarks>
+        /// This setting applies to the whole export - there is currently no per-cell or
+        /// per-range override. Whether a requested feature has any visible effect still depends
+        /// on the font actually defining it; see <see cref="GposFeature"/> for what each flag
+        /// means.
+        /// </remarks>
+        public GposFeature GposFeatures { get; set; } = GposFeature.Kern | GposFeature.Mark;
+
         internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
         internal string defaultFontName = "";
 
@@ -224,6 +249,8 @@ namespace EPPlus.Export.Pdf.Settings
             c.SearchSystemDirectories = SearchSystemDirectories;
             c.EmbeddFonts = EmbeddFonts;
             c.defaultFontName = defaultFontName;
+            c.GsubFeatures = GsubFeatures;
+            c.GposFeatures = GposFeatures;
             c.Debug = Debug;
             c.PrintAsText = PrintAsText;
             return c;

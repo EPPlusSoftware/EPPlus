@@ -82,7 +82,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_EmptyString_ReturnsEmptyGlyphArray()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(TestFolderEngine, font);
 
             // Act
@@ -98,7 +98,7 @@ namespace EPPlus.Fonts.OpenType.TextShaping
         public void ShapeVertical_ClusterIndexMatchesCharacterPosition()
         {
             // Arrange
-            var font = OpenTypeFonts.LoadFont("BIZ UDGothic");
+            var font = TestFolderEngine.LoadFont("BIZ UDGothic");
             var shaper = new TextShaper(TestFolderEngine, font);
             var text = "ABC";
 

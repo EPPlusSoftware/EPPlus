@@ -38,6 +38,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         internal readonly ExcelChart _chart;
         private readonly ExcelThemeManager _theme;
         private static bool _hasLoadedLibraryFiles=false;
+        private readonly object _syncRoot = new object();
         internal ExcelChartStyleManager(XmlNamespaceManager nameSpaceManager, ExcelChart chart) : base(nameSpaceManager)
         {
             _chart = chart;
@@ -72,11 +73,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// A library where chart styles can be loaded for easier access.
         /// EPPlus loads most buildin styles into this collection.
         /// </summary>
-        public static Dictionary<int, ExcelChartStyleLibraryItem> StyleLibrary = new Dictionary<int, ExcelChartStyleLibraryItem>();
+        public Dictionary<int, ExcelChartStyleLibraryItem> StyleLibrary = new Dictionary<int, ExcelChartStyleLibraryItem>();
         /// <summary>
         /// A library where chart color styles can be loaded for easier access
         /// </summary>
-        public static Dictionary<int, ExcelChartStyleLibraryItem> ColorsLibrary = new Dictionary<int, ExcelChartStyleLibraryItem>();
+        public Dictionary<int, ExcelChartStyleLibraryItem> ColorsLibrary = new Dictionary<int, ExcelChartStyleLibraryItem>();
         /// <summary>
         /// Creates an empty style and color for chart, ready to be customized 
         /// </summary>
@@ -112,7 +113,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// Loads the default chart style library from the internal resource library.
         /// Loads styles, colors and the default theme.
         /// </summary>
-        public static void LoadStyles()
+        public void LoadStyles()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var defaultStyleLibrary = assembly.GetManifestResourceStream("OfficeOpenXml.resources.DefaultChartStyles.ecs");
@@ -124,7 +125,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         /// <param name="directory">Load all *.ecs files from the directory</param>
         /// <param name="clearLibrary">If true, clear the library before load.</param>
-        public static void LoadStyles(DirectoryInfo directory, bool clearLibrary=true)
+        public void LoadStyles(DirectoryInfo directory, bool clearLibrary=true)
         {
             if (clearLibrary)
             {
@@ -140,7 +141,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         /// <param name="ecsFile">The file to load</param>
         /// <param name="clearLibrary">If true, clear the library before load.</param>
-        public static void LoadStyles(FileInfo ecsFile, bool clearLibrary = true)
+        public void LoadStyles(FileInfo ecsFile, bool clearLibrary = true)
         {
             using (var fs = ecsFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -152,85 +153,91 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         /// <param name="stream">The stream to load</param>
         /// <param name="clearLibrary">If true, clear the library before load.</param>
-        public static void LoadStyles(Stream stream, bool clearLibrary = true)
+        public void LoadStyles(Stream stream, bool clearLibrary = true)
         {
             LoadStyles(stream, clearLibrary, "The stream");
         }
-        private static void LoadStyles(Stream stream, bool clearLibrary, string filename)
+        private void LoadStyles(Stream stream, bool clearLibrary, string filename)
         {
-            if (clearLibrary)
-            {
-                StyleLibrary.Clear();
-            }
-            try
-            {
-                using (stream)
+                if (clearLibrary)
                 {
-                    var zipStream = new ZipInputStream(stream);
-                    ZipEntry entry;
-                    while ((entry = zipStream.GetNextEntry()) != null)
+                    StyleLibrary.Clear();
+                }
+                try
+                {
+                    using (stream)
                     {
-                        if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0) continue;
-
-                        var name = new FileInfo(entry.FileName).Name;
-                        int id=0;
-                        try
+                        var zipStream = new ZipInputStream(stream);
+                        ZipEntry entry;
+                        while ((entry = zipStream.GetNextEntry()) != null)
                         {
-                            if (name.StartsWith("colors", StringComparison.InvariantCultureIgnoreCase))
+                            if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0) continue;
+
+                            var name = new FileInfo(entry.FileName).Name;
+                            int id = 0;
+                            try
                             {
-                                id = int.Parse(name.Substring(6, name.Length - 10));
-                                if (ColorsLibrary.ContainsKey(id)) continue;
+                                if (name.StartsWith("colors", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    id = int.Parse(name.Substring(6, name.Length - 10));
+                                    if (ColorsLibrary.ContainsKey(id)) continue;
+                                }
+                                else if (name.StartsWith("style", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    id = int.Parse(name.Substring(5, name.Length - 9));
+                                    if (StyleLibrary.ContainsKey(id)) continue;
+                                }
+                                else if (name.Equals("defaulttheme.xml", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    var themeXml = UncompressEntry(zipStream, entry);
+                                    ExcelThemeManager._defaultTheme = themeXml;
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (name.StartsWith("defaulttheme", StringComparison.InvariantCultureIgnoreCase) == false)
+                                    {
+                                        throw (new InvalidDataException($"{filename} contains a the file {entry.FileName}, with an invalid filename. Please make sure files in the library are named Colors[id].xml or style[id].xml, where [id] is replaced by the id to access the style in the library"));
+                                    }
+                                }
                             }
-                            else if (name.StartsWith("style", StringComparison.InvariantCultureIgnoreCase))
+                            catch
                             {
-                                id = int.Parse(name.Substring(5, name.Length - 9));
-                                if (StyleLibrary.ContainsKey(id)) continue;
+                                throw (new InvalidDataException($"{filename} contains a the file {entry.FileName}, with an invalid filename. Please make sure files in the library are named Colors[id].xml or style[id].xml, where [id] is replaced by the id to access the style in the library"));
                             }
-                            else if (name.Equals("defaulttheme.xml", StringComparison.InvariantCultureIgnoreCase))
+
+
+                            //Extract and set
+                            var uncompressedContent = UncompressEntry(zipStream, entry);
+                            var item = new ExcelChartStyleLibraryItem() { Id = id, XmlString = uncompressedContent };
+                            if (name[0] == 'c') //Colors
                             {
-                                var themeXml = UncompressEntry(zipStream, entry);
-                                ExcelThemeManager._defaultTheme = themeXml;
-                                continue;
+                                if (ColorsLibrary.ContainsKey(item.Id) == false)
+                                {
+                                    ColorsLibrary.Add(item.Id, item);
+                                }
                             }
                             else
                             {
-                                if (name.StartsWith("defaulttheme", StringComparison.InvariantCultureIgnoreCase)==false)
+                                if (StyleLibrary.ContainsKey(item.Id) == false)
                                 {
-                                    throw (new InvalidDataException($"{filename} contains a the file {entry.FileName}, with an invalid filename. Please make sure files in the library are named Colors[id].xml or style[id].xml, where [id] is replaced by the id to access the style in the library"));
+                                    StyleLibrary.Add(item.Id, item);
                                 }
                             }
                         }
-                        catch
-                        {
-                            throw (new InvalidDataException($"{filename} contains a the file {entry.FileName}, with an invalid filename. Please make sure files in the library are named Colors[id].xml or style[id].xml, where [id] is replaced by the id to access the style in the library"));
-                        }
-
-
-                        //Extract and set
-                        var uncompressedContent = UncompressEntry(zipStream, entry);
-                        var item = new ExcelChartStyleLibraryItem() { Id = id, XmlString = uncompressedContent };
-                        if (name[0] == 'c') //Colors
-                        {
-                            ColorsLibrary.Add(item.Id, item);
-                        }
-                        else
-                        {
-                            StyleLibrary.Add(item.Id, item);
-                        }
                     }
                 }
-            }
-            catch(Exception ex)
-            {
-                if(ex is InvalidDataException)
+                catch (Exception ex)
                 {
-                    throw;
+                    if (ex is InvalidDataException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        throw (new InvalidDataException($"{filename} has an invalid format.", ex));
+                    }
                 }
-                else
-                {
-                    throw (new InvalidDataException($"{filename} has an invalid format.", ex));
-                }
-            }
         }
 
         private static string UncompressEntry(ZipInputStream zipStream, ZipEntry entry)

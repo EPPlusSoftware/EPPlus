@@ -17,7 +17,20 @@ namespace EPPlus.DrawingRenderer.Svg
     /// </summary>
     public class SvgRenderOptions
     {
-        public SvgSize Size { get; } = new SvgSize();
+        /// <summary>
+        /// The width of the drawing in pixels used for calculating output image. Overrides the width of the drawing if set. If not set, the width will be calculated based on the drawing.
+        /// For output sizing, use the <see cref="SvgSize"/> property instead.
+        /// </summary>
+        public int? Width { get; set; }
+        /// <summary>
+        /// The height of the drawing in pixels. Overrides the height of the drawing if set. If not set, the width will be calculated based on the drawing.
+        /// For output sizing, use the <see cref="SvgSize"/> property instead.
+        /// </summary>
+        public int? Height { get; set; }
+        /// <summary>
+        /// Sets the width and height of the svg image. If not set, the size will be calculated based on the drawings dimensions.
+        /// </summary>
+        public SvgSize SvgSize { get; } = new SvgSize();
     }
     
 }

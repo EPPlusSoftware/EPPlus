@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style.XmlAccess;
@@ -22,8 +21,8 @@ namespace OfficeOpenXml.Export.PdfExport.Data
     internal class PdfWorksheet
     {
         public Dictionary<string, PdfCommentsAndNotes> CommentsAndNotesCollections = new Dictionary<string, PdfCommentsAndNotes>();
-
-        public List<PdfRange> Ranges = null; //Rename this
+        public List<PdfDrawing> Drawings = new List<PdfDrawing>();
+        public List<PdfRange> Ranges = null;
         public PdfRange CommentsAndNotes;
         public PdfHeaderFooterCollection HeaderFooters = null;
         public double ZeroCharWidth;
@@ -59,10 +58,10 @@ namespace OfficeOpenXml.Export.PdfExport.Data
             }
         }
 
-        public static double GetThemeFont0Width(ExcelWorksheet ws)
+        public static double GetThemeFont0Width(ExcelWorksheet ws, OpenTypeFontEngine engine)
         {
             var ns = ws.Workbook.Styles.GetNormalStyle();
-            TextShaper shaper = OpenTypeFonts.GetTextShaper(ns.Style.Font.Name, FontSubFamily.Regular);
+            var shaper = engine.GetTextShaper(ns.Style.Font.Name, FontSubFamily.Regular);
             var shapedText = shaper.ShapeLight("0");
             return shapedText.GetWidthInPoints(ns.Style.Font.Size);
         }

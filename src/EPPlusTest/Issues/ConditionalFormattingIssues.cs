@@ -8,6 +8,8 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using ColorTranslator = System.Drawing.ColorTranslator;
 
@@ -261,6 +263,127 @@ namespace EPPlusTest.Issues
 
                 Assert.AreEqual(eExcelConditionalFormattingValueObjectType.Formula, iconSet.Icon3.Type);
                 Assert.AreEqual("67", iconSet.Icon3.Formula);
+            }
+        }
+
+
+        [TestMethod]
+        public void ReadEppGeneratedCFBorderStylesCorrectly()
+        {
+            using (var p = OpenPackage("i2488_EppGen.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("readBorderNone");
+
+                var notEqual = ws.Cells["C1:C5"].ConditionalFormatting.AddNotEqual();
+
+                notEqual.Formula = "1";
+
+                ws.Cells["D5"].Style.Border.Left.Style = ExcelBorderStyle.None;
+
+                //Set a borderstyle to thick so that Conditional Formatting can then Set it to None
+                ws.Cells["C2"].Style.Border.Left.Style = ExcelBorderStyle.Thick;
+                ws.Cells["C2"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
+                ws.Cells["C2"].Style.Border.Right.Style = ExcelBorderStyle.Thick;
+                ws.Cells["C2"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+
+                notEqual.Style.Border.Left.Style = ExcelBorderStyle.None;
+                notEqual.Style.Border.Top.Style = ExcelBorderStyle.None;
+                notEqual.Style.Border.Right.Style = ExcelBorderStyle.None;
+                notEqual.Style.Border.Bottom.Style = ExcelBorderStyle.None;
+
+                SaveAndCleanup(p);
+            }
+            using (var p = OpenPackage("i2488_EppGen.xlsx", false))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var cfs = ws.Cells["C1:C5"].ConditionalFormatting.GetConditionalFormattings();
+
+                var rightStyle = cfs[0].Style.Border.Right.Style;
+                Assert.AreEqual(ExcelBorderStyle.None, ws.Cells["D5"].Style.Border.Left.Style);
+                //Assert that we can read borderStyle None. This is different from NoNode and the same as an Empty border node
+                Assert.AreEqual(ExcelBorderStyle.None, cfs[0].Style.Border.Right.Style);
+                Assert.AreEqual(ExcelBorderStyle.None, cfs[0].Style.Border.Left.Style);
+                Assert.AreEqual(ExcelBorderStyle.None, cfs[0].Style.Border.Top.Style);
+                Assert.AreEqual(ExcelBorderStyle.None, cfs[0].Style.Border.Bottom.Style);
+            }
+        }
+
+        /// <summary>
+        /// Epplus did not write out ExcelBorderStyle.None correctly into DXF styles
+        /// Causing Cell-Styling to be applied instead of the conditionallyFormatted "None" style
+        /// </summary>
+        [TestMethod]
+        public void CopyingIssue2488_ActualCase()
+        {
+            string expectedId = "";
+            var fi = GetOutputFile("", "i2488_out.xlsx");
+            var copiedName = ""; 
+
+            using (var p = OpenTemplatePackage("i2488.xlsx"))
+            {
+                var wkbook = p.Workbook;
+                var wkSheet = wkbook.Worksheets[0];
+
+                var conditionalFormatting = wkSheet.Cells["S15"].ConditionalFormatting.GetConditionalFormattings().First(cf => cf.Address.Address == "S7:Y22");
+                var dxfId = conditionalFormatting.DxfId;
+                expectedId = conditionalFormatting.Style.ToDxfStyle().Id;
+                Assert.AreEqual(expectedId, wkbook.Styles.Dxfs[dxfId].Id);
+                var sheetName = wkSheet.Name;
+                var copyCount = 1;
+
+                copiedName = $"{sheetName}_{1}";
+
+                for (int i = 1; i <= copyCount; i++)
+                {
+                    p.Workbook.Worksheets.Copy(
+                    wkSheet.Name, $"{sheetName}_{i}");
+                }
+
+                wkSheet = wkbook.Worksheets[1];
+                sheetName = wkbook.Worksheets[1].Name;
+
+                for (int i = 1; i <= copyCount; i++)
+                {
+                    p.Workbook.Worksheets.Copy(
+                    wkSheet.Name, $"{sheetName}_{i}");
+                }
+                p.SaveAs(fi);
+            }
+            using (var p = OpenPackage(fi.Name, false))
+            {
+                var wkbook = p.Workbook;
+                var wkSheet = wkbook.Worksheets[copiedName];
+
+                var conditionalFormatting = wkSheet.Cells["S15"].ConditionalFormatting.GetConditionalFormattings().First(cf => cf.Address.Address == "S7:Y22");
+                Assert.AreEqual(expectedId, conditionalFormatting.Style.ToDxfStyle().Id);
+            }
+        }
+
+        [TestMethod]
+        public void CopyingIssue2488_StyleRead()
+        {
+            string expectedId = "";
+            var fi = GetOutputFile("", "i2488_Read_out.xlsx");
+
+            using (var p = OpenTemplatePackage("i2488.xlsx"))
+            {
+                var wkbook = p.Workbook;
+                var wkSheet = wkbook.Worksheets[0];
+
+                var conditionalFormatting = wkSheet.Cells["S15"].ConditionalFormatting.GetConditionalFormattings().First(cf=> cf.Address.Address == "S7:Y22");
+                var dxfId = conditionalFormatting.DxfId;
+                expectedId = conditionalFormatting.Style.ToDxfStyle().Id;
+                Assert.AreEqual(expectedId, wkbook.Styles.Dxfs[dxfId].Id);
+                p.SaveAs(fi);
+            }
+
+            using (var p = OpenPackage(fi.Name, false))
+            {
+                var wkbook = p.Workbook;
+                var wkSheet = wkbook.Worksheets[0];
+
+                var conditionalFormatting = wkSheet.Cells["S15"].ConditionalFormatting.GetConditionalFormattings().First(cf => cf.Address.Address == "S7:Y22");
+                Assert.AreEqual(expectedId, conditionalFormatting.Style.ToDxfStyle().Id);
             }
         }
 

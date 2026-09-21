@@ -10,13 +10,15 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
   08/17/2026         EPPlus Software AB           Canonical FontKey + resolve cache
+  08/20/2026         EPPlus Software AB           Document-wide subsetting via DocumentFontSubsetBuilder
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Subsetting;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Export.Pdf.Settings;
 
 namespace EPPlus.Export.Pdf.Resources
 {
@@ -25,27 +27,17 @@ namespace EPPlus.Export.Pdf.Resources
         internal readonly Dictionary<FontKey, PdfFontResource> Fonts = new Dictionary<FontKey, PdfFontResource>();
         internal readonly Dictionary<string, PdfPatternResource> Patterns = new Dictionary<string, PdfPatternResource>();
         internal readonly Dictionary<string, PdfShadingResource> Shadings = new Dictionary<string, PdfShadingResource>();
+        internal readonly Dictionary<string, PdfImageResource> Images = new Dictionary<string, PdfImageResource>();
         internal Dictionary<FontKey, IFontProvider> ShapedProviders = new Dictionary<FontKey, IFontProvider>();
-
-        // Cache mapping a requested (family, subfamily) to the canonical FontKey of
-        // the loaded font. Case-insensitive on the requested family so casing in the
-        // source workbook resolves to the same key. Ensures the font is only loaded
-        // once per distinct request.
-        private readonly Dictionary<string, FontKey> _requestedToKey =
-            new Dictionary<string, FontKey>();
+        private DocumentFontSubsetBuilder _subsetBuilder;
+        private readonly Dictionary<string, FontKey> _requestedToKey = new Dictionary<string, FontKey>();
 
         private static string BuildRequestCacheKey(string family, FontSubFamily subFamily)
         {
-            // Lower-case the requested family for case-insensitive lookup; subfamily
-            // is an enum so its numeric value is stable.
             string fam = family == null ? string.Empty : family.ToLowerInvariant();
             return fam + "|" + ((int)subFamily);
         }
 
-        /// <summary>
-        /// Resolves a requested (family, subfamily) to the canonical FontKey of the
-        /// loaded font, loading the font at most once per distinct request.
-        /// </summary>
         internal FontKey ResolveFontKey(PdfPageSettings pageSettings, string family, FontSubFamily subFamily)
         {
             var cacheKey = BuildRequestCacheKey(family, subFamily);
@@ -54,37 +46,76 @@ namespace EPPlus.Export.Pdf.Resources
             {
                 return key;
             }
-
             var font = pageSettings.FontEngine.LoadFont(family, subFamily);
             key = new FontKey(font.GetEnglishFontFamilyName(), font.NameTable.GetSubfamilyEnum());
             _requestedToKey[cacheKey] = key;
             return key;
         }
 
-        public void AddFont(PdfPageSettings pageSettings, string FontName, FontSubFamily SubFamily, string Text)
+        public void AddFont(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily, string text)
         {
-            var key = ResolveFontKey(pageSettings, FontName, SubFamily);
-            if (!Fonts.ContainsKey(key))
+            EnsureBuilder(pageSettings);
+            ResolveFontKey(pageSettings, fontName, subFamily);
+            _subsetBuilder.AddText(fontName, subFamily, text);
+        }
+
+        private void EnsureBuilder(PdfPageSettings pageSettings)
+        {
+            if (_subsetBuilder == null)
+                _subsetBuilder = new DocumentFontSubsetBuilder(pageSettings.FontEngine);
+        }
+
+        internal void BuildSubsets(PdfPageSettings pageSettings)
+        {
+            if (_subsetBuilder == null) return;
+            _subsetBuilder.Build();
+
+            foreach (var requestedKey in _requestedToKey.Values.Distinct())
             {
-                int label = 1;
-                if (Fonts.Count > 0)
-                {
-                    label = Fonts.Last().Value.labelNumber + 1;
-                }
-                Fonts.Add(key, new PdfFontResource(FontName, SubFamily, label, pageSettings));
+                var provider = _subsetBuilder.GetShapingProvider(requestedKey.Family, requestedKey.SubFamily);
+                if (provider != null)
+                    ShapedProviders[requestedKey] = provider;
             }
-            var manger = Fonts[key].fontSubsetManager;
-            manger.AddText(Text);
         }
 
         internal PdfFontResource GetFont(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
-            var key = ResolveFontKey(pageSettings, fontName, subFamily);
-            if (!Fonts.ContainsKey(key))
+            var requestedKey = ResolveFontKey(pageSettings, fontName, subFamily);
+            IFontProvider provider;
+            if (ShapedProviders.TryGetValue(requestedKey, out provider) && provider.PrimaryFont != null)
             {
-                throw new KeyNotFoundException("Font: " + key + " is missing from dictionary.");
+                var actual = provider.PrimaryFont;
+                var actualKey = new FontKey(actual.GetEnglishFontFamilyName(), actual.NameTable.GetSubfamilyEnum());
+                PdfFontResource viaProvider;
+                if (Fonts.TryGetValue(actualKey, out viaProvider))
+                    return viaProvider;
             }
-            return Fonts[key];
+            // Fallback
+            PdfFontResource direct;
+            if (Fonts.TryGetValue(requestedKey, out direct))
+                return direct;
+            throw new KeyNotFoundException("Font: " + requestedKey + " is missing from dictionary.");
+        }
+
+        internal PdfImageResource AddImage(byte[] imageBytes)
+        {
+            var key = GetImageKey(imageBytes);
+            if (!Images.TryGetValue(key, out var res))
+            {
+                int label = 1;
+                if (Images.Count > 0) label = Images.Last().Value.labelNumber + 1;
+                res = new PdfImageResource(label, imageBytes);
+                Images.Add(key, res);
+            }
+            return res;
+        }
+
+        private static string GetImageKey(byte[] bytes)
+        {
+            using (var sha = System.Security.Cryptography.SHA1.Create())
+            {
+                return System.Convert.ToBase64String(sha.ComputeHash(bytes));
+            }
         }
     }
 }

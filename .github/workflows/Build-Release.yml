@@ -23,7 +23,7 @@ jobs:
 
     # --- Read version and target frameworks from Directory.Build.props ---
     # Both Version and the shared target framework list are centralized in
-    # src/Directory.Build.props (shared by EPPlus and the four embedded sub-projects:
+    # src/Directory.Build.props (shared by EPPlus and the five embedded sub-projects:
     # DrawingRenderer, Export.Pdf, Fonts.OpenType, Graphics). EPPlus.csproj no longer
     # holds a literal TFM list; it consumes $(EPPlusCoreTargetFrameworks), which a raw
     # XML parser cannot expand. Therefore both values are read directly from props.
@@ -59,6 +59,11 @@ jobs:
     # it depends on ReferenceCopyLocalPaths being populated; a standalone 'dotnet pack' produces
     # an incomplete package containing only EPPlus.dll. The resulting .nupkg is picked up from
     # src/EPPlus/bin/Release/ below.
+    #
+    # IMPORTANT: this initial .nupkg embeds UNSIGNED copies of the DLLs, because packaging
+    # happens as part of this build step, before the DLLs are signed. It is deliberately
+    # discarded and rebuilt below (see "Re-pack after signing") once the loose DLLs on disk
+    # have been signed, so the final package embeds signed assemblies.
     - name: Build
       run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
     - name: Test
@@ -77,13 +82,14 @@ jobs:
 
     # --- Sign DLLs ---
     # All assemblies that ship inside a NuGet package are signed here, before the package is signed.
-    # EPPlus + the four embedded sub-projects (DrawingRenderer, Export.Pdf, Fonts.OpenType,
-    # Graphics) share the same target frameworks (EPPlusCoreTargetFrameworks, read into env.TFMS).
+    # EPPlus + the five embedded sub-projects (DrawingRenderer, Export.Pdf, Fonts.OpenType,
+    # Graphics, Compression) share the same target frameworks (EPPlusCoreTargetFrameworks, read into env.TFMS).
     # EPPlus.Interfaces and EPPlus.System.Drawing are separate NuGet packages (unchanged from
     # earlier versions) and are also signed here, as before.
-    # NOTE: this signs the DLLs in each project's bin/Release/<tfm> output. The embedded copies
-    # inside the EPPlus package are taken from these same signed outputs, so the package verify
-    # step below confirms the embedded DLLs carry a valid signature.
+    # NOTE: this signs the loose DLLs in each project's bin/Release/<tfm> output. The EPPlus
+    # .nupkg produced by the "Build" step above was packaged BEFORE this point, so it still
+    # embeds the unsigned versions of these files. The "Re-pack after signing" step below
+    # regenerates that package so the embedded copies match these now-signed DLLs.
     - name: Sign assemblies with AzureSignTool
       run: |
         $projectsToSign = @(
@@ -93,7 +99,8 @@ jobs:
           "EPPlus.DrawingRenderer",
           "EPPlus.Export.Pdf",
           "EPPlus.Fonts.OpenType",
-          "EPPlus.Graphics"
+          "EPPlus.Graphics",
+          "EPPlus.Compression"
         )
 
         $tfms = "${{ env.TFMS }}" -split ";"
@@ -124,12 +131,24 @@ jobs:
       shell: pwsh
     # --- Sign DLLs ---
 
+    # --- Re-pack after signing ---
+    # The EPPlus .nupkg produced by the "Build" step embeds the DLLs as they were AT BUILD TIME,
+    # i.e. unsigned. 'dotnet pack --no-build' re-runs the Pack target (including the
+    # IncludeReferencedProjectsInPackage target that embeds the sub-project DLLs) WITHOUT
+    # recompiling, so it picks up the signed DLLs currently sitting in each project's
+    # bin/Release/<tfm> folder and produces a new .nupkg with signed assemblies embedded.
+    # This must run before "Collect NuGet packages" below, and before the NuGet package
+    # signature itself is applied.
+    - name: Re-pack after signing
+      run: dotnet pack ./src/EPPlus.sln --no-build --configuration Release
+    # --- Re-pack after signing ---
+
     # --- Collect the built packages ---
-    # The packages are produced by the build (GeneratePackageOnBuild), not by 'dotnet pack'.
-    # We copy the three packages we actually ship (EPPlus, EPPlus.Interfaces, EPPlus.System.Drawing)
-    # into ./output for signing and upload. The four sub-projects and the benchmark project have
-    # IsPackable=false and therefore produce no package of their own; the sub-project DLLs ship
-    # embedded inside the EPPlus package.
+    # The packages are produced by the pack step above (GeneratePackageOnBuild / re-pack), not
+    # by a fresh 'dotnet pack' with no prior context. We copy the three packages we actually ship
+    # (EPPlus, EPPlus.Interfaces, EPPlus.System.Drawing) into ./output for signing and upload.
+    # The four sub-projects and the benchmark project have IsPackable=false and therefore
+    # produce no package of their own; the sub-project DLLs ship embedded inside the EPPlus package.
     - name: Collect NuGet packages
       run: |
         New-Item -ItemType Directory -Force -Path ./output | Out-Null
@@ -173,7 +192,7 @@ jobs:
     # Automates the manual check that the four sub-projects are present in the final EPPlus
     # package and signed with the same certificate as EPPlus.dll. This is the primary safety net:
     # because packaging depends on build behaviour, this step must fail the build if the package
-    # is ever produced without all five embedded assemblies.
+    # is ever produced without all six embedded assemblies.
     - name: Verify EPPlus package contents and signatures
       run: |
         $nupkg = Get-ChildItem ./output/*.nupkg |
@@ -191,13 +210,14 @@ jobs:
         if (Test-Path $extractPath) { Remove-Item $extractPath -Recurse -Force }
         Expand-Archive -Path $nupkg.FullName -DestinationPath $extractPath -Force
 
-        # The five assemblies that must ship inside the EPPlus package.
+        # The six assemblies that must ship inside the EPPlus package.
         $expectedDlls = @(
           "EPPlus.dll",
           "EPPlus.DrawingRenderer.dll",
           "EPPlus.Export.Pdf.dll",
           "EPPlus.Fonts.OpenType.dll",
-          "EPPlus.Graphics.dll"
+          "EPPlus.Graphics.dll",
+          "EPPlus.Compression.dll"
         )
 
         $hasError = $false

@@ -192,49 +192,53 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         {
             if (InputFragments != null && InputFragments.Count > 0)
             {
-                foreach (var styleRun in StyleRuns)
+                if (StyleRuns != null && StyleRuns.Count > 0)
                 {
-                    var inputFrag = InputFragments[styleRun.FragmentIndex];
-                    var shaper = _engine.GetTextShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
 
-                    if (shapeLight)
+                    foreach (var styleRun in StyleRuns)
                     {
-                        var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
+                        var inputFrag = InputFragments[styleRun.FragmentIndex];
+                        var shaper = _engine.GetMeasurementShaper(inputFrag.RichTextOptions.Family, inputFrag.RichTextOptions.SubFamily);
 
-                        double[] charWidths = new double[styleRun.Length + 1];
-                        shapedGlyphs.FillCharWidths((float)inputFrag.RichTextOptions.Size, charWidths, styleRun.Length + 1);
-                        var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextOptions.Size);
-
-                        inputFrag.AscentPoints = shaper.GetAscentInPoints(inputFrag.RichTextOptions.Size);
-                        inputFrag.DescentPoints = shaper.GetDescentInPoints(inputFrag.RichTextOptions.Size);
-
-                        int charIdx = styleRun.FullTextStart;
-                        foreach (var width in charWidths)
+                        if (shapeLight)
                         {
-                            if (charIdx < AllChars.Count)
+                            var shapedGlyphs = shaper.ShapeLight(styleRun.Text);
+
+                            double[] charWidths = new double[styleRun.Length + 1];
+                            shapedGlyphs.FillCharWidths((float)inputFrag.RichTextOptions.Size, charWidths, styleRun.Length + 1);
+                            var spaceWidth = shaper.Shape(" ").GetWidthInPoints((float)inputFrag.RichTextOptions.Size);
+
+                            inputFrag.AscentPoints = shaper.GetAscentInPoints(inputFrag.RichTextOptions.Size);
+                            inputFrag.DescentPoints = shaper.GetDescentInPoints(inputFrag.RichTextOptions.Size);
+
+                            int charIdx = styleRun.FullTextStart;
+                            foreach (var width in charWidths)
                             {
-                                AllChars[charIdx].Width = width;
-                                charIdx++;
+                                if (charIdx < AllChars.Count)
+                                {
+                                    AllChars[charIdx].Width = width;
+                                    charIdx++;
+                                }
                             }
+
+                            styleRun.SetCharWidths(charWidths, spaceWidth);
                         }
+                        else
+                        {
+                            throw new NotImplementedException("Proper shaping has not been implemented here yet");
+                        }
+                    }
 
-                        styleRun.SetCharWidths(charWidths, spaceWidth);
-                    }
-                    else
-                    {
-                        throw new NotImplementedException("Proper shaping has not been implemented here yet");
-                    }
+                    var lastFragment = InputFragments[InputFragments.Count - 1];
+                    var lastRun = StyleRuns[StyleRuns.Count - 1];
+                    var lastShaper = _engine.GetMeasurementShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
+                    var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
+                    double[] lastCharWidths = new double[lastRun.Length + 1];
+                    lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
+                    var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.RichTextOptions.Size);
+
+                    lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
                 }
-
-                var lastFragment = InputFragments[InputFragments.Count - 1];
-                var lastRun = StyleRuns[StyleRuns.Count - 1];
-                var lastShaper = _engine.GetTextShaper(lastFragment.RichTextOptions.Family, lastFragment.RichTextOptions.SubFamily);
-                var lastShapedGlyphs = lastShaper.ShapeLight(lastRun.Text);
-                double[] lastCharWidths = new double[lastRun.Length + 1];
-                lastShapedGlyphs.FillCharWidths((float)lastFragment.RichTextOptions.Size, lastCharWidths, lastRun.Length + 1);
-                var LastspaceWidth = lastShaper.Shape(" ").GetWidthInPoints((float)lastFragment.RichTextOptions.Size);
-
-                lastRun.SetCharWidths(lastCharWidths, LastspaceWidth);
             }
         }
 
@@ -251,7 +255,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 return new TextLineCollection();
             }
             var inputRt = InputFragments[0];
-            var shaper = _engine.GetTextShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
+            var shaper = _engine.GetMeasurementShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
             var layoutEngine = new TextLayoutEngine(_engine, shaper);
             var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
 
@@ -261,7 +265,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                 for (int i = 1; i < wrappedLines.Count-1; i++)
                 {
                     var startIdx = wrappedLines[i].InternalLineFragments[0].StartOriginal;
-                    var len = wrappedLines[i].Text.Length;
+                    var len = wrappedLines[i].Text?.Length??0;
                     for(int j = startIdx; j< (startIdx + len); j++)
                     {
                         AllChars[j].Line = i;

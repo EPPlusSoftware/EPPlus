@@ -35,5 +35,9 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
         /// </summary>
         internal bool RenderTextNode { get; private set; } = false;
 
+        public override RenderItem Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

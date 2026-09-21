@@ -17,18 +17,19 @@ namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
+        SvgRenderOptions _options;
         public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options)
         {
             BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream);
-
+            _options = options;
             //Override size.
-            if (options.Size.Width.HasValue)
+            if (options.Width.HasValue)
             {
-                bounds.Width = options.Size.WidthPixels;
+                bounds.Width = (double)options.Width;
             }
-            if (options.Size.Height.HasValue)
+            if (options.Height.HasValue)
             {
-                bounds.Height = options.Size.HeightPixels;
+                bounds.Height = (double)options.Height;
             }
 
             Bounds = bounds;
@@ -43,7 +44,7 @@ namespace EPPlus.DrawingRenderer
         public bool Render(List<RenderItem> items)
         {
             OutputStream.Clear();
-            OutputStream.Append($"<svg width=\"{Bounds.Width.PointToPixelString()}\" height=\"{Bounds.Height.PointToPixelString()}\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" Overflow=\"Hidden\" viewbox=\"{ViewBox}\">");
+            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()}>");
             PreRender(items);
             foreach (var item in items)
             {
@@ -76,6 +77,11 @@ namespace EPPlus.DrawingRenderer
             return true;
         }
 
+        private string GetViewBoxAttr()
+        {
+            if (string.IsNullOrEmpty(ViewBox)) return $" viewbox=\"0 0 {Math.Round(Bounds.Width + 1,0).PointToPixelString()} {Math.Round(Bounds.Height + 1).PointToPixelString()}\""; // +1 here is to make sure outer borders are not clipped. This should be fixed for when the full calculation for the viewbox is implemented. For now, we just add 1 pixel to the width and height to make sure the outer border is not clipped.
+            return $" viewbox=\"{ViewBox}\"";
+        }
 
         public void PreRenderGroup(List<RenderItem> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
         {
@@ -622,7 +628,45 @@ namespace EPPlus.DrawingRenderer
                 double x1 = cx - halfX, y1 = cy - halfY;
                 double x2 = cx + halfX, y2 = cy + halfY;
 
+                if(item.DefId == "xGridLine")
+                {
+                    //If global, has to stretch the whole length.
+                    //This case is special because it stretches in the same direction as the attempted gradient
+                    x1 = item.Bounds.Left;
+                    x2 = w - x1;
+                }
+
                 return $" x1=\"{(x1).PointToPixelString("0.00")}\" x2=\"{(x2).PointToPixelString("0.00")}\" y1=\"{y1.PointToPixelString("0.00")}\" y2=\"{y2.PointToPixelString("0.00")}\"";
+            }
+            else if (angle.HasValue && angle != 0)
+            {
+                    var x1 = 0D;
+                    var x2 = 0D;
+                    var y1 = 0D;
+                    var y2 = 0D;
+                    angle %= 360;
+                    if (angle <= 90)
+                    {
+                        x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
+                        y2 = Math.Sin(MathHelper.Radians(angle.Value));
+                    }
+                    else if (angle <= 180)
+                    {
+                        y2 = Math.Sin(MathHelper.Radians(angle.Value));
+                        x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value));
+                    }
+                    else if (angle <= 270)
+                    {
+                        y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
+                        x1 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
+                    }
+                    else
+                    {
+                        y1 = Math.Sin(MathHelper.Radians(angle.Value - 180));
+                        x2 = 1D - Math.Sin(MathHelper.Radians(angle.Value - 180));
+                    }
+
+                    return $" x1=\"{(x1).ToString("0.00%", CultureInfo.InvariantCulture)}\" x2=\"{(x2).ToString("0.00%", CultureInfo.InvariantCulture)}\" y1=\"{y1.ToString("0.00%", CultureInfo.InvariantCulture)}\" y2=\"{y2.ToString("0.00%", CultureInfo.InvariantCulture)}\"";
             }
             return "";
         }

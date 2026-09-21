@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
-            if (context.Pictures.KeepOriginalSize == false)
+            if (context.Drawings.KeepOriginalSizeOnPictures == false)
             {
                 if (_width != _bounds.Width)
                 {
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 }
             }
 
-            if (_border.LineStyle != null && context.Pictures.CssExclude.Border == false)
+            if (_border.LineStyle != null && context.Drawings.PictureCssExclude.Border == false)
             {
                 var border = GetDrawingBorder();
                 AddDeclaration("border", border);

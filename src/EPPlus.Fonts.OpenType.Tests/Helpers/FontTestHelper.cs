@@ -82,11 +82,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
         /// <param name="fontFolders">Folders to search for fonts</param>
         /// <returns>Serialized subset bytes</returns>
         public static byte[] SubsetAndSerialize(
+            OpenTypeFontEngine engine,
             string fontName,
-            string text,
-            List<string> fontFolders)
+            string text)
         {
-            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
+            var font = engine.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(text);
             return subset.Serialize();
         }
@@ -95,11 +95,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
         /// Creates a subset and serializes it to bytes (char array overload)
         /// </summary>
         public static byte[] SubsetAndSerialize(
+            OpenTypeFontEngine engine,
             string fontName,
-            char[] chars,
-            List<string> fontFolders)
+            char[] chars)
         {
-            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
+            var font = engine.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(chars);
             return subset.Serialize();
         }
@@ -112,11 +112,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
         /// <param name="fontFolders">Folders to search for fonts</param>
         /// <returns>Parsed subset font (validated)</returns>
         public static OpenTypeFont RoundtripSubset(
+            OpenTypeFontEngine engine,
             string fontName,
-            string text,
-            List<string> fontFolders)
+            string text)
         {
-            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
+            var font = engine.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(text);
             var bytes = subset.Serialize();
 
@@ -131,11 +131,11 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
         /// Performs a full roundtrip with char array
         /// </summary>
         public static OpenTypeFont RoundtripSubset(
+            OpenTypeFontEngine engine,
             string fontName,
-            char[] chars,
-            List<string> fontFolders)
+            char[] chars)
         {
-            var font = OpenTypeFonts.LoadFont(fontName, FontSubFamily.Regular);
+            var font = engine.LoadFont(fontName, FontSubFamily.Regular);
             var subset = font.CreateSubset(chars);
             var bytes = subset.Serialize();
 

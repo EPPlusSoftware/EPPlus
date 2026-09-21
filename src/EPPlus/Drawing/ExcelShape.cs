@@ -18,7 +18,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Text;
 using System.Xml;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 using EPPlus.DrawingRenderer;
 namespace OfficeOpenXml.Drawing
 {
@@ -104,6 +103,9 @@ namespace OfficeOpenXml.Drawing
             svg.Render(sr.RenderItems);
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// </summary>
+        public override bool SupportsSvgExport => true;
     }
 }

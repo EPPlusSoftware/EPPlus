@@ -6,6 +6,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Drawing;
 using System.Text;
 
@@ -97,7 +98,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         private void GenerateTextBodyFile(string fileName, GroupRenderItem baseGroup, SvgTextBodyRenderItem textBody)
         {
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb, new SvgRenderOptions());
+            var options = new SvgRenderOptions();
+            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb, options);
 
             var background = new RectRenderItem(baseGroup.Bounds);
 
@@ -122,6 +124,10 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         private SvgTextBodyRenderItem GenerateTextBody(GroupRenderItem baseGroup)
         {
             var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            if (engine.GetFontAvailability("Archivo Narrow") == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive("Font not found. This is expected behaviour on web.");
+            }
             var renderContext = new RenderContext(() => engine);
             var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup.Bounds, true);
             var paragraph = textBody.AddParagraph("Hello");
@@ -181,7 +187,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Bounds.Top);
             GenerateSvgFile("textBodyAlignCenter", baseGroup.Bounds, baseGroup);
         }
-
         [TestMethod]
         public void SvgTextBodyTestRightAlignmentGenerated()
         {
@@ -331,6 +336,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             GenerateSvgFile("MarginTextBox", group.Bounds, group);
         }
+
 
         [TestMethod]
         public void TextBoxWithAllMargins()

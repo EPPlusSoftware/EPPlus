@@ -34,6 +34,17 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 Colors.Add(c);
             }
 
+            //Node is empty. Add excel's hardcoded default
+            if(gradientFill._topNode.HasChildNodes == false)
+            {
+                var c = new GradientFillColor(0, Color.Black);
+                c.Opacity = 1;
+                var c2 = new GradientFillColor(100, Color.White);
+                c2.Opacity = 1;
+                Colors.Add(c);
+                Colors.Add(c2);
+            }
+
             if (gradientFill.FocusPoint != null)
             {
                 FocusPoint = gradientFill.FocusPoint.AsOffsetRectangle();

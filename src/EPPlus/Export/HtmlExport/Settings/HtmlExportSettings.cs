@@ -11,6 +11,7 @@
   05/11/2021         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -129,15 +130,24 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public string IconPrefix { get; set; } = "ic";
 
+        HtmlPictureSettings _legacyPicturesSettings;
         /// <summary>
         /// If picture drawings will be included. Default is true.
         /// </summary>
+        [Obsolete("Use the Drawings.Pictures property instead")]        
         public HtmlPictureSettings Pictures
         {
-            get;
-        } = new HtmlPictureSettings();
+            get
+            {
+                if(_legacyPicturesSettings==null)
+                {
+                    _legacyPicturesSettings = new HtmlPictureSettings(Drawings);
+                }
+                return _legacyPicturesSettings;
+            }
+        }
         /// <summary>
-        /// If and which Charts and/or Shapes will be included
+        /// If and which drawing objects like Charts, Pictures and/or Shapes will be included
         /// </summary>
         public HtmlDrawingSettings Drawings
         {

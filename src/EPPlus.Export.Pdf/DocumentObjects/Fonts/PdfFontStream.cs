@@ -30,14 +30,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         {
             var fontBytes = FontData.Serialize();
             var fontData = Encoding.ASCII.GetString(fontBytes);
-            return $"<< /Length {fontBytes.Length} /Length1 {fontBytes.Length} >>\n" + $"stream\n|BINARY DATA|\nendstream";
+            return $"<< /Length {fontBytes.Length.ToPdfStringF0()} /Length1 {fontBytes.Length.ToPdfStringF0()} >>\n" + $"stream\n|BINARY DATA|\nendstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var fontBytes = FontData.Serialize();
             var body = PdfFlate.Compress(fontBytes);
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} /Length1 {fontBytes.Length} >>\nstream\n");
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {fontBytes.Length.ToPdfStringF0()} >>\nstream\n");
             bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }

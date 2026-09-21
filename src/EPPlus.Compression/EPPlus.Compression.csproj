@@ -6,5 +6,6 @@
 		<RootNamespace>OfficeOpenXml.Packaging.Ionic</RootNamespace>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>EPPlus.Compression.snk</AssemblyOriginatorKeyFile>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 </Project>

@@ -82,7 +82,8 @@ public abstract class TestBase
     protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
     protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";           //Team shared workbooks for tests
     protected static string _testInputLocalPathOptional = @"c:\epplusTest\workbooks\";      //Local workboks for tests
-    protected static string _imagePath = @"c:\epplusTest\images\";
+    protected static string _imagePath = @"c:\epplusTest\testOutput\images\";
+    protected static string _dataPath = @"c:\epplusTest\data\";
     /// <summary>
     ///Gets or sets the test context which provides
     ///information about and functionality for the current test run.
@@ -148,10 +149,26 @@ public abstract class TestBase
         }
         if (dispose) pck.Dispose();
     }
+
+    private static int _nFailedWriteAttempts = 0;
+
     protected static void SaveTextFileToWorkbook(string fileName, string content)
     {
-        var file = EnsurePathExists(_worksheetPath + fileName);
-        File.WriteAllText(file, content);
+        if(_nFailedWriteAttempts > 4)
+        {
+            Assert.Inconclusive("Number of write failures exceeds 4, file writing is most likely not possible in this environment");
+        }
+        try
+        {
+            var file = EnsurePathExists(_worksheetPath + fileName);
+            File.WriteAllText(file, content);
+        }
+        catch(Exception ex)
+        {
+            _nFailedWriteAttempts++;
+            Assert.Inconclusive($"Could not write file '{fileName}, error: '{ex.Message}'");
+        }
+        
     }
     protected void SaveSvg(string fileName, string svg)
     {

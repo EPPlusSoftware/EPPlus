@@ -10,11 +10,9 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
 using System.Drawing;
 
 namespace EPPlus.DrawingRenderer.RenderItems
@@ -107,9 +105,19 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 Bounds.Top = value;
             }
         }
+        public override RenderItem Clone()
+        {
+            var clone = new UseReferenceRenderItem((BoundingBox)Bounds.Parent, Href);
+            CloneBase(clone);
+            return clone;
+        }
     }
     public class RectRenderItem : RenderItem 
     {
+        public RectRenderItem() : base()
+        {
+            
+        }
         public RectRenderItem(BoundingBox parent) : base(parent)
         {
 
@@ -126,6 +134,19 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double GlobalRight => Bounds.GlobalLeft + Width;
         public double GlobalBottom => Bounds.GlobalTop + Height;
         public double RoundedCornerRadius { get; set; }
+        public override RenderItem Clone()
+        {
+            var clone = new RectRenderItem((BoundingBox)Bounds.Parent)
+            {
+                RoundedCornerRadius = RoundedCornerRadius,
+            };
+
+            clone.Bounds.Width = Bounds.Width;
+            clone.Bounds.Height = Bounds.Height;
+
+            CloneBase(clone);
+            return clone;
+        }
     }
     public class GroupRenderItem : RenderItem
     {
@@ -215,6 +236,24 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;
             Bounds.Height = item.Bounds.Bottom > Bounds.Height ? item.Bounds.Bottom : Bounds.Height;
         }
+        public override RenderItem Clone()
+        {
+            var item = new GroupRenderItem(Bounds)
+            {
+                Rotation = Rotation,
+                TextAnchor = TextAnchor,
+                TransformOrigin = TransformOrigin,
+                GroupTransform = GroupTransform,
+                RotationPoint = RotationPoint,
+                Scale = Scale,
+            };
+            CloneBase(item);
+            foreach(var child in RenderItems)            
+            { 
+                item.RenderItems.Add(child.Clone());
+            }
+            return item;
+        }
     }
     public class PathRenderItem : RenderItem
     {
@@ -224,6 +263,16 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         }
         public List<PathCommands> Commands { get; } = new List<PathCommands>();
+        public override RenderItem Clone()
+        {
+            var clone = new PathRenderItem(Bounds);
+            CloneBase(clone);
+            foreach(var cmd in Commands)
+            {
+                clone.Commands.Add(cmd.Clone());
+            }
+            return clone;
+        }
     }
     public class EllipseRenderItem : RenderItem
     {
@@ -236,6 +285,18 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double Cy { get; set; }
         public double Rx { get; set; }
         public double Ry { get; set; }
+        public override RenderItem Clone()
+        {
+            var clone = new EllipseRenderItem((BoundingBox)Bounds.Parent)
+            {
+                Cx = Cx,
+                Cy = Cy,
+                Rx = Rx,
+                Ry = Ry
+            };
+            CloneBase(clone);
+            return clone;
+        }
     }
     public class LineRenderItem : RenderItem
     {
@@ -302,7 +363,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.LocalPosition = new Vector2(px, py);
             Bounds.Size = new Vector2(sizeX, sizeY);
         }
-        public LineRenderItem Clone()
+        public override RenderItem Clone()
         {
             var clone = new LineRenderItem((BoundingBox)Bounds.Parent);
             CloneBase(clone);
@@ -381,6 +442,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             item.LineCap = LineCap;
             item.FillColorSource = FillColorSource;
         }
+        public abstract RenderItem Clone();
         internal void GetOuterShadowColor(out string shadowColor, out double opacity)
         {
             if (OuterShadowEffect == null)

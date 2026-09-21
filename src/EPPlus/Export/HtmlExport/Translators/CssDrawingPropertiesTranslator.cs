@@ -4,6 +4,7 @@ using EPPlus.Graphics;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Export.HtmlExport.CssCollections;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,14 +21,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         double _height;
         BoundingBox _bounds;
         ExcelDrawingBorder _border;
-
+        HtmlSvgDrawing _drawing;
         internal CssDrawingPropertiesTranslator(HtmlSvgDrawing d)
         {
             _width = d.Drawing.GetPixelWidth();
             _height = d.Drawing.GetPixelHeight();
             _bounds = d.Drawing.GetBoundingBox();
-
-            if(d.Drawing is ExcelChart)
+            _drawing = d;
+            if (d.Drawing is ExcelChart)
             {
                 _border = d.Drawing.As.Chart.Chart.Border;
             }
@@ -39,7 +40,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
-            if (context.Drawings.Position == ePicturePosition.Relative)
+            if (context.Drawings.Position == eDrawingPosition.Relative)
             {
                 if (_bounds.Left != 0)
                 {
@@ -50,19 +51,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                     AddDeclaration("top", $"{_bounds.Top.PointToPixel():F0}px");
                 }
             }
-            else if (context.Drawings.Position == ePicturePosition.Absolute)
+            else if (context.Drawings.Position == eDrawingPosition.Absolute)
             {
-                if (_bounds.Left != 0)
-                {
-                    AddDeclaration("left", $"{_bounds.GlobalLeft.PointToPixel():F0}px");
-                }
-                if (_bounds.Top != 0)
-                {
-                    AddDeclaration("top", $"{_bounds.GlobalTop.PointToPixel():F0}px");
-                }
+                AddDeclaration("position", $"{context.Drawings.Position.ToString().ToLower()}");
+                _drawing.Drawing.GetPositionSize();
+                double left = _drawing.Drawing.GetPixelLeft(_drawing.Range._fromCol - 1);
+                double top = _drawing.Drawing.GetPixelTop(_drawing.Range._fromRow - 1);
+                
+                AddDeclaration("left", $"{left:F0}px");
+                AddDeclaration("top", $"{top:F0}px");
             }
 
-            if (context.Pictures.KeepOriginalSize == false)
+            if (context.Drawings.KeepOriginalSizeOnPictures == false)
             {
                 if (_width != _bounds.Width)
                 {
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 }
             }
 
-            if (_border.LineStyle != null && context.Pictures.CssExclude.Border == false)
+            if (_border.LineStyle != null && context.Drawings.PictureCssExclude.Border == false)
             {
                 var border = GetDrawingBorder();
                 AddDeclaration("border", border);

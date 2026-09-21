@@ -11,9 +11,10 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 
-using System;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Utils;
+using OfficeOpenXml.Interfaces.Fonts;
+using System;
 
 namespace EPPlus.Fonts.OpenType.Tables.Os2
 {
@@ -44,13 +45,34 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         public ushort usWidthClass { get; set; }
 
         /// <summary>
-        /// Indicates font embedding licensing rights for the font. The interpretation of flags is as follows:
-        /// 0: Installable embedding: the font may be embedded, and may be permanently installed for use on a remote systems, or for use by other users.
-        /// 2: Restricted License embedding: the font must not be modified, embedded or exchanged in any manner without first obtaining explicit permission of the legal owner.
-        /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened “read-only”; no edits can be applied to the document.
-        /// 8: Editable embedding: the font may be embedded, and may be temporarily loaded on other systems. As with Preview & Print embedding, documents containing Editable fonts may be opened for reading. In addition, editing is permitted, including ability to format new text using the embedded font, and changes may be saved.
+        /// Indicates font embedding licensing rights for the font. See
+        /// https://learn.microsoft.com/en-us/typography/opentype/spec/os2#fst
+        /// Bits 0-3 form a mutually-exclusive usage-permission level; bits 8 and 9
+        /// are independent flags. Interpret with masks, not equality — e.g.
+        /// (fsType &amp; FsTypeUsageMask) == FsTypeFlags.RestrictedLicense, or
+        /// (fsType &amp; FsTypeFlags.NoSubsetting) != 0.
         /// </summary>
-        public ushort fsType { get; set; }
+        public FsTypeFlags fsType { get; set; }
+
+        /// <summary>
+        /// Mask covering the mutually-exclusive usage-permission bits (0-3) of <see cref="fsType"/>.
+        /// Use this to isolate the usage level before comparing against a specific
+        /// <see cref="FsTypeFlags"/> value, since those bits are not independent flags.
+        /// </summary>
+        internal const ushort FsTypeUsageMask = 0x000F;
+
+        /// <summary>
+        /// Interprets <see cref="fsType"/> into the embedding restriction the font declares.
+        /// Pure interpretation — carries no policy about what EPPlus does with it.
+        /// </summary>
+        public FontEmbeddingRestriction GetEmbeddingRestriction()
+        {
+            if ((fsType & (FsTypeFlags)FsTypeUsageMask) == FsTypeFlags.RestrictedLicense)
+                return FontEmbeddingRestriction.NoEmbedding;
+            if ((fsType & FsTypeFlags.NoSubsetting) != 0)
+                return FontEmbeddingRestriction.NoSubsetting;
+            return FontEmbeddingRestriction.None;
+        }
 
         /// <summary>
         /// The recommended horizontal size in font design units for subscripts for this font.
@@ -138,21 +160,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         /// See https://docs.microsoft.com/en-us/typography/opentype/spec/os2#fss
         /// </summary>
         public FsSelectionFlags fsSelection { get; set; }
-        [Flags]
-        public enum FsSelectionFlags : ushort
-        {
-            Italic = 1 << 0,            // Bit 0
-            Underscore = 1 << 1,        // Bit 1
-            Negative = 1 << 2,          // Bit 2
-            Outlined = 1 << 3,          // Bit 3
-            Strikeout = 1 << 4,         // Bit 4
-            Bold = 1 << 5,              // Bit 5
-            Regular = 1 << 6,           // Bit 6
-            UseTypoMetrics = 1 << 7,    // Bit 7
-            WWS = 1 << 8,               // Bit 8
-            Oblique = 1 << 9            // Bit 9
-                                        // Bits 10-15 are reserved
-        }
+        
         //public FsSelectionFlags SelectionFlags => (FsSelectionFlags)fsSelection;
 
 
@@ -212,7 +220,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             writer.WriteInt16BigEndian(xAvgCharWidth);
             writer.WriteUInt16BigEndian(usWeightClass);
             writer.WriteUInt16BigEndian(usWidthClass);
-            writer.WriteUInt16BigEndian(fsType);
+            writer.WriteUInt16BigEndian((ushort)fsType);
             writer.WriteInt16BigEndian(ySubscriptXSize);
             writer.WriteInt16BigEndian(ySubscriptYSize);
             writer.WriteInt16BigEndian(ySubscriptXOffset);

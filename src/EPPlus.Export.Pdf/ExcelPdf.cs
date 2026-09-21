@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
@@ -18,6 +19,7 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,7 +31,6 @@ namespace EPPlus.Export.Pdf
     /// </summary>
     internal class ExcelPdf
     {
-        private PdfPageSettings _pageSettings;
         private PdfDocumentSettings _documentSettings; 
         private PdfDictionaries _dictionaries;
         internal List<PdfObject> _document = new List<PdfObject>();
@@ -43,15 +44,15 @@ namespace EPPlus.Export.Pdf
             }
         }
 
-        internal void SetPageSettingsForTest(PdfPageSettings pageSettings)
-{
-    _pageSettings = pageSettings;
-}
+        internal void SetDictionariesForTest(PdfDictionaries dictionaries)
+        {
+            _dictionaries = dictionaries;
+        }
 
-internal void SetDictionariesForTest(PdfDictionaries dictionaries)
-{
-    _dictionaries = dictionaries;
-}
+        internal void SetDocumentSettingsForTest(PdfDocumentSettings documentSettings)
+        {
+            _documentSettings = documentSettings;
+        }
 
         //Get the label to use for pattern.
         private string GetPatternLabel(PdfCellLayout layout)
@@ -70,12 +71,13 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
 
         //Add Fonts //Need to update this method a bit. We should check for all default fonts and not only courier new? Also need to check if we are allowed to embedd the font.
         internal void AddFontData()
-        {            
+        {
+            foreach (var f in _dictionaries.Fonts)
+                Debug.WriteLine($"Fonts: {f.Key} → label={f.Value.Label} nr={f.Value.labelNumber}");
             if (_documentSettings.EmbeddFonts)
             {
                 foreach (var font in _dictionaries.Fonts)
                 {
-                    //font.Value.CreateGidsAndCharMaps();
                     var cidSet = font.Value.GetCidSet(_document.Count + 1);
                     if (cidSet != null) _document.Add(cidSet);
                     _document.Add(font.Value.GetEmbeddedFontStreamObject(_document.Count + 1));
@@ -111,12 +113,40 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         {
             foreach (var shading in _dictionaries.Shadings)
             {
-                _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                var gradient = shading.Value.CellFillData.GradientFillData;
+                if (gradient != null && gradient.GradientType == ExcelFillGradientType.Path)
+                {
+                    var boxFunction = new PdfPostScriptCalculatorFunction(_document.Count + 1, gradient);
+                    _document.Add(boxFunction);
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1, boxFunction.objectNumber));
+                }
+                else
+                {
+                    _document.Add(shading.Value.GetShadingObject(_document.Count + 1));
+                }
                 _document.Add(shading.Value.GetShadingPatternObject(_document.Count + 1, _document.Count));
                 int label = _dictionaries.Patterns.Last().Value.labelNumber + 1;
                 var pr = new PdfPatternResource(label, shading.Value.CellFillData);
                 pr.objectNumber = _document.Count;
                 _dictionaries.Patterns.Add(shading.Value.CellFillData.id, pr);
+            }
+        }
+
+        //Add Image Data
+        private void AddImageData()
+        {
+            foreach (var image in _dictionaries.Images)
+            {
+                var img = image.Value.GetImageObject(_document.Count + 1);
+                if (img.HasSoftMask)
+                {
+                    var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
+                    _document.Add(mask);
+                    img.SoftMaskObjectNumber = mask.objectNumber;
+                    img.objectNumber = _document.Count + 1;
+                    image.Value.objectNumber = img.objectNumber;
+                }
+                _document.Add(img);
             }
         }
 
@@ -148,21 +178,19 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
         private void AddContent(PdfPageLayout pageLayout, PdfPage page)
         {
             var pageSettings = pageLayout.Settings;
-
             var cells = pageLayout.ChildObjects.Where(t =>
                                                      (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
                                                     !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
                                                     !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
-
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
             var contentStream = new PdfContentStream(_document.Count + 1);
             contentStream.AddCommand($"% {pageLayout.Name} start");
-            //Add clipping rectangle around page content.
+            //Start page content clipping rectangle.
             contentStream.AddCommand("q");
-            contentStream.AddMarginClipping((PdfPageLayout)pageLayout);
+            contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
             if (pageSettings.ShowGridLines)
             {
                 contentStream.AddInnerGridLines(pageLayout);
@@ -182,10 +210,17 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                 contentStream.AddCommand($"% CELL BORDER : {border.Name}");
                 contentStream.AddBorderLayout(border);
             }
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
+            }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
-            // Heading cells render outside the clip — no merged-cell content can obscure them.
+            //Add headings
             foreach (var heading in headingLayouts)
             {
                 contentStream.AddCommand($"% HEADING : {heading.Name}");
@@ -199,6 +234,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
+            //Add outer gridlines
             if (pageSettings.ShowGridLines || pageSettings.ShowHeadings)
             {
                 contentStream.AddOuterGridBorder(pageLayout);
@@ -209,6 +245,15 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             {
                 contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
             }
+            //Add images
+            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            {
+                if (!image.IsHeaderFooter) continue;
+                var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
+            }
+            //Add print titles
             foreach (var titleCell in printTitleLayouts)
             {
                 contentStream.AddCommand($"% PRINT TITLE : {titleCell.Name}");
@@ -235,10 +280,10 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             return info;
         }
 
+        //Creates the Pdf document
         internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
-            //Write the PDF to the file. The Stream overload does the actual work and
-            //populates _debugString.
+            //Write the PDF to the file.
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 CreatePdf(documentSettings, dictionaries, layout, fs);
@@ -256,6 +301,7 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             }
         }
 
+        //Creates the Pdf document
         internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -263,8 +309,6 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
             //The cross-reference table stores byte offsets that the PDF reader uses to
             //seek to each object, so the target stream has to support querying its position.
             if (!stream.CanSeek) throw new ArgumentException("The stream must be seekable, because the PDF cross-reference table requires byte offsets.", nameof(stream));
-
-            //_pageSettings = pageSettings;
             _documentSettings = documentSettings;
             _dictionaries = dictionaries;
             var catalog = AddCatalog(2);
@@ -285,15 +329,15 @@ internal void SetDictionariesForTest(PdfDictionaries dictionaries)
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);
             }
+            AddImageData();
             var info = AddInfoObject();
             _debugString = "";
-            //write to pdf
+            //Write to pdf
             PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-            //Cross-reference offsets are relative to the start of the PDF. A freshly created
-            //FileStream starts at position 0, but a caller-supplied stream may already hold
-            //data, so capture the starting position and make every offset relative to it.
+            //Cross-reference offsets are relative to the start of the PDF.
+            //A freshly created FileStream starts at position 0, but a caller-supplied stream may already hold data, so capture the starting position and make every offset relative to it.
             long start = stream.Position;
-            //start writing pdf binary. leaveOpen: true so a caller-supplied stream is not closed.
+            //Start writing pdf binary. leaveOpen: true so a caller-supplied stream is not closed.
             using (var bw = new BinaryWriter(stream, Encoding.ASCII, true))
             {
                 //Write header

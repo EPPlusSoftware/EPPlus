@@ -54,6 +54,12 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
                 uint defaultUVSOffset = _reader.ReadUInt32BigEndian();
                 uint nonDefaultUVSOffset = _reader.ReadUInt32BigEndian();
 
+                // The selector records are a contiguous sequential array, but reading a UVS table
+                // below seeks elsewhere in the subtable (its data lives after all the records).
+                // Save the position right after THIS record - where the NEXT selector's record
+                // begins - so it can be restored once this selector's tables have been read.
+                long nextSelectorRecordPosition = _reader.BaseStream.Position;
+
                 var selector = new VariationSelector
                 {
                     VarSelector = varSelector,
@@ -102,6 +108,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap.Serialization
                 }
 
                 subtable.VariationSelectors.Add(selector);
+
+                // Restore the position to right after this selector's own record, so the next
+                // loop iteration reads the next selector's record instead of whatever happens to
+                // be at the tail end of this selector's UVS table data.
+                _reader.BaseStream.Position = nextSelectorRecordPosition;
             }
 
             return subtable;

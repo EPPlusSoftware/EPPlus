@@ -188,7 +188,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         /// <returns></returns>
         public ExcelHeaderFooterTextItem AddImage(FileInfo pictureFile)
         {
-            headerFooter.InsertPicture(pictureFile, (PictureAlignment)alignment);
+            Picture = headerFooter.InsertPicture(pictureFile, (PictureAlignment)alignment);
             return AddFormatCode(ExcelHeaderFooterFormattingCodes.Image);
         }
         /// <summary>
@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         /// <returns></returns>
         public ExcelHeaderFooterTextItem AddImage (Stream pictureStream, ePictureType pictureType)
         {
-            headerFooter.InsertPicture(pictureStream, pictureType, (PictureAlignment)alignment);
+            Picture = headerFooter.InsertPicture(pictureStream, pictureType, (PictureAlignment)alignment);
             return AddFormatCode(ExcelHeaderFooterFormattingCodes.Image);
         }
         private ExcelHeaderFooterTextItem AddFormatCode(ExcelHeaderFooterFormattingCodes formatCode)

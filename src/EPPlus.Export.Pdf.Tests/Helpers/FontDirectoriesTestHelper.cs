@@ -77,7 +77,6 @@ namespace EPPlus.Export.Pdf.Tests.Helpers
                             _testOutputAvailable = false;
                         }
 
-                        OpenTypeFonts.ClearFontCache();
                         _initialized = true;
                     }
                 }

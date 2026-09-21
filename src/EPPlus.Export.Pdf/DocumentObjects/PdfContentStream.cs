@@ -9,6 +9,8 @@
   Date               Author                       Change
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
+  09/07/2026         EPPlus Software AB           Scale TJ kerning adjustments with units per em
+  09/07/2026         EPPlus Software AB           Render glyph XOffset/YOffset (mark-to-base)
  *************************************************************************************************/
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
@@ -74,10 +76,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             else if (cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
                 commands.Add($"% Pattern Start: {cell.Name}");
-                // Draw the solid cell background only when one is set. The pattern
-                // tile already fills itself with its own background color, so the
-                // pattern must be rendered regardless of whether the cell has a
-                // separate background fill (it may be Color.Empty).
                 if (cell.CellFillData.BackgroundColor != Color.Empty)
                 {
                     commands.Add("q");
@@ -109,19 +107,31 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             double advanceY = 0d;
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
+            bool isVertical = cell.CellAlignmentData.IsVertical;
+            double stackWidth = isVertical ? cell.TextLines.GetWidthOfCollection() : 0d;
+
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int k = 0; k < cell.TextLines.Count; k++)
             {
                 var line = cell.TextLines[k];
                 double lineOffsetX = 0d;
-                switch (cell.CellAlignmentData.HorizontalAlignment)
+                if (isVertical)
                 {
-                    case ExcelHorizontalAlignment.Right:
-                        lineOffsetX = line0Width - line.Width;
-                        break;
-                    case ExcelHorizontalAlignment.Center:
-                        lineOffsetX = (line0Width - line.Width) / 2d;
-                        break;
+                    lineOffsetX = (stackWidth - line.Width) / 2d;
+                }
+                else
+                {
+                    switch (cell.CellAlignmentData.HorizontalAlignment)
+                    {
+                        case ExcelHorizontalAlignment.Right:
+                            lineOffsetX = line0Width - line.Width;
+                            break;
+                        case ExcelHorizontalAlignment.Center:
+                        case ExcelHorizontalAlignment.CenterContinuous:
+                        case ExcelHorizontalAlignment.Distributed:
+                            lineOffsetX = (line0Width - line.Width) / 2d;
+                            break;
+                    }
                 }
                 double advanceX = 0;
                 for (int i = 0; i < line.LineFragments.Count; i++)
@@ -174,7 +184,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     double size = richInfo.Size;
                     double scale = textFormat.OriginalTextFragment.RichTextOptions.Size / fontResource.fontData.HeadTable.UnitsPerEm;
                     Matrix3x3 textMatrix = new Matrix3x3(System.Math.Cos(rotation), System.Math.Sin(rotation), -System.Math.Sin(rotation), System.Math.Cos(rotation), position.X + lineOffsetX, position.Y + advanceY);
-                    commands.Add("BT");
                     textMatrix = textMatrix * Matrix3x3.Translation(advanceX, 0);
                     if (richInfo.SuperScript)
                     {
@@ -214,13 +223,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                         commands.Add($"S");
                     }
+                    commands.Add("BT");
                     commands.Add(color.ToFillCommand());
                     commands.Add($"{textMatrix.A.ToPdfStringF4()} {textMatrix.B.ToPdfStringF4()} {textMatrix.C.ToPdfStringF4()} {textMatrix.D.ToPdfStringF4()} {textMatrix.E.ToPdfStringF4()} {textMatrix.F.ToPdfStringF4()} Tm");
-
-                    // FIX: Always use fontIdMap to determine the initial font.
-                    // FontId=0 does NOT always mean "primary font" — when the text starts
-                    // with a fallback character (e.g. emoji), FontId=0 IS the fallback font.
-                    // The fontIdMap correctly maps FontId → PDF font label in all cases.
                     byte currentFontId = shapedText.ShapedText.Glyphs.Length > 0 ? shapedText.ShapedText.Glyphs[0].FontId : (byte)0;
                     string currentFontLabel = shapedText.FontIdMap.ContainsKey(currentFontId)
                         ? shapedText.FontIdMap[currentFontId]
@@ -230,11 +235,27 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     int charsRendered = 0;
                     var sb = new StringBuilder();
                     sb.Append("[");
+
+                    // Text rise currently in effect inside the TJ sequence below, in unscaled
+                    // text space units. Text rise is part of the text state and is NOT reset by
+                    // BT/ET, so it has to be put back to zero before leaving this block.
+                    double currentRise = 0.0;
+
                     for (int j = glyphStart; j < shapedText.ShapedText.Glyphs.Length; j++)
                     {
-                        if (charsRendered >= fragmentCharCount)
-                            break;
                         var glyph = shapedText.ShapedText.Glyphs[j];
+
+                        // Stop once this fragment's characters are all accounted for - but only
+                        // at a glyph that actually consumes a character. A glyph with CharCount 0
+                        // is a CONTINUATION of the preceding glyph's cluster (GSUB Multiple
+                        // Substitution expands one character into several glyphs, and the whole
+                        // CharCount sits on the first of them). Breaking on it would drop the
+                        // tail of the cluster whenever the expansion falls at the end of a
+                        // fragment - e.g. rendering only the first glyph of a decomposed
+                        // character.
+                        if (charsRendered >= fragmentCharCount && glyph.CharCount > 0)
+                            break;
+
                         if (glyph.FontId != currentFontId)
                         {
                             // Close TJ array, switch font, open new TJ array
@@ -243,11 +264,48 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                             sb.Append("[");
                             currentFontId = glyph.FontId;
                         }
+
+                        // Glyph metrics are in font units, TJ numbers are in 1/1000 em, so
+                        // offsets and advances have to be scaled by 1000 / unitsPerEm. The em
+                        // square is resolved per glyph because a fallback font can use a
+                        // different one than the primary font. Same scaling as /W in PdfCIDFont.
+                        ushort unitsPerEm = GetUnitsPerEm(
+                            shapedText.ShapedText.FontUnitsPerEm,
+                            glyph.FontId,
+                            fontResource.fontData.HeadTable.UnitsPerEm);
+
+                        // A vertical offset cannot be expressed inside a TJ array, which only
+                        // adjusts horizontally. Ts (text rise) shifts the baseline without
+                        // touching the text matrix, so the horizontal position accumulated by
+                        // the preceding TJ advances is preserved. Ts is a text state operator
+                        // and must sit outside the array, hence the close and reopen.
+                        double rise = glyph.YOffset == 0 ? 0.0 : glyph.YOffset * size / unitsPerEm;
+                        if (rise != currentRise)
+                        {
+                            sb.Append($"] TJ\n{rise.ToPdfStringF4()} Ts\n[");
+                            currentRise = rise;
+                        }
+
+                        // A horizontal offset IS a pen displacement, so TJ can express it. It is
+                        // applied before the glyph and taken back after it, leaving the pen where
+                        // it would have been. Positive TJ numbers move left, hence the negation.
+                        double xOffset = glyph.XOffset == 0 ? 0.0 : glyph.XOffset * 1000.0 / unitsPerEm;
+                        if (xOffset != 0.0)
+                        {
+                            sb.Append($"{(-xOffset).ToPdfStringF0()} ");
+                        }
+
                         sb.Append($"<{glyph.GlyphId:X4}>");
+
+                        if (xOffset != 0.0)
+                        {
+                            sb.Append($" {xOffset.ToPdfStringF0()}");
+                        }
+
                         int kerning = glyph.XAdvance - glyph.BaseAdvance;
                         if (kerning != 0)
                         {
-                            double adjustment = -(kerning * 1000.0 / 1000);
+                            double adjustment = -(kerning * 1000.0 / unitsPerEm);
                             sb.Append($" {adjustment.ToPdfStringF0()}");
                         }
                         if (j < shapedText.ShapedText.Glyphs.Length - 1)
@@ -258,10 +316,40 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     }
                     advanceX += textLength;
                     commands.Add(sb.ToString() + "] TJ");
+                    if (currentRise != 0.0)
+                    {
+                        commands.Add("0 Ts");
+                    }
                     commands.Add("ET");
                 }
                 advanceY -= (line.LargestAscent + line.LargestDescent);
             }
+        }
+
+        /// <summary>
+        /// Resolves the em square to use when converting font units to text space units for a
+        /// single glyph. Fallback fonts are allowed to have a different units per em than the
+        /// primary font, which is why the value is indexed by the font id of the glyph.
+        /// </summary>
+        /// <param name="fontUnitsPerEm">Units per em indexed by font id, from the shaping result.</param>
+        /// <param name="fontId">The font id of the glyph being written.</param>
+        /// <param name="defaultUnitsPerEm">Units per em of the primary font, used as a fallback.</param>
+        private static ushort GetUnitsPerEm(ushort[] fontUnitsPerEm, byte fontId, ushort defaultUnitsPerEm)
+        {
+            if (fontUnitsPerEm != null && fontUnitsPerEm.Length > 0)
+            {
+                if (fontId < fontUnitsPerEm.Length && fontUnitsPerEm[fontId] > 0)
+                {
+                    return fontUnitsPerEm[fontId];
+                }
+
+                if (fontUnitsPerEm[0] > 0)
+                {
+                    return fontUnitsPerEm[0];
+                }
+            }
+
+            return defaultUnitsPerEm > 0 ? defaultUnitsPerEm : (ushort)1000;
         }
 
         public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
@@ -310,6 +398,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines End");
         }
 
+        public void AddImage(string label, double x, double y, double width, double height)
+        {
+            commands.Add($"% Image Start: {label}");
+            commands.Add("q");
+            commands.Add($"{width.ToPdfString()} 0 0 {height.ToPdfString()} {x.ToPdfString()} {y.ToPdfString()} cm");
+            commands.Add($"/{label} Do");
+            commands.Add("Q");
+            commands.Add($"% Image End: {label}");
+        }
         public void AddPrintTitleGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
@@ -362,14 +459,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"% Gridlines Border End");
         }
 
-        public void AddMarginClipping(PdfPageLayout pageLayout)
+        public void AddMarginClipping(PdfPageLayout pageLayout, PdfPageSettings pageSettings)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pageLayout.isCommentsPage) return;
             commands.Add($"% Margin Clip Start");
-            // Derive the tight bounding box directly from BorderLines.
-            // pageLayout is created with all-zero dimensions so ContentTop/Bottom/Left/Height
-            // cannot be used here — they are always 0.
+            if (pl.BorderLines.Count == 0) return;
             double top = double.MinValue;
             double bottom = double.MaxValue;
             double left = double.MaxValue;
@@ -381,6 +476,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 left = System.Math.Min(left, System.Math.Min(line.X1, line.X2));
                 right = System.Math.Max(right, System.Math.Max(line.X1, line.X2));
             }
+            right = System.Math.Min(right, pageSettings.PageSize.WidthPu);
+            bottom = System.Math.Max(bottom, 0d);
             var pad = GridLine.Width * 4;
             var x = left + pl.HeadingWidth + pl.PrintTitleWidth - pad;
             var y = bottom - pad;
@@ -393,14 +490,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var bytes = Encoding.ASCII.GetBytes(content);
-            return $"<< /Length {bytes.Length} >>\n" + $"stream\n{content}endstream";
+            return $"<< /Length {bytes.Length.ToPdfStringF0()} >>\n" + $"stream\n{content}endstream";
         }
 
         internal override void RenderDictionary(BinaryWriter bw)
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length} >>\nstream\n");
+            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
             bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }

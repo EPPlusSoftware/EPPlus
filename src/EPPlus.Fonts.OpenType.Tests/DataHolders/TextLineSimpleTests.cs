@@ -13,16 +13,21 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 {
     [TestClass]
-    public class TextLineSimpleTests
+    public class TextLineSimpleTests : FontTestBase
     {
+        public override TestContext? TestContext { get; set; }
+
         [TestMethod]
         public void TestLineFragmentAbstraction()
         {
             var maxSizePoints = Math.Round(300d, 0, MidpointRounding.AwayFromZero).PixelToPoint();
 
             var fragments = GetTextFragments();
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+            });
+            var layout = engine.GetTextLayoutEngineForFont(fragments[0].Font);
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
 
@@ -37,8 +42,11 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
             var fragments = GetTextFragments();
 
             fragments[4].RichTextOptions.FontColor = Color.DarkRed;
-
-            var layout = OpenTypeFonts.GetTextLayoutEngineForFont(fragments[0].Font);
+            var engine = new OpenTypeFontEngine(cfg =>
+            {
+                cfg.SearchSystemDirectories = true;
+            });
+            var layout = engine.GetTextLayoutEngineForFont(fragments[0].Font);
 
             var wrappedLines = layout.WrapRichTextLines(fragments, maxSizePoints);
             var wrappedCollection = layout.WrapRichTextLineCollection(fragments, maxSizePoints);
@@ -57,6 +65,9 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
         List<TextFragment> GetTextFragments()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow");
+            RequireFont(SystemFontsEngine, "Goudy Stout");
+
             List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
 
             var font1 = new MeasurementFont()

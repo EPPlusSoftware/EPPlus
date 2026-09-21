@@ -17,11 +17,7 @@ using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType1;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType2;
 using EPPlus.Fonts.OpenType.Tables.Gpos.Data.Lookups.LookupType4;
-using EPPlus.Fonts.OpenType.Tests.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace EPPlus.Fonts.OpenType.Tests.Serialization
 {
@@ -82,7 +78,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void Diagnose_SerializedFontOffsets()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             Debug.WriteLine("=== ORIGINAL TABLE RECORDS ===");
             foreach (var kvp in font.TableRecords)
@@ -129,7 +125,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_StructurePreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
             var originalGpos = font.GposTable;
 
             var serializer = new OpenTypeFontSerializer(font);
@@ -167,7 +163,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_FeatureTagsPreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var originalTags = new List<string>();
             foreach (var feature in font.GposTable.FeatureList.FeatureRecords)
@@ -196,7 +192,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_ScriptTagsPreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var originalTags = new List<string>();
             foreach (var script in font.GposTable.ScriptList.ScriptRecords)
@@ -229,7 +225,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_PairPos_KerningValuesPreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var originalKerning = CollectKerningPairs(font);
             Debug.WriteLine(string.Format("Original font has {0} kerning pairs", originalKerning.Count));
@@ -265,7 +261,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_PairPos_SpecificPairsVerified()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             ushort fGlyph, eGlyph, aGlyph, vGlyph;
             font.CmapTable.TryGetGlyphId('f', out fGlyph);
@@ -316,7 +312,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_PairPos_ValueFormatPreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var origLookup = FindFirstLookupOfType(font.GposTable, 2);
             var origSubtable = origLookup.SubTables[0] as PairPosSubTableFormat1;
@@ -342,7 +338,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_SinglePos_ValuesPreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var singlePosLookup = FindFirstLookupOfType(font.GposTable, 1);
             if (singlePosLookup == null)
@@ -387,7 +383,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_MarkToBase_StructurePreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var markToBaseLookup = FindFirstLookupOfType(font.GposTable, 4);
             if (markToBaseLookup == null)
@@ -420,7 +416,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_MarkToBase_AnchorPointsPreserved()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var markToBaseLookup = FindFirstLookupOfType(font.GposTable, 4);
             if (markToBaseLookup == null)
@@ -482,7 +478,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_FeatureLookupIndices_AreValid()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
@@ -506,7 +502,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void Diagnose_GposTableOffset()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             Debug.WriteLine("=== TABLE RECORDS ===");
             foreach (var kvp in font.TableRecords)
@@ -526,7 +522,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_LangSysFeatureIndices_AreValid()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();
@@ -567,7 +563,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         public void SerializeGpos_CoverageGlyphIds_AreValid()
         {
-            var font = OpenTypeFonts.LoadFont("Roboto");
+            var font = TestFolderEngine.LoadFont("Roboto");
 
             var serializer = new OpenTypeFontSerializer(font);
             var bytes = serializer.Serialize();

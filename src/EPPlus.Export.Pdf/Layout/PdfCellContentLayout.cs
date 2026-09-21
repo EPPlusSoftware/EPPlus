@@ -55,7 +55,7 @@ namespace EPPlus.Export.Pdf.Layout
             }
             double firstLineAscent = TextLines[0].LargestAscent;
             double lastLineAscent = TextLines[TextLines.Count - 1].LargestAscent;
-            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, cell.Width, height);
+            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height);
         }
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
@@ -81,6 +81,8 @@ namespace EPPlus.Export.Pdf.Layout
             switch (CellAlignmentData.VerticalAlignment)
             {
                 case ExcelVerticalAlignment.Top:
+                case ExcelVerticalAlignment.Distributed:
+                case ExcelVerticalAlignment.Justify:
                     newY = (y + height) - padding - firstAscent;
                     break;
                 case ExcelVerticalAlignment.Center:
@@ -110,9 +112,12 @@ namespace EPPlus.Export.Pdf.Layout
                     }
                     break;
                 case ExcelHorizontalAlignment.Left:
+                case ExcelHorizontalAlignment.Justify:
+                case ExcelHorizontalAlignment.Distributed:
                     newX = x + padding;
                     break;
                 case ExcelHorizontalAlignment.Center:
+                case ExcelHorizontalAlignment.CenterContinuous:
                     newX = x + (width - textLength) / 2d;
                     break;
                 case ExcelHorizontalAlignment.Right:
@@ -159,8 +164,6 @@ namespace EPPlus.Export.Pdf.Layout
             double theta = CellAlignmentData.TextRotation * System.Math.PI / 180.0;
             double cos = System.Math.Cos(theta);
             double sin = System.Math.Sin(theta);
-            // Bounding box of the rotated block. Reading direction spans [0, textLength];
-            // the cross (line-height) direction spans [-descent, ascent].
             double[] gx = { 0d, textLength, 0d, textLength };
             double[] gy = { ascent, ascent, -descent, -descent };
             double minX = double.MaxValue, maxX = double.MinValue, minY = double.MaxValue, maxY = double.MinValue;
@@ -195,18 +198,16 @@ namespace EPPlus.Export.Pdf.Layout
                 default: // Center / Justify / Distributed
                     by = y + (height - blockHeight) / 2d; break;
             }
-            // Convert the bounding-box lower-left back to the baseline origin the matrix expects.
             return new Vector2(bx - minX, by - minY);
         }
 
-        // Set clipping to the cell's own bounds. cellY is the top edge (same convention as the constructor).
         internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight)
         {
             Clip = true;
             Clipping = new Rect()
             {
                 X = cellX + rightMargin,
-                Y = cellY - cellHeight,   // bottom-left corner in PDF space
+                Y = cellY - cellHeight,
                 Width = cellWidth - rightMargin * 2,
                 Height = cellHeight
             };

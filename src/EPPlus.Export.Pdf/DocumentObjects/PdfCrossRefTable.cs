@@ -10,7 +10,9 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -30,11 +32,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("xref\n");
-            sb.AppendFormat($"0 {bodyCount + 1}\n");
+            sb.AppendFormat($"0 {(bodyCount + 1).ToPdfStringF0()}\n");
             sb.Append("0000000000 65535 f \n");
             foreach (long pos in positions)
             {
-                sb.AppendFormat(pos.ToString("D10") + " 00000 n \n");
+                sb.AppendFormat(pos.ToString("D10", CultureInfo.InvariantCulture) + " 00000 n \n");
             }
             return sb.ToString();
         }
@@ -43,11 +45,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             StartPosition = startPosition;
             bw.Write(Encoding.ASCII.GetBytes("xref\n"));
-            bw.Write(Encoding.ASCII.GetBytes($"0 {bodyCount + 1}\n"));
+            bw.Write(Encoding.ASCII.GetBytes($"0 {(bodyCount + 1).ToPdfStringF0()}\n"));
             bw.Write(Encoding.ASCII.GetBytes("0000000000 65535 f \n"));
             foreach (long pos in positions)
             {
-                bw.Write(Encoding.ASCII.GetBytes(pos.ToString("D10") + " 00000 n \n"));
+                bw.Write(Encoding.ASCII.GetBytes(pos.ToString("D10", CultureInfo.InvariantCulture) + " 00000 n \n"));
             }
         }
     }

@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   01/15/2025         EPPlus Software AB           Initial implementation
+  09/07/2026         EPPlus Software AB           Pass script/language through to GposKerningProvider
  *************************************************************************************************/
 using System;
 using System.Runtime.CompilerServices;
@@ -40,32 +41,38 @@ namespace EPPlus.Fonts.OpenType.TextShaping.Kerning
         }
 
         /// <summary>
-        /// Gets kerning value for a glyph pair.
+        /// Gets kerning value for a glyph pair, restricted to the given script/language.
         /// Returns 0 if no kerning is defined.
         /// </summary>
-        public short GetKerning(ushort leftGlyph, ushort rightGlyph)
+        /// <param name="script">
+        /// OpenType script tag (e.g. "latn"). Pass null to fall back to unfiltered GPOS lookup.
+        /// The legacy kern table has no script concept and is unaffected either way.
+        /// </param>
+        /// <param name="language">OpenType language-system tag, or null for the script's default.</param>
+        public short GetKerning(ushort leftGlyph, ushort rightGlyph, string script, string language)
         {
-            // Check cache first
-            if (_cache.TryGet(leftGlyph, rightGlyph, out short cachedValue))
+            // Cache key must include script: the same glyph pair can legitimately kern
+            // differently (or not at all) depending on which script's GPOS features are active,
+            // and a single KerningProvider instance is reused across many Shape() calls that may
+            // each request a different script.
+            if (_cache.TryGet(leftGlyph, rightGlyph, script, language, out short cachedValue))
                 return cachedValue;
 
-            // Lookup kerning value
-            short kernValue = LookupKerning(leftGlyph, rightGlyph);
+            short kernValue = LookupKerning(leftGlyph, rightGlyph, script, language);
 
-            // Cache result
-            _cache.Set(leftGlyph, rightGlyph, kernValue);
+            _cache.Set(leftGlyph, rightGlyph, script, language, kernValue);
 
             return kernValue;
         }
 
         public void ClearCache() => _cache.Clear();
 
-        private short LookupKerning(ushort leftGlyph, ushort rightGlyph)
+        private short LookupKerning(ushort leftGlyph, ushort rightGlyph, string script, string language)
         {
             // Try GPOS first (modern, preferred)
             if (_gposProvider != null)
             {
-                short gposKern = _gposProvider.GetKerning(leftGlyph, rightGlyph);
+                short gposKern = _gposProvider.GetKerning(leftGlyph, rightGlyph, script, language);
                 if (gposKern != 0)
                     return gposKern;
             }

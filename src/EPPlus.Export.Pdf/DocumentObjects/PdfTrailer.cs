@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.IO;
 using System.Text;
 
@@ -21,11 +22,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("trailer\n");
-            sb.AppendFormat($"<< /Size {bodyCount + 1}\n" +
-                            $"   /Root {catalogObjectNumber} 0 R\n" +
-                            $"   /Info {infoObjectNumber} 0 R >>\n");
+            sb.AppendFormat($"<< /Size {(bodyCount + 1).ToPdfStringF0()}\n" +
+                            $"   /Root {catalogObjectNumber.ToPdfStringF0()} 0 R\n" +
+                            $"   /Info {infoObjectNumber.ToPdfStringF0()} 0 R >>\n");
             sb.AppendFormat("startxref\n");
-            sb.AppendFormat($"{crossRefStartPosition}\n");
+            sb.AppendFormat($"{crossRefStartPosition.ToPdfStringF0()}\n");
             sb.AppendFormat("%%EOF\n");
             return sb.ToString();
         }
@@ -33,11 +34,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal static void Write(BinaryWriter bw, int bodyCount, int catalogObjectNumber, int infoObjectNumber, long crossRefStartPosition)
         {
             bw.Write(Encoding.ASCII.GetBytes($"trailer\n" +
-                                             $"<< /Size {bodyCount + 1}\n" +
-                                             $"   /Root {catalogObjectNumber} 0 R\n" +
-                                             $"   /Info {infoObjectNumber} 0 R >>\n" +
+                                             $"<< /Size {(bodyCount + 1).ToPdfStringF0()}\n" +
+                                             $"   /Root {catalogObjectNumber.ToPdfStringF0()} 0 R\n" +
+                                             $"   /Info {infoObjectNumber.ToPdfStringF0()} 0 R >>\n" +
                                              $"startxref\n" +
-                                             $"{crossRefStartPosition}\n" +
+                                             $"{crossRefStartPosition.ToPdfStringF0()}\n" +
                                              $"%%EOF\n"));
         }
     }

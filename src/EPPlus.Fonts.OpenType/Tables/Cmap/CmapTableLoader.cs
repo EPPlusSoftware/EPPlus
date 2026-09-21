@@ -94,20 +94,10 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
                         break;
 
                     case 14:
-                        // Skip format 14 (Unicode Variation Sequences)
-                        var dummySubtable = new CmapSubtable14();
-                        enc.IsSkipped = true;
-                        enc.Subtable = dummySubtable;
-                        subtableCache[enc.SubtableOffset] = dummySubtable;
-
-                        _reader.BaseStream.Position = currentPos + 6;
-                        uint length = _reader.ReadUInt32BigEndian();
-                        long nextTablePos = currentPos + length;
-                        if (nextTablePos > _reader.BaseStream.Length || nextTablePos < currentPos)
-                        {
-                            nextTablePos = _reader.BaseStream.Length;
-                        }
-                        _reader.BaseStream.Position = nextTablePos;
+                        var sub14 = new CmapSubtable14Deserializer(_reader).Deserialize(currentPos);
+                        table.SubTables.Add(sub14);
+                        subtableCache[enc.SubtableOffset] = sub14;
+                        enc.Subtable = sub14;
                         break;
 
                     default:

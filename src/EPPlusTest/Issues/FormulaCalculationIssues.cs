@@ -1770,5 +1770,77 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("CH-0% output tax foreign/foreign", result);
             }
         }
+        [TestMethod]
+        public void i2490_CalcNameAsFirstOperandOfRangeComparison()
+        {
+            var fileName = "i2490_CalcTest.xlsx";
+            using (var pck = OpenPackage(fileName, true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("CalcTest");
+                ws.Cells["A1"].Value = 10D;
+                ws.Cells["A2"].Value = 20D;
+                ws.Cells["A3"].Value = 30D;
+                ws.Cells["B1"].Value = 1D;
+                ws.Cells["B2"].Value = 2D;
+                ws.Cells["B3"].Value = 3D;
+
+                //LIMIT points to a formula cell that is calculated after F1.
+                ws.Cells["D5"].Formula = "1+1";
+                var range = pck.Workbook.Names.Add("LIMIT", ws.Cells["D5"]);
+
+                ExcelNamedRange.ValidateCellAddressInFormulas = true;
+
+                //The name is the first operand, so in the RPN token list it is followed by the
+                //tokens of B1:B3. IsSingleAddress sees the ':' of the next operand and returns
+                //false, so D5 is never added to the dependency chain and LIMIT is read before
+                //D5 has been calculated.
+                ws.Cells["F1"].Formula = "MAX(FILTER(A1:A3,LIMIT>=B1:B3))";
+
+                var options = new ExcelCalculationOption() { FollowDependencyChain = true };
+
+                ws.Calculate(options);
+
+                var outputFile = GetOutputFile("", "out_" + fileName);
+                pck.SaveAs(outputFile);
+
+                Assert.AreEqual(20D, ws.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void i1069()
+        {
+            using(var package = OpenTemplatePackage("PrecisionTest.xlsx"))
+            {
+                var setPrecision = package.Workbook.FullPrecision;
+                Assert.AreEqual(setPrecision, false);
+
+                SaveWorkbook("precisionTextResult.xlsx", package);
+                Assert.AreEqual(false, package.Workbook.FullPrecision);
+            }
+        }  
+
+        [TestMethod]
+        public void i1069_roundtrip()
+        {
+            var file = "fp.xlsx";
+
+            using (var p = OpenPackage(file, true))
+            {
+                p.Workbook.Worksheets.Add("Sheet1");
+                p.Workbook.FullPrecision = false;
+                p.Save();
+            }
+            using (var p = OpenPackage(file))
+                Assert.IsFalse(p.Workbook.FullPrecision);
+            
+            using (var p = OpenPackage(file))
+            {
+                p.Workbook.FullPrecision = true;
+                p.Save();
+            }
+            using (var p = OpenPackage(file))
+                Assert.IsTrue(p.Workbook.FullPrecision);
+        }
     }
 }

@@ -12,9 +12,14 @@
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Settings;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Table;
+using System;
+
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
+using static OfficeOpenXml.RichData.Structures.Constants.SpecialKeyNames;
 #endif
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
@@ -68,15 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
         internal static string GetTableClasses(ExcelTable table)
         {
-            string styleClass;
-            if (table.TableStyle == TableStyles.Custom)
-            {
-                styleClass = TableStyleClassPrefix + GetClassName(table.StyleName, $"tablestyle{table.Id}");
-            }
-            else
-            {
-                styleClass = TableStyleClassPrefix + table.TableStyle.ToString().ToLowerInvariant();
-            }
+            string styleClass = GetTableBaseClassName(table, false);
 
             var tblClasses = $"{styleClass}";
             if (table.ShowHeader)
@@ -112,6 +109,25 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             return tblClasses;
         }
 
+        internal static string GetTableBaseClassName(ExcelTable table, bool inRangeName)
+        {
+            string styleClass;
+            if (table.TableStyle == TableStyles.Custom)
+            {
+                styleClass = TableStyleClassPrefix + GetClassName(table.StyleName, $"tablestyle{table.Id}");
+            }
+            else
+            {
+                styleClass = TableStyleClassPrefix + table.TableStyle.ToString().ToLowerInvariant();
+                if(inRangeName)
+                {
+                    return styleClass + $"-tbl{table.Id}";
+                }
+            }
+
+            return styleClass;
+        }
+
         internal static void AddClassesAttributes(HTMLElement element, ExcelTable table, HtmlTableExportSettings settings)
         {
             if (table.TableStyle == TableStyles.None)
@@ -136,6 +152,67 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 element.AddAttribute(HtmlAttributes.Id, settings.TableId);
             }
+        }
+
+        internal static string GetInRangeTableClass(ExcelRangeBase cell, ExcelTable tbl)
+        {
+
+            var tblStyle = tbl.GetTableNamedStyle();
+
+            var styleClass = GetTableBaseClassName(tbl, true);
+            var classes = styleClass + "-default";
+            var tblAdr = tbl.Address;
+
+            if (tbl.ShowHeader && tblAdr._fromRow == cell._fromRow && tblAdr._fromCol == cell._fromCol && tblStyle.FirstHeaderCell.Style.HasValue)
+            {
+                classes += " " + styleClass + "-first-header-cell";
+            }
+            if (tbl.ShowHeader && tblAdr._fromRow == cell._fromRow && tblAdr._toCol == cell._fromCol && tblStyle.LastHeaderCell.Style.HasValue)
+            {
+                classes += " " + styleClass + "-last-header-cell";
+            }
+            else if (tbl.ShowHeader && tblAdr._fromRow == cell._fromRow && tblStyle.HeaderRow.Style.HasValue)
+            {
+                classes += " " + styleClass + "-header";
+            }
+            else if (tbl.ShowTotal && tblAdr._toRow == cell._fromRow && tblAdr._fromRow == cell._fromRow && tblStyle.FirstTotalCell.Style.HasValue)
+            {
+                classes += " " + styleClass + "-first-total-cell";
+            }
+            else if (tbl.ShowTotal && tblAdr._toRow == cell._fromRow && tblAdr._toRow == cell._fromRow && tblStyle.LastTotalCell.Style.HasValue)
+            {
+                classes += " " + styleClass + "-last-total-cell";
+            }
+            else if (tbl.ShowTotal && tblAdr._toRow == cell._fromRow && tblStyle.TotalRow.Style.HasValue)
+            {
+                classes += " " + styleClass + "-total";
+            }
+            else if (tbl.ShowFirstColumn && tblAdr._fromCol == cell._fromCol && tblStyle.FirstColumn.Style.HasValue)
+            {
+                classes += " " + styleClass + "-first-col";
+            }
+            else if (tbl.ShowLastColumn && tblAdr._toCol == cell._fromCol && tblStyle.LastColumn.Style.HasValue)
+            {
+                classes += " " + styleClass + "-last-col";
+            }
+            else if (tbl.ShowRowStripes && ((cell._fromRow - (tbl.ShowHeader ? tbl.Address._fromRow + 1 : tbl.Address._fromRow)) % 2) == 0 && (tblStyle.FirstRowStripe.Style.HasValue))
+            {
+                classes += " " + styleClass + "-first-row-stripe";
+            }
+            else if (tbl.ShowRowStripes && ((cell._fromRow - (tbl.ShowHeader ? tbl.Address._fromRow + 1 : tbl.Address._fromRow)) % 2) == 1 && (tblStyle.SecondRowStripe.Style.HasValue))
+            {
+                classes += " " + styleClass + "-second-row-stripe";
+            }
+            else if (tbl.ShowColumnStripes && ((cell._fromCol - tbl.Address._fromCol) % 2) == 0)
+            {
+                classes += " " + styleClass + "-first-col-stripe";
+            }
+            else if (tbl.ShowColumnStripes && ((cell._fromCol - tbl.Address._fromCol) % 2) == 1)
+            {
+                classes += " " + styleClass + "-second-col-stripe";
+            }
+
+            return classes;
         }
     }
 }

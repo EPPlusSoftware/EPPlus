@@ -292,7 +292,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             }
             return _pathNode;
         }
-        internal Color GetColor()
+        internal virtual Color GetColor()
         {
             return OfficeOpenXml.Utils.TypeConversion.ColorConverter.GetThemeColor(this);
         }

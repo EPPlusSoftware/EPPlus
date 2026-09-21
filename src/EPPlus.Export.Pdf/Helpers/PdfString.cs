@@ -45,5 +45,38 @@ namespace EPPlus.Export.Pdf.Helpers
         {
             return val.ToString("F0", CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Returns the value formated for use in pdf document.
+        /// </summary>
+        /// <param name="val">Value to turn into a string.</param>
+        /// <returns>The value repsented as a string with no decimals.</returns>
+        internal static string ToPdfStringF0(this int val)
+        {
+            return val.ToString("F0", CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Returns the value formated for use in pdf document.
+        /// </summary>
+        /// <param name="val">Value to turn into a string.</param>
+        /// <returns>The value repsented as a string with no decimals.</returns>
+        internal static string ToPdfStringF0(this int? val)
+        {
+            int v = val ?? 0;
+            if (val == null)
+                return string.Empty;
+            return v.ToString("F0", CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Returns the value formated for use in pdf document.
+        /// </summary>
+        /// <param name="val">Value to turn into a string.</param>
+        /// <returns>The value repsented as a string with no decimals.</returns>
+        internal static string ToPdfStringF0(this long val)
+        {
+            return val.ToString("F0", CultureInfo.InvariantCulture);
+        }
     }
 }

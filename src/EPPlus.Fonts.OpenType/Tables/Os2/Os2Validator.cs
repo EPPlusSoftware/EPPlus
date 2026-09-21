@@ -56,7 +56,7 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             }
 
             // fsType basic info
-            if ((table.fsType & 0x0002) != 0)
+            if ((table.fsType & FsTypeFlags.RestrictedLicense) != 0)
             {
                 result.AddMessage(FontValidationSeverity.Information,
                     "Font has restricted embedding (fsType bit 1 set).");
@@ -106,20 +106,20 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             // -------------------------
 
             // Embedding permissions
-            if ((table.fsType & 0x0002) != 0)
+            if ((table.fsType & (FsTypeFlags)Os2Table.FsTypeUsageMask) == FsTypeFlags.RestrictedLicense)
             {
                 result.AddMessage(FontValidationSeverity.Error,
-                    "Embedding is restricted (fsType bit 1 set). Subsetting cannot proceed.");
+                    "Embedding is restricted (fsType Restricted License). Subsetting cannot proceed.");
             }
-            if ((table.fsType & 0x0008) != 0)
+            if ((table.fsType & FsTypeFlags.NoSubsetting) != 0)
             {
                 result.AddMessage(FontValidationSeverity.Error,
-                    "No subsetting allowed (fsType bit 3 set).");
+                    "No subsetting allowed (fsType NoSubsetting bit set). Font must be embedded whole.");
             }
-            if ((table.fsType & 0x0004) != 0)
+            if ((table.fsType & (FsTypeFlags)Os2Table.FsTypeUsageMask) == FsTypeFlags.PreviewPrint)
             {
                 result.AddMessage(FontValidationSeverity.Warning,
-                    "Preview & Print embedding only (fsType bit 2 set). Check usage context.");
+                    "Preview & Print embedding only. Check usage context.");
             }
 
             // Metrics must be valid

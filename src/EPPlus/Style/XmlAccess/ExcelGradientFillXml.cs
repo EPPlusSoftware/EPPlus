@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             GradientColor1 = new ExcelColorXml(nameSpaceManager);
             GradientColor2 = new ExcelColorXml(nameSpaceManager);
+            GradientColor3 = new ExcelColorXml(nameSpaceManager);
         }
         internal ExcelGradientFillXml(XmlNamespaceManager nsm, XmlNode topNode) :
             base(nsm, topNode)

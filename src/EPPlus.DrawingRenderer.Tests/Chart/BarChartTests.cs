@@ -51,7 +51,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
-                var ix = 1;
+                var ix = 0;
 
                 for (int i = ix; i < drawings.Count; i++)
                 {
@@ -66,7 +66,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void NegativeDatalabelBarCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("negativeDatalabels.xlsx"))
+            using (var p = OpenTemplatePackage("NegativeDatalabels.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var drawings = ws.Drawings;
@@ -83,7 +83,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void GenerateEPPlusBarCharts()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("datapoints.xlsx"))
+            using (var p = OpenTemplatePackage("SvgDatapoints.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
 

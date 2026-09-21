@@ -10,10 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -25,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using EPPlus.DrawingRenderer;
 namespace EPPlusImageRenderer.Svg
 {
     internal class ChartLegendRenderer : ChartDrawingObject
@@ -37,6 +38,7 @@ namespace EPPlusImageRenderer.Svg
         const float MarginHeight = 7.5f;
         const float LineLength = 21;
         const float MinBarLength = 4;
+        float MinPieLength = 5.25f;
         float _marginItemsWidth;
 
         eLegendPosition Position { get; }
@@ -66,12 +68,19 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eLegendPosition.Top:
                 case eLegendPosition.Bottom:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.85;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6;
+                    if(sc.Chart.IsTypePie())
+                    {
+                        _maxWidth = sc.ChartArea.Rectangle.Width * 0.95d;
+                    }
+                    else
+                    {
+                        _maxWidth = sc.ChartArea.Rectangle.Width * 0.85d;
+                    }
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.6d;
                     break;
                 default:
-                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6;
-                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85;
+                    _maxWidth = sc.ChartArea.Rectangle.Width * 0.6d;
+                    _maxHeight = sc.ChartArea.Rectangle.Height * 0.85d;
                     break;
             }
             double entryWidth, entryHeight;
@@ -84,7 +93,7 @@ namespace EPPlusImageRenderer.Svg
             }
 
             Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             
             var pSls = SetLegendSeries(entryWidth, entryHeight);
             SetLegendTrendlines(entryWidth, entryHeight, pSls);
@@ -124,6 +133,18 @@ namespace EPPlusImageRenderer.Svg
                             GetSerieSize(l, index, text, ref widest, ref highest);
                             index++;
                         }
+                        Chart.Legend.TextBody.GetInsetsOrDefaults(out double lDefMargin, out double tDefMarg, out double rDefMargin, out double bDefMarg);
+
+                        //In Excel VBA the margins for legend.TextFrame2 appear to always be 7.2:
+                        //RightMargin = rDefMargin;
+                        LeftMargin = lDefMargin;
+
+                        //widest += rDefMargin;
+
+                        //if (MinPieLength < highest * 0.5d)
+                        //{
+                        //    MinPieLength = (float)(highest * 0.5d);
+                        //}
                     }
                     //Skip the rest
                     break;
@@ -390,6 +411,10 @@ namespace EPPlusImageRenderer.Svg
                 if (il > maxIconLength)
                 {
                     maxIconLength = il;
+                }
+                if (c.ChartType == eChartType.Pie && maxIconLength < MinPieLength)
+                {
+                    maxIconLength = MinPieLength;
                 }
             }
             return maxIconLength;
@@ -700,7 +725,12 @@ namespace EPPlusImageRenderer.Svg
 
                 var si = GetPieSeriesIcon(ct, ps, pSls, lastWidth, entryHeight, i);
                 //The si-width is used as left margin for each entry seemingly
-                si.Left += si.Width + (si.BorderWidth ?? 0d)*2d;
+                //si.Left += (si.BorderWidth ?? 0d)*2d;
+                if(si.Left < 4.5d)
+                {
+                    si.Left = 4.5d;
+                }
+
                 if (i == 0)
                 {
                     firstIconWidth = si.Width;
@@ -741,7 +771,7 @@ namespace EPPlusImageRenderer.Svg
                 sls.SeriesIcon = si;
                 sls.Textbox.RecalculateParagraphs();
 
-                tbWidth = sls.Textbox.Width + sls.Textbox.RightMargin;
+                tbWidth = sls.Textbox.Width + rDefMargin; /*+ lDefMargin + rDefMargin;*/
 
                 lastWidth = tbWidth + si.Width - (si.BorderWidth ?? 0d);
 
@@ -768,8 +798,15 @@ namespace EPPlusImageRenderer.Svg
 
             if(Position == eLegendPosition.Top || Position == eLegendPosition.Bottom)
             {
+                //Rectangle.Bounds.Width = totalWidth;
                 Rectangle.Bounds.Width = SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
-                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (Rectangle.Bounds.Width / 2d) + 1.5d;
+                Rectangle.Bounds.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
+
+                if(Rectangle.Bounds.Width < _maxWidth)
+                {
+                    Rectangle.Bounds.Height = entryHeight + TopMargin + BottomMargin;
+                    Rectangle.Bounds.Top = ChartRenderer.ChartArea.Rectangle.Height - Rectangle.Height - BottomMargin - TopMargin;
+                }
             }
             pSls = null;
             sls = null;
@@ -854,7 +891,8 @@ namespace EPPlusImageRenderer.Svg
         {
             var line = new LineRenderItem(Rectangle.Bounds);
             //line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, ChartRenderer.Theme.ColorScheme.Accent1.GetColor(), 3);
+            //Default style is NoLine NoFill
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -872,7 +910,8 @@ namespace EPPlusImageRenderer.Svg
         {
             var line = new LineRenderItem(Rectangle.Bounds);
             line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, DefaultBorderColor, 0.75);
+            //Default is actually NoLine
+            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -900,7 +939,7 @@ namespace EPPlusImageRenderer.Svg
             item.Left = x;
             if (pSls != null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
-                item.Top = y + (entryHeight - iconHeight) / 2;
+                item.Top = y - (iconHeight / 2d);
             }
             else
             {
@@ -922,7 +961,7 @@ namespace EPPlusImageRenderer.Svg
             item.Height = iconHeight;
 
             item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, null, 0.75);
+            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 1.5d);
 
             return item;
         }

@@ -203,7 +203,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FallbackFonts
             });
 
             // Diagnostik 1: vad sätter engine för Han efter konstruktion?
-            var chain = engine.GetScriptFallback(UnicodeScript.Han);
+            var chain = engine.FontStore.GetScriptFallback(UnicodeScript.Han);
             System.Console.WriteLine($"[DIAG] Han chain: [{string.Join(", ", chain ?? new string[0])}]");
 
             // Diagnostik 2: shape och se vad providern returnerar

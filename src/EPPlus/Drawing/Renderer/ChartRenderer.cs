@@ -103,12 +103,16 @@ namespace EPPlusImageRenderer
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
                 if (VerticalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && HorizontalAxis.Axis.AxisType == eAxisType.Val && HorizontalAxis.Min < 0D)
                 {
-                    Plotarea.Rectangle.Width += VerticalAxis.Rectangle.Width;
-                    Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
-                    var newRight = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(0D);
-                    var rightDiff = newRight - VerticalAxis.Rectangle.Width;
-                    VerticalAxis.Rectangle.Left = rightDiff;
-                    VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = newRight;
+                    var CrossValue = HorizontalAxis.GetCrossesValue();
+                    var newRight = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(CrossValue);
+                    if(newRight > Plotarea.Group.Left)
+                    {
+                        Plotarea.Rectangle.Width += VerticalAxis.Rectangle.Width;
+                        Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
+                        var rightDiff = newRight - VerticalAxis.Rectangle.Width;
+                        VerticalAxis.Rectangle.Left = rightDiff;
+                        VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = newRight;
+                    }
                 }
                 VerticalAxis.AddTickmarksAndValues(DefItems);
             }
@@ -118,13 +122,17 @@ namespace EPPlusImageRenderer
                 PlaceHorizontalAxis(HorizontalAxis, false);
 
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D)
+                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D && HorizontalAxis.Axis.Crosses == eCrosses.AutoZero)
                 {
-                    var newtop = VerticalAxis.GetPositionInPlotarea(0D) + Plotarea.Group.Top;
-                    var topDiff = HorizontalAxis.Rectangle.Top - newtop;
-                    HorizontalAxis.Rectangle.Top = newtop;
-                    HorizontalAxis.Rectangle.Height += topDiff;
-                    HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                    var CrossValue = HorizontalAxis.GetCrossesValue();
+                    var newtop = VerticalAxis.GetPositionInPlotarea(CrossValue) + Plotarea.Group.Top;
+                    if (newtop > Plotarea.Group.Top)
+                    {
+                        var topDiff = HorizontalAxis.Rectangle.Top - newtop;
+                        HorizontalAxis.Rectangle.Top = newtop;
+                        HorizontalAxis.Rectangle.Height += topDiff;
+                        HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                    }
                 }
 
                 HorizontalAxis.AddTickmarksAndValues(DefItems);
@@ -379,79 +387,20 @@ namespace EPPlusImageRenderer
 
             var reference = Chart.StyleManager.Style?.ChartArea.BorderReference;
 
-            var chartBorder = GetChartAreaDefaultColor((int)styleType, out ExcelThemeLine themedLine);
+            //var chartStyleId = Chart.StyleManager.Style.Id;
 
-            item.Rectangle.SetDrawingBorderPropertiesNew(
+            item.Rectangle.SetDrawingPropertiesBorder(
                 Theme,
-                reference?.Color, 
-                Chart.Border, 
-                1d, 
+                Chart.Border,
+                reference?.Color,
                 Chart.Border.Fill.Style != eFillStyle.NoFill,
-                () => item.GetDefaultBorderColor());
+                () => item.GetDefaultBorderColor(), 0.75d);
 
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;
             item.AppendRenderItems(RenderItems);
             item.SetMargins(Chart.TextBody);
             ChartArea = item;
         }
-
-        private Color? GetChartAreaDefaultColor(int styleId, out ExcelThemeLine themedLine)
-        {
-            themedLine = null;
-            Color? themeColor = null;
-            styleId = styleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : styleId;
-
-            if (styleId == 0)
-            {
-                return Color.Empty;
-            }
-
-            themedLine = Theme.FormatScheme.BorderStyle[0];
-            var bg = Theme.FormatScheme.BackgroundFillStyle[0];
-
-            if(themedLine.HasFill == false)
-            {
-                //Node exists but has no fill. Excel considers this the same as transparent/noFill
-                return Color.Transparent;
-            }
-            //TODO: Fix for colortypes other than solidFill
-            themeColor = tc.ColorConverter.GetThemeColor(Theme, themedLine.Fill.SolidFill.Color);
-
-            if (themedLine.Fill.SolidFill.Color.ColorType == eDrawingColorType.Scheme && themedLine.Fill.SolidFill.Color.SchemeColor.Color == eSchemeColor.Style)
-            {
-                if (styleId <= 40)
-                {
-                    //Text1 AKA dk1 (in standard case)
-                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Text1);
-
-                    //var bg1Col = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
-
-                    if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
-                    {
-                        //themeColor = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.15d);
-                        //but even in this case if there is no ln node found in style it appears to default to 75% despite a scheme color existing in the theme
-                        themeColor = tc.ColorConverter.ApplyTransforms(themeColor.Value, themedLine.Fill.SolidFill.Color.Transforms);
-                    }
-                    else
-                    {
-                        //Default value Should arguably be 75% tint themeColor but something is strange...
-                        //It appears closer to 50% in this specific case
-                        //It also appears to be tx1 (black) and apply color and tint 0.25 in vba
-                        var newTheme = tc.ColorConverter.ApplyTintDrawing(themeColor.Value, 0.25d);
-                        themeColor = newTheme;
-                    }
-                }
-                else
-                {
-                    //41-48
-                    //aka light1
-                    themeColor = tc.ColorConverter.GetThemeColor(Theme, eThemeSchemeColor.Background1);
-                    themedLine = null;
-                }
-            }
-            return themeColor;
-        }
-        
 
         private ChartAxisRenderer GetAxis(bool vertical, int offset = 0)
         {
@@ -539,17 +488,18 @@ namespace EPPlusImageRenderer
         internal LineRenderItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
         {
             const float MarginExtra = 1.5f;
-            const float LineLength = 21;
+            const float DefaultStrokeWidth = 0.75f;
+            const float LineLength = 21.0f;
 
             var item = new LineRenderItem(parentItem);
             item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
-            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, 0.75, UserSpaceSettings.ObjectBoundingBox);
+            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, DefaultStrokeWidth, UserSpaceSettings.ObjectBoundingBox);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;
             item.X1 = x;
             item.Y1 = y;
-            item.X2 = x + LineLength;
+            item.X2 = x + (LineLength - (float)item.BorderWidth);
             item.Y2 = y;
             item.LineCap = LineCap.Round;
 

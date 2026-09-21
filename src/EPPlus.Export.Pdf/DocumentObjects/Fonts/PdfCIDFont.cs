@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private readonly CIDSystemInfo CIDInfoObject;
         private readonly int FontDescriptorObjectNumber;
 
-        private readonly int? DW;                               // Default width
+        private int? DW;                                        // Default width
         private readonly List<object> W;                        // Width array
         private readonly int[] DW2;                             // Default metrics for vertical writing (2 numbers)
         private readonly List<object> W2;                       // Vertical writing metrics
@@ -63,10 +64,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                             $"    /Subtype /{Subtype.ToString()}\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
-                            $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
+                            $"    /FontDescriptor {FontDescriptorObjectNumber.ToPdfStringF0()} 0 R");
             if (DW != null)
             {
-                sb.AppendFormat($"\n    /DW {DW}");
+                sb.AppendFormat($"\n    /DW {DW.ToPdfStringF0()}");
             }
             if (Gids != null)
             {
@@ -84,9 +85,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             if (Subtype == CIDFontSubtype.CIDFontType2)
             {
                 if(string.IsNullOrEmpty( CIDToGIDMap ))
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
-                else
                     sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
+                else
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
             }
             sb.Append(" >>");
             return sb.ToString();
@@ -99,10 +100,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                             $"    /Subtype /{Subtype.ToString()}\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
-                            $"    /FontDescriptor {FontDescriptorObjectNumber} 0 R");
+                            $"    /FontDescriptor {FontDescriptorObjectNumber.ToPdfStringF0()} 0 R");
             if (DW != null)
             {
-                sb.AppendFormat($"\n    /DW {DW}");
+                sb.AppendFormat($"\n    /DW {DW.ToPdfStringF0()}");
             }
             if (Gids != null)
             {
@@ -120,9 +121,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             if (Subtype == CIDFontSubtype.CIDFontType2)
             {
                 if (string.IsNullOrEmpty(CIDToGIDMap))
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
-                else
                     sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
+                else
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
             }
             sb.Append(" >>");
             WriteAscii(bw, sb.ToString());
@@ -146,7 +147,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                     i++;
                 }
                 sb.Append($"{startGid} [");
-                sb.Append(string.Join(" ", widths.Select(w => w.ToString()).ToArray()));
+                sb.Append(string.Join(" ", widths.Select(w => w.ToPdfStringF0()).ToArray()));
                 sb.Append("] ");
             }
             return sb.ToString();

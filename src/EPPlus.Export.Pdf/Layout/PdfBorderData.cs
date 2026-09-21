@@ -53,7 +53,8 @@ namespace EPPlus.Export.Pdf.Layout
         internal const string MediumDashDot = "[6 3 2 3] 0 d";
         internal const string MediumDashDotDot = "[6 3 2 3 2 3] 0 d";
         internal const string MediumDashed = "[6 4] 0 d";
-
+        internal const double DoubleWidth = 0.75d;
+        internal const double DoubleOffset = 0.85d;
         public ExcelBorderStyle BorderStyle = ExcelBorderStyle.None;
         public readonly LineType LineType;
         public Color BorderColor = Color.Black;
@@ -64,6 +65,13 @@ namespace EPPlus.Export.Pdf.Layout
         public double X = 0;
         public double Y = 0;
         public bool IsHeading = false;
+        public bool PerpAtStart = false;
+        public bool PerpAtEnd = false;
+        public bool NeighborDouble = false;
+        public bool NeighborDiagAtStart = false;
+        public bool NeighborDiagAtEnd = false;
+        public bool CutOuterAtStart = false;
+        public bool CutOuterAtEnd = false;
 
         public PdfCellBorderData(LineType LineType)
         {

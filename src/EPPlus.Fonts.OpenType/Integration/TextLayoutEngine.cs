@@ -52,9 +52,12 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         /// <summary>
         /// Creates a TextLayoutEngine for single-font text wrapping.
-        /// Font resolution for rich-text fragments uses the globally configured resolver — to
-        /// search additional directories or install a custom resolver, use
-        /// <see cref="OpenTypeFonts.Configure"/>.
+        ///
+        /// This overload has no font engine, so it cannot resolve per-fragment fonts: rich-text
+        /// fragments are all measured with the shaper given here, whatever font they specify. For
+        /// multi-font rich text, use the constructor that takes an <see cref="OpenTypeFontEngine"/>,
+        /// or obtain an engine-backed instance from
+        /// <see cref="OpenTypeFontEngine.GetTextLayoutEngine(string, FontSubFamily)"/>.
         /// </summary>
         public TextLayoutEngine(ITextShaper shaper)
         {

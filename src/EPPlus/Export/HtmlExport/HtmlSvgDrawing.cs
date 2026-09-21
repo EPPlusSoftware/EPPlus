@@ -9,5 +9,6 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal class HtmlSvgDrawing : HtmlDrawing
     {
         public ExcelDrawing Drawing;
+
     }
 }

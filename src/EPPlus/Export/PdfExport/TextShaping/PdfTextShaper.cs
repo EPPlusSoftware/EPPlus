@@ -10,16 +10,17 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
+using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.TextShaping;
-using EPPlus.Export.Pdf.Resources;
-using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport.TextShaping
@@ -29,20 +30,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         private static Dictionary<IFontProvider, TextShaper> shaperCache = new Dictionary<IFontProvider, TextShaper>();
         private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
 
-        // Pass 1: collect text per font so FontSubsetManager can build subsets once
-        public static void CollectText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
-        {
-            if (cell == null || cell.TextFragments == null) return;
-            for (int i = 0; i < cell.TextFragments.Count; i++)
-            {
-                var tf = cell.TextFragments[i];
-                var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
-                if (!dictionaries.Fonts.ContainsKey(key)) continue;
-                dictionaries.Fonts[key].fontSubsetManager.AddText(tf.Text);
-            }
-        }
-
-        // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
             var totalTextLength = 0d;
@@ -55,9 +42,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 cell.ShapedTexts.Add(new PdfShapedText());
                 var st = cell.ShapedTexts[i];
                 var key = dictionaries.ResolveFontKey(pageSettings, tf.Font.Family, tf.Font.SubFamily);
-                if (!dictionaries.ShapedProviders.TryGetValue(key, out var provider))
+                IFontProvider provider;
+                if (!dictionaries.ShapedProviders.TryGetValue(key, out provider))
                 {
-                    continue;
+                    var font = pageSettings.FontEngine.LoadFont(tf.Font.Family, tf.Font.SubFamily);
+                    provider = new DefaultFontProvider(pageSettings.FontEngine, font);
                 }
                 st.FontProvider = provider;
                 if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
@@ -70,9 +59,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     layoutEngine = new TextLayoutEngine(shaper);
                     layoutEngineCache[st.FontProvider] = layoutEngine;
                 }
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
+                var options = BuildShapingOptions(pageSettings);
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
@@ -91,6 +78,9 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
+                Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
+                                $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
+                                $"labels=[{string.Join(",", fontIdMap.Values)}]");
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
@@ -103,14 +93,15 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             if (cell.TextLayoutEngine != null)
             {
                 double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
-                cell.TextLines = cell.ContentAligmnet.WrapText
-                    ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
-                    : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
+                cell.TextLines = cell.ContentAligmnet?.IsVertical == true
+                    ? cell.TextLayoutEngine.BuildVerticalLineCollection(cell.TextFragments)
+                    : cell.ContentAligmnet.WrapText
+                        ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
+                        : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
             }
             cell.TotalTextLength = totalTextLength;
         }
 
-        // Pass 2: shape text using already-built providers from PdfDictionaries.ShapedProviders
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell)
         {
             var totalTextLength = 0d;
@@ -138,9 +129,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     layoutEngine = new TextLayoutEngine(shaper);
                     layoutEngineCache[st.FontProvider] = layoutEngine;
                 }
-                var options = ShapingOptions.Default;
-                options.ApplyPositioning = true;
-                options.ApplySubstitutions = true;
+                var options = BuildShapingOptions(pageSettings);
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
                 var fontIdMap = new Dictionary<byte, string>();
@@ -159,6 +148,10 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     }
                     fontIdMap[fontId] = dictionaries.Fonts[loadedKey].Label;
                 }
+                Debug.WriteLine($"Shape: {tf.Font.Family}/{tf.Font.SubFamily} " +
+                $"usedFonts=[{string.Join(", ", usedFonts.Select(f => f.GetEnglishFontFamilyName()))}] " +
+                $"labels=[{string.Join(",", fontIdMap.Values)}]");
+
                 cell.TextLayoutEngine = layoutEngine;
                 st.ShapedText = shaped;
                 totalTextLength += st.ShapedText.GetWidthInPoints((float)tf.Font.Size);
@@ -176,6 +169,35 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);
             }
             cell.TotalTextLength = totalTextLength;
+        }
+
+        /// <summary>
+        /// Builds the ShapingOptions used for one text fragment, from the caller's requested
+        /// GsubFeature/GposFeature flags.
+        /// </summary>
+        /// <remarks>
+        /// GsubFeature.None / GposFeature.None need special handling here rather than a plain
+        /// pass-through of ToTagList's empty list. TextShaper.ApplyPositioning treats an empty or
+        /// null GposFeatures list as "apply every GPOS feature" for kerning and mark positioning
+        /// (though NOT for single adjustment, which treats it as "apply nothing" - the two
+        /// disagree on empty/null already, independently of this method). That documented
+        /// contract has other, unrelated callers (measurement, rich text default, benchmarks) and
+        /// is not changed here. Instead, None is handled at the source: when the caller asks for
+        /// no GPOS/GSUB features at all, ApplyPositioning/ApplySubstitutions are turned off
+        /// outright, which is unambiguous regardless of what an empty tag list would otherwise be
+        /// interpreted as further down.
+        /// </remarks>
+        internal static ShapingOptions BuildShapingOptions(PdfPageSettings pageSettings)
+        {
+            var options = ShapingOptions.Default;
+
+            options.GsubFeatures = GsubFeatureTags.ToTagList(pageSettings.GsubFeatures);
+            options.GposFeatures = GposFeatureTags.ToTagList(pageSettings.GposFeatures);
+
+            options.ApplySubstitutions = pageSettings.GsubFeatures != GsubFeature.None;
+            options.ApplyPositioning = pageSettings.GposFeatures != GposFeature.None;
+
+            return options;
         }
     }
 }

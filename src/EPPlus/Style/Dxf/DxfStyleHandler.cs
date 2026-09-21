@@ -210,7 +210,9 @@ namespace OfficeOpenXml.Style.Dxf
         {
             foreach (var cf in ws.ConditionalFormatting)
             {
-                if (cf.Style.HasValue)
+                //If at least one border exists then a dxf style for the border must be added even if the value for that border is empty
+                //(Thus meaning HasValue is false)
+                if (cf.Style.HasValue || cf.Style.Border != null && cf.Style.Border.AtLeastOneBorderExists())
                 {
                     var standardDxfStyle = cf.Style.ToDxfStyle();
 
@@ -228,11 +230,9 @@ namespace OfficeOpenXml.Style.Dxf
                     {
                         ((ExcelConditionalFormattingRule)cf).DxfId = ix;
                         cf.Style.DxfId = ix;
-                        //cf.Style.DxfId = ix;
                     }
                 }
             }
-            //var num = dxfs._list[129];
         }
         internal static void CopyDxfStylesTable(ExcelTable tblFrom, ExcelTable tblTo)
         {

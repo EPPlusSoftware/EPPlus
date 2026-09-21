@@ -69,6 +69,24 @@ namespace EPPlus.Fonts.OpenType.FontCache
         }
 
         /// <summary>
+        /// Removes a not-yet-loaded placeholder entry. Called when loading failed, so that
+        /// later lookups for the same key fail fast instead of spending the full Monitor.Wait
+        /// timeout waiting for a load that will never complete.
+        /// </summary>
+        public void RemoveIfNotLoaded(string cacheKey)
+        {
+            lock (_syncRoot)
+            {
+                CachedOpenTypeFont cached;
+                if (_cache.TryGetValue(cacheKey, out cached) && !cached.IsLoaded)
+                {
+                    _cache.Remove(cacheKey);
+                    Monitor.PulseAll(_syncRoot);
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds or updates a fully loaded font using a prebuilt cache key.
         /// Signals all waiting threads that the font is now available.
         /// </summary>

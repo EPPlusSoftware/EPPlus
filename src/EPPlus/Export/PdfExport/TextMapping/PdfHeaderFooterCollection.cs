@@ -11,8 +11,9 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Layout;
-using EPPlus.Export.Pdf.Settings;
 using EPPlus.Export.Pdf.Resources;
+using EPPlus.Export.Pdf.Settings;
+using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Export.PdfExport.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,15 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         public List<PdfHeaderFooter> PdfHeaderFooterEntries = new List<PdfHeaderFooter>();
         public bool ScaleWithDocument = false;
         public bool AlignWithMargins = false;
+        public bool HasFirstPage = false;
+        public bool HasOddEvenPages = false;
 
         public PdfHeaderFooterCollection(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ExcelHeaderFooter headerFooter)
         {
             bool differentFirst = pdfSheet.Worksheet.HeaderFooter.differentFirst;
             bool differentOddEven = pdfSheet.Worksheet.HeaderFooter.differentOddEven;
+            HasFirstPage = differentFirst;
+            HasOddEvenPages = differentOddEven;
             bool AlignWithMargins = pdfSheet.Worksheet.HeaderFooter.AlignWithMargins;
             bool ScaleWithDocument = pdfSheet.Worksheet.HeaderFooter.ScaleWithDocument;
             PdfHeaderFooter entry = null;
@@ -160,6 +165,13 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 e.PageType == type &&
                 e.Section == section &&
                 e.Alignment == alignment);
+        }
+
+        public HeaderFooterType GetPageType(int physicalPageIndex)
+        {
+            if (physicalPageIndex == 1 && HasFirstPage) return HeaderFooterType.First;
+            if (physicalPageIndex % 2 == 0 && HasOddEvenPages) return HeaderFooterType.Even;
+            return HeaderFooterType.Odd;
         }
     }
 }

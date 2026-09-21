@@ -17,17 +17,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
 {
     internal class CssImageAlignmentTranslator : TranslatorBase
     {
-        HtmlPictureSettings _picSettings;
+        HtmlDrawingSettings _drawingsSettings;
 
-        internal CssImageAlignmentTranslator(HtmlPictureSettings picSettings) 
+        internal CssImageAlignmentTranslator(HtmlDrawingSettings drawingsSettings) 
         {
-            _picSettings = picSettings;
+            _drawingsSettings = drawingsSettings;
         }
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
-            AddDeclaration("vertical-align", _picSettings.AddMarginTop ? "top" : "middle");
-            AddDeclaration("text-align", _picSettings.AddMarginLeft ? "left" : "center");
+            AddDeclaration("vertical-align", _drawingsSettings.AddMarginTop ? "top" : "middle");
+            AddDeclaration("text-align", _drawingsSettings.AddMarginLeft ? "left" : "center");
 
             return declarations;
         }

@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -40,10 +41,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                             $"    /Subtype /Type0\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /Encoding /{Encoding}\n" +
-                            $"    /DescendantFonts [{DescendantFontsObjectNumbers} 0 R]");
+                            $"    /DescendantFonts [{DescendantFontsObjectNumbers.ToPdfStringF0()} 0 R]");
             if (ToUnicodeObjectNumber > 0)
             {
-                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber} 0 R");
+                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber.ToPdfStringF0()} 0 R");
             }
             sb.Append(" >>");
             return sb.ToString();
@@ -57,10 +58,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                             $"    /Subtype /Type0\n" +
                             $"    /BaseFont /{BaseFont}\n" +
                             $"    /Encoding /{Encoding}\n" +
-                            $"    /DescendantFonts [{DescendantFontsObjectNumbers} 0 R]");
+                            $"    /DescendantFonts [{DescendantFontsObjectNumbers.ToPdfStringF0()} 0 R]");
             if (ToUnicodeObjectNumber > 0)
             {
-                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber} 0 R");
+                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber.ToPdfStringF0()} 0 R");
             }
             sb.Append(" >>");
             WriteAscii(bw, sb.ToString());

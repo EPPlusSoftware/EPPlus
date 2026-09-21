@@ -49,11 +49,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             {
                 if (ConvertUtil.IsNumericOrDate(cell.Value))
                 {
-                    cls = $"{styleClassPrefix}ar";
+                    cls += $" {styleClassPrefix}ar";
                 }
                 else if (isHeader)
                 {
-                    cls = $"{styleClassPrefix}al";
+                    cls += $" {styleClassPrefix}al";
                 }
             }
 
@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 }
             }
 
-            return cls;
+            return cls.Trim();
         }
 
         internal static List<string> GetConditionalFormattings(ExcelRangeBase cell, HtmlExportSettings settings, ExporterContext context, ref string cls)
