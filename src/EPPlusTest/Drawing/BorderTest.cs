@@ -183,17 +183,20 @@ namespace EPPlusTest.Drawing
             var headerRange = ws.Cells["A1:G2"];
 
             headerRange.Value = "A";
-            headerRange.Style.Fill.SetBackground(Color.Goldenrod);
-            headerRange.Style.Font.Color.SetColor(Color.DarkRed);
+            headerRange.Style.Fill.SetBackground(Color.LightYellow);
+            headerRange.Style.Font.Color.SetColor(Color.IndianRed);
+            headerRange.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDot;
 
             var firstColRange = ws.Cells["A1:A33"];
             firstColRange.Value = "A";
 
-            ws.Cells["B3:G33"].Style.Fill.SetBackground(Color.LightGreen);
+            ws.Cells["B3:G33"].Style.Fill.SetBackground(Color.DarkSeaGreen);
             ws.Cells["B3:G33"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
             ws.Cells["B3:G33"].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+            ws.Cells["B3:G33"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+            ws.Cells["B3:G33"].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
 
-            firstColRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Dotted);
+            firstColRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Dotted, false);
 
             var colCount = ws.Dimension.Columns;
             var titleRange = ws.Cells[1, 1, 1, colCount];
@@ -205,8 +208,16 @@ namespace EPPlusTest.Drawing
 
             var bottomRange = ws.Cells[1, 1, 33, 1];
             Assert.AreEqual(33, ws.Dimension.Rows);
-            bottomRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            bottomRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin, false);
             Assert.AreEqual(33, ws.Dimension.Rows);
+
+            ws.Cells["D34"].Value = "Test";
+
+            Assert.AreEqual(34, ws.Dimension.Rows);
+            Assert.AreEqual(7, ws.Dimension.Columns);
+            bottomRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin, false);
+            Assert.AreEqual(34, ws.Dimension.Rows);
+            Assert.AreEqual(7, ws.Dimension.Columns);
         }
 
         [TestMethod]
