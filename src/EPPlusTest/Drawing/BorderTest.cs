@@ -232,5 +232,26 @@ namespace EPPlusTest.Drawing
                 Assert.AreEqual(33, worksheet.Dimension.Rows);
             }
         }
+
+        [TestMethod]
+        public void i2525_BorderAroundDropsStylesWhenCalledOnIndividualCellsInAloop()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("BorderAround_MissingStyles");
+
+            var tb1 = ws.Tables.Add(ws.Cells["B2:K11"],"BorderedTable");
+            tb1.TableStyle = OfficeOpenXml.Table.TableStyles.Light15;
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    //Set borders on every "even" individual cell
+                    if (j % 2 > 0 && i % 2 > 0)
+                    {
+                        ws.Cells[i + 2, j + 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Dashed);
+                    }
+                }
+            }
+        }
     }
 }
