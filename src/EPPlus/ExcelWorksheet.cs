@@ -2656,7 +2656,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private void UpdateCommentRichText()
+        internal void UpdateCommentRichText()
         {
             foreach (ExcelComment comment in _comments)
             {
