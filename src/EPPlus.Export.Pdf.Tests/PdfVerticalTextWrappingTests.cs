@@ -1,5 +1,6 @@
 ﻿using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.TextShaping;
@@ -18,6 +19,20 @@ namespace EPPlus.Export.Pdf.Tests
     {
         private const string FontName = "Aptos Narrow";
         private const float FontSize = 11;
+        private OpenTypeFontEngine _fontEngine;
+
+        [TestInitialize]
+        public void Init()
+        {
+            _fontEngine = new OpenTypeFontEngine();
+            _fontEngine.RequireExactFont = true;
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _fontEngine?.Dispose();
+        }
 
         /// <summary>
         /// THE discriminating test. Narrow and wide glyphs must wrap at the exact same
@@ -41,23 +56,8 @@ namespace EPPlus.Export.Pdf.Tests
                 wide.Select(l => l.Text.Length).ToList(),
                 "Break positions must be identical for narrow and wide glyphs.");
         }
-
-        private static TextLayoutEngine CreateEngine(params string[] textsToRegister)
-        {
-            throw new NotImplementedException();
-            //var pageSettings = new PdfPageSettings();
-            //var dictionaries = new PdfDictionaries();
-
-            //foreach (var text in textsToRegister)
-            //{
-            //    dictionaries.AddFont(pageSettings, FontName, FontSubFamily.Regular, text);
-            //}
-
-            //var fullFontName = FontName + " " + FontSubFamily.Regular.ToString();
-            //var provider = dictionaries.Fonts[fullFontName].fontSubsetManager.CreateSubsettedProvider();
-
-            //return new TextLayoutEngine(new TextShaper(provider));
-        }
+        private TextLayoutEngine CreateEngine()
+            => _fontEngine.GetTextLayoutEngine(FontName, FontSubFamily.Regular);
 
         private static List<ITextFragmentBase> Fragments(params string[] texts)
         {
