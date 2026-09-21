@@ -10,7 +10,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void GenerateSvgForErrorbars_Line_Sheet1()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("Errorbars.xlsx"))
+            using (var p = OpenTemplatePackage("SvgErrorbars.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 //var ix = 4;
@@ -30,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void GenerateSvgForErrorbars_Column_Sheet2()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("Errorbars.xlsx"))
+            using (var p = OpenTemplatePackage("SvgErrorbars.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
                 //var ix = 4;
@@ -50,7 +50,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         public void GenerateSvgForErrorbars_Bar_Sheet3()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
-            using (var p = OpenTemplatePackage("Errorbars.xlsx"))
+            using (var p = OpenTemplatePackage("SvgErrorbars.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[2];
                 //var ix = 4;
