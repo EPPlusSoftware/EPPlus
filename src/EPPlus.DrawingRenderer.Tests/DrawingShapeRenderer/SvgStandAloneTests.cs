@@ -123,7 +123,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
         private SvgTextBodyRenderItem GenerateTextBody(GroupRenderItem baseGroup)
         {
-            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = false);
             if (engine.GetFontAvailability("Archivo Narrow") == FontAvailability.NotFound)
             {
                 Assert.Inconclusive("Font not found. This is expected behaviour on web.");
@@ -279,7 +279,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             group = GenerateGroupRenderItem();
 
             var textbox = new RenderTextbox(group.Bounds, 500d, 500d);
-            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = false);
             var rc = new RenderContext(() => engine);
             textbox.TextBody = new SvgTextBodyRenderItem(rc, group.Bounds, true);
             var paragraph = textbox.TextBody.AddParagraph("Hello");
