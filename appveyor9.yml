@@ -1,7 +1,7 @@
 version: 9.0.0-preview.{build}
 branches:
   only:
-  - develop8
+  - develop9
 configuration: release
 image: Visual Studio 2026
 install:
