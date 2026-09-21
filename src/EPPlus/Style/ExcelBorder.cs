@@ -151,6 +151,7 @@ namespace OfficeOpenXml.Style
             }
             else
             {
+                
                 SetBorderAroundStyle(Style, addr, overrideNeigbourCellBorder);
                 if (!Color.IsEmpty) SetBorderColor(Color, addr);
             }
@@ -172,13 +173,18 @@ namespace OfficeOpenXml.Style
                 var toRow1 = addr._toRow + 1;
                 var fromCol1 = addr._fromCol - 1;
                 var toCol1 = addr._toCol + 1;
-                if(fromRow1 > 0)
-                    _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(fromRow1, addr._fromCol, fromRow1, addr._toCol).Address));
-                if(toRow1 < ExcelPackage.MaxRows)
+
+                //Used to verify that we do not extend Dimension by setting styles on cellds that are outside it.
+                var dimension = _styles._wb.Worksheets[_positionID].Dimension;
+
+                //addr.WorkSheetName
+                if (fromRow1 > 0 && fromRow1 >= dimension._fromRow)
+                   _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(fromRow1, addr._fromCol, fromRow1, addr._toCol).Address));
+                if(toRow1 < ExcelPackage.MaxRows && toRow1 <= dimension._toRow)
                     _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(toRow1, addr._fromCol, toRow1, addr._toCol).Address));
-                if(fromCol1 > 0)
+                if(fromCol1 > 0 && fromCol1 >= dimension._fromCol)
                     _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderRight, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow, fromCol1, addr._toRow, fromCol1).Address));
-                if(toCol1 < ExcelPackage.MaxColumns)
+                if(toCol1 < ExcelPackage.MaxColumns && toCol1 <= dimension._toCol)
                     _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderLeft, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow, toCol1, addr._toRow, toCol1).Address));
             }
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._fromRow, addr._toCol).Address));
