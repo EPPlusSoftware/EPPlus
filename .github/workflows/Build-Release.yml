@@ -131,17 +131,70 @@ jobs:
       shell: pwsh
     # --- Sign DLLs ---
 
-    # --- Re-pack after signing ---
+    # --- Patch signed DLLs into the already-built packages ---
     # The EPPlus .nupkg produced by the "Build" step embeds the DLLs as they were AT BUILD TIME,
-    # i.e. unsigned. 'dotnet pack --no-build' re-runs the Pack target (including the
-    # IncludeReferencedProjectsInPackage target that embeds the sub-project DLLs) WITHOUT
-    # recompiling, so it picks up the signed DLLs currently sitting in each project's
-    # bin/Release/<tfm> folder and produces a new .nupkg with signed assemblies embedded.
-    # This must run before "Collect NuGet packages" below, and before the NuGet package
-    # signature itself is applied.
-    - name: Re-pack after signing
-      run: dotnet pack ./src/EPPlus.sln --no-build --configuration Release
-    # --- Re-pack after signing ---
+    # i.e. unsigned, since GeneratePackageOnBuild runs before this workflow's signing step.
+    # 'dotnet pack --no-build' cannot fix this: the custom IncludeReferencedProjectsInPackage
+    # target (which embeds the sub-project DLLs) depends on ReferenceCopyLocalPaths, which is
+    # only populated when the Build target actually runs - so a --no-build pack silently drops
+    # the embedded sub-project DLLs and produces a package containing only EPPlus.dll. Running a
+    # full 'dotnet pack' (without --no-build) avoids that, but risks the opposite problem:
+    # MSBuild's incremental build can re-copy the (still unsigned) obj/ output over the signed
+    # bin/ DLL, undoing the signature.
+    #
+    # Instead, we leave the .nupkg files exactly as produced by "Build" and directly patch them:
+    # open each package as a zip archive and replace every lib/<tfm>/*.dll entry with the bytes
+    # of the matching, already-signed DLL from that project's bin/Release/<tfm> folder. This
+    # touches only the package archive, never triggers a rebuild, and cannot regress the signature.
+    - name: Patch signed DLLs into packages
+      run: |
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+        $packageProjects = @(
+          "EPPlus",
+          "EPPlus.Interfaces",
+          "EPPlus.System.Drawing"
+        )
+
+        foreach ($project in $packageProjects) {
+          $pkgDir = ".\src\$project\bin\Release"
+          $pkgs = Get-ChildItem -Path $pkgDir -Filter "*.nupkg" -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -notmatch "\.symbols\.nupkg$" }
+
+          foreach ($pkg in $pkgs) {
+            Write-Host "Patching signed DLLs into $($pkg.Name)"
+            $zip = [System.IO.Compression.ZipFile]::Open($pkg.FullName, 'Update')
+            try {
+              $dllEntries = $zip.Entries | Where-Object { $_.FullName -match '^lib/[^/]+/.+\.dll$' }
+              foreach ($entry in $dllEntries) {
+                $parts = $entry.FullName -split '/'
+                $tfm = $parts[1]
+                $dllName = $parts[-1]
+                $projectName = [System.IO.Path]::GetFileNameWithoutExtension($dllName)
+                $signedDll = ".\src\$projectName\bin\Release\$tfm\$dllName"
+
+                if (-not (Test-Path $signedDll)) {
+                  Write-Host "  Skipping $($entry.FullName) (no signed source found at $signedDll)"
+                  continue
+                }
+
+                $entryPath = $entry.FullName
+                $entry.Delete()
+                $newEntry = $zip.CreateEntry($entryPath)
+                $newStream = $newEntry.Open()
+                $bytes = [System.IO.File]::ReadAllBytes($signedDll)
+                $newStream.Write($bytes, 0, $bytes.Length)
+                $newStream.Close()
+                Write-Host "  Replaced $entryPath with signed $signedDll"
+              }
+            }
+            finally {
+              $zip.Dispose()
+            }
+          }
+        }
+      shell: pwsh
+    # --- Patch signed DLLs into packages ---
 
     # --- Collect the built packages ---
     # The packages are produced by the pack step above (GeneratePackageOnBuild / re-pack), not
