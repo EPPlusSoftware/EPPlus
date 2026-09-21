@@ -19,6 +19,7 @@ using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -27,8 +28,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
 {
     internal static class PdfTextShaper
     {
-        private static Dictionary<IFontProvider, TextShaper> shaperCache = new Dictionary<IFontProvider, TextShaper>();
-        private static Dictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new Dictionary<IFontProvider, TextLayoutEngine>();
+        private static ConcurrentDictionary<IFontProvider, TextShaper> shaperCache = new ConcurrentDictionary<IFontProvider, TextShaper>();
+        private static ConcurrentDictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new ConcurrentDictionary<IFontProvider, TextLayoutEngine>();
 
         public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
@@ -49,16 +50,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                     provider = new DefaultFontProvider(pageSettings.FontEngine, font);
                 }
                 st.FontProvider = provider;
-                if (!shaperCache.TryGetValue(st.FontProvider, out var shaper))
-                {
-                    shaper = new TextShaper(st.FontProvider);
-                    shaperCache[st.FontProvider] = shaper;
-                }
-                if (!layoutEngineCache.TryGetValue(st.FontProvider, out var layoutEngine))
-                {
-                    layoutEngine = new TextLayoutEngine(shaper);
-                    layoutEngineCache[st.FontProvider] = layoutEngine;
-                }
+                var shaper = shaperCache.GetOrAdd(st.FontProvider, fp => new TextShaper(fp));
+                var layoutEngine = layoutEngineCache.GetOrAdd(st.FontProvider, fp => new TextLayoutEngine(shaper));
                 var options = BuildShapingOptions(pageSettings);
                 var shaped = shaper.Shape(tf.Text, options);
                 var usedFonts = shaper.GetUsedFonts().ToList();
