@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.FontScanning
 {
     [TestClass]
-    [Ignore]
     public class ArialBlackTests : FontTestBase
     {
         public override TestContext? TestContext { get; set; }
@@ -17,6 +16,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
         [TestMethod]
         public void ScanArialBlack_ShouldReturnArialBlack()
         {
+            RequireFont(SystemFontsEngine, "Arial Black", FontSubFamily.Regular);
             var face = FontScannerV2.FindBestMatch(string.Empty, "Arial Black", FontSubFamily.Regular, true);
             if(face == null)
             {
@@ -27,13 +27,10 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
         }
 
         [TestMethod]
-        public void ScanAptosNarrow_ShouldReturnArialBlack()
+        public void ScanAptosNarrow_ShouldReturnAptosNarrow()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
             var face = FontScannerV2.FindBestMatch(string.Empty, "Aptos Narrow", FontSubFamily.Regular, true);
-            if (face == null)
-            {
-                Assert.Inconclusive();
-            }
             Assert.AreEqual("Aptos Narrow", face.FamilyName, $"face.FamilyName was not 'Aptos Narrow' as expected but '{face.FamilyName}'");
             Assert.IsTrue(face.IsExactMatch, "face.IsExactMatch was false");
         }
@@ -41,13 +38,8 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
         [TestMethod]
         public void LoadArialBlackFullFont_ShouldReturnArialBlack()
         {
-            var factory = new OpenTypeFontEngine();
-            var availability = factory.GetFontAvailability("Arial Black");
-            if(availability == FontAvailability.NotFound)
-            {
-                Assert.Inconclusive();
-            }
-            var font = factory.LoadFont("Arial Black");
+            RequireFont(SystemFontsEngine, "Arial Black", FontSubFamily.Regular);
+            var font = SystemFontsEngine.LoadFont("Arial Black");
             Assert.IsNotNull(font);
             Assert.AreEqual("Arial Black", font.FullName);
         }
@@ -55,18 +47,13 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
         [TestMethod]
         public void LoadAptosNarrowFullFont_ShouldReturnAptosNarrow()
         {
-            var factory = new OpenTypeFontEngine();
-            var availability = factory.GetFontAvailability("Aptos Narrow");
-            if (availability == FontAvailability.NotFound)
-            {
-                Assert.Inconclusive();
-            }
-            var font = factory.LoadFont("Aptos Narrow");
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
+            var font = SystemFontsEngine.LoadFont("Aptos Narrow");
             Assert.IsNotNull(font);
             Assert.AreEqual("Aptos Narrow", font.FullName);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore("Use when needed")]
         public void Dump_AllFacesNamedLikeArialBlack()
         {
             var directories = System.Array.Empty<string>();

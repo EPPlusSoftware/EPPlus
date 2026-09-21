@@ -149,10 +149,26 @@ public abstract class TestBase
         }
         if (dispose) pck.Dispose();
     }
+
+    private static int _nFailedWriteAttempts = 0;
+
     protected static void SaveTextFileToWorkbook(string fileName, string content)
     {
-        var file = EnsurePathExists(_worksheetPath + fileName);
-        File.WriteAllText(file, content);
+        if(_nFailedWriteAttempts > 4)
+        {
+            Assert.Inconclusive("Number of write failures exceeds 4, file writing is most likely not possible in this environment");
+        }
+        try
+        {
+            var file = EnsurePathExists(_worksheetPath + fileName);
+            File.WriteAllText(file, content);
+        }
+        catch(Exception ex)
+        {
+            _nFailedWriteAttempts++;
+            Assert.Inconclusive($"Could not write file '{fileName}, error: '{ex.Message}'");
+        }
+        
     }
     protected void SaveSvg(string fileName, string svg)
     {

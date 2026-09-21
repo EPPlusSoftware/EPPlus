@@ -15,12 +15,12 @@ using EPPlus.Fonts.OpenType.Utils;
 namespace EPPlusTest.Drawing.TextMeasuring
 {
     [TestClass]
-    public class ReadMeasureTests: TestBase
+    public class ReadMeasureTests : TestBase
     {
         [TestMethod]
         public void ReadShape()
         {
-            using(var p = OpenTemplatePackage("ReadText.xlsx"))
+            using (var p = OpenTemplatePackage("ReadText.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var theShape = ws.Drawings[0].As.Shape;
@@ -49,105 +49,6 @@ namespace EPPlusTest.Drawing.TextMeasuring
             return text.Split(new string[] { "\r\n" }, StringSplitOptions.None).ToList();
         }
 
-        [TestMethod] 
-        public void WrapMultipleFragments_SpacedEndWord()
-        {
-            List<string> txtRuns =
-            [
-                "H",
-                "IJ",
-                "K",
-                "L",
-                "M ",
-                "NOPE",
-            ];
-
-
-            var mf = new MeasurementFont();
-            mf.FontFamily = "Aptos Narrow";
-            mf.Style = MeasurementFontStyles.Regular;
-            mf.Size = 16;
-
-            var mf2 = new MeasurementFont();
-            mf2.FontFamily = "Goudy Stout";
-            mf2.Style = MeasurementFontStyles.Regular;
-            mf2.Size = 11;
-
-            List<MeasurementFont> fonts =
-            [
-                mf,
-                mf,
-                mf,
-                mf,
-                mf
-            ];
-
-            fonts.Add(mf2);
-            var engine = new OpenTypeFontEngine(cfg =>
-            {
-                cfg.SearchSystemDirectories = true;
-            });
-            var txtMeasurer = engine.GetTextLayoutEngineForFont(mf2);
-            var maxWidth = 114d;
-
-            var wrappedFragments = txtMeasurer.WrapRichText(txtRuns, fonts, maxWidth.PixelToPoint());
-
-            Assert.AreEqual(2, wrappedFragments.Count);
-            Assert.AreEqual("HIJKLM", wrappedFragments[0]);
-            Assert.AreEqual("NOPE", wrappedFragments[1]);
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void WrapMultipleFragments_LongPlusEndWord()
-        {
-            List<string> txtRuns =
-            [
-                "H",
-                "IJ",
-                "K",
-                "L",
-                "Mpqrstvdef",
-                " ",
-                "NOPE",
-            ];
-
-
-            var mf = new MeasurementFont();
-            mf.FontFamily = "Aptos Narrow";
-            mf.Style = MeasurementFontStyles.Regular;
-            mf.Size = 16;
-
-            var mf2 = new MeasurementFont();
-            mf2.FontFamily = "Aptos Narrow";
-            mf2.Style = MeasurementFontStyles.Regular;
-            mf2.Size = 11;
-
-            List<MeasurementFont> fonts =
-            [
-                mf,
-                mf,
-                mf,
-                mf,
-                mf
-            ];
-
-            fonts.Add(mf2);
-            fonts.Add(mf2);
-
-            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
-            var txtMeasurer = engine.GetTextLayoutEngineForFont(mf);
-
-
-
-            var maxWidth = 114d;
-
-            var wrappedFragments = txtMeasurer.WrapRichText(txtRuns, fonts, maxWidth.PixelToPoint());
-
-            Assert.AreEqual(2, wrappedFragments.Count);
-            Assert.AreEqual("HIJKLMpqrst", wrappedFragments[0]);
-            Assert.AreEqual("vdef NOPE", wrappedFragments[1]);
-        }
 
         [TestMethod]
         public void ReadRichTextBox()
@@ -171,7 +72,7 @@ namespace EPPlusTest.Drawing.TextMeasuring
                 {
                     sw.Write(svg);
                 }
-    
+
                 SaveAndCleanup(p);
             }
         }

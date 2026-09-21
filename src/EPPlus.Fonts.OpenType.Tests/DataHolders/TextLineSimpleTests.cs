@@ -13,9 +13,10 @@ using System.Threading.Tasks;
 namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 {
     [TestClass]
-    [Ignore]
-    public class TextLineSimpleTests
+    public class TextLineSimpleTests : FontTestBase
     {
+        public override TestContext? TestContext { get; set; }
+
         [TestMethod]
         public void TestLineFragmentAbstraction()
         {
@@ -64,6 +65,9 @@ namespace EPPlus.Fonts.OpenType.Tests.DataHolders
 
         List<TextFragment> GetTextFragments()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow");
+            RequireFont(SystemFontsEngine, "Goudy Stout");
+
             List<string> lstOfRichText = new() { "TextBox\r\na\r\n", "TextBox2", "ra underline", "La Strike", "Goudy size 16", "SvgSize 24" };
 
             var font1 = new MeasurementFont()

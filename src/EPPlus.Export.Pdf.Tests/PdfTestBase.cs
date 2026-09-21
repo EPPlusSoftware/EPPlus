@@ -42,6 +42,23 @@ namespace EPPlus.Export.Pdf.Tests
                 ranges[0].SaveAsPdf(path);
         }
 
+        protected void SaveAsPdf(byte[] pdfBytes, string pdfFileName)
+        {
+            if(!Directory.Exists(_worksheetPath))
+            {
+                Assert.Inconclusive("Pdf Path not available in this environment");
+            }
+            try
+            {
+                File.WriteAllBytes(Path.Combine(_pdfPath, pdfFileName), pdfBytes);
+            }
+            catch(Exception ex)
+            {
+                Assert.Inconclusive("Could not write pdf file: " + ex.Message);
+            }
+           
+        }
+
         /// <summary>
         /// Exports with a caller-supplied PdfPageSettings instead of one built from the
         /// worksheet's printer settings. Needed for anything ExcelWorksheet.SaveAsPdf has no way

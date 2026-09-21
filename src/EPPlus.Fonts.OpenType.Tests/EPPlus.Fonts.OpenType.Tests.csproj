@@ -76,5 +76,11 @@
 	<ItemGroup>
 	  <Folder Include="Fonts\VariableFonts\" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Update="TextLayout\TestFontMeasurer.cs">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Compile>
+	</ItemGroup>
 
 </Project>

@@ -27,11 +27,4 @@
 	    <PackageReference Include="MSTest.TestFramework" />
     </ItemGroup>
 
-
-	<ItemGroup>
-    <Compile Update="TestFontMeasurer.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
 </Project>

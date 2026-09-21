@@ -179,7 +179,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         drawers.Add(new PieChartTypeDrawer(svgChart, (ExcelPieChart)ct));
                         break;
                     default:
-                        throw new NotImplementedException($"No Svg support for Chart type {ct} is implemented.");
+                        throw new NotImplementedException($"No Svg support for Chart type {ct.ChartType} is implemented.");
                 }
             }
             return drawers;

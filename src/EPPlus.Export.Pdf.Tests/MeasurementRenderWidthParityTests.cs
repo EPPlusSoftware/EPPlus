@@ -58,7 +58,6 @@ namespace EPPlusTest.PDF
     /// mid-string font switches to account for.
     /// </summary>
     [TestClass]
-    [Ignore]
     public class MeasurementRenderWidthParityTests : PdfTestBase
     {
         // Encoding.Latin1 (a 1:1 byte<->char mapping, needed so string indices from Regex
@@ -101,7 +100,7 @@ namespace EPPlusTest.PDF
 
                 // Written out unconditionally (not just on failure) so a parsing mismatch can be
                 // diagnosed from the actual bytes rather than guessed at from source alone.
-                File.WriteAllBytes(Path.Combine(_pdfPath, "WidthParity.pdf"), pdfBytes);
+                SaveAsPdf(pdfBytes, "WidthParity.pdf");
 
                 double renderedWidth = GetRenderedWidth(pdfBytes, ReproFontSize);
 
