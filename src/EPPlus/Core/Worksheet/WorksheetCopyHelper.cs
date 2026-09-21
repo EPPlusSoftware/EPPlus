@@ -876,6 +876,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void CopyComment(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            Copy.UpdateCommentRichText();
             //First copy the drawing XML
             string xml = Copy.Comments.CommentXml.InnerXml;
             var uriComment = new Uri(string.Format("/xl/comments{0}.xml", added.SheetId), UriKind.Relative);
